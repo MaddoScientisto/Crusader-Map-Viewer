@@ -1,0 +1,14 @@
+services:
+  map-renderer:
+    build:
+      context: .
+      target: dev
+    ports:
+      - "3000:3000"
+    environment:
+      PORT: "3000"
+      REMORSE_STATIC_DIR: /app/STATIC
+      REGRET_STATIC_DIR: /app/STATIC_REGRET
+    volumes:
+      - ./STATIC:/app/STATIC:ro
+      - ./STATIC_REGRET:/app/STATIC_REGRET:ro

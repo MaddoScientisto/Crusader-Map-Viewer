@@ -1,0 +1,36 @@
+{
+  "name": "crusader-map-renderer",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Server-side tiled Crusader map renderer for browser viewing.",
+  "scripts": {
+    "generate-mission-map-data": "node src/generate-mission-map-data.js",
+    "generate-npc-data": "node src/generate-npc-spawner-data.js",
+    "start": "node src/server.js",
+    "dev": "node scripts/run-with-vue-build.js src/server.js",
+    "dev:vue": "vite --config vite.config.js",
+    "start:admin": "node src/admin-server.js",
+    "admin": "node scripts/run-with-vue-build.js src/admin-server.js",
+    "build-cache": "node src/build-cache.js",
+    "export-static": "node src/export-static.js",
+    "sync-catalog-dtable-names": "node scripts/sync-catalog-dtable-names.js",
+    "build:vue": "vite build --config vite.config.js",
+    "preview:vue": "vite preview --config vite.config.js",
+    "map-compiler": "node src/map-compiler.js",
+    "serve-static": "node scripts/serve-static.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "express": "^5.1.0",
+    "pngjs": "^7.0.0",
+    "sharp": "^0.34.2",
+    "vue": "^3.5.13"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.2.1",
+    "vite": "^6.2.1"
+  }
+}

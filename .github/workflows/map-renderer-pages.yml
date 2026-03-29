@@ -1,0 +1,48 @@
+name: Deploy Map Renderer Pages
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'map_renderer/site/**'
+      - 'map_renderer/Catalogs/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: map-renderer-pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Verify committed static export
+        run: |
+          test -f map_renderer/site/index.html || {
+            echo "Missing map_renderer/site/index.html. Run npm run export-static offline and commit map_renderer/site/."
+            exit 1
+          }
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: map_renderer/site
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

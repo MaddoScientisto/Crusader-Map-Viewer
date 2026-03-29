@@ -1,0 +1,21 @@
+<template>
+  <div class="shell">
+    <SidePanel />
+    <div id="panel-resizer" class="panel-resizer" role="separator" aria-orientation="vertical" aria-label="Resize side panel"></div>
+    <ViewportPanel />
+    <EggEditModal />
+  </div>
+</template>
+
+<script setup>
+import { onMounted } from "vue";
+import SidePanel from "./components/SidePanel.vue";
+import ViewportPanel from "./components/ViewportPanel.vue";
+import EggEditModal from "./components/EggEditModal.vue";
+
+onMounted(() => {
+  void import("../public/app.js").catch((error) => {
+    console.error("Legacy renderer bootstrap failed", error);
+  });
+});
+</script>
