@@ -26,10 +26,11 @@ import { extractNpcSpawnerRows } from "./npc-spawner-data.js";
 import { blitFrame, encodePng, rgbaBuffer } from "./png.js";
 import { prepareSortedItems } from "./sorting.js";
 
-const SCENE_CACHE_VERSION = "v13-atlas-scene-crusader-xform-remap-rgb";
+const SCENE_CACHE_VERSION = "v15-atlas-scene-crusader-explicit-semitransparency-only";
 const DTABLE_NPC_SHAPES = new Set([0x04d0]);
 const MONSTER_EGG_PREVIEW_SHAPE = 0x024f;
 const OBSERVER_PREVIEW_FRAME = 0x0f;
+const CATALOG_SEMITRANSPARENCY_OPACITY = 0.5;
 
 function nowIso() {
   return new Date().toISOString();
@@ -151,9 +152,9 @@ function sceneNotes(item, info) {
   return notes;
 }
 
-function presentationOpacity(kind, info) {
-  if (kind === "helper") {
-    return 0.5;
+function presentationOpacity(kind, info, catalogEntry) {
+  if (catalogEntry?.semitransparency === true && !info.isTranslucent) {
+    return CATALOG_SEMITRANSPARENCY_OPACITY;
   }
   return 1;
 }
@@ -165,7 +166,6 @@ function applyCatalogOverrides(info, catalogEntry) {
   return {
     ...info,
     isRoof: catalogEntry.roof === true,
-    isTranslucent: catalogEntry.semitransparency === true,
     isOob: catalogEntry.oob === true
   };
 }
@@ -483,8 +483,7 @@ function selectTeleportEggTemplate(baseItems, shapeInfos, shapeArchive) {
 
 function isSpriteTranslucent(shape, shapeInfos, catalogEntries) {
   const info = shapeInfos[shape] ?? {};
-  const catalogEntry = catalogEntries.get(shape) ?? null;
-  return applyCatalogOverrides(info, catalogEntry).isTranslucent === true;
+  return info.isTranslucent === true;
 }
 
 function ensureSpriteEntry(spriteMap, shapeArchive, shapeInfos, catalogEntries, shape, frame) {
@@ -628,7 +627,7 @@ function serializeSceneItem(node, minLeft, minTop, index, catalogEntry, dtableEn
       flipped: Boolean(item.flags & FLAG_FLIPPED)
     },
     presentation: {
-      opacity: presentationOpacity(kind, effectiveInfo),
+      opacity: presentationOpacity(kind, effectiveInfo, catalogEntry),
       visibilityDefault: true
     },
     notes: sceneNotes(item, effectiveInfo),
@@ -972,7 +971,6 @@ export class BuildManager {
     for (const [index, node] of sorted.prepared.entries()) {
       const spriteId = `sprite:${node.item.shape}:${node.item.frame}`;
       if (!spriteMap.has(spriteId)) {
-        const catalogEntry = catalogInfo.entries.get(node.item.shape) ?? null;
         spriteMap.set(spriteId, {
           id: spriteId,
           shape: node.item.shape,
@@ -981,7 +979,7 @@ export class BuildManager {
           height: node.frame.height,
           frameData: node.frame,
           pixels: node.pixels,
-          translucent: applyCatalogOverrides(node.info, catalogEntry).isTranslucent === true
+          translucent: node.info.isTranslucent === true
         });
       }
 

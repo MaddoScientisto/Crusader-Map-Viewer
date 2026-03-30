@@ -23,7 +23,8 @@ Catalog CSVs are the authoritative per-shape metadata the viewer uses. They live
 Typical CSV columns and semantics:
 
 - `shape_code`: unique identifier for a shape (required).
-- `roof`, `semitransparency`: boolean overrides; blank = `false`, only explicit `true` enables the flag.
+- `roof`: boolean override; blank = `false`, only explicit `true` enables the flag.
+- `semitransparency`: viewer opacity override for non-translucent shapes; blank = `false`, and intrinsically translucent sprites ignore it because their atlas pixels already carry alpha.
 - `categorization`, `qualities`: non-authoritative metadata columns; helpful for search/filters and can be filled in automatically by the cache-build process.
 
 Behavior:
