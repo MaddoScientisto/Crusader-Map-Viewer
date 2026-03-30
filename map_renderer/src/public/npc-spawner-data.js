@@ -1,4 +1,5 @@
 import { appUrl, fetchJson } from "./helpers.js";
+import { getNpcSpawnerDataPath } from "../shared/runtime-adapter.js";
 
 let npcSpawnerTables = null;
 
@@ -7,7 +8,7 @@ function formatShapeHex(shape) {
 }
 
 export async function loadNpcSpawnerData(siteConfig = null) {
-  npcSpawnerTables = await fetchJson(appUrl(siteConfig?.npcSpawnerDataUrl ?? "./api/npc-spawner-data"));
+  npcSpawnerTables = await fetchJson(appUrl(getNpcSpawnerDataPath(siteConfig)));
   return npcSpawnerTables;
 }
 

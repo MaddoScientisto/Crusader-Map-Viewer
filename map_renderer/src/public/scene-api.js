@@ -1,31 +1,31 @@
-import { state } from "./state.js";
-import { appUrl, trimTrailingSlash, isStaticMode } from "./helpers.js";
+import { state } from "../vue/controller/state.js";
+import { appUrl } from "./helpers.js";
+import {
+  getAtlasPath,
+  getDynamicBuildStatusPath,
+  getDynamicBuildsPath,
+  getDynamicScenePath,
+  getStaticScenePath
+} from "../shared/runtime-adapter.js";
 
 export function getStaticSceneUrl(selected) {
-  return appUrl(`${trimTrailingSlash(state.siteConfig.staticMapsBaseUrl ?? "./data/maps")}/${selected.game}/map-${selected.mapId}/scene.json`);
+  return appUrl(getStaticScenePath(state.siteConfig, selected));
 }
 
 export function getDynamicBuildsUrl() {
-  return appUrl("api/builds");
+  return appUrl(getDynamicBuildsPath());
 }
 
 export function getDynamicBuildStatusUrl(jobId) {
-  return appUrl(`api/builds/${encodeURIComponent(jobId)}`);
+  return appUrl(getDynamicBuildStatusPath(jobId));
 }
 
 export function getDynamicSceneUrl(selected, jobId) {
-  const url = appUrl(`api/maps/${selected.game}/${selected.mapId}/scene`);
-  url.searchParams.set("buildId", jobId);
-  return url;
+  return appUrl(getDynamicScenePath(selected, jobId));
 }
 
 export function getAtlasUrl(selected, jobId, atlas) {
-  if (isStaticMode()) {
-    return appUrl(`${trimTrailingSlash(state.siteConfig.staticMapsBaseUrl ?? "./data/maps")}/${selected.game}/map-${selected.mapId}/${atlas.fileName}`);
-  }
-  const url = appUrl(`api/maps/${selected.game}/${selected.mapId}/atlases/${atlas.id}.png`);
-  url.searchParams.set("buildId", jobId);
-  return url;
+  return appUrl(getAtlasPath(state.siteConfig, selected, jobId, atlas));
 }
 
 export function loadImage(src) {

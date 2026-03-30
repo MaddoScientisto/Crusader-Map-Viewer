@@ -1,4 +1,8 @@
-import { APP_BASE_URL, state } from "./state.js";
+import { APP_BASE_URL, state } from "../vue/controller/state.js";
+import {
+  canEditCatalogInRuntime,
+  getRuntimeMode
+} from "../shared/runtime-adapter.js";
 
 export function appUrl(relativePath) {
   return new URL(relativePath, APP_BASE_URL);
@@ -9,11 +13,11 @@ export function trimTrailingSlash(value) {
 }
 
 export function isStaticMode() {
-  return state.siteConfig?.mode === "static";
+  return getRuntimeMode(state.siteConfig) === "static";
 }
 
 export function canEditCatalog() {
-  return !isStaticMode() && state.siteConfig?.capabilities?.catalogEditing === true;
+  return canEditCatalogInRuntime(state.siteConfig);
 }
 
 export function escapeHtml(value) {

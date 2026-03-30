@@ -14,8 +14,8 @@ import ViewportPanel from "./components/ViewportPanel.vue";
 import EggEditModal from "./components/EggEditModal.vue";
 
 onMounted(() => {
-  void import("../public/app.js").catch((error) => {
-    console.error("Legacy renderer bootstrap failed", error);
+  void import("./controller/renderer-app.js").catch((error) => {
+    console.error("Vue renderer controller bootstrap failed", error);
   });
 });
 </script>

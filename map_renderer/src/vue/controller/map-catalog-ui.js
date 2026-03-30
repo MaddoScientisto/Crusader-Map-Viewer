@@ -1,6 +1,12 @@
 import { mapSelect, mapPrevButton, mapNextButton, catalogEditingHint, catalogExportButtons, emptyState } from "./dom-elements.js";
 import { state } from "./state.js";
-import { appUrl, trimTrailingSlash, isStaticMode, canEditCatalog } from "./helpers.js";
+import { appUrl, isStaticMode, canEditCatalog } from "../../public/helpers.js";
+import {
+  getCatalogDownloadPath,
+  getCatalogEditingHint,
+  getCatalogUpdatePath,
+  getEmptyStateMessage
+} from "../../shared/runtime-adapter.js";
 
 export function getSelectedMap() {
   if (!mapSelect.value) {
@@ -55,14 +61,12 @@ export function currentSelectionMatches(selected) {
 }
 
 export function applySiteConfig(setReloadState) {
-  emptyState.textContent = isStaticMode() ? "Choose a prebuilt map to view it." : "Choose a detected map to build and view it.";
+  emptyState.textContent = getEmptyStateMessage(state.siteConfig);
   setReloadState(false);
   if (catalogEditingHint) {
     const enabled = canEditCatalog();
     catalogEditingHint.hidden = !enabled;
-    catalogEditingHint.textContent = enabled
-      ? "Admin mode is active. Pin a shape to edit its catalog name, description, roof, transparency, and black out-of-bounds surface values."
-      : "";
+    catalogEditingHint.textContent = enabled ? getCatalogEditingHint(state.siteConfig) : "";
   }
 }
 
@@ -100,14 +104,11 @@ export function populateCatalog(catalog, options) {
 }
 
 export function getCatalogDownloadUrl(gameId) {
-  if (isStaticMode()) {
-    return appUrl(`${trimTrailingSlash(state.siteConfig.catalogDownloadBaseUrl ?? "./data/catalogs")}/${gameId}.csv`);
-  }
-  return appUrl(`api/catalogs/${gameId}.csv`);
+  return appUrl(getCatalogDownloadPath(state.siteConfig, gameId));
 }
 
 export function getCatalogUpdateUrl(gameId, shapeCode) {
-  return appUrl(`api/catalogs/${gameId}/entries/${shapeCode}`);
+  return appUrl(getCatalogUpdatePath(gameId, shapeCode));
 }
 
 export function renderCatalogExportButtons(games, options) {

@@ -23,7 +23,7 @@ import {
   emptyState
 } from "./dom-elements.js";
 import { state } from "./state.js";
-import { isStaticMode, phaseProgress } from "./helpers.js";
+import { isStaticMode, phaseProgress } from "../../public/helpers.js";
 
 export function showToast(message) {
   if (!notificationToast) {

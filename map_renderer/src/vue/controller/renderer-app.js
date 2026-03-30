@@ -63,11 +63,9 @@ import {
 import { state, context, ZOOM_FACTOR, FIT_PADDING, DEVICE_PIXEL_RATIO, EXPORT_BACKGROUND } from "./state.js";
 import {
   appUrl,
-  trimTrailingSlash,
   isStaticMode,
   canEditCatalog,
   escapeHtml,
-  encodeCatalogBoolean,
   decodeCatalogBoolean,
   cloneCatalogSnapshot,
   catalogSnapshotsEqual,
@@ -76,7 +74,7 @@ import {
   isTypingTarget,
   loadSiteConfig,
   fetchJson
-} from "./helpers.js";
+} from "../../public/helpers.js";
 import {
   buildEggMetadataFromDefinition,
   duplicateTeleportWarning,
@@ -84,7 +82,7 @@ import {
   nextFreeTeleportEggId,
   normalizeTeleportId,
   sortEggItems
-} from "./egg-utils.js";
+} from "../../public/egg-utils.js";
 import {
   closeEggEditModal,
   initEggEditModal,
@@ -107,7 +105,7 @@ import {
   setReloadState,
   updateZoomLabel
 } from "./ui-controls.js";
-import { getNpcSpawnerInfo, loadNpcSpawnerData } from "./npc-spawner-data.js";
+import { getNpcSpawnerInfo, loadNpcSpawnerData } from "../../public/npc-spawner-data.js";
 import {
   getSelectedMap,
   updateMapNavigationState,
@@ -124,7 +122,13 @@ import {
   getDynamicSceneUrl,
   getAtlasUrl,
   loadSceneAssets
-} from "./scene-api.js";
+} from "../../public/scene-api.js";
+import {
+  clearTooltipState,
+  registerTooltipPreviewRenderer,
+  setTooltipState
+} from "../../shared/tooltip-bridge.js";
+import { getCatalogDataPath } from "../../shared/runtime-adapter.js";
 
 let autoBuildTimer = null;
 let renderFrame = 0;
@@ -1283,29 +1287,6 @@ function eyeIconSvg(hidden) {
   return '<svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M1.3 8C2.8 5.1 5.2 3 8 3s5.3 2.1 6.7 5c-1.5 2.9-3.9 5-6.7 5S2.8 10.9 1.3 8z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><circle cx="8" cy="8" r="2.2" stroke="currentColor" stroke-width="1.4"/></svg>';
 }
 
-function renderCatalogBooleanSelect(name, value, label) {
-  const encodedValue = encodeCatalogBoolean(value);
-  return `
-    <label class="tooltip-field tooltip-grid-field">
-      <span class="tooltip-grid-field-label">${label}</span>
-      <select class="tooltip-field-input" name="${name}">
-        <option value="" ${encodedValue === "" ? "selected" : ""}>Auto</option>
-        <option value="true" ${encodedValue === "true" ? "selected" : ""}>Yes</option>
-        <option value="false" ${encodedValue === "false" ? "selected" : ""}>No</option>
-      </select>
-    </label>
-  `;
-}
-
-function renderStaticTooltipName(displayName) {
-  return `
-    <div class="tooltip-field tooltip-title-field tooltip-title-static-field">
-      <span>Name</span>
-      <div class="tooltip-title tooltip-title-static">${escapeHtml(displayName)}</div>
-    </div>
-  `;
-}
-
 function getItemSpriteData(item) {
   if (!state.current) {
     return null;
@@ -1400,155 +1381,65 @@ function renderTooltip(item) {
     `
     : "";
   const notes = item.notes.length ? `<ul class="tooltip-notes">${item.notes.map((note) => `<li>${note}</li>`).join("")}</ul>` : "";
-  const preview = `
-    <div class="tooltip-preview">
-      <canvas class="tooltip-preview-canvas" aria-label="Selected shape preview"></canvas>
-    </div>
+  const metadataRows = `
+    <dt>Shape</dt><dd>${escapeHtml(display.shapeHex)} frame ${escapeHtml(item.frame)}</dd>
+    <dt>Kind</dt><dd>${escapeHtml(display.kind)}</dd>
+    <dt>Family</dt><dd>${escapeHtml(display.family)}</dd>
+    <dt>World</dt><dd>${escapeHtml(`${item.world.x}, ${item.world.y}, ${item.world.z}`)}</dd>
+    <dt>Disk</dt><dd>${escapeHtml(`${Math.trunc(item.world.x / 2)}, ${Math.trunc(item.world.y / 2)}, ${item.world.z}`)}</dd>
+    <dt>Source</dt><dd>${escapeHtml(item.source)}</dd>
+    <dt>Flags</dt><dd>${escapeHtml(item.flags.hex)}</dd>
+    ${eggRows}
+    ${npcRows}
+    ${chestRows}
+    ${spawnerRows}
+    ${objectRows}
   `;
-  const warpCommandSection = isPinnedTooltip && warpCommand
-    ? `
-      <div class="tooltip-warp-row">
-        <div class="tooltip-warp-command" data-warp-command>${escapeHtml(warpCommand)}</div>
-        <button class="tooltip-action tooltip-copy-button" type="button" data-action="copy-warp-command">Copy</button>
-      </div>
-    `
-    : "";
-  const metadataRows = showCatalogEditor
-    ? `
-      <dt>Shape</dt><dd>${escapeHtml(display.shapeHex)} frame ${escapeHtml(item.frame)}</dd>
-      <dt>Kind</dt><dd>${escapeHtml(display.kind)}</dd>
-      <dt>Family</dt><dd>${escapeHtml(display.family)}</dd>
-      <dt>World</dt><dd>${escapeHtml(`${item.world.x}, ${item.world.y}, ${item.world.z}`)}</dd>
-      <dt>Disk</dt><dd>${escapeHtml(`${Math.trunc(item.world.x / 2)}, ${Math.trunc(item.world.y / 2)}, ${item.world.z}`)}</dd>
-      <dt>Source</dt><dd>${escapeHtml(item.source)}</dd>
-      <dt>Flags</dt><dd>${escapeHtml(item.flags.hex)}</dd>
-      ${eggRows}
-      ${npcRows}
-      ${chestRows}
-      ${spawnerRows}
-      ${objectRows}
-      <dt>Roof</dt><dd class="tooltip-grid-control">${renderCatalogBooleanSelect("roof", catalogEntry?.roof, "Roof status")}</dd>
-      <dt>Transparency</dt><dd class="tooltip-grid-control">${renderCatalogBooleanSelect("semitransparency", catalogEntry?.semitransparency, "Transparency status")}</dd>
-      <dt>OOB</dt><dd class="tooltip-grid-control">${renderCatalogBooleanSelect("oob", catalogEntry?.oob, "Black out-of-bounds surface")}</dd>
-    `
-    : `
-      <dt>Shape</dt><dd>${escapeHtml(display.shapeHex)} frame ${escapeHtml(item.frame)}</dd>
-      <dt>Kind</dt><dd>${escapeHtml(display.kind)}</dd>
-      <dt>Family</dt><dd>${escapeHtml(display.family)}</dd>
-      <dt>World</dt><dd>${escapeHtml(`${item.world.x}, ${item.world.y}, ${item.world.z}`)}</dd>
-      <dt>Disk</dt><dd>${escapeHtml(`${Math.trunc(item.world.x / 2)}, ${Math.trunc(item.world.y / 2)}, ${item.world.z}`)}</dd>
-      <dt>Source</dt><dd>${escapeHtml(item.source)}</dd>
-      <dt>Flags</dt><dd>${escapeHtml(item.flags.hex)}</dd>
-      ${eggRows}
-      ${npcRows}
-      ${chestRows}
-      ${spawnerRows}
-      ${objectRows}
-    `;
   overlayTooltip.classList.toggle("is-pinned", isPinnedTooltip);
   overlayTooltip.classList.toggle("is-hover", !isPinnedTooltip);
 
-  overlayTooltip.innerHTML = showCatalogEditor
-    ? `
-      <form class="tooltip-editor-form tooltip-editor-inline" data-action="save-catalog">
-        ${preview}
-        <div class="tooltip-header">
-          <div class="tooltip-header-main">
-            <div class="tooltip-eyebrow">${escapeHtml(item.label)}</div>
-            <label class="tooltip-field tooltip-title-field">
-              <span>Name</span>
-              <input class="tooltip-field-input tooltip-title-input" name="humanReadableId" type="text" value="${escapeHtml(catalogEntry?.humanReadableId ?? "")}" maxlength="120" placeholder="${escapeHtml(display.displayName)}">
-            </label>
-          </div>
-          <div class="tooltip-actions">
-            ${showTeleportEggEditor ? `<button class="tooltip-action" type="button" data-action="edit-egg" title="Edit egg values">${penIconSvg()}</button>` : ""}
-            ${showPinnedActions ? `<button class="tooltip-action" type="button" data-action="toggle-hidden" title="${hidden ? "Restore shape" : "Hide shape"}">${eyeIconSvg(hidden)}</button>` : ""}
-          </div>
-        </div>
-        ${hidden ? '<div class="tooltip-state">Hidden</div>' : ""}
-        <dl class="tooltip-grid">
-          ${metadataRows}
-        </dl>
-        ${monsterSpawnerEditor}
-        ${warpCommandSection}
-        <label class="tooltip-field">
-          <span>Description</span>
-          <textarea class="tooltip-field-textarea" name="description" rows="4">${escapeHtml(catalogEntry?.description ?? "")}</textarea>
-        </label>
-        ${notes}
-        <p class="tooltip-editor-note">Writes directly to the local CSV and invalidates the cached scene set for this game.</p>
-        <button class="tooltip-save-button" type="submit">Save Catalog Entry</button>
-      </form>
-    `
-    : `
-      ${preview}
-      <div class="tooltip-header">
-        <div class="tooltip-header-main">
-          <div class="tooltip-eyebrow">${escapeHtml(item.label)}</div>
-          ${renderStaticTooltipName(display.displayName)}
-        </div>
-        ${showPinnedActions
-          ? `
-            <div class="tooltip-actions">
-              ${showTeleportEggEditor ? `<button class="tooltip-action" type="button" data-action="edit-egg" title="Edit egg values">${penIconSvg()}</button>` : ""}
-              <button class="tooltip-action" type="button" data-action="toggle-hidden" title="${hidden ? "Restore shape" : "Hide shape"}">
-                ${eyeIconSvg(hidden)}
-              </button>
-            </div>
-          `
-          : ""}
-      </div>
-      ${hidden ? '<div class="tooltip-state">Hidden</div>' : ""}
-      <dl class="tooltip-grid">
-        ${metadataRows}
-      </dl>
-      ${isPinnedTooltip ? monsterSpawnerEditor : ""}
-      ${warpCommandSection}
-      ${isPinnedTooltip && display.description ? `<p class="muted">${escapeHtml(display.description)}</p>` : ""}
-      ${notes}
-    `;
-
-  const previewCanvas = overlayTooltip.querySelector(".tooltip-preview-canvas");
-  if (previewCanvas instanceof HTMLCanvasElement) {
-    drawTooltipPreview(previewCanvas, item);
-  }
-  overlayTooltip.querySelector('[data-action="toggle-hidden"]')?.addEventListener("click", (event) => {
-    event.stopPropagation();
-    toggleHidden(item.id);
-  });
-  overlayTooltip.querySelector('[data-action="save-catalog"]')?.addEventListener("submit", (event) => {
-    event.preventDefault();
-    event.stopPropagation();
-    saveCatalogEntry(item, event.currentTarget).catch((error) => {
-      setStatus(error instanceof Error ? error.message : String(error));
-    });
-  });
-  overlayTooltip.querySelector('[data-action="edit-egg"]')?.addEventListener("click", (event) => {
-    event.preventDefault();
-    event.stopPropagation();
-    openEggEditModal(item, duplicateTeleportWarning(state.current?.eggs ?? [], item.egg?.labelId, item.id));
-  });
-  overlayTooltip.querySelector('[data-action="copy-warp-command"]')?.addEventListener("click", async (event) => {
-    event.preventDefault();
-    event.stopPropagation();
-    if (!warpCommand) {
-      return;
-    }
-    try {
-      await navigator.clipboard.writeText(warpCommand);
-      showToast("Warp command copied.");
-      setStatus("Warp command copied to clipboard.");
-    } catch (error) {
-      setStatus(error instanceof Error ? error.message : "Failed to copy warp command.");
-    }
-  });
-  overlayTooltip.querySelector('[data-action="save-monster-spawner"]')?.addEventListener("click", (event) => {
-    event.preventDefault();
-    event.stopPropagation();
-    try {
-      saveMonsterSpawnerState(item, overlayTooltip, display.definition);
-    } catch (error) {
-      setStatus(error instanceof Error ? error.message : String(error));
+  setTooltipState({
+    visible: true,
+    pinned: isPinnedTooltip,
+    hover: !isPinnedTooltip,
+    hidden,
+    item,
+    itemLabel: item.label,
+    displayName: display.displayName,
+    displayDescription: display.description,
+    metadataRowsHtml: metadataRows,
+    notesHtml: notes,
+    monsterSpawnerEditorHtml: isPinnedTooltip || showCatalogEditor ? monsterSpawnerEditor : "",
+    showCatalogEditor,
+    showTeleportEggEditor,
+    showPinnedActions,
+    warpCommand: isPinnedTooltip ? warpCommand : "",
+    catalogEntry,
+    eyeIconSvg: eyeIconSvg(hidden),
+    penIconSvg: penIconSvg(),
+    onToggleHidden: () => {
+      toggleHidden(item.id);
+    },
+    onSaveCatalog: async (payload) => {
+      await saveCatalogEntry(item, payload);
+    },
+    onEditEgg: () => {
+      openEggEditModal(item, duplicateTeleportWarning(state.current?.eggs ?? [], item.egg?.labelId, item.id));
+    },
+    onCopyWarpCommand: async () => {
+      if (!warpCommand) {
+        return;
+      }
+      try {
+        await navigator.clipboard.writeText(warpCommand);
+        showToast("Warp command copied.");
+        setStatus("Warp command copied to clipboard.");
+      } catch (error) {
+        setStatus(error instanceof Error ? error.message : "Failed to copy warp command.");
+      }
+    },
+    onSaveMonsterSpawner: (root) => {
+      saveMonsterSpawnerState(item, root ?? overlayTooltip, display.definition);
     }
   });
   overlayTooltip.hidden = false;
@@ -1588,10 +1479,10 @@ function positionTooltipForItem(item) {
 
 function hideOverlayTooltip() {
   overlayTooltip.hidden = true;
-  overlayTooltip.innerHTML = "";
+  clearTooltipState();
 }
 
-async function saveCatalogEntry(item, form) {
+async function saveCatalogEntry(item, payload) {
   if (!state.current) {
     return;
   }
@@ -1601,49 +1492,36 @@ async function saveCatalogEntry(item, form) {
   }
   const previousSnapshot = cloneCatalogSnapshot(definition.catalogEntry);
 
-  const payload = {
-    humanReadableId: String(form.elements.humanReadableId?.value ?? "").trim(),
-    description: String(form.elements.description?.value ?? "").trim(),
-    roof: decodeCatalogBoolean(String(form.elements.roof?.value ?? "")),
-    semitransparency: decodeCatalogBoolean(String(form.elements.semitransparency?.value ?? "")),
-    oob: decodeCatalogBoolean(String(form.elements.oob?.value ?? ""))
+  const normalizedPayload = {
+    humanReadableId: String(payload?.humanReadableId ?? "").trim(),
+    description: String(payload?.description ?? "").trim(),
+    roof: decodeCatalogBoolean(String(payload?.roof ?? "")),
+    semitransparency: decodeCatalogBoolean(String(payload?.semitransparency ?? "")),
+    oob: decodeCatalogBoolean(String(payload?.oob ?? ""))
   };
-  if (catalogSnapshotsEqual(previousSnapshot, payload)) {
+  if (catalogSnapshotsEqual(previousSnapshot, normalizedPayload)) {
     setStatus(`No catalog changes to save for ${definition.shapeHex}.`);
     return;
   }
 
-  const submitButton = form.querySelector(".tooltip-save-button");
-  if (submitButton) {
-    submitButton.disabled = true;
-    submitButton.textContent = "Saving...";
-  }
-
-  try {
-    setStatus(`Saving ${definition.shapeHex} to the ${state.current.selected.game} catalog...`);
-    const result = await fetchJson(getCatalogUpdateUrl(state.current.selected.game, definition.shape), {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload)
-    });
-    state.catalogEditHistory.push({
-      game: state.current.selected.game,
-      shape: definition.shape,
-      shapeHex: definition.shapeHex,
-      label: result.entry?.humanReadableId || previousSnapshot.humanReadableId || definition.shapeHex,
-      before: previousSnapshot,
-      after: cloneCatalogSnapshot(result.entry ?? payload)
-    });
-    state.pendingPinnedItemId = item.id;
-    await startBuild(state.current.selected);
-    const savedLabel = result.entry?.humanReadableId || definition.displayName || definition.shapeHex;
-    showToast(`Saved catalog entry for ${savedLabel}.`);
-  } finally {
-    if (submitButton) {
-      submitButton.disabled = false;
-      submitButton.textContent = "Save Catalog Entry";
-    }
-  }
+  setStatus(`Saving ${definition.shapeHex} to the ${state.current.selected.game} catalog...`);
+  const result = await fetchJson(getCatalogUpdateUrl(state.current.selected.game, definition.shape), {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(normalizedPayload)
+  });
+  state.catalogEditHistory.push({
+    game: state.current.selected.game,
+    shape: definition.shape,
+    shapeHex: definition.shapeHex,
+    label: result.entry?.humanReadableId || previousSnapshot.humanReadableId || definition.shapeHex,
+    before: previousSnapshot,
+    after: cloneCatalogSnapshot(result.entry ?? normalizedPayload)
+  });
+  state.pendingPinnedItemId = item.id;
+  await startBuild(state.current.selected);
+  const savedLabel = result.entry?.humanReadableId || definition.displayName || definition.shapeHex;
+  showToast(`Saved catalog entry for ${savedLabel}.`);
 }
 
 async function undoLastCatalogEdit() {
@@ -2858,16 +2736,7 @@ async function pollBuild(jobId, selected, token, preserveView) {
 }
 
 async function loadCatalog() {
-  if (isStaticMode()) {
-    populateCatalog(await fetchJson(appUrl(state.siteConfig.catalogUrl ?? "./data/catalog.json")), {
-      setDownloadState,
-      setReloadState,
-      setStatus,
-      downloadByUrl
-    });
-    return;
-  }
-  populateCatalog(await fetchJson(appUrl("api/maps")), {
+  populateCatalog(await fetchJson(appUrl(getCatalogDataPath(state.siteConfig))), {
     setDownloadState,
     setReloadState,
     setStatus,
@@ -3368,6 +3237,7 @@ hideInspectHighlight();
 resizeCanvas();
 setInspectMode(false);
 updateEggPlacementButtonState();
+registerTooltipPreviewRenderer(drawTooltipPreview);
 bootstrap().catch((error) => {
   setStatus(error instanceof Error ? error.message : String(error));
 });

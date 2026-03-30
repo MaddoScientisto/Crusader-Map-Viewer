@@ -6,6 +6,7 @@ const __dirname = path.dirname(__filename);
 
 export const APP_ROOT = path.resolve(__dirname, "..");
 export const PUBLIC_ROOT = path.join(APP_ROOT, "src", "public");
+export const VUE_DIST_ROOT = path.join(APP_ROOT, "dist-vue");
 export const TILE_SIZE = Number.parseInt(process.env.TILE_SIZE ?? "1024", 10);
 export const ATLAS_MAX_SIZE = Number.parseInt(process.env.ATLAS_MAX_SIZE ?? "4096", 10);
 export const PORT = Number.parseInt(process.env.PORT ?? "3000", 10);

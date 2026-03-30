@@ -2,7 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 
 import { generateMissionMapData } from "./generate-mission-map-data.js";
-import { PUBLIC_ROOT, STATIC_SITE_ROOT } from "./config.js";
+import { STATIC_SITE_ROOT, VUE_DIST_ROOT } from "./config.js";
 import { writeNpcSpawnerData } from "./generate-npc-spawner-data.js";
 import { BuildManager } from "./lib/build-manager.js";
 import { detectCatalog, getGameConfig, getShapeCatalogFile } from "./lib/catalog.js";
@@ -55,8 +55,11 @@ function copyFile(sourcePath, targetPath) {
 }
 
 function prepareOutputRoot(outputDir) {
+  if (!fs.existsSync(path.join(VUE_DIST_ROOT, "index.html"))) {
+    throw new Error("Vue production build is missing. Run npm run build:vue before export-static.");
+  }
   fs.rmSync(outputDir, { recursive: true, force: true });
-  fs.cpSync(PUBLIC_ROOT, outputDir, { recursive: true });
+  fs.cpSync(VUE_DIST_ROOT, outputDir, { recursive: true });
   fs.writeFileSync(path.join(outputDir, ".nojekyll"), "", "utf8");
   copyFile(path.join(outputDir, "index.html"), path.join(outputDir, "404.html"));
 }
