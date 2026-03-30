@@ -260,6 +260,7 @@ export function createSceneRuntimeController(deps) {
     const shouldHide = nextHidden ?? !state.current.hiddenIds.has(itemId);
     if (shouldHide) {
       state.current.hiddenIds.add(itemId);
+      state.current.visibilityRevision = (state.current.visibilityRevision ?? 0) + 1;
       if (state.pinnedItemId === itemId) {
         state.pinnedItemId = null;
       }
@@ -270,6 +271,7 @@ export function createSceneRuntimeController(deps) {
       syncOverlayState();
     } else {
       state.current.hiddenIds.delete(itemId);
+      state.current.visibilityRevision = (state.current.visibilityRevision ?? 0) + 1;
     }
     updateHiddenList();
     setMeta(state.current.metadata);
@@ -482,7 +484,9 @@ export function createSceneRuntimeController(deps) {
       shapeDefinitions: new Map(scene.shapeDefinitions.map((definition) => [definition.id, definition])),
       itemIndex: new Map(scene.items.map((item) => [item.id, item])),
       eggs: sortEggItems(scene.items),
-      hiddenIds: new Set()
+      hiddenIds: new Set(),
+      dataRevision: 0,
+      visibilityRevision: 0
     };
     state.eggPlacement = null;
     state.hoverItemId = null;

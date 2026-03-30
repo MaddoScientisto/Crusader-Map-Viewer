@@ -10,6 +10,7 @@ const DOOR_DEATH_HELPER_SHAPE = 0x04f8;
 const STEAMBOX_SHAPE = 0x0500;
 const ALARMHAT_SHAPE = 0x0561;
 const ALRMTRIG_SHAPE = 0x0581;
+const CMD_LINK_MAX_DISTANCE = 768;
 
 export function createSceneMetadataHelpers(dependencies) {
   const {
@@ -210,6 +211,148 @@ export function createSceneMetadataHelpers(dependencies) {
     return `0x${(value & 0xffff).toString(16).padStart(4, "0")}`;
   }
 
+  function getQualityLowByte(item) {
+    return Number.isInteger(item?.quality) ? (item.quality & 0xff) : null;
+  }
+
+  function getQualityHighByte(item) {
+    return Number.isInteger(item?.quality) ? ((item.quality >> 8) & 0xff) : null;
+  }
+
+  function getShapeNumber(item) {
+    const definition = getShapeDefinition(item?.shapeDefId);
+    return Number.isInteger(definition?.shape) ? definition.shape : null;
+  }
+
+  function getCmdLinkMetadata(item) {
+    const mapByte = Number.isInteger(item?.mapNum) ? (item.mapNum & 0xff) : null;
+    const npcByte = Number.isInteger(item?.npcNum) ? (item.npcNum & 0xff) : null;
+    const qLo = getQualityLowByte(item);
+    const qHi = getQualityHighByte(item);
+
+    if (mapByte === null || npcByte === null || qLo === null || qHi === null) {
+      return null;
+    }
+
+    const targetCode = (((mapByte & 0xe0) * 8) + npcByte) & 0x7ff;
+    const mode = mapByte & 0x03;
+    const itemMode = Boolean(mapByte & 0x04);
+    const phaseLane = (mapByte & 0x08) ? 0 : 1;
+    const lowPriority = Boolean(mapByte & 0x10);
+    const subcommand = qHi & 0x07;
+    const subcommandArg = qHi >> 3;
+
+    let targetKind = "exact-shape";
+    let targetLabel = `Exact nearby shape ${formatWordHex(targetCode)}`;
+    if (targetCode === 0x07ff) {
+      targetKind = "family-1";
+      targetLabel = "Family-1 target set sentinel (Crus-type NPC lane)";
+    } else if (targetCode === 0x07fe) {
+      targetKind = "family-6";
+      targetLabel = "Family-6 target set sentinel (non-Crus NPC lane)";
+    } else if (targetCode === 0x0000) {
+      targetKind = "zero";
+      targetLabel = "Zero target sentinel";
+    }
+
+    let subcommandLabel = `Subcommand ${subcommand}`;
+    let subcommandNote = "Recovered TRIGGER lanes for this subcommand remain partly unresolved.";
+    if (subcommand === 0) {
+      subcommandLabel = `Subcommand 0 (arg ${subcommandArg})`;
+      subcommandNote = "Uses nearby 0x0476 helper items and forwards through FREE.slot_30; this looks like a helper/spawn dispatch lane rather than a direct target-object edit.";
+    } else if (subcommand === 1) {
+      subcommandLabel = `Subcommand 1 (arg ${subcommandArg})`;
+      subcommandNote = "Runs a target-local state change lane. In the self-targeting TRIGGER variants it only acts when the triggering item is the matched target; in the item-targeting variants it broadcasts across all matched nearby items.";
+    } else if (subcommand === 2) {
+      subcommandLabel = `Subcommand 2 (arg ${subcommandArg})`;
+      subcommandNote = "Iterator lane present in TRIGGER, but the recovered body is still too incomplete to name the visible gameplay effect.";
+    } else if (subcommand === 3) {
+      subcommandLabel = `Subcommand 3 (arg ${subcommandArg})`;
+      subcommandNote = "Dispatches TRIGGER.slot_22 onto matched targets; this is the clearest direct target-action lane in the recovered body.";
+    } else if (subcommand === 4) {
+      subcommandLabel = `Subcommand 4 (+${subcommandArg})`;
+      subcommandNote = "Adds the arg value to the current link id before continuing the chain.";
+    } else if (subcommand === 5) {
+      subcommandLabel = `Subcommand 5 (-${subcommandArg})`;
+      subcommandNote = "Subtracts the arg value from the current link id before continuing the chain.";
+    } else if (subcommand === 6) {
+      subcommandLabel = `Subcommand 6 (arg ${subcommandArg})`;
+      subcommandNote = "Creation lane that again uses nearby 0x0476 helper items before calling Item.create on the resolved payload.";
+    }
+
+    return {
+      qLo,
+      qHi,
+      mapByte,
+      npcByte,
+      targetCode,
+      targetKind,
+      targetLabel,
+      mode,
+      itemMode,
+      phaseLane,
+      lowPriority,
+      subcommand,
+      subcommandArg,
+      subcommandLabel,
+      subcommandNote
+    };
+  }
+
+  function getCmdLinkCandidateSummary(item) {
+    if (!state.current) {
+      return null;
+    }
+
+    const metadata = getCmdLinkMetadata(item);
+    if (!metadata || metadata.targetKind !== "exact-shape") {
+      return null;
+    }
+
+    const matchingShape = [];
+    const matchingLink = [];
+    for (const candidate of state.current.scene.items) {
+      if (candidate.id === item.id) {
+        continue;
+      }
+      const candidateShape = getShapeNumber(candidate);
+      if (candidateShape !== metadata.targetCode) {
+        continue;
+      }
+      const distance = Math.hypot(candidate.world.x - item.world.x, candidate.world.y - item.world.y);
+      if (distance > CMD_LINK_MAX_DISTANCE) {
+        continue;
+      }
+      matchingShape.push(candidate);
+      if (metadata.qLo === 0xff || getQualityLowByte(candidate) === metadata.qLo) {
+        matchingLink.push(candidate);
+      }
+    }
+
+    if (!matchingShape.length) {
+      return {
+        ...metadata,
+        matchingShape,
+        matchingLink,
+        preview: []
+      };
+    }
+
+    const preview = matchingLink.slice(0, 3).map((candidate) => {
+      const definition = getShapeDefinition(candidate.shapeDefId);
+      const name = definition?.displayName || candidate.shapeDefId;
+      const qLo = getQualityLowByte(candidate);
+      return `${name} @ ${formatWorldCoords(candidate.world)}${qLo === null ? "" : `, QLo ${qLo}`}`;
+    });
+
+    return {
+      ...metadata,
+      matchingShape,
+      matchingLink,
+      preview
+    };
+  }
+
   function getDefinitionTraitLabels(definition) {
     if (!definition?.traits) {
       return [];
@@ -250,7 +393,7 @@ export function createSceneMetadataHelpers(dependencies) {
       return "SKILLBOX difficulty/skill gate; frame 0 and 1 switch trigger lanes by difficulty, and frame 2 remaps QLo before dispatch.";
     }
     if (definition.shape === CMD_LINK_SHAPE) {
-      return "Trigger/link controller; earlier usecode evidence keys off QLo and branches on mapNum flag bits rather than using NPC rows.";
+      return "Trigger/link controller; TRIGGER reads QLo as the link id, uses mapNum low bits as phase and routing flags, and derives the target search shape from npcNum plus mapNum high bits.";
     }
     if (definition.shape === EVENT_SHAPE) {
       return "EVENT controller; a generic scripted event multiplexer that reuses QLo as a local link id and can drive triggers, doors, camera, audio, and nearby helper shapes.";
@@ -335,12 +478,25 @@ export function createSceneMetadataHelpers(dependencies) {
     }
 
     if (definition.shape === CMD_LINK_SHAPE) {
+      const cmdMetadata = getCmdLinkCandidateSummary(item);
       rows.push("<dt>Decoded role</dt><dd>Trigger/link controller (`cmd` helper), not a DTABLE NPC spawner.</dd>");
       if (rawQuality !== null) {
         rows.push(`<dt>Link bytes</dt><dd>${escapeHtml(`QLo ${qLo} (${formatByteHex(qLo)}), QHi ${qHi} (${formatByteHex(qHi)}), raw ${formatWordHex(rawQuality)}`)}</dd>`);
       }
       if (rawMapNum !== null) {
         rows.push(`<dt>Map flags</dt><dd>${escapeHtml(`${rawMapNum} (${formatByteHex(rawMapNum)})`)}</dd>`);
+      }
+      if (cmdMetadata) {
+        rows.push(`<dt>Phase lane</dt><dd>${escapeHtml(`Responds to TRIGGER phase ${cmdMetadata.phaseLane}${cmdMetadata.phaseLane === 0 ? " / 0x80" : " / 0x81"} because map bit 0x08 is ${cmdMetadata.phaseLane === 0 ? "set" : "clear"}.`)}</dd>`);
+        rows.push(`<dt>Dispatch mode</dt><dd>${escapeHtml(`${cmdMetadata.itemMode ? "Item-targeting" : "NPC-triggering"} path, mode ${cmdMetadata.mode}, ${cmdMetadata.lowPriority ? "deferred/low-priority" : "immediate"} execution.`)}</dd>`);
+        rows.push(`<dt>Target decode</dt><dd>${escapeHtml(`${cmdMetadata.targetLabel} from npcNum ${cmdMetadata.npcByte} + map high bits ${formatByteHex(cmdMetadata.mapByte & 0xe0)}.`)}</dd>`);
+        rows.push(`<dt>Operation</dt><dd>${escapeHtml(`${cmdMetadata.subcommandLabel}. ${cmdMetadata.subcommandNote}`)}</dd>`);
+        if (cmdMetadata.targetKind === "exact-shape") {
+          rows.push(`<dt>Nearby target matches</dt><dd>${escapeHtml(`${cmdMetadata.matchingLink.length} nearby exact-shape target${cmdMetadata.matchingLink.length === 1 ? "" : "s"} share this link id out of ${cmdMetadata.matchingShape.length} nearby shape match${cmdMetadata.matchingShape.length === 1 ? "" : "es"}.`)}</dd>`);
+          if (cmdMetadata.preview.length) {
+            rows.push(`<dt>Candidate links</dt><dd>${escapeHtml(cmdMetadata.preview.join("; "))}</dd>`);
+          }
+        }
       }
     }
 

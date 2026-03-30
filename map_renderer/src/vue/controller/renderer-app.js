@@ -332,6 +332,7 @@ function refreshCurrentDerivedCollections() {
   if (!state.current) {
     return;
   }
+  state.current.dataRevision = (state.current.dataRevision ?? 0) + 1;
   state.current.itemIndex = new Map(state.current.scene.items.map((item) => [item.id, item]));
   state.current.eggs = sortEggItems(state.current.scene.items);
   eggSection.open = state.current.eggs.length > 0 || Boolean(state.eggPlacement);

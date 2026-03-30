@@ -69,6 +69,7 @@ export function createScenePresentationController(deps) {
   let renderFrame = 0;
   const npcPreviewCanvasCache = new Map();
   const itemPreviewCanvasCache = new Map();
+  let arrowGraphCache = null;
   const TELEPORTER_LIGHTS_SHAPE = 0x01db;
   const ELEVATOR_SHAPE = 0x021e;
   const EVENT_SHAPE = 0x0361;
@@ -155,6 +156,56 @@ export function createScenePresentationController(deps) {
   function getShapeNumber(item) {
     const definition = getShapeDefinition(item?.shapeDefId);
     return Number.isInteger(definition?.shape) ? definition.shape : null;
+  }
+
+  function getCmdLinkMetadata(item) {
+    if (getShapeNumber(item) !== CMD_LINK_SHAPE || !Number.isInteger(item?.mapNum) || !Number.isInteger(item?.npcNum)) {
+      return null;
+    }
+
+    const mapByte = item.mapNum & 0xff;
+    const qLo = getQualityLowByte(item);
+    const qHi = Number.isInteger(item?.quality) ? ((item.quality >> 8) & 0xff) : null;
+    const targetCode = (((mapByte & 0xe0) * 8) + (item.npcNum & 0xff)) & 0x7ff;
+
+    return {
+      qLo,
+      qHi,
+      targetCode,
+      targetKind: targetCode === 0x07ff ? "family-1" : targetCode === 0x07fe ? "family-6" : targetCode === 0 ? "zero" : "exact-shape",
+      itemMode: Boolean(mapByte & 0x04),
+      phaseLane: (mapByte & 0x08) ? 0 : 1,
+      lowPriority: Boolean(mapByte & 0x10),
+      subcommand: qHi === null ? null : (qHi & 0x07),
+      subcommandArg: qHi === null ? null : (qHi >> 3)
+    };
+  }
+
+  function getCmdLinkCandidates(item, visibleItems) {
+    const metadata = getCmdLinkMetadata(item);
+    if (!metadata || metadata.targetKind !== "exact-shape") {
+      return [];
+    }
+
+    return visibleItems.filter((candidate) => {
+      if (candidate.id === item.id) {
+        return false;
+      }
+      if (getShapeNumber(candidate) !== metadata.targetCode) {
+        return false;
+      }
+      if (!isWithinLinkDistance(item, candidate, LOCAL_EDITOR_LINK_DISTANCE)) {
+        return false;
+      }
+      if (metadata.qLo !== 0xff && getQualityLowByte(candidate) !== metadata.qLo) {
+        return false;
+      }
+      return true;
+    });
+  }
+
+  function invalidateArrowGraphCache() {
+    arrowGraphCache = null;
   }
 
   function isWithinLinkDistance(left, right, maxDistance) {
@@ -986,16 +1037,12 @@ export function createScenePresentationController(deps) {
     return isItemVisible(item) || Boolean(getTeleportLinkMetadata(item)) || Boolean(getElevatorLinkMetadata(item)) || isEggItem(item);
   }
 
-  function getTeleportArrowLinks() {
-    if (!state.current) {
-      return [];
-    }
-
+  function buildTeleportArrowLinks(visibleItems) {
     const teleportersById = new Map();
     const destinationsById = new Map();
-    for (const item of state.current.scene.items) {
+    for (const item of visibleItems) {
       const teleportLink = getTeleportLinkMetadata(item);
-      if (!isDrawableLinkItem(item) || !Number.isInteger(teleportLink?.labelId)) {
+      if (!Number.isInteger(teleportLink?.labelId)) {
         continue;
       }
       const bucket = teleportLink.type === "teleporter"
@@ -1029,22 +1076,18 @@ export function createScenePresentationController(deps) {
     return links;
   }
 
-  function getElevatorArrowLinks() {
-    if (!state.current) {
-      return [];
-    }
-
+  function buildElevatorArrowLinks(visibleItems) {
     const elevatorsById = new Map();
     const destinationsById = new Map();
-    for (const item of state.current.scene.items) {
+    for (const item of visibleItems) {
       const elevatorLink = getElevatorLinkMetadata(item);
       const teleportLink = getTeleportLinkMetadata(item);
-      if (isDrawableLinkItem(item) && Number.isInteger(elevatorLink?.labelId)) {
+      if (Number.isInteger(elevatorLink?.labelId)) {
         const existing = elevatorsById.get(elevatorLink.labelId) ?? [];
         existing.push(item);
         elevatorsById.set(elevatorLink.labelId, existing);
       }
-      if (isDrawableLinkItem(item) && teleportLink?.type === "teleport-destination" && Number.isInteger(teleportLink.labelId)) {
+      if (teleportLink?.type === "teleport-destination" && Number.isInteger(teleportLink.labelId)) {
         const existing = destinationsById.get(teleportLink.labelId) ?? [];
         existing.push(item);
         destinationsById.set(teleportLink.labelId, existing);
@@ -1069,43 +1112,33 @@ export function createScenePresentationController(deps) {
     return links;
   }
 
-  function getFocusedMonsterSpawnerArrowLinks() {
-    const focused = getFocusedItem();
-    if (!focused || !isMonsterSpawnerItem(focused, getShapeDefinition(focused.shapeDefId)) || !isDrawableLinkItem(focused)) {
-      return [];
-    }
-
-    const signalKey = getMonsterSpawnerSignalKey(focused);
-    return getMonsterSpawnerPairCandidates(focused)
-      .filter((target) => isDrawableLinkItem(target))
-      .map((target) => ({
-        source: focused,
-        target,
-        color: "rgba(92, 181, 255, 0.94)",
-        dashed: [7, 5],
-        label: `Spawner QLo ${signalKey}`
-      }));
-  }
-
-  function getEditorHelperArrowLinks() {
-    if (!state.current || !includeEditorCheckbox.checked || !showEditorLinkArrowsCheckbox.checked) {
-      return [];
-    }
-
-    const visibleItems = state.current.scene.items.filter((item) => isDrawableLinkItem(item));
-    const byShape = new Map();
-    for (const item of visibleItems) {
-      const shape = getShapeNumber(item);
-      if (!Number.isInteger(shape)) {
-        continue;
-      }
-      const existing = byShape.get(shape) ?? [];
-      existing.push(item);
-      byShape.set(shape, existing);
-    }
-
+  function buildEditorHelperArrowLinks(visibleItems, byShape) {
     const links = [];
     const seenKeys = new Set();
+
+    for (const source of byShape.get(CMD_LINK_SHAPE) ?? []) {
+      const metadata = getCmdLinkMetadata(source);
+      if (!metadata) {
+        continue;
+      }
+      const targets = getCmdLinkCandidates(source, visibleItems);
+      for (const target of targets) {
+        const targetShape = getShapeNumber(target);
+        const priorityDash = metadata.lowPriority ? [2, 6] : [6, 3];
+        const actionLabel = metadata.subcommand === null
+          ? "cmd"
+          : metadata.subcommand === 0
+            ? `cmd helper ${metadata.subcommandArg}`
+            : metadata.subcommand === 3
+              ? `cmd slot22 ${metadata.subcommandArg}`
+              : `cmd sub ${metadata.subcommand}`;
+        pushUniqueLink(links, seenKeys, source, target, {
+          color: "rgba(38, 70, 83, 0.92)",
+          dashed: priorityDash,
+          label: `${actionLabel} -> ${targetShape === null ? "target" : `0x${targetShape.toString(16).padStart(3, "0")}`} QLo ${metadata.qLo}`
+        });
+      }
+    }
 
     for (const source of byShape.get(ALARMHAT_SHAPE) ?? []) {
       for (const target of byShape.get(MONSTER_SPAWNER_SHAPE) ?? []) {
@@ -1200,6 +1233,80 @@ export function createScenePresentationController(deps) {
     return links;
   }
 
+  function getArrowGraph() {
+    if (!state.current) {
+      return {
+        teleportLinks: [],
+        elevatorLinks: [],
+        editorLinks: []
+      };
+    }
+
+    const cacheKey = {
+      current: state.current,
+      dataRevision: state.current.dataRevision ?? 0,
+      visibilityRevision: state.current.visibilityRevision ?? 0,
+      includeEditor: includeEditorCheckbox.checked,
+      includeRoofs: includeRoofsCheckbox.checked,
+      includeOob: includeOobCheckbox.checked,
+      showEditorLinkArrows: showEditorLinkArrowsCheckbox.checked
+    };
+
+    if (
+      arrowGraphCache
+      && arrowGraphCache.current === cacheKey.current
+      && arrowGraphCache.dataRevision === cacheKey.dataRevision
+      && arrowGraphCache.visibilityRevision === cacheKey.visibilityRevision
+      && arrowGraphCache.includeEditor === cacheKey.includeEditor
+      && arrowGraphCache.includeRoofs === cacheKey.includeRoofs
+      && arrowGraphCache.includeOob === cacheKey.includeOob
+      && arrowGraphCache.showEditorLinkArrows === cacheKey.showEditorLinkArrows
+    ) {
+      return arrowGraphCache;
+    }
+
+    const visibleItems = state.current.scene.items.filter((item) => isDrawableLinkItem(item));
+    const byShape = new Map();
+    for (const item of visibleItems) {
+      const shape = getShapeNumber(item);
+      if (!Number.isInteger(shape)) {
+        continue;
+      }
+      const existing = byShape.get(shape) ?? [];
+      existing.push(item);
+      byShape.set(shape, existing);
+    }
+
+    arrowGraphCache = {
+      ...cacheKey,
+      teleportLinks: buildTeleportArrowLinks(visibleItems),
+      elevatorLinks: buildElevatorArrowLinks(visibleItems),
+      editorLinks: cacheKey.includeEditor && cacheKey.showEditorLinkArrows
+        ? buildEditorHelperArrowLinks(visibleItems, byShape)
+        : []
+    };
+
+    return arrowGraphCache;
+  }
+
+  function getFocusedMonsterSpawnerArrowLinks() {
+    const focused = getFocusedItem();
+    if (!focused || !isMonsterSpawnerItem(focused, getShapeDefinition(focused.shapeDefId)) || !isDrawableLinkItem(focused)) {
+      return [];
+    }
+
+    const signalKey = getMonsterSpawnerSignalKey(focused);
+    return getMonsterSpawnerPairCandidates(focused)
+      .filter((target) => isDrawableLinkItem(target))
+      .map((target) => ({
+        source: focused,
+        target,
+        color: "rgba(92, 181, 255, 0.94)",
+        dashed: [7, 5],
+        label: `Spawner QLo ${signalKey}`
+      }));
+  }
+
   function strokeArrow(targetContext, scale, offsetX, offsetY, sourcePoint, targetPoint, { color, dashed }) {
     const startX = sourcePoint.x * scale + offsetX;
     const startY = sourcePoint.y * scale + offsetY;
@@ -1248,13 +1355,18 @@ export function createScenePresentationController(deps) {
 
     const links = [];
     if (showLinkArrowsCheckbox.checked) {
+      const arrowGraph = getArrowGraph();
       links.push(
-        ...getTeleportArrowLinks(),
-        ...getElevatorArrowLinks(),
+        ...arrowGraph.teleportLinks,
+        ...arrowGraph.elevatorLinks,
         ...getFocusedMonsterSpawnerArrowLinks()
       );
+      if (showEditorLinkArrowsCheckbox.checked) {
+        links.push(...arrowGraph.editorLinks);
+      }
+    } else if (showEditorLinkArrowsCheckbox.checked) {
+      links.push(...getArrowGraph().editorLinks);
     }
-    links.push(...getEditorHelperArrowLinks());
     if (!links.length) {
       return;
     }
@@ -1562,6 +1674,7 @@ export function createScenePresentationController(deps) {
   function resetRenderCaches() {
     npcPreviewCanvasCache.clear();
     itemPreviewCanvasCache.clear();
+    invalidateArrowGraphCache();
   }
 
   function pointHitsItem(point, item) {
