@@ -79,6 +79,7 @@ export function createScenePresentationController(deps) {
   const FLAMEBOX_SHAPE = 0x0403;
   const CMD_LINK_SHAPE = 0x04b1;
   const SKILLBOX_SHAPE = 0x04e3;
+  const BRO_BOOT_SHAPE = 0x04fe;
   const DOOR_DEATH_HELPER_SHAPE = 0x04f8;
   const STEAMBOX_SHAPE = 0x0500;
   const ALARMHAT_SHAPE = 0x0561;
@@ -1150,6 +1151,7 @@ export function createScenePresentationController(deps) {
     }
 
     const doorTargetsByQlo = buildQloIndexForShapes(DOOR_TARGET_SHAPES);
+    const spanelTargetsByQlo = buildQloIndexForShapes(new Set([SPANEL_SHAPE]));
     const steamTargetsByQlo = buildQloIndexForShapes(STEAM_TARGET_SHAPES);
     const flameTargetsByQlo = buildQloIndexForShapes(FLAME_HELPER_SHAPES);
 
@@ -1237,6 +1239,23 @@ export function createScenePresentationController(deps) {
           color: "rgba(231, 111, 81, 0.9)",
           dashed: [7, 3],
           label: `FLAMEBOX QLo ${sourceQlo}`
+        });
+      }
+    }
+
+    for (const source of byShape.get(BRO_BOOT_SHAPE) ?? []) {
+      const sourceQlo = getQualityLowByte(source);
+      if (!Number.isInteger(sourceQlo)) {
+        continue;
+      }
+      for (const target of spanelTargetsByQlo.get(sourceQlo) ?? []) {
+        if (!isWithinLinkDistance(source, target, LOCAL_EDITOR_LINK_DISTANCE)) {
+          continue;
+        }
+        pushUniqueLink(links, seenKeys, source, target, {
+          color: "rgba(138, 177, 125, 0.9)",
+          dashed: [5, 5],
+          label: `BRO_BOOT QLo ${sourceQlo}`
         });
       }
     }
