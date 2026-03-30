@@ -14,21 +14,53 @@ export function rgbaBuffer(width, height, color = DEFAULT_BACKGROUND) {
   return pixels;
 }
 
-function resolveTranslucentColor(colorIndex, palette, xformRemap) {
-  if (!xformRemap || colorIndex < 0 || colorIndex >= xformRemap.length) {
+function clampByte(value) {
+  if (value < 0) {
+    return 0;
+  }
+  if (value > 255) {
+    return 255;
+  }
+  return value;
+}
+
+function resolveTranslucentBlendColor(colorIndex, xformBlendMap) {
+  if (!xformBlendMap || colorIndex < 0 || colorIndex >= xformBlendMap.length) {
     return null;
   }
-  const remappedIndex = xformRemap[colorIndex];
-  if (!Number.isInteger(remappedIndex) || remappedIndex < 0 || remappedIndex >= palette.length) {
+  const entry = xformBlendMap[colorIndex];
+  if (!entry || entry.a <= 0) {
     return null;
+  }
+  const alpha = clampByte(entry.a);
+  return [
+    clampByte(Math.round((entry.r * 255) / alpha)),
+    clampByte(Math.round((entry.g * 255) / alpha)),
+    clampByte(Math.round((entry.b * 255) / alpha)),
+    alpha
+  ];
+}
+
+function resolveTranslucentRemappedBlendColor(colorIndex, palette, xformBlendMap, xformBlendRgbRemap) {
+  const blendedColor = resolveTranslucentBlendColor(colorIndex, xformBlendMap);
+  if (!blendedColor) {
+    return null;
+  }
+  if (!xformBlendRgbRemap || colorIndex < 0 || colorIndex >= xformBlendRgbRemap.length) {
+    return blendedColor;
+  }
+  const remappedIndex = xformBlendRgbRemap[colorIndex];
+  if (!Number.isInteger(remappedIndex) || remappedIndex < 0 || remappedIndex >= palette.length) {
+    return blendedColor;
   }
   const [r, g, b] = palette[remappedIndex];
-  return [r, g, b, 176];
+  return [r, g, b, blendedColor[3]];
 }
 
 export function blitFrame(buffer, canvasWidth, canvasHeight, left, top, frame, pixels, palette, flipped, options = {}) {
   const translucent = options.translucent === true;
-  const xformRemap = options.xformRemap ?? null;
+  const xformBlendMap = options.xformBlendMap ?? null;
+  const xformBlendRgbRemap = options.xformBlendRgbRemap ?? null;
   for (let srcY = 0; srcY < frame.height; srcY += 1) {
     const dstY = top + srcY;
     if (dstY < 0 || dstY >= canvasHeight) {
@@ -46,19 +78,19 @@ export function blitFrame(buffer, canvasWidth, canvasHeight, left, top, frame, p
         continue;
       }
       const pixelBase = (dstY * canvasWidth + dstX) * 4;
-      const translucentColor = translucent ? resolveTranslucentColor(colorIndex, palette, xformRemap) : null;
-      if (translucentColor) {
-        buffer[pixelBase] = translucentColor[0];
-        buffer[pixelBase + 1] = translucentColor[1];
-        buffer[pixelBase + 2] = translucentColor[2];
-        buffer[pixelBase + 3] = translucentColor[3];
+      const blendedColor = translucent ? resolveTranslucentRemappedBlendColor(colorIndex, palette, xformBlendMap, xformBlendRgbRemap) : null;
+      if (blendedColor) {
+        buffer[pixelBase] = blendedColor[0];
+        buffer[pixelBase + 1] = blendedColor[1];
+        buffer[pixelBase + 2] = blendedColor[2];
+        buffer[pixelBase + 3] = blendedColor[3];
         continue;
       }
       const [r, g, b] = palette[colorIndex];
       buffer[pixelBase] = r;
       buffer[pixelBase + 1] = g;
       buffer[pixelBase + 2] = b;
-      buffer[pixelBase + 3] = translucent ? 176 : 255;
+      buffer[pixelBase + 3] = 255;
     }
   }
 }

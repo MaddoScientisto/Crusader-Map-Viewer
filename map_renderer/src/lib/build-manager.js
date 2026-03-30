@@ -26,7 +26,7 @@ import { extractNpcSpawnerRows } from "./npc-spawner-data.js";
 import { blitFrame, encodePng, rgbaBuffer } from "./png.js";
 import { prepareSortedItems } from "./sorting.js";
 
-const SCENE_CACHE_VERSION = "v10-atlas-scene-xformpal-translucency";
+const SCENE_CACHE_VERSION = "v13-atlas-scene-crusader-xform-remap-rgb";
 const DTABLE_NPC_SHAPES = new Set([0x04d0]);
 const MONSTER_EGG_PREVIEW_SHAPE = 0x024f;
 const OBSERVER_PREVIEW_FRAME = 0x0f;
@@ -154,9 +154,6 @@ function sceneNotes(item, info) {
 function presentationOpacity(kind, info) {
   if (kind === "helper") {
     return 0.5;
-  }
-  if (info.isTranslucent) {
-    return 0.7;
   }
   return 1;
 }
@@ -1022,7 +1019,8 @@ export class BuildManager {
         const sprite = spriteMap.get(placed.id);
         blitFrame(buffer, atlas.width, atlas.height, placed.x, placed.y, sprite.frameData, sprite.pixels, assets.palette, false, {
           translucent: sprite.translucent,
-          xformRemap: assets.xformPalette?.primaryRemap ?? null
+          xformBlendMap: assets.xformPalette?.primaryBlendMap ?? null,
+          xformBlendRgbRemap: assets.xformPalette?.primaryBlendRgbRemap ?? null
         });
       }
       const fileName = `${atlas.id}.png`;

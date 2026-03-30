@@ -25,6 +25,26 @@ export const SI_DRAW = 0x0100;
 export const SI_ROOF = 0x0400;
 export const SI_TRANSL = 0x0800;
 
+const CRUSADER_XFORM_BLEND_SLOTS = [
+  [8, 48, 48, 48, 80],
+  [9, 24, 24, 24, 128],
+  [10, 64, 64, 24, 64],
+  [11, 80, 80, 80, 80],
+  [12, 48, 48, 48, 140],
+  [13, 24, 24, 24, 140],
+  [14, 10, 10, 10, 140]
+];
+
+const CRUSADER_PRIMARY_XFORM_RGB_TABLE_INDEX = 5;
+
+function buildCrusaderXformBlendMap() {
+  const blendMap = Array.from({ length: 256 }, () => null);
+  for (const [index, r, g, b, a] of CRUSADER_XFORM_BLEND_SLOTS) {
+    blendMap[index] = { r, g, b, a };
+  }
+  return blendMap;
+}
+
 export function getMapCount(fixedDatPath) {
   const data = fs.readFileSync(fixedDatPath);
   return readU16LE(data, FIXED_MAP_COUNT_OFFSET);
@@ -229,11 +249,19 @@ export function loadPalette(filePath) {
 export function loadXformPalette(filePath) {
   const archive = new FlexArchive(filePath);
   const entry = archive.get(0);
-  if (entry.length < 0x100) {
+  if (entry.length < 0x100 || entry.length % 0x100 !== 0) {
     throw new Error(`xform palette entry too small: ${filePath}`);
   }
+  const remapTables = [];
+  for (let offset = 0; offset < entry.length; offset += 0x100) {
+    remapTables.push(Uint8Array.from(entry.subarray(offset, offset + 0x100)));
+  }
   return {
-    primaryRemap: Uint8Array.from(entry.subarray(0, 0x100))
+    primaryRemap: remapTables[0],
+    primaryBlendMap: buildCrusaderXformBlendMap(),
+    primaryBlendRgbRemap: remapTables[CRUSADER_PRIMARY_XFORM_RGB_TABLE_INDEX] ?? remapTables[0],
+    remapTables,
+    metadata: Uint8Array.from(archive.get(1))
   };
 }
 
