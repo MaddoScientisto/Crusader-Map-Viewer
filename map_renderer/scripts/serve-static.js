@@ -6,6 +6,7 @@ import url from 'url';
 
 const PORT = process.env.PORT ? Number(process.env.PORT) : 8080;
 const ROOT = path.resolve(process.cwd(), 'site');
+const HOST = '127.0.0.1';
 
 if (!fs.existsSync(ROOT)) {
   console.error('Static site directory not found:', ROOT);
@@ -60,6 +61,24 @@ const server = http.createServer((req, res) => {
   }
 });
 
-server.listen(PORT, () => {
-  console.log(`serve-static: serving ${ROOT} at http://localhost:${PORT}`);
-});
+function listen(preferredPort) {
+  server.once('error', (error) => {
+    if (error?.code === 'EADDRINUSE' || error?.code === 'EACCES') {
+      const fallbackPort = preferredPort + 1;
+      console.warn(`serve-static: port ${preferredPort} is unavailable (${error.code}), retrying on ${fallbackPort}`);
+      listen(fallbackPort);
+      return;
+    }
+    throw error;
+  });
+
+  server.removeAllListeners('listening');
+  server.once('listening', () => {
+    const address = server.address();
+    const port = typeof address === 'object' && address ? address.port : preferredPort;
+    console.log(`serve-static: serving ${ROOT} at http://${HOST}:${port}`);
+  });
+  server.listen(preferredPort, HOST);
+}
+
+listen(PORT);
