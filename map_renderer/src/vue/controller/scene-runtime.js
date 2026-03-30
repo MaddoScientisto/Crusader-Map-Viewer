@@ -9,6 +9,7 @@ export function createSceneRuntimeController(deps) {
     mapPrevButton,
     mapNextButton,
     includeEditorCheckbox,
+    showEditorLinkArrowsCheckbox,
     alwaysShowNpcPreviewsCheckbox,
     alwaysShowItemPreviewsCheckbox,
     includeRoofsCheckbox,
@@ -115,6 +116,7 @@ export function createSceneRuntimeController(deps) {
   const VIEWER_PREFERENCES_STORAGE_KEY = "crusader-map-renderer:viewer-preferences";
   const persistedCheckboxes = [
     ["includeEditor", includeEditorCheckbox],
+    ["showEditorLinkArrows", showEditorLinkArrowsCheckbox],
     ["alwaysShowNpcPreviews", alwaysShowNpcPreviewsCheckbox],
     ["alwaysShowItemPreviews", alwaysShowItemPreviewsCheckbox],
     ["includeRoofs", includeRoofsCheckbox],
@@ -802,6 +804,10 @@ export function createSceneRuntimeController(deps) {
         setMeta(state.current.metadata);
         scheduleRender();
       }
+    });
+    showEditorLinkArrowsCheckbox.addEventListener("change", () => {
+      writeViewerPreferences();
+      scheduleRender();
     });
     alwaysShowNpcPreviewsCheckbox.addEventListener("change", () => {
       writeViewerPreferences();

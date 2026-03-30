@@ -3,6 +3,7 @@ export const mapSelect = document.querySelector("#map-select");
 export const mapPrevButton = document.querySelector("#map-prev");
 export const mapNextButton = document.querySelector("#map-next");
 export const includeEditorCheckbox = document.querySelector("#include-editor");
+export const showEditorLinkArrowsCheckbox = document.querySelector("#show-editor-link-arrows");
 export const alwaysShowNpcPreviewsCheckbox = document.querySelector("#always-show-npc-previews");
 export const alwaysShowItemPreviewsCheckbox = document.querySelector("#always-show-item-previews");
 export const includeRoofsCheckbox = document.querySelector("#include-roofs");

@@ -16,6 +16,7 @@
       <div class="toggle-grid">
         <label class="toggle"><input id="include-editor" type="checkbox" checked> Show editor-only elements</label>
         <div class="toggle-subgrid" aria-label="Editor preview options">
+          <label class="toggle toggle-nested"><input id="show-editor-link-arrows" type="checkbox"> Show editor helper arrows</label>
           <label class="toggle toggle-nested"><input id="always-show-npc-previews" type="checkbox"> Always show NPC previews</label>
           <label class="toggle toggle-nested"><input id="always-show-item-previews" type="checkbox"> Always show item previews</label>
         </div>

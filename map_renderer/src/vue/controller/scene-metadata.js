@@ -5,6 +5,11 @@ const MONSTER_SPAWNER_SHAPE = 0x04d0;
 const MONSTER_SPAWNER_PAIR_MAX_DISTANCE = 512;
 const SKILLBOX_SHAPE = 0x04e3;
 const CMD_LINK_SHAPE = 0x04b1;
+const EVENT_SHAPE = 0x0361;
+const DOOR_DEATH_HELPER_SHAPE = 0x04f8;
+const STEAMBOX_SHAPE = 0x0500;
+const ALARMHAT_SHAPE = 0x0561;
+const ALRMTRIG_SHAPE = 0x0581;
 
 export function createSceneMetadataHelpers(dependencies) {
   const {
@@ -247,6 +252,21 @@ export function createSceneMetadataHelpers(dependencies) {
     if (definition.shape === CMD_LINK_SHAPE) {
       return "Trigger/link controller; earlier usecode evidence keys off QLo and branches on mapNum flag bits rather than using NPC rows.";
     }
+    if (definition.shape === EVENT_SHAPE) {
+      return "EVENT controller; a generic scripted event multiplexer that reuses QLo as a local link id and can drive triggers, doors, camera, audio, and nearby helper shapes.";
+    }
+    if (definition.shape === DOOR_DEATH_HELPER_SHAPE) {
+      return "Door death/crush helper; DOOR.slot_23 scans nearby 0x04F8 items with matching QLo and dispatches trigger lane 0 or +0x80 by map-array state.";
+    }
+    if (definition.shape === STEAMBOX_SHAPE) {
+      return "STEAMBOX hazard controller; nearby steam-family helpers are matched by QLo and dispatched through STEAMBOX control slots.";
+    }
+    if (definition.shape === ALARMHAT_SHAPE) {
+      return "ALARMHAT local alarm driver; equips nearby 0x04D0 helpers and uses frame-dependent gating rather than DTABLE NPC payloads.";
+    }
+    if (definition.shape === ALRMTRIG_SHAPE) {
+      return "ALRMTRIG alert relay; chooses trigger lanes 0/1 or +0x80/+0x81 from map-array state and the current world alert flag.";
+    }
     if (definition.shape === CHEST_ITEM_SPAWNER_SHAPE) {
       return "Chest item spawner; chest usecode matches nearby 0x0476 helpers by QLo and FREE.slot_2E resolves the spawned item from mapNum/npcNum.";
     }
@@ -322,6 +342,49 @@ export function createSceneMetadataHelpers(dependencies) {
       if (rawMapNum !== null) {
         rows.push(`<dt>Map flags</dt><dd>${escapeHtml(`${rawMapNum} (${formatByteHex(rawMapNum)})`)}</dd>`);
       }
+    }
+
+    if (definition.shape === EVENT_SHAPE) {
+      rows.push("<dt>Decoded class</dt><dd>EVENT</dd>");
+      if (rawQuality !== null) {
+        rows.push(`<dt>Event bytes</dt><dd>${escapeHtml(`QLo ${qLo} (${formatByteHex(qLo)}), QHi ${qHi} (${formatByteHex(qHi)}), raw ${formatWordHex(rawQuality)}`)}</dd>`);
+      }
+      rows.push("<dt>Event note</dt><dd>Recovered EVENT.equip reads QLo as a link id and uses different event lanes to drive triggers, camera/audio, door logic, and nearby helper objects.</dd>");
+    }
+
+    if (definition.shape === DOOR_DEATH_HELPER_SHAPE) {
+      rows.push("<dt>Decoded role</dt><dd>Door death/crush trigger helper.</dd>");
+      if (rawQuality !== null) {
+        rows.push(`<dt>Door link bytes</dt><dd>${escapeHtml(`QLo ${qLo} (${formatByteHex(qLo)}), QHi ${qHi} (${formatByteHex(qHi)}), raw ${formatWordHex(rawQuality)}`)}</dd>`);
+      }
+      if (rawMapNum !== null) {
+        rows.push(`<dt>Lane select</dt><dd>${escapeHtml(`${rawMapNum} (${formatByteHex(rawMapNum)}): clear routes to trigger lane 0, nonzero routes to lane 0x80.`)}</dd>`);
+      }
+    }
+
+    if (definition.shape === STEAMBOX_SHAPE) {
+      rows.push("<dt>Decoded class</dt><dd>STEAMBOX</dd>");
+      if (rawQuality !== null) {
+        rows.push(`<dt>Steam link bytes</dt><dd>${escapeHtml(`QLo ${qLo} (${formatByteHex(qLo)}), QHi ${qHi} (${formatByteHex(qHi)}), raw ${formatWordHex(rawQuality)}`)}</dd>`);
+      }
+      rows.push("<dt>Steam note</dt><dd>Recovered STEAMBOX.equip matches nearby steam-family helpers by QLo and forwards them into event 0/1 control lanes.</dd>");
+    }
+
+    if (definition.shape === ALARMHAT_SHAPE) {
+      rows.push("<dt>Decoded class</dt><dd>ALARMHAT</dd>");
+      if (item?.frame === 0) {
+        rows.push("<dt>Alarm lane</dt><dd>Frame 0 is the direct local alarm scan: it walks nearby 0x04D0 helpers and targets their frame-0 state.</dd>");
+      } else {
+        rows.push("<dt>Alarm lane</dt><dd>Nonzero frames add on-screen and nearby-actor gating before the same local 0x04D0 helper scan runs.</dd>");
+      }
+    }
+
+    if (definition.shape === ALRMTRIG_SHAPE) {
+      rows.push("<dt>Decoded class</dt><dd>ALRMTRIG</dd>");
+      if (rawMapNum !== null) {
+        rows.push(`<dt>Alert lane byte</dt><dd>${escapeHtml(`${rawMapNum} (${formatByteHex(rawMapNum)}): zero selects base lanes 0/1, nonzero selects 0x80/0x81.`)}</dd>`);
+      }
+      rows.push("<dt>Alert note</dt><dd>Recovered ALRMTRIG.equip only checks map-array state and World.getAlertActive() before dispatching one of four TRIGGER lanes.</dd>");
     }
 
     return rows.join("");

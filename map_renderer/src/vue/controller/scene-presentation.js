@@ -7,6 +7,7 @@ export function createScenePresentationController(deps) {
     overlayTooltip,
     inspectShapesCheckbox,
     includeEditorCheckbox,
+    showEditorLinkArrowsCheckbox,
     includeRoofsCheckbox,
     includeOobCheckbox,
     showBoundingBoxesCheckbox,
@@ -70,6 +71,19 @@ export function createScenePresentationController(deps) {
   const itemPreviewCanvasCache = new Map();
   const TELEPORTER_LIGHTS_SHAPE = 0x01db;
   const ELEVATOR_SHAPE = 0x021e;
+  const EVENT_SHAPE = 0x0361;
+  const CMD_LINK_SHAPE = 0x04b1;
+  const SKILLBOX_SHAPE = 0x04e3;
+  const DOOR_DEATH_HELPER_SHAPE = 0x04f8;
+  const STEAMBOX_SHAPE = 0x0500;
+  const ALARMHAT_SHAPE = 0x0561;
+  const ALRMTRIG_SHAPE = 0x0581;
+  const MONSTER_SPAWNER_SHAPE = 0x04d0;
+  const STEAM_TARGET_SHAPES = new Set([0x03a9, 0x04f9, 0x04fa, 0x04fd, 0x0511]);
+  const DOOR_TARGET_SHAPES = new Set([0x0005, 0x0046, 0x007b, 0x0095, 0x0099, 0x00a9, 0x030a, 0x030b, 0x03f8, 0x03ff]);
+  const LOCAL_EDITOR_LINK_DISTANCE = 768;
+  const LOCAL_ALARM_LINK_DISTANCE = 512;
+  const LOCAL_DOOR_LINK_DISTANCE = 640;
 
   function sceneToViewportRect(item) {
     return {
@@ -128,6 +142,38 @@ export function createScenePresentationController(deps) {
 
   function isEggItem(item) {
     return Boolean(item?.egg);
+  }
+
+  function getQualityLowByte(item) {
+    return Number.isInteger(item?.quality) ? (item.quality & 0xff) : null;
+  }
+
+  function getMapByte(item) {
+    return Number.isInteger(item?.mapNum) ? (item.mapNum & 0xff) : null;
+  }
+
+  function getShapeNumber(item) {
+    const definition = getShapeDefinition(item?.shapeDefId);
+    return Number.isInteger(definition?.shape) ? definition.shape : null;
+  }
+
+  function isWithinLinkDistance(left, right, maxDistance) {
+    if (!left || !right) {
+      return false;
+    }
+    return Math.hypot(left.world.x - right.world.x, left.world.y - right.world.y) <= maxDistance;
+  }
+
+  function pushUniqueLink(links, seenKeys, source, target, options) {
+    if (!source || !target || source.id === target.id) {
+      return;
+    }
+    const key = `${source.id}->${target.id}:${options.label}`;
+    if (seenKeys.has(key)) {
+      return;
+    }
+    seenKeys.add(key);
+    links.push({ source, target, ...options });
   }
 
   function getTeleportLinkMetadata(item) {
@@ -1041,6 +1087,119 @@ export function createScenePresentationController(deps) {
       }));
   }
 
+  function getEditorHelperArrowLinks() {
+    if (!state.current || !includeEditorCheckbox.checked || !showEditorLinkArrowsCheckbox.checked) {
+      return [];
+    }
+
+    const visibleItems = state.current.scene.items.filter((item) => isDrawableLinkItem(item));
+    const byShape = new Map();
+    for (const item of visibleItems) {
+      const shape = getShapeNumber(item);
+      if (!Number.isInteger(shape)) {
+        continue;
+      }
+      const existing = byShape.get(shape) ?? [];
+      existing.push(item);
+      byShape.set(shape, existing);
+    }
+
+    const links = [];
+    const seenKeys = new Set();
+
+    for (const source of byShape.get(ALARMHAT_SHAPE) ?? []) {
+      for (const target of byShape.get(MONSTER_SPAWNER_SHAPE) ?? []) {
+        if (target.frame !== 0 || !isWithinLinkDistance(source, target, LOCAL_ALARM_LINK_DISTANCE)) {
+          continue;
+        }
+        pushUniqueLink(links, seenKeys, source, target, {
+          color: "rgba(92, 181, 255, 0.88)",
+          dashed: [5, 4],
+          label: "ALARMHAT local alarm"
+        });
+      }
+    }
+
+    for (const source of byShape.get(DOOR_DEATH_HELPER_SHAPE) ?? []) {
+      const sourceQlo = getQualityLowByte(source);
+      if (!Number.isInteger(sourceQlo)) {
+        continue;
+      }
+      for (const target of visibleItems) {
+        const targetShape = getShapeNumber(target);
+        if (!DOOR_TARGET_SHAPES.has(targetShape) || getQualityLowByte(target) !== sourceQlo || !isWithinLinkDistance(source, target, LOCAL_DOOR_LINK_DISTANCE)) {
+          continue;
+        }
+        pushUniqueLink(links, seenKeys, source, target, {
+          color: "rgba(230, 111, 81, 0.9)",
+          dashed: [3, 4],
+          label: `Door death QLo ${sourceQlo}`
+        });
+      }
+    }
+
+    for (const source of byShape.get(STEAMBOX_SHAPE) ?? []) {
+      const sourceQlo = getQualityLowByte(source);
+      if (!Number.isInteger(sourceQlo)) {
+        continue;
+      }
+      for (const target of visibleItems) {
+        const targetShape = getShapeNumber(target);
+        if (!STEAM_TARGET_SHAPES.has(targetShape) || getQualityLowByte(target) !== sourceQlo || !isWithinLinkDistance(source, target, LOCAL_EDITOR_LINK_DISTANCE)) {
+          continue;
+        }
+        pushUniqueLink(links, seenKeys, source, target, {
+          color: "rgba(78, 205, 196, 0.9)",
+          dashed: [8, 4],
+          label: `STEAMBOX QLo ${sourceQlo}`
+        });
+      }
+    }
+
+    const controllerShapes = new Set([EVENT_SHAPE, SKILLBOX_SHAPE]);
+    const controllerTargets = byShape.get(CMD_LINK_SHAPE) ?? [];
+    for (const source of visibleItems) {
+      const sourceShape = getShapeNumber(source);
+      if (!controllerShapes.has(sourceShape)) {
+        continue;
+      }
+      const sourceQlo = getQualityLowByte(source);
+      if (!Number.isInteger(sourceQlo)) {
+        continue;
+      }
+      for (const target of controllerTargets) {
+        if (getQualityLowByte(target) !== sourceQlo || !isWithinLinkDistance(source, target, LOCAL_EDITOR_LINK_DISTANCE)) {
+          continue;
+        }
+        const labelPrefix = sourceShape === EVENT_SHAPE ? "EVENT" : "SKILLBOX";
+        pushUniqueLink(links, seenKeys, source, target, {
+          color: "rgba(244, 162, 97, 0.92)",
+          dashed: [6, 3],
+          label: `${labelPrefix} -> cmd QLo ${sourceQlo}`
+        });
+      }
+    }
+
+    for (const source of byShape.get(ALRMTRIG_SHAPE) ?? []) {
+      const sourceMapByte = getMapByte(source);
+      if (!Number.isInteger(sourceMapByte)) {
+        continue;
+      }
+      for (const target of controllerTargets) {
+        if (getMapByte(target) !== sourceMapByte || !isWithinLinkDistance(source, target, LOCAL_EDITOR_LINK_DISTANCE)) {
+          continue;
+        }
+        pushUniqueLink(links, seenKeys, source, target, {
+          color: "rgba(233, 196, 106, 0.84)",
+          dashed: [2, 4],
+          label: `ALRMTRIG lane ${sourceMapByte}`
+        });
+      }
+    }
+
+    return links;
+  }
+
   function strokeArrow(targetContext, scale, offsetX, offsetY, sourcePoint, targetPoint, { color, dashed }) {
     const startX = sourcePoint.x * scale + offsetX;
     const startY = sourcePoint.y * scale + offsetY;
@@ -1083,15 +1242,19 @@ export function createScenePresentationController(deps) {
   }
 
   function drawLinkArrows(targetContext, canvasWidth, canvasHeight, scale, offsetX, offsetY) {
-    if (!state.current || !showLinkArrowsCheckbox.checked) {
+    if (!state.current) {
       return;
     }
 
-    const links = [
-      ...getTeleportArrowLinks(),
-      ...getElevatorArrowLinks(),
-      ...getFocusedMonsterSpawnerArrowLinks()
-    ];
+    const links = [];
+    if (showLinkArrowsCheckbox.checked) {
+      links.push(
+        ...getTeleportArrowLinks(),
+        ...getElevatorArrowLinks(),
+        ...getFocusedMonsterSpawnerArrowLinks()
+      );
+    }
+    links.push(...getEditorHelperArrowLinks());
     if (!links.length) {
       return;
     }
