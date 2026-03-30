@@ -1,10 +1,11 @@
 import fs from "node:fs";
 import path from "node:path";
 
-import { APP_ROOT, MISSION_MAP_CACHE_FILE } from "../config.js";
+import { APP_ROOT, MISSION_MAP_CACHE_FILE, GAMES } from "../config.js";
 import { readU16LE } from "./binary.js";
 
-const SIBLING_PRIVATE_REPO_ROOT = path.resolve(APP_ROOT, "..", "..", "Crusader_Decomp");
+// Prefer retail executables found in the static export folders next to the renderer.
+// Fall back to env var or the renderer root if needed.
 
 const PROFILES = {
   remorse: {
@@ -44,9 +45,12 @@ function segmentAddress(profile, offset) {
 }
 
 function resolveExePath(profile) {
+  const gameEntry = GAMES.find((g) => g.id === profile.game);
   const candidates = [
     process.env[profile.envVar],
-    path.join(SIBLING_PRIVATE_REPO_ROOT, profile.exeName),
+    // Check the game's staticDir (e.g. STATIC or STATIC_REGRET)
+    gameEntry && gameEntry.staticDir ? path.join(gameEntry.staticDir, profile.exeName) : null,
+    // Finally check alongside the renderer root
     path.join(APP_ROOT, profile.exeName)
   ].filter(Boolean);
 
@@ -57,7 +61,7 @@ function resolveExePath(profile) {
   }
 
   throw new Error(
-    `Missing ${profile.exeName}. Set ${profile.envVar} or place the retail executable beside the renderer or in ${SIBLING_PRIVATE_REPO_ROOT}.`
+    `Missing ${profile.exeName}. Set ${profile.envVar} or place the retail executable in the game's static export folder (STATIC or STATIC_REGRET) or beside the renderer.`
   );
 }
 
