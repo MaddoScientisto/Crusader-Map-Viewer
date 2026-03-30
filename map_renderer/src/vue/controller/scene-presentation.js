@@ -68,6 +68,8 @@ export function createScenePresentationController(deps) {
   let renderFrame = 0;
   const npcPreviewCanvasCache = new Map();
   const itemPreviewCanvasCache = new Map();
+  const TELEPORTER_LIGHTS_SHAPE = 0x01db;
+  const ELEVATOR_SHAPE = 0x021e;
 
   function sceneToViewportRect(item) {
     return {
@@ -126,6 +128,64 @@ export function createScenePresentationController(deps) {
 
   function isEggItem(item) {
     return Boolean(item?.egg);
+  }
+
+  function getTeleportLinkMetadata(item) {
+    if (!item) {
+      return null;
+    }
+
+    if (Number.isInteger(item.egg?.labelId)) {
+      if (item.egg?.type === "teleporter" || item.egg?.type === "teleport-destination") {
+        return {
+          type: item.egg.type,
+          labelId: item.egg.labelId,
+          evidence: "egg"
+        };
+      }
+    }
+
+    const definition = getShapeDefinition(item.shapeDefId);
+    // Retail Remorse and Regret both use 0x01DB placements as non-egg teleporter carriers.
+    // Frame 1 covers the previously confirmed teleporter-lights lane, while Regret map 3 also
+    // uses colocated frame 0 records that hold the actual destination id in quality.
+    if (definition?.shape === TELEPORTER_LIGHTS_SHAPE && (item.frame === 0 || item.frame === 1) && Number.isInteger(item.quality)) {
+      return {
+        type: "teleporter",
+        labelId: item.quality & 0xff,
+        evidence: item.frame === 1 ? "teleporter-lights" : "telepad"
+      };
+    }
+
+    return null;
+  }
+
+  function getElevatorLinkMetadata(item) {
+    if (!item) {
+      return null;
+    }
+
+    const definition = getShapeDefinition(item.shapeDefId);
+    if (definition?.shape !== ELEVATOR_SHAPE || item.frame !== 0 || !Number.isInteger(item.quality)) {
+      return null;
+    }
+
+    const qlo = item.quality & 0xff;
+    if (qlo >= 1 && qlo <= 0x0f) {
+      return {
+        labelId: qlo,
+        evidence: "elevator-qlo"
+      };
+    }
+
+    if (qlo === 0x10) {
+      return {
+        labelId: 4,
+        evidence: "elevator-qlo-special"
+      };
+    }
+
+    return null;
   }
 
   function setEggPlacementWarning(message) {
@@ -877,7 +937,7 @@ export function createScenePresentationController(deps) {
     if (state.current.hiddenIds.has(item.id)) {
       return false;
     }
-    return isItemVisible(item) || isEggItem(item);
+    return isItemVisible(item) || Boolean(getTeleportLinkMetadata(item)) || Boolean(getElevatorLinkMetadata(item)) || isEggItem(item);
   }
 
   function getTeleportArrowLinks() {
@@ -887,21 +947,22 @@ export function createScenePresentationController(deps) {
 
     const teleportersById = new Map();
     const destinationsById = new Map();
-    for (const item of state.current.eggs) {
-      if (!isDrawableLinkItem(item) || !Number.isInteger(item.egg?.labelId)) {
+    for (const item of state.current.scene.items) {
+      const teleportLink = getTeleportLinkMetadata(item);
+      if (!isDrawableLinkItem(item) || !Number.isInteger(teleportLink?.labelId)) {
         continue;
       }
-      const bucket = item.egg.type === "teleporter"
+      const bucket = teleportLink.type === "teleporter"
         ? teleportersById
-        : item.egg.type === "teleport-destination"
+        : teleportLink.type === "teleport-destination"
           ? destinationsById
           : null;
       if (!bucket) {
         continue;
       }
-      const existing = bucket.get(item.egg.labelId) ?? [];
+      const existing = bucket.get(teleportLink.labelId) ?? [];
       existing.push(item);
-      bucket.set(item.egg.labelId, existing);
+      bucket.set(teleportLink.labelId, existing);
     }
 
     const links = [];
@@ -915,6 +976,46 @@ export function createScenePresentationController(deps) {
             color: "rgba(232, 184, 78, 0.94)",
             dashed: [],
             label: `Teleport ${labelId}`
+          });
+        }
+      }
+    }
+    return links;
+  }
+
+  function getElevatorArrowLinks() {
+    if (!state.current) {
+      return [];
+    }
+
+    const elevatorsById = new Map();
+    const destinationsById = new Map();
+    for (const item of state.current.scene.items) {
+      const elevatorLink = getElevatorLinkMetadata(item);
+      const teleportLink = getTeleportLinkMetadata(item);
+      if (isDrawableLinkItem(item) && Number.isInteger(elevatorLink?.labelId)) {
+        const existing = elevatorsById.get(elevatorLink.labelId) ?? [];
+        existing.push(item);
+        elevatorsById.set(elevatorLink.labelId, existing);
+      }
+      if (isDrawableLinkItem(item) && teleportLink?.type === "teleport-destination" && Number.isInteger(teleportLink.labelId)) {
+        const existing = destinationsById.get(teleportLink.labelId) ?? [];
+        existing.push(item);
+        destinationsById.set(teleportLink.labelId, existing);
+      }
+    }
+
+    const links = [];
+    for (const [labelId, elevators] of elevatorsById.entries()) {
+      const destinations = destinationsById.get(labelId) ?? [];
+      for (const source of elevators) {
+        for (const target of destinations) {
+          links.push({
+            source,
+            target,
+            color: "rgba(124, 210, 135, 0.94)",
+            dashed: [6, 4],
+            label: `Elevator ${labelId}`
           });
         }
       }
@@ -988,6 +1089,7 @@ export function createScenePresentationController(deps) {
 
     const links = [
       ...getTeleportArrowLinks(),
+      ...getElevatorArrowLinks(),
       ...getFocusedMonsterSpawnerArrowLinks()
     ];
     if (!links.length) {
