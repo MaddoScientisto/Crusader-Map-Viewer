@@ -112,6 +112,89 @@ export function createSceneRuntimeController(deps) {
   } = deps;
 
   let autoBuildTimer = null;
+  const VIEWER_PREFERENCES_STORAGE_KEY = "crusader-map-renderer:viewer-preferences";
+  const persistedCheckboxes = [
+    ["includeEditor", includeEditorCheckbox],
+    ["alwaysShowNpcPreviews", alwaysShowNpcPreviewsCheckbox],
+    ["alwaysShowItemPreviews", alwaysShowItemPreviewsCheckbox],
+    ["includeRoofs", includeRoofsCheckbox],
+    ["includeOob", includeOobCheckbox],
+    ["showBoundingBoxes", showBoundingBoxesCheckbox],
+    ["showLinkArrows", showLinkArrowsCheckbox],
+    ["inspectShapes", inspectShapesCheckbox],
+    ["showEggLabels", showEggLabelsCheckbox],
+    ["eggFilterTeleportDestination", EGG_FILTERS[0]?.checkbox],
+    ["eggFilterTeleporter", EGG_FILTERS[1]?.checkbox],
+    ["eggFilterMonster", EGG_FILTERS[2]?.checkbox],
+    ["eggFilterUsecode", EGG_FILTERS[3]?.checkbox],
+    ["eggFilterGlob", EGG_FILTERS[4]?.checkbox],
+    ["monsterSpawnerFilterBlocked", monsterSpawnerFilterBlockedCheckbox]
+  ].filter(([, checkbox]) => Boolean(checkbox));
+
+  function readViewerPreferences() {
+    try {
+      const raw = window.localStorage?.getItem(VIEWER_PREFERENCES_STORAGE_KEY);
+      if (!raw) {
+        return null;
+      }
+      const parsed = JSON.parse(raw);
+      return parsed && typeof parsed === "object" ? parsed : null;
+    } catch {
+      return null;
+    }
+  }
+
+  function writeViewerPreferences() {
+    try {
+      const options = Object.fromEntries(
+        persistedCheckboxes.map(([key, checkbox]) => [key, checkbox.checked])
+      );
+      window.localStorage?.setItem(
+        VIEWER_PREFERENCES_STORAGE_KEY,
+        JSON.stringify({
+          selectedMap: getSelectedMap(),
+          options
+        })
+      );
+    } catch {
+      // Ignore storage failures so the viewer still works in restricted environments.
+    }
+  }
+
+  function restoreViewerOptions(preferences) {
+    const options = preferences?.options;
+    if (!options || typeof options !== "object") {
+      return;
+    }
+    for (const [key, checkbox] of persistedCheckboxes) {
+      if (typeof options[key] === "boolean") {
+        checkbox.checked = options[key];
+      }
+    }
+  }
+
+  function restoreSelectedMap(preferences) {
+    const selectedMap = preferences?.selectedMap;
+    if (!selectedMap || typeof selectedMap !== "object") {
+      return false;
+    }
+
+    const nextValue = JSON.stringify({
+      game: selectedMap.game,
+      mapId: selectedMap.mapId
+    });
+    const matchingOption = [...mapSelect.options].find((option) => option.value === nextValue);
+    if (!matchingOption) {
+      mapSelect.value = "";
+      writeViewerPreferences();
+      return false;
+    }
+
+    mapSelect.value = nextValue;
+    updateMapNavigationState();
+    writeViewerPreferences();
+    return true;
+  }
 
   function clientToScenePoint(clientX, clientY) {
     const rect = viewport.getBoundingClientRect();
@@ -702,52 +785,68 @@ export function createSceneRuntimeController(deps) {
 
     mapSelect.addEventListener("change", () => {
       updateMapNavigationState();
+      writeViewerPreferences();
       scheduleAutoBuild();
     });
-    mapPrevButton.addEventListener("click", () => stepSelectedMap(-1, scheduleAutoBuild));
-    mapNextButton.addEventListener("click", () => stepSelectedMap(1, scheduleAutoBuild));
+    mapPrevButton.addEventListener("click", () => stepSelectedMap(-1, () => {
+      writeViewerPreferences();
+      scheduleAutoBuild();
+    }));
+    mapNextButton.addEventListener("click", () => stepSelectedMap(1, () => {
+      writeViewerPreferences();
+      scheduleAutoBuild();
+    }));
     includeEditorCheckbox.addEventListener("change", () => {
+      writeViewerPreferences();
       if (state.current) {
         setMeta(state.current.metadata);
         scheduleRender();
       }
     });
     alwaysShowNpcPreviewsCheckbox.addEventListener("change", () => {
+      writeViewerPreferences();
       if (state.current) {
         scheduleRender();
       }
     });
     alwaysShowItemPreviewsCheckbox.addEventListener("change", () => {
+      writeViewerPreferences();
       if (state.current) {
         scheduleRender();
       }
     });
     includeRoofsCheckbox.addEventListener("change", () => {
+      writeViewerPreferences();
       if (state.current) {
         setMeta(state.current.metadata);
         scheduleRender();
       }
     });
     includeOobCheckbox.addEventListener("change", () => {
+      writeViewerPreferences();
       if (state.current) {
         setMeta(state.current.metadata);
         scheduleRender();
       }
     });
     showBoundingBoxesCheckbox.addEventListener("change", () => {
+      writeViewerPreferences();
       if (state.current) {
         setMeta(state.current.metadata);
       }
       scheduleRender();
     });
     showLinkArrowsCheckbox.addEventListener("change", () => {
+      writeViewerPreferences();
       scheduleRender();
     });
     inspectShapesCheckbox.addEventListener("change", () => {
+      writeViewerPreferences();
       setInspectMode(inspectShapesCheckbox.checked);
       scheduleRender();
     });
     showEggLabelsCheckbox.addEventListener("change", () => {
+      writeViewerPreferences();
       scheduleRender();
     });
     addEggButton.addEventListener("click", () => {
@@ -771,11 +870,13 @@ export function createSceneRuntimeController(deps) {
 
     for (const { checkbox } of EGG_FILTERS) {
       checkbox.addEventListener("change", () => {
+        writeViewerPreferences();
         renderEggList();
         scheduleRender();
       });
     }
     monsterSpawnerFilterBlockedCheckbox.addEventListener("change", () => {
+      writeViewerPreferences();
       renderMonsterSpawnerList();
     });
 
@@ -1003,10 +1104,18 @@ export function createSceneRuntimeController(deps) {
   }
 
   async function bootstrap() {
+    const viewerPreferences = readViewerPreferences();
+    restoreViewerOptions(viewerPreferences);
+    setInspectMode(inspectShapesCheckbox.checked);
     state.siteConfig = await loadSiteConfig();
     await loadNpcSpawnerData(state.siteConfig);
     applySiteConfig(setReloadState);
     await loadCatalog();
+    if (restoreSelectedMap(viewerPreferences)) {
+      scheduleAutoBuild();
+      return;
+    }
+    writeViewerPreferences();
   }
 
   function initialize() {
