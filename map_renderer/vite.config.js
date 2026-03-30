@@ -6,6 +6,7 @@ import { fileURLToPath } from "node:url";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig({
+  base: "./",
   plugins: [vue()],
   root: path.join(__dirname, "src", "vue"),
   build: {
