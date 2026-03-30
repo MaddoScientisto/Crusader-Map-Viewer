@@ -157,7 +157,7 @@ shape_code,human_readable_id,description,roof,semitransparency,OOB,categorizatio
 0x009e,,,,,,terrain,0
 0x009f,,,,,,terrain,0
 0x00a0,,,,,,terrain,0
-0x00a1,,,,,,base,2;3;5;6;55;61;265;777;784;785;787;789;794;823;967
+0x00a1,PANELNS,Directional panel switch; use dispatches TRIGGER lane 0 when active. Editor arrows use local same-QLo cmd-link matches.,,,,base,base
 0x00a2,,,,,,base,8;259;261;491;781;787;791;792;793;795
 0x00a3,,,,,,base,16473
 0x00a4,,,,,,base,0
@@ -734,7 +734,7 @@ shape_code,human_readable_id,description,roof,semitransparency,OOB,categorizatio
 0x0318,PLACEHOLDER_CUBE,Placeholder UI element,,,,editor,4;40
 0x0319,npcdeath_shape_0319,Auto-derived from NPCDEATH self-shape comparison in USECODE,,,,,
 0x031b,,,,,,terrain,0
-0x031d,,,,,,base,262;267;788
+0x031d,CARD_NS,Keycard switch; SWITCH::ordinal21 reads QLo as the card id and dispatches TRIGGER lane 0 or 1.,,,,base,base
 0x031e,,,,,,base,258;259;262;276;769;770;780
 0x0321,,,,,,base,0
 0x0329,FORCEFIELD_NW,,,true,,roof,2;3;5;9;10;11;17;20;29;255
@@ -783,7 +783,7 @@ shape_code,human_readable_id,description,roof,semitransparency,OOB,categorizatio
 0x0363,,Editor Object,,,,editor,11;190;277
 0x0364,DEATH_PLANE,Kills player on contact,,,,terrain,0
 0x0365,,Editor Object,,,,terrain,22;55;61;711
-0x0366,,Editor Object,,,,terrain,34;53;259;281;284;799;2054;2056;2058;2060;2061;2063;2064;2066;2067;2070;2074;2079;2080;2082;2084;2095;2098;2101;2114;2247;4101;4107;4111;4112;4119;4120;4124;4151;6154;6159;6168;6174;6194;6195;6208;8216;15361;15363;15375;16386;16401;20505;24586;24595;26631
+0x0366,NPC_ONLY,NPC-only trigger pad; requires Actor field 0x63 to match QLo before it flips frame and dispatches TRIGGER lanes 0 or 1.,,,,terrain,terrain
 0x0367,,,,,,base,99
 0x0368,,,,,,,
 0x0369,,,,,,,
@@ -841,7 +841,7 @@ shape_code,human_readable_id,description,roof,semitransparency,OOB,categorizatio
 0x03a7,OOB_WALL_BLACK_03A7,,,,true,base,22
 0x03a8,,,,,,base,22
 0x03a9,,,,,,editor,2;5
-0x03aa,,,,,,terrain,31;257;260;264;265;274;275;283;779;781;807;2814;65533
+0x03aa,SPANEL,Switch panel; use dispatches TRIGGER lane 0 and BRO_BOOT toggles nearby SPANEL helpers by shared QLo.,,,,terrain,terrain
 0x03ab,,,,,,base,0
 0x03ac,npcdeath_shape_03ac,Auto-derived from NPCDEATH self-shape comparison in USECODE,,,,helper,0
 0x03ad,,,,,,terrain,5
@@ -926,7 +926,7 @@ shape_code,human_readable_id,description,roof,semitransparency,OOB,categorizatio
 0x0400,,,,,,base,0;25
 0x0401,,,,,,base,0;25;5148
 0x0402,,,,,,base,0
-0x0403,,Editor Object,,,,editor,7;20;21;24
+0x0403,FLAMEBOX,Flame controller; scans nearby flame helper shapes by shared QLo and can swap them into active flame actors.,,,,editor,editor
 0x0404,,,,,,base,0
 0x0405,,,,,,base,0
 0x0406,,,,,,base,0
@@ -1093,7 +1093,7 @@ shape_code,human_readable_id,description,roof,semitransparency,OOB,categorizatio
 0x04e3,,Editor Object,,,,editor,0;1;11;17;60;785;2572;11535
 0x04e5,,,,,,base,0;257
 0x04e6,,,,,,helper,0
-0x04e7,,,,,,editor,257;261;790;804;19217
+0x04e7,DEATHBOX,NPC-death helper; matches a death-link QLo,,,,editor,257;261;790;804;19217
 0x04e8,,,,,,base,0
 0x04e9,,,,,,base,0
 0x04ea,,,,,,base,0
@@ -1114,7 +1114,7 @@ shape_code,human_readable_id,description,roof,semitransparency,OOB,categorizatio
 0x04fa,,,,,,base,25;26
 0x04fc,,Editor Object,,,,editor,106;119;122
 0x04fd,,,,,,,
-0x04fe,,,,,,editor,548;13568;13824;18432;18944;19200;19712;20224;21504;21760;22528;22784;23808;24064;25600;26112;26880;27136;27392;30464;30720;30976;31232;31234;32000;33536;34048;34304;34560;34816;35072;35328;35584;35840;36352;36608;37632;38144;38400;38656;38912;39168;39424;40704;42496;43008;43264;43520;44032;44288;44544;44800;45824;46592;46848;47104;47616;50688;50944;51200;51456;54784;55040;55296;55552;56320;58880;62208;62464;62720;62976;63232;63488;63744;64000;64768
+0x04fe,BRO_BOOT,BRO_BOOT helper; enterFastArea toggles nearby SPANEL items by shared QLo and drives its own boot-frame animation.,,,,editor,editor
 0x04ff,,,,,,terrain,51450
 0x0500,,,,,,editor,2;5;27;28
 0x0501,,,,,,base,0

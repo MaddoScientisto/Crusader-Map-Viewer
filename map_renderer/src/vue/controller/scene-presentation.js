@@ -70,9 +70,13 @@ export function createScenePresentationController(deps) {
   const npcPreviewCanvasCache = new Map();
   const itemPreviewCanvasCache = new Map();
   let arrowGraphCache = null;
+  const PANELNS_SHAPE = 0x00a1;
+  const CARD_NS_SHAPE = 0x031d;
   const TELEPORTER_LIGHTS_SHAPE = 0x01db;
   const ELEVATOR_SHAPE = 0x021e;
   const EVENT_SHAPE = 0x0361;
+  const SPANEL_SHAPE = 0x03aa;
+  const FLAMEBOX_SHAPE = 0x0403;
   const CMD_LINK_SHAPE = 0x04b1;
   const SKILLBOX_SHAPE = 0x04e3;
   const DOOR_DEATH_HELPER_SHAPE = 0x04f8;
@@ -80,6 +84,7 @@ export function createScenePresentationController(deps) {
   const ALARMHAT_SHAPE = 0x0561;
   const ALRMTRIG_SHAPE = 0x0581;
   const MONSTER_SPAWNER_SHAPE = 0x04d0;
+  const FLAME_HELPER_SHAPES = new Set([0x0438, 0x0439, 0x043a, 0x043b, 0x050a, 0x0518]);
   const STEAM_TARGET_SHAPES = new Set([0x03a9, 0x04f9, 0x04fa, 0x04fd, 0x0511]);
   const DOOR_TARGET_SHAPES = new Set([0x0005, 0x0046, 0x007b, 0x0095, 0x0099, 0x00a9, 0x030a, 0x030b, 0x03f8, 0x03ff]);
   const LOCAL_EDITOR_LINK_DISTANCE = 768;
@@ -181,17 +186,14 @@ export function createScenePresentationController(deps) {
     };
   }
 
-  function getCmdLinkCandidates(item, visibleItems) {
+  function getCmdLinkCandidates(item, byShape) {
     const metadata = getCmdLinkMetadata(item);
     if (!metadata || metadata.targetKind !== "exact-shape") {
       return [];
     }
 
-    return visibleItems.filter((candidate) => {
+    return (byShape.get(metadata.targetCode) ?? []).filter((candidate) => {
       if (candidate.id === item.id) {
-        return false;
-      }
-      if (getShapeNumber(candidate) !== metadata.targetCode) {
         return false;
       }
       if (!isWithinLinkDistance(item, candidate, LOCAL_EDITOR_LINK_DISTANCE)) {
@@ -225,6 +227,18 @@ export function createScenePresentationController(deps) {
     }
     seenKeys.add(key);
     links.push({ source, target, ...options });
+  }
+
+  function addItemToBucket(map, key, item) {
+    if (!Number.isInteger(key)) {
+      return;
+    }
+    const existing = map.get(key);
+    if (existing) {
+      existing.push(item);
+      return;
+    }
+    map.set(key, [item]);
   }
 
   function getTeleportLinkMetadata(item) {
@@ -1115,13 +1129,36 @@ export function createScenePresentationController(deps) {
   function buildEditorHelperArrowLinks(visibleItems, byShape) {
     const links = [];
     const seenKeys = new Set();
+    const controllerTargets = byShape.get(CMD_LINK_SHAPE) ?? [];
+    const monsterSpawnerTargets = (byShape.get(MONSTER_SPAWNER_SHAPE) ?? []).filter((item) => item.frame === 0);
+    const controllerTargetsByQlo = new Map();
+    const controllerTargetsByMapByte = new Map();
+
+    const buildQloIndexForShapes = (shapes) => {
+      const index = new Map();
+      for (const shape of shapes) {
+        for (const item of byShape.get(shape) ?? []) {
+          addItemToBucket(index, getQualityLowByte(item), item);
+        }
+      }
+      return index;
+    };
+
+    for (const target of controllerTargets) {
+      addItemToBucket(controllerTargetsByQlo, getQualityLowByte(target), target);
+      addItemToBucket(controllerTargetsByMapByte, getMapByte(target), target);
+    }
+
+    const doorTargetsByQlo = buildQloIndexForShapes(DOOR_TARGET_SHAPES);
+    const steamTargetsByQlo = buildQloIndexForShapes(STEAM_TARGET_SHAPES);
+    const flameTargetsByQlo = buildQloIndexForShapes(FLAME_HELPER_SHAPES);
 
     for (const source of byShape.get(CMD_LINK_SHAPE) ?? []) {
       const metadata = getCmdLinkMetadata(source);
       if (!metadata) {
         continue;
       }
-      const targets = getCmdLinkCandidates(source, visibleItems);
+      const targets = getCmdLinkCandidates(source, byShape);
       for (const target of targets) {
         const targetShape = getShapeNumber(target);
         const priorityDash = metadata.lowPriority ? [2, 6] : [6, 3];
@@ -1141,8 +1178,8 @@ export function createScenePresentationController(deps) {
     }
 
     for (const source of byShape.get(ALARMHAT_SHAPE) ?? []) {
-      for (const target of byShape.get(MONSTER_SPAWNER_SHAPE) ?? []) {
-        if (target.frame !== 0 || !isWithinLinkDistance(source, target, LOCAL_ALARM_LINK_DISTANCE)) {
+      for (const target of monsterSpawnerTargets) {
+        if (!isWithinLinkDistance(source, target, LOCAL_ALARM_LINK_DISTANCE)) {
           continue;
         }
         pushUniqueLink(links, seenKeys, source, target, {
@@ -1158,9 +1195,8 @@ export function createScenePresentationController(deps) {
       if (!Number.isInteger(sourceQlo)) {
         continue;
       }
-      for (const target of visibleItems) {
-        const targetShape = getShapeNumber(target);
-        if (!DOOR_TARGET_SHAPES.has(targetShape) || getQualityLowByte(target) !== sourceQlo || !isWithinLinkDistance(source, target, LOCAL_DOOR_LINK_DISTANCE)) {
+      for (const target of doorTargetsByQlo.get(sourceQlo) ?? []) {
+        if (!isWithinLinkDistance(source, target, LOCAL_DOOR_LINK_DISTANCE)) {
           continue;
         }
         pushUniqueLink(links, seenKeys, source, target, {
@@ -1176,9 +1212,8 @@ export function createScenePresentationController(deps) {
       if (!Number.isInteger(sourceQlo)) {
         continue;
       }
-      for (const target of visibleItems) {
-        const targetShape = getShapeNumber(target);
-        if (!STEAM_TARGET_SHAPES.has(targetShape) || getQualityLowByte(target) !== sourceQlo || !isWithinLinkDistance(source, target, LOCAL_EDITOR_LINK_DISTANCE)) {
+      for (const target of steamTargetsByQlo.get(sourceQlo) ?? []) {
+        if (!isWithinLinkDistance(source, target, LOCAL_EDITOR_LINK_DISTANCE)) {
           continue;
         }
         pushUniqueLink(links, seenKeys, source, target, {
@@ -1189,8 +1224,24 @@ export function createScenePresentationController(deps) {
       }
     }
 
-    const controllerShapes = new Set([EVENT_SHAPE, SKILLBOX_SHAPE]);
-    const controllerTargets = byShape.get(CMD_LINK_SHAPE) ?? [];
+    for (const source of byShape.get(FLAMEBOX_SHAPE) ?? []) {
+      const sourceQlo = getQualityLowByte(source);
+      if (!Number.isInteger(sourceQlo)) {
+        continue;
+      }
+      for (const target of flameTargetsByQlo.get(sourceQlo) ?? []) {
+        if (!isWithinLinkDistance(source, target, LOCAL_EDITOR_LINK_DISTANCE)) {
+          continue;
+        }
+        pushUniqueLink(links, seenKeys, source, target, {
+          color: "rgba(231, 111, 81, 0.9)",
+          dashed: [7, 3],
+          label: `FLAMEBOX QLo ${sourceQlo}`
+        });
+      }
+    }
+
+    const controllerShapes = new Set([EVENT_SHAPE, SKILLBOX_SHAPE, PANELNS_SHAPE, CARD_NS_SHAPE, SPANEL_SHAPE]);
     for (const source of visibleItems) {
       const sourceShape = getShapeNumber(source);
       if (!controllerShapes.has(sourceShape)) {
@@ -1200,11 +1251,19 @@ export function createScenePresentationController(deps) {
       if (!Number.isInteger(sourceQlo)) {
         continue;
       }
-      for (const target of controllerTargets) {
-        if (getQualityLowByte(target) !== sourceQlo || !isWithinLinkDistance(source, target, LOCAL_EDITOR_LINK_DISTANCE)) {
+      for (const target of controllerTargetsByQlo.get(sourceQlo) ?? []) {
+        if (!isWithinLinkDistance(source, target, LOCAL_EDITOR_LINK_DISTANCE)) {
           continue;
         }
-        const labelPrefix = sourceShape === EVENT_SHAPE ? "EVENT" : "SKILLBOX";
+        const labelPrefix = sourceShape === EVENT_SHAPE
+          ? "EVENT"
+          : sourceShape === SKILLBOX_SHAPE
+            ? "SKILLBOX"
+            : sourceShape === PANELNS_SHAPE
+              ? "PANELNS"
+              : sourceShape === CARD_NS_SHAPE
+                ? "CARD_NS"
+                : "SPANEL";
         pushUniqueLink(links, seenKeys, source, target, {
           color: "rgba(244, 162, 97, 0.92)",
           dashed: [6, 3],
@@ -1218,8 +1277,8 @@ export function createScenePresentationController(deps) {
       if (!Number.isInteger(sourceMapByte)) {
         continue;
       }
-      for (const target of controllerTargets) {
-        if (getMapByte(target) !== sourceMapByte || !isWithinLinkDistance(source, target, LOCAL_EDITOR_LINK_DISTANCE)) {
+      for (const target of controllerTargetsByMapByte.get(sourceMapByte) ?? []) {
+        if (!isWithinLinkDistance(source, target, LOCAL_EDITOR_LINK_DISTANCE)) {
           continue;
         }
         pushUniqueLink(links, seenKeys, source, target, {
