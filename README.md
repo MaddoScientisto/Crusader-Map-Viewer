@@ -5,7 +5,7 @@ This repository contains two related things:
 - Work-in-progress disassembly and extraction scripts for Crusader: No Remorse and Crusader: No Regret usecode.
 - A map viewer web application that can be published as a static site (GitHub Pages) or run dynamically as a local Node/Docker service.
 
-Live demo (static export on GitHub Pages): https://maddoscientisto.github.io/crusader-map/viewer/
+Live demo (static export on GitHub Pages): https://maddoscientisto.github.io/Crusader-Map-Viewer/
 
 ## Static vs Dynamic viewer
 
