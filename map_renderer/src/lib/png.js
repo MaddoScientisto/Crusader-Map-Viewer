@@ -14,7 +14,21 @@ export function rgbaBuffer(width, height, color = DEFAULT_BACKGROUND) {
   return pixels;
 }
 
-export function blitFrame(buffer, canvasWidth, canvasHeight, left, top, frame, pixels, palette, flipped) {
+function resolveTranslucentColor(colorIndex, palette, xformRemap) {
+  if (!xformRemap || colorIndex < 0 || colorIndex >= xformRemap.length) {
+    return null;
+  }
+  const remappedIndex = xformRemap[colorIndex];
+  if (!Number.isInteger(remappedIndex) || remappedIndex < 0 || remappedIndex >= palette.length) {
+    return null;
+  }
+  const [r, g, b] = palette[remappedIndex];
+  return [r, g, b, 176];
+}
+
+export function blitFrame(buffer, canvasWidth, canvasHeight, left, top, frame, pixels, palette, flipped, options = {}) {
+  const translucent = options.translucent === true;
+  const xformRemap = options.xformRemap ?? null;
   for (let srcY = 0; srcY < frame.height; srcY += 1) {
     const dstY = top + srcY;
     if (dstY < 0 || dstY >= canvasHeight) {
@@ -32,11 +46,19 @@ export function blitFrame(buffer, canvasWidth, canvasHeight, left, top, frame, p
         continue;
       }
       const pixelBase = (dstY * canvasWidth + dstX) * 4;
+      const translucentColor = translucent ? resolveTranslucentColor(colorIndex, palette, xformRemap) : null;
+      if (translucentColor) {
+        buffer[pixelBase] = translucentColor[0];
+        buffer[pixelBase + 1] = translucentColor[1];
+        buffer[pixelBase + 2] = translucentColor[2];
+        buffer[pixelBase + 3] = translucentColor[3];
+        continue;
+      }
       const [r, g, b] = palette[colorIndex];
       buffer[pixelBase] = r;
       buffer[pixelBase + 1] = g;
       buffer[pixelBase + 2] = b;
-      buffer[pixelBase + 3] = 255;
+      buffer[pixelBase + 3] = translucent ? 176 : 255;
     }
   }
 }

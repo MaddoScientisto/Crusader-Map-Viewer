@@ -2,7 +2,7 @@ import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 
-import { SCENE_CACHE_ROOT, TILE_SIZE } from "../config.js";
+import { APP_ROOT, SCENE_CACHE_ROOT, TILE_SIZE } from "../config.js";
 import { packSprites } from "./atlas-packer.js";
 import { ensureShapeCatalogCoverage, getShapeCatalog } from "./catalog.js";
 import { getShapeNameTable } from "./dtable.js";
@@ -15,6 +15,7 @@ import {
   loadGlobs,
   loadMapItems,
   loadPalette,
+  loadXformPalette,
   loadTypeflags,
   resolveStaticFile,
   summarizeRenderClasses
@@ -25,7 +26,7 @@ import { extractNpcSpawnerRows } from "./npc-spawner-data.js";
 import { blitFrame, encodePng, rgbaBuffer } from "./png.js";
 import { prepareSortedItems } from "./sorting.js";
 
-const SCENE_CACHE_VERSION = "v9-atlas-scene-editable-map-source-npc-preview-monster-eggs-item-preview-mission-table-usage";
+const SCENE_CACHE_VERSION = "v10-atlas-scene-xformpal-translucency";
 const DTABLE_NPC_SHAPES = new Set([0x04d0]);
 const MONSTER_EGG_PREVIEW_SHAPE = 0x024f;
 const OBSERVER_PREVIEW_FRAME = 0x0f;
@@ -68,6 +69,21 @@ function removeLegacyOptionCacheDirs(mapCacheRoot) {
 function fileStamp(filePath) {
   const stat = fs.statSync(filePath);
   return `${path.basename(filePath)}:${stat.size}:${Math.trunc(stat.mtimeMs)}`;
+}
+
+function resolveOptionalXformPath(gameConfig) {
+  const explicitPath = gameConfig.id === "remorse" ? process.env.REMORSE_XFORMPAL_PATH : process.env.REGRET_XFORMPAL_PATH;
+  if (explicitPath && fs.existsSync(explicitPath)) {
+    return explicitPath;
+  }
+
+  const staticCandidate = path.join(gameConfig.staticDir, "XFORMPAL.DAT");
+  if (fs.existsSync(staticCandidate)) {
+    return staticCandidate;
+  }
+
+  const siblingCandidate = path.resolve(APP_ROOT, "..", "..", "Crusader", path.basename(gameConfig.staticDir), "XFORMPAL.DAT");
+  return fs.existsSync(siblingCandidate) ? siblingCandidate : null;
 }
 
 function classifySceneKind(item, info) {
@@ -468,7 +484,13 @@ function selectTeleportEggTemplate(baseItems, shapeInfos, shapeArchive) {
   };
 }
 
-function ensureSpriteEntry(spriteMap, shapeArchive, shape, frame) {
+function isSpriteTranslucent(shape, shapeInfos, catalogEntries) {
+  const info = shapeInfos[shape] ?? {};
+  const catalogEntry = catalogEntries.get(shape) ?? null;
+  return applyCatalogOverrides(info, catalogEntry).isTranslucent === true;
+}
+
+function ensureSpriteEntry(spriteMap, shapeArchive, shapeInfos, catalogEntries, shape, frame) {
   const spriteId = `sprite:${shape}:${frame}`;
   if (spriteMap.has(spriteId)) {
     return spriteId;
@@ -482,7 +504,8 @@ function ensureSpriteEntry(spriteMap, shapeArchive, shape, frame) {
     width: frameData.width,
     height: frameData.height,
     frameData,
-    pixels
+    pixels,
+    translucent: isSpriteTranslucent(shape, shapeInfos, catalogEntries)
   });
   return spriteId;
 }
@@ -720,6 +743,10 @@ export class BuildManager {
       resolveStaticFile(gameConfig.staticDir, "GLOB.FLX"),
       resolveStaticFile(gameConfig.staticDir, "SHAPES.FLX")
     ];
+    const xformPath = resolveOptionalXformPath(gameConfig);
+    if (xformPath) {
+      relevantFiles.push(xformPath);
+    }
 
     return sha1(
       JSON.stringify({
@@ -820,7 +847,8 @@ export class BuildManager {
     const globPath = resolveStaticFile(gameConfig.staticDir, "GLOB.FLX");
     const shapesPath = resolveStaticFile(gameConfig.staticDir, "SHAPES.FLX");
     const dtablePath = resolveStaticFile(gameConfig.staticDir, "DTABLE.FLX");
-    const stamp = [palettePath, typeflagPath, globPath, shapesPath, dtablePath].map((filePath) => fileStamp(filePath)).join("|");
+    const xformPath = resolveOptionalXformPath(gameConfig);
+    const stamp = [palettePath, typeflagPath, globPath, shapesPath, dtablePath, xformPath].filter(Boolean).map((filePath) => fileStamp(filePath)).join("|");
     const cached = this.assetCache.get(gameConfig.id);
     if (cached?.stamp === stamp) {
       return cached.assets;
@@ -830,6 +858,7 @@ export class BuildManager {
 
     const assets = {
       palette: loadPalette(palettePath),
+      xformPalette: xformPath ? loadXformPalette(xformPath) : null,
       shapeInfos: loadTypeflags(typeflagPath),
       globs: loadGlobs(globPath),
       shapeArchive: new ShapeArchive(shapesPath),
@@ -946,6 +975,7 @@ export class BuildManager {
     for (const [index, node] of sorted.prepared.entries()) {
       const spriteId = `sprite:${node.item.shape}:${node.item.frame}`;
       if (!spriteMap.has(spriteId)) {
+        const catalogEntry = catalogInfo.entries.get(node.item.shape) ?? null;
         spriteMap.set(spriteId, {
           id: spriteId,
           shape: node.item.shape,
@@ -953,23 +983,24 @@ export class BuildManager {
           width: node.frame.width,
           height: node.frame.height,
           frameData: node.frame,
-          pixels: node.pixels
+          pixels: node.pixels,
+          translucent: applyCatalogOverrides(node.info, catalogEntry).isTranslucent === true
         });
       }
 
       const npcPreview = npcPreviews[index];
       if (npcPreview) {
-        ensureSpriteEntry(spriteMap, assets.shapeArchive, npcPreview.shape, npcPreview.frame);
+        ensureSpriteEntry(spriteMap, assets.shapeArchive, assets.shapeInfos, catalogInfo.entries, npcPreview.shape, npcPreview.frame);
       }
 
       const itemPreview = itemPreviews[index];
       if (itemPreview) {
-        ensureSpriteEntry(spriteMap, assets.shapeArchive, itemPreview.shape, itemPreview.frame);
+        ensureSpriteEntry(spriteMap, assets.shapeArchive, assets.shapeInfos, catalogInfo.entries, itemPreview.shape, itemPreview.frame);
       }
     }
     if (teleportEggTemplate) {
       for (const frameIndex of new Set([teleportEggTemplate.teleporterFrame, teleportEggTemplate.destinationFrame])) {
-        ensureSpriteEntry(spriteMap, assets.shapeArchive, teleportEggTemplate.shape, frameIndex);
+        ensureSpriteEntry(spriteMap, assets.shapeArchive, assets.shapeInfos, catalogInfo.entries, teleportEggTemplate.shape, frameIndex);
       }
     }
 
@@ -989,7 +1020,10 @@ export class BuildManager {
       const buffer = rgbaBuffer(atlas.width, atlas.height, [0, 0, 0, 0]);
       for (const placed of atlas.sprites) {
         const sprite = spriteMap.get(placed.id);
-        blitFrame(buffer, atlas.width, atlas.height, placed.x, placed.y, sprite.frameData, sprite.pixels, assets.palette, false);
+        blitFrame(buffer, atlas.width, atlas.height, placed.x, placed.y, sprite.frameData, sprite.pixels, assets.palette, false, {
+          translucent: sprite.translucent,
+          xformRemap: assets.xformPalette?.primaryRemap ?? null
+        });
       }
       const fileName = `${atlas.id}.png`;
       const filePath = path.join(cacheDir, fileName);

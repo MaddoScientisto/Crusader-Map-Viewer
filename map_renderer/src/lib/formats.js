@@ -226,6 +226,17 @@ export function loadPalette(filePath) {
   return palette;
 }
 
+export function loadXformPalette(filePath) {
+  const archive = new FlexArchive(filePath);
+  const entry = archive.get(0);
+  if (entry.length < 0x100) {
+    throw new Error(`xform palette entry too small: ${filePath}`);
+  }
+  return {
+    primaryRemap: Uint8Array.from(entry.subarray(0, 0x100))
+  };
+}
+
 export function loadTypeflags(filePath) {
   const data = fs.readFileSync(filePath);
   const infos = [];
