@@ -70,6 +70,8 @@ export function createScenePresentationController(deps) {
   const npcPreviewCanvasCache = new Map();
   const itemPreviewCanvasCache = new Map();
   let arrowGraphCache = null;
+  const BOX_EW_SHAPE = 0x0080;
+  const FASTSKIL_SHAPE = 0x0120;
   const PANELNS_SHAPE = 0x00a1;
   const CARD_NS_SHAPE = 0x031d;
   const TELEPORTER_LIGHTS_SHAPE = 0x01db;
@@ -88,6 +90,7 @@ export function createScenePresentationController(deps) {
   const FLAME_HELPER_SHAPES = new Set([0x0438, 0x0439, 0x043a, 0x043b, 0x050a, 0x0518]);
   const STEAM_TARGET_SHAPES = new Set([0x03a9, 0x04f9, 0x04fa, 0x04fd, 0x0511]);
   const DOOR_TARGET_SHAPES = new Set([0x0005, 0x0046, 0x007b, 0x0095, 0x0099, 0x00a9, 0x030a, 0x030b, 0x03f8, 0x03ff]);
+  const LIGHT_BLUE_ARROW_RGB = "148, 220, 255";
   const LOCAL_EDITOR_LINK_DISTANCE = 768;
   const LOCAL_ALARM_LINK_DISTANCE = 512;
   const LOCAL_DOOR_LINK_DISTANCE = 640;
@@ -240,6 +243,29 @@ export function createScenePresentationController(deps) {
       return;
     }
     map.set(key, [item]);
+  }
+
+  function getFastSkillArrowVariants(item) {
+    const qLo = getQualityLowByte(item);
+    if (!Number.isInteger(qLo)) {
+      return [];
+    }
+    if (item?.frame === 2) {
+      return [
+        { qLo, labelPrefix: "FASTSKIL diff1" },
+        { qLo: (qLo + 1) & 0xff, labelPrefix: "FASTSKIL diff2" },
+        { qLo: (qLo + 2) & 0xff, labelPrefix: "FASTSKIL diff3+" }
+      ];
+    }
+    return [{ qLo, labelPrefix: "FASTSKIL" }];
+  }
+
+  function getBoxEwArrowVariants(item) {
+    const qLo = getQualityLowByte(item);
+    if (!Number.isInteger(qLo) || item?.frame !== 0) {
+      return [];
+    }
+    return [{ qLo, labelPrefix: "BOX_EW" }];
   }
 
   function getTeleportLinkMetadata(item) {
@@ -1168,8 +1194,16 @@ export function createScenePresentationController(deps) {
           ? "cmd"
           : metadata.subcommand === 0
             ? `cmd helper ${metadata.subcommandArg}`
+            : metadata.subcommand === 1
+              ? `cmd state ${metadata.subcommandArg}`
             : metadata.subcommand === 3
-              ? `cmd slot22 ${metadata.subcommandArg}`
+              ? `cmd pulse ${metadata.subcommandArg}`
+              : metadata.subcommand === 4
+                ? `cmd link +${metadata.subcommandArg}`
+                : metadata.subcommand === 5
+                  ? `cmd link -${metadata.subcommandArg}`
+                  : metadata.subcommand === 6
+                    ? `cmd create ${metadata.subcommandArg}`
               : `cmd sub ${metadata.subcommand}`;
         pushUniqueLink(links, seenKeys, source, target, {
           color: "rgba(38, 70, 83, 0.92)",
@@ -1185,7 +1219,7 @@ export function createScenePresentationController(deps) {
           continue;
         }
         pushUniqueLink(links, seenKeys, source, target, {
-          color: "rgba(92, 181, 255, 0.88)",
+          color: `rgba(${LIGHT_BLUE_ARROW_RGB}, 0.92)`,
           dashed: [5, 4],
           label: "ALARMHAT local alarm"
         });
@@ -1260,7 +1294,7 @@ export function createScenePresentationController(deps) {
       }
     }
 
-    const controllerShapes = new Set([EVENT_SHAPE, SKILLBOX_SHAPE, PANELNS_SHAPE, CARD_NS_SHAPE, SPANEL_SHAPE]);
+    const controllerShapes = new Set([BOX_EW_SHAPE, FASTSKIL_SHAPE, EVENT_SHAPE, SKILLBOX_SHAPE, PANELNS_SHAPE, CARD_NS_SHAPE, SPANEL_SHAPE]);
     for (const source of visibleItems) {
       const sourceShape = getShapeNumber(source);
       if (!controllerShapes.has(sourceShape)) {
@@ -1270,24 +1304,33 @@ export function createScenePresentationController(deps) {
       if (!Number.isInteger(sourceQlo)) {
         continue;
       }
-      for (const target of controllerTargetsByQlo.get(sourceQlo) ?? []) {
-        if (!isWithinLinkDistance(source, target, LOCAL_EDITOR_LINK_DISTANCE)) {
-          continue;
+      const controllerVariants = sourceShape === FASTSKIL_SHAPE
+        ? getFastSkillArrowVariants(source)
+        : sourceShape === BOX_EW_SHAPE
+          ? getBoxEwArrowVariants(source)
+          : [{
+              qLo: sourceQlo,
+              labelPrefix: sourceShape === EVENT_SHAPE
+                ? "EVENT"
+                : sourceShape === SKILLBOX_SHAPE
+                  ? "SKILLBOX"
+                  : sourceShape === PANELNS_SHAPE
+                    ? "PANELNS"
+                    : sourceShape === CARD_NS_SHAPE
+                      ? "CARD_NS"
+                      : "SPANEL"
+            }];
+      for (const variant of controllerVariants) {
+        for (const target of controllerTargetsByQlo.get(variant.qLo) ?? []) {
+          if (!isWithinLinkDistance(source, target, LOCAL_EDITOR_LINK_DISTANCE)) {
+            continue;
+          }
+          pushUniqueLink(links, seenKeys, source, target, {
+            color: "rgba(244, 162, 97, 0.92)",
+            dashed: [6, 3],
+            label: `${variant.labelPrefix} -> cmd QLo ${variant.qLo}`
+          });
         }
-        const labelPrefix = sourceShape === EVENT_SHAPE
-          ? "EVENT"
-          : sourceShape === SKILLBOX_SHAPE
-            ? "SKILLBOX"
-            : sourceShape === PANELNS_SHAPE
-              ? "PANELNS"
-              : sourceShape === CARD_NS_SHAPE
-                ? "CARD_NS"
-                : "SPANEL";
-        pushUniqueLink(links, seenKeys, source, target, {
-          color: "rgba(244, 162, 97, 0.92)",
-          dashed: [6, 3],
-          label: `${labelPrefix} -> cmd QLo ${sourceQlo}`
-        });
       }
     }
 
@@ -1379,7 +1422,7 @@ export function createScenePresentationController(deps) {
       .map((target) => ({
         source: focused,
         target,
-        color: "rgba(92, 181, 255, 0.94)",
+        color: `rgba(${LIGHT_BLUE_ARROW_RGB}, 0.96)`,
         dashed: [7, 5],
         label: `Spawner QLo ${signalKey}`
       }));

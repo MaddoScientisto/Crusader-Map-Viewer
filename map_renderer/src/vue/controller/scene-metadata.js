@@ -3,6 +3,10 @@ const CHEST_ITEM_SPAWNER_SHAPE = 0x0476;
 const MONSTER_EGG_PREVIEW_SHAPE = 0x024f;
 const MONSTER_SPAWNER_SHAPE = 0x04d0;
 const MONSTER_SPAWNER_PAIR_MAX_DISTANCE = 512;
+const BOX_EW_SHAPE = 0x0080;
+const FASTSKIL_SHAPE = 0x0120;
+const NUMBERS_SHAPE = 0x033a;
+const TRIGPAD_SHAPE = 0x04cd;
 const SKILLBOX_SHAPE = 0x04e3;
 const CMD_LINK_SHAPE = 0x04b1;
 const EVENT_SHAPE = 0x0361;
@@ -259,25 +263,25 @@ export function createSceneMetadataHelpers(dependencies) {
     let subcommandNote = "Recovered TRIGGER lanes for this subcommand remain partly unresolved.";
     if (subcommand === 0) {
       subcommandLabel = `Subcommand 0 (arg ${subcommandArg})`;
-      subcommandNote = "Uses nearby 0x0476 helper items and forwards through FREE.slot_30; this looks like a helper/spawn dispatch lane rather than a direct target-object edit.";
+      subcommandNote = "Helper dispatch lane. It scans nearby 0x0476 helpers that share this link id and forwards the arg into FREE.slot_30 using the helper's packed npc/map payload rather than editing the matched target directly.";
     } else if (subcommand === 1) {
       subcommandLabel = `Subcommand 1 (arg ${subcommandArg})`;
-      subcommandNote = "Runs a target-local state change lane. In the self-targeting TRIGGER variants it only acts when the triggering item is the matched target; in the item-targeting variants it broadcasts across all matched nearby items.";
+      subcommandNote = "Direct target-mutation lane. Depending on command mode it broadcasts across matched nearby items to set QHi, QLo, equip, frame, or a timed door pulse, or runs the same logic only on the exact triggering item.";
     } else if (subcommand === 2) {
       subcommandLabel = `Subcommand 2 (arg ${subcommandArg})`;
-      subcommandNote = "Iterator lane present in TRIGGER, but the recovered body is still too incomplete to name the visible gameplay effect.";
+      subcommandNote = "Frame-set lane. The arg selects the frame value applied to matched targets in the direct item-targeting variant.";
     } else if (subcommand === 3) {
       subcommandLabel = `Subcommand 3 (arg ${subcommandArg})`;
-      subcommandNote = "Dispatches TRIGGER.slot_22 onto matched targets; this is the clearest direct target-action lane in the recovered body.";
+      subcommandNote = "Timed pulse lane. It calls TRIGGER.slot_22 on matched targets, and that wrapper repeatedly drives DOOR.slot_21 for the arg-sized count while a busy/status bit is held.";
     } else if (subcommand === 4) {
       subcommandLabel = `Subcommand 4 (+${subcommandArg})`;
-      subcommandNote = "Adds the arg value to the current link id before continuing the chain.";
+      subcommandNote = "Link-rewrite lane. It adds the arg value to the current QLo/link id and immediately continues the scan with the new link.";
     } else if (subcommand === 5) {
       subcommandLabel = `Subcommand 5 (-${subcommandArg})`;
-      subcommandNote = "Subtracts the arg value from the current link id before continuing the chain.";
+      subcommandNote = "Link-rewrite lane. It subtracts the arg value from the current QLo/link id and immediately continues the scan with the new link.";
     } else if (subcommand === 6) {
       subcommandLabel = `Subcommand 6 (arg ${subcommandArg})`;
-      subcommandNote = "Creation lane that again uses nearby 0x0476 helper items before calling Item.create on the resolved payload.";
+      subcommandNote = "Create-and-drop lane. It resolves payload data through nearby 0x0476 helpers, creates the target item when the packed map byte allows it, copies Q, moves it to the helper coordinates, then unequips/drops it with the arg-sized count.";
     }
 
     return {
@@ -389,6 +393,15 @@ export function createSceneMetadataHelpers(dependencies) {
     if (!definition) {
       return "";
     }
+    if (definition.shape === BOX_EW_SHAPE) {
+      return "BOX_EW switch family; use() only fires while map-array is clear, dispatching TRIGGER lane 1 from frame 0 and lane 0 from nonzero frames. Sampled scenes only justify same-QLo cmd-link arrows for frame 0.";
+    }
+    if (definition.shape === FASTSKIL_SHAPE) {
+      return "FASTSKIL fast-area trigger gate; enterFastArea waits briefly, uses difficulty to choose trigger lane or remap QLo, and frame 2 exposes explicit diff1/diff2/diff3+ link lanes.";
+    }
+    if (definition.shape === NUMBERS_SHAPE) {
+      return "Tiny readout/number helper family; glyph-sized markers that cluster beside nearby 0x0501/0x0502/0x0503/0x0505/0x0507 display pieces rather than the trigger-link helper network.";
+    }
     if (definition.shape === SKILLBOX_SHAPE) {
       return "SKILLBOX difficulty/skill gate; frame 0 and 1 switch trigger lanes by difficulty, and frame 2 remaps QLo before dispatch.";
     }
@@ -397,6 +410,9 @@ export function createSceneMetadataHelpers(dependencies) {
     }
     if (definition.shape === EVENT_SHAPE) {
       return "EVENT controller; a generic scripted event multiplexer that reuses QLo as a local link id and can drive triggers, doors, camera, audio, and nearby helper shapes.";
+    }
+    if (definition.shape === TRIGPAD_SHAPE) {
+      return "TRIGPAD occupancy/surface-gated trigger pad; gotHit waits briefly, dispatches trigger lanes 0 then 1, and can prod nearby elevator helpers. Broader scene sweeps did not justify a generic cmd-link arrow rule.";
     }
     if (definition.shape === DOOR_DEATH_HELPER_SHAPE) {
       return "Door death/crush helper; DOOR.slot_23 scans nearby 0x04F8 items with matching QLo and dispatches trigger lane 0 or +0x80 by map-array state.";
@@ -463,6 +479,39 @@ export function createSceneMetadataHelpers(dependencies) {
     const qHi = rawQuality === null ? null : ((rawQuality >> 8) & 0xff);
     const rawMapNum = Number.isInteger(item?.mapNum) ? (item.mapNum & 0xff) : null;
 
+    if (definition.shape === BOX_EW_SHAPE) {
+      rows.push("<dt>Decoded class</dt><dd>BOX_EW</dd>");
+      if (rawQuality !== null) {
+        rows.push(`<dt>Switch bytes</dt><dd>${escapeHtml(`QLo ${qLo} (${formatByteHex(qLo)}), QHi ${qHi} (${formatByteHex(qHi)}), raw ${formatWordHex(rawQuality)}`)}</dd>`);
+      }
+      if (item?.frame === 0) {
+        rows.push("<dt>Trigger lane</dt><dd>Frame 0 is the active switch lane: while map-array is clear it plays the switch SFX and dispatches TRIGGER lane 1.</dd>");
+        if (qLo !== null) {
+          rows.push(`<dt>Helper overlay</dt><dd>${escapeHtml(`Current renderer arrows only expose nearby same-QLo 0x04B1 helpers for frame 0, using local link id ${qLo}.`)}</dd>`);
+        }
+      } else {
+        rows.push("<dt>Trigger lane</dt><dd>Nonzero frames still dispatch through TRIGGER, but the recovered body uses lane 0 and sampled scenes did not justify the same generic cmd-link overlay rule.</dd>");
+      }
+    }
+
+    if (definition.shape === FASTSKIL_SHAPE) {
+      rows.push("<dt>Decoded class</dt><dd>FASTSKIL</dd>");
+      if (rawQuality !== null) {
+        rows.push(`<dt>Quality bytes</dt><dd>${escapeHtml(`QLo ${qLo} (${formatByteHex(qLo)}), QHi ${qHi} (${formatByteHex(qHi)}), raw ${formatWordHex(rawQuality)}`)}</dd>`);
+      }
+      rows.push("<dt>Activation</dt><dd>enterFastArea waits 5 ticks, then only runs the skill/trigger body while map-array is clear.</dd>");
+      if (item?.frame === 0) {
+        rows.push("<dt>Difficulty gate</dt><dd>Frame 0 uses TRIGGER lane 0 below difficulty 2 and lane 1 at difficulty 2 and above, then clears QLo on return.</dd>");
+      } else if (item?.frame === 1) {
+        rows.push("<dt>Difficulty gate</dt><dd>Frame 1 uses TRIGGER lane 0 below difficulty 3 and lane 1 at difficulty 3 and above, then clears QLo on return.</dd>");
+      } else if (item?.frame === 2) {
+        rows.push("<dt>Skill lane</dt><dd>Frame 2 preserves the base QLo and dispatches diff1 -&gt; QLo, diff2 -&gt; QLo + 1, diff3+ -&gt; QLo + 2 before restoring the original QLo.</dd>");
+        if (qLo !== null) {
+          rows.push(`<dt>Derived cmd lanes</dt><dd>${escapeHtml(`diff1 -> QLo ${qLo}, diff2 -> QLo ${(qLo + 1) & 0xff}, diff3+ -> QLo ${(qLo + 2) & 0xff}`)}</dd>`);
+        }
+      }
+    }
+
     if (definition.shape === SKILLBOX_SHAPE) {
       rows.push("<dt>Decoded class</dt><dd>SKILLBOX</dd>");
       if (rawQuality !== null) {
@@ -506,6 +555,22 @@ export function createSceneMetadataHelpers(dependencies) {
         rows.push(`<dt>Event bytes</dt><dd>${escapeHtml(`QLo ${qLo} (${formatByteHex(qLo)}), QHi ${qHi} (${formatByteHex(qHi)}), raw ${formatWordHex(rawQuality)}`)}</dd>`);
       }
       rows.push("<dt>Event note</dt><dd>Recovered EVENT.equip reads QLo as a link id and uses different event lanes to drive triggers, camera/audio, door logic, and nearby helper objects.</dd>");
+    }
+
+    if (definition.shape === NUMBERS_SHAPE) {
+      rows.push("<dt>Decoded family</dt><dd>NUMBERS</dd>");
+      rows.push("<dt>Display note</dt><dd>Tiny glyph-like frames in exported scenes cluster beside larger 0x0501/0x0502/0x0503/0x0505/0x0507 readout pieces instead of local trigger controllers.</dd>");
+      rows.push("<dt>Overlay stance</dt><dd>Shown as a labeled display helper only; current scene evidence does not support helper arrows from this family.</dd>");
+    }
+
+    if (definition.shape === TRIGPAD_SHAPE) {
+      rows.push("<dt>Decoded class</dt><dd>TRIGPAD</dd>");
+      if (rawQuality !== null) {
+        rows.push(`<dt>Pad bytes</dt><dd>${escapeHtml(`QLo ${qLo} (${formatByteHex(qLo)}), QHi ${qHi} (${formatByteHex(qHi)}), raw ${formatWordHex(rawQuality)}`)}</dd>`);
+      }
+      rows.push("<dt>Activation</dt><dd>gotHit is occupancy and surface gated, waits briefly after the pad is armed, then dispatches TRIGGER lane 0 and later lane 1 as the actor leaves or the condition clears.</dd>");
+      rows.push("<dt>Extra behavior</dt><dd>The same body also scans nearby elevator-family helpers and can call ELEVAT control slots, so this is broader than a simple one-shot cmd-link source.</dd>");
+      rows.push("<dt>Overlay stance</dt><dd>Named and decoded in tooltips, but broader scene sweeps did not justify a generic TRIGPAD -&gt; 0x04B1 helper arrow rule.</dd>");
     }
 
     if (definition.shape === DOOR_DEATH_HELPER_SHAPE) {
