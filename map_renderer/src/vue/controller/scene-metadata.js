@@ -3,6 +3,8 @@ const CHEST_ITEM_SPAWNER_SHAPE = 0x0476;
 const MONSTER_EGG_PREVIEW_SHAPE = 0x024f;
 const MONSTER_SPAWNER_SHAPE = 0x04d0;
 const MONSTER_SPAWNER_PAIR_MAX_DISTANCE = 512;
+const SKILLBOX_SHAPE = 0x04e3;
+const CMD_LINK_SHAPE = 0x04b1;
 
 export function createSceneMetadataHelpers(dependencies) {
   const {
@@ -195,6 +197,14 @@ export function createSceneMetadataHelpers(dependencies) {
     return `${dimensions.x} x ${dimensions.y} x ${dimensions.z}`;
   }
 
+  function formatByteHex(value) {
+    return `0x${(value & 0xff).toString(16).padStart(2, "0")}`;
+  }
+
+  function formatWordHex(value) {
+    return `0x${(value & 0xffff).toString(16).padStart(4, "0")}`;
+  }
+
   function getDefinitionTraitLabels(definition) {
     if (!definition?.traits) {
       return [];
@@ -230,6 +240,12 @@ export function createSceneMetadataHelpers(dependencies) {
   function getDefinitionRoleHint(item, definition) {
     if (!definition) {
       return "";
+    }
+    if (definition.shape === SKILLBOX_SHAPE) {
+      return "SKILLBOX difficulty/skill gate; frame 0 and 1 switch trigger lanes by difficulty, and frame 2 remaps QLo before dispatch.";
+    }
+    if (definition.shape === CMD_LINK_SHAPE) {
+      return "Trigger/link controller; earlier usecode evidence keys off QLo and branches on mapNum flag bits rather than using NPC rows.";
     }
     if (definition.shape === CHEST_ITEM_SPAWNER_SHAPE) {
       return "Chest item spawner; chest usecode matches nearby 0x0476 helpers by QLo and FREE.slot_2E resolves the spawned item from mapNum/npcNum.";
@@ -273,6 +289,44 @@ export function createSceneMetadataHelpers(dependencies) {
     return "";
   }
 
+  function renderSpecialEditorRows(item, definition = null) {
+    if (!definition) {
+      return "";
+    }
+
+    const rows = [];
+    const rawQuality = Number.isInteger(item?.quality) ? (item.quality & 0xffff) : null;
+    const qLo = rawQuality === null ? null : (rawQuality & 0xff);
+    const qHi = rawQuality === null ? null : ((rawQuality >> 8) & 0xff);
+    const rawMapNum = Number.isInteger(item?.mapNum) ? (item.mapNum & 0xff) : null;
+
+    if (definition.shape === SKILLBOX_SHAPE) {
+      rows.push("<dt>Decoded class</dt><dd>SKILLBOX</dd>");
+      if (rawQuality !== null) {
+        rows.push(`<dt>Quality bytes</dt><dd>${escapeHtml(`QLo ${qLo} (${formatByteHex(qLo)}), QHi ${qHi} (${formatByteHex(qHi)}), raw ${formatWordHex(rawQuality)}`)}</dd>`);
+      }
+      if (item?.frame === 0) {
+        rows.push("<dt>Difficulty gate</dt><dd>Frame 0 flips at difficulty 2: below threshold uses trigger lane 1, threshold and above uses lane 0.</dd>");
+      } else if (item?.frame === 1) {
+        rows.push("<dt>Difficulty gate</dt><dd>Frame 1 flips at difficulty 3: lower difficulties use trigger lane 1, difficulty 3 and above uses lane 0.</dd>");
+      } else if (item?.frame === 2) {
+        rows.push("<dt>Skill lane</dt><dd>Frame 2 uses QLo as a base skill/link id and dispatches diff1 -> QLo, diff2 -> QLo + 1, diff3+ -> QLo + 2 before restoring the original QLo.</dd>");
+      }
+    }
+
+    if (definition.shape === CMD_LINK_SHAPE) {
+      rows.push("<dt>Decoded role</dt><dd>Trigger/link controller (`cmd` helper), not a DTABLE NPC spawner.</dd>");
+      if (rawQuality !== null) {
+        rows.push(`<dt>Link bytes</dt><dd>${escapeHtml(`QLo ${qLo} (${formatByteHex(qLo)}), QHi ${qHi} (${formatByteHex(qHi)}), raw ${formatWordHex(rawQuality)}`)}</dd>`);
+      }
+      if (rawMapNum !== null) {
+        rows.push(`<dt>Map flags</dt><dd>${escapeHtml(`${rawMapNum} (${formatByteHex(rawMapNum)})`)}</dd>`);
+      }
+    }
+
+    return rows.join("");
+  }
+
   function shouldShowRawLinkage(item, definition) {
     if (item.egg) {
       return true;
@@ -306,6 +360,11 @@ export function createSceneMetadataHelpers(dependencies) {
     const roleHint = getDefinitionRoleHint(item, definition);
     if (roleHint) {
       rows.push(`<dt>Role hint</dt><dd>${escapeHtml(roleHint)}</dd>`);
+    }
+
+    const specialRows = renderSpecialEditorRows(item, definition);
+    if (specialRows) {
+      rows.push(specialRows);
     }
 
     if (shouldShowRawLinkage(item, definition)) {
