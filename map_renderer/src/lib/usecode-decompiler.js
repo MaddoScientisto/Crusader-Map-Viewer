@@ -132,9 +132,11 @@ const BASE_INTRINSIC_HINTS = {
   0x0009: "Item::getZ(void)",
   0x000e: "Item::getX(void)",
   0x000f: "Item::getY(void)",
+  0x0011: "Item::getType(void)",
   0x0014: "Item::legal_create(uint16,uint16,uint16,uint16,uint16)",
   0x001a: "Item::create(uint16,uint16)",
   0x0024: "Item::hurl(sint16,sint16,sint16,sint16)",
+  0x003c: "Item::getItemFamily(void)",
   0x0039: "Kernel::resetRef(uint16,ProcessType)",
   0x0058: "Item::use(void)",
   0x0063: "Item::legal_create(uint16,uint16,WorldPoint&)",
@@ -212,6 +214,10 @@ function sanitizeIdentifier(name) {
 
 function formatScriptString(value) {
   return `"${String(value ?? "").replaceAll("\\", "\\\\").replaceAll('"', '\\"')}"`;
+}
+
+function formatGlobalReference(globalId) {
+  return `global[0x${globalId.toString(16).padStart(4, "0")}]`;
 }
 
 function parseNumeric(value) {
@@ -750,7 +756,9 @@ function pushExprFromOp(op, localNameMap) {
     case "push_huge":
       return [`0x${operands.value_a.toString(16).padStart(2, "0")}${operands.value_b.toString(16).padStart(2, "0")}`, 4];
     case "push_global":
-      return [`global[0x${operands.global_id.toString(16).padStart(4, "0")}]`, Math.max(1, operands.size)];
+      return [formatGlobalReference(operands.global_id), Math.max(1, operands.size)];
+    case "global_address":
+      return [`&${formatGlobalReference(operands.global_id)}`, 2];
     case "push_pid":
       return ["pid", 2];
     case "push_process_result":
@@ -948,7 +956,11 @@ function decompilePseudocodeBlocks(ir) {
       if (op.mnemonic === "push_indirect") {
         if (stack.length) {
           const [expr] = stack.pop();
-          stack.push([`*(${expr})`, Math.max(1, op.operands.size)]);
+          if (/^&(?:[A-Za-z_][A-Za-z0-9_]*|global\[0x[0-9a-f]{4}\])$/iu.test(expr)) {
+            stack.push([expr.slice(1), Math.max(1, op.operands.size)]);
+          } else {
+            stack.push([`*(${expr})`, Math.max(1, op.operands.size)]);
+          }
         }
         index += 1;
         continue;
@@ -1050,6 +1062,11 @@ function decompilePseudocodeBlocks(ir) {
       }
       if (op.mnemonic === "suspend") {
         blockLines.push("suspend;");
+        stack.length = 0;
+        index += 1;
+        continue;
+      }
+      if (op.mnemonic === "loopnext") {
         stack.length = 0;
         index += 1;
         continue;
@@ -1610,6 +1627,7 @@ function renderStructuredPseudocode(blocks) {
 
 export const __testHooks = {
   decompilePseudocodeBlocks,
+  renderPseudocode,
   renderStructuredPseudocode,
   renderSelectorLoopConstruct
 };
@@ -1720,7 +1738,7 @@ function buildIrForEvent(classRow, eventRow, variant, classNameMap) {
   let debugSymbols = [];
   let debugSymbolOffset = null;
   const lastRetIndex = [...ops.keys()].reverse().find((index) => ops[index].mnemonic === "ret");
-  if (endReason === "unknown_opcode" && lastRetIndex != null) {
+  if ((endReason === "unknown_opcode" || endReason === "unsupported_opcode") && lastRetIndex != null) {
     const retEnd = ops[lastRetIndex].offset + ops[lastRetIndex].raw_bytes.length / 2;
     const debugResult = parseDebugSymbols(body, retEnd);
     if (debugResult) {
@@ -1728,6 +1746,8 @@ function buildIrForEvent(classRow, eventRow, variant, classNameMap) {
       debugSymbolOffset = retEnd;
       endReason = "debug_symbols_then_end";
       unknownTrailing = debugResult.trailing_bytes;
+    } else if (retEnd <= body.length && retEnd === body.length - unknownTrailing.length) {
+      endReason = "terminal_return_then_trailing_bytes";
     }
   }
 

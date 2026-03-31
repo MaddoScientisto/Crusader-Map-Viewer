@@ -36,6 +36,10 @@ function renderStructured(ir) {
   return structured.join("\n");
 }
 
+function renderPseudo(ir) {
+  return __testHooks.renderPseudocode(ir, new Map());
+}
+
 function testSelectorLadderUsesEqualityCompareAndFalseBranch() {
   const text = renderStructured(
     makeIr(
@@ -104,8 +108,60 @@ function testAlarmhatStyleSelectorLoopStructuring() {
   assert.doesNotMatch(text, /goto block_0233;/u);
 }
 
+function testGlobalAddressFeedsIntrinsicsAndLoopnextStaysHidden() {
+  const text = renderPseudo(
+    makeIr([
+      op(0, "global_address", { global_id: 0x003c }),
+      op(1, "push_indirect", { size: 2 }),
+      op(2, "call_intrinsic", { intrinsic_ordinal: 0x0011, arg_bytes: 2, intrinsic_name_hint: "Item::getType(void)" }),
+      op(3, "push_retval_word", {}),
+      op(4, "push_word_immediate", { value_u16: 40 }),
+      op(5, "cmp", {}),
+      op(6, "jne", { target_offset: 10 }),
+      op(7, "loopnext", {}),
+      op(8, "suspend", {}),
+      op(9, "ret", {})
+    ])
+  );
+
+  assert.match(text, /Item\.getType\(global\[0x003c\]\)/u);
+  assert.doesNotMatch(text, /loopnext/u);
+}
+
+function testNamedIntrinsic003cRendersAsItemFamily() {
+  const text = renderPseudo(
+    makeIr([
+      op(0, "push_local_word", { bp_offset: 0xfe }),
+      op(1, "call_intrinsic", { intrinsic_ordinal: 0x003c, arg_bytes: 2, intrinsic_name_hint: "Item::getItemFamily(void)" }),
+      op(2, "push_retval_word", {}),
+      op(3, "push_word_immediate", { value_u16: 10 }),
+      op(4, "cmp", {}),
+      op(5, "jne", { target_offset: 7 }),
+      op(6, "ret", {}),
+      op(7, "ret", {})
+    ])
+  );
+
+  assert.match(text, /Item\.getItemFamily\((?:arg_254|local_02)\)/u);
+}
+
+function testTerminalTrailingBytesDoNotEmitStopBanner() {
+  const text = renderPseudo({
+    ...makeIr([op(0, "ret", {})]),
+    body: {
+      end_reason: "terminal_return_then_trailing_bytes",
+      unsupported_opcode_name: "SEARCH_SURFACE"
+    }
+  });
+
+  assert.doesNotMatch(text, /decompilation stopped at SEARCH_SURFACE/u);
+}
+
 testSelectorLadderUsesEqualityCompareAndFalseBranch();
 testCountedLoopRendersWithContinueCondition();
 testAlarmhatStyleSelectorLoopStructuring();
+testGlobalAddressFeedsIntrinsicsAndLoopnextStaysHidden();
+testNamedIntrinsic003cRendersAsItemFamily();
+testTerminalTrailingBytesDoNotEmitStopBanner();
 
 console.log("usecode structuring regression checks passed");
