@@ -1,12 +1,12 @@
 function npc_slot_21() /* entry=2579 class_id=0x0a11 slot=0x21 */
 {
   set_info(0x020a, *(arg_06));
-  if (arg_10) {
+  if (!arg_10) {
     arg_10 = 1;
   }
   local_02 = 1;
-  while (local_02 > arg_10) {
-    if ((intrinsic_003c(arg_06) == 0) && (intrinsic_00cd(arg_06) != 0)) {
+  while (local_02 <= arg_10) {
+    if ((intrinsic_003c(arg_06) == 0) && (intrinsic_00cd(arg_06) == 0)) {
       suspend;
     }
     local_02 = (1 + local_02);

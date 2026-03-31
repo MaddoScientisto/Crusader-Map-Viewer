@@ -14,7 +14,7 @@ function door2_slot_36() /* entry=2569 class_id=0x0a07 slot=0x36 */
   set_info(1, 0);
   maxFrame = 7;
   counter = 1;
-  while (counter > maxFrame) {
+  while (counter <= maxFrame) {
     spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
     suspend;
     counter = (1 + counter);

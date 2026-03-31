@@ -1,125 +1,65 @@
 function trigger_slot_21() /* entry=2586 class_id=0x0a18 slot=0x21 */
 {
-  entry:
-    set_info(0x021b, 0);
-    local_14 = arg_10;
-    local_04 = (arg_16 & 3);
-    if (local_04 != 0) goto block_06fd;
-
-  block_05d1_selector_00:
-    /* loop_selector local_16 in nearby_items(shape=arg_20, origin=local_14) */
-
-  block_05e8:
-    if condition goto block_06f8;
-
-  block_05eb:
-    local_06 = (arg_12 / 16);
-    local_08 = (arg_12 & 15);
-    if (local_06 != 0) goto block_0649;
-
-  block_0601:
-    suspend;
-    spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
-    suspend;
-    goto block_06f4;
-
-  block_0649:
-    suspend;
-    spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
-    suspend;
-    if (Kernel.resetRef(local_16) != 1) goto block_068f;
-
-  block_068c:
-    goto block_0979;
-
-  block_068f:
-    local_18 = 1;
-
-  block_0693:
-    if (local_18 <= local_06) goto block_06e3;
-
-  block_069b:
-    if (Kernel.resetRef(local_16) != 0) goto block_06c2;
-
-  block_06aa:
-    suspend;
-
-  block_06c2:
-    spawn FREE.waitNTimerTicks(pid, 1, 0x00000000);
-    suspend;
-    local_18 = (1 + local_18);
-    goto block_0693;
-
-  block_06f4:
-    /* loopnext */
-    goto block_05e8;
-
-  block_06f8:
-    goto block_0979;
-
-  block_06fd:
-    if (local_04 != 1) goto block_0732;
-
-  block_0705_selector_00:
+  set_info(0x021b, 0);
+  local_14 = arg_10;
+  local_04 = (arg_16 & 3);
+  if (local_04 == 0) {
+    for local_16 in nearby_items(shape=arg_20, origin=local_14) {
+      local_06 = (arg_12 / 16);
+      local_08 = (arg_12 & 15);
+      if (local_06 == 0) {
+        suspend;
+        spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+        suspend;
+      }
+      else {
+        suspend;
+        spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+        suspend;
+        if (Kernel.resetRef(local_16) == 1) {
+          return;
+        }
+        local_18 = 1;
+        while (local_18 <= local_06) {
+          if (Kernel.resetRef(local_16) == 0) {
+            suspend;
+          }
+          spawn FREE.waitNTimerTicks(pid, 1, 0x00000000);
+          suspend;
+          local_18 = (1 + local_18);
+        }
+      }
+      /* loopnext */
+    }
+    return;
+  }
+  else if (local_04 == 1) {
     for local_16 in nearby_items(shape=arg_20, origin=local_14) {
       /* loopnext */
     }
-
-  block_072d:
-    goto block_0979;
-
-  block_0732:
-    if (local_04 != 2) goto block_0777;
-
-  block_073a_selector_00:
+    return;
+  }
+  else if (local_04 == 2) {
     for local_16 in nearby_items(shape=arg_20, origin=local_14) {
       /* loopnext */
     }
-
-  block_0772:
-    goto block_0979;
-
-  block_0777:
-    if (local_04 != 3) goto block_0979;
-
-  block_077f:
+    return;
+  }
+  else if (local_04 == 3) {
     local_02 = (arg_12 & 7);
     local_06 = (arg_12 / 8);
-    if (local_02 != 0) goto block_0801;
-
-  block_0795_selector_00:
-    /* loop_selector local_16 in nearby_items(shape=arg_20, origin=local_14) */
-
-  block_07ac:
-    if condition goto block_07fc;
-
-  block_07af:
-    if (local_06 != 1) goto block_07c4;
-
-  block_07b7:
-    goto block_07f8;
-
-  block_07c4:
-    if (local_06 != 2) goto block_07d9;
-
-  block_07cc:
-    goto block_07f8;
-
-  block_07d9:
-    if (local_06 != 3) goto block_07ee;
-
-  block_07e1:
-    goto block_07f8;
-
-  block_07f8:
-    /* loopnext */
-    goto block_07ac;
-
-  block_07fc:
-    goto block_0976;
-
-  block_0801:
-    if (local_02 == 1) {
+    if (local_02 == 0) {
+      for local_16 in nearby_items(shape=arg_20, origin=local_14) {
+        if (local_06 == 1) {
+        }
+        else if (local_06 == 2) {
+        }
+        else if (local_06 == 3) {
+        }
+        /* loopnext */
+      }
+    }
+    else if (local_02 == 1) {
       for local_16 in nearby_items(shape=arg_20, origin=local_14) {
         spawn FREE.waitNTimerTicks(pid, 1, 0x00000000);
         suspend;
@@ -152,11 +92,7 @@ function trigger_slot_21() /* entry=2586 class_id=0x0a18 slot=0x21 */
         /* loopnext */
       }
     }
-
-  block_0976:
-    goto block_0979;
-
-  block_0979:
     return;
-
+  }
+  return;
 }

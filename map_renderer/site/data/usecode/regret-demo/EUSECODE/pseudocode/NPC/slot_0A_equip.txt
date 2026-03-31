@@ -2,10 +2,10 @@ function npc_equip() /* entry=2580 class_id=0x0a12 slot=0x0a */
 {
   set_info(0x0211, *(arg_06));
   process_exclude();
-  if (!intrinsic_00d2(arg_06)) {
+  if (intrinsic_00d2(arg_06)) {
     return;
   }
-  if (arg_10 == 1) {
+  else if (arg_10 == 1) {
     return;
   }
   else if (arg_10 == 2) {

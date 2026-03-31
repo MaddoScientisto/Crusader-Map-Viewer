@@ -8,74 +8,44 @@ function thrmbckn_equip() /* entry=1384 class_id=0x0566 slot=0x0a */
     a, /* [BP-06h] type=0x69 */
     b; /* [BP-08h] type=0x69 */
 
-  entry:
-    set_info(0x0211, *(arg_06));
-    process_exclude();
-    if var goto block_0344;
-
-  block_010d:
-    if intrinsic_003a(4, arg_06) goto block_0147;
-
-  block_011e:
-    spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
-    suspend;
-    goto block_010d;
-
-  block_0154:
-    if intrinsic_003a(4, arg_06) goto block_018e;
-
-  block_0165:
-    spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
-    suspend;
-    goto block_0154;
-
-  block_019b:
-    if intrinsic_003a(4, arg_06) goto block_01d5;
-
-  block_01ac:
-    spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
-    suspend;
-    goto block_019b;
-
-  block_01d5_selector_00:
+  set_info(0x0211, *(arg_06));
+  process_exclude();
+  if (var) {
+    while (intrinsic_003a(4, arg_06)) {
+      spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+      suspend;
+    }
+    while (intrinsic_003a(4, arg_06)) {
+      spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+      suspend;
+    }
+    while (intrinsic_003a(4, arg_06)) {
+      spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+      suspend;
+    }
     for ewall in selector_0x42(arg0=0x0564, arg1=0x0565, arg2=(6 * 32), origin=arg_06) {
       /* loopnext */
     }
-
-  block_022e:
     /* loopscr */
     /* loopscr */
     /* loop */
-
-  block_0256:
-    if condition goto block_0342;
-
-  block_0259:
-    if (intrinsic_000b(therma) != intrinsic_00ea(arg_06)) goto block_033e;
-
-  block_0275:
-    b = 3;
-    if (intrinsic_0029() > 2) goto block_0297;
-
-  block_028d:
-    a = 10;
-    goto block_029e;
-
-  block_0297:
-    a = 5;
-
-  block_029e:
-    spawn FREE.waitNTimerTicks(pid, 40, 0x00000000);
-    suspend;
-    spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
-    suspend;
-    goto block_0344;
-
-  block_033e:
-    /* loopnext */
-    goto block_0256;
-
-  block_0344:
-    return;
-
+    while (condition) {
+      if (intrinsic_000b(therma) == intrinsic_00ea(arg_06)) {
+        b = 3;
+        if (intrinsic_0029() > 2) {
+          a = 10;
+        }
+        else {
+          a = 5;
+        }
+        spawn FREE.waitNTimerTicks(pid, 40, 0x00000000);
+        suspend;
+        spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+        suspend;
+        return;
+      }
+      /* loopnext */
+    }
+  }
+  return;
 }

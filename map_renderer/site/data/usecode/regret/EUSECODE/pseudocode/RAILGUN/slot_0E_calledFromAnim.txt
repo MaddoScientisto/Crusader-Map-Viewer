@@ -6,7 +6,7 @@ function railgun_calledFromAnim() /* entry=1512 class_id=0x05e6 slot=0x0e */
     local_02 = *(arg_06);
     local_04 = intrinsic_00c3(local_02);
     local_06 = intrinsic_00da(local_02);
-    if ((local_06 != 13) || (local_06 != 8)) goto block_025d;
+    if (local_06 != 13) || (local_06 == 8) goto block_025d;
 
   block_021c:
     WALLGUN.slot_40(0, 6, local_04, local_04, arg_06);
@@ -21,13 +21,13 @@ function railgun_calledFromAnim() /* entry=1512 class_id=0x05e6 slot=0x0e */
     /* loop_selector local_08 in nearby_items(shape=0x04e7, origin=local_02) */
 
   block_0279:
-    if condition goto block_02be;
+    if !condition goto block_02be;
 
   block_027c:
-    if (intrinsic_000d(local_02) != intrinsic_00f9(local_08)) goto block_02ba;
+    if intrinsic_000d(local_02) != intrinsic_00f9(local_08) goto block_02ba;
 
   block_0292:
-    if (intrinsic_0003(local_08) != 0) goto block_02ba;
+    if intrinsic_0003(local_08) == 0 goto block_02ba;
 
   block_02a1:
     spawn TRIGGER.slot_20(pid, 0, local_08, local_08);

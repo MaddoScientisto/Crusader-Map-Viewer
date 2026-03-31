@@ -3,12 +3,14 @@ function morph_3_gotHit() /* entry=1541 class_id=0x0603 slot=0x06 */
   set_info(0x020c, *(arg_06));
   process_exclude();
   FREE.slot_35(arg_12, arg_10);
-  if (retval) {
+  if (!retval) {
     return;
   }
-  if (Item.isOnScreen(arg_06)) {
+  else if (!Item.isOnScreen(arg_06)) {
     return;
   }
-  spawn MORPH_3.equip(1, arg_06);
+  else {
+    spawn MORPH_3.equip(1, arg_06);
+  }
   return;
 }

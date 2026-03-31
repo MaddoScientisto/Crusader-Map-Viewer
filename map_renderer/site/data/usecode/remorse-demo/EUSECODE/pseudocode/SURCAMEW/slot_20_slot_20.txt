@@ -3,12 +3,12 @@ function surcamew_slot_20() /* entry=1248 class_id=0x04de slot=0x20 */
   entry:
     set_info(0x021b, 0);
     local_10 = intrinsic_00ea(arg_06);
-    if (intrinsic_0003(arg_06) != 0) goto block_03fc;
+    if intrinsic_0003(arg_06) == 0 goto block_03fc;
 
   block_02f3_selector_00:
     for local_04 in nearby_items(shape=0x037d, origin=arg_06) {
-      if ((intrinsic_00ea(local_04) == local_10) || (local_10 != 0)) {
-        if (!intrinsic_012c(local_04)) {
+      if ((intrinsic_00ea(local_04) == local_10) || (local_10 == 0)) {
+        if (intrinsic_012c(local_04)) {
           TEXTFILE.slot_21(intrinsic_012c(local_04), intrinsic_00ea(local_04), arg_06);
           /* free_local_string */
           local_02 = retval;
@@ -31,16 +31,16 @@ function surcamew_slot_20() /* entry=1248 class_id=0x04de slot=0x20 */
 
   block_03fc:
     local_11 = 0;
-    if intrinsic_012c(arg_06) goto block_04e2;
+    if !intrinsic_012c(arg_06) goto block_04e2;
 
   block_0412_selector_00:
     /* loop_selector local_06 in nearby_items(shape=PLACEHOLDER_KEY_CUBE, origin=arg_06) */
 
   block_0430:
-    if condition goto block_0468;
+    if !condition goto block_0468;
 
   block_0433:
-    if (intrinsic_00ea(local_06) != local_10) goto block_0464;
+    if intrinsic_00ea(local_06) != local_10 goto block_0464;
 
   block_0445:
     VALBOX.slot_20(local_06);
@@ -53,7 +53,7 @@ function surcamew_slot_20() /* entry=1248 class_id=0x04de slot=0x20 */
     goto block_0430;
 
   block_0468:
-    if local_11 goto block_049a;
+    if !local_11 goto block_049a;
 
   block_0472:
     TEXTFILE.slot_23(local_08, intrinsic_012c(arg_06), intrinsic_00ea(arg_06), arg_06);

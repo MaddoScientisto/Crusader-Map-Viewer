@@ -1,46 +1,27 @@
 function hover_slot_24() /* entry=2576 class_id=0x0a0e slot=0x24 */
 {
-  entry:
-    set_info(1, 0);
-    local_06 = arg_10;
-    local_16 = intrinsic_00b0(local_06);
-
-  entry_selector_00:
-    /* loop_selector local_04 in nearby_items(shape=NUMBERS, origin=arg_10) */
-
-  block_173e:
-    if condition goto block_1855;
-
-  block_1741:
-    if (Item.getFrame(local_04) != arg_12) goto block_1851;
-
-  block_1753:
-    if ((local_16 != 0) || (local_16 != intrinsic_00b0(local_04))) goto block_1851;
-
-  block_176e:
-    local_18 = intrinsic_0013(local_04);
-    local_20 = Item.legal_create(local_04);
-    local_21 = Item.getZ(local_04);
-    local_08 = (local_18 - intrinsic_0013(local_06));
-    local_10 = (local_20 - Item.legal_create(local_06));
-    local_12 = (local_21 - Item.getZ(local_06));
-    /* loopscr */
-    /* loop */
-
-  block_17d9:
-    while (!condition) {
-      /* loopnext */
+  set_info(1, 0);
+  local_06 = arg_10;
+  local_16 = intrinsic_00b0(local_06);
+  for local_04 in nearby_items(shape=NUMBERS, origin=arg_10) {
+    if (Item.getFrame(local_04) == arg_12) {
+      if ((local_16 == 0) || (local_16 == intrinsic_00b0(local_04))) {
+        local_18 = intrinsic_0013(local_04);
+        local_20 = Item.legal_create(local_04);
+        local_21 = Item.getZ(local_04);
+        local_08 = (local_18 - intrinsic_0013(local_06));
+        local_10 = (local_20 - Item.legal_create(local_06));
+        local_12 = (local_21 - Item.getZ(local_06));
+        /* loopscr */
+        /* loop */
+        while (condition) {
+          /* loopnext */
+        }
+        return;
+      }
     }
-
-  block_182d:
-    goto block_1857;
-
-  block_1851:
     /* loopnext */
-    goto block_173e;
-
-  block_1857:
-    return;
-
+  }
+  return;
   /* decompilation stopped at SEARCH_SURFACE */
 }

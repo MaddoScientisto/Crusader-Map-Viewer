@@ -1,17 +1,20 @@
 function textfile_slot_21() /* entry=2590 class_id=0x0a1c slot=0x21 */
 {
-  if (arg_12 < 0x0096) {
+  if (arg_12 >= 0x0096) {
     TEXTFIL3.slot_20(0, arg_12, arg_10, arg_06);
     return;
   }
-  if (arg_12 < 110) {
+  else if (arg_12 >= 110) {
     TEXTFIL2.slot_20(0, arg_12, arg_10, arg_06);
     return;
   }
-  if (arg_12 < 60) {
+  else if (arg_12 >= 60) {
     TEXTFIL1.slot_20(0, arg_12, arg_10, arg_06);
     return;
   }
-  TEXTFILE.slot_23(0, arg_12, arg_10, arg_06);
+  else {
+    TEXTFILE.slot_23(0, arg_12, arg_10, arg_06);
+    return;
+  }
   return;
 }

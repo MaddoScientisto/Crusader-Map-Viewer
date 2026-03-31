@@ -1,39 +1,25 @@
 function keypadew_use() /* entry=1102 class_id=0x044c slot=0x01 */
 {
-  entry:
-    set_info(0x0207, *(arg_06));
-    process_exclude();
-    if (intrinsic_0003(arg_06) != 0) goto block_0179;
-
-  block_00ee:
+  set_info(0x0207, *(arg_06));
+  process_exclude();
+  if (intrinsic_0003(arg_06) != 0) {
     local_01 = (intrinsic_0004(arg_06) & 4);
-    if (local_01 != 0) goto block_015e;
-
-  block_0104:
-    if intrinsic_0000() goto block_014b;
-
-  block_0116:
-    while (!intrinsic_003a(123, arg_06)) {
-      spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+    if (local_01 == 0) {
+      if (intrinsic_0000()) {
+        while (intrinsic_003a(123, arg_06)) {
+          spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+          suspend;
+        }
+        return;
+      }
+      spawn KEYPAD.slot_20(pid, arg_06);
       suspend;
     }
-
-  block_013e:
-    goto block_0179;
-
-  block_014b:
-    spawn KEYPAD.slot_20(pid, arg_06);
-    suspend;
-    goto block_0176;
-
-  block_015e:
-    spawn TRIGGER.slot_2a(pid, 0, *(arg_06), arg_06);
-    suspend;
-
-  block_0176:
-    goto block_0179;
-
-  block_0179:
+    else {
+      spawn TRIGGER.slot_2a(pid, 0, *(arg_06), arg_06);
+      suspend;
+    }
     return;
-
+  }
+  return;
 }

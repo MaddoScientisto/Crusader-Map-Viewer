@@ -5,7 +5,7 @@ function cru_mine_slot_20() /* entry=288 class_id=0x011e slot=0x20 */
     set_info(0x00f0, local_25);
 
   block_0580:
-    if (!local_21) goto block_060f;
+    if local_21 goto block_060f;
 
   block_0586:
     local_02 = (1 + local_02);
@@ -14,16 +14,16 @@ function cru_mine_slot_20() /* entry=288 class_id=0x011e slot=0x20 */
     /* loop_selector local_19 in nearby_items(family=6, origin=local_25) */
 
   block_05a2:
-    if condition goto block_05df;
+    if !condition goto block_05df;
 
   block_05a5:
-    if Actor.isNPC(local_19) goto block_05db;
+    if !Actor.isNPC(local_19) goto block_05db;
 
   block_05b1:
-    if ((local_19 > 1) && (intrinsic_0053(local_19) != 0)) goto block_05db;
+    if (local_19 > 1) && (intrinsic_0053(local_19) != 0) goto block_05db;
 
   block_05c6:
-    if intrinsic_003a(local_19, local_25) goto block_05db;
+    if !intrinsic_003a(local_19, local_25) goto block_05db;
 
   block_05d4:
     local_21 = local_19;
@@ -34,7 +34,7 @@ function cru_mine_slot_20() /* entry=288 class_id=0x011e slot=0x20 */
     goto block_05a2;
 
   block_05df:
-    if (local_02 > 5) goto block_05f5;
+    if local_02 <= 5 goto block_05f5;
 
   block_05e9:
     local_02 = 0;
@@ -48,31 +48,31 @@ function cru_mine_slot_20() /* entry=288 class_id=0x011e slot=0x20 */
     local_02 = 0;
 
   block_0613:
-    if (local_02 < 0x0190) goto block_08ca;
+    if local_02 >= 0x0190 goto block_08ca;
 
   block_061c:
-    if (Item.getZ(local_21) > (Item.getZ(local_25) + 9)) goto block_06ad;
+    if Item.getZ(local_21) <= (Item.getZ(local_25) + 9) goto block_06ad;
 
   block_0635:
     local_21 = 0;
 
   block_0639:
-    if (!local_21) goto block_06ad;
+    if local_21 goto block_06ad;
 
   block_063f_selector_00:
     /* loop_selector local_19 in nearby_items(family=6, origin=local_25) */
 
   block_0654:
-    if condition goto block_0691;
+    if !condition goto block_0691;
 
   block_0657:
-    if Actor.isNPC(local_19) goto block_068d;
+    if !Actor.isNPC(local_19) goto block_068d;
 
   block_0663:
-    if ((local_19 > 1) && (intrinsic_0053(local_19) != 0)) goto block_068d;
+    if (local_19 > 1) && (intrinsic_0053(local_19) != 0) goto block_068d;
 
   block_0678:
-    if intrinsic_003a(local_19, local_25) goto block_068d;
+    if !intrinsic_003a(local_19, local_25) goto block_068d;
 
   block_0686:
     local_21 = local_19;
@@ -88,41 +88,41 @@ function cru_mine_slot_20() /* entry=288 class_id=0x011e slot=0x20 */
     goto block_0639;
 
   block_06ad:
-    while (!intrinsic_003a(local_21, local_19)) {
+    while (intrinsic_003a(local_21, local_19)) {
       spawn FREE.slot_3b(pid, 30, 0x00000000);
       suspend;
     }
 
   block_06d5:
-    if ((local_27 == 0) || (local_27 != 1)) {
+    if ((local_27 == 0) || (local_27 == 1)) {
       local_04 = 0;
       local_06 = -1;
     }
-    else if ((local_27 == 2) || (local_27 != 3)) {
+    else if ((local_27 == 2) || (local_27 == 3)) {
       local_04 = 1;
       local_06 = -1;
     }
-    else if ((local_27 == 4) || (local_27 != 5)) {
+    else if ((local_27 == 4) || (local_27 == 5)) {
       local_04 = 1;
       local_06 = 0;
     }
-    else if ((local_27 == 6) || (local_27 != 7)) {
+    else if ((local_27 == 6) || (local_27 == 7)) {
       local_04 = 1;
       local_06 = 1;
     }
-    else if ((local_27 == 8) || (local_27 != 9)) {
+    else if ((local_27 == 8) || (local_27 == 9)) {
       local_04 = 0;
       local_06 = 1;
     }
-    else if ((local_27 == 10) || (local_27 != 11)) {
+    else if ((local_27 == 10) || (local_27 == 11)) {
       local_04 = -1;
       local_06 = 1;
     }
-    else if ((local_27 == 12) || (local_27 != 13)) {
+    else if ((local_27 == 12) || (local_27 == 13)) {
       local_04 = -1;
       local_06 = 0;
     }
-    else if ((local_27 == 14) || (local_27 != 15)) {
+    else if ((local_27 == 14) || (local_27 == 15)) {
       local_04 = -1;
       local_06 = -1;
     }
@@ -130,26 +130,26 @@ function cru_mine_slot_20() /* entry=288 class_id=0x011e slot=0x20 */
   block_07c5:
     local_17 = (local_17 + (local_04 * 8));
     local_15 = (local_15 + (local_06 * 8));
-    if (!intrinsic_0044(0, 1, local_17, local_25)) goto block_0836;
+    if intrinsic_0044(0, 1, local_17, local_25) goto block_0836;
 
   block_07f6:
     local_13 = (local_13 + 1);
-    if (!intrinsic_0044(0, 1, local_17, local_25)) goto block_0836;
+    if intrinsic_0044(0, 1, local_17, local_25) goto block_0836;
 
   block_0810:
     local_13 = (local_13 + 1);
-    if (!intrinsic_0044(0, 1, local_17, local_25)) goto block_0836;
+    if intrinsic_0044(0, 1, local_17, local_25) goto block_0836;
 
   block_0836:
     local_12 = (1 + local_12);
-    if ((local_12 > 10) && (local_13 > 0)) goto block_08a9;
+    if (local_12 <= 10) && (local_13 > 0) goto block_08a9;
 
   block_084b:
     local_13 = (local_13 - 4);
     local_28 = 0;
 
   block_0856:
-    while (!intrinsic_0044(0, 1, local_17, local_25)) {
+    while (intrinsic_0044(0, 1, local_17, local_25)) {
       local_13 = (local_13 - 4);
       spawn FREE.slot_3b(pid, 1, 0x00000000);
       suspend;
@@ -158,7 +158,7 @@ function cru_mine_slot_20() /* entry=288 class_id=0x011e slot=0x20 */
 
   block_088d:
     local_12 = 0;
-    if local_28 goto block_08a9;
+    if !local_28 goto block_08a9;
 
   block_08a9:
     local_02 = (1 + local_02);

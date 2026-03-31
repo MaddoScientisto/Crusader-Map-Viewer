@@ -1,84 +1,43 @@
 function miss2_slot_23() /* entry=2320 class_id=0x090e slot=0x23 */
 {
-  entry:
-    set_info(1, 0);
-    local_01 = 0;
-    local_02 = 0;
-    local_03 = 0;
-
-  block_037b:
-    if (((local_01 != 0) || (local_02 != 0)) || (local_03 != 0)) goto block_0465;
-
-  block_038f_selector_00:
-    /* loop_selector local_06 in nearby_items(shape=0x04d5, origin=global[0x003d]) */
-
-  block_03a7:
-    if condition goto block_0460;
-
-  block_03aa:
-    local_04 = 0;
-    if (!local_01) goto block_03ce;
-
-  block_03b4:
-    if (intrinsic_00a7(local_06) != 0) goto block_03cb;
-
-  block_03c3:
-    local_04 = 1;
-    local_01 = 1;
-
-  block_03cb:
-    goto block_040e;
-
-  block_03ce:
-    if (!local_02) goto block_03ee;
-
-  block_03d4:
-    if (intrinsic_00a7(local_06) != 1) goto block_03eb;
-
-  block_03e3:
-    local_04 = 1;
-    local_02 = 1;
-
-  block_03eb:
-    goto block_040e;
-
-  block_03ee:
-    if (!local_03) goto block_040e;
-
-  block_03f4:
-    if (intrinsic_00a7(local_06) != 2) goto block_040b;
-
-  block_0403:
-    local_04 = 1;
-    local_03 = 1;
-
-  block_040b:
-    goto block_040e;
-
-  block_040e:
-    if local_04 goto block_045c;
-
-  block_0413:
-    if (!local_03) goto block_0445;
-
-  block_0419:
-    spawn MISS2.slot_22(local_06, 0x00000000);
-    spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
-    suspend;
-    goto block_045c;
-
-  block_0445:
-    spawn MISS2.slot_22(pid, local_06, 0x00000000);
-    suspend;
-
-  block_045c:
-    /* loopnext */
-    goto block_03a7;
-
-  block_0460:
-    goto block_037b;
-
-  block_0465:
-    return;
-
+  set_info(1, 0);
+  local_01 = 0;
+  local_02 = 0;
+  local_03 = 0;
+  while (((local_01 == 0) || (local_02 == 0)) || (local_03 == 0)) {
+    for local_06 in nearby_items(shape=0x04d5, origin=global[0x003d]) {
+      local_04 = 0;
+      if (!local_01) {
+        if (intrinsic_00a7(local_06) == 0) {
+          local_04 = 1;
+          local_01 = 1;
+        }
+      }
+      else if (!local_02) {
+        if (intrinsic_00a7(local_06) == 1) {
+          local_04 = 1;
+          local_02 = 1;
+        }
+      }
+      else if (!local_03) {
+        if (intrinsic_00a7(local_06) == 2) {
+          local_04 = 1;
+          local_03 = 1;
+        }
+      }
+      if (local_04) {
+        if (!local_03) {
+          spawn MISS2.slot_22(local_06, 0x00000000);
+          spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
+          suspend;
+        }
+        else {
+          spawn MISS2.slot_22(pid, local_06, 0x00000000);
+          suspend;
+        }
+      }
+      /* loopnext */
+    }
+  }
+  return;
 }

@@ -1,36 +1,20 @@
 function rfanbadn_gotHit() /* entry=981 class_id=0x03d3 slot=0x06 */
 {
-  entry:
-    set_info(0x020c, *(arg_06));
-    process_exclude();
-    if (!Item.getFrame(arg_06)) goto block_0104;
-
-  block_00fe:
-    goto block_01ae;
-
-  block_0104:
-    FREE.slot_2b(arg_12, arg_10);
-    if (retval && (Item.getFrame(arg_06) > 0)) goto block_01ae;
-
-  block_0126:
-    local_06 = intrinsic_00ea(arg_06);
-
-  block_0126_selector_00:
-    /* loop_selector local_02 in nearby_items(shape=WIND_AREA, origin=arg_06) */
-
-  block_017b:
-    if condition goto block_01ac;
-
-  block_017e:
-    local_04 = intrinsic_00ea(local_02);
-    if (local_04 != local_06) goto block_01a8;
-
-  block_01a8:
-    /* loopnext */
-    goto block_017b;
-
-  block_01ae:
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  if (!Item.getFrame(arg_06)) {
     return;
-
+  }
+  else {
+    FREE.slot_2b(arg_12, arg_10);
+    if (retval && (Item.getFrame(arg_06) > 0)) {
+      local_06 = intrinsic_00ea(arg_06);
+      for local_02 in nearby_items(shape=WIND_AREA, origin=arg_06) {
+        local_04 = intrinsic_00ea(local_02);
+        /* loopnext */
+      }
+    }
+  }
+  return;
   /* decompilation stopped at SEARCH_SURFACE */
 }

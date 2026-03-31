@@ -4,7 +4,10 @@ function free_slot_3d() /* entry=2591 class_id=0x0a1d slot=0x3d */
   /* global_address */
   /* global_address */
   /* global_address */
-  if (Item.getY((Item.getY((Item.getX((Item.getX() >= (arg_06 - 0x0200))) > (arg_06 + 0x0200))) >= (arg_08 - 0x0200))) <= (arg_08 + 0x0200)) {
+  if (Item.getY((Item.getY((Item.getX((Item.getX() >= (arg_06 - 0x0200))) > (arg_06 + 0x0200))) >= (arg_08 - 0x0200))) > (arg_08 + 0x0200)) {
+    return;
+  }
+  else {
     return;
   }
   return;

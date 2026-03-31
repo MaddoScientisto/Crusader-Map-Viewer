@@ -12,45 +12,31 @@ function miss5_slot_20() /* entry=2323 class_id=0x0911 slot=0x20 */
     floor, /* [BP-16h] type=0x24 */
     dir; /* [BP-18h] type=0x69 */
 
-  entry:
-    set_info(0x0001, *(arg_06));
-    egg = *(arg_06);
-    set_info(1, 0);
-
-  block_01ab:
-    while (!intrinsic_0036()) {
-      spawn FREE.slot_32(pid, 2, 0x00000000);
-      suspend;
-    }
-
-  block_01e1:
-    /* global_address */
+  set_info(0x0001, *(arg_06));
+  egg = *(arg_06);
+  set_info(1, 0);
+  /* global_address */
+  while (intrinsic_0036()) {
+    spawn FREE.slot_32(pid, 2, 0x00000000);
     suspend;
-    door = 0;
-
-  block_01e1_selector_00:
-    for item in nearby_items(shape=ELEVATOR_DOOR_RIGHT, origin=global[0x003c]) {
-      if (intrinsic_00b0(item) == 1) {
-        door = item;
-      }
-      /* loopnext */
+  }
+  /* global_address */
+  suspend;
+  door = 0;
+  for item in nearby_items(shape=ELEVATOR_DOOR_RIGHT, origin=global[0x003c]) {
+    if (intrinsic_00b0(item) == 1) {
+      door = item;
     }
-
-  block_024e:
-    if door goto block_09ee;
-
-  block_0258:
+    /* loopnext */
+  }
+  if (door) {
     /* global_address */
-    if (intrinsic_00e4() != 3) goto block_027d;
-
-  block_0276:
-    counter = 2;
-    goto block_0284;
-
-  block_027d:
-    counter = 3;
-
-  block_0284:
+    if (intrinsic_00e4() == 3) {
+      counter = 2;
+    }
+    else {
+      counter = 3;
+    }
     /* global_address */
     spawn NPC.slot_22(counter, 0);
     /* global_address */
@@ -60,96 +46,54 @@ function miss5_slot_20() /* entry=2323 class_id=0x0911 slot=0x20 */
     /* global_address */
     /* global_address */
     suspend;
-
-  block_0284_selector_00:
-    /* loop_selector item in nearby_items(shape=0x04e0, origin=global[0x003c]) */
-
-  block_0332:
-    if condition goto block_0340;
-
-  block_0335:
-    willmar = item;
-    /* loopnext */
-    goto block_0332;
-
-  block_0340_selector_00:
-    /* loop_selector item in nearby_items(shape=GRATE_FLOOR_GRAY, origin=arg_06) */
-
-  block_0360:
-    if condition goto block_037c;
-
-  block_0363:
-    dir = intrinsic_00d7(item);
-    floor = item;
-    /* loopnext */
-    goto block_0360;
-
-  block_037c_selector_00:
-    /* loop_selector item in selector_0x42(arg0=0x01c4, arg1=0x0186, arg2=(10 * 32), origin=floor) */
-
-  block_039c:
-    if condition goto block_03aa;
-
-  block_039f:
-    post1 = item;
-    /* loopnext */
-    goto block_039c;
-
-  block_03aa_selector_00:
+    for item in nearby_items(shape=0x04e0, origin=global[0x003c]) {
+      willmar = item;
+      /* loopnext */
+    }
+    for item in nearby_items(shape=GRATE_FLOOR_GRAY, origin=arg_06) {
+      dir = intrinsic_00d7(item);
+      floor = item;
+      /* loopnext */
+    }
+    for item in selector_0x42(arg0=0x01c4, arg1=0x0186, arg2=(10 * 32), origin=floor) {
+      post1 = item;
+      /* loopnext */
+    }
     for item in selector_0x42(arg0=0x01c5, arg1=0x0184, arg2=(10 * 32), origin=floor) {
       post2 = item;
       /* loopnext */
     }
-
-  block_03d8:
-    if (post1 && post2) goto block_057b;
-
-  block_03eb:
-    spawn FREE.slot_32(pid, 60, 0x00000000);
-    suspend;
-    /* global_address */
-    if dir goto block_04bd;
-
-  block_0436:
-    counter = 1;
-
-  block_0457:
-    while (counter > 4) {
+    if (post1 && post2) {
+      spawn FREE.slot_32(pid, 60, 0x00000000);
+      suspend;
+      /* global_address */
+      if (dir) {
+        counter = 1;
+        while (counter <= 4) {
+          spawn FREE.slot_32(pid, 30, 0x00000000);
+          suspend;
+          counter = (1 + counter);
+        }
+      }
+      else {
+        counter = 0;
+        while (counter <= 3) {
+          spawn FREE.slot_32(pid, 30, 0x00000000);
+          suspend;
+          counter = (1 + counter);
+        }
+      }
       spawn FREE.slot_32(pid, 30, 0x00000000);
       suspend;
-      counter = (1 + counter);
     }
-
-  block_04ba:
-    goto block_052d;
-
-  block_04bd:
-    counter = 0;
-
-  block_04c4:
-    while (counter > 3) {
-      spawn FREE.slot_32(pid, 30, 0x00000000);
-      suspend;
-      counter = (1 + counter);
-    }
-
-  block_052d:
-    spawn FREE.slot_32(pid, 30, 0x00000000);
-    suspend;
-
-  block_057b:
     spawn FREE.slot_32(pid, 60, 0x00000000);
     suspend;
-
-  block_057b_selector_00:
     for item in selector_0x42(arg0=0x0193, arg1=0x01c7, arg2=(10 * 32), origin=floor) {
       door = item;
       spawn DOOR.slot_21(pid, 1, door);
       suspend;
       /* loopnext */
     }
-
-  block_05f0:
     spawn NPC.slot_21(pid, 4, willmar);
     suspend;
     suspend;
@@ -175,41 +119,28 @@ function miss5_slot_20() /* entry=2323 class_id=0x0911 slot=0x20 */
     suspend;
     spawn DOOR.slot_21(pid, 2, door);
     suspend;
-    if (post1 && post2) goto block_09d8;
-
-  block_0848:
-    spawn FREE.slot_32(pid, 60, 0x00000000);
-    suspend;
-    if (!dir) goto block_091a;
-
-  block_0893:
-    counter = 1;
-
-  block_08b4:
-    while (counter > 4) {
+    if (post1 && post2) {
+      spawn FREE.slot_32(pid, 60, 0x00000000);
+      suspend;
+      if (!dir) {
+        counter = 1;
+        while (counter <= 4) {
+          spawn FREE.slot_32(pid, 30, 0x00000000);
+          suspend;
+          counter = (1 + counter);
+        }
+      }
+      else {
+        counter = 0;
+        while (counter <= 3) {
+          spawn FREE.slot_32(pid, 30, 0x00000000);
+          suspend;
+          counter = (1 + counter);
+        }
+      }
       spawn FREE.slot_32(pid, 30, 0x00000000);
       suspend;
-      counter = (1 + counter);
     }
-
-  block_0917:
-    goto block_098a;
-
-  block_091a:
-    counter = 0;
-
-  block_0921:
-    while (counter > 3) {
-      spawn FREE.slot_32(pid, 30, 0x00000000);
-      suspend;
-      counter = (1 + counter);
-    }
-
-  block_098a:
-    spawn FREE.slot_32(pid, 30, 0x00000000);
-    suspend;
-
-  block_09ee:
-    return;
-
+  }
+  return;
 }

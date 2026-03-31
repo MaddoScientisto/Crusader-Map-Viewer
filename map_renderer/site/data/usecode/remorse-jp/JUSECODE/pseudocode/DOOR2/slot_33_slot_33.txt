@@ -13,15 +13,10 @@ function door2_slot_33() /* entry=2569 class_id=0x0a07 slot=0x33 */
     local_19 = retval;
 
   entry_selector_00:
-    /* loop_selector local_14 in nearby_items(shape=0x0289, origin=arg_06) */
-
-  block_21a2:
-    if condition goto block_21b0;
-
-  block_21a5:
-    local_10 = local_14;
-    /* loopnext */
-    goto block_21a2;
+    for local_14 in nearby_items(shape=0x0289, origin=arg_06) {
+      local_10 = local_14;
+      /* loopnext */
+    }
 
   block_21b0_selector_00:
     for local_14 in nearby_items(shape=0x028e, origin=arg_06) {
@@ -30,30 +25,30 @@ function door2_slot_33() /* entry=2569 class_id=0x0a07 slot=0x33 */
     }
 
   block_21de:
-    if (local_10 && local_12) goto block_24b5;
+    if !(local_10 && local_12) goto block_24b5;
 
   block_21f1:
     local_06 = 1;
 
   block_2205:
-    if (local_06 <= (local_19 - 1)) goto block_24b5;
+    if local_06 > (local_19 - 1) goto block_24b5;
 
   block_2216:
     FREE.slot_2d(Item.getZ(local_12), Item.legal_create(local_12), intrinsic_0013(local_12), 0, local_04, (local_19 - local_06), list_element(size=0x2), local_12);
-    if (!retval) goto block_2258;
+    if retval goto block_2258;
 
   block_2251:
     local_15 = 1;
 
   block_2258:
     FREE.slot_2d(Item.getZ(local_10), (Item.legal_create(local_10) + 16), intrinsic_0013(local_10), 0, local_02, (local_19 - local_06), list_element(size=0x2), local_10);
-    if (!retval) goto block_229d;
+    if retval goto block_229d;
 
   block_2296:
     local_16 = 1;
 
   block_229d:
-    if ((!local_15) && (!local_16)) goto block_22ec;
+    if !((!local_15) && (!local_16)) goto block_22ec;
 
   block_22ad:
     spawn FREE.slot_32(pid, 5, 0x00000000);
@@ -63,29 +58,23 @@ function door2_slot_33() /* entry=2569 class_id=0x0a07 slot=0x33 */
   block_22ec:
     spawn FREE.slot_32(pid, 30, 0x00000000);
     suspend;
-    if local_15 goto block_2397;
+    if !local_15 goto block_2397;
 
   block_2397:
-    if local_16 goto block_23b7;
+    if !local_16 goto block_23b7;
 
   block_23b7:
     local_08 = ((local_19 - local_06) + 1);
 
   block_23c4:
-    if (local_08 <= local_19) goto block_249e;
-
-  block_23cf:
-    if (!local_17) goto block_2442;
-
-  block_2412:
-    local_17 = 1;
-    goto block_246b;
-
-  block_246b:
-    spawn FREE.slot_32(pid, 10, 0x00000000);
-    suspend;
-    local_08 = (1 + local_08);
-    goto block_23c4;
+    while (local_08 <= local_19) {
+      if (!local_17) {
+        local_17 = 1;
+      }
+      spawn FREE.slot_32(pid, 10, 0x00000000);
+      suspend;
+      local_08 = (1 + local_08);
+    }
 
   block_249e:
     /* word_to_dword */

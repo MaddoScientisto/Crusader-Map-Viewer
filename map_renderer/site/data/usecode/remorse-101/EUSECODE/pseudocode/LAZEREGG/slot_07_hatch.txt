@@ -1,35 +1,18 @@
 function lazeregg_hatch() /* entry=2318 class_id=0x090c slot=0x07 */
 {
-  entry:
-    set_info(0x0210, *(arg_06));
-    process_exclude();
-    local_04 = 0;
-    local_04 = intrinsic_003e(arg_06);
-
-  entry_selector_00:
-    /* loop_selector local_02 in nearby_items(shape=IR_SENSOR, origin=arg_06) */
-
-  block_0106:
-    if condition goto block_0139;
-
-  block_0109:
-    if (Item.getFrame(local_02) != 1) goto block_011e;
-
-  block_0118:
-    goto block_013b;
-
-  block_011b:
-    goto block_0135;
-
-  block_011e:
-    spawn FREE.slot_31(pid, local_02, 0x00000000);
-    suspend;
-
-  block_0135:
+  set_info(0x0210, *(arg_06));
+  process_exclude();
+  local_04 = 0;
+  local_04 = intrinsic_003e(arg_06);
+  for local_02 in nearby_items(shape=IR_SENSOR, origin=arg_06) {
+    if (Item.getFrame(local_02) == 1) {
+      return;
+    }
+    else {
+      spawn FREE.slot_31(pid, local_02, 0x00000000);
+      suspend;
+    }
     /* loopnext */
-    goto block_0106;
-
-  block_013b:
-    return;
-
+  }
+  return;
 }

@@ -4,83 +4,85 @@ function rebel_tv_use() /* entry=1007 class_id=0x03ed slot=0x01 */
   process_exclude();
   spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
   suspend;
-  if (!Item.getFrame(arg_06)) {
+  if (Item.getFrame(arg_06)) {
     return;
   }
-  if (global[0x0020] == 2) {
+  else if (global[0x0020] == 2) {
     /* str_to_ptr */
     /* free_stack_string */
     suspend;
     return;
   }
-  if (global[0x0020] == 3) {
+  else if (global[0x0020] == 3) {
     /* str_to_ptr */
     /* free_stack_string */
     suspend;
     return;
   }
-  if (global[0x0020] == 4) {
+  else if (global[0x0020] == 4) {
     /* str_to_ptr */
     /* free_stack_string */
     suspend;
     return;
   }
-  if (global[0x0020] == 5) {
+  else if (global[0x0020] == 5) {
     /* str_to_ptr */
     /* free_stack_string */
     suspend;
     return;
   }
-  if (global[0x0020] == 6) {
+  else if (global[0x0020] == 6) {
     /* str_to_ptr */
     /* free_stack_string */
     suspend;
     return;
   }
-  if (global[0x0020] == 7) {
+  else if (global[0x0020] == 7) {
     /* str_to_ptr */
     /* free_stack_string */
     suspend;
     return;
   }
-  if (global[0x0020] == 8) {
+  else if (global[0x0020] == 8) {
     /* str_to_ptr */
     /* free_stack_string */
     suspend;
     return;
   }
-  if (global[0x0020] == 9) {
+  else if (global[0x0020] == 9) {
     /* str_to_ptr */
     /* free_stack_string */
     suspend;
     return;
   }
-  if (global[0x0020] == 10) {
+  else if (global[0x0020] == 10) {
     /* str_to_ptr */
     /* free_stack_string */
     suspend;
     return;
   }
-  if (global[0x0020] == 11) {
+  else if (global[0x0020] == 11) {
     /* str_to_ptr */
     /* free_stack_string */
     suspend;
     return;
   }
-  if (global[0x0020] == 12) {
+  else if (global[0x0020] == 12) {
     /* str_to_ptr */
     /* free_stack_string */
     suspend;
     return;
   }
-  if (global[0x0020] == 13) {
+  else if (global[0x0020] == 13) {
     /* str_to_ptr */
     /* free_stack_string */
     suspend;
     return;
   }
-  /* str_to_ptr */
-  /* free_stack_string */
-  suspend;
+  else {
+    /* str_to_ptr */
+    /* free_stack_string */
+    suspend;
+  }
   return;
 }

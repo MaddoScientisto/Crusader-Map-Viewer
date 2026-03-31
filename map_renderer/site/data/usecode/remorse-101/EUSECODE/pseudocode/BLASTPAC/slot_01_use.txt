@@ -9,25 +9,22 @@ function blastpac_use() /* entry=925 class_id=0x039b slot=0x01 */
     local_11 = intrinsic_001f();
 
   block_0105:
-    /* global_address */
-    if intrinsic_0033() goto block_012c;
-
-  block_0112:
-    spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
-    suspend;
-    goto block_0105;
+    while (intrinsic_0033()) {
+      spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+      suspend;
+    }
 
   block_012c_selector_00:
     /* loop_selector local_07 in nearby_items(shape=0x053a, origin=global[0x003d]) */
 
   block_0144:
-    if condition goto block_01d6;
+    if !condition goto block_01d6;
 
   block_0147:
     local_05 = local_07;
 
   block_014b:
-    while ((retval > 3) && (local_09 == 6)) {
+    while ((retval > 3) && (local_09 != 6)) {
       /* global_address */
       /* global_address */
       /* global_address */
@@ -113,11 +110,11 @@ function blastpac_use() /* entry=925 class_id=0x039b slot=0x01 */
     }
 
   block_0388:
-    if local_05 goto block_0503;
+    if !local_05 goto block_0503;
 
   block_038d:
     /* global_address */
-    if intrinsic_0035() goto block_03a1;
+    if !intrinsic_0035() goto block_03a1;
 
   block_039a:
     local_01 = 1;
@@ -136,7 +133,7 @@ function blastpac_use() /* entry=925 class_id=0x039b slot=0x01 */
     spawn BLASTPAC.slot_20(local_17, arg_06);
 
   block_0414:
-    while (!intrinsic_0033()) {
+    while (intrinsic_0033()) {
       spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
       suspend;
     }
@@ -144,13 +141,13 @@ function blastpac_use() /* entry=925 class_id=0x039b slot=0x01 */
   block_043b:
     spawn FREE.slot_21(pid, 13, 0x00000000);
     suspend;
-    if (!local_01) goto block_04c3;
+    if local_01 goto block_04c3;
 
   block_0458:
     /* global_address */
     /* global_address */
     suspend;
-    if local_05 goto block_04c0;
+    if !local_05 goto block_04c0;
 
   block_047e:
     /* global_address */

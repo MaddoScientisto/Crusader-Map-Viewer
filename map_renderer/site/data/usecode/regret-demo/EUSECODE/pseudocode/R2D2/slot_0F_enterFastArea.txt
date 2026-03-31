@@ -1,27 +1,20 @@
 function r2d2_enterFastArea() /* entry=441 class_id=0x01b7 slot=0x0f */
 {
-  entry:
-    set_info(0x021b, *(arg_06));
-    process_exclude();
-    if (Item.getFrame(arg_06) != 16) goto block_00f1;
-
-  block_00ee:
-    goto block_0227;
-
-  block_00f1:
+  set_info(0x021b, *(arg_06));
+  process_exclude();
+  if (Item.getFrame(arg_06) == 16) {
+    return;
+  }
+  else {
     local_06 = 1;
     local_10 = ((5 - intrinsic_000a()) * 5);
     local_12 = ((5 - intrinsic_000a()) * 2);
-    if (intrinsic_0004(arg_06) & 4) goto block_0125;
-
-  block_011e:
-    local_06 = 1;
-    goto block_0129;
-
-  block_0125:
-    local_06 = -1;
-
-  block_0129:
+    if (intrinsic_0004(arg_06) & 4) {
+      local_06 = 1;
+    }
+    else {
+      local_06 = -1;
+    }
     suspend;
     spawn FREE.slot_3b(pid, local_10, 0x00000000);
     suspend;
@@ -30,48 +23,40 @@ function r2d2_enterFastArea() /* entry=441 class_id=0x01b7 slot=0x0f */
     local_14 = intrinsic_0023(Item.getX(Item.getY(16, 0, 16)), Item.getY(arg_06), Item.getX(arg_06));
     local_04 = Item.getFrame(arg_06);
     local_16 = intrinsic_0016();
-    if ((local_14 != local_04) && (local_08 < 20)) goto block_01e7;
-
-  block_0196:
-    local_02 = (1 + local_02);
-    if (((local_02 > local_12) && (local_07 != 0)) && (local_16 > 0)) goto block_01e4;
-
-  block_01b1:
-    if intrinsic_003a(local_16, arg_06) goto block_01d9;
-
-  block_01bf:
-    local_07 = 1;
-    spawn TRIGGER.slot_20(0, *(arg_06), arg_06);
-    goto block_01e4;
-
-  block_01d9:
-    local_08 = (1 + local_08);
-    local_02 = 0;
-
-  block_01e4:
-    goto block_0224;
-
-  block_01e7:
-    local_08 = 0;
-    local_02 = 0;
-    local_07 = 0;
-    if ((local_04 + local_06) < 0) goto block_0205;
-
-  block_01fe:
-    local_04 = 15;
-    goto block_0217;
-
-  block_0205:
-    if ((local_04 + local_06) > 15) goto block_0217;
-
-  block_0210:
-    local_04 = 0;
-    goto block_0217;
-
-  block_0224:
-    goto block_0129;
-
-  block_0227:
-    return;
-
+    while (true) {
+      suspend;
+      spawn FREE.slot_3b(pid, local_10, 0x00000000);
+      suspend;
+      /* global_address */
+      /* global_address */
+      local_14 = intrinsic_0023(Item.getX(Item.getY(16, 0, 16)), Item.getY(arg_06), Item.getX(arg_06));
+      local_04 = Item.getFrame(arg_06);
+      local_16 = intrinsic_0016();
+      if ((local_14 == local_04) && (local_08 < 20)) {
+        local_02 = (1 + local_02);
+        if (((local_02 > local_12) && (local_07 == 0)) && (local_16 > 0)) {
+          if (intrinsic_003a(local_16, arg_06)) {
+            local_07 = 1;
+            spawn TRIGGER.slot_20(0, *(arg_06), arg_06);
+          }
+          else {
+            local_08 = (1 + local_08);
+            local_02 = 0;
+          }
+        }
+      }
+      else {
+        local_08 = 0;
+        local_02 = 0;
+        local_07 = 0;
+        if ((local_04 + local_06) < 0) {
+          local_04 = 15;
+        }
+        else if ((local_04 + local_06) > 15) {
+          local_04 = 0;
+        }
+      }
+    }
+  }
+  return;
 }

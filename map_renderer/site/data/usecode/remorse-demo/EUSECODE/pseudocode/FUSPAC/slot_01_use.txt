@@ -9,25 +9,22 @@ function fuspac_use() /* entry=926 class_id=0x039c slot=0x01 */
     local_12 = Item.getFootpad();
 
   block_0117:
-    /* global_address */
-    if intrinsic_0036() goto block_014d;
-
-  block_0127:
-    spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
-    suspend;
-    goto block_0117;
+    while (intrinsic_0036()) {
+      spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+      suspend;
+    }
 
   block_014d_selector_00:
     /* loop_selector local_08 in nearby_items(shape=0x053a, origin=global[0x003c]) */
 
   block_016b:
-    if condition goto block_022d;
+    if !condition goto block_022d;
 
   block_016e:
     local_06 = local_08;
 
   block_0175:
-    while ((retval > 3) && (local_10 == 6)) {
+    while ((retval > 3) && (local_10 != 6)) {
       /* global_address */
       /* global_address */
       /* global_address */
@@ -113,7 +110,7 @@ function fuspac_use() /* entry=926 class_id=0x039c slot=0x01 */
     }
 
   block_040f:
-    if (!local_06) goto block_0481;
+    if local_06 goto block_0481;
 
   block_0418:
     spawn FREE.slot_21(pid, 0x00b0, 0x00000000);
@@ -125,7 +122,7 @@ function fuspac_use() /* entry=926 class_id=0x039c slot=0x01 */
 
   block_0481:
     /* global_address */
-    if intrinsic_0038() goto block_049b;
+    if !intrinsic_0038() goto block_049b;
 
   block_0491:
     local_01 = 1;
@@ -144,13 +141,13 @@ function fuspac_use() /* entry=926 class_id=0x039c slot=0x01 */
     local_02 = 1;
 
   block_052c:
-    while (!intrinsic_0036()) {
+    while (intrinsic_0036()) {
       spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
       suspend;
     }
 
   block_0562:
-    if local_02 goto block_0772;
+    if !local_02 goto block_0772;
 
   block_056a:
     /* str_to_ptr */
@@ -160,20 +157,12 @@ function fuspac_use() /* entry=926 class_id=0x039c slot=0x01 */
     spawn FREE.slot_24(1, 100, 0x00000000);
 
   block_056a_selector_00:
-    /* loop_selector local_08 in nearby_items(shape=0x0476, origin=global[0x003c]) */
-
-  block_05de:
-    if condition goto block_0609;
-
-  block_05e1:
-    if (intrinsic_00af(local_08) != 33) goto block_0605;
-
-  block_05f6:
-    FREE.slot_2f(0x03b5, local_08);
-
-  block_0605:
-    /* loopnext */
-    goto block_05de;
+    for local_08 in nearby_items(shape=0x0476, origin=global[0x003c]) {
+      if (intrinsic_00af(local_08) == 33) {
+        FREE.slot_2f(0x03b5, local_08);
+      }
+      /* loopnext */
+    }
 
   block_0609_selector_00:
     for local_08 in selector_0x42(arg0=0x032a, arg1=0x0329, arg2=(50 * 32), origin=global[0x003c]) {
@@ -186,7 +175,7 @@ function fuspac_use() /* entry=926 class_id=0x039c slot=0x01 */
     /* loop */
 
   block_0670:
-    while (!condition) {
+    while (condition) {
       if (intrinsic_00af(local_08) == 10) {
         local_20 = local_08;
         spawn DOOR.slot_20(pid, local_20);
@@ -201,30 +190,17 @@ function fuspac_use() /* entry=926 class_id=0x039c slot=0x01 */
     /* loop */
 
   block_06cf:
-    if condition goto block_0706;
-
-  block_06d2:
-    if (intrinsic_00af(local_08) != 0x00fb) goto block_0702;
-
-  block_0702:
-    /* loopnext */
-    goto block_06cf;
+    while (condition) {
+      /* loopnext */
+    }
 
   block_0706_selector_00:
-    /* loop_selector local_08 in nearby_items(shape=NPC_SPAWNER_04D0, origin=arg_06) */
-
-  block_0727:
-    if condition goto block_0770;
-
-  block_072a:
-    if ((Item.getFrame(local_08) != 0) && (intrinsic_00af(local_08) != 47)) goto block_076c;
-
-  block_074c:
-    suspend;
-
-  block_076c:
-    /* loopnext */
-    goto block_0727;
+    for local_08 in nearby_items(shape=NPC_SPAWNER_04D0, origin=arg_06) {
+      if ((Item.getFrame(local_08) == 0) && (intrinsic_00af(local_08) == 47)) {
+        suspend;
+      }
+      /* loopnext */
+    }
 
   block_0772:
     return;

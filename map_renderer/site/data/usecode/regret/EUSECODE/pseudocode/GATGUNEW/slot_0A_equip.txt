@@ -2,12 +2,14 @@ function gatgunew_equip() /* entry=277 class_id=0x0113 slot=0x0a */
 {
   set_info(0x0211, *(arg_06));
   process_exclude();
-  if (intrinsic_0016() == 0) {
+  if (intrinsic_0016() != 0) {
     spawn WALLGUN.slot_24(pid, arg_10, intrinsic_0016(), arg_06);
     suspend;
     return;
   }
-  spawn WALLGUN.slot_24(pid, arg_10, global[0x001e], arg_06);
-  suspend;
+  else {
+    spawn WALLGUN.slot_24(pid, arg_10, global[0x001e], arg_06);
+    suspend;
+  }
   return;
 }

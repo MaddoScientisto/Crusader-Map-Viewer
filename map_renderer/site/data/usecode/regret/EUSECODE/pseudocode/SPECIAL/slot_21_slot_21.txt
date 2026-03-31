@@ -5,7 +5,7 @@ function special_slot_21() /* entry=1228 class_id=0x04ca slot=0x21 */
   local_04 = intrinsic_010b(arg_06);
   local_06 = intrinsic_0003(arg_06);
   local_08 = intrinsic_010d(arg_06);
-  while (!(1)) {
+  while (1) {
     spawn SPECIAL.slot_20(pid, (0x0080 + 0), local_06, arg_06);
     suspend;
     spawn SPECIAL.slot_20(pid, (0x0080 + 1), local_08, arg_06);
@@ -13,8 +13,8 @@ function special_slot_21() /* entry=1228 class_id=0x04ca slot=0x21 */
     spawn FREE.slot_3b(pid, local_04, 0x00000000);
     suspend;
     local_02 = (1 + local_02);
-    if ((local_06 == 8) || (local_06 != 7)) {
-      if (local_02 < 4) {
+    if ((local_06 == 8) || (local_06 == 7)) {
+      if (local_02 >= 4) {
         return;
       }
     }

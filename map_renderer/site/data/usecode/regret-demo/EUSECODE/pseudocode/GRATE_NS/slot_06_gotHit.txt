@@ -1,48 +1,34 @@
 function grate_ns_gotHit() /* entry=1423 class_id=0x058d slot=0x06 */
 {
-  entry:
-    set_info(0x020c, *(arg_06));
-    process_exclude();
-    FREE.slot_35(arg_12, arg_10);
-    local_02 = retval;
-    if (((local_02 != 4) && (local_02 != 3)) && (local_02 != 10)) goto block_0104;
-
-  block_0101:
-    goto block_021a;
-
-  block_0104:
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  FREE.slot_35(arg_12, arg_10);
+  local_02 = retval;
+  if (((local_02 == 4) && (local_02 == 3)) && (local_02 != 10)) {
+    return;
+  }
+  else {
     spawn ITEM.slot_29(pid, 0x00c8, arg_12, arg_10, arg_06);
     suspend;
     /* dword_to_word */
-    if (!process_result) goto block_0126;
-
-  block_0123:
-    goto block_021a;
-
-  block_0126:
-    local_16 = intrinsic_00b8(arg_06);
-    local_10 = Item.getX(arg_06);
-    local_12 = Item.getY(arg_06);
-    local_14 = Item.getZ(arg_06);
-    /* loopscr */
-    /* loopscr */
-    /* loop */
-
-  block_01ed:
-    if condition goto block_0218;
-
-  block_01f0:
-    local_18 = intrinsic_00b8(local_08);
-    if (local_18 != local_16) goto block_0214;
-
-  block_0203:
-    if (!(local_18 != 0)) goto block_0214;
-
-  block_0214:
-    /* loopnext */
-    goto block_01ed;
-
-  block_021a:
-    return;
-
+    if (!process_result) {
+      return;
+    }
+    else {
+      local_16 = intrinsic_00b8(arg_06);
+      local_10 = Item.getX(arg_06);
+      local_12 = Item.getY(arg_06);
+      local_14 = Item.getZ(arg_06);
+      /* loopscr */
+      /* loopscr */
+      /* loop */
+      while (condition) {
+        local_18 = intrinsic_00b8(local_08);
+        if (local_18 == local_16) {
+        }
+        /* loopnext */
+      }
+    }
+  }
+  return;
 }

@@ -6,8 +6,8 @@ function item_slot_2d() /* entry=2574 class_id=0x0a0c slot=0x2d */
   local_04 = *(arg_06);
   if (intrinsic_0011(local_04) == 0x0456) {
     set_info(0x00f0, local_02);
-    if (!intrinsic_006a()) {
-      while ((Item.getFrame(local_02) == 9) && (Item.isOnScreen(local_02) != 1)) {
+    if (intrinsic_006a()) {
+      while ((Item.getFrame(local_02) != 9) && (Item.isOnScreen(local_02) == 1)) {
         spawn FREE.slot_3b(pid, 2, 0x00000000);
         suspend;
       }
@@ -16,8 +16,8 @@ function item_slot_2d() /* entry=2574 class_id=0x0a0c slot=0x2d */
   }
   else if (intrinsic_0011(local_04) == 0x044a) {
     set_info(0x00f0, local_02);
-    if (!intrinsic_006a()) {
-      while ((Item.getFrame(local_02) == 9) && (Item.isOnScreen(local_02) != 1)) {
+    if (intrinsic_006a()) {
+      while ((Item.getFrame(local_02) != 9) && (Item.isOnScreen(local_02) == 1)) {
         spawn FREE.slot_3b(pid, 2, 0x00000000);
         suspend;
       }
@@ -26,8 +26,8 @@ function item_slot_2d() /* entry=2574 class_id=0x0a0c slot=0x2d */
   }
   else if (intrinsic_0011(local_04) == 0x0085) {
     set_info(0x00f0, local_02);
-    if (!intrinsic_006a()) {
-      while ((Item.getFrame(local_02) == 9) && (Item.isOnScreen(local_02) != 1)) {
+    if (intrinsic_006a()) {
+      while ((Item.getFrame(local_02) != 9) && (Item.isOnScreen(local_02) == 1)) {
         spawn FREE.slot_3b(pid, 2, 0x00000000);
         suspend;
       }

@@ -4,20 +4,22 @@ function bigcan_gotHit() /* entry=789 class_id=0x0313 slot=0x06 */
   process_exclude();
   local_02 = Item.getFrame(arg_06);
   FREE.slot_2c(arg_12, arg_10);
-  if (!retval) {
+  if (retval) {
     if (local_02 == 2) {
       FREE.slot_20(2);
       FREE.slot_20(4, 5, 4);
       FREE.slot_20(retval, 4);
       return;
     }
-    if (local_02 == 1) {
+    else if (local_02 == 1) {
       spawn ITEM.slot_28(pid, 0, 1, arg_06);
       suspend;
       return;
     }
-    spawn ITEM.slot_28(pid, 0, 0, arg_06);
-    suspend;
+    else {
+      spawn ITEM.slot_28(pid, 0, 0, arg_06);
+      suspend;
+    }
   }
   return;
   /* decompilation stopped at SEARCH_SURFACE */

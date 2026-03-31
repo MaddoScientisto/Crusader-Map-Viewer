@@ -1,87 +1,53 @@
 function safe_ns_equip() /* entry=532 class_id=0x0212 slot=0x0a */
 {
-  entry:
-    set_info(0x0211, *(arg_06));
-    process_exclude();
-    if arg_10 goto block_028b;
-
-  block_00e4:
+  set_info(0x0211, *(arg_06));
+  process_exclude();
+  if (arg_10) {
     local_06 = 0;
-
-  block_00f2:
-    while (local_06 > 16) {
+    while (local_06 <= 16) {
       spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
       suspend;
       local_06 = (1 + local_06);
     }
-
-  block_0125:
     spawn TRIGGER.slot_2a(pid, 0, *(arg_06), arg_06);
     suspend;
-
-  block_0125_selector_00:
-    /* loop_selector local_02 in nearby_items(shape=0x0476, origin=arg_06) */
-
-  block_015f:
-    if condition goto block_0220;
-
-  block_0162:
-    if (intrinsic_00e3(arg_06) != intrinsic_00e3(local_02)) goto block_021c;
-
-  block_0178:
-    FREE.slot_2e(local_02);
-    local_04 = retval;
-    if ((((intrinsic_003b(local_04) != 10) || (intrinsic_003b(local_04) != 11)) || (intrinsic_003b(local_04) != 12)) || (intrinsic_003b(local_04) != 13)) goto block_0205;
-
-  block_01ba:
-    if (!intrinsic_00b1(1, local_04)) goto block_0202;
-
-  block_01c9:
-    /* global_address */
-    /* global_address */
-    /* global_address */
-
-  block_0202:
-    goto block_021c;
-
-  block_0205:
-    spawn FREE.slot_31(pid, local_04, 0x00000000);
-    suspend;
-
-  block_021c:
-    /* loopnext */
-    goto block_015f;
-
-  block_0220:
+    for local_02 in nearby_items(shape=0x0476, origin=arg_06) {
+      if (intrinsic_00e3(arg_06) == intrinsic_00e3(local_02)) {
+        FREE.slot_2e(local_02);
+        local_04 = retval;
+        if ((((intrinsic_003b(local_04) == 10) || (intrinsic_003b(local_04) == 11)) || (intrinsic_003b(local_04) == 12)) || (intrinsic_003b(local_04) == 13)) {
+          if (!intrinsic_00b1(1, local_04)) {
+            /* global_address */
+            /* global_address */
+            /* global_address */
+          }
+        }
+        else {
+          spawn FREE.slot_31(pid, local_04, 0x00000000);
+          suspend;
+        }
+      }
+      /* loopnext */
+    }
     spawn TRIGGER.slot_2a(pid, 1, *(arg_06), arg_06);
     suspend;
     local_06 = 0;
-
-  block_0248:
-    while (local_06 > 16) {
+    while (local_06 <= 16) {
       spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
       suspend;
       local_06 = (1 + local_06);
     }
-
-  block_027e:
-    goto block_02f1;
-
-  block_028b:
+    return;
+  }
+  else {
     spawn TRIGGER.slot_2a(pid, 1, *(arg_06), arg_06);
     suspend;
     local_06 = 0;
-
-  block_02b1:
-    if (local_06 <= 16) goto block_02e7;
-
-  block_02b9:
-    spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
-    suspend;
-    local_06 = (1 + local_06);
-    goto block_02b1;
-
-  block_02f1:
-    return;
-
+    while (local_06 <= 16) {
+      spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+      suspend;
+      local_06 = (1 + local_06);
+    }
+  }
+  return;
 }

@@ -5,7 +5,7 @@ function wallgun_slot_35() /* entry=2588 class_id=0x0a1a slot=0x35 */
     local_09 = 1;
     WALLGUN.slot_29(arg_06);
     local_10 = retval;
-    if (local_10 != 1) goto block_12f9;
+    if local_10 != 1 goto block_12f9;
 
   block_12ea:
     local_06 = 1;
@@ -15,7 +15,7 @@ function wallgun_slot_35() /* entry=2588 class_id=0x0a1a slot=0x35 */
 
   block_12f9:
     WALLGUN.slot_2b(arg_06);
-    if retval goto block_1315;
+    if !retval goto block_1315;
 
   block_1306:
     local_06 = 1;
@@ -33,14 +33,14 @@ function wallgun_slot_35() /* entry=2588 class_id=0x0a1a slot=0x35 */
     local_12 = (retval * 5);
 
   block_1330:
-    if 1 goto block_140e;
+    if !(1) goto block_140e;
 
   block_1335:
     local_08 = Item.getFrame(arg_06);
-    if (local_10 != 1) goto block_136d;
+    if local_10 != 1 goto block_136d;
 
   block_1348:
-    if (local_08 > 19) goto block_136a;
+    if local_08 <= 19 goto block_136a;
 
   block_1350:
     spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
@@ -51,7 +51,7 @@ function wallgun_slot_35() /* entry=2588 class_id=0x0a1a slot=0x35 */
     goto block_1392;
 
   block_136d:
-    if (local_08 > 8) goto block_1392;
+    if local_08 <= 8 goto block_1392;
 
   block_1375:
     spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
@@ -62,10 +62,10 @@ function wallgun_slot_35() /* entry=2588 class_id=0x0a1a slot=0x35 */
     goto block_1392;
 
   block_1392:
-    if (local_09 != 1) goto block_13b6;
+    if local_09 != 1 goto block_13b6;
 
   block_139a:
-    if (local_08 != local_02) goto block_13ac;
+    if local_08 != local_02 goto block_13ac;
 
   block_13a2:
     local_09 = 0;
@@ -81,14 +81,14 @@ function wallgun_slot_35() /* entry=2588 class_id=0x0a1a slot=0x35 */
     goto block_13dd;
 
   block_13b6:
-    if (local_10 != 1) goto block_13c5;
+    if local_10 != 1 goto block_13c5;
 
   block_13be:
     local_08 = local_04;
     goto block_13dd;
 
   block_13c5:
-    if ((local_08 == 4) && (local_08 != local_02)) {
+    if ((local_08 == 4) && (local_08 == local_02)) {
       local_08 = (local_08 - local_06);
     }
 

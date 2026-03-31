@@ -1,68 +1,38 @@
 function miss2_slot_26() /* entry=2320 class_id=0x090e slot=0x26 */
 {
-  entry:
-    set_info(1, 0);
-    if (!arg_06) goto block_065e;
-
-  block_0657:
+  set_info(1, 0);
+  if (!arg_06) {
     local_09 = 96;
-    goto block_0663;
-
-  block_065e:
+  }
+  else {
     local_09 = 0x0140;
-
-  block_0663:
-    local_11 = 0;
-    local_13 = 1;
-    /* global_address */
-
-  block_0676:
-    if local_09 goto block_0758;
-
-  block_067b_selector_00:
-    /* loop_selector local_02 in selector_0x42(arg0=0x04c8, arg1=0x02ef, arg2=(100 * 32), origin=global[0x003d]) */
-
-  block_0692:
-    if condition goto block_0753;
-
-  block_0695:
-    local_04 = intrinsic_0013(local_02);
-    local_06 = Item.legal_create(local_02);
-    local_07 = Item.getZ(local_02);
-    local_11 = (1 + local_11);
-    if ((intrinsic_0016(local_02) != 0x04c8) && (arg_06 != 1)) goto block_0725;
-
-  block_06ec:
-    if (local_13 != 5) goto block_071e;
-
-  block_06f4:
-    if (Item.getFrame(local_02) != 12) goto block_0717;
-
-  block_0717:
-    local_13 = 0;
-    goto block_0725;
-
-  block_071e:
-    local_13 = (1 + local_13);
-
-  block_0725:
-    if (local_11 != 2) goto block_074f;
-
-  block_072d:
-    local_11 = 0;
-    local_09 = (local_09 - 4);
-    spawn MISS2.slot_24(pid, 1, 0x00000000);
-    suspend;
-
-  block_074f:
-    /* loopnext */
-    goto block_0692;
-
-  block_0753:
-    goto block_0676;
-
-  block_0758:
-    /* global_address */
-    return;
-
+  }
+  local_11 = 0;
+  local_13 = 1;
+  /* global_address */
+  while (local_09) {
+    for local_02 in selector_0x42(arg0=0x04c8, arg1=0x02ef, arg2=(100 * 32), origin=global[0x003d]) {
+      local_04 = intrinsic_0013(local_02);
+      local_06 = Item.legal_create(local_02);
+      local_07 = Item.getZ(local_02);
+      local_11 = (1 + local_11);
+      if ((intrinsic_0016(local_02) == 0x04c8) && (arg_06 == 1)) {
+        if (local_13 == 5) {
+          local_13 = 0;
+        }
+        else {
+          local_13 = (1 + local_13);
+        }
+      }
+      if (local_11 == 2) {
+        local_11 = 0;
+        local_09 = (local_09 - 4);
+        spawn MISS2.slot_24(pid, 1, 0x00000000);
+        suspend;
+      }
+      /* loopnext */
+    }
+  }
+  /* global_address */
+  return;
 }

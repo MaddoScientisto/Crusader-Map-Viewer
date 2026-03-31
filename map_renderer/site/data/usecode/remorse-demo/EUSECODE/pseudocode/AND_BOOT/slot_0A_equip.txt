@@ -1,73 +1,48 @@
 function and_boot_equip() /* entry=790 class_id=0x0314 slot=0x0a */
 {
-  entry:
-    set_info(0x0211, *(arg_06));
-    process_exclude();
-    if (Item.getFrame(arg_06) != 12) goto block_0106;
-
-  block_0100:
-    goto block_02fe;
-
-  block_0106:
+  set_info(0x0211, *(arg_06));
+  process_exclude();
+  if (Item.getFrame(arg_06) == 12) {
+    return;
+  }
+  else {
     FREE.slot_33(0x021b, *(arg_06));
     /* global_address */
     /* global_address */
-
-  block_0140:
-    while (Item.getFrame(arg_06) == 11) {
+    while (Item.getFrame(arg_06) != 11) {
       spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
       suspend;
     }
-
-  block_0192:
     spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
     suspend;
-    if (global[0x001f] != 2) goto block_01f2;
-
-  block_01c2:
-    /* str_to_ptr */
-    /* free_stack_string */
-    suspend;
-    goto block_0293;
-
-  block_01f2:
-    if (global[0x001f] != 3) goto block_022c;
-
-  block_01fc:
-    /* str_to_ptr */
-    /* free_stack_string */
-    suspend;
-    goto block_0293;
-
-  block_022c:
-    if (global[0x001f] != 4) goto block_0266;
-
-  block_0236:
-    /* str_to_ptr */
-    /* free_stack_string */
-    suspend;
-    goto block_0293;
-
-  block_0266:
-    /* str_to_ptr */
-    /* free_stack_string */
-    suspend;
-
-  block_0293:
+    if (global[0x001f] == 2) {
+      /* str_to_ptr */
+      /* free_stack_string */
+      suspend;
+    }
+    else if (global[0x001f] == 3) {
+      /* str_to_ptr */
+      /* free_stack_string */
+      suspend;
+    }
+    else if (global[0x001f] == 4) {
+      /* str_to_ptr */
+      /* free_stack_string */
+      suspend;
+    }
+    else {
+      /* str_to_ptr */
+      /* free_stack_string */
+      suspend;
+    }
     local_02 = 0;
-
-  block_029a:
-    while (local_02 > 11) {
+    while (local_02 <= 11) {
       spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
       suspend;
       local_02 = (1 + local_02);
     }
-
-  block_02e5:
     spawn AND_BOOT.enterFastArea(arg_06);
-
-  block_02fe:
-    return;
-
+  }
+  return;
   /* decompilation stopped at SEARCH_SURFACE */
 }

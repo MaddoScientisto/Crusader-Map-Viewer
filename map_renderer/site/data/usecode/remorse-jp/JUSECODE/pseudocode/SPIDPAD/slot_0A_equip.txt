@@ -2,11 +2,13 @@ function spidpad_equip() /* entry=921 class_id=0x0397 slot=0x0a */
 {
   set_info(0x0211, *(arg_06));
   process_exclude();
-  if (!arg_10) {
+  if (arg_10) {
     spawn SPIDER.slot_20(arg_10, arg_06);
     return;
   }
-  FREE.slot_33(*(arg_06), 1);
-  ITEM.slot_23(4, arg_06);
+  else {
+    FREE.slot_33(*(arg_06), 1);
+    ITEM.slot_23(4, arg_06);
+  }
   return;
 }

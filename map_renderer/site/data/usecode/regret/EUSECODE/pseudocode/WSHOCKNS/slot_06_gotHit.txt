@@ -3,7 +3,7 @@ function wshockns_gotHit() /* entry=1103 class_id=0x044d slot=0x06 */
   set_info(0x020c, *(arg_06));
   process_exclude();
   local_02 = arg_10;
-  if (!Actor.isNPC(local_02)) {
+  if (Actor.isNPC(local_02)) {
     local_04 = local_02;
     while (intrinsic_00a4(arg_10, arg_06) == 1) {
       local_06 = intrinsic_0026(arg_06);
@@ -17,7 +17,7 @@ function wshockns_gotHit() /* entry=1103 class_id=0x044d slot=0x06 */
       local_20 = ((local_20 / 2) * 3);
       FREE.slot_20(2);
       local_22 = (retval + 1);
-      while (local_22 == 0) {
+      while (local_22 != 0) {
         FREE.slot_20(local_18);
         local_24 = retval;
         local_24 = (local_08 - local_24);
@@ -26,7 +26,7 @@ function wshockns_gotHit() /* entry=1103 class_id=0x044d slot=0x06 */
         local_26 = retval;
         local_26 = (local_26 + local_14);
         local_12 = local_26;
-        if (!Item.create(0, 0x0459, local_16)) {
+        if (Item.create(0, 0x0459, local_16)) {
           local_22 = 1;
           local_28 = (1 + local_28);
         }

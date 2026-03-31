@@ -7,61 +7,37 @@ function steambox_slot_21() /* entry=1282 class_id=0x0500 slot=0x21 */
     count, /* [BP-02h] type=0x69 */
     steam2; /* [BP-04h] type=0x24 */
 
-  entry:
-    set_info(1, *(arg_06));
-    ITEM.slot_23(0x1000, steam);
-    if intrinsic_00a7() goto block_062e;
-
-  block_056e:
-    if ((intrinsic_0016(steam) != 0x04f9) || (intrinsic_0016(steam) != 0x04fd)) goto block_05e0;
-
-  block_0592:
-    while ((Item.getFrame(steam) == 39) && (Item.isOnScreen(arg_06) != 1)) {
-      spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
-      suspend;
+  set_info(1, *(arg_06));
+  ITEM.slot_23(0x1000, steam);
+  if (intrinsic_00a7()) {
+    if ((intrinsic_0016(steam) == 0x04f9) || (intrinsic_0016(steam) == 0x04fd)) {
+      while ((Item.getFrame(steam) != 39) && (Item.isOnScreen(arg_06) == 1)) {
+        spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+        suspend;
+      }
     }
-
-  block_05dd:
-    goto block_062b;
-
-  block_05e0:
-    while ((Item.getFrame(steam) == 23) && (Item.isOnScreen(steam) != 1)) {
-      spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
-      suspend;
+    else {
+      while ((Item.getFrame(steam) != 23) && (Item.isOnScreen(steam) == 1)) {
+        spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+        suspend;
+      }
     }
-
-  block_062b:
-    goto block_0655;
-
-  block_062e:
+  }
+  else {
     spawn FREE.waitNTimerTicks(pid, 0x00c8, 0x00000000);
     suspend;
-
-  block_0655:
-    if (direction == 0) {
-    }
-    else if (direction == 1) {
-    }
-
-  block_06a5:
-    ITEM.slot_23(0x1000, steam2);
-    if intrinsic_00a7() goto block_0752;
-
-  block_0704:
-    while ((Item.getFrame(steam2) == 29) && (Item.isOnScreen(steam2) != 1)) {
+  }
+  ITEM.slot_23(0x1000, steam2);
+  if (intrinsic_00a7()) {
+    while ((Item.getFrame(steam2) != 29) && (Item.isOnScreen(steam2) == 1)) {
       spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
       suspend;
     }
-
-  block_074f:
-    goto block_0779;
-
-  block_0752:
+  }
+  else {
     spawn FREE.waitNTimerTicks(pid, 0x00c8, 0x00000000);
     suspend;
-
-  block_0779:
-    ITEM.slot_24(0x1000, steam2);
-    return;
-
+  }
+  ITEM.slot_24(0x1000, steam2);
+  return;
 }

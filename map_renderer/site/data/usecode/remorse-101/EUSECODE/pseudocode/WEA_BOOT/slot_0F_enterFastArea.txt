@@ -1,62 +1,46 @@
 function wea_boot_enterFastArea() /* entry=1117 class_id=0x045b slot=0x0f */
 {
-  entry:
-    set_info(0x021b, *(arg_06));
-    process_exclude();
-    spawn FREE.waitNTimerTicks(pid, 0x07d0, 0x00000000);
-    suspend;
-
-  block_020a:
+  set_info(0x021b, *(arg_06));
+  process_exclude();
+  spawn FREE.waitNTimerTicks(pid, 0x07d0, 0x00000000);
+  suspend;
+  suspend;
+  FREE.slot_20(pid, 100);
+  spawn FREE.waitNTimerTicks((retval + 60), 0x00000000);
+  suspend;
+  while (true) {
     suspend;
     FREE.slot_20(pid, 100);
     spawn FREE.waitNTimerTicks((retval + 60), 0x00000000);
     suspend;
-    if (!Item.getFrame(arg_06)) goto block_0271;
-
-  block_023a:
-    local_02 = 0;
-
-  block_023e:
-    while (local_02 > 4) {
-      spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
-      suspend;
-      local_02 = (1 + local_02);
+    if (!Item.getFrame(arg_06)) {
+      local_02 = 0;
+      while (local_02 <= 4) {
+        spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+        suspend;
+        local_02 = (1 + local_02);
+      }
     }
-
-  block_0271:
     FREE.slot_20(100);
-    if (retval > 50) goto block_02df;
-
-  block_0281:
-    FREE.slot_20(2);
-    local_04 = (retval + 1);
-    local_02 = 0;
-
-  block_0294:
-    while (local_02 > local_04) {
-      FREE.slot_20(pid, 10);
-      spawn FREE.waitNTimerTicks((retval + 30), 0x00000000);
-      suspend;
-      local_02 = (1 + local_02);
+    if (retval > 50) {
+      FREE.slot_20(2);
+      local_04 = (retval + 1);
+      local_02 = 0;
+      while (local_02 <= local_04) {
+        FREE.slot_20(pid, 10);
+        spawn FREE.waitNTimerTicks((retval + 30), 0x00000000);
+        suspend;
+        local_02 = (1 + local_02);
+      }
     }
-
-  block_02dc:
-    goto block_0319;
-
-  block_02df:
-    local_02 = 0;
-
-  block_02e3:
-    while (local_02 > 4) {
-      spawn FREE.waitNTimerTicks(pid, 15, 0x00000000);
-      suspend;
-      local_02 = (1 + local_02);
+    else {
+      local_02 = 0;
+      while (local_02 <= 4) {
+        spawn FREE.waitNTimerTicks(pid, 15, 0x00000000);
+        suspend;
+        local_02 = (1 + local_02);
+      }
     }
-
-  block_0319:
-    goto block_020a;
-
-  block_031c:
-    return;
-
+  }
+  return;
 }

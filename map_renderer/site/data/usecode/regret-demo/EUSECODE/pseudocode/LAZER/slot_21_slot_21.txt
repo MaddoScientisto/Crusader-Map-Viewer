@@ -1,7 +1,7 @@
 function lazer_slot_21() /* entry=2579 class_id=0x0a11 slot=0x21 */
 {
   set_info(0x0205, *(arg_06));
-  if (Item.getFrame(arg_06) == 1) {
+  if (Item.getFrame(arg_06) != 1) {
     spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
     suspend;
   }

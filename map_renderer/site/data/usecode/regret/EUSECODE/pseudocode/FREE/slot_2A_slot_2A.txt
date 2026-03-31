@@ -2,22 +2,27 @@ function free_slot_2a() /* entry=2591 class_id=0x0a1d slot=0x2a */
 {
   set_info(0x0224, 0);
   local_02 = 1;
-  while (local_02 > 12) {
+  while (local_02 <= 12) {
     if (global[0x0018] == 1) {
       return;
     }
-    spawn FREE.slot_3b(pid, 0x01f4, 0x00000000);
-    suspend;
-    /* global_address */
+    else {
+      spawn FREE.slot_3b(pid, 0x01f4, 0x00000000);
+      suspend;
+      /* global_address */
+    }
     local_02 = (1 + local_02);
   }
   if (global[0x0018] == 1) {
     return;
   }
-  /* str_to_ptr */
-  /* free_stack_string */
-  /* str_to_ptr */
-  /* free_stack_string */
-  suspend;
+  else {
+    /* str_to_ptr */
+    /* free_stack_string */
+    /* str_to_ptr */
+    /* free_stack_string */
+    suspend;
+    return;
+  }
   return;
 }

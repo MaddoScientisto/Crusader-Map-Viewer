@@ -1,103 +1,57 @@
 function trigger_slot_28() /* entry=2586 class_id=0x0a18 slot=0x28 */
 {
-  entry:
-    set_info(0x021b, 0);
-    local_18 = arg_18;
-    local_16 = arg_10;
-    local_04 = (arg_16 & 3);
-    if (local_04 != 0) goto block_2972;
-
-  block_293c_selector_00:
+  set_info(0x021b, 0);
+  local_18 = arg_18;
+  local_16 = arg_10;
+  local_04 = (arg_16 & 3);
+  if (local_04 == 0) {
     for local_14 in nearby_items(shape=arg_20, origin=local_16) {
       /* loopnext */
     }
-
-  block_296d:
-    goto block_2db1;
-
-  block_2972:
-    if (local_04 != 1) goto block_29b0;
-
-  block_297a_selector_00:
+  }
+  else if (local_04 == 1) {
     for local_14 in nearby_items(shape=arg_20, origin=local_16) {
       /* loopnext */
     }
-
-  block_29ab:
-    goto block_2db1;
-
-  block_29b0:
-    if (local_04 != 2) goto block_29f0;
-
-  block_29b8_selector_00:
+  }
+  else if (local_04 == 2) {
     for local_14 in nearby_items(shape=arg_20, origin=local_16) {
       /* loopnext */
     }
-
-  block_29eb:
-    goto block_2db1;
-
-  block_29f0:
-    if (local_04 != 3) goto block_2db1;
-
-  block_29f8:
+  }
+  else if (local_04 == 3) {
     local_02 = (arg_12 & 7);
-    if (local_02 != 0) goto block_2a87;
-
-  block_2a0a:
-    local_12 = (arg_12 / 8);
-
-  block_2a0a_selector_00:
-    for local_14 in nearby_items(shape=0x0476, origin=local_16) {
-      local_06 = intrinsic_010f(local_14);
-      local_10 = (local_06 & 15);
-      local_08 = intrinsic_0003(local_14);
-      local_08 = (((local_06 & 0x00e0) * 8) + local_08);
-      FREE.slot_30(local_12, local_10, local_08, local_14);
-      /* loopnext */
+    if (local_02 == 0) {
+      local_12 = (arg_12 / 8);
+      for local_14 in nearby_items(shape=0x0476, origin=local_16) {
+        local_06 = intrinsic_010f(local_14);
+        local_10 = (local_06 & 15);
+        local_08 = intrinsic_0003(local_14);
+        local_08 = (((local_06 & 0x00e0) * 8) + local_08);
+        FREE.slot_30(local_12, local_10, local_08, local_14);
+        /* loopnext */
+      }
     }
-
-  block_2a82:
-    goto block_2dae;
-
-  block_2a87:
-    if (local_02 != 1) goto block_2bd5;
-
-  block_2a8f:
-    local_12 = (arg_12 / 8);
-
-  block_2a8f_selector_00:
-    /* loop_selector local_14 in nearby_items(shape=arg_20, origin=local_16) */
-
-  block_2ab6:
-    if condition goto block_2bd0;
-
-  block_2ab9:
-    if (local_12 != 31) goto block_2aff;
-
-  block_2ad1:
-    suspend;
-    goto block_2bcc;
-
-  block_2aff:
-    local_10 = Item.getFrame(local_14);
-    local_08 = intrinsic_0016(local_14);
-    local_06 = (local_08 & 0x00ff);
-    local_08 = (local_08 & 0x0700);
-    local_08 = (local_08 / 8);
-    local_08 = (local_08 + local_10);
-    suspend;
-    /* bit_not */
-
-  block_2bcc:
-    /* loopnext */
-    goto block_2ab6;
-
-  block_2bd0:
-    goto block_2dae;
-
-  block_2bd5:
-    if (local_02 == 2) {
+    else if (local_02 == 1) {
+      local_12 = (arg_12 / 8);
+      for local_14 in nearby_items(shape=arg_20, origin=local_16) {
+        if (local_12 == 31) {
+          suspend;
+        }
+        else {
+          local_10 = Item.getFrame(local_14);
+          local_08 = intrinsic_0016(local_14);
+          local_06 = (local_08 & 0x00ff);
+          local_08 = (local_08 & 0x0700);
+          local_08 = (local_08 / 8);
+          local_08 = (local_08 + local_10);
+          suspend;
+          /* bit_not */
+        }
+        /* loopnext */
+      }
+    }
+    else if (local_02 == 2) {
       local_06 = (arg_12 / 8);
       for local_14 in nearby_items(shape=arg_20, origin=local_16) {
         /* loopnext */
@@ -125,7 +79,7 @@ function trigger_slot_28() /* entry=2586 class_id=0x0a18 slot=0x28 */
         local_10 = (local_06 & 15);
         local_08 = intrinsic_0003(local_14);
         local_08 = (((local_06 & 0x00e0) * 8) + local_08);
-        if (local_08 == 0) {
+        if (local_08 != 0) {
           if (intrinsic_001f(local_10, local_08, local_20) == 1) {
             suspend;
           }
@@ -133,17 +87,9 @@ function trigger_slot_28() /* entry=2586 class_id=0x0a18 slot=0x28 */
         /* loopnext */
       }
     }
-
-  block_2dae:
-    goto block_2db1;
-
-  block_2db1:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_2dbb;
-
-  block_2dbb:
-    return;
-
+  }
+  /* word_to_dword */
+  /* pop_result */
+  return;
   /* decompilation stopped at SEARCH_SURFACE */
 }

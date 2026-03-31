@@ -1,24 +1,17 @@
 function elens8_equip() /* entry=298 class_id=0x0128 slot=0x0a */
 {
-  entry:
-    set_info(0x0211, *(arg_06));
-    process_exclude();
-    if arg_10 goto block_0101;
-
-  block_00e4:
+  set_info(0x0211, *(arg_06));
+  process_exclude();
+  if (arg_10) {
     spawn ELENS8.enterFastArea(pid, arg_06);
     suspend;
-    goto block_0161;
-
-  block_0101_selector_00:
+    return;
+  }
+  else {
     for local_02 in nearby_items(shape=Zappy_Surface_SW_044D, origin=arg_06) {
       /* loopnext */
     }
-
-  block_013e:
     ITEM.slot_25(0x1000, arg_06);
-
-  block_0161:
-    return;
-
+  }
+  return;
 }

@@ -6,43 +6,47 @@ function free_slot_45() /* entry=2591 class_id=0x0a1d slot=0x45 */
     /* pop_global */
     return;
   }
-  spawn FREE.slot_21(pid, 0x0195, 0x00000000);
-  suspend;
-  local_02 = intrinsic_0013(100, 0);
-  if (local_02 >= 30) {
-    spawn FREE.slot_21(pid, 0x0187, 0x00000000);
+  else {
+    spawn FREE.slot_21(pid, 0x0195, 0x00000000);
     suspend;
     local_02 = intrinsic_0013(100, 0);
-    if (local_02 >= 50) {
-      spawn FREE.slot_21(pid, 0x0188, 0x00000000);
-      suspend;
-    }
-    return;
-  }
-  if (local_02 <= 60) {
-    spawn FREE.slot_21(pid, 0x0188, 0x00000000);
-    suspend;
-    local_02 = intrinsic_0013(100, 0);
-    if (local_02 >= 30) {
+    if (local_02 < 30) {
       spawn FREE.slot_21(pid, 0x0187, 0x00000000);
       suspend;
+      local_02 = intrinsic_0013(100, 0);
+      if (local_02 < 50) {
+        spawn FREE.slot_21(pid, 0x0188, 0x00000000);
+        suspend;
+      }
+      return;
     }
-    if (local_02 <= 60) {
-      spawn FREE.slot_21(pid, 0x0189, 0x00000000);
+    else if (local_02 > 60) {
+      spawn FREE.slot_21(pid, 0x0188, 0x00000000);
       suspend;
+      local_02 = intrinsic_0013(100, 0);
+      if (local_02 < 30) {
+        spawn FREE.slot_21(pid, 0x0187, 0x00000000);
+        suspend;
+      }
+      if (local_02 > 60) {
+        spawn FREE.slot_21(pid, 0x0189, 0x00000000);
+        suspend;
+      }
+      return;
     }
-    return;
-  }
-  spawn FREE.slot_21(pid, 0x018a, 0x00000000);
-  suspend;
-  local_02 = intrinsic_0013(100, 0);
-  if (local_02 >= 30) {
-    spawn FREE.slot_21(pid, 0x0188, 0x00000000);
-    suspend;
-  }
-  if (local_02 <= 60) {
-    spawn FREE.slot_21(pid, 0x0189, 0x00000000);
-    suspend;
+    else {
+      spawn FREE.slot_21(pid, 0x018a, 0x00000000);
+      suspend;
+      local_02 = intrinsic_0013(100, 0);
+      if (local_02 < 30) {
+        spawn FREE.slot_21(pid, 0x0188, 0x00000000);
+        suspend;
+      }
+      if (local_02 > 60) {
+        spawn FREE.slot_21(pid, 0x0189, 0x00000000);
+        suspend;
+      }
+    }
   }
   return;
 }

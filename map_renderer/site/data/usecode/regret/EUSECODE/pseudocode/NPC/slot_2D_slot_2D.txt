@@ -1,48 +1,30 @@
 function npc_slot_2d() /* entry=2577 class_id=0x0a0f slot=0x2d */
 {
-  entry:
-    set_info(0x0218, *(arg_06));
-    set_info(0x0218, *(arg_06));
-    local_04 = Kernel.getNumProcesses(0x0218, *(arg_06));
-    if (local_04 > 1) goto block_0d25;
-
-  block_0d22:
-    goto block_0e43;
-
-  block_0d25:
-    local_02 = 1;
-
-  block_0d29:
-    if (local_02 <= arg_10) goto block_0e43;
-
-  block_0d31:
-    if (*(arg_06) != intrinsic_0016()) goto block_0dde;
-
-  block_0d3e:
-    if (*(arg_06) != 1) goto block_0ddb;
-
-  block_0d48:
-    if global[0x000d] goto block_0da1;
-
-  block_0d4f:
-    /* global_address */
-    /* global_address */
-    /* global_address */
-    /* global_address */
-    spawn FREE.slot_3b(pid, 120, 0x00000000);
-    suspend;
-    goto block_0ddb;
-
-  block_0ddb:
-    goto block_0e22;
-
-  block_0e22:
-    spawn FREE.slot_3b(pid, 25, 0x00000000);
-    suspend;
-    local_02 = (1 + local_02);
-    goto block_0d29;
-
-  block_0e43:
+  set_info(0x0218, *(arg_06));
+  set_info(0x0218, *(arg_06));
+  local_04 = Kernel.getNumProcesses(0x0218, *(arg_06));
+  if (local_04 > 1) {
     return;
-
+  }
+  else {
+    local_02 = 1;
+    while (local_02 <= arg_10) {
+      if (*(arg_06) == intrinsic_0016()) {
+        if (*(arg_06) == 1) {
+          if (global[0x000d]) {
+            /* global_address */
+            /* global_address */
+            /* global_address */
+            /* global_address */
+            spawn FREE.slot_3b(pid, 120, 0x00000000);
+            suspend;
+          }
+        }
+      }
+      spawn FREE.slot_3b(pid, 25, 0x00000000);
+      suspend;
+      local_02 = (1 + local_02);
+    }
+  }
+  return;
 }

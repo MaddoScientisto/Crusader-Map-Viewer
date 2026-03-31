@@ -1,48 +1,27 @@
 function pepsiew_use() /* entry=150 class_id=0x0094 slot=0x01 */
 {
-  entry:
-    set_info(0x0207, *(arg_06));
-    process_exclude();
-    local_04 = 1;
-    local_06 = 0;
-    local_13 = (intrinsic_0013(arg_06) + 32);
-    local_11 = Item.legal_create(arg_06);
-    local_09 = (Item.getZ(arg_06) + 32);
-    if (intrinsic_0018(100, 0) > 50) goto block_0199;
-
-  block_011f:
-    if intrinsic_005a(local_13, 0, 0x0343, local_02) goto block_0196;
-
-  block_0132:
-    suspend;
-
-  block_0132_selector_00:
-    /* loop_selector local_02 in nearby_items(shape=SMALL_BOX_PROP, origin=global[0x003d]) */
-
-  block_0167:
-    if condition goto block_0194;
-
-  block_016a:
-    if (intrinsic_0004(local_02) & 0x0080) goto block_0190;
-
-  block_017a:
-    spawn ITEM.slot_28(pid, 1, 0, local_02);
-    suspend;
-
-  block_0190:
-    /* loopnext */
-    goto block_0167;
-
-  block_0196:
-    goto block_01e0;
-
-  block_0199:
-    if intrinsic_005a(local_13, 1, 0x0579, local_02) goto block_01e0;
-
-  block_01ac:
-    suspend;
-
-  block_01e0:
+  set_info(0x0207, *(arg_06));
+  process_exclude();
+  local_04 = 1;
+  local_06 = 0;
+  local_13 = (intrinsic_0013(arg_06) + 32);
+  local_11 = Item.legal_create(arg_06);
+  local_09 = (Item.getZ(arg_06) + 32);
+  if (intrinsic_0018(100, 0) > 50) {
+    if (intrinsic_005a(local_13, 0, 0x0343, local_02)) {
+      suspend;
+      for local_02 in nearby_items(shape=SMALL_BOX_PROP, origin=global[0x003d]) {
+        if (intrinsic_0004(local_02) & 0x0080) {
+          spawn ITEM.slot_28(pid, 1, 0, local_02);
+          suspend;
+        }
+        /* loopnext */
+      }
+    }
     return;
-
+  }
+  else if (intrinsic_005a(local_13, 1, 0x0579, local_02)) {
+    suspend;
+  }
+  return;
 }

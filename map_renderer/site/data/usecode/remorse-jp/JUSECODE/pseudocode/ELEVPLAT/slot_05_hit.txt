@@ -2,10 +2,10 @@ function elevplat_hit() /* entry=305 class_id=0x012f slot=0x05 */
 {
   set_info(0x020b, *(arg_06));
   process_exclude();
-  if (arg_10 == 1) {
+  if (arg_10 != 1) {
     local_02 = arg_10;
-    if (local_02 >= 0x0100) {
-      if (intrinsic_003c(local_02)) {
+    if (local_02 < 0x0100) {
+      if (!intrinsic_003c(local_02)) {
       }
     }
   }

@@ -1,41 +1,24 @@
 function alrmtrig_equip() /* entry=1411 class_id=0x0581 slot=0x0a */
 {
-  entry:
-    set_info(0x0211, *(arg_06));
-    process_exclude();
-    if (intrinsic_0003(arg_06) != 0) goto block_015c;
-
-  block_00fd:
-    if intrinsic_0000() goto block_0132;
-
-  block_0108:
-    spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
-    suspend;
-    goto block_0159;
-
-  block_0132:
-    spawn TRIGGER.slot_20(pid, 1, *(arg_06), arg_06);
-    suspend;
-
-  block_0159:
-    goto block_01c0;
-
-  block_015c:
-    if intrinsic_0000() goto block_0195;
-
-  block_0167:
+  set_info(0x0211, *(arg_06));
+  process_exclude();
+  if (intrinsic_0003(arg_06) != 0) {
+    if (intrinsic_0000()) {
+      spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
+      suspend;
+    }
+    else {
+      spawn TRIGGER.slot_20(pid, 1, *(arg_06), arg_06);
+      suspend;
+    }
+  }
+  else if (intrinsic_0000()) {
     spawn TRIGGER.slot_20(pid, (0 + 0x0080), *(arg_06), arg_06);
     suspend;
-    goto block_01c0;
-
-  block_0195:
+  }
+  else {
     spawn TRIGGER.slot_20(pid, (1 + 0x0080), *(arg_06), arg_06);
     suspend;
-
-  block_01c0:
-    if (arg_10 != 1) goto block_01d9;
-
-  block_01d9:
-    return;
-
+  }
+  return;
 }

@@ -1,31 +1,21 @@
 function sfxtrig_equip() /* entry=1252 class_id=0x04e2 slot=0x0a */
 {
-  entry:
-    set_info(0x0211, *(arg_06));
-    process_exclude();
-    local_02 = intrinsic_0104(arg_06);
-    if (intrinsic_0004(arg_06) & 0x1000) goto block_00fd;
-
-  block_00fa:
-    goto block_0154;
-
-  block_00fd:
+  set_info(0x0211, *(arg_06));
+  process_exclude();
+  local_02 = intrinsic_0104(arg_06);
+  if (intrinsic_0004(arg_06) & 0x1000) {
+    return;
+  }
+  else {
     ITEM.slot_24(0x1000, arg_06);
-    if local_02 goto block_0116;
-
-  block_010e:
-    arg_10 = (arg_10 + 0x00ff);
-
-  block_0120:
-    while (!intrinsic_0035(arg_10, arg_06)) {
+    if (local_02) {
+      arg_10 = (arg_10 + 0x00ff);
+    }
+    while (intrinsic_0035(arg_10, arg_06)) {
       spawn FREE.slot_3b(pid, 2, 0x00000000);
       suspend;
     }
-
-  block_0148:
     ITEM.slot_25(0x1000, arg_06);
-
-  block_0154:
-    return;
-
+  }
+  return;
 }

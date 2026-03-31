@@ -1,35 +1,19 @@
 function d_enforc_gotHit() /* entry=1375 class_id=0x055d slot=0x06 */
 {
-  entry:
-    set_info(0x020c, *(arg_06));
-    process_exclude();
-    FREE.slot_35(arg_12, arg_10);
-    if ((retval != 4) || (intrinsic_0077() != 0)) goto block_00fd;
-
-  block_00fa:
-    goto block_018a;
-
-  block_00fd:
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  FREE.slot_35(arg_12, arg_10);
+  if ((retval != 4) || (intrinsic_0077() == 0)) {
+    return;
+  }
+  else {
     /* loopscr */
     /* loop */
-
-  block_010a:
-    if condition goto block_0157;
-
-  block_010d:
-    if (intrinsic_0011(local_02) != 0x0111) goto block_014b;
-
-  block_011d:
-    goto block_0153;
-
-  block_0153:
-    /* loopnext */
-    goto block_010a;
-
-  block_0157:
-    if (Item.getFrame(arg_06) >= 10) goto block_017b;
-
-  block_018a:
-    return;
-
+    while (condition) {
+      if (intrinsic_0011(local_02) == 0x0111) {
+      }
+      /* loopnext */
+    }
+  }
+  return;
 }

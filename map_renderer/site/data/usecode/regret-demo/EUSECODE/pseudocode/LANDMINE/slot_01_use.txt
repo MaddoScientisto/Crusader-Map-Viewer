@@ -1,25 +1,20 @@
 function landmine_use() /* entry=924 class_id=0x039a slot=0x01 */
 {
-  entry:
-    set_info(0x0207, *(arg_06));
-    process_exclude();
-    local_03 = *(arg_06);
-    /* global_address */
-    if (intrinsic_0040() != 25) goto block_0121;
-
-  block_00f9:
-    goto block_0419;
-
-  block_0121:
+  set_info(0x0207, *(arg_06));
+  process_exclude();
+  local_03 = *(arg_06);
+  /* global_address */
+  if (intrinsic_0040() == 25) {
+    return;
+  }
+  else {
     set_info(0x00f0, 0);
-
-  block_012f:
-    while (!Item.legal_move()) {
+    /* global_address */
+    while (Item.legal_move()) {
       spawn FREE.slot_3b(pid, 2, 0x00000000);
       suspend;
     }
-
-  block_0156:
+    /* global_address */
     if (intrinsic_00d9() == 0) {
       local_07 = -1;
       local_09 = -3;
@@ -84,48 +79,35 @@ function landmine_use() /* entry=924 class_id=0x039a slot=0x01 */
       local_07 = -3;
       local_09 = -3;
     }
-
-  block_0306:
     /* global_address */
-    if intrinsic_0066() goto block_031a;
-
-  block_0313:
-    local_01 = 1;
-    goto block_033f;
-
-  block_031a:
-    local_01 = 0;
-    /* global_address */
-    /* global_address */
-    suspend;
-
-  block_033f:
+    if (intrinsic_0066()) {
+      local_01 = 1;
+    }
+    else {
+      local_01 = 0;
+      /* global_address */
+      /* global_address */
+      suspend;
+    }
     /* global_address */
     local_16 = (Item.getX() + (local_07 * 16));
     /* global_address */
     local_14 = (Item.getY() + (local_09 * 16));
     /* global_address */
     local_12 = Item.getZ();
-    if Kernel.getNumProcesses(local_16, 0, 0x039a, local_11) goto block_0398;
-
-  block_0382:
-    goto block_03c9;
-
-  block_0398:
-    /* global_address */
-
-  block_03c9:
-    if (!local_01) goto block_0411;
-
-  block_03cf:
-    /* global_address */
-    /* global_address */
-    suspend;
-    /* global_address */
-    /* global_address */
-    suspend;
-
-  block_0419:
-    return;
-
+    if (Kernel.getNumProcesses(local_16, 0, 0x039a, local_11)) {
+    }
+    else {
+      /* global_address */
+    }
+    if (!local_01) {
+      /* global_address */
+      /* global_address */
+      suspend;
+      /* global_address */
+      /* global_address */
+      suspend;
+    }
+  }
+  return;
 }

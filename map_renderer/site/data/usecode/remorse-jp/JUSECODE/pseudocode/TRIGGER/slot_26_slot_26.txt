@@ -1,108 +1,61 @@
 function trigger_slot_26() /* entry=2589 class_id=0x0a1b slot=0x26 */
 {
-  entry:
-    set_info(0x021b, 0);
-    local_18 = arg_18;
-    local_16 = arg_10;
-    local_04 = (arg_16 & 3);
-    if (local_04 != 0) goto block_1d7f;
-
-  block_1d37_selector_00:
+  set_info(0x021b, 0);
+  local_18 = arg_18;
+  local_16 = arg_10;
+  local_04 = (arg_16 & 3);
+  if (local_04 == 0) {
     for local_14 in nearby_items(shape=arg_20, origin=local_16) {
       /* loopnext */
     }
-
-  block_1d7a:
-    goto block_223c;
-
-  block_1d7f:
-    if (local_04 != 1) goto block_1dcf;
-
-  block_1d87_selector_00:
+  }
+  else if (local_04 == 1) {
     for local_14 in nearby_items(shape=arg_20, origin=local_16) {
       /* loopnext */
     }
-
-  block_1dca:
-    goto block_223c;
-
-  block_1dcf:
-    if (local_04 != 2) goto block_1e21;
-
-  block_1dd7_selector_00:
+  }
+  else if (local_04 == 2) {
     for local_14 in nearby_items(shape=arg_20, origin=local_16) {
       /* loopnext */
     }
-
-  block_1e1c:
-    goto block_223c;
-
-  block_1e21:
-    if (local_04 != 3) goto block_223c;
-
-  block_1e29:
+  }
+  else if (local_04 == 3) {
     local_02 = (arg_12 & 7);
-    if (local_02 != 0) goto block_1eca;
-
-  block_1e3b:
-    local_12 = (arg_12 / 8);
-
-  block_1e3b_selector_00:
-    for local_14 in nearby_items(shape=0x0476, origin=local_16) {
-      if (intrinsic_0110(local_14) == arg_18) {
-        local_06 = intrinsic_011c(local_14);
-        local_10 = (local_06 & 15);
-        local_08 = intrinsic_0003(local_14);
-        local_08 = (((local_06 & 0x00e0) * 8) + local_08);
-        FREE.slot_30(local_12, local_10, local_08, local_14);
+    if (local_02 == 0) {
+      local_12 = (arg_12 / 8);
+      for local_14 in nearby_items(shape=0x0476, origin=local_16) {
+        if (intrinsic_0110(local_14) == arg_18) {
+          local_06 = intrinsic_011c(local_14);
+          local_10 = (local_06 & 15);
+          local_08 = intrinsic_0003(local_14);
+          local_08 = (((local_06 & 0x00e0) * 8) + local_08);
+          FREE.slot_30(local_12, local_10, local_08, local_14);
+        }
+        /* loopnext */
       }
-      /* loopnext */
     }
-
-  block_1ec5:
-    goto block_2239;
-
-  block_1eca:
-    if (local_02 != 1) goto block_202a;
-
-  block_1ed2:
-    local_12 = (arg_12 / 8);
-
-  block_1ed2_selector_00:
-    /* loop_selector local_14 in nearby_items(shape=arg_20, origin=local_16) */
-
-  block_1ef9:
-    if condition goto block_2025;
-
-  block_1efc:
-    if (intrinsic_0110(local_14) != arg_18) goto block_2021;
-
-  block_1f0e:
-    if (local_12 != 31) goto block_1f54;
-
-  block_1f26:
-    suspend;
-    goto block_2021;
-
-  block_1f54:
-    local_10 = Item.getFrame(local_14);
-    local_08 = intrinsic_0016(local_14);
-    local_06 = (local_08 & 0x00ff);
-    local_08 = (local_08 & 0x0700);
-    local_08 = (local_08 / 8);
-    local_08 = (local_08 + local_10);
-    suspend;
-    /* bit_not */
-
-  block_2021:
-    /* loopnext */
-    goto block_1ef9;
-
-  block_2025:
-    goto block_2239;
-
-  block_202a:
-    if (local_02 == 2) {
+    else if (local_02 == 1) {
+      local_12 = (arg_12 / 8);
+      for local_14 in nearby_items(shape=arg_20, origin=local_16) {
+        if (intrinsic_0110(local_14) == arg_18) {
+          if (local_12 == 31) {
+            suspend;
+          }
+          else {
+            local_10 = Item.getFrame(local_14);
+            local_08 = intrinsic_0016(local_14);
+            local_06 = (local_08 & 0x00ff);
+            local_08 = (local_08 & 0x0700);
+            local_08 = (local_08 / 8);
+            local_08 = (local_08 + local_10);
+            suspend;
+            /* bit_not */
+          }
+        }
+        /* loopnext */
+      }
+    }
+    else if (local_02 == 2) {
       local_06 = (arg_12 / 8);
       for local_14 in nearby_items(shape=arg_20, origin=local_16) {
         /* loopnext */
@@ -133,7 +86,7 @@ function trigger_slot_26() /* entry=2589 class_id=0x0a1b slot=0x26 */
           local_10 = (local_06 & 15);
           local_08 = intrinsic_0003(local_14);
           local_08 = (((local_06 & 0x00e0) * 8) + local_08);
-          if (local_08 == 0) {
+          if (local_08 != 0) {
             if (intrinsic_001f(local_10, local_08, local_20) == 1) {
               suspend;
             }
@@ -142,17 +95,9 @@ function trigger_slot_26() /* entry=2589 class_id=0x0a1b slot=0x26 */
         /* loopnext */
       }
     }
-
-  block_2239:
-    goto block_223c;
-
-  block_223c:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_2246;
-
-  block_2246:
-    return;
-
+  }
+  /* word_to_dword */
+  /* pop_result */
+  return;
   /* decompilation stopped at SEARCH_SURFACE */
 }

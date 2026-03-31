@@ -1,54 +1,35 @@
 function glass_ew_gotHit() /* entry=637 class_id=0x027b slot=0x06 */
 {
-  entry:
-    set_info(0x020c, *(arg_06));
-    process_exclude();
-    local_04 = arg_10;
-    FREE.slot_35(arg_12, arg_10);
-    if (!retval) goto block_00f6;
-
-  block_00f3:
-    goto block_0286;
-
-  block_00f6:
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  local_04 = arg_10;
+  FREE.slot_35(arg_12, arg_10);
+  if (!retval) {
+    return;
+  }
+  else {
     local_08 = *(arg_06);
     spawn ITEM.slot_29(pid, 1, arg_12, arg_10, arg_06);
     suspend;
     /* dword_to_word */
-    if (!process_result) goto block_0141;
-
-  block_011a:
-    FREE.slot_20(1);
-    if retval goto block_0134;
-
-  block_0127:
-    goto block_013e;
-
-  block_013e:
-    goto block_0286;
-
-  block_0141:
-    spawn DOOR.slot_22(pid, local_08);
-    suspend;
-    if (!Item.getFrame(arg_06)) goto block_0286;
-
-  block_015e:
-    local_06 = 1;
-
-  block_016c:
-    while (local_06 > 3) {
-      spawn FREE.slot_3b(pid, 5, 0x00000000);
-      suspend;
-      local_06 = (1 + local_06);
+    if (!process_result) {
+      FREE.slot_20(1);
+      if (retval) {
+      }
+      return;
     }
-
-  block_019f:
-    if intrinsic_00c2((Item.getZ(arg_06) + 1), (Item.getY(arg_06) + 32), (Item.getX(arg_06) + 80), 0x0349) goto block_0209;
-
-  block_0209:
-    if intrinsic_00c2((Item.getZ(arg_06) + 1), Item.getY(arg_06), (Item.getX(arg_06) - 32), 0x027a) goto block_026d;
-
-  block_0286:
-    return;
-
+    else {
+      spawn DOOR.slot_22(pid, local_08);
+      suspend;
+      if (!Item.getFrame(arg_06)) {
+        local_06 = 1;
+        while (local_06 <= 3) {
+          spawn FREE.slot_3b(pid, 5, 0x00000000);
+          suspend;
+          local_06 = (1 + local_06);
+        }
+      }
+    }
+  }
+  return;
 }

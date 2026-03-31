@@ -12,7 +12,7 @@ function special_slot_20() /* entry=1228 class_id=0x04ca slot=0x20 */
   if (cmd == 3) {
     /* global_address */
     a = intrinsic_001c();
-    if ((a > 4) || (a >= 12)) {
+    if ((a > 4) || (a < 12)) {
       spawn TRIGGER.slot_20(pid, phase, *(arg_06), arg_06);
       suspend;
     }
@@ -21,7 +21,7 @@ function special_slot_20() /* entry=1228 class_id=0x04ca slot=0x20 */
   else if (cmd == 4) {
     /* global_address */
     a = intrinsic_001c();
-    if ((a > 4) && (a >= 12)) {
+    if ((a > 4) && (a < 12)) {
       spawn TRIGGER.slot_20(pid, phase, *(arg_06), arg_06);
       suspend;
     }
@@ -51,12 +51,12 @@ function special_slot_20() /* entry=1228 class_id=0x04ca slot=0x20 */
   else if (cmd == 7) {
     a = 0;
     for npc in nearby_items(family=6, origin=global[0x003c]) {
-      if (npc >= 0x0100) {
+      if (npc < 0x0100) {
         a = (1 + a);
       }
       /* loopnext */
     }
-    if (a <= 4) {
+    if (a > 4) {
       spawn TRIGGER.slot_20(pid, phase, *(arg_06), arg_06);
       suspend;
     }
@@ -67,12 +67,12 @@ function special_slot_20() /* entry=1228 class_id=0x04ca slot=0x20 */
   else if (cmd == 8) {
     a = 0;
     for npc in nearby_items(family=6, origin=global[0x003c]) {
-      if (npc >= 0x0100) {
+      if (npc < 0x0100) {
         a = (1 + a);
       }
       /* loopnext */
     }
-    if (a > 4) {
+    if (a <= 4) {
       spawn TRIGGER.slot_20(pid, phase, *(arg_06), arg_06);
       suspend;
     }

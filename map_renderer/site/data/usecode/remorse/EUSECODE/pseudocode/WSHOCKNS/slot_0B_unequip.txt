@@ -1,31 +1,16 @@
 function wshockns_unequip() /* entry=1103 class_id=0x044d slot=0x0b */
 {
-  entry:
-    set_info(0x0212, *(arg_06));
-    process_exclude();
-
-  entry_selector_00:
-    /* loop_selector local_02 in nearby_items(family=6, origin=arg_06) */
-
-  block_0115:
-    if condition goto block_015f;
-
-  block_0118:
-    if Actor.isNPC(local_02) goto block_015b;
-
-  block_0127:
-    if (intrinsic_00a4(local_02, arg_06) != 1) goto block_015b;
-
-  block_0141:
-    spawn WSHOCKNS.gotHit(0, local_02, arg_06);
-    goto block_0161;
-
-  block_015b:
+  set_info(0x0212, *(arg_06));
+  process_exclude();
+  for local_02 in nearby_items(family=6, origin=arg_06) {
+    if (Actor.isNPC(local_02)) {
+      if (intrinsic_00a4(local_02, arg_06) == 1) {
+        spawn WSHOCKNS.gotHit(0, local_02, arg_06);
+        return;
+      }
+    }
     /* loopnext */
-    goto block_0115;
-
-  block_0161:
-    return;
-
+  }
+  return;
   /* decompilation stopped at SEARCH_SURFACE */
 }

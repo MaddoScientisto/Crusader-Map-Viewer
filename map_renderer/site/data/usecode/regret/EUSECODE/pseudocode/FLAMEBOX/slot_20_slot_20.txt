@@ -1,44 +1,23 @@
 function flamebox_slot_20() /* entry=1029 class_id=0x0403 slot=0x20 */
 {
-  entry:
-    set_info(0x00f0, *(arg_06));
-    if intrinsic_006a() goto block_0300;
-
-  block_02ca:
-    while ((Item.getFrame(arg_10) == 5) && (Item.isOnScreen(arg_10) != 1)) {
+  set_info(0x00f0, *(arg_06));
+  if (intrinsic_006a()) {
+    while ((Item.getFrame(arg_10) != 5) && (Item.isOnScreen(arg_10) == 1)) {
       spawn FREE.slot_3b(pid, 2, 0x00000000);
       suspend;
     }
-
-  block_0300:
-    ITEM.slot_24(4, arg_10);
-    spawn STEAM.slot_22(arg_10);
-    if (arg_12 != 0) goto block_0346;
-
-  block_031e:
-    if intrinsic_006a() goto block_0336;
-
-  block_0326:
-    goto block_0343;
-
-  block_0343:
-    goto block_0376;
-
-  block_0346:
-    if (arg_12 != 1) goto block_0376;
-
-  block_034e:
-    if intrinsic_006a() goto block_0366;
-
-  block_0356:
-    goto block_0373;
-
-  block_0373:
-    goto block_0376;
-
-  block_0376:
-    ITEM.slot_24(4, local_04);
-    spawn STEAM.slot_22(local_04);
-    return;
-
+  }
+  ITEM.slot_24(4, arg_10);
+  spawn STEAM.slot_22(arg_10);
+  if (arg_12 == 0) {
+    if (intrinsic_006a()) {
+    }
+  }
+  else if (arg_12 == 1) {
+    if (intrinsic_006a()) {
+    }
+  }
+  ITEM.slot_24(4, local_04);
+  spawn STEAM.slot_22(local_04);
+  return;
 }

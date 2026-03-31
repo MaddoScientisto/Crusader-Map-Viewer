@@ -1,65 +1,41 @@
 function npc_slot_24() /* entry=2579 class_id=0x0a11 slot=0x24 */
 {
-  entry:
-    set_info(0x020a, *(arg_06));
-    if (global[0x003d] != *(arg_06)) goto block_0401;
-
-  block_03bf:
+  set_info(0x020a, *(arg_06));
+  if (global[0x003d] == *(arg_06)) {
     /* pop_global */
     /* global_address */
-
-  block_03da:
     /* global_address */
-    if intrinsic_0033() goto block_0401;
-
-  block_03e7:
-    spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
-    suspend;
-    goto block_03da;
-
-  block_0401_selector_00:
-    for local_02 in selector_0x42(arg0=0x01db, arg1=0x043d, arg2=(5 * 32), origin=arg_06) {
-      local_04 = local_02;
-      /* loopnext */
+    while (intrinsic_0033()) {
+      spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+      suspend;
     }
-
-  block_0423:
-    if local_04 goto block_05a3;
-
-  block_042a:
-    if (Item.getFrame(local_04) != 1) goto block_04e5;
-
-  block_046b:
-    suspend;
+  }
+  for local_02 in selector_0x42(arg0=0x01db, arg1=0x043d, arg2=(5 * 32), origin=arg_06) {
+    local_04 = local_02;
+    /* loopnext */
+  }
+  if (local_04) {
+    if (Item.getFrame(local_04) == 1) {
+      suspend;
+      spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
+      suspend;
+      /* global_address */
+      suspend;
+    }
+    else {
+      suspend;
+      spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
+      suspend;
+      /* global_address */
+      suspend;
+    }
+    /* global_address */
+    if (intrinsic_003a(52)) {
+      spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+      suspend;
+    }
     spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
     suspend;
-    /* global_address */
-    suspend;
-    goto block_055c;
-
-  block_04e5:
-    suspend;
-    spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
-    suspend;
-    /* global_address */
-    suspend;
-
-  block_055c:
-    /* global_address */
-    if intrinsic_003a(52) goto block_058c;
-
-  block_0575:
-    spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
-    suspend;
-
-  block_058c:
-    spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
-    suspend;
-
-  block_05a3:
-    goto block_05a6;
-
-  block_05a6:
-    return;
-
+  }
+  return;
 }

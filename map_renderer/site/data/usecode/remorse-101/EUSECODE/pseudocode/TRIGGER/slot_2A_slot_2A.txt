@@ -8,7 +8,7 @@ function trigger_slot_2a() /* entry=2586 class_id=0x0a18 slot=0x2a */
     spawn FREE.waitNTimerTicks(pid, 1, 0x00000000);
     suspend;
     local_14 = arg_10;
-    if (arg_12 != 0x00fe) goto block_27f4;
+    if arg_12 != 0x00fe goto block_27f4;
 
   block_27e7:
     local_16 = 0x00fe;
@@ -24,42 +24,42 @@ function trigger_slot_2a() /* entry=2586 class_id=0x0a18 slot=0x2a */
   block_2820:
     local_18 = local_16;
     /* pop_global */
-    if (arg_12 < 0x0080) goto block_2a39;
+    if arg_12 >= 0x0080 goto block_2a39;
 
   block_2833:
     local_20 = (((local_10 & 0x00e0) * 8) + local_08);
-    if (local_10 != 0) goto block_284c;
+    if local_10 != 0 goto block_284c;
 
   block_2849:
     goto block_2b0c;
 
   block_284c:
-    if (local_16 != 0) goto block_2857;
+    if local_16 != 0 goto block_2857;
 
   block_2854:
     goto block_2b0c;
 
   block_2857:
     local_04 = 0;
-    if (local_10 & 8) goto block_2867;
+    if !(local_10 & 8) goto block_2867;
 
   block_2863:
     local_04 = 1;
 
   block_2867:
-    if (arg_12 != local_04) goto block_2a39;
+    if arg_12 != local_04 goto block_2a39;
 
   block_286f:
-    if (local_10 & 4) goto block_2999;
+    if !(local_10 & 4) goto block_2999;
 
   block_2877:
-    if intrinsic_00ff(local_20) goto block_2908;
+    if !intrinsic_00ff(local_20) goto block_2908;
 
   block_2883:
-    if (local_16 != 0x00ff) goto block_28b5;
+    if local_16 != 0x00ff goto block_28b5;
 
   block_288c:
-    if (local_20 != 0) goto block_28b2;
+    if local_20 == 0 goto block_28b2;
 
   block_2894:
     spawn TRIGGER.slot_21(pid, local_20, local_16, local_10, local_08, local_06, arg_10, arg_06);
@@ -69,7 +69,7 @@ function trigger_slot_2a() /* entry=2586 class_id=0x0a18 slot=0x2a */
     goto block_2905;
 
   block_28b5:
-    if (local_20 != 0x07fe) goto block_28df;
+    if local_20 != 0x07fe goto block_28df;
 
   block_28be:
     spawn TRIGGER.slot_22(pid, local_20, local_16, local_10, local_08, local_06, arg_10, arg_06);
@@ -77,7 +77,7 @@ function trigger_slot_2a() /* entry=2586 class_id=0x0a18 slot=0x2a */
     goto block_2905;
 
   block_28df:
-    if (local_20 != 0) goto block_2905;
+    if local_20 == 0 goto block_2905;
 
   block_28e7:
     spawn TRIGGER.slot_20(pid, local_20, local_16, local_10, local_08, local_06, arg_10, arg_06);
@@ -87,10 +87,10 @@ function trigger_slot_2a() /* entry=2586 class_id=0x0a18 slot=0x2a */
     goto block_2996;
 
   block_2908:
-    if (local_16 != 0x00ff) goto block_293e;
+    if local_16 != 0x00ff goto block_293e;
 
   block_2911:
-    if (local_20 != 0) goto block_293b;
+    if local_20 == 0 goto block_293b;
 
   block_2919:
     spawn TRIGGER.slot_26(pid, local_20, local_16, local_10, local_08, local_06, arg_10, arg_06);
@@ -102,7 +102,7 @@ function trigger_slot_2a() /* entry=2586 class_id=0x0a18 slot=0x2a */
     goto block_2996;
 
   block_293e:
-    if (local_20 != 0x07ff) goto block_296c;
+    if local_20 != 0x07ff goto block_296c;
 
   block_2947:
     spawn TRIGGER.slot_25(pid, local_20, local_16, local_10, local_08, local_06, arg_10, arg_06);
@@ -112,7 +112,7 @@ function trigger_slot_2a() /* entry=2586 class_id=0x0a18 slot=0x2a */
     goto block_2996;
 
   block_296c:
-    if (local_20 != 0) goto block_2996;
+    if local_20 == 0 goto block_2996;
 
   block_2974:
     spawn TRIGGER.slot_24(pid, local_20, local_16, local_10, local_08, local_06, arg_10, arg_06);
@@ -124,10 +124,10 @@ function trigger_slot_2a() /* entry=2586 class_id=0x0a18 slot=0x2a */
     goto block_2a27;
 
   block_2999:
-    if (local_16 != 0x00ff) goto block_29cf;
+    if local_16 != 0x00ff goto block_29cf;
 
   block_29a2:
-    if (local_20 != 0) goto block_29cc;
+    if local_20 == 0 goto block_29cc;
 
   block_29aa:
     spawn TRIGGER.slot_29(pid, local_20, local_16, local_10, local_08, local_06, arg_10, arg_06);
@@ -139,7 +139,7 @@ function trigger_slot_2a() /* entry=2586 class_id=0x0a18 slot=0x2a */
     goto block_2a27;
 
   block_29cf:
-    if (local_20 != 0x07ff) goto block_29fd;
+    if local_20 != 0x07ff goto block_29fd;
 
   block_29d8:
     spawn TRIGGER.slot_28(pid, local_20, local_16, local_10, local_08, local_06, arg_10, arg_06);
@@ -149,7 +149,7 @@ function trigger_slot_2a() /* entry=2586 class_id=0x0a18 slot=0x2a */
     goto block_2a27;
 
   block_29fd:
-    if (local_20 != 0) goto block_2a27;
+    if local_20 == 0 goto block_2a27;
 
   block_2a05:
     spawn TRIGGER.slot_27(pid, local_20, local_16, local_10, local_08, local_06, arg_10, arg_06);
@@ -158,53 +158,39 @@ function trigger_slot_2a() /* entry=2586 class_id=0x0a18 slot=0x2a */
     local_16 = process_result;
 
   block_2a27:
-    if (local_10 & 16) goto block_2a39;
+    if !(local_10 & 16) goto block_2a39;
 
   block_2a39:
     local_22 = (arg_12 & 1);
 
   block_2a40:
-    if 1 goto block_2b0c;
+    if !(1) goto block_2b0c;
 
   block_2a45_selector_00:
-    /* loop_selector local_12 in nearby_items(shape=0x04b1, origin=local_14) */
-
-  block_2a5b:
-    if condition goto block_2ac4;
-
-  block_2a5e:
-    if (intrinsic_00e3(local_12) != local_16) goto block_2ac0;
-
-  block_2a6d:
-    local_10 = intrinsic_0003(local_12);
-    local_04 = 0;
-    if (local_10 & 8) goto block_2a88;
-
-  block_2a84:
-    local_04 = 1;
-
-  block_2a88:
-    if (local_22 != local_04) goto block_2ac0;
-
-  block_2a90:
-    if (local_10 & 16) goto block_2ab3;
-
-  block_2a98:
-    spawn TRIGGER.slot_2b(pid, local_12, arg_06);
-    suspend;
-    /* dword_to_word */
-    local_18 = process_result;
-    goto block_2ac0;
-
-  block_2ab3:
-    /* create_list */
-    /* append_list */
-    /* free_local_list */
-    local_02 = local_12;
-
-  block_2ac0:
-    /* loopnext */
-    goto block_2a5b;
+    for local_12 in nearby_items(shape=0x04b1, origin=local_14) {
+      if (intrinsic_00e3(local_12) == local_16) {
+        local_10 = intrinsic_0003(local_12);
+        local_04 = 0;
+        if (local_10 & 8) {
+          local_04 = 1;
+        }
+        if (local_22 == local_04) {
+          if (local_10 & 16) {
+            spawn TRIGGER.slot_2b(pid, local_12, arg_06);
+            suspend;
+            /* dword_to_word */
+            local_18 = process_result;
+          }
+          else {
+            /* create_list */
+            /* append_list */
+            /* free_local_list */
+            local_02 = local_12;
+          }
+        }
+      }
+      /* loopnext */
+    }
 
   block_2acc:
     while (true) {
@@ -220,7 +206,7 @@ function trigger_slot_2a() /* entry=2586 class_id=0x0a18 slot=0x2a */
     }
 
   block_2afa:
-    if (local_18 != local_16) goto block_2b05;
+    if local_18 != local_16 goto block_2b05;
 
   block_2b02:
     goto block_2b0c;

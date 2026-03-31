@@ -1,134 +1,80 @@
 function barrel_slot_20() /* entry=2562 class_id=0x0a00 slot=0x20 */
 {
-  entry:
-    set_info(0x0001, *(arg_06));
-    local_02 = *(arg_06);
-    local_10 = intrinsic_0013(arg_06);
-    local_12 = Item.legal_create(arg_06);
-    local_14 = Item.getZ(arg_06);
-    FREE.slot_2c(arg_12, arg_10);
-    if (!retval) goto block_011e;
-
-  block_011b:
-    goto block_0410;
-
-  block_011e:
+  set_info(0x0001, *(arg_06));
+  local_02 = *(arg_06);
+  local_10 = intrinsic_0013(arg_06);
+  local_12 = Item.legal_create(arg_06);
+  local_14 = Item.getZ(arg_06);
+  FREE.slot_2c(arg_12, arg_10);
+  if (!retval) {
+    return;
+  }
+  else {
     spawn ITEM.slot_27(pid, 100, arg_12, arg_10, arg_06);
     suspend;
     /* dword_to_word */
-    if (!process_result) goto block_0163;
-
-  block_013c:
-    FREE.slot_20(1);
-    if retval goto block_0156;
-
-  block_0149:
-    goto block_0160;
-
-  block_0160:
-    goto block_0410;
-
-  block_0163:
-    if (intrinsic_0016(arg_06) != 0x00aa) goto block_01c0;
-
-  block_0173:
-    if ((Item.getFrame(arg_06) == 0) || (Item.getFrame(arg_06) != 1)) {
+    if (!process_result) {
+      FREE.slot_20(1);
+      if (retval) {
+      }
+      return;
+    }
+    else if (intrinsic_0016(arg_06) == 0x00aa) {
+      local_06 = 1;
+      if ((Item.getFrame(arg_06) == 0) || (Item.getFrame(arg_06) == 1)) {
+        local_05 = 1;
+      }
+      else if ((Item.getFrame(arg_06) == 2) || (Item.getFrame(arg_06) == 3)) {
+        local_05 = 0;
+      }
+    }
+    else if (((intrinsic_0016(arg_06) == 0x0151) || (intrinsic_0016(arg_06) == 0x0154)) || (intrinsic_0016(arg_06) == 0x0155)) {
       local_05 = 1;
     }
-    else if ((Item.getFrame(arg_06) == 2) || (Item.getFrame(arg_06) != 3)) {
-      local_05 = 0;
+    else if (intrinsic_0016(arg_06) == 0x0152) {
+      if ((Item.getFrame(arg_06) == 0) || (Item.getFrame(arg_06) == 1)) {
+        local_05 = 1;
+      }
+      else if (Item.getFrame(arg_06) == 2) {
+        local_05 = 0;
+      }
     }
-
-  block_01bd:
-    goto block_028b;
-
-  block_01c0:
-    if (((intrinsic_0016(arg_06) != 0x0151) || (intrinsic_0016(arg_06) != 0x0154)) || (intrinsic_0016(arg_06) != 0x0155)) goto block_01f3;
-
-  block_01ec:
-    local_05 = 1;
-    goto block_028b;
-
-  block_01f3:
-    if (intrinsic_0016(arg_06) != 0x0152) goto block_023f;
-
-  block_0203:
-    if ((Item.getFrame(arg_06) != 0) || (Item.getFrame(arg_06) != 1)) goto block_0226;
-
-  block_021f:
-    local_05 = 1;
-    goto block_023c;
-
-  block_0226:
-    if (Item.getFrame(arg_06) == 2) {
-      local_05 = 0;
+    else if (intrinsic_0016(arg_06) == 0x0153) {
+      if (Item.getFrame(arg_06) == 0) {
+        local_05 = 1;
+      }
+      else if ((Item.getFrame(arg_06) == 1) || (Item.getFrame(arg_06) == 2)) {
+        local_05 = 0;
+      }
     }
-
-  block_023c:
-    goto block_028b;
-
-  block_023f:
-    if (intrinsic_0016(arg_06) != 0x0153) goto block_028b;
-
-  block_024f:
-    if (Item.getFrame(arg_06) != 0) goto block_0265;
-
-  block_025e:
-    local_05 = 1;
-    goto block_0288;
-
-  block_0265:
-    if ((Item.getFrame(arg_06) == 1) || (Item.getFrame(arg_06) != 2)) {
-      local_05 = 0;
-    }
-
-  block_0288:
-    goto block_028b;
-
-  block_028b:
     local_08 = intrinsic_0010(arg_06);
-    if local_05 goto block_0357;
-
-  block_029b:
-    if local_06 goto block_0300;
-
-  block_02a0:
-    spawn ITEM.slot_2a(pid, arg_06);
-    suspend;
-    set_info(1, 0);
-    goto block_0410;
-
-  block_02fd:
-    goto block_0354;
-
-  block_0300:
-    spawn ITEM.slot_2a(pid, arg_06);
-    suspend;
-    set_info(1, 0);
-    goto block_0410;
-
-  block_0354:
-    goto block_0410;
-
-  block_0357:
-    if local_06 goto block_03bc;
-
-  block_035c:
-    spawn ITEM.slot_2a(pid, arg_06);
-    suspend;
-    set_info(1, 0);
-    goto block_0410;
-
-  block_03b9:
-    goto block_0410;
-
-  block_03bc:
-    spawn ITEM.slot_2a(pid, arg_06);
-    suspend;
-    set_info(1, 0);
-    goto block_0410;
-
-  block_0410:
-    return;
-
+    if (local_05) {
+      if (local_06) {
+        spawn ITEM.slot_2a(pid, arg_06);
+        suspend;
+        set_info(1, 0);
+        return;
+      }
+      else {
+        spawn ITEM.slot_2a(pid, arg_06);
+        suspend;
+        set_info(1, 0);
+        return;
+      }
+      return;
+    }
+    else if (local_06) {
+      spawn ITEM.slot_2a(pid, arg_06);
+      suspend;
+      set_info(1, 0);
+      return;
+    }
+    else {
+      spawn ITEM.slot_2a(pid, arg_06);
+      suspend;
+      set_info(1, 0);
+      return;
+    }
+  }
+  return;
 }

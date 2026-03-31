@@ -1,84 +1,54 @@
 function mlgunns_slot_20() /* entry=1567 class_id=0x061d slot=0x20 */
 {
-  entry:
-    set_info(0x0205, *(arg_06));
-    if (intrinsic_0004(arg_06) & 0x1000) goto block_00f7;
-
-  block_00f4:
-    goto block_0321;
-
-  block_00f7:
+  set_info(0x0205, *(arg_06));
+  if (intrinsic_0004(arg_06) & 0x1000) {
+    return;
+  }
+  else {
     ITEM.slot_24(0x1000, arg_06);
     local_02 = Item.getFrame(arg_06);
     local_04 = intrinsic_00ce(arg_06);
-
-  block_0119:
     suspend;
-    if (local_04 > 99) goto block_0129;
-
-  block_0122:
-    local_04 = (local_04 - 100);
-
-  block_0129:
-    if (local_02 == 0) {
-      local_08 = -32;
-      local_10 = -80;
-      local_12 = 0;
-      local_14 = 3;
+    while (true) {
+      suspend;
+      if (local_04 > 99) {
+        local_04 = (local_04 - 100);
+      }
+      if (local_02 == 0) {
+        local_08 = -32;
+        local_10 = -80;
+        local_12 = 0;
+        local_14 = 3;
+      }
+      else if (local_02 == 1) {
+        local_08 = 16;
+        local_10 = -16;
+        local_12 = 4;
+        local_14 = 5;
+      }
+      else if (local_02 == 2) {
+        local_08 = -32;
+        local_10 = 16;
+        local_12 = 8;
+        local_14 = 7;
+      }
+      if (local_04 == 0) {
+      }
+      else if (local_04 == 1) {
+      }
+      else if (local_04 == 2) {
+      }
+      else if (local_04 == 3) {
+      }
+      else if (local_04 == 4) {
+      }
+      spawn FREE.slot_3b(pid, 5, 0x00000000);
+      suspend;
+      spawn FREE.slot_3b(pid, 5, 0x00000000);
+      suspend;
+      spawn FREE.slot_3b(pid, ((5 - intrinsic_000a()) * 20), 0x00000000);
+      suspend;
     }
-    else if (local_02 == 1) {
-      local_08 = 16;
-      local_10 = -16;
-      local_12 = 4;
-      local_14 = 5;
-    }
-    else if (local_02 == 2) {
-      local_08 = -32;
-      local_10 = 16;
-      local_12 = 8;
-      local_14 = 7;
-    }
-
-  block_017a:
-    if (local_04 != 0) goto block_01af;
-
-  block_0182:
-    goto block_02af;
-
-  block_01af:
-    if (local_04 != 1) goto block_01e4;
-
-  block_01b7:
-    goto block_02af;
-
-  block_01e4:
-    if (local_04 != 2) goto block_0219;
-
-  block_01ec:
-    goto block_02af;
-
-  block_0219:
-    if (local_04 != 3) goto block_024f;
-
-  block_0221:
-    goto block_02af;
-
-  block_024f:
-    if (local_04 != 4) goto block_0285;
-
-  block_0257:
-    goto block_02af;
-
-  block_02af:
-    spawn FREE.slot_3b(pid, 5, 0x00000000);
-    suspend;
-    spawn FREE.slot_3b(pid, 5, 0x00000000);
-    suspend;
-    spawn FREE.slot_3b(pid, ((5 - intrinsic_000a()) * 20), 0x00000000);
-    suspend;
-    goto block_0119;
-
-  block_0321:
-    return;
-
+  }
+  return;
 }

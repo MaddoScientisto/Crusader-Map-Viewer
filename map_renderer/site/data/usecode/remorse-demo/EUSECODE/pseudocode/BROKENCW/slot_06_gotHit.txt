@@ -1,32 +1,18 @@
 function brokencw_gotHit() /* entry=211 class_id=0x00d1 slot=0x06 */
 {
-  entry:
-    set_info(0x020c, *(arg_06));
-    process_exclude();
-    /* loopscr */
-    /* loop */
-
-  block_0100:
-    if condition goto block_0188;
-
-  block_0103:
-    if (intrinsic_0016(local_02) != 0x00d1) goto block_012c;
-
-  block_011c:
-    goto block_0184;
-
-  block_012c:
-    if ((intrinsic_003f(local_02) == 6) && (Actor.isNPC(local_02) != 0)) {
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  /* loopscr */
+  /* loop */
+  while (condition) {
+    if (intrinsic_0016(local_02) == 0x00d1) {
+    }
+    else if ((intrinsic_003f(local_02) == 6) && (Actor.isNPC(local_02) == 0)) {
       spawn ITEM.slot_28(pid, 1, 0, local_02);
       suspend;
     }
-
-  block_0184:
     /* loopnext */
-    goto block_0100;
-
-  block_0188:
-    return;
-
+  }
+  return;
   /* decompilation stopped at SEARCH_SURFACE */
 }

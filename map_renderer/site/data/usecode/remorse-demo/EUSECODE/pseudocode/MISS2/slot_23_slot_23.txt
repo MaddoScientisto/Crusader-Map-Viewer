@@ -7,85 +7,44 @@ function miss2_slot_23() /* entry=2320 class_id=0x090e slot=0x23 */
     activate, /* [BP-04h] type=0x62 */
     item; /* [BP-06h] type=0x24 */
 
-  entry:
-    set_info(1, 0);
-    done0 = 0;
-    done1 = 0;
-    done2 = 0;
-
-  block_051d:
-    if (((done0 != 0) || (done1 != 0)) || (done2 != 0)) goto block_066a;
-
-  block_0537_selector_00:
-    /* loop_selector item in nearby_items(shape=0x04d5, origin=global[0x003c]) */
-
-  block_0555:
-    if condition goto block_0665;
-
-  block_0558:
-    activate = 0;
-    if (!done0) goto block_058e;
-
-  block_0568:
-    if (intrinsic_00af(item) != 0) goto block_058b;
-
-  block_057d:
-    activate = 1;
-    done0 = 1;
-
-  block_058b:
-    goto block_05ec;
-
-  block_058e:
-    if (!done1) goto block_05bd;
-
-  block_0597:
-    if (intrinsic_00af(item) != 1) goto block_05ba;
-
-  block_05ac:
-    activate = 1;
-    done1 = 1;
-
-  block_05ba:
-    goto block_05ec;
-
-  block_05bd:
-    if (!done2) goto block_05ec;
-
-  block_05c6:
-    if (intrinsic_00af(item) != 2) goto block_05e9;
-
-  block_05db:
-    activate = 1;
-    done2 = 1;
-
-  block_05e9:
-    goto block_05ec;
-
-  block_05ec:
-    if activate goto block_0661;
-
-  block_05f4:
-    if (!done2) goto block_063b;
-
-  block_05fd:
-    spawn MISS2.slot_22(item, 0x00000000);
-    spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
-    suspend;
-    goto block_0661;
-
-  block_063b:
-    spawn MISS2.slot_22(pid, item, 0x00000000);
-    suspend;
-
-  block_0661:
-    /* loopnext */
-    goto block_0555;
-
-  block_0665:
-    goto block_051d;
-
-  block_066a:
-    return;
-
+  set_info(1, 0);
+  done0 = 0;
+  done1 = 0;
+  done2 = 0;
+  while (((done0 == 0) || (done1 == 0)) || (done2 == 0)) {
+    for item in nearby_items(shape=0x04d5, origin=global[0x003c]) {
+      activate = 0;
+      if (!done0) {
+        if (intrinsic_00af(item) == 0) {
+          activate = 1;
+          done0 = 1;
+        }
+      }
+      else if (!done1) {
+        if (intrinsic_00af(item) == 1) {
+          activate = 1;
+          done1 = 1;
+        }
+      }
+      else if (!done2) {
+        if (intrinsic_00af(item) == 2) {
+          activate = 1;
+          done2 = 1;
+        }
+      }
+      if (activate) {
+        if (!done2) {
+          spawn MISS2.slot_22(item, 0x00000000);
+          spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
+          suspend;
+        }
+        else {
+          spawn MISS2.slot_22(pid, item, 0x00000000);
+          suspend;
+        }
+      }
+      /* loopnext */
+    }
+  }
+  return;
 }

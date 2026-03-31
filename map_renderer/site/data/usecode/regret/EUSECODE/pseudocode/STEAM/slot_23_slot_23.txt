@@ -1,27 +1,21 @@
 function steam_slot_23() /* entry=2582 class_id=0x0a14 slot=0x23 */
 {
-  entry:
-    set_info(0x0001, *(arg_06));
-    local_02 = arg_10;
-    if (intrinsic_0004(arg_06) & 4) goto block_0386;
-
-  block_0383:
-    goto block_03d3;
-
-  block_0386:
+  set_info(0x0001, *(arg_06));
+  local_02 = arg_10;
+  if (intrinsic_0004(arg_06) & 4) {
+    return;
+  }
+  else {
     ITEM.slot_24(4, arg_06);
-
-  block_0391:
+    suspend;
     while (true) {
       suspend;
-      if (arg_10 >= 0x00ff) {
+      if (arg_10 < 0x00ff) {
         NPC.slot_2a(local_02);
         spawn STEAM.slot_22(arg_06);
         return;
       }
     }
-
-  block_03d3:
-    return;
-
+  }
+  return;
 }

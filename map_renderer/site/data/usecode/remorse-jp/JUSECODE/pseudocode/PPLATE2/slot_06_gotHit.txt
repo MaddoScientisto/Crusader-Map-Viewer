@@ -1,76 +1,50 @@
 function pplate2_gotHit() /* entry=411 class_id=0x0199 slot=0x06 */
 {
-  entry:
-    set_info(0x020c, *(arg_06));
-    process_exclude();
-    FREE.slot_2c(arg_12, arg_10);
-    if retval goto block_0212;
-
-  block_020c:
-    goto block_03b3;
-
-  block_0212:
-    local_02 = Item.getFrame(arg_06);
-    if (local_02 & 1) goto block_0231;
-
-  block_022b:
-    goto block_03b3;
-
-  block_0231:
-    local_04 = arg_10;
-    if ((intrinsic_005a(arg_06) != 0) || (intrinsic_005b(*(arg_06), local_04) != 0)) goto block_0264;
-
-  block_025e:
-    goto block_03b3;
-
-  block_0264:
-    if (intrinsic_0003(arg_06) != 0) goto block_034c;
-
-  block_0286:
-    spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
-    suspend;
-
-  block_02bb:
-    if 1 goto block_0349;
-
-  block_02c3:
-    if (intrinsic_005a(arg_06) != 0) goto block_02fe;
-
-  block_02d5:
-    spawn FREE.slot_32(pid, 2, 0x00000000);
-    suspend;
-    goto block_0346;
-
-  block_02fe:
-    spawn TRIGGER.slot_20(pid, 1, *(arg_06), arg_06);
-    suspend;
-    goto block_03b3;
-
-  block_0346:
-    goto block_02bb;
-
-  block_0349:
-    goto block_03b3;
-
-  block_034c:
-    if 1 goto block_03b3;
-
-  block_0354:
-    if (intrinsic_005a(arg_06) != 0) goto block_038f;
-
-  block_0366:
-    spawn FREE.slot_32(pid, 2, 0x00000000);
-    suspend;
-    goto block_03b0;
-
-  block_038f:
-    goto block_03b3;
-
-  block_03b0:
-    goto block_034c;
-
-  block_03b3:
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  FREE.slot_2c(arg_12, arg_10);
+  if (retval) {
     return;
-
+  }
+  else {
+    local_02 = Item.getFrame(arg_06);
+    if (local_02 & 1) {
+      return;
+    }
+    else {
+      local_04 = arg_10;
+      if ((intrinsic_005a(arg_06) == 0) || (intrinsic_005b(*(arg_06), local_04) == 0)) {
+        return;
+      }
+      else if (intrinsic_0003(arg_06) != 0) {
+        spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
+        suspend;
+        while (1) {
+          if (intrinsic_005a(arg_06) != 0) {
+            spawn FREE.slot_32(pid, 2, 0x00000000);
+            suspend;
+          }
+          else {
+            spawn TRIGGER.slot_20(pid, 1, *(arg_06), arg_06);
+            suspend;
+            return;
+          }
+        }
+        return;
+      }
+      else {
+        while (1) {
+          if (intrinsic_005a(arg_06) != 0) {
+            spawn FREE.slot_32(pid, 2, 0x00000000);
+            suspend;
+          }
+          else {
+            return;
+          }
+        }
+      }
+    }
+  }
+  return;
   /* decompilation stopped at SEARCH_SURFACE */
 }

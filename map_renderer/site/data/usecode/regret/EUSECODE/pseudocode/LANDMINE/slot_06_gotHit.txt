@@ -1,35 +1,22 @@
 function landmine_gotHit() /* entry=924 class_id=0x039a slot=0x06 */
 {
-  entry:
-    set_info(0x020c, *(arg_06));
-    process_exclude();
-    if (arg_10 != 1) goto block_0431;
-
-  block_042e:
-    goto block_0481;
-
-  block_0431:
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  if (arg_10 == 1) {
+    return;
+  }
+  else {
     FREE.slot_35(arg_12, arg_10);
     local_02 = retval;
-    if local_02 goto block_0461;
-
-  block_0444:
-    if (local_02 != 4) goto block_0452;
-
-  block_044c:
-    goto block_0481;
-
-  block_044f:
-    goto block_045e;
-
-  block_045e:
-    goto block_0481;
-
-  block_0461:
-    local_04 = arg_10;
-    if intrinsic_00b9(*(arg_06), local_04) goto block_0481;
-
-  block_0481:
-    return;
-
+    if (local_02) {
+      if (local_02 == 4) {
+        return;
+      }
+      return;
+    }
+    else {
+      local_04 = arg_10;
+    }
+  }
+  return;
 }

@@ -1,87 +1,52 @@
 function powergen_gotHit() /* entry=654 class_id=0x028c slot=0x06 */
 {
-  entry:
-    set_info(0x020c, *(arg_06));
-    process_exclude();
-    local_02 = Item.getFrame(arg_06);
-    FREE.slot_35((local_02 > 0), arg_12, arg_10);
-    if (retval != 0) goto block_01a0;
-
-  block_019d:
-    goto block_035b;
-
-  block_01a0:
-    if intrinsic_00f2(arg_06) goto block_01fb;
-
-  block_01ac:
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  local_02 = Item.getFrame(arg_06);
+  FREE.slot_35((local_02 > 0), arg_12, arg_10);
+  if (retval == 0) {
+    return;
+  }
+  else if (intrinsic_00f2(arg_06)) {
     spawn FREE.slot_3b(pid, 30, 0x00000000);
     suspend;
-    goto block_035b;
-
-  block_01fb:
+    return;
+  }
+  else {
     spawn ITEM.slot_29(pid, 0x00c8, arg_12, arg_10, arg_06);
     suspend;
     /* dword_to_word */
-    if (!process_result) goto block_0241;
-
-  block_021a:
-    FREE.slot_20(1);
-    if retval goto block_0234;
-
-  block_0227:
-    goto block_023e;
-
-  block_023e:
-    goto block_035b;
-
-  block_0241:
-    if (!global[0x0005]) goto block_0261;
-
-  block_0261:
-    /* loopscr */
-    /* loopscr */
-    /* loopscr */
-    /* loopscr */
-    /* loop */
-
-  block_0277:
-    while (!condition) {
-      /* loopnext */
+    if (!process_result) {
+      FREE.slot_20(1);
+      if (retval) {
+      }
+      return;
     }
-
-  block_0293:
-    if (!global[0x0005]) goto block_02cc;
-
-  block_02bd:
-    suspend;
-
-  block_02cc_selector_00:
-    /* loop_selector local_06 in nearby_items(shape=17, origin=arg_06) */
-
-  block_02e3:
-    if condition goto block_032a;
-
-  block_02e6:
-    if (intrinsic_003e(local_06) != intrinsic_00f7(arg_06)) goto block_0326;
-
-  block_02fc:
-    if ((Item.getFrame(local_06) != 1) && (global[0x000c] > 0)) goto block_031e;
-
-  block_0313:
-    /* pop_global */
-
-  block_0326:
-    /* loopnext */
-    goto block_02e3;
-
-  block_032a:
-    if (intrinsic_0003(arg_06) != 0) goto block_0353;
-
-  block_033b:
-    spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
-    suspend;
-
-  block_035b:
-    return;
-
+    else {
+      /* loopscr */
+      /* loopscr */
+      /* loopscr */
+      /* loopscr */
+      /* loop */
+      while (condition) {
+        /* loopnext */
+      }
+      if (!(global[0x0005])) {
+        suspend;
+      }
+      for local_06 in nearby_items(shape=17, origin=arg_06) {
+        if (intrinsic_003e(local_06) == intrinsic_00f7(arg_06)) {
+          if ((Item.getFrame(local_06) == 1) && (global[0x000c] > 0)) {
+            /* pop_global */
+          }
+        }
+        /* loopnext */
+      }
+      if (intrinsic_0003(arg_06) != 0) {
+        spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
+        suspend;
+      }
+    }
+  }
+  return;
 }

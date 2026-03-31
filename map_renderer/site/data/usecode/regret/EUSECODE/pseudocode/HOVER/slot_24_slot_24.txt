@@ -1,45 +1,26 @@
 function hover_slot_24() /* entry=2573 class_id=0x0a0b slot=0x24 */
 {
-  entry:
-    set_info(1, 0);
-    local_06 = arg_10;
-    local_16 = intrinsic_001f(local_06);
-
-  entry_selector_00:
-    /* loop_selector local_04 in nearby_items(shape=NUMBERS, origin=arg_10) */
-
-  block_0fa5:
-    if condition goto block_108c;
-
-  block_0fa8:
-    if (Item.getFrame(local_04) != arg_12) goto block_1088;
-
-  block_0fb7:
-    if ((local_16 != 0) || (local_16 != intrinsic_001f(local_04))) goto block_1088;
-
-  block_0fcc:
-    local_18 = Item.getX(local_04);
-    local_20 = Item.getY(local_04);
-    local_21 = Item.getZ(local_04);
-    local_08 = (local_18 - Item.getX(local_06));
-    local_10 = (local_20 - Item.getY(local_06));
-    local_12 = (local_21 - Item.getZ(local_06));
-    /* loopscr */
-    /* loop */
-
-  block_1022:
-    while (!condition) {
-      /* loopnext */
+  set_info(1, 0);
+  local_06 = arg_10;
+  local_16 = intrinsic_001f(local_06);
+  for local_04 in nearby_items(shape=NUMBERS, origin=arg_10) {
+    if (Item.getFrame(local_04) == arg_12) {
+      if ((local_16 == 0) || (local_16 == intrinsic_001f(local_04))) {
+        local_18 = Item.getX(local_04);
+        local_20 = Item.getY(local_04);
+        local_21 = Item.getZ(local_04);
+        local_08 = (local_18 - Item.getX(local_06));
+        local_10 = (local_20 - Item.getY(local_06));
+        local_12 = (local_21 - Item.getZ(local_06));
+        /* loopscr */
+        /* loop */
+        while (condition) {
+          /* loopnext */
+        }
+        return;
+      }
     }
-
-  block_106d:
-    goto block_108e;
-
-  block_1088:
     /* loopnext */
-    goto block_0fa5;
-
-  block_108e:
-    return;
-
+  }
+  return;
 }

@@ -1,78 +1,49 @@
 function npc_slot_24() /* entry=2577 class_id=0x0a0f slot=0x24 */
 {
-  entry:
-    set_info(0x020a, *(arg_06));
-    if (global[0x001e] != *(arg_06)) goto block_052e;
-
-  block_04c0:
+  set_info(0x020a, *(arg_06));
+  if (global[0x001e] == *(arg_06)) {
     /* global_address */
-
-  block_04d9:
-    while (!intrinsic_0060()) {
+    /* global_address */
+    while (intrinsic_0060()) {
       spawn FREE.slot_3b(pid, 2, 0x00000000);
       suspend;
     }
-
-  block_0500:
     /* global_address */
-    if intrinsic_0061() goto block_052e;
-
-  block_050d:
-    /* global_address */
-    /* global_address */
-    suspend;
-
-  block_052e:
-    /* loopscr */
-    /* loopscr */
-    /* loop */
-
-  block_0542:
-    while (!condition) {
-      local_04 = local_02;
-      /* loopnext */
+    if (intrinsic_0061()) {
+      /* global_address */
+      /* global_address */
+      suspend;
     }
-
-  block_054d:
-    if local_04 goto block_071e;
-
-  block_0554:
-    if (Item.getFrame(local_04) != 1) goto block_062d;
-
-  block_0595:
-    suspend;
-    suspend;
-    spawn FREE.slot_3b(pid, 60, 0x00000000);
-    suspend;
-    suspend;
-    goto block_06c2;
-
-  block_062d:
-    suspend;
-    suspend;
-    spawn FREE.slot_3b(pid, 60, 0x00000000);
-    suspend;
-    suspend;
-
-  block_06c2:
-    if (*(arg_06) != intrinsic_0016()) goto block_06d7;
-
-  block_06d7:
+  }
+  /* loopscr */
+  /* loopscr */
+  /* loop */
+  while (condition) {
+    local_04 = local_02;
+    /* loopnext */
+  }
+  if (local_04) {
+    if (Item.getFrame(local_04) == 1) {
+      suspend;
+      suspend;
+      spawn FREE.slot_3b(pid, 60, 0x00000000);
+      suspend;
+      suspend;
+    }
+    else {
+      suspend;
+      suspend;
+      spawn FREE.slot_3b(pid, 60, 0x00000000);
+      suspend;
+      suspend;
+    }
     /* global_address */
-    if intrinsic_0035(52) goto block_0707;
-
-  block_06f0:
-    spawn FREE.slot_3b(pid, 2, 0x00000000);
-    suspend;
-
-  block_0707:
+    if (intrinsic_0035(52)) {
+      spawn FREE.slot_3b(pid, 2, 0x00000000);
+      suspend;
+    }
     spawn FREE.slot_3b(pid, 60, 0x00000000);
     suspend;
-
-  block_071e:
-    goto block_0721;
-
-  block_0721:
-    return;
-
+  }
+  return;
 }

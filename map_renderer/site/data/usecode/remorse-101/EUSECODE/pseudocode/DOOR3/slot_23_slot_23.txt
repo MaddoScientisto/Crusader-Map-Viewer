@@ -13,15 +13,10 @@ function door3_slot_23() /* entry=2570 class_id=0x0a08 slot=0x23 */
     local_19 = retval;
 
   entry_selector_00:
-    /* loop_selector local_14 in nearby_items(shape=0x0368, origin=arg_06) */
-
-  block_085d:
-    if condition goto block_0868;
-
-  block_0860:
-    local_10 = local_14;
-    /* loopnext */
-    goto block_085d;
+    for local_14 in nearby_items(shape=0x0368, origin=arg_06) {
+      local_10 = local_14;
+      /* loopnext */
+    }
 
   block_0868_selector_00:
     for local_14 in nearby_items(shape=0x0369, origin=arg_06) {
@@ -30,27 +25,27 @@ function door3_slot_23() /* entry=2570 class_id=0x0a08 slot=0x23 */
     }
 
   block_088d:
-    if (local_10 && local_12) goto block_0b3f;
+    if !(local_10 && local_12) goto block_0b3f;
 
   block_0897:
     local_06 = 1;
 
   block_08a5:
-    if (local_06 <= (local_19 - 1)) goto block_0b3f;
+    if local_06 > (local_19 - 1) goto block_0b3f;
 
   block_08b0:
     FREE.slot_2d(Item.getZ(local_10), Item.legal_create(local_10), intrinsic_0013(local_10), 0, local_02, (local_19 - local_06), list_element(size=0x2), local_10);
-    if (!retval) goto block_08e9;
+    if retval goto block_08e9;
 
   block_08e5:
     local_15 = 1;
 
   block_08e9:
-    if ((!local_17) && (!local_15)) goto block_0936;
+    if !((!local_17) && (!local_15)) goto block_0936;
 
   block_08f3:
     FREE.slot_2d(Item.getZ(local_12), (Item.legal_create(local_12) + 16), intrinsic_0013(local_12), 0, local_04, (local_19 - local_06), list_element(size=0x2), local_12);
-    if (!retval) goto block_092f;
+    if retval goto block_092f;
 
   block_092b:
     local_16 = 1;
@@ -61,13 +56,13 @@ function door3_slot_23() /* entry=2570 class_id=0x0a08 slot=0x23 */
 
   block_0936:
     FREE.slot_2d(Item.getZ(local_12), (Item.legal_create(local_12) + 16), intrinsic_0013(local_12), 0, local_04, (local_19 - local_06), list_element(size=0x2), local_12);
-    if (!retval) goto block_0972;
+    if retval goto block_0972;
 
   block_096e:
     local_16 = 1;
 
   block_0972:
-    if ((!local_15) && (!local_16)) goto block_09a9;
+    if !((!local_15) && (!local_16)) goto block_09a9;
 
   block_097c:
     spawn FREE.waitNTimerTicks(pid, (5 + local_06), 0x00000000);
@@ -76,29 +71,23 @@ function door3_slot_23() /* entry=2570 class_id=0x0a08 slot=0x23 */
 
   block_09a9:
     local_17 = 0;
-    if local_16 goto block_09db;
+    if !local_16 goto block_09db;
 
   block_09db:
-    if ((local_15 != 1) && (local_16 != 0)) goto block_0a2c;
+    if (local_15 != 1) && (local_16 == 0) goto block_0a2c;
 
   block_0a2c:
     local_08 = ((local_19 - local_06) + 1);
 
   block_0a36:
-    if (local_08 <= (local_19 - 1)) goto block_0b00;
-
-  block_0a41:
-    if (!local_17) goto block_0aa2;
-
-  block_0a5e:
-    local_17 = 1;
-    goto block_0adf;
-
-  block_0adf:
-    spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
-    suspend;
-    local_08 = (1 + local_08);
-    goto block_0a36;
+    while (local_08 <= (local_19 - 1)) {
+      if (!local_17) {
+        local_17 = 1;
+      }
+      spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+      suspend;
+      local_08 = (1 + local_08);
+    }
 
   block_0b00:
     /* word_to_dword */

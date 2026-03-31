@@ -1,34 +1,21 @@
 function item_slot_2a() /* entry=2591 class_id=0x0a1d slot=0x2a */
 {
-  entry:
-    set_info(0x0001, *(arg_06));
-    spawn ITEM.slot_29(pid, arg_06);
-    suspend;
-    /* dword_to_word */
-    if (!process_result) goto block_111d;
-
-  block_1117:
-    goto block_137f;
-
-  block_111d:
-    if ((local_05 != 1) || (local_05 != 2)) goto block_11f3;
-
-  block_1147:
-    spawn ITEM.slot_2b(local_11);
-    goto block_1356;
-
-  block_11f3:
-    if ((local_05 != 3) || (local_05 != 4)) goto block_12ad;
-
-  block_1201:
-    spawn ITEM.slot_2b(local_11);
-    goto block_1356;
-
-  block_12ad:
-    spawn ITEM.slot_2b(local_11);
-
-  block_137f:
+  set_info(0x0001, *(arg_06));
+  spawn ITEM.slot_29(pid, arg_06);
+  suspend;
+  /* dword_to_word */
+  if (!process_result) {
     return;
-
+  }
+  else if ((local_05 == 1) || (local_05 == 2)) {
+    spawn ITEM.slot_2b(local_11);
+  }
+  else if ((local_05 == 3) || (local_05 == 4)) {
+    spawn ITEM.slot_2b(local_11);
+  }
+  else {
+    spawn ITEM.slot_2b(local_11);
+  }
+  return;
   /* decompilation stopped at SEARCH_SURFACE */
 }

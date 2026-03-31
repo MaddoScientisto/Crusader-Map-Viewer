@@ -4,72 +4,53 @@ function prislean_enterFastArea() /* entry=746 class_id=0x02e8 slot=0x0f */
     referent, /* [BP+00h] type=0x69 */
     counter; /* [BP-02h] type=0x69 */
 
-  entry:
-    set_info(0x021b, *(arg_06));
-    process_exclude();
-    spawn FREE.slot_32(pid, 100, 0x00000000);
-    suspend;
-
-  block_0111:
+  set_info(0x021b, *(arg_06));
+  process_exclude();
+  spawn FREE.slot_32(pid, 100, 0x00000000);
+  suspend;
+  suspend;
+  FREE.slot_20(pid, 100, 100);
+  spawn FREE.slot_32(retval, 0x00000000);
+  suspend;
+  while (true) {
     suspend;
     FREE.slot_20(pid, 100, 100);
     spawn FREE.slot_32(retval, 0x00000000);
     suspend;
-    if (Item.getFrame(arg_06) < 6) goto block_0240;
-
-  block_0164:
-    counter = Item.getFrame(arg_06);
-
-  block_0172:
-    while (counter > 5) {
-      spawn FREE.slot_32(pid, 5, 0x00000000);
+    if (Item.getFrame(arg_06) < 6) {
+      counter = Item.getFrame(arg_06);
+      while (counter <= 5) {
+        spawn FREE.slot_32(pid, 5, 0x00000000);
+        suspend;
+        counter = (1 + counter);
+      }
+      FREE.slot_20(pid, 100, 100);
+      spawn FREE.slot_32(retval, 0x00000000);
       suspend;
-      counter = (1 + counter);
+      counter = 0;
+      while (counter <= 5) {
+        spawn FREE.slot_32(pid, 5, 0x00000000);
+        suspend;
+        counter = (1 + counter);
+      }
     }
-
-  block_01ba:
-    FREE.slot_20(pid, 100, 100);
-    spawn FREE.slot_32(retval, 0x00000000);
-    suspend;
-    counter = 0;
-
-  block_01f2:
-    while (counter > 5) {
-      spawn FREE.slot_32(pid, 5, 0x00000000);
+    else {
+      counter = Item.getFrame(arg_06);
+      while (counter <= 12) {
+        spawn FREE.slot_32(pid, 5, 0x00000000);
+        suspend;
+        counter = (1 + counter);
+      }
+      FREE.slot_20(pid, 100, 100);
+      spawn FREE.slot_32(retval, 0x00000000);
       suspend;
-      counter = (1 + counter);
+      counter = 0;
+      while (counter <= 5) {
+        spawn FREE.slot_32(pid, 5, 0x00000000);
+        suspend;
+        counter = (1 + counter);
+      }
     }
-
-  block_023d:
-    goto block_0319;
-
-  block_0240:
-    counter = Item.getFrame(arg_06);
-
-  block_024e:
-    while (counter > 12) {
-      spawn FREE.slot_32(pid, 5, 0x00000000);
-      suspend;
-      counter = (1 + counter);
-    }
-
-  block_0296:
-    FREE.slot_20(pid, 100, 100);
-    spawn FREE.slot_32(retval, 0x00000000);
-    suspend;
-    counter = 0;
-
-  block_02ce:
-    while (counter > 5) {
-      spawn FREE.slot_32(pid, 5, 0x00000000);
-      suspend;
-      counter = (1 + counter);
-    }
-
-  block_0319:
-    goto block_0111;
-
-  block_031c:
-    return;
-
+  }
+  return;
 }

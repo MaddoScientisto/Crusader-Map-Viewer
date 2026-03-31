@@ -1,39 +1,26 @@
 function steam_slot_21() /* entry=2583 class_id=0x0a15 slot=0x21 */
 {
-  entry:
-    set_info(0x0001, *(arg_06));
-    local_02 = arg_10;
-    if (intrinsic_0004(arg_06) & 4) goto block_027e;
-
-  block_0278:
-    goto block_0333;
-
-  block_027e:
-    ITEM.slot_23(4, arg_06);
-
-  block_028c:
-    suspend;
-    if (arg_10 < 0x00ff) goto block_0330;
-
-  block_02a8:
-    if (arg_10 != intrinsic_001b()) goto block_02e3;
-
-  block_02b9:
-    goto block_031c;
-
-  block_02e3:
-    NPC.slot_2b(local_02);
-    if (!retval) goto block_031c;
-
-  block_031c:
-    spawn STEAM.slot_20(arg_06);
-    goto block_0333;
-
-  block_0330:
-    goto block_028c;
-
-  block_0333:
+  set_info(0x0001, *(arg_06));
+  local_02 = arg_10;
+  if (intrinsic_0004(arg_06) & 4) {
     return;
-
+  }
+  else {
+    ITEM.slot_23(4, arg_06);
+    suspend;
+    while (true) {
+      suspend;
+      if (arg_10 < 0x00ff) {
+        if (arg_10 == intrinsic_001b()) {
+        }
+        else {
+          NPC.slot_2b(local_02);
+        }
+        spawn STEAM.slot_20(arg_06);
+        return;
+      }
+    }
+  }
+  return;
   /* decompilation stopped at SEARCH_SURFACE */
 }

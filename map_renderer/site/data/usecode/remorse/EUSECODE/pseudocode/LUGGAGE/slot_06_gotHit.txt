@@ -1,49 +1,29 @@
 function luggage_gotHit() /* entry=145 class_id=0x008f slot=0x06 */
 {
-  entry:
-    set_info(0x020c, *(arg_06));
-    process_exclude();
-    FREE.slot_2c(arg_12, arg_10);
-    if retval goto block_0258;
-
-  block_00fd:
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  FREE.slot_2c(arg_12, arg_10);
+  if (retval) {
     spawn ITEM.slot_27(pid, 100, arg_12, arg_10, arg_06);
     suspend;
     /* dword_to_word */
-    if (!process_result) goto block_015d;
-
-  block_012d:
-    FREE.slot_20(1);
-    if retval goto block_014d;
-
-  block_013d:
-    goto block_015a;
-
-  block_015a:
-    goto block_0258;
-
-  block_015d:
-    spawn ITEM.slot_28(pid, 0, 0, arg_06);
-    suspend;
-    if (Item.getFrame(arg_06) != 1) goto block_01ad;
-
-  block_0191:
-    goto block_021c;
-
-  block_01ad:
-    if (Item.getFrame(arg_06) != 2) goto block_01d8;
-
-  block_01bc:
-    goto block_021c;
-
-  block_01d8:
-    if (Item.getFrame(arg_06) != 3) goto block_0203;
-
-  block_01e7:
-    goto block_021c;
-
-  block_0258:
-    return;
-
+    if (!process_result) {
+      FREE.slot_20(1);
+      if (retval) {
+      }
+      return;
+    }
+    else {
+      spawn ITEM.slot_28(pid, 0, 0, arg_06);
+      suspend;
+      if (Item.getFrame(arg_06) == 1) {
+      }
+      else if (Item.getFrame(arg_06) == 2) {
+      }
+      else if (Item.getFrame(arg_06) == 3) {
+      }
+    }
+  }
+  return;
   /* decompilation stopped at SEARCH_SURFACE */
 }

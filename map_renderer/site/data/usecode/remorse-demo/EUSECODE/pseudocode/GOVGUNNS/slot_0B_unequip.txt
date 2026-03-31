@@ -2,9 +2,11 @@ function govgunns_unequip() /* entry=923 class_id=0x0399 slot=0x0b */
 {
   set_info(0x0212, *(arg_06));
   process_exclude();
-  if (!(intrinsic_0004(arg_06) & 4)) {
+  if (intrinsic_0004(arg_06) & 4) {
     return;
   }
-  spawn WALLGUN.slot_27(arg_06);
+  else {
+    spawn WALLGUN.slot_27(arg_06);
+  }
   return;
 }

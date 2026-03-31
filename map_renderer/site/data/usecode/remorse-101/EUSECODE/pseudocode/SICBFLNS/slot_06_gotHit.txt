@@ -1,115 +1,44 @@
 function sicbflns_gotHit() /* entry=739 class_id=0x02e1 slot=0x06 */
 {
-  entry:
-    set_info(0x020c, *(arg_06));
-    process_exclude();
-    local_02 = arg_10;
-    if (((arg_10 != 1) && (Item.getFrame(arg_06) != 0)) && (intrinsic_00ed(arg_06) != 0)) goto block_0358;
-
-  block_0105:
-    if (!intrinsic_0057(*(arg_06), local_02)) goto block_0119;
-
-  block_0116:
-    goto block_0358;
-
-  block_0121:
-    while (!intrinsic_0033()) {
-      spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
-      suspend;
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  local_02 = arg_10;
+  if (((arg_10 == 1) && (Item.getFrame(arg_06) == 0)) && (intrinsic_00ed(arg_06) == 0)) {
+    if (!intrinsic_0057(*(arg_06), local_02)) {
+      return;
     }
-
-  block_0148:
-    /* global_address */
-    /* global_address */
-    suspend;
-
-  block_0148_selector_00:
-    /* loop_selector local_02 in nearby_items(shape=DOOR_CORNER_LOWER_RIGHT, origin=arg_06) */
-
-  block_01a8:
-    if condition goto block_01d2;
-
-  block_01ab:
-    if (Item.getFrame(local_02) < 2) goto block_01ce;
-
-  block_01ce:
-    /* loopnext */
-    goto block_01a8;
-
-  block_01d2_selector_00:
-    /* loop_selector local_02 in nearby_items(shape=HEALTH_STATION_BACK, origin=arg_06) */
-
-  block_01ec:
-    if condition goto block_0216;
-
-  block_01ef:
-    if (Item.getFrame(local_02) < 1) goto block_0212;
-
-  block_0212:
-    /* loopnext */
-    goto block_01ec;
-
-  block_0216_selector_00:
-    /* loop_selector local_02 in nearby_items(shape=HEALTH_STATION_TOP, origin=arg_06) */
-
-  block_0230:
-    if condition goto block_025a;
-
-  block_0233:
-    if (Item.getFrame(local_02) < 1) goto block_0256;
-
-  block_0256:
-    /* loopnext */
-    goto block_0230;
-
-  block_0268:
-    if intrinsic_00e8(0x0254, global[0x003d]) goto block_0293;
-
-  block_0279:
-    spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
-    suspend;
-    goto block_0268;
-
-  block_0293_selector_00:
-    /* loop_selector local_02 in nearby_items(shape=DOOR_CORNER_LOWER_RIGHT, origin=arg_06) */
-
-  block_02ab:
-    if condition goto block_02e2;
-
-  block_02ae:
-    if ((Item.getFrame(local_02) != 2) || (Item.getFrame(local_02) != 3)) goto block_02de;
-
-  block_02de:
-    /* loopnext */
-    goto block_02ab;
-
-  block_02e2_selector_00:
-    /* loop_selector local_02 in nearby_items(shape=HEALTH_STATION_TOP, origin=arg_06) */
-
-  block_02fc:
-    if condition goto block_031c;
-
-  block_02ff:
-    if (Item.getFrame(local_02) != 1) goto block_0318;
-
-  block_0318:
-    /* loopnext */
-    goto block_02fc;
-
-  block_031c_selector_00:
-    /* loop_selector local_02 in nearby_items(shape=HEALTH_STATION_BACK, origin=arg_06) */
-
-  block_0336:
-    if condition goto block_0356;
-
-  block_0339:
-    if (Item.getFrame(local_02) != 1) goto block_0352;
-
-  block_0352:
-    /* loopnext */
-    goto block_0336;
-
-  block_0358:
-    return;
-
+    else {
+      /* global_address */
+      while (intrinsic_0033()) {
+        spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+        suspend;
+      }
+      /* global_address */
+      /* global_address */
+      suspend;
+      for local_02 in nearby_items(shape=DOOR_CORNER_LOWER_RIGHT, origin=arg_06) {
+        /* loopnext */
+      }
+      for local_02 in nearby_items(shape=HEALTH_STATION_BACK, origin=arg_06) {
+        /* loopnext */
+      }
+      for local_02 in nearby_items(shape=HEALTH_STATION_TOP, origin=arg_06) {
+        /* loopnext */
+      }
+      while (intrinsic_00e8(0x0254, global[0x003d])) {
+        spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+        suspend;
+      }
+      for local_02 in nearby_items(shape=DOOR_CORNER_LOWER_RIGHT, origin=arg_06) {
+        /* loopnext */
+      }
+      for local_02 in nearby_items(shape=HEALTH_STATION_TOP, origin=arg_06) {
+        /* loopnext */
+      }
+      for local_02 in nearby_items(shape=HEALTH_STATION_BACK, origin=arg_06) {
+        /* loopnext */
+      }
+    }
+  }
+  return;
 }

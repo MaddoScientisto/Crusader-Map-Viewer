@@ -2,14 +2,16 @@ function d_gurdsq_use() /* entry=1254 class_id=0x04e4 slot=0x01 */
 {
   set_info(0x0207, *(arg_06));
   process_exclude();
-  if (!(intrinsic_0004(arg_06) & 0x1000)) {
+  if (intrinsic_0004(arg_06) & 0x1000) {
     return;
   }
-  FREE.slot_40(*(arg_06));
-  if (!retval) {
-    spawn FREE.slot_32(pid, 10, 0x00000000);
-    suspend;
-    ITEM.slot_23(0x1000, arg_06);
+  else {
+    FREE.slot_40(*(arg_06));
+    if (retval) {
+      spawn FREE.slot_32(pid, 10, 0x00000000);
+      suspend;
+      ITEM.slot_23(0x1000, arg_06);
+    }
   }
   return;
 }

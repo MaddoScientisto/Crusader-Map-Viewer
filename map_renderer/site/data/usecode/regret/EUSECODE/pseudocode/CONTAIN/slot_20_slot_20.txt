@@ -1,78 +1,63 @@
 function contain_slot_20() /* entry=2565 class_id=0x0a03 slot=0x20 */
 {
-  entry:
-    set_info(0x0001, *(arg_06));
-    FREE.slot_35(arg_12, arg_10);
-    ITEM.slot_26((retval < 1), 0x1000, arg_06);
-    if (retval != 1) goto block_010a;
-
-  block_0107:
-    goto block_032c;
-
-  block_010a:
+  set_info(0x0001, *(arg_06));
+  FREE.slot_35(arg_12, arg_10);
+  ITEM.slot_26((retval < 1), 0x1000, arg_06);
+  if (retval == 1) {
+    return;
+  }
+  else {
     spawn ITEM.slot_29(pid, 0x0096, arg_12, arg_10, arg_06);
     suspend;
     /* dword_to_word */
-    if (!process_result) goto block_0150;
-
-  block_0129:
-    FREE.slot_20(1);
-    if retval goto block_0143;
-
-  block_0136:
-    goto block_014d;
-
-  block_014d:
-    goto block_032c;
-
-  block_0150:
-    local_04 = *(arg_06);
-    local_06 = intrinsic_001f(arg_06);
-    if global[0x0007] goto block_016b;
-
-  block_0168:
-    goto block_032c;
-
-  block_016b:
-    /* pop_global */
-    /* loopscr */
-    /* loopscr */
-    /* loop */
-
-  block_018c:
-    while (!condition) {
-      if (local_06 == intrinsic_001f(local_02)) {
-        if (intrinsic_0011(local_02) == 52) {
-          if (Item.getFrame(arg_06) == 0) {
-            suspend;
-          }
-        }
-        else if (intrinsic_0011(local_02) == 0x034b) {
-          spawn ITEM.slot_2a(pid, 1, 0, local_02);
-          suspend;
-        }
-        else if (intrinsic_0011(local_02) == 11) {
-          ITEM.slot_24(0x1000, local_02);
-          if (Item.getFrame(local_02)) {
-            spawn ITEM.slot_2a(pid, 0, 1, local_02);
-            suspend;
-          }
-        }
-        else if (intrinsic_0011(local_02) == 0x0127) {
-          ITEM.slot_24(0x1000, local_02);
-          if (Item.getFrame(local_02)) {
-            spawn ITEM.slot_2a(pid, 0, 1, local_02);
-            suspend;
-          }
-        }
+    if (!process_result) {
+      FREE.slot_20(1);
+      if (retval) {
       }
-      /* loopnext */
+      return;
     }
-
-  block_0320:
-    /* pop_global */
-
-  block_032c:
-    return;
-
+    else {
+      local_04 = *(arg_06);
+      local_06 = intrinsic_001f(arg_06);
+      if (global[0x0007]) {
+        return;
+      }
+      else {
+        /* pop_global */
+        /* loopscr */
+        /* loopscr */
+        /* loop */
+        while (condition) {
+          if (local_06 == intrinsic_001f(local_02)) {
+            if (intrinsic_0011(local_02) == 52) {
+              if (Item.getFrame(arg_06) == 0) {
+                suspend;
+              }
+            }
+            else if (intrinsic_0011(local_02) == 0x034b) {
+              spawn ITEM.slot_2a(pid, 1, 0, local_02);
+              suspend;
+            }
+            else if (intrinsic_0011(local_02) == 11) {
+              ITEM.slot_24(0x1000, local_02);
+              if (!Item.getFrame(local_02)) {
+                spawn ITEM.slot_2a(pid, 0, 1, local_02);
+                suspend;
+              }
+            }
+            else if (intrinsic_0011(local_02) == 0x0127) {
+              ITEM.slot_24(0x1000, local_02);
+              if (!Item.getFrame(local_02)) {
+                spawn ITEM.slot_2a(pid, 0, 1, local_02);
+                suspend;
+              }
+            }
+          }
+          /* loopnext */
+        }
+        /* pop_global */
+      }
+    }
+  }
+  return;
 }

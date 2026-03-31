@@ -1,63 +1,36 @@
 function elevat_slot_25() /* entry=2571 class_id=0x0a09 slot=0x25 */
 {
-  entry:
-    set_info(0x0001, *(arg_06));
-    local_04 = 5;
-
-  entry_selector_00:
-    /* loop_selector local_02 in nearby_items(shape=ELEVATOR_BASE, origin=arg_06) */
-
-  block_06af:
-    if condition goto block_07c9;
-
-  block_06b2:
+  set_info(0x0001, *(arg_06));
+  local_04 = 5;
+  for local_02 in nearby_items(shape=ELEVATOR_BASE, origin=arg_06) {
     FREE.slot_3f((intrinsic_0013(arg_06) - intrinsic_0013(local_02)));
     local_06 = retval;
     FREE.slot_3f((Item.legal_create(arg_06) - Item.legal_create(local_02)));
     local_08 = retval;
-    if ((local_06 < 2) && (local_08 < 2)) goto block_07c5;
-
-  block_06fa:
-    if ((intrinsic_0004(local_02) & 0x1000) != 0) goto block_07c5;
-
-  block_070d:
-    if (Item.getFrame(local_02) != 0) goto block_0761;
-
-  block_0727:
-    local_03 = 1;
-
-  block_072b:
-    while (local_03 > local_04) {
-      spawn FREE.waitNTimerTicks(pid, 1, 0x00000000);
-      suspend;
-      local_03 = (1 + local_03);
+    if ((local_06 < 2) && (local_08 < 2)) {
+      if ((intrinsic_0004(local_02) & 0x1000) == 0) {
+        if (Item.getFrame(local_02) == 0) {
+          local_03 = 1;
+          while (local_03 <= local_04) {
+            spawn FREE.waitNTimerTicks(pid, 1, 0x00000000);
+            suspend;
+            local_03 = (1 + local_03);
+          }
+        }
+        else {
+          local_03 = local_04;
+          while (local_03 > 0) {
+            spawn FREE.waitNTimerTicks(pid, 1, 0x00000000);
+            suspend;
+            local_03 = (local_03 - 1);
+          }
+          spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+          suspend;
+        }
+        /* bit_not */
+      }
     }
-
-  block_075e:
-    goto block_07b9;
-
-  block_0761:
-    local_03 = local_04;
-
-  block_0765:
-    while (local_03 <= 0) {
-      spawn FREE.waitNTimerTicks(pid, 1, 0x00000000);
-      suspend;
-      local_03 = (local_03 - 1);
-    }
-
-  block_0798:
-    spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
-    suspend;
-
-  block_07b9:
-    /* bit_not */
-
-  block_07c5:
     /* loopnext */
-    goto block_06af;
-
-  block_07c9:
-    return;
-
+  }
+  return;
 }

@@ -1,25 +1,20 @@
 function landmine_use() /* entry=924 class_id=0x039a slot=0x01 */
 {
-  entry:
-    set_info(0x0207, *(arg_06));
-    process_exclude();
-    local_03 = *(arg_06);
-    /* global_address */
-    if (intrinsic_0011() != 40) goto block_013e;
-
-  block_010a:
-    goto block_0502;
-
-  block_013e:
+  set_info(0x0207, *(arg_06));
+  process_exclude();
+  local_03 = *(arg_06);
+  /* global_address */
+  if (intrinsic_0011() == 40) {
+    return;
+  }
+  else {
     set_info(0x00f0, 0);
-
-  block_0152:
-    while (!intrinsic_0033()) {
+    /* global_address */
+    while (intrinsic_0033()) {
       spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
       suspend;
     }
-
-  block_0188:
+    /* global_address */
     if (intrinsic_001c() == 0) {
       local_07 = -1;
       local_09 = -3;
@@ -84,59 +79,39 @@ function landmine_use() /* entry=924 class_id=0x039a slot=0x01 */
       local_07 = -3;
       local_09 = -3;
     }
-
-  block_0368:
     /* global_address */
-    if intrinsic_0035() goto block_0382;
-
-  block_0378:
-    local_01 = 1;
-    goto block_03b9;
-
-  block_0382:
-    local_01 = 0;
-    /* global_address */
-    /* global_address */
-    suspend;
-
-  block_03b9:
+    if (intrinsic_0035()) {
+      local_01 = 1;
+    }
+    else {
+      local_01 = 0;
+      /* global_address */
+      /* global_address */
+      suspend;
+    }
     /* global_address */
     local_16 = (intrinsic_0013() + (local_07 * 16));
     /* global_address */
     local_14 = (Item.legal_create() + (local_09 * 16));
     /* global_address */
     local_12 = Item.getZ();
-    if intrinsic_005b(local_16, 0, 0x039a, local_11) goto block_0416;
-
-  block_0408:
-    goto block_048e;
-
-  block_0416:
-    if (!local_01) goto block_047d;
-
-  block_044d:
-    /* global_address */
-    /* global_address */
-    suspend;
-
-  block_047d:
-    goto block_0502;
-
-  block_048e:
-    if (!local_01) goto block_04c7;
-
-  block_0497:
-    /* global_address */
-    /* global_address */
-    suspend;
-
-  block_04c7:
-    /* global_address */
-    /* global_address */
-    suspend;
-
-  block_0502:
+    if (intrinsic_005b(local_16, 0, 0x039a, local_11)) {
+    }
+    else if (!local_01) {
+      /* global_address */
+      /* global_address */
+      suspend;
+    }
     return;
-
+    if (!local_01) {
+      /* global_address */
+      /* global_address */
+      suspend;
+    }
+    /* global_address */
+    /* global_address */
+    suspend;
+  }
+  return;
   /* decompilation stopped at SEARCH_SURFACE */
 }

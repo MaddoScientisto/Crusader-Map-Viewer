@@ -1,52 +1,30 @@
 function pplate_gotHit() /* entry=410 class_id=0x0198 slot=0x06 */
 {
-  entry:
-    set_info(0x020c, *(arg_06));
-    process_exclude();
-    FREE.slot_2c(arg_12, arg_10);
-    if retval goto block_0103;
-
-  block_00fd:
-    goto block_0238;
-
-  block_0103:
-    if (intrinsic_0003(arg_06) != 0) goto block_0218;
-
-  block_0115:
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  FREE.slot_2c(arg_12, arg_10);
+  if (retval) {
+    return;
+  }
+  else if (intrinsic_0003(arg_06) != 0) {
     local_02 = arg_10;
-    if ((intrinsic_0059(arg_06) != 0) || (intrinsic_005a(*(arg_06), local_02) != 0)) goto block_0148;
-
-  block_0142:
-    goto block_0238;
-
-  block_0148:
+    if ((intrinsic_0059(arg_06) == 0) || (intrinsic_005a(*(arg_06), local_02) == 0)) {
+      return;
+    }
     spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
     suspend;
-
-  block_018a:
-    if 1 goto block_0218;
-
-  block_0192:
-    if (intrinsic_0059(arg_06) != 0) goto block_01cd;
-
-  block_01a4:
-    spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
-    suspend;
-    goto block_0215;
-
-  block_01cd:
-    spawn TRIGGER.slot_20(pid, 1, *(arg_06), arg_06);
-    suspend;
-    goto block_0238;
-
-  block_0215:
-    goto block_018a;
-
-  block_0218:
-    if (!Item.getFrame(arg_06)) goto block_0238;
-
-  block_0238:
-    return;
-
+    while (1) {
+      if (intrinsic_0059(arg_06) != 0) {
+        spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+        suspend;
+      }
+      else {
+        spawn TRIGGER.slot_20(pid, 1, *(arg_06), arg_06);
+        suspend;
+        return;
+      }
+    }
+  }
+  return;
   /* decompilation stopped at SEARCH_SURFACE */
 }

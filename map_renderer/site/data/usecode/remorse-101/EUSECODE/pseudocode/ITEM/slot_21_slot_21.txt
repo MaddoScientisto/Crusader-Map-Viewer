@@ -1,24 +1,14 @@
 function item_slot_21() /* entry=2592 class_id=0x0a1e slot=0x21 */
 {
-  entry:
-    local_02 = arg_10;
-    if arg_10 goto block_0185;
-
-  block_014e:
-    if (intrinsic_003b(local_02) != 6) goto block_0185;
-
-  block_015d:
-    /* loopscr */
-    /* loop */
-
-  block_016a:
-    if condition goto block_0183;
-
-  block_016d:
-    /* loopnext */
-    goto block_016a;
-
-  block_0185:
-    return;
-
+  local_02 = arg_10;
+  if (arg_10) {
+    if (intrinsic_003b(local_02) == 6) {
+      /* loopscr */
+      /* loop */
+      while (condition) {
+        /* loopnext */
+      }
+    }
+  }
+  return;
 }

@@ -1,12 +1,18 @@
 import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 
 import { CACHE_ROOT, CATALOG_ROOT } from "../config.js";
 
 const USECODE_CACHE_ROOT = path.join(CACHE_ROOT, "usecode");
 const USECODE_CACHE_SCHEMA_VERSION = 2;
 const DISASM_OPCODE_TABLE_PATH = path.resolve(CACHE_ROOT, "..", "..", "..", "crusader-disasm", "usecode_opcodes.txt");
+const USECODE_DECOMPILER_IMPL_PATH = fileURLToPath(import.meta.url);
+const USECODE_SHAPE_CATALOG_PATHS = [
+  path.join(CATALOG_ROOT, "usecode_shape_catalog_remorse.csv"),
+  path.join(CATALOG_ROOT, "usecode_shape_catalog_regret.csv")
+];
 
 const EVENT_NAME_HINTS = {
   0x00: "look",
@@ -998,8 +1004,28 @@ function decompilePseudocodeBlocks(ir) {
         index += 1;
         continue;
       }
-      if (["bit_and", "bit_or", "and", "or", "cmp", "ne", "lt", "le", "gt", "ge"].includes(op.mnemonic)) {
-        combineBinary(stack, { bit_and: "&", bit_or: "|", and: "&&", or: "||", cmp: "!=", ne: "!=", lt: "<", le: "<=", gt: ">", ge: ">=" }[op.mnemonic]);
+      if (["bit_and", "bit_or", "and", "or", "cmp", "cmp_dword", "ne", "ne_dword", "lt", "lt_dword", "le", "le_dword", "gt", "gt_dword", "ge", "ge_dword"].includes(op.mnemonic)) {
+        combineBinary(
+          stack,
+          {
+            bit_and: "&",
+            bit_or: "|",
+            and: "&&",
+            or: "||",
+            cmp: "==",
+            cmp_dword: "==",
+            ne: "!=",
+            ne_dword: "!=",
+            lt: "<",
+            lt_dword: "<",
+            le: "<=",
+            le_dword: "<=",
+            gt: ">",
+            gt_dword: ">",
+            ge: ">=",
+            ge_dword: ">="
+          }[op.mnemonic]
+        );
         index += 1;
         continue;
       }
@@ -1030,7 +1056,8 @@ function decompilePseudocodeBlocks(ir) {
       }
       if (op.mnemonic === "jne") {
         const targetAbsolute = ir.event.derived_body_start + op.operands.target_offset;
-        blockLines.push(`if ${stack.length ? stack.pop()[0] : "condition"} goto ${labelMap[targetAbsolute] ?? `block_${targetAbsolute.toString(16).padStart(4, "0")}`};`);
+        const condition = stack.length ? stack.pop()[0] : "condition";
+        blockLines.push(`if ${formatFalseBranchCondition(condition)} goto ${labelMap[targetAbsolute] ?? `block_${targetAbsolute.toString(16).padStart(4, "0")}`};`);
         index += 1;
         continue;
       }
@@ -1109,8 +1136,46 @@ function invertConditionText(condition) {
   return /^[A-Za-z_][A-Za-z0-9_:.]*(\(.*\))?$/u.test(expr) ? `!${expr}` : `!(${expr})`;
 }
 
+function formatFalseBranchCondition(condition) {
+  return invertConditionText(condition || "condition");
+}
+
 function indentLines(lines, prefix = "  ") {
   return lines.map((line) => (line ? `${prefix}${line}` : ""));
+}
+
+function resolveLabelIndex(labelToIndex, label) {
+  if (label == null) return null;
+  const direct = labelToIndex.get(label);
+  if (direct != null) return direct;
+  for (const [candidateLabel, candidateIndex] of labelToIndex.entries()) {
+    if (candidateLabel === `${label}_selector_00` || candidateLabel === `${label}_cont_00`) {
+      return candidateIndex;
+    }
+    if (candidateLabel.startsWith(`${label}_selector_`) || candidateLabel.startsWith(`${label}_cont_`)) {
+      return candidateIndex;
+    }
+  }
+
+  const numericMatch = /^block_([0-9a-fA-F]{4,})$/u.exec(label);
+  if (numericMatch) {
+    const targetValue = Number.parseInt(numericMatch[1], 16);
+    let bestCandidate = null;
+    for (const [candidateLabel, candidateIndex] of labelToIndex.entries()) {
+      const candidateMatch = /^block_([0-9a-fA-F]{4,})(?:_(?:selector|cont)_\d+)?$/u.exec(candidateLabel);
+      if (!candidateMatch) continue;
+      const candidateValue = Number.parseInt(candidateMatch[1], 16);
+      if (candidateValue < targetValue) continue;
+      if (bestCandidate == null || candidateValue < bestCandidate.value || (candidateValue === bestCandidate.value && candidateIndex < bestCandidate.index)) {
+        bestCandidate = { value: candidateValue, index: candidateIndex };
+      }
+    }
+    if (bestCandidate != null) {
+      return bestCandidate.index;
+    }
+  }
+
+  return null;
 }
 
 function parseSelectorCondition(condition) {
@@ -1167,14 +1232,14 @@ function detectNoopCompareChain(blocks, labelToIndex, startIndex, endIndex) {
     }
 
     if (compareTerminal.target === commonTarget) {
-      const bodyIndex = labelToIndex.get(commonTarget ?? "");
+      const bodyIndex = resolveLabelIndex(labelToIndex, commonTarget ?? "");
       if (bodyIndex == null || bodyIndex !== cursor + 2 || bodyIndex >= endIndex) {
         return null;
       }
       return bodyIndex;
     }
 
-    const nextIndex = labelToIndex.get(compareTerminal.target ?? "");
+    const nextIndex = resolveLabelIndex(labelToIndex, compareTerminal.target ?? "");
     if (nextIndex == null || nextIndex !== cursor + 2 || nextIndex >= endIndex) {
       return null;
     }
@@ -1207,7 +1272,7 @@ function renderSelectorChain(blocks, labelToIndex, startIndex, endIndex, returnL
     if (!parsed || parsed[0] !== selectorExpr) return null;
 
     const targetLabel = terminal.target ?? "";
-    const targetIndex = labelToIndex.get(targetLabel);
+    const targetIndex = resolveLabelIndex(labelToIndex, targetLabel);
     if (targetIndex == null || targetIndex <= cursor + 1 || targetIndex > endIndex) return null;
 
     const bodyTailIndex = lastNonemptyBlockIndex(blocks, cursor + 1, targetIndex);
@@ -1216,7 +1281,7 @@ function renderSelectorChain(blocks, labelToIndex, startIndex, endIndex, returnL
     if (!bodyTailTerminal || bodyTailTerminal.kind !== "goto") return null;
 
     const currentJoin = bodyTailTerminal.target ?? "";
-    const currentJoinIndex = labelToIndex.get(currentJoin);
+    const currentJoinIndex = resolveLabelIndex(labelToIndex, currentJoin);
     if (currentJoinIndex == null || currentJoinIndex > endIndex) return null;
     if (currentJoinIndex < targetIndex) return null;
     if (currentJoinIndex === targetIndex && targetLabel !== currentJoin) return null;
@@ -1256,7 +1321,7 @@ function renderSelectorChain(blocks, labelToIndex, startIndex, endIndex, returnL
     rendered.push("}");
   }
 
-  return [rendered, labelToIndex.get(joinLabel)];
+  return [rendered, resolveLabelIndex(labelToIndex, joinLabel)];
 }
 
 function lastNonemptyBlockIndex(blocks, startIndex, endIndex) {
@@ -1266,13 +1331,13 @@ function lastNonemptyBlockIndex(blocks, startIndex, endIndex) {
   return null;
 }
 
-function renderLoopConstruct(blocks, labelToIndex, index, endIndex, returnLabels) {
+function renderLoopConstruct(blocks, labelToIndex, index, endIndex, returnLabels, activeRegions = new Set(), renderCache = new Map()) {
   const statements = blocks[index][1];
   if (!statements.length) return null;
   const terminal = parseTerminalStatement(statements.at(-1));
   if (!terminal || terminal.kind !== "if") return null;
 
-  const targetIndex = labelToIndex.get(terminal.target);
+  const targetIndex = resolveLabelIndex(labelToIndex, terminal.target);
   if (targetIndex == null || targetIndex <= index || targetIndex > endIndex) return null;
 
   const loopTailIndex = lastNonemptyBlockIndex(blocks, index + 1, targetIndex);
@@ -1280,7 +1345,16 @@ function renderLoopConstruct(blocks, labelToIndex, index, endIndex, returnLabels
   const loopTailTerminal = parseTerminalStatement(blocks[loopTailIndex][1].at(-1));
   if (!loopTailTerminal || loopTailTerminal.kind !== "goto" || loopTailTerminal.target !== blocks[index][0]) return null;
 
-  const loopBody = renderStructuredRegion(blocks, labelToIndex, index + 1, targetIndex, returnLabels, new Set([blocks[index][0]]));
+  const loopBody = renderStructuredRegion(
+    blocks,
+    labelToIndex,
+    index + 1,
+    targetIndex,
+    returnLabels,
+    new Set([blocks[index][0]]),
+    activeRegions,
+    renderCache
+  );
   if (!loopBody) return null;
 
   const loopSelector = findNearestLoopSelector(blocks, index);
@@ -1292,7 +1366,7 @@ function renderLoopConstruct(blocks, labelToIndex, index, endIndex, returnLabels
   return [rendered, targetIndex];
 }
 
-function renderInfiniteLoopConstruct(blocks, labelToIndex, index, endIndex, returnLabels) {
+function renderInfiniteLoopConstruct(blocks, labelToIndex, index, endIndex, returnLabels, activeRegions = new Set(), renderCache = new Map()) {
   if (index + 1 >= endIndex) return null;
   const loopLabel = blocks[index][0];
   let loopTailIndex = null;
@@ -1307,13 +1381,58 @@ function renderInfiniteLoopConstruct(blocks, labelToIndex, index, endIndex, retu
   }
   if (loopTailIndex == null) return null;
 
-  const loopBody = renderStructuredRegion(blocks, labelToIndex, index, loopTailIndex + 1, returnLabels, new Set([loopLabel]));
+  const loopBody = renderStructuredRegion(
+    blocks,
+    labelToIndex,
+    index,
+    loopTailIndex + 1,
+    returnLabels,
+    new Set([loopLabel]),
+    activeRegions,
+    renderCache
+  );
   if (!loopBody) return null;
 
   const rendered = ["while (true) {"];
   rendered.push(...indentLines(loopBody[0]));
   rendered.push("}");
   return [rendered, loopTailIndex + 1];
+}
+
+function renderSelectorLoopConstruct(blocks, labelToIndex, index, endIndex, returnLabels, activeRegions = new Set(), renderCache = new Map()) {
+  const statements = blocks[index][1];
+  const loopSelector = statements.length === 1 ? parseLoopSelectorStatement(statements[0]) : null;
+  if (!loopSelector || index + 1 >= endIndex) return null;
+
+  const [nextLabel, nextStatements] = blocks[index + 1];
+  const nextTerminal = nextStatements.length ? parseTerminalStatement(nextStatements.at(-1)) : null;
+  if (!nextTerminal || nextTerminal.kind !== "if") return null;
+
+  const targetIndex = resolveLabelIndex(labelToIndex, nextTerminal.target ?? "");
+  if (targetIndex == null || targetIndex <= index + 1 || targetIndex > endIndex) return null;
+
+  const loopTailIndex = lastNonemptyBlockIndex(blocks, index + 2, targetIndex);
+  if (loopTailIndex == null) return null;
+
+  const loopTailTerminal = parseTerminalStatement(blocks[loopTailIndex][1].at(-1));
+  if (!loopTailTerminal || loopTailTerminal.kind !== "goto" || loopTailTerminal.target !== nextLabel) return null;
+
+  const loopBody = renderStructuredRegion(
+    blocks,
+    labelToIndex,
+    index + 2,
+    targetIndex,
+    returnLabels,
+    new Set([nextLabel]),
+    activeRegions,
+    renderCache
+  );
+  if (!loopBody) return null;
+
+  const rendered = [`for ${loopSelector} {`];
+  rendered.push(...indentLines(loopBody[0]));
+  rendered.push("}");
+  return [rendered, targetIndex];
 }
 
 function renderStructuredRegion(blocks, labelToIndex, startIndex, endIndex, returnLabels, exitLabels = new Set(), activeRegions = new Set(), renderCache = new Map()) {
@@ -1333,10 +1452,22 @@ function renderStructuredRegion(blocks, labelToIndex, startIndex, endIndex, retu
     }
 
     const statements = blocks[index][1];
-    if (!statements.length || isLoopSelectorOnlyBlock(statements)) {
+    if (!statements.length) {
       index += 1;
       continue;
     }
+
+    if (isLoopSelectorOnlyBlock(statements)) {
+      const selectorLoopConstruct = renderSelectorLoopConstruct(blocks, labelToIndex, index, endIndex, returnLabels, nextActive, renderCache);
+      if (selectorLoopConstruct) {
+        lines.push(...selectorLoopConstruct[0]);
+        index = selectorLoopConstruct[1];
+        continue;
+      }
+      index += 1;
+      continue;
+    }
+
     const terminal = parseTerminalStatement(statements.at(-1));
     if (!terminal) {
       lines.push(...statements);
@@ -1364,7 +1495,7 @@ function renderStructuredRegion(blocks, labelToIndex, startIndex, endIndex, retu
         renderCache.set(regionKey, result);
         return result;
       }
-      const targetIndex = labelToIndex.get(terminal.target);
+      const targetIndex = resolveLabelIndex(labelToIndex, terminal.target);
       if (targetIndex == null) return null;
       if (targetIndex === index + 1) {
         index += 1;
@@ -1377,7 +1508,7 @@ function renderStructuredRegion(blocks, labelToIndex, startIndex, endIndex, retu
       return null;
     }
 
-    const targetIndex = labelToIndex.get(terminal.target);
+    const targetIndex = resolveLabelIndex(labelToIndex, terminal.target);
     if (targetIndex == null || targetIndex <= index || targetIndex > endIndex) return null;
     if (targetIndex === index + 1) {
       index += 1;
@@ -1391,15 +1522,73 @@ function renderStructuredRegion(blocks, labelToIndex, startIndex, endIndex, retu
       continue;
     }
 
-    const loopConstruct = renderLoopConstruct(blocks, labelToIndex, index, endIndex, returnLabels);
+    const loopConstruct = renderLoopConstruct(blocks, labelToIndex, index, endIndex, returnLabels, nextActive, renderCache);
     if (loopConstruct) {
       lines.push(...loopConstruct[0]);
       index = loopConstruct[1];
       continue;
     }
 
+    const infiniteLoopConstruct = renderInfiniteLoopConstruct(blocks, labelToIndex, index, endIndex, returnLabels, nextActive, renderCache);
+    if (infiniteLoopConstruct) {
+      lines.push(...infiniteLoopConstruct[0]);
+      index = infiniteLoopConstruct[1];
+      continue;
+    }
+
+    const trueTailIndex = lastNonemptyBlockIndex(blocks, index + 1, targetIndex);
+    if (trueTailIndex != null) {
+      const trueTailTerminal = parseTerminalStatement(blocks[trueTailIndex][1].at(-1));
+      if (trueTailTerminal && trueTailTerminal.kind === "goto") {
+        const joinLabel = trueTailTerminal.target ?? "";
+        const joinIndex = resolveLabelIndex(labelToIndex, joinLabel);
+        if (joinIndex != null && joinIndex > targetIndex && joinIndex <= endIndex) {
+          const trueResult = renderStructuredRegion(
+            blocks,
+            labelToIndex,
+            index + 1,
+            targetIndex,
+            returnLabels,
+            new Set([joinLabel]),
+            nextActive,
+            renderCache
+          );
+          const falseResult = renderStructuredRegion(
+            blocks,
+            labelToIndex,
+            targetIndex,
+            joinIndex,
+            returnLabels,
+            new Set([joinLabel]),
+            nextActive,
+            renderCache
+          );
+          if (trueResult && falseResult) {
+            lines.push(`if (${invertConditionText(terminal.condition)}) {`);
+            lines.push(...indentLines(trueResult[0]));
+            lines.push("}");
+            if (falseResult[0].length) {
+              if (falseResult[0][0].startsWith("if ")) {
+                lines.push(`else ${falseResult[0][0]}`);
+                lines.push(...falseResult[0].slice(1));
+              } else {
+                lines.push("else {");
+                lines.push(...indentLines(falseResult[0]));
+                lines.push("}");
+              }
+            }
+            index = joinIndex;
+            continue;
+          }
+        }
+      }
+    }
+
     const inner = renderStructuredRegion(blocks, labelToIndex, index + 1, targetIndex, returnLabels, new Set(), nextActive, renderCache);
-    if (!inner) return null;
+    if (!inner) {
+      renderCache.set(regionKey, null);
+      return null;
+    }
     lines.push(`if (${invertConditionText(terminal.condition)}) {`);
     lines.push(...indentLines(inner[0]));
     lines.push("}");
@@ -1419,6 +1608,12 @@ function renderStructuredPseudocode(blocks) {
   return rendered ? rendered[0] : null;
 }
 
+export const __testHooks = {
+  decompilePseudocodeBlocks,
+  renderStructuredPseudocode,
+  renderSelectorLoopConstruct
+};
+
 function renderPartiallyStructuredBlocks(blocks) {
   if (!blocks.length) return [];
   const labelToIndex = new Map(blocks.map(([label], index) => [label, index]));
@@ -1433,7 +1628,7 @@ function renderPartiallyStructuredBlocks(blocks) {
         const [nextLabel, nextStatements] = blocks[index + 1];
         const nextTerminal = nextStatements.length ? parseTerminalStatement(nextStatements.at(-1)) : null;
         if (nextTerminal?.kind === "if") {
-          const targetIndex = labelToIndex.get(nextTerminal.target ?? "");
+          const targetIndex = resolveLabelIndex(labelToIndex, nextTerminal.target ?? "");
           if (targetIndex != null && targetIndex > index + 1) {
             const loopTailIndex = lastNonemptyBlockIndex(blocks, index + 2, targetIndex);
             if (loopTailIndex != null) {
@@ -1609,8 +1804,8 @@ function makeFileNameForEvent(eventRow) {
   return `slot_${slotHex}_${eventName}.txt`;
 }
 
-function computeSourceStamp(filePaths) {
-  const stampInput = filePaths
+function computeSourceStamp(filePaths, extraPaths = []) {
+  const stampInput = [...new Set([...filePaths, ...extraPaths].filter((filePath) => fs.existsSync(filePath)))]
     .map((filePath) => {
       const stat = fs.statSync(filePath);
       return `${filePath}:${stat.size}:${Math.trunc(stat.mtimeMs)}`;
@@ -1647,7 +1842,7 @@ export function ensureGameUsecodeCache(gameConfig) {
 
   fs.mkdirSync(USECODE_CACHE_ROOT, { recursive: true });
   const cacheRoot = getGameUsecodeCacheRoot(gameConfig.id);
-  const stamp = computeSourceStamp(sourcePaths);
+  const stamp = computeSourceStamp(sourcePaths, [USECODE_DECOMPILER_IMPL_PATH, DISASM_OPCODE_TABLE_PATH, ...USECODE_SHAPE_CATALOG_PATHS]);
   const manifestPath = path.join(cacheRoot, "manifest.json");
   if (fs.existsSync(manifestPath)) {
     try {

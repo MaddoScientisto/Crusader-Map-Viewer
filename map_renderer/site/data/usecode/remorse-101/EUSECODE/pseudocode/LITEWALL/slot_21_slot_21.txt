@@ -2,7 +2,7 @@ function litewall_slot_21() /* entry=2578 class_id=0x0a10 slot=0x21 */
 {
   entry:
     set_info(0x0001, *(arg_06));
-    if global[0x0006] goto block_021d;
+    if !(global[0x0006]) goto block_021d;
 
   block_021a:
     goto block_031a;
@@ -15,7 +15,7 @@ function litewall_slot_21() /* entry=2578 class_id=0x0a10 slot=0x21 */
     local_19 = 3;
     local_21 = 48;
     local_23 = 49;
-    if (((intrinsic_00b2(local_02) != 3) || (intrinsic_00b2(local_02) != 48)) || (intrinsic_00b2(local_02) != 49)) goto block_031a;
+    if ((intrinsic_00b2(local_02) != 3) || (intrinsic_00b2(local_02) == 48)) || (intrinsic_00b2(local_02) == 49) goto block_031a;
 
   block_0269:
     /* loopscr */
@@ -23,13 +23,13 @@ function litewall_slot_21() /* entry=2578 class_id=0x0a10 slot=0x21 */
     /* loop */
 
   block_0286:
-    while (!condition) {
+    while (condition) {
       /* create_list */
       /* append_list */
       /* free_local_list */
       local_08 = local_04;
       FREE.slot_29(local_08, local_02, local_04);
-      if (retval >= local_15) {
+      if (retval < local_15) {
         FREE.slot_29(local_02, local_04);
         local_15 = retval;
         local_06 = local_04;
@@ -38,7 +38,7 @@ function litewall_slot_21() /* entry=2578 class_id=0x0a10 slot=0x21 */
     }
 
   block_02be:
-    if ((local_06 != 0) && (local_15 <= 2)) goto block_031a;
+    if (local_06 == 0) && (local_15 <= 2) goto block_031a;
 
   block_02ce:
     /* pop_global */

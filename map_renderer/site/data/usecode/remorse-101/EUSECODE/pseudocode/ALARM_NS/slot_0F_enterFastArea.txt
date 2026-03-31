@@ -1,14 +1,9 @@
 function alarm_ns_enterFastArea() /* entry=75 class_id=0x0049 slot=0x0f */
 {
-  entry:
-    set_info(0x021b, *(arg_06));
-    process_exclude();
-    if intrinsic_0000() goto block_00f4;
-
-  block_00e7:
-    goto block_00fe;
-
-  block_00fe:
+  set_info(0x021b, *(arg_06));
+  process_exclude();
+  if (intrinsic_0000()) {
     return;
-
+  }
+  return;
 }

@@ -1,175 +1,125 @@
 function elevator_gotHit() /* entry=402 class_id=0x0190 slot=0x06 */
 {
-  entry:
-    set_info(0x020c, *(arg_06));
-    process_exclude();
-    if (arg_10 < 0x0100) goto block_013c;
-
-  block_00ee:
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  if (arg_10 < 0x0100) {
     local_02 = arg_10;
     NPC.slot_2a(local_02);
-    if retval goto block_013c;
-
-  block_00ff:
-    spawn ITEM.slot_2a(pid, 0, 2, local_02);
-    suspend;
-
-  block_0115:
-    while (intrinsic_007b(local_02)) {
+    if (retval) {
+      spawn ITEM.slot_2a(pid, 0, 2, local_02);
+      suspend;
+      while (!intrinsic_007b(local_02)) {
+      }
     }
-
-  block_013c:
-    if ((arg_10 != 1) || (intrinsic_0082() != 1)) goto block_0150;
-
-  block_014d:
-    goto block_04bf;
-
-  block_0150:
-    if (intrinsic_001f(arg_06) < 100) goto block_0191;
-
-  block_015f:
+  }
+  if ((arg_10 != 1) || (intrinsic_0082() == 1)) {
+    return;
+  }
+  else if (intrinsic_001f(arg_06) < 100) {
     /* str_to_ptr */
     /* free_stack_string */
     suspend;
-    goto block_04bf;
-
-  block_0191:
+    return;
+  }
+  else {
     /* pop_global */
     FREE.slot_3c(0x0220, 0);
-
-  block_01b3:
-    while (!Item.legal_move()) {
+    /* global_address */
+    while (Item.legal_move()) {
       spawn FREE.slot_3b(pid, 2, 0x00000000);
       suspend;
     }
-
-  block_01da:
     /* global_address */
-    if intrinsic_007b() goto block_01ea;
-
-  block_01e7:
-    goto block_04bf;
-
-  block_01ea:
-    /* global_address */
-    if intrinsic_0066() goto block_0218;
-
-  block_01f7:
-    /* global_address */
-    /* global_address */
-    suspend;
-
-  block_0218:
-    local_04 = arg_10;
-    local_06 = intrinsic_001f(arg_06);
-    local_08 = intrinsic_0051(arg_06);
-    /* loopscr */
-    /* loop */
-
-  block_023f:
-    if condition goto block_02b6;
-
-  block_0242:
-    if (local_04 != *(arg_06)) goto block_02b2;
-
-  block_024c:
-    if Actor.isNPC(local_04) goto block_0273;
-
-  block_0258:
-    if (local_04 != 1) goto block_0270;
-
-  block_0260:
-    local_10 = local_04;
-
-  block_0270:
-    goto block_02b2;
-
-  block_0273:
-    local_12 = intrinsic_0011(local_04);
-    if (((((local_12 != 0x0194) && (local_12 != 0x04d0)) && (local_12 != 17)) && (local_12 != 0x04b1)) && (local_12 != 0x0476)) goto block_02b2;
-
-  block_02b2:
-    /* loopnext */
-    goto block_023f;
-
-  block_02b6:
-    set_info(0x0220, 0);
-    if (local_08 != 0) goto block_02c9;
-
-  block_02c6:
-    goto block_02d0;
-
-  block_02c9:
-    local_08 = (local_08 - 1);
-
-  block_02d0:
-    /* global_address */
-    if intrinsic_007b() goto block_02e0;
-
-  block_02dd:
-    goto block_04bf;
-
-  block_02e0:
-    if (local_06 < 0x00c8) goto block_030c;
-
-  block_02e9:
-    /* global_address */
-    spawn ELEVATOR.slot_20(intrinsic_0040(pid, local_06), local_08, arg_06);
-    suspend;
-    goto block_047c;
-
-  block_030c:
-    if (local_06 == 0x00c8) {
-      spawn ELEVATOR.slot_20(pid, 18, 24, local_08, arg_06);
-      suspend;
+    if (intrinsic_007b()) {
+      return;
     }
-    else if (local_06 == 0x00c9) {
-      spawn ELEVATOR.slot_20(pid, 0x00c9, 5, local_08, arg_06);
-      suspend;
+    else {
+      /* global_address */
+      if (intrinsic_0066()) {
+        /* global_address */
+        /* global_address */
+        suspend;
+      }
+      local_04 = arg_10;
+      local_06 = intrinsic_001f(arg_06);
+      local_08 = intrinsic_0051(arg_06);
+      /* loopscr */
+      /* loop */
+      while (condition) {
+        if (local_04 != *(arg_06)) {
+          if (Actor.isNPC(local_04)) {
+            if (local_04 != 1) {
+              local_10 = local_04;
+            }
+          }
+          else {
+            local_12 = intrinsic_0011(local_04);
+          }
+        }
+        /* loopnext */
+      }
+      set_info(0x0220, 0);
+      if (local_08 == 0) {
+      }
+      else {
+        local_08 = (local_08 - 1);
+      }
+      /* global_address */
+      if (intrinsic_007b()) {
+        return;
+      }
+      else if (local_06 < 0x00c8) {
+        /* global_address */
+        spawn ELEVATOR.slot_20(intrinsic_0040(pid, local_06), local_08, arg_06);
+        suspend;
+      }
+      else if (local_06 == 0x00c8) {
+        spawn ELEVATOR.slot_20(pid, 18, 24, local_08, arg_06);
+        suspend;
+      }
+      else if (local_06 == 0x00c9) {
+        spawn ELEVATOR.slot_20(pid, 0x00c9, 5, local_08, arg_06);
+        suspend;
+      }
+      else if (local_06 == 0x00ca) {
+        spawn ELEVATOR.slot_20(pid, 0x00ca, 10, local_08, arg_06);
+        suspend;
+      }
+      else if (local_06 == 0x00cb) {
+        spawn ELEVATOR.slot_20(pid, 0x00cb, 10, local_08, arg_06);
+        suspend;
+      }
+      else if (local_06 == 0x00cc) {
+        spawn ELEVATOR.slot_20(pid, 0x00cc, 2, local_08, arg_06);
+        suspend;
+      }
+      else if (local_06 == 0x00cd) {
+        spawn ELEVATOR.slot_20(pid, 0x00cd, 8, local_08, arg_06);
+        suspend;
+      }
+      else if (local_06 == 0x00ce) {
+        spawn ELEVATOR.slot_20(pid, 0x00ce, 6, local_08, arg_06);
+        suspend;
+      }
+      else if (local_06 == 0x00cf) {
+        spawn ELEVATOR.slot_20(pid, 0x00cf, 16, local_08, arg_06);
+        suspend;
+      }
+      else if (local_06 == 0x00d0) {
+        spawn ELEVATOR.slot_20(pid, 0x00d0, 18, local_08, arg_06);
+        suspend;
+      }
+      else if (local_06 == 0x00d1) {
+        spawn ELEVATOR.slot_20(pid, 99, 14, local_08, arg_06);
+        suspend;
+      }
+      /* global_address */
+      while (Item.legal_move()) {
+        spawn FREE.slot_3b(pid, 5, 0x00000000);
+        suspend;
+      }
+      FREE.slot_3c(0x0220, 0);
     }
-    else if (local_06 == 0x00ca) {
-      spawn ELEVATOR.slot_20(pid, 0x00ca, 10, local_08, arg_06);
-      suspend;
-    }
-    else if (local_06 == 0x00cb) {
-      spawn ELEVATOR.slot_20(pid, 0x00cb, 10, local_08, arg_06);
-      suspend;
-    }
-    else if (local_06 == 0x00cc) {
-      spawn ELEVATOR.slot_20(pid, 0x00cc, 2, local_08, arg_06);
-      suspend;
-    }
-    else if (local_06 == 0x00cd) {
-      spawn ELEVATOR.slot_20(pid, 0x00cd, 8, local_08, arg_06);
-      suspend;
-    }
-    else if (local_06 == 0x00ce) {
-      spawn ELEVATOR.slot_20(pid, 0x00ce, 6, local_08, arg_06);
-      suspend;
-    }
-    else if (local_06 == 0x00cf) {
-      spawn ELEVATOR.slot_20(pid, 0x00cf, 16, local_08, arg_06);
-      suspend;
-    }
-    else if (local_06 == 0x00d0) {
-      spawn ELEVATOR.slot_20(pid, 0x00d0, 18, local_08, arg_06);
-      suspend;
-    }
-    else if (local_06 == 0x00d1) {
-      spawn ELEVATOR.slot_20(pid, 99, 14, local_08, arg_06);
-      suspend;
-    }
-
-  block_047c:
-    while (!Item.legal_move()) {
-      spawn FREE.slot_3b(pid, 5, 0x00000000);
-      suspend;
-    }
-
-  block_04a3:
-    FREE.slot_3c(0x0220, 0);
-
-  block_04bf:
-    return;
-
+  }
+  return;
 }

@@ -7,11 +7,13 @@ function vir_use() /* entry=1263 class_id=0x04ed slot=0x01 */
   if (intrinsic_0040() == 25) {
     return;
   }
-  if (!(global[0x0009])) {
+  else if (global[0x0009]) {
     /* pop_global */
     return;
   }
-  /* pop_global */
-  spawn VIR.slot_20(1, arg_06);
+  else {
+    /* pop_global */
+    spawn VIR.slot_20(1, arg_06);
+  }
   return;
 }

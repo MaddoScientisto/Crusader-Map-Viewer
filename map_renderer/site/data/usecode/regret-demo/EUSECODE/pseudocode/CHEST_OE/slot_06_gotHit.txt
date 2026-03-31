@@ -1,26 +1,17 @@
 function chest_oe_gotHit() /* entry=1357 class_id=0x054b slot=0x06 */
 {
-  entry:
-    set_info(0x020c, *(arg_06));
-    process_exclude();
-    FREE.slot_35(arg_12, arg_10);
-    if (!retval) goto block_00f2;
-
-  block_00ef:
-    goto block_0139;
-
-  block_00f2:
-    if (Item.getFrame(arg_06) < 10) goto block_0139;
-
-  block_0101:
-    FREE.slot_35(arg_12, arg_10);
-    if retval goto block_0126;
-
-  block_0110:
-    spawn ITEM.slot_2a(pid, 0, 0, arg_06);
-    suspend;
-
-  block_0139:
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  FREE.slot_35(arg_12, arg_10);
+  if (!retval) {
     return;
-
+  }
+  else if (Item.getFrame(arg_06) < 10) {
+    FREE.slot_35(arg_12, arg_10);
+    if (retval) {
+      spawn ITEM.slot_2a(pid, 0, 0, arg_06);
+      suspend;
+    }
+  }
+  return;
 }

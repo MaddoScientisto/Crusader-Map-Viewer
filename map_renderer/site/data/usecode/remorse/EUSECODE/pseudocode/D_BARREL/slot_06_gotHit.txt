@@ -1,24 +1,17 @@
 function d_barrel_gotHit() /* entry=557 class_id=0x022b slot=0x06 */
 {
-  entry:
-    set_info(0x020c, *(arg_06));
-    process_exclude();
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  FREE.slot_2c(arg_12, arg_10);
+  if (retval) {
     FREE.slot_2c(arg_12, arg_10);
-    if retval goto block_014d;
-
-  block_00fd:
-    FREE.slot_2c(arg_12, arg_10);
-    if (retval != 4) goto block_014d;
-
-  block_0118:
-    FREE.slot_20(10);
-    if (retval > 5) goto block_013e;
-
-  block_012e:
-    goto block_014d;
-
-  block_014d:
-    return;
-
+    if (retval != 4) {
+      FREE.slot_20(10);
+      if (retval > 5) {
+        return;
+      }
+    }
+  }
+  return;
   /* decompilation stopped at SEARCH_SURFACE */
 }

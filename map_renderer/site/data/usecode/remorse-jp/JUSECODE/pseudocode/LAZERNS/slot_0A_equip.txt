@@ -2,12 +2,12 @@ function lazerns_equip() /* entry=413 class_id=0x019b slot=0x0a */
 {
   set_info(0x0211, *(arg_06));
   process_exclude();
-  if (Item.getFrame(arg_06) >= 4) {
+  if (Item.getFrame(arg_06) < 4) {
     if (arg_10 == 1) {
       spawn LAZERNS.slot_20(arg_06);
       return;
     }
-    if (arg_10 <= 1) {
+    else if (arg_10 > 1) {
       spawn LAZERNS.slot_20(arg_06);
       spawn FREE.slot_32(pid, 30, 0x00000000);
       suspend;
@@ -15,8 +15,10 @@ function lazerns_equip() /* entry=413 class_id=0x019b slot=0x0a */
       FREE.slot_33(0x0205, *(arg_06));
       return;
     }
-    ITEM.slot_24(0x1000, arg_06);
-    FREE.slot_33(0x0205, *(arg_06));
+    else {
+      ITEM.slot_24(0x1000, arg_06);
+      FREE.slot_33(0x0205, *(arg_06));
+    }
   }
   return;
 }

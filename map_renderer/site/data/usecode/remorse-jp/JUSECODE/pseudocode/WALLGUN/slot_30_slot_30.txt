@@ -7,10 +7,10 @@ function wallgun_slot_30() /* entry=2591 class_id=0x0a1d slot=0x30 */
   set_info(0x0001, *(arg_06));
   WALLGUN.slot_21(arg_06);
   delay = retval;
-  if (delay) {
+  if (!delay) {
     delay = 3;
   }
-  if (delay <= 5) {
+  if (delay > 5) {
     delay = 5;
   }
   delay = (delay * 8);

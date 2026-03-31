@@ -1,66 +1,43 @@
 function conveyor_slot_20() /* entry=2566 class_id=0x0a04 slot=0x20 */
 {
-  entry:
-    set_info(0x0205, *(arg_06));
-    set_info(0x0205, *(arg_06));
-    local_02 = 0;
-    local_02 = Item.getFrame(arg_06);
-    if (intrinsic_003a(115, arg_06) != 0) goto block_0120;
-
-  block_0120:
+  set_info(0x0205, *(arg_06));
+  set_info(0x0205, *(arg_06));
+  local_02 = 0;
+  local_02 = Item.getFrame(arg_06);
+  suspend;
+  local_03 = 0;
+  while (true) {
     suspend;
     local_03 = 0;
-    if intrinsic_0026(arg_06) goto block_0159;
-
-  block_0131:
-    local_02 = (local_02 - 1);
-    if (arg_10 < 0) goto block_0147;
-
-  block_0140:
-    arg_10 = (arg_10 * -1);
-
-  block_0147:
-    if (arg_12 < 0) goto block_0156;
-
-  block_014f:
-    arg_12 = (arg_12 * -1);
-
-  block_0156:
-    goto block_017e;
-
-  block_0159:
-    local_02 = (1 + local_02);
-    if (arg_10 > 0) goto block_016f;
-
-  block_0168:
-    arg_10 = (arg_10 * -1);
-
-  block_016f:
-    if (arg_12 > 0) goto block_017e;
-
-  block_0177:
-    arg_12 = (arg_12 * -1);
-
-  block_017e:
-    if (local_02 > 2) goto block_018a;
-
-  block_0186:
-    local_02 = 0;
-
-  block_018a:
-    if (local_02 < 0) goto block_0196;
-
-  block_0192:
-    local_02 = 2;
-
-  block_0196:
+    if (intrinsic_0026(arg_06)) {
+      local_02 = (local_02 - 1);
+      if (arg_10 < 0) {
+        arg_10 = (arg_10 * -1);
+      }
+      if (arg_12 < 0) {
+        arg_12 = (arg_12 * -1);
+      }
+    }
+    else {
+      local_02 = (1 + local_02);
+      if (arg_10 > 0) {
+        arg_10 = (arg_10 * -1);
+      }
+      if (arg_12 > 0) {
+        arg_12 = (arg_12 * -1);
+      }
+    }
+    if (local_02 > 2) {
+      local_02 = 0;
+    }
+    if (local_02 < 0) {
+      local_02 = 2;
+    }
     /* loopscr */
     /* loop */
-
-  block_01a3:
-    while (!condition) {
+    while (condition) {
       local_09 = intrinsic_0016(local_05);
-      if ((local_09 == 0x0476) && (local_09 != 0x04d0)) {
+      if ((local_09 == 0x0476) && (local_09 == 0x04d0)) {
         local_06 = intrinsic_0043(*(arg_06), local_05);
         local_14 = (intrinsic_0013(local_05) + arg_10);
         local_12 = (Item.legal_create(local_05) + arg_12);
@@ -70,22 +47,11 @@ function conveyor_slot_20() /* entry=2566 class_id=0x0a04 slot=0x20 */
       }
       /* loopnext */
     }
-
-  block_0262:
     spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
     suspend;
-    if (!local_03) goto block_0298;
-
-  block_0281:
-    goto block_02c0;
-
-  block_0298:
-    if (intrinsic_003a(115, arg_06) != 0) goto block_02b3;
-
-  block_02b3:
-    goto block_0120;
-
-  block_02c0:
-    return;
-
+    if (!local_03) {
+      return;
+    }
+  }
+  return;
 }

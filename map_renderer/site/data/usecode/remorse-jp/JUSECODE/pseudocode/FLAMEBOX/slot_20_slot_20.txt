@@ -7,45 +7,24 @@ function flamebox_slot_20() /* entry=1029 class_id=0x0403 slot=0x20 */
     count, /* [BP-02h] type=0x69 */
     flame2; /* [BP-04h] type=0x24 */
 
-  entry:
-    set_info(0x00f0, *(arg_06));
-    if intrinsic_00a7() goto block_03b9;
-
-  block_036e:
-    while ((Item.getFrame(flame) == 5) && (Item.isOnScreen(flame) != 1)) {
+  set_info(0x00f0, *(arg_06));
+  if (intrinsic_00a7()) {
+    while ((Item.getFrame(flame) != 5) && (Item.isOnScreen(flame) == 1)) {
       spawn FREE.slot_32(pid, 2, 0x00000000);
       suspend;
     }
-
-  block_03b9:
-    ITEM.slot_23(4, flame);
-    spawn FLAME.slot_20(flame);
-    if (direction != 0) goto block_040e;
-
-  block_03dd:
-    if intrinsic_00a7() goto block_03fb;
-
-  block_03e8:
-    goto block_040b;
-
-  block_040b:
-    goto block_0447;
-
-  block_040e:
-    if (direction != 1) goto block_0447;
-
-  block_0416:
-    if intrinsic_00a7() goto block_0434;
-
-  block_0421:
-    goto block_0444;
-
-  block_0444:
-    goto block_0447;
-
-  block_0447:
-    ITEM.slot_23(4, flame2);
-    spawn FLAME.slot_20(flame2);
-    return;
-
+  }
+  ITEM.slot_23(4, flame);
+  spawn FLAME.slot_20(flame);
+  if (direction == 0) {
+    if (intrinsic_00a7()) {
+    }
+  }
+  else if (direction == 1) {
+    if (intrinsic_00a7()) {
+    }
+  }
+  ITEM.slot_23(4, flame2);
+  spawn FLAME.slot_20(flame2);
+  return;
 }

@@ -2,18 +2,18 @@ function door3_slot_40() /* entry=2570 class_id=0x0a08 slot=0x40 */
 {
   set_info(0x0207, *(arg_06));
   if (Item.getFrame(arg_06) == 1) {
-    if (!Item.legal_create(Item.getZ(arg_06), Item.getY(arg_06), (Item.getX(arg_06) + 0x0080), 0, 0x0233, local_04)) {
+    if (Item.legal_create(Item.getZ(arg_06), Item.getY(arg_06), (Item.getX(arg_06) + 0x0080), 0, 0x0233, local_04)) {
       for local_04 in nearby_items(shape=0x046c, origin=arg_06) {
-        if ((Item.getFrame(local_04) == 1) && (intrinsic_001f(local_04) != intrinsic_001f(arg_06))) {
+        if ((Item.getFrame(local_04) == 1) && (intrinsic_001f(local_04) == intrinsic_001f(arg_06))) {
           local_06 = local_04;
         }
         /* loopnext */
       }
-      if (local_06) {
+      if (!local_06) {
         return;
       }
       local_02 = 0;
-      while (local_02 > 9) {
+      while (local_02 <= 9) {
         spawn FREE.slot_3b(pid, 5, 0x00000000);
         suspend;
         local_02 = (1 + local_02);
@@ -22,9 +22,11 @@ function door3_slot_40() /* entry=2570 class_id=0x0a08 slot=0x40 */
       /* pop_result */
       return;
     }
-    /* word_to_dword */
-    /* pop_result */
-    return;
+    else {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
   }
   return;
 }

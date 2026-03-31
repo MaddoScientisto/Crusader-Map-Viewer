@@ -6,65 +6,38 @@ function crumorph_equip() /* entry=794 class_id=0x0318 slot=0x0a */
     n, /* [BP-02h] type=0x24 */
     lastAct; /* [BP-04h] type=0x69 */
 
-  entry:
-    set_info(0x0211, *(arg_06));
-    process_exclude();
-
-  entry_selector_00:
-    /* loop_selector n in nearby_items(family=6, origin=arg_06) */
-
-  block_0109:
-    if condition goto block_02af;
-
-  block_010c:
-    if Actor.isNPC(n) goto block_02ab;
-
-  block_011b:
-    if (intrinsic_000b(n) != intrinsic_002e(arg_06)) goto block_02ab;
-
-  block_0137:
-    if (intrinsic_003c(n) != 0) goto block_02ab;
-
-  block_0149:
-    NPC.slot_2b(n);
-    if (!retval) goto block_0163;
-
-  block_015d:
-    goto block_02b1;
-
-  block_0163:
-    lastAct = intrinsic_0052(n);
-    spawn FREE.waitNTimerTicks(pid, 3, 0x00000000);
-    suspend;
-    spawn NPC.slot_28(pid, n);
-    suspend;
-
-  block_020b:
-    while (intrinsic_001b() <= 1) {
-      spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
-      suspend;
+  set_info(0x0211, *(arg_06));
+  process_exclude();
+  for n in nearby_items(family=6, origin=arg_06) {
+    if (Actor.isNPC(n)) {
+      if (intrinsic_000b(n) == intrinsic_002e(arg_06)) {
+        if (intrinsic_003c(n) == 0) {
+          NPC.slot_2b(n);
+          if (!retval) {
+            return;
+          }
+          lastAct = intrinsic_0052(n);
+          spawn FREE.waitNTimerTicks(pid, 3, 0x00000000);
+          suspend;
+          spawn NPC.slot_28(pid, n);
+          suspend;
+          while (intrinsic_001b() > 1) {
+            spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+            suspend;
+          }
+          if (intrinsic_003c(n) == 0) {
+            spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
+            suspend;
+          }
+          else {
+            spawn TRIGGER.slot_20(pid, 1, *(arg_06), arg_06);
+            suspend;
+          }
+          return;
+        }
+      }
     }
-
-  block_0242:
-    if (intrinsic_003c(n) != 0) goto block_027e;
-
-  block_0254:
-    spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
-    suspend;
-    goto block_02a5;
-
-  block_027e:
-    spawn TRIGGER.slot_20(pid, 1, *(arg_06), arg_06);
-    suspend;
-
-  block_02a5:
-    goto block_02b1;
-
-  block_02ab:
     /* loopnext */
-    goto block_0109;
-
-  block_02b1:
-    return;
-
+  }
+  return;
 }

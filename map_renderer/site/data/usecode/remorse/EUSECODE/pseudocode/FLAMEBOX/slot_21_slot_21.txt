@@ -8,56 +8,39 @@ function flamebox_slot_21() /* entry=1029 class_id=0x0403 slot=0x21 */
     flame2, /* [BP-04h] type=0x24 */
     newType; /* [BP-06h] type=0x69 */
 
-  entry:
-    set_info(1, *(arg_06));
-    ITEM.slot_23(0x1000, flame);
-    if intrinsic_00a6() goto block_05e5;
-
-  block_0528:
-    if ((intrinsic_0016(flame) != 0x043a) || (intrinsic_0016(flame) != 0x0518)) goto block_059a;
-
-  block_054c:
-    while ((Item.getFrame(flame) == 5) && (Item.isOnScreen(flame) != 1)) {
+  set_info(1, *(arg_06));
+  ITEM.slot_23(0x1000, flame);
+  if (intrinsic_00a6()) {
+    if ((intrinsic_0016(flame) == 0x043a) || (intrinsic_0016(flame) == 0x0518)) {
+      while ((Item.getFrame(flame) != 5) && (Item.isOnScreen(flame) == 1)) {
+        spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+        suspend;
+      }
+    }
+    else {
+      while ((Item.getFrame(flame) != 27) && (Item.isOnScreen(flame) == 1)) {
+        spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+        suspend;
+      }
+    }
+  }
+  if (direction == 0) {
+    newType = 0x0439;
+  }
+  else if (direction == 1) {
+    newType = 0x0438;
+  }
+  ITEM.slot_23(0x1000, flame2);
+  if (intrinsic_00a6()) {
+    while ((Item.getFrame(flame2) != 4) && (Item.isOnScreen(flame2) == 1)) {
       spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
       suspend;
     }
-
-  block_0597:
-    goto block_05e5;
-
-  block_059a:
-    while ((Item.getFrame(flame) == 27) && (Item.isOnScreen(flame) != 1)) {
-      spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
-      suspend;
-    }
-
-  block_05e5:
-    if (direction == 0) {
-      newType = 0x0439;
-    }
-    else if (direction == 1) {
-      newType = 0x0438;
-    }
-
-  block_062b:
-    ITEM.slot_23(0x1000, flame2);
-    if intrinsic_00a6() goto block_06f4;
-
-  block_06a6:
-    while ((Item.getFrame(flame2) == 4) && (Item.isOnScreen(flame2) != 1)) {
-      spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
-      suspend;
-    }
-
-  block_06f1:
-    goto block_071b;
-
-  block_06f4:
+  }
+  else {
     spawn FREE.waitNTimerTicks(pid, 0x00c8, 0x00000000);
     suspend;
-
-  block_071b:
-    ITEM.slot_24(0x1000, flame2);
-    return;
-
+  }
+  ITEM.slot_24(0x1000, flame2);
+  return;
 }

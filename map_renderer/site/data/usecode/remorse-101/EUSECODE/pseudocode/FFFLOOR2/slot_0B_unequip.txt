@@ -1,35 +1,21 @@
 function fffloor2_unequip() /* entry=458 class_id=0x01c8 slot=0x0b */
 {
-  entry:
-    set_info(0x0212, *(arg_06));
-    process_exclude();
-    if (Item.getFrame(arg_06) != 1) goto block_02d6;
-
-  block_02d3:
-    goto block_0333;
-
-  block_02d6_selector_00:
-    /* loop_selector local_02 in nearby_items(family=6, origin=arg_06) */
-
-  block_02ed:
-    if condition goto block_0331;
-
-  block_02f0:
-    if (Actor.isNPC(local_02) != 1) goto block_032d;
-
-  block_02ff:
-    if intrinsic_009d(local_02, arg_06) goto block_032d;
-
-  block_030d:
-    FREE.slot_20(pid, 8);
-    spawn NPC.slot_2d(retval, *(arg_06), local_02);
-    suspend;
-
-  block_032d:
-    /* loopnext */
-    goto block_02ed;
-
-  block_0333:
+  set_info(0x0212, *(arg_06));
+  process_exclude();
+  if (Item.getFrame(arg_06) == 1) {
     return;
-
+  }
+  else {
+    for local_02 in nearby_items(family=6, origin=arg_06) {
+      if (Actor.isNPC(local_02) == 1) {
+        if (intrinsic_009d(local_02, arg_06)) {
+          FREE.slot_20(pid, 8);
+          spawn NPC.slot_2d(retval, *(arg_06), local_02);
+          suspend;
+        }
+      }
+      /* loopnext */
+    }
+  }
+  return;
 }

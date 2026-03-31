@@ -4,36 +4,34 @@ function bubble_enterFastArea() /* entry=472 class_id=0x01d6 slot=0x0f */
     referent, /* [BP+00h] type=0x69 */
     counter; /* [BP-02h] type=0x69 */
 
-  entry:
-    set_info(0x021b, *(arg_06));
-    process_exclude();
-
-  block_00eb:
-    while (true) {
-      suspend;
-      FREE.slot_20(pid, 120);
-      spawn FREE.slot_32((retval + 0x00dc), 0x00000000);
-      suspend;
-      if (!Item.isOnScreen(arg_06)) {
-        counter = 0;
-        while (counter > 11) {
-          spawn FREE.slot_32(pid, 10, 0x00000000);
-          suspend;
-          counter = (1 + counter);
-        }
-        FREE.slot_20(pid, 120);
-        spawn FREE.slot_32((retval + 120), 0x00000000);
+  set_info(0x021b, *(arg_06));
+  process_exclude();
+  suspend;
+  FREE.slot_20(pid, 120);
+  spawn FREE.slot_32((retval + 0x00dc), 0x00000000);
+  suspend;
+  while (true) {
+    suspend;
+    FREE.slot_20(pid, 120);
+    spawn FREE.slot_32((retval + 0x00dc), 0x00000000);
+    suspend;
+    if (Item.isOnScreen(arg_06)) {
+      counter = 0;
+      while (counter <= 11) {
+        spawn FREE.slot_32(pid, 10, 0x00000000);
         suspend;
-        counter = 12;
-        while (counter > 24) {
-          spawn FREE.slot_32(pid, 10, 0x00000000);
-          suspend;
-          counter = (1 + counter);
-        }
+        counter = (1 + counter);
+      }
+      FREE.slot_20(pid, 120);
+      spawn FREE.slot_32((retval + 120), 0x00000000);
+      suspend;
+      counter = 12;
+      while (counter <= 24) {
+        spawn FREE.slot_32(pid, 10, 0x00000000);
+        suspend;
+        counter = (1 + counter);
       }
     }
-
-  block_024e:
-    return;
-
+  }
+  return;
 }

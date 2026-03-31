@@ -1,27 +1,22 @@
 function cru_spid_use() /* entry=1378 class_id=0x0560 slot=0x01 */
 {
-  entry:
-    set_info(0x0207, *(arg_06));
-    process_exclude();
-    /* global_address */
-    if (intrinsic_003d() != 25) goto block_0136;
-
-  block_010e:
-    goto block_045c;
-
-  block_0136:
+  set_info(0x0207, *(arg_06));
+  process_exclude();
+  /* global_address */
+  if (intrinsic_003d() == 25) {
+    return;
+  }
+  else {
     local_05 = *(arg_06);
     set_info(0x00f0, 0);
     /* global_address */
     local_13 = intrinsic_005e();
-
-  block_0156:
-    while (!intrinsic_0060()) {
+    /* global_address */
+    while (intrinsic_0060()) {
       spawn FREE.slot_3b(pid, 2, 0x00000000);
       suspend;
     }
-
-  block_017d:
+    /* global_address */
     if (intrinsic_0017() == 0) {
       local_15 = -1;
       local_17 = -3;
@@ -86,55 +81,39 @@ function cru_spid_use() /* entry=1378 class_id=0x0560 slot=0x01 */
       local_15 = -3;
       local_17 = -3;
     }
-
-  block_032d:
     /* global_address */
-    if intrinsic_0061() goto block_0341;
-
-  block_033a:
-    local_03 = 1;
-    goto block_0366;
-
-  block_0341:
-    local_03 = 0;
-    /* global_address */
-    /* global_address */
-    suspend;
-
-  block_0366:
+    if (intrinsic_0061()) {
+      local_03 = 1;
+    }
+    else {
+      local_03 = 0;
+      /* global_address */
+      /* global_address */
+      suspend;
+    }
     /* global_address */
     local_22 = (Item.getX() + (local_15 * 16));
     /* global_address */
     local_20 = (Item.getY() + (local_17 * 16));
     /* global_address */
     local_18 = (Item.getZ() + 2);
-    if (!Item.legal_create(local_22, 0, 0x0560, local_02)) goto block_0404;
-
-  block_03ad:
-    if (!local_03) goto block_03f9;
-
-  block_03d8:
-    /* global_address */
-    /* global_address */
-    suspend;
-
-  block_03f9:
-    goto block_045c;
-
-  block_0404:
-    local_11 = 1;
-
-  block_0412:
-    while (local_11 > 9) {
-      spawn FREE.slot_3b(pid, 3, 0x00000000);
-      suspend;
-      local_11 = (1 + local_11);
+    if (!Item.legal_create(local_22, 0, 0x0560, local_02)) {
+      if (!local_03) {
+        /* global_address */
+        /* global_address */
+        suspend;
+      }
+      return;
     }
-
-  block_0445:
-    spawn CRU_SPID.slot_20(local_02, arg_06);
-
-  block_045c:
-    return;
-
+    else {
+      local_11 = 1;
+      while (local_11 <= 9) {
+        spawn FREE.slot_3b(pid, 3, 0x00000000);
+        suspend;
+        local_11 = (1 + local_11);
+      }
+      spawn CRU_SPID.slot_20(local_02, arg_06);
+    }
+  }
+  return;
 }

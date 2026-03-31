@@ -1,17 +1,11 @@
 function rfanew_equip() /* entry=96 class_id=0x005e slot=0x0a */
 {
-  entry:
-    set_info(0x0211, *(arg_06));
-    process_exclude();
-    if (intrinsic_0004(arg_06) & 0x1000) goto block_0176;
-
-  block_0173:
-    goto block_02cf;
-
-  block_0176:
-    if (arg_10 != 0) goto block_02cf;
-
-  block_017e:
+  set_info(0x0211, *(arg_06));
+  process_exclude();
+  if (intrinsic_0004(arg_06) & 0x1000) {
+    return;
+  }
+  else if (arg_10 == 0) {
     ITEM.slot_24(0x1000, arg_06);
     local_02 = Item.getFrame(arg_06);
     local_02 = (1 + local_02);
@@ -19,48 +13,26 @@ function rfanew_equip() /* entry=96 class_id=0x005e slot=0x0a */
     spawn FREE.slot_3b(pid, local_06, 0x00000000);
     suspend;
     local_04 = 1;
-
-  block_01d0:
-    if (local_04 <= 15) goto block_0273;
-
-  block_01d8:
-    local_02 = (1 + local_02);
-    if (local_02 > 5) goto block_01eb;
-
-  block_01e7:
-    local_02 = 1;
-
-  block_01eb:
-    local_06 = (local_06 + 1);
-    spawn FREE.slot_3b(pid, local_06, 0x00000000);
-    suspend;
-    if (local_06 != 4) goto block_0269;
-
-  block_021b_selector_00:
-    /* loop_selector local_10 in nearby_items(shape=PLACEHOLDER_CUBE_0337, origin=arg_06) */
-
-  block_0233:
-    if condition goto block_0267;
-
-  block_0236:
-    if (intrinsic_00fd(local_10) != intrinsic_00fd(arg_06)) goto block_0263;
-
-  block_024c:
-    spawn FREE.slot_3a(pid, local_10, 0x00000000);
-    suspend;
-
-  block_0263:
-    /* loopnext */
-    goto block_0233;
-
-  block_0269:
-    local_04 = (1 + local_04);
-    goto block_01d0;
-
-  block_0273:
+    while (local_04 <= 15) {
+      local_02 = (1 + local_02);
+      if (local_02 > 5) {
+        local_02 = 1;
+      }
+      local_06 = (local_06 + 1);
+      spawn FREE.slot_3b(pid, local_06, 0x00000000);
+      suspend;
+      if (local_06 == 4) {
+        for local_10 in nearby_items(shape=PLACEHOLDER_CUBE_0337, origin=arg_06) {
+          if (intrinsic_00fd(local_10) == intrinsic_00fd(arg_06)) {
+            spawn FREE.slot_3a(pid, local_10, 0x00000000);
+            suspend;
+          }
+          /* loopnext */
+        }
+      }
+      local_04 = (1 + local_04);
+    }
     ITEM.slot_25(0x1000, arg_06);
-
-  block_02cf:
-    return;
-
+  }
+  return;
 }

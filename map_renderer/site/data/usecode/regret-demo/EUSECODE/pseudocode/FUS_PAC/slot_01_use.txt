@@ -1,27 +1,22 @@
 function fus_pac_use() /* entry=926 class_id=0x039c slot=0x01 */
 {
-  entry:
-    set_info(0x0207, *(arg_06));
-    process_exclude();
-    /* global_address */
-    if (intrinsic_0040() != 25) goto block_0117;
-
-  block_00ef:
-    goto block_041b;
-
-  block_0117:
+  set_info(0x0207, *(arg_06));
+  process_exclude();
+  /* global_address */
+  if (intrinsic_0040() == 25) {
+    return;
+  }
+  else {
     local_05 = *(arg_06);
     set_info(0x00f0, 0);
     /* global_address */
     local_13 = intrinsic_00c0();
-
-  block_0137:
-    while (!Item.legal_move()) {
+    /* global_address */
+    while (Item.legal_move()) {
       spawn FREE.slot_3b(pid, 2, 0x00000000);
       suspend;
     }
-
-  block_015e:
+    /* global_address */
     if (intrinsic_0017() == 0) {
       local_15 = -1;
       local_17 = -3;
@@ -86,50 +81,35 @@ function fus_pac_use() /* entry=926 class_id=0x039c slot=0x01 */
       local_15 = -3;
       local_17 = -3;
     }
-
-  block_030e:
     /* global_address */
-    if intrinsic_0066() goto block_0322;
-
-  block_031b:
-    local_03 = 1;
-    goto block_0347;
-
-  block_0322:
-    local_03 = 0;
-    /* global_address */
-    /* global_address */
-    suspend;
-
-  block_0347:
+    if (intrinsic_0066()) {
+      local_03 = 1;
+    }
+    else {
+      local_03 = 0;
+      /* global_address */
+      /* global_address */
+      suspend;
+    }
     /* global_address */
     local_22 = (Item.getX() + (local_15 * 16));
     /* global_address */
     local_20 = (Item.getY() + (local_17 * 16));
     /* global_address */
     local_18 = Item.getZ();
-    if (!Kernel.getNumProcesses(local_22, 0, 0x039c, local_02)) goto block_03e2;
-
-  block_038b:
-    if (!local_03) goto block_03d7;
-
-  block_03b6:
-    /* global_address */
-    /* global_address */
-    suspend;
-
-  block_03d7:
-    goto block_041b;
-
-  block_03e2:
-    if (!local_03) goto block_0409;
-
-  block_03e8:
-    /* global_address */
-    /* global_address */
-    suspend;
-
-  block_041b:
-    return;
-
+    if (!Kernel.getNumProcesses(local_22, 0, 0x039c, local_02)) {
+      if (!local_03) {
+        /* global_address */
+        /* global_address */
+        suspend;
+      }
+      return;
+    }
+    else if (!local_03) {
+      /* global_address */
+      /* global_address */
+      suspend;
+    }
+  }
+  return;
 }

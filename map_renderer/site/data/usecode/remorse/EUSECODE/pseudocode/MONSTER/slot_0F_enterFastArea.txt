@@ -8,7 +8,7 @@ function monster_enterFastArea() /* entry=1234 class_id=0x04d0 slot=0x0f */
   process_exclude();
   if (Item.getFrame(arg_06) == 0) {
     a = intrinsic_0003(arg_06);
-    if (!(a & 8)) {
+    if (a & 8) {
       spawn MONSTER.equip(pid, 0, arg_06);
       suspend;
     }

@@ -1,89 +1,53 @@
 function wallgun_slot_2d() /* entry=2587 class_id=0x0a19 slot=0x2d */
 {
-  entry:
-    local_02 = arg_10;
-    local_04 = intrinsic_00cd(Item.getY(local_02), Item.getX(local_02), Item.getY(arg_06), Item.getX(arg_06));
-    WALLGUN.slot_2c(arg_06);
-    if (retval != local_04) goto block_098d;
-
-  block_0987:
-    goto block_0a65;
-
-  block_098d:
-    WALLGUN.slot_29(arg_06);
-    if retval goto block_0a27;
-
-  block_099a:
-    WALLGUN.slot_2c(arg_06);
-    local_10 = retval;
-    local_06 = 0;
-    local_08 = 0;
-
-  block_09ae:
-    if ((local_10 != local_04) && (local_06 < 15)) goto block_09dc;
-
-  block_09bc:
-    local_06 = (1 + local_06);
-    if (local_10 != 0) goto block_09d2;
-
-  block_09cb:
-    local_10 = 15;
-    goto block_09d9;
-
-  block_09d2:
-    local_10 = (local_10 - 1);
-
-  block_09d9:
-    goto block_09ae;
-
-  block_09dc:
-    WALLGUN.slot_2c(arg_06);
-    local_10 = retval;
-
-  block_09e8:
-    if ((local_10 != local_04) && (local_08 < 15)) goto block_0a16;
-
-  block_09f6:
-    local_08 = (1 + local_08);
-    if (local_10 != 15) goto block_0a0c;
-
-  block_0a05:
-    local_10 = 0;
-    goto block_0a13;
-
-  block_0a0c:
-    local_10 = (1 + local_10);
-
-  block_0a13:
-    goto block_09e8;
-
-  block_0a16:
-    if (local_06 < local_08) goto block_0a24;
-
-  block_0a1e:
-    goto block_0a65;
-
-  block_0a24:
-    goto block_0a5f;
-
-  block_0a27:
-    WALLGUN.slot_2a(arg_06);
-    if (((retval != 1) && (local_04 >= 13)) && (local_04 <= 15)) goto block_0a49;
-
-  block_0a43:
-    goto block_0a65;
-
-  block_0a49:
-    WALLGUN.slot_2c(arg_06);
-    if (retval > local_04) goto block_0a5f;
-
-  block_0a59:
-    goto block_0a65;
-
-  block_0a5f:
-    goto block_0a65;
-
-  block_0a65:
+  local_02 = arg_10;
+  local_04 = intrinsic_00cd(Item.getY(local_02), Item.getX(local_02), Item.getY(arg_06), Item.getX(arg_06));
+  WALLGUN.slot_2c(arg_06);
+  if (retval == local_04) {
     return;
-
+  }
+  else {
+    WALLGUN.slot_29(arg_06);
+    if (retval) {
+      WALLGUN.slot_2c(arg_06);
+      local_10 = retval;
+      local_06 = 0;
+      local_08 = 0;
+      while ((local_10 != local_04) && (local_06 < 15)) {
+        local_06 = (1 + local_06);
+        if (local_10 == 0) {
+          local_10 = 15;
+        }
+        else {
+          local_10 = (local_10 - 1);
+        }
+      }
+      WALLGUN.slot_2c(arg_06);
+      local_10 = retval;
+      while ((local_10 != local_04) && (local_08 < 15)) {
+        local_08 = (1 + local_08);
+        if (local_10 == 15) {
+          local_10 = 0;
+        }
+        else {
+          local_10 = (1 + local_10);
+        }
+      }
+      if (local_06 < local_08) {
+        return;
+      }
+    }
+    else {
+      WALLGUN.slot_2a(arg_06);
+      if (((retval == 1) && (local_04 >= 13)) && (local_04 <= 15)) {
+        return;
+      }
+      WALLGUN.slot_2c(arg_06);
+      if (retval > local_04) {
+        return;
+      }
+    }
+    return;
+  }
+  return;
 }

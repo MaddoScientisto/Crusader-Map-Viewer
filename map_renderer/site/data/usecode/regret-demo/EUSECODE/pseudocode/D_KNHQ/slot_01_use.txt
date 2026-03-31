@@ -2,14 +2,16 @@ function d_knhq_use() /* entry=1550 class_id=0x060c slot=0x01 */
 {
   set_info(0x0207, *(arg_06));
   process_exclude();
-  if (!(intrinsic_0004(arg_06) & 0x1000)) {
+  if (intrinsic_0004(arg_06) & 0x1000) {
     return;
   }
-  spawn FREE.slot_49(pid, *(arg_06), 0x00000000);
-  suspend;
-  /* dword_to_word */
-  if (!process_result) {
-    ITEM.slot_24(0x1000, arg_06);
+  else {
+    spawn FREE.slot_49(pid, *(arg_06), 0x00000000);
+    suspend;
+    /* dword_to_word */
+    if (process_result) {
+      ITEM.slot_24(0x1000, arg_06);
+    }
   }
   return;
 }

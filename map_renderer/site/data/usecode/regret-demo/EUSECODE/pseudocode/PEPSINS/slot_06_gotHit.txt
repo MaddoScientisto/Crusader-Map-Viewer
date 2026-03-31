@@ -3,7 +3,7 @@ function pepsins_gotHit() /* entry=156 class_id=0x009a slot=0x06 */
   set_info(0x020c, *(arg_06));
   process_exclude();
   FREE.slot_35(arg_12, arg_10);
-  if (!retval) {
+  if (retval) {
     spawn ITEM.slot_2a(pid, 0, 1, arg_06);
     suspend;
   }

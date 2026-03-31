@@ -3,10 +3,12 @@ function steam1_gotHit() /* entry=1276 class_id=0x04fa slot=0x06 */
   set_info(0x020c, *(arg_06));
   process_exclude();
   FREE.slot_35(arg_12, arg_10);
-  if (!retval) {
+  if (retval) {
     return;
   }
-  spawn STEAM.slot_21(pid, arg_10, arg_06);
-  suspend;
+  else {
+    spawn STEAM.slot_21(pid, arg_10, arg_06);
+    suspend;
+  }
   return;
 }

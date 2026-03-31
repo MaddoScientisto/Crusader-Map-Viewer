@@ -1,123 +1,106 @@
 function detpac_use() /* entry=1377 class_id=0x055f slot=0x01 */
 {
-  entry:
-    set_info(0x0207, *(arg_06));
-    process_exclude();
-    local_03 = *(arg_06);
-    if Item.legal_create(arg_06) goto block_03bc;
-
-  block_00f1:
+  set_info(0x0207, *(arg_06));
+  process_exclude();
+  local_03 = *(arg_06);
+  if (Item.legal_create(arg_06)) {
     /* global_address */
-    if (intrinsic_0011() != 40) goto block_0129;
-
-  block_0101:
-    goto block_03c8;
-
-  block_0129:
-    set_info(0x00f0, 0);
-    local_07 = 0;
-
-  block_013b:
-    while (!intrinsic_0033()) {
-      spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
-      suspend;
+    if (intrinsic_0011() == 40) {
+      return;
     }
-
-  block_0162:
-    if (intrinsic_001e() == 0) {
-      local_09 = -1;
-      local_11 = -3;
+    else {
+      set_info(0x00f0, 0);
+      local_07 = 0;
+      /* global_address */
+      while (intrinsic_0033()) {
+        spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+        suspend;
+      }
+      /* global_address */
+      if (intrinsic_001e() == 0) {
+        local_09 = -1;
+        local_11 = -3;
+      }
+      else if (intrinsic_001e() == 1) {
+        local_09 = 0;
+        local_11 = -3;
+      }
+      else if (intrinsic_001e() == 2) {
+        local_09 = 1;
+        local_11 = -3;
+      }
+      else if (intrinsic_001e() == 3) {
+        local_09 = 2;
+        local_11 = -2;
+      }
+      else if (intrinsic_001e() == 4) {
+        local_09 = 2;
+        local_11 = -1;
+      }
+      else if (intrinsic_001e() == 5) {
+        local_09 = 2;
+        local_11 = 0;
+      }
+      else if (intrinsic_001e() == 6) {
+        local_09 = 2;
+        local_11 = 2;
+      }
+      else if (intrinsic_001e() == 7) {
+        local_09 = 0;
+        local_11 = 2;
+      }
+      else if (intrinsic_001e() == 8) {
+        local_09 = -1;
+        local_11 = 2;
+      }
+      else if (intrinsic_001e() == 9) {
+        local_09 = -2;
+        local_11 = 2;
+      }
+      else if (intrinsic_001e() == 10) {
+        local_09 = -3;
+        local_11 = 2;
+      }
+      else if (intrinsic_001e() == 11) {
+        local_09 = -3;
+        local_11 = 1;
+      }
+      else if (intrinsic_001e() == 12) {
+        local_09 = -3;
+        local_11 = 0;
+      }
+      else if (intrinsic_001e() == 13) {
+        local_09 = -3;
+        local_11 = -1;
+      }
+      else if (intrinsic_001e() == 14) {
+        local_09 = -3;
+        local_11 = -2;
+      }
+      else if (intrinsic_001e() == 15) {
+        local_09 = -3;
+        local_11 = -3;
+      }
+      /* global_address */
+      if (intrinsic_0035()) {
+        local_01 = 1;
+      }
+      else {
+        local_01 = 0;
+        /* global_address */
+        /* global_address */
+        suspend;
+      }
+      /* global_address */
+      /* global_address */
+      /* global_address */
+      if (!local_01) {
+        /* global_address */
+        /* global_address */
+        suspend;
+      }
+      return;
     }
-    else if (intrinsic_001e() == 1) {
-      local_09 = 0;
-      local_11 = -3;
-    }
-    else if (intrinsic_001e() == 2) {
-      local_09 = 1;
-      local_11 = -3;
-    }
-    else if (intrinsic_001e() == 3) {
-      local_09 = 2;
-      local_11 = -2;
-    }
-    else if (intrinsic_001e() == 4) {
-      local_09 = 2;
-      local_11 = -1;
-    }
-    else if (intrinsic_001e() == 5) {
-      local_09 = 2;
-      local_11 = 0;
-    }
-    else if (intrinsic_001e() == 6) {
-      local_09 = 2;
-      local_11 = 2;
-    }
-    else if (intrinsic_001e() == 7) {
-      local_09 = 0;
-      local_11 = 2;
-    }
-    else if (intrinsic_001e() == 8) {
-      local_09 = -1;
-      local_11 = 2;
-    }
-    else if (intrinsic_001e() == 9) {
-      local_09 = -2;
-      local_11 = 2;
-    }
-    else if (intrinsic_001e() == 10) {
-      local_09 = -3;
-      local_11 = 2;
-    }
-    else if (intrinsic_001e() == 11) {
-      local_09 = -3;
-      local_11 = 1;
-    }
-    else if (intrinsic_001e() == 12) {
-      local_09 = -3;
-      local_11 = 0;
-    }
-    else if (intrinsic_001e() == 13) {
-      local_09 = -3;
-      local_11 = -1;
-    }
-    else if (intrinsic_001e() == 14) {
-      local_09 = -3;
-      local_11 = -2;
-    }
-    else if (intrinsic_001e() == 15) {
-      local_09 = -3;
-      local_11 = -3;
-    }
-
-  block_0312:
-    /* global_address */
-    if intrinsic_0035() goto block_0326;
-
-  block_031f:
-    local_01 = 1;
-    goto block_034b;
-
-  block_0326:
-    local_01 = 0;
-    /* global_address */
-    /* global_address */
-    suspend;
-
-  block_034b:
-    /* global_address */
-    /* global_address */
-    /* global_address */
-    if (!local_01) goto block_03b1;
-
-  block_0390:
-    /* global_address */
-    /* global_address */
-    suspend;
-
-  block_03b1:
-    goto block_03c8;
-
-  block_03c8:
-    return;
-
+  }
+  return;
 }

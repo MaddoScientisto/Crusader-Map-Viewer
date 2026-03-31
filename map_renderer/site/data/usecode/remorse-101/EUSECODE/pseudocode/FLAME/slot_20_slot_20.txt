@@ -8,8 +8,8 @@ function flame_slot_20() /* entry=2573 class_id=0x0a0b slot=0x20 */
       suspend;
       local_03 = 0;
       for local_02 in nearby_items(family=6, origin=arg_06) {
-        if (!Actor.isNPC(local_02)) {
-          if (!intrinsic_009d(*(arg_06), local_02)) {
+        if (Actor.isNPC(local_02)) {
+          if (intrinsic_009d(*(arg_06), local_02)) {
             local_05 = local_02;
             NPC.slot_2b(local_05);
             local_03 = 1;
@@ -19,7 +19,7 @@ function flame_slot_20() /* entry=2573 class_id=0x0a0b slot=0x20 */
       }
       spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
       suspend;
-      if (local_03) {
+      if (!local_03) {
         ITEM.slot_24(4, arg_06);
         return;
       }

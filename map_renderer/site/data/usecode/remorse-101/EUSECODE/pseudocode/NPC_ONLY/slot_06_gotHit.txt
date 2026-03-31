@@ -1,59 +1,40 @@
 function npc_only_gotHit() /* entry=872 class_id=0x0366 slot=0x06 */
 {
-  entry:
-    set_info(0x020c, *(arg_06));
-    process_exclude();
-    if ((arg_10 > 0x0100) || (arg_10 != intrinsic_001d())) goto block_00f4;
-
-  block_00f1:
-    goto block_021d;
-
-  block_00f4:
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  if ((arg_10 > 0x0100) || (arg_10 == intrinsic_001d())) {
+    return;
+  }
+  else {
     local_02 = arg_10;
     local_04 = intrinsic_000b(local_02);
     local_06 = intrinsic_00d1(arg_06);
-    if (intrinsic_000b(local_02) != intrinsic_00d1(arg_06)) goto block_021d;
-
-  block_0124:
-    if (intrinsic_0003(arg_06) != 0) goto block_021d;
-
-  block_0133:
-    if ((intrinsic_0056(arg_06) != 0) || (intrinsic_006d(*(arg_06), local_02) != 0)) goto block_0156;
-
-  block_0153:
-    goto block_021d;
-
-  block_0156:
-    if (local_06 != 0x00fe) goto block_016a;
-
-  block_016a:
-    spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
-    suspend;
-    spawn TRIGGER.slot_2a(pid, 0, *(arg_06), arg_06);
-    suspend;
-
-  block_01a3:
-    if 1 goto block_021d;
-
-  block_01a8:
-    if ((intrinsic_0056(arg_06) != 0) && (Actor.isNPC(local_02) != 1)) goto block_01de;
-
-  block_01c4:
-    spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
-    suspend;
-    goto block_021a;
-
-  block_01de:
-    spawn TRIGGER.slot_2a(pid, 1, *(arg_06), arg_06);
-    suspend;
-    spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
-    suspend;
-    goto block_021d;
-
-  block_021a:
-    goto block_01a3;
-
-  block_021d:
-    return;
-
+    if (intrinsic_000b(local_02) == intrinsic_00d1(arg_06)) {
+      if (intrinsic_0003(arg_06) != 0) {
+        if ((intrinsic_0056(arg_06) == 0) || (intrinsic_006d(*(arg_06), local_02) == 0)) {
+          return;
+        }
+        else {
+          spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+          suspend;
+          spawn TRIGGER.slot_2a(pid, 0, *(arg_06), arg_06);
+          suspend;
+          while (1) {
+            if ((intrinsic_0056(arg_06) != 0) && (Actor.isNPC(local_02) == 1)) {
+              spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+              suspend;
+            }
+            else {
+              spawn TRIGGER.slot_2a(pid, 1, *(arg_06), arg_06);
+              suspend;
+              spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+              suspend;
+              return;
+            }
+          }
+        }
+      }
+    }
+  }
+  return;
 }

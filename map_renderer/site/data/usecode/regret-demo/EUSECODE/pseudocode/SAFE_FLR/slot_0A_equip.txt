@@ -1,98 +1,58 @@
 function safe_flr_equip() /* entry=1094 class_id=0x0444 slot=0x0a */
 {
-  entry:
-    set_info(0x0211, *(arg_06));
-    process_exclude();
-    if arg_10 goto block_02aa;
-
-  block_00e4:
+  set_info(0x0211, *(arg_06));
+  process_exclude();
+  if (arg_10) {
     ITEM.slot_26(0x1000, arg_06);
-    if retval goto block_00f7;
-
-  block_00f4:
-    goto block_031c;
-
-  block_00f7:
+    if (retval) {
+      return;
+    }
     ITEM.slot_24(0x1000, arg_06);
     local_06 = 0;
-
-  block_0111:
-    while (local_06 > 5) {
+    while (local_06 <= 5) {
       spawn FREE.slot_3b(pid, 5, 0x00000000);
       suspend;
       local_06 = (1 + local_06);
     }
-
-  block_0144:
     spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
     suspend;
-
-  block_0144_selector_00:
-    /* loop_selector local_02 in nearby_items(shape=0x0476, origin=arg_06) */
-
-  block_017e:
-    if condition goto block_023f;
-
-  block_0181:
-    if (intrinsic_0112(arg_06) != intrinsic_0112(local_02)) goto block_023b;
-
-  block_0197:
-    FREE.slot_37(local_02);
-    local_04 = retval;
-    if ((((intrinsic_0031(local_04) != 10) || (intrinsic_0031(local_04) != 11)) || (intrinsic_0031(local_04) != 12)) || (intrinsic_0031(local_04) != 13)) goto block_0224;
-
-  block_01d9:
-    if (!intrinsic_00bf(1, local_04)) goto block_0221;
-
-  block_01e8:
-    /* global_address */
-    /* global_address */
-    /* global_address */
-
-  block_0221:
-    goto block_023b;
-
-  block_0224:
-    spawn FREE.slot_3a(pid, local_04, 0x00000000);
-    suspend;
-
-  block_023b:
-    /* loopnext */
-    goto block_017e;
-
-  block_023f:
+    for local_02 in nearby_items(shape=0x0476, origin=arg_06) {
+      if (intrinsic_0112(arg_06) == intrinsic_0112(local_02)) {
+        FREE.slot_37(local_02);
+        local_04 = retval;
+        if ((((intrinsic_0031(local_04) == 10) || (intrinsic_0031(local_04) == 11)) || (intrinsic_0031(local_04) == 12)) || (intrinsic_0031(local_04) == 13)) {
+          if (!intrinsic_00bf(1, local_04)) {
+            /* global_address */
+            /* global_address */
+            /* global_address */
+          }
+        }
+        else {
+          spawn FREE.slot_3a(pid, local_04, 0x00000000);
+          suspend;
+        }
+      }
+      /* loopnext */
+    }
     spawn TRIGGER.slot_20(pid, 1, *(arg_06), arg_06);
     suspend;
     local_06 = 0;
-
-  block_0267:
-    while (local_06 > 5) {
+    while (local_06 <= 5) {
       spawn FREE.slot_3b(pid, 5, 0x00000000);
       suspend;
       local_06 = (1 + local_06);
     }
-
-  block_029d:
-    goto block_0310;
-
-  block_02aa:
+  }
+  else {
     spawn TRIGGER.slot_20(pid, 1, *(arg_06), arg_06);
     suspend;
     local_06 = 0;
-
-  block_02d0:
-    if (local_06 <= 5) goto block_0306;
-
-  block_02d8:
-    spawn FREE.slot_3b(pid, 5, 0x00000000);
-    suspend;
-    local_06 = (1 + local_06);
-    goto block_02d0;
-
-  block_0310:
-    ITEM.slot_25(0x1000, arg_06);
-
-  block_031c:
-    return;
-
+    while (local_06 <= 5) {
+      spawn FREE.slot_3b(pid, 5, 0x00000000);
+      suspend;
+      local_06 = (1 + local_06);
+    }
+  }
+  ITEM.slot_25(0x1000, arg_06);
+  return;
 }

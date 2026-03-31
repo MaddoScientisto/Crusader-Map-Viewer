@@ -1,130 +1,72 @@
 function door_slot_23() /* entry=2568 class_id=0x0a06 slot=0x23 */
 {
-  entry:
-    set_info(0x0207, *(arg_06));
-    FREE.slot_2c(arg_12, arg_10);
-    local_08 = retval;
-    if (((local_08 != 3) || (local_08 != 4)) || (local_08 != 10)) goto block_185f;
-
-  block_184b:
+  set_info(0x0207, *(arg_06));
+  FREE.slot_2c(arg_12, arg_10);
+  local_08 = retval;
+  if (((local_08 == 3) || (local_08 == 4)) || (local_08 == 10)) {
     FREE.slot_2b(arg_12, arg_10);
     local_10 = retval;
-    goto block_1865;
-
-  block_185f:
-    goto block_20ca;
-
-  block_1865:
-    spawn ITEM.slot_27(pid, 0x00c8, arg_12, arg_10, arg_06);
-    suspend;
-    /* dword_to_word */
-    if (!process_result) goto block_18e9;
-
-  block_1896:
+  }
+  else {
+    return;
+  }
+  spawn ITEM.slot_27(pid, 0x00c8, arg_12, arg_10, arg_06);
+  suspend;
+  /* dword_to_word */
+  if (!process_result) {
     FREE.slot_20(10);
-    if (retval > 5) goto block_18d6;
-
-  block_18c6:
-    goto block_18e3;
-
-  block_18e3:
-    goto block_20ca;
-
-  block_18e9_selector_00:
-    /* loop_selector local_02 in nearby_items(shape=0x04f8, origin=arg_06) */
-
-  block_1914:
-    if condition goto block_199d;
-
-  block_1917:
-    if (Kernel.getNumProcesses(local_02) != Kernel.getNumProcesses(arg_06)) goto block_1999;
-
-  block_1933:
-    if (intrinsic_0003(local_02) != 0) goto block_1970;
-
-  block_1948:
-    spawn TRIGGER.slot_20(pid, 0, local_02, arg_06);
-    suspend;
-    goto block_1999;
-
-  block_1970:
-    spawn TRIGGER.slot_20(pid, (0 + 0x0080), local_02, arg_06);
-    suspend;
-
-  block_1999:
-    /* loopnext */
-    goto block_1914;
-
-  block_199d:
+    if (retval > 5) {
+    }
+    return;
+  }
+  else {
+    for local_02 in nearby_items(shape=0x04f8, origin=arg_06) {
+      if (Kernel.getNumProcesses(local_02) == Kernel.getNumProcesses(arg_06)) {
+        if (intrinsic_0003(local_02) != 0) {
+          spawn TRIGGER.slot_20(pid, 0, local_02, arg_06);
+          suspend;
+        }
+        else {
+          spawn TRIGGER.slot_20(pid, (0 + 0x0080), local_02, arg_06);
+          suspend;
+        }
+      }
+      /* loopnext */
+    }
     spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
     suspend;
-    if (intrinsic_0000() != 0) goto block_19e4;
-
-  block_19d3:
-    spawn FREE.slot_3b(0x00000000);
-
-  block_19e4:
-    if (intrinsic_0016(arg_06) != 123) goto block_1ab9;
-
-  block_19f3:
-    if Item.getFrame(arg_06) goto block_1a25;
-
-  block_1a02:
-    goto block_1a45;
-
-  block_1a45:
-    spawn DOOR.slot_22(pid, arg_06);
-    suspend;
-    goto block_20ad;
-
-  block_1ab9:
-    if (intrinsic_0016(arg_06) != 0x03ff) goto block_1b5d;
-
-  block_1ac9:
-    spawn DOOR.slot_22(pid, arg_06);
-    suspend;
-    goto block_20ad;
-
-  block_1b5d:
-    if (intrinsic_0016(arg_06) != 70) goto block_1c00;
-
-  block_1b6c:
-    spawn DOOR.slot_22(pid, arg_06);
-    suspend;
-    goto block_20ad;
-
-  block_1c00:
-    if (intrinsic_0016(arg_06) != 0x030b) goto block_1ca4;
-
-  block_1c10:
-    spawn DOOR.slot_22(pid, arg_06);
-    suspend;
-    goto block_20ad;
-
-  block_1ca4:
-    if (intrinsic_0016(arg_06) != 0x0099) goto block_1d48;
-
-  block_1cb4:
-    spawn DOOR.slot_22(pid, arg_06);
-    suspend;
-    goto block_20ad;
-
-  block_1d48:
-    if (intrinsic_0016(arg_06) != 5) goto block_1e1d;
-
-  block_1d57:
-    if Item.getFrame(arg_06) goto block_1d89;
-
-  block_1d66:
-    goto block_1da9;
-
-  block_1da9:
-    spawn DOOR.slot_22(pid, arg_06);
-    suspend;
-    goto block_20ad;
-
-  block_1e1d:
-    if (intrinsic_0016(arg_06) == 0x03f8) {
+    if (intrinsic_0000() == 0) {
+      spawn FREE.slot_3b(0x00000000);
+    }
+    if (intrinsic_0016(arg_06) == 123) {
+      if (Item.getFrame(arg_06)) {
+      }
+      spawn DOOR.slot_22(pid, arg_06);
+      suspend;
+    }
+    else if (intrinsic_0016(arg_06) == 0x03ff) {
+      spawn DOOR.slot_22(pid, arg_06);
+      suspend;
+    }
+    else if (intrinsic_0016(arg_06) == 70) {
+      spawn DOOR.slot_22(pid, arg_06);
+      suspend;
+    }
+    else if (intrinsic_0016(arg_06) == 0x030b) {
+      spawn DOOR.slot_22(pid, arg_06);
+      suspend;
+    }
+    else if (intrinsic_0016(arg_06) == 0x0099) {
+      spawn DOOR.slot_22(pid, arg_06);
+      suspend;
+    }
+    else if (intrinsic_0016(arg_06) == 5) {
+      if (Item.getFrame(arg_06)) {
+      }
+      spawn DOOR.slot_22(pid, arg_06);
+      suspend;
+    }
+    else if (intrinsic_0016(arg_06) == 0x03f8) {
       spawn DOOR.slot_22(pid, arg_06);
       suspend;
     }
@@ -140,12 +82,8 @@ function door_slot_23() /* entry=2568 class_id=0x0a06 slot=0x23 */
       spawn DOOR.slot_22(pid, arg_06);
       suspend;
     }
-
-  block_20ad:
     /* bit_not */
-
-  block_20ca:
-    return;
-
+  }
+  return;
   /* decompilation stopped at SEARCH_SURFACE */
 }

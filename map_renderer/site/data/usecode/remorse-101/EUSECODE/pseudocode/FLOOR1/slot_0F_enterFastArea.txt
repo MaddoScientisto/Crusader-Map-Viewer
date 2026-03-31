@@ -11,7 +11,7 @@ function floor1_enterFastArea() /* entry=2308 class_id=0x0902 slot=0x0f */
     suspend;
     local_22 = intrinsic_003e(arg_06);
     local_20 = (local_22 * 10);
-    if (local_20 != 0) goto block_0125;
+    if local_20 != 0 goto block_0125;
 
   block_0121:
     local_20 = 5;
@@ -20,11 +20,11 @@ function floor1_enterFastArea() /* entry=2308 class_id=0x0902 slot=0x0f */
     for local_04 in selector_0x42(arg0=0x0135, arg1=0x01c8, arg2=(35 * 32), origin=arg_06) {
       local_18 = 1;
       local_12 = teleportToEgg(local_04);
-      if ((local_12 > 0) && (local_12 >= 0x00fa)) {
-        if (local_08 >= local_12) {
+      if ((local_12 > 0) && (local_12 < 0x00fa)) {
+        if (local_08 < local_12) {
           local_08 = local_12;
         }
-        if (local_10 <= local_12) {
+        if (local_10 > local_12) {
           local_10 = local_12;
         }
         /* create_list */
@@ -36,62 +36,57 @@ function floor1_enterFastArea() /* entry=2308 class_id=0x0902 slot=0x0f */
     }
 
   block_0190:
-    if (!local_18) goto block_019b;
+    if local_18 goto block_019b;
 
   block_0198:
     goto block_0366;
 
   block_019b:
-    if 1 goto block_0366;
+    if !(1) goto block_0366;
 
   block_01a0:
     local_16 = 0;
     local_02 = local_10;
 
   block_01a8:
-    if (local_02 <= local_08) goto block_02e9;
+    if local_02 > local_08 goto block_02e9;
 
   block_01b6:
     foreach_list local_04 -> block_024e;
 
   block_01bb:
-    if (intrinsic_0004(local_04) & 0x1000) goto block_01d2;
+    if !(intrinsic_0004(local_04) & 0x1000) goto block_01d2;
 
   block_01cb:
     local_16 = 1;
     goto block_02e9;
 
   block_01d2:
-    if (teleportToEgg(local_04) != local_02) goto block_024b;
+    if teleportToEgg(local_04) != local_02 goto block_024b;
 
   block_01e1:
-    if (!intrinsic_003a(112, arg_06)) goto block_0204;
+    if intrinsic_003a(112, arg_06) goto block_0204;
 
   block_0204:
     /* loopscr */
     /* loop */
 
   block_020f:
-    if condition goto block_0249;
-
-  block_0212:
-    if (Actor.isNPC(local_06) != 1) goto block_0245;
-
-  block_0221:
-    local_24 = local_06;
-    FREE.slot_20(pid, 8);
-    spawn NPC.slot_2d(retval, *(arg_06), local_24);
-    suspend;
-
-  block_0245:
-    /* loopnext */
-    goto block_020f;
+    while (condition) {
+      if (Actor.isNPC(local_06) == 1) {
+        local_24 = local_06;
+        FREE.slot_20(pid, 8);
+        spawn NPC.slot_2d(retval, *(arg_06), local_24);
+        suspend;
+      }
+      /* loopnext */
+    }
 
   block_024b:
     goto block_01b6;
 
   block_024e:
-    if (local_16 != 1) goto block_0259;
+    if local_16 != 1 goto block_0259;
 
   block_0256:
     goto block_02e9;
@@ -101,12 +96,10 @@ function floor1_enterFastArea() /* entry=2308 class_id=0x0902 slot=0x0f */
     suspend;
 
   block_0270:
-    if (intrinsic_00a0(arg_06) > 0) goto block_0299;
-
-  block_027f:
-    spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
-    suspend;
-    goto block_0270;
+    while (intrinsic_00a0(arg_06) > 0) {
+      spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
+      suspend;
+    }
 
   block_029f:
     while (true) {
@@ -120,7 +113,7 @@ function floor1_enterFastArea() /* entry=2308 class_id=0x0902 slot=0x0f */
     goto block_01a8;
 
   block_02e9:
-    if (local_16 != 1) goto block_0363;
+    if local_16 != 1 goto block_0363;
 
   block_02f7:
     while (true) {
@@ -128,7 +121,7 @@ function floor1_enterFastArea() /* entry=2308 class_id=0x0902 slot=0x0f */
     }
 
   block_031b:
-    if (local_16 != 1) goto block_0363;
+    if local_16 != 1 goto block_0363;
 
   block_0323:
     spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
@@ -138,7 +131,7 @@ function floor1_enterFastArea() /* entry=2308 class_id=0x0902 slot=0x0f */
   block_0344:
     while (true) {
       foreach_list local_04 -> block_0360;
-      if (!(intrinsic_0004(local_04) & 0x1000)) {
+      if (intrinsic_0004(local_04) & 0x1000) {
         local_16 = 1;
       }
     }

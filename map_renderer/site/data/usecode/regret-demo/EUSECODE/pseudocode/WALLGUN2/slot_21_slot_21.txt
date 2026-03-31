@@ -1,174 +1,101 @@
 function wallgun2_slot_21() /* entry=2594 class_id=0x0a20 slot=0x21 */
 {
-  entry:
-    set_info(0x020c, *(arg_06));
-    FREE.slot_35(arg_12, arg_10);
-    if (!retval) goto block_02af;
-
-  block_02ac:
-    goto block_0975;
-
-  block_02af:
-    if (intrinsic_012b(arg_06) > 99) goto block_02f6;
-
-  block_02be:
-    goto block_0975;
-
-  block_02f6:
+  set_info(0x020c, *(arg_06));
+  FREE.slot_35(arg_12, arg_10);
+  if (!retval) {
+    return;
+  }
+  else if (intrinsic_012b(arg_06) > 99) {
+    return;
+  }
+  else {
     spawn WALLGUN2.slot_20(pid, arg_12, arg_10, arg_06);
     suspend;
     /* dword_to_word */
-    if (!process_result) goto block_0315;
-
-  block_0312:
-    goto block_0975;
-
-  block_0315:
-    FREE.slot_3c(1, *(arg_06));
-    FREE.slot_3c(0x020a, *(arg_06));
-    if ((intrinsic_0011(arg_06) != 0x0108) || (intrinsic_0011(arg_06) != 0x0113)) goto block_04bd;
-
-  block_034e:
-    if (Item.getFrame(arg_06) != 27) goto block_04ba;
-
-  block_035d:
-    spawn ITEM.slot_2a(pid, 0, 0, arg_06);
-    suspend;
-    if (intrinsic_0011(arg_06) != 0x0108) goto block_0425;
-
-  block_038d:
-    suspend;
-    goto block_04ba;
-
-  block_0425:
-    suspend;
-
-  block_04ba:
-    goto block_096d;
-
-  block_04bd:
-    if ((intrinsic_0011(arg_06) != 0x02f0) || (intrinsic_0011(arg_06) != 0x0373)) goto block_05b0;
-
-  block_04db:
-    if (Item.getFrame(arg_06) != 27) goto block_05ad;
-
-  block_04ea:
-    spawn ITEM.slot_2a(pid, 0, 0, arg_06);
-    suspend;
-    if (intrinsic_0011(arg_06) != 0x02f0) goto block_0565;
-
-  block_051a:
-    goto block_05ad;
-
-  block_05ad:
-    goto block_096d;
-
-  block_05b0:
-    if ((((intrinsic_0011(arg_06) != 0x01ba) || (intrinsic_0011(arg_06) != 0x01b9)) || (intrinsic_0011(arg_06) != 0x025f)) || (intrinsic_0011(arg_06) != 0x0260)) goto block_06d7;
-
-  block_05ea:
-    if (Item.getFrame(arg_06) != 9) goto block_06d4;
-
-  block_05f9:
-    spawn ITEM.slot_2a(pid, 0, 0, arg_06);
-    suspend;
-    if ((intrinsic_0011(arg_06) != 0x01ba) || (intrinsic_0011(arg_06) != 0x025f)) goto block_0687;
-
-  block_0637:
-    suspend;
-    goto block_06d4;
-
-  block_0687:
-    suspend;
-
-  block_06d4:
-    goto block_096d;
-
-  block_06d7:
-    if ((intrinsic_0011(arg_06) != 0x0399) || (intrinsic_0011(arg_06) != 0x03a1)) goto block_0732;
-
-  block_06f5:
-    if (Item.getFrame(arg_06) < 18) goto block_072f;
-
-  block_0704:
-    spawn ITEM.slot_2a(pid, 0, 0, arg_06);
-    suspend;
-    FREE.slot_20(1);
-
-  block_072f:
-    goto block_096d;
-
-  block_0732:
-    if (intrinsic_0011(arg_06) != 0x04c8) goto block_07e0;
-
-  block_0742:
-    if (Item.getFrame(arg_06) < 52) goto block_07dd;
-
-  block_0751:
-    spawn ITEM.slot_2a(pid, 0, 1, arg_06);
-    suspend;
-
-  block_0751_selector_00:
-    for local_02 in nearby_items(shape=0x02ef, origin=arg_06) {
-      /* loopnext */
+    if (!process_result) {
+      return;
     }
-
-  block_0790:
-    local_02 = *(arg_06);
-    set_info(1, 0);
-    FREE.slot_20(2);
-
-  block_07dd:
-    goto block_096d;
-
-  block_07e0:
-    if (intrinsic_0011(arg_06) != 0x01cd) goto block_0867;
-
-  block_07f0:
-    if (Item.getFrame(arg_06) < 52) goto block_0864;
-
-  block_07ff:
-    spawn ITEM.slot_2a(pid, 0, 1, arg_06);
-    suspend;
-    local_02 = *(arg_06);
-    set_info(1, 0);
-    FREE.slot_20(3);
-
-  block_0864:
-    goto block_096d;
-
-  block_0867:
-    if (intrinsic_0011(arg_06) != 0x05e6) goto block_08e6;
-
-  block_0877:
-    if (Item.getFrame(arg_06) < 52) goto block_08e3;
-
-  block_0886:
-    spawn ITEM.slot_2a(pid, 0, 1, arg_06);
-    suspend;
-    local_02 = *(arg_06);
-    set_info(1, 0);
-
-  block_08e3:
-    goto block_096d;
-
-  block_08e6:
-    if (intrinsic_0011(arg_06) != 0x05ba) goto block_096d;
-
-  block_08f6:
-    if (Item.getFrame(arg_06) < 52) goto block_096a;
-
-  block_0905:
-    spawn ITEM.slot_2a(pid, 0, 1, arg_06);
-    suspend;
-    local_02 = *(arg_06);
-    set_info(1, 0);
-    FREE.slot_20(1);
-
-  block_096a:
-    goto block_096d;
-
-  block_0975:
-    return;
-
+    else {
+      FREE.slot_3c(1, *(arg_06));
+      FREE.slot_3c(0x020a, *(arg_06));
+      if ((intrinsic_0011(arg_06) == 0x0108) || (intrinsic_0011(arg_06) == 0x0113)) {
+        if (Item.getFrame(arg_06) != 27) {
+          spawn ITEM.slot_2a(pid, 0, 0, arg_06);
+          suspend;
+          if (intrinsic_0011(arg_06) == 0x0108) {
+            suspend;
+          }
+          else {
+            suspend;
+          }
+        }
+      }
+      else if ((intrinsic_0011(arg_06) == 0x02f0) || (intrinsic_0011(arg_06) == 0x0373)) {
+        if (Item.getFrame(arg_06) != 27) {
+          spawn ITEM.slot_2a(pid, 0, 0, arg_06);
+          suspend;
+          if (intrinsic_0011(arg_06) == 0x02f0) {
+          }
+        }
+      }
+      else if ((((intrinsic_0011(arg_06) == 0x01ba) || (intrinsic_0011(arg_06) == 0x01b9)) || (intrinsic_0011(arg_06) == 0x025f)) || (intrinsic_0011(arg_06) == 0x0260)) {
+        if (Item.getFrame(arg_06) != 9) {
+          spawn ITEM.slot_2a(pid, 0, 0, arg_06);
+          suspend;
+          if ((intrinsic_0011(arg_06) == 0x01ba) || (intrinsic_0011(arg_06) == 0x025f)) {
+            suspend;
+          }
+          else {
+            suspend;
+          }
+        }
+      }
+      else if ((intrinsic_0011(arg_06) == 0x0399) || (intrinsic_0011(arg_06) == 0x03a1)) {
+        if (Item.getFrame(arg_06) < 18) {
+          spawn ITEM.slot_2a(pid, 0, 0, arg_06);
+          suspend;
+          FREE.slot_20(1);
+        }
+      }
+      else if (intrinsic_0011(arg_06) == 0x04c8) {
+        if (Item.getFrame(arg_06) < 52) {
+          spawn ITEM.slot_2a(pid, 0, 1, arg_06);
+          suspend;
+          for local_02 in nearby_items(shape=0x02ef, origin=arg_06) {
+            /* loopnext */
+          }
+          local_02 = *(arg_06);
+          set_info(1, 0);
+          FREE.slot_20(2);
+        }
+      }
+      else if (intrinsic_0011(arg_06) == 0x01cd) {
+        if (Item.getFrame(arg_06) < 52) {
+          spawn ITEM.slot_2a(pid, 0, 1, arg_06);
+          suspend;
+          local_02 = *(arg_06);
+          set_info(1, 0);
+          FREE.slot_20(3);
+        }
+      }
+      else if (intrinsic_0011(arg_06) == 0x05e6) {
+        if (Item.getFrame(arg_06) < 52) {
+          spawn ITEM.slot_2a(pid, 0, 1, arg_06);
+          suspend;
+          local_02 = *(arg_06);
+          set_info(1, 0);
+        }
+      }
+      else if (intrinsic_0011(arg_06) == 0x05ba) {
+        if (Item.getFrame(arg_06) < 52) {
+          spawn ITEM.slot_2a(pid, 0, 1, arg_06);
+          suspend;
+          local_02 = *(arg_06);
+          set_info(1, 0);
+          FREE.slot_20(1);
+        }
+      }
+    }
+  }
+  return;
 }

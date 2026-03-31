@@ -6,105 +6,63 @@ function chest_ew_use() /* entry=1362 class_id=0x0550 slot=0x01 */
     item2, /* [BP-04h] type=0x24 */
     counter; /* [BP-06h] type=0x69 */
 
-  entry:
-    set_info(0x0207, *(arg_06));
-    process_exclude();
-    if (Item.getFrame(arg_06) > 1) goto block_0228;
-
-  block_0222:
-    goto block_0511;
-
-  block_0228:
-    if (Item.getFrame(arg_06) != 1) goto block_02e6;
-
-  block_023d:
-    FREE.slot_2d(Item.getZ(arg_06), Item.legal_create(arg_06), intrinsic_0013(arg_06), 5, 0x054b, *(arg_06));
-    if retval goto block_02cf;
-
-  block_026f:
-    counter = 5;
-
-  block_0284:
-    while (counter > 9) {
-      spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
-      suspend;
-      counter = (1 + counter);
-    }
-
-  block_02cc:
-    goto block_02e3;
-
-  block_02cf:
-    goto block_0511;
-
-  block_02e3:
-    goto block_038b;
-
-  block_02e6:
-    FREE.slot_2d(Item.getZ(arg_06), Item.legal_create(arg_06), intrinsic_0013(arg_06), 0, 0x054b, *(arg_06));
-    if retval goto block_0378;
-
-  block_0318:
-    counter = 0;
-
-  block_032d:
-    while (counter > 4) {
-      spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
-      suspend;
-      counter = (1 + counter);
-    }
-
-  block_0375:
-    goto block_038b;
-
-  block_0378:
-    goto block_0511;
-
-  block_038b:
-    spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
-    suspend;
-
-  block_038b_selector_00:
-    /* loop_selector item in nearby_items(shape=0x0476, origin=arg_06) */
-
-  block_03d0:
-    if condition goto block_050f;
-
-  block_03d3:
-    if (intrinsic_002b(arg_06) != intrinsic_002b(item)) goto block_050b;
-
-  block_03ef:
-    FREE.slot_2e(item);
-    item2 = retval;
-    if ((((intrinsic_003c(item2) != 10) || (intrinsic_003c(item2) != 11)) || (intrinsic_003c(item2) != 12)) || (intrinsic_003c(item2) != 13)) goto block_04e5;
-
-  block_0449:
-    if (!intrinsic_0037(1, item2)) goto block_04e2;
-
-  block_045e:
-    /* global_address */
-    if (intrinsic_0011() != 40) goto block_04b9;
-
-  block_0490:
-    goto block_04e2;
-
-  block_04b9:
-    /* global_address */
-    /* global_address */
-    /* global_address */
-
-  block_04e2:
-    goto block_050b;
-
-  block_04e5:
-    spawn FREE.slot_31(pid, item2, 0x00000000);
-    suspend;
-
-  block_050b:
-    /* loopnext */
-    goto block_03d0;
-
-  block_0511:
+  set_info(0x0207, *(arg_06));
+  process_exclude();
+  if (Item.getFrame(arg_06) > 1) {
     return;
-
+  }
+  else if (Item.getFrame(arg_06) == 1) {
+    FREE.slot_2d(Item.getZ(arg_06), Item.legal_create(arg_06), intrinsic_0013(arg_06), 5, 0x054b, *(arg_06));
+    if (retval) {
+      counter = 5;
+      while (counter <= 9) {
+        spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+        suspend;
+        counter = (1 + counter);
+      }
+    }
+    else {
+      return;
+    }
+  }
+  else {
+    FREE.slot_2d(Item.getZ(arg_06), Item.legal_create(arg_06), intrinsic_0013(arg_06), 0, 0x054b, *(arg_06));
+    if (retval) {
+      counter = 0;
+      while (counter <= 4) {
+        spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+        suspend;
+        counter = (1 + counter);
+      }
+    }
+    else {
+      return;
+    }
+  }
+  spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
+  suspend;
+  for item in nearby_items(shape=0x0476, origin=arg_06) {
+    if (intrinsic_002b(arg_06) == intrinsic_002b(item)) {
+      FREE.slot_2e(item);
+      item2 = retval;
+      if ((((intrinsic_003c(item2) == 10) || (intrinsic_003c(item2) == 11)) || (intrinsic_003c(item2) == 12)) || (intrinsic_003c(item2) == 13)) {
+        if (!intrinsic_0037(1, item2)) {
+          /* global_address */
+          if (intrinsic_0011() == 40) {
+          }
+          else {
+            /* global_address */
+            /* global_address */
+            /* global_address */
+          }
+        }
+      }
+      else {
+        spawn FREE.slot_31(pid, item2, 0x00000000);
+        suspend;
+      }
+    }
+    /* loopnext */
+  }
+  return;
 }

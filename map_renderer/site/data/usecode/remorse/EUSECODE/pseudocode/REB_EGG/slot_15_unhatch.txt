@@ -4,26 +4,13 @@ function reb_egg_unhatch() /* entry=2313 class_id=0x0907 slot=0x15 */
     referent, /* [BP+00h] type=0x69 */
     item; /* [BP-02h] type=0x24 */
 
-  entry:
-    set_info(0x0239, *(arg_06));
-    process_exclude();
-    /* global_address */
-    if (intrinsic_0011() != 41) goto block_019f;
-
-  block_0158_selector_00:
-    /* loop_selector item in nearby_items(shape=0x043d, origin=arg_06) */
-
-  block_0176:
-    if condition goto block_019d;
-
-  block_0179:
-    goto block_019f;
-
-  block_0199:
-    /* loopnext */
-    goto block_0176;
-
-  block_019f:
-    return;
-
+  set_info(0x0239, *(arg_06));
+  process_exclude();
+  /* global_address */
+  if (intrinsic_0011() == 41) {
+    for item in nearby_items(shape=0x043d, origin=arg_06) {
+      return;
+    }
+  }
+  return;
 }

@@ -6,7 +6,7 @@ function basegun_calledFromAnim() /* entry=1226 class_id=0x04c8 slot=0x0e */
     local_02 = *(arg_06);
     local_04 = intrinsic_0017(local_02);
     local_06 = intrinsic_0018(local_02);
-    if ((local_06 != 13) || (local_06 != 8)) goto block_0296;
+    if (local_06 != 13) || (local_06 == 8) goto block_0296;
 
   block_021c:
     WALLGUN.slot_40(0, 3, local_04, local_04, arg_06);
@@ -25,13 +25,13 @@ function basegun_calledFromAnim() /* entry=1226 class_id=0x04c8 slot=0x0e */
     /* loop_selector local_08 in nearby_items(shape=0x04e7, origin=local_02) */
 
   block_02b2:
-    if condition goto block_02f7;
+    if !condition goto block_02f7;
 
   block_02b5:
-    if (intrinsic_000d(local_02) != intrinsic_000b(local_08)) goto block_02f3;
+    if intrinsic_000d(local_02) != intrinsic_000b(local_08) goto block_02f3;
 
   block_02cb:
-    if (intrinsic_0003(local_08) != 0) goto block_02f3;
+    if intrinsic_0003(local_08) == 0 goto block_02f3;
 
   block_02da:
     spawn TRIGGER.slot_20(pid, 0, local_08, local_08);

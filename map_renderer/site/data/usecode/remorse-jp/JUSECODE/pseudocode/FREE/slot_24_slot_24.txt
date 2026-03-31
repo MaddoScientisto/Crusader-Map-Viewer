@@ -1,21 +1,19 @@
 function free_slot_24() /* entry=2575 class_id=0x0a0d slot=0x24 */
 {
-  entry:
-    set_info(0x0224, 0);
-    if global[0x0006] goto block_05d3;
-
-  block_05cd:
-    goto block_06df;
-
-  block_05d3:
+  set_info(0x0224, 0);
+  if (global[0x0006]) {
+    return;
+  }
+  else {
     /* pop_global */
-
-  block_05dc:
+    suspend;
+    spawn FREE.slot_32(pid, arg_06, 0x00000000);
+    suspend;
     while (true) {
       suspend;
       spawn FREE.slot_32(pid, arg_06, 0x00000000);
       suspend;
-      if (global[0x0006]) {
+      if (!(global[0x0006])) {
         return;
       }
       arg_06 = (arg_06 - 1);
@@ -31,8 +29,6 @@ function free_slot_24() /* entry=2575 class_id=0x0a0d slot=0x24 */
         return;
       }
     }
-
-  block_06df:
-    return;
-
+  }
+  return;
 }

@@ -1,29 +1,17 @@
 function changer_hatch() /* entry=2310 class_id=0x0904 slot=0x07 */
 {
-  entry:
-    set_info(0x0210, *(arg_06));
-    process_exclude();
-    local_04 = intrinsic_002b(arg_06);
-    local_08 = intrinsic_003e(arg_06);
-    if local_08 goto block_0141;
-
-  block_00fa:
+  set_info(0x0210, *(arg_06));
+  process_exclude();
+  local_04 = intrinsic_002b(arg_06);
+  local_08 = intrinsic_003e(arg_06);
+  if (local_08) {
     /* loopscr */
     /* loopscr */
     /* loop */
-
-  block_011d:
-    if condition goto block_013f;
-
-  block_0120:
-    local_06 = intrinsic_002b(local_02);
-    if (local_06 != local_08) goto block_013b;
-
-  block_013b:
-    /* loopnext */
-    goto block_011d;
-
-  block_0141:
-    return;
-
+    while (condition) {
+      local_06 = intrinsic_002b(local_02);
+      /* loopnext */
+    }
+  }
+  return;
 }

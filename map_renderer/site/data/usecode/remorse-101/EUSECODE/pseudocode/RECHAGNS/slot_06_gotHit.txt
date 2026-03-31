@@ -1,78 +1,32 @@
 function rechagns_gotHit() /* entry=312 class_id=0x0136 slot=0x06 */
 {
-  entry:
-    set_info(0x020c, *(arg_06));
-    process_exclude();
-    FREE.slot_2b(arg_12, arg_10);
-    if (retval && (Item.getFrame(arg_06) < 4)) goto block_0238;
-
-  block_00fb:
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  FREE.slot_2b(arg_12, arg_10);
+  if (retval && (Item.getFrame(arg_06) < 4)) {
     spawn ITEM.slot_27(pid, 100, arg_12, arg_10, arg_06);
     suspend;
     /* dword_to_word */
-    if (!process_result) goto block_011c;
-
-  block_0119:
-    goto block_0238;
-
-  block_011c:
-    spawn ITEM.slot_28(pid, 0, 1, arg_06);
-    suspend;
-    FREE.slot_33(0x0254, global[0x003d]);
-
-  block_011c_selector_00:
-    /* loop_selector local_02 in nearby_items(shape=0x0136, origin=arg_06) */
-
-  block_0158:
-    if condition goto block_01ab;
-
-  block_015b:
-    if (Item.getFrame(local_02) < 2) goto block_0181;
-
-  block_016a:
-    goto block_01a7;
-
-  block_0181:
-    if (Item.getFrame(local_02) < 4) goto block_01a7;
-
-  block_0190:
-    goto block_01a7;
-
-  block_01a7:
-    /* loopnext */
-    goto block_0158;
-
-  block_01ab_selector_00:
-    /* loop_selector local_02 in nearby_items(shape=0x0138, origin=arg_06) */
-
-  block_01c5:
-    if condition goto block_01d6;
-
-  block_01c8:
-    /* loopnext */
-    goto block_01c5;
-
-  block_01d6_selector_00:
-    /* loop_selector local_02 in nearby_items(shape=0x0139, origin=arg_06) */
-
-  block_01f0:
-    if condition goto block_0201;
-
-  block_01f3:
-    /* loopnext */
-    goto block_01f0;
-
-  block_0201_selector_00:
-    /* loop_selector local_02 in nearby_items(shape=0x0137, origin=arg_06) */
-
-  block_021b:
-    if condition goto block_022c;
-
-  block_021e:
-    /* loopnext */
-    goto block_021b;
-
-  block_0238:
-    return;
-
+    if (!process_result) {
+      return;
+    }
+    else {
+      spawn ITEM.slot_28(pid, 0, 1, arg_06);
+      suspend;
+      FREE.slot_33(0x0254, global[0x003d]);
+      for local_02 in nearby_items(shape=0x0136, origin=arg_06) {
+        /* loopnext */
+      }
+      for local_02 in nearby_items(shape=0x0138, origin=arg_06) {
+        /* loopnext */
+      }
+      for local_02 in nearby_items(shape=0x0139, origin=arg_06) {
+        /* loopnext */
+      }
+      for local_02 in nearby_items(shape=0x0137, origin=arg_06) {
+        /* loopnext */
+      }
+    }
+  }
+  return;
 }

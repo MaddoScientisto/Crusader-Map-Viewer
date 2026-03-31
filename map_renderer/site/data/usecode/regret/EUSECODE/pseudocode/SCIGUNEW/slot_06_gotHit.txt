@@ -1,50 +1,36 @@
 function scigunew_gotHit() /* entry=1509 class_id=0x05e3 slot=0x06 */
 {
-  entry:
-    set_info(0x020c, *(arg_06));
-    process_exclude();
-    local_02 = Item.getFrame(arg_06);
-    local_04 = intrinsic_0104(arg_06);
-    if (local_02 > 9) goto block_047f;
-
-  block_047c:
-    goto block_056d;
-
-  block_047f:
-    if (local_04 > 99) goto block_04d6;
-
-  block_0487:
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  local_02 = Item.getFrame(arg_06);
+  local_04 = intrinsic_0104(arg_06);
+  if (local_02 > 9) {
+    return;
+  }
+  else if (local_04 > 99) {
     spawn FREE.slot_3b(pid, 10, 0x00000000);
     suspend;
-    goto block_056d;
-
-  block_04d6:
-    FREE.slot_35(arg_12, arg_10);
-    if ((retval > 0) && (local_02 > 0)) goto block_056d;
-
-  block_04ee:
-    spawn ITEM.slot_29(pid, 100, arg_12, arg_10, arg_06);
-    suspend;
-    /* dword_to_word */
-    if (!process_result) goto block_0533;
-
-  block_050c:
-    FREE.slot_20(1);
-    if retval goto block_0526;
-
-  block_0519:
-    goto block_0530;
-
-  block_0530:
-    goto block_056d;
-
-  block_0533:
-    ITEM.slot_25(0x1000, arg_06);
-    FREE.slot_3c(0x0205, *(arg_06));
-    spawn ITEM.slot_2a(pid, 0, 0, arg_06);
-    suspend;
-
-  block_056d:
     return;
-
+  }
+  else {
+    FREE.slot_35(arg_12, arg_10);
+    if ((retval > 0) && (local_02 > 0)) {
+      spawn ITEM.slot_29(pid, 100, arg_12, arg_10, arg_06);
+      suspend;
+      /* dword_to_word */
+      if (!process_result) {
+        FREE.slot_20(1);
+        if (retval) {
+        }
+        return;
+      }
+      else {
+        ITEM.slot_25(0x1000, arg_06);
+        FREE.slot_3c(0x0205, *(arg_06));
+        spawn ITEM.slot_2a(pid, 0, 0, arg_06);
+        suspend;
+      }
+    }
+  }
+  return;
 }

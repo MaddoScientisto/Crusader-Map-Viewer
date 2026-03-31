@@ -1,143 +1,89 @@
 function barrel_slot_20() /* entry=2562 class_id=0x0a00 slot=0x20 */
 {
-  entry:
-    set_info(0x0001, *(arg_06));
-    local_02 = *(arg_06);
-    local_10 = intrinsic_0013(arg_06);
-    local_12 = Item.legal_create(arg_06);
-    local_14 = Item.getZ(arg_06);
-    FREE.slot_2c(arg_12, arg_10);
-    if (!retval) goto block_013f;
-
-  block_0139:
-    goto block_04fa;
-
-  block_013f:
+  set_info(0x0001, *(arg_06));
+  local_02 = *(arg_06);
+  local_10 = intrinsic_0013(arg_06);
+  local_12 = Item.legal_create(arg_06);
+  local_14 = Item.getZ(arg_06);
+  FREE.slot_2c(arg_12, arg_10);
+  if (!retval) {
+    return;
+  }
+  else {
     spawn ITEM.slot_27(pid, 100, arg_12, arg_10, arg_06);
     suspend;
     /* dword_to_word */
-    if (!process_result) goto block_01a2;
-
-  block_016f:
-    FREE.slot_20(1);
-    if retval goto block_018f;
-
-  block_017f:
-    goto block_019c;
-
-  block_019c:
-    goto block_04fa;
-
-  block_01a2:
-    if (intrinsic_0016(arg_06) != 0x00aa) goto block_0208;
-
-  block_01b2:
-    if ((Item.getFrame(arg_06) == 0) || (Item.getFrame(arg_06) != 1)) {
+    if (!process_result) {
+      FREE.slot_20(1);
+      if (retval) {
+      }
+      return;
+    }
+    else if (intrinsic_0016(arg_06) == 0x00aa) {
+      local_06 = 1;
+      if ((Item.getFrame(arg_06) == 0) || (Item.getFrame(arg_06) == 1)) {
+        local_05 = 1;
+      }
+      else if ((Item.getFrame(arg_06) == 2) || (Item.getFrame(arg_06) == 3)) {
+        local_05 = 0;
+      }
+    }
+    else if (((intrinsic_0016(arg_06) == 0x0151) || (intrinsic_0016(arg_06) == 0x0154)) || (intrinsic_0016(arg_06) == 0x0155)) {
       local_05 = 1;
     }
-    else if ((Item.getFrame(arg_06) == 2) || (Item.getFrame(arg_06) != 3)) {
-      local_05 = 0;
+    else if (intrinsic_0016(arg_06) == 0x0152) {
+      if ((Item.getFrame(arg_06) == 0) || (Item.getFrame(arg_06) == 1)) {
+        local_05 = 1;
+      }
+      else if (Item.getFrame(arg_06) == 2) {
+        local_05 = 0;
+      }
     }
-
-  block_0205:
-    goto block_02e2;
-
-  block_0208:
-    if (((intrinsic_0016(arg_06) != 0x0151) || (intrinsic_0016(arg_06) != 0x0154)) || (intrinsic_0016(arg_06) != 0x0155)) goto block_023e;
-
-  block_0234:
-    local_05 = 1;
-    goto block_02e2;
-
-  block_023e:
-    if (intrinsic_0016(arg_06) != 0x0152) goto block_0290;
-
-  block_024e:
-    if ((Item.getFrame(arg_06) != 0) || (Item.getFrame(arg_06) != 1)) goto block_0274;
-
-  block_026a:
-    local_05 = 1;
-    goto block_028d;
-
-  block_0274:
-    if (Item.getFrame(arg_06) == 2) {
-      local_05 = 0;
+    else if (intrinsic_0016(arg_06) == 0x0153) {
+      if (Item.getFrame(arg_06) == 0) {
+        local_05 = 1;
+      }
+      else if ((Item.getFrame(arg_06) == 1) || (Item.getFrame(arg_06) == 2)) {
+        local_05 = 0;
+      }
     }
-
-  block_028d:
-    goto block_02e2;
-
-  block_0290:
-    if (intrinsic_0016(arg_06) != 0x0153) goto block_02e2;
-
-  block_02a0:
-    if (Item.getFrame(arg_06) != 0) goto block_02b9;
-
-  block_02af:
-    local_05 = 1;
-    goto block_02df;
-
-  block_02b9:
-    if ((Item.getFrame(arg_06) == 1) || (Item.getFrame(arg_06) != 2)) {
-      local_05 = 0;
-    }
-
-  block_02df:
-    goto block_02e2;
-
-  block_02e2:
     local_08 = intrinsic_0010(arg_06);
-    if local_05 goto block_03ff;
-
-  block_02f8:
-    if local_06 goto block_0384;
-
-  block_0300:
-    spawn ITEM.slot_2a(pid, arg_06);
-    suspend;
-    set_info(1, 0);
-    spawn FREE.slot_32(pid, 1, 0x00000000);
-    suspend;
-    goto block_04fa;
-
-  block_0381:
-    goto block_03fc;
-
-  block_0384:
-    spawn ITEM.slot_2a(pid, arg_06);
-    suspend;
-    set_info(1, 0);
-    spawn FREE.slot_32(pid, 1, 0x00000000);
-    suspend;
-    goto block_04fa;
-
-  block_03fc:
-    goto block_04fa;
-
-  block_03ff:
-    if local_06 goto block_0482;
-
-  block_0407:
-    spawn ITEM.slot_2a(pid, arg_06);
-    suspend;
-    set_info(1, 0);
-    spawn FREE.slot_32(pid, 1, 0x00000000);
-    suspend;
-    goto block_04fa;
-
-  block_047f:
-    goto block_04fa;
-
-  block_0482:
-    spawn ITEM.slot_2a(pid, arg_06);
-    suspend;
-    set_info(1, 0);
-    spawn FREE.slot_32(pid, 1, 0x00000000);
-    suspend;
-    goto block_04fa;
-
-  block_04fa:
-    return;
-
+    if (local_05) {
+      if (local_06) {
+        spawn ITEM.slot_2a(pid, arg_06);
+        suspend;
+        set_info(1, 0);
+        spawn FREE.slot_32(pid, 1, 0x00000000);
+        suspend;
+        return;
+      }
+      else {
+        spawn ITEM.slot_2a(pid, arg_06);
+        suspend;
+        set_info(1, 0);
+        spawn FREE.slot_32(pid, 1, 0x00000000);
+        suspend;
+        return;
+      }
+      return;
+    }
+    else if (local_06) {
+      spawn ITEM.slot_2a(pid, arg_06);
+      suspend;
+      set_info(1, 0);
+      spawn FREE.slot_32(pid, 1, 0x00000000);
+      suspend;
+      return;
+    }
+    else {
+      spawn ITEM.slot_2a(pid, arg_06);
+      suspend;
+      set_info(1, 0);
+      spawn FREE.slot_32(pid, 1, 0x00000000);
+      suspend;
+      return;
+    }
+  }
+  return;
   /* decompilation stopped at SEARCH_SURFACE */
 }

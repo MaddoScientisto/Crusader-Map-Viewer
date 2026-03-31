@@ -3,7 +3,7 @@ function reb_gar_enterFastArea() /* entry=1262 class_id=0x04ec slot=0x0f */
   entry:
     set_info(0x021b, *(arg_06));
     process_exclude();
-    if (intrinsic_0018(10, 1) > 5) goto block_013a;
+    if intrinsic_0018(10, 1) <= 5 goto block_013a;
 
   block_012d:
     goto block_0213;
@@ -14,7 +14,7 @@ function reb_gar_enterFastArea() /* entry=1262 class_id=0x04ec slot=0x0f */
       spawn FREE.waitNTimerTicks(intrinsic_0018(pid, 0x00dc, 120), 0x00000000);
       suspend;
       local_02 = 1;
-      while (local_02 > 7) {
+      while (local_02 <= 7) {
         spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
         suspend;
         local_02 = (1 + local_02);
@@ -22,7 +22,7 @@ function reb_gar_enterFastArea() /* entry=1262 class_id=0x04ec slot=0x0f */
       spawn FREE.waitNTimerTicks(intrinsic_0018(pid, 0x00dc, 120), 0x00000000);
       suspend;
       local_02 = 1;
-      while (local_02 > 7) {
+      while (local_02 <= 7) {
         spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
         suspend;
         local_02 = (1 + local_02);

@@ -1,30 +1,16 @@
 function wventew_gotHit() /* entry=1002 class_id=0x03e8 slot=0x06 */
 {
-  entry:
-    set_info(0x020c, *(arg_06));
-    process_exclude();
-    local_02 = Item.getFrame(arg_06);
-    FREE.slot_2c(arg_12, arg_10);
-    if retval goto block_01ab;
-
-  block_014f:
-    if (local_02 < 1) goto block_01ab;
-
-  block_015a_selector_00:
-    /* loop_selector local_04 in nearby_items(shape=WIND_AREA, origin=arg_06) */
-
-  block_017b:
-    if condition goto block_01a9;
-
-  block_017e:
-    if (intrinsic_00ea(arg_06) != intrinsic_00ea(local_04)) goto block_01a5;
-
-  block_01a5:
-    /* loopnext */
-    goto block_017b;
-
-  block_01ab:
-    return;
-
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  local_02 = Item.getFrame(arg_06);
+  FREE.slot_2c(arg_12, arg_10);
+  if (retval) {
+    if (local_02 < 1) {
+      for local_04 in nearby_items(shape=WIND_AREA, origin=arg_06) {
+        /* loopnext */
+      }
+    }
+  }
+  return;
   /* decompilation stopped at SEARCH_SURFACE */
 }

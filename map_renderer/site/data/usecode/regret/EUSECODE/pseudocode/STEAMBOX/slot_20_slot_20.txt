@@ -1,11 +1,8 @@
 function steambox_slot_20() /* entry=1282 class_id=0x0500 slot=0x20 */
 {
-  entry:
-    set_info(0x00f0, *(arg_06));
-    if intrinsic_006a() goto block_0331;
-
-  block_02c9:
-    while ((Item.getFrame(arg_10) == 39) && (Item.isOnScreen(arg_10) != 1)) {
+  set_info(0x00f0, *(arg_06));
+  if (intrinsic_006a()) {
+    while ((Item.getFrame(arg_10) != 39) && (Item.isOnScreen(arg_10) == 1)) {
       spawn FREE.slot_3b(pid, 2, 0x00000000);
       suspend;
       if (Item.getFrame(arg_10) == 12) {
@@ -13,41 +10,20 @@ function steambox_slot_20() /* entry=1282 class_id=0x0500 slot=0x20 */
         spawn STEAM.slot_20(arg_10);
       }
     }
-
-  block_032e:
-    goto block_0348;
-
-  block_0331:
+  }
+  else {
     spawn FREE.slot_3b(pid, 120, 0x00000000);
     suspend;
-
-  block_0348:
-    if (arg_12 != 0) goto block_0378;
-
-  block_0350:
-    if intrinsic_006a() goto block_0368;
-
-  block_0358:
-    goto block_0375;
-
-  block_0375:
-    goto block_03a8;
-
-  block_0378:
-    if (arg_12 != 1) goto block_03a8;
-
-  block_0380:
-    if intrinsic_006a() goto block_0398;
-
-  block_0388:
-    goto block_03a5;
-
-  block_03a5:
-    goto block_03a8;
-
-  block_03a8:
-    ITEM.slot_24(4, local_04);
-    spawn STEAM.slot_20(local_04);
-    return;
-
+  }
+  if (arg_12 == 0) {
+    if (intrinsic_006a()) {
+    }
+  }
+  else if (arg_12 == 1) {
+    if (intrinsic_006a()) {
+    }
+  }
+  ITEM.slot_24(4, local_04);
+  spawn STEAM.slot_20(local_04);
+  return;
 }

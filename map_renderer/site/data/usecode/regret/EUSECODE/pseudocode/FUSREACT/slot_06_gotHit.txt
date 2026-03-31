@@ -1,32 +1,19 @@
 function fusreact_gotHit() /* entry=446 class_id=0x01bc slot=0x06 */
 {
-  entry:
-    set_info(0x020c, *(arg_06));
-    process_exclude();
-    if (Item.getFrame(arg_06) > 5) goto block_0109;
-
-  block_0106:
-    goto block_019a;
-
-  block_0109:
-    FREE.slot_35(arg_12, arg_10);
-    if retval goto block_019a;
-
-  block_0118:
-    spawn ITEM.slot_2a(pid, 0, 1, arg_06);
-    suspend;
-
-  block_0118_selector_00:
-    /* loop_selector local_02 in nearby_items(shape=0x01c1, origin=arg_06) */
-
-  block_0150:
-    if condition goto block_0198;
-
-  block_0153:
-    /* loopnext */
-    goto block_0150;
-
-  block_019a:
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  if (Item.getFrame(arg_06) > 5) {
     return;
-
+  }
+  else {
+    FREE.slot_35(arg_12, arg_10);
+    if (retval) {
+      spawn ITEM.slot_2a(pid, 0, 1, arg_06);
+      suspend;
+      for local_02 in nearby_items(shape=0x01c1, origin=arg_06) {
+        /* loopnext */
+      }
+    }
+  }
+  return;
 }

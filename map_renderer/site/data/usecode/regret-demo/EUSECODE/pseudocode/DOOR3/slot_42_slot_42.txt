@@ -1,57 +1,36 @@
 function door3_slot_42() /* entry=2570 class_id=0x0a08 slot=0x42 */
 {
-  entry:
-    set_info(0x0207, *(arg_06));
-    if (Item.getFrame(arg_06) != 0) goto block_2746;
-
-  block_2610_selector_00:
+  set_info(0x0207, *(arg_06));
+  if (Item.getFrame(arg_06) == 0) {
     for local_04 in nearby_items(shape=0x051a, origin=arg_06) {
-      if ((Item.getFrame(local_04) == 1) && (intrinsic_001f(local_04) != intrinsic_001f(arg_06))) {
+      if ((Item.getFrame(local_04) == 1) && (intrinsic_001f(local_04) == intrinsic_001f(arg_06))) {
         local_06 = local_04;
       }
       /* loopnext */
     }
-
-  block_2656:
-    if (!local_06) goto block_268b;
-
-  block_265e:
-    /* str_to_ptr */
-    /* free_stack_string */
-    suspend;
-    goto block_2746;
-
-  block_2688:
-    goto block_2693;
-
-  block_2693:
-    FREE.slot_36(Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06), 8, 0x02f1, *(arg_06));
-    if retval goto block_272c;
-
-  block_26c2:
-    local_02 = 0;
-
-  block_26e1:
-    while (local_02 > 8) {
-      spawn FREE.slot_3b(pid, 5, 0x00000000);
+    if (!local_06) {
+      /* str_to_ptr */
+      /* free_stack_string */
       suspend;
-      local_02 = (1 + local_02);
+      return;
     }
-
-  block_2717:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_2746;
-
-  block_2729:
-    goto block_2746;
-
-  block_272c:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_2746;
-
-  block_2746:
-    return;
-
+    FREE.slot_36(Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06), 8, 0x02f1, *(arg_06));
+    if (retval) {
+      local_02 = 0;
+      while (local_02 <= 8) {
+        spawn FREE.slot_3b(pid, 5, 0x00000000);
+        suspend;
+        local_02 = (1 + local_02);
+      }
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
+    else {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
+  }
+  return;
 }

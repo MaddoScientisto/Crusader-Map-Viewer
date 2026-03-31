@@ -13,13 +13,13 @@ function watchns_slot_21() /* entry=1224 class_id=0x04c6 slot=0x21 */
     /* loop_selector local_02 in nearby_items(shape=0x0361, origin=arg_06) */
 
   block_0487:
-    if condition goto block_05ac;
+    if !condition goto block_05ac;
 
   block_048a:
-    if (intrinsic_0107(local_02) != intrinsic_0107(arg_06)) goto block_05a8;
+    if intrinsic_0107(local_02) != intrinsic_0107(arg_06) goto block_05a8;
 
   block_04a0:
-    if (intrinsic_0107(arg_06) > 0x00f9) goto block_04cb;
+    if intrinsic_0107(arg_06) <= 0x00f9 goto block_04cb;
 
   block_04b0:
     spawn WATCHNS.slot_22(pid, local_02, arg_06);
@@ -36,7 +36,7 @@ function watchns_slot_21() /* entry=1224 class_id=0x04c6 slot=0x21 */
     /* pop_global */
     spawn FREE.slot_3b(1, pid, 60, 0x00000000);
     suspend;
-    if (intrinsic_0003(local_02) != 0) goto block_0567;
+    if intrinsic_0003(local_02) == 0 goto block_0567;
 
   block_0551:
     spawn TRIGGER.slot_20(pid, 0, local_02, arg_06);
@@ -47,12 +47,10 @@ function watchns_slot_21() /* entry=1224 class_id=0x04c6 slot=0x21 */
     suspend;
 
   block_057e:
-    if (!intrinsic_0099()) goto block_05a1;
-
-  block_0587:
-    spawn FREE.slot_3b(pid, 2, 0x00000000);
-    suspend;
-    goto block_057e;
+    while (!intrinsic_0099()) {
+      spawn FREE.slot_3b(pid, 2, 0x00000000);
+      suspend;
+    }
 
   block_05a5:
     goto block_05ac;

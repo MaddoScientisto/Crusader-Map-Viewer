@@ -17,7 +17,7 @@ function wallgun_slot_37() /* entry=2588 class_id=0x0a1a slot=0x37 */
     panLeft = 1;
     WALLGUN.slot_29(arg_06);
     isTurret = retval;
-    if (isTurret != 1) goto block_241f;
+    if isTurret != 1 goto block_241f;
 
   block_2407:
     inc = 1;
@@ -27,7 +27,7 @@ function wallgun_slot_37() /* entry=2588 class_id=0x0a1a slot=0x37 */
 
   block_241f:
     WALLGUN.slot_2b(arg_06);
-    if retval goto block_2447;
+    if !retval goto block_2447;
 
   block_242f:
     inc = 1;
@@ -45,16 +45,16 @@ function wallgun_slot_37() /* entry=2588 class_id=0x0a1a slot=0x37 */
     delay = (retval * 5);
 
   block_246e:
-    if 1 goto block_2621;
+    if !(1) goto block_2621;
 
   block_2476:
     spawn WALLGUN.slot_26(pid, arg_06);
     suspend;
     f = Item.getFrame(arg_06);
-    if (isTurret != 1) goto block_24e8;
+    if isTurret != 1 goto block_24e8;
 
   block_24ae:
-    if (f > 19) goto block_24e5;
+    if f <= 19 goto block_24e5;
 
   block_24b9:
     spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
@@ -65,7 +65,7 @@ function wallgun_slot_37() /* entry=2588 class_id=0x0a1a slot=0x37 */
     goto block_2522;
 
   block_24e8:
-    if (f > 8) goto block_2522;
+    if f <= 8 goto block_2522;
 
   block_24f3:
     spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
@@ -76,10 +76,10 @@ function wallgun_slot_37() /* entry=2588 class_id=0x0a1a slot=0x37 */
     goto block_2522;
 
   block_2522:
-    if (panLeft != 1) goto block_255b;
+    if panLeft != 1 goto block_255b;
 
   block_252d:
-    if (f != left) goto block_254e;
+    if f != left goto block_254e;
 
   block_253e:
     panLeft = 0;
@@ -95,10 +95,10 @@ function wallgun_slot_37() /* entry=2588 class_id=0x0a1a slot=0x37 */
     goto block_25de;
 
   block_255b:
-    if ((panRight != 1) && (isTurret != 0)) goto block_259d;
+    if (panRight != 1) && (isTurret == 0) goto block_259d;
 
   block_256f:
-    if (f != right) goto block_2590;
+    if f != right goto block_2590;
 
   block_2580:
     panRight = 0;
@@ -116,16 +116,18 @@ function wallgun_slot_37() /* entry=2588 class_id=0x0a1a slot=0x37 */
   block_259d:
     panRight = 1;
     panLeft = 1;
-    if (isTurret != 1) goto block_25c6;
+    if isTurret != 1 goto block_25c6;
 
   block_25bc:
     f = right;
     goto block_25de;
 
   block_25c6:
-    if (f == 4) {
-      f = (f - inc);
-    }
+    if f == 4 goto block_25de;
+
+  block_25d1:
+    f = (f - inc);
+    goto block_25de;
 
   block_25de:
     spawn FREE.waitNTimerTicks(pid, delay, 0x00000000);

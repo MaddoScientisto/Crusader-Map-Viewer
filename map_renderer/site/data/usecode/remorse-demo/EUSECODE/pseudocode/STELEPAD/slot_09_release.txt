@@ -1,52 +1,32 @@
 function stelepad_release() /* entry=241 class_id=0x00ef slot=0x09 */
 {
-  entry:
-    set_info(0x020d, *(arg_06));
-    process_exclude();
-    spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
-    suspend;
-    /* loopscr */
-    /* loopscr */
-    /* loopscr */
-    /* loopscr */
-    /* loop */
-
-  block_0225:
-    while (!condition) {
-      return;
-    }
-
-  block_0232:
-    /* loopscr */
-    /* loopscr */
-    /* loopscr */
-    /* loopscr */
-    /* loop */
-
-  block_024f:
-    if condition goto block_02ae;
-
-  block_0252:
-    if (local_04 != 1) goto block_02a4;
-
-  block_0260:
-    /* global_address */
-    if intrinsic_00fa(*(arg_06)) goto block_029d;
-
-  block_0274:
-    spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
-    suspend;
-    goto block_0260;
-
-  block_02a4:
-    goto block_02b0;
-
-  block_02aa:
-    /* loopnext */
-    goto block_024f;
-
-  block_02b0:
+  set_info(0x020d, *(arg_06));
+  process_exclude();
+  spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+  suspend;
+  /* loopscr */
+  /* loopscr */
+  /* loopscr */
+  /* loopscr */
+  /* loop */
+  while (condition) {
     return;
-
+  }
+  /* loopscr */
+  /* loopscr */
+  /* loopscr */
+  /* loopscr */
+  /* loop */
+  while (condition) {
+    if (local_04 == 1) {
+      /* global_address */
+      while (intrinsic_00fa(*(arg_06))) {
+        spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+        suspend;
+      }
+    }
+    return;
+  }
+  return;
   /* decompilation stopped at SEARCH_SURFACE */
 }

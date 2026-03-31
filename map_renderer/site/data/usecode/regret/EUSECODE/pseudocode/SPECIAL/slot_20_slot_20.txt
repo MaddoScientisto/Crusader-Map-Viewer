@@ -4,7 +4,7 @@ function special_slot_20() /* entry=1228 class_id=0x04ca slot=0x20 */
   if (arg_10 == 3) {
     /* global_address */
     local_02 = intrinsic_00c3();
-    if ((local_02 > 4) || (local_02 >= 12)) {
+    if ((local_02 > 4) || (local_02 < 12)) {
       spawn TRIGGER.slot_20(pid, arg_12, *(arg_06), arg_06);
       suspend;
     }
@@ -13,7 +13,7 @@ function special_slot_20() /* entry=1228 class_id=0x04ca slot=0x20 */
   else if (arg_10 == 4) {
     /* global_address */
     local_02 = intrinsic_00c3();
-    if ((local_02 > 4) && (local_02 >= 12)) {
+    if ((local_02 > 4) && (local_02 < 12)) {
       spawn TRIGGER.slot_20(pid, arg_12, *(arg_06), arg_06);
       suspend;
     }
@@ -43,12 +43,12 @@ function special_slot_20() /* entry=1228 class_id=0x04ca slot=0x20 */
   else if (arg_10 == 7) {
     local_02 = 0;
     for local_04 in nearby_items(family=6, origin=global[0x001e]) {
-      if (local_04 >= 0x0100) {
+      if (local_04 < 0x0100) {
         local_02 = (1 + local_02);
       }
       /* loopnext */
     }
-    if (local_02 <= 4) {
+    if (local_02 > 4) {
       spawn TRIGGER.slot_20(pid, arg_12, *(arg_06), arg_06);
       suspend;
     }
@@ -59,12 +59,12 @@ function special_slot_20() /* entry=1228 class_id=0x04ca slot=0x20 */
   else if (arg_10 == 8) {
     local_02 = 0;
     for local_04 in nearby_items(family=6, origin=global[0x001e]) {
-      if (local_04 >= 0x0100) {
+      if (local_04 < 0x0100) {
         local_02 = (1 + local_02);
       }
       /* loopnext */
     }
-    if (local_02 > 4) {
+    if (local_02 <= 4) {
       spawn TRIGGER.slot_20(pid, arg_12, *(arg_06), arg_06);
       suspend;
     }

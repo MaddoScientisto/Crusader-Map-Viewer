@@ -6,61 +6,32 @@ function alarmhat_equip() /* entry=1379 class_id=0x0561 slot=0x0a */
     item, /* [BP-02h] type=0x24 */
     npc; /* [BP-04h] type=0x24 */
 
-  entry:
-    set_info(0x0211, *(arg_06));
-    process_exclude();
-    if Item.getFrame(arg_06) goto block_0156;
-
-  block_00fa_selector_00:
+  set_info(0x0211, *(arg_06));
+  process_exclude();
+  if (Item.getFrame(arg_06)) {
     for item in nearby_items(shape=NPC_SPAWNER_04D0, origin=arg_06) {
       if (Item.getFrame(item) == 0) {
         suspend;
       }
       /* loopnext */
     }
-
-  block_0151:
-    goto block_0233;
-
-  block_0156:
-    if (!Item.isOnScreen(arg_06)) goto block_0233;
-
-  block_0169_selector_00:
-    /* loop_selector npc in nearby_items(family=6, origin=arg_06) */
-
-  block_0186:
-    if condition goto block_01d8;
-
-  block_0189:
-    if Actor.isNPC(npc) goto block_01d4;
-
-  block_0198:
-    if ((Item.getZ(npc) > (Item.getZ(arg_06) - 10)) && (Item.getZ(npc) < (Item.getZ(arg_06) + 10))) goto block_01d4;
-
-  block_01ce:
-    goto block_0233;
-
-  block_01d4:
-    /* loopnext */
-    goto block_0186;
-
-  block_01d8_selector_00:
-    /* loop_selector item in nearby_items(shape=NPC_SPAWNER_04D0, origin=arg_06) */
-
-  block_01f8:
-    if condition goto block_0231;
-
-  block_01fb:
-    if (Item.getFrame(item) != 0) goto block_022d;
-
-  block_020d:
-    suspend;
-
-  block_022d:
-    /* loopnext */
-    goto block_01f8;
-
-  block_0233:
     return;
-
+  }
+  else if (!Item.isOnScreen(arg_06)) {
+    for npc in nearby_items(family=6, origin=arg_06) {
+      if (Actor.isNPC(npc)) {
+        if ((Item.getZ(npc) > (Item.getZ(arg_06) - 10)) && (Item.getZ(npc) < (Item.getZ(arg_06) + 10))) {
+          return;
+        }
+      }
+      /* loopnext */
+    }
+    for item in nearby_items(shape=NPC_SPAWNER_04D0, origin=arg_06) {
+      if (Item.getFrame(item) == 0) {
+        suspend;
+      }
+      /* loopnext */
+    }
+  }
+  return;
 }

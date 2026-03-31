@@ -5,13 +5,13 @@ function cameraew_enterFastArea() /* entry=473 class_id=0x01d7 slot=0x0f */
     process_exclude();
     local_02 = ((5 - intrinsic_000a()) * 5);
     local_04 = (5 - (intrinsic_000a() * 5));
-    if (Item.getFrame(arg_06) != 9) goto block_010b;
+    if Item.getFrame(arg_06) != 9 goto block_010b;
 
   block_0108:
     goto block_036c;
 
   block_010b:
-    while (Item.isOnScreen(arg_06)) {
+    while (!Item.isOnScreen(arg_06)) {
       spawn FREE.slot_3b(pid, local_02, 0x00000000);
       suspend;
     }
@@ -21,114 +21,74 @@ function cameraew_enterFastArea() /* entry=473 class_id=0x01d7 slot=0x0f */
     local_14 = 1;
 
   block_013a:
-    suspend;
-    local_18 = 0;
-
-  block_013f:
-    while (Item.isOnScreen(arg_06)) {
+    while (true) {
+      suspend;
+      local_18 = 0;
+      while (!Item.isOnScreen(arg_06)) {
+        spawn FREE.slot_3b(pid, local_02, 0x00000000);
+        suspend;
+      }
       spawn FREE.slot_3b(pid, local_02, 0x00000000);
       suspend;
+      if (intrinsic_0016() != 0) {
+        local_16 = intrinsic_0016();
+      }
+      else {
+        local_16 = 1;
+      }
+      local_20 = intrinsic_0023(15, 0, 16, Item.getY(local_16), Item.getX(local_16), Item.getY(arg_06), Item.getX(arg_06));
+      local_08 = Item.getFrame(arg_06);
+      if ((8 - local_20) == local_08) {
+        local_18 = intrinsic_0036(local_16, arg_06);
+        if (local_18) {
+          local_12 = 1;
+          local_06 = (1 + local_06);
+          if ((local_06 > local_04) && (!(intrinsic_0004(arg_06) & 4))) {
+            spawn FREE.slot_3b(pid, local_02, 0x00000000);
+            suspend;
+            spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
+            suspend;
+            ITEM.slot_24(4, arg_06);
+          }
+        }
+        else {
+          local_12 = 0;
+          if ((local_08 + local_14) < 0) {
+            local_14 = 1;
+            spawn FREE.slot_3b(pid, 30, 0x00000000);
+            suspend;
+          }
+          else if ((local_08 + local_14) > 8) {
+            local_14 = -1;
+            spawn FREE.slot_3b(pid, 30, 0x00000000);
+            suspend;
+          }
+        }
+      }
+      else if (local_06 && local_12) {
+        if ((8 - local_20) > local_08) {
+          local_14 = 1;
+        }
+        else {
+          local_14 = -1;
+        }
+      }
+      else {
+        local_06 = 0;
+        local_12 = 0;
+        /* bit_not */
+      }
+      if ((local_08 + local_14) < 0) {
+        local_14 = 1;
+        spawn FREE.slot_3b(pid, 30, 0x00000000);
+        suspend;
+      }
+      else if ((local_08 + local_14) > 8) {
+        local_14 = -1;
+        spawn FREE.slot_3b(pid, 30, 0x00000000);
+        suspend;
+      }
     }
-
-  block_0166:
-    spawn FREE.slot_3b(pid, local_02, 0x00000000);
-    suspend;
-    if (intrinsic_0016() != 0) goto block_0192;
-
-  block_0188:
-    local_16 = intrinsic_0016();
-    goto block_0196;
-
-  block_0192:
-    local_16 = 1;
-
-  block_0196:
-    local_20 = intrinsic_0023(15, 0, 16, Item.getY(local_16), Item.getX(local_16), Item.getY(arg_06), Item.getX(arg_06));
-    local_08 = Item.getFrame(arg_06);
-    if ((8 - local_20) != local_08) goto block_02cb;
-
-  block_01df:
-    local_18 = intrinsic_0036(local_16, arg_06);
-    if local_18 goto block_025a;
-
-  block_01f1:
-    local_12 = 1;
-    local_06 = (1 + local_06);
-    if ((local_06 > local_04) && (!(intrinsic_0004(arg_06) & 4))) goto block_0257;
-
-  block_0212:
-    spawn FREE.slot_3b(pid, local_02, 0x00000000);
-    suspend;
-    spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
-    suspend;
-    ITEM.slot_24(4, arg_06);
-
-  block_0257:
-    goto block_02c8;
-
-  block_025a:
-    local_12 = 0;
-    if ((local_08 + local_14) < 0) goto block_0287;
-
-  block_0269:
-    local_14 = 1;
-    spawn FREE.slot_3b(pid, 30, 0x00000000);
-    suspend;
-    goto block_02b0;
-
-  block_0287:
-    if ((local_08 + local_14) > 8) goto block_02b0;
-
-  block_0292:
-    local_14 = -1;
-    spawn FREE.slot_3b(pid, 30, 0x00000000);
-    suspend;
-    goto block_02b0;
-
-  block_02c8:
-    goto block_0369;
-
-  block_02cb:
-    if (local_06 && local_12) goto block_02ec;
-
-  block_02d3:
-    if ((8 - local_20) > local_08) goto block_02e5;
-
-  block_02de:
-    local_14 = 1;
-    goto block_02e9;
-
-  block_02e5:
-    local_14 = -1;
-
-  block_02e9:
-    goto block_02ff;
-
-  block_02ec:
-    local_06 = 0;
-    local_12 = 0;
-    /* bit_not */
-
-  block_02ff:
-    if ((local_08 + local_14) < 0) goto block_0328;
-
-  block_030a:
-    local_14 = 1;
-    spawn FREE.slot_3b(pid, 30, 0x00000000);
-    suspend;
-    goto block_0351;
-
-  block_0328:
-    if ((local_08 + local_14) > 8) goto block_0351;
-
-  block_0333:
-    local_14 = -1;
-    spawn FREE.slot_3b(pid, 30, 0x00000000);
-    suspend;
-    goto block_0351;
-
-  block_0369:
-    goto block_013a;
 
   block_036c:
     return;

@@ -1,62 +1,42 @@
 function cryobox_slot_21() /* entry=1507 class_id=0x05e1 slot=0x21 */
 {
-  entry:
-    set_info(1, *(arg_06));
-    ITEM.slot_24(0x1000, arg_10);
-    if intrinsic_006d() goto block_04b8;
-
-  block_0428:
-    if ((intrinsic_0011(arg_10) != 0x05d9) || (intrinsic_0011(arg_10) != 0x05da)) goto block_047f;
-
-  block_0446:
-    while ((Item.getFrame(arg_10) == 39) && (Item.isOnScreen(arg_10) != 1)) {
-      spawn FREE.slot_3b(pid, 2, 0x00000000);
-      suspend;
+  set_info(1, *(arg_06));
+  ITEM.slot_24(0x1000, arg_10);
+  if (intrinsic_006d()) {
+    if ((intrinsic_0011(arg_10) == 0x05d9) || (intrinsic_0011(arg_10) == 0x05da)) {
+      while ((Item.getFrame(arg_10) != 39) && (Item.isOnScreen(arg_10) == 1)) {
+        spawn FREE.slot_3b(pid, 2, 0x00000000);
+        suspend;
+      }
     }
-
-  block_047c:
-    goto block_04b5;
-
-  block_047f:
-    while ((Item.getFrame(arg_10) == 23) && (Item.isOnScreen(arg_10) != 1)) {
-      spawn FREE.slot_3b(pid, 2, 0x00000000);
-      suspend;
+    else {
+      while ((Item.getFrame(arg_10) != 23) && (Item.isOnScreen(arg_10) == 1)) {
+        spawn FREE.slot_3b(pid, 2, 0x00000000);
+        suspend;
+      }
     }
-
-  block_04b5:
-    goto block_04d0;
-
-  block_04b8:
+  }
+  else {
     spawn FREE.slot_3b(pid, 0x00c8, 0x00000000);
     suspend;
-
-  block_04d0:
-    if (arg_12 == 0) {
-      local_06 = 0x05df;
-    }
-    else if (arg_12 == 1) {
-      local_06 = 0x05e0;
-    }
-
-  block_0520:
-    ITEM.slot_24(0x1000, local_04);
-    if intrinsic_006d() goto block_05a9;
-
-  block_0570:
-    while ((Item.getFrame(local_04) == 29) && (Item.isOnScreen(local_04) != 1)) {
+  }
+  if (arg_12 == 0) {
+    local_06 = 0x05df;
+  }
+  else if (arg_12 == 1) {
+    local_06 = 0x05e0;
+  }
+  ITEM.slot_24(0x1000, local_04);
+  if (intrinsic_006d()) {
+    while ((Item.getFrame(local_04) != 29) && (Item.isOnScreen(local_04) == 1)) {
       spawn FREE.slot_3b(pid, 2, 0x00000000);
       suspend;
     }
-
-  block_05a6:
-    goto block_05c1;
-
-  block_05a9:
+  }
+  else {
     spawn FREE.slot_3b(pid, 0x00c8, 0x00000000);
     suspend;
-
-  block_05c1:
-    ITEM.slot_25(0x1000, local_04);
-    return;
-
+  }
+  ITEM.slot_25(0x1000, local_04);
+  return;
 }

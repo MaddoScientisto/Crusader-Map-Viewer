@@ -4,22 +4,24 @@ function slideew_gotHit() /* entry=1128 class_id=0x0466 slot=0x06 */
   process_exclude();
   local_01 = 0;
   local_02 = -3;
-  if (!intrinsic_0119(arg_06)) {
+  if (intrinsic_0119(arg_06)) {
     local_02 = 3;
   }
   FREE.slot_35(arg_12, arg_10);
-  if (!retval) {
+  if (retval) {
     return;
   }
-  local_04 = arg_10;
-  local_05 = intrinsic_011d(*(arg_06), local_04);
-  local_06 = 1;
-  if (intrinsic_011e(arg_06) == 0x00ff) {
-    local_06 = 0;
-  }
-  if (!(local_05 && local_06)) {
-    spawn CONVEYOR.slot_20(pid, local_02, local_01, arg_06);
-    suspend;
+  else {
+    local_04 = arg_10;
+    local_05 = intrinsic_011d(*(arg_06), local_04);
+    local_06 = 1;
+    if (intrinsic_011e(arg_06) == 0x00ff) {
+      local_06 = 0;
+    }
+    if (local_05 && local_06) {
+      spawn CONVEYOR.slot_20(pid, local_02, local_01, arg_06);
+      suspend;
+    }
   }
   return;
 }

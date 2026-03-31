@@ -6,91 +6,53 @@ function lazer_slot_20() /* entry=2577 class_id=0x0a0f slot=0x20 */
     monster, /* [BP-04h] type=0x24 */
     dir; /* [BP-06h] type=0x69 */
 
-  entry:
-    set_info(0x0205, *(arg_06));
-    set_info(0x0205, *(arg_06));
-    if ((intrinsic_0004(arg_06) & 0x1000) || (Item.getFrame(arg_06) != 0)) goto block_0121;
-
-  block_011b:
-    goto block_0301;
-
-  block_0121:
+  set_info(0x0205, *(arg_06));
+  set_info(0x0205, *(arg_06));
+  if ((intrinsic_0004(arg_06) & 0x1000) || (Item.getFrame(arg_06) != 0)) {
+    return;
+  }
+  else {
     ITEM.slot_23(0x1000, arg_06);
     /* loopscr */
     /* loopscr */
     /* loop */
-
-  block_016b:
-    if condition goto block_019d;
-
-  block_016e:
-    if (intrinsic_00ae(arg_06) != intrinsic_00ae(item)) goto block_0199;
-
-  block_018a:
-    ITEM.slot_23(0x1000, item);
-
-  block_0199:
-    /* loopnext */
-    goto block_016b;
-
-  block_019d_selector_00:
-    /* loop_selector monster in nearby_items(family=6, origin=arg_06) */
-
-  block_01bc:
-    if condition goto block_0281;
-
-  block_01bf:
-    if (monster <= 0x0100) goto block_027d;
-
-  block_01ce:
-    if intrinsic_00a4(monster, arg_06) goto block_027d;
-
-  block_01df:
-    if (monster != intrinsic_001b()) goto block_0258;
-
-  block_01f0:
-    dir = intrinsic_001c(monster);
-    if (dir < 8) goto block_0219;
-
-  block_020c:
-    dir = (dir + 8);
-    goto block_0223;
-
-  block_0219:
-    dir = (dir - 8);
-
-  block_0223:
-    NPC.slot_2b(monster);
-    if (!retval) goto block_0255;
-
-  block_0255:
-    goto block_027d;
-
-  block_0258:
-    spawn NPC.slot_2c(pid, *(arg_06), monster);
-    suspend;
-
-  block_027d:
-    /* loopnext */
-    goto block_01bc;
-
-  block_0281:
+    while (condition) {
+      if (intrinsic_00ae(arg_06) == intrinsic_00ae(item)) {
+        ITEM.slot_23(0x1000, item);
+      }
+      /* loopnext */
+    }
+    for monster in nearby_items(family=6, origin=arg_06) {
+      if (monster <= 0x0100) {
+        if (intrinsic_00a4(monster, arg_06)) {
+          if (monster != intrinsic_001b()) {
+            dir = intrinsic_001c(monster);
+            if (dir < 8) {
+              dir = (dir + 8);
+            }
+            else {
+              dir = (dir - 8);
+            }
+            NPC.slot_2b(monster);
+          }
+          else {
+            spawn NPC.slot_2c(pid, *(arg_06), monster);
+            suspend;
+          }
+        }
+      }
+      /* loopnext */
+    }
     /* loopscr */
     /* loopscr */
     /* loop */
-
-  block_02be:
-    while (!condition) {
+    while (condition) {
       if (intrinsic_00ae(arg_06) == intrinsic_00ae(item)) {
         ITEM.slot_24(0x1000, item);
       }
       /* loopnext */
     }
-
-  block_02f0:
     ITEM.slot_24(0x1000, arg_06);
-
-  block_0301:
-    return;
-
+  }
+  return;
 }

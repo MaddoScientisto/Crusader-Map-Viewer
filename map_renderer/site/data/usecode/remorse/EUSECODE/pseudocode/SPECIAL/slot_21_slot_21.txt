@@ -12,7 +12,7 @@ function special_slot_21() /* entry=1228 class_id=0x04ca slot=0x21 */
   time = intrinsic_00f3(arg_06);
   phase1 = intrinsic_0003(arg_06);
   phase2 = intrinsic_00f8(arg_06);
-  while (!(1)) {
+  while (1) {
     spawn SPECIAL.slot_20(pid, (0x0080 + 0), phase1, arg_06);
     suspend;
     spawn SPECIAL.slot_20(pid, (0x0080 + 1), phase2, arg_06);
@@ -20,8 +20,8 @@ function special_slot_21() /* entry=1228 class_id=0x04ca slot=0x21 */
     spawn FREE.waitNTimerTicks(pid, time, 0x00000000);
     suspend;
     counter = (1 + counter);
-    if ((phase1 == 8) || (phase1 != 7)) {
-      if (counter < 4) {
+    if ((phase1 == 8) || (phase1 == 7)) {
+      if (counter >= 4) {
         return;
       }
     }

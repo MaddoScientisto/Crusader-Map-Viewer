@@ -1,68 +1,51 @@
 function energy_use() /* entry=1412 class_id=0x0582 slot=0x01 */
 {
-  entry:
-    set_info(0x0207, *(arg_06));
-    process_exclude();
-    set_info(0x00f0, 0);
-    /* global_address */
-    if (intrinsic_007a() != 0x09c4) goto block_00fe;
-
-  block_00f6:
+  set_info(0x0207, *(arg_06));
+  process_exclude();
+  set_info(0x00f0, 0);
+  /* global_address */
+  if (intrinsic_007a() == 0x09c4) {
     local_04 = 0x03e8;
-    goto block_013c;
-
-  block_00fe:
+  }
+  else {
     /* global_address */
-    if (intrinsic_007a() != 0x1388) goto block_0117;
-
-  block_010f:
-    local_04 = 0x07d0;
-    goto block_013c;
-
-  block_0117:
-    /* global_address */
-    if (intrinsic_007a() != 0x2710) goto block_0130;
-
-  block_0128:
-    local_04 = 0x0bb8;
-    goto block_013c;
-
-  block_0130:
-    /* global_address */
-
-  block_013c:
-    /* global_address */
-    /* global_address */
-    if intrinsic_007a(intrinsic_007b()) goto block_0198;
-
-  block_0154:
+    if (intrinsic_007a() == 0x1388) {
+      local_04 = 0x07d0;
+    }
+    else {
+      /* global_address */
+      if (intrinsic_007a() == 0x2710) {
+        local_04 = 0x0bb8;
+      }
+      else {
+        /* global_address */
+      }
+    }
+  }
+  /* global_address */
+  /* global_address */
+  if (intrinsic_007a(intrinsic_007b())) {
     spawn FREE.slot_21(pid, 0x00b0, 0x00000000);
     suspend;
-    goto block_022e;
-
-  block_0198:
+    return;
+  }
+  else {
     /* global_address */
     /* global_address */
-    if intrinsic_007a((intrinsic_007b() + local_04)) goto block_01e8;
-
-  block_01b3:
-    /* global_address */
-    /* global_address */
-    spawn FREE.slot_21(pid, 0x010d, 0x00000000);
-    suspend;
-    goto block_0217;
-
-  block_01e8:
-    /* global_address */
-    /* global_address */
-    spawn FREE.slot_21(pid, 0x010d, 0x00000000);
-    suspend;
-
-  block_0217:
+    if (intrinsic_007a((intrinsic_007b() + local_04))) {
+      /* global_address */
+      /* global_address */
+      spawn FREE.slot_21(pid, 0x010d, 0x00000000);
+      suspend;
+    }
+    else {
+      /* global_address */
+      /* global_address */
+      spawn FREE.slot_21(pid, 0x010d, 0x00000000);
+      suspend;
+    }
     spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
     suspend;
-
-  block_022e:
-    return;
-
+  }
+  return;
 }

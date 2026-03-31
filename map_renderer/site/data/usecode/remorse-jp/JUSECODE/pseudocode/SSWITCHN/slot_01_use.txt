@@ -1,64 +1,41 @@
 function sswitchn_use() /* entry=1108 class_id=0x0452 slot=0x01 */
 {
-  entry:
-    set_info(0x0207, *(arg_06));
-    process_exclude();
-    local_01 = Item.getFrame(arg_06);
-    if (intrinsic_0003(arg_06) != 0) goto block_023c;
-
-  block_0196:
-    if (local_01 != 2) goto block_01d9;
-
-  block_01a1:
-    spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
-    suspend;
-    goto block_0239;
-
-  block_01d9:
-    if (local_01 < 2) goto block_0239;
-
-  block_01e7:
-    local_02 = ((local_01 + 1) & 1);
-    spawn TRIGGER.slot_20(pid, local_01, *(arg_06), arg_06);
-    suspend;
-    goto block_0239;
-
-  block_0239:
-    goto block_07cc;
-
-  block_023c:
+  set_info(0x0207, *(arg_06));
+  process_exclude();
+  local_01 = Item.getFrame(arg_06);
+  if (intrinsic_0003(arg_06) != 0) {
+    if (local_01 == 2) {
+      spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
+      suspend;
+    }
+    else if (local_01 < 2) {
+      local_02 = ((local_01 + 1) & 1);
+      spawn TRIGGER.slot_20(pid, local_01, *(arg_06), arg_06);
+      suspend;
+    }
+  }
+  else {
     local_27 = intrinsic_00fc(arg_06);
-
-  block_023c_selector_00:
-    /* loop_selector local_07 in nearby_items(shape=0x0452, origin=arg_06) */
-
-  block_0268:
-    if condition goto block_0326;
-
-  block_026b:
-    if (!(local_07 == *(arg_06))) {
-      if (intrinsic_0003(local_07) == 0) {
-        if (intrinsic_00fc(local_07) == 29) {
-          local_09 = local_07;
-          local_03 = Item.getFrame(local_09);
-        }
-        else if (intrinsic_00fc(local_07) == 30) {
-          local_11 = local_07;
-          local_04 = Item.getFrame(local_11);
-        }
-        else if (intrinsic_00fc(local_07) == 31) {
-          local_13 = local_07;
-          local_05 = Item.getFrame(local_13);
+    for local_07 in nearby_items(shape=0x0452, origin=arg_06) {
+      if (!(local_07 == *(arg_06))) {
+        if (intrinsic_0003(local_07) == 0) {
+          if (intrinsic_00fc(local_07) == 29) {
+            local_09 = local_07;
+            local_03 = Item.getFrame(local_09);
+          }
+          else if (intrinsic_00fc(local_07) == 30) {
+            local_11 = local_07;
+            local_04 = Item.getFrame(local_11);
+          }
+          else if (intrinsic_00fc(local_07) == 31) {
+            local_13 = local_07;
+            local_05 = Item.getFrame(local_13);
+          }
         }
       }
+      local_25 = (1 + local_25);
+      /* loopnext */
     }
-
-  block_0318:
-    local_25 = (1 + local_25);
-    /* loopnext */
-    goto block_0268;
-
-  block_0326_selector_00:
     for local_17 in nearby_items(shape=0x0457, origin=arg_06) {
       if (intrinsic_0003(local_17) == 0) {
         if (intrinsic_00fc(local_17) == 29) {
@@ -73,164 +50,89 @@ function sswitchn_use() /* entry=1108 class_id=0x0452 slot=0x01 */
       }
       /* loopnext */
     }
-
-  block_03bc:
-    if (local_27 != 29) goto block_0480;
-
-  block_03c6:
-    local_03 = Item.getFrame(arg_06);
-    local_09 = *(arg_06);
-    if (local_11 && local_13) goto block_047d;
-
-  block_03ee:
-    if local_03 goto block_043b;
-
-  block_03f6:
-    local_03 = 0;
-    local_04 = 1;
-    goto block_047d;
-
-  block_043b:
-    local_03 = 1;
-    local_04 = 0;
-
-  block_047d:
-    goto block_0646;
-
-  block_0480:
-    if (local_27 != 30) goto block_0584;
-
-  block_0488:
-    local_04 = Item.getFrame(arg_06);
-    local_11 = *(arg_06);
-    if (local_09 && local_13) goto block_0581;
-
-  block_04b0:
-    if local_04 goto block_051e;
-
-  block_04b8:
-    local_04 = 0;
-    local_03 = 1;
-    local_05 = 1;
-    goto block_0581;
-
-  block_051e:
-    local_04 = 1;
-    local_03 = 0;
-    local_05 = 0;
-
-  block_0581:
-    goto block_0646;
-
-  block_0584:
-    if (local_27 != 31) goto block_0646;
-
-  block_058c:
-    local_05 = Item.getFrame(arg_06);
-    local_13 = *(arg_06);
-    if (local_09 && local_11) goto block_0643;
-
-  block_05b4:
-    if local_05 goto block_0601;
-
-  block_05bc:
-    local_05 = 0;
-    local_04 = 1;
-    goto block_0643;
-
-  block_0601:
-    local_05 = 1;
-    local_04 = 0;
-
-  block_0643:
-    goto block_0646;
-
-  block_0646:
-    if local_03 goto block_06c7;
-
-  block_064e:
-    if (local_04 || local_05) goto block_0668;
-
-  block_065f:
-    goto block_07f2;
-
-  block_0665:
-    goto block_06c4;
-
-  block_0668_selector_00:
-    /* loop_selector local_15 in nearby_items(shape=0x04c9, origin=arg_06) */
-
-  block_0686:
-    if condition goto block_06c2;
-
-  block_0689:
-    if (intrinsic_00fc(local_15) != 29) goto block_06be;
-
-  block_069e:
-    suspend;
-
-  block_06be:
-    /* loopnext */
-    goto block_0686;
-
-  block_06c4:
-    goto block_07a6;
-
-  block_06c7:
-    if local_04 goto block_073f;
-
-  block_06cf:
-    if local_05 goto block_06e0;
-
-  block_06d7:
-    goto block_07f2;
-
-  block_06dd:
-    goto block_073c;
-
-  block_06e0_selector_00:
-    /* loop_selector local_15 in nearby_items(shape=0x04c9, origin=arg_06) */
-
-  block_06fe:
-    if condition goto block_073a;
-
-  block_0701:
-    if (intrinsic_00fc(local_15) != 30) goto block_0736;
-
-  block_0716:
-    suspend;
-
-  block_0736:
-    /* loopnext */
-    goto block_06fe;
-
-  block_073c:
-    goto block_07a6;
-
-  block_073f:
-    if local_05 goto block_07a6;
-
-  block_0747_selector_00:
-    for local_15 in nearby_items(shape=0x04c9, origin=arg_06) {
-      if (intrinsic_00fc(local_15) == 31) {
-        suspend;
+    if (local_27 == 29) {
+      local_03 = Item.getFrame(arg_06);
+      local_09 = *(arg_06);
+      if (local_11 && local_13) {
+        if (local_03) {
+          local_03 = 0;
+          local_04 = 1;
+        }
+        else {
+          local_03 = 1;
+          local_04 = 0;
+        }
       }
-      /* loopnext */
     }
-
-  block_07a1:
-    goto block_07a6;
-
-  block_07a6:
+    else if (local_27 == 30) {
+      local_04 = Item.getFrame(arg_06);
+      local_11 = *(arg_06);
+      if (local_09 && local_13) {
+        if (local_04) {
+          local_04 = 0;
+          local_03 = 1;
+          local_05 = 1;
+        }
+        else {
+          local_04 = 1;
+          local_03 = 0;
+          local_05 = 0;
+        }
+      }
+    }
+    else if (local_27 == 31) {
+      local_05 = Item.getFrame(arg_06);
+      local_13 = *(arg_06);
+      if (local_09 && local_11) {
+        if (local_05) {
+          local_05 = 0;
+          local_04 = 1;
+        }
+        else {
+          local_05 = 1;
+          local_04 = 0;
+        }
+      }
+    }
+    if (local_03) {
+      if (local_04 || local_05) {
+        return;
+      }
+      else {
+        for local_15 in nearby_items(shape=0x04c9, origin=arg_06) {
+          if (intrinsic_00fc(local_15) == 29) {
+            suspend;
+          }
+          /* loopnext */
+        }
+      }
+    }
+    else if (local_04) {
+      if (local_05) {
+        return;
+      }
+      else {
+        for local_15 in nearby_items(shape=0x04c9, origin=arg_06) {
+          if (intrinsic_00fc(local_15) == 30) {
+            suspend;
+          }
+          /* loopnext */
+        }
+      }
+    }
+    else if (local_05) {
+      for local_15 in nearby_items(shape=0x04c9, origin=arg_06) {
+        if (intrinsic_00fc(local_15) == 31) {
+          suspend;
+        }
+        /* loopnext */
+      }
+    }
     spawn FREE.slot_32(pid, 20, 0x00000000);
     suspend;
-
-  block_07cc:
-    spawn FREE.slot_32(pid, 20, 0x00000000);
-    suspend;
-
-  block_07f2:
-    return;
-
+  }
+  spawn FREE.slot_32(pid, 20, 0x00000000);
+  suspend;
+  return;
   /* decompilation stopped at SEARCH_SURFACE */
 }

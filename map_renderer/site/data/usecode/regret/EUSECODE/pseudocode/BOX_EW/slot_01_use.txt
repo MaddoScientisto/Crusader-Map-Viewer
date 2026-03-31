@@ -1,64 +1,41 @@
 function box_ew_use() /* entry=130 class_id=0x0080 slot=0x01 */
 {
-  entry:
-    set_info(0x0207, *(arg_06));
-    process_exclude();
-    if Item.getFrame(arg_06) goto block_015c;
-
-  block_00f6:
-    while (!intrinsic_0035(0x00a7, arg_06)) {
+  set_info(0x0207, *(arg_06));
+  process_exclude();
+  if (Item.getFrame(arg_06)) {
+    while (intrinsic_0035(0x00a7, arg_06)) {
       spawn FREE.slot_3b(pid, 2, 0x00000000);
       suspend;
     }
-
-  block_011f:
     local_02 = 0;
-
-  block_0123:
-    while (local_02 > 5) {
+    while (local_02 <= 5) {
       spawn FREE.slot_3b(pid, 5, 0x00000000);
       suspend;
       local_02 = (1 + local_02);
     }
-
-  block_0159:
-    goto block_01c7;
-
-  block_0167:
-    while (!intrinsic_0035(0x00a5, arg_06)) {
+  }
+  else {
+    while (intrinsic_0035(0x00a5, arg_06)) {
       spawn FREE.slot_3b(pid, 2, 0x00000000);
       suspend;
     }
-
-  block_0190:
     local_02 = 0;
-
-  block_0194:
-    while (local_02 > 5) {
+    while (local_02 <= 5) {
       spawn FREE.slot_3b(pid, 5, 0x00000000);
       suspend;
       local_02 = (1 + local_02);
     }
-
-  block_01c7:
-    if (intrinsic_0003(arg_06) != 0) goto block_021b;
-
-  block_01d6:
-    if (Item.getFrame(arg_06) != 0) goto block_0200;
-
-  block_01e5:
-    spawn TRIGGER.slot_20(pid, 1, *(arg_06), arg_06);
-    suspend;
-    goto block_0218;
-
-  block_0200:
-    spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
-    suspend;
-
-  block_0218:
-    goto block_021b;
-
-  block_021b:
+  }
+  if (intrinsic_0003(arg_06) != 0) {
+    if (Item.getFrame(arg_06) == 0) {
+      spawn TRIGGER.slot_20(pid, 1, *(arg_06), arg_06);
+      suspend;
+    }
+    else {
+      spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
+      suspend;
+    }
     return;
-
+  }
+  return;
 }

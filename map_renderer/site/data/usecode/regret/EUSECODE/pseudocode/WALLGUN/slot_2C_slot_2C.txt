@@ -1,14 +1,19 @@
 function wallgun_slot_2c() /* entry=2587 class_id=0x0a19 slot=0x2c */
 {
   WALLGUN.slot_2a(arg_06);
-  WALLGUN.slot_2b((retval != 1), arg_06);
-  WALLGUN.slot_29((retval != 1), arg_06);
+  WALLGUN.slot_2b((retval == 1), arg_06);
+  WALLGUN.slot_29((retval == 1), arg_06);
   if (retval == 1) {
     return;
   }
-  WALLGUN.slot_2a(arg_06);
-  if (!retval) {
-    return;
+  else {
+    WALLGUN.slot_2a(arg_06);
+    if (retval) {
+      return;
+    }
+    else {
+      return;
+    }
   }
   return;
 }

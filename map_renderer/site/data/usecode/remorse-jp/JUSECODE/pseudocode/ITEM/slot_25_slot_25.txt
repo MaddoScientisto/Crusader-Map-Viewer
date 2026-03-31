@@ -1,185 +1,133 @@
 function item_slot_25() /* entry=2577 class_id=0x0a0f slot=0x25 */
 {
-  entry:
-    set_info(1, *(arg_06));
-    local_07 = intrinsic_0013(arg_06);
-    local_09 = Item.legal_create(arg_06);
-    local_10 = Item.getZ(arg_06);
-    local_12 = ((arg_10 - local_07) + 1);
-    local_14 = ((arg_12 - local_09) + 1);
-    local_16 = 0;
-    local_18 = 1;
-    local_28 = arg_16;
-    local_30 = 0;
-    local_32 = 1;
-    FREE.slot_3f(local_12);
-    FREE.slot_3f(retval, local_14);
-    if retval goto block_03a2;
-
-  block_039b:
+  set_info(1, *(arg_06));
+  local_07 = intrinsic_0013(arg_06);
+  local_09 = Item.legal_create(arg_06);
+  local_10 = Item.getZ(arg_06);
+  local_12 = ((arg_10 - local_07) + 1);
+  local_14 = ((arg_12 - local_09) + 1);
+  local_16 = 0;
+  local_18 = 1;
+  local_28 = arg_16;
+  local_30 = 0;
+  local_32 = 1;
+  FREE.slot_3f(local_12);
+  FREE.slot_3f(retval, local_14);
+  if (retval) {
     local_32 = 0;
-
-  block_03a2:
-    if (local_32 != 0) goto block_040d;
-
-  block_03ad:
+  }
+  if (local_32 == 0) {
     FREE.slot_3f(((local_14 / local_12) * local_12));
     local_22 = retval;
     /* mod */
     FREE.slot_3f(local_14, local_12);
     local_20 = retval;
-    if (local_12 < 0) goto block_03e9;
-
-  block_03df:
-    local_28 = (-1 * arg_16);
-
-  block_03e9:
-    if (local_14 < 0) goto block_03fb;
-
-  block_03f4:
-    local_18 = -1;
-
-  block_03fb:
+    if (local_12 < 0) {
+      local_28 = (-1 * arg_16);
+    }
+    if (local_14 < 0) {
+      local_18 = -1;
+    }
     FREE.slot_3f(local_12);
     local_24 = retval;
-    goto block_046a;
-
-  block_040d:
+  }
+  else {
     FREE.slot_3f(((local_12 / local_14) * local_14));
     local_22 = retval;
     /* mod */
     FREE.slot_3f(local_12, local_14);
     local_20 = retval;
-    if (local_14 < 0) goto block_0449;
-
-  block_043f:
-    local_28 = (-1 * arg_16);
-
-  block_0449:
-    if (local_12 < 0) goto block_045b;
-
-  block_0454:
-    local_18 = -1;
-
-  block_045b:
+    if (local_14 < 0) {
+      local_28 = (-1 * arg_16);
+    }
+    if (local_12 < 0) {
+      local_18 = -1;
+    }
     FREE.slot_3f(local_14);
     local_24 = retval;
-
-  block_046a:
+  }
+  suspend;
+  local_36 = (local_10 & 0x00ff);
+  local_34 = (arg_14 & 0x00ff);
+  while (true) {
     suspend;
     local_36 = (local_10 & 0x00ff);
     local_34 = (arg_14 & 0x00ff);
-    if (local_36 != local_34) goto block_04ec;
-
-  block_0498:
-    FREE.slot_3f((local_34 - local_36));
-    local_38 = ((retval / 20) + 1);
-    if (local_38 != 0) goto block_04bf;
-
-  block_04bb:
-    local_38 = 1;
-
-  block_04bf:
-    if (local_36 < local_34) goto block_04d7;
-
-  block_04ca:
-    local_10 = (local_10 + local_38);
-    goto block_04ec;
-
-  block_04d7:
-    local_36 = (local_36 - local_38);
-    local_10 = (local_36 & 0x00ff);
-
-  block_04ec:
-    if (local_30 >= local_24) goto block_0555;
-
-  block_04f7:
-    if (local_36 > (local_34 - 2)) goto block_051d;
-
-  block_0505:
-    if (local_36 < (local_34 + 2)) goto block_051d;
-
-  block_0513:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_067e;
-
-  block_051d:
-    local_05 = local_07;
-    local_03 = local_09;
-    local_01 = local_10;
-    if (!intrinsic_0031(0, 1, local_05, arg_06)) goto block_0552;
-
-  block_0548:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_067e;
-
-  block_0552:
-    goto block_067b;
-
-  block_0555:
-    local_30 = (local_30 + arg_16);
-    if (local_32 != 0) goto block_05f4;
-
-  block_056a:
-    local_05 = local_07;
-    local_03 = local_09;
-    local_01 = local_10;
-    if (!intrinsic_0031(0, 1, local_05, arg_06)) goto block_059f;
-
-  block_0595:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_067e;
-
-  block_059f:
-    local_07 = (local_07 + local_28);
-    local_26 = 1;
-
-  block_05b0:
-    while (local_26 > arg_16) {
-      local_16 = (local_16 + (local_20 + local_22));
-      if (local_16 < local_24) {
-        local_16 = (local_16 - local_24);
-        local_09 = (local_09 + local_18);
+    if (local_36 != local_34) {
+      FREE.slot_3f((local_34 - local_36));
+      local_38 = ((retval / 20) + 1);
+      if (local_38 == 0) {
+        local_38 = 1;
       }
-      local_26 = (1 + local_26);
-    }
-
-  block_05f1:
-    goto block_067b;
-
-  block_05f4:
-    local_05 = local_07;
-    local_03 = local_09;
-    local_01 = local_10;
-    if (!intrinsic_0031(0, 1, local_05, arg_06)) goto block_0629;
-
-  block_061f:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_067e;
-
-  block_0629:
-    local_09 = (local_09 + local_28);
-    local_26 = 1;
-
-  block_063a:
-    while (local_26 > arg_16) {
-      local_16 = (local_16 + (local_20 + local_22));
-      if (local_16 < local_24) {
-        local_16 = (local_16 - local_24);
-        local_07 = (local_07 + local_18);
+      if (local_36 < local_34) {
+        local_10 = (local_10 + local_38);
       }
-      local_26 = (1 + local_26);
+      else {
+        local_36 = (local_36 - local_38);
+        local_10 = (local_36 & 0x00ff);
+      }
     }
-
-  block_067b:
-    goto block_046a;
-
-  block_067e:
-    return;
-
+    if (local_30 >= local_24) {
+      if (local_36 > (local_34 - 2)) {
+        if (local_36 < (local_34 + 2)) {
+          /* word_to_dword */
+          /* pop_result */
+          return;
+        }
+      }
+      local_05 = local_07;
+      local_03 = local_09;
+      local_01 = local_10;
+      if (!intrinsic_0031(0, 1, local_05, arg_06)) {
+        /* word_to_dword */
+        /* pop_result */
+        return;
+      }
+    }
+    else {
+      local_30 = (local_30 + arg_16);
+      if (local_32 == 0) {
+        local_05 = local_07;
+        local_03 = local_09;
+        local_01 = local_10;
+        if (!intrinsic_0031(0, 1, local_05, arg_06)) {
+          /* word_to_dword */
+          /* pop_result */
+          return;
+        }
+        local_07 = (local_07 + local_28);
+        local_26 = 1;
+        while (local_26 <= arg_16) {
+          local_16 = (local_16 + (local_20 + local_22));
+          if (local_16 >= local_24) {
+            local_16 = (local_16 - local_24);
+            local_09 = (local_09 + local_18);
+          }
+          local_26 = (1 + local_26);
+        }
+      }
+      else {
+        local_05 = local_07;
+        local_03 = local_09;
+        local_01 = local_10;
+        if (!intrinsic_0031(0, 1, local_05, arg_06)) {
+          /* word_to_dword */
+          /* pop_result */
+          return;
+        }
+        local_09 = (local_09 + local_28);
+        local_26 = 1;
+        while (local_26 <= arg_16) {
+          local_16 = (local_16 + (local_20 + local_22));
+          if (local_16 >= local_24) {
+            local_16 = (local_16 - local_24);
+            local_07 = (local_07 + local_18);
+          }
+          local_26 = (1 + local_26);
+        }
+      }
+    }
+  }
+  return;
   /* decompilation stopped at SEARCH_SURFACE */
 }

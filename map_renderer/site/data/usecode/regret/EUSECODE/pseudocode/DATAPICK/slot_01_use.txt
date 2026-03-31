@@ -9,12 +9,12 @@ function datapick_use() /* entry=1557 class_id=0x0613 slot=0x01 */
   /* loopscr */
   /* loopscr */
   /* loop */
-  while (!condition) {
+  while (condition) {
     local_04 = local_02;
     suspend;
     /* loopnext */
   }
-  if (local_04) {
+  if (!local_04) {
     spawn FREE.slot_21(pid, 0x01a7, 0x00000000);
     suspend;
     return;

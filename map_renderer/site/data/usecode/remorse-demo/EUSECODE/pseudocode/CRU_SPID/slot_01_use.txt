@@ -1,27 +1,22 @@
 function cru_spid_use() /* entry=1378 class_id=0x0560 slot=0x01 */
 {
-  entry:
-    set_info(0x0207, *(arg_06));
-    process_exclude();
-    /* global_address */
-    if (intrinsic_0011() != 40) goto block_0184;
-
-  block_0150:
-    goto block_055b;
-
-  block_0184:
+  set_info(0x0207, *(arg_06));
+  process_exclude();
+  /* global_address */
+  if (intrinsic_0011() == 40) {
+    return;
+  }
+  else {
     local_05 = *(arg_06);
     set_info(0x00f0, 0);
     /* global_address */
     local_13 = intrinsic_005c();
-
-  block_01b0:
-    while (!intrinsic_0036()) {
+    /* global_address */
+    while (intrinsic_0036()) {
       spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
       suspend;
     }
-
-  block_01e6:
+    /* global_address */
     if (intrinsic_001c() == 0) {
       local_15 = -1;
       local_17 = -3;
@@ -86,56 +81,40 @@ function cru_spid_use() /* entry=1378 class_id=0x0560 slot=0x01 */
       local_15 = -3;
       local_17 = -3;
     }
-
-  block_03c6:
     /* global_address */
-    if intrinsic_0038() goto block_03e0;
-
-  block_03d6:
-    local_03 = 1;
-    goto block_0417;
-
-  block_03e0:
-    local_03 = 0;
-    /* global_address */
-    /* global_address */
-    suspend;
-
-  block_0417:
+    if (intrinsic_0038()) {
+      local_03 = 1;
+    }
+    else {
+      local_03 = 0;
+      /* global_address */
+      /* global_address */
+      suspend;
+    }
     /* global_address */
     local_22 = (intrinsic_0013() + (local_15 * 16));
     /* global_address */
     local_20 = (Item.legal_create() + (local_17 * 16));
     /* global_address */
     local_18 = Item.getZ();
-    if (!intrinsic_005d(local_22, 0, 0x0560, local_02)) goto block_04e2;
-
-  block_046a:
-    if (!local_03) goto block_04d1;
-
-  block_04a1:
-    /* global_address */
-    /* global_address */
-    suspend;
-
-  block_04d1:
-    goto block_055b;
-
-  block_04e2:
-    local_11 = 1;
-
-  block_04f6:
-    while (local_11 > 9) {
-      spawn FREE.waitNTimerTicks(pid, 3, 0x00000000);
-      suspend;
-      local_11 = (1 + local_11);
+    if (!intrinsic_005d(local_22, 0, 0x0560, local_02)) {
+      if (!local_03) {
+        /* global_address */
+        /* global_address */
+        suspend;
+      }
+      return;
     }
-
-  block_053e:
-    spawn CRU_SPID.slot_20(local_02, arg_06);
-
-  block_055b:
-    return;
-
+    else {
+      local_11 = 1;
+      while (local_11 <= 9) {
+        spawn FREE.waitNTimerTicks(pid, 3, 0x00000000);
+        suspend;
+        local_11 = (1 + local_11);
+      }
+      spawn CRU_SPID.slot_20(local_02, arg_06);
+    }
+  }
+  return;
   /* decompilation stopped at SEARCH_SURFACE */
 }

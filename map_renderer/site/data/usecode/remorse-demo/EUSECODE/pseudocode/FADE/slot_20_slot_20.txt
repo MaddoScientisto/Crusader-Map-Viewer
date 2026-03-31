@@ -4,12 +4,12 @@ function fade_slot_20() /* entry=1278 class_id=0x04fc slot=0x20 */
   if (global[0x000a] == 0) {
     /* pop_global */
     local_02 = 1;
-    while (local_02 > 20) {
+    while (local_02 <= 20) {
       local_04 = 1;
-      while (local_04 > 4) {
+      while (local_04 <= 4) {
         spawn FREE.waitNTimerTicks(pid, 20, 0x00000000);
         suspend;
-        if (global[0x000a]) {
+        if (!(global[0x000a])) {
           suspend;
           return;
         }
@@ -19,7 +19,7 @@ function fade_slot_20() /* entry=1278 class_id=0x04fc slot=0x20 */
       local_02 = (1 + local_02);
     }
     /* global_address */
-    if (intrinsic_003c()) {
+    if (!intrinsic_003c()) {
       /* global_address */
       /* global_address */
       spawn FREE.waitNTimerTicks(pid, 0x00c8, 0x00000000);

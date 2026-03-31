@@ -5,25 +5,23 @@ function roll_ew_slot_20() /* entry=1390 class_id=0x056c slot=0x20 */
     spawn FREE.slot_32(pid, 2, 0x00000000);
     suspend;
     local_12 = intrinsic_00f3(arg_06);
-    if (local_12 & 32) goto block_025c;
+    if !(local_12 & 32) goto block_025c;
 
   block_0233:
     /* loopscr */
     /* loop */
 
   block_0243:
-    if condition goto block_025a;
-
-  block_0246:
-    /* create_list */
-    /* append_list */
-    /* free_local_list */
-    local_06 = local_04;
-    /* loopnext */
-    goto block_0243;
+    while (condition) {
+      /* create_list */
+      /* append_list */
+      /* free_local_list */
+      local_06 = local_04;
+      /* loopnext */
+    }
 
   block_025c:
-    if (local_12 & 64) goto block_0291;
+    if !(local_12 & 64) goto block_0291;
 
   block_0267:
     /* bit_not */
@@ -35,12 +33,12 @@ function roll_ew_slot_20() /* entry=1390 class_id=0x056c slot=0x20 */
     local_08 = retval;
 
   block_02a0:
-    if 1 goto block_02cb;
+    if !(1) goto block_02cb;
 
   block_02a8:
     FREE.slot_20(3);
     local_10 = retval;
-    if (local_10 != local_08) goto block_02c8;
+    if local_10 == local_08 goto block_02c8;
 
   block_02c2:
     goto block_02cb;

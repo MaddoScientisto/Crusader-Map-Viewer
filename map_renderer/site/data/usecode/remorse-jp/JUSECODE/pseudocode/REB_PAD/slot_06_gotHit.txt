@@ -8,13 +8,13 @@ function reb_pad_gotHit() /* entry=1087 class_id=0x043d slot=0x06 */
   spawn FREE.slot_32(pid, 10, 0x00000000);
   suspend;
   FREE.slot_2c(arg_12, arg_10);
-  if (!retval) {
+  if (retval) {
     return;
   }
-  if (((intrinsic_0071() == 1) || (!intrinsic_002b(*(arg_06), local_02))) || (intrinsic_00fc(arg_06) != 0)) {
+  else if (((intrinsic_0071() == 1) || (!intrinsic_002b(*(arg_06), local_02))) || (intrinsic_00fc(arg_06) == 0)) {
     return;
   }
-  if (local_02 == 1) {
+  else if (local_02 == 1) {
     /* pop_global */
     for local_02 in nearby_items(shape=PLACEHOLDER_CUBE, origin=arg_06) {
       /* loopnext */
@@ -23,63 +23,65 @@ function reb_pad_gotHit() /* entry=1087 class_id=0x043d slot=0x06 */
       spawn REB_PAD.slot_20(30, 1, arg_06);
       return;
     }
-    if (global[0x001f] == 2) {
+    else if (global[0x001f] == 2) {
       spawn REB_PAD.slot_20(30, 3, arg_06);
       return;
     }
-    if (global[0x001f] == 3) {
+    else if (global[0x001f] == 3) {
       spawn REB_PAD.slot_20(30, 5, arg_06);
       return;
     }
-    if (global[0x001f] == 4) {
+    else if (global[0x001f] == 4) {
       spawn REB_PAD.slot_20(30, 7, arg_06);
       return;
     }
-    if (global[0x001f] == 5) {
+    else if (global[0x001f] == 5) {
       spawn REB_PAD.slot_20(30, 9, arg_06);
       return;
     }
-    if (global[0x001f] == 6) {
+    else if (global[0x001f] == 6) {
       spawn REB_PAD.slot_20(30, 11, arg_06);
       return;
     }
-    if (global[0x001f] == 7) {
+    else if (global[0x001f] == 7) {
       spawn REB_PAD.slot_20(30, 13, arg_06);
       return;
     }
-    if (global[0x001f] == 8) {
+    else if (global[0x001f] == 8) {
       spawn REB_PAD.slot_20(30, 15, arg_06);
       return;
     }
-    if (global[0x001f] == 9) {
+    else if (global[0x001f] == 9) {
       spawn REB_PAD.slot_20(30, 17, arg_06);
       return;
     }
-    if (global[0x001f] == 10) {
+    else if (global[0x001f] == 10) {
       spawn REB_PAD.slot_20(30, 19, arg_06);
       return;
     }
-    if (global[0x001f] == 11) {
+    else if (global[0x001f] == 11) {
       spawn REB_PAD.slot_20(30, 21, arg_06);
       return;
     }
-    if (global[0x001f] == 12) {
+    else if (global[0x001f] == 12) {
       spawn REB_PAD.slot_20(30, 23, arg_06);
       return;
     }
-    if (global[0x001f] == 13) {
+    else if (global[0x001f] == 13) {
       spawn REB_PAD.slot_20(30, 25, arg_06);
       return;
     }
-    if (global[0x001f] == 14) {
+    else if (global[0x001f] == 14) {
       spawn REB_PAD.slot_20(30, 27, arg_06);
       return;
     }
-    if (global[0x001f] == 15) {
+    else if (global[0x001f] == 15) {
       spawn REB_PAD.slot_20(30, 29, arg_06);
       return;
     }
-    spawn REB_PAD.slot_20(29, 40, arg_06);
+    else {
+      spawn REB_PAD.slot_20(29, 40, arg_06);
+    }
   }
   return;
   /* decompilation stopped at SEARCH_SURFACE */

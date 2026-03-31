@@ -1,55 +1,36 @@
 function gldiv_ew_gotHit() /* entry=1347 class_id=0x0541 slot=0x06 */
 {
-  entry:
-    set_info(0x020c, *(arg_06));
-    process_exclude();
-    local_04 = arg_10;
-    FREE.slot_2c(arg_12, arg_10);
-    if (!retval) goto block_010e;
-
-  block_0108:
-    goto block_0307;
-
-  block_010e:
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  local_04 = arg_10;
+  FREE.slot_2c(arg_12, arg_10);
+  if (!retval) {
+    return;
+  }
+  else {
     local_08 = *(arg_06);
     spawn ITEM.slot_27(pid, 1, arg_12, arg_10, arg_06);
     suspend;
     /* dword_to_word */
-    if (!process_result) goto block_017a;
-
-  block_0147:
-    FREE.slot_20(1);
-    if retval goto block_0167;
-
-  block_0157:
-    goto block_0174;
-
-  block_0174:
-    goto block_0307;
-
-  block_017a:
-    spawn DOOR.slot_22(pid, local_08);
-    suspend;
-    if (!Item.getFrame(arg_06)) goto block_0307;
-
-  block_01a9:
-    local_06 = 1;
-
-  block_01bd:
-    while (local_06 > 2) {
-      spawn FREE.slot_32(pid, 5, 0x00000000);
-      suspend;
-      local_06 = (1 + local_06);
+    if (!process_result) {
+      FREE.slot_20(1);
+      if (retval) {
+      }
+      return;
     }
-
-  block_0205:
-    if intrinsic_00bd((Item.getZ(arg_06) + 1), (Item.legal_create(arg_06) + 32), (intrinsic_0013(arg_06) + 80), 0x0349) goto block_0278;
-
-  block_0278:
-    if intrinsic_00bd((Item.getZ(arg_06) + 1), Item.legal_create(arg_06), (intrinsic_0013(arg_06) - 32), 0x027a) goto block_02e5;
-
-  block_0307:
-    return;
-
+    else {
+      spawn DOOR.slot_22(pid, local_08);
+      suspend;
+      if (!Item.getFrame(arg_06)) {
+        local_06 = 1;
+        while (local_06 <= 2) {
+          spawn FREE.slot_32(pid, 5, 0x00000000);
+          suspend;
+          local_06 = (1 + local_06);
+        }
+      }
+    }
+  }
+  return;
   /* decompilation stopped at SEARCH_SURFACE */
 }

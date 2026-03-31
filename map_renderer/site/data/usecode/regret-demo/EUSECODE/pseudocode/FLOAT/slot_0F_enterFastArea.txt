@@ -2,9 +2,11 @@ function float_enterFastArea() /* entry=1409 class_id=0x057f slot=0x0f */
 {
   set_info(0x021b, *(arg_06));
   process_exclude();
-  if (!(intrinsic_0004(arg_06) & 0x1000)) {
+  if (intrinsic_0004(arg_06) & 0x1000) {
     return;
   }
-  ITEM.slot_24(0x1000, arg_06);
+  else {
+    ITEM.slot_24(0x1000, arg_06);
+  }
   return;
 }

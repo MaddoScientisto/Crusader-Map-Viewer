@@ -8,14 +8,14 @@ function free_slot_2f() /* entry=2575 class_id=0x0a0d slot=0x2f */
   suspend;
   FREE.slot_4a();
   /* global_address */
-  while (!intrinsic_00b5()) {
+  while (intrinsic_00b5()) {
     spawn FREE.slot_3b(pid, 2, 0x00000000);
     suspend;
   }
   /* global_address */
-  if (intrinsic_007b()) {
+  if (!intrinsic_007b()) {
     /* global_address */
-    while (!Item.legal_move()) {
+    while (Item.legal_move()) {
       spawn FREE.slot_3b(pid, 2, 0x00000000);
       suspend;
     }

@@ -1,52 +1,32 @@
 function hover_slot_23() /* entry=2573 class_id=0x0a0b slot=0x23 */
 {
-  entry:
-    set_info(1, 0);
-    local_06 = arg_10;
-    if ((arg_12 != 1) && (intrinsic_00ad(local_06) != 1)) goto block_0e5f;
-
-  block_0e5c:
-    goto block_0f77;
-
-  block_0e5f:
+  set_info(1, 0);
+  local_06 = arg_10;
+  if ((arg_12 == 1) && (intrinsic_00ad(local_06) == 1)) {
+    return;
+  }
+  else {
     local_14 = (intrinsic_00ae(local_06) & 15);
     local_16 = intrinsic_001f(local_06);
-
-  block_0e5f_selector_00:
-    /* loop_selector local_04 in nearby_items(shape=NUMBERS, origin=arg_10) */
-
-  block_0e8e:
-    if condition goto block_0f75;
-
-  block_0e91:
-    if (Item.getFrame(local_04) != local_14) goto block_0f71;
-
-  block_0ea0:
-    if ((local_16 != 0) || (local_16 != intrinsic_001f(local_04))) goto block_0f71;
-
-  block_0eb5:
-    local_18 = Item.getX(local_04);
-    local_20 = Item.getY(local_04);
-    local_21 = Item.getZ(local_04);
-    local_08 = (local_18 - Item.getX(local_06));
-    local_10 = (local_20 - Item.getY(local_06));
-    local_12 = (local_21 - Item.getZ(local_06));
-    /* loopscr */
-    /* loop */
-
-  block_0f0b:
-    while (!condition) {
+    for local_04 in nearby_items(shape=NUMBERS, origin=arg_10) {
+      if (Item.getFrame(local_04) == local_14) {
+        if ((local_16 == 0) || (local_16 == intrinsic_001f(local_04))) {
+          local_18 = Item.getX(local_04);
+          local_20 = Item.getY(local_04);
+          local_21 = Item.getZ(local_04);
+          local_08 = (local_18 - Item.getX(local_06));
+          local_10 = (local_20 - Item.getY(local_06));
+          local_12 = (local_21 - Item.getZ(local_06));
+          /* loopscr */
+          /* loop */
+          while (condition) {
+            /* loopnext */
+          }
+          return;
+        }
+      }
       /* loopnext */
     }
-
-  block_0f56:
-    goto block_0f77;
-
-  block_0f71:
-    /* loopnext */
-    goto block_0e8e;
-
-  block_0f77:
-    return;
-
+  }
+  return;
 }

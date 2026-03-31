@@ -4,7 +4,7 @@ function targetns_gotHit() /* entry=500 class_id=0x01f2 slot=0x06 */
   process_exclude();
   local_02 = arg_10;
   FREE.slot_2b(arg_12, arg_10);
-  if (!retval) {
+  if (retval) {
     if (Item.getFrame(arg_06) == 0) {
       return;
     }

@@ -2,15 +2,17 @@ function trigger_slot_22() /* entry=2589 class_id=0x0a1b slot=0x22 */
 {
   set_info(0x021b, 0);
   local_02 = arg_10;
-  while (!(1)) {
+  while (1) {
     if ((intrinsic_0004(local_02) & 0x1000) == 0) {
       spawn DOOR.slot_21(pid, arg_12, local_02);
       suspend;
       /* bit_not */
       return;
     }
-    spawn FREE.slot_32(pid, 10, 0x00000000);
-    suspend;
+    else {
+      spawn FREE.slot_32(pid, 10, 0x00000000);
+      suspend;
+    }
   }
   return;
   /* decompilation stopped at SEARCH_SURFACE */

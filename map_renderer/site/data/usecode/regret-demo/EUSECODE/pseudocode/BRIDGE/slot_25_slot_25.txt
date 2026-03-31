@@ -8,11 +8,11 @@ function bridge_slot_25() /* entry=2565 class_id=0x0a03 slot=0x25 */
     /* loop_selector local_02 in selector_0x42(arg0=0x03a6, arg1=0x0413, arg2=(70 * 32), origin=arg_06) */
 
   block_056b:
-    if condition goto block_0593;
+    if !condition goto block_0593;
 
   block_056e:
     local_08 = intrinsic_001f(local_02);
-    if (local_08 != arg_10) goto block_058f;
+    if local_08 != arg_10 goto block_058f;
 
   block_0581:
     local_06 = intrinsic_0021(local_02);
@@ -23,20 +23,20 @@ function bridge_slot_25() /* entry=2565 class_id=0x0a03 slot=0x25 */
     goto block_056b;
 
   block_0593:
-    if (local_06 != 0) goto block_05f8;
+    if local_06 != 0 goto block_05f8;
 
   block_059d_selector_00:
     /* loop_selector local_02 in selector_0x42(arg0=0x0336, arg1=0x0290, arg2=(70 * 32), origin=arg_06) */
 
   block_05b4:
-    if condition goto block_05eb;
+    if !condition goto block_05eb;
 
   block_05b7:
-    if (Item.getFrame(arg_06) != 1) goto block_05e7;
+    if Item.getFrame(arg_06) != 1 goto block_05e7;
 
   block_05c6:
     local_08 = intrinsic_001f(local_02);
-    if (local_08 != arg_10) goto block_05e7;
+    if local_08 != arg_10 goto block_05e7;
 
   block_05d9:
     local_06 = intrinsic_0021(local_02);
@@ -47,13 +47,13 @@ function bridge_slot_25() /* entry=2565 class_id=0x0a03 slot=0x25 */
     goto block_05b4;
 
   block_05eb:
-    if (local_06 != 0) goto block_05f8;
+    if local_06 != 0 goto block_05f8;
 
   block_05f5:
     goto block_087a;
 
   block_05f8:
-    if (local_06 < arg_10) goto block_0603;
+    if local_06 >= arg_10 goto block_0603;
 
   block_0600:
     goto block_087a;
@@ -63,7 +63,7 @@ function bridge_slot_25() /* entry=2565 class_id=0x0a03 slot=0x25 */
     arg_10 = (arg_10 - 1);
 
   block_060e:
-    if (local_10 != arg_10) goto block_06e7;
+    if local_10 == arg_10 goto block_06e7;
 
   block_0616:
     local_12 = local_10;
@@ -72,11 +72,11 @@ function bridge_slot_25() /* entry=2565 class_id=0x0a03 slot=0x25 */
     /* loop_selector local_02 in selector_0x42(arg0=0x03a6, arg1=0x0413, arg2=(70 * 32), origin=arg_06) */
 
   block_0631:
-    if condition goto block_0662;
+    if !condition goto block_0662;
 
   block_0634:
     local_08 = intrinsic_001f(local_02);
-    if (local_08 != local_10) goto block_065e;
+    if local_08 != local_10 goto block_065e;
 
   block_0647:
     /* create_list */
@@ -91,20 +91,20 @@ function bridge_slot_25() /* entry=2565 class_id=0x0a03 slot=0x25 */
     goto block_0631;
 
   block_0662:
-    if (local_12 != local_10) goto block_06e4;
+    if local_12 != local_10 goto block_06e4;
 
   block_066c_selector_00:
     /* loop_selector local_02 in selector_0x42(arg0=0x0336, arg1=0x0290, arg2=(70 * 32), origin=arg_06) */
 
   block_0683:
-    if condition goto block_06c3;
+    if !condition goto block_06c3;
 
   block_0686:
-    if (Item.getFrame(arg_06) != 1) goto block_06bf;
+    if Item.getFrame(arg_06) != 1 goto block_06bf;
 
   block_0695:
     local_08 = intrinsic_001f(local_02);
-    if (local_08 != local_10) goto block_06bf;
+    if local_08 != local_10 goto block_06bf;
 
   block_06a8:
     /* create_list */
@@ -119,7 +119,7 @@ function bridge_slot_25() /* entry=2565 class_id=0x0a03 slot=0x25 */
     goto block_0683;
 
   block_06c3:
-    if (local_12 != local_10) goto block_06e4;
+    if local_12 != local_10 goto block_06e4;
 
   block_06cd:
     spawn FREE.slot_3b(pid, 10, 0x00000000);
@@ -129,78 +129,46 @@ function bridge_slot_25() /* entry=2565 class_id=0x0a03 slot=0x25 */
     goto block_060e;
 
   block_06ed:
-    foreach_list local_02 -> block_07bc;
-
-  block_06f2:
-    if (intrinsic_0037(local_02) != 1) goto block_0739;
-
-  block_0701:
-    BRIDGE.slot_21(0x0336, local_02);
-    spawn FREE.slot_3b(pid, 15, 0x00000000);
-    suspend;
-
-  block_0739:
-    /* loopscr */
-    /* loop */
-
-  block_0744:
-    if condition goto block_07b7;
-
-  block_0747:
-    if ((intrinsic_0031(local_14) != 6) && (Actor.isNPC(local_14) != 0)) goto block_07ab;
-
-  block_0763_selector_00:
-    for local_16 in nearby_items(shape=0x04b8, origin=local_14) {
-      /* loopnext */
+    while (true) {
+      foreach_list local_02 -> block_07bc;
+      if (intrinsic_0037(local_02) == 1) {
+        BRIDGE.slot_21(0x0336, local_02);
+        spawn FREE.slot_3b(pid, 15, 0x00000000);
+        suspend;
+      }
+      /* loopscr */
+      /* loop */
+      while (condition) {
+        if ((intrinsic_0031(local_14) == 6) && (Actor.isNPC(local_14) == 0)) {
+          for local_16 in nearby_items(shape=0x04b8, origin=local_14) {
+            /* loopnext */
+          }
+          spawn ITEM.slot_2a(pid, 1, 0, local_14);
+          suspend;
+        }
+        /* loopnext */
+      }
     }
-
-  block_0788:
-    spawn ITEM.slot_2a(pid, 1, 0, local_14);
-    suspend;
-    goto block_07b3;
-
-  block_07b3:
-    /* loopnext */
-    goto block_0744;
-
-  block_07b7:
-    goto block_06ed;
 
   block_07c2:
-    foreach_list local_02 -> block_087a;
-
-  block_07c7:
-    if (intrinsic_0037(local_02) != 1) goto block_07f7;
-
-  block_07d6:
-    BRIDGE.slot_21(0x0336, local_02);
-
-  block_07f7:
-    /* loopscr */
-    /* loop */
-
-  block_0802:
-    if condition goto block_0875;
-
-  block_0805:
-    if ((intrinsic_0031(local_14) != 6) && (Actor.isNPC(local_14) != 0)) goto block_0869;
-
-  block_0821_selector_00:
-    for local_16 in nearby_items(shape=0x04b8, origin=local_14) {
-      /* loopnext */
+    while (true) {
+      foreach_list local_02 -> block_087a;
+      if (intrinsic_0037(local_02) == 1) {
+        BRIDGE.slot_21(0x0336, local_02);
+      }
+      /* loopscr */
+      /* loop */
+      while (condition) {
+        if ((intrinsic_0031(local_14) == 6) && (Actor.isNPC(local_14) == 0)) {
+          for local_16 in nearby_items(shape=0x04b8, origin=local_14) {
+            /* loopnext */
+          }
+          spawn ITEM.slot_2a(pid, 1, 0, local_14);
+          suspend;
+        }
+        /* loopnext */
+      }
     }
-
-  block_0846:
-    spawn ITEM.slot_2a(pid, 1, 0, local_14);
-    suspend;
-    goto block_0871;
-
-  block_0871:
-    /* loopnext */
-    goto block_0802;
-
-  block_0875:
-    goto block_07c2;
 
   block_087a:
     /* free_local_list */

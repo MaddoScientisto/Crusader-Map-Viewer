@@ -1,70 +1,34 @@
 function miss9_slot_20() /* entry=2327 class_id=0x0915 slot=0x20 */
 {
-  entry:
-    set_info(0x0001, *(arg_06));
-
-  block_0133:
-    while (!intrinsic_0033()) {
-      spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
-      suspend;
-    }
-
-  block_015a:
-    /* global_address */
-    /* global_address */
+  set_info(0x0001, *(arg_06));
+  /* global_address */
+  while (intrinsic_0033()) {
+    spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
     suspend;
-
-  block_015a_selector_00:
-    /* loop_selector local_08 in nearby_items(shape=0x04c6, origin=arg_06) */
-
-  block_0193:
-    if condition goto block_019e;
-
-  block_0196:
+  }
+  /* global_address */
+  /* global_address */
+  suspend;
+  for local_08 in nearby_items(shape=0x04c6, origin=arg_06) {
     local_04 = local_08;
     /* loopnext */
-    goto block_0193;
-
-  block_019e_selector_00:
-    /* loop_selector local_08 in nearby_items(shape=0x037a, origin=arg_06) */
-
-  block_01b8:
-    if condition goto block_01d2;
-
-  block_01bb:
-    if (intrinsic_00d1(local_08) != 99) goto block_01ce;
-
-  block_01ca:
-    local_06 = local_08;
-
-  block_01ce:
+  }
+  for local_08 in nearby_items(shape=0x037a, origin=arg_06) {
+    if (intrinsic_00d1(local_08) == 99) {
+      local_06 = local_08;
+    }
     /* loopnext */
-    goto block_01b8;
-
-  block_01d2_selector_00:
-    for local_08 in nearby_items(shape=0x053a, origin=arg_06) {
-      local_02 = local_08;
+  }
+  for local_08 in nearby_items(shape=0x053a, origin=arg_06) {
+    local_02 = local_08;
+    /* loopnext */
+  }
+  if (local_02) {
+    for local_08 in nearby_items(shape=15, origin=arg_06) {
       /* loopnext */
     }
-
-  block_01f7:
-    if local_02 goto block_0426;
-
-  block_01fe_selector_00:
-    /* loop_selector local_08 in nearby_items(shape=15, origin=arg_06) */
-
-  block_0215:
-    if condition goto block_0230;
-
-  block_0218:
-    if intrinsic_00d1(local_08) goto block_022c;
-
-  block_022c:
-    /* loopnext */
-    goto block_0215;
-
-  block_0232:
-    while ((retval > 2) && (local_10 == 6)) {
+    FREE.slot_29(*(arg_06), global[0x003d]);
+    while ((retval > 2) && (local_10 != 6)) {
       /* global_address */
       /* global_address */
       /* global_address */
@@ -72,8 +36,6 @@ function miss9_slot_20() /* entry=2327 class_id=0x0915 slot=0x20 */
       suspend;
       local_10 = (1 + local_10);
     }
-
-  block_029a:
     /* global_address */
     /* global_address */
     suspend;
@@ -94,18 +56,12 @@ function miss9_slot_20() /* entry=2327 class_id=0x0915 slot=0x20 */
     suspend;
     spawn FREE.waitNTimerTicks(pid, 100, 0x00000000);
     suspend;
-
-  block_029a_selector_00:
     for local_08 in nearby_items(shape=TELEPORTER_LIGHTS, origin=arg_06) {
       /* loopnext */
     }
-
-  block_03ff:
     spawn FREE.slot_26(pid, "9f", 0x00000000);
     /* free_stack_string */
     suspend;
-
-  block_0426:
-    return;
-
+  }
+  return;
 }

@@ -1,57 +1,35 @@
 function fastskil_enterFastArea() /* entry=290 class_id=0x0120 slot=0x0f */
 {
-  entry:
-    set_info(0x021b, *(arg_06));
-    process_exclude();
-    spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
-    suspend;
-    if intrinsic_0003(arg_06) goto block_01f8;
-
-  block_0102:
+  set_info(0x021b, *(arg_06));
+  process_exclude();
+  spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+  suspend;
+  if (intrinsic_0003(arg_06)) {
     local_02 = intrinsic_0029();
-    if (Item.getFrame(arg_06) != 2) goto block_01b3;
-
-  block_0118:
-    local_04 = teleportToEgg(arg_06);
-    if (local_02 != 1) goto block_0146;
-
-  block_012b:
-    spawn TRIGGER.slot_2a(pid, 0, *(arg_06), arg_06);
-    suspend;
-    goto block_01a6;
-
-  block_0146:
-    if (local_02 != 2) goto block_0176;
-
-  block_014e:
-    spawn TRIGGER.slot_2a(pid, 0, *(arg_06), arg_06);
-    suspend;
-    goto block_01a6;
-
-  block_0176:
-    if (local_02 >= 3) goto block_01a6;
-
-  block_017e:
-    spawn TRIGGER.slot_2a(pid, 0, *(arg_06), arg_06);
-    suspend;
-    goto block_01a6;
-
-  block_01a6:
-    goto block_0202;
-
-  block_01b3:
-    if (local_02 >= (Item.getFrame(arg_06) + 2)) goto block_01e0;
-
-  block_01c5:
-    spawn TRIGGER.slot_2a(pid, 0, *(arg_06), arg_06);
-    suspend;
-    goto block_01f8;
-
-  block_01e0:
-    spawn TRIGGER.slot_2a(pid, 1, *(arg_06), arg_06);
-    suspend;
-
-  block_0202:
-    return;
-
+    if (Item.getFrame(arg_06) == 2) {
+      local_04 = teleportToEgg(arg_06);
+      if (local_02 == 1) {
+        spawn TRIGGER.slot_2a(pid, 0, *(arg_06), arg_06);
+        suspend;
+      }
+      else if (local_02 == 2) {
+        spawn TRIGGER.slot_2a(pid, 0, *(arg_06), arg_06);
+        suspend;
+      }
+      else if (local_02 >= 3) {
+        spawn TRIGGER.slot_2a(pid, 0, *(arg_06), arg_06);
+        suspend;
+      }
+      return;
+    }
+    else if (local_02 >= (Item.getFrame(arg_06) + 2)) {
+      spawn TRIGGER.slot_2a(pid, 0, *(arg_06), arg_06);
+      suspend;
+    }
+    else {
+      spawn TRIGGER.slot_2a(pid, 1, *(arg_06), arg_06);
+      suspend;
+    }
+  }
+  return;
 }

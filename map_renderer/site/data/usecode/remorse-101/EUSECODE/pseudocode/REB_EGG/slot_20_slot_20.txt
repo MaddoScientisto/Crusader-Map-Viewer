@@ -1,15 +1,7 @@
 function reb_egg_slot_20() /* entry=2313 class_id=0x0907 slot=0x20 */
 {
-  entry:
-    set_info(0x021b, 0);
-
-  entry_selector_00:
-    /* loop_selector local_02 in nearby_items(shape=0x054f, origin=global[0x003d]) */
-
-  block_0b40:
-    if condition goto block_0bbb;
-
-  block_0b43:
+  set_info(0x021b, 0);
+  for local_02 in nearby_items(shape=0x054f, origin=global[0x003d]) {
     local_10 = (intrinsic_0013(local_02) + 48);
     local_12 = (Item.legal_create(local_02) + 48);
     /* loopscr */
@@ -17,23 +9,13 @@ function reb_egg_slot_20() /* entry=2313 class_id=0x0907 slot=0x20 */
     /* loopscr */
     /* loopscr */
     /* loop */
-
-  block_0b75:
-    while (!condition) {
+    while (condition) {
       local_10 = (local_10 - 4);
       /* bit_not */
       local_06 = (1 + local_06);
       /* loopnext */
     }
-
-  block_0bb2:
-    goto block_0bbd;
-
-  block_0bb7:
-    /* loopnext */
-    goto block_0b40;
-
-  block_0bbd:
     return;
-
+  }
+  return;
 }

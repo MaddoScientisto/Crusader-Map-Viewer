@@ -1,78 +1,48 @@
 function shocker_slot_20() /* entry=2581 class_id=0x0a13 slot=0x20 */
 {
-  entry:
-    set_info(0x020a, *(arg_06));
-    set_info(0x0205, *(arg_06));
-    if (intrinsic_00f3(arg_06) != 0) goto block_013f;
-
-  block_0120:
+  set_info(0x020a, *(arg_06));
+  set_info(0x0205, *(arg_06));
+  if (intrinsic_00f3(arg_06) == 0) {
     FREE.slot_20(29);
     local_02 = (retval + 1);
-
-  block_013f:
-    local_04 = intrinsic_00f3(arg_06);
-    if (local_04 != 31) goto block_0162;
-
-  block_0158:
+  }
+  local_04 = intrinsic_00f3(arg_06);
+  if (local_04 == 31) {
     local_06 = 1;
-    goto block_0196;
-
-  block_0162:
-    if (local_04 > 31) goto block_0179;
-
-  block_0170:
-    goto block_02eb;
-
-  block_0176:
-    goto block_0196;
-
-  block_0179:
+  }
+  else if (local_04 > 31) {
+    return;
+  }
+  else {
     local_08 = intrinsic_0029();
     local_06 = ((6 - intrinsic_0029()) * (10 + local_04));
-
-  block_0196:
-    spawn FREE.waitNTimerTicks(pid, local_06, 0x00000000);
-    suspend;
-
-  block_01bc:
+  }
+  spawn FREE.waitNTimerTicks(pid, local_06, 0x00000000);
+  suspend;
+  suspend;
+  local_10 = intrinsic_00ef(0x020c, *(arg_06));
+  while (true) {
     suspend;
     local_10 = intrinsic_00ef(0x020c, *(arg_06));
-    if (local_10 != 0) goto block_01f5;
-
-  block_01e7:
-    spawn SHOCKER.slot_21(arg_06);
-
-  block_01f5:
+    if (local_10 == 0) {
+      spawn SHOCKER.slot_21(arg_06);
+    }
     FREE.slot_20(1);
-    if retval goto block_0215;
-
-  block_0205:
-    goto block_0222;
-
-  block_0222:
+    if (retval) {
+    }
     local_12 = 0;
-
-  block_0229:
-    while (local_12 > 5) {
+    while (local_12 <= 5) {
       FREE.slot_20(pid, 5, 5);
       spawn FREE.waitNTimerTicks(retval, 0x00000000);
       suspend;
       local_12 = (1 + local_12);
     }
-
-  block_027c:
-    if (local_06 > 1) goto block_02e8;
-
-  block_028a:
-    FREE.slot_33(0x020c, *(arg_06));
-    spawn FREE.waitNTimerTicks(pid, local_06, 0x00000000);
-    suspend;
-
-  block_02e8:
-    goto block_01bc;
-
-  block_02eb:
-    return;
-
+    if (local_06 > 1) {
+      FREE.slot_33(0x020c, *(arg_06));
+      spawn FREE.waitNTimerTicks(pid, local_06, 0x00000000);
+      suspend;
+    }
+  }
+  return;
   /* decompilation stopped at SEARCH_SURFACE */
 }

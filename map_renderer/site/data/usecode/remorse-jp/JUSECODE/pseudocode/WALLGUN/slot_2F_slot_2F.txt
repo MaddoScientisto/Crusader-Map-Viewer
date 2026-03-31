@@ -3,24 +3,26 @@ function wallgun_slot_2f() /* entry=2591 class_id=0x0a1d slot=0x2f */
   set_info(0x0001, *(arg_06));
   WALLGUN.slot_20(arg_06);
   local_02 = retval;
-  if (local_02) {
+  if (!local_02) {
     local_02 = 3;
   }
-  if (local_02 <= 5) {
+  if (local_02 > 5) {
     local_02 = 5;
   }
   local_02 = (local_02 * 5);
-  while (!local_02) {
+  while (local_02) {
     spawn FREE.slot_32(pid, 2, 0x00000000);
     suspend;
     WALLGUN.slot_2e(arg_10, arg_06);
     local_04 = retval;
     FREE.slot_29(*(arg_06), arg_10);
     local_06 = retval;
-    if ((((arg_12 == 4) && (local_04 != 1)) && (local_06 <= 20)) || (((arg_12 != 4) && (local_04 != 1)) && (local_06 <= 46))) {
+    if ((((arg_12 != 4) && (local_04 == 1)) && (local_06 <= 20)) || (((arg_12 == 4) && (local_04 == 1)) && (local_06 <= 46))) {
       return;
     }
-    local_02 = (local_02 - 1);
+    else {
+      local_02 = (local_02 - 1);
+    }
   }
   return;
   /* decompilation stopped at SEARCH_SURFACE */

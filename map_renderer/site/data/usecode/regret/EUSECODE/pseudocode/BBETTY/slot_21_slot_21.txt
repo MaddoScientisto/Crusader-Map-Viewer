@@ -1,28 +1,22 @@
 function bbetty_slot_21() /* entry=2563 class_id=0x0a01 slot=0x21 */
 {
-  entry:
-    set_info(0x00f0, *(arg_06));
-    spawn FREE.slot_3b(pid, 60, 0x00000000);
+  set_info(0x00f0, *(arg_06));
+  spawn FREE.slot_3b(pid, 60, 0x00000000);
+  suspend;
+  suspend;
+  while (true) {
     suspend;
-
-  block_0261:
-    suspend;
-    if intrinsic_0021(arg_06) goto block_02a6;
-
-  block_026e:
-    /* global_address */
-    /* global_address */
-    local_11 = intrinsic_0023(Item.getX(Item.getY(8, 0, 8)), Item.getY(arg_06), Item.getX(arg_06));
-    goto block_02b9;
-
-  block_02a6:
-    local_11 = (1 + local_11);
-    if (local_11 > 7) goto block_02b9;
-
-  block_02b5:
-    local_11 = 0;
-
-  block_02b9:
+    if (intrinsic_0021(arg_06)) {
+      /* global_address */
+      /* global_address */
+      local_11 = intrinsic_0023(Item.getX(Item.getY(8, 0, 8)), Item.getY(arg_06), Item.getX(arg_06));
+    }
+    else {
+      local_11 = (1 + local_11);
+      if (local_11 > 7) {
+        local_11 = 0;
+      }
+    }
     if (local_11 == 0) {
       local_02 = 0;
       local_04 = -1;
@@ -71,14 +65,9 @@ function bbetty_slot_21() /* entry=2563 class_id=0x0a01 slot=0x21 */
       local_06 = -48;
       local_08 = -48;
     }
-
-  block_0391:
     FREE.slot_20(8, 30, 15);
     spawn FREE.slot_3b(pid, ((5 - intrinsic_000a()) * 20), 0x00000000);
     suspend;
-    goto block_0261;
-
-  block_0425:
-    return;
-
+  }
+  return;
 }

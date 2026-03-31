@@ -6,38 +6,25 @@ function door2_slot_27() /* entry=2569 class_id=0x0a07 slot=0x27 */
     counter2, /* [BP-04h] type=0x69 */
     maxFrame; /* [BP-06h] type=0x69 */
 
-  entry:
-    set_info(0x0207, *(arg_06));
-    maxFrame = 8;
-    FREE.slot_2d((Item.getZ(arg_06) - (8 * 10)), Item.legal_create(arg_06), intrinsic_0013(arg_06), maxFrame, 0x02d5, *(arg_06));
-    if retval goto block_0d06;
-
-  block_0cd0:
+  set_info(0x0207, *(arg_06));
+  maxFrame = 8;
+  FREE.slot_2d((Item.getZ(arg_06) - (8 * 10)), Item.legal_create(arg_06), intrinsic_0013(arg_06), maxFrame, 0x02d5, *(arg_06));
+  if (retval) {
     spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
     suspend;
-    goto block_0d10;
-
-  block_0d06:
+  }
+  else {
     /* word_to_dword */
     /* pop_result */
-    goto block_0d7c;
-
-  block_0d10:
-    counter = (maxFrame - 1);
-
-  block_0d1a:
-    while (counter <= 0) {
-      spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
-      suspend;
-      counter = (counter - 1);
-    }
-
-  block_0d65:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0d7c;
-
-  block_0d7c:
     return;
-
+  }
+  counter = (maxFrame - 1);
+  while (counter > 0) {
+    spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+    suspend;
+    counter = (counter - 1);
+  }
+  /* word_to_dword */
+  /* pop_result */
+  return;
 }

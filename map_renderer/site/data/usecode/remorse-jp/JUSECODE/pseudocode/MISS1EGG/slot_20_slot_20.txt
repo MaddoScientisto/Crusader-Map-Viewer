@@ -7,135 +7,92 @@ function miss1egg_slot_20() /* entry=2319 class_id=0x090d slot=0x20 */
     item, /* [BP-06h] type=0x24 */
     counter; /* [BP-08h] type=0x69 */
 
-  entry:
-    set_info(0x00f0, *(arg_06));
-
-  block_02bf:
-    while (!intrinsic_0036()) {
-      spawn FREE.slot_32(pid, 2, 0x00000000);
-      suspend;
-    }
-
-  block_02f8:
-    /* global_address */
+  set_info(0x00f0, *(arg_06));
+  /* global_address */
+  while (intrinsic_0036()) {
+    spawn FREE.slot_32(pid, 2, 0x00000000);
     suspend;
-
-  block_02f8_selector_00:
-    /* loop_selector eTrigger in nearby_items(shape=EVENT_CONTROLLER, origin=global[0x003c]) */
-
-  block_033e:
-    if condition goto block_0377;
-
-  block_0341:
+  }
+  /* global_address */
+  suspend;
+  for eTrigger in nearby_items(shape=EVENT_CONTROLLER, origin=global[0x003c]) {
     /* global_address */
     /* loopnext */
-    goto block_033e;
-
-  block_0377_selector_00:
-    for item in selector_0x42(arg0=0x032a, arg1=0x0329, arg2=(100 * 32), origin=global[0x003c]) {
-      /* loopnext */
-    }
-
-  block_03ab:
-    /* global_address */
-    spawn NPC.slot_22(pid, 5, 8);
+  }
+  for item in selector_0x42(arg0=0x032a, arg1=0x0329, arg2=(100 * 32), origin=global[0x003c]) {
+    /* loopnext */
+  }
+  /* global_address */
+  spawn NPC.slot_22(pid, 5, 8);
+  suspend;
+  /* global_address */
+  spawn NPC.slot_22(pid, 8, 6);
+  suspend;
+  /* global_address */
+  spawn NPC.slot_22(pid, 2, 8);
+  suspend;
+  /* global_address */
+  spawn NPC.slot_22(pid, 2, 12);
+  suspend;
+  /* global_address */
+  suspend;
+  /* loopscr */
+  /* loopscr */
+  /* loopscr */
+  /* loopscr */
+  /* loop */
+  while (condition) {
+    /* loopnext */
+  }
+  /* global_address */
+  suspend;
+  /* global_address */
+  suspend;
+  /* global_address */
+  suspend;
+  /* global_address */
+  suspend;
+  counter = 1;
+  while (counter <= 5) {
+    spawn FREE.slot_32(pid, 30, 0x00000000);
     suspend;
-    /* global_address */
-    spawn NPC.slot_22(pid, 8, 6);
-    suspend;
-    /* global_address */
-    spawn NPC.slot_22(pid, 2, 8);
-    suspend;
-    /* global_address */
-    spawn NPC.slot_22(pid, 2, 12);
-    suspend;
-    /* global_address */
-    suspend;
-    /* loopscr */
-    /* loopscr */
-    /* loopscr */
-    /* loopscr */
-    /* loop */
-
-  block_04a9:
-    while (!condition) {
-      /* loopnext */
-    }
-
-  block_04bb:
-    /* global_address */
-    suspend;
-    /* global_address */
-    suspend;
-    /* global_address */
-    suspend;
-    /* global_address */
-    suspend;
-    counter = 1;
-
-  block_0564:
-    while (counter > 5) {
-      spawn FREE.slot_32(pid, 30, 0x00000000);
-      suspend;
-      counter = (1 + counter);
-    }
-
-  block_05ac:
-    spawn ITEM.slot_28(pid, 1, 1, pac);
-    suspend;
-    spawn FREE.slot_32(pid, 10, 0x00000000);
-    suspend;
-
-  block_05ac_selector_00:
-    /* loop_selector item in nearby_items(shape=REACTOR, origin=global[0x003c]) */
-
-  block_0615:
-    if condition goto block_065c;
-
-  block_0618:
+    counter = (1 + counter);
+  }
+  spawn ITEM.slot_28(pid, 1, 1, pac);
+  suspend;
+  spawn FREE.slot_32(pid, 10, 0x00000000);
+  suspend;
+  for item in nearby_items(shape=REACTOR, origin=global[0x003c]) {
     spawn ITEM.slot_28(pid, 0, 2, item);
     suspend;
     /* loopnext */
-    goto block_0615;
-
-  block_065c_selector_00:
-    for item in nearby_items(shape=REACTOR_CELL, origin=global[0x003c]) {
-      spawn ITEM.slot_28(pid, 1, 0, item);
-      suspend;
-      spawn FREE.slot_32(pid, 30, 0x00000000);
-      suspend;
-      /* loopnext */
-    }
-
-  block_06ce:
-    spawn FREE.slot_3b(0x00000000);
-
-  block_06ce_selector_00:
-    for item in nearby_items(shape=NUMBERS, origin=global[0x003c]) {
-      spawn FREE.slot_32(intrinsic_0018(pid, 20, 10), 0x00000000);
-      suspend;
-      /* loopnext */
-    }
-
-  block_0744:
+  }
+  for item in nearby_items(shape=REACTOR_CELL, origin=global[0x003c]) {
+    spawn ITEM.slot_28(pid, 1, 0, item);
+    suspend;
     spawn FREE.slot_32(pid, 30, 0x00000000);
     suspend;
-
-  block_0744_selector_00:
-    for item in nearby_items(shape=ELECTRODE, origin=global[0x003c]) {
-      spawn ITEM.slot_28(pid, 0, 0, item);
-      suspend;
-      spawn FREE.slot_32(intrinsic_0018(pid, 10, 5), 0x00000000);
-      suspend;
-      /* loopnext */
-    }
-
-  block_07f2:
-    spawn FREE.slot_32(pid, 0x00c8, 0x00000000);
+    /* loopnext */
+  }
+  spawn FREE.slot_3b(0x00000000);
+  for item in nearby_items(shape=NUMBERS, origin=global[0x003c]) {
+    spawn FREE.slot_32(intrinsic_0018(pid, 20, 10), 0x00000000);
     suspend;
-    spawn FREE.slot_26(pid, "1c", 0x00000000);
-    /* free_stack_string */
+    /* loopnext */
+  }
+  spawn FREE.slot_32(pid, 30, 0x00000000);
+  suspend;
+  for item in nearby_items(shape=ELECTRODE, origin=global[0x003c]) {
+    spawn ITEM.slot_28(pid, 0, 0, item);
     suspend;
-    return;
-
+    spawn FREE.slot_32(intrinsic_0018(pid, 10, 5), 0x00000000);
+    suspend;
+    /* loopnext */
+  }
+  spawn FREE.slot_32(pid, 0x00c8, 0x00000000);
+  suspend;
+  spawn FREE.slot_26(pid, "1c", 0x00000000);
+  /* free_stack_string */
+  suspend;
+  return;
 }

@@ -1,29 +1,25 @@
 function free_slot_32() /* entry=2574 class_id=0x0a0c slot=0x32 */
 {
-  entry:
-    set_info(9, 0);
+  set_info(9, 0);
+  local_08 = intrinsic_00ac();
+  local_04 = intrinsic_00ac();
+  if (arg_06 < 1) {
+    return;
+  }
+  else {
+    suspend;
     local_08 = intrinsic_00ac();
-    local_04 = intrinsic_00ac();
-    if (arg_06 < 1) goto block_0bb2;
-
-  block_0baf:
-    goto block_0bdb;
-
-  block_0bb2:
     while (true) {
       suspend;
       local_08 = intrinsic_00ac();
-      /* ne_dword */
-      if (!local_04) {
+      if (local_08 != local_04) {
         local_04 = local_08;
         arg_06 = (arg_06 - 1);
-        if (arg_06 >= 1) {
+        if (arg_06 < 1) {
           return;
         }
       }
     }
-
-  block_0bdb:
-    return;
-
+  }
+  return;
 }

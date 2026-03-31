@@ -1,97 +1,53 @@
 function lazer_slot_20() /* entry=2576 class_id=0x0a0e slot=0x20 */
 {
-  entry:
-    set_info(0x0205, *(arg_06));
-    set_info(0x0205, *(arg_06));
-    ITEM.slot_24(0x1000, arg_06);
-    /* loopscr */
-    /* loopscr */
-    /* loop */
-
-  block_0127:
-    if condition goto block_0150;
-
-  block_012a:
-    if (intrinsic_001f(arg_06) != intrinsic_001f(local_02)) goto block_014c;
-
-  block_0140:
-    ITEM.slot_24(0x1000, local_02);
-
-  block_014c:
-    /* loopnext */
-    goto block_0127;
-
-  block_0150_selector_00:
-    /* loop_selector local_04 in nearby_items(family=6, origin=arg_06) */
-
-  block_0169:
-    if condition goto block_02de;
-
-  block_016c:
-    if (local_04 <= 0x0100) goto block_02da;
-
-  block_0175:
-    if intrinsic_00a4(local_04, arg_06) goto block_02da;
-
-  block_0183:
-    if (local_04 != intrinsic_0016()) goto block_0266;
-
-  block_018e:
-    local_06 = intrinsic_00c3(local_04);
-    if (local_06 < 8) goto block_01ab;
-
-  block_01a1:
-    local_06 = (local_06 + 8);
-    goto block_01b2;
-
-  block_01ab:
-    local_06 = (local_06 - 8);
-
-  block_01b2:
-    NPC.slot_2a(local_04);
-    if (!retval) goto block_01db;
-
-  block_01db:
-    if (!intrinsic_00bb(local_04)) goto block_0263;
-
-  block_01e8:
-    if (Item.isOnScreen(arg_06) != 1) goto block_022b;
-
-  block_022b:
-    if (intrinsic_004d(local_04) == 5) {
+  set_info(0x0205, *(arg_06));
+  set_info(0x0205, *(arg_06));
+  ITEM.slot_24(0x1000, arg_06);
+  /* loopscr */
+  /* loopscr */
+  /* loop */
+  while (condition) {
+    if (intrinsic_001f(arg_06) == intrinsic_001f(local_02)) {
+      ITEM.slot_24(0x1000, local_02);
     }
-    else if (intrinsic_004d(local_04) == 10) {
-    }
-
-  block_0263:
-    goto block_02da;
-
-  block_0266:
-    if (Item.isOnScreen(arg_06) != 1) goto block_02da;
-
-  block_0275:
-    spawn NPC.slot_2e(pid, *(arg_06), local_04);
-    suspend;
-
-  block_02da:
     /* loopnext */
-    goto block_0169;
-
-  block_02de:
-    /* loopscr */
-    /* loopscr */
-    /* loop */
-
-  block_0309:
-    while (!condition) {
-      if (intrinsic_001f(arg_06) == intrinsic_001f(local_02)) {
-        ITEM.slot_25(0x1000, local_02);
+  }
+  for local_04 in nearby_items(family=6, origin=arg_06) {
+    if (local_04 <= 0x0100) {
+      if (intrinsic_00a4(local_04, arg_06)) {
+        if (local_04 != intrinsic_0016()) {
+          local_06 = intrinsic_00c3(local_04);
+          if (local_06 < 8) {
+            local_06 = (local_06 + 8);
+          }
+          else {
+            local_06 = (local_06 - 8);
+          }
+          NPC.slot_2a(local_04);
+          if (!intrinsic_00bb(local_04)) {
+            if (intrinsic_004d(local_04) == 5) {
+            }
+            else if (intrinsic_004d(local_04) == 10) {
+            }
+          }
+        }
+        else if (Item.isOnScreen(arg_06) == 1) {
+          spawn NPC.slot_2e(pid, *(arg_06), local_04);
+          suspend;
+        }
       }
-      /* loopnext */
     }
-
-  block_0332:
-    ITEM.slot_25(0x1000, arg_06);
-    return;
-
+    /* loopnext */
+  }
+  /* loopscr */
+  /* loopscr */
+  /* loop */
+  while (condition) {
+    if (intrinsic_001f(arg_06) == intrinsic_001f(local_02)) {
+      ITEM.slot_25(0x1000, local_02);
+    }
+    /* loopnext */
+  }
+  ITEM.slot_25(0x1000, arg_06);
+  return;
 }

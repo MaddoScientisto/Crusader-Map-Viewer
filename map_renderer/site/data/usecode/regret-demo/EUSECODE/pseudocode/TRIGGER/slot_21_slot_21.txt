@@ -1,133 +1,76 @@
 function trigger_slot_21() /* entry=2591 class_id=0x0a1d slot=0x21 */
 {
-  entry:
-    set_info(0x021b, 0);
-    local_12 = arg_10;
-    local_14 = intrinsic_0133(local_12);
-    local_16 = local_14;
-    local_04 = intrinsic_012b(local_12);
-    local_08 = intrinsic_0003(local_12);
-    local_06 = intrinsic_0132(local_12);
-    local_10 = (((local_08 & 0x00e0) * 8) + local_06);
-    if (local_08 != 0) goto block_04de;
-
-  block_04db:
-    goto block_069d;
-
-  block_04de:
-    if (local_08 & 4) goto block_0608;
-
-  block_04e6:
-    if intrinsic_0134(local_10) goto block_0577;
-
-  block_04f2:
-    if (local_14 != 0x00ff) goto block_0524;
-
-  block_04fb:
-    if (local_10 != 0) goto block_0521;
-
-  block_0503:
-    spawn TRIGGER.slot_2a(pid, local_10, local_14, local_08, local_06, local_04, arg_10, arg_06);
-    suspend;
-
-  block_0521:
-    goto block_0574;
-
-  block_0524:
-    if (local_10 != 0x07fe) goto block_054e;
-
-  block_052d:
-    spawn TRIGGER.slot_2b(pid, local_10, local_14, local_08, local_06, local_04, arg_10, arg_06);
-    suspend;
-    goto block_0574;
-
-  block_054e:
-    if (local_10 != 0) goto block_0574;
-
-  block_0556:
-    spawn TRIGGER.slot_29(pid, local_10, local_14, local_08, local_06, local_04, arg_10, arg_06);
-    suspend;
-
-  block_0574:
-    goto block_0605;
-
-  block_0577:
-    if (local_14 != 0x00ff) goto block_05ad;
-
-  block_0580:
-    if (local_10 != 0) goto block_05aa;
-
-  block_0588:
-    spawn TRIGGER.slot_25(pid, local_10, local_14, local_08, local_06, local_04, arg_10, arg_06);
-    suspend;
-    /* dword_to_word */
-    local_16 = process_result;
-
-  block_05aa:
-    goto block_0605;
-
-  block_05ad:
-    if (local_10 != 0x07ff) goto block_05db;
-
-  block_05b6:
-    spawn TRIGGER.slot_24(pid, local_10, local_14, local_08, local_06, local_04, arg_10, arg_06);
-    suspend;
-    /* dword_to_word */
-    local_16 = process_result;
-    goto block_0605;
-
-  block_05db:
-    if (local_10 != 0) goto block_0605;
-
-  block_05e3:
-    spawn TRIGGER.slot_23(pid, local_10, local_14, local_08, local_06, local_04, arg_10, arg_06);
-    suspend;
-    /* dword_to_word */
-    local_16 = process_result;
-
-  block_0605:
-    goto block_0696;
-
-  block_0608:
-    if (local_14 != 0x00ff) goto block_063e;
-
-  block_0611:
-    if (local_10 != 0) goto block_063b;
-
-  block_0619:
-    spawn TRIGGER.slot_28(pid, local_10, local_14, local_08, local_06, local_04, arg_10, arg_06);
-    suspend;
-    /* dword_to_word */
-    local_16 = process_result;
-
-  block_063b:
-    goto block_0696;
-
-  block_063e:
-    if (local_10 != 0x07ff) goto block_066c;
-
-  block_0647:
+  set_info(0x021b, 0);
+  local_12 = arg_10;
+  local_14 = intrinsic_0133(local_12);
+  local_16 = local_14;
+  local_04 = intrinsic_012b(local_12);
+  local_08 = intrinsic_0003(local_12);
+  local_06 = intrinsic_0132(local_12);
+  local_10 = (((local_08 & 0x00e0) * 8) + local_06);
+  if (local_08 == 0) {
+    return;
+  }
+  else if (local_08 & 4) {
+    if (intrinsic_0134(local_10)) {
+      if (local_14 == 0x00ff) {
+        if (local_10 != 0) {
+          spawn TRIGGER.slot_2a(pid, local_10, local_14, local_08, local_06, local_04, arg_10, arg_06);
+          suspend;
+        }
+      }
+      else if (local_10 == 0x07fe) {
+        spawn TRIGGER.slot_2b(pid, local_10, local_14, local_08, local_06, local_04, arg_10, arg_06);
+        suspend;
+      }
+      else if (local_10 != 0) {
+        spawn TRIGGER.slot_29(pid, local_10, local_14, local_08, local_06, local_04, arg_10, arg_06);
+        suspend;
+      }
+    }
+    else if (local_14 == 0x00ff) {
+      if (local_10 != 0) {
+        spawn TRIGGER.slot_25(pid, local_10, local_14, local_08, local_06, local_04, arg_10, arg_06);
+        suspend;
+        /* dword_to_word */
+        local_16 = process_result;
+      }
+    }
+    else if (local_10 == 0x07ff) {
+      spawn TRIGGER.slot_24(pid, local_10, local_14, local_08, local_06, local_04, arg_10, arg_06);
+      suspend;
+      /* dword_to_word */
+      local_16 = process_result;
+    }
+    else if (local_10 != 0) {
+      spawn TRIGGER.slot_23(pid, local_10, local_14, local_08, local_06, local_04, arg_10, arg_06);
+      suspend;
+      /* dword_to_word */
+      local_16 = process_result;
+    }
+  }
+  else if (local_14 == 0x00ff) {
+    if (local_10 != 0) {
+      spawn TRIGGER.slot_28(pid, local_10, local_14, local_08, local_06, local_04, arg_10, arg_06);
+      suspend;
+      /* dword_to_word */
+      local_16 = process_result;
+    }
+  }
+  else if (local_10 == 0x07ff) {
     spawn TRIGGER.slot_27(pid, local_10, local_14, local_08, local_06, local_04, arg_10, arg_06);
     suspend;
     /* dword_to_word */
     local_16 = process_result;
-    goto block_0696;
-
-  block_066c:
-    if (local_10 != 0) goto block_0696;
-
-  block_0674:
+  }
+  else if (local_10 != 0) {
     spawn TRIGGER.slot_26(pid, local_10, local_14, local_08, local_06, local_04, arg_10, arg_06);
     suspend;
     /* dword_to_word */
     local_16 = process_result;
-
-  block_0696:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_069d;
-
-  block_069d:
-    return;
-
+  }
+  /* word_to_dword */
+  /* pop_result */
+  return;
+  return;
 }

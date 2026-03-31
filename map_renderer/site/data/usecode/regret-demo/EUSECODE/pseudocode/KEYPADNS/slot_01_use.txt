@@ -4,77 +4,48 @@ function keypadns_use() /* entry=1101 class_id=0x044b slot=0x01 */
     set_info(0x0207, *(arg_06));
     process_exclude();
     /* global_address */
-    if ((intrinsic_0040() != 26) && (intrinsic_00b8(arg_06) != 0)) goto block_03a3;
+    if (intrinsic_0040() != 26) && (intrinsic_00b8(arg_06) == 0) goto block_03a3;
 
   block_018e:
     /* free_local_string */
     local_06 = "Cheaters Menu^_____________^^Select a mission^number (1-10)^and Col. Shepherd^will assign it to you.";
     local_02 = intrinsic_00d5(0);
-    if (local_02 > 10) goto block_0219;
+    if local_02 <= 10 goto block_0219;
 
   block_0215:
     local_02 = 10;
 
   block_0219:
     /* pop_global */
-    if local_02 goto block_022a;
+    if !local_02 goto block_022a;
 
   block_0224:
     /* pop_global */
 
   block_022a:
-    /* concat */
-    /* concat */
-    /* str_to_ptr */
-    /* free_stack_string */
-    spawn FREE.slot_3b("Wow! Mission ", intrinsic_00d7(local_02), pid, 120, 0x00000000);
-    suspend;
-    FREE.slot_3c(0x0200, *(arg_06));
-    spawn FREE.slot_3b(pid, 30, 0x00000000);
-    suspend;
-    if (global[0x000f] != 4) goto block_02cc;
-
-  block_02b8:
-    /* str_to_ptr */
-    /* free_stack_string */
-    goto block_039c;
-
-  block_02cc:
-    if (global[0x000f] != 5) goto block_02ea;
-
-  block_02d6:
-    /* str_to_ptr */
-    /* free_stack_string */
-    goto block_039c;
-
-  block_02ea:
-    if (global[0x000f] != 6) goto block_0308;
-
-  block_02f4:
-    /* str_to_ptr */
-    /* free_stack_string */
-    goto block_039c;
-
-  block_0308:
-    if (global[0x000f] != 7) goto block_0341;
-
-  block_0312:
-    if global[0x0016] goto block_032d;
-
-  block_0319:
-    /* str_to_ptr */
-    /* free_stack_string */
-    goto block_033e;
-
-  block_032d:
-    /* str_to_ptr */
-    /* free_stack_string */
-
-  block_033e:
-    goto block_039c;
-
-  block_0341:
-    if (global[0x000f] == 8) {
+    if (global[0x000f] == 4) {
+      /* str_to_ptr */
+      /* free_stack_string */
+    }
+    else if (global[0x000f] == 5) {
+      /* str_to_ptr */
+      /* free_stack_string */
+    }
+    else if (global[0x000f] == 6) {
+      /* str_to_ptr */
+      /* free_stack_string */
+    }
+    else if (global[0x000f] == 7) {
+      if (global[0x0016]) {
+        /* str_to_ptr */
+        /* free_stack_string */
+      }
+      else {
+        /* str_to_ptr */
+        /* free_stack_string */
+      }
+    }
+    else if (global[0x000f] == 8) {
       /* str_to_ptr */
       /* free_stack_string */
     }
@@ -93,19 +64,19 @@ function keypadns_use() /* entry=1101 class_id=0x044b slot=0x01 */
   block_03a3:
     /* global_address */
     /* global_address */
-    if ((intrinsic_0040(((intrinsic_0040() != 25) && (intrinsic_00b8(arg_06) != 1))) != 26) && (intrinsic_00b8(arg_06) != 1)) goto block_048c;
+    if (intrinsic_0040(((intrinsic_0040() != 25) && (intrinsic_00b8(arg_06) == 1))) == 26) && (intrinsic_00b8(arg_06) == 1) goto block_048c;
 
   block_03db:
     /* free_local_string */
     local_06 = "VIDEO PLAYER^_____________^^Mission video 0-72^Mission MVAs 73-89^Game Flicks  90-102";
     local_02 = intrinsic_00d5(0);
-    if (local_02 != 0) goto block_0456;
+    if local_02 != 0 goto block_0456;
 
   block_0453:
     goto block_051a;
 
   block_0456:
-    if (local_02 > 102) goto block_0468;
+    if local_02 <= 102 goto block_0468;
 
   block_0462:
     goto block_051a;
@@ -122,14 +93,14 @@ function keypadns_use() /* entry=1101 class_id=0x044b slot=0x01 */
     goto block_051a;
 
   block_048c:
-    if (intrinsic_0003(arg_06) != 0) goto block_051a;
+    if intrinsic_0003(arg_06) == 0 goto block_051a;
 
   block_049b:
     local_07 = (intrinsic_0004(arg_06) & 4);
-    if (local_07 != 0) goto block_04ff;
+    if local_07 != 0 goto block_04ff;
 
   block_04b1:
-    if intrinsic_0000() goto block_04ec;
+    if !intrinsic_0000() goto block_04ec;
 
   block_04b9:
     spawn FREE.slot_21(pid, 0x0184, 0x00000000);

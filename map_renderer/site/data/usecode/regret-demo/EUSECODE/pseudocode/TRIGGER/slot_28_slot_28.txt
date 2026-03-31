@@ -1,103 +1,57 @@
 function trigger_slot_28() /* entry=2591 class_id=0x0a1d slot=0x28 */
 {
-  entry:
-    set_info(0x021b, 0);
-    local_18 = arg_18;
-    local_16 = arg_10;
-    local_04 = (arg_16 & 3);
-    if (local_04 != 0) goto block_1c75;
-
-  block_1c48_selector_00:
+  set_info(0x021b, 0);
+  local_18 = arg_18;
+  local_16 = arg_10;
+  local_04 = (arg_16 & 3);
+  if (local_04 == 0) {
     for local_14 in nearby_items(shape=arg_20, origin=local_16) {
       /* loopnext */
     }
-
-  block_1c70:
-    goto block_1fd3;
-
-  block_1c75:
-    if (local_04 != 1) goto block_1caa;
-
-  block_1c7d_selector_00:
+  }
+  else if (local_04 == 1) {
     for local_14 in nearby_items(shape=arg_20, origin=local_16) {
       /* loopnext */
     }
-
-  block_1ca5:
-    goto block_1fd3;
-
-  block_1caa:
-    if (local_04 != 2) goto block_1ce1;
-
-  block_1cb2_selector_00:
+  }
+  else if (local_04 == 2) {
     for local_14 in nearby_items(shape=arg_20, origin=local_16) {
       /* loopnext */
     }
-
-  block_1cdc:
-    goto block_1fd3;
-
-  block_1ce1:
-    if (local_04 != 3) goto block_1fd3;
-
-  block_1ce9:
+  }
+  else if (local_04 == 3) {
     local_02 = (arg_12 & 7);
-    if (local_02 != 0) goto block_1d5d;
-
-  block_1cf8:
-    local_12 = (arg_12 / 8);
-
-  block_1cf8_selector_00:
-    for local_14 in nearby_items(shape=0x0476, origin=local_16) {
-      local_06 = intrinsic_0142(local_14);
-      local_10 = (local_06 & 15);
-      local_08 = intrinsic_0003(local_14);
-      local_08 = (((local_06 & 0x00e0) * 8) + local_08);
-      FREE.slot_39(local_12, local_10, local_08, local_14);
-      /* loopnext */
+    if (local_02 == 0) {
+      local_12 = (arg_12 / 8);
+      for local_14 in nearby_items(shape=0x0476, origin=local_16) {
+        local_06 = intrinsic_0142(local_14);
+        local_10 = (local_06 & 15);
+        local_08 = intrinsic_0003(local_14);
+        local_08 = (((local_06 & 0x00e0) * 8) + local_08);
+        FREE.slot_39(local_12, local_10, local_08, local_14);
+        /* loopnext */
+      }
     }
-
-  block_1d58:
-    goto block_1fd0;
-
-  block_1d5d:
-    if (local_02 != 1) goto block_1e51;
-
-  block_1d65:
-    local_12 = (arg_12 / 8);
-
-  block_1d65_selector_00:
-    /* loop_selector local_14 in nearby_items(shape=arg_20, origin=local_16) */
-
-  block_1d83:
-    if condition goto block_1e4c;
-
-  block_1d86:
-    if (local_12 != 31) goto block_1db4;
-
-  block_1d98:
-    suspend;
-    goto block_1e48;
-
-  block_1db4:
-    local_10 = Item.getFrame(local_14);
-    local_08 = intrinsic_0011(local_14);
-    local_06 = (local_08 & 0x00ff);
-    local_08 = (local_08 & 0x0700);
-    local_08 = (local_08 / 8);
-    local_08 = (local_08 + local_10);
-    suspend;
-    /* bit_not */
-
-  block_1e48:
-    /* loopnext */
-    goto block_1d83;
-
-  block_1e4c:
-    goto block_1fd0;
-
-  block_1e51:
-    if (local_02 == 2) {
+    else if (local_02 == 1) {
+      local_12 = (arg_12 / 8);
+      for local_14 in nearby_items(shape=arg_20, origin=local_16) {
+        if (local_12 == 31) {
+          suspend;
+        }
+        else {
+          local_10 = Item.getFrame(local_14);
+          local_08 = intrinsic_0011(local_14);
+          local_06 = (local_08 & 0x00ff);
+          local_08 = (local_08 & 0x0700);
+          local_08 = (local_08 / 8);
+          local_08 = (local_08 + local_10);
+          suspend;
+          /* bit_not */
+        }
+        /* loopnext */
+      }
+    }
+    else if (local_02 == 2) {
       local_06 = (arg_12 / 8);
       for local_14 in nearby_items(shape=arg_20, origin=local_16) {
         /* loopnext */
@@ -125,7 +79,7 @@ function trigger_slot_28() /* entry=2591 class_id=0x0a1d slot=0x28 */
         local_10 = (local_06 & 15);
         local_08 = intrinsic_0003(local_14);
         local_08 = (((local_06 & 0x00e0) * 8) + local_08);
-        if (local_08 == 0) {
+        if (local_08 != 0) {
           if (Item.create(local_10, local_08, local_20) == 1) {
             suspend;
           }
@@ -133,16 +87,8 @@ function trigger_slot_28() /* entry=2591 class_id=0x0a1d slot=0x28 */
         /* loopnext */
       }
     }
-
-  block_1fd0:
-    goto block_1fd3;
-
-  block_1fd3:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_1fda;
-
-  block_1fda:
-    return;
-
+  }
+  /* word_to_dword */
+  /* pop_result */
+  return;
 }

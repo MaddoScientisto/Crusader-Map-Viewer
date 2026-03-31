@@ -4,60 +4,40 @@ function switch_slot_21() /* entry=2587 class_id=0x0a19 slot=0x21 */
     referent, /* [BP+00h] type=0x69 */
     okay; /* [BP-01h] type=0x62 */
 
-  entry:
-    set_info(0x0207, *(arg_06));
-    okay = intrinsic_010c(intrinsic_00fc(arg_06));
-    if (Item.getFrame(arg_06) != 4) goto block_029e;
-
-  block_0221:
+  set_info(0x0207, *(arg_06));
+  okay = intrinsic_010c(intrinsic_00fc(arg_06));
+  if (Item.getFrame(arg_06) == 4) {
     spawn FREE.slot_21(pid, 0x00ad, 0x00000000);
     suspend;
     spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
     suspend;
     spawn FREE.slot_32(pid, 1, 0x00000000);
     suspend;
-    goto block_043b;
-
-  block_029b:
-    goto block_043b;
-
-  block_029e:
-    if intrinsic_0000() goto block_030c;
-
-  block_02a9:
+    return;
+  }
+  else if (intrinsic_0000()) {
     spawn FREE.slot_21(pid, 0x0090, 0x00000000);
     suspend;
-    if (intrinsic_0018(100, 0) > 50) goto block_02f8;
-
-  block_02e7:
-    goto block_0306;
-
-  block_0306:
-    goto block_043b;
-
-  block_030c:
-    if okay goto block_038b;
-
-  block_0314:
+    if (intrinsic_0018(100, 0) > 50) {
+    }
+    return;
+  }
+  else if (okay) {
     spawn FREE.slot_32(pid, 1, 0x00000000);
     suspend;
     spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
     suspend;
-    goto block_043b;
-
-  block_03a6:
-    while (!intrinsic_003d(0x0090, arg_06)) {
+    return;
+  }
+  else {
+    while (intrinsic_003d(0x0090, arg_06)) {
       spawn FREE.slot_32(pid, 2, 0x00000000);
       suspend;
     }
-
-  block_03e1:
     spawn FREE.slot_32(pid, 1, 0x00000000);
     suspend;
     spawn TRIGGER.slot_20(pid, 1, *(arg_06), arg_06);
     suspend;
-
-  block_043b:
-    return;
-
+  }
+  return;
 }

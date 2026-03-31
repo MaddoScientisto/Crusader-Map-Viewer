@@ -1,152 +1,120 @@
 function bouncbox_gotHit() /* entry=1265 class_id=0x04ef slot=0x06 */
 {
-  entry:
-    set_info(0x020c, *(arg_06));
-    process_exclude();
-    local_02 = intrinsic_0021(arg_06);
-    local_08 = arg_10;
-    FREE.slot_35(arg_12, arg_10);
-    local_12 = retval;
-    if (arg_10 != 0x4000) goto block_03b5;
-
-  block_0105:
-    if (((local_12 != 4) || (local_12 != 3)) || (local_12 != 10)) goto block_011c;
-
-  block_0119:
-    goto block_03b5;
-
-  block_011c:
-    if ((local_12 != 1) || (local_12 != 2)) goto block_0141;
-
-  block_012a:
-    spawn FREE.slot_3b(pid, 15, 0x00000000);
-    suspend;
-
-  block_0141:
-    if ((local_02 > 15) && (local_02 < 32)) goto block_0187;
-
-  block_0167:
-    local_02 = (local_02 + 2);
-    if (local_02 > 31) goto block_017d;
-
-  block_0176:
-    local_02 = (local_02 - 16);
-
-  block_0187:
-    if (intrinsic_0004(arg_06) & 4) goto block_019e;
-
-  block_0196:
-    local_02 = 0x00ff;
-    goto block_03b5;
-
-  block_019e:
-    if (local_02 == 0x00ff) {
-      FREE.slot_20(15);
-      local_02 = retval;
-    }
-    else if (local_02 == 0x00fe) {
-      local_02 = intrinsic_0034(global[0x001e], arg_06);
-      if (local_02 == 0) {
-        local_14 = -1;
-        local_16 = -3;
-      }
-      else if (local_02 == 1) {
-        local_14 = 0;
-        local_16 = -3;
-      }
-      else if (local_02 == 2) {
-        local_14 = 1;
-        local_16 = -3;
-      }
-      else if (local_02 == 3) {
-        local_14 = 2;
-        local_16 = -2;
-      }
-      else if (local_02 == 4) {
-        local_14 = 2;
-        local_16 = -1;
-      }
-      else if (local_02 == 5) {
-        local_14 = 2;
-        local_16 = 0;
-      }
-      else if (local_02 == 6) {
-        local_14 = 2;
-        local_16 = 2;
-      }
-      else if (local_02 == 7) {
-        local_14 = 0;
-        local_16 = 2;
-      }
-      else if (local_02 == 8) {
-        local_14 = -1;
-        local_16 = 2;
-      }
-      else if (local_02 == 9) {
-        local_14 = -2;
-        local_16 = 2;
-      }
-      else if (local_02 == 10) {
-        local_14 = -3;
-        local_16 = 2;
-      }
-      else if (local_02 == 11) {
-        local_14 = -3;
-        local_16 = 1;
-      }
-      else if (local_02 == 12) {
-        local_14 = -3;
-        local_16 = 0;
-      }
-      else if (local_02 == 13) {
-        local_14 = -3;
-        local_16 = -1;
-      }
-      else if (local_02 == 14) {
-        local_14 = -3;
-        local_16 = -2;
-      }
-      else if (local_02 == 15) {
-        local_14 = -3;
-        local_16 = -3;
-      }
-      suspend;
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  local_02 = intrinsic_0021(arg_06);
+  local_08 = arg_10;
+  FREE.slot_35(arg_12, arg_10);
+  local_12 = retval;
+  if (arg_10 == 0x4000) {
+    if (((local_12 == 4) || (local_12 == 3)) || (local_12 == 10)) {
       return;
     }
-
-  block_0333:
-    local_02 = (local_02 & 15);
-    if ((local_02 > 13) || (local_02 < 3)) goto block_0352;
-
-  block_0348:
-    local_22 = (local_22 - 32);
-    goto block_039a;
-
-  block_0352:
-    if ((local_02 > 1) && (local_02 < 7)) goto block_036a;
-
-  block_0360:
-    local_20 = (local_20 + 32);
-    goto block_039a;
-
-  block_036a:
-    if ((local_02 > 5) && (local_02 < 11)) goto block_0382;
-
-  block_0378:
-    local_22 = (local_22 + 32);
-    goto block_039a;
-
-  block_0382:
-    if ((local_02 > 9) && (local_02 < 15)) goto block_039a;
-
-  block_0390:
-    local_20 = (local_20 - 32);
-    goto block_039a;
-
-  block_039a:
-    suspend;
-
-  block_03b5:
-    return;
-
+    else if ((local_12 == 1) || (local_12 == 2)) {
+      spawn FREE.slot_3b(pid, 15, 0x00000000);
+      suspend;
+    }
+    if ((local_02 > 15) && (local_02 < 32)) {
+      local_02 = (local_02 + 2);
+      if (local_02 > 31) {
+        local_02 = (local_02 - 16);
+      }
+    }
+    if (intrinsic_0004(arg_06) & 4) {
+      local_02 = 0x00ff;
+      return;
+    }
+    else {
+      FREE.slot_35(arg_12, arg_10);
+      local_18 = retval;
+      if (local_02 == 0x00ff) {
+        FREE.slot_20(15);
+        local_02 = retval;
+      }
+      else if (local_02 == 0x00fe) {
+        local_02 = intrinsic_0034(global[0x001e], arg_06);
+        if (local_02 == 0) {
+          local_14 = -1;
+          local_16 = -3;
+        }
+        else if (local_02 == 1) {
+          local_14 = 0;
+          local_16 = -3;
+        }
+        else if (local_02 == 2) {
+          local_14 = 1;
+          local_16 = -3;
+        }
+        else if (local_02 == 3) {
+          local_14 = 2;
+          local_16 = -2;
+        }
+        else if (local_02 == 4) {
+          local_14 = 2;
+          local_16 = -1;
+        }
+        else if (local_02 == 5) {
+          local_14 = 2;
+          local_16 = 0;
+        }
+        else if (local_02 == 6) {
+          local_14 = 2;
+          local_16 = 2;
+        }
+        else if (local_02 == 7) {
+          local_14 = 0;
+          local_16 = 2;
+        }
+        else if (local_02 == 8) {
+          local_14 = -1;
+          local_16 = 2;
+        }
+        else if (local_02 == 9) {
+          local_14 = -2;
+          local_16 = 2;
+        }
+        else if (local_02 == 10) {
+          local_14 = -3;
+          local_16 = 2;
+        }
+        else if (local_02 == 11) {
+          local_14 = -3;
+          local_16 = 1;
+        }
+        else if (local_02 == 12) {
+          local_14 = -3;
+          local_16 = 0;
+        }
+        else if (local_02 == 13) {
+          local_14 = -3;
+          local_16 = -1;
+        }
+        else if (local_02 == 14) {
+          local_14 = -3;
+          local_16 = -2;
+        }
+        else if (local_02 == 15) {
+          local_14 = -3;
+          local_16 = -3;
+        }
+        suspend;
+        return;
+      }
+      local_02 = (local_02 & 15);
+      if ((local_02 > 13) || (local_02 < 3)) {
+        local_22 = (local_22 - 32);
+      }
+      else if ((local_02 > 1) && (local_02 < 7)) {
+        local_20 = (local_20 + 32);
+      }
+      else if ((local_02 > 5) && (local_02 < 11)) {
+        local_22 = (local_22 + 32);
+      }
+      else if ((local_02 > 9) && (local_02 < 15)) {
+        local_20 = (local_20 - 32);
+      }
+      suspend;
+    }
+  }
+  return;
 }

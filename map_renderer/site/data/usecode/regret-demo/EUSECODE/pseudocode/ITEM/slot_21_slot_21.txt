@@ -1,38 +1,27 @@
 function item_slot_21() /* entry=2577 class_id=0x0a0f slot=0x21 */
 {
-  entry:
-    set_info(global[0x001e], 1);
-    /* pop_global */
-    /* loopscr */
-    /* loopscr */
-    /* loopscr */
-    /* loopscr */
-    /* loop */
-
-  block_0174:
-    while (!condition) {
-      local_04 = local_06;
-      /* loopnext */
-    }
-
-  block_017f:
-    if (!local_04) goto block_01ad;
-
-  block_0187:
+  set_info(global[0x001e], 1);
+  /* pop_global */
+  /* loopscr */
+  /* loopscr */
+  /* loopscr */
+  /* loopscr */
+  /* loop */
+  while (condition) {
+    local_04 = local_06;
+    /* loopnext */
+  }
+  if (!local_04) {
     spawn TRIGGER.slot_20(pid, 1, *(arg_06), arg_06);
     suspend;
-    goto block_0222;
-
-  block_01e8:
-    while (!(global[0x000a])) {
+    return;
+  }
+  else {
+    while (global[0x000a]) {
       spawn FREE.slot_3b(pid, 0x01f4, 0x00000000);
       suspend;
     }
-
-  block_021f:
-    goto block_0222;
-
-  block_0222:
     return;
-
+  }
+  return;
 }

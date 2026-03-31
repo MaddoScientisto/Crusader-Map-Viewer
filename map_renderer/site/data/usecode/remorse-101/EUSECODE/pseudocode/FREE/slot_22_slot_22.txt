@@ -1,16 +1,42 @@
 function free_slot_22() /* entry=2574 class_id=0x0a0c slot=0x22 */
 {
-  entry:
-    set_info(0x022b, 0);
-    if global[0x0007] goto block_0202;
-
-  block_01ff:
-    goto block_03e8;
-
-  block_0202:
+  set_info(0x022b, 0);
+  if (global[0x0007]) {
+    return;
+  }
+  else {
     /* pop_global */
-
-  block_0208:
+    suspend;
+    spawn FREE.waitNTimerTicks(pid, 100, 0x00000000);
+    suspend;
+    spawn FREE.slot_21(pid, 0x007f, 0x00000000);
+    suspend;
+    spawn FREE.slot_21(pid, 57, 0x00000000);
+    suspend;
+    spawn FREE.slot_21(pid, 60, 0x00000000);
+    suspend;
+    spawn FREE.waitNTimerTicks(pid, 0x1770, 0x00000000);
+    suspend;
+    spawn FREE.slot_21(pid, 34, 0x00000000);
+    suspend;
+    spawn FREE.waitNTimerTicks(pid, 0x1770, 0x00000000);
+    suspend;
+    spawn FREE.slot_21(pid, 33, 0x00000000);
+    suspend;
+    spawn FREE.waitNTimerTicks(pid, 0x1770, 0x00000000);
+    suspend;
+    spawn FREE.slot_21(pid, 31, 0x00000000);
+    suspend;
+    spawn FREE.waitNTimerTicks(pid, 0x1770, 0x00000000);
+    suspend;
+    spawn FREE.slot_21(pid, 26, 0x00000000);
+    suspend;
+    spawn FREE.waitNTimerTicks(pid, 0x0bb8, 0x00000000);
+    suspend;
+    spawn FREE.slot_21(pid, 32, 0x00000000);
+    suspend;
+    spawn FREE.waitNTimerTicks(pid, 0x0708, 0x00000000);
+    suspend;
     while (true) {
       suspend;
       spawn FREE.waitNTimerTicks(pid, 100, 0x00000000);
@@ -43,11 +69,11 @@ function free_slot_22() /* entry=2574 class_id=0x0a0c slot=0x22 */
       suspend;
       spawn FREE.waitNTimerTicks(pid, 0x0708, 0x00000000);
       suspend;
-      if (global[0x0007]) {
+      if (!(global[0x0007])) {
         return;
       }
       /* global_address */
-      if (Kernel.resetRef()) {
+      if (!Kernel.resetRef()) {
         /* global_address */
         /* pop_global */
         spawn FREE.waitNTimerTicks(0, pid, 10, 0x00000000);
@@ -59,8 +85,6 @@ function free_slot_22() /* entry=2574 class_id=0x0a0c slot=0x22 */
         return;
       }
     }
-
-  block_03e8:
-    return;
-
+  }
+  return;
 }

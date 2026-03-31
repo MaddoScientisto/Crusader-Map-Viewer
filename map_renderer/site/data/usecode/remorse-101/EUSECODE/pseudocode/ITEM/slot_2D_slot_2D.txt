@@ -1,35 +1,48 @@
 function item_slot_2d() /* entry=2592 class_id=0x0a1e slot=0x2d */
 {
-  entry:
-    set_info(0x021b, 0);
-    local_02 = arg_10;
-    if (Item.getFrame(local_02) != 0) goto block_0f1f;
-
-  block_0f1c:
-    goto block_10f6;
-
-  block_0f1f:
+  set_info(0x021b, 0);
+  local_02 = arg_10;
+  if (Item.getFrame(local_02) != 0) {
+    return;
+  }
+  else {
     local_06 = intrinsic_00e3(local_02);
-
-  block_0f1f_selector_00:
-    /* loop_selector local_04 in nearby_items(shape=NPC_SPAWNER_04D0, origin=local_02) */
-
-  block_0f40:
-    if condition goto block_10f4;
-
-  block_0f43:
-    if (intrinsic_00e3(local_04) != local_06) goto block_10f0;
-
-  block_0f52:
-    if (Item.getFrame(local_04) != 1) goto block_10f0;
-
-  block_0f61:
-    if ((arg_12 != 2) || (arg_12 != 3)) goto block_1096;
-
-  block_0f6f_selector_00:
-    for local_12 in nearby_items(family=6, origin=local_02) {
-      if (!Actor.isNPC(local_12)) {
-        if ((Item.getZ(local_12) > (Item.getZ(arg_06) - 10)) && (Item.getZ(local_12) >= (Item.getZ(arg_06) + 10))) {
+    for local_04 in nearby_items(shape=NPC_SPAWNER_04D0, origin=local_02) {
+      if (intrinsic_00e3(local_04) == local_06) {
+        if (Item.getFrame(local_04) == 1) {
+          if ((arg_12 == 2) || (arg_12 == 3)) {
+            for local_12 in nearby_items(family=6, origin=local_02) {
+              if (Actor.isNPC(local_12)) {
+                if ((Item.getZ(local_12) > (Item.getZ(arg_06) - 10)) && (Item.getZ(local_12) < (Item.getZ(arg_06) + 10))) {
+                  /* word_to_dword */
+                  /* pop_result */
+                  return;
+                }
+              }
+              /* loopnext */
+            }
+            local_14 = intrinsic_012c(local_04, arg_06);
+            if (local_14) {
+              local_10 = local_14;
+              local_08 = (intrinsic_0125(local_02) & 15);
+              if ((local_08 == 2) || (local_08 == 4)) {
+                suspend;
+                while (intrinsic_003a(48, arg_06)) {
+                  spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+                  suspend;
+                }
+              }
+            }
+          }
+          else {
+            local_14 = intrinsic_012c(local_04, arg_06);
+            if (local_14) {
+              local_10 = local_14;
+            }
+          }
+          if ((arg_12 == 0) || (arg_12 == 2)) {
+            spawn ITEM.slot_2e(local_04, local_02, arg_06);
+          }
           /* word_to_dword */
           /* pop_result */
           return;
@@ -37,51 +50,6 @@ function item_slot_2d() /* entry=2592 class_id=0x0a1e slot=0x2d */
       }
       /* loopnext */
     }
-
-  block_0fce:
-    local_14 = intrinsic_012c(local_04, arg_06);
-    if local_14 goto block_1093;
-
-  block_0fe2:
-    local_10 = local_14;
-    local_08 = (intrinsic_0125(local_02) & 15);
-    if ((local_08 != 2) || (local_08 != 4)) goto block_1093;
-
-  block_1002:
-    suspend;
-
-  block_106b:
-    while (!intrinsic_003a(48, arg_06)) {
-      spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
-      suspend;
-    }
-
-  block_1093:
-    goto block_10b6;
-
-  block_1096:
-    local_14 = intrinsic_012c(local_04, arg_06);
-    if local_14 goto block_10b6;
-
-  block_10a8:
-    local_10 = local_14;
-
-  block_10b6:
-    if ((arg_12 != 0) || (arg_12 != 2)) goto block_10e9;
-
-  block_10c4:
-    spawn ITEM.slot_2e(local_04, local_02, arg_06);
-
-  block_10e9:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_10f6;
-
-  block_10f0:
-    /* loopnext */
-    goto block_0f40;
-
-  block_10f6:
-    return;
-
+  }
+  return;
 }

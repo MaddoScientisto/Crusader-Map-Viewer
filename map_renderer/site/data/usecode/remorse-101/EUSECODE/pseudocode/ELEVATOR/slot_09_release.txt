@@ -1,29 +1,17 @@
 function elevator_release() /* entry=544 class_id=0x021e slot=0x09 */
 {
-  entry:
-    set_info(0x020d, *(arg_06));
-    process_exclude();
-    local_02 = intrinsic_0056(arg_06);
-    if (local_02 != 0) goto block_0a02;
-
-  block_09b3:
+  set_info(0x020d, *(arg_06));
+  process_exclude();
+  local_02 = intrinsic_0056(arg_06);
+  if (local_02 == 0) {
     spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
     suspend;
-
-  block_09b3_selector_00:
-    /* loop_selector local_04 in selector_0x42(arg0=0x0189, arg1=0x0289, arg2=(10 * 32), origin=global[0x003d]) */
-
-  block_09e1:
-    if condition goto block_0a00;
-
-  block_09e4:
-    local_06 = local_04;
-    spawn DOOR.slot_21(pid, 2, local_06);
-    suspend;
-    /* loopnext */
-    goto block_09e1;
-
-  block_0a02:
-    return;
-
+    for local_04 in selector_0x42(arg0=0x0189, arg1=0x0289, arg2=(10 * 32), origin=global[0x003d]) {
+      local_06 = local_04;
+      spawn DOOR.slot_21(pid, 2, local_06);
+      suspend;
+      /* loopnext */
+    }
+  }
+  return;
 }

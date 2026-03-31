@@ -1,35 +1,19 @@
 function rfanbade_gotHit() /* entry=976 class_id=0x03ce slot=0x06 */
 {
-  entry:
-    set_info(0x020c, *(arg_06));
-    process_exclude();
-    if (!Item.getFrame(arg_06)) goto block_00ef;
-
-  block_00ec:
-    goto block_0172;
-
-  block_00ef:
-    FREE.slot_34(arg_12, arg_10);
-    if (retval && (Item.getFrame(arg_06) > 0)) goto block_0172;
-
-  block_010b:
-    local_06 = intrinsic_00fd(arg_06);
-
-  block_010b_selector_00:
-    /* loop_selector local_02 in nearby_items(shape=PLACEHOLDER_CUBE_0337, origin=arg_06) */
-
-  block_014e:
-    if condition goto block_0170;
-
-  block_0151:
-    local_04 = intrinsic_00fd(local_02);
-    if (local_04 != local_06) goto block_016c;
-
-  block_016c:
-    /* loopnext */
-    goto block_014e;
-
-  block_0172:
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  if (!Item.getFrame(arg_06)) {
     return;
-
+  }
+  else {
+    FREE.slot_34(arg_12, arg_10);
+    if (retval && (Item.getFrame(arg_06) > 0)) {
+      local_06 = intrinsic_00fd(arg_06);
+      for local_02 in nearby_items(shape=PLACEHOLDER_CUBE_0337, origin=arg_06) {
+        local_04 = intrinsic_00fd(local_02);
+        /* loopnext */
+      }
+    }
+  }
+  return;
 }

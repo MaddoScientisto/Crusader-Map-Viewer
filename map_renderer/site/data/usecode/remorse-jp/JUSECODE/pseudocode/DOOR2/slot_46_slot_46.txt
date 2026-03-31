@@ -6,42 +6,29 @@ function door2_slot_46() /* entry=2569 class_id=0x0a07 slot=0x46 */
     newFrame, /* [BP-04h] type=0x69 */
     item; /* [BP-06h] type=0x24 */
 
-  entry:
-    set_info(0x0207, *(arg_06));
-    if (!Item.getFrame(arg_06)) goto block_3ec5;
-
-  block_3ebb:
+  set_info(0x0207, *(arg_06));
+  if (!Item.getFrame(arg_06)) {
     newFrame = 11;
-    goto block_3ecc;
-
-  block_3ec5:
+  }
+  else {
     newFrame = 26;
-
-  block_3ecc:
-    FREE.slot_2d(Item.getZ(arg_06), Item.legal_create(arg_06), intrinsic_0013(arg_06), newFrame, 0x046a, *(arg_06));
-    if (!retval) goto block_3f0c;
-
-  block_3f02:
+  }
+  FREE.slot_2d(Item.getZ(arg_06), Item.legal_create(arg_06), intrinsic_0013(arg_06), newFrame, 0x046a, *(arg_06));
+  if (!retval) {
     /* word_to_dword */
     /* pop_result */
-    goto block_3f75;
-
-  block_3f0c:
+    return;
+  }
+  else {
     counter = 0;
-
-  block_3f20:
-    while (counter > 11) {
+    while (counter <= 11) {
       spawn FREE.slot_32(pid, 5, 0x00000000);
       suspend;
       counter = (1 + counter);
     }
-
-  block_3f6b:
     /* word_to_dword */
     /* pop_result */
-    goto block_3f75;
-
-  block_3f75:
     return;
-
+  }
+  return;
 }

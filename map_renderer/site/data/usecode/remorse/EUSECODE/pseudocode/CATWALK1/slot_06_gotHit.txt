@@ -3,11 +3,13 @@ function catwalk1_gotHit() /* entry=152 class_id=0x0096 slot=0x06 */
   set_info(0x020c, *(arg_06));
   process_exclude();
   FREE.slot_2c(arg_12, arg_10);
-  if (retval == 4) {
+  if (retval != 4) {
     return;
   }
-  spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
-  suspend;
+  else {
+    spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+    suspend;
+  }
   return;
   /* decompilation stopped at SEARCH_SURFACE */
 }

@@ -16,35 +16,40 @@ function free_slot_28() /* entry=2574 class_id=0x0a0c slot=0x28 */
   item2 = r2;
   /* global_address */
   avatarMap = intrinsic_0011();
-  if (!Actor.isNPC(item1)) {
+  if (Actor.isNPC(item1)) {
     npc1 = item1;
-    if (intrinsic_0011(npc1) == avatarMap) {
+    if (intrinsic_0011(npc1) != avatarMap) {
       return;
     }
   }
-  if (!Actor.isNPC(item2)) {
+  else if (Actor.isNPC(item2)) {
     npc2 = item2;
-    if (intrinsic_0011(npc2) == avatarMap) {
+    if (intrinsic_0011(npc2) != avatarMap) {
       return;
     }
   }
-  x = (intrinsic_0013(item1) - intrinsic_0013(item2));
-  y = (Item.legal_create(item1) - Item.legal_create(item2));
-  z = (Item.getZ(item1) - Item.getZ(item2));
-  FREE.slot_3f(x);
-  x = retval;
-  FREE.slot_3f(y);
-  y = retval;
-  FREE.slot_3f(z);
-  z = retval;
-  if ((x <= y) && (x > z)) {
-    return;
-  }
-  if ((y <= x) && (y > z)) {
-    return;
-  }
-  if ((z <= x) && (z > y)) {
-    return;
+  else {
+    x = (intrinsic_0013(item1) - intrinsic_0013(item2));
+    y = (Item.legal_create(item1) - Item.legal_create(item2));
+    z = (Item.getZ(item1) - Item.getZ(item2));
+    FREE.slot_3f(x);
+    x = retval;
+    FREE.slot_3f(y);
+    y = retval;
+    FREE.slot_3f(z);
+    z = retval;
+    if ((x > y) && (x > z)) {
+      return;
+    }
+    else if ((y > x) && (y > z)) {
+      return;
+    }
+    else if ((z > x) && (z > y)) {
+      return;
+    }
+    else {
+      return;
+    }
   }
   return;
 }

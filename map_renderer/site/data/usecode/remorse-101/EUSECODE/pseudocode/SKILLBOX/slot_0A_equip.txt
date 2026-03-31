@@ -1,70 +1,43 @@
 function skillbox_equip() /* entry=1253 class_id=0x04e3 slot=0x0a */
 {
-  entry:
-    set_info(0x0211, *(arg_06));
-    process_exclude();
-    local_02 = intrinsic_0029();
-    if (intrinsic_0003(arg_06) != 0) goto block_01e7;
-
-  block_00f5:
-    if (Item.getFrame(arg_06) != 2) goto block_019f;
-
-  block_0104:
-    local_04 = intrinsic_00e3(arg_06);
-    if (local_02 != 1) goto block_0132;
-
-  block_0117:
-    spawn TRIGGER.slot_2a(pid, 0, *(arg_06), arg_06);
-    suspend;
-    goto block_0192;
-
-  block_0132:
-    if (local_02 != 2) goto block_0162;
-
-  block_013a:
-    spawn TRIGGER.slot_2a(pid, 0, *(arg_06), arg_06);
-    suspend;
-    goto block_0192;
-
-  block_0162:
-    if (local_02 >= 3) goto block_0192;
-
-  block_016a:
-    spawn TRIGGER.slot_2a(pid, 0, *(arg_06), arg_06);
-    suspend;
-    goto block_0192;
-
-  block_0192:
-    goto block_0234;
-
-  block_019f:
-    if (local_02 >= (Item.getFrame(arg_06) + 2)) goto block_01cc;
-
-  block_01b1:
-    spawn TRIGGER.slot_2a(pid, 0, *(arg_06), arg_06);
-    suspend;
-    goto block_01e4;
-
-  block_01cc:
-    spawn TRIGGER.slot_2a(pid, 1, *(arg_06), arg_06);
-    suspend;
-
-  block_01e4:
-    goto block_0234;
-
-  block_01e7:
-    if (local_02 >= (Item.getFrame(arg_06) + 2)) goto block_0218;
-
-  block_01f9:
+  set_info(0x0211, *(arg_06));
+  process_exclude();
+  local_02 = intrinsic_0029();
+  if (intrinsic_0003(arg_06) != 0) {
+    if (Item.getFrame(arg_06) == 2) {
+      local_04 = intrinsic_00e3(arg_06);
+      if (local_02 == 1) {
+        spawn TRIGGER.slot_2a(pid, 0, *(arg_06), arg_06);
+        suspend;
+      }
+      else if (local_02 == 2) {
+        spawn TRIGGER.slot_2a(pid, 0, *(arg_06), arg_06);
+        suspend;
+      }
+      else if (local_02 >= 3) {
+        spawn TRIGGER.slot_2a(pid, 0, *(arg_06), arg_06);
+        suspend;
+      }
+      return;
+    }
+    if (local_02 >= (Item.getFrame(arg_06) + 2)) {
+      spawn TRIGGER.slot_2a(pid, 0, *(arg_06), arg_06);
+      suspend;
+    }
+    else {
+      spawn TRIGGER.slot_2a(pid, 1, *(arg_06), arg_06);
+      suspend;
+    }
+    return;
+  }
+  else if (local_02 >= (Item.getFrame(arg_06) + 2)) {
     spawn TRIGGER.slot_2a(pid, (0 + 0x0080), *(arg_06), arg_06);
     suspend;
-    goto block_0234;
-
-  block_0218:
+    return;
+  }
+  else {
     spawn TRIGGER.slot_2a(pid, (1 + 0x0080), *(arg_06), arg_06);
     suspend;
-
-  block_0234:
-    return;
-
+  }
+  return;
 }

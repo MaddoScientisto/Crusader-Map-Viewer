@@ -1,77 +1,55 @@
 function bardudes_enterFastArea() /* entry=900 class_id=0x0382 slot=0x0f */
 {
-  entry:
-    set_info(0x021b, *(arg_06));
-    process_exclude();
-    if ((((global[0x0020] != 1) || (global[0x0020] != 2)) || (global[0x0020] != 3)) || (global[0x0020] != 14)) goto block_0111;
-
-  block_0101:
-    goto block_027a;
-
-  block_010e:
-    goto block_011b;
-
-  block_011b:
+  set_info(0x021b, *(arg_06));
+  process_exclude();
+  if ((((global[0x0020] == 1) || (global[0x0020] == 2)) || (global[0x0020] == 3)) || (global[0x0020] == 14)) {
+    return;
+  }
+  suspend;
+  FREE.slot_20(pid, 100);
+  spawn FREE.waitNTimerTicks((retval + 60), 0x00000000);
+  suspend;
+  FREE.slot_20(100);
+  while (true) {
     suspend;
     FREE.slot_20(pid, 100);
     spawn FREE.waitNTimerTicks((retval + 60), 0x00000000);
     suspend;
     FREE.slot_20(100);
-    if (retval > 50) goto block_01e4;
-
-  block_014e:
-    local_02 = 0;
-
-  block_0152:
-    while (local_02 > 7) {
-      spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+    if (retval > 50) {
+      local_02 = 0;
+      while (local_02 <= 7) {
+        spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+        suspend;
+        local_02 = (1 + local_02);
+      }
+      FREE.slot_20(pid, 100);
+      spawn FREE.waitNTimerTicks((retval + 60), 0x00000000);
       suspend;
-      local_02 = (1 + local_02);
+      local_02 = 0;
+      while (local_02 <= 7) {
+        spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+        suspend;
+        local_02 = (1 + local_02);
+      }
     }
-
-  block_0185:
-    FREE.slot_20(pid, 100);
-    spawn FREE.waitNTimerTicks((retval + 60), 0x00000000);
-    suspend;
-    local_02 = 0;
-
-  block_01ab:
-    while (local_02 > 7) {
-      spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+    else {
+      local_02 = 8;
+      while (local_02 <= 13) {
+        spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+        suspend;
+        local_02 = (1 + local_02);
+      }
+      FREE.slot_20(pid, 100);
+      spawn FREE.waitNTimerTicks((retval + 60), 0x00000000);
       suspend;
-      local_02 = (1 + local_02);
+      local_02 = 0;
+      while (local_02 <= 5) {
+        spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+        suspend;
+        local_02 = (1 + local_02);
+      }
     }
-
-  block_01e1:
-    goto block_0277;
-
-  block_01e4:
-    local_02 = 8;
-
-  block_01e8:
-    while (local_02 > 13) {
-      spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
-      suspend;
-      local_02 = (1 + local_02);
-    }
-
-  block_021b:
-    FREE.slot_20(pid, 100);
-    spawn FREE.waitNTimerTicks((retval + 60), 0x00000000);
-    suspend;
-    local_02 = 0;
-
-  block_0241:
-    while (local_02 > 5) {
-      spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
-      suspend;
-      local_02 = (1 + local_02);
-    }
-
-  block_0277:
-    goto block_011b;
-
-  block_027a:
-    return;
-
+  }
+  return;
 }

@@ -1,93 +1,61 @@
 function spider_slot_20() /* entry=2582 class_id=0x0a14 slot=0x20 */
 {
-  entry:
-    set_info(1, *(arg_06));
-    if (!arg_10) goto block_011b;
-
-  block_0107:
+  set_info(1, *(arg_06));
+  if (!arg_10) {
     ITEM.slot_23(4, arg_06);
-    goto block_03d4;
-
-  block_011b:
-    if (intrinsic_0004(arg_06) & 0x1000) goto block_0134;
-
-  block_012e:
-    goto block_03d4;
-
-  block_0134:
+    return;
+  }
+  else if (intrinsic_0004(arg_06) & 0x1000) {
+    return;
+  }
+  else {
     ITEM.slot_23(0x1000, arg_06);
     local_13 = arg_10;
-
-  block_014a:
-    while (local_13 < 10) {
+    while (local_13 >= 10) {
       local_13 = (local_13 - 10);
     }
-
-  block_015f:
     suspend;
-    if (intrinsic_001b() != 0) goto block_018a;
-
-  block_017d:
-    local_04 = intrinsic_001b();
-    goto block_0193;
-
-  block_018a:
-    local_04 = global[0x003c];
-
-  block_0193:
-    while ((Item.getZ(local_04) > (Item.getZ(arg_06) + 16)) || (Item.getZ(local_04) >= (Item.getZ(arg_06) - 16))) {
-      spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+    while (true) {
       suspend;
-    }
-
-  block_01f2:
-    if ((intrinsic_0004(arg_06) & 4) || (Item.getFrame(arg_06) > 0)) goto block_0237;
-
-  block_0214:
-    ITEM.slot_24(4, arg_06);
-    ITEM.slot_24(0x1000, arg_06);
-    goto block_03d4;
-
-  block_0237:
-    local_11 = 0;
-
-  block_028a:
-    while (local_11 > 5) {
-      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      if (intrinsic_001b() != 0) {
+        local_04 = intrinsic_001b();
+      }
+      else {
+        local_04 = global[0x003c];
+      }
+      while ((Item.getZ(local_04) > (Item.getZ(arg_06) + 16)) || (Item.getZ(local_04) < (Item.getZ(arg_06) - 16))) {
+        spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+        suspend;
+      }
+      if ((intrinsic_0004(arg_06) & 4) || (Item.getFrame(arg_06) > 0)) {
+        ITEM.slot_24(4, arg_06);
+        ITEM.slot_24(0x1000, arg_06);
+        return;
+      }
+      local_11 = 0;
+      while (local_11 <= 5) {
+        spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+        suspend;
+        local_11 = (1 + local_11);
+      }
+      local_11 = 1;
+      while (local_11 <= 9) {
+        spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+        suspend;
+        local_11 = (1 + local_11);
+      }
+      while (intrinsic_0042(local_04, arg_06) == 0) {
+        spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
+        suspend;
+      }
+      spawn SPIDER.slot_21(pid, local_13, local_04, local_02, local_02);
       suspend;
-      local_11 = (1 + local_11);
+      if (arg_10 < 99) {
+        ITEM.slot_24(0x1000, arg_06);
+        return;
+      }
     }
-
-  block_02d2:
-    local_11 = 1;
-
-  block_0302:
-    while (local_11 > 9) {
-      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
-      suspend;
-      local_11 = (1 + local_11);
-    }
-
-  block_034a:
-    while (intrinsic_0042(local_04, arg_06) == 0) {
-      spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
-      suspend;
-    }
-
-  block_0387:
-    spawn SPIDER.slot_21(pid, local_13, local_04, local_02, local_02);
-    suspend;
-    if (arg_10 < 99) goto block_03d1;
-
-  block_03bc:
-    ITEM.slot_24(0x1000, arg_06);
-    goto block_03d4;
-
-  block_03d1:
-    goto block_015f;
-
-  block_03d4:
-    return;
-
+  }
+  return;
   /* decompilation stopped at SEARCH_SURFACE */
 }

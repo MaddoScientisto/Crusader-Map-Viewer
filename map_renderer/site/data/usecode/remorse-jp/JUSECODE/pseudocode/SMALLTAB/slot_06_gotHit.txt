@@ -3,10 +3,10 @@ function smalltab_gotHit() /* entry=47 class_id=0x002d slot=0x06 */
   set_info(0x020c, *(arg_06));
   process_exclude();
   FREE.slot_2c(arg_12, arg_10);
-  if (!retval) {
+  if (retval) {
     /* loopscr */
     /* loop */
-    while (!condition) {
+    while (condition) {
       FREE.slot_20(1, 10);
       FREE.slot_20((retval + 10), 10);
       FREE.slot_20(retval, 10);

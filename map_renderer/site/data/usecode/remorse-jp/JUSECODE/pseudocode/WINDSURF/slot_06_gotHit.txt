@@ -4,50 +4,50 @@ function windsurf_gotHit() /* entry=825 class_id=0x0337 slot=0x06 */
     set_info(0x020c, *(arg_06));
     process_exclude();
     FREE.slot_2c(arg_12, arg_10);
-    if retval goto block_0255;
+    if !retval goto block_0255;
 
   block_024f:
     goto block_0626;
 
   block_0255:
-    if (intrinsic_0003(arg_06) != 0) goto block_05ff;
+    if intrinsic_0003(arg_06) != 0 goto block_05ff;
 
   block_026a:
     local_02 = arg_10;
-    if intrinsic_012c(0, local_02) goto block_0288;
+    if !intrinsic_012c(0, local_02) goto block_0288;
 
   block_0282:
     goto block_0626;
 
   block_0288:
-    if (intrinsic_0016(local_02) != 0x01d9) goto block_02a1;
+    if intrinsic_0016(local_02) != 0x01d9 goto block_02a1;
 
   block_029b:
     goto block_0626;
 
   block_02a1:
-    if (intrinsic_00a5(arg_10, arg_06) != 0) goto block_02bb;
+    if intrinsic_00a5(arg_10, arg_06) != 0 goto block_02bb;
 
   block_02b5:
     goto block_0626;
 
   block_02bb:
-    if (intrinsic_010b(arg_06) != 0x00ff) goto block_02d4;
+    if intrinsic_010b(arg_06) != 0x00ff goto block_02d4;
 
   block_02ce:
     goto block_0626;
 
   block_02d4:
-    if (Item.getZ(arg_06) != 0x00fe) goto block_02ed;
+    if Item.getZ(arg_06) != 0x00fe goto block_02ed;
 
   block_02e7:
     goto block_0626;
 
   block_02ed:
-    if (intrinsic_012d(arg_06) != 0x00ff) goto block_0324;
+    if intrinsic_012d(arg_06) != 0x00ff goto block_0324;
 
   block_0300:
-    if (!Actor.isNPC(local_02)) goto block_031e;
+    if Actor.isNPC(local_02) goto block_031e;
 
   block_031e:
     goto block_0626;
@@ -129,7 +129,7 @@ function windsurf_gotHit() /* entry=825 class_id=0x0337 slot=0x06 */
     suspend;
 
   block_0538:
-    if 1 goto block_05c4;
+    if !(1) goto block_05c4;
 
   block_0540:
     local_15 = (intrinsic_0013(local_02) + local_04);
@@ -137,7 +137,7 @@ function windsurf_gotHit() /* entry=825 class_id=0x0337 slot=0x06 */
     local_11 = Item.getZ(local_02);
     spawn FREE.slot_32(pid, 5, 0x00000000);
     suspend;
-    if (intrinsic_00a5(arg_10, arg_06) != 0) goto block_05c1;
+    if intrinsic_00a5(arg_10, arg_06) != 0 goto block_05c1;
 
   block_05bb:
     goto block_05c4;
@@ -146,7 +146,7 @@ function windsurf_gotHit() /* entry=825 class_id=0x0337 slot=0x06 */
     goto block_0538;
 
   block_05c4:
-    if (Item.getZ(local_02) > 1) goto block_05fc;
+    if Item.getZ(local_02) <= 1 goto block_05fc;
 
   block_05d6:
     suspend;

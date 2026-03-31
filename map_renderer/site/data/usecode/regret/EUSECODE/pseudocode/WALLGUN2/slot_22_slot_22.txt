@@ -1,105 +1,77 @@
 function wallgun2_slot_22() /* entry=2588 class_id=0x0a1a slot=0x22 */
 {
-  entry:
-    set_info(0x0001, *(arg_06));
-    spawn FREE.slot_3b(pid, 1, 0x00000000);
-    suspend;
-    if (intrinsic_0004(arg_06) & 0x1000) goto block_09d2;
-
-  block_09a8:
+  set_info(0x0001, *(arg_06));
+  spawn FREE.slot_3b(pid, 1, 0x00000000);
+  suspend;
+  if (intrinsic_0004(arg_06) & 0x1000) {
     spawn FREE.slot_3b(pid, 30, 0x00000000);
     suspend;
-    if (intrinsic_0004(arg_06) & 0x1000) goto block_09d2;
-
-  block_09cf:
-    goto block_0de3;
-
-  block_09d2:
+    if (intrinsic_0004(arg_06) & 0x1000) {
+      return;
+    }
+  }
+  else {
     WALLGUN.slot_2c(arg_06);
     local_01 = retval;
     local_07 = 3;
     local_09 = Item.getFrame(arg_06);
     local_11 = (Item.getFrame(arg_06) * 2);
     WALLGUN.slot_29(arg_06);
-    if retval goto block_0a1d;
-
-  block_0a13:
-    local_11 = (local_11 + 20);
-    goto block_0a24;
-
-  block_0a1d:
-    local_11 = (local_11 + 9);
-
-  block_0a24:
-    if ((intrinsic_0011(arg_06) != 0x0113) || (intrinsic_0011(arg_06) != 0x0108)) goto block_0b56;
-
-  block_0a42:
-    spawn WALLGUN2.slot_23(local_01, arg_06);
-    spawn FREE.slot_3b(pid, 5, 0x00000000);
-    suspend;
-    spawn FREE.slot_3b(pid, 5, 0x00000000);
-    suspend;
-    spawn WALLGUN2.slot_23(local_01, arg_06);
-    spawn FREE.slot_3b(pid, 5, 0x00000000);
-    suspend;
-    spawn FREE.slot_3b(pid, 5, 0x00000000);
-    suspend;
-    spawn WALLGUN2.slot_23(local_01, arg_06);
-    spawn FREE.slot_3b(pid, 5, 0x00000000);
-    suspend;
-    spawn FREE.slot_3b(pid, 5, 0x00000000);
-    suspend;
-    goto block_0dbd;
-
-  block_0b56:
-    if ((((intrinsic_0011(arg_06) != 0x0373) || (intrinsic_0011(arg_06) != 0x02f0)) || (intrinsic_0011(arg_06) != 0x01b9)) || (intrinsic_0011(arg_06) != 0x01ba)) goto block_0bd7;
-
-  block_0b90:
-    spawn WALLGUN2.slot_23(local_01, arg_06);
-    spawn FREE.slot_3b(pid, 5, 0x00000000);
-    suspend;
-    goto block_0dbd;
-
-  block_0bd7:
-    if ((((intrinsic_0011(arg_06) != 0x025f) || (intrinsic_0011(arg_06) != 0x0260)) || (intrinsic_0011(arg_06) != 0x01b9)) || (intrinsic_0011(arg_06) != 0x01ba)) goto block_0c23;
-
-  block_0c11:
-    spawn WALLGUN2.slot_23(local_01, arg_06);
-    goto block_0dbd;
-
-  block_0c23:
-    if ((((intrinsic_0011(arg_06) != 0x04c8) || (intrinsic_0011(arg_06) != 0x01cd)) || (intrinsic_0011(arg_06) != 0x05e6)) || (intrinsic_0011(arg_06) != 0x05ba)) goto block_0d62;
-
-  block_0c5d:
-    spawn FREE.slot_3b(pid, 5, 0x00000000);
-    suspend;
-    spawn WALLGUN2.slot_23(local_01, arg_06);
-    spawn FREE.slot_3b(pid, 5, 0x00000000);
-    suspend;
-    spawn FREE.slot_3b(pid, 5, 0x00000000);
-    suspend;
-    spawn WALLGUN2.slot_23(local_01, arg_06);
-    spawn FREE.slot_3b(pid, 5, 0x00000000);
-    suspend;
-    spawn FREE.slot_3b(pid, 5, 0x00000000);
-    suspend;
-    spawn FREE.slot_3b(pid, 5, 0x00000000);
-    suspend;
-    goto block_0dbd;
-
-  block_0d62:
-    if ((intrinsic_0011(arg_06) == 0x03a1) || (intrinsic_0011(arg_06) != 0x0399)) {
+    if (retval) {
+      local_11 = (local_11 + 20);
+    }
+    else {
+      local_11 = (local_11 + 9);
+    }
+    if ((intrinsic_0011(arg_06) == 0x0113) || (intrinsic_0011(arg_06) == 0x0108)) {
+      spawn WALLGUN2.slot_23(local_01, arg_06);
+      spawn FREE.slot_3b(pid, 5, 0x00000000);
+      suspend;
+      spawn FREE.slot_3b(pid, 5, 0x00000000);
+      suspend;
+      spawn WALLGUN2.slot_23(local_01, arg_06);
+      spawn FREE.slot_3b(pid, 5, 0x00000000);
+      suspend;
+      spawn FREE.slot_3b(pid, 5, 0x00000000);
+      suspend;
+      spawn WALLGUN2.slot_23(local_01, arg_06);
+      spawn FREE.slot_3b(pid, 5, 0x00000000);
+      suspend;
+      spawn FREE.slot_3b(pid, 5, 0x00000000);
+      suspend;
+    }
+    else if ((((intrinsic_0011(arg_06) == 0x0373) || (intrinsic_0011(arg_06) == 0x02f0)) || (intrinsic_0011(arg_06) == 0x01b9)) || (intrinsic_0011(arg_06) == 0x01ba)) {
       spawn WALLGUN2.slot_23(local_01, arg_06);
       spawn FREE.slot_3b(pid, 5, 0x00000000);
       suspend;
     }
-
-  block_0dbd:
+    else if ((((intrinsic_0011(arg_06) == 0x025f) || (intrinsic_0011(arg_06) == 0x0260)) || (intrinsic_0011(arg_06) == 0x01b9)) || (intrinsic_0011(arg_06) == 0x01ba)) {
+      spawn WALLGUN2.slot_23(local_01, arg_06);
+    }
+    else if ((((intrinsic_0011(arg_06) == 0x04c8) || (intrinsic_0011(arg_06) == 0x01cd)) || (intrinsic_0011(arg_06) == 0x05e6)) || (intrinsic_0011(arg_06) == 0x05ba)) {
+      spawn FREE.slot_3b(pid, 5, 0x00000000);
+      suspend;
+      spawn WALLGUN2.slot_23(local_01, arg_06);
+      spawn FREE.slot_3b(pid, 5, 0x00000000);
+      suspend;
+      spawn FREE.slot_3b(pid, 5, 0x00000000);
+      suspend;
+      spawn WALLGUN2.slot_23(local_01, arg_06);
+      spawn FREE.slot_3b(pid, 5, 0x00000000);
+      suspend;
+      spawn FREE.slot_3b(pid, 5, 0x00000000);
+      suspend;
+      spawn FREE.slot_3b(pid, 5, 0x00000000);
+      suspend;
+    }
+    else if ((intrinsic_0011(arg_06) == 0x03a1) || (intrinsic_0011(arg_06) == 0x0399)) {
+      spawn WALLGUN2.slot_23(local_01, arg_06);
+      spawn FREE.slot_3b(pid, 5, 0x00000000);
+      suspend;
+    }
     spawn WALLGUN.slot_30(pid, arg_06);
     suspend;
     /* bit_not */
-
-  block_0de3:
-    return;
-
+  }
+  return;
 }

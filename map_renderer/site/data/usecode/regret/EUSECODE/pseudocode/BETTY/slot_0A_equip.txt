@@ -2,15 +2,17 @@ function betty_equip() /* entry=543 class_id=0x021d slot=0x0a */
 {
   set_info(0x0211, *(arg_06));
   process_exclude();
-  if (!arg_10) {
-    if (!(intrinsic_0004(arg_06) & 0x1000)) {
+  if (arg_10) {
+    if (intrinsic_0004(arg_06) & 0x1000) {
       return;
     }
     ITEM.slot_24(0x1000, arg_06);
     spawn BBETTY.slot_20(arg_06);
     return;
   }
-  ITEM.slot_25(0x1000, arg_06);
-  FREE.slot_3c(1, *(arg_06));
+  else {
+    ITEM.slot_25(0x1000, arg_06);
+    FREE.slot_3c(1, *(arg_06));
+  }
   return;
 }

@@ -1,20 +1,25 @@
 function item_slot_29() /* entry=2574 class_id=0x0a0c slot=0x29 */
 {
   set_info(1, *(arg_06));
-  if (arg_10 == 0x4000) {
+  if (arg_10 != 0x4000) {
     /* word_to_dword */
     /* pop_result */
     return;
   }
-  local_02 = (arg_12 & 0x00ff);
-  local_04 = intrinsic_00b7(arg_06);
-  local_06 = (local_04 + local_02);
-  if (local_06 < arg_14) {
-    /* word_to_dword */
-    /* pop_result */
-    return;
+  else {
+    local_02 = (arg_12 & 0x00ff);
+    local_04 = intrinsic_00b7(arg_06);
+    local_06 = (local_04 + local_02);
+    if (local_06 >= arg_14) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
+    else {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
   }
-  /* word_to_dword */
-  /* pop_result */
   return;
 }

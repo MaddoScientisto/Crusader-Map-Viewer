@@ -1,43 +1,30 @@
 function mbarrel_gotHit() /* entry=479 class_id=0x01dd slot=0x06 */
 {
-  entry:
-    set_info(0x020c, *(arg_06));
-    process_exclude();
-    FREE.slot_35(arg_12, arg_10);
-    if (!retval) goto block_00f2;
-
-  block_00ef:
-    goto block_01c3;
-
-  block_00f2:
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  FREE.slot_35(arg_12, arg_10);
+  if (!retval) {
+    return;
+  }
+  else {
     spawn ITEM.slot_29(pid, 100, arg_12, arg_10, arg_06);
     suspend;
     /* dword_to_word */
-    if (!process_result) goto block_0137;
-
-  block_0110:
-    FREE.slot_20(1);
-    if retval goto block_012a;
-
-  block_011d:
-    goto block_0134;
-
-  block_0134:
-    goto block_01c3;
-
-  block_0137:
-    if (Item.getFrame(arg_06) != 0) goto block_01c3;
-
-  block_0146:
-    local_09 = Item.getZ(arg_06);
-    local_06 = Item.getX(arg_06);
-    local_08 = Item.getY(arg_06);
-    local_11 = intrinsic_00b8(arg_06);
-    spawn ITEM.slot_2c(pid, arg_06);
-    suspend;
-    FREE.slot_20(3);
-
-  block_01c3:
-    return;
-
+    if (!process_result) {
+      FREE.slot_20(1);
+      if (retval) {
+      }
+      return;
+    }
+    else if (Item.getFrame(arg_06) == 0) {
+      local_09 = Item.getZ(arg_06);
+      local_06 = Item.getX(arg_06);
+      local_08 = Item.getY(arg_06);
+      local_11 = intrinsic_00b8(arg_06);
+      spawn ITEM.slot_2c(pid, arg_06);
+      suspend;
+      FREE.slot_20(3);
+    }
+  }
+  return;
 }

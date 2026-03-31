@@ -1,514 +1,294 @@
 function textfil2_slot_20() /* entry=2595 class_id=0x0a21 slot=0x20 */
 {
-  entry:
-    if (arg_12 != 110) goto block_015d;
-
-  block_00e4:
-    if (arg_10 && arg_14) goto block_015a;
-
-  block_00ec:
-    /* free_local_string */
-    local_02 = "LMC SECURITY:     ^^Accessing telepad  ^13. Powering up the^grid. *.*.*.*      ^<TELEPAD ACTIVE>   ";
-    goto block_015a;
-
-  block_015a:
-    goto block_1e21;
-
-  block_015d:
-    if (arg_12 != 111) goto block_02cb;
-
-  block_0165:
-    if (arg_10 && arg_14) goto block_0299;
-
-  block_016d:
-    /* concat */
-    /* concat */
-    /* concat */
-    /* concat */
-    /* concat */
-    /* concat */
-    /* concat */
-    /* concat */
-    /* concat */
-    /* free_local_string */
-    local_02 = "Steven             ";
-    goto block_02c8;
-
-  block_0299:
-    /* free_local_string */
-    local_02 = "LMC DETENTION:     ^SECURED AREA       ";
-
-  block_02c8:
-    goto block_1e21;
-
-  block_02cb:
-    if (arg_12 != 112) goto block_038f;
-
-  block_02d3:
-    if (arg_10 && arg_14) goto block_035d;
-
-  block_02db:
-    /* free_local_string */
-    local_02 = "ALERT:             ^----------------- ^^Deactivating laser ^barrier *.*.*.*    ^LASER TERMINATED  ^^Yellow alert issued";
-    goto block_038c;
-
-  block_035d:
-    /* free_local_string */
-    local_02 = "LMC DETENTION:     ^SECURED AREA       ";
-
-  block_038c:
-    goto block_1e21;
-
-  block_038f:
-    if (arg_12 != 113) goto block_042d;
-
-  block_0397:
+  if (arg_12 == 110) {
+    if (arg_10 && arg_14) {
+      /* free_local_string */
+      local_02 = "LMC SECURITY:     ^^Accessing telepad  ^13. Powering up the^grid. *.*.*.*      ^<TELEPAD ACTIVE>   ";
+    }
+  }
+  else if (arg_12 == 111) {
+    if (arg_10 && arg_14) {
+      /* concat */
+      /* concat */
+      /* concat */
+      /* concat */
+      /* concat */
+      /* concat */
+      /* concat */
+      /* concat */
+      /* concat */
+      /* free_local_string */
+      local_02 = "Steven             ";
+    }
+    else {
+      /* free_local_string */
+      local_02 = "LMC DETENTION:     ^SECURED AREA       ";
+    }
+  }
+  else if (arg_12 == 112) {
+    if (arg_10 && arg_14) {
+      /* free_local_string */
+      local_02 = "ALERT:             ^----------------- ^^Deactivating laser ^barrier *.*.*.*    ^LASER TERMINATED  ^^Yellow alert issued";
+    }
+    else {
+      /* free_local_string */
+      local_02 = "LMC DETENTION:     ^SECURED AREA       ";
+    }
+  }
+  else if (arg_12 == 113) {
     /* free_local_string */
     local_02 = "SECURITY OPERATIONS^__________________^^Now interfacing    ^with remote droid.*^Vetron BKA735Z     ^Unit is now *.*.*. ^<ONLINE>.          ";
-    goto block_1e21;
-
-  block_042d:
-    if (arg_12 != 114) goto block_04b7;
-
-  block_0435:
+  }
+  else if (arg_12 == 114) {
     /* free_local_string */
     local_02 = "LMC SECURITY SYSTEM^Force bridge now   ^extended *.*.*.*  ^^WARNING! *         ^Security delay is  ^in effect!         ";
-    goto block_1e21;
-
-  block_04b7:
-    if (arg_12 != 115) goto block_0542;
-
-  block_04bf:
+  }
+  else if (arg_12 == 115) {
     /* free_local_string */
     local_02 = "SECURITY OPERATIONS^__________________^^Electric grid *...*^Powering down *...*^Grid is now *.*.*.*^<OFFLINE>.          ";
-    goto block_1e21;
-
-  block_0542:
-    if (arg_12 != 116) goto block_068b;
-
-  block_054a:
-    if (arg_10 && arg_14) goto block_0659;
-
-  block_0552:
-    /* concat */
-    /* concat */
-    /* free_local_string */
-    local_02 = "^Alexis";
-    goto block_0688;
-
-  block_0659:
-    /* free_local_string */
-    local_02 = "LMC DETENTION:     ^SECURED AREA       ";
-
-  block_0688:
-    goto block_1e21;
-
-  block_068b:
-    if (arg_12 != 117) goto block_0729;
-
-  block_0693:
+  }
+  else if (arg_12 == 116) {
+    if (arg_10 && arg_14) {
+      /* concat */
+      /* concat */
+      /* free_local_string */
+      local_02 = "^Alexis";
+    }
+    else {
+      /* free_local_string */
+      local_02 = "LMC DETENTION:     ^SECURED AREA       ";
+    }
+  }
+  else if (arg_12 == 117) {
     /* free_local_string */
     local_02 = "SECURITY OPERATIONS^__________________^^Elevator F23 *...* ^Security override. ^Destination: Prison^cellblock J12 *...*^Door is now <OPEN>.";
-    goto block_1e21;
-
-  block_0729:
-    if (arg_12 != 118) goto block_07c7;
-
-  block_0731:
+  }
+  else if (arg_12 == 118) {
     /* free_local_string */
     local_02 = "SECURITY OPERATIONS^__________________^^Now interfacing    ^with remote droid.*^Roaming Susan      ^STA428Y  *.*.*.*   ^Unit is <ONLINE>   ";
-    goto block_1e21;
-
-  block_07c7:
-    if (arg_12 != 119) goto block_0851;
-
-  block_07cf:
+  }
+  else if (arg_12 == 119) {
     /* free_local_string */
     local_02 = "SECURITY OPERATIONS^__________________^^Laser barrier *...*^Powering down *...*^Lasers are now ... ^<DEACTIVATED>      ";
-    goto block_1e21;
-
-  block_0851:
-    /* free_local_string */
-    local_02 = "Bad command or file^name *.*.*.*      ^^File is out of     ^range.             ";
-    if (arg_12 != 120) goto block_0996;
-
-  block_08b0:
+  }
+  else if (arg_12 == 120) {
     /* free_local_string */
     local_02 = "LMC SECURITY SYSTEM^LEVEL 3J:         ^^Bypassing computer ^controls *.*.*.    ^Checking diagnostic^system  *.*.*.     ^Diagnostic COMPLETE^Rerouting internal ^parameters *.*.*.* ^Monitor KX-234 is  ^now available.     ";
-    goto block_1e21;
-
-  block_0996:
-    if (arg_12 != 121) goto block_0a5f;
-
-  block_099e:
-    if (arg_10 && arg_14) goto block_0a2d;
-
-  block_09a6:
-    /* concat */
-    /* concat */
-    /* concat */
-    /* concat */
-    /* free_local_string */
-    local_02 = "KX-3.              ";
-    goto block_0a5c;
-
-  block_0a2d:
-    /* free_local_string */
-    local_02 = "LMC DETENTION:     ^SECURED AREA       ";
-
-  block_0a5c:
-    goto block_1e21;
-
-  block_0a5f:
-    if (arg_12 != 122) goto block_0ad5;
-
-  block_0a67:
+  }
+  else if (arg_12 == 121) {
+    if (arg_10 && arg_14) {
+      /* concat */
+      /* concat */
+      /* concat */
+      /* concat */
+      /* free_local_string */
+      local_02 = "KX-3.              ";
+    }
+    else {
+      /* free_local_string */
+      local_02 = "LMC DETENTION:     ^SECURED AREA       ";
+    }
+  }
+  else if (arg_12 == 122) {
     /* free_local_string */
     local_02 = "LMC SECURITY SYSTEM^LEVEL 3J:         ^^ACCESS <DENIED>    ^Monitor KX-234 is  ^unavailable.       ";
-    goto block_1e21;
-
-  block_0ad5:
-    if (arg_12 != 123) goto block_0be9;
-
-  block_0add:
-    if (arg_10 && arg_14) goto block_0bb7;
-
-  block_0ae5:
-    /* concat */
-    /* concat */
-    /* concat */
-    /* concat */
-    /* concat */
-    /* concat */
-    /* free_local_string */
-    local_02 = "going to show up!  ";
-    goto block_0be6;
-
-  block_0bb7:
-    /* free_local_string */
-    local_02 = "LMC DETENTION:     ^SECURED AREA       ";
-
-  block_0be6:
-    goto block_1e21;
-
-  block_0be9:
-    if (arg_12 != 124) goto block_0c87;
-
-  block_0bf1:
+  }
+  else if (arg_12 == 123) {
+    if (arg_10 && arg_14) {
+      /* concat */
+      /* concat */
+      /* concat */
+      /* concat */
+      /* concat */
+      /* concat */
+      /* free_local_string */
+      local_02 = "going to show up!  ";
+    }
+    else {
+      /* free_local_string */
+      local_02 = "LMC DETENTION:     ^SECURED AREA       ";
+    }
+  }
+  else if (arg_12 == 124) {
     /* free_local_string */
     local_02 = "SECURITY OPERATIONS^__________________^^Now interfacing    ^with remote droid.*^Vetron UEB429C     ^Unit is now *.*.*.*^<ONLINE>           ";
-    goto block_1e21;
-
-  block_0c87:
-    if (arg_12 != 125) goto block_0d91;
-
-  block_0c8f:
-    if (arg_10 && arg_14) goto block_0d5f;
-
-  block_0c97:
-    /* concat */
-    /* concat */
-    /* concat */
-    /* concat */
-    /* concat */
-    /* free_local_string */
-    local_02 = "just in case *...* ";
-    goto block_0d8e;
-
-  block_0d5f:
-    /* free_local_string */
-    local_02 = "LMC DETENTION:     ^SECURED AREA       ";
-
-  block_0d8e:
-    goto block_1e21;
-
-  block_0d91:
-    if (arg_12 != 126) goto block_0e1b;
-
-  block_0d99:
+  }
+  else if (arg_12 == 125) {
+    if (arg_10 && arg_14) {
+      /* concat */
+      /* concat */
+      /* concat */
+      /* concat */
+      /* concat */
+      /* free_local_string */
+      local_02 = "just in case *...* ";
+    }
+    else {
+      /* free_local_string */
+      local_02 = "LMC DETENTION:     ^SECURED AREA       ";
+    }
+  }
+  else if (arg_12 == 126) {
     /* free_local_string */
     local_02 = "SECURITY OPERATIONS^__________________^^Now interfacing    ^with remote droid.*^Vetron JEB173D     ^Unit is <ONLINE>   ";
-    goto block_1e21;
-
-  block_0e1b:
-    if (arg_12 != 127) goto block_0eb9;
-
-  block_0e23:
+  }
+  else if (arg_12 == 127) {
     /* free_local_string */
     local_02 = "SECURITY OPERATIONS^__________________^^Now attempting to  ^interface with     ^remote droid.  *   ^Vetron JEB173D     ^Unit is <DESTROYED>";
-    goto block_1e21;
-
-  block_0eb9:
-    if (arg_12 != 0x0080) goto block_0f44;
-
-  block_0ec2:
+  }
+  else if (arg_12 == 0x0080) {
     /* free_local_string */
     local_02 = "SECURITY OPERATIONS^__________________^^Now interfacing    ^with remote droid.*^Avatron XTC6723D   ^Unit is <ONLINE>   ";
-    goto block_1e21;
-
-  block_0f44:
-    if (arg_12 != 0x0081) goto block_10b3;
-
-  block_0f4d:
-    if (arg_10 && arg_14) goto block_1081;
-
-  block_0f55:
-    /* concat */
-    /* concat */
-    /* concat */
-    /* concat */
-    /* concat */
-    /* free_local_string */
-    local_02 = "End of Message.    ";
-    goto block_10b0;
-
-  block_1081:
-    /* free_local_string */
-    local_02 = "LMC Research       ^Facility           ";
-
-  block_10b0:
-    goto block_1e21;
-
-  block_10b3:
-    if (arg_12 != 0x0082) goto block_112a;
-
-  block_10bc:
+  }
+  else if (arg_12 == 0x0081) {
+    if (arg_10 && arg_14) {
+      /* concat */
+      /* concat */
+      /* concat */
+      /* concat */
+      /* concat */
+      /* free_local_string */
+      local_02 = "End of Message.    ";
+    }
+    else {
+      /* free_local_string */
+      local_02 = "LMC Research       ^Facility           ";
+    }
+  }
+  else if (arg_12 == 0x0082) {
     /* free_local_string */
     local_02 = "SECURITY OPERATIONS^__________________^^Reflector is now   ^operational *...*  ^Unit is <ONLINE>   ";
-    goto block_1e21;
-
-  block_112a:
-    if (arg_12 != 0x0083) goto block_11c9;
-
-  block_1133:
+  }
+  else if (arg_12 == 0x0083) {
     /* free_local_string */
     local_02 = "SECURITY OPERATIONS^__________________^^Now attempt to     ^interface with     ^remote droid.  *   ^Avatron XTC6723D   ^Unit is <DESTROYED>";
-    goto block_1e21;
-
-  block_11c9:
-    if (arg_12 != 0x0084) goto block_12ed;
-
-  block_11d2:
-    if (arg_10 && arg_14) goto block_12bb;
-
-  block_11da:
-    /* concat */
-    /* concat */
-    /* concat */
-    /* concat */
-    /* concat */
-    /* concat */
-    /* free_local_string */
-    local_02 = "level.             ";
-    goto block_12ea;
-
-  block_12bb:
-    /* free_local_string */
-    local_02 = "LMC DETENTION:     ^SECURED AREA       ";
-
-  block_12ea:
-    goto block_1e21;
-
-  block_12ed:
-    if (arg_12 != 0x0085) goto block_1378;
-
-  block_12f6:
+  }
+  else if (arg_12 == 0x0084) {
+    if (arg_10 && arg_14) {
+      /* concat */
+      /* concat */
+      /* concat */
+      /* concat */
+      /* concat */
+      /* concat */
+      /* free_local_string */
+      local_02 = "level.             ";
+    }
+    else {
+      /* free_local_string */
+      local_02 = "LMC DETENTION:     ^SECURED AREA       ";
+    }
+  }
+  else if (arg_12 == 0x0085) {
     /* free_local_string */
     local_02 = "SECURITY OPERATIONS^__________________^^Now attempting     ^interface with     ^remote droid.  *   ^Unit is <DESTROYED>";
-    goto block_1e21;
-
-  block_1378:
-    if (arg_12 != 0x0086) goto block_1448;
-
-  block_1381:
-    if (arg_10 && arg_14) goto block_1416;
-
-  block_1389:
-    /* concat */
-    /* free_local_string */
-    local_02 = intrinsic_015b(arg_14);
-    goto block_1445;
-
-  block_1416:
-    /* free_local_string */
-    local_02 = "LMC DETENTION:     ^SECURED AREA       ";
-
-  block_1445:
-    goto block_1e21;
-
-  block_1448:
-    if (arg_12 != 0x0087) goto block_14fb;
-
-  block_1451:
+  }
+  else if (arg_12 == 0x0086) {
+    if (arg_10 && arg_14) {
+      /* concat */
+      /* free_local_string */
+      local_02 = intrinsic_015b(arg_14);
+    }
+    else {
+      /* free_local_string */
+      local_02 = "LMC DETENTION:     ^SECURED AREA       ";
+    }
+  }
+  else if (arg_12 == 0x0087) {
     /* free_local_string */
     local_02 = "LMC SECURITY SYSTEM^__________________^^Telepad powering   ^down *.*.*.*       ^Telepad now storing^coordinates *.*.*.*^Telepad is now     ^<OFFLINE>          ";
-    goto block_1e21;
-
-  block_14fb:
-    if (arg_12 != 0x0088) goto block_1572;
-
-  block_1504:
+  }
+  else if (arg_12 == 0x0088) {
     /* free_local_string */
     local_02 = "LMC SECURITY SYSTEM^Accessing *.*.*.*  ^Please wait *.*.*. ^Electric bridge now^extended.          ";
-    goto block_1e21;
-
-  block_1572:
-    if (arg_12 != 0x0089) goto block_15e9;
-
-  block_157b:
+  }
+  else if (arg_12 == 0x0089) {
     /* free_local_string */
     local_02 = "LMC SECURITY SYSTEM^Accessing *.*.*.*  ^Please wait *.*.*. ^Electric bridge now^<DEACTIVATED>      ";
-    goto block_1e21;
-
-  block_15e9:
-    if (arg_12 != 0x008a) goto block_1674;
-
-  block_15f2:
+  }
+  else if (arg_12 == 0x008a) {
     /* free_local_string */
     local_02 = "LMC SECURITY SYSTEM^ALERT!            ^^Unauthorized use of^this terminal *...*^Initiating security^procedure Omega.   ";
-    goto block_1e21;
-
-  block_1674:
-    if (arg_12 != 0x008b) goto block_1713;
-
-  block_167d:
+  }
+  else if (arg_12 == 0x008b) {
     /* free_local_string */
     local_02 = "SECURITY OPERATIONS^__________________^^Now attempt to     ^interface with     ^remote droid.  *   ^Solartron UID3780H ^Unit is <ONLINE>   ";
-    goto block_1e21;
-
-  block_1713:
-    if (arg_12 != 0x008c) goto block_1776;
-
-  block_171c:
+  }
+  else if (arg_12 == 0x008c) {
     /* free_local_string */
     local_02 = "LMC SECURITY SYSTEM^Accessing PG428.   ^Laser barrier now  ^<DEACTIVATED>      ";
-    goto block_1e21;
-
-  block_1776:
-    if (arg_12 != 0x008d) goto block_17d9;
-
-  block_177f:
+  }
+  else if (arg_12 == 0x008d) {
     /* free_local_string */
     local_02 = "LMC SECURITY SYSTEM^Accessing PG428.   ^Laser barrier not  ^<ACTIVE>           ";
-    goto block_1e21;
-
-  block_17d9:
-    if (arg_12 != 0x008e) goto block_1909;
-
-  block_17e2:
+  }
+  else if (arg_12 == 0x008e) {
     /* concat */
     /* concat */
     /* concat */
     /* concat */
     /* free_local_string */
     local_02 = "Jessica            ";
-    goto block_1e21;
-
-  block_1909:
-    if (arg_12 != 0x008f) goto block_19f6;
-
-  block_1912:
-    if intrinsic_0000() goto block_199c;
-
-  block_191a:
-    /* free_local_string */
-    local_02 = "LMC SECURITY SYSTEM^Accessing PG538.   ^Please wait *.*.*.*^Unable to comply at^this time. Red     ^Alert in progress. ";
-    goto block_19f3;
-
-  block_199c:
-    /* free_local_string */
-    local_02 = "LMC SECURITY SYSTEM^Accessing PG538.   ^Please wait *.*.*.*^Access granted.    ";
-
-  block_19f3:
-    goto block_1e21;
-
-  block_19f6:
-    if (arg_12 != 0x0090) goto block_1a59;
-
-  block_19ff:
+  }
+  else if (arg_12 == 0x008f) {
+    if (intrinsic_0000()) {
+      /* free_local_string */
+      local_02 = "LMC SECURITY SYSTEM^Accessing PG538.   ^Please wait *.*.*.*^Unable to comply at^this time. Red     ^Alert in progress. ";
+    }
+    else {
+      /* free_local_string */
+      local_02 = "LMC SECURITY SYSTEM^Accessing PG538.   ^Please wait *.*.*.*^Access granted.    ";
+    }
+  }
+  else if (arg_12 == 0x0090) {
     /* free_local_string */
     local_02 = "LMC SECURITY SYSTEM^Accessing PG1001.  ^Please wait *.*.*.*^Access granted.    ";
-    goto block_1e21;
-
-  block_1a59:
-    if (arg_12 != 0x0091) goto block_1ae9;
-
-  block_1a62:
+  }
+  else if (arg_12 == 0x0091) {
     /* concat */
     /* concat */
     /* concat */
     /* concat */
     /* free_local_string */
     local_02 = "<DEACTIVATED>      ";
-    goto block_1e21;
-
-  block_1ae9:
-    if (arg_12 != 0x0092) goto block_1b60;
-
-  block_1af2:
+  }
+  else if (arg_12 == 0x0092) {
     /* free_local_string */
     local_02 = "LMC SECURITY SYSTEM^Accessing PG549 ...^Please wait *.*.*. ^Wallgun shields are^<DEACTIVATED>      ";
-    goto block_1e21;
-
-  block_1b60:
-    if (arg_12 != 0x0093) goto block_1c25;
-
-  block_1b69:
-    if (arg_10 && arg_14) goto block_1bcb;
-
-  block_1b71:
-    /* free_local_string */
-    local_02 = "LMC SECURITY SYSTEM^Accessing PG411.   ^MV-4 is now        ^<ACTIVE>           ";
-    goto block_1c22;
-
-  block_1bcb:
-    /* free_local_string */
-    local_02 = "LMC SECURITY SYSTEM^Accessing PG1120.  ^Laser barrier now  ^<DEACTIVATED>      ";
-
-  block_1c22:
-    goto block_1e21;
-
-  block_1c25:
-    if (arg_12 != 0x0094) goto block_1d5d;
-
-  block_1c2e:
-    if (arg_10 && arg_14) goto block_1d03;
-
-  block_1c36:
-    /* concat */
-    /* concat */
-    /* free_local_string */
-    local_02 = ".                  ";
-    goto block_1d5a;
-
-  block_1d03:
-    /* free_local_string */
-    local_02 = "LMC SECURITY SYSTEM^Radix Lab 316A.    ^Accessing PG4116.  ^SF1517 DEACTIVATED ";
-
-  block_1d5a:
-    goto block_1e21;
-
-  block_1d5d:
-    if (arg_12 == 0x0095) {
+  }
+  else if (arg_12 == 0x0093) {
+    if (arg_10 && arg_14) {
+      /* free_local_string */
+      local_02 = "LMC SECURITY SYSTEM^Accessing PG411.   ^MV-4 is now        ^<ACTIVE>           ";
+    }
+    else {
+      /* free_local_string */
+      local_02 = "LMC SECURITY SYSTEM^Accessing PG1120.  ^Laser barrier now  ^<DEACTIVATED>      ";
+    }
+  }
+  else if (arg_12 == 0x0094) {
+    if (arg_10 && arg_14) {
       /* concat */
       /* concat */
       /* free_local_string */
-      local_02 = ".";
+      local_02 = ".                  ";
     }
-
-  block_1e21:
-    /* strcmp */
-    if "" goto block_1e66;
-
-  block_1e2b:
+    else {
+      /* free_local_string */
+      local_02 = "LMC SECURITY SYSTEM^Radix Lab 316A.    ^Accessing PG4116.  ^SF1517 DEACTIVATED ";
+    }
+  }
+  else if (arg_12 == 0x0095) {
+    /* concat */
+    /* concat */
+    /* free_local_string */
+    local_02 = ".";
+  }
+  /* strcmp */
+  if ("") {
     /* free_local_string */
     local_02 = "This is a bug. ^Please write this up. ^Love, Mom...";
-
-  block_1e66:
-    goto block_1e6c;
-
-  block_1e6c:
-    /* free_local_string */
-    return;
-
+  }
+  /* free_local_string */
+  return;
 }

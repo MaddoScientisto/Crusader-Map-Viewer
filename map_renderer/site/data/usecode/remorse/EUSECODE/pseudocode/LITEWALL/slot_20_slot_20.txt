@@ -1,62 +1,38 @@
 function litewall_slot_20() /* entry=2578 class_id=0x0a10 slot=0x20 */
 {
-  entry:
-    set_info(0x0001, *(arg_06));
-    set_info(1, arg_10);
-    local_02 = arg_10;
-    local_08 = 0;
-    if (intrinsic_0016(local_02) != 0x045e) goto block_012f;
-
-  block_011c:
+  set_info(0x0001, *(arg_06));
+  set_info(1, arg_10);
+  local_02 = arg_10;
+  local_08 = 0;
+  if (intrinsic_0016(local_02) == 0x045e) {
     local_06 = 0x045e;
     local_04 = 0x0462;
-    goto block_0198;
-
-  block_012f:
-    if (intrinsic_0016(local_02) != 0x045f) goto block_0152;
-
-  block_013f:
+  }
+  else if (intrinsic_0016(local_02) == 0x045f) {
     local_06 = 0x045f;
     local_04 = 0x0463;
-    goto block_0198;
-
-  block_0152:
-    if (intrinsic_0016(local_02) != 0x0460) goto block_0175;
-
-  block_0162:
+  }
+  else if (intrinsic_0016(local_02) == 0x0460) {
     local_06 = 0x0460;
     local_04 = 0x0464;
-    goto block_0198;
-
-  block_0175:
-    if (intrinsic_0016(local_02) != 0x0461) goto block_0198;
-
-  block_0185:
+  }
+  else if (intrinsic_0016(local_02) == 0x0461) {
     local_06 = 0x0461;
     local_04 = 0x0465;
-    goto block_0198;
-
-  block_01a5:
-    while (local_08 >= 4) {
-      spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
-      suspend;
-      local_08 = (1 + local_08);
-    }
-
-  block_01f3:
-    spawn FREE.waitNTimerTicks(pid, 3, 0x00000000);
+  }
+  while (local_08 < 4) {
+    spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
     suspend;
-
-  block_0219:
-    while (!local_08) {
-      spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
-      suspend;
-      local_08 = (local_08 - 1);
-    }
-
-  block_0261:
-    /* pop_global */
-    return;
-
+    local_08 = (1 + local_08);
+  }
+  spawn FREE.waitNTimerTicks(pid, 3, 0x00000000);
+  suspend;
+  while (local_08) {
+    spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+    suspend;
+    local_08 = (local_08 - 1);
+  }
+  /* pop_global */
+  return;
   /* decompilation stopped at SEARCH_SURFACE */
 }

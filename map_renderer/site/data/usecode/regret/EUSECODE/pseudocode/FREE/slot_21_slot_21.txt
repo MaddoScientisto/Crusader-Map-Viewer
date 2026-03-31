@@ -1,38 +1,24 @@
 function free_slot_21() /* entry=2591 class_id=0x0a1d slot=0x21 */
 {
-  entry:
-    set_info(1, 0);
-    local_02 = 0;
-
-  block_01f4:
-    while (global[0x000e] == 1) {
-      local_02 = (1 + local_02);
-      spawn FREE.slot_3b(pid, 5, 0x00000000);
-      suspend;
-      if (local_02 <= 50) {
-        return;
-      }
+  set_info(1, 0);
+  local_02 = 0;
+  while (global[0x000e] == 1) {
+    local_02 = (1 + local_02);
+    spawn FREE.slot_3b(pid, 5, 0x00000000);
+    suspend;
+    if (local_02 > 50) {
+      return;
     }
-
-  block_022a:
-    if ((arg_06 > 0x0164) && (arg_06 < 0x01a6)) goto block_0240;
-
-  block_023a:
+  }
+  if ((arg_06 > 0x0164) && (arg_06 < 0x01a6)) {
     /* pop_global */
-
-  block_0248:
-    while (!intrinsic_0140(arg_06)) {
-      spawn FREE.slot_3b(pid, 2, 0x00000000);
-      suspend;
-    }
-
-  block_026e:
-    if ((arg_06 > 0x0164) && (arg_06 < 0x01a6)) goto block_0284;
-
-  block_027e:
+  }
+  while (intrinsic_0140(arg_06)) {
+    spawn FREE.slot_3b(pid, 2, 0x00000000);
+    suspend;
+  }
+  if ((arg_06 > 0x0164) && (arg_06 < 0x01a6)) {
     /* pop_global */
-
-  block_0284:
-    return;
-
+  }
+  return;
 }

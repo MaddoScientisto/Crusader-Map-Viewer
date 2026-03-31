@@ -1,55 +1,39 @@
 function switch_slot_22() /* entry=2586 class_id=0x0a18 slot=0x22 */
 {
-  entry:
-    set_info(0x0207, *(arg_06));
-    local_01 = intrinsic_0126(intrinsic_011c(arg_06));
-    if (Item.getFrame(arg_06) != 4) goto block_0261;
-
-  block_0214:
+  set_info(0x0207, *(arg_06));
+  local_01 = intrinsic_0126(intrinsic_011c(arg_06));
+  if (Item.getFrame(arg_06) == 4) {
     spawn FREE.slot_21(pid, 0x00ad, 0x00000000);
     suspend;
     spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
     suspend;
     spawn FREE.slot_3b(pid, 1, 0x00000000);
     suspend;
-    goto block_0394;
-
-  block_025e:
-    goto block_0394;
-
-  block_0261:
-    if intrinsic_0000() goto block_02c8;
-
-  block_0269:
+    return;
+  }
+  else if (intrinsic_0000()) {
     spawn FREE.slot_21(pid, 0x0181, 0x00000000);
     suspend;
-    if (intrinsic_0013(100, 0) > 50) goto block_02ad;
-
-  block_0292:
-    spawn FREE.slot_21(pid, 0x018d, 0x00000000);
-    suspend;
-    goto block_02c5;
-
-  block_02ad:
-    spawn FREE.slot_21(pid, 0x018b, 0x00000000);
-    suspend;
-
-  block_02c5:
-    goto block_0394;
-
-  block_02c8:
-    if local_01 goto block_032b;
-
-  block_02cd:
+    if (intrinsic_0013(100, 0) > 50) {
+      spawn FREE.slot_21(pid, 0x018d, 0x00000000);
+      suspend;
+    }
+    else {
+      spawn FREE.slot_21(pid, 0x018b, 0x00000000);
+      suspend;
+    }
+    return;
+  }
+  else if (local_01) {
     spawn FREE.slot_21(pid, 0x0183, 0x00000000);
     suspend;
     spawn FREE.slot_3b(pid, 1, 0x00000000);
     suspend;
     spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
     suspend;
-    goto block_0394;
-
-  block_032b:
+    return;
+  }
+  else {
     spawn FREE.slot_21(pid, 0x0181, 0x00000000);
     suspend;
     spawn FREE.slot_21(pid, 0x018f, 0x00000000);
@@ -58,8 +42,6 @@ function switch_slot_22() /* entry=2586 class_id=0x0a18 slot=0x22 */
     suspend;
     spawn TRIGGER.slot_20(pid, 1, *(arg_06), arg_06);
     suspend;
-
-  block_0394:
-    return;
-
+  }
+  return;
 }

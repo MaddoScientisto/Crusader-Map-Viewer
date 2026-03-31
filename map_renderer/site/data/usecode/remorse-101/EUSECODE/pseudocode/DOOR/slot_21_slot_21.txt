@@ -1,1512 +1,956 @@
 function door_slot_21() /* entry=2568 class_id=0x0a06 slot=0x21 */
 {
-  entry:
-    set_info(0x0207, *(arg_06));
-    spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
-    suspend;
-    local_02 = intrinsic_0016(arg_06);
-    if (local_02 != 0x00a9) goto block_01f2;
-
-  block_016e:
-    if (arg_10 != 2) goto block_017d;
-
-  block_0176:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_017d:
+  set_info(0x0207, *(arg_06));
+  spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+  suspend;
+  local_02 = intrinsic_0016(arg_06);
+  if (local_02 == 0x00a9) {
+    if (arg_10 == 2) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
     spawn DOOR2.slot_20(pid, arg_06);
     suspend;
     /* dword_to_word */
-    if process_result goto block_01ef;
-
-  block_0192:
-    if (arg_10 != 1) goto block_01e8;
-
-  block_019a_selector_00:
-    /* loop_selector local_04 in nearby_items(shape=FORCEFIELD_NE, origin=arg_06) */
-
-  block_01b2:
-    if condition goto block_01e6;
-
-  block_01b5:
-    if (Item.getPoint(local_04) != Item.getPoint(arg_06)) goto block_01e2;
-
-  block_01cb:
-    spawn FREE.slot_31(pid, local_04, 0x00000000);
-    suspend;
-
-  block_01e2:
-    /* loopnext */
-    goto block_01b2;
-
-  block_01e8:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_01ef:
-    goto block_0ef0;
-
-  block_01f2:
-    if (local_02 != 0x00d0) goto block_0229;
-
-  block_01fb:
-    if (arg_10 != 1) goto block_020a;
-
-  block_0203:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_020a:
+    if (process_result) {
+      if (arg_10 == 1) {
+        for local_04 in nearby_items(shape=FORCEFIELD_NE, origin=arg_06) {
+          if (Item.getPoint(local_04) == Item.getPoint(arg_06)) {
+            spawn FREE.slot_31(pid, local_04, 0x00000000);
+            suspend;
+          }
+          /* loopnext */
+        }
+      }
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
+    return;
+  }
+  else if (local_02 == 0x00d0) {
+    if (arg_10 == 1) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
     spawn DOOR2.slot_21(pid, arg_06);
     suspend;
     /* dword_to_word */
-    if process_result goto block_0226;
-
-  block_021f:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_0226:
-    goto block_0ef0;
-
-  block_0229:
-    if (local_02 != 70) goto block_02b5;
-
-  block_0231:
-    if (arg_10 != 2) goto block_0240;
-
-  block_0239:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_0240:
+    if (process_result) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
+    return;
+  }
+  else if (local_02 == 70) {
+    if (arg_10 == 2) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
     spawn DOOR2.slot_22(pid, arg_06);
     suspend;
     /* dword_to_word */
-    if process_result goto block_02b2;
-
-  block_0255:
-    if (arg_10 != 1) goto block_02ab;
-
-  block_025d_selector_00:
-    /* loop_selector local_04 in nearby_items(shape=FORCEFIELD_NW, origin=arg_06) */
-
-  block_0275:
-    if condition goto block_02a9;
-
-  block_0278:
-    if (Item.getPoint(local_04) != Item.getPoint(arg_06)) goto block_02a5;
-
-  block_028e:
-    spawn FREE.slot_31(pid, local_04, 0x00000000);
-    suspend;
-
-  block_02a5:
-    /* loopnext */
-    goto block_0275;
-
-  block_02ab:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_02b2:
-    goto block_0ef0;
-
-  block_02b5:
-    if (local_02 != 0x0107) goto block_02ec;
-
-  block_02be:
-    if (arg_10 != 1) goto block_02cd;
-
-  block_02c6:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_02cd:
+    if (process_result) {
+      if (arg_10 == 1) {
+        for local_04 in nearby_items(shape=FORCEFIELD_NW, origin=arg_06) {
+          if (Item.getPoint(local_04) == Item.getPoint(arg_06)) {
+            spawn FREE.slot_31(pid, local_04, 0x00000000);
+            suspend;
+          }
+          /* loopnext */
+        }
+      }
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
+    return;
+  }
+  else if (local_02 == 0x0107) {
+    if (arg_10 == 1) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
     spawn DOOR2.slot_23(pid, arg_06);
     suspend;
     /* dword_to_word */
-    if process_result goto block_02e9;
-
-  block_02e2:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_02e9:
-    goto block_0ef0;
-
-  block_02ec:
-    if (local_02 != 0x02d6) goto block_0323;
-
-  block_02f5:
-    if (arg_10 != 2) goto block_0304;
-
-  block_02fd:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_0304:
+    if (process_result) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
+    return;
+  }
+  else if (local_02 == 0x02d6) {
+    if (arg_10 == 2) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
     spawn DOOR2.slot_24(pid, arg_06);
     suspend;
     /* dword_to_word */
-    if process_result goto block_0320;
-
-  block_0319:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_0320:
-    goto block_0ef0;
-
-  block_0323:
-    if (local_02 != 0x02db) goto block_035a;
-
-  block_032c:
-    if (arg_10 != 1) goto block_033b;
-
-  block_0334:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_033b:
+    if (process_result) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
+    return;
+  }
+  else if (local_02 == 0x02db) {
+    if (arg_10 == 1) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
     spawn DOOR2.slot_25(pid, arg_06);
     suspend;
     /* dword_to_word */
-    if process_result goto block_0357;
-
-  block_0350:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_0357:
-    goto block_0ef0;
-
-  block_035a:
-    if (local_02 != 0x02d5) goto block_0391;
-
-  block_0363:
-    if (arg_10 != 2) goto block_0372;
-
-  block_036b:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_0372:
+    if (process_result) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
+    return;
+  }
+  else if (local_02 == 0x02d5) {
+    if (arg_10 == 2) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
     spawn DOOR2.slot_26(pid, arg_06);
     suspend;
     /* dword_to_word */
-    if process_result goto block_038e;
-
-  block_0387:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_038e:
-    goto block_0ef0;
-
-  block_0391:
-    if (local_02 != 0x02da) goto block_03c8;
-
-  block_039a:
-    if (arg_10 != 1) goto block_03a9;
-
-  block_03a2:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_03a9:
+    if (process_result) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
+    return;
+  }
+  else if (local_02 == 0x02da) {
+    if (arg_10 == 1) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
     spawn DOOR2.slot_27(pid, arg_06);
     suspend;
     /* dword_to_word */
-    if process_result goto block_03c5;
-
-  block_03be:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_03c5:
-    goto block_0ef0;
-
-  block_03c8:
-    if (local_02 != 5) goto block_0454;
-
-  block_03d0:
-    if (arg_10 != 2) goto block_03df;
-
-  block_03d8:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_03df:
+    if (process_result) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
+    return;
+  }
+  else if (local_02 == 5) {
+    if (arg_10 == 2) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
     spawn DOOR2.slot_28(pid, arg_06);
     suspend;
     /* dword_to_word */
-    if process_result goto block_0451;
-
-  block_03f4:
-    if (arg_10 != 1) goto block_044a;
-
-  block_03fc_selector_00:
-    /* loop_selector local_04 in nearby_items(shape=FORCEFIELD_NE, origin=arg_06) */
-
-  block_0414:
-    if condition goto block_0448;
-
-  block_0417:
-    if (Item.getPoint(local_04) != Item.getPoint(arg_06)) goto block_0444;
-
-  block_042d:
-    spawn FREE.slot_31(pid, local_04, 0x00000000);
-    suspend;
-
-  block_0444:
-    /* loopnext */
-    goto block_0414;
-
-  block_044a:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_0451:
-    goto block_0ef0;
-
-  block_0454:
-    if (local_02 != 0x00c2) goto block_048b;
-
-  block_045d:
-    if (arg_10 != 1) goto block_046c;
-
-  block_0465:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_046c:
+    if (process_result) {
+      if (arg_10 == 1) {
+        for local_04 in nearby_items(shape=FORCEFIELD_NE, origin=arg_06) {
+          if (Item.getPoint(local_04) == Item.getPoint(arg_06)) {
+            spawn FREE.slot_31(pid, local_04, 0x00000000);
+            suspend;
+          }
+          /* loopnext */
+        }
+      }
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
+    return;
+  }
+  else if (local_02 == 0x00c2) {
+    if (arg_10 == 1) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
     spawn DOOR2.slot_29(pid, arg_06);
     suspend;
     /* dword_to_word */
-    if process_result goto block_0488;
-
-  block_0481:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_0488:
-    goto block_0ef0;
-
-  block_048b:
-    if (local_02 != 123) goto block_0517;
-
-  block_0493:
-    if (arg_10 != 2) goto block_04a2;
-
-  block_049b:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_04a2:
+    if (process_result) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
+    return;
+  }
+  else if (local_02 == 123) {
+    if (arg_10 == 2) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
     spawn DOOR2.slot_2a(pid, arg_06);
     suspend;
     /* dword_to_word */
-    if process_result goto block_0514;
-
-  block_04b7:
-    if (arg_10 != 1) goto block_050d;
-
-  block_04bf_selector_00:
-    /* loop_selector local_04 in nearby_items(shape=FORCEFIELD_NW, origin=arg_06) */
-
-  block_04d7:
-    if condition goto block_050b;
-
-  block_04da:
-    if (Item.getPoint(local_04) != Item.getPoint(arg_06)) goto block_0507;
-
-  block_04f0:
-    spawn FREE.slot_31(pid, local_04, 0x00000000);
-    suspend;
-
-  block_0507:
-    /* loopnext */
-    goto block_04d7;
-
-  block_050d:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_0514:
-    goto block_0ef0;
-
-  block_0517:
-    if (local_02 != 0x00cb) goto block_054e;
-
-  block_0520:
-    if (arg_10 != 1) goto block_052f;
-
-  block_0528:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_052f:
+    if (process_result) {
+      if (arg_10 == 1) {
+        for local_04 in nearby_items(shape=FORCEFIELD_NW, origin=arg_06) {
+          if (Item.getPoint(local_04) == Item.getPoint(arg_06)) {
+            spawn FREE.slot_31(pid, local_04, 0x00000000);
+            suspend;
+          }
+          /* loopnext */
+        }
+      }
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
+    return;
+  }
+  else if (local_02 == 0x00cb) {
+    if (arg_10 == 1) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
     spawn DOOR2.slot_2b(pid, arg_06);
     suspend;
     /* dword_to_word */
-    if process_result goto block_054b;
-
-  block_0544:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_054b:
-    goto block_0ef0;
-
-  block_054e:
-    if (local_02 != 0x01ab) goto block_0585;
-
-  block_0557:
-    if (arg_10 != 2) goto block_0566;
-
-  block_055f:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_0566:
+    if (process_result) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
+    return;
+  }
+  else if (local_02 == 0x01ab) {
+    if (arg_10 == 2) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
     spawn DOOR2.slot_2c(pid, arg_06);
     suspend;
     /* dword_to_word */
-    if process_result goto block_0582;
-
-  block_057b:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_0582:
-    goto block_0ef0;
-
-  block_0585:
-    if (local_02 != 0x0215) goto block_05bc;
-
-  block_058e:
-    if (arg_10 != 1) goto block_059d;
-
-  block_0596:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_059d:
+    if (process_result) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
+    return;
+  }
+  else if (local_02 == 0x0215) {
+    if (arg_10 == 1) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
     spawn DOOR2.slot_2d(pid, arg_06);
     suspend;
     /* dword_to_word */
-    if process_result goto block_05b9;
-
-  block_05b2:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_05b9:
-    goto block_0ef0;
-
-  block_05bc:
-    if (local_02 != 0x0393) goto block_05f3;
-
-  block_05c5:
-    if (arg_10 != 2) goto block_05d4;
-
-  block_05cd:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_05d4:
+    if (process_result) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
+    return;
+  }
+  else if (local_02 == 0x0393) {
+    if (arg_10 == 2) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
     spawn DOOR2.slot_2e(pid, arg_06);
     suspend;
     /* dword_to_word */
-    if process_result goto block_05f0;
-
-  block_05e9:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_05f0:
-    goto block_0ef0;
-
-  block_05f3:
-    if (local_02 != 0x0394) goto block_062a;
-
-  block_05fc:
-    if (arg_10 != 1) goto block_060b;
-
-  block_0604:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_060b:
+    if (process_result) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
+    return;
+  }
+  else if (local_02 == 0x0394) {
+    if (arg_10 == 1) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
     spawn DOOR2.slot_2f(pid, arg_06);
     suspend;
     /* dword_to_word */
-    if process_result goto block_0627;
-
-  block_0620:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_0627:
-    goto block_0ef0;
-
-  block_062a:
-    if (local_02 != 0x0193) goto block_0661;
-
-  block_0633:
-    if (arg_10 != 2) goto block_0642;
-
-  block_063b:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_0642:
+    if (process_result) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
+    return;
+  }
+  else if (local_02 == 0x0193) {
+    if (arg_10 == 2) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
     spawn DOOR2.slot_30(pid, arg_06);
     suspend;
     /* dword_to_word */
-    if process_result goto block_065e;
-
-  block_0657:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_065e:
-    goto block_0ef0;
-
-  block_0661:
-    if (local_02 != 0x0189) goto block_0698;
-
-  block_066a:
-    if (arg_10 != 1) goto block_0679;
-
-  block_0672:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_0679:
+    if (process_result) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
+    return;
+  }
+  else if (local_02 == 0x0189) {
+    if (arg_10 == 1) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
     spawn DOOR2.slot_31(pid, arg_06);
     suspend;
     /* dword_to_word */
-    if process_result goto block_0695;
-
-  block_068e:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_0695:
-    goto block_0ef0;
-
-  block_0698:
-    if (local_02 != 0x01c7) goto block_06cf;
-
-  block_06a1:
-    if (arg_10 != 2) goto block_06b0;
-
-  block_06a9:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_06b0:
+    if (process_result) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
+    return;
+  }
+  else if (local_02 == 0x01c7) {
+    if (arg_10 == 2) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
     spawn DOOR2.slot_32(pid, arg_06);
     suspend;
     /* dword_to_word */
-    if process_result goto block_06cc;
-
-  block_06c5:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_06cc:
-    goto block_0ef0;
-
-  block_06cf:
-    if (local_02 != 0x0289) goto block_0706;
-
-  block_06d8:
-    if (arg_10 != 1) goto block_06e7;
-
-  block_06e0:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_06e7:
+    if (process_result) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
+    return;
+  }
+  else if (local_02 == 0x0289) {
+    if (arg_10 == 1) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
     spawn DOOR2.slot_33(pid, arg_06);
     suspend;
     /* dword_to_word */
-    if process_result goto block_0703;
-
-  block_06fc:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_0703:
-    goto block_0ef0;
-
-  block_0706:
-    if (local_02 != 0x030a) goto block_073d;
-
-  block_070f:
-    if (arg_10 != 2) goto block_071e;
-
-  block_0717:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_071e:
+    if (process_result) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
+    return;
+  }
+  else if (local_02 == 0x030a) {
+    if (arg_10 == 2) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
     spawn DOOR3.slot_20(pid, arg_06);
     suspend;
     /* dword_to_word */
-    if process_result goto block_073a;
-
-  block_0733:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_073a:
-    goto block_0ef0;
-
-  block_073d:
-    if (local_02 != 0x036b) goto block_0774;
-
-  block_0746:
-    if (arg_10 != 1) goto block_0755;
-
-  block_074e:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_0755:
+    if (process_result) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
+    return;
+  }
+  else if (local_02 == 0x036b) {
+    if (arg_10 == 1) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
     spawn DOOR3.slot_21(pid, arg_06);
     suspend;
     /* dword_to_word */
-    if process_result goto block_0771;
-
-  block_076a:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_0771:
-    goto block_0ef0;
-
-  block_0774:
-    if (local_02 != 0x030b) goto block_07ab;
-
-  block_077d:
-    if (arg_10 != 2) goto block_078c;
-
-  block_0785:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_078c:
+    if (process_result) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
+    return;
+  }
+  else if (local_02 == 0x030b) {
+    if (arg_10 == 2) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
     spawn DOOR3.slot_22(pid, arg_06);
     suspend;
     /* dword_to_word */
-    if process_result goto block_07a8;
-
-  block_07a1:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_07a8:
-    goto block_0ef0;
-
-  block_07ab:
-    if (local_02 != 0x0368) goto block_07e2;
-
-  block_07b4:
-    if (arg_10 != 1) goto block_07c3;
-
-  block_07bc:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_07c3:
+    if (process_result) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
+    return;
+  }
+  else if (local_02 == 0x0368) {
+    if (arg_10 == 1) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
     spawn DOOR3.slot_23(pid, arg_06);
     suspend;
     /* dword_to_word */
-    if process_result goto block_07df;
-
-  block_07d8:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_07df:
-    goto block_0ef0;
-
-  block_07e2:
-    if (local_02 != 0x0095) goto block_0819;
-
-  block_07eb:
-    if (arg_10 != 2) goto block_07fa;
-
-  block_07f3:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_07fa:
+    if (process_result) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
+    return;
+  }
+  else if (local_02 == 0x0095) {
+    if (arg_10 == 2) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
     spawn DOOR3.slot_24(pid, arg_06);
     suspend;
     /* dword_to_word */
-    if process_result goto block_0816;
-
-  block_080f:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_0816:
-    goto block_0ef0;
-
-  block_0819:
-    if (local_02 != 0x030e) goto block_0850;
-
-  block_0822:
-    if (arg_10 != 1) goto block_0831;
-
-  block_082a:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_0831:
+    if (process_result) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
+    return;
+  }
+  else if (local_02 == 0x030e) {
+    if (arg_10 == 1) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
     spawn DOOR3.slot_25(pid, arg_06);
     suspend;
     /* dword_to_word */
-    if process_result goto block_084d;
-
-  block_0846:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_084d:
-    goto block_0ef0;
-
-  block_0850:
-    if (local_02 != 0x0099) goto block_0887;
-
-  block_0859:
-    if (arg_10 != 2) goto block_0868;
-
-  block_0861:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_0868:
+    if (process_result) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
+    return;
+  }
+  else if (local_02 == 0x0099) {
+    if (arg_10 == 2) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
     spawn DOOR3.slot_26(pid, arg_06);
     suspend;
     /* dword_to_word */
-    if process_result goto block_0884;
-
-  block_087d:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_0884:
-    goto block_0ef0;
-
-  block_0887:
-    if (local_02 != 0x0100) goto block_08be;
-
-  block_0890:
-    if (arg_10 != 1) goto block_089f;
-
-  block_0898:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_089f:
+    if (process_result) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
+    return;
+  }
+  else if (local_02 == 0x0100) {
+    if (arg_10 == 1) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
     spawn DOOR3.slot_27(pid, arg_06);
     suspend;
     /* dword_to_word */
-    if process_result goto block_08bb;
-
-  block_08b4:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_08bb:
-    goto block_0ef0;
-
-  block_08be:
-    if (local_02 != 0x053d) goto block_08f5;
-
-  block_08c7:
-    if (arg_10 != 2) goto block_08d6;
-
-  block_08cf:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_08d6:
+    if (process_result) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
+    return;
+  }
+  else if (local_02 == 0x053d) {
+    if (arg_10 == 2) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
     spawn DOOR3.slot_28(pid, arg_06);
     suspend;
     /* dword_to_word */
-    if process_result goto block_08f2;
-
-  block_08eb:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_08f2:
-    goto block_0ef0;
-
-  block_08f5:
-    if (local_02 != 0x053e) goto block_092c;
-
-  block_08fe:
-    if (arg_10 != 1) goto block_090d;
-
-  block_0906:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_090d:
+    if (process_result) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
+    return;
+  }
+  else if (local_02 == 0x053e) {
+    if (arg_10 == 1) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
     spawn DOOR3.slot_29(pid, arg_06);
     suspend;
     /* dword_to_word */
-    if process_result goto block_0929;
-
-  block_0922:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_0929:
-    goto block_0ef0;
-
-  block_092c:
-    if (local_02 != 0x053b) goto block_0963;
-
-  block_0935:
-    if (arg_10 != 2) goto block_0944;
-
-  block_093d:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_0944:
+    if (process_result) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
+    return;
+  }
+  else if (local_02 == 0x053b) {
+    if (arg_10 == 2) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
     spawn DOOR3.slot_2a(pid, arg_06);
     suspend;
     /* dword_to_word */
-    if process_result goto block_0960;
-
-  block_0959:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_0960:
-    goto block_0ef0;
-
-  block_0963:
-    if (local_02 != 0x053c) goto block_099a;
-
-  block_096c:
-    if (arg_10 != 1) goto block_097b;
-
-  block_0974:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_097b:
+    if (process_result) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
+    return;
+  }
+  else if (local_02 == 0x053c) {
+    if (arg_10 == 1) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
     spawn DOOR3.slot_2b(pid, arg_06);
     suspend;
     /* dword_to_word */
-    if process_result goto block_0997;
-
-  block_0990:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_0997:
-    goto block_0ef0;
-
-  block_099a:
-    if (local_02 != 0x01ee) goto block_09d1;
-
-  block_09a3:
-    if (arg_10 != 2) goto block_09b2;
-
-  block_09ab:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_09b2:
+    if (process_result) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
+    return;
+  }
+  else if (local_02 == 0x01ee) {
+    if (arg_10 == 2) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
     spawn DOOR2.slot_34(pid, arg_06);
     suspend;
     /* dword_to_word */
-    if process_result goto block_09ce;
-
-  block_09c7:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_09ce:
-    goto block_0ef0;
-
-  block_09d1:
-    if (local_02 != 0x01ed) goto block_0a08;
-
-  block_09da:
-    if (arg_10 != 1) goto block_09e9;
-
-  block_09e2:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_09e9:
+    if (process_result) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
+    return;
+  }
+  else if (local_02 == 0x01ed) {
+    if (arg_10 == 1) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
     spawn DOOR2.slot_35(pid, arg_06);
     suspend;
     /* dword_to_word */
-    if process_result goto block_0a05;
-
-  block_09fe:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_0a05:
-    goto block_0ef0;
-
-  block_0a08:
-    if (local_02 != 0x03ad) goto block_0a3f;
-
-  block_0a11:
-    if (arg_10 != 2) goto block_0a20;
-
-  block_0a19:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_0a20:
+    if (process_result) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
+    return;
+  }
+  else if (local_02 == 0x03ad) {
+    if (arg_10 == 2) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
     spawn DOOR2.slot_36(pid, arg_06);
     suspend;
     /* dword_to_word */
-    if process_result goto block_0a3c;
-
-  block_0a35:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_0a3c:
-    goto block_0ef0;
-
-  block_0a3f:
-    if (local_02 != 0x03c7) goto block_0a76;
-
-  block_0a48:
-    if (arg_10 != 1) goto block_0a57;
-
-  block_0a50:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_0a57:
+    if (process_result) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
+    return;
+  }
+  else if (local_02 == 0x03c7) {
+    if (arg_10 == 1) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
     spawn DOOR2.slot_37(pid, arg_06);
     suspend;
     /* dword_to_word */
-    if process_result goto block_0a73;
-
-  block_0a6c:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_0a73:
-    goto block_0ef0;
-
-  block_0a76:
-    if (local_02 != 0x03b9) goto block_0aad;
-
-  block_0a7f:
-    if (arg_10 != 2) goto block_0a8e;
-
-  block_0a87:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_0a8e:
+    if (process_result) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
+    return;
+  }
+  else if (local_02 == 0x03b9) {
+    if (arg_10 == 2) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
     spawn DOOR2.slot_41(pid, arg_06);
     suspend;
     /* dword_to_word */
-    if process_result goto block_0aaa;
-
-  block_0aa3:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_0aaa:
-    goto block_0ef0;
-
-  block_0aad:
-    if (local_02 != 0x03bd) goto block_0ae4;
-
-  block_0ab6:
-    if (arg_10 != 1) goto block_0ac5;
-
-  block_0abe:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_0ac5:
+    if (process_result) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
+    return;
+  }
+  else if (local_02 == 0x03bd) {
+    if (arg_10 == 1) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
     spawn DOOR2.slot_42(pid, arg_06);
     suspend;
     /* dword_to_word */
-    if process_result goto block_0ae1;
-
-  block_0ada:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_0ae1:
-    goto block_0ef0;
-
-  block_0ae4:
-    if (local_02 != 0x03ba) goto block_0b1b;
-
-  block_0aed:
-    if (arg_10 != 2) goto block_0afc;
-
-  block_0af5:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_0afc:
+    if (process_result) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
+    return;
+  }
+  else if (local_02 == 0x03ba) {
+    if (arg_10 == 2) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
     spawn DOOR2.slot_43(pid, arg_06);
     suspend;
     /* dword_to_word */
-    if process_result goto block_0b18;
-
-  block_0b11:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_0b18:
-    goto block_0ef0;
-
-  block_0b1b:
-    if (local_02 != 0x03be) goto block_0b52;
-
-  block_0b24:
-    if (arg_10 != 1) goto block_0b33;
-
-  block_0b2c:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_0b33:
+    if (process_result) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
+    return;
+  }
+  else if (local_02 == 0x03be) {
+    if (arg_10 == 1) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
     spawn DOOR2.slot_44(pid, arg_06);
     suspend;
     /* dword_to_word */
-    if process_result goto block_0b4f;
-
-  block_0b48:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_0b4f:
-    goto block_0ef0;
-
-  block_0b52:
-    if (local_02 != 0x046a) goto block_0b89;
-
-  block_0b5b:
-    if (arg_10 != 2) goto block_0b6a;
-
-  block_0b63:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_0b6a:
+    if (process_result) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
+    return;
+  }
+  else if (local_02 == 0x046a) {
+    if (arg_10 == 2) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
     spawn DOOR2.slot_45(pid, arg_06);
     suspend;
     /* dword_to_word */
-    if process_result goto block_0b86;
-
-  block_0b7f:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_0b86:
-    goto block_0ef0;
-
-  block_0b89:
-    if (local_02 != 0x046c) goto block_0bc0;
-
-  block_0b92:
-    if (arg_10 != 1) goto block_0ba1;
-
-  block_0b9a:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_0ba1:
+    if (process_result) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
+    return;
+  }
+  else if (local_02 == 0x046c) {
+    if (arg_10 == 1) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
     spawn DOOR2.slot_46(pid, arg_06);
     suspend;
     /* dword_to_word */
-    if process_result goto block_0bbd;
-
-  block_0bb6:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_0bbd:
-    goto block_0ef0;
-
-  block_0bc0:
-    if (local_02 != 0x03c6) goto block_0bf7;
-
-  block_0bc9:
-    if (arg_10 != 2) goto block_0bd8;
-
-  block_0bd1:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_0bd8:
+    if (process_result) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
+    return;
+  }
+  else if (local_02 == 0x03c6) {
+    if (arg_10 == 2) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
     spawn DOOR2.slot_47(pid, arg_06);
     suspend;
     /* dword_to_word */
-    if process_result goto block_0bf4;
-
-  block_0bed:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_0bf4:
-    goto block_0ef0;
-
-  block_0bf7:
-    if (local_02 != 0x046b) goto block_0c2e;
-
-  block_0c00:
-    if (arg_10 != 1) goto block_0c0f;
-
-  block_0c08:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_0c0f:
+    if (process_result) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
+    return;
+  }
+  else if (local_02 == 0x046b) {
+    if (arg_10 == 1) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
     spawn DOOR2.slot_48(pid, arg_06);
     suspend;
     /* dword_to_word */
-    if process_result goto block_0c2b;
-
-  block_0c24:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_0c2b:
-    goto block_0ef0;
-
-  block_0c2e:
-    if (local_02 != 0x028f) goto block_0c65;
-
-  block_0c37:
-    if (arg_10 != 2) goto block_0c46;
-
-  block_0c3f:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_0c46:
+    if (process_result) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
+    return;
+  }
+  else if (local_02 == 0x028f) {
+    if (arg_10 == 2) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
     spawn DOOR2.slot_38(pid, arg_06);
     suspend;
     /* dword_to_word */
-    if process_result goto block_0c62;
-
-  block_0c5b:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_0c62:
-    goto block_0ef0;
-
-  block_0c65:
-    if (local_02 != 0x0428) goto block_0c9c;
-
-  block_0c6e:
-    if (arg_10 != 1) goto block_0c7d;
-
-  block_0c76:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_0c7d:
+    if (process_result) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
+    return;
+  }
+  else if (local_02 == 0x0428) {
+    if (arg_10 == 1) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
     spawn DOOR2.slot_39(pid, arg_06);
     suspend;
     /* dword_to_word */
-    if process_result goto block_0c99;
-
-  block_0c92:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_0c99:
-    goto block_0ef0;
-
-  block_0c9c:
-    if (local_02 != 0x0312) goto block_0cd3;
-
-  block_0ca5:
-    if (arg_10 != 2) goto block_0cb4;
-
-  block_0cad:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_0cb4:
+    if (process_result) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
+    return;
+  }
+  else if (local_02 == 0x0312) {
+    if (arg_10 == 2) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
     spawn DOOR2.slot_3a(pid, arg_06);
     suspend;
     /* dword_to_word */
-    if process_result goto block_0cd0;
-
-  block_0cc9:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_0cd0:
-    goto block_0ef0;
-
-  block_0cd3:
-    if (local_02 != 0x0415) goto block_0d0a;
-
-  block_0cdc:
-    if (arg_10 != 1) goto block_0ceb;
-
-  block_0ce4:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_0ceb:
+    if (process_result) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
+    return;
+  }
+  else if (local_02 == 0x0415) {
+    if (arg_10 == 1) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
     spawn DOOR2.slot_3b(pid, arg_06);
     suspend;
     /* dword_to_word */
-    if process_result goto block_0d07;
-
-  block_0d00:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_0d07:
-    goto block_0ef0;
-
-  block_0d0a:
-    if (local_02 != 0x04d8) goto block_0d33;
-
-  block_0d13:
+    if (process_result) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
+    return;
+  }
+  else if (local_02 == 0x04d8) {
     spawn DOOR2.slot_3c(pid, arg_06);
     suspend;
     /* dword_to_word */
-    if (!process_result) goto block_0d30;
-
-  block_0d29:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_0d30:
-    goto block_0ef0;
-
-  block_0d33:
-    if (local_02 != 0x03ff) goto block_0d6a;
-
-  block_0d3c:
-    if (arg_10 != 2) goto block_0d4b;
-
-  block_0d44:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_0d4b:
-    spawn DOOR2.slot_3d(pid, arg_06);
-    suspend;
-    /* dword_to_word */
-    if process_result goto block_0d67;
-
-  block_0d60:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_0d67:
-    goto block_0ef0;
-
-  block_0d6a:
-    if (local_02 != 0x0440) goto block_0da1;
-
-  block_0d73:
-    if (arg_10 != 1) goto block_0d82;
-
-  block_0d7b:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_0d82:
-    spawn DOOR2.slot_3e(pid, arg_06);
-    suspend;
-    /* dword_to_word */
-    if process_result goto block_0d9e;
-
-  block_0d97:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_0d9e:
-    goto block_0ef0;
-
-  block_0da1:
-    if (local_02 != 0x03f8) goto block_0dd8;
-
-  block_0daa:
-    if (arg_10 != 2) goto block_0db9;
-
-  block_0db2:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_0db9:
-    spawn DOOR2.slot_3f(pid, arg_06);
-    suspend;
-    /* dword_to_word */
-    if process_result goto block_0dd5;
-
-  block_0dce:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_0dd5:
-    goto block_0ef0;
-
-  block_0dd8:
-    if (local_02 != 0x043f) goto block_0e0f;
-
-  block_0de1:
-    if (arg_10 != 1) goto block_0df0;
-
-  block_0de9:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_0df0:
-    spawn DOOR2.slot_40(pid, arg_06);
-    suspend;
-    /* dword_to_word */
-    if process_result goto block_0e0c;
-
-  block_0e05:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_0e0c:
-    goto block_0ef0;
-
-  block_0e0f:
-    if (local_02 != 51) goto block_0e45;
-
-  block_0e17:
-    if (arg_10 != 2) goto block_0e26;
-
-  block_0e1f:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_0e26:
-    spawn DOOR2.slot_3d(pid, arg_06);
-    suspend;
-    /* dword_to_word */
-    if process_result goto block_0e42;
-
-  block_0e3b:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_0e42:
-    goto block_0ef0;
-
-  block_0e45:
-    if (local_02 != 0x009c) goto block_0e7c;
-
-  block_0e4e:
-    if (arg_10 != 1) goto block_0e5d;
-
-  block_0e56:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_0e5d:
-    spawn DOOR2.slot_3e(pid, arg_06);
-    suspend;
-    /* dword_to_word */
-    if process_result goto block_0e79;
-
-  block_0e72:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_0e79:
-    goto block_0ef0;
-
-  block_0e7c:
-    if (local_02 != 108) goto block_0eb2;
-
-  block_0e84:
-    if (arg_10 != 2) goto block_0e93;
-
-  block_0e8c:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_0e93:
-    spawn DOOR2.slot_3f(pid, arg_06);
-    suspend;
-    /* dword_to_word */
-    if process_result goto block_0eaf;
-
-  block_0ea8:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_0eaf:
-    goto block_0ef0;
-
-  block_0eb2:
-    if (local_02 != 0x0400) goto block_0ee9;
-
-  block_0ebb:
-    if (arg_10 != 1) goto block_0eca;
-
-  block_0ec3:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_0eca:
-    spawn DOOR2.slot_40(pid, arg_06);
-    suspend;
-    /* dword_to_word */
-    if process_result goto block_0ee6;
-
-  block_0edf:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_0ee6:
-    goto block_0ef0;
-
-  block_0ee9:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ef0;
-
-  block_0ef0:
+    if (!process_result) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
     return;
-
+  }
+  else if (local_02 == 0x03ff) {
+    if (arg_10 == 2) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
+    spawn DOOR2.slot_3d(pid, arg_06);
+    suspend;
+    /* dword_to_word */
+    if (process_result) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
+    return;
+  }
+  else if (local_02 == 0x0440) {
+    if (arg_10 == 1) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
+    spawn DOOR2.slot_3e(pid, arg_06);
+    suspend;
+    /* dword_to_word */
+    if (process_result) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
+    return;
+  }
+  else if (local_02 == 0x03f8) {
+    if (arg_10 == 2) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
+    spawn DOOR2.slot_3f(pid, arg_06);
+    suspend;
+    /* dword_to_word */
+    if (process_result) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
+    return;
+  }
+  else if (local_02 == 0x043f) {
+    if (arg_10 == 1) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
+    spawn DOOR2.slot_40(pid, arg_06);
+    suspend;
+    /* dword_to_word */
+    if (process_result) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
+    return;
+  }
+  else if (local_02 == 51) {
+    if (arg_10 == 2) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
+    spawn DOOR2.slot_3d(pid, arg_06);
+    suspend;
+    /* dword_to_word */
+    if (process_result) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
+    return;
+  }
+  else if (local_02 == 0x009c) {
+    if (arg_10 == 1) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
+    spawn DOOR2.slot_3e(pid, arg_06);
+    suspend;
+    /* dword_to_word */
+    if (process_result) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
+    return;
+  }
+  else if (local_02 == 108) {
+    if (arg_10 == 2) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
+    spawn DOOR2.slot_3f(pid, arg_06);
+    suspend;
+    /* dword_to_word */
+    if (process_result) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
+    return;
+  }
+  else if (local_02 == 0x0400) {
+    if (arg_10 == 1) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
+    spawn DOOR2.slot_40(pid, arg_06);
+    suspend;
+    /* dword_to_word */
+    if (process_result) {
+      /* word_to_dword */
+      /* pop_result */
+      return;
+    }
+    return;
+  }
+  else {
+    /* word_to_dword */
+    /* pop_result */
+    return;
+  }
+  return;
 }

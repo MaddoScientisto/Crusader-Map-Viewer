@@ -1,72 +1,33 @@
 function item_slot_2a() /* entry=2577 class_id=0x0a0f slot=0x2a */
 {
-  entry:
-    set_info(0x020a, *(arg_06));
-    if (*(arg_06) != 0x4000) goto block_081e;
-
-  block_081b:
-    goto block_0a94;
-
-  block_081e:
+  set_info(0x020a, *(arg_06));
+  if (*(arg_06) == 0x4000) {
+    return;
+  }
+  else {
     local_05 = 0;
     local_07 = Item.getX(arg_06);
     local_09 = Item.getY(arg_06);
-    if (arg_10 != 1) goto block_091a;
-
-  block_0850:
-    if (intrinsic_0013(2, 0) != 1) goto block_0899;
-
-  block_0861:
-    goto block_0917;
-
-  block_0899:
-    if (intrinsic_0013(2, 0) != 2) goto block_08e2;
-
-  block_08aa:
-    goto block_0917;
-
-  block_0917:
-    goto block_0a72;
-
-  block_091a:
-    if (arg_10 != 2) goto block_09e9;
-
-  block_0922:
-    if (intrinsic_0013(2, 0) != 1) goto block_096a;
-
-  block_0933:
-    goto block_09e6;
-
-  block_096a:
-    if (intrinsic_0013(2, 0) != 2) goto block_09b2;
-
-  block_097b:
-    goto block_09e6;
-
-  block_09e6:
-    goto block_0a72;
-
-  block_09e9:
-    if (arg_10 != 0) goto block_0a72;
-
-  block_09f1:
-    if (intrinsic_0013(1, 0) != 1) goto block_0a3a;
-
-  block_0a02:
-    goto block_0a6f;
-
-  block_0a6f:
-    goto block_0a72;
-
-  block_0a72:
+    if (arg_10 == 1) {
+      if (intrinsic_0013(2, 0) == 1) {
+      }
+      else if (intrinsic_0013(2, 0) == 2) {
+      }
+    }
+    else if (arg_10 == 2) {
+      if (intrinsic_0013(2, 0) == 1) {
+      }
+      else if (intrinsic_0013(2, 0) == 2) {
+      }
+    }
+    else if (arg_10 == 0) {
+      if (intrinsic_0013(1, 0) == 1) {
+      }
+    }
     local_04 = *(arg_06);
     set_info(0x020a, 0);
-    if arg_12 goto block_0a94;
-
-  block_0a83:
-    if (local_04 != 0x4000) goto block_0a94;
-
-  block_0a94:
-    return;
-
+    if (arg_12) {
+    }
+  }
+  return;
 }

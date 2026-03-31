@@ -1,70 +1,48 @@
 function door2_slot_4d() /* entry=2567 class_id=0x0a05 slot=0x4d */
 {
-  entry:
-    set_info(0x0207, *(arg_06));
-    set_info(1, 0);
-    local_10 = 7;
-    local_06 = *(arg_06);
-    local_12 = Item.getX(arg_06);
-    local_14 = Item.getY(arg_06);
-    local_16 = Item.getZ(arg_06);
-    /* loopscr */
-    /* loopscr */
-    /* loopscr */
-    /* loopscr */
-    /* loop */
-
-  block_26e8:
-    if condition goto block_2753;
-
-  block_26eb:
-    if (Item.getFrame(local_02) != 0) goto block_2726;
-
-  block_26fa:
-    local_18 = Item.getX(local_02);
-    local_20 = Item.getY(local_02);
-    local_26 = Item.getZ(local_02);
-    goto block_274f;
-
-  block_2726:
-    local_22 = Item.getX(local_02);
-    local_24 = Item.getY(local_02);
-    local_28 = Item.getZ(local_02);
-
-  block_274f:
+  set_info(0x0207, *(arg_06));
+  set_info(1, 0);
+  local_10 = 7;
+  local_06 = *(arg_06);
+  local_12 = Item.getX(arg_06);
+  local_14 = Item.getY(arg_06);
+  local_16 = Item.getZ(arg_06);
+  /* loopscr */
+  /* loopscr */
+  /* loopscr */
+  /* loopscr */
+  /* loop */
+  while (condition) {
+    if (Item.getFrame(local_02) == 0) {
+      local_18 = Item.getX(local_02);
+      local_20 = Item.getY(local_02);
+      local_26 = Item.getZ(local_02);
+    }
+    else {
+      local_22 = Item.getX(local_02);
+      local_24 = Item.getY(local_02);
+      local_28 = Item.getZ(local_02);
+    }
     /* loopnext */
-    goto block_26e8;
-
-  block_2753:
-    local_30 = intrinsic_001f(arg_06);
-    if (Item.legal_create((local_16 - 80), local_14, local_12, local_10, 0x03ad, local_04) != 1) goto block_2800;
-
-  block_2785:
+  }
+  local_30 = intrinsic_001f(arg_06);
+  if (Item.legal_create((local_16 - 80), local_14, local_12, local_10, 0x03ad, local_04) == 1) {
     spawn FREE.slot_3b(pid, 5, 0x00000000);
     suspend;
     local_08 = 1;
-
-  block_27b5:
-    while (local_08 > local_10) {
+    while (local_08 <= local_10) {
       spawn FREE.slot_3b(pid, 5, 0x00000000);
       suspend;
       local_08 = (1 + local_08);
     }
-
-  block_27eb:
     /* word_to_dword */
     /* pop_result */
-    goto block_2858;
-
-  block_27fd:
-    goto block_2858;
-
-  block_2800:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_2858;
-
-  block_2858:
     return;
-
+  }
+  else {
+    /* word_to_dword */
+    /* pop_result */
+    return;
+  }
+  return;
 }

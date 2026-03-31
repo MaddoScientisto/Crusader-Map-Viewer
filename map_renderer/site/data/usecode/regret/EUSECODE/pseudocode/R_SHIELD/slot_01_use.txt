@@ -1,25 +1,16 @@
 function r_shield_use() /* entry=403 class_id=0x0191 slot=0x01 */
 {
-  entry:
-    set_info(0x0207, *(arg_06));
-    process_exclude();
-    /* global_address */
-    if (intrinsic_003d() != 25) goto block_011b;
-
-  block_0114:
-    goto block_014b;
-
-  block_011b:
-    if global[0x000d] goto block_0139;
-
-  block_0122:
-    /* pop_global */
-    goto block_0147;
-
-  block_0139:
-    spawn FREE.slot_27(0x00000000);
-
-  block_014b:
+  set_info(0x0207, *(arg_06));
+  process_exclude();
+  /* global_address */
+  if (intrinsic_003d() == 25) {
     return;
-
+  }
+  else if (global[0x000d]) {
+    /* pop_global */
+  }
+  else {
+    spawn FREE.slot_27(0x00000000);
+  }
+  return;
 }

@@ -1,98 +1,58 @@
 function moveflor_slot_21() /* entry=166 class_id=0x00a4 slot=0x21 */
 {
-  entry:
-    set_info(1, *(arg_06));
-    ITEM.slot_26(32, arg_06);
-    local_01 = retval;
-    local_11 = intrinsic_00ce(arg_06);
-    ITEM.slot_24(0x0100, arg_06);
-    local_05 = 1;
-
-  block_0499:
-    if (local_05 <= local_11) goto block_061d;
-
-  block_04a1:
+  set_info(1, *(arg_06));
+  ITEM.slot_26(32, arg_06);
+  local_01 = retval;
+  local_11 = intrinsic_00ce(arg_06);
+  ITEM.slot_24(0x0100, arg_06);
+  local_05 = 1;
+  while (local_05 <= local_11) {
     local_07 = 0;
     /* loopscr */
     /* loop */
-
-  block_04b2:
-    while (!condition) {
-      if (!intrinsic_005c(*(arg_06), local_13)) {
-        if (local_13 == *(arg_06)) {
+    while (condition) {
+      if (intrinsic_005c(*(arg_06), local_13)) {
+        if (local_13 != *(arg_06)) {
           local_07 = (1 + local_07);
         }
       }
       /* loopnext */
     }
-
-  block_04e2:
-    if local_01 goto block_051a;
-
-  block_04f1:
-    goto block_0540;
-
-  block_0540:
+    if (local_01) {
+    }
     local_03 = 1;
-
-  block_0544:
-    if (local_03 <= local_07) goto block_05f1;
-
-  block_054c:
-    local_13 = intrinsic_001e();
-    if local_01 goto block_0574;
-
-  block_0558:
-    local_18 = (Item.getX(local_13) - 2);
-    local_16 = Item.getY(local_13);
-    goto block_058d;
-
-  block_0574:
-    local_18 = Item.getX(local_13);
-    local_16 = (Item.getY(local_13) - 2);
-
-  block_058d:
-    local_14 = Item.getZ(local_13);
-    if (!Item.legal_move(0, 1, local_18, local_13)) goto block_05ce;
-
-  block_05ce:
-    if (!intrinsic_005c(*(arg_06), local_13)) goto block_05e7;
-
-  block_05e7:
-    local_03 = (1 + local_03);
-    goto block_0544;
-
-  block_05f1:
+    while (local_03 <= local_07) {
+      local_13 = intrinsic_001e();
+      if (local_01) {
+        local_18 = (Item.getX(local_13) - 2);
+        local_16 = Item.getY(local_13);
+      }
+      else {
+        local_18 = Item.getX(local_13);
+        local_16 = (Item.getY(local_13) - 2);
+      }
+      local_14 = Item.getZ(local_13);
+      local_03 = (1 + local_03);
+    }
     spawn FREE.slot_3b(pid, 10, 0x00000000);
     suspend;
     local_05 = (1 + local_05);
-    goto block_0499;
-
-  block_061d:
-    local_07 = 0;
-    /* loopscr */
-    /* loop */
-
-  block_062e:
-    while (!condition) {
-      if (local_13 == *(arg_06)) {
-        local_07 = (1 + local_07);
-      }
-      /* loopnext */
+  }
+  local_07 = 0;
+  /* loopscr */
+  /* loop */
+  while (condition) {
+    if (local_13 != *(arg_06)) {
+      local_07 = (1 + local_07);
     }
-
-  block_064e:
-    local_03 = 1;
-
-  block_0682:
-    while (local_03 > local_07) {
-      local_13 = intrinsic_001e();
-      local_03 = (1 + local_03);
-    }
-
-  block_06c9:
-    ITEM.slot_25(0x0100, arg_06);
-    ITEM.slot_25(4, arg_06);
-    return;
-
+    /* loopnext */
+  }
+  local_03 = 1;
+  while (local_03 <= local_07) {
+    local_13 = intrinsic_001e();
+    local_03 = (1 + local_03);
+  }
+  ITEM.slot_25(0x0100, arg_06);
+  ITEM.slot_25(4, arg_06);
+  return;
 }

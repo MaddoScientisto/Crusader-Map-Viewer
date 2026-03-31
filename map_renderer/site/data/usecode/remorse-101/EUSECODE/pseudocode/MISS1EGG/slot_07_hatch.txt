@@ -1,56 +1,36 @@
 function miss1egg_hatch() /* entry=2319 class_id=0x090d slot=0x07 */
 {
-  entry:
-    set_info(0x0210, *(arg_06));
-    process_exclude();
-    if (intrinsic_003e(arg_06) != 1) goto block_0141;
-
-  block_0112:
+  set_info(0x0210, *(arg_06));
+  process_exclude();
+  if (intrinsic_003e(arg_06) == 1) {
     spawn MISS1EGG.slot_21(arg_06);
     /* global_address */
     spawn NPC.slot_23(pid);
     suspend;
-    goto block_0202;
-
-  block_0141:
-    if (intrinsic_003e(arg_06) != 2) goto block_01a4;
-
-  block_0150:
-    if (!global[0x003c]) goto block_0199;
-
-  block_0158:
-    /* pop_global */
-
-  block_0158_selector_00:
-    /* loop_selector local_06 in nearby_items(shape=NPC_TECH, origin=arg_06) */
-
-  block_0176:
-    if condition goto block_0197;
-
-  block_0179:
-    ITEM.slot_23(4, local_06);
-    spawn MISS1EGG.slot_22(local_06, arg_06);
-    /* loopnext */
-    goto block_0176;
-
-  block_0199:
-    goto block_0202;
-
-  block_01a4:
-    if (intrinsic_003e(arg_06) == 3) {
-      FREE.slot_41();
-      spawn MISS1EGG.slot_23(pid, arg_06);
-      suspend;
-      return;
-    }
-    else if (intrinsic_003e(arg_06) == 7) {
-      FREE.slot_41();
-      spawn MISS1EGG.slot_20(pid, arg_06);
-      suspend;
-      return;
-    }
-
-  block_0202:
     return;
-
+  }
+  else if (intrinsic_003e(arg_06) == 2) {
+    if (!(global[0x003c])) {
+      /* pop_global */
+      for local_06 in nearby_items(shape=NPC_TECH, origin=arg_06) {
+        ITEM.slot_23(4, local_06);
+        spawn MISS1EGG.slot_22(local_06, arg_06);
+        /* loopnext */
+      }
+    }
+    return;
+  }
+  else if (intrinsic_003e(arg_06) == 3) {
+    FREE.slot_41();
+    spawn MISS1EGG.slot_23(pid, arg_06);
+    suspend;
+    return;
+  }
+  else if (intrinsic_003e(arg_06) == 7) {
+    FREE.slot_41();
+    spawn MISS1EGG.slot_20(pid, arg_06);
+    suspend;
+    return;
+  }
+  return;
 }

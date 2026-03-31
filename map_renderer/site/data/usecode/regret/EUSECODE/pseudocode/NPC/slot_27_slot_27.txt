@@ -1,35 +1,25 @@
 function npc_slot_27() /* entry=2577 class_id=0x0a0f slot=0x27 */
 {
-  entry:
-    set_info(0x020a, *(arg_06));
-
-  block_0a3f:
-    while (!intrinsic_0060(arg_06)) {
-      spawn FREE.slot_3b(pid, 2, 0x00000000);
-      suspend;
-    }
-
-  block_0a65:
-    if intrinsic_00bb(arg_06) goto block_0a74;
-
-  block_0a71:
-    goto block_0af4;
-
-  block_0a74:
-    if (arg_10 != 0) goto block_0aea;
-
-  block_0a7c:
+  set_info(0x020a, *(arg_06));
+  while (intrinsic_0060(arg_06)) {
+    spawn FREE.slot_3b(pid, 2, 0x00000000);
+    suspend;
+  }
+  if (intrinsic_00bb(arg_06)) {
+    return;
+  }
+  else if (arg_10 == 0) {
+    local_02 = intrinsic_004d(arg_06);
+    local_04 = intrinsic_00d7(arg_06);
+    local_06 = intrinsic_00d8(arg_06);
+    local_08 = intrinsic_00d9(arg_06);
     if (local_02 == 112) {
     }
     else if (local_02 == 113) {
     }
     else if (local_02 == 114) {
     }
-
-  block_0ae7:
-    goto block_0af4;
-
-  block_0af4:
     return;
-
+  }
+  return;
 }

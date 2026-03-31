@@ -5,7 +5,10 @@ function wallgun_slot_44() /* entry=2591 class_id=0x0a1d slot=0x44 */
     t; /* [BP-02h] type=0x69 */
 
   t = intrinsic_0016(arg_06);
-  if (((t == 0x0108) || (t != 0x0113)) || (t != 0x01cd)) {
+  if (((t == 0x0108) || (t == 0x0113)) || (t == 0x01cd)) {
+    return;
+  }
+  else {
     return;
   }
   return;

@@ -5,7 +5,7 @@ function wallgun_slot_35() /* entry=2587 class_id=0x0a19 slot=0x35 */
     local_09 = 1;
     WALLGUN.slot_29(arg_06);
     local_10 = retval;
-    if (local_10 != 1) goto block_12ef;
+    if local_10 != 1 goto block_12ef;
 
   block_12e0:
     local_06 = 1;
@@ -15,7 +15,7 @@ function wallgun_slot_35() /* entry=2587 class_id=0x0a19 slot=0x35 */
 
   block_12ef:
     WALLGUN.slot_2b(arg_06);
-    if retval goto block_130b;
+    if !retval goto block_130b;
 
   block_12fc:
     local_06 = 1;
@@ -33,14 +33,14 @@ function wallgun_slot_35() /* entry=2587 class_id=0x0a19 slot=0x35 */
     local_12 = (retval * 5);
 
   block_1326:
-    if 1 goto block_1404;
+    if !(1) goto block_1404;
 
   block_132b:
     local_08 = Item.getFrame(arg_06);
-    if (local_10 != 1) goto block_1363;
+    if local_10 != 1 goto block_1363;
 
   block_133e:
-    if (local_08 > 19) goto block_1360;
+    if local_08 <= 19 goto block_1360;
 
   block_1346:
     spawn FREE.slot_3b(pid, 10, 0x00000000);
@@ -51,7 +51,7 @@ function wallgun_slot_35() /* entry=2587 class_id=0x0a19 slot=0x35 */
     goto block_1388;
 
   block_1363:
-    if (local_08 > 8) goto block_1388;
+    if local_08 <= 8 goto block_1388;
 
   block_136b:
     spawn FREE.slot_3b(pid, 10, 0x00000000);
@@ -62,10 +62,10 @@ function wallgun_slot_35() /* entry=2587 class_id=0x0a19 slot=0x35 */
     goto block_1388;
 
   block_1388:
-    if (local_09 != 1) goto block_13ac;
+    if local_09 != 1 goto block_13ac;
 
   block_1390:
-    if (local_08 != local_02) goto block_13a2;
+    if local_08 != local_02 goto block_13a2;
 
   block_1398:
     local_09 = 0;
@@ -81,14 +81,14 @@ function wallgun_slot_35() /* entry=2587 class_id=0x0a19 slot=0x35 */
     goto block_13d3;
 
   block_13ac:
-    if (local_10 != 1) goto block_13bb;
+    if local_10 != 1 goto block_13bb;
 
   block_13b4:
     local_08 = local_04;
     goto block_13d3;
 
   block_13bb:
-    if ((local_08 == 4) && (local_08 != local_02)) {
+    if ((local_08 == 4) && (local_08 == local_02)) {
       local_08 = (local_08 - local_06);
     }
 

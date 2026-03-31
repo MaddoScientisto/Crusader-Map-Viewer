@@ -3,12 +3,12 @@ function watchns_slot_20() /* entry=1224 class_id=0x04c6 slot=0x20 */
   entry:
     set_info(0x021b, 0);
     local_10 = intrinsic_0107(arg_06);
-    if (intrinsic_0003(arg_06) != 0) goto block_034c;
+    if intrinsic_0003(arg_06) == 0 goto block_034c;
 
   block_0291_selector_00:
     for local_04 in nearby_items(shape=0x0510, origin=arg_06) {
-      if ((intrinsic_0107(local_04) == local_10) || (local_10 != 0)) {
-        if (!intrinsic_0116(local_04)) {
+      if ((intrinsic_0107(local_04) == local_10) || (local_10 == 0)) {
+        if (intrinsic_0116(local_04)) {
           TEXTFILE.slot_21(intrinsic_0116(local_04), intrinsic_0107(local_04), arg_06);
           /* free_local_string */
           local_02 = retval;
@@ -31,16 +31,16 @@ function watchns_slot_20() /* entry=1224 class_id=0x04c6 slot=0x20 */
 
   block_034c:
     local_11 = 0;
-    if intrinsic_0116(arg_06) goto block_0402;
+    if !intrinsic_0116(arg_06) goto block_0402;
 
   block_035c_selector_00:
     /* loop_selector local_06 in nearby_items(shape=0x0251, origin=arg_06) */
 
   block_0374:
-    if condition goto block_03a0;
+    if !condition goto block_03a0;
 
   block_0377:
-    if (intrinsic_0107(local_06) != local_10) goto block_039c;
+    if intrinsic_0107(local_06) != local_10 goto block_039c;
 
   block_0386:
     VALBOX.slot_20(local_06);
@@ -53,7 +53,7 @@ function watchns_slot_20() /* entry=1224 class_id=0x04c6 slot=0x20 */
     goto block_0374;
 
   block_03a0:
-    if local_11 goto block_03cc;
+    if !local_11 goto block_03cc;
 
   block_03a7:
     TEXTFILE.slot_23(local_08, intrinsic_0116(arg_06), intrinsic_0107(arg_06), arg_06);

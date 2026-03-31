@@ -3,7 +3,7 @@ function miss1egg_cachein() /* entry=2319 class_id=0x090d slot=0x04 */
   set_info(0x0213, *(arg_06));
   process_exclude();
   if (intrinsic_003e(arg_06) == 30) {
-    if (intrinsic_00c6()) {
+    if (!intrinsic_00c6()) {
       spawn FREE.waitNTimerTicks(pid, 1, 0x00000000);
       suspend;
       /* pop_global */
@@ -11,17 +11,19 @@ function miss1egg_cachein() /* entry=2319 class_id=0x090d slot=0x04 */
       suspend;
       return;
     }
-    /* pop_global */
-    /* global_address */
-    /* str_to_ptr */
-    /* free_stack_string */
-    suspend;
-    spawn FREE.waitNTimerTicks(pid, 1, 0x00000000);
-    suspend;
-    /* global_address */
-    spawn FREE.waitNTimerTicks(pid, 1, 0x00000000);
-    suspend;
-    suspend;
+    else {
+      /* pop_global */
+      /* global_address */
+      /* str_to_ptr */
+      /* free_stack_string */
+      suspend;
+      spawn FREE.waitNTimerTicks(pid, 1, 0x00000000);
+      suspend;
+      /* global_address */
+      spawn FREE.waitNTimerTicks(pid, 1, 0x00000000);
+      suspend;
+      suspend;
+    }
   }
   return;
 }

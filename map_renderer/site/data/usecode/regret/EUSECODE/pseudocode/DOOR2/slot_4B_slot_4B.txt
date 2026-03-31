@@ -1,70 +1,48 @@
 function door2_slot_4b() /* entry=2567 class_id=0x0a05 slot=0x4b */
 {
-  entry:
-    set_info(0x0207, *(arg_06));
-    set_info(1, 0);
-    local_12 = 7;
-    local_08 = *(arg_06);
-    local_14 = Item.getX(arg_06);
-    local_16 = Item.getY(arg_06);
-    local_18 = Item.getZ(arg_06);
-    /* loopscr */
-    /* loopscr */
-    /* loopscr */
-    /* loopscr */
-    /* loop */
-
-  block_2414:
-    if condition goto block_247f;
-
-  block_2417:
-    if (Item.getFrame(local_02) != 0) goto block_2452;
-
-  block_2426:
-    local_20 = Item.getX(local_02);
-    local_22 = Item.getY(local_02);
-    local_28 = Item.getZ(local_02);
-    goto block_247b;
-
-  block_2452:
-    local_24 = Item.getX(local_02);
-    local_26 = Item.getY(local_02);
-    local_30 = Item.getZ(local_02);
-
-  block_247b:
+  set_info(0x0207, *(arg_06));
+  set_info(1, 0);
+  local_12 = 7;
+  local_08 = *(arg_06);
+  local_14 = Item.getX(arg_06);
+  local_16 = Item.getY(arg_06);
+  local_18 = Item.getZ(arg_06);
+  /* loopscr */
+  /* loopscr */
+  /* loopscr */
+  /* loopscr */
+  /* loop */
+  while (condition) {
+    if (Item.getFrame(local_02) == 0) {
+      local_20 = Item.getX(local_02);
+      local_22 = Item.getY(local_02);
+      local_28 = Item.getZ(local_02);
+    }
+    else {
+      local_24 = Item.getX(local_02);
+      local_26 = Item.getY(local_02);
+      local_30 = Item.getZ(local_02);
+    }
     /* loopnext */
-    goto block_2414;
-
-  block_247f:
-    local_32 = intrinsic_001f(arg_06);
-    if (Item.legal_create((local_18 - 80), local_16, local_14, 7, 0x01ee, local_04) != 1) goto block_252c;
-
-  block_24b1:
+  }
+  local_32 = intrinsic_001f(arg_06);
+  if (Item.legal_create((local_18 - 80), local_16, local_14, 7, 0x01ee, local_04) == 1) {
     spawn FREE.slot_3b(pid, 5, 0x00000000);
     suspend;
     local_10 = 1;
-
-  block_24e1:
-    while (local_10 > local_12) {
+    while (local_10 <= local_12) {
       spawn FREE.slot_3b(pid, 5, 0x00000000);
       suspend;
       local_10 = (1 + local_10);
     }
-
-  block_2517:
     /* word_to_dword */
     /* pop_result */
-    goto block_2584;
-
-  block_2529:
-    goto block_2584;
-
-  block_252c:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_2584;
-
-  block_2584:
     return;
-
+  }
+  else {
+    /* word_to_dword */
+    /* pop_result */
+    return;
+  }
+  return;
 }

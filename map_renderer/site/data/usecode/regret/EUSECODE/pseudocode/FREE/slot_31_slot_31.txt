@@ -4,35 +4,40 @@ function free_slot_31() /* entry=2591 class_id=0x0a1d slot=0x31 */
   local_04 = arg_08;
   /* global_address */
   local_06 = intrinsic_003d();
-  if (!Actor.isNPC(local_02)) {
+  if (Actor.isNPC(local_02)) {
     local_08 = local_02;
-    if (intrinsic_003d(local_08) == local_06) {
+    if (intrinsic_003d(local_08) != local_06) {
       return;
     }
   }
-  if (!Actor.isNPC(local_04)) {
+  else if (Actor.isNPC(local_04)) {
     local_10 = local_04;
-    if (intrinsic_003d(local_10) == local_06) {
+    if (intrinsic_003d(local_10) != local_06) {
       return;
     }
   }
-  local_12 = (Item.getX(local_02) - Item.getX(local_04));
-  local_14 = (Item.getY(local_02) - Item.getY(local_04));
-  local_16 = (Item.getZ(local_02) - Item.getZ(local_04));
-  FREE.slot_48(local_12);
-  local_12 = retval;
-  FREE.slot_48(local_14);
-  local_14 = retval;
-  FREE.slot_48(local_16);
-  local_16 = retval;
-  if ((local_12 <= local_14) && (local_12 > local_16)) {
-    return;
-  }
-  if ((local_14 <= local_12) && (local_14 > local_16)) {
-    return;
-  }
-  if ((local_16 <= local_12) && (local_16 > local_14)) {
-    return;
+  else {
+    local_12 = (Item.getX(local_02) - Item.getX(local_04));
+    local_14 = (Item.getY(local_02) - Item.getY(local_04));
+    local_16 = (Item.getZ(local_02) - Item.getZ(local_04));
+    FREE.slot_48(local_12);
+    local_12 = retval;
+    FREE.slot_48(local_14);
+    local_14 = retval;
+    FREE.slot_48(local_16);
+    local_16 = retval;
+    if ((local_12 > local_14) && (local_12 > local_16)) {
+      return;
+    }
+    else if ((local_14 > local_12) && (local_14 > local_16)) {
+      return;
+    }
+    else if ((local_16 > local_12) && (local_16 > local_14)) {
+      return;
+    }
+    else {
+      return;
+    }
   }
   return;
 }

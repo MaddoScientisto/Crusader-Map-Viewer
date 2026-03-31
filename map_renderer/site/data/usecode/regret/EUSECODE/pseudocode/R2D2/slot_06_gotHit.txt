@@ -1,51 +1,35 @@
 function r2d2_gotHit() /* entry=441 class_id=0x01b7 slot=0x06 */
 {
-  entry:
-    set_info(0x020c, *(arg_06));
-    process_exclude();
-    if (!Item.isOnScreen(arg_06)) goto block_025f;
-
-  block_025c:
-    goto block_035b;
-
-  block_025f:
-    if (Item.getFrame(arg_06) != 16) goto block_0271;
-
-  block_026e:
-    goto block_035b;
-
-  block_0271:
-    if (intrinsic_0004(arg_06) & 0x1000) goto block_02b9;
-
-  block_0281:
-    goto block_035b;
-
-  block_02b9:
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  if (!Item.isOnScreen(arg_06)) {
+    return;
+  }
+  else if (Item.getFrame(arg_06) == 16) {
+    return;
+  }
+  else if (intrinsic_0004(arg_06) & 0x1000) {
+    return;
+  }
+  else {
     spawn ITEM.slot_29(pid, 0x00c8, arg_12, arg_10, arg_06);
     suspend;
     /* dword_to_word */
-    if (!process_result) goto block_02ff;
-
-  block_02d8:
-    FREE.slot_20(1);
-    if retval goto block_02f2;
-
-  block_02e5:
-    goto block_02fc;
-
-  block_02fc:
-    goto block_035b;
-
-  block_02ff:
-    FREE.slot_34(arg_12, arg_10);
-    local_02 = retval;
-    FREE.slot_3c(0x021b, *(arg_06));
-    spawn ITEM.slot_2a(pid, 0, 0, arg_06);
-    suspend;
-    spawn TRIGGER.slot_20(pid, 1, *(arg_06), arg_06);
-    suspend;
-
-  block_035b:
-    return;
-
+    if (!process_result) {
+      FREE.slot_20(1);
+      if (retval) {
+      }
+      return;
+    }
+    else {
+      FREE.slot_34(arg_12, arg_10);
+      local_02 = retval;
+      FREE.slot_3c(0x021b, *(arg_06));
+      spawn ITEM.slot_2a(pid, 0, 0, arg_06);
+      suspend;
+      spawn TRIGGER.slot_20(pid, 1, *(arg_06), arg_06);
+      suspend;
+    }
+  }
+  return;
 }

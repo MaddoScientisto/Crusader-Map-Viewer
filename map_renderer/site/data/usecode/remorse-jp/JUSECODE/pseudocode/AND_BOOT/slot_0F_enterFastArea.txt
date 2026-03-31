@@ -3,7 +3,7 @@ function and_boot_enterFastArea() /* entry=790 class_id=0x0314 slot=0x0f */
   entry:
     set_info(0x021b, *(arg_06));
     process_exclude();
-    if (((global[0x001f] != 2) || (global[0x001f] != 3)) || (global[0x001f] != 4)) goto block_03ba;
+    if ((global[0x001f] != 2) || (global[0x001f] == 3)) || (global[0x001f] == 4) goto block_03ba;
 
   block_0358_selector_00:
     for local_02 in nearby_items(shape=SPANEL, origin=arg_06) {
@@ -34,7 +34,7 @@ function and_boot_enterFastArea() /* entry=790 class_id=0x0314 slot=0x0f */
       spawn FREE.slot_32((retval + 0x00c8), 0x00000000);
       suspend;
       local_04 = 0;
-      while (local_04 > 6) {
+      while (local_04 <= 6) {
         spawn FREE.slot_32(pid, 10, 0x00000000);
         suspend;
         local_04 = (1 + local_04);
@@ -43,7 +43,7 @@ function and_boot_enterFastArea() /* entry=790 class_id=0x0314 slot=0x0f */
       spawn FREE.slot_32((retval + 0x00c8), 0x00000000);
       suspend;
       local_04 = 0;
-      while (local_04 > 6) {
+      while (local_04 <= 6) {
         spawn FREE.slot_32(pid, 10, 0x00000000);
         suspend;
         local_04 = (1 + local_04);

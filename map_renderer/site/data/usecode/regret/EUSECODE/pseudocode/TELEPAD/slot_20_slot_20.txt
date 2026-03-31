@@ -1,14 +1,11 @@
 function telepad_slot_20() /* entry=477 class_id=0x01db slot=0x20 */
 {
-  entry:
-    set_info(1, 0);
-    /* global_address */
-    if intrinsic_0113() goto block_0341;
-
-  block_033e:
-    goto block_04fd;
-
-  block_0341:
+  set_info(1, 0);
+  /* global_address */
+  if (intrinsic_0113()) {
+    return;
+  }
+  else {
     /* global_address */
     /* pop_global */
     /* pop_global */
@@ -16,66 +13,48 @@ function telepad_slot_20() /* entry=477 class_id=0x01db slot=0x20 */
     suspend;
     FREE.slot_3c(0x0215, 0);
     FREE.slot_3c(0x0228, 0);
-
-  block_0395:
-    while (!intrinsic_0060()) {
+    /* global_address */
+    while (intrinsic_0060()) {
       spawn FREE.slot_3b(pid, 2, 0x00000000);
       suspend;
     }
-
-  block_03bc:
     /* global_address */
-    if intrinsic_0061() goto block_03ea;
-
-  block_03c9:
-    /* global_address */
-    /* global_address */
-    suspend;
-
-  block_03ea:
+    if (intrinsic_0061()) {
+      /* global_address */
+      /* global_address */
+      suspend;
+    }
     /* global_address */
     spawn NPC.slot_24(pid);
     suspend;
     /* global_address */
-    if (intrinsic_003d() != arg_10) goto block_04c6;
-
-  block_040b:
-    suspend;
-    FREE.slot_22();
-    if (arg_10 != 3) goto block_047b;
-
-  block_0427:
-    spawn FREE.slot_3b(pid, 120, 0x00000000);
-    suspend;
-    /* str_to_ptr */
-    /* free_stack_string */
-    /* str_to_ptr */
-    /* free_stack_string */
-    goto block_04fd;
-
-  block_047b:
-    if arg_10 goto block_0493;
-
-  block_0480:
-    suspend;
-
-  block_0493:
-    FREE.slot_23();
-    /* global_address */
-    /* global_address */
-    suspend;
-    goto block_04d7;
-
-  block_04c6:
-    suspend;
-
-  block_04d7:
+    if (intrinsic_003d() != arg_10) {
+      suspend;
+      FREE.slot_22();
+      if (arg_10 == 3) {
+        spawn FREE.slot_3b(pid, 120, 0x00000000);
+        suspend;
+        /* str_to_ptr */
+        /* free_stack_string */
+        /* str_to_ptr */
+        /* free_stack_string */
+        return;
+      }
+      if (arg_10) {
+        suspend;
+      }
+      FREE.slot_23();
+      /* global_address */
+      /* global_address */
+      suspend;
+    }
+    else {
+      suspend;
+    }
     /* global_address */
     spawn NPC.slot_23(pid);
     suspend;
     /* global_address */
-
-  block_04fd:
-    return;
-
+  }
+  return;
 }

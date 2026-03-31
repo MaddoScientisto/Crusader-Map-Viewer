@@ -2,7 +2,7 @@ function special_leaveFastArea() /* entry=1228 class_id=0x04ca slot=0x10 */
 {
   set_info(0x021c, *(arg_06));
   process_exclude();
-  if (!intrinsic_00ec(arg_06)) {
+  if (intrinsic_00ec(arg_06)) {
     if (intrinsic_0003(arg_06) == 2) {
       spawn TRIGGER.slot_2a(pid, (0x0080 + 0), *(arg_06), arg_06);
       suspend;

@@ -1,63 +1,41 @@
 function upplate_gotHit() /* entry=1097 class_id=0x0447 slot=0x06 */
 {
-  entry:
-    set_info(0x020c, *(arg_06));
-    process_exclude();
-    FREE.slot_35(arg_12, arg_10);
-    if retval goto block_00f1;
-
-  block_00ee:
-    goto block_01f6;
-
-  block_00f1:
-    if (Item.getFrame(arg_06) != 2) goto block_0103;
-
-  block_0100:
-    goto block_01f6;
-
-  block_0103:
-    local_02 = arg_10;
-    if ((intrinsic_005b(arg_06) != 0) || (intrinsic_005c(*(arg_06), local_02) != 0)) goto block_012a;
-
-  block_0127:
-    goto block_01f6;
-
-  block_012a:
-    if (intrinsic_0003(arg_06) != 0) goto block_01cb;
-
-  block_0139:
-    spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
-    suspend;
-    spawn FREE.slot_3b(pid, 20, 0x00000000);
-    suspend;
-
-  block_017c:
-    if 1 goto block_01c8;
-
-  block_0181:
-    if (intrinsic_005b(arg_06) != 0) goto block_01aa;
-
-  block_0190:
-    spawn FREE.slot_3b(pid, 2, 0x00000000);
-    suspend;
-    goto block_01c5;
-
-  block_01aa:
-    spawn TRIGGER.slot_20(pid, 1, *(arg_06), arg_06);
-    suspend;
-    goto block_01f6;
-
-  block_01c5:
-    goto block_017c;
-
-  block_01c8:
-    goto block_01f6;
-
-  block_01cb:
-    spawn FREE.slot_3b(pid, 20, 0x00000000);
-    suspend;
-
-  block_01f6:
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  FREE.slot_35(arg_12, arg_10);
+  if (retval) {
     return;
-
+  }
+  else if (Item.getFrame(arg_06) != 2) {
+    return;
+  }
+  else {
+    local_02 = arg_10;
+    if ((intrinsic_005b(arg_06) == 0) || (intrinsic_005c(*(arg_06), local_02) == 0)) {
+      return;
+    }
+    else if (intrinsic_0003(arg_06) != 0) {
+      spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
+      suspend;
+      spawn FREE.slot_3b(pid, 20, 0x00000000);
+      suspend;
+      while (1) {
+        if (intrinsic_005b(arg_06) != 0) {
+          spawn FREE.slot_3b(pid, 2, 0x00000000);
+          suspend;
+        }
+        else {
+          spawn TRIGGER.slot_20(pid, 1, *(arg_06), arg_06);
+          suspend;
+          return;
+        }
+      }
+      return;
+    }
+    else {
+      spawn FREE.slot_3b(pid, 20, 0x00000000);
+      suspend;
+    }
+  }
+  return;
 }

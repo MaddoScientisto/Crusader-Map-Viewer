@@ -3,7 +3,7 @@ function pepsiew_gotHit() /* entry=150 class_id=0x0094 slot=0x06 */
   set_info(0x020c, *(arg_06));
   process_exclude();
   FREE.slot_2c(arg_12, arg_10);
-  if (!retval) {
+  if (retval) {
     spawn ITEM.slot_28(pid, 0, 1, arg_06);
     suspend;
   }

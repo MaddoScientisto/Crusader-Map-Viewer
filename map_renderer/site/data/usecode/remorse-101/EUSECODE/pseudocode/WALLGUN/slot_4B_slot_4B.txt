@@ -1,40 +1,26 @@
 function wallgun_slot_4b() /* entry=2588 class_id=0x0a1a slot=0x4b */
 {
-  entry:
-    set_info(0x0001, *(arg_06));
-    spawn FREE.waitNTimerTicks(pid, 1, 0x00000000);
-    suspend;
-    WALLGUN.slot_44(arg_06);
-    local_12 = retval;
-    arg_10 = (arg_10 & 15);
-    WALLGUN.slot_3e(arg_10, arg_06);
-    local_02 = retval;
-    WALLGUN.slot_3f(arg_10, arg_06);
-    local_06 = retval;
-    WALLGUN.slot_40(arg_10, arg_06);
-    local_09 = retval;
-    if (local_12 != 1) goto block_488b;
-
-  block_488b:
-    if (local_12 != 5) goto block_489d;
-
-  block_489d:
-    WALLGUN.slot_29(arg_06);
-    if retval goto block_4913;
-
-  block_48aa:
+  set_info(0x0001, *(arg_06));
+  spawn FREE.waitNTimerTicks(pid, 1, 0x00000000);
+  suspend;
+  WALLGUN.slot_44(arg_06);
+  local_12 = retval;
+  arg_10 = (arg_10 & 15);
+  WALLGUN.slot_3e(arg_10, arg_06);
+  local_02 = retval;
+  WALLGUN.slot_3f(arg_10, arg_06);
+  local_06 = retval;
+  WALLGUN.slot_40(arg_10, arg_06);
+  local_09 = retval;
+  WALLGUN.slot_29(arg_06);
+  if (retval) {
     WALLGUN.slot_41(arg_10, arg_06);
     local_04 = retval;
     WALLGUN.slot_42(arg_10, arg_06);
     local_08 = retval;
     WALLGUN.slot_43(arg_10, arg_06);
     local_10 = retval;
-    if (intrinsic_0016(arg_06) != 0x04c8) goto block_4910;
-
-  block_4910:
-    goto block_4929;
-
-  block_4929:
     return;
-
+  }
+  return;
 }

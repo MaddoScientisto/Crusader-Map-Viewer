@@ -2,15 +2,17 @@ function mgr_ns_gotHit() /* entry=662 class_id=0x0294 slot=0x06 */
 {
   set_info(0x020c, *(arg_06));
   process_exclude();
-  if (!(intrinsic_0004(arg_06) & 0x1000)) {
+  if (intrinsic_0004(arg_06) & 0x1000) {
     return;
   }
-  FREE.slot_2c(arg_12, arg_10);
-  if (!retval) {
-    ITEM.slot_23(0x1000, arg_06);
-    spawn FREE.waitNTimerTicks(pid, 20, 0x00000000);
-    suspend;
-    ITEM.slot_24(0x1000, arg_06);
+  else {
+    FREE.slot_2c(arg_12, arg_10);
+    if (retval) {
+      ITEM.slot_23(0x1000, arg_06);
+      spawn FREE.waitNTimerTicks(pid, 20, 0x00000000);
+      suspend;
+      ITEM.slot_24(0x1000, arg_06);
+    }
   }
   return;
   /* decompilation stopped at SEARCH_SURFACE */

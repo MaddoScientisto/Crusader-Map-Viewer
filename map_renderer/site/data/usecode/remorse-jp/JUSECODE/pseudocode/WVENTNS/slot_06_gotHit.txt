@@ -1,30 +1,16 @@
 function wventns_gotHit() /* entry=1001 class_id=0x03e7 slot=0x06 */
 {
-  entry:
-    set_info(0x020c, *(arg_06));
-    process_exclude();
-    local_02 = Item.getFrame(arg_06);
-    FREE.slot_2c(arg_12, arg_10);
-    if retval goto block_019e;
-
-  block_0142:
-    if (local_02 < 1) goto block_019e;
-
-  block_014d_selector_00:
-    /* loop_selector local_04 in nearby_items(shape=WIND_AREA, origin=arg_06) */
-
-  block_016e:
-    if condition goto block_019c;
-
-  block_0171:
-    if (intrinsic_0110(arg_06) != intrinsic_0110(local_04)) goto block_0198;
-
-  block_0198:
-    /* loopnext */
-    goto block_016e;
-
-  block_019e:
-    return;
-
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  local_02 = Item.getFrame(arg_06);
+  FREE.slot_2c(arg_12, arg_10);
+  if (retval) {
+    if (local_02 < 1) {
+      for local_04 in nearby_items(shape=WIND_AREA, origin=arg_06) {
+        /* loopnext */
+      }
+    }
+  }
+  return;
   /* decompilation stopped at SEARCH_SURFACE */
 }

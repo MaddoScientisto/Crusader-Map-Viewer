@@ -4,17 +4,17 @@ function rtelepad_gotHit() /* entry=394 class_id=0x0188 slot=0x06 */
   process_exclude();
   local_02 = arg_10;
   FREE.slot_2c(arg_12, arg_10);
-  if (!retval) {
+  if (retval) {
     return;
   }
-  if (intrinsic_0071() == 1) {
+  else if (intrinsic_0071() == 1) {
     /* loopscr */
     /* loopscr */
     /* loopscr */
     /* loopscr */
     /* loop */
-    while (!condition) {
-      if (local_04 >= 0x0100) {
+    while (condition) {
+      if (local_04 < 0x0100) {
       }
       /* loopnext */
     }

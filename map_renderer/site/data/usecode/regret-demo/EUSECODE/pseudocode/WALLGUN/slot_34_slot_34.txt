@@ -5,7 +5,7 @@ function wallgun_slot_34() /* entry=2593 class_id=0x0a1f slot=0x34 */
     local_09 = 1;
     WALLGUN.slot_29(arg_06);
     local_10 = retval;
-    if (local_10 != 1) goto block_11aa;
+    if local_10 != 1 goto block_11aa;
 
   block_119b:
     local_06 = 1;
@@ -15,7 +15,7 @@ function wallgun_slot_34() /* entry=2593 class_id=0x0a1f slot=0x34 */
 
   block_11aa:
     WALLGUN.slot_2b(arg_06);
-    if retval goto block_11c6;
+    if !retval goto block_11c6;
 
   block_11b7:
     local_06 = 1;
@@ -33,14 +33,14 @@ function wallgun_slot_34() /* entry=2593 class_id=0x0a1f slot=0x34 */
     local_12 = (retval * 5);
 
   block_11e1:
-    if 1 goto block_12bc;
+    if !(1) goto block_12bc;
 
   block_11e6:
     local_08 = Item.getFrame(arg_06);
-    if (local_10 != 1) goto block_121e;
+    if local_10 != 1 goto block_121e;
 
   block_11f9:
-    if (local_08 > 19) goto block_121b;
+    if local_08 <= 19 goto block_121b;
 
   block_1201:
     spawn FREE.slot_3b(pid, 10, 0x00000000);
@@ -51,7 +51,7 @@ function wallgun_slot_34() /* entry=2593 class_id=0x0a1f slot=0x34 */
     goto block_1243;
 
   block_121e:
-    if (local_08 > 8) goto block_1243;
+    if local_08 <= 8 goto block_1243;
 
   block_1226:
     spawn FREE.slot_3b(pid, 10, 0x00000000);
@@ -62,10 +62,10 @@ function wallgun_slot_34() /* entry=2593 class_id=0x0a1f slot=0x34 */
     goto block_1243;
 
   block_1243:
-    if local_09 goto block_1264;
+    if !local_09 goto block_1264;
 
   block_1248:
-    if (local_08 != local_04) goto block_125a;
+    if local_08 != local_04 goto block_125a;
 
   block_1250:
     local_09 = 0;
@@ -81,14 +81,14 @@ function wallgun_slot_34() /* entry=2593 class_id=0x0a1f slot=0x34 */
     goto block_128b;
 
   block_1264:
-    if (local_10 != 1) goto block_1273;
+    if local_10 != 1 goto block_1273;
 
   block_126c:
     local_08 = local_02;
     goto block_128b;
 
   block_1273:
-    if ((local_08 == 4) && (local_08 != local_04)) {
+    if ((local_08 == 4) && (local_08 == local_04)) {
       local_08 = (local_08 + local_06);
     }
 

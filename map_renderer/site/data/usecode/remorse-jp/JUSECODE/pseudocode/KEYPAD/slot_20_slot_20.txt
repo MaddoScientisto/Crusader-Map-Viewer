@@ -1,58 +1,41 @@
 function keypad_slot_20() /* entry=2578 class_id=0x0a10 slot=0x20 */
 {
-  entry:
-    set_info(0x0207, *(arg_06));
-    local_06 = 0;
-    local_08 = 0;
-
-  entry_selector_00:
-    for local_02 in nearby_items(shape=PLACEHOLDER_KEY_CUBE, origin=arg_06) {
-      if (intrinsic_00b0(local_02) == intrinsic_00b0(arg_06)) {
-        VALBOX.slot_20(local_02);
-        local_10 = retval;
-        if (local_10 <= 0x03e7) {
-          return;
-        }
+  set_info(0x0207, *(arg_06));
+  local_06 = 0;
+  local_08 = 0;
+  for local_02 in nearby_items(shape=PLACEHOLDER_KEY_CUBE, origin=arg_06) {
+    if (intrinsic_00b0(local_02) == intrinsic_00b0(arg_06)) {
+      VALBOX.slot_20(local_02);
+      local_10 = retval;
+      if (local_10 > 0x03e7) {
+        return;
       }
-      /* loopnext */
     }
-
-  block_0163:
-    if ((intrinsic_0004(arg_06) & 0x1000) != 0) goto block_02ab;
-
-  block_017b:
+    /* loopnext */
+  }
+  if ((intrinsic_0004(arg_06) & 0x1000) == 0) {
     local_12 = intrinsic_00a8(local_10);
-    if (local_12 != -1) goto block_01ba;
-
-  block_01a5:
+    if (local_12 == -1) {
+      /* bit_not */
+      return;
+    }
+    else if (local_12 == local_10) {
+      spawn FREE.slot_32(pid, 60, 0x00000000);
+      suspend;
+      spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
+      suspend;
+    }
+    else {
+      spawn TRIGGER.slot_20(pid, 1, *(arg_06), arg_06);
+      suspend;
+      spawn FREE.slot_32(pid, 60, 0x00000000);
+      suspend;
+      if (!intrinsic_0000()) {
+        spawn FREE.slot_3b(0x00000000);
+      }
+    }
     /* bit_not */
-    goto block_02ab;
-
-  block_01ba:
-    if (local_12 != local_10) goto block_022f;
-
-  block_01c5:
-    spawn FREE.slot_32(pid, 60, 0x00000000);
-    suspend;
-    spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
-    suspend;
-    goto block_029c;
-
-  block_022f:
-    spawn TRIGGER.slot_20(pid, 1, *(arg_06), arg_06);
-    suspend;
-    spawn FREE.slot_32(pid, 60, 0x00000000);
-    suspend;
-    if (!intrinsic_0000()) goto block_029c;
-
-  block_028b:
-    spawn FREE.slot_3b(0x00000000);
-
-  block_029c:
-    /* bit_not */
-
-  block_02ab:
-    return;
-
+  }
+  return;
   /* decompilation stopped at SEARCH_SURFACE */
 }

@@ -1,39 +1,26 @@
 function roll_ew_gotHit() /* entry=1390 class_id=0x056c slot=0x06 */
 {
-  entry:
-    set_info(0x020c, *(arg_06));
-    process_exclude();
-    if ((intrinsic_0004(arg_06) & 0x1000) != 0) goto block_0b5b;
-
-  block_0b4a:
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  if ((intrinsic_0004(arg_06) & 0x1000) == 0) {
     spawn ROLL_EW.slot_21(arg_06);
-    goto block_0be0;
-
-  block_0b5b:
+    return;
+  }
+  else {
     spawn ITEM.slot_27(pid, 100, arg_12, arg_10, arg_06);
     suspend;
     /* dword_to_word */
-    if (!process_result) goto block_0bc1;
-
-  block_0b8b:
-    FREE.slot_20(1);
-    if retval goto block_0bab;
-
-  block_0b9b:
-    goto block_0bb8;
-
-  block_0bb8:
-    goto block_0be0;
-
-  block_0bbe:
-    goto block_0be0;
-
-  block_0bc1:
-    spawn ROLL_EW.slot_20(pid, arg_06);
-    suspend;
-
-  block_0be0:
-    return;
-
+    if (!process_result) {
+      FREE.slot_20(1);
+      if (retval) {
+      }
+      return;
+    }
+    else {
+      spawn ROLL_EW.slot_20(pid, arg_06);
+      suspend;
+    }
+  }
+  return;
   /* decompilation stopped at SEARCH_SURFACE */
 }

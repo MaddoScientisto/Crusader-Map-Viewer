@@ -1,72 +1,50 @@
 function free_slot_3c() /* entry=2574 class_id=0x0a0c slot=0x3c */
 {
-  entry:
-    set_info(1, 0);
-    FREE.slot_33(0x022b, 0);
-    local_04 = 1;
-    if (intrinsic_00b0() != 1) goto block_1065;
-
-  block_105e:
-    goto block_119e;
-
-  block_1065:
-    local_06 = intrinsic_0018(100, 0);
-    if (local_06 < 30) goto block_10c4;
-
-  block_107a:
-    spawn FREE.slot_21(pid, 15, 0x00000000);
-    suspend;
-    local_06 = intrinsic_0018(100, 0);
-    if (local_06 < 50) goto block_10bd;
-
-  block_10a6:
-    spawn FREE.slot_21(pid, 14, 0x00000000);
-    suspend;
-
-  block_10bd:
-    goto block_119e;
-
-  block_10c4:
-    if (local_06 > 60) goto block_1136;
-
-  block_10cc:
-    spawn FREE.slot_21(pid, 14, 0x00000000);
-    suspend;
-    local_06 = intrinsic_0018(100, 0);
-    if (local_06 < 30) goto block_110f;
-
-  block_10f8:
-    spawn FREE.slot_21(pid, 15, 0x00000000);
-    suspend;
-
-  block_110f:
-    if (local_06 > 60) goto block_112f;
-
-  block_1117:
-    spawn FREE.slot_21(pid, 0x00b6, 0x00000000);
-    suspend;
-
-  block_112f:
-    goto block_119e;
-
-  block_1136:
-    spawn FREE.slot_21(pid, 0x00d2, 0x00000000);
-    suspend;
-    local_06 = intrinsic_0018(100, 0);
-    if (local_06 < 30) goto block_117a;
-
-  block_1163:
-    spawn FREE.slot_21(pid, 14, 0x00000000);
-    suspend;
-
-  block_117a:
-    if (local_06 > 60) goto block_119a;
-
-  block_1182:
-    spawn FREE.slot_21(pid, 0x00b6, 0x00000000);
-    suspend;
-
-  block_119e:
+  set_info(1, 0);
+  FREE.slot_33(0x022b, 0);
+  local_04 = 1;
+  if (intrinsic_00b0() == 1) {
     return;
-
+  }
+  else {
+    local_06 = intrinsic_0018(100, 0);
+    if (local_06 < 30) {
+      spawn FREE.slot_21(pid, 15, 0x00000000);
+      suspend;
+      local_06 = intrinsic_0018(100, 0);
+      if (local_06 < 50) {
+        spawn FREE.slot_21(pid, 14, 0x00000000);
+        suspend;
+      }
+      return;
+    }
+    else if (local_06 > 60) {
+      spawn FREE.slot_21(pid, 14, 0x00000000);
+      suspend;
+      local_06 = intrinsic_0018(100, 0);
+      if (local_06 < 30) {
+        spawn FREE.slot_21(pid, 15, 0x00000000);
+        suspend;
+      }
+      if (local_06 > 60) {
+        spawn FREE.slot_21(pid, 0x00b6, 0x00000000);
+        suspend;
+      }
+      return;
+    }
+    else {
+      spawn FREE.slot_21(pid, 0x00d2, 0x00000000);
+      suspend;
+      local_06 = intrinsic_0018(100, 0);
+      if (local_06 < 30) {
+        spawn FREE.slot_21(pid, 14, 0x00000000);
+        suspend;
+      }
+      if (local_06 > 60) {
+        spawn FREE.slot_21(pid, 0x00b6, 0x00000000);
+        suspend;
+      }
+    }
+  }
+  return;
 }

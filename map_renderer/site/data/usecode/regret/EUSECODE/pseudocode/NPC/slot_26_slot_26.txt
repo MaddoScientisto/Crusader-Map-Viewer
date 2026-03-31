@@ -5,7 +5,7 @@ function npc_slot_26() /* entry=2577 class_id=0x0a0f slot=0x26 */
   local_04 = intrinsic_004d(arg_06);
   local_06 = intrinsic_00d1(arg_06);
   local_08 = intrinsic_004d(arg_06);
-  if (intrinsic_00bb(arg_06)) {
+  if (!intrinsic_00bb(arg_06)) {
     suspend;
     spawn FREE.slot_3b(pid, 2, 0x00000000);
     suspend;
@@ -13,8 +13,8 @@ function npc_slot_26() /* entry=2577 class_id=0x0a0f slot=0x26 */
   local_10 = intrinsic_00d1(arg_06);
   local_12 = intrinsic_004d(arg_06);
   local_14 = 1;
-  while (local_14 > arg_14) {
-    if (intrinsic_00bb(arg_06)) {
+  while (local_14 <= arg_14) {
+    if (!intrinsic_00bb(arg_06)) {
       suspend;
     }
     local_14 = (1 + local_14);

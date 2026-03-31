@@ -4,33 +4,35 @@ function laseri_gotHit() /* entry=471 class_id=0x01d5 slot=0x06 */
   process_exclude();
   FREE.slot_35(arg_12, arg_10);
   local_04 = retval;
-  if ((Item.isOnScreen(arg_06) == 0) || (local_04 != 0)) {
+  if ((Item.isOnScreen(arg_06) == 0) || (local_04 == 0)) {
     return;
   }
-  spawn ITEM.slot_29(pid, 50, arg_12, arg_10, arg_06);
-  suspend;
-  /* dword_to_word */
-  local_06 = process_result;
-  local_08 = intrinsic_00b8(arg_06);
-  if (Item.getFrame(arg_06)) {
-    /* loopscr */
-    /* loopscr */
-    /* loop */
-    while (!condition) {
-      local_10 = intrinsic_00b8(local_02);
-      /* loopnext */
-    }
-    /* loopscr */
-    /* loopscr */
-    /* loop */
-    while (!condition) {
-      local_10 = intrinsic_00b8(local_02);
-      /* loopnext */
-    }
-    spawn FREE.slot_3b(pid, 2, 0x00000000);
+  else {
+    spawn ITEM.slot_29(pid, 50, arg_12, arg_10, arg_06);
     suspend;
-    spawn ITEM.slot_2a(pid, 0, 0, arg_06);
-    suspend;
+    /* dword_to_word */
+    local_06 = process_result;
+    local_08 = intrinsic_00b8(arg_06);
+    if (!Item.getFrame(arg_06)) {
+      /* loopscr */
+      /* loopscr */
+      /* loop */
+      while (condition) {
+        local_10 = intrinsic_00b8(local_02);
+        /* loopnext */
+      }
+      /* loopscr */
+      /* loopscr */
+      /* loop */
+      while (condition) {
+        local_10 = intrinsic_00b8(local_02);
+        /* loopnext */
+      }
+      spawn FREE.slot_3b(pid, 2, 0x00000000);
+      suspend;
+      spawn ITEM.slot_2a(pid, 0, 0, arg_06);
+      suspend;
+    }
   }
   return;
 }

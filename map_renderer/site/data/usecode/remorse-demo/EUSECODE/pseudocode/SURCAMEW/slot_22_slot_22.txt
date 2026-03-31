@@ -1,41 +1,29 @@
 function surcamew_slot_22() /* entry=1248 class_id=0x04de slot=0x22 */
 {
-  entry:
-    set_info(0x00f0, 0);
-
-  entry_selector_00:
-    for local_02 in selector_0x42(arg0=0x04c8, arg1=0x01cd, arg2=(50 * 32), origin=arg_10) {
-      if (!Actor.isNPC(local_02)) {
-        local_03 = 1;
-      }
-      /* loopnext */
+  set_info(0x00f0, 0);
+  for local_02 in selector_0x42(arg0=0x04c8, arg1=0x01cd, arg2=(50 * 32), origin=arg_10) {
+    if (Actor.isNPC(local_02)) {
+      local_03 = 1;
     }
-
-  block_0c1a:
-    /* global_address */
-    spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
-    suspend;
-    if local_03 goto block_0cbc;
-
-  block_0c7f:
-    while (intrinsic_001b() == 1) {
+    /* loopnext */
+  }
+  /* global_address */
+  spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+  suspend;
+  if (local_03) {
+    while (intrinsic_001b() != 1) {
       spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
       suspend;
     }
-
-  block_0cb9:
-    goto block_0ce3;
-
-  block_0cbc:
+  }
+  else {
     spawn FREE.waitNTimerTicks(pid, 0x00c8, 0x00000000);
     suspend;
-
-  block_0ce3:
-    /* global_address */
-    /* global_address */
-    /* global_address */
-    /* global_address */
-    return;
-
+  }
+  /* global_address */
+  /* global_address */
+  /* global_address */
+  /* global_address */
+  return;
   /* decompilation stopped at SEARCH_SURFACE */
 }

@@ -1,27 +1,21 @@
 function flame_slot_21() /* entry=2573 class_id=0x0a0b slot=0x21 */
 {
-  entry:
-    set_info(0x0001, *(arg_06));
-    local_02 = arg_10;
-    if (intrinsic_0004(arg_06) & 4) goto block_01aa;
-
-  block_01a7:
-    goto block_01f7;
-
-  block_01aa:
+  set_info(0x0001, *(arg_06));
+  local_02 = arg_10;
+  if (intrinsic_0004(arg_06) & 4) {
+    return;
+  }
+  else {
     ITEM.slot_23(4, arg_06);
-
-  block_01b5:
+    suspend;
     while (true) {
       suspend;
-      if (arg_10 >= 0x00ff) {
+      if (arg_10 < 0x00ff) {
         NPC.slot_2b(local_02);
         spawn FLAME.slot_20(arg_06);
         return;
       }
     }
-
-  block_01f7:
-    return;
-
+  }
+  return;
 }

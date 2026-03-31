@@ -2,35 +2,35 @@ function wallgun_slot_28() /* entry=2593 class_id=0x0a1f slot=0x28 */
 {
   entry:
     set_info(0x020a, *(arg_06));
-    if (arg_12 > 99) goto block_04d9;
+    if arg_12 <= 99 goto block_04d9;
 
   block_04d2:
     arg_12 = (arg_12 - 100);
 
   block_04d9:
     local_02 = intrinsic_012b(arg_06);
-    if (local_02 != 0) goto block_04f6;
+    if local_02 != 0 goto block_04f6;
 
   block_04f6:
-    if (((local_02 != 99) || (local_02 != 0x00c7)) || (arg_12 != 6)) goto block_050e;
+    if ((local_02 != 99) || (local_02 == 0x00c7)) || (arg_12 == 6) goto block_050e;
 
   block_050b:
     goto block_083a;
 
   block_050e:
     WALLGUN.slot_25(Item.getFrame(arg_06), intrinsic_0011(arg_06), arg_06);
-    if (retval != 1) goto block_0533;
+    if retval != 1 goto block_0533;
 
   block_0530:
     goto block_083a;
 
   block_0533:
-    if 1 goto block_083a;
+    if !(1) goto block_083a;
 
   block_0538:
     spawn WALLGUN.slot_26(pid, arg_06);
     suspend;
-    if (arg_12 != 7) goto block_0563;
+    if arg_12 != 7 goto block_0563;
 
   block_0550:
     spawn WALLGUN.slot_36(pid, arg_06);
@@ -38,7 +38,7 @@ function wallgun_slot_28() /* entry=2593 class_id=0x0a1f slot=0x28 */
     goto block_0820;
 
   block_0563:
-    if (arg_12 != 9) goto block_057e;
+    if arg_12 != 9 goto block_057e;
 
   block_056b:
     spawn WALLGUN.slot_37(pid, arg_06);
@@ -46,7 +46,7 @@ function wallgun_slot_28() /* entry=2593 class_id=0x0a1f slot=0x28 */
     goto block_0820;
 
   block_057e:
-    if (arg_12 != 8) goto block_059d;
+    if arg_12 != 8 goto block_059d;
 
   block_0586:
     spawn WALLGUN.slot_32(pid, arg_10, arg_06);
@@ -54,7 +54,7 @@ function wallgun_slot_28() /* entry=2593 class_id=0x0a1f slot=0x28 */
     goto block_0820;
 
   block_059d:
-    if (arg_12 != 10) goto block_05bc;
+    if arg_12 != 10 goto block_05bc;
 
   block_05a5:
     spawn WALLGUN.slot_33(pid, arg_10, arg_06);
@@ -62,40 +62,34 @@ function wallgun_slot_28() /* entry=2593 class_id=0x0a1f slot=0x28 */
     goto block_0820;
 
   block_05bc:
-    if (arg_12 != 11) goto block_063b;
+    if arg_12 != 11 goto block_063b;
 
   block_05c4:
-    if 1 goto block_0638;
-
-  block_05c9:
-    if (intrinsic_0016() != 0) goto block_05de;
-
-  block_05d4:
-    arg_10 = intrinsic_0016();
-    goto block_05e2;
-
-  block_05de:
-    arg_10 = 1;
-
-  block_05e2:
-    spawn WALLGUN.slot_3c(pid, arg_12, arg_10, arg_06);
-    suspend;
-    spawn WALLGUN.slot_2f(pid, arg_12, arg_10, arg_06);
-    suspend;
-    spawn FREE.slot_3b(pid, 3, 0x00000000);
-    suspend;
-    spawn WALLGUN.slot_26(pid, arg_06);
-    suspend;
-    goto block_05c4;
+    while (1) {
+      if (intrinsic_0016() != 0) {
+        arg_10 = intrinsic_0016();
+      }
+      else {
+        arg_10 = 1;
+      }
+      spawn WALLGUN.slot_3c(pid, arg_12, arg_10, arg_06);
+      suspend;
+      spawn WALLGUN.slot_2f(pid, arg_12, arg_10, arg_06);
+      suspend;
+      spawn FREE.slot_3b(pid, 3, 0x00000000);
+      suspend;
+      spawn WALLGUN.slot_26(pid, arg_06);
+      suspend;
+    }
 
   block_0638:
     goto block_0820;
 
   block_063b:
-    if (arg_12 != 1) goto block_0675;
+    if arg_12 != 1 goto block_0675;
 
   block_0643:
-    if (intrinsic_0016() != 0) goto block_0658;
+    if intrinsic_0016() == 0 goto block_0658;
 
   block_064e:
     arg_10 = intrinsic_0016();
@@ -110,13 +104,13 @@ function wallgun_slot_28() /* entry=2593 class_id=0x0a1f slot=0x28 */
     goto block_0820;
 
   block_0675:
-    if (arg_12 != 2) goto block_06e5;
+    if arg_12 != 2 goto block_06e5;
 
   block_067d:
-    if 1 goto block_06cc;
+    if !(1) goto block_06cc;
 
   block_0682:
-    if (intrinsic_0016() != 0) goto block_0697;
+    if intrinsic_0016() == 0 goto block_0697;
 
   block_068d:
     arg_10 = intrinsic_0016();
@@ -131,7 +125,7 @@ function wallgun_slot_28() /* entry=2593 class_id=0x0a1f slot=0x28 */
     spawn WALLGUN.slot_31(pid, arg_12, arg_10, arg_06);
     suspend;
     /* dword_to_word */
-    if process_result goto block_06c9;
+    if !process_result goto block_06c9;
 
   block_06c6:
     goto block_06cc;
@@ -145,7 +139,7 @@ function wallgun_slot_28() /* entry=2593 class_id=0x0a1f slot=0x28 */
     goto block_0820;
 
   block_06e5:
-    if (arg_12 != 5) goto block_0707;
+    if arg_12 != 5 goto block_0707;
 
   block_06ed:
     spawn FREE.slot_3b(pid, 60, 0x00000000);
@@ -153,7 +147,7 @@ function wallgun_slot_28() /* entry=2593 class_id=0x0a1f slot=0x28 */
     goto block_0820;
 
   block_0707:
-    if (arg_12 != 12) goto block_0726;
+    if arg_12 != 12 goto block_0726;
 
   block_070f:
     spawn WALLGUN.slot_38(pid, arg_10, arg_06);
@@ -161,7 +155,7 @@ function wallgun_slot_28() /* entry=2593 class_id=0x0a1f slot=0x28 */
     goto block_0820;
 
   block_0726:
-    if (arg_12 != 13) goto block_0745;
+    if arg_12 != 13 goto block_0745;
 
   block_072e:
     spawn WALLGUN.slot_39(pid, arg_10, arg_06);
@@ -169,7 +163,7 @@ function wallgun_slot_28() /* entry=2593 class_id=0x0a1f slot=0x28 */
     goto block_0820;
 
   block_0745:
-    if (arg_12 != 14) goto block_0764;
+    if arg_12 != 14 goto block_0764;
 
   block_074d:
     spawn WALLGUN.slot_3a(pid, arg_10, arg_06);
@@ -177,7 +171,7 @@ function wallgun_slot_28() /* entry=2593 class_id=0x0a1f slot=0x28 */
     goto block_0820;
 
   block_0764:
-    if (arg_12 != 15) goto block_0783;
+    if arg_12 != 15 goto block_0783;
 
   block_076c:
     spawn WALLGUN.slot_3b(pid, arg_10, arg_06);
@@ -185,7 +179,7 @@ function wallgun_slot_28() /* entry=2593 class_id=0x0a1f slot=0x28 */
     goto block_0820;
 
   block_0783:
-    if (intrinsic_0016() != 0) goto block_0798;
+    if intrinsic_0016() == 0 goto block_0798;
 
   block_078e:
     arg_10 = intrinsic_0016();
@@ -198,7 +192,7 @@ function wallgun_slot_28() /* entry=2593 class_id=0x0a1f slot=0x28 */
     spawn WALLGUN.slot_31(pid, arg_12, arg_10, arg_06);
     suspend;
     /* dword_to_word */
-    if process_result goto block_07d0;
+    if !process_result goto block_07d0;
 
   block_07b7:
     spawn WALLGUN.slot_3d(pid, arg_12, arg_10, arg_06);
@@ -208,13 +202,13 @@ function wallgun_slot_28() /* entry=2593 class_id=0x0a1f slot=0x28 */
   block_07d0:
     WALLGUN.slot_20(arg_06);
     local_04 = retval;
-    if (local_04 != 0) goto block_07e8;
+    if local_04 != 0 goto block_07e8;
 
   block_07e4:
     local_04 = 3;
 
   block_07e8:
-    if (local_04 > 5) goto block_07f4;
+    if local_04 <= 5 goto block_07f4;
 
   block_07f0:
     local_04 = 5;

@@ -9,25 +9,30 @@ function wallgun_slot_2e() /* entry=2587 class_id=0x0a19 slot=0x2e */
   WALLGUN.slot_40(local_11, arg_06);
   local_09 = retval;
   local_13 = arg_10;
-  if (!intrinsic_0113(local_13)) {
+  if (intrinsic_0113(local_13)) {
     return;
   }
-  WALLGUN.slot_2d(arg_10, arg_06);
-  if (retval) {
-    if (!intrinsic_0131(local_09, local_06, local_02, local_11, arg_10, arg_06)) {
-      return;
-    }
-    WALLGUN.slot_29(arg_06);
+  else {
+    WALLGUN.slot_2d(arg_10, arg_06);
     if (!retval) {
-      WALLGUN.slot_41(local_11, arg_06);
-      local_04 = retval;
-      WALLGUN.slot_42(local_11, arg_06);
-      local_08 = retval;
-      WALLGUN.slot_43(local_11, arg_06);
-      local_10 = retval;
-      if (!intrinsic_0131(local_10, local_08, local_04, local_11, arg_10, arg_06)) {
+      if (intrinsic_0131(local_09, local_06, local_02, local_11, arg_10, arg_06)) {
         return;
       }
+      WALLGUN.slot_29(arg_06);
+      if (retval) {
+        WALLGUN.slot_41(local_11, arg_06);
+        local_04 = retval;
+        WALLGUN.slot_42(local_11, arg_06);
+        local_08 = retval;
+        WALLGUN.slot_43(local_11, arg_06);
+        local_10 = retval;
+        if (intrinsic_0131(local_10, local_08, local_04, local_11, arg_10, arg_06)) {
+          return;
+        }
+      }
+    }
+    else {
+      return;
     }
   }
   return;

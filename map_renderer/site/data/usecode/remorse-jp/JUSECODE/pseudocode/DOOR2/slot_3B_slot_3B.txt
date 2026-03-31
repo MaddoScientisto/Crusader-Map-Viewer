@@ -6,9 +6,9 @@ function door2_slot_3b() /* entry=2569 class_id=0x0a07 slot=0x3b */
 
   set_info(0x0207, *(arg_06));
   FREE.slot_2d(Item.getZ(arg_06), Item.legal_create(arg_06), intrinsic_0013(arg_06), 3, 0x0312, *(arg_06));
-  if (!retval) {
+  if (retval) {
     counter = 0;
-    while (counter > 3) {
+    while (counter <= 3) {
       spawn FREE.slot_32(pid, 5, 0x00000000);
       suspend;
       counter = (1 + counter);
@@ -17,7 +17,10 @@ function door2_slot_3b() /* entry=2569 class_id=0x0a07 slot=0x3b */
     /* pop_result */
     return;
   }
-  /* word_to_dword */
-  /* pop_result */
+  else {
+    /* word_to_dword */
+    /* pop_result */
+    return;
+  }
   return;
 }

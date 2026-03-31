@@ -6,80 +6,54 @@ function mbgunns_slot_20() /* entry=1524 class_id=0x05f2 slot=0x20 */
     local_04 = intrinsic_00da(arg_06);
     local_10 = intrinsic_006a(0x0205, *(arg_06));
     ITEM.slot_26(0x1000, arg_06);
-    if (((retval != 1) || (local_10 > 1)) || (local_02 != 10)) goto block_012c;
+    if ((retval != 1) || (local_10 > 1)) || (local_02 == 10) goto block_012c;
 
   block_0129:
     goto block_031d;
 
   block_012c:
     ITEM.slot_24(0x1000, arg_06);
-    if (local_04 > 99) goto block_0147;
+    if local_04 <= 99 goto block_0147;
 
   block_0140:
     local_04 = (local_04 - 100);
 
   block_0147:
-    suspend;
-    local_08 = 0;
-
-  block_0156:
-    while (local_08 > 8) {
+    while (true) {
+      suspend;
+      local_08 = 0;
+      while (local_08 <= 8) {
+        spawn FREE.slot_3b(pid, 3, 0x00000000);
+        suspend;
+        local_08 = (1 + local_08);
+      }
+      if (local_04 == 0) {
+      }
+      else if (local_04 == 1) {
+      }
+      else if (local_04 == 2) {
+      }
+      else if (local_04 == 3) {
+      }
       spawn FREE.slot_3b(pid, 3, 0x00000000);
       suspend;
-      local_08 = (1 + local_08);
-    }
-
-  block_0189:
-    if (local_04 != 0) goto block_01b4;
-
-  block_0191:
-    goto block_0255;
-
-  block_01b4:
-    if (local_04 != 1) goto block_01df;
-
-  block_01bc:
-    goto block_0255;
-
-  block_01df:
-    if (local_04 != 2) goto block_020a;
-
-  block_01e7:
-    goto block_0255;
-
-  block_020a:
-    if (local_04 != 3) goto block_0235;
-
-  block_0212:
-    goto block_0255;
-
-  block_0255:
-    spawn FREE.slot_3b(pid, 3, 0x00000000);
-    suspend;
-    spawn FREE.slot_3b(pid, 3, 0x00000000);
-    suspend;
-    local_08 = 0;
-
-  block_029b:
-    while (local_08 > 7) {
       spawn FREE.slot_3b(pid, 3, 0x00000000);
       suspend;
-      local_08 = (1 + local_08);
+      local_08 = 0;
+      while (local_08 <= 7) {
+        spawn FREE.slot_3b(pid, 3, 0x00000000);
+        suspend;
+        local_08 = (1 + local_08);
+      }
+      ITEM.slot_26(4, arg_06);
+      if (retval) {
+        ITEM.slot_25(4, arg_06);
+        ITEM.slot_25(0x1000, arg_06);
+        return;
+      }
+      spawn FREE.slot_3b(pid, ((5 - intrinsic_000a()) * 10), 0x00000000);
+      suspend;
     }
-
-  block_02d1:
-    ITEM.slot_26(4, arg_06);
-    if retval goto block_02fa;
-
-  block_02e0:
-    ITEM.slot_25(4, arg_06);
-    ITEM.slot_25(0x1000, arg_06);
-    goto block_031d;
-
-  block_02fa:
-    spawn FREE.slot_3b(pid, ((5 - intrinsic_000a()) * 10), 0x00000000);
-    suspend;
-    goto block_0147;
 
   block_031d:
     return;

@@ -1,70 +1,44 @@
 function stable_gotHit() /* entry=734 class_id=0x02dc slot=0x06 */
 {
-  entry:
-    set_info(0x020c, *(arg_06));
-    process_exclude();
-    local_02 = Item.getFrame(arg_06);
-    if (local_02 > 8) goto block_00f5;
-
-  block_00f2:
-    goto block_0219;
-
-  block_00f5:
-    FREE.slot_2c(arg_12, arg_10);
-    if retval goto block_0219;
-
-  block_0104_selector_00:
-    for local_04 in nearby_items(shape=NARROW_COLUMN_BASE, origin=arg_06) {
-      if (Item.getFrame(local_04) >= 1) {
-        spawn ITEM.slot_28(pid, 0, 1, local_04);
-        suspend;
-      }
-      /* loopnext */
-    }
-
-  block_0152:
-    /* loopscr */
-    /* loop */
-
-  block_0161:
-    if condition goto block_0195;
-
-  block_0164:
-    FREE.slot_20(1, 10);
-    FREE.slot_20((retval + 10), 10);
-    FREE.slot_20(retval, 10);
-    /* loopnext */
-    goto block_0161;
-
-  block_0195_selector_00:
-    /* loop_selector local_04 in nearby_items(shape=FLOOR_PEDESTAL_SLICE, origin=arg_06) */
-
-  block_01af:
-    if condition goto block_0217;
-
-  block_01b2:
-    local_02 = Item.getFrame(local_04);
-    if (local_02 < 9) goto block_0213;
-
-  block_01c5:
-    /* loopscr */
-    /* loop */
-
-  block_01dd:
-    if condition goto block_0211;
-
-  block_01e0:
-    FREE.slot_20(1, 10);
-    FREE.slot_20((retval + 10), 10);
-    FREE.slot_20(retval, 10);
-    /* loopnext */
-    goto block_01dd;
-
-  block_0213:
-    /* loopnext */
-    goto block_01af;
-
-  block_0219:
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  local_02 = Item.getFrame(arg_06);
+  if (local_02 > 8) {
     return;
-
+  }
+  else {
+    FREE.slot_2c(arg_12, arg_10);
+    if (retval) {
+      for local_04 in nearby_items(shape=NARROW_COLUMN_BASE, origin=arg_06) {
+        if (Item.getFrame(local_04) < 1) {
+          spawn ITEM.slot_28(pid, 0, 1, local_04);
+          suspend;
+        }
+        /* loopnext */
+      }
+      /* loopscr */
+      /* loop */
+      while (condition) {
+        FREE.slot_20(1, 10);
+        FREE.slot_20((retval + 10), 10);
+        FREE.slot_20(retval, 10);
+        /* loopnext */
+      }
+      for local_04 in nearby_items(shape=FLOOR_PEDESTAL_SLICE, origin=arg_06) {
+        local_02 = Item.getFrame(local_04);
+        if (local_02 < 9) {
+          /* loopscr */
+          /* loop */
+          while (condition) {
+            FREE.slot_20(1, 10);
+            FREE.slot_20((retval + 10), 10);
+            FREE.slot_20(retval, 10);
+            /* loopnext */
+          }
+        }
+        /* loopnext */
+      }
+    }
+  }
+  return;
 }

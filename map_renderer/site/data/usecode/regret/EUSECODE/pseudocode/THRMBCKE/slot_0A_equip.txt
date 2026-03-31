@@ -1,76 +1,46 @@
 function thrmbcke_equip() /* entry=1385 class_id=0x0567 slot=0x0a */
 {
-  entry:
-    set_info(0x0211, *(arg_06));
-    process_exclude();
-    if arg_10 goto block_02a0;
-
-  block_00f8:
-    if intrinsic_0035(4, arg_06) goto block_0120;
-
-  block_0106:
-    spawn FREE.slot_3b(pid, 2, 0x00000000);
-    suspend;
-    goto block_00f8;
-
-  block_012a:
-    if intrinsic_0035(4, arg_06) goto block_0152;
-
-  block_0138:
-    spawn FREE.slot_3b(pid, 2, 0x00000000);
-    suspend;
-    goto block_012a;
-
-  block_015c:
-    while (!intrinsic_0035(4, arg_06)) {
+  set_info(0x0211, *(arg_06));
+  process_exclude();
+  if (arg_10) {
+    while (intrinsic_0035(4, arg_06)) {
       spawn FREE.slot_3b(pid, 2, 0x00000000);
       suspend;
     }
-
-  block_0184:
+    while (intrinsic_0035(4, arg_06)) {
+      spawn FREE.slot_3b(pid, 2, 0x00000000);
+      suspend;
+    }
+    while (intrinsic_0035(4, arg_06)) {
+      spawn FREE.slot_3b(pid, 2, 0x00000000);
+      suspend;
+    }
     /* loopscr */
     /* loopscr */
     /* loop */
-
-  block_01b5:
-    while (!condition) {
+    while (condition) {
       /* loopnext */
     }
-
-  block_01cf:
     /* loopscr */
     /* loopscr */
     /* loop */
-
-  block_01fa:
-    if condition goto block_029e;
-
-  block_01fd:
-    if (intrinsic_000d(local_04) != intrinsic_0107(arg_06)) goto block_029a;
-
-  block_0213:
-    local_08 = 3;
-    if (intrinsic_000a() > 2) goto block_0229;
-
-  block_0222:
-    local_06 = 10;
-    goto block_022d;
-
-  block_0229:
-    local_06 = 5;
-
-  block_022d:
-    spawn FREE.slot_3b(pid, 40, 0x00000000);
-    suspend;
-    spawn FREE.slot_3b(pid, 2, 0x00000000);
-    suspend;
-    goto block_02a0;
-
-  block_029a:
-    /* loopnext */
-    goto block_01fa;
-
-  block_02a0:
-    return;
-
+    while (condition) {
+      if (intrinsic_000d(local_04) == intrinsic_0107(arg_06)) {
+        local_08 = 3;
+        if (intrinsic_000a() > 2) {
+          local_06 = 10;
+        }
+        else {
+          local_06 = 5;
+        }
+        spawn FREE.slot_3b(pid, 40, 0x00000000);
+        suspend;
+        spawn FREE.slot_3b(pid, 2, 0x00000000);
+        suspend;
+        return;
+      }
+      /* loopnext */
+    }
+  }
+  return;
 }

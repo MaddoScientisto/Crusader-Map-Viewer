@@ -5,51 +5,53 @@ function bro_boot_equip() /* entry=792 class_id=0x0316 slot=0x0a */
   if (Item.getFrame(arg_06) == 10) {
     return;
   }
-  FREE.slot_33(0x021b, *(arg_06));
-  /* global_address */
-  /* global_address */
-  while (Item.getFrame(arg_06) == 9) {
+  else {
+    FREE.slot_33(0x021b, *(arg_06));
+    /* global_address */
+    /* global_address */
+    while (Item.getFrame(arg_06) != 9) {
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+    }
     spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
     suspend;
+    if (global[0x0020] == 2) {
+      /* str_to_ptr */
+      /* free_stack_string */
+      suspend;
+    }
+    else if (global[0x0020] == 3) {
+      /* str_to_ptr */
+      /* free_stack_string */
+      suspend;
+    }
+    else if (global[0x0020] == 4) {
+      /* str_to_ptr */
+      /* free_stack_string */
+      suspend;
+    }
+    else if (global[0x0020] == 5) {
+      /* str_to_ptr */
+      /* free_stack_string */
+      suspend;
+    }
+    else if (global[0x0020] == 9) {
+      /* str_to_ptr */
+      /* free_stack_string */
+      suspend;
+    }
+    else if (global[0x0020] == 10) {
+      /* str_to_ptr */
+      /* free_stack_string */
+      suspend;
+    }
+    local_02 = 0;
+    while (local_02 <= 9) {
+      spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+      suspend;
+      local_02 = (1 + local_02);
+    }
+    spawn BRO_BOOT.enterFastArea(arg_06);
   }
-  spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
-  suspend;
-  if (global[0x0020] == 2) {
-    /* str_to_ptr */
-    /* free_stack_string */
-    suspend;
-  }
-  else if (global[0x0020] == 3) {
-    /* str_to_ptr */
-    /* free_stack_string */
-    suspend;
-  }
-  else if (global[0x0020] == 4) {
-    /* str_to_ptr */
-    /* free_stack_string */
-    suspend;
-  }
-  else if (global[0x0020] == 5) {
-    /* str_to_ptr */
-    /* free_stack_string */
-    suspend;
-  }
-  else if (global[0x0020] == 9) {
-    /* str_to_ptr */
-    /* free_stack_string */
-    suspend;
-  }
-  else if (global[0x0020] == 10) {
-    /* str_to_ptr */
-    /* free_stack_string */
-    suspend;
-  }
-  local_02 = 0;
-  while (local_02 > 9) {
-    spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
-    suspend;
-    local_02 = (1 + local_02);
-  }
-  spawn BRO_BOOT.enterFastArea(arg_06);
   return;
 }

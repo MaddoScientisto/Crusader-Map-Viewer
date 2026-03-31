@@ -6,75 +6,51 @@ function npc_slot_24() /* entry=2579 class_id=0x0a11 slot=0x24 */
     pad, /* [BP-04h] type=0x24 */
     padDir; /* [BP-06h] type=0x69 */
 
-  entry:
-    set_info(0x020a, *(arg_06));
-    if (global[0x003c] != *(arg_06)) goto block_0627;
-
-  block_0589:
+  set_info(0x020a, *(arg_06));
+  if (global[0x003c] == *(arg_06)) {
     /* global_address */
-
-  block_05ae:
-    while (!intrinsic_0033()) {
+    /* global_address */
+    while (intrinsic_0033()) {
       spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
       suspend;
     }
-
-  block_05e7:
     /* global_address */
-    if intrinsic_0035() goto block_0627;
-
-  block_05f7:
-    /* global_address */
-    /* global_address */
-    suspend;
-
-  block_0627_selector_00:
-    for item in selector_0x42(arg0=0x01db, arg1=0x043d, arg2=(5 * 32), origin=arg_06) {
-      pad = item;
-      /* loopnext */
+    if (intrinsic_0035()) {
+      /* global_address */
+      /* global_address */
+      suspend;
     }
-
-  block_0655:
-    if pad goto block_08c9;
-
-  block_065f:
-    if (Item.getFrame(pad) != 1) goto block_0785;
-
-  block_06a9:
+  }
+  for item in selector_0x42(arg0=0x01db, arg1=0x043d, arg2=(5 * 32), origin=arg_06) {
+    pad = item;
+    /* loopnext */
+  }
+  if (pad) {
+    if (Item.getFrame(pad) == 1) {
+      /* global_address */
+      suspend;
+      suspend;
+      spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
+      suspend;
+      /* global_address */
+      suspend;
+    }
+    else {
+      /* global_address */
+      suspend;
+      suspend;
+      spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
+      suspend;
+      /* global_address */
+      suspend;
+    }
     /* global_address */
-    suspend;
-    suspend;
+    if (intrinsic_003a(52)) {
+      spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+      suspend;
+    }
     spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
     suspend;
-    /* global_address */
-    suspend;
-    goto block_085e;
-
-  block_0785:
-    /* global_address */
-    suspend;
-    suspend;
-    spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
-    suspend;
-    /* global_address */
-    suspend;
-
-  block_085e:
-    /* global_address */
-    if intrinsic_003a(52) goto block_08a3;
-
-  block_087d:
-    spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
-    suspend;
-
-  block_08a3:
-    spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
-    suspend;
-
-  block_08c9:
-    goto block_08cf;
-
-  block_08cf:
-    return;
-
+  }
+  return;
 }

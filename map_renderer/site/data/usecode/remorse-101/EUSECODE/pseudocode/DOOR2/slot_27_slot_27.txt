@@ -1,37 +1,24 @@
 function door2_slot_27() /* entry=2569 class_id=0x0a07 slot=0x27 */
 {
-  entry:
-    set_info(0x0207, *(arg_06));
-    local_06 = 8;
-    FREE.slot_2d((Item.getZ(arg_06) - (8 * 10)), Item.legal_create(arg_06), intrinsic_0013(arg_06), local_06, 0x02d5, *(arg_06));
-    if retval goto block_08dd;
-
-  block_08b9:
+  set_info(0x0207, *(arg_06));
+  local_06 = 8;
+  FREE.slot_2d((Item.getZ(arg_06) - (8 * 10)), Item.legal_create(arg_06), intrinsic_0013(arg_06), local_06, 0x02d5, *(arg_06));
+  if (retval) {
     spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
     suspend;
-    goto block_08e4;
-
-  block_08dd:
+  }
+  else {
     /* word_to_dword */
     /* pop_result */
-    goto block_092f;
-
-  block_08e4:
-    local_02 = (local_06 - 1);
-
-  block_08eb:
-    while (local_02 <= 0) {
-      spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
-      suspend;
-      local_02 = (local_02 - 1);
-    }
-
-  block_091e:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_092f;
-
-  block_092f:
     return;
-
+  }
+  local_02 = (local_06 - 1);
+  while (local_02 > 0) {
+    spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+    suspend;
+    local_02 = (local_02 - 1);
+  }
+  /* word_to_dword */
+  /* pop_result */
+  return;
 }

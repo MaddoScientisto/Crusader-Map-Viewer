@@ -1,49 +1,28 @@
 function dicor3_gotHit() /* entry=171 class_id=0x00a9 slot=0x06 */
 {
-  entry:
-    set_info(0x020c, *(arg_06));
-    process_exclude();
-    FREE.slot_35(arg_12, arg_10);
-    if (!retval) goto block_00f2;
-
-  block_00ef:
-    goto block_01c8;
-
-  block_00f2:
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  FREE.slot_35(arg_12, arg_10);
+  if (!retval) {
+    return;
+  }
+  else {
     local_02 = Item.getFrame(arg_06);
     spawn ITEM.slot_2a(pid, 0, 0, arg_06);
     suspend;
-    if (!global[0x0005]) goto block_0166;
-
-  block_014b:
-    suspend;
-
-  block_0166_selector_00:
-    /* loop_selector local_06 in nearby_items(family=6, origin=arg_06) */
-
-  block_017d:
-    if condition goto block_01be;
-
-  block_0180:
-    NPC.slot_2a(local_06);
-    if retval goto block_019b;
-
-  block_018d:
-    spawn NPC.slot_2c(local_06);
-    goto block_01ba;
-
-  block_019b:
-    if (!intrinsic_0074(local_06)) goto block_01ba;
-
-  block_01a8:
-    spawn NPC.slot_2d(3, local_06);
-    goto block_01ba;
-
-  block_01ba:
-    /* loopnext */
-    goto block_017d;
-
-  block_01c8:
-    return;
-
+    if (!(global[0x0005])) {
+      suspend;
+    }
+    for local_06 in nearby_items(family=6, origin=arg_06) {
+      NPC.slot_2a(local_06);
+      if (retval) {
+        spawn NPC.slot_2c(local_06);
+      }
+      else if (!intrinsic_0074(local_06)) {
+        spawn NPC.slot_2d(3, local_06);
+      }
+      /* loopnext */
+    }
+  }
+  return;
 }

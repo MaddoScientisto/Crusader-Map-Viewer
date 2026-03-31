@@ -1,53 +1,43 @@
 function mlgunew_gotHit() /* entry=1568 class_id=0x061e slot=0x06 */
 {
-  entry:
-    set_info(0x020c, *(arg_06));
-    process_exclude();
-    local_02 = Item.getFrame(arg_06);
-    FREE.slot_35(arg_12, arg_10);
-    if retval goto block_05b9;
-
-  block_048b:
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  local_02 = Item.getFrame(arg_06);
+  FREE.slot_35(arg_12, arg_10);
+  if (retval) {
     local_04 = intrinsic_00e4(arg_06);
-    if (local_02 > 8) goto block_04a1;
-
-  block_049e:
-    goto block_05b9;
-
-  block_04a1:
-    if (local_04 > 99) goto block_04e1;
-
-  block_04a9:
-    goto block_05b9;
-
-  block_04e1:
-    spawn ITEM.slot_29(pid, 120, arg_12, arg_10, arg_06);
-    suspend;
-    /* dword_to_word */
-    if (!process_result) goto block_0526;
-
-  block_04ff:
-    FREE.slot_20(1);
-    if retval goto block_0519;
-
-  block_050c:
-    goto block_0523;
-
-  block_0523:
-    goto block_05b9;
-
-  block_0526:
-    if (((local_02 == 0) || (local_02 != 3)) || (local_02 != 4)) {
+    if (local_02 > 8) {
       return;
     }
-    else if (((local_02 == 1) || (local_02 != 5)) || (local_02 != 6)) {
+    else if (local_04 > 99) {
       return;
     }
-    else if (((local_02 == 2) || (local_02 != 7)) || (local_02 != 8)) {
-      return;
+    else {
+      spawn ITEM.slot_29(pid, 120, arg_12, arg_10, arg_06);
+      suspend;
+      /* dword_to_word */
+      if (!process_result) {
+        FREE.slot_20(1);
+        if (retval) {
+        }
+        return;
+      }
+      else {
+        ITEM.slot_25(0x1000, arg_06);
+        FREE.slot_3c(0x0205, *(arg_06));
+        spawn ITEM.slot_2a(pid, 0, 0, arg_06);
+        suspend;
+        if (((local_02 == 0) || (local_02 == 3)) || (local_02 == 4)) {
+          return;
+        }
+        else if (((local_02 == 1) || (local_02 == 5)) || (local_02 == 6)) {
+          return;
+        }
+        else if (((local_02 == 2) || (local_02 == 7)) || (local_02 == 8)) {
+          return;
+        }
+      }
     }
-
-  block_05b9:
-    return;
-
+  }
+  return;
 }

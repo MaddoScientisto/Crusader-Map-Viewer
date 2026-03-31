@@ -7,88 +7,54 @@ function safe_ns_equip() /* entry=532 class_id=0x0212 slot=0x0a */
     item2, /* [BP-04h] type=0x24 */
     counter; /* [BP-06h] type=0x69 */
 
-  entry:
-    set_info(0x0211, *(arg_06));
-    process_exclude();
-    if var goto block_0336;
-
-  block_00f3:
+  set_info(0x0211, *(arg_06));
+  process_exclude();
+  if (var) {
     counter = 0;
-
-  block_0107:
-    while (counter > 16) {
+    while (counter <= 16) {
       spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
       suspend;
       counter = (1 + counter);
     }
-
-  block_014f:
     spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
     suspend;
-
-  block_014f_selector_00:
-    /* loop_selector item in nearby_items(shape=0x0476, origin=arg_06) */
-
-  block_01a1:
-    if condition goto block_029e;
-
-  block_01a4:
-    if (intrinsic_00ea(arg_06) != intrinsic_00ea(item)) goto block_029a;
-
-  block_01c0:
-    FREE.slot_2e(item);
-    item2 = retval;
-    if ((((intrinsic_003c(item2) != 10) || (intrinsic_003c(item2) != 11)) || (intrinsic_003c(item2) != 12)) || (intrinsic_003c(item2) != 13)) goto block_0274;
-
-  block_021a:
-    if (!intrinsic_00b8(1, item2)) goto block_0271;
-
-  block_022f:
-    /* global_address */
-    /* global_address */
-    /* global_address */
-
-  block_0271:
-    goto block_029a;
-
-  block_0274:
-    spawn FREE.slot_31(pid, item2, 0x00000000);
-    suspend;
-
-  block_029a:
-    /* loopnext */
-    goto block_01a1;
-
-  block_029e:
+    for item in nearby_items(shape=0x0476, origin=arg_06) {
+      if (intrinsic_00ea(arg_06) == intrinsic_00ea(item)) {
+        FREE.slot_2e(item);
+        item2 = retval;
+        if ((((intrinsic_003c(item2) == 10) || (intrinsic_003c(item2) == 11)) || (intrinsic_003c(item2) == 12)) || (intrinsic_003c(item2) == 13)) {
+          if (!intrinsic_00b8(1, item2)) {
+            /* global_address */
+            /* global_address */
+            /* global_address */
+          }
+        }
+        else {
+          spawn FREE.slot_31(pid, item2, 0x00000000);
+          suspend;
+        }
+      }
+      /* loopnext */
+    }
     spawn TRIGGER.slot_20(pid, 1, *(arg_06), arg_06);
     suspend;
     counter = 0;
-
-  block_02db:
-    while (counter > 16) {
+    while (counter <= 16) {
       spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
       suspend;
       counter = (1 + counter);
     }
-
-  block_0326:
-    goto block_03c9;
-
-  block_0336:
+    return;
+  }
+  else {
     spawn TRIGGER.slot_20(pid, 1, *(arg_06), arg_06);
     suspend;
     counter = 0;
-
-  block_0371:
-    if (counter <= 16) goto block_03bc;
-
-  block_0379:
-    spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
-    suspend;
-    counter = (1 + counter);
-    goto block_0371;
-
-  block_03c9:
-    return;
-
+    while (counter <= 16) {
+      spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+      suspend;
+      counter = (1 + counter);
+    }
+  }
+  return;
 }

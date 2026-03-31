@@ -1,55 +1,35 @@
 function door2_slot_32() /* entry=2569 class_id=0x0a07 slot=0x32 */
 {
-  entry:
-    set_info(0x0207, *(arg_06));
-    spawn DOOR.slot_22(pid, arg_06);
-    suspend;
-    /* create_list */
-    /* free_local_list */
-    local_02 = 0x0289;
-    /* create_list */
-    /* free_local_list */
-    local_04 = 0x028e;
-    FREE.slot_3a(0x01c7, 0x0288, 0x028c, 0x0287, 0x01c6, 0x028a, 0x028b, 0x028d, local_02);
-    /* free_stack_list */
-    local_14 = retval;
-
-  entry_selector_00:
-    /* loop_selector local_12 in nearby_items(shape=ELEVATOR_DOOR_RIGHT_2, origin=arg_06) */
-
-  block_1fa5:
-    if condition goto block_1fb3;
-
-  block_1fa8:
+  set_info(0x0207, *(arg_06));
+  spawn DOOR.slot_22(pid, arg_06);
+  suspend;
+  /* create_list */
+  /* free_local_list */
+  local_02 = 0x0289;
+  /* create_list */
+  /* free_local_list */
+  local_04 = 0x028e;
+  FREE.slot_3a(0x01c7, 0x0288, 0x028c, 0x0287, 0x01c6, 0x028a, 0x028b, 0x028d, local_02);
+  /* free_stack_list */
+  local_14 = retval;
+  for local_12 in nearby_items(shape=ELEVATOR_DOOR_RIGHT_2, origin=arg_06) {
     local_08 = local_12;
     /* loopnext */
-    goto block_1fa5;
-
-  block_1fb3_selector_00:
-    for local_12 in nearby_items(shape=ELEVATOR_DOOR_LEFT_2, origin=arg_06) {
-      local_10 = local_12;
-      /* loopnext */
-    }
-
-  block_1fe1:
-    local_06 = 2;
-
-  block_1fea:
-    while (local_06 > local_14) {
-      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
-      suspend;
-      local_06 = (1 + local_06);
-    }
-
-  block_20a6:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_20b0;
-
-  block_20b0:
-    /* free_local_list */
-    /* free_local_list */
-    return;
-
+  }
+  for local_12 in nearby_items(shape=ELEVATOR_DOOR_LEFT_2, origin=arg_06) {
+    local_10 = local_12;
+    /* loopnext */
+  }
+  local_06 = 2;
+  while (local_06 <= local_14) {
+    spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+    suspend;
+    local_06 = (1 + local_06);
+  }
+  /* word_to_dword */
+  /* pop_result */
+  /* free_local_list */
+  /* free_local_list */
+  return;
   /* decompilation stopped at SEARCH_SURFACE */
 }

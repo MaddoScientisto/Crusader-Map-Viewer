@@ -2,9 +2,15 @@ function free_slot_36() /* entry=2575 class_id=0x0a0d slot=0x36 */
 {
   local_02 = arg_06;
   if (intrinsic_00b6(arg_08) == intrinsic_0031(local_02)) {
-    if (!Item.legal_create(arg_16, arg_14, arg_12, arg_10, arg_08, local_04)) {
+    if (Item.legal_create(arg_16, arg_14, arg_12, arg_10, arg_08, local_04)) {
       return;
     }
+    else {
+      return;
+    }
+    return;
+  }
+  else {
     return;
   }
   return;

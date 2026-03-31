@@ -3,10 +3,10 @@ function wallgun_slot_30() /* entry=2588 class_id=0x0a1a slot=0x30 */
   set_info(0x0001, *(arg_06));
   WALLGUN.slot_21(arg_06);
   local_02 = retval;
-  if (local_02) {
+  if (!local_02) {
     local_02 = 3;
   }
-  if (local_02 <= 5) {
+  if (local_02 > 5) {
     local_02 = 5;
   }
   local_02 = (local_02 * 8);

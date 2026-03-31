@@ -3,7 +3,7 @@ function surcamew_slot_21() /* entry=1248 class_id=0x04de slot=0x21 */
   entry:
     set_info(0x021b, 0);
     local_06 = *(arg_06);
-    if intrinsic_001f(0, 0x0470, local_02) goto block_05da;
+    if !intrinsic_001f(0, 0x0470, local_02) goto block_05da;
 
   block_05da:
     spawn FREE.slot_32(pid, 30, 0x00000000);
@@ -13,13 +13,13 @@ function surcamew_slot_21() /* entry=1248 class_id=0x04de slot=0x21 */
     /* loop_selector local_04 in nearby_items(shape=EVENT_CONTROLLER, origin=arg_06) */
 
   block_061f:
-    if condition goto block_0af7;
+    if !condition goto block_0af7;
 
   block_0622:
-    if (intrinsic_00fc(local_04) != intrinsic_00fc(arg_06)) goto block_0af3;
+    if intrinsic_00fc(local_04) != intrinsic_00fc(arg_06) goto block_0af3;
 
   block_063e:
-    if (intrinsic_00fc(arg_06) != 0x00fe) goto block_084f;
+    if intrinsic_00fc(arg_06) != 0x00fe goto block_084f;
 
   block_0651:
     /* global_address */
@@ -32,13 +32,13 @@ function surcamew_slot_21() /* entry=1248 class_id=0x04de slot=0x21 */
     /* loop_selector local_08 in nearby_items(shape=MECH_1, origin=local_04) */
 
   block_06fc:
-    if condition goto block_073b;
+    if !condition goto block_073b;
 
   block_06ff:
-    if Actor.isNPC(local_08) goto block_0737;
+    if !Actor.isNPC(local_08) goto block_0737;
 
   block_070e:
-    if (intrinsic_000b(local_08) != intrinsic_00fc(arg_06)) goto block_0737;
+    if intrinsic_000b(local_08) != intrinsic_00fc(arg_06) goto block_0737;
 
   block_072a:
     local_10 = local_08;
@@ -49,7 +49,7 @@ function surcamew_slot_21() /* entry=1248 class_id=0x04de slot=0x21 */
     goto block_06fc;
 
   block_073b:
-    if local_10 goto block_0786;
+    if !local_10 goto block_0786;
 
   block_0745:
     spawn NPC.slot_28(pid, local_10);
@@ -68,7 +68,7 @@ function surcamew_slot_21() /* entry=1248 class_id=0x04de slot=0x21 */
     local_15 = Item.getZ();
 
   block_07b3:
-    while (intrinsic_0096()) {
+    while (!intrinsic_0096()) {
       spawn FREE.slot_32(pid, 2, 0x00000000);
       suspend;
     }
@@ -83,7 +83,7 @@ function surcamew_slot_21() /* entry=1248 class_id=0x04de slot=0x21 */
     goto block_0af3;
 
   block_084f:
-    if (intrinsic_00fc(arg_06) != 0x00fd) goto block_08b8;
+    if intrinsic_00fc(arg_06) != 0x00fd goto block_08b8;
 
   block_0862:
     spawn FREE.slot_32(pid, 60, 0x00000000);
@@ -94,7 +94,7 @@ function surcamew_slot_21() /* entry=1248 class_id=0x04de slot=0x21 */
     goto block_0af3;
 
   block_08b8:
-    if (intrinsic_00fc(arg_06) > 0x00f9) goto block_0948;
+    if intrinsic_00fc(arg_06) <= 0x00f9 goto block_0948;
 
   block_08cb:
     /* global_address */
@@ -115,7 +115,7 @@ function surcamew_slot_21() /* entry=1248 class_id=0x04de slot=0x21 */
     suspend;
     spawn FREE.slot_32(pid, 60, 0x00000000);
     suspend;
-    if (intrinsic_0003(local_04) != 0) goto block_0a23;
+    if intrinsic_0003(local_04) == 0 goto block_0a23;
 
   block_09fe:
     spawn TRIGGER.slot_20(pid, 0, local_04, arg_06);
@@ -126,7 +126,7 @@ function surcamew_slot_21() /* entry=1248 class_id=0x04de slot=0x21 */
     suspend;
 
   block_0a49:
-    while (intrinsic_0096()) {
+    while (!intrinsic_0096()) {
       spawn FREE.slot_32(pid, 2, 0x00000000);
       suspend;
     }
@@ -147,7 +147,7 @@ function surcamew_slot_21() /* entry=1248 class_id=0x04de slot=0x21 */
   block_0af7:
     spawn FREE.slot_32(pid, 30, 0x00000000);
     suspend;
-    if local_02 goto block_0b32;
+    if !local_02 goto block_0b32;
 
   block_0b4b:
     return;

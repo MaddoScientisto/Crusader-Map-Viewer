@@ -1,65 +1,34 @@
 function rfanbadn_equip() /* entry=981 class_id=0x03d3 slot=0x0a */
 {
-  entry:
-    set_info(0x0211, *(arg_06));
-    process_exclude();
-    if ((Item.getFrame(arg_06) != 0) || (intrinsic_0004(arg_06) & 0x1000)) goto block_019f;
-
-  block_019c:
-    goto block_02c5;
-
-  block_019f:
-    if arg_10 goto block_02c5;
-
-  block_01a4:
+  set_info(0x0211, *(arg_06));
+  process_exclude();
+  if ((Item.getFrame(arg_06) == 0) || (intrinsic_0004(arg_06) & 0x1000)) {
+    return;
+  }
+  else if (arg_10) {
     ITEM.slot_23(0x1000, arg_06);
     local_02 = Item.getFrame(arg_06);
     local_06 = 0;
     local_04 = 1;
-
-  block_01c3:
-    if (local_04 <= 15) goto block_025e;
-
-  block_01cb:
-    local_02 = (1 + local_02);
-    if (local_02 > 5) goto block_01de;
-
-  block_01da:
-    local_02 = 1;
-
-  block_01de:
-    local_06 = (local_06 + 2);
-    spawn FREE.waitNTimerTicks(pid, (30 - local_06), 0x00000000);
-    suspend;
-    if (local_06 != 4) goto block_0254;
-
-  block_0211_selector_00:
-    /* loop_selector local_10 in nearby_items(shape=0x0476, origin=arg_06) */
-
-  block_0229:
-    if condition goto block_0252;
-
-  block_022c:
-    if (intrinsic_00e3(local_10) != intrinsic_00e3(arg_06)) goto block_024e;
-
-  block_0242:
-    FREE.slot_2f(0x0337, local_10);
-
-  block_024e:
-    /* loopnext */
-    goto block_0229;
-
-  block_0254:
-    local_04 = (1 + local_04);
-    goto block_01c3;
-
-  block_025e:
-    if (local_02 > 4) goto block_0270;
-
-  block_0270:
+    while (local_04 <= 15) {
+      local_02 = (1 + local_02);
+      if (local_02 > 5) {
+        local_02 = 1;
+      }
+      local_06 = (local_06 + 2);
+      spawn FREE.waitNTimerTicks(pid, (30 - local_06), 0x00000000);
+      suspend;
+      if (local_06 == 4) {
+        for local_10 in nearby_items(shape=0x0476, origin=arg_06) {
+          if (intrinsic_00e3(local_10) == intrinsic_00e3(arg_06)) {
+            FREE.slot_2f(0x0337, local_10);
+          }
+          /* loopnext */
+        }
+      }
+      local_04 = (1 + local_04);
+    }
     ITEM.slot_24(0x1000, arg_06);
-
-  block_02c5:
-    return;
-
+  }
+  return;
 }

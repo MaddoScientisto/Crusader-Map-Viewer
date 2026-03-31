@@ -1,35 +1,22 @@
 function door2_slot_35() /* entry=2567 class_id=0x0a05 slot=0x35 */
 {
-  entry:
-    set_info(0x0207, *(arg_06));
-    local_06 = 7;
-    FREE.slot_36((Item.getZ(arg_06) - 72), Item.getY(arg_06), Item.getX(arg_06), local_06, 0x013b, *(arg_06));
-    if retval goto block_1322;
-
-  block_1315:
-    goto block_1329;
-
-  block_1322:
+  set_info(0x0207, *(arg_06));
+  local_06 = 7;
+  FREE.slot_36((Item.getZ(arg_06) - 72), Item.getY(arg_06), Item.getX(arg_06), local_06, 0x013b, *(arg_06));
+  if (retval) {
+  }
+  else {
     /* word_to_dword */
     /* pop_result */
-    goto block_1374;
-
-  block_1329:
-    local_02 = (local_06 - 1);
-
-  block_1330:
-    while (local_02 <= 0) {
-      spawn FREE.slot_3b(pid, 10, 0x00000000);
-      suspend;
-      local_02 = (local_02 - 1);
-    }
-
-  block_1363:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_1374;
-
-  block_1374:
     return;
-
+  }
+  local_02 = (local_06 - 1);
+  while (local_02 > 0) {
+    spawn FREE.slot_3b(pid, 10, 0x00000000);
+    suspend;
+    local_02 = (local_02 - 1);
+  }
+  /* word_to_dword */
+  /* pop_result */
+  return;
 }

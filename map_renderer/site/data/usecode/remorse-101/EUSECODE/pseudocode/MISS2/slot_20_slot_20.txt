@@ -1,28 +1,20 @@
 function miss2_slot_20() /* entry=2320 class_id=0x090e slot=0x20 */
 {
-  entry:
-    set_info(1, 0);
-    local_02 = 0;
-    if arg_06 goto block_020b;
-
-  block_0204:
+  set_info(1, 0);
+  local_02 = 0;
+  if (arg_06) {
     local_04 = 1;
-    goto block_020f;
-
-  block_020b:
+  }
+  else {
     local_04 = -1;
-
-  block_020f:
-    while (local_02 == 2) {
-      for local_06 in nearby_items(shape=0x04d5, origin=global[0x003d]) {
-        /* loopnext */
-      }
-      spawn FREE.waitNTimerTicks(pid, 3, 0x00000000);
-      suspend;
-      local_02 = (1 + local_02);
+  }
+  while (local_02 != 2) {
+    for local_06 in nearby_items(shape=0x04d5, origin=global[0x003d]) {
+      /* loopnext */
     }
-
-  block_026d:
-    return;
-
+    spawn FREE.waitNTimerTicks(pid, 3, 0x00000000);
+    suspend;
+    local_02 = (1 + local_02);
+  }
+  return;
 }

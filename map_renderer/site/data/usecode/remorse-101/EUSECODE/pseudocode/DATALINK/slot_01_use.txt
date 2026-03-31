@@ -6,7 +6,7 @@ function datalink_use() /* entry=1238 class_id=0x04d4 slot=0x01 */
     /* free_local_string */
     local_02 = "MISSION OBJECTIVES:^*";
     /* global_address */
-    if (intrinsic_0011() > 30) goto block_010f;
+    if intrinsic_0011() <= 30 goto block_010f;
 
   block_010c:
     goto block_1204;
@@ -14,10 +14,10 @@ function datalink_use() /* entry=1238 class_id=0x04d4 slot=0x01 */
   block_010f:
     /* global_address */
     /* global_address */
-    if (intrinsic_0011((intrinsic_0011() != 1)) != 2) goto block_023e;
+    if intrinsic_0011((intrinsic_0011() != 1)) == 2 goto block_023e;
 
   block_012d:
-    if (!global[0x0021]) goto block_0155;
+    if global[0x0021] goto block_0155;
 
   block_0135:
     /* str_to_ptr */
@@ -25,7 +25,7 @@ function datalink_use() /* entry=1238 class_id=0x04d4 slot=0x01 */
     suspend;
 
   block_0155:
-    if (!global[0x0030]) goto block_018c;
+    if global[0x0030] goto block_018c;
 
   block_015d:
     /* concat */
@@ -33,7 +33,7 @@ function datalink_use() /* entry=1238 class_id=0x04d4 slot=0x01 */
     local_02 = "^)Gain keycard from rebel informant.";
 
   block_018c:
-    if (!global[0x0021]) goto block_01ea;
+    if global[0x0021] goto block_01ea;
 
   block_0194:
     /* concat */
@@ -41,7 +41,7 @@ function datalink_use() /* entry=1238 class_id=0x04d4 slot=0x01 */
     local_02 = "^)Locate Thermal Coupler on level four and destroy objective with BlastPac.";
 
   block_01ea:
-    if (global[0x0030] && global[0x0021]) goto block_023b;
+    if !(global[0x0030] && global[0x0021]) goto block_023b;
 
   block_01f6:
     /* concat */
@@ -54,13 +54,13 @@ function datalink_use() /* entry=1238 class_id=0x04d4 slot=0x01 */
   block_023e:
     /* global_address */
     /* global_address */
-    if (intrinsic_0011((intrinsic_0011() != 3)) != 4) goto block_039d;
+    if intrinsic_0011((intrinsic_0011() != 3)) == 4 goto block_039d;
 
   block_025c:
-    if (!global[0x0022]) goto block_0264;
+    if global[0x0022] goto block_0264;
 
   block_0264:
-    if (!global[0x0031]) goto block_02c3;
+    if global[0x0031] goto block_02c3;
 
   block_026c:
     /* concat */
@@ -68,7 +68,7 @@ function datalink_use() /* entry=1238 class_id=0x04d4 slot=0x01 */
     local_02 = "^)PFC. Andrews to confirm coordinates before teleportation into prison area.";
 
   block_02c3:
-    if (!global[0x0022]) goto block_0349;
+    if global[0x0022] goto block_0349;
 
   block_02cb:
     /* concat */
@@ -78,7 +78,7 @@ function datalink_use() /* entry=1238 class_id=0x04d4 slot=0x01 */
     local_02 = "in Dr. Hoffman's lab.";
 
   block_0349:
-    if (global[0x0031] && global[0x0022]) goto block_039a;
+    if !(global[0x0031] && global[0x0022]) goto block_039a;
 
   block_0355:
     /* concat */
@@ -91,10 +91,10 @@ function datalink_use() /* entry=1238 class_id=0x04d4 slot=0x01 */
   block_039d:
     /* global_address */
     /* global_address */
-    if (intrinsic_0011((intrinsic_0011() != 5)) != 6) goto block_04e9;
+    if intrinsic_0011((intrinsic_0011() != 5)) == 6 goto block_04e9;
 
   block_03bb:
-    if (!global[0x0023]) goto block_03e4;
+    if global[0x0023] goto block_03e4;
 
   block_03c3:
     /* str_to_ptr */
@@ -102,7 +102,7 @@ function datalink_use() /* entry=1238 class_id=0x04d4 slot=0x01 */
     suspend;
 
   block_03e4:
-    if (!global[0x0032]) goto block_044a;
+    if global[0x0032] goto block_044a;
 
   block_03ec:
     /* concat */
@@ -110,7 +110,7 @@ function datalink_use() /* entry=1238 class_id=0x04d4 slot=0x01 */
     local_02 = "^)PFC. Cardova to confirm coordinates before teleportation into industrial complex.";
 
   block_044a:
-    if (!global[0x0023]) goto block_049a;
+    if global[0x0023] goto block_049a;
 
   block_0452:
     /* concat */
@@ -118,7 +118,7 @@ function datalink_use() /* entry=1238 class_id=0x04d4 slot=0x01 */
     local_02 = "^)Locate PHIR computer and download latest prototypes' plans.";
 
   block_049a:
-    if (global[0x0032] && global[0x0023]) goto block_04e6;
+    if !(global[0x0032] && global[0x0023]) goto block_04e6;
 
   block_04a6:
     /* concat */
@@ -131,10 +131,10 @@ function datalink_use() /* entry=1238 class_id=0x04d4 slot=0x01 */
   block_04e9:
     /* global_address */
     /* global_address */
-    if (intrinsic_0011((intrinsic_0011() != 7)) != 8) goto block_0632;
+    if intrinsic_0011((intrinsic_0011() != 7)) == 8 goto block_0632;
 
   block_0507:
-    if (!global[0x0024]) goto block_052f;
+    if global[0x0024] goto block_052f;
 
   block_050f:
     /* str_to_ptr */
@@ -142,7 +142,7 @@ function datalink_use() /* entry=1238 class_id=0x04d4 slot=0x01 */
     suspend;
 
   block_052f:
-    if (!global[0x0033]) goto block_058f;
+    if global[0x0033] goto block_058f;
 
   block_0537:
     /* concat */
@@ -150,7 +150,7 @@ function datalink_use() /* entry=1238 class_id=0x04d4 slot=0x01 */
     local_02 = "^)PFC. Andrews to bring down defense screens before objective can be reached.";
 
   block_058f:
-    if (!global[0x0024]) goto block_05e3;
+    if global[0x0024] goto block_05e3;
 
   block_0597:
     /* concat */
@@ -158,7 +158,7 @@ function datalink_use() /* entry=1238 class_id=0x04d4 slot=0x01 */
     local_02 = "^)Locate SORC computer on level 3 and destroy it with a BlastPac.";
 
   block_05e3:
-    if (global[0x0033] && global[0x0024]) goto block_062f;
+    if !(global[0x0033] && global[0x0024]) goto block_062f;
 
   block_05ef:
     /* concat */
@@ -171,10 +171,10 @@ function datalink_use() /* entry=1238 class_id=0x04d4 slot=0x01 */
   block_0632:
     /* global_address */
     /* global_address */
-    if (intrinsic_0011((intrinsic_0011() != 9)) != 10) goto block_076f;
+    if intrinsic_0011((intrinsic_0011() != 9)) == 10 goto block_076f;
 
   block_0650:
-    if (!global[0x0025]) goto block_0679;
+    if global[0x0025] goto block_0679;
 
   block_0658:
     /* str_to_ptr */
@@ -182,7 +182,7 @@ function datalink_use() /* entry=1238 class_id=0x04d4 slot=0x01 */
     suspend;
 
   block_0679:
-    if (!global[0x0034]) goto block_06b0;
+    if global[0x0034] goto block_06b0;
 
   block_0681:
     /* concat */
@@ -190,7 +190,7 @@ function datalink_use() /* entry=1238 class_id=0x04d4 slot=0x01 */
     local_02 = "^)Gain keycard from rebel informant.";
 
   block_06b0:
-    if (!global[0x0025]) goto block_0712;
+    if global[0x0025] goto block_0712;
 
   block_06b8:
     /* concat */
@@ -198,7 +198,7 @@ function datalink_use() /* entry=1238 class_id=0x04d4 slot=0x01 */
     local_02 = "^)Locate MELF computer in Science Wing, level 5 and download Cypher chip plans.";
 
   block_0712:
-    if (global[0x0034] && global[0x0025]) goto block_076c;
+    if !(global[0x0034] && global[0x0025]) goto block_076c;
 
   block_071e:
     /* concat */
@@ -211,10 +211,10 @@ function datalink_use() /* entry=1238 class_id=0x04d4 slot=0x01 */
   block_076f:
     /* global_address */
     /* global_address */
-    if (intrinsic_0011((intrinsic_0011() != 11)) != 12) goto block_08c6;
+    if intrinsic_0011((intrinsic_0011() != 11)) == 12 goto block_08c6;
 
   block_078d:
-    if (!global[0x0026]) goto block_07b5;
+    if global[0x0026] goto block_07b5;
 
   block_0795:
     /* str_to_ptr */
@@ -222,7 +222,7 @@ function datalink_use() /* entry=1238 class_id=0x04d4 slot=0x01 */
     suspend;
 
   block_07b5:
-    if (!global[0x0035]) goto block_0813;
+    if global[0x0035] goto block_0813;
 
   block_07bd:
     /* concat */
@@ -230,7 +230,7 @@ function datalink_use() /* entry=1238 class_id=0x04d4 slot=0x01 */
     local_02 = "^)Sgt. Brooks to confirm teleportation coordinates into government complex.";
 
   block_0813:
-    if (!global[0x0026]) goto block_0895;
+    if global[0x0026] goto block_0895;
 
   block_081b:
     /* concat */
@@ -239,7 +239,7 @@ function datalink_use() /* entry=1238 class_id=0x04d4 slot=0x01 */
     local_02 = "Transport the senator back to Central for questioning.";
 
   block_0895:
-    if (global[0x0035] && global[0x0026]) goto block_08c3;
+    if !(global[0x0035] && global[0x0026]) goto block_08c3;
 
   block_08a1:
     /* concat */
@@ -252,10 +252,10 @@ function datalink_use() /* entry=1238 class_id=0x04d4 slot=0x01 */
   block_08c6:
     /* global_address */
     /* global_address */
-    if (intrinsic_0011((intrinsic_0011() != 13)) != 14) goto block_09c6;
+    if intrinsic_0011((intrinsic_0011() != 13)) == 14 goto block_09c6;
 
   block_08e4:
-    if (!global[0x0027]) goto block_090c;
+    if global[0x0027] goto block_090c;
 
   block_08ec:
     /* str_to_ptr */
@@ -263,7 +263,7 @@ function datalink_use() /* entry=1238 class_id=0x04d4 slot=0x01 */
     suspend;
 
   block_090c:
-    if (!global[0x0027]) goto block_0979;
+    if global[0x0027] goto block_0979;
 
   block_0914:
     /* concat */
@@ -272,7 +272,7 @@ function datalink_use() /* entry=1238 class_id=0x04d4 slot=0x01 */
     local_02 = "Destroy objective with FusionPac.";
 
   block_0979:
-    if global[0x0027] goto block_09c3;
+    if !(global[0x0027]) goto block_09c3;
 
   block_0980:
     /* concat */
@@ -285,10 +285,10 @@ function datalink_use() /* entry=1238 class_id=0x04d4 slot=0x01 */
   block_09c6:
     /* global_address */
     /* global_address */
-    if (intrinsic_0011((intrinsic_0011() != 15)) != 16) goto block_0a95;
+    if intrinsic_0011((intrinsic_0011() != 15)) == 16 goto block_0a95;
 
   block_09e4:
-    if (!global[0x0028]) goto block_0a0c;
+    if global[0x0028] goto block_0a0c;
 
   block_09ec:
     /* str_to_ptr */
@@ -296,7 +296,7 @@ function datalink_use() /* entry=1238 class_id=0x04d4 slot=0x01 */
     suspend;
 
   block_0a0c:
-    if (!global[0x0028]) goto block_0a4f;
+    if global[0x0028] goto block_0a4f;
 
   block_0a14:
     /* concat */
@@ -315,10 +315,10 @@ function datalink_use() /* entry=1238 class_id=0x04d4 slot=0x01 */
   block_0a95:
     /* global_address */
     /* global_address */
-    if (intrinsic_0011((intrinsic_0011() != 17)) != 18) goto block_0b89;
+    if intrinsic_0011((intrinsic_0011() != 17)) == 18 goto block_0b89;
 
   block_0ab3:
-    if (!global[0x0029]) goto block_0adb;
+    if global[0x0029] goto block_0adb;
 
   block_0abb:
     /* str_to_ptr */
@@ -326,7 +326,7 @@ function datalink_use() /* entry=1238 class_id=0x04d4 slot=0x01 */
     suspend;
 
   block_0adb:
-    if (!global[0x0029]) goto block_0b30;
+    if global[0x0029] goto block_0b30;
 
   block_0ae3:
     /* concat */
@@ -334,7 +334,7 @@ function datalink_use() /* entry=1238 class_id=0x04d4 slot=0x01 */
     local_02 = "^)Infiltrate governement complex and spy on congressional meeting.";
 
   block_0b30:
-    if global[0x0029] goto block_0b86;
+    if !(global[0x0029]) goto block_0b86;
 
   block_0b37:
     /* concat */
@@ -347,10 +347,10 @@ function datalink_use() /* entry=1238 class_id=0x04d4 slot=0x01 */
   block_0b89:
     /* global_address */
     /* global_address */
-    if (intrinsic_0011((intrinsic_0011() != 19)) != 20) goto block_0cb6;
+    if intrinsic_0011((intrinsic_0011() != 19)) == 20 goto block_0cb6;
 
   block_0ba7:
-    if (!global[0x002a]) goto block_0bd0;
+    if global[0x002a] goto block_0bd0;
 
   block_0baf:
     /* str_to_ptr */
@@ -358,7 +358,7 @@ function datalink_use() /* entry=1238 class_id=0x04d4 slot=0x01 */
     suspend;
 
   block_0bd0:
-    if (!global[0x002a]) goto block_0c23;
+    if global[0x002a] goto block_0c23;
 
   block_0bd8:
     /* concat */
@@ -366,7 +366,7 @@ function datalink_use() /* entry=1238 class_id=0x04d4 slot=0x01 */
     local_02 = "^)Locate plans for new experimental weapon in Dr. Hoffman's lab.";
 
   block_0c23:
-    if global[0x002a] goto block_0cb3;
+    if !(global[0x002a]) goto block_0cb3;
 
   block_0c2a:
     /* concat */
@@ -380,10 +380,10 @@ function datalink_use() /* entry=1238 class_id=0x04d4 slot=0x01 */
   block_0cb6:
     /* global_address */
     /* global_address */
-    if (intrinsic_0011((intrinsic_0011() != 21)) != 22) goto block_0deb;
+    if intrinsic_0011((intrinsic_0011() != 21)) == 22 goto block_0deb;
 
   block_0cd4:
-    if (!global[0x002b]) goto block_0cfe;
+    if global[0x002b] goto block_0cfe;
 
   block_0cdc:
     /* str_to_ptr */
@@ -391,7 +391,7 @@ function datalink_use() /* entry=1238 class_id=0x04d4 slot=0x01 */
     suspend;
 
   block_0cfe:
-    if (!global[0x0036]) goto block_0d47;
+    if global[0x0036] goto block_0d47;
 
   block_0d06:
     /* concat */
@@ -399,7 +399,7 @@ function datalink_use() /* entry=1238 class_id=0x04d4 slot=0x01 */
     local_02 = "^)PFC. Cardova to bring down teleport defense screens.";
 
   block_0d47:
-    if (!global[0x002b]) goto block_0d9e;
+    if global[0x002b] goto block_0d9e;
 
   block_0d4f:
     /* concat */
@@ -407,7 +407,7 @@ function datalink_use() /* entry=1238 class_id=0x04d4 slot=0x01 */
     local_02 = "^)Locate OPTS computer and download plans to the Vigilance Platform.";
 
   block_0d9e:
-    if global[0x002b] goto block_0de8;
+    if !(global[0x002b]) goto block_0de8;
 
   block_0da5:
     /* concat */
@@ -420,10 +420,10 @@ function datalink_use() /* entry=1238 class_id=0x04d4 slot=0x01 */
   block_0deb:
     /* global_address */
     /* global_address */
-    if (intrinsic_0011((intrinsic_0011() != 23)) != 24) goto block_0ecf;
+    if intrinsic_0011((intrinsic_0011() != 23)) == 24 goto block_0ecf;
 
   block_0e09:
-    if (!global[0x002c]) goto block_0e33;
+    if global[0x002c] goto block_0e33;
 
   block_0e11:
     /* str_to_ptr */
@@ -431,7 +431,7 @@ function datalink_use() /* entry=1238 class_id=0x04d4 slot=0x01 */
     suspend;
 
   block_0e33:
-    if (!global[0x002c]) goto block_0e82;
+    if global[0x002c] goto block_0e82;
 
   block_0e3b:
     /* concat */
@@ -439,7 +439,7 @@ function datalink_use() /* entry=1238 class_id=0x04d4 slot=0x01 */
     local_02 = "^)Locate OPC computer and upload new targeting coordinates. ";
 
   block_0e82:
-    if global[0x002c] goto block_0ecc;
+    if !(global[0x002c]) goto block_0ecc;
 
   block_0e89:
     /* concat */
@@ -452,10 +452,10 @@ function datalink_use() /* entry=1238 class_id=0x04d4 slot=0x01 */
   block_0ecf:
     /* global_address */
     /* global_address */
-    if (intrinsic_0011((intrinsic_0011() != 25)) != 26) goto block_0f89;
+    if intrinsic_0011((intrinsic_0011() != 25)) == 26 goto block_0f89;
 
   block_0eed:
-    if (!global[0x002d]) goto block_0f16;
+    if global[0x002d] goto block_0f16;
 
   block_0ef5:
     /* str_to_ptr */
@@ -463,7 +463,7 @@ function datalink_use() /* entry=1238 class_id=0x04d4 slot=0x01 */
     suspend;
 
   block_0f16:
-    if (!global[0x002d]) goto block_0f4e;
+    if global[0x002d] goto block_0f4e;
 
   block_0f1e:
     /* concat */
@@ -482,10 +482,10 @@ function datalink_use() /* entry=1238 class_id=0x04d4 slot=0x01 */
   block_0f89:
     /* global_address */
     /* global_address */
-    if (intrinsic_0011((intrinsic_0011() != 27)) != 28) goto block_107e;
+    if intrinsic_0011((intrinsic_0011() != 27)) == 28 goto block_107e;
 
   block_0fa7:
-    if (!global[0x002e]) goto block_0fd0;
+    if global[0x002e] goto block_0fd0;
 
   block_0faf:
     /* str_to_ptr */
@@ -493,7 +493,7 @@ function datalink_use() /* entry=1238 class_id=0x04d4 slot=0x01 */
     suspend;
 
   block_0fd0:
-    if (!global[0x002e]) goto block_104b;
+    if global[0x002e] goto block_104b;
 
   block_0fd8:
     /* concat */
@@ -512,13 +512,13 @@ function datalink_use() /* entry=1238 class_id=0x04d4 slot=0x01 */
   block_107e:
     /* global_address */
     /* global_address */
-    if (intrinsic_0011((intrinsic_0011() != 29)) != 30) goto block_11eb;
+    if intrinsic_0011((intrinsic_0011() != 29)) == 30 goto block_11eb;
 
   block_109c:
-    if (!global[0x0039]) goto block_1123;
+    if global[0x0039] goto block_1123;
 
   block_10a4:
-    if (!global[0x0039]) goto block_10ce;
+    if global[0x0039] goto block_10ce;
 
   block_10ac:
     /* str_to_ptr */
@@ -531,7 +531,7 @@ function datalink_use() /* entry=1238 class_id=0x04d4 slot=0x01 */
     local_02 = "^)Locate and deactivate SATARG system, then destroy weapon control system.";
 
   block_1123:
-    if ((global[0x0039] != 1) && (global[0x002f] != 0)) goto block_1198;
+    if (global[0x0039] != 1) && (global[0x002f] == 0) goto block_1198;
 
   block_1135:
     /* str_to_ptr */
@@ -542,7 +542,7 @@ function datalink_use() /* entry=1238 class_id=0x04d4 slot=0x01 */
     local_02 = "^)Locate and destroy Lithium Power Core with BlastPac.";
 
   block_1198:
-    if global[0x002b] goto block_11e8;
+    if !(global[0x002b]) goto block_11e8;
 
   block_119f:
     /* concat */

@@ -2,15 +2,17 @@ function surcamns_equip() /* entry=1224 class_id=0x04c6 slot=0x0a */
 {
   set_info(0x0211, *(arg_06));
   process_exclude();
-  if (!(intrinsic_0004(arg_06) & 0x1000)) {
+  if (intrinsic_0004(arg_06) & 0x1000) {
     return;
   }
-  if (arg_10 == 0) {
+  else if (arg_10 == 0) {
     /* global_address */
     spawn SURCAMNS.slot_21(arg_06);
     return;
   }
-  /* global_address */
-  spawn SURCAMNS.slot_20(arg_06);
+  else {
+    /* global_address */
+    spawn SURCAMNS.slot_20(arg_06);
+  }
   return;
 }

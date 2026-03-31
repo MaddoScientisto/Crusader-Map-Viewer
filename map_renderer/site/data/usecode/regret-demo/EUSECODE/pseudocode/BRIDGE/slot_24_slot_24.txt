@@ -8,11 +8,11 @@ function bridge_slot_24() /* entry=2565 class_id=0x0a03 slot=0x24 */
     /* loop_selector local_02 in selector_0x42(arg0=0x0336, arg1=0x0290, arg2=(70 * 32), origin=arg_06) */
 
   block_03e3:
-    if condition goto block_040b;
+    if !condition goto block_040b;
 
   block_03e6:
     local_08 = intrinsic_001f(local_02);
-    if (local_08 != arg_10) goto block_0407;
+    if local_08 != arg_10 goto block_0407;
 
   block_03f9:
     local_06 = intrinsic_0021(local_02);
@@ -23,13 +23,13 @@ function bridge_slot_24() /* entry=2565 class_id=0x0a03 slot=0x24 */
     goto block_03e3;
 
   block_040b:
-    if (local_06 != 0) goto block_0418;
+    if local_06 != 0 goto block_0418;
 
   block_0415:
     goto block_0542;
 
   block_0418:
-    if (local_06 < arg_10) goto block_0423;
+    if local_06 >= arg_10 goto block_0423;
 
   block_0420:
     goto block_0542;
@@ -38,7 +38,7 @@ function bridge_slot_24() /* entry=2565 class_id=0x0a03 slot=0x24 */
     local_10 = arg_10;
 
   block_0427:
-    if (local_10 <= local_06) goto block_049f;
+    if local_10 > local_06 goto block_049f;
 
   block_042f:
     local_12 = local_10;
@@ -47,11 +47,11 @@ function bridge_slot_24() /* entry=2565 class_id=0x0a03 slot=0x24 */
     /* loop_selector local_02 in selector_0x42(arg0=0x0336, arg1=0x0290, arg2=(70 * 32), origin=arg_06) */
 
   block_044a:
-    if condition goto block_047b;
+    if !condition goto block_047b;
 
   block_044d:
     local_08 = intrinsic_001f(local_02);
-    if (local_08 != local_10) goto block_0477;
+    if local_08 != local_10 goto block_0477;
 
   block_0460:
     /* create_list */
@@ -66,7 +66,7 @@ function bridge_slot_24() /* entry=2565 class_id=0x0a03 slot=0x24 */
     goto block_044a;
 
   block_047b:
-    if (local_12 != local_10) goto block_049c;
+    if local_12 != local_10 goto block_049c;
 
   block_0485:
     spawn FREE.slot_3b(pid, 10, 0x00000000);

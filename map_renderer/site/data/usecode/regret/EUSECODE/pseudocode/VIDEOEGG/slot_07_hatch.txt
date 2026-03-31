@@ -1,38 +1,27 @@
 function videoegg_hatch() /* entry=2330 class_id=0x0918 slot=0x07 */
 {
-  entry:
-    set_info(0x0210, *(arg_06));
-    process_exclude();
-    if (intrinsic_0016() != 1) goto block_00ed;
-
-  block_00ea:
-    goto block_014b;
-
-  block_00ed:
-    /* pop_global */
-    if global[0x0001] goto block_0110;
-
-  block_0101:
-    /* global_address */
-    spawn ITEM.slot_21();
-    goto block_0143;
-
-  block_0110:
-    /* loopscr */
-    /* loopscr */
-    /* loopscr */
-    /* loopscr */
-    /* loop */
-
-  block_0126:
-    while (!condition) {
-      /* loopnext */
-    }
-
-  block_0137:
-    /* pop_global */
-
-  block_014b:
+  set_info(0x0210, *(arg_06));
+  process_exclude();
+  if (intrinsic_0016() != 1) {
     return;
-
+  }
+  else {
+    /* pop_global */
+    if (global[0x0001]) {
+      /* global_address */
+      spawn ITEM.slot_21();
+    }
+    else {
+      /* loopscr */
+      /* loopscr */
+      /* loopscr */
+      /* loopscr */
+      /* loop */
+      while (condition) {
+        /* loopnext */
+      }
+      /* pop_global */
+    }
+  }
+  return;
 }

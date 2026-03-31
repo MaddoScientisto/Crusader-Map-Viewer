@@ -1,43 +1,27 @@
 function blastpac_slot_20() /* entry=925 class_id=0x039b slot=0x20 */
 {
-  entry:
+  spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
+  suspend;
+  set_info(0x00f0, 0);
+  local_04 = 1;
+  while (local_04 <= 5) {
     spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
     suspend;
-    set_info(0x00f0, 0);
-    local_04 = 1;
-
-  block_0736:
-    while (local_04 > 5) {
-      spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
-      suspend;
-      local_04 = (1 + local_04);
-    }
-
-  block_077e:
-    spawn ITEM.slot_28(pid, 1, 2, arg_10);
-    suspend;
-    /* global_address */
-    if (intrinsic_0011() != 1) goto block_0ad9;
-
-  block_07b3:
+    local_04 = (1 + local_04);
+  }
+  spawn ITEM.slot_28(pid, 1, 2, arg_10);
+  suspend;
+  /* global_address */
+  if (intrinsic_0011() == 1) {
     spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
     suspend;
     /* pop_global */
-
-  block_07b3_selector_00:
-    /* loop_selector local_02 in nearby_items(shape=REACTOR, origin=global[0x003c]) */
-
-  block_0800:
-    if condition goto block_084e;
-
-  block_0803:
-    spawn ITEM.slot_28(pid, 0, 2, local_02);
-    suspend;
-    local_06 = local_02;
-    /* loopnext */
-    goto block_0800;
-
-  block_084e_selector_00:
+    for local_02 in nearby_items(shape=REACTOR, origin=global[0x003c]) {
+      spawn ITEM.slot_28(pid, 0, 2, local_02);
+      suspend;
+      local_06 = local_02;
+      /* loopnext */
+    }
     for local_02 in nearby_items(shape=REACTOR_CELL, origin=local_06) {
       spawn ITEM.slot_28(pid, 1, 0, local_02);
       suspend;
@@ -46,38 +30,25 @@ function blastpac_slot_20() /* entry=925 class_id=0x039b slot=0x20 */
       suspend;
       /* loopnext */
     }
-
-  block_08c5:
     /* global_address */
-    if Kernel.resetRef() goto block_08dd;
-
-  block_08d7:
-    goto block_0ff9;
-
-  block_08dd_selector_00:
+    if (Kernel.resetRef()) {
+      return;
+    }
     for local_02 in nearby_items(shape=NUMBERS, origin=local_06) {
       spawn FREE.waitNTimerTicks(intrinsic_0018(pid, 20, 10), 0x00000000);
       suspend;
       /* loopnext */
     }
-
-  block_093e:
     local_04 = 0;
-
-  block_0947:
-    while (local_04 > 2) {
-      while (!intrinsic_003a(22, local_08)) {
+    while (local_04 <= 2) {
+      while (intrinsic_003a(22, local_08)) {
         spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
         suspend;
       }
       local_04 = (1 + local_04);
     }
-
-  block_09a3:
     spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
     suspend;
-
-  block_09a3_selector_00:
     for local_02 in nearby_items(shape=ELECTRODE, origin=local_06) {
       spawn ITEM.slot_28(pid, 0, 0, local_02);
       suspend;
@@ -85,172 +56,101 @@ function blastpac_slot_20() /* entry=925 class_id=0x039b slot=0x20 */
       suspend;
       /* loopnext */
     }
-
-  block_0a4d:
     spawn FREE.waitNTimerTicks(pid, 0x00c8, 0x00000000);
     suspend;
     spawn FREE.slot_26(pid, "1c", 0x00000000);
     /* free_stack_string */
     suspend;
-
-  block_0a4d_selector_00:
     for local_02 in selector_0x42(arg0=0x032a, arg1=0x0329, arg2=(50 * 32), origin=global[0x003c]) {
       /* loopnext */
     }
-
-  block_0ad4:
-    goto block_0ff9;
-
-  block_0ad9:
-    /* global_address */
-    if (intrinsic_0011() != 7) goto block_0dfd;
-
-  block_0ae9:
+    return;
+  }
+  else if (intrinsic_0011() == 7) {
     /* pop_global */
     spawn FREE.waitNTimerTicks(1, pid, 10, 0x00000000);
     suspend;
-
-  block_0ae9_selector_00:
-    /* loop_selector local_02 in nearby_items(shape=COMM_CONSOLE, origin=global[0x003c]) */
-
-  block_0b36:
-    if condition goto block_0b6e;
-
-  block_0b39:
-    local_10 = local_02;
-    /* loopnext */
-    goto block_0b36;
-
-  block_0b6e_selector_00:
-    /* loop_selector local_02 in nearby_items(shape=RADAR_DISH, origin=local_10) */
-
-  block_0b8c:
-    if condition goto block_0c13;
-
-  block_0b8f:
-    spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
-    suspend;
-    local_14 = intrinsic_0013(local_02);
-    local_16 = Item.legal_create(local_02);
-    local_18 = Item.getZ(local_02);
-    /* loopnext */
-    goto block_0b8c;
-
-  block_0c13_selector_00:
+    for local_02 in nearby_items(shape=COMM_CONSOLE, origin=global[0x003c]) {
+      local_10 = local_02;
+      /* loopnext */
+    }
+    for local_02 in nearby_items(shape=RADAR_DISH, origin=local_10) {
+      spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
+      suspend;
+      local_14 = intrinsic_0013(local_02);
+      local_16 = Item.legal_create(local_02);
+      local_18 = Item.getZ(local_02);
+      /* loopnext */
+    }
     for local_02 in selector_0x42(arg0=0x01a5, arg1=0x01a4, arg2=(50 * 32), origin=local_10) {
       spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
       suspend;
       /* loopnext */
     }
-
-  block_0c6f:
     spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
     suspend;
     /* global_address */
-    if Kernel.resetRef() goto block_0cad;
-
-  block_0ca7:
-    goto block_0ff9;
-
-  block_0cad_selector_00:
+    if (Kernel.resetRef()) {
+      return;
+    }
     for local_02 in nearby_items(shape=NUMBERS, origin=local_10) {
       spawn FREE.waitNTimerTicks(intrinsic_0018(pid, 20, 10), 0x00000000);
       suspend;
       /* loopnext */
     }
-
-  block_0d0e:
     local_04 = 0;
-
-  block_0d17:
-    while (local_04 > 2) {
-      while (!intrinsic_003a(0x0096, local_10)) {
+    while (local_04 <= 2) {
+      while (intrinsic_003a(0x0096, local_10)) {
         spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
         suspend;
       }
       local_04 = (1 + local_04);
     }
-
-  block_0d75:
     spawn FREE.waitNTimerTicks(pid, 0x00c8, 0x00000000);
     suspend;
     spawn FREE.slot_26(pid, "4g", 0x00000000);
     /* free_stack_string */
     suspend;
-
-  block_0d75_selector_00:
     for local_02 in selector_0x42(arg0=0x032a, arg1=0x0329, arg2=(50 * 32), origin=local_10) {
       /* loopnext */
     }
-
-  block_0df8:
-    goto block_0ff9;
-
-  block_0dfd:
-    /* global_address */
-    if (intrinsic_0011() != 29) goto block_0ff9;
-
-  block_0e0d:
+    return;
+  }
+  else if (intrinsic_0011() == 29) {
     spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
     suspend;
     /* pop_global */
-
-  block_0e0d_selector_00:
-    /* loop_selector local_02 in nearby_items(shape=LIGHT_TUBE, origin=global[0x003c]) */
-
-  block_0e5a:
-    if condition goto block_0ea1;
-
-  block_0e5d:
-    spawn ITEM.slot_28(pid, 0, 2, local_02);
-    suspend;
-    /* loopnext */
-    goto block_0e5a;
-
-  block_0ea1_selector_00:
-    for local_02 in nearby_items(shape=TUBE_PLATFORM, origin=global[0x003c]) {
-      /* loopnext */
-    }
-
-  block_0ed5:
-    spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
-    suspend;
-    /* global_address */
-    if Kernel.resetRef() goto block_0f13;
-
-  block_0f0d:
-    goto block_0ff9;
-
-  block_0f13_selector_00:
-    /* loop_selector local_02 in nearby_items(shape=NUMBERS, origin=global[0x003c]) */
-
-  block_0f31:
-    if condition goto block_0f8b;
-
-  block_0f34:
-    if (intrinsic_002b(local_02) != 0) goto block_0f87;
-
-  block_0f49:
-    spawn FREE.waitNTimerTicks(intrinsic_0018(pid, 30, 20), 0x00000000);
-    suspend;
-
-  block_0f87:
-    /* loopnext */
-    goto block_0f31;
-
-  block_0f8b_selector_00:
-    for local_02 in nearby_items(shape=0x03b0, origin=global[0x003c]) {
-      spawn FREE.waitNTimerTicks(pid, 20, 0x00000000);
+    for local_02 in nearby_items(shape=LIGHT_TUBE, origin=global[0x003c]) {
+      spawn ITEM.slot_28(pid, 0, 2, local_02);
       suspend;
       /* loopnext */
     }
-
-  block_0fe3:
-    spawn FREE.slot_22(0x00000000);
-    goto block_0ff9;
-
-  block_0ff9:
-    return;
-
+    for local_02 in nearby_items(shape=TUBE_PLATFORM, origin=global[0x003c]) {
+      /* loopnext */
+    }
+    spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
+    suspend;
+    /* global_address */
+    if (Kernel.resetRef()) {
+      return;
+    }
+    else {
+      for local_02 in nearby_items(shape=NUMBERS, origin=global[0x003c]) {
+        if (intrinsic_002b(local_02) == 0) {
+          spawn FREE.waitNTimerTicks(intrinsic_0018(pid, 30, 20), 0x00000000);
+          suspend;
+        }
+        /* loopnext */
+      }
+      for local_02 in nearby_items(shape=0x03b0, origin=global[0x003c]) {
+        spawn FREE.waitNTimerTicks(pid, 20, 0x00000000);
+        suspend;
+        /* loopnext */
+      }
+      spawn FREE.slot_22(0x00000000);
+      return;
+    }
+  }
+  return;
   /* decompilation stopped at SEARCH_SURFACE */
 }

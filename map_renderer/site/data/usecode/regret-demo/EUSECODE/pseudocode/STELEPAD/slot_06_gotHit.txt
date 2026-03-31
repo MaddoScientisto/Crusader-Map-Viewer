@@ -4,20 +4,20 @@ function stelepad_gotHit() /* entry=241 class_id=0x00ef slot=0x06 */
   process_exclude();
   local_02 = arg_10;
   FREE.slot_35(arg_12, arg_10);
-  if (!retval) {
+  if (retval) {
     return;
   }
-  if ((intrinsic_0011(local_02) == 0x055f) || (intrinsic_0011(local_02) != 0x039a)) {
+  else if ((intrinsic_0011(local_02) == 0x055f) || (intrinsic_0011(local_02) == 0x039a)) {
     return;
   }
-  if (intrinsic_0082() == 1) {
+  else if (intrinsic_0082() == 1) {
     /* loopscr */
     /* loopscr */
     /* loopscr */
     /* loopscr */
     /* loop */
-    while (!condition) {
-      if (local_04 >= 0x0100) {
+    while (condition) {
+      if (local_04 < 0x0100) {
       }
       /* loopnext */
     }

@@ -1,42 +1,23 @@
 function grenegg_hatch() /* entry=2315 class_id=0x0909 slot=0x07 */
 {
-  entry:
-    set_info(0x0210, *(arg_06));
-    process_exclude();
-
-  entry_selector_00:
-    /* loop_selector local_02 in nearby_items(shape=NUMBERS, origin=arg_06) */
-
-  block_00f7:
-    if condition goto block_0111;
-
-  block_00fa:
-    if (Item.getFrame(local_02) != 0) goto block_010d;
-
-  block_0109:
-    local_04 = local_02;
-
-  block_010d:
-    /* loopnext */
-    goto block_00f7;
-
-  block_0111_selector_00:
-    for local_02 in nearby_items(shape=NUMBERS, origin=arg_06) {
-      if (Item.getFrame(local_02) == 0) {
-        local_06 = local_02;
-      }
-      /* loopnext */
+  set_info(0x0210, *(arg_06));
+  process_exclude();
+  for local_02 in nearby_items(shape=NUMBERS, origin=arg_06) {
+    if (Item.getFrame(local_02) == 0) {
+      local_04 = local_02;
     }
-
-  block_0145:
-    if (local_04 && local_06) goto block_01b1;
-
-  block_014f:
+    /* loopnext */
+  }
+  for local_02 in nearby_items(shape=NUMBERS, origin=arg_06) {
+    if (Item.getFrame(local_02) == 0) {
+      local_06 = local_02;
+    }
+    /* loopnext */
+  }
+  if (local_04 && local_06) {
     local_13 = intrinsic_0013(local_06);
     local_11 = Item.legal_create(local_06);
     local_09 = Item.getZ(local_06);
-
-  block_01b1:
-    return;
-
+  }
+  return;
 }

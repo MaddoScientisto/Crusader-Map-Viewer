@@ -5,11 +5,13 @@ function elens4_enterFastArea() /* entry=426 class_id=0x01a8 slot=0x0f */
   if ((Item.getFrame(arg_06) == 1) || (intrinsic_0004(arg_06) & 0x1000)) {
     return;
   }
-  local_10 = intrinsic_001f(arg_06);
-  ITEM.slot_24(0x1000, arg_06);
-  local_04 = Item.getX(arg_06);
-  local_06 = (Item.getY(arg_06) + 64);
-  local_08 = Item.getZ(arg_06);
-  suspend;
+  else {
+    local_10 = intrinsic_001f(arg_06);
+    ITEM.slot_24(0x1000, arg_06);
+    local_04 = Item.getX(arg_06);
+    local_06 = (Item.getY(arg_06) + 64);
+    local_08 = Item.getZ(arg_06);
+    suspend;
+  }
   return;
 }

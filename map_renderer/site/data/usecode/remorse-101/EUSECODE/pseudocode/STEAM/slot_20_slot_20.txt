@@ -4,50 +4,28 @@ function steam_slot_20() /* entry=2583 class_id=0x0a15 slot=0x20 */
     set_info(0x0001, *(arg_06));
 
   block_00ea:
-    suspend;
-    spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
-    suspend;
-    local_03 = 0;
-
-  block_00ea_selector_00:
-    /* loop_selector local_02 in nearby_items(family=6, origin=arg_06) */
-
-  block_011d:
-    if condition goto block_01a6;
-
-  block_0120:
-    if Actor.isNPC(local_02) goto block_01a2;
-
-  block_012c:
-    if intrinsic_009d(*(arg_06), local_02) goto block_01a2;
-
-  block_013c:
-    local_05 = local_02;
-    if (local_05 != intrinsic_001d()) goto block_017c;
-
-  block_014b:
-    NPC.slot_2b(local_05);
-    if (!retval) goto block_0179;
-
-  block_0179:
-    goto block_019e;
-
-  block_019e:
-    local_03 = 1;
-
-  block_01a2:
-    /* loopnext */
-    goto block_011d;
-
-  block_01a6:
-    if (!local_03) goto block_01bc;
-
-  block_01ae:
-    ITEM.slot_24(4, arg_06);
-    goto block_01bf;
-
-  block_01bc:
-    goto block_00ea;
+    while (true) {
+      suspend;
+      spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
+      suspend;
+      local_03 = 0;
+      for local_02 in nearby_items(family=6, origin=arg_06) {
+        if (Actor.isNPC(local_02)) {
+          if (intrinsic_009d(*(arg_06), local_02)) {
+            local_05 = local_02;
+            if (local_05 != intrinsic_001d()) {
+              NPC.slot_2b(local_05);
+            }
+            local_03 = 1;
+          }
+        }
+        /* loopnext */
+      }
+      if (!local_03) {
+        ITEM.slot_24(4, arg_06);
+        return;
+      }
+    }
 
   block_01bf:
     return;

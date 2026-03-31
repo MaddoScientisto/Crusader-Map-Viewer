@@ -1,50 +1,31 @@
 function miss13_slot_20() /* entry=2331 class_id=0x0919 slot=0x20 */
 {
-  entry:
-    set_info(0x0001, *(arg_06));
-    local_02 = 0;
-    local_06 = *(arg_06);
-    set_info(1, 0);
-
-  block_01bb:
-    while (!intrinsic_0036()) {
-      spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
-      suspend;
-    }
-
-  block_01f1:
-    local_08 = 0;
-    local_12 = 0;
-
-  block_01f1_selector_00:
-    /* loop_selector local_10 in nearby_items(shape=0x0524, origin=global[0x003c]) */
-
-  block_021d:
-    if condition goto block_022b;
-
-  block_0220:
+  set_info(0x0001, *(arg_06));
+  local_02 = 0;
+  local_06 = *(arg_06);
+  set_info(1, 0);
+  /* global_address */
+  while (intrinsic_0036()) {
+    spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+    suspend;
+  }
+  local_08 = 0;
+  local_12 = 0;
+  for local_10 in nearby_items(shape=0x0524, origin=global[0x003c]) {
     local_08 = local_10;
     /* loopnext */
-    goto block_021d;
-
-  block_022b_selector_00:
-    for local_04 in nearby_items(shape=PRISON_BARS_DOOR, origin=global[0x003c]) {
-      if (intrinsic_00af(local_04) == 4) {
-        return;
-      }
-      /* loopnext */
+  }
+  for local_04 in nearby_items(shape=PRISON_BARS_DOOR, origin=global[0x003c]) {
+    if (intrinsic_00af(local_04) == 4) {
+      return;
     }
-
-  block_0278:
-    if local_08 goto block_0635;
-
-  block_0282:
+    /* loopnext */
+  }
+  if (local_08) {
     suspend;
-
-  block_0282_selector_00:
     for local_04 in nearby_items(shape=door_shape_00a9, origin=global[0x003c]) {
       FREE.slot_29(local_04, global[0x003c]);
-      while ((retval > 3) && (local_02 == 20)) {
+      while ((retval > 3) && (local_02 != 20)) {
         /* global_address */
         /* global_address */
         /* global_address */
@@ -57,8 +38,6 @@ function miss13_slot_20() /* entry=2331 class_id=0x0919 slot=0x20 */
       suspend;
       /* loopnext */
     }
-
-  block_038b:
     /* global_address */
     suspend;
     /* global_address */
@@ -86,13 +65,9 @@ function miss13_slot_20() /* entry=2331 class_id=0x0919 slot=0x20 */
     /* global_address */
     /* global_address */
     suspend;
-
-  block_038b_selector_00:
     for local_04 in selector_0x42(arg0=0x0329, arg1=0x032a, arg2=(15 * 32), origin=global[0x003c]) {
       /* loopnext */
     }
-
-  block_0579:
     spawn NPC.slot_22(pid, 3, 0, local_08);
     suspend;
     /* global_address */
@@ -102,9 +77,7 @@ function miss13_slot_20() /* entry=2331 class_id=0x0919 slot=0x20 */
     suspend;
     spawn FREE.waitNTimerTicks(pid, 15, 0x00000000);
     suspend;
-
-  block_0640:
-    return;
-
+  }
+  return;
   /* decompilation stopped at SEARCH_SURFACE */
 }

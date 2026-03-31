@@ -9,7 +9,7 @@ function door2_slot_23() /* entry=2569 class_id=0x0a07 slot=0x23 */
 
   entry:
     set_info(0x021b, 0);
-    if (intrinsic_0004(arg_06) & 4) goto block_0704;
+    if !(intrinsic_0004(arg_06) & 4) goto block_0704;
 
   block_06fe:
     goto block_08ad;
@@ -24,11 +24,11 @@ function door2_slot_23() /* entry=2569 class_id=0x0a07 slot=0x23 */
     counter = (maxFrame - 1);
 
   block_0760:
-    if (counter != 0) goto block_08a3;
+    if counter == 0 goto block_08a3;
 
   block_0768:
     FREE.slot_2d((Item.getZ(arg_06) - 8), Item.legal_create(arg_06), intrinsic_0013(arg_06), Item.getFrame(arg_06), doorList, counter, list_element(size=0x2), *(arg_06));
-    if retval goto block_07d1;
+    if !retval goto block_07d1;
 
   block_07a8:
     spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
@@ -40,7 +40,7 @@ function door2_slot_23() /* entry=2569 class_id=0x0a07 slot=0x23 */
     counter = (1 + counter);
 
   block_07ff:
-    while (counter >= (maxFrame + 1)) {
+    while (counter < (maxFrame + 1)) {
       spawn FREE.waitNTimerTicks(doorList, counter, pid, 5, 0x00000000);
       suspend;
       counter = (1 + counter);

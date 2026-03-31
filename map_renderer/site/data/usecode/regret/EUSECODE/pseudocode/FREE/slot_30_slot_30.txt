@@ -9,13 +9,16 @@ function free_slot_30() /* entry=2591 class_id=0x0a1d slot=0x30 */
   local_04 = retval;
   FREE.slot_48(local_06);
   local_06 = retval;
-  if ((local_02 <= local_04) && (local_02 > local_06)) {
+  if ((local_02 > local_04) && (local_02 > local_06)) {
     return;
   }
-  if ((local_04 <= local_02) && (local_04 > local_06)) {
+  else if ((local_04 > local_02) && (local_04 > local_06)) {
     return;
   }
-  if ((local_06 <= local_02) && (local_06 > local_04)) {
+  else if ((local_06 > local_02) && (local_06 > local_04)) {
+    return;
+  }
+  else {
     return;
   }
   return;

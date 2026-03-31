@@ -7,60 +7,40 @@ function steambox_equip() /* entry=1282 class_id=0x0500 slot=0x0a */
     steam2, /* [BP-04h] type=0x24 */
     direction; /* [BP-06h] type=0x69 */
 
-  entry:
-    set_info(0x0211, *(arg_06));
-    process_exclude();
-    if (event != 0) goto block_01d0;
-
-  block_00ff:
+  set_info(0x0211, *(arg_06));
+  process_exclude();
+  if (event == 0) {
     /* loopscr */
     /* loopscr */
     /* loop */
-
-  block_0128:
-    if condition goto block_01cb;
-
-  block_012b:
-    if (intrinsic_00ea(steam) != intrinsic_00ea(arg_06)) goto block_01c7;
-
-  block_0147:
-    if (intrinsic_0004(steam) & 0x1000) goto block_015d;
-
-  block_015a:
-    goto block_01c7;
-
-  block_015d:
-    if ((intrinsic_0016(steam) == 0x04fa) || (intrinsic_0016(steam) != 0x04f9)) {
-      spawn STEAMBOX.slot_21(0, steam, arg_06);
-    }
-    else if ((intrinsic_0016(steam) == 0x0511) || (intrinsic_0016(steam) != 0x04fd)) {
-      spawn STEAMBOX.slot_21(1, steam, arg_06);
-    }
-
-  block_01c7:
-    /* loopnext */
-    goto block_0128;
-
-  block_01cb:
-    goto block_0306;
-
-  block_01d0:
-    if (event == 1) {
-      for steam in nearby_items(shape=0x03a9, origin=arg_06) {
-        if (intrinsic_00ea(steam) == intrinsic_00ea(arg_06)) {
-          if (Item.getFrame(steam) == 0) {
-            spawn STEAMBOX.slot_20(0, steam2, arg_06);
-          }
-          else if (Item.getFrame(steam) == 1) {
-            spawn STEAMBOX.slot_20(1, steam2, arg_06);
-          }
+    while (condition) {
+      if (intrinsic_00ea(steam) == intrinsic_00ea(arg_06)) {
+        if (intrinsic_0004(steam) & 0x1000) {
         }
-        /* loopnext */
+        else if ((intrinsic_0016(steam) == 0x04fa) || (intrinsic_0016(steam) == 0x04f9)) {
+          spawn STEAMBOX.slot_21(0, steam, arg_06);
+        }
+        else if ((intrinsic_0016(steam) == 0x0511) || (intrinsic_0016(steam) == 0x04fd)) {
+          spawn STEAMBOX.slot_21(1, steam, arg_06);
+        }
       }
-      return;
+      /* loopnext */
     }
-
-  block_0306:
     return;
-
+  }
+  else if (event == 1) {
+    for steam in nearby_items(shape=0x03a9, origin=arg_06) {
+      if (intrinsic_00ea(steam) == intrinsic_00ea(arg_06)) {
+        if (Item.getFrame(steam) == 0) {
+          spawn STEAMBOX.slot_20(0, steam2, arg_06);
+        }
+        else if (Item.getFrame(steam) == 1) {
+          spawn STEAMBOX.slot_20(1, steam2, arg_06);
+        }
+      }
+      /* loopnext */
+    }
+    return;
+  }
+  return;
 }

@@ -7,675 +7,377 @@ function textfil2_slot_20() /* entry=2592 class_id=0x0a1e slot=0x20 */
     passcode, /* [BP+14h] type=0x69 */
     textFile; /* [BP-02h] type=0x73 */
 
-  entry:
-    if (msgNum != 110) goto block_0155;
-
-  block_00f0:
+  if (msgNum == 110) {
     /* free_local_string */
     textFile = "WARNING:^The laser field has been deactivated for thirty seconds. ^*End of Message <";
-    goto block_260d;
-
-  block_0155:
-    if (msgNum != 111) goto block_0237;
-
-  block_015d:
-    if (linkNum && passcode) goto block_0210;
-
-  block_016e:
-    /* concat */
-    /* concat */
-    /* concat */
-    /* free_local_string */
-    textFile = "^*End of Message <";
-    goto block_0234;
-
-  block_0210:
-    /* free_local_string */
-    textFile = "Kimball Research Facility";
-
-  block_0234:
-    goto block_260d;
-
-  block_0237:
-    if (msgNum != 112) goto block_0339;
-
-  block_023f:
-    if (linkNum && passcode) goto block_0312;
-
-  block_0250:
-    /* concat */
-    /* concat */
-    /* concat */
-    /* concat */
-    /* free_local_string */
-    textFile = "Priority RED alert issued. ";
-    goto block_0336;
-
-  block_0312:
-    /* free_local_string */
-    textFile = "Kimball Research Facility";
-
-  block_0336:
-    goto block_260d;
-
-  block_0339:
-    if (msgNum != 113) goto block_03db;
-
-  block_0341:
-    if (linkNum && passcode) goto block_03b4;
-
-  block_0352:
-    /* concat */
-    /* free_local_string */
-    textFile = intrinsic_0122(passcode);
-    goto block_03d8;
-
-  block_03b4:
-    /* free_local_string */
-    textFile = "Kimball Research Facility";
-
-  block_03d8:
-    goto block_260d;
-
-  block_03db:
-    if (msgNum != 114) goto block_0464;
-
-  block_03e3:
+  }
+  else if (msgNum == 111) {
+    if (linkNum && passcode) {
+      /* concat */
+      /* concat */
+      /* concat */
+      /* free_local_string */
+      textFile = "^*End of Message <";
+    }
+    else {
+      /* free_local_string */
+      textFile = "Kimball Research Facility";
+    }
+  }
+  else if (msgNum == 112) {
+    if (linkNum && passcode) {
+      /* concat */
+      /* concat */
+      /* concat */
+      /* concat */
+      /* free_local_string */
+      textFile = "Priority RED alert issued. ";
+    }
+    else {
+      /* free_local_string */
+      textFile = "Kimball Research Facility";
+    }
+  }
+  else if (msgNum == 113) {
+    if (linkNum && passcode) {
+      /* concat */
+      /* free_local_string */
+      textFile = intrinsic_0122(passcode);
+    }
+    else {
+      /* free_local_string */
+      textFile = "Kimball Research Facility";
+    }
+  }
+  else if (msgNum == 114) {
     /* concat */
     /* concat */
     /* free_local_string */
     textFile = ".^*End of Message <";
-    goto block_260d;
-
-  block_0464:
-    if (msgNum != 115) goto block_04cd;
-
-  block_046c:
+  }
+  else if (msgNum == 115) {
     /* concat */
     /* concat */
     /* free_local_string */
     textFile = ".^**Message <";
-    goto block_260d;
-
-  block_04cd:
-    if (msgNum != 116) goto block_0596;
-
-  block_04d5:
+  }
+  else if (msgNum == 116) {
     /* concat */
     /* free_local_string */
     textFile = intrinsic_0122(passcode);
-    goto block_260d;
-
-  block_0596:
-    if ((msgNum != 116) || (msgNum != 117)) goto block_069e;
-
-  block_05a4:
-    if (linkNum && passcode) goto block_0676;
-
-  block_05b5:
-    /* concat */
-    /* concat */
-    /* concat */
-    /* free_local_string */
-    textFile = ".^^J.F.S";
-    goto block_069b;
-
-  block_0676:
-    /* free_local_string */
-    textFile = "Kimball Research Facility^";
-
-  block_069b:
-    goto block_260d;
-
-  block_069e:
-    if (msgNum != 118) goto block_06f7;
-
-  block_06a6:
+  }
+  else if ((msgNum == 116) || (msgNum == 117)) {
+    if (linkNum && passcode) {
+      /* concat */
+      /* concat */
+      /* concat */
+      /* free_local_string */
+      textFile = ".^^J.F.S";
+    }
+    else {
+      /* free_local_string */
+      textFile = "Kimball Research Facility^";
+    }
+  }
+  else if (msgNum == 118) {
     /* free_local_string */
     textFile = "Force field^blocking access^to telepad 5 ^has been deactivated. ";
-    goto block_260d;
-
-  block_06f7:
-    if (msgNum != 119) goto block_0739;
-
-  block_06ff:
+  }
+  else if (msgNum == 119) {
     /* free_local_string */
     textFile = "Access to^restricted area^has been granted. ";
-    goto block_260d;
-
-  block_0739:
+  }
+  else {
     /* free_local_string */
     textFile = "Bad command or file name...^File is out of range.";
-    if (msgNum != 120) goto block_08c7;
-
-  block_077d:
-    if (linkNum && passcode) goto block_089f;
-
-  block_078e:
-    /* concat */
-    /* concat */
-    /* concat */
-    /* free_local_string */
-    textFile = ".^*End of Message <";
-    goto block_08c4;
-
-  block_089f:
-    /* free_local_string */
-    textFile = "The OWP Research Facility^";
-
-  block_08c4:
-    goto block_260d;
-
-  block_08c7:
-    if (msgNum != 121) goto block_094f;
-
-  block_08cf:
-    /* free_local_string */
-    textFile = "OWP Operations:^____________________^Now interfacing with remote service droid...*^Unit ZC90201^^Now *-ONLINE-.";
-    goto block_260d;
-
-  block_094f:
-    if (msgNum != 122) goto block_09d7;
-
-  block_0957:
-    /* free_local_string */
-    textFile = "OWP Operations:^____________________^Now interfacing with remote service droid...*^Unit MXZ2391^^Now *-ONLINE-.";
-    goto block_260d;
-
-  block_09d7:
-    if ((msgNum != 123) || (msgNum != 124)) goto block_0a0d;
-
-  block_09e5:
-    /* free_local_string */
-    textFile = "The OWP Research Facility^";
-    goto block_260d;
-
-  block_0a0d:
-    if (msgNum != 125) goto block_0a48;
-
-  block_0a15:
-    /* free_local_string */
-    textFile = "Maximum Security Systems:^*Activated.";
-    goto block_260d;
-
-  block_0a48:
-    if ((((msgNum != 126) || (msgNum != 127)) || (msgNum != 0x0080)) || (msgNum != 0x0081)) goto block_0baf;
-
-  block_0a64:
-    if (linkNum && passcode) goto block_0b87;
-
-  block_0a75:
-    /* concat */
-    /* concat */
-    /* concat */
-    /* free_local_string */
-    textFile = ".*End of Message <";
-    goto block_0bac;
-
-  block_0b87:
-    /* free_local_string */
-    textFile = "The OWP Research Facility^";
-
-  block_0bac:
-    goto block_260d;
-
-  block_0baf:
-    if (msgNum != 0x0082) goto block_0be7;
-
-  block_0bb8:
-    /* free_local_string */
-    textFile = "Draygan Correctional Institution^";
-    goto block_260d;
-
-  block_0be7:
-    if (msgNum != 0x0083) goto block_0c13;
-
-  block_0bf0:
-    /* free_local_string */
-    textFile = "Surveillance Central^";
-    goto block_260d;
-
-  block_0c13:
-    if (msgNum != 0x0084) goto block_0c5c;
-
-  block_0c1c:
-    /* free_local_string */
-    textFile = "Maximum Security Surveillance Tower^Open Access";
-    goto block_260d;
-
-  block_0c5c:
-    if (msgNum != 0x0085) goto block_0c93;
-
-  block_0c65:
-    /* free_local_string */
-    textFile = "Enforcer Barracks^Open Access";
-    goto block_260d;
-
-  block_0c93:
-    if (msgNum != 0x0086) goto block_0cee;
-
-  block_0c9c:
-    /* free_local_string */
-    textFile = "Draygan Correctional Institution^Maximum Security Cell: 1^*Secure";
-    goto block_260d;
-
-  block_0cee:
-    if (msgNum != 0x0087) goto block_0d17;
-
-  block_0cf7:
-    /* free_local_string */
-    textFile = "Lift: *^ACTIVATED^";
-    goto block_260d;
-
-  block_0d17:
-    if (msgNum != 0x0088) goto block_0d46;
-
-  block_0d20:
-    /* free_local_string */
-    textFile = "Force Wall De-activated^";
-    goto block_260d;
-
-  block_0d46:
-    if (msgNum != 0x0089) goto block_0daf;
-
-  block_0d4f:
-    /* free_local_string */
-    textFile = "Draygan Correctional Institution^Maximum Security Cell: 1^*Security deactivated";
-    goto block_260d;
-
-  block_0daf:
-    if (msgNum != 0x008a) goto block_0dfa;
-
-  block_0db8:
-    /* free_local_string */
-    textFile = "Receiving WEC transmision^Establishing vid-link**";
-    goto block_260d;
-
-  block_0dfa:
-    if (msgNum != 0x008b) goto block_0e32;
-
-  block_0e03:
-    /* free_local_string */
-    textFile = "Draygan Correctional Institution^";
-    goto block_260d;
-
-  block_0e32:
-    if (msgNum != 0x008c) goto block_0e81;
-
-  block_0e3b:
-    /* free_local_string */
-    textFile = "Door is now ajar.^ Have a nice day.^*End of Message <";
-    goto block_260d;
-
-  block_0e81:
-    if (msgNum != 0x008d) goto block_0f1c;
-
-  block_0e8a:
-    /* free_local_string */
-    textFile = "Welcome to:^ The Asylum BBS^^      ///^      o o^  --m--U--m--^ |Your Sysop:|^ |   E---    |^  ----------- ^      / &^     ~   ~^";
-    goto block_260d;
-
-  block_0f1c:
-    if (msgNum != 0x008e) goto block_0f5e;
-
-  block_0f25:
-    /* free_local_string */
-    textFile = "The power to the electric walls is now off.";
-    goto block_260d;
-
-  block_0f5e:
-    if (msgNum != 0x008f) goto block_0f91;
-
-  block_0f67:
-    /* free_local_string */
-    textFile = "Electric walls re-activated.";
-    goto block_260d;
-
-  block_0f91:
-    if (msgNum != 0x0090) goto block_1021;
-
-  block_0f9a:
-    /* concat */
-    /* concat */
-    /* free_local_string */
-    textFile = ".^*End of Message <";
-    goto block_260d;
-
-  block_1021:
-    if (msgNum != 0x0091) goto block_10e6;
-
-  block_102a:
-    /* concat */
-    /* concat */
-    /* concat */
-    /* free_local_string */
-    textFile = "^*End of Message <";
-    goto block_260d;
-
-  block_10e6:
-    if (msgNum != 0x0092) goto block_1196;
-
-  block_10ef:
-    /* concat */
-    /* concat */
-    /* free_local_string */
-    textFile = ".^*End of Message <";
-    goto block_260d;
-
-  block_1196:
-    if (msgNum != 0x0093) goto block_1210;
-
-  block_119f:
-    /* free_local_string */
-    textFile = "WARNING:^Computer Security Failure.^Alerting all guards and security systems.^^*End of Message <";
-    goto block_260d;
-
-  block_1210:
-    if (msgNum != 0x0095) goto block_1289;
-
-  block_1219:
-    /* concat */
-    /* concat */
-    /* free_local_string */
-    textFile = ".^*End of Message <";
-    goto block_260d;
-
-  block_1289:
-    if (msgNum != 0x0094) goto block_12c7;
-
-  block_1292:
-    /* free_local_string */
-    textFile = "Welcome to Hell.^Here comes the Cheese!";
-    goto block_260d;
-
-  block_12c7:
-    if (msgNum != 0x0096) goto block_13ab;
-
-  block_12d0:
-    /* concat */
-    /* concat */
-    /* concat */
-    /* free_local_string */
-    textFile = "disloyal workers from gaining weapons! ^<EOM>";
-    goto block_260d;
-
-  block_13ab:
-    if (msgNum != 0x0097) goto block_148c;
-
-  block_13b4:
-    /* concat */
-    /* concat */
-    /* concat */
-    /* free_local_string */
-    textFile = "possible assassins from gaining access!";
-    goto block_260d;
-
-  block_148c:
-    if (msgNum != 0x0098) goto block_151c;
-
-  block_1495:
-    /* free_local_string */
-    textFile = "Security Cartel ^Droid Manual Overide:*^Networking to *<XHT1138>*Overide of servomech confirmed...^*^*Happy Hunting...";
-    goto block_260d;
-
-  block_151c:
-    if (msgNum != 0x0099) goto block_15f0;
-
-  block_1525:
-    /* free_local_string */
-    textFile = "Security Cartel Network Base:^^Alpha Alarm Overide...Alarms triggered in this area were a result of a substandard networking interface.^Area is secured. No threats or breaches reported.*";
-    goto block_260d;
-
-  block_15f0:
-    if (msgNum != 0x009a) goto block_16b3;
-
-  block_15f9:
-    /* free_local_string */
-    textFile = "Though there is no need for panic, everyone must head for the nearest life pod by which to evacuate the space station.^Obey WEC protocol. Congressmen and Senators first!";
-    goto block_260d;
-
-  block_16b3:
-    if (msgNum != 0x009b) goto block_1777;
-
-  block_16bc:
-    /* free_local_string */
-    textFile = "Security Cartel: ^Auxiliary Command Terminal.^Force field control system.^Field will remain intact, unless auxiliary code is *NOT re-entered via Primary Command terminal.";
-    goto block_260d;
-
-  block_1777:
-    if (msgNum != 0x009c) goto block_181f;
-
-  block_1780:
-    /* free_local_string */
-    textFile = "Command Terminal:^Due to Security Level Alpha ^the engineering defenses are now active.^*For safety, keep a 10 meter distance from blast area.";
-    goto block_260d;
-
-  block_181f:
-    if (msgNum != 0x009d) goto block_189d;
-
-  block_1828:
-    /* free_local_string */
-    textFile = "^Auxiliary Command Terminal.^*Netlink connected to barracks 1029-B.^*Accessing connecting passage...";
-    goto block_260d;
-
-  block_189d:
-    if (msgNum != 0x009e) goto block_1937;
-
-  block_18a6:
-    /* free_local_string */
-    textFile = "^Auxiliary Command Terminal.^*Netlink connected to Engineering Nine.^*Passcode: 512-555-2788...^*Accessing connecting passage...";
-    goto block_260d;
-
-  block_1937:
-    if (msgNum != 0x009f) goto block_19da;
-
-  block_1940:
-    /* free_local_string */
-    textFile = "^Auxiliary Command Terminal:^Due to high levels of radioactive output, excessive durations within the containment room are not advisable.";
-    goto block_260d;
-
-  block_19da:
-    if (msgNum != 0x00a0) goto block_1a4b;
-
-  block_19e3:
-    /* free_local_string */
-    textFile = "WEC SECURITY SYSTEM:^Alternate^Security^System^^Remote Vetron:*.*.*. ALL SYSTEMS ACTIVE";
-    goto block_260d;
-
-  block_1a4b:
-    if (msgNum != 0x00a1) goto block_1b7e;
-
-  block_1a54:
-    if (linkNum && passcode) goto block_1b2d;
-
-  block_1a65:
-    /* concat */
-    /* concat */
-    /* concat */
-    /* concat */
-    /* free_local_string */
-    textFile = "Remember, keep it to yourself!";
-    goto block_1b7b;
-
-  block_1b2d:
-    /* free_local_string */
-    textFile = "WEC SECURITY SYSTEM:^^Remote Camera: ACTIVE*^Incubation Room #3A";
-
-  block_1b7b:
-    goto block_260d;
-
-  block_1b7e:
-    if (msgNum != 0x00a2) goto block_1cd0;
-
-  block_1b87:
-    if (linkNum && passcode) goto block_1c7f;
-
-  block_1b98:
-    /* concat */
-    /* concat */
-    /* concat */
-    /* concat */
-    /* free_local_string */
-    textFile = "Norma";
-    goto block_1ccd;
-
-  block_1c7f:
-    /* free_local_string */
-    textFile = "WEC SECURITY SYSTEM:^^Remote Camera: ACTIVE*^Incubation Room #4A";
-
-  block_1ccd:
-    goto block_260d;
-
-  block_1cd0:
-    if (msgNum != 0x00a3) goto block_1d32;
-
-  block_1cd9:
-    /* free_local_string */
-    textFile = "WEC SECURITY SYSTEM:^^Remote Camera: ACTIVE*^BioWaste Reclamation Center";
-    goto block_260d;
-
-  block_1d32:
-    if (msgNum != 0x00a4) goto block_1e4c;
-
-  block_1d3b:
-    /* concat */
-    /* concat */
-    /* free_local_string */
-    textFile = ".";
-    goto block_260d;
-
-  block_1e4c:
-    if (msgNum != 0x00a5) goto block_1ee0;
-
-  block_1e55:
-    /* free_local_string */
-    textFile = "Audrey, Please come to my private chamber. I've got a new, larger specimen to show you. You will be most pleased! - Greggy";
-    goto block_260d;
-
-  block_1ee0:
-    if (msgNum != 0x00a6) goto block_1f59;
-
-  block_1ee9:
-    /* free_local_string */
-    textFile = "Accessing Security Com 2341 ^*Please Wait ^Security Shields Down ^*Chrysalis Chambers Now Open ";
-    goto block_260d;
-
-  block_1f59:
-    if (msgNum != 0x00a7) goto block_1fe4;
-
-  block_1f62:
-    /* free_local_string */
-    textFile = "From: M. Galway^To: R. Renteria^You're not cool enough to to have Sonex panels. Return them immediately! Or else!";
-    goto block_260d;
-
-  block_1fe4:
-    if (msgNum != 0x00aa) goto block_2058;
-
-  block_1fed:
-    /* free_local_string */
-    textFile = "From: DSNELL^______________^*You're Fired!^*^*^Turn in your badge and collect your things!";
-    goto block_260d;
-
-  block_2058:
-    if (msgNum != 0x00ab) goto block_2136;
-
-  block_2061:
-    /* free_local_string */
-    textFile = "Security Cartel:^______________^Due to a possible infiltrator in the refinery, Alpha level will remain in effect.All high clearance areas will only be accessible via the network. ^<End of Message>";
-    goto block_260d;
-
-  block_2136:
-    if (msgNum != 0x00ac) goto block_221f;
-
-  block_213f:
-    /* concat */
-    /* concat */
-    /* concat */
-    /* free_local_string */
-    textFile = "^It would serve them right if the rebels got in here...";
-    goto block_260d;
-
-  block_221f:
-    if (msgNum != 0x00ad) goto block_22d2;
-
-  block_2228:
-    /* free_local_string */
-    textFile = "WEC Central Co*mma*@^#$%.*.*.*^^RESISTNET: *^Welcome, Rebel...^We have hidden some items for you in the safe.^Keep up the good work...^     The Designers";
-    goto block_260d;
-
-  block_22d2:
-    if (msgNum != 0x00ae) goto block_236b;
-
-  block_22db:
-    /* free_local_string */
-    textFile = "Refinery Operations:^____________________^Now interfacing with remote service droid...*^<Roaming Susan>^^Unit is now *-ONLINE-.";
-    goto block_260d;
-
-  block_236b:
-    if (msgNum != 0x00af) goto block_23cd;
-
-  block_2374:
-    /* free_local_string */
-    textFile = "Security Operations:^____________________^Lithium Power Core*^Level Nine";
-    goto block_260d;
-
-  block_23cd:
-    if (msgNum != 0x00b0) goto block_2439;
-
-  block_23d6:
-    /* free_local_string */
-    textFile = "SATELLITE TARGETING:^____________________<SATARG>*^^Weapons Operations^Level Seven";
-    goto block_260d;
-
-  block_2439:
-    if (msgNum != 0x00b4) goto block_2492;
-
-  block_2442:
-    /* free_local_string */
-    textFile = "Security Cartel:^________________^*Production Line^*<ACTIVATED>";
-    goto block_260d;
-
-  block_2492:
-    if (msgNum != 0x00b6) goto block_24fb;
-
-  block_249b:
-    /* free_local_string */
-    textFile = "Security Cartel:^________________^*Production Line Force Barrier^*<DEACTIVATED>";
-    goto block_260d;
-
-  block_24fb:
-    if (msgNum != 0x00be) goto block_258b;
-
-  block_2504:
-    /* free_local_string */
-    textFile = "NOTICE:^The impassable laser field has been activated. The laser fields must be reactivated after use.^*End of Message";
-    goto block_260d;
-
-  block_258b:
-    if (msgNum != 0x00e2) goto block_25d1;
-
-  block_2594:
-    /* free_local_string */
-    textFile = "WEC SECURITY SYSTEM:^^Remote Camera: ACTIVE*";
-    goto block_260d;
-
-  block_25d1:
+    if (msgNum == 120) {
+      if (linkNum && passcode) {
+        /* concat */
+        /* concat */
+        /* concat */
+        /* free_local_string */
+        textFile = ".^*End of Message <";
+      }
+      else {
+        /* free_local_string */
+        textFile = "The OWP Research Facility^";
+      }
+    }
+    else if (msgNum == 121) {
+      /* free_local_string */
+      textFile = "OWP Operations:^____________________^Now interfacing with remote service droid...*^Unit ZC90201^^Now *-ONLINE-.";
+    }
+    else if (msgNum == 122) {
+      /* free_local_string */
+      textFile = "OWP Operations:^____________________^Now interfacing with remote service droid...*^Unit MXZ2391^^Now *-ONLINE-.";
+    }
+    else if ((msgNum == 123) || (msgNum == 124)) {
+      /* free_local_string */
+      textFile = "The OWP Research Facility^";
+    }
+    else if (msgNum == 125) {
+      /* free_local_string */
+      textFile = "Maximum Security Systems:^*Activated.";
+    }
+    else if ((((msgNum == 126) || (msgNum == 127)) || (msgNum == 0x0080)) || (msgNum == 0x0081)) {
+      if (linkNum && passcode) {
+        /* concat */
+        /* concat */
+        /* concat */
+        /* free_local_string */
+        textFile = ".*End of Message <";
+      }
+      else {
+        /* free_local_string */
+        textFile = "The OWP Research Facility^";
+      }
+    }
+    else if (msgNum == 0x0082) {
+      /* free_local_string */
+      textFile = "Draygan Correctional Institution^";
+    }
+    else if (msgNum == 0x0083) {
+      /* free_local_string */
+      textFile = "Surveillance Central^";
+    }
+    else if (msgNum == 0x0084) {
+      /* free_local_string */
+      textFile = "Maximum Security Surveillance Tower^Open Access";
+    }
+    else if (msgNum == 0x0085) {
+      /* free_local_string */
+      textFile = "Enforcer Barracks^Open Access";
+    }
+    else if (msgNum == 0x0086) {
+      /* free_local_string */
+      textFile = "Draygan Correctional Institution^Maximum Security Cell: 1^*Secure";
+    }
+    else if (msgNum == 0x0087) {
+      /* free_local_string */
+      textFile = "Lift: *^ACTIVATED^";
+    }
+    else if (msgNum == 0x0088) {
+      /* free_local_string */
+      textFile = "Force Wall De-activated^";
+    }
+    else if (msgNum == 0x0089) {
+      /* free_local_string */
+      textFile = "Draygan Correctional Institution^Maximum Security Cell: 1^*Security deactivated";
+    }
+    else if (msgNum == 0x008a) {
+      /* free_local_string */
+      textFile = "Receiving WEC transmision^Establishing vid-link**";
+    }
+    else if (msgNum == 0x008b) {
+      /* free_local_string */
+      textFile = "Draygan Correctional Institution^";
+    }
+    else if (msgNum == 0x008c) {
+      /* free_local_string */
+      textFile = "Door is now ajar.^ Have a nice day.^*End of Message <";
+    }
+    else if (msgNum == 0x008d) {
+      /* free_local_string */
+      textFile = "Welcome to:^ The Asylum BBS^^      ///^      o o^  --m--U--m--^ |Your Sysop:|^ |   E---    |^  ----------- ^      / &^     ~   ~^";
+    }
+    else if (msgNum == 0x008e) {
+      /* free_local_string */
+      textFile = "The power to the electric walls is now off.";
+    }
+    else if (msgNum == 0x008f) {
+      /* free_local_string */
+      textFile = "Electric walls re-activated.";
+    }
+    else if (msgNum == 0x0090) {
+      /* concat */
+      /* concat */
+      /* free_local_string */
+      textFile = ".^*End of Message <";
+    }
+    else if (msgNum == 0x0091) {
+      /* concat */
+      /* concat */
+      /* concat */
+      /* free_local_string */
+      textFile = "^*End of Message <";
+    }
+    else if (msgNum == 0x0092) {
+      /* concat */
+      /* concat */
+      /* free_local_string */
+      textFile = ".^*End of Message <";
+    }
+    else if (msgNum == 0x0093) {
+      /* free_local_string */
+      textFile = "WARNING:^Computer Security Failure.^Alerting all guards and security systems.^^*End of Message <";
+    }
+    else if (msgNum == 0x0095) {
+      /* concat */
+      /* concat */
+      /* free_local_string */
+      textFile = ".^*End of Message <";
+    }
+    else if (msgNum == 0x0094) {
+      /* free_local_string */
+      textFile = "Welcome to Hell.^Here comes the Cheese!";
+    }
+    else if (msgNum == 0x0096) {
+      /* concat */
+      /* concat */
+      /* concat */
+      /* free_local_string */
+      textFile = "disloyal workers from gaining weapons! ^<EOM>";
+    }
+    else if (msgNum == 0x0097) {
+      /* concat */
+      /* concat */
+      /* concat */
+      /* free_local_string */
+      textFile = "possible assassins from gaining access!";
+    }
+    else if (msgNum == 0x0098) {
+      /* free_local_string */
+      textFile = "Security Cartel ^Droid Manual Overide:*^Networking to *<XHT1138>*Overide of servomech confirmed...^*^*Happy Hunting...";
+    }
+    else if (msgNum == 0x0099) {
+      /* free_local_string */
+      textFile = "Security Cartel Network Base:^^Alpha Alarm Overide...Alarms triggered in this area were a result of a substandard networking interface.^Area is secured. No threats or breaches reported.*";
+    }
+    else if (msgNum == 0x009a) {
+      /* free_local_string */
+      textFile = "Though there is no need for panic, everyone must head for the nearest life pod by which to evacuate the space station.^Obey WEC protocol. Congressmen and Senators first!";
+    }
+    else if (msgNum == 0x009b) {
+      /* free_local_string */
+      textFile = "Security Cartel: ^Auxiliary Command Terminal.^Force field control system.^Field will remain intact, unless auxiliary code is *NOT re-entered via Primary Command terminal.";
+    }
+    else if (msgNum == 0x009c) {
+      /* free_local_string */
+      textFile = "Command Terminal:^Due to Security Level Alpha ^the engineering defenses are now active.^*For safety, keep a 10 meter distance from blast area.";
+    }
+    else if (msgNum == 0x009d) {
+      /* free_local_string */
+      textFile = "^Auxiliary Command Terminal.^*Netlink connected to barracks 1029-B.^*Accessing connecting passage...";
+    }
+    else if (msgNum == 0x009e) {
+      /* free_local_string */
+      textFile = "^Auxiliary Command Terminal.^*Netlink connected to Engineering Nine.^*Passcode: 512-555-2788...^*Accessing connecting passage...";
+    }
+    else if (msgNum == 0x009f) {
+      /* free_local_string */
+      textFile = "^Auxiliary Command Terminal:^Due to high levels of radioactive output, excessive durations within the containment room are not advisable.";
+    }
+    else if (msgNum == 0x00a0) {
+      /* free_local_string */
+      textFile = "WEC SECURITY SYSTEM:^Alternate^Security^System^^Remote Vetron:*.*.*. ALL SYSTEMS ACTIVE";
+    }
+    else if (msgNum == 0x00a1) {
+      if (linkNum && passcode) {
+        /* concat */
+        /* concat */
+        /* concat */
+        /* concat */
+        /* free_local_string */
+        textFile = "Remember, keep it to yourself!";
+      }
+      else {
+        /* free_local_string */
+        textFile = "WEC SECURITY SYSTEM:^^Remote Camera: ACTIVE*^Incubation Room #3A";
+      }
+    }
+    else if (msgNum == 0x00a2) {
+      if (linkNum && passcode) {
+        /* concat */
+        /* concat */
+        /* concat */
+        /* concat */
+        /* free_local_string */
+        textFile = "Norma";
+      }
+      else {
+        /* free_local_string */
+        textFile = "WEC SECURITY SYSTEM:^^Remote Camera: ACTIVE*^Incubation Room #4A";
+      }
+    }
+    else if (msgNum == 0x00a3) {
+      /* free_local_string */
+      textFile = "WEC SECURITY SYSTEM:^^Remote Camera: ACTIVE*^BioWaste Reclamation Center";
+    }
+    else if (msgNum == 0x00a4) {
+      /* concat */
+      /* concat */
+      /* free_local_string */
+      textFile = ".";
+    }
+    else if (msgNum == 0x00a5) {
+      /* free_local_string */
+      textFile = "Audrey, Please come to my private chamber. I've got a new, larger specimen to show you. You will be most pleased! - Greggy";
+    }
+    else if (msgNum == 0x00a6) {
+      /* free_local_string */
+      textFile = "Accessing Security Com 2341 ^*Please Wait ^Security Shields Down ^*Chrysalis Chambers Now Open ";
+    }
+    else if (msgNum == 0x00a7) {
+      /* free_local_string */
+      textFile = "From: M. Galway^To: R. Renteria^You're not cool enough to to have Sonex panels. Return them immediately! Or else!";
+    }
+    else if (msgNum == 0x00aa) {
+      /* free_local_string */
+      textFile = "From: DSNELL^______________^*You're Fired!^*^*^Turn in your badge and collect your things!";
+    }
+    else if (msgNum == 0x00ab) {
+      /* free_local_string */
+      textFile = "Security Cartel:^______________^Due to a possible infiltrator in the refinery, Alpha level will remain in effect.All high clearance areas will only be accessible via the network. ^<End of Message>";
+    }
+    else if (msgNum == 0x00ac) {
+      /* concat */
+      /* concat */
+      /* concat */
+      /* free_local_string */
+      textFile = "^It would serve them right if the rebels got in here...";
+    }
+    else if (msgNum == 0x00ad) {
+      /* free_local_string */
+      textFile = "WEC Central Co*mma*@^#$%.*.*.*^^RESISTNET: *^Welcome, Rebel...^We have hidden some items for you in the safe.^Keep up the good work...^     The Designers";
+    }
+    else if (msgNum == 0x00ae) {
+      /* free_local_string */
+      textFile = "Refinery Operations:^____________________^Now interfacing with remote service droid...*^<Roaming Susan>^^Unit is now *-ONLINE-.";
+    }
+    else if (msgNum == 0x00af) {
+      /* free_local_string */
+      textFile = "Security Operations:^____________________^Lithium Power Core*^Level Nine";
+    }
+    else if (msgNum == 0x00b0) {
+      /* free_local_string */
+      textFile = "SATELLITE TARGETING:^____________________<SATARG>*^^Weapons Operations^Level Seven";
+    }
+    else if (msgNum == 0x00b4) {
+      /* free_local_string */
+      textFile = "Security Cartel:^________________^*Production Line^*<ACTIVATED>";
+    }
+    else if (msgNum == 0x00b6) {
+      /* free_local_string */
+      textFile = "Security Cartel:^________________^*Production Line Force Barrier^*<DEACTIVATED>";
+    }
+    else if (msgNum == 0x00be) {
+      /* free_local_string */
+      textFile = "NOTICE:^The impassable laser field has been activated. The laser fields must be reactivated after use.^*End of Message";
+    }
+    else if (msgNum == 0x00e2) {
+      /* free_local_string */
+      textFile = "WEC SECURITY SYSTEM:^^Remote Camera: ACTIVE*";
+    }
+    else {
+      /* free_local_string */
+      textFile = "Bad command or file name...^File is out of range.";
+    }
+  }
+  /* strcmp */
+  if ("") {
     /* free_local_string */
     textFile = "Bad command or file name...^File is out of range.";
-
-  block_260d:
-    /* strcmp */
-    if "" goto block_2659;
-
-  block_261d:
-    /* free_local_string */
-    textFile = "Bad command or file name...^File is out of range.";
-
-  block_2659:
-    goto block_2662;
-
-  block_2662:
-    /* free_local_string */
-    return;
-
+  }
+  /* free_local_string */
+  return;
 }

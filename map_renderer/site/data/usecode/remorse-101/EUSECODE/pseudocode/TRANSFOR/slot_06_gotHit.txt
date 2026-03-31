@@ -1,52 +1,34 @@
 function transfor_gotHit() /* entry=449 class_id=0x01bf slot=0x06 */
 {
-  entry:
-    set_info(0x020c, *(arg_06));
-    process_exclude();
-    local_02 = Item.getFrame(arg_06);
-    if (local_02 > 0) goto block_011a;
-
-  block_0117:
-    goto block_0219;
-
-  block_011a:
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  local_02 = Item.getFrame(arg_06);
+  if (local_02 > 0) {
+    return;
+  }
+  else {
     FREE.slot_2b(arg_12, arg_10);
     local_04 = retval;
     FREE.slot_2b(arg_12, arg_10);
-    if (!retval) goto block_013b;
-
-  block_0138:
-    goto block_0219;
-
-  block_013b:
-    if ((intrinsic_00fd(arg_06) + local_04) < 100) goto block_018b;
-
-  block_014d:
-    FREE.slot_20(10);
-    if (retval > 5) goto block_017e;
-
-  block_0171:
-    goto block_0188;
-
-  block_0188:
-    goto block_0219;
-
-  block_018b:
-    suspend;
-
-  block_018b_selector_00:
-    for local_06 in selector_0x42(arg0=0x01c9, arg1=0x01c2, arg2=(5 * 32), origin=arg_06) {
-      /* loopnext */
+    if (!retval) {
+      return;
     }
-
-  block_01f0:
-    if (intrinsic_0003(arg_06) != 0) goto block_0219;
-
-  block_0201:
-    spawn TRIGGER.slot_2a(pid, 0, *(arg_06), arg_06);
-    suspend;
-
-  block_0219:
-    return;
-
+    else if ((intrinsic_00fd(arg_06) + local_04) < 100) {
+      FREE.slot_20(10);
+      if (retval > 5) {
+      }
+      return;
+    }
+    else {
+      suspend;
+      for local_06 in selector_0x42(arg0=0x01c9, arg1=0x01c2, arg2=(5 * 32), origin=arg_06) {
+        /* loopnext */
+      }
+      if (intrinsic_0003(arg_06) != 0) {
+        spawn TRIGGER.slot_2a(pid, 0, *(arg_06), arg_06);
+        suspend;
+      }
+    }
+  }
+  return;
 }

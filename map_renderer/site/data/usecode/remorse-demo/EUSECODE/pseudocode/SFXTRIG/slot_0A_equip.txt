@@ -2,14 +2,16 @@ function sfxtrig_equip() /* entry=1252 class_id=0x04e2 slot=0x0a */
 {
   set_info(0x0211, *(arg_06));
   process_exclude();
-  if (!(intrinsic_0004(arg_06) & 0x1000)) {
+  if (intrinsic_0004(arg_06) & 0x1000) {
     return;
   }
-  ITEM.slot_23(0x1000, arg_06);
-  while (!intrinsic_003d(arg_10, arg_06)) {
-    spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
-    suspend;
+  else {
+    ITEM.slot_23(0x1000, arg_06);
+    while (intrinsic_003d(arg_10, arg_06)) {
+      spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+      suspend;
+    }
+    ITEM.slot_24(0x1000, arg_06);
   }
-  ITEM.slot_24(0x1000, arg_06);
   return;
 }

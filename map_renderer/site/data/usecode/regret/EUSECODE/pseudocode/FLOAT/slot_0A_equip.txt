@@ -1,27 +1,14 @@
 function float_equip() /* entry=1409 class_id=0x057f slot=0x0a */
 {
-  entry:
-    set_info(0x0211, *(arg_06));
-    process_exclude();
-    if (arg_10 != 1) goto block_030e;
-
-  block_02ac_selector_00:
-    /* loop_selector local_02 in nearby_items(shape=0x01f5, origin=arg_06) */
-
-  block_02c4:
-    if condition goto block_030c;
-
-  block_02c7:
-    if ((Item.getX(local_02) != Item.getX(arg_06)) && (Item.getY(local_02) != Item.getY(arg_06))) goto block_0308;
-
-  block_02f1:
-    goto block_030e;
-
-  block_0308:
-    /* loopnext */
-    goto block_02c4;
-
-  block_030e:
-    return;
-
+  set_info(0x0211, *(arg_06));
+  process_exclude();
+  if (arg_10 == 1) {
+    for local_02 in nearby_items(shape=0x01f5, origin=arg_06) {
+      if ((Item.getX(local_02) == Item.getX(arg_06)) && (Item.getY(local_02) == Item.getY(arg_06))) {
+        return;
+      }
+      /* loopnext */
+    }
+  }
+  return;
 }

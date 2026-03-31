@@ -2,12 +2,14 @@ function d_hoffma_use() /* entry=1244 class_id=0x04da slot=0x01 */
 {
   set_info(0x0207, *(arg_06));
   process_exclude();
-  if (!(intrinsic_0004(arg_06) & 0x1000)) {
+  if (intrinsic_0004(arg_06) & 0x1000) {
     return;
   }
-  FREE.slot_40(*(arg_06));
-  if (!retval) {
-    ITEM.slot_23(0x1000, arg_06);
+  else {
+    FREE.slot_40(*(arg_06));
+    if (retval) {
+      ITEM.slot_23(0x1000, arg_06);
+    }
   }
   return;
 }

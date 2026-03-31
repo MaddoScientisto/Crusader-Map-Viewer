@@ -10,84 +10,50 @@ function miss2_slot_25() /* entry=2320 class_id=0x090e slot=0x25 */
     inc, /* [BP-11h] type=0x69 */
     itemNum; /* [BP-13h] type=0x69 */
 
-  entry:
-    set_info(1, 0);
-    counter = 32;
-    itemNum = 0;
-    if up goto block_0749;
-
-  block_0742:
+  set_info(1, 0);
+  counter = 32;
+  itemNum = 0;
+  if (up) {
     inc = 2;
-    goto block_0750;
-
-  block_0749:
+  }
+  else {
     inc = -2;
-
-  block_0750:
-    /* global_address */
-    spawn FREE.slot_32(pid, 30, 0x00000000);
-    suspend;
-    /* global_address */
-
-  block_0792:
-    if counter goto block_08ff;
-
-  block_079a:
+  }
+  /* global_address */
+  spawn FREE.slot_32(pid, 30, 0x00000000);
+  suspend;
+  /* global_address */
+  while (counter) {
     /* loopscr */
     /* loopscr */
     /* loop */
-
-  block_07bc:
-    if condition goto block_08fa;
-
-  block_07bf:
-    x = intrinsic_0013(item);
-    y = Item.legal_create(item);
-    z = Item.getZ(item);
-    itemNum = (1 + itemNum);
-    if ((counter <= 16) && (intrinsic_0016(item) != 0x04c8)) goto block_08b1;
-
-  block_082e:
-    if (up != 1) goto block_088b;
-
-  block_083f:
-    if (Item.getFrame(item) != 12) goto block_0888;
-
-  block_0854:
-    if (!Item.getFrame(item)) goto block_0871;
-
-  block_0864:
-    goto block_0888;
-
-  block_0888:
-    goto block_08b1;
-
-  block_088b:
-    if (Item.getFrame(item) != 8) goto block_08b1;
-
-  block_08b1:
-    if (itemNum != 5) goto block_08f6;
-
-  block_08bf:
-    itemNum = 0;
-    counter = (counter - 2);
-    spawn MISS2.slot_24(pid, 4, 0x00000000);
-    suspend;
-
-  block_08f6:
-    /* loopnext */
-    goto block_07bc;
-
-  block_08fa:
-    goto block_0792;
-
-  block_08ff:
-    /* global_address */
-    spawn FREE.slot_32(pid, 15, 0x00000000);
-    suspend;
-    /* global_address */
-    spawn FREE.slot_32(pid, 60, 0x00000000);
-    suspend;
-    return;
-
+    while (condition) {
+      x = intrinsic_0013(item);
+      y = Item.legal_create(item);
+      z = Item.getZ(item);
+      itemNum = (1 + itemNum);
+      if ((counter <= 16) && (intrinsic_0016(item) == 0x04c8)) {
+        if (up == 1) {
+          if (Item.getFrame(item) != 12) {
+            if (!Item.getFrame(item)) {
+            }
+          }
+        }
+      }
+      if (itemNum == 5) {
+        itemNum = 0;
+        counter = (counter - 2);
+        spawn MISS2.slot_24(pid, 4, 0x00000000);
+        suspend;
+      }
+      /* loopnext */
+    }
+  }
+  /* global_address */
+  spawn FREE.slot_32(pid, 15, 0x00000000);
+  suspend;
+  /* global_address */
+  spawn FREE.slot_32(pid, 60, 0x00000000);
+  suspend;
+  return;
 }

@@ -1,85 +1,40 @@
 function elevplat_equip() /* entry=305 class_id=0x012f slot=0x0a */
 {
-  entry:
-    set_info(0x0211, *(arg_06));
-    process_exclude();
-    if (intrinsic_0004(arg_06) & 0x1000) goto block_0162;
-
-  block_015f:
-    goto block_02a6;
-
-  block_0162:
+  set_info(0x0211, *(arg_06));
+  process_exclude();
+  if (intrinsic_0004(arg_06) & 0x1000) {
+    return;
+  }
+  else {
     /* pop_global */
     local_02 = Item.getZ(arg_06);
-    if ((arg_10 >= 0x00a0) && (arg_10 < 0x00ff)) goto block_0191;
-
-  block_0183:
-    /* pop_global */
-    arg_10 = (arg_10 - 0x00a0);
-
-  block_0191:
-    if (arg_10 != 0x00ff) goto block_01de;
-
-  block_019a:
-    local_04 = intrinsic_004c(arg_06);
-    if ((local_04 != 88) || ((local_02 + 1) <= local_04)) goto block_01c3;
-
-  block_01b6:
-    goto block_01db;
-
-  block_01c3:
-    if (local_04 < 88) goto block_01db;
-
-  block_01cb:
-    goto block_01db;
-
-  block_01db:
-    goto block_0243;
-
-  block_01de:
-    if arg_10 goto block_022f;
-
-  block_01e3:
-    if (local_02 < arg_10) goto block_0202;
-
-  block_01eb:
-    goto block_022c;
-
-  block_0202:
-    if (local_02 > arg_10) goto block_0221;
-
-  block_020a:
-    goto block_022c;
-
-  block_0221:
-    if (local_02 == arg_10) {
+    if ((arg_10 >= 0x00a0) && (arg_10 < 0x00ff)) {
+      /* pop_global */
+      arg_10 = (arg_10 - 0x00a0);
     }
-
-  block_022c:
-    goto block_0243;
-
-  block_0243:
+    if (arg_10 == 0x00ff) {
+      local_04 = intrinsic_004c(arg_06);
+      if ((local_04 == 88) || ((local_02 + 1) <= local_04)) {
+      }
+      else if (local_04 < 88) {
+      }
+    }
+    else if (arg_10) {
+    }
     spawn ELEVAT.slot_20(pid, arg_06);
     suspend;
-    if (global[0x0000] != 1) goto block_02a6;
-
-  block_025d:
-    /* loopscr */
-    /* loopscr */
-    /* loopscr */
-    /* loopscr */
-    /* loop */
-
-  block_0272:
-    if condition goto block_02a4;
-
-  block_0275:
-    spawn FREE.slot_3b(pid, 2, 0x00000000);
-    suspend;
-    /* loopnext */
-    goto block_0272;
-
-  block_02a6:
-    return;
-
+    if (global[0x0000] == 1) {
+      /* loopscr */
+      /* loopscr */
+      /* loopscr */
+      /* loopscr */
+      /* loop */
+      while (condition) {
+        spawn FREE.slot_3b(pid, 2, 0x00000000);
+        suspend;
+        /* loopnext */
+      }
+    }
+  }
+  return;
 }

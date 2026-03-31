@@ -16,7 +16,7 @@ function door_slot_22() /* entry=2568 class_id=0x0a06 slot=0x22 */
     /* loop */
 
   block_1708:
-    if condition goto block_171f;
+    if !condition goto block_171f;
 
   block_170b:
     count = (1 + count);
@@ -29,7 +29,7 @@ function door_slot_22() /* entry=2568 class_id=0x0a06 slot=0x22 */
   block_171f:
     doorQuality = Kernel.getNumProcesses(arg_06);
     doorParam = intrinsic_0051(arg_06);
-    if count goto block_17ad;
+    if !count goto block_17ad;
 
   block_1745:
     /* loopscr */
@@ -37,15 +37,10 @@ function door_slot_22() /* entry=2568 class_id=0x0a06 slot=0x22 */
     /* loop */
 
   block_1777:
-    if condition goto block_17ab;
-
-  block_177a:
-    roofQuality = Kernel.getNumProcesses(roof);
-    if ((roofQuality != doorQuality) || (roofQuality != doorParam)) goto block_17a7;
-
-  block_17a7:
-    /* loopnext */
-    goto block_1777;
+    while (condition) {
+      roofQuality = Kernel.getNumProcesses(roof);
+      /* loopnext */
+    }
 
   block_17ad:
     return;

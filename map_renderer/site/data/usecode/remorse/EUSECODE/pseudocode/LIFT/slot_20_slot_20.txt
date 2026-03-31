@@ -1,64 +1,40 @@
 function lift_slot_20() /* entry=309 class_id=0x0133 slot=0x20 */
 {
-  entry:
-    set_info(0x0001, *(arg_06));
-    local_06 = 1;
-
-  block_05f2:
-    if (local_06 <= 47) goto block_077a;
-
-  block_05fa:
+  set_info(0x0001, *(arg_06));
+  local_06 = 1;
+  while (local_06 <= 47) {
     local_11 = intrinsic_0013(arg_06);
     local_09 = Item.legal_create(arg_06);
     local_07 = (Item.getZ(arg_06) - 2);
     local_04 = 0;
     /* loopscr */
     /* loop */
-
-  block_063e:
-    while (!condition) {
+    while (condition) {
       local_15 = intrinsic_0016(local_13);
-      if (local_13 == *(arg_06)) {
+      if (local_13 != *(arg_06)) {
         local_04 = (1 + local_04);
       }
       /* loopnext */
     }
-
-  block_067b:
-    if intrinsic_002e(0, 1, local_11, arg_06) goto block_070d;
-
-  block_0692:
-    local_02 = 1;
-
-  block_0699:
-    while (local_02 > local_04) {
-      local_13 = intrinsic_0023();
-      local_02 = (1 + local_02);
+    if (intrinsic_002e(0, 1, local_11, arg_06)) {
+      local_02 = 1;
+      while (local_02 <= local_04) {
+        local_13 = intrinsic_0023();
+        local_02 = (1 + local_02);
+      }
+      spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+      suspend;
     }
-
-  block_06e4:
-    spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
-    suspend;
-    goto block_076d;
-
-  block_070d:
-    local_02 = 1;
-
-  block_071f:
-    while (local_02 > local_04) {
-      local_13 = intrinsic_0023();
-      local_02 = (1 + local_02);
+    else {
+      local_02 = 1;
+      while (local_02 <= local_04) {
+        local_13 = intrinsic_0023();
+        local_02 = (1 + local_02);
+      }
+      return;
     }
-
-  block_0767:
-    goto block_077a;
-
-  block_076d:
     local_06 = (1 + local_06);
-    goto block_05f2;
-
-  block_077a:
-    return;
-
+  }
+  return;
   /* decompilation stopped at SEARCH_SURFACE */
 }

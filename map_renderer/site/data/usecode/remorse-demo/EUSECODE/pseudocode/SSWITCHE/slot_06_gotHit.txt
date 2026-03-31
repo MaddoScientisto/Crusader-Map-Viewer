@@ -3,12 +3,14 @@ function sswitche_gotHit() /* entry=1113 class_id=0x0457 slot=0x06 */
   set_info(0x020c, *(arg_06));
   process_exclude();
   FREE.slot_2b(arg_12, arg_10);
-  if (retval == 4) {
+  if (retval != 4) {
     if (arg_10 == 1) {
       return;
     }
-    spawn SSWITCHE.use(pid, arg_06);
-    suspend;
+    else {
+      spawn SSWITCHE.use(pid, arg_06);
+      suspend;
+    }
   }
   return;
   /* decompilation stopped at SEARCH_SURFACE */

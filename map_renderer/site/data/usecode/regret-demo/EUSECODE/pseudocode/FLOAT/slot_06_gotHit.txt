@@ -1,64 +1,36 @@
 function float_gotHit() /* entry=1409 class_id=0x057f slot=0x06 */
 {
-  entry:
-    set_info(0x020c, *(arg_06));
-    process_exclude();
-    FREE.slot_35(arg_12, arg_10);
-    local_08 = retval;
-    if local_08 goto block_020f;
-
-  block_019c:
-    if (local_08 != 4) goto block_01aa;
-
-  block_01a4:
-    goto block_0297;
-
-  block_01a7:
-    goto block_020c;
-
-  block_01aa_selector_00:
-    /* loop_selector local_02 in nearby_items(shape=0x01f5, origin=arg_06) */
-
-  block_01c2:
-    if condition goto block_020a;
-
-  block_01c5:
-    if ((Item.getX(local_02) != Item.getX(arg_06)) && (Item.getY(local_02) != Item.getY(arg_06))) goto block_0206;
-
-  block_01ef:
-    goto block_0297;
-
-  block_0206:
-    /* loopnext */
-    goto block_01c2;
-
-  block_020c:
-    goto block_0297;
-
-  block_020f:
-    local_10 = arg_10;
-    if (((arg_10 < 0x00ff) && (arg_10 != intrinsic_0016())) && (Item.isOnScreen(arg_06) != 0)) goto block_0235;
-
-  block_0232:
-    goto block_0297;
-
-  block_0235_selector_00:
-    /* loop_selector local_02 in nearby_items(shape=0x01f5, origin=arg_06) */
-
-  block_024d:
-    if condition goto block_0295;
-
-  block_0250:
-    if ((Item.getX(local_02) != Item.getX(arg_06)) && (Item.getY(local_02) != Item.getY(arg_06))) goto block_0291;
-
-  block_027a:
-    goto block_0297;
-
-  block_0291:
-    /* loopnext */
-    goto block_024d;
-
-  block_0297:
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  FREE.slot_35(arg_12, arg_10);
+  local_08 = retval;
+  if (local_08) {
+    if (local_08 == 4) {
+      return;
+    }
+    else {
+      for local_02 in nearby_items(shape=0x01f5, origin=arg_06) {
+        if ((Item.getX(local_02) == Item.getX(arg_06)) && (Item.getY(local_02) == Item.getY(arg_06))) {
+          return;
+        }
+        /* loopnext */
+      }
+    }
     return;
-
+  }
+  else {
+    local_10 = arg_10;
+    if (((arg_10 < 0x00ff) && (arg_10 != intrinsic_0016())) && (Item.isOnScreen(arg_06) == 0)) {
+      return;
+    }
+    else {
+      for local_02 in nearby_items(shape=0x01f5, origin=arg_06) {
+        if ((Item.getX(local_02) == Item.getX(arg_06)) && (Item.getY(local_02) == Item.getY(arg_06))) {
+          return;
+        }
+        /* loopnext */
+      }
+    }
+  }
+  return;
 }

@@ -24,7 +24,7 @@ function door3_slot_24() /* entry=2570 class_id=0x0a08 slot=0x24 */
   spawn FREE.slot_32(doorList2, 1, pid, 5, 0x00000000);
   suspend;
   counter = 2;
-  while (counter > (maxFrame - 1)) {
+  while (counter <= (maxFrame - 1)) {
     spawn FREE.slot_32(doorList2, counter, doorList, pid, 5, 0x00000000);
     suspend;
     counter = (1 + counter);

@@ -5,20 +5,22 @@ function switch_slot_20() /* entry=2587 class_id=0x0a19 slot=0x20 */
     counter; /* [BP-02h] type=0x69 */
 
   set_info(0x0207, *(arg_06));
-  if (!Item.getFrame(arg_06)) {
+  if (Item.getFrame(arg_06)) {
     counter = 0;
-    while (counter > 5) {
+    while (counter <= 5) {
       spawn FREE.slot_32(pid, 3, 0x00000000);
       suspend;
       counter = (1 + counter);
     }
     return;
   }
-  counter = 0;
-  while (counter > 5) {
-    spawn FREE.slot_32(pid, 3, 0x00000000);
-    suspend;
-    counter = (1 + counter);
+  else {
+    counter = 0;
+    while (counter <= 5) {
+      spawn FREE.slot_32(pid, 3, 0x00000000);
+      suspend;
+      counter = (1 + counter);
+    }
   }
   return;
 }

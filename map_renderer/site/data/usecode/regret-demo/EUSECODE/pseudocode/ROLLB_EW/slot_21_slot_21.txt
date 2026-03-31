@@ -1,215 +1,154 @@
 function rollb_ew_slot_21() /* entry=1421 class_id=0x058b slot=0x21 */
 {
-  entry:
-    set_info(0x0001, *(arg_06));
-    local_06 = intrinsic_00f2(arg_06);
-    local_02 = (local_06 & 31);
-    if (local_02 != 0) goto block_02c3;
-
-  block_02bf:
+  set_info(0x0001, *(arg_06));
+  local_06 = intrinsic_00f2(arg_06);
+  local_02 = (local_06 & 31);
+  if (local_02 == 0) {
     local_02 = 1;
-
-  block_02c3:
-    local_04 = Item.getFrame(arg_06);
-    local_19 = Item.getX(arg_06);
-    local_17 = Item.getY(arg_06);
-    local_15 = Item.getZ(arg_06);
-    if (local_06 & 32) goto block_054a;
-
-  block_030d:
-    if (local_06 < 0x0080) goto block_0430;
-
-  block_0316:
-    while (!(1)) {
-      local_04 = (local_04 - 1);
-      if (local_04 >= 0) {
-        local_04 = 4;
-      }
-      local_08 = 0;
-      /* loopscr */
-      /* loop */
-      while (!condition) {
-        local_08 = (1 + local_08);
-        /* loopnext */
-      }
-      local_19 = (local_19 + 8);
-      if (intrinsic_0044(0, 0, local_19, arg_06) == 0) {
+  }
+  local_04 = Item.getFrame(arg_06);
+  local_19 = Item.getX(arg_06);
+  local_17 = Item.getY(arg_06);
+  local_15 = Item.getZ(arg_06);
+  if (local_06 & 32) {
+    if (local_06 < 0x0080) {
+      while (1) {
+        local_04 = (local_04 - 1);
+        if (local_04 < 0) {
+          local_04 = 4;
+        }
+        local_08 = 0;
+        /* loopscr */
+        /* loop */
+        while (condition) {
+          local_08 = (1 + local_08);
+          /* loopnext */
+        }
+        local_19 = (local_19 + 8);
+        if (intrinsic_0044(0, 0, local_19, arg_06) == 0) {
+          local_10 = 1;
+          while (local_10 <= local_08) {
+            local_21 = intrinsic_001e();
+            local_10 = (1 + local_10);
+          }
+          spawn ROLLB_EW.slot_20(pid, arg_06);
+          suspend;
+          return;
+        }
         local_10 = 1;
-        while (local_10 > local_08) {
+        while (local_10 <= local_08) {
           local_21 = intrinsic_001e();
           local_10 = (1 + local_10);
         }
-        spawn ROLLB_EW.slot_20(pid, arg_06);
+        spawn FREE.slot_3b(pid, local_02, 0x00000000);
         suspend;
-        return;
       }
-      local_10 = 1;
-      while (local_10 > local_08) {
-        local_21 = intrinsic_001e();
-        local_10 = (1 + local_10);
-      }
-      spawn FREE.slot_3b(pid, local_02, 0x00000000);
-      suspend;
     }
-
-  block_042d:
-    goto block_0547;
-
-  block_0430:
-    while (!(1)) {
-      local_04 = (1 + local_04);
-      if (local_04 <= 4) {
-        local_04 = 0;
-      }
-      local_08 = 0;
-      /* loopscr */
-      /* loop */
-      while (!condition) {
-        local_08 = (1 + local_08);
-        /* loopnext */
-      }
-      local_19 = (local_19 - 8);
-      if (intrinsic_0044(0, 0, local_19, arg_06) == 0) {
+    else {
+      while (1) {
+        local_04 = (1 + local_04);
+        if (local_04 > 4) {
+          local_04 = 0;
+        }
+        local_08 = 0;
+        /* loopscr */
+        /* loop */
+        while (condition) {
+          local_08 = (1 + local_08);
+          /* loopnext */
+        }
+        local_19 = (local_19 - 8);
+        if (intrinsic_0044(0, 0, local_19, arg_06) == 0) {
+          local_10 = 1;
+          while (local_10 <= local_08) {
+            local_21 = intrinsic_001e();
+            local_10 = (1 + local_10);
+          }
+          spawn ROLLB_EW.slot_20(pid, arg_06);
+          suspend;
+          return;
+        }
         local_10 = 1;
-        while (local_10 > local_08) {
+        while (local_10 <= local_08) {
           local_21 = intrinsic_001e();
           local_10 = (1 + local_10);
         }
-        spawn ROLLB_EW.slot_20(pid, arg_06);
+        spawn FREE.slot_3b(pid, local_02, 0x00000000);
         suspend;
-        return;
       }
-      local_10 = 1;
-      while (local_10 > local_08) {
-        local_21 = intrinsic_001e();
-        local_10 = (1 + local_10);
-      }
-      spawn FREE.slot_3b(pid, local_02, 0x00000000);
-      suspend;
     }
-
-  block_0547:
-    goto block_0750;
-
-  block_054a:
+    return;
+  }
+  else {
     local_23 = 0;
     local_24 = local_15;
-    if (local_06 < 0x0080) goto block_0657;
-
-  block_055b:
-    if 1 goto block_0654;
-
-  block_0560:
-    local_04 = (local_04 - 1);
-    if (local_04 < 0) goto block_0573;
-
-  block_056f:
-    local_04 = 4;
-
-  block_0573:
-    local_19 = (local_19 + 8);
-    if (intrinsic_0044(0, 0, local_19, arg_06) != 0) goto block_05be;
-
-  block_058f:
-    local_15 = (1 + local_15);
-    if (intrinsic_0044(0, 0, local_19, arg_06) != 0) goto block_05be;
-
-  block_05ab:
-    spawn ROLLB_EW.slot_20(pid, arg_06);
-    suspend;
-    goto block_0750;
-
-  block_05be:
-    if (local_15 > 1) goto block_05f3;
-
-  block_05c6:
-    local_15 = (local_15 - 4);
-    if (intrinsic_0044(0, 0, local_19, arg_06) != 0) goto block_05e9;
-
-  block_05e2:
-    local_15 = (local_15 + 4);
-
-  block_05e9:
-    local_23 = (local_24 - local_15);
-    goto block_0630;
-
-  block_05f3:
-    if (local_23 > 12) goto block_0630;
-
-  block_05fb:
-    spawn FREE.slot_3b(pid, 6, 0x00000000);
-    suspend;
-    spawn ROLLB_EW.slot_20(pid, arg_06);
-    suspend;
-    goto block_0750;
-
-  block_062d:
-    goto block_0630;
-
-  block_0630:
-    spawn FREE.slot_3b(pid, local_02, 0x00000000);
-    suspend;
-    goto block_055b;
-
-  block_0654:
-    goto block_0750;
-
-  block_0657:
-    if 1 goto block_0750;
-
-  block_065c:
-    local_04 = (1 + local_04);
-    if (local_04 > 4) goto block_066f;
-
-  block_066b:
-    local_04 = 0;
-
-  block_066f:
-    local_19 = (local_19 - 8);
-    if (intrinsic_0044(0, 0, local_19, arg_06) != 0) goto block_06ba;
-
-  block_068b:
-    local_15 = (1 + local_15);
-    if (intrinsic_0044(0, 0, local_19, arg_06) != 0) goto block_06ba;
-
-  block_06a7:
-    spawn ROLLB_EW.slot_20(pid, arg_06);
-    suspend;
-    goto block_0750;
-
-  block_06ba:
-    if (local_15 > 1) goto block_06ef;
-
-  block_06c2:
-    local_15 = (local_15 - 4);
-    if (intrinsic_0044(0, 0, local_19, arg_06) != 0) goto block_06e5;
-
-  block_06de:
-    local_15 = (local_15 + 4);
-
-  block_06e5:
-    local_23 = (local_24 - local_15);
-    goto block_072c;
-
-  block_06ef:
-    if (local_23 > 12) goto block_072c;
-
-  block_06f7:
-    spawn FREE.slot_3b(pid, 6, 0x00000000);
-    suspend;
-    spawn ROLLB_EW.slot_20(pid, arg_06);
-    suspend;
-    goto block_0750;
-
-  block_0729:
-    goto block_072c;
-
-  block_072c:
-    spawn FREE.slot_3b(pid, local_02, 0x00000000);
-    suspend;
-    goto block_0657;
-
-  block_0750:
-    return;
-
+    if (local_06 < 0x0080) {
+      while (1) {
+        local_04 = (local_04 - 1);
+        if (local_04 < 0) {
+          local_04 = 4;
+        }
+        local_19 = (local_19 + 8);
+        if (intrinsic_0044(0, 0, local_19, arg_06) == 0) {
+          local_15 = (1 + local_15);
+          if (intrinsic_0044(0, 0, local_19, arg_06) == 0) {
+            spawn ROLLB_EW.slot_20(pid, arg_06);
+            suspend;
+            return;
+          }
+        }
+        if (local_15 > 1) {
+          local_15 = (local_15 - 4);
+          if (intrinsic_0044(0, 0, local_19, arg_06) == 0) {
+            local_15 = (local_15 + 4);
+          }
+          local_23 = (local_24 - local_15);
+        }
+        else if (local_23 > 12) {
+          spawn FREE.slot_3b(pid, 6, 0x00000000);
+          suspend;
+          spawn ROLLB_EW.slot_20(pid, arg_06);
+          suspend;
+          return;
+        }
+        spawn FREE.slot_3b(pid, local_02, 0x00000000);
+        suspend;
+      }
+      return;
+    }
+    else {
+      while (1) {
+        local_04 = (1 + local_04);
+        if (local_04 > 4) {
+          local_04 = 0;
+        }
+        local_19 = (local_19 - 8);
+        if (intrinsic_0044(0, 0, local_19, arg_06) == 0) {
+          local_15 = (1 + local_15);
+          if (intrinsic_0044(0, 0, local_19, arg_06) == 0) {
+            spawn ROLLB_EW.slot_20(pid, arg_06);
+            suspend;
+            return;
+          }
+        }
+        if (local_15 > 1) {
+          local_15 = (local_15 - 4);
+          if (intrinsic_0044(0, 0, local_19, arg_06) == 0) {
+            local_15 = (local_15 + 4);
+          }
+          local_23 = (local_24 - local_15);
+        }
+        else if (local_23 > 12) {
+          spawn FREE.slot_3b(pid, 6, 0x00000000);
+          suspend;
+          spawn ROLLB_EW.slot_20(pid, arg_06);
+          suspend;
+          return;
+        }
+        spawn FREE.slot_3b(pid, local_02, 0x00000000);
+        suspend;
+      }
+    }
+  }
+  return;
 }

@@ -1,60 +1,40 @@
 function valve_use() /* entry=50 class_id=0x0030 slot=0x01 */
 {
-  entry:
-    set_info(0x0207, *(arg_06));
-    process_exclude();
-    if (Item.getFrame(arg_06) < 4) goto block_0181;
-
-  block_00f8:
+  set_info(0x0207, *(arg_06));
+  process_exclude();
+  if (Item.getFrame(arg_06) < 4) {
     local_02 = 0;
-
-  block_00fc:
-    while (local_02 > 4) {
+    while (local_02 <= 4) {
       spawn FREE.slot_3b(pid, 5, 0x00000000);
       suspend;
       local_02 = (1 + local_02);
     }
-
-  block_012f:
     spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
     suspend;
     local_02 = 0;
-
-  block_014b:
-    while (local_02 > 4) {
+    while (local_02 <= 4) {
       spawn FREE.slot_3b(pid, 5, 0x00000000);
       suspend;
       local_02 = (1 + local_02);
     }
-
-  block_017e:
-    goto block_020d;
-
-  block_0181:
+  }
+  else {
     local_02 = 0;
-
-  block_0185:
-    while (local_02 > 4) {
+    while (local_02 <= 4) {
       spawn FREE.slot_3b(pid, 5, 0x00000000);
       suspend;
       local_02 = (1 + local_02);
     }
-
-  block_01bb:
     spawn TRIGGER.slot_20(pid, 1, *(arg_06), arg_06);
     suspend;
     local_02 = 0;
-
-  block_01d7:
-    while (local_02 > 4) {
+    while (local_02 <= 4) {
       spawn FREE.slot_3b(pid, 5, 0x00000000);
       suspend;
       local_02 = (1 + local_02);
     }
-
-  block_020d:
-    spawn FREE.slot_3b(pid, 15, 0x00000000);
-    suspend;
-    return;
-
+  }
+  spawn FREE.slot_3b(pid, 15, 0x00000000);
+  suspend;
+  return;
 }

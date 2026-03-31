@@ -1,60 +1,41 @@
 function med_flor_gotHit() /* entry=739 class_id=0x02e1 slot=0x06 */
 {
-  entry:
-    set_info(0x020c, *(arg_06));
-    process_exclude();
-    local_02 = arg_10;
-    if (((arg_10 != 1) && (intrinsic_001f(arg_06) != 0)) && (Item.getFrame(arg_06) != 0)) goto block_0227;
-
-  block_0105:
-    if (!intrinsic_005c(*(arg_06), local_02)) goto block_0119;
-
-  block_0116:
-    goto block_0227;
-
-  block_012b:
-    while (!intrinsic_0060()) {
-      spawn FREE.slot_3b(pid, 2, 0x00000000);
-      suspend;
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  local_02 = arg_10;
+  if (((arg_10 == 1) && (intrinsic_001f(arg_06) == 0)) && (Item.getFrame(arg_06) == 0)) {
+    if (!intrinsic_005c(*(arg_06), local_02)) {
+      return;
     }
-
-  block_0152:
-    /* global_address */
-    suspend;
-    /* global_address */
-    suspend;
-    /* loopscr */
-    /* loopscr */
-    /* loop */
-
-  block_0199:
-    if condition goto block_01aa;
-
-  block_019c:
-    /* loopnext */
-    goto block_0199;
-
-  block_01b8:
-    while (!Kernel.getNumProcesses(0x0254, global[0x001e])) {
-      spawn FREE.slot_3b(pid, 2, 0x00000000);
+    else {
+      /* global_address */
+      while (intrinsic_0060()) {
+        spawn FREE.slot_3b(pid, 2, 0x00000000);
+        suspend;
+      }
+      /* global_address */
       suspend;
+      /* global_address */
+      suspend;
+      /* loopscr */
+      /* loopscr */
+      /* loop */
+      while (condition) {
+        /* loopnext */
+      }
+      while (Kernel.getNumProcesses(0x0254, global[0x001e])) {
+        spawn FREE.slot_3b(pid, 2, 0x00000000);
+        suspend;
+      }
+      spawn FREE.slot_3b(pid, 60, 0x00000000);
+      suspend;
+      /* loopscr */
+      /* loopscr */
+      /* loop */
+      while (condition) {
+        /* loopnext */
+      }
     }
-
-  block_01e3:
-    spawn FREE.slot_3b(pid, 60, 0x00000000);
-    suspend;
-    /* loopscr */
-    /* loopscr */
-    /* loop */
-
-  block_0214:
-    if condition goto block_0225;
-
-  block_0217:
-    /* loopnext */
-    goto block_0214;
-
-  block_0227:
-    return;
-
+  }
+  return;
 }

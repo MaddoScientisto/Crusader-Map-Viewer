@@ -1,31 +1,21 @@
 function miss2_slot_22() /* entry=2320 class_id=0x090e slot=0x22 */
 {
-  entry:
-    set_info(1, 0);
-    if (Item.getFrame(arg_06) != 9) goto block_0457;
-
-  block_03ff:
-    while (Item.getFrame(arg_06) == 9) {
+  set_info(1, 0);
+  if (Item.getFrame(arg_06) != 9) {
+    while (Item.getFrame(arg_06) != 9) {
       spawn FREE.waitNTimerTicks(pid, 8, 0x00000000);
       suspend;
     }
-
-  block_0454:
-    goto block_04ac;
-
-  block_0457:
-    while (Item.getFrame(arg_06) == 2) {
+  }
+  else {
+    while (Item.getFrame(arg_06) != 2) {
       spawn FREE.waitNTimerTicks(pid, 8, 0x00000000);
       suspend;
     }
-
-  block_04ac:
-    while (!intrinsic_003a(81, arg_06)) {
-      spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
-      suspend;
-    }
-
-  block_04e3:
-    return;
-
+  }
+  while (intrinsic_003a(81, arg_06)) {
+    spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+    suspend;
+  }
+  return;
 }

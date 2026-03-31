@@ -1,139 +1,74 @@
 function trigger_slot_29() /* entry=2589 class_id=0x0a1b slot=0x29 */
 {
-  entry:
-    set_info(0x021b, 0);
-    local_14 = arg_10;
-    local_04 = (arg_16 & 3);
-    if (local_04 != 0) goto block_30ba;
-
-  block_2e92_selector_00:
-    /* loop_selector local_16 in nearby_items(shape=arg_20, origin=local_14) */
-
-  block_2eaf:
-    if condition goto block_30b5;
-
-  block_2eb2:
-    if (intrinsic_000b(local_16) != arg_18) goto block_30b1;
-
-  block_2ec4:
-    local_06 = (arg_12 / 16);
-    local_08 = (arg_12 & 15);
-    if (local_06 != 0) goto block_2f76;
-
-  block_2ee3:
-    if (intrinsic_0053(local_16) != 1) goto block_2f02;
-
-  block_2f02:
-    local_18 = intrinsic_00eb(local_16);
-    suspend;
-    spawn FREE.slot_32(pid, 2, 0x00000000);
-    suspend;
-    local_20 = intrinsic_00eb(local_16);
-    goto block_30b1;
-
-  block_2f76:
-    if (intrinsic_0053(local_16) != 1) goto block_2f95;
-
-  block_2f95:
-    local_22 = intrinsic_00eb(local_16);
-    suspend;
-    spawn FREE.slot_32(pid, 2, 0x00000000);
-    suspend;
-    if (intrinsic_00cf(local_16) != 1) goto block_3003;
-
-  block_2ffd:
-    goto block_3456;
-
-  block_3003:
-    local_24 = 1;
-
-  block_300a:
-    while (local_24 > local_06) {
-      if (intrinsic_00cf(local_16) == 0) {
-        suspend;
+  set_info(0x021b, 0);
+  local_14 = arg_10;
+  local_04 = (arg_16 & 3);
+  if (local_04 == 0) {
+    for local_16 in nearby_items(shape=arg_20, origin=local_14) {
+      if (intrinsic_000b(local_16) == arg_18) {
+        local_06 = (arg_12 / 16);
+        local_08 = (arg_12 & 15);
+        if (local_06 == 0) {
+          local_18 = intrinsic_00eb(local_16);
+          suspend;
+          spawn FREE.slot_32(pid, 2, 0x00000000);
+          suspend;
+          local_20 = intrinsic_00eb(local_16);
+        }
+        else {
+          local_22 = intrinsic_00eb(local_16);
+          suspend;
+          spawn FREE.slot_32(pid, 2, 0x00000000);
+          suspend;
+          if (intrinsic_00cf(local_16) == 1) {
+            return;
+          }
+          local_24 = 1;
+          while (local_24 <= local_06) {
+            if (intrinsic_00cf(local_16) == 0) {
+              suspend;
+            }
+            spawn FREE.slot_32(pid, 1, 0x00000000);
+            suspend;
+            local_24 = (1 + local_24);
+          }
+          local_26 = intrinsic_00eb(local_16);
+          local_28 = intrinsic_0053(local_16);
+        }
       }
-      spawn FREE.slot_32(pid, 1, 0x00000000);
-      suspend;
-      local_24 = (1 + local_24);
+      /* loopnext */
     }
-
-  block_3081:
-    local_26 = intrinsic_00eb(local_16);
-    local_28 = intrinsic_0053(local_16);
-
-  block_30b1:
-    /* loopnext */
-    goto block_2eaf;
-
-  block_30b5:
-    goto block_3456;
-
-  block_30ba:
-    if (local_04 != 1) goto block_310a;
-
-  block_30c2_selector_00:
+    return;
+  }
+  else if (local_04 == 1) {
     for local_16 in nearby_items(shape=arg_20, origin=local_14) {
       /* loopnext */
     }
-
-  block_3105:
-    goto block_3456;
-
-  block_310a:
-    if (local_04 != 2) goto block_316a;
-
-  block_3112_selector_00:
+    return;
+  }
+  else if (local_04 == 2) {
     for local_16 in nearby_items(shape=arg_20, origin=local_14) {
       /* loopnext */
     }
-
-  block_3165:
-    goto block_3456;
-
-  block_316a:
-    if (local_04 != 3) goto block_3456;
-
-  block_3172:
+    return;
+  }
+  else if (local_04 == 3) {
     local_02 = (arg_12 & 7);
     local_06 = (arg_12 / 8);
-    if (local_02 != 0) goto block_321e;
-
-  block_318e_selector_00:
-    /* loop_selector local_16 in nearby_items(shape=arg_20, origin=local_14) */
-
-  block_31ab:
-    if condition goto block_3219;
-
-  block_31ae:
-    if (intrinsic_000b(local_16) != arg_18) goto block_3215;
-
-  block_31c0:
-    if (local_06 != 1) goto block_31d8;
-
-  block_31c8:
-    goto block_3215;
-
-  block_31d8:
-    if (local_06 != 2) goto block_31f0;
-
-  block_31e0:
-    goto block_3215;
-
-  block_31f0:
-    if (local_06 != 3) goto block_3208;
-
-  block_31f8:
-    goto block_3215;
-
-  block_3215:
-    /* loopnext */
-    goto block_31ab;
-
-  block_3219:
-    goto block_3453;
-
-  block_321e:
-    if (local_02 == 1) {
+    if (local_02 == 0) {
+      for local_16 in nearby_items(shape=arg_20, origin=local_14) {
+        if (intrinsic_000b(local_16) == arg_18) {
+          if (local_06 == 1) {
+          }
+          else if (local_06 == 2) {
+          }
+          else if (local_06 == 3) {
+          }
+        }
+        /* loopnext */
+      }
+    }
+    else if (local_02 == 1) {
       for local_16 in nearby_items(shape=arg_20, origin=local_14) {
         if (intrinsic_000b(local_16) == arg_18) {
           spawn FREE.slot_32(pid, 1, 0x00000000);
@@ -176,12 +111,8 @@ function trigger_slot_29() /* entry=2589 class_id=0x0a1b slot=0x29 */
         /* loopnext */
       }
     }
-
-  block_3453:
-    goto block_3456;
-
-  block_3456:
     return;
-
+  }
+  return;
   /* decompilation stopped at SEARCH_SURFACE */
 }

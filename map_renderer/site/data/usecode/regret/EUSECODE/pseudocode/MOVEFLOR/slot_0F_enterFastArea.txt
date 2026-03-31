@@ -3,19 +3,23 @@ function moveflor_enterFastArea() /* entry=166 class_id=0x00a4 slot=0x0f */
   set_info(0x021b, *(arg_06));
   process_exclude();
   ITEM.slot_26(0x0100, arg_06);
-  if (retval) {
-    return;
-  }
-  ITEM.slot_26(4, arg_06);
   if (!retval) {
-    ITEM.slot_24(0x1000, arg_06);
-    spawn MOVEFLOR.slot_21(arg_06);
     return;
   }
-  ITEM.slot_26(0x1000, arg_06);
-  if ((retval == 1) || (intrinsic_00ce(arg_06) != 0)) {
-    ITEM.slot_24(4, arg_06);
-    spawn MOVEFLOR.slot_20(arg_06);
+  else {
+    ITEM.slot_26(4, arg_06);
+    if (retval) {
+      ITEM.slot_24(0x1000, arg_06);
+      spawn MOVEFLOR.slot_21(arg_06);
+      return;
+    }
+    else {
+      ITEM.slot_26(0x1000, arg_06);
+      if ((retval == 1) || (intrinsic_00ce(arg_06) == 0)) {
+        ITEM.slot_24(4, arg_06);
+        spawn MOVEFLOR.slot_20(arg_06);
+      }
+    }
   }
   return;
 }

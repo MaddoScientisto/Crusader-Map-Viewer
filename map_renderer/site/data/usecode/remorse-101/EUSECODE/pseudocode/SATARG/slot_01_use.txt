@@ -1,20 +1,16 @@
 function satarg_use() /* entry=1355 class_id=0x0549 slot=0x01 */
 {
-  entry:
-    set_info(0x0207, *(arg_06));
-    process_exclude();
-    if Item.getFrame(arg_06) goto block_00ee;
-
-  block_00eb:
-    goto block_0438;
-
-  block_00f6:
-    while (!intrinsic_0033()) {
+  set_info(0x0207, *(arg_06));
+  process_exclude();
+  if (Item.getFrame(arg_06)) {
+    return;
+  }
+  else {
+    /* global_address */
+    while (intrinsic_0033()) {
       spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
       suspend;
     }
-
-  block_011d:
     /* global_address */
     /* global_address */
     suspend;
@@ -30,42 +26,20 @@ function satarg_use() /* entry=1355 class_id=0x0549 slot=0x01 */
     spawn ITEM.slot_28(pid, 0, 1, arg_06);
     suspend;
     spawn FREE.slot_3b(0x00000000);
-
-  block_011d_selector_00:
-    /* loop_selector local_02 in nearby_items(shape=NUMBERS, origin=arg_06) */
-
-  block_01fd:
-    if condition goto block_023f;
-
-  block_0200:
-    if (intrinsic_00e3(local_02) != 0) goto block_023b;
-
-  block_020f:
-    spawn FREE.waitNTimerTicks(intrinsic_0018(pid, 30, 20), 0x00000000);
-    suspend;
-
-  block_023b:
-    /* loopnext */
-    goto block_01fd;
-
-  block_023f_selector_00:
-    /* loop_selector local_02 in nearby_items(shape=0x03c1, origin=arg_06) */
-
-  block_0259:
-    if condition goto block_02b8;
-
-  block_025c:
-    spawn ITEM.slot_28(pid, 0, 1, local_02);
-    suspend;
-    if (Item.getFrame(local_02) < 2) goto block_0294;
-
-  block_0294:
-    spawn FREE.waitNTimerTicks(intrinsic_0018(pid, 40, 20), 0x00000000);
-    suspend;
-    /* loopnext */
-    goto block_0259;
-
-  block_02b8_selector_00:
+    for local_02 in nearby_items(shape=NUMBERS, origin=arg_06) {
+      if (intrinsic_00e3(local_02) == 0) {
+        spawn FREE.waitNTimerTicks(intrinsic_0018(pid, 30, 20), 0x00000000);
+        suspend;
+      }
+      /* loopnext */
+    }
+    for local_02 in nearby_items(shape=0x03c1, origin=arg_06) {
+      spawn ITEM.slot_28(pid, 0, 1, local_02);
+      suspend;
+      spawn FREE.waitNTimerTicks(intrinsic_0018(pid, 40, 20), 0x00000000);
+      suspend;
+      /* loopnext */
+    }
     for local_02 in nearby_items(shape=0x03bf, origin=arg_06) {
       spawn ITEM.slot_28(pid, 0, 1, local_02);
       suspend;
@@ -73,8 +47,6 @@ function satarg_use() /* entry=1355 class_id=0x0549 slot=0x01 */
       suspend;
       /* loopnext */
     }
-
-  block_0332:
     spawn FREE.waitNTimerTicks(pid, 0x00c8, 0x00000000);
     suspend;
     spawn FREE.slot_26(pid, "15d", 0x00000000);
@@ -87,30 +59,15 @@ function satarg_use() /* entry=1355 class_id=0x0549 slot=0x01 */
     suspend;
     spawn FREE.waitNTimerTicks(pid, 0x00c8, 0x00000000);
     suspend;
-    if (intrinsic_0029() > 1) goto block_03db;
-
-  block_03c3:
-    spawn TRIGGER.slot_2a(pid, 1, *(arg_06), arg_06);
-    suspend;
-
-  block_03db:
+    if (intrinsic_0029() > 1) {
+      spawn TRIGGER.slot_2a(pid, 1, *(arg_06), arg_06);
+      suspend;
+    }
     spawn FREE.waitNTimerTicks(pid, 0x00c8, 0x00000000);
     suspend;
-
-  block_03db_selector_00:
-    /* loop_selector local_02 in nearby_items(shape=TELEPORTER_LIGHTS, origin=arg_06) */
-
-  block_040b:
-    if condition goto block_0436;
-
-  block_040e:
-    if (intrinsic_00e3(local_02) != 0x00ff) goto block_0432;
-
-  block_0432:
-    /* loopnext */
-    goto block_040b;
-
-  block_0438:
-    return;
-
+    for local_02 in nearby_items(shape=TELEPORTER_LIGHTS, origin=arg_06) {
+      /* loopnext */
+    }
+  }
+  return;
 }

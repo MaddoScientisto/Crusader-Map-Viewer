@@ -8,15 +8,15 @@ function bridge_slot_23() /* entry=2565 class_id=0x0a03 slot=0x23 */
     /* loop_selector local_02 in selector_0x42(arg0=0x03a6, arg1=0x0413, arg2=(70 * 32), origin=arg_06) */
 
   block_03ac:
-    if condition goto block_03f2;
+    if !condition goto block_03f2;
 
   block_03af:
     local_04 = intrinsic_002b(local_02);
-    if (local_04 != arg_10) goto block_03ee;
+    if local_04 != arg_10 goto block_03ee;
 
   block_03c8:
     local_04 = intrinsic_0026(local_02);
-    if (local_04 != 0) goto block_03ee;
+    if local_04 == 0 goto block_03ee;
 
   block_03e1:
     local_06 = local_04;
@@ -27,24 +27,24 @@ function bridge_slot_23() /* entry=2565 class_id=0x0a03 slot=0x23 */
     goto block_03ac;
 
   block_03f2:
-    if (local_06 != 0) goto block_0479;
+    if local_06 != 0 goto block_0479;
 
   block_03ff_selector_00:
     /* loop_selector local_02 in selector_0x42(arg0=0x0336, arg1=0x0290, arg2=(70 * 32), origin=arg_06) */
 
   block_041f:
-    if condition goto block_0477;
+    if !condition goto block_0477;
 
   block_0422:
-    if (Item.getFrame(local_02) != 1) goto block_0473;
+    if Item.getFrame(local_02) != 1 goto block_0473;
 
   block_0434:
     local_04 = intrinsic_002b(local_02);
-    if (local_04 != arg_10) goto block_0473;
+    if local_04 != arg_10 goto block_0473;
 
   block_044d:
     local_04 = intrinsic_0026(local_02);
-    if (local_04 != 0) goto block_0473;
+    if local_04 == 0 goto block_0473;
 
   block_0466:
     local_06 = local_04;
@@ -55,48 +55,31 @@ function bridge_slot_23() /* entry=2565 class_id=0x0a03 slot=0x23 */
     goto block_041f;
 
   block_0479:
-    if (local_06 != 0) goto block_054a;
+    if local_06 == 0 goto block_054a;
 
   block_0484_selector_00:
-    /* loop_selector local_02 in selector_0x42(arg0=0x03a6, arg1=0x0413, arg2=(70 * 32), origin=arg_06) */
-
-  block_04a4:
-    if condition goto block_04dc;
-
-  block_04a7:
-    local_04 = intrinsic_002b(local_02);
-    if (local_04 != local_06) goto block_04d8;
-
-  block_04c0:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0554;
-
-  block_04d8:
-    /* loopnext */
-    goto block_04a4;
+    for local_02 in selector_0x42(arg0=0x03a6, arg1=0x0413, arg2=(70 * 32), origin=arg_06) {
+      local_04 = intrinsic_002b(local_02);
+      if (local_04 == local_06) {
+        /* word_to_dword */
+        /* pop_result */
+        return;
+      }
+      /* loopnext */
+    }
 
   block_04dc_selector_00:
-    /* loop_selector local_02 in selector_0x42(arg0=0x0336, arg1=0x0290, arg2=(70 * 32), origin=arg_06) */
-
-  block_04fe:
-    if condition goto block_0548;
-
-  block_0501:
-    if (Item.getFrame(arg_06) != 1) goto block_0544;
-
-  block_0513:
-    local_04 = intrinsic_002b(local_02);
-    if (local_04 != local_06) goto block_0544;
-
-  block_052c:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0554;
-
-  block_0544:
-    /* loopnext */
-    goto block_04fe;
+    for local_02 in selector_0x42(arg0=0x0336, arg1=0x0290, arg2=(70 * 32), origin=arg_06) {
+      if (Item.getFrame(arg_06) == 1) {
+        local_04 = intrinsic_002b(local_02);
+        if (local_04 == local_06) {
+          /* word_to_dword */
+          /* pop_result */
+          return;
+        }
+      }
+      /* loopnext */
+    }
 
   block_054a:
     /* word_to_dword */

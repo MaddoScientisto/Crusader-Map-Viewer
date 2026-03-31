@@ -4,12 +4,17 @@ function door_slot_20() /* entry=2568 class_id=0x0a06 slot=0x20 */
   spawn DOOR.slot_21(pid, 0, arg_06);
   suspend;
   /* dword_to_word */
-  if (!process_result) {
+  if (process_result) {
     /* word_to_dword */
     /* pop_result */
     return;
   }
-  /* word_to_dword */
-  /* pop_result */
+  else {
+    /* word_to_dword */
+    /* pop_result */
+    return;
+  }
+  spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+  suspend;
   return;
 }

@@ -6,81 +6,45 @@ function npc_slot_23() /* entry=2581 class_id=0x0a13 slot=0x23 */
     pad, /* [BP-04h] type=0x24 */
     padDir; /* [BP-06h] type=0x69 */
 
-  entry:
-    set_info(0x020a, *(arg_06));
+  set_info(0x020a, *(arg_06));
+  /* global_address */
+  if (intrinsic_0011((*(arg_06) != 1)) == 40) {
     /* global_address */
-    if (intrinsic_0011((*(arg_06) != 1)) != 40) goto block_0346;
-
-  block_032f:
-    /* global_address */
-
-  block_0346_selector_00:
-    for item in selector_0x42(arg0=0x01db, arg1=0x043d, arg2=(5 * 32), origin=arg_06) {
-      pad = item;
-      /* loopnext */
-    }
-
-  block_0374:
-    /* loopscr */
-    /* loopscr */
-    /* loop */
-
-  block_039f:
-    if condition goto block_03f2;
-
-  block_03a2:
-    if (intrinsic_0016(item) != 0x018e) goto block_03d8;
-
-  block_03bb:
-    if (!Item.getFrame(item)) goto block_03d5;
-
-  block_03ce:
-    padDir = 1;
-
-  block_03d5:
-    goto block_03ee;
-
-  block_03d8:
-    if Item.getFrame(item) goto block_03ee;
-
-  block_03e7:
-    padDir = 1;
-
-  block_03ee:
+  }
+  for item in selector_0x42(arg0=0x01db, arg1=0x043d, arg2=(5 * 32), origin=arg_06) {
+    pad = item;
     /* loopnext */
-    goto block_039f;
-
-  block_03f2:
-    spawn FREE.slot_32(pid, 60, 0x00000000);
+  }
+  /* loopscr */
+  /* loopscr */
+  /* loop */
+  while (condition) {
+    if (intrinsic_0016(item) == 0x018e) {
+      if (!Item.getFrame(item)) {
+        padDir = 1;
+      }
+    }
+    else if (Item.getFrame(item)) {
+      padDir = 1;
+    }
+    /* loopnext */
+  }
+  spawn FREE.slot_32(pid, 60, 0x00000000);
+  suspend;
+  /* global_address */
+  if (!padDir) {
     suspend;
-    /* global_address */
-    if (!padDir) goto block_0495;
-
-  block_046b:
+  }
+  else {
     suspend;
-    goto block_04bc;
-
-  block_0495:
-    suspend;
-
-  block_04bc:
-    /* global_address */
-    if intrinsic_003d(48) goto block_04f4;
-
-  block_04ce:
+  }
+  /* global_address */
+  if (intrinsic_003d(48)) {
     spawn FREE.slot_32(pid, 2, 0x00000000);
     suspend;
-
-  block_04f4:
-    if (*(arg_06) != 1) goto block_0529;
-
-  block_0504:
+  }
+  if (*(arg_06) == 1) {
     /* global_address */
-
-  block_0529:
-    goto block_052f;
-
-  block_052f:
-    return;
-
+  }
+  return;
 }

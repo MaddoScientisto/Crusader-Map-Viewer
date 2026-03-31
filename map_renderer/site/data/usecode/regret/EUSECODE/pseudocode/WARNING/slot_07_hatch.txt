@@ -2,16 +2,18 @@ function warning_hatch() /* entry=2333 class_id=0x091b slot=0x07 */
 {
   set_info(0x0210, *(arg_06));
   process_exclude();
-  if (!intrinsic_003b(arg_06)) {
+  if (intrinsic_003b(arg_06)) {
     spawn FREE.slot_21(pid, 0x017e, 0x00000000);
     suspend;
     spawn FREE.slot_21(pid, 0x0180, 0x00000000);
     suspend;
     return;
   }
-  spawn FREE.slot_21(pid, 0x017f, 0x00000000);
-  suspend;
-  spawn FREE.slot_21(pid, 0x0180, 0x00000000);
-  suspend;
+  else {
+    spawn FREE.slot_21(pid, 0x017f, 0x00000000);
+    suspend;
+    spawn FREE.slot_21(pid, 0x0180, 0x00000000);
+    suspend;
+  }
   return;
 }

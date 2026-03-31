@@ -5,73 +5,51 @@ function free_slot_3c() /* entry=2574 class_id=0x0a0c slot=0x3c */
     ref, /* [BP-04h] type=0x69 */
     rndVoice; /* [BP-06h] type=0x69 */
 
-  entry:
-    set_info(1, 0);
-    FREE.slot_33(0x022b, 0);
-    ref = 1;
-    if (intrinsic_00b7() != 1) goto block_1b14;
-
-  block_1b07:
-    goto block_1d0a;
-
-  block_1b14:
-    rndVoice = intrinsic_0018(100, 0);
-    if (rndVoice < 30) goto block_1ba9;
-
-  block_1b32:
-    spawn FREE.slot_21(pid, 15, 0x00000000);
-    suspend;
-    rndVoice = intrinsic_0018(100, 0);
-    if (rndVoice < 50) goto block_1b9c;
-
-  block_1b76:
-    spawn FREE.slot_21(pid, 14, 0x00000000);
-    suspend;
-
-  block_1b9c:
-    goto block_1d0a;
-
-  block_1ba9:
-    if (rndVoice > 60) goto block_1c63;
-
-  block_1bb7:
-    spawn FREE.slot_21(pid, 14, 0x00000000);
-    suspend;
-    rndVoice = intrinsic_0018(100, 0);
-    if (rndVoice < 30) goto block_1c21;
-
-  block_1bfb:
-    spawn FREE.slot_21(pid, 15, 0x00000000);
-    suspend;
-
-  block_1c21:
-    if (rndVoice > 60) goto block_1c56;
-
-  block_1c2f:
-    spawn FREE.slot_21(pid, 0x00b6, 0x00000000);
-    suspend;
-
-  block_1c56:
-    goto block_1d0a;
-
-  block_1c63:
-    spawn FREE.slot_21(pid, 0x00d2, 0x00000000);
-    suspend;
-    rndVoice = intrinsic_0018(100, 0);
-    if (rndVoice < 30) goto block_1cce;
-
-  block_1ca8:
-    spawn FREE.slot_21(pid, 14, 0x00000000);
-    suspend;
-
-  block_1cce:
-    if (rndVoice > 60) goto block_1d03;
-
-  block_1cdc:
-    spawn FREE.slot_21(pid, 0x00b6, 0x00000000);
-    suspend;
-
-  block_1d0a:
+  set_info(1, 0);
+  FREE.slot_33(0x022b, 0);
+  ref = 1;
+  if (intrinsic_00b7() == 1) {
     return;
-
+  }
+  else {
+    rndVoice = intrinsic_0018(100, 0);
+    if (rndVoice < 30) {
+      spawn FREE.slot_21(pid, 15, 0x00000000);
+      suspend;
+      rndVoice = intrinsic_0018(100, 0);
+      if (rndVoice < 50) {
+        spawn FREE.slot_21(pid, 14, 0x00000000);
+        suspend;
+      }
+      return;
+    }
+    else if (rndVoice > 60) {
+      spawn FREE.slot_21(pid, 14, 0x00000000);
+      suspend;
+      rndVoice = intrinsic_0018(100, 0);
+      if (rndVoice < 30) {
+        spawn FREE.slot_21(pid, 15, 0x00000000);
+        suspend;
+      }
+      if (rndVoice > 60) {
+        spawn FREE.slot_21(pid, 0x00b6, 0x00000000);
+        suspend;
+      }
+      return;
+    }
+    else {
+      spawn FREE.slot_21(pid, 0x00d2, 0x00000000);
+      suspend;
+      rndVoice = intrinsic_0018(100, 0);
+      if (rndVoice < 30) {
+        spawn FREE.slot_21(pid, 14, 0x00000000);
+        suspend;
+      }
+      if (rndVoice > 60) {
+        spawn FREE.slot_21(pid, 0x00b6, 0x00000000);
+        suspend;
+      }
+    }
+  }
+  return;
 }

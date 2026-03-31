@@ -1,38 +1,26 @@
 function watchns_use() /* entry=1224 class_id=0x04c6 slot=0x01 */
 {
-  entry:
-    set_info(0x0207, *(arg_06));
-    process_exclude();
-    if (intrinsic_0004(arg_06) & 0x1000) goto block_019b;
-
-  block_0198:
-    goto block_0260;
-
-  block_019b:
-    if (Item.getFrame(arg_06) != 1) goto block_01c5;
-
-  block_01aa:
+  set_info(0x0207, *(arg_06));
+  process_exclude();
+  if (intrinsic_0004(arg_06) & 0x1000) {
+  }
+  else if (Item.getFrame(arg_06) == 1) {
     spawn FREE.slot_21(pid, 0x01a7, 0x00000000);
     suspend;
-    goto block_0260;
-
-  block_01c5:
-    ITEM.slot_26((intrinsic_0000() != 1), 4, arg_06);
-    if (retval != 1) goto block_0255;
-
-  block_01e0:
-    /* free_local_string */
-    local_02 = "SECURITY OPS^_____________^^CODE RED IN PROGRESS.^UNABLE TO ACCESS CENTRAL SECURITY.";
-    spawn TEXTFILE.slot_20(pid, local_02, arg_06);
-    /* free_stack_string */
-    suspend;
-    goto block_0260;
-
-  block_0255:
-    spawn WATCHNS.slot_20(arg_06);
-
-  block_0260:
-    /* free_local_string */
-    return;
-
+  }
+  else {
+    ITEM.slot_26((intrinsic_0000() == 1), 4, arg_06);
+    if (retval == 1) {
+      /* free_local_string */
+      local_02 = "SECURITY OPS^_____________^^CODE RED IN PROGRESS.^UNABLE TO ACCESS CENTRAL SECURITY.";
+      spawn TEXTFILE.slot_20(pid, local_02, arg_06);
+      /* free_stack_string */
+      suspend;
+    }
+    else {
+      spawn WATCHNS.slot_20(arg_06);
+    }
+  }
+  /* free_local_string */
+  return;
 }

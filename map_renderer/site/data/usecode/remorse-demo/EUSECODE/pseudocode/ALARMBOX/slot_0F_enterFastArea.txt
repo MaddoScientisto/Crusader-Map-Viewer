@@ -2,7 +2,13 @@ function alarmbox_enterFastArea() /* entry=1145 class_id=0x0477 slot=0x0f */
 {
   set_info(0x021b, *(arg_06));
   process_exclude();
-  if (!intrinsic_0000()) {
+  if (intrinsic_0000()) {
+    return;
+  }
+  else if (Item.getFrame(arg_06) == 2) {
+    return;
+  }
+  else if (Item.getFrame(arg_06) == 3) {
     return;
   }
   return;

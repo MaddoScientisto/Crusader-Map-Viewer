@@ -1,75 +1,49 @@
 function pplate2_gotHit() /* entry=411 class_id=0x0199 slot=0x06 */
 {
-  entry:
-    set_info(0x020c, *(arg_06));
-    process_exclude();
-    FREE.slot_2c(arg_12, arg_10);
-    if retval goto block_018c;
-
-  block_0189:
-    goto block_02b5;
-
-  block_018c:
-    local_02 = Item.getFrame(arg_06);
-    if (local_02 & 1) goto block_01a2;
-
-  block_019f:
-    goto block_02b5;
-
-  block_01a2:
-    local_04 = arg_10;
-    if ((intrinsic_0056(arg_06) != 0) || (intrinsic_0057(*(arg_06), local_04) != 0)) goto block_01c9;
-
-  block_01c6:
-    goto block_02b5;
-
-  block_01c9:
-    if (intrinsic_0003(arg_06) != 0) goto block_026c;
-
-  block_01e5:
-    spawn TRIGGER.slot_2a(pid, 0, *(arg_06), arg_06);
-    suspend;
-
-  block_0208:
-    if 1 goto block_0269;
-
-  block_020d:
-    if (intrinsic_0056(arg_06) != 0) goto block_0236;
-
-  block_021c:
-    spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
-    suspend;
-    goto block_0266;
-
-  block_0236:
-    spawn TRIGGER.slot_2a(pid, 1, *(arg_06), arg_06);
-    suspend;
-    goto block_02b5;
-
-  block_0266:
-    goto block_0208;
-
-  block_0269:
-    goto block_02b5;
-
-  block_026c:
-    if 1 goto block_02b5;
-
-  block_0271:
-    if (intrinsic_0056(arg_06) != 0) goto block_029a;
-
-  block_0280:
-    spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
-    suspend;
-    goto block_02b2;
-
-  block_029a:
-    goto block_02b5;
-
-  block_02b2:
-    goto block_026c;
-
-  block_02b5:
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  FREE.slot_2c(arg_12, arg_10);
+  if (retval) {
     return;
-
+  }
+  else {
+    local_02 = Item.getFrame(arg_06);
+    if (local_02 & 1) {
+      return;
+    }
+    else {
+      local_04 = arg_10;
+      if ((intrinsic_0056(arg_06) == 0) || (intrinsic_0057(*(arg_06), local_04) == 0)) {
+        return;
+      }
+      else if (intrinsic_0003(arg_06) != 0) {
+        spawn TRIGGER.slot_2a(pid, 0, *(arg_06), arg_06);
+        suspend;
+        while (1) {
+          if (intrinsic_0056(arg_06) != 0) {
+            spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+            suspend;
+          }
+          else {
+            spawn TRIGGER.slot_2a(pid, 1, *(arg_06), arg_06);
+            suspend;
+            return;
+          }
+        }
+        return;
+      }
+      else {
+        while (1) {
+          if (intrinsic_0056(arg_06) != 0) {
+            spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+            suspend;
+          }
+          else {
+            return;
+          }
+        }
+      }
+    }
+  }
+  return;
 }

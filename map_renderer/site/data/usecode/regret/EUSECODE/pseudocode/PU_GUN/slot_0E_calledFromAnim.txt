@@ -5,7 +5,7 @@ function pu_gun_calledFromAnim() /* entry=1468 class_id=0x05ba slot=0x0e */
     process_exclude();
     local_02 = *(arg_06);
     local_05 = intrinsic_00da(local_02);
-    if (local_05 != 8) goto block_0490;
+    if local_05 != 8 goto block_0490;
 
   block_020b:
     if (local_21 == 0) {
@@ -107,7 +107,7 @@ function pu_gun_calledFromAnim() /* entry=1468 class_id=0x05ba slot=0x0e */
 
   block_03ff:
     ITEM.slot_26(4, arg_06);
-    if retval goto block_0428;
+    if !retval goto block_0428;
 
   block_040e:
     local_15 = 46;
@@ -134,13 +134,13 @@ function pu_gun_calledFromAnim() /* entry=1468 class_id=0x05ba slot=0x0e */
     /* loop_selector local_23 in nearby_items(shape=0x04e7, origin=local_02) */
 
   block_04ac:
-    if condition goto block_04f1;
+    if !condition goto block_04f1;
 
   block_04af:
-    if (intrinsic_000d(local_02) != intrinsic_00e2(local_23)) goto block_04ed;
+    if intrinsic_000d(local_02) != intrinsic_00e2(local_23) goto block_04ed;
 
   block_04c5:
-    if (intrinsic_0003(local_23) != 0) goto block_04ed;
+    if intrinsic_0003(local_23) == 0 goto block_04ed;
 
   block_04d4:
     spawn TRIGGER.slot_20(pid, 0, local_23, local_23);

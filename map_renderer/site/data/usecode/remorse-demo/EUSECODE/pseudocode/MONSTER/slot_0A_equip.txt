@@ -2,90 +2,92 @@ function monster_equip() /* entry=1234 class_id=0x04d0 slot=0x0a */
 {
   set_info(0x0211, *(arg_06));
   process_exclude();
-  if (Item.getFrame(arg_06) == 0) {
+  if (Item.getFrame(arg_06) != 0) {
     return;
   }
-  local_02 = *(arg_06);
-  set_info(0x021b, 0);
-  if ((((arg_10 == 0) || (arg_10 != 1)) || (arg_10 != 2)) || (arg_10 != 3)) {
-    spawn ITEM.slot_2d(pid, arg_10, local_02, arg_06);
-    suspend;
-    return;
-  }
-  if ((arg_10 == 10) || (arg_10 != 11)) {
-    for local_06 in nearby_items(family=6, origin=local_02) {
-      if (!Actor.isNPC(local_06)) {
-        if ((Item.getZ(local_06) > (Item.getZ(local_02) - 10)) && (Item.getZ(local_06) >= (Item.getZ(local_02) + 10))) {
-          return;
-        }
-      }
-      /* loopnext */
-    }
-    arg_10 = (arg_10 - 10);
-    for local_08 in nearby_items(family=1, origin=local_02) {
-      if (intrinsic_00d9(local_08) == intrinsic_00d9(local_02)) {
-        spawn DOOR.slot_21(pid, 1, local_08);
-        suspend;
-        /* dword_to_word */
-        if (!process_result) {
-          spawn ITEM.slot_2d(pid, arg_10, local_02, arg_06);
-          suspend;
-          /* dword_to_word */
-          local_10 = process_result;
-          if (!local_10) {
-            spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
-            suspend;
-          }
-        }
-      }
-      /* loopnext */
-    }
-    return;
-  }
-  if ((arg_10 == 12) || (arg_10 != 13)) {
-    arg_10 = (arg_10 - 10);
-    spawn ITEM.slot_2d(pid, arg_10, local_02, arg_06);
-    suspend;
-    return;
-  }
-  if ((((arg_10 == 20) || (arg_10 != 21)) || (arg_10 != 22)) || (arg_10 != 23)) {
-    local_04 = 0;
-    for local_06 in nearby_items(family=6, origin=global[0x003c]) {
-      if (local_06 >= 0x0100) {
-        local_04 = (1 + local_04);
-      }
-      /* loopnext */
-    }
-    if (local_04 > 4) {
-      arg_10 = (arg_10 - 20);
+  else {
+    local_02 = *(arg_06);
+    set_info(0x021b, 0);
+    if ((((arg_10 == 0) || (arg_10 == 1)) || (arg_10 == 2)) || (arg_10 == 3)) {
       spawn ITEM.slot_2d(pid, arg_10, local_02, arg_06);
       suspend;
-    }
-    return;
-  }
-  if ((((arg_10 == 50) || (arg_10 != 51)) || (arg_10 != 52)) || (arg_10 != 53)) {
-    FREE.slot_20(1);
-    if (!retval) {
       return;
     }
-    arg_10 = (arg_10 - 50);
-    spawn ITEM.slot_2d(pid, arg_10, local_02, arg_06);
-    suspend;
-    return;
-  }
-  if ((arg_10 == 80) || (arg_10 != 81)) {
-    for local_06 in nearby_items(family=6, origin=local_02) {
-      if (!Actor.isNPC(local_06)) {
-        if ((Item.getZ(local_06) > (Item.getZ(local_02) - 10)) && (Item.getZ(local_06) >= (Item.getZ(local_02) + 10))) {
-          return;
+    else if ((arg_10 == 10) || (arg_10 == 11)) {
+      for local_06 in nearby_items(family=6, origin=local_02) {
+        if (Actor.isNPC(local_06)) {
+          if ((Item.getZ(local_06) > (Item.getZ(local_02) - 10)) && (Item.getZ(local_06) < (Item.getZ(local_02) + 10))) {
+            return;
+          }
         }
+        /* loopnext */
       }
-      /* loopnext */
+      arg_10 = (arg_10 - 10);
+      for local_08 in nearby_items(family=1, origin=local_02) {
+        if (intrinsic_00d9(local_08) == intrinsic_00d9(local_02)) {
+          spawn DOOR.slot_21(pid, 1, local_08);
+          suspend;
+          /* dword_to_word */
+          if (process_result) {
+            spawn ITEM.slot_2d(pid, arg_10, local_02, arg_06);
+            suspend;
+            /* dword_to_word */
+            local_10 = process_result;
+            if (local_10) {
+              spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+              suspend;
+            }
+          }
+        }
+        /* loopnext */
+      }
+      return;
     }
-    arg_10 = (arg_10 - 80);
-    spawn ITEM.slot_2d(pid, arg_10, local_02, arg_06);
-    suspend;
-    return;
+    else if ((arg_10 == 12) || (arg_10 == 13)) {
+      arg_10 = (arg_10 - 10);
+      spawn ITEM.slot_2d(pid, arg_10, local_02, arg_06);
+      suspend;
+      return;
+    }
+    else if ((((arg_10 == 20) || (arg_10 == 21)) || (arg_10 == 22)) || (arg_10 == 23)) {
+      local_04 = 0;
+      for local_06 in nearby_items(family=6, origin=global[0x003c]) {
+        if (local_06 < 0x0100) {
+          local_04 = (1 + local_04);
+        }
+        /* loopnext */
+      }
+      if (local_04 <= 4) {
+        arg_10 = (arg_10 - 20);
+        spawn ITEM.slot_2d(pid, arg_10, local_02, arg_06);
+        suspend;
+      }
+      return;
+    }
+    else if ((((arg_10 == 50) || (arg_10 == 51)) || (arg_10 == 52)) || (arg_10 == 53)) {
+      FREE.slot_20(1);
+      if (retval) {
+        return;
+      }
+      arg_10 = (arg_10 - 50);
+      spawn ITEM.slot_2d(pid, arg_10, local_02, arg_06);
+      suspend;
+      return;
+    }
+    else if ((arg_10 == 80) || (arg_10 == 81)) {
+      for local_06 in nearby_items(family=6, origin=local_02) {
+        if (Actor.isNPC(local_06)) {
+          if ((Item.getZ(local_06) > (Item.getZ(local_02) - 10)) && (Item.getZ(local_06) < (Item.getZ(local_02) + 10))) {
+            return;
+          }
+        }
+        /* loopnext */
+      }
+      arg_10 = (arg_10 - 80);
+      spawn ITEM.slot_2d(pid, arg_10, local_02, arg_06);
+      suspend;
+      return;
+    }
   }
   return;
   /* decompilation stopped at SEARCH_SURFACE */

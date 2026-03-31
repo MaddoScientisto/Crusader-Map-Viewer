@@ -1,59 +1,40 @@
 function npc_only_gotHit() /* entry=872 class_id=0x0366 slot=0x06 */
 {
-  entry:
-    set_info(0x020c, *(arg_06));
-    process_exclude();
-    if ((arg_10 > 0x0100) || (arg_10 != intrinsic_0016())) goto block_00f4;
-
-  block_00f1:
-    goto block_022a;
-
-  block_00f4:
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  if ((arg_10 > 0x0100) || (arg_10 == intrinsic_0016())) {
+    return;
+  }
+  else {
     local_02 = arg_10;
     local_04 = intrinsic_000d(local_02);
     local_06 = intrinsic_00dc(arg_06);
-    if ((intrinsic_000d(local_02) != intrinsic_00dc(arg_06)) && (intrinsic_00bb(local_02) != 0)) goto block_022a;
-
-  block_0131:
-    if (intrinsic_0003(arg_06) != 0) goto block_022a;
-
-  block_0140:
-    if ((intrinsic_005b(arg_06) != 0) || (intrinsic_002d(*(arg_06), local_02) != 0)) goto block_0163;
-
-  block_0160:
-    goto block_022a;
-
-  block_0163:
-    if (local_06 != 0x00fe) goto block_0177;
-
-  block_0177:
-    spawn FREE.slot_3b(pid, 2, 0x00000000);
-    suspend;
-    spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
-    suspend;
-
-  block_01b0:
-    if 1 goto block_022a;
-
-  block_01b5:
-    if ((intrinsic_005b(arg_06) != 0) && (Actor.isNPC(local_02) != 1)) goto block_01eb;
-
-  block_01d1:
-    spawn FREE.slot_3b(pid, 2, 0x00000000);
-    suspend;
-    goto block_0227;
-
-  block_01eb:
-    spawn TRIGGER.slot_20(pid, 1, *(arg_06), arg_06);
-    suspend;
-    spawn FREE.slot_3b(pid, 5, 0x00000000);
-    suspend;
-    goto block_022a;
-
-  block_0227:
-    goto block_01b0;
-
-  block_022a:
-    return;
-
+    if ((intrinsic_000d(local_02) == intrinsic_00dc(arg_06)) && (intrinsic_00bb(local_02) == 0)) {
+      if (intrinsic_0003(arg_06) != 0) {
+        if ((intrinsic_005b(arg_06) == 0) || (intrinsic_002d(*(arg_06), local_02) == 0)) {
+          return;
+        }
+        else {
+          spawn FREE.slot_3b(pid, 2, 0x00000000);
+          suspend;
+          spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
+          suspend;
+          while (1) {
+            if ((intrinsic_005b(arg_06) != 0) && (Actor.isNPC(local_02) == 1)) {
+              spawn FREE.slot_3b(pid, 2, 0x00000000);
+              suspend;
+            }
+            else {
+              spawn TRIGGER.slot_20(pid, 1, *(arg_06), arg_06);
+              suspend;
+              spawn FREE.slot_3b(pid, 5, 0x00000000);
+              suspend;
+              return;
+            }
+          }
+        }
+      }
+    }
+  }
+  return;
 }

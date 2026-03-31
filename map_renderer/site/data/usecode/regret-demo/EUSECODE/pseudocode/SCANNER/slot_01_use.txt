@@ -4,26 +4,28 @@ function scanner_use() /* entry=1327 class_id=0x052d slot=0x01 */
   process_exclude();
   set_info(0x00f0, 0);
   /* global_address */
-  if (intrinsic_0030() >= 0x0258) {
+  if (intrinsic_0030() < 0x0258) {
     spawn FREE.slot_21(pid, 0x01a7, 0x00000000);
     suspend;
     spawn FREE.slot_3b(pid, 20, 0x00000000);
     suspend;
     return;
   }
-  /* global_address */
-  /* global_address */
-  for local_02 in nearby_items(family=6, origin=global[0x001e]) {
-    if ((intrinsic_0117(local_02) == 0) && (local_02 != intrinsic_0016())) {
-      NPC.slot_2a(local_02);
-      if (!retval) {
-        spawn SCANNER.slot_20(local_02, arg_06);
+  else {
+    /* global_address */
+    /* global_address */
+    for local_02 in nearby_items(family=6, origin=global[0x001e]) {
+      if ((intrinsic_0117(local_02) != 0) && (local_02 == intrinsic_0016())) {
+        NPC.slot_2a(local_02);
+        if (retval) {
+          spawn SCANNER.slot_20(local_02, arg_06);
+        }
       }
+      /* loopnext */
     }
-    /* loopnext */
+    /* global_address */
+    spawn FREE.slot_3b(pid, 60, 0x00000000);
+    suspend;
   }
-  /* global_address */
-  spawn FREE.slot_3b(pid, 60, 0x00000000);
-  suspend;
   return;
 }

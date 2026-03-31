@@ -6,7 +6,7 @@ function wallgun_slot_39() /* entry=2591 class_id=0x0a1d slot=0x39 */
     local_10 = 1;
     WALLGUN.slot_29(arg_06);
     local_11 = retval;
-    if (local_11 != 1) goto block_29b9;
+    if local_11 != 1 goto block_29b9;
 
   block_29a1:
     local_06 = 1;
@@ -16,7 +16,7 @@ function wallgun_slot_39() /* entry=2591 class_id=0x0a1d slot=0x39 */
 
   block_29b9:
     WALLGUN.slot_2b(arg_06);
-    if retval goto block_29e1;
+    if !retval goto block_29e1;
 
   block_29c9:
     local_06 = 1;
@@ -34,16 +34,16 @@ function wallgun_slot_39() /* entry=2591 class_id=0x0a1d slot=0x39 */
     local_13 = (retval * 5);
 
   block_2a08:
-    if 1 goto block_2bc6;
+    if !(1) goto block_2bc6;
 
   block_2a10:
     spawn WALLGUN.slot_26(pid, arg_06);
     suspend;
     local_08 = Item.getFrame(arg_06);
-    if (local_11 != 1) goto block_2a82;
+    if local_11 != 1 goto block_2a82;
 
   block_2a48:
-    if (local_08 > 19) goto block_2a7f;
+    if local_08 <= 19 goto block_2a7f;
 
   block_2a53:
     spawn FREE.slot_32(pid, 10, 0x00000000);
@@ -54,7 +54,7 @@ function wallgun_slot_39() /* entry=2591 class_id=0x0a1d slot=0x39 */
     goto block_2abc;
 
   block_2a82:
-    if (local_08 > 8) goto block_2abc;
+    if local_08 <= 8 goto block_2abc;
 
   block_2a8d:
     spawn FREE.slot_32(pid, 10, 0x00000000);
@@ -65,10 +65,10 @@ function wallgun_slot_39() /* entry=2591 class_id=0x0a1d slot=0x39 */
     goto block_2abc;
 
   block_2abc:
-    if local_09 goto block_2af2;
+    if !local_09 goto block_2af2;
 
   block_2ac4:
-    if (local_08 != local_04) goto block_2ae5;
+    if local_08 != local_04 goto block_2ae5;
 
   block_2ad5:
     local_09 = 0;
@@ -84,10 +84,10 @@ function wallgun_slot_39() /* entry=2591 class_id=0x0a1d slot=0x39 */
     goto block_2b4e;
 
   block_2af2:
-    if (local_10 != 1) goto block_2b2b;
+    if local_10 != 1 goto block_2b2b;
 
   block_2afd:
-    if (local_08 != local_02) goto block_2b1e;
+    if local_08 != local_02 goto block_2b1e;
 
   block_2b0e:
     local_10 = 0;
@@ -103,7 +103,7 @@ function wallgun_slot_39() /* entry=2591 class_id=0x0a1d slot=0x39 */
     goto block_2b4e;
 
   block_2b2b:
-    if (local_08 != 4) goto block_2b40;
+    if local_08 == 4 goto block_2b40;
 
   block_2b36:
     local_08 = (local_08 + local_06);
@@ -116,7 +116,7 @@ function wallgun_slot_39() /* entry=2591 class_id=0x0a1d slot=0x39 */
     spawn FREE.slot_32(pid, local_13, 0x00000000);
     suspend;
     WALLGUN.slot_2e(arg_10, arg_06);
-    if retval goto block_2bc3;
+    if !retval goto block_2bc3;
 
   block_2ba0:
     spawn WALLGUN.slot_46(pid, arg_10, arg_06);
