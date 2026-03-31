@@ -11,13 +11,13 @@ export function resolveDtablePath(staticDir) {
   return path.join(staticDir, "DTABLE.FLX");
 }
 
-export function collectNpcSpawnerRows() {
+export function collectNpcSpawnerRows(games = GAMES) {
   const gameRowsById = {};
 
-  for (const game of GAMES) {
+  for (const game of games) {
     const dtablePath = resolveDtablePath(game.staticDir);
     if (!fs.existsSync(dtablePath)) {
-      throw new Error(`Missing DTABLE.FLX for ${game.id}: ${dtablePath}`);
+      continue;
     }
     gameRowsById[game.id] = extractNpcSpawnerRows(dtablePath);
   }
@@ -25,8 +25,8 @@ export function collectNpcSpawnerRows() {
   return gameRowsById;
 }
 
-export function writeNpcSpawnerData(outputFile = NPC_SPAWNER_CACHE_FILE) {
-  const gameRowsById = collectNpcSpawnerRows();
+export function writeNpcSpawnerData(outputFile = NPC_SPAWNER_CACHE_FILE, games = GAMES) {
+  const gameRowsById = collectNpcSpawnerRows(games);
   const payload = buildNpcSpawnerData(gameRowsById);
   fs.mkdirSync(path.dirname(outputFile), { recursive: true });
   fs.writeFileSync(outputFile, `${JSON.stringify(payload, null, 2)}\n`, "utf8");

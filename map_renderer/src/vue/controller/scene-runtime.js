@@ -5,6 +5,7 @@ export function createSceneRuntimeController(deps) {
     overlayTooltip,
     panelResizer,
     mapForm,
+    versionSelect,
     mapSelect,
     mapPrevButton,
     mapNextButton,
@@ -38,6 +39,7 @@ export function createSceneRuntimeController(deps) {
     includeRoofsCheckbox: includeRoofs,
     includeOobCheckbox: includeOob,
     getSelectedMap,
+    syncVersionSelection,
     updateMapNavigationState,
     stepSelectedMap,
     currentSelectionMatches,
@@ -154,6 +156,7 @@ export function createSceneRuntimeController(deps) {
       window.localStorage?.setItem(
         VIEWER_PREFERENCES_STORAGE_KEY,
         JSON.stringify({
+          selectedVersion: versionSelect.value,
           selectedMap: getSelectedMap(),
           options
         })
@@ -176,26 +179,19 @@ export function createSceneRuntimeController(deps) {
   }
 
   function restoreSelectedMap(preferences) {
+    const selectedVersion = String(preferences?.selectedVersion ?? "");
+    if (selectedVersion && [...versionSelect.options].some((option) => option.value === selectedVersion)) {
+      versionSelect.value = selectedVersion;
+    }
+
     const selectedMap = preferences?.selectedMap;
-    if (!selectedMap || typeof selectedMap !== "object") {
-      return false;
-    }
-
-    const nextValue = JSON.stringify({
-      game: selectedMap.game,
-      mapId: selectedMap.mapId
-    });
-    const matchingOption = [...mapSelect.options].find((option) => option.value === nextValue);
-    if (!matchingOption) {
-      mapSelect.value = "";
-      writeViewerPreferences();
-      return false;
-    }
-
-    mapSelect.value = nextValue;
-    updateMapNavigationState();
+    syncVersionSelection(selectedMap && typeof selectedMap === "object" ? selectedMap : null);
     writeViewerPreferences();
-    return true;
+    return Boolean(getSelectedMap());
+  }
+
+  function getSelectedGameLabel(selected) {
+    return state.catalog?.games?.find((game) => game.id === selected?.game)?.label ?? selected?.game ?? "unknown game";
   }
 
   function clientToScenePoint(clientX, clientY) {
@@ -523,8 +519,8 @@ export function createSceneRuntimeController(deps) {
     setLoadingState(true, { phase: "loading-static-scene" });
     setStatus(
       preserveView
-        ? `Reloading prebuilt ${selected.game} map ${selected.mapId}. The current camera stays in place until the new scene is ready.`
-        : `Loading prebuilt ${selected.game} map ${selected.mapId}...`
+        ? `Reloading prebuilt ${getSelectedGameLabel(selected)} map ${selected.mapId}. The current camera stays in place until the new scene is ready.`
+        : `Loading prebuilt ${getSelectedGameLabel(selected)} map ${selected.mapId}...`
     );
 
     const scene = await fetchJson(getStaticSceneUrl(selected));
@@ -533,7 +529,7 @@ export function createSceneRuntimeController(deps) {
     }
 
     setLoadingState(true, { phase: "loading-static-atlases" });
-    setStatus(`Loading ${scene.atlases.length} prebuilt atlas image${scene.atlases.length === 1 ? "" : "s"} for ${selected.game} map ${selected.mapId}...`);
+    setStatus(`Loading ${scene.atlases.length} prebuilt atlas image${scene.atlases.length === 1 ? "" : "s"} for ${getSelectedGameLabel(selected)} map ${selected.mapId}...`);
     const atlasImages = await loadSceneAssets(scene, selected, null);
     if (token !== state.buildToken) {
       return;
@@ -541,7 +537,7 @@ export function createSceneRuntimeController(deps) {
 
     applyLoadedScene(selected, null, scene, atlasImages, preserveView);
     setLoadingState(false);
-    setStatus(`Ready. ${selected.game} map ${selected.mapId} prebuilt static scene loaded.`);
+    setStatus(`Ready. ${getSelectedGameLabel(selected)} map ${selected.mapId} prebuilt static scene loaded.`);
   }
 
   async function startBuild(selected) {
@@ -570,8 +566,8 @@ export function createSceneRuntimeController(deps) {
     setLoadingState(true, { phase: "queued" });
     setStatus(
       preserveView
-        ? `Rebuilding ${selected.game} map ${selected.mapId}. The current camera stays in place until the new scene is ready.`
-        : `Building ${selected.game} map ${selected.mapId}...`
+        ? `Rebuilding ${getSelectedGameLabel(selected)} map ${selected.mapId}. The current camera stays in place until the new scene is ready.`
+        : `Building ${getSelectedGameLabel(selected)} map ${selected.mapId}...`
     );
 
     const build = await fetchJson(getDynamicBuildsUrl(), {
@@ -613,7 +609,7 @@ export function createSceneRuntimeController(deps) {
       return;
     }
 
-    setStatus(`Loading ${scene.atlases.length} atlas image${scene.atlases.length === 1 ? "" : "s"} for ${selected.game} map ${selected.mapId}...`);
+    setStatus(`Loading ${scene.atlases.length} atlas image${scene.atlases.length === 1 ? "" : "s"} for ${getSelectedGameLabel(selected)} map ${selected.mapId}...`);
     const atlasImages = await loadSceneAssets(scene, selected, jobId);
     if (token !== state.buildToken) {
       return;
@@ -621,7 +617,7 @@ export function createSceneRuntimeController(deps) {
 
     applyLoadedScene(selected, jobId, scene, atlasImages, preserveView);
     setLoadingState(false);
-    setStatus(`Ready. ${selected.game} map ${selected.mapId} is atlas-backed and fully loaded.`);
+    setStatus(`Ready. ${getSelectedGameLabel(selected)} map ${selected.mapId} is atlas-backed and fully loaded.`);
   }
 
   function scheduleAutoBuild() {
@@ -794,6 +790,17 @@ export function createSceneRuntimeController(deps) {
       writeViewerPreferences();
       scheduleAutoBuild();
     });
+    versionSelect.addEventListener("change", () => {
+      const previousSelection = getSelectedMap();
+      const selectedVersion = syncVersionSelection(previousSelection);
+      writeViewerPreferences();
+      if (!selectedVersion) {
+        setStatus(isStaticMode() ? "No exported versions were found in the static site bundle." : "No usable versioned STATIC folders were detected under the app root.");
+        setEmptyStateVisible(true);
+        return;
+      }
+      scheduleAutoBuild();
+    });
     mapPrevButton.addEventListener("click", () => stepSelectedMap(-1, () => {
       writeViewerPreferences();
       scheduleAutoBuild();
@@ -900,7 +907,7 @@ export function createSceneRuntimeController(deps) {
       try {
         setStatus("Encoding PNG export in the browser...");
         await downloadCurrentScene();
-        setStatus(`Ready. ${state.current.selected.game} map ${state.current.selected.mapId} export created.`);
+        setStatus(`Ready. ${getSelectedGameLabel(state.current.selected)} map ${state.current.selected.mapId} export created.`);
       } catch (error) {
         setStatus(error instanceof Error ? error.message : String(error));
       }
@@ -912,7 +919,7 @@ export function createSceneRuntimeController(deps) {
       }
       try {
         downloadCurrentSceneJson();
-        setStatus(`Ready. ${state.current.selected.game} map ${state.current.selected.mapId} scene JSON exported.`);
+        setStatus(`Ready. ${getSelectedGameLabel(state.current.selected)} map ${state.current.selected.mapId} scene JSON exported.`);
       } catch (error) {
         setStatus(error instanceof Error ? error.message : String(error));
       }
@@ -924,7 +931,7 @@ export function createSceneRuntimeController(deps) {
       }
       try {
         downloadCurrentMapBinary();
-        setStatus(`Ready. ${state.current.selected.game} map ${state.current.selected.mapId} binary export created.`);
+        setStatus(`Ready. ${getSelectedGameLabel(state.current.selected)} map ${state.current.selected.mapId} binary export created.`);
       } catch (error) {
         setStatus(error instanceof Error ? error.message : String(error));
       }
@@ -936,7 +943,7 @@ export function createSceneRuntimeController(deps) {
       }
       try {
         await downloadCurrentAtlases();
-        setStatus(`Ready. ${state.current.selected.game} map ${state.current.selected.mapId} atlas export created.`);
+        setStatus(`Ready. ${getSelectedGameLabel(state.current.selected)} map ${state.current.selected.mapId} atlas export created.`);
       } catch (error) {
         setStatus(error instanceof Error ? error.message : String(error));
       }
@@ -948,7 +955,7 @@ export function createSceneRuntimeController(deps) {
       }
       try {
         await exportHiddenShapes();
-        setStatus(`Ready. ${state.current.selected.game} map ${state.current.selected.mapId} hidden shape export created.`);
+        setStatus(`Ready. ${getSelectedGameLabel(state.current.selected)} map ${state.current.selected.mapId} hidden shape export created.`);
       } catch (error) {
         setStatus(error instanceof Error ? error.message : String(error));
       }

@@ -14,6 +14,10 @@ const CATALOG_FILE_BY_GAME = {
 const shapeCatalogCache = new Map();
 const CATALOG_HEADERS = ["shape_code", "human_readable_id", "description", "roof", "semitransparency", "OOB", "categorization", "qualities"];
 
+function getCatalogSourceGameId(gameId) {
+  return GAMES.find((game) => game.id === gameId)?.catalogId ?? gameId;
+}
+
 function toShapeCodeHex(shapeCode) {
   return `0x${shapeCode.toString(16).padStart(4, "0")}`;
 }
@@ -228,7 +232,7 @@ function parseEditableBoolean(value, fieldName) {
 }
 
 function getCatalogPath(gameId) {
-  const fileName = CATALOG_FILE_BY_GAME[gameId];
+  const fileName = CATALOG_FILE_BY_GAME[getCatalogSourceGameId(gameId)];
   if (!fileName) {
     return null;
   }
@@ -251,7 +255,8 @@ export function getShapeCatalog(gameId) {
 
   const stat = fs.statSync(filePath);
   const stamp = `${stat.size}:${Math.trunc(stat.mtimeMs)}`;
-  const cached = shapeCatalogCache.get(gameId);
+  const cacheKey = getCatalogSourceGameId(gameId);
+  const cached = shapeCatalogCache.get(cacheKey);
   if (cached?.stamp === stamp) {
     return cached.value;
   }
@@ -262,7 +267,7 @@ export function getShapeCatalog(gameId) {
     digest: sha1(text),
     entries: parseCatalogCsv(text)
   };
-  shapeCatalogCache.set(gameId, { stamp, value });
+  shapeCatalogCache.set(cacheKey, { stamp, value });
   return value;
 }
 
@@ -324,7 +329,7 @@ export function ensureShapeCatalogCoverage(gameId, observedShapes) {
   fs.mkdirSync(path.dirname(filePath), { recursive: true });
   const serialized = serializeCatalog(entries);
   fs.writeFileSync(filePath, serialized, "utf8");
-  shapeCatalogCache.delete(gameId);
+  shapeCatalogCache.delete(getCatalogSourceGameId(gameId));
   return {
     changed: true,
     added,
@@ -357,7 +362,7 @@ export function updateShapeCatalogEntry(gameId, shapeCodeValue, updates = {}) {
   entries.set(shapeCode, next);
   fs.mkdirSync(path.dirname(filePath), { recursive: true });
   fs.writeFileSync(filePath, serializeCatalog(entries), "utf8");
-  shapeCatalogCache.delete(gameId);
+  shapeCatalogCache.delete(getCatalogSourceGameId(gameId));
 
   return {
     filePath,
@@ -420,7 +425,7 @@ export function syncShapeCatalogWithDtable(gameId, options = {}) {
   if (!dryRun && (created || updated)) {
     fs.mkdirSync(path.dirname(filePath), { recursive: true });
     fs.writeFileSync(filePath, serializeCatalog(entries), "utf8");
-    shapeCatalogCache.delete(gameId);
+    shapeCatalogCache.delete(getCatalogSourceGameId(gameId));
   }
 
   return {
@@ -446,13 +451,17 @@ export function detectCatalog() {
       .filter((map) => map.isValid && map.rawItemCount > 0)
       .map((map) => ({
         id: map.id,
-        label: `${game.label} Map ${map.id}`,
+        label: `Map ${map.id}`,
         rawItemCount: map.rawItemCount
       }));
     if (maps.length > 0) {
       games.push({
         id: game.id,
+        gameId: game.gameId,
+        versionId: game.versionId,
+        versionLabel: game.versionLabel,
         label: game.label,
+        selectorLabel: game.selectorLabel ?? game.label,
         mapCount: maps.length,
         maps
       });

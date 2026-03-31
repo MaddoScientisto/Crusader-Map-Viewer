@@ -21,13 +21,13 @@ function parseArgs(argv) {
   return parsed;
 }
 
-export function generateMissionMapData(outputFile = MISSION_MAP_CACHE_FILE) {
-  return writeMissionMapData(outputFile);
+export function generateMissionMapData(games = undefined, outputFile = MISSION_MAP_CACHE_FILE) {
+  return writeMissionMapData(outputFile, games);
 }
 
 function main() {
   const args = parseArgs(process.argv.slice(2));
-  const { outputFile, gameTablesById, payload } = generateMissionMapData(args.outputFile);
+  const { outputFile, gameTablesById, payload } = generateMissionMapData(undefined, args.outputFile);
 
   console.log(`wrote ${outputFile}`);
   console.log(`sharedBaseMapSequence=${payload.sharedBaseMapSequence}`);

@@ -4,6 +4,10 @@
     <p class="lede">Cache-backed atlas scene renderer. Source assets stay server-side while the browser reconstructs each map from packed sprite atlases.</p>
 
     <form id="map-form" class="stack">
+      <label for="version-select">Version</label>
+      <select id="version-select" name="version" disabled>
+        <option value="">Loading versions...</option>
+      </select>
       <label for="map-select">Detected maps</label>
       <select id="map-select" name="map" disabled>
         <option value="">Loading map catalog...</option>

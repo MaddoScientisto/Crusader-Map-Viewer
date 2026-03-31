@@ -110,8 +110,6 @@ async function exportMap(builds, gameConfig, map, outputDir) {
 
 async function main() {
   const args = parseArgs(process.argv.slice(2));
-  const missionMapData = generateMissionMapData();
-  const npcSpawnerData = writeNpcSpawnerData();
   const catalog = detectCatalog();
   const builds = new BuildManager(catalog);
   const games = args.game ? catalog.games.filter((game) => game.id === args.game) : catalog.games;
@@ -119,6 +117,10 @@ async function main() {
   if (!games.length) {
     throw new Error(args.game ? `No detected catalog entry for game ${args.game}` : "No detected maps to export");
   }
+
+  const gameConfigs = games.map((game) => getGameConfig(game.id)).filter(Boolean);
+  const missionMapData = generateMissionMapData(gameConfigs);
+  const npcSpawnerData = writeNpcSpawnerData(undefined, gameConfigs);
 
   prepareOutputRoot(args.outputDir);
   copyCatalogCsvs(games, args.outputDir);

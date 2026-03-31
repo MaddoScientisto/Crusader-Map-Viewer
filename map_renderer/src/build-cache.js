@@ -32,8 +32,6 @@ function parseArgs(argv) {
 
 async function main() {
   const args = parseArgs(process.argv.slice(2));
-  generateMissionMapData();
-  writeNpcSpawnerData();
   const catalog = detectCatalog();
   const builds = new BuildManager(catalog);
   const games = args.game ? catalog.games.filter((game) => game.id === args.game) : catalog.games;
@@ -41,6 +39,10 @@ async function main() {
   if (!games.length) {
     throw new Error(args.game ? `No detected catalog entry for game ${args.game}` : "No detected maps to cache");
   }
+
+  const gameConfigs = games.map((game) => getGameConfig(game.id)).filter(Boolean);
+  generateMissionMapData(gameConfigs);
+  writeNpcSpawnerData(undefined, gameConfigs);
 
   for (const game of games) {
     const gameConfig = getGameConfig(game.id);

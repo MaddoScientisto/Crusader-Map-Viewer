@@ -36,6 +36,10 @@ let cachedMissionMapData = null;
 let cachedMissionMapFile = null;
 let cachedMissionMapMtimeMs = null;
 
+function getGameConfig(gameId) {
+  return GAMES.find((game) => game.id === gameId) ?? null;
+}
+
 function toHex(value, width = 4) {
   return `0x${value.toString(16).padStart(width, "0")}`;
 }
@@ -44,11 +48,10 @@ function segmentAddress(profile, offset) {
   return `${profile.dataSegment}:${offset.toString(16).padStart(4, "0")}`;
 }
 
-function resolveExePath(profile) {
-  const gameEntry = GAMES.find((g) => g.id === profile.game);
+function resolveExePath(profile, gameEntry) {
   const candidates = [
     process.env[profile.envVar],
-    // Check the game's staticDir (e.g. STATIC or STATIC_REGRET)
+    // Check the game's staticDir (for example STATIC_1.01 or STATIC_REGRET).
     gameEntry && gameEntry.staticDir ? path.join(gameEntry.staticDir, profile.exeName) : null,
     // Finally check alongside the renderer root
     path.join(APP_ROOT, profile.exeName)
@@ -61,7 +64,7 @@ function resolveExePath(profile) {
   }
 
   throw new Error(
-    `Missing ${profile.exeName}. Set ${profile.envVar} or place the retail executable in the game's static export folder (STATIC or STATIC_REGRET) or beside the renderer.`
+    `Missing ${profile.exeName}. Set ${profile.envVar} or place the retail executable in the game's static export folder or beside the renderer.`
   );
 }
 
@@ -117,18 +120,31 @@ export function extractMissionMapTable(profile, exePath) {
   throw new Error(`Mission map table for ${profile.game} exceeded the 256-entry safety limit without a terminator`);
 }
 
-export function collectMissionMapTables() {
-  return Object.fromEntries(
-    Object.values(PROFILES).map((profile) => {
-      const exePath = resolveExePath(profile);
-      return [profile.game, extractMissionMapTable(profile, exePath)];
-    })
-  );
+export function collectMissionMapTables(games = GAMES) {
+  const tables = {};
+
+  for (const game of games) {
+    const profile = PROFILES[game.gameId ?? game.id];
+    if (!profile) {
+      continue;
+    }
+
+    try {
+      const exePath = resolveExePath(profile, game);
+      tables[game.id] = extractMissionMapTable(profile, exePath);
+    } catch {
+      // Allow scene builds to proceed when a version root lacks the retail executable.
+    }
+  }
+
+  return tables;
 }
 
 export function buildMissionMapData(gameTablesById) {
-  const remorseBaseMaps = gameTablesById.remorse?.baseMaps ?? [];
-  const regretBaseMaps = gameTablesById.regret?.baseMaps ?? [];
+  const remorseKey = Object.keys(gameTablesById).find((gameId) => getGameConfig(gameId)?.gameId === "remorse");
+  const regretKey = Object.keys(gameTablesById).find((gameId) => getGameConfig(gameId)?.gameId === "regret");
+  const remorseBaseMaps = remorseKey ? gameTablesById[remorseKey]?.baseMaps ?? [] : [];
+  const regretBaseMaps = regretKey ? gameTablesById[regretKey]?.baseMaps ?? [] : [];
   const sharedBaseMapSequence =
     remorseBaseMaps.length > 0 &&
     remorseBaseMaps.length === regretBaseMaps.length &&
@@ -142,8 +158,8 @@ export function buildMissionMapData(gameTablesById) {
   };
 }
 
-export function writeMissionMapData(outputFile = MISSION_MAP_CACHE_FILE) {
-  const gameTablesById = collectMissionMapTables();
+export function writeMissionMapData(outputFile = MISSION_MAP_CACHE_FILE, games = GAMES) {
+  const gameTablesById = collectMissionMapTables(games);
   const payload = buildMissionMapData(gameTablesById);
   fs.mkdirSync(path.dirname(outputFile), { recursive: true });
   fs.writeFileSync(outputFile, `${JSON.stringify(payload, null, 2)}\n`, "utf8");

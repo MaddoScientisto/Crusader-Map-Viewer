@@ -1,4 +1,5 @@
 export const mapForm = document.querySelector("#map-form");
+export const versionSelect = document.querySelector("#version-select");
 export const mapSelect = document.querySelector("#map-select");
 export const mapPrevButton = document.querySelector("#map-prev");
 export const mapNextButton = document.querySelector("#map-next");

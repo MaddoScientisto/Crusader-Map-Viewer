@@ -1,4 +1,4 @@
-import { mapSelect, mapPrevButton, mapNextButton, catalogEditingHint, catalogExportButtons, emptyState } from "./dom-elements.js";
+import { versionSelect, mapSelect, mapPrevButton, mapNextButton, catalogEditingHint, catalogExportButtons, emptyState } from "./dom-elements.js";
 import { state } from "./state.js";
 import { appUrl, isStaticMode, canEditCatalog } from "../../public/helpers.js";
 import {
@@ -20,11 +20,59 @@ export function getSelectedMap() {
   }
 }
 
+export function getSelectedVersion() {
+  if (!state.catalog?.games?.length) {
+    return null;
+  }
+  return state.catalog.games.find((game) => game.id === versionSelect.value) ?? state.catalog.games[0] ?? null;
+}
+
+function createMapValue(gameId, mapId) {
+  return JSON.stringify({ game: gameId, mapId });
+}
+
+export function syncVersionSelection(preferredSelection = null) {
+  const selectedVersion = getSelectedVersion();
+
+  mapSelect.innerHTML = "";
+  const placeholder = document.createElement("option");
+  placeholder.textContent = selectedVersion ? "Select a map" : "No detected maps";
+  placeholder.value = "";
+  mapSelect.append(placeholder);
+
+  if (!selectedVersion) {
+    mapSelect.disabled = true;
+    updateMapNavigationState();
+    return null;
+  }
+
+  for (const map of selectedVersion.maps) {
+    const option = document.createElement("option");
+    option.value = createMapValue(selectedVersion.id, map.id);
+    option.textContent = `${map.label} (${map.rawItemCount} items)`;
+    mapSelect.append(option);
+  }
+
+  const preferredMapId = preferredSelection?.game === selectedVersion.id ? preferredSelection.mapId : null;
+  if (Number.isInteger(preferredMapId)) {
+    const preferredValue = createMapValue(selectedVersion.id, preferredMapId);
+    const hasMatch = [...mapSelect.options].some((option) => option.value === preferredValue);
+    mapSelect.value = hasMatch ? preferredValue : "";
+  } else {
+    mapSelect.value = "";
+  }
+
+  mapSelect.disabled = selectedVersion.maps.length === 0;
+  updateMapNavigationState();
+  return selectedVersion;
+}
+
 export function getCatalogMapSelections() {
-  if (!state.catalog?.games) {
+  const selectedVersion = getSelectedVersion();
+  if (!selectedVersion) {
     return [];
   }
-  return state.catalog.games.flatMap((game) => game.maps.map((map) => ({ game: game.id, mapId: map.id })));
+  return selectedVersion.maps.map((map) => ({ game: selectedVersion.id, mapId: map.id }));
 }
 
 export function getSelectedMapIndex() {
@@ -72,34 +120,39 @@ export function applySiteConfig(setReloadState) {
 
 export function populateCatalog(catalog, options) {
   const { setDownloadState, setReloadState, setStatus, downloadByUrl } = options;
+  const previousSelection = getSelectedMap();
+  const previousVersionId = versionSelect.value;
   state.catalog = catalog;
-  mapSelect.innerHTML = "";
-  const placeholder = document.createElement("option");
-  placeholder.textContent = "Select a map";
-  placeholder.value = "";
-  mapSelect.append(placeholder);
 
+  versionSelect.innerHTML = "";
   for (const game of catalog.games) {
-    const group = document.createElement("optgroup");
-    group.label = `${game.label} (${game.mapCount} maps)`;
-    for (const map of game.maps) {
-      const option = document.createElement("option");
-      option.value = JSON.stringify({ game: game.id, mapId: map.id });
-      option.textContent = `${map.label} (${map.rawItemCount} items)`;
-      group.append(option);
-    }
-    mapSelect.append(group);
+    const option = document.createElement("option");
+    option.value = game.id;
+    option.textContent = `${game.selectorLabel ?? game.label} (${game.mapCount} maps)`;
+    versionSelect.append(option);
   }
 
-  mapSelect.disabled = catalog.games.length === 0;
-  updateMapNavigationState();
+  if (catalog.games.length === 0) {
+    const option = document.createElement("option");
+    option.value = "";
+    option.textContent = "No detected versions";
+    versionSelect.append(option);
+    versionSelect.value = "";
+  } else if (catalog.games.some((game) => game.id === previousVersionId)) {
+    versionSelect.value = previousVersionId;
+  } else {
+    versionSelect.value = catalog.games[0].id;
+  }
+
+  versionSelect.disabled = catalog.games.length === 0;
+  const selectedVersion = syncVersionSelection(previousSelection);
   setDownloadState(false);
   setReloadState(false);
-  renderCatalogExportButtons(catalog.games, { downloadByUrl, setStatus });
+  renderCatalogExportButtons(selectedVersion ? [selectedVersion] : [], { downloadByUrl, setStatus });
   if (catalog.games.length === 0) {
     setStatus(isStaticMode() ? "No exported maps were found in the committed static site bundle." : "No usable STATIC folders were detected under the app root.");
   } else {
-    setStatus(isStaticMode() ? "Select a map to load its prebuilt static scene." : "Select a map to build its cached scene immediately.");
+    setStatus(isStaticMode() ? "Select a version and map to load its prebuilt static scene." : "Select a version and map to build its cached scene immediately.");
   }
 }
 

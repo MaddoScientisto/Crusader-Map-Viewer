@@ -2,7 +2,7 @@ import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 
-import { TABLES_ROOT } from "../config.js";
+import { GAMES, TABLES_ROOT } from "../config.js";
 
 const DTABLE_FILE_BY_GAME = {
   remorse: "dtable_get_name_dump.json",
@@ -11,18 +11,23 @@ const DTABLE_FILE_BY_GAME = {
 
 const dtableCache = new Map();
 
+function getTableSourceGameId(gameId) {
+  return GAMES.find((game) => game.id === gameId)?.tableId ?? gameId;
+}
+
 function sha1(value) {
   return crypto.createHash("sha1").update(value).digest("hex");
 }
 
 function gameLabelForComment(gameId) {
-  if (gameId === "remorse") {
+  const resolvedGameId = getTableSourceGameId(gameId);
+  if (resolvedGameId === "remorse") {
     return "Remorse";
   }
-  if (gameId === "regret") {
+  if (resolvedGameId === "regret") {
     return "Regret";
   }
-  return gameId;
+  return resolvedGameId;
 }
 
 function normalizeResolvedEntry(gameId, row) {
@@ -69,7 +74,7 @@ function normalizeResolvedEntry(gameId, row) {
 }
 
 function getTablePath(gameId) {
-  const fileName = DTABLE_FILE_BY_GAME[gameId];
+  const fileName = DTABLE_FILE_BY_GAME[getTableSourceGameId(gameId)];
   if (!fileName) {
     return null;
   }
@@ -92,7 +97,8 @@ export function getShapeNameTable(gameId) {
 
   const stat = fs.statSync(filePath);
   const stamp = `${stat.size}:${Math.trunc(stat.mtimeMs)}`;
-  const cached = dtableCache.get(gameId);
+  const cacheKey = getTableSourceGameId(gameId);
+  const cached = dtableCache.get(cacheKey);
   if (cached?.stamp === stamp) {
     return cached.value;
   }
@@ -112,6 +118,6 @@ export function getShapeNameTable(gameId) {
     digest: sha1(text),
     entries
   };
-  dtableCache.set(gameId, { stamp, value });
+  dtableCache.set(cacheKey, { stamp, value });
   return value;
 }

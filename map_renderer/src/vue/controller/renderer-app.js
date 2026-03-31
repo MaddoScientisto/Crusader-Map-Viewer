@@ -1,5 +1,6 @@
 import {
   mapForm,
+  versionSelect,
   mapSelect,
   mapPrevButton,
   mapNextButton,
@@ -95,6 +96,7 @@ import {
 import { getNpcSpawnerInfo, loadNpcSpawnerData } from "../../public/npc-spawner-data.js";
 import {
   getSelectedMap,
+  syncVersionSelection,
   updateMapNavigationState,
   stepSelectedMap,
   currentSelectionMatches,
@@ -769,6 +771,7 @@ const runtime = createSceneRuntimeController({
   overlayTooltip,
   panelResizer,
   mapForm,
+  versionSelect,
   mapSelect,
   mapPrevButton,
   mapNextButton,
@@ -799,6 +802,7 @@ const runtime = createSceneRuntimeController({
   eggSection,
   monsterSpawnerSection,
   getSelectedMap,
+  syncVersionSelection,
   updateMapNavigationState,
   stepSelectedMap,
   currentSelectionMatches,
