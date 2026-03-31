@@ -73,3 +73,17 @@ export function getAtlasPath(siteConfig, selected, jobId, atlas) {
   }
   return `api/maps/${selected.game}/${selected.mapId}/atlases/${atlas.id}.png?buildId=${encodeURIComponent(jobId)}`;
 }
+
+export function getUsecodeIndexPath(siteConfig, gameId) {
+  if (isStaticSite(siteConfig)) {
+    return `${trimTrailingSlash(siteConfig?.staticUsecodeBaseUrl ?? "./data/usecode")}/${gameId}/index.json`;
+  }
+  return `api/usecode/${gameId}`;
+}
+
+export function getUsecodeFilePath(siteConfig, gameId, filePath) {
+  if (isStaticSite(siteConfig)) {
+    return `${trimTrailingSlash(siteConfig?.staticUsecodeBaseUrl ?? "./data/usecode")}/${gameId}/${filePath}`;
+  }
+  return `api/usecode/${gameId}/raw?file=${encodeURIComponent(filePath)}`;
+}

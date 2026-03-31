@@ -23,6 +23,7 @@ import {
 import { buildMapSource, detectDefaultTeleportEggShape, loadMapPayload } from "./map-source.js";
 import { getMissionMapTable } from "./mission-map-data.js";
 import { extractNpcSpawnerRows } from "./npc-spawner-data.js";
+import decompiler from "./usecode-decompiler.js";
 import { blitFrame, encodePng, rgbaBuffer } from "./png.js";
 import { prepareSortedItems } from "./sorting.js";
 
@@ -724,6 +725,7 @@ export class BuildManager {
   constructor(catalog) {
     this.catalog = catalog;
     this.assetCache = new Map();
+    this.usecodeCache = new Map();
     this.jobs = new Map();
     this.jobsByKey = new Map();
     ensureDir(SCENE_CACHE_ROOT);
@@ -740,6 +742,7 @@ export class BuildManager {
   invalidateGameCache(gameId) {
     const gameCacheRoot = path.join(SCENE_CACHE_ROOT, gameId);
     fs.rmSync(gameCacheRoot, { recursive: true, force: true });
+    this.usecodeCache.delete(gameId);
     for (const [key, job] of this.jobsByKey.entries()) {
       if (job.game === gameId) {
         this.jobsByKey.delete(key);
@@ -749,6 +752,16 @@ export class BuildManager {
       game: gameId,
       cacheRoot: gameCacheRoot
     };
+  }
+
+  ensureUsecodeCache(gameConfig) {
+    const cached = this.usecodeCache.get(gameConfig.id);
+    if (cached) {
+      return cached;
+    }
+    const result = decompiler.ensureGameUsecodeCache(gameConfig);
+    this.usecodeCache.set(gameConfig.id, result);
+    return result;
   }
 
   computeBuildFingerprint(gameConfig, mapId, options, catalogInfo, dtableInfo) {
@@ -890,6 +903,12 @@ export class BuildManager {
   }
 
   async ensureSceneArtifacts(gameConfig, mapId, options, fingerprint, catalogInfo, dtableInfo, hooks = {}) {
+    try {
+      this.ensureUsecodeCache(gameConfig);
+    } catch {
+      // non-fatal: scene builds should still succeed without usecode
+    }
+
     const mapCacheRoot = path.join(SCENE_CACHE_ROOT, gameConfig.id, `map-${mapId}`);
     removeLegacyOptionCacheDirs(mapCacheRoot);
     const cacheDir = path.join(mapCacheRoot, fingerprint);

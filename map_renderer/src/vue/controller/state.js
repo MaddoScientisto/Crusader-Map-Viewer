@@ -1,7 +1,17 @@
 import { canvas } from "./dom-elements.js";
 
 export const APP_BASE_URL = new URL("./", document.baseURI);
-export const context = canvas.getContext("2d", { alpha: true });
+export let context = null;
+
+export function initializeControllerState() {
+  if (!canvas) {
+    throw new Error("Renderer canvas is unavailable during controller initialization");
+  }
+  context = canvas.getContext("2d", { alpha: true });
+  if (!context) {
+    throw new Error("Renderer canvas 2D context could not be created");
+  }
+}
 
 export const state = {
   catalog: null,

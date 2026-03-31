@@ -8,7 +8,12 @@ function formatShapeHex(shape) {
 }
 
 export async function loadNpcSpawnerData(siteConfig = null) {
-  npcSpawnerTables = await fetchJson(appUrl(getNpcSpawnerDataPath(siteConfig)));
+  try {
+    npcSpawnerTables = await fetchJson(appUrl(getNpcSpawnerDataPath(siteConfig)));
+  } catch (error) {
+    console.warn("NPC spawner metadata unavailable; continuing without it", error);
+    npcSpawnerTables = {};
+  }
   return npcSpawnerTables;
 }
 

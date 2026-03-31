@@ -49,9 +49,10 @@ import {
   zoomResetButton,
   zoomFitButton,
   reloadMapButton,
-  panelResizer
+  panelResizer,
+  initializeDomElements
 } from "./dom-elements.js";
-import { state, context, ZOOM_FACTOR, FIT_PADDING, DEVICE_PIXEL_RATIO, EXPORT_BACKGROUND } from "./state.js";
+import { state, context, ZOOM_FACTOR, FIT_PADDING, DEVICE_PIXEL_RATIO, EXPORT_BACKGROUND, initializeControllerState } from "./state.js";
 import {
   appUrl,
   isStaticMode,
@@ -132,6 +133,9 @@ import { createCatalogActions } from "./catalog-actions.js";
 import { createSceneMetadataHelpers } from "./scene-metadata.js";
 import { createScenePresentationController } from "./scene-presentation.js";
 import { createSceneRuntimeController } from "./scene-runtime.js";
+
+initializeDomElements();
+initializeControllerState();
 
 const EGG_FILTERS = [
   { type: "teleport-destination", checkbox: eggFilterTeleportDestinationCheckbox },

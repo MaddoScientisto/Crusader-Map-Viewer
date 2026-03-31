@@ -84,6 +84,22 @@ function copyShapeNameTables(games, outputDir) {
   }
 }
 
+function copyUsecodeCache(builds, gameConfig, outputDir) {
+  const usecodeCache = builds.ensureUsecodeCache(gameConfig);
+  if (!usecodeCache?.cacheRoot || !fs.existsSync(usecodeCache.cacheRoot) || !fs.existsSync(usecodeCache.indexPath)) {
+    return null;
+  }
+
+  const targetDir = path.join(outputDir, "data", "usecode", gameConfig.id);
+  ensureDir(path.dirname(targetDir));
+  fs.rmSync(targetDir, { recursive: true, force: true });
+  fs.cpSync(usecodeCache.cacheRoot, targetDir, { recursive: true });
+  return {
+    game: gameConfig.id,
+    sourceCount: JSON.parse(fs.readFileSync(usecodeCache.indexPath, "utf8")).sources?.length ?? 0
+  };
+}
+
 async function exportMap(builds, gameConfig, map, outputDir) {
   const job = await builds.createOrReuseBuild(gameConfig, map.id);
   await job.promise;
@@ -129,10 +145,15 @@ async function main() {
   copyFile(npcSpawnerData.outputFile, path.join(args.outputDir, "data", "npc-spawner-data.json"));
 
   const exportedMaps = [];
+  const exportedUsecode = [];
   for (const game of games) {
     const gameConfig = getGameConfig(game.id);
     if (!gameConfig) {
       throw new Error(`Missing game config for ${game.id}`);
+    }
+    const usecodeExport = copyUsecodeCache(builds, gameConfig, args.outputDir);
+    if (usecodeExport) {
+      exportedUsecode.push(usecodeExport);
     }
     const maps = Number.isInteger(args.mapId) ? game.maps.filter((map) => map.id === args.mapId) : game.maps;
     if (!maps.length) {
@@ -149,6 +170,7 @@ async function main() {
     mode: "static",
     catalogUrl: "./data/catalog.json",
     staticMapsBaseUrl: "./data/maps",
+    staticUsecodeBaseUrl: "./data/usecode",
     catalogDownloadBaseUrl: "./data/catalogs",
     npcSpawnerDataUrl: "./data/npc-spawner-data.json",
     generatedAt: new Date().toISOString(),
@@ -161,7 +183,8 @@ async function main() {
   writeJson(path.join(args.outputDir, "data", "catalog.json"), {
     ...catalog,
     generatedAt: new Date().toISOString(),
-    exportedMaps
+    exportedMaps,
+    exportedUsecode
   });
 
   console.log(`static site ready at ${args.outputDir}`);

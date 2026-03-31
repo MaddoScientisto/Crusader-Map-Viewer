@@ -4,6 +4,7 @@ import path from "node:path";
 
 import { APP_ROOT, NPC_SPAWNER_CACHE_FILE, PORT, PUBLIC_ROOT } from "./config.js";
 import { BuildManager } from "./lib/build-manager.js";
+import usecodeDecompiler from "./lib/usecode-decompiler.js";
 import { detectCatalog, getGameConfig, getShapeCatalogFile, updateShapeCatalogEntry } from "./lib/catalog.js";
 
 const app = express();
@@ -37,7 +38,7 @@ if (preferredStaticRoot !== PUBLIC_ROOT) {
 
 app.get("/api/npc-spawner-data", (_request, response) => {
   if (!fs.existsSync(NPC_SPAWNER_CACHE_FILE)) {
-    response.status(404).json({ error: "NPC spawner cache missing. Run build-cache or export-static first." });
+    response.json({});
     return;
   }
   response.type("application/json");
@@ -183,6 +184,80 @@ if (catalogEditingEnabled) {
 
 app.get("/api/health", (_request, response) => {
   response.json({ ok: true, games: catalog.games.length, catalogEditing: catalogEditingEnabled });
+});
+
+function sendUsecodeIndex(gameId, response) {
+  const gameConfig = getGameConfig(gameId);
+  if (gameConfig) {
+    builds.ensureUsecodeCache(gameConfig);
+  }
+  const indexPath = usecodeDecompiler.getGameUsecodeIndexPath(gameId);
+  if (!fs.existsSync(indexPath)) {
+    response.json({ sources: [] });
+    return;
+  }
+  response.json(JSON.parse(fs.readFileSync(indexPath, "utf8")));
+}
+
+function sendUsecodeRaw(gameId, filePath, response) {
+  const gameConfig = getGameConfig(gameId);
+  if (gameConfig) {
+    builds.ensureUsecodeCache(gameConfig);
+  }
+  const cacheRoot = usecodeDecompiler.getGameUsecodeCacheRoot(gameId);
+  const full = path.normalize(path.join(cacheRoot, filePath));
+  if (!full.startsWith(path.normalize(cacheRoot))) {
+    response.status(400).json({ error: "Invalid usecode file path" });
+    return;
+  }
+  if (!fs.existsSync(full)) {
+    response.status(404).json({ error: "Usecode file not found" });
+    return;
+  }
+  response.setHeader("Content-Type", "text/plain; charset=utf-8");
+  response.sendFile(full, { dotfiles: "allow" });
+}
+
+app.get("/api/usecode/:game", (request, response) => {
+  try {
+    sendUsecodeIndex(request.params.game, response);
+  } catch (error) {
+    response.status(500).json({ error: error instanceof Error ? error.message : String(error) });
+  }
+});
+
+app.get("/api/usecode/:game/raw", (request, response) => {
+  try {
+    const filePath = String(request.query.file ?? "");
+    if (!filePath) {
+      response.status(400).json({ error: "Missing file query parameter" });
+      return;
+    }
+    sendUsecodeRaw(request.params.game, filePath, response);
+  } catch (error) {
+    response.status(500).json({ error: error instanceof Error ? error.message : String(error) });
+  }
+});
+
+app.get("/api/maps/:game/:mapId/usecode", (request, response) => {
+  try {
+    sendUsecodeIndex(request.params.game, response);
+  } catch (error) {
+    response.status(500).json({ error: error instanceof Error ? error.message : String(error) });
+  }
+});
+
+app.get("/api/maps/:game/:mapId/usecode/raw", (request, response) => {
+  try {
+    const filePath = String(request.query.file ?? "");
+    if (!filePath) {
+      response.status(400).json({ error: "Missing file query parameter" });
+      return;
+    }
+    sendUsecodeRaw(request.params.game, filePath, response);
+  } catch (error) {
+    response.status(500).json({ error: error instanceof Error ? error.message : String(error) });
+  }
 });
 
 app.listen(PORT, () => {

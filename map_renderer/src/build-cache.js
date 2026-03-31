@@ -49,6 +49,13 @@ async function main() {
     if (!gameConfig) {
       throw new Error(`Missing game config for ${game.id}`);
     }
+    console.log(`warming ${game.id} usecode`);
+    const usecodeCache = builds.ensureUsecodeCache(gameConfig);
+    if (usecodeCache?.indexPath) {
+      console.log(`ready ${game.id} usecode index=${usecodeCache.indexPath}`);
+    } else {
+      console.log(`skipping ${game.id} usecode (no source files found)`);
+    }
     const maps = Number.isInteger(args.mapId) ? game.maps.filter((map) => map.id === args.mapId) : game.maps;
     if (!maps.length) {
       throw new Error(`No detected map ${args.mapId} for game ${game.id}`);
