@@ -40,6 +40,13 @@ function renderPseudo(ir) {
   return __testHooks.renderPseudocode(ir, new Map());
 }
 
+function testImportedIntrinsicTablesResolveKnownOrdinals() {
+  assert.equal(__testHooks.getIntrinsicNameHint("remorse", 0x003c, 2), "Item::getItemFamily(Item *)");
+  assert.equal(__testHooks.getIntrinsicNameHint("remorse", 0x0057, 2), "Item::getSurfaceWeight(Item *)");
+  assert.ok(__testHooks.getIntrinsicNameHint("regret", 0x0107, 2), "expected a regret-specific high ordinal hint");
+  assert.doesNotMatch(__testHooks.getIntrinsicNameHint("regret", 0x0107, 2), /^Intrinsic/u);
+}
+
 function testSelectorLadderUsesEqualityCompareAndFalseBranch() {
   const text = renderStructured(
     makeIr(
@@ -160,6 +167,7 @@ function testTerminalTrailingBytesDoNotEmitStopBanner() {
 testSelectorLadderUsesEqualityCompareAndFalseBranch();
 testCountedLoopRendersWithContinueCondition();
 testAlarmhatStyleSelectorLoopStructuring();
+testImportedIntrinsicTablesResolveKnownOrdinals();
 testGlobalAddressFeedsIntrinsicsAndLoopnextStaysHidden();
 testNamedIntrinsic003cRendersAsItemFamily();
 testTerminalTrailingBytesDoNotEmitStopBanner();

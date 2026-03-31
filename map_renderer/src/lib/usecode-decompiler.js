@@ -4,6 +4,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { CACHE_ROOT, CATALOG_ROOT } from "../config.js";
+import { GENERATED_INTRINSIC_HINT_TABLES } from "./usecode-intrinsic-hints.generated.js";
 
 const USECODE_CACHE_ROOT = path.join(CACHE_ROOT, "usecode");
 const USECODE_CACHE_SCHEMA_VERSION = 2;
@@ -124,35 +125,7 @@ const NO_ARG_MNEMONICS = {
   0x7a: "end"
 };
 
-const BASE_INTRINSIC_HINTS = {
-  0x0001: "Item::getFrame(void)",
-  0x0002: "Item::setFrame(uint16)",
-  0x0007: "Item::isOnScreen(void)",
-  0x0008: "Actor::isNPC(void)",
-  0x0009: "Item::getZ(void)",
-  0x000e: "Item::getX(void)",
-  0x000f: "Item::getY(void)",
-  0x0011: "Item::getType(void)",
-  0x0014: "Item::legal_create(uint16,uint16,uint16,uint16,uint16)",
-  0x001a: "Item::create(uint16,uint16)",
-  0x0024: "Item::hurl(sint16,sint16,sint16,sint16)",
-  0x003c: "Item::getItemFamily(void)",
-  0x0039: "Kernel::resetRef(uint16,ProcessType)",
-  0x0058: "Item::use(void)",
-  0x0063: "Item::legal_create(uint16,uint16,WorldPoint&)",
-  0x0064: "Item::getPoint(WorldPoint&)",
-  0x0065: "Item::legal_move(WorldPoint&,uint16,uint16)",
-  0x0068: "Kernel::getNumProcesses(uint16,ProcessType)",
-  0x0078: "Item::callEvent0B(sint16)",
-  0x0086: "teleportToEgg(sint16,int,uint8)",
-  0x008f: "Camera::getX(void)",
-  0x0090: "Camera::getY(void)",
-  0x0093: "Item::shoot(WorldPoint&,sint16,sint16)",
-  0x0095: "Item::enterFastArea(void)",
-  0x009a: "teleportToEgg(sint16,uint8)",
-  0x00ba: "Item::getFootpad(sint16&,sint16&,sint16&)",
-  0x011f: "Item::AvatarStoleSomething(uint16)"
-};
+const INTRINSIC_HINT_TABLES = GENERATED_INTRINSIC_HINT_TABLES;
 
 const SHAPE_REFERENCE_PATTERNS = [
   /(?<prefix>\bshape=)(?<value>(?:0x[0-9A-Fa-f]+|\d+))\b/gu,
@@ -225,7 +198,10 @@ function parseNumeric(value) {
 }
 
 function getIntrinsicNameHint(variant, ordinal, argBytes) {
-  return VARIANT_INTRINSIC_CALLSITE_HINTS[variant]?.[`${ordinal}:${argBytes}`] ?? BASE_INTRINSIC_HINTS[ordinal] ?? null;
+  return VARIANT_INTRINSIC_CALLSITE_HINTS[variant]?.[`${ordinal}:${argBytes}`]
+    ?? INTRINSIC_HINT_TABLES[variant]?.get(ordinal)
+    ?? INTRINSIC_HINT_TABLES.base.get(ordinal)
+    ?? null;
 }
 
 function getShapeCatalogPath(gameId) {
@@ -1627,6 +1603,7 @@ function renderStructuredPseudocode(blocks) {
 
 export const __testHooks = {
   decompilePseudocodeBlocks,
+  getIntrinsicNameHint,
   renderPseudocode,
   renderStructuredPseudocode,
   renderSelectorLoopConstruct
