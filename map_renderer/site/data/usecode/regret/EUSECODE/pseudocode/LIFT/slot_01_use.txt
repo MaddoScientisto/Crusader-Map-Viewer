@@ -1,0 +1,18 @@
+function lift_use() /* entry=309 class_id=0x0133 slot=0x01 */
+{
+  set_info(0x0207, *(arg_06));
+  process_exclude();
+  if (intrinsic_008a(arg_06) == 10) {
+    spawn LIFT.slot_20(pid, arg_06);
+    suspend;
+    /* global_address */
+    suspend;
+    return;
+  }
+  else if (intrinsic_008a(arg_06) == 20) {
+    spawn LIFT.slot_20(pid, arg_06);
+    suspend;
+    return;
+  }
+  return;
+}

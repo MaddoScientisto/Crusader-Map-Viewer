@@ -1,0 +1,16 @@
+function npc_slot_2c() /* entry=2577 class_id=0x0a0f slot=0x2c */
+{
+  set_info(0x020a, *(arg_06));
+  if (intrinsic_004d(arg_06) == 12) {
+    return;
+  }
+  spawn ITEM.slot_2a(pid, 0, 0, arg_06);
+  suspend;
+  while (intrinsic_00bb(arg_06)) {
+    spawn FREE.slot_3b(pid, 100, 0x00000000);
+    suspend;
+    spawn ITEM.slot_2a(pid, 0, 1, arg_06);
+    suspend;
+  }
+  return;
+}

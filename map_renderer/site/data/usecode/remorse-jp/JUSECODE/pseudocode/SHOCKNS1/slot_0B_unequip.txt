@@ -1,0 +1,10 @@
+function shockns1_unequip() /* entry=1115 class_id=0x0459 slot=0x0b */
+{
+  set_info(0x0212, *(arg_06));
+  process_exclude();
+  spawn SHOCKER.slot_20(arg_06);
+  FREE.slot_20(pid, 30);
+  spawn FREE.slot_32((retval + 30), 0x00000000);
+  suspend;
+  return;
+}

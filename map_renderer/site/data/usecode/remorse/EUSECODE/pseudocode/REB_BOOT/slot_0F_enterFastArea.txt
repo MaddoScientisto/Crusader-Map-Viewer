@@ -1,0 +1,35 @@
+function reb_boot_enterFastArea() /* entry=1094 class_id=0x0444 slot=0x0f */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    counter; /* [BP-02h] type=0x69 */
+
+  entry:
+    set_info(0x021b, *(arg_06));
+    process_exclude();
+
+  block_00eb:
+    while (true) {
+      suspend;
+      counter = 0;
+      while (counter > 7) {
+        spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+        suspend;
+        counter = (1 + counter);
+      }
+      spawn FREE.waitNTimerTicks(pid, 120, 0x00000000);
+      suspend;
+      counter = 0;
+      while (counter > 7) {
+        spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+        suspend;
+        counter = (1 + counter);
+      }
+      spawn FREE.waitNTimerTicks(pid, 0x0190, 0x00000000);
+      suspend;
+    }
+
+  block_01e9:
+    return;
+
+}

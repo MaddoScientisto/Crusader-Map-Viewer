@@ -1,0 +1,60 @@
+function alarmhat_equip() /* entry=1379 class_id=0x0561 slot=0x0a */
+{
+  entry:
+    set_info(0x0211, *(arg_06));
+    process_exclude();
+    if Item.getFrame(arg_06) goto block_012f;
+
+  block_00eb_selector_00:
+    for local_02 in nearby_items(shape=NPC_SPAWNER_04D0, origin=arg_06) {
+      if (Item.getFrame(local_02) == 0) {
+        suspend;
+      }
+      /* loopnext */
+    }
+
+  block_012a:
+    goto block_01dc;
+
+  block_012f:
+    if (!Item.isOnScreen(arg_06)) goto block_01dc;
+
+  block_013c_selector_00:
+    /* loop_selector local_04 in nearby_items(family=6, origin=arg_06) */
+
+  block_0153:
+    if condition goto block_0199;
+
+  block_0156:
+    if Actor.isNPC(local_04) goto block_0195;
+
+  block_0162:
+    if ((Item.getZ(local_04) > (Item.getZ(arg_06) - 10)) && (Item.getZ(local_04) < (Item.getZ(arg_06) + 10))) goto block_0195;
+
+  block_0192:
+    goto block_01dc;
+
+  block_0195:
+    /* loopnext */
+    goto block_0153;
+
+  block_0199_selector_00:
+    /* loop_selector local_02 in nearby_items(shape=NPC_SPAWNER_04D0, origin=arg_06) */
+
+  block_01b3:
+    if condition goto block_01da;
+
+  block_01b6:
+    if (Item.getFrame(local_02) != 0) goto block_01d6;
+
+  block_01c5:
+    suspend;
+
+  block_01d6:
+    /* loopnext */
+    goto block_01b3;
+
+  block_01dc:
+    return;
+
+}

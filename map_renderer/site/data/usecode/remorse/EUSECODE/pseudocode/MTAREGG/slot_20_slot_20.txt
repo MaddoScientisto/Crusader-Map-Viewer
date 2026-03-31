@@ -1,0 +1,42 @@
+function mtaregg_slot_20() /* entry=2309 class_id=0x0903 slot=0x20 */
+{
+  entry:
+    if (arg_12 == 0) {
+      local_07 = -2;
+      local_09 = 0;
+    }
+    else if (arg_12 == 8) {
+      local_07 = 2;
+      local_09 = 0;
+    }
+    else if (arg_12 == 4) {
+      local_07 = 0;
+      local_09 = 2;
+    }
+    else if (arg_12 == 12) {
+      local_07 = 0;
+      local_09 = -2;
+    }
+
+  block_02af:
+    while (true) {
+      suspend;
+      if (local_04 == 0) {
+        return;
+      }
+      local_04 = (local_04 - 1);
+      local_14 = intrinsic_0013(local_02);
+      local_12 = Item.legal_create(local_02);
+      local_10 = Item.getZ(local_02);
+      local_14 = (local_14 + local_09);
+      local_12 = (local_12 + local_07);
+      if (intrinsic_002e(0, 1, local_14, local_02) == 0) {
+        return;
+      }
+    }
+
+  block_033c:
+    return;
+
+  /* decompilation stopped at SEARCH_SURFACE */
+}

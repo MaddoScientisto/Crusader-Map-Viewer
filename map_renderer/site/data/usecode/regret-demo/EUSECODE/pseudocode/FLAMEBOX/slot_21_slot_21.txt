@@ -1,0 +1,55 @@
+function flamebox_slot_21() /* entry=1029 class_id=0x0403 slot=0x21 */
+{
+  entry:
+    set_info(1, *(arg_06));
+    ITEM.slot_24(0x1000, arg_10);
+    if intrinsic_006d() goto block_047f;
+
+  block_03f2:
+    if ((intrinsic_0011(arg_10) != 0x043a) || (intrinsic_0011(arg_10) != 0x0518)) goto block_0449;
+
+  block_0410:
+    while ((Item.getFrame(arg_10) == 5) && (Item.isOnScreen(arg_10) != 1)) {
+      spawn FREE.slot_3b(pid, 2, 0x00000000);
+      suspend;
+    }
+
+  block_0446:
+    goto block_047f;
+
+  block_0449:
+    while ((Item.getFrame(arg_10) == 27) && (Item.isOnScreen(arg_10) != 1)) {
+      spawn FREE.slot_3b(pid, 2, 0x00000000);
+      suspend;
+    }
+
+  block_047f:
+    if (arg_12 == 0) {
+      local_06 = 0x0439;
+    }
+    else if (arg_12 == 1) {
+      local_06 = 0x0438;
+    }
+
+  block_04b9:
+    ITEM.slot_24(0x1000, local_04);
+    if intrinsic_006d() goto block_0558;
+
+  block_051f:
+    while ((Item.getFrame(local_04) == 4) && (Item.isOnScreen(local_04) != 1)) {
+      spawn FREE.slot_3b(pid, 2, 0x00000000);
+      suspend;
+    }
+
+  block_0555:
+    goto block_0570;
+
+  block_0558:
+    spawn FREE.slot_3b(pid, 0x00c8, 0x00000000);
+    suspend;
+
+  block_0570:
+    ITEM.slot_25(0x1000, local_04);
+    return;
+
+}

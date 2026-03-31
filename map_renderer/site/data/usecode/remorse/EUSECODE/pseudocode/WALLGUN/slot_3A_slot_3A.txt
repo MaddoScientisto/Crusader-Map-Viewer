@@ -1,0 +1,136 @@
+function wallgun_slot_3a() /* entry=2588 class_id=0x0a1a slot=0x3a */
+{
+  entry:
+    set_info(0x0001, *(arg_06));
+    local_09 = 1;
+    local_10 = 1;
+    WALLGUN.slot_29(arg_06);
+    local_11 = retval;
+    if (local_11 != 1) goto block_2c91;
+
+  block_2c79:
+    local_06 = 1;
+    local_02 = 8;
+    local_04 = 12;
+    goto block_2cce;
+
+  block_2c91:
+    WALLGUN.slot_2b(arg_06);
+    if retval goto block_2cb9;
+
+  block_2ca1:
+    local_06 = 1;
+    local_02 = 0;
+    local_04 = 8;
+    goto block_2cce;
+
+  block_2cb9:
+    local_06 = -1;
+    local_02 = 8;
+    local_04 = 0;
+
+  block_2cce:
+    WALLGUN.slot_20(arg_06);
+    local_13 = (retval * 15);
+
+  block_2ce0:
+    if 1 goto block_2eea;
+
+  block_2ce8:
+    spawn WALLGUN.slot_26(pid, arg_06);
+    suspend;
+    local_08 = Item.getFrame(arg_06);
+    if (local_11 != 1) goto block_2d5a;
+
+  block_2d20:
+    if (local_08 > 19) goto block_2d57;
+
+  block_2d2b:
+    spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+    suspend;
+    goto block_2ce0;
+
+  block_2d57:
+    goto block_2d94;
+
+  block_2d5a:
+    if (local_08 > 8) goto block_2d94;
+
+  block_2d65:
+    spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+    suspend;
+    goto block_2ce0;
+
+  block_2d91:
+    goto block_2d94;
+
+  block_2d94:
+    if local_09 goto block_2df0;
+
+  block_2d9c:
+    if (local_08 != local_04) goto block_2de3;
+
+  block_2dad:
+    local_09 = 0;
+    spawn FREE.waitNTimerTicks(pid, 20, 0x00000000);
+    suspend;
+    goto block_2ce0;
+
+  block_2de0:
+    goto block_2ded;
+
+  block_2de3:
+    local_08 = (local_08 + local_06);
+
+  block_2ded:
+    goto block_2e72;
+
+  block_2df0:
+    if (local_10 != 1) goto block_2e4f;
+
+  block_2dfb:
+    if (local_08 != local_02) goto block_2e42;
+
+  block_2e0c:
+    local_10 = 0;
+    spawn FREE.waitNTimerTicks(pid, 20, 0x00000000);
+    suspend;
+    goto block_2ce0;
+
+  block_2e3f:
+    goto block_2e4c;
+
+  block_2e42:
+    local_08 = (local_08 - local_06);
+
+  block_2e4c:
+    goto block_2e72;
+
+  block_2e4f:
+    if (local_08 != 4) goto block_2e64;
+
+  block_2e5a:
+    local_08 = (local_08 + local_06);
+
+  block_2e64:
+    local_09 = 1;
+    local_10 = 1;
+
+  block_2e72:
+    spawn FREE.waitNTimerTicks(pid, local_13, 0x00000000);
+    suspend;
+    WALLGUN.slot_2e(arg_10, arg_06);
+    if retval goto block_2ee7;
+
+  block_2ec4:
+    spawn WALLGUN.slot_46(pid, arg_10, arg_06);
+    suspend;
+
+  block_2ee7:
+    goto block_2ce0;
+
+  block_2eea:
+    return;
+
+  /* decompilation stopped at SEARCH_SURFACE */
+}

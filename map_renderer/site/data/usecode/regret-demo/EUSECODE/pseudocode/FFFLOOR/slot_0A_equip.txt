@@ -1,0 +1,48 @@
+function fffloor_equip() /* entry=311 class_id=0x0135 slot=0x0a */
+{
+  set_info(0x0211, *(arg_06));
+  process_exclude();
+  if (arg_10 == 0) {
+    for local_02 in nearby_items(shape=17, origin=arg_06) {
+      /* loopnext */
+    }
+    spawn FREE.slot_3b(pid, 10, 0x00000000);
+    suspend;
+    return;
+  }
+  else if (arg_10 == 1) {
+    for local_02 in nearby_items(shape=17, origin=arg_06) {
+      /* loopnext */
+    }
+    /* bit_not */
+    return;
+  }
+  else if (arg_10 == 29) {
+    spawn FREE.slot_3b(pid, 10, 0x00000000);
+    suspend;
+    for local_04 in nearby_items(shape=0x0135, origin=arg_06) {
+      /* loopnext */
+    }
+    return;
+  }
+  else if (arg_10 == 30) {
+    spawn FREE.slot_3b(pid, 10, 0x00000000);
+    suspend;
+    for local_02 in nearby_items(shape=17, origin=arg_06) {
+      /* loopnext */
+    }
+    spawn FREE.slot_3b(pid, 5, 0x00000000);
+    suspend;
+    for local_04 in nearby_items(shape=0x0135, origin=arg_06) {
+      /* loopnext */
+    }
+    return;
+  }
+  else if (arg_10 == 31) {
+    for local_02 in nearby_items(shape=17, origin=arg_06) {
+      /* loopnext */
+    }
+    return;
+  }
+  return;
+}

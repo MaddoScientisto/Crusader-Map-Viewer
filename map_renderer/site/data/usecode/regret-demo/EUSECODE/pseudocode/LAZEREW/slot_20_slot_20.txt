@@ -1,0 +1,43 @@
+function lazerew_slot_20() /* entry=414 class_id=0x019c slot=0x20 */
+{
+  entry:
+    set_info(0x0205, *(arg_06));
+    if (intrinsic_0004(arg_06) & 0x1000) goto block_00f7;
+
+  block_00f4:
+    goto block_02b6;
+
+  block_00f7:
+    ITEM.slot_24(0x1000, arg_06);
+    local_02 = Item.getFrame(arg_06);
+
+  block_010e:
+    suspend;
+    if (local_02 != 1) goto block_016d;
+
+  block_0117:
+    goto block_0293;
+
+  block_016d:
+    if (local_02 != 2) goto block_01cb;
+
+  block_0175:
+    goto block_0293;
+
+  block_01cb:
+    if (local_02 != 3) goto block_0240;
+
+  block_01d3:
+    spawn FREE.slot_3b(pid, 100, 0x00000000);
+    suspend;
+    goto block_0293;
+
+  block_0293:
+    spawn FREE.slot_3b(pid, ((5 - intrinsic_000a()) * 20), 0x00000000);
+    suspend;
+    goto block_010e;
+
+  block_02b6:
+    return;
+
+}

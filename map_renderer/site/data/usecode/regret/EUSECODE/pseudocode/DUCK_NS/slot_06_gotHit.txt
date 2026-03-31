@@ -1,0 +1,50 @@
+function duck_ns_gotHit() /* entry=408 class_id=0x0196 slot=0x06 */
+{
+  entry:
+    set_info(0x020c, *(arg_06));
+    process_exclude();
+    FREE.slot_35(arg_12, arg_10);
+    if retval goto block_052a;
+
+  block_043f:
+    local_02 = intrinsic_004c(arg_06);
+    if (Item.getFrame(arg_06) > 0) goto block_052a;
+
+  block_0459:
+    if (Item.getFrame(arg_06) != 5) goto block_046b;
+
+  block_0468:
+    goto block_052a;
+
+  block_046b:
+    if (local_02 > 99) goto block_04ab;
+
+  block_0473:
+    goto block_052a;
+
+  block_04ab:
+    spawn ITEM.slot_29(pid, 120, arg_12, arg_10, arg_06);
+    suspend;
+    /* dword_to_word */
+    if (!process_result) goto block_04f0;
+
+  block_04c9:
+    FREE.slot_20(1);
+    if retval goto block_04e3;
+
+  block_04d6:
+    goto block_04ed;
+
+  block_04ed:
+    goto block_052a;
+
+  block_04f0:
+    ITEM.slot_25(0x1000, arg_06);
+    FREE.slot_3c(0x0205, *(arg_06));
+    spawn ITEM.slot_2a(pid, 0, 0, arg_06);
+    suspend;
+
+  block_052a:
+    return;
+
+}

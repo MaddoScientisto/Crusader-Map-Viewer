@@ -1,0 +1,10 @@
+function cam_ns_unequip() /* entry=444 class_id=0x01ba slot=0x0b */
+{
+  set_info(0x0212, *(arg_06));
+  process_exclude();
+  if (!(intrinsic_0004(arg_06) & 4)) {
+    return;
+  }
+  spawn WALLGUN.slot_27(arg_06);
+  return;
+}

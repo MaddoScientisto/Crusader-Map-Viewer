@@ -1,0 +1,10 @@
+function railbase_unequip() /* entry=1513 class_id=0x05e7 slot=0x0b */
+{
+  set_info(0x0212, *(arg_06));
+  process_exclude();
+  if (arg_10 == 0) {
+    spawn RAILBASE.enterFastArea(pid, arg_06);
+    suspend;
+  }
+  return;
+}

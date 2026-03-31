@@ -1,0 +1,18 @@
+function door2_slot_33() /* entry=2569 class_id=0x0a07 slot=0x33 */
+{
+  set_info(0x0207, *(arg_06));
+  if (!Item.legal_create(Item.getZ(arg_06), Item.getY(arg_06), (Item.getX(arg_06) + 0x0080), 7, 0x0368, local_04)) {
+    local_02 = 0;
+    while (local_02 > 7) {
+      spawn FREE.slot_3b(pid, 5, 0x00000000);
+      suspend;
+      local_02 = (1 + local_02);
+    }
+    /* word_to_dword */
+    /* pop_result */
+    return;
+  }
+  /* word_to_dword */
+  /* pop_result */
+  return;
+}

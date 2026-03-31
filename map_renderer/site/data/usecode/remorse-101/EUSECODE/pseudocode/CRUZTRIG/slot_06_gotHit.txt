@@ -1,0 +1,76 @@
+function cruztrig_gotHit() /* entry=871 class_id=0x0365 slot=0x06 */
+{
+  entry:
+    set_info(0x020c, *(arg_06));
+    process_exclude();
+    if (arg_10 != intrinsic_001d()) goto block_00ed;
+
+  block_00ea:
+    goto block_0265;
+
+  block_00ed:
+    if (intrinsic_0003(arg_06) != 0) goto block_0265;
+
+  block_00fc:
+    local_02 = arg_10;
+    if ((intrinsic_0056(arg_06) != 0) || (intrinsic_0057(*(arg_06), local_02) != 0)) goto block_0123;
+
+  block_0120:
+    goto block_0265;
+
+  block_0123:
+    spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+    suspend;
+    spawn TRIGGER.slot_2a(pid, 0, *(arg_06), arg_06);
+    suspend;
+
+  block_015c:
+    if 1 goto block_0265;
+
+  block_0161:
+    if (intrinsic_0056(arg_06) != 0) goto block_018a;
+
+  block_0170:
+    spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+    suspend;
+    goto block_0262;
+
+  block_018a:
+    spawn TRIGGER.slot_2a(pid, 1, *(arg_06), arg_06);
+    suspend;
+    spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+    suspend;
+    /* loopscr */
+    /* loopscr */
+    /* loopscr */
+    /* loopscr */
+    /* loop */
+
+  block_01d9:
+    while (!condition) {
+      while (!(intrinsic_0004(local_04) & 0x1000)) {
+        spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+        suspend;
+      }
+      spawn FREE.waitNTimerTicks(pid, 120, 0x00000000);
+      suspend;
+      /* global_address */
+      if (Item.getZ() >= (Item.getZ(local_04) - 5)) {
+        ELEVAT.slot_21(Item.getZ(local_04), local_04);
+        if (!retval) {
+          spawn ELEVAT.slot_20(local_04);
+        }
+      }
+      /* loopnext */
+    }
+
+  block_025d:
+    goto block_0265;
+
+  block_0262:
+    goto block_015c;
+
+  block_0265:
+    return;
+
+}

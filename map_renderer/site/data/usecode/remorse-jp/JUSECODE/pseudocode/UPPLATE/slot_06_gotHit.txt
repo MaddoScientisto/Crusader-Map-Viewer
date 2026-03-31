@@ -1,0 +1,64 @@
+function upplate_gotHit() /* entry=1097 class_id=0x0447 slot=0x06 */
+{
+  entry:
+    set_info(0x020c, *(arg_06));
+    process_exclude();
+    FREE.slot_2c(arg_12, arg_10);
+    if retval goto block_0103;
+
+  block_00fd:
+    goto block_027d;
+
+  block_0103:
+    if (Item.getFrame(arg_06) != 2) goto block_011b;
+
+  block_0115:
+    goto block_027d;
+
+  block_011b:
+    local_02 = arg_10;
+    if ((intrinsic_005a(arg_06) != 0) || (intrinsic_005b(*(arg_06), local_02) != 0)) goto block_014e;
+
+  block_0148:
+    goto block_027d;
+
+  block_014e:
+    if (intrinsic_0003(arg_06) != 0) goto block_023d;
+
+  block_0160:
+    spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
+    suspend;
+    spawn FREE.slot_32(pid, 20, 0x00000000);
+    suspend;
+
+  block_01c7:
+    if 1 goto block_023a;
+
+  block_01cf:
+    if (intrinsic_005a(arg_06) != 0) goto block_020a;
+
+  block_01e1:
+    spawn FREE.slot_32(pid, 2, 0x00000000);
+    suspend;
+    goto block_0237;
+
+  block_020a:
+    spawn TRIGGER.slot_20(pid, 1, *(arg_06), arg_06);
+    suspend;
+    goto block_027d;
+
+  block_0237:
+    goto block_01c7;
+
+  block_023a:
+    goto block_027d;
+
+  block_023d:
+    spawn FREE.slot_32(pid, 20, 0x00000000);
+    suspend;
+
+  block_027d:
+    return;
+
+  /* decompilation stopped at SEARCH_SURFACE */
+}

@@ -1,0 +1,54 @@
+function fffloor_equip() /* entry=311 class_id=0x0135 slot=0x0a */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    var, /* [BP+10h] type=0x69 */
+    egg, /* [BP-02h] type=0x24 */
+    fffloor; /* [BP-04h] type=0x24 */
+
+  set_info(0x0211, *(arg_06));
+  process_exclude();
+  if (var == 0) {
+    for egg in nearby_items(shape=17, origin=arg_06) {
+      /* loopnext */
+    }
+    spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+    suspend;
+    return;
+  }
+  else if (var == 1) {
+    for egg in nearby_items(shape=17, origin=arg_06) {
+      /* loopnext */
+    }
+    /* bit_not */
+    return;
+  }
+  else if (var == 29) {
+    spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+    suspend;
+    for fffloor in nearby_items(shape=0x0135, origin=arg_06) {
+      /* loopnext */
+    }
+    return;
+  }
+  else if (var == 30) {
+    spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+    suspend;
+    for egg in nearby_items(shape=17, origin=arg_06) {
+      /* loopnext */
+    }
+    spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+    suspend;
+    for fffloor in nearby_items(shape=0x0135, origin=arg_06) {
+      /* loopnext */
+    }
+    return;
+  }
+  else if (var == 31) {
+    for egg in nearby_items(shape=17, origin=arg_06) {
+      /* loopnext */
+    }
+    return;
+  }
+  return;
+}

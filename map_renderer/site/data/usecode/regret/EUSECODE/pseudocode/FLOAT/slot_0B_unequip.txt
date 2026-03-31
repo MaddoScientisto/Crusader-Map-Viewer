@@ -1,0 +1,8 @@
+function float_unequip() /* entry=1409 class_id=0x057f slot=0x0b */
+{
+  set_info(0x0212, *(arg_06));
+  process_exclude();
+  spawn FLOAT.enterFastArea(pid, arg_06);
+  suspend;
+  return;
+}

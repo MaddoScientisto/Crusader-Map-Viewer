@@ -1,0 +1,23 @@
+function door2_slot_39() /* entry=2569 class_id=0x0a07 slot=0x39 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    counter; /* [BP-02h] type=0x69 */
+
+  set_info(0x0207, *(arg_06));
+  FREE.slot_2d(Item.getZ(arg_06), Item.legal_create(arg_06), (intrinsic_0013(arg_06) + 0x0080), 3, 0x028f, *(arg_06));
+  if (!retval) {
+    counter = 0;
+    while (counter > 3) {
+      spawn FREE.slot_32(pid, 5, 0x00000000);
+      suspend;
+      counter = (1 + counter);
+    }
+    /* word_to_dword */
+    /* pop_result */
+    return;
+  }
+  /* word_to_dword */
+  /* pop_result */
+  return;
+}

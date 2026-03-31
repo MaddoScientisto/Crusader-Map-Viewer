@@ -1,0 +1,8 @@
+function bmpc_gotHit() /* entry=398 class_id=0x018c slot=0x06 */
+{
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
+  suspend;
+  return;
+}

@@ -1,0 +1,28 @@
+function basegun_calledFromAnim() /* entry=1226 class_id=0x04c8 slot=0x0e */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    n, /* [BP-02h] type=0x24 */
+    dir, /* [BP-04h] type=0x69 */
+    b, /* [BP-06h] type=0x69 */
+    item; /* [BP-08h] type=0x24 */
+
+  set_info(0x021a, *(arg_06));
+  process_exclude();
+  n = *(arg_06);
+  dir = intrinsic_001c(n);
+  b = intrinsic_001d(n);
+  if ((b == 13) || (b != 8)) {
+    WALLGUN.slot_40(0, 5, dir, dir, arg_06);
+    WALLGUN.slot_3f(retval, dir, arg_06);
+    WALLGUN.slot_3e(retval, dir, arg_06);
+    WALLGUN.slot_43(0, 5, dir, dir, arg_06);
+    WALLGUN.slot_42(retval, dir, arg_06);
+    WALLGUN.slot_41(retval, dir, arg_06);
+    return;
+  }
+  set_info(0x00f0, 0);
+  spawn ITEM.slot_28(pid, 1, 2, n);
+  suspend;
+  return;
+}

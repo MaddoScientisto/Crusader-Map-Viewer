@@ -1,0 +1,45 @@
+function door_slot_22() /* entry=2568 class_id=0x0a06 slot=0x22 */
+{
+  entry:
+    set_info(0x0001, *(arg_06));
+    local_04 = 0;
+    /* loopscr */
+    /* loopscr */
+    /* loop */
+
+  block_0f23:
+    if condition goto block_0f34;
+
+  block_0f26:
+    local_04 = (1 + local_04);
+    goto block_0f34;
+
+  block_0f30:
+    /* loopnext */
+    goto block_0f23;
+
+  block_0f34:
+    local_08 = Item.getPoint(arg_06);
+    local_06 = intrinsic_004e(arg_06);
+    if local_04 goto block_0f9e;
+
+  block_0f51:
+    /* loopscr */
+    /* loopscr */
+    /* loop */
+
+  block_0f74:
+    if condition goto block_0f9c;
+
+  block_0f77:
+    local_10 = Item.getPoint(local_02);
+    if ((local_10 != local_08) || (local_10 != local_06)) goto block_0f98;
+
+  block_0f98:
+    /* loopnext */
+    goto block_0f74;
+
+  block_0f9e:
+    return;
+
+}

@@ -1,0 +1,56 @@
+function lift_gotHit() /* entry=309 class_id=0x0133 slot=0x06 */
+{
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  local_02 = arg_10;
+  FREE.slot_2c(arg_12, arg_10);
+  if (!retval) {
+    return;
+  }
+  if (arg_10 == 1) {
+    return;
+  }
+  if (intrinsic_007f(arg_06) == 1) {
+    /* global_address */
+    if (!intrinsic_0036()) {
+      spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+      suspend;
+    }
+    /* global_address */
+    /* global_address */
+    /* global_address */
+    /* global_address */
+    /* global_address */
+    suspend;
+    /* global_address */
+    /* global_address */
+    suspend;
+    /* global_address */
+    suspend;
+    spawn LIFT.slot_20(pid, arg_06);
+    suspend;
+    suspend;
+    suspend;
+    return;
+  }
+  else if (intrinsic_007f(arg_06) == 10) {
+    /* global_address */
+    if (!intrinsic_0036()) {
+      spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+      suspend;
+    }
+    /* global_address */
+    /* global_address */
+    suspend;
+    /* global_address */
+    suspend;
+    spawn LIFT.slot_20(pid, arg_06);
+    suspend;
+    suspend;
+    /* global_address */
+    suspend;
+    return;
+  }
+  return;
+  /* decompilation stopped at SEARCH_SURFACE */
+}

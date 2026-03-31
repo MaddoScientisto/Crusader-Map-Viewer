@@ -1,0 +1,138 @@
+function wallgun_slot_36() /* entry=2588 class_id=0x0a1a slot=0x36 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    left, /* [BP-02h] type=0x69 */
+    right, /* [BP-04h] type=0x69 */
+    inc, /* [BP-06h] type=0x69 */
+    f, /* [BP-08h] type=0x69 */
+    panRight, /* [BP-09h] type=0x62 */
+    panLeft, /* [BP-10h] type=0x62 */
+    isTurret, /* [BP-11h] type=0x62 */
+    delay; /* [BP-13h] type=0x69 */
+
+  entry:
+    set_info(0x0001, *(arg_06));
+    panRight = 1;
+    panLeft = 1;
+    WALLGUN.slot_29(arg_06);
+    isTurret = retval;
+    if (isTurret != 1) goto block_2160;
+
+  block_2148:
+    inc = 1;
+    left = 0;
+    right = 15;
+    goto block_219d;
+
+  block_2160:
+    WALLGUN.slot_2b(arg_06);
+    if retval goto block_2188;
+
+  block_2170:
+    inc = 1;
+    left = 0;
+    right = 8;
+    goto block_219d;
+
+  block_2188:
+    inc = -1;
+    left = 8;
+    right = 0;
+
+  block_219d:
+    WALLGUN.slot_20(arg_06);
+    delay = (retval * 5);
+
+  block_21af:
+    if 1 goto block_235f;
+
+  block_21b7:
+    spawn WALLGUN.slot_26(pid, arg_06);
+    suspend;
+    f = Item.getFrame(arg_06);
+    if (isTurret != 1) goto block_2229;
+
+  block_21ef:
+    if (f > 19) goto block_2226;
+
+  block_21fa:
+    spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+    suspend;
+    goto block_21af;
+
+  block_2226:
+    goto block_2263;
+
+  block_2229:
+    if (f > 8) goto block_2263;
+
+  block_2234:
+    spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+    suspend;
+    goto block_21af;
+
+  block_2260:
+    goto block_2263;
+
+  block_2263:
+    if panRight goto block_2299;
+
+  block_226b:
+    if (f != right) goto block_228c;
+
+  block_227c:
+    panRight = 0;
+    goto block_21af;
+
+  block_2289:
+    goto block_2296;
+
+  block_228c:
+    f = (f + inc);
+
+  block_2296:
+    goto block_231c;
+
+  block_2299:
+    if ((panLeft != 1) && (isTurret != 0)) goto block_22db;
+
+  block_22ad:
+    if (f != left) goto block_22ce;
+
+  block_22be:
+    panLeft = 0;
+    goto block_21af;
+
+  block_22cb:
+    goto block_22d8;
+
+  block_22ce:
+    f = (f - inc);
+
+  block_22d8:
+    goto block_231c;
+
+  block_22db:
+    panRight = 1;
+    panLeft = 1;
+    if (isTurret != 1) goto block_2304;
+
+  block_22fa:
+    f = left;
+    goto block_231c;
+
+  block_2304:
+    if (f == 4) {
+      f = (f + inc);
+    }
+
+  block_231c:
+    spawn FREE.waitNTimerTicks(pid, delay, 0x00000000);
+    suspend;
+    goto block_21af;
+
+  block_235f:
+    return;
+
+}

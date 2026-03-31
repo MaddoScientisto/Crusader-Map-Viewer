@@ -1,0 +1,50 @@
+function lazerns_slot_20() /* entry=413 class_id=0x019b slot=0x20 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    fram, /* [BP-02h] type=0x69 */
+    item, /* [BP-04h] type=0x24 */
+    x, /* [BP-06h] type=0x69 */
+    y; /* [BP-08h] type=0x69 */
+
+  entry:
+    set_info(0x0205, *(arg_06));
+    if (intrinsic_0004(arg_06) & 0x1000) goto block_010f;
+
+  block_0109:
+    goto block_031f;
+
+  block_010f:
+    ITEM.slot_23(0x1000, arg_06);
+    fram = Item.getFrame(arg_06);
+
+  block_012c:
+    suspend;
+    if (fram != 1) goto block_01a0;
+
+  block_0141:
+    goto block_02ed;
+
+  block_01a0:
+    if (fram != 2) goto block_0207;
+
+  block_01a8:
+    goto block_02ed;
+
+  block_0207:
+    if (fram != 3) goto block_0294;
+
+  block_020f:
+    spawn FREE.slot_32(pid, 100, 0x00000000);
+    suspend;
+    goto block_02ed;
+
+  block_02ed:
+    spawn FREE.slot_32(pid, ((5 - intrinsic_0029()) * 20), 0x00000000);
+    suspend;
+    goto block_012c;
+
+  block_031f:
+    return;
+
+}

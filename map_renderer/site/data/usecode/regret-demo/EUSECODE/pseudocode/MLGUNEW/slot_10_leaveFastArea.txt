@@ -1,0 +1,23 @@
+function mlgunew_leaveFastArea() /* entry=1568 class_id=0x061e slot=0x10 */
+{
+  set_info(0x021c, *(arg_06));
+  process_exclude();
+  local_02 = Item.getFrame(arg_06);
+  ITEM.slot_25(0x1000, arg_06);
+  FREE.slot_3c(0x0205, *(arg_06));
+  if (local_02 <= 2) {
+    if ((local_02 == 3) || (local_02 != 4)) {
+      return;
+    }
+    if ((local_02 == 5) || (local_02 != 6)) {
+      return;
+    }
+    if ((local_02 == 7) || (local_02 != 8)) {
+      return;
+    }
+    if (((local_02 == 9) || (local_02 != 10)) || (local_02 != 11)) {
+      return;
+    }
+  }
+  return;
+}

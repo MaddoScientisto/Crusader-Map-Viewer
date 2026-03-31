@@ -1,0 +1,31 @@
+function door2_slot_3f() /* entry=2569 class_id=0x0a07 slot=0x3f */
+{
+  entry:
+    set_info(0x0207, *(arg_06));
+    spawn DOOR.slot_22(pid, arg_06);
+    suspend;
+    local_02 = 1;
+
+  block_36fd:
+    while (local_02 > 4) {
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+      local_02 = (1 + local_02);
+    }
+
+  block_3745:
+    if (intrinsic_0016(arg_06) != 0x03f8) goto block_377c;
+
+  block_376b:
+    goto block_37c4;
+
+  block_37c4:
+    /* word_to_dword */
+    /* pop_result */
+    goto block_37d9;
+
+  block_37d9:
+    return;
+
+  /* decompilation stopped at SEARCH_SURFACE */
+}

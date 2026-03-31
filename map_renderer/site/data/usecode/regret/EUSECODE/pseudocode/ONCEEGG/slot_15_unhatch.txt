@@ -1,0 +1,11 @@
+function onceegg_unhatch() /* entry=2307 class_id=0x0901 slot=0x15 */
+{
+  set_info(0x0239, *(arg_06));
+  process_exclude();
+  local_04 = intrinsic_003b(arg_06);
+  local_02 = *(arg_06);
+  local_06 = intrinsic_00dc(local_02);
+  spawn TRIGGER.slot_20(pid, (1 + 0x0080), local_02, arg_06);
+  suspend;
+  return;
+}

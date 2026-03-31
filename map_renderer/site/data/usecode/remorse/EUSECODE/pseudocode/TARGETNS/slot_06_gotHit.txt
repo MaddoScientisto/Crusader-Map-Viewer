@@ -1,0 +1,22 @@
+function targetns_gotHit() /* entry=500 class_id=0x01f2 slot=0x06 */
+{
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  local_02 = arg_10;
+  FREE.slot_2b(arg_12, arg_10);
+  if (!retval) {
+    if (Item.getFrame(arg_06) == 0) {
+      return;
+    }
+    else if (Item.getFrame(arg_06) == 1) {
+      return;
+    }
+    else if (Item.getFrame(arg_06) == 2) {
+      spawn ITEM.slot_28(pid, 1, 1, arg_06);
+      suspend;
+      return;
+    }
+  }
+  return;
+  /* decompilation stopped at SEARCH_SURFACE */
+}

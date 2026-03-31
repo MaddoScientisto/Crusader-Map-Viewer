@@ -1,0 +1,21 @@
+function melf_use() /* entry=957 class_id=0x03bb slot=0x01 */
+{
+  set_info(0x0207, *(arg_06));
+  process_exclude();
+  if (!intrinsic_00c1(arg_06)) {
+    return;
+  }
+  /* global_address */
+  /* global_address */
+  suspend;
+  /* str_to_ptr */
+  /* free_stack_string */
+  suspend;
+  /* str_to_ptr */
+  /* free_stack_string */
+  suspend;
+  spawn TRIGGER.slot_2a(pid, 0, *(arg_06), arg_06);
+  suspend;
+  /* pop_global */
+  return;
+}

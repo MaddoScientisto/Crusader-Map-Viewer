@@ -1,0 +1,13 @@
+function morph_5_use() /* entry=1543 class_id=0x0605 slot=0x01 */
+{
+  set_info(0x0207, *(arg_06));
+  process_exclude();
+  /* free_local_string */
+  local_02 = "LMC SECURITY SYSTEM^^ ^You have now activated the Morphing Security System.^ ^Have a nice day!";
+  spawn TEXTFILE.slot_20(pid, local_02, arg_06);
+  /* free_stack_string */
+  suspend;
+  spawn MORPH_5.equip(1, arg_06);
+  /* free_local_string */
+  return;
+}

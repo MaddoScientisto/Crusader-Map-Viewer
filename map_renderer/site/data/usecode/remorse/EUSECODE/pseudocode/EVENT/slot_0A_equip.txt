@@ -1,0 +1,968 @@
+function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    event, /* [BP+10h] type=0x69 */
+    item, /* [BP-02h] type=0x24 */
+    source, /* [BP-04h] type=0x24 */
+    dest, /* [BP-06h] type=0x24 */
+    door, /* [BP-08h] type=0x24 */
+    wp, /* [BP-13h] type=0x24 */
+    counter, /* [BP-15h] type=0x69 */
+    counter2, /* [BP-17h] type=0x69 */
+    n, /* [BP-19h] type=0x24 */
+    link, /* [BP-21h] type=0x69 */
+    cx, /* [BP-23h] type=0x69 */
+    cy, /* [BP-25h] type=0x69 */
+    ex, /* [BP-27h] type=0x69 */
+    ey, /* [BP-29h] type=0x69 */
+    time, /* [BP-31h] type=0x69 */
+    op, /* [BP-33h] type=0x69 */
+    opp, /* [BP-35h] type=0x69 */
+    post1, /* [BP-37h] type=0x24 */
+    post2, /* [BP-39h] type=0x24 */
+    floor, /* [BP-41h] type=0x24 */
+    dir, /* [BP-43h] type=0x69 */
+    qHi, /* [BP-45h] type=0x69 */
+    flicMan; /* [BP-47h] type=0x24 */
+
+  entry:
+    set_info(0x0211, *(arg_06));
+    process_exclude();
+    link = intrinsic_0084(arg_06);
+    if (event != 0) goto block_012b;
+
+  block_0101:
+    /* global_address */
+    goto block_1fca;
+
+  block_012b:
+    if (event != 1) goto block_026f;
+
+  block_0133:
+    while (!intrinsic_0033()) {
+      spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+      suspend;
+    }
+
+  block_016c:
+    /* global_address */
+    cx = teleportToEgg();
+    cy = intrinsic_0087();
+    ex = intrinsic_0013(arg_06);
+    ey = Item.legal_create(arg_06);
+    spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+    suspend;
+    spawn TRIGGER.slot_20(pid, (0 + 0x0080), *(arg_06), arg_06);
+    suspend;
+    spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+    suspend;
+    spawn TRIGGER.slot_20(pid, (1 + 0x0080), *(arg_06), arg_06);
+    suspend;
+    /* global_address */
+    goto block_1fca;
+
+  block_026f:
+    if (event != 2) goto block_0345;
+
+  block_0277:
+    while (!intrinsic_0033()) {
+      spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+      suspend;
+    }
+
+  block_02b0:
+    spawn FREE.slot_3d(pid, Item.legal_create(arg_06), intrinsic_0013(arg_06), 0x00000000);
+    suspend;
+    spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
+    suspend;
+    spawn TRIGGER.slot_20(pid, (0 + 0x0080), *(arg_06), arg_06);
+    suspend;
+    goto block_1fca;
+
+  block_0345:
+    if (event != 3) goto block_03a8;
+
+  block_034d:
+    spawn FREE.slot_3e(pid, 0x00000000);
+    suspend;
+    spawn TRIGGER.slot_20(pid, (1 + 0x0080), *(arg_06), arg_06);
+    suspend;
+    goto block_1fca;
+
+  block_03a8:
+    if (event != 5) goto block_03c2;
+
+  block_03b0:
+    goto block_1fca;
+
+  block_03c2:
+    if (event != 6) goto block_03dc;
+
+  block_03ca:
+    goto block_1fca;
+
+  block_03dc:
+    if (event != 7) goto block_03f6;
+
+  block_03e4:
+    goto block_1fca;
+
+  block_03f6:
+    if (event != 8) goto block_049b;
+
+  block_03fe:
+    counter = intrinsic_004f(arg_06);
+    if (counter != 0) goto block_0445;
+
+  block_0417:
+    spawn TRIGGER.slot_20(pid, (0 + 0x0080), *(arg_06), arg_06);
+    suspend;
+    goto block_0498;
+
+  block_0445:
+    counter2 = intrinsic_0084(arg_06);
+    spawn TRIGGER.slot_20(pid, (0 + 0x0080), *(arg_06), arg_06);
+    suspend;
+
+  block_0498:
+    goto block_1fca;
+
+  block_049b:
+    if (event != 9) goto block_0532;
+
+  block_04a3:
+    counter = intrinsic_0084(arg_06);
+
+  block_04a3_selector_00:
+    for item in nearby_items(family=1, origin=arg_06) {
+      /* loopnext */
+    }
+
+  block_052d:
+    goto block_1fca;
+
+  block_0532:
+    if (event != 10) goto block_0677;
+
+  block_053a_selector_00:
+    /* loop_selector item in nearby_items(shape=NUMBERS, origin=arg_06) */
+
+  block_0558:
+    if condition goto block_0591;
+
+  block_055b:
+    if (intrinsic_0084(arg_06) != intrinsic_0084(item)) goto block_058d;
+
+  block_0574:
+    if (Item.getFrame(item) != 0) goto block_058d;
+
+  block_0586:
+    source = item;
+
+  block_058d:
+    /* loopnext */
+    goto block_0558;
+
+  block_0591_selector_00:
+    for item in nearby_items(shape=NUMBERS, origin=arg_06) {
+      if (intrinsic_0084(arg_06) == intrinsic_0084(item)) {
+        if (Item.getFrame(item) == 1) {
+          dest = item;
+        }
+      }
+      /* loopnext */
+    }
+
+  block_05ed:
+    if (source && dest) goto block_0674;
+
+  block_0600:
+    wp = intrinsic_0013(dest);
+    local_11 = Item.legal_create(dest);
+    local_09 = Item.getZ(dest);
+
+  block_0674:
+    goto block_1fca;
+
+  block_0677:
+    if (event != 15) goto block_06b6;
+
+  block_067f:
+    /* global_address */
+    goto block_1fca;
+
+  block_06b6:
+    if (event != 16) goto block_06f7;
+
+  block_06be:
+    /* global_address */
+    /* global_address */
+    /* global_address */
+    goto block_1fca;
+
+  block_06f7:
+    if (event != 22) goto block_079d;
+
+  block_06ff:
+    cx = teleportToEgg();
+    cy = intrinsic_0087();
+    /* global_address */
+
+  block_0747:
+    while (!intrinsic_003a(54, arg_06)) {
+      spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+      suspend;
+    }
+
+  block_0781:
+    /* global_address */
+    goto block_1fca;
+
+  block_079d:
+    if (event != 40) goto block_082b;
+
+  block_07a5:
+    /* global_address */
+    if (!Kernel.resetRef()) goto block_0828;
+
+  block_07c4:
+    while (!intrinsic_0033()) {
+      spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+      suspend;
+    }
+
+  block_07fa:
+    /* global_address */
+    suspend;
+
+  block_0828:
+    goto block_1fca;
+
+  block_082b:
+    if (event != 41) goto block_0acb;
+
+  block_0833:
+    /* global_address */
+    if (Kernel.resetRef((global[0x0029] != 1)) != 1) goto block_0857;
+
+  block_0851:
+    goto block_1fca;
+
+  block_0857:
+    spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
+    suspend;
+    /* global_address */
+    spawn NPC.slot_22(pid, 3, 0);
+    suspend;
+    /* global_address */
+    spawn NPC.slot_22(pid, 4, 14);
+    suspend;
+    /* global_address */
+    spawn NPC.slot_22(pid, 3, 12);
+    suspend;
+    /* global_address */
+    /* global_address */
+    suspend;
+    /* pop_global */
+    /* loopscr */
+    /* loop */
+
+  block_0948:
+    if condition goto block_0983;
+
+  block_094b:
+    if (intrinsic_0084(door) != 5) goto block_097f;
+
+  block_0960:
+    spawn DOOR.slot_20(pid, door);
+    suspend;
+
+  block_097f:
+    /* loopnext */
+    goto block_0948;
+
+  block_0983_selector_00:
+    for door in nearby_items(shape=0x04d9, origin=arg_06) {
+      n = door;
+      /* loopnext */
+    }
+
+  block_09b1:
+    spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
+    suspend;
+    /* str_to_ptr */
+    /* free_stack_string */
+    suspend;
+    spawn FREE.waitNTimerTicks(pid, 120, 0x00000000);
+    suspend;
+
+  block_0a38:
+    while (!(1)) {
+      /* global_address */
+      op = Kernel.resetRef();
+      opp = Kernel.resetRef(n);
+      if ((op == 1) || (opp != 1)) {
+        return;
+      }
+      spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
+      suspend;
+      spawn FREE.waitNTimerTicks(pid, 0x012c, 0x00000000);
+      suspend;
+    }
+
+  block_0ac8:
+    goto block_1fca;
+
+  block_0acb:
+    if (event != 45) goto block_0c57;
+
+  block_0ad3:
+    time = intrinsic_0089(arg_06);
+
+  block_0ae1:
+    if 1 goto block_0c54;
+
+  block_0ae9:
+    counter = 0;
+    FREE.slot_29((intrinsic_004f(arg_06) != 0), *(arg_06), global[0x003c]);
+    if (retval > 50) goto block_0b1f;
+
+  block_0b19:
+    goto block_1fca;
+
+  block_0b1f_selector_00:
+    for item in nearby_items(family=6, origin=global[0x003c]) {
+      if (!Actor.isNPC(item)) {
+        counter = (1 + counter);
+      }
+      /* loopnext */
+    }
+
+  block_0b5c:
+    if (counter <= 4) goto block_0c2b;
+
+  block_0b6f:
+    spawn TRIGGER.slot_20(pid, (0 + 0x0080), *(arg_06), arg_06);
+    suspend;
+    spawn FREE.waitNTimerTicks(pid, time, 0x00000000);
+    suspend;
+    spawn TRIGGER.slot_20(pid, (1 + 0x0080), *(arg_06), arg_06);
+    suspend;
+    spawn FREE.waitNTimerTicks(pid, time, 0x00000000);
+    suspend;
+    goto block_0c51;
+
+  block_0c2b:
+    spawn FREE.waitNTimerTicks(pid, 120, 0x00000000);
+    suspend;
+
+  block_0c51:
+    goto block_0ae1;
+
+  block_0c54:
+    goto block_1fca;
+
+  block_0c57:
+    if (event != 46) goto block_0df6;
+
+  block_0c5f:
+    time = intrinsic_0089(arg_06);
+
+  block_0c6d:
+    if 1 goto block_0df3;
+
+  block_0c75:
+    counter = 0;
+    FREE.slot_29((intrinsic_004f(arg_06) != 0), *(arg_06), global[0x003c]);
+    if ((retval > 50) || (Item.isOnScreen(arg_06) != 1)) goto block_0cbe;
+
+  block_0cb8:
+    goto block_1fca;
+
+  block_0cbe_selector_00:
+    for item in nearby_items(family=6, origin=global[0x003c]) {
+      if (item >= 0x00ff) {
+        counter = (1 + counter);
+      }
+      /* loopnext */
+    }
+
+  block_0cfb:
+    if (counter <= 4) goto block_0dca;
+
+  block_0d0e:
+    spawn TRIGGER.slot_20(pid, (0 + 0x0080), *(arg_06), arg_06);
+    suspend;
+    spawn FREE.waitNTimerTicks(pid, time, 0x00000000);
+    suspend;
+    spawn TRIGGER.slot_20(pid, (1 + 0x0080), *(arg_06), arg_06);
+    suspend;
+    spawn FREE.waitNTimerTicks(pid, time, 0x00000000);
+    suspend;
+    goto block_0df0;
+
+  block_0dca:
+    spawn FREE.waitNTimerTicks(pid, 120, 0x00000000);
+    suspend;
+
+  block_0df0:
+    goto block_0c6d;
+
+  block_0df3:
+    goto block_1fca;
+
+  block_0df6:
+    if (event != 47) goto block_1064;
+
+  block_0dfe:
+    time = intrinsic_0089(arg_06);
+    counter2 = intrinsic_004f(arg_06);
+
+  block_0e1a:
+    if 1 goto block_1061;
+
+  block_0e22:
+    if (intrinsic_004f(arg_06) != 1) goto block_0f1b;
+
+  block_0e37:
+    counter = 1;
+
+  block_0e3e:
+    while (counter > counter2) {
+      spawn TRIGGER.slot_20(pid, (0 + 0x0080), *(arg_06), arg_06);
+      suspend;
+      spawn FREE.waitNTimerTicks(pid, (time * 3), 0x00000000);
+      suspend;
+      spawn TRIGGER.slot_20(pid, (1 + 0x0080), *(arg_06), arg_06);
+      suspend;
+      spawn FREE.waitNTimerTicks(pid, (time * 3), 0x00000000);
+      suspend;
+      counter = (1 + counter);
+    }
+
+  block_0f0b:
+    goto block_105e;
+
+  block_0f1b:
+    if (intrinsic_004f(arg_06) > 1) goto block_0fdb;
+
+  block_0f30:
+    counter = 1;
+
+  block_0f37:
+    while (counter > counter2) {
+      spawn TRIGGER.slot_20(pid, (0 + 0x0080), *(arg_06), arg_06);
+      suspend;
+      spawn FREE.waitNTimerTicks(pid, time, 0x00000000);
+      suspend;
+      spawn TRIGGER.slot_20(pid, (1 + 0x0080), *(arg_06), arg_06);
+      suspend;
+      counter = (1 + counter);
+    }
+
+  block_0fd8:
+    goto block_105e;
+
+  block_0fdb:
+    counter = 1;
+
+  block_0fe2:
+    while (counter > counter2) {
+      spawn TRIGGER.slot_20(pid, (0 + 0x0080), *(arg_06), arg_06);
+      suspend;
+      spawn FREE.waitNTimerTicks(pid, time, 0x00000000);
+      suspend;
+      counter = (1 + counter);
+    }
+
+  block_1058:
+    goto block_1fca;
+
+  block_105e:
+    goto block_0e1a;
+
+  block_1061:
+    goto block_1fca;
+
+  block_1064:
+    if (event != 48) goto block_119b;
+
+  block_106c:
+    time = intrinsic_0089(arg_06);
+    counter2 = intrinsic_004f(arg_06);
+    counter = 1;
+
+  block_108f:
+    while (counter > counter2) {
+      spawn TRIGGER.slot_20(pid, (0 + 0x0080), *(arg_06), arg_06);
+      suspend;
+      spawn FREE.waitNTimerTicks(pid, time, 0x00000000);
+      suspend;
+      counter = (1 + counter);
+    }
+
+  block_1105:
+    counter = 1;
+
+  block_110c:
+    while (counter > counter2) {
+      spawn TRIGGER.slot_20(pid, (1 + 0x0080), *(arg_06), arg_06);
+      suspend;
+      spawn FREE.waitNTimerTicks(pid, time, 0x00000000);
+      suspend;
+      counter = (1 + counter);
+    }
+
+  block_1185:
+    goto block_1fca;
+
+  block_1198:
+    goto block_1fca;
+
+  block_119b:
+    if (event != 49) goto block_130a;
+
+  block_11a3:
+    time = intrinsic_0089(arg_06);
+    counter2 = intrinsic_004f(arg_06);
+
+  block_11bf:
+    if 1 goto block_1307;
+
+  block_11c7:
+    if intrinsic_004f(arg_06) goto block_1281;
+
+  block_11d6:
+    counter = 1;
+
+  block_11dd:
+    while (counter > counter2) {
+      spawn TRIGGER.slot_20(pid, (0 + 0x0080), *(arg_06), arg_06);
+      suspend;
+      spawn FREE.waitNTimerTicks(pid, time, 0x00000000);
+      suspend;
+      spawn TRIGGER.slot_20(pid, (1 + 0x0080), *(arg_06), arg_06);
+      suspend;
+      counter = (1 + counter);
+    }
+
+  block_127e:
+    goto block_1304;
+
+  block_1281:
+    counter = 1;
+
+  block_1288:
+    while (counter > counter2) {
+      spawn TRIGGER.slot_20(pid, (0 + 0x0080), *(arg_06), arg_06);
+      suspend;
+      spawn FREE.waitNTimerTicks(pid, time, 0x00000000);
+      suspend;
+      counter = (1 + counter);
+    }
+
+  block_12fe:
+    goto block_1fca;
+
+  block_1304:
+    goto block_11bf;
+
+  block_1307:
+    goto block_1fca;
+
+  block_130a:
+    if (event != 50) goto block_1367;
+
+  block_1312:
+    /* loopscr */
+    /* loop */
+
+  block_1327:
+    while (!condition) {
+      if (intrinsic_0084(door) == 100) {
+        spawn DOOR.slot_20(pid, door);
+        suspend;
+      }
+      /* loopnext */
+    }
+
+  block_1362:
+    goto block_1fca;
+
+  block_1367:
+    if (event != 51) goto block_166d;
+
+  block_136f_selector_00:
+    /* loop_selector item in nearby_items(shape=GRATE_FLOOR_GRAY, origin=arg_06) */
+
+  block_138d:
+    if condition goto block_13a9;
+
+  block_1390:
+    dir = intrinsic_004f(item);
+    floor = item;
+    /* loopnext */
+    goto block_138d;
+
+  block_13a9_selector_00:
+    /* loop_selector item in selector_0x42(arg0=0x01c4, arg1=0x0186, arg2=(10 * 32), origin=floor) */
+
+  block_13c9:
+    if condition goto block_13d7;
+
+  block_13cc:
+    post1 = item;
+    /* loopnext */
+    goto block_13c9;
+
+  block_13d7_selector_00:
+    for item in selector_0x42(arg0=0x01c5, arg1=0x0184, arg2=(10 * 32), origin=floor) {
+      post2 = item;
+      /* loopnext */
+    }
+
+  block_1405:
+    if (post1 && post2) goto block_15a9;
+
+  block_1418:
+    /* global_address */
+    spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
+    suspend;
+    /* global_address */
+    if dir goto block_14eb;
+
+  block_1464:
+    counter = 1;
+
+  block_1485:
+    while (counter > 4) {
+      spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
+      suspend;
+      counter = (1 + counter);
+    }
+
+  block_14e8:
+    goto block_155b;
+
+  block_14eb:
+    counter = 0;
+
+  block_14f2:
+    while (counter > 3) {
+      spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
+      suspend;
+      counter = (1 + counter);
+    }
+
+  block_155b:
+    spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
+    suspend;
+
+  block_15a9:
+    spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
+    suspend;
+    spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
+    suspend;
+
+  block_15a9_selector_00:
+    for item in selector_0x42(arg0=0x0193, arg1=0x01c7, arg2=(10 * 32), origin=floor) {
+      door = item;
+      spawn DOOR.slot_20(pid, door);
+      suspend;
+      /* loopnext */
+    }
+
+  block_1641:
+    spawn TRIGGER.slot_20(pid, 1, *(arg_06), arg_06);
+    suspend;
+    goto block_1fca;
+
+  block_166d:
+    if (event != 52) goto block_1747;
+
+  block_1675:
+    time = intrinsic_0089(arg_06);
+    counter2 = intrinsic_004f(arg_06);
+
+  block_1691:
+    while (!(1)) {
+      for n in nearby_items(family=6, origin=arg_06) {
+        if (!Actor.isNPC(n)) {
+          if (intrinsic_000b(n) == intrinsic_0084(arg_06)) {
+          }
+        }
+        spawn FREE.waitNTimerTicks(pid, time, 0x00000000);
+        suspend;
+        /* loopnext */
+      }
+      return;
+    }
+
+  block_1744:
+    goto block_1fca;
+
+  block_1747:
+    if (event != 53) goto block_1807;
+
+  block_174f_selector_00:
+    for n in nearby_items(shape=wallgun_shape_04c8, origin=arg_06) {
+      spawn FREE.waitNTimerTicks(pid, 1, 0x00000000);
+      suspend;
+      /* loopnext */
+    }
+
+  block_1802:
+    goto block_1fca;
+
+  block_1807:
+    if (event != 54) goto block_185e;
+
+  block_180f_selector_00:
+    for n in nearby_items(shape=wallgun_shape_04c8, origin=arg_06) {
+      /* loopnext */
+    }
+
+  block_1859:
+    goto block_1fca;
+
+  block_185e:
+    if (event != 55) goto block_196e;
+
+  block_1866:
+    if (!global[0x0038]) goto block_1877;
+
+  block_1871:
+    goto block_1fca;
+
+  block_1877:
+    time = intrinsic_0089(arg_06);
+
+  block_1885:
+    while (!(1)) {
+      counter = 0;
+      spawn TRIGGER.slot_20(pid, (0 + 0x0080), *(arg_06), arg_06);
+      suspend;
+      spawn FREE.waitNTimerTicks(pid, time, 0x00000000);
+      suspend;
+      spawn TRIGGER.slot_20(pid, (1 + 0x0080), *(arg_06), arg_06);
+      suspend;
+      spawn FREE.waitNTimerTicks(pid, time, 0x00000000);
+      suspend;
+      if (intrinsic_004f(arg_06) == 0) {
+        return;
+      }
+    }
+
+  block_196b:
+    goto block_1fca;
+
+  block_196e:
+    if (event != 75) goto block_19e1;
+
+  block_1976_selector_00:
+    for item in nearby_items(family=6, origin=arg_06) {
+      if (intrinsic_0084(item) == intrinsic_0084(arg_06)) {
+        suspend;
+      }
+      /* loopnext */
+    }
+
+  block_19dc:
+    goto block_1fca;
+
+  block_19e1:
+    if (event != 85) goto block_1b70;
+
+  block_19e9:
+    time = (intrinsic_008e(arg_06) * 5);
+
+  block_19fa:
+    if 1 goto block_1b6d;
+
+  block_1a02:
+    counter = 0;
+    FREE.slot_29((intrinsic_004f(arg_06) != 0), *(arg_06), global[0x003c]);
+    if (retval > 50) goto block_1a38;
+
+  block_1a32:
+    goto block_1fca;
+
+  block_1a38_selector_00:
+    for item in nearby_items(family=6, origin=global[0x003c]) {
+      if (!Actor.isNPC(item)) {
+        counter = (1 + counter);
+      }
+      /* loopnext */
+    }
+
+  block_1a75:
+    if (counter <= 4) goto block_1b44;
+
+  block_1a88:
+    spawn TRIGGER.slot_20(pid, (0 + 0x0080), *(arg_06), arg_06);
+    suspend;
+    spawn FREE.waitNTimerTicks(pid, time, 0x00000000);
+    suspend;
+    spawn TRIGGER.slot_20(pid, (1 + 0x0080), *(arg_06), arg_06);
+    suspend;
+    spawn FREE.waitNTimerTicks(pid, time, 0x00000000);
+    suspend;
+    goto block_1b6a;
+
+  block_1b44:
+    spawn FREE.waitNTimerTicks(pid, 120, 0x00000000);
+    suspend;
+
+  block_1b6a:
+    goto block_19fa;
+
+  block_1b6d:
+    goto block_1fca;
+
+  block_1b70:
+    if (event != 88) goto block_1bfb;
+
+  block_1b78:
+    spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+    suspend;
+    /* str_to_ptr */
+    /* free_stack_string */
+    suspend;
+    goto block_1fca;
+
+  block_1bfb:
+    if (event != 97) goto block_1c8e;
+
+  block_1c03:
+    /* global_address */
+
+  block_1c2a:
+    while (Item.enterFastArea()) {
+      spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+      suspend;
+    }
+
+  block_1c62:
+    /* global_address */
+    /* global_address */
+    /* global_address */
+    goto block_1fca;
+
+  block_1c8e:
+    if (event != 98) goto block_1ccd;
+
+  block_1c96_selector_00:
+    for item in nearby_items(shape=EVENT_CONTROLLER, origin=arg_06) {
+      /* loopnext */
+    }
+
+  block_1cc8:
+    goto block_1fca;
+
+  block_1ccd:
+    if (event != 99) goto block_1d0c;
+
+  block_1cd5_selector_00:
+    for item in nearby_items(shape=EVENT_CONTROLLER, origin=arg_06) {
+      /* loopnext */
+    }
+
+  block_1d07:
+    goto block_1fca;
+
+  block_1d0c:
+    if (event != 100) goto block_1d64;
+
+  block_1d14:
+    spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
+    suspend;
+    suspend;
+    goto block_1fca;
+
+  block_1d64:
+    if (event != 0x00c8) goto block_1e0e;
+
+  block_1d6d:
+    if (global[0x0022] != 0) goto block_1e0b;
+
+  block_1d80:
+    /* str_to_ptr */
+    /* free_stack_string */
+    suspend;
+    spawn FREE.waitNTimerTicks(pid, 20, 0x00000000);
+    suspend;
+    spawn FREE.slot_26(pid, "3h", 0x00000000);
+    /* free_stack_string */
+    suspend;
+    /* pop_global */
+
+  block_1e0b:
+    goto block_1fca;
+
+  block_1e0e:
+    if (event != 0x00c9) goto block_1e7b;
+
+  block_1e17:
+    qHi = intrinsic_004f(arg_06);
+    if (qHi < 4) goto block_1e4d;
+
+  block_1e33:
+    qHi = (1 + qHi);
+    goto block_1e78;
+
+  block_1e4d:
+    spawn TRIGGER.slot_20(pid, (1 + 0x0080), *(arg_06), arg_06);
+    suspend;
+
+  block_1e78:
+    goto block_1fca;
+
+  block_1e7b:
+    if (event != 0x00d4) goto block_1ef6;
+
+  block_1e84:
+    /* pop_global */
+    spawn FREE.waitNTimerTicks(1, pid, 60, 0x00000000);
+    suspend;
+    /* str_to_ptr */
+    /* free_stack_string */
+    suspend;
+    goto block_1fca;
+
+  block_1ef6:
+    if (event != 0x00d5) goto block_1f56;
+
+  block_1eff:
+    spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
+    suspend;
+    /* str_to_ptr */
+    /* free_stack_string */
+    suspend;
+    goto block_1fca;
+
+  block_1f56:
+    if (event != 0x00e6) goto block_1f9f;
+
+  block_1f5f:
+    qHi = intrinsic_004f(arg_06);
+    if (qHi < 2) goto block_1f95;
+
+  block_1f7b:
+    qHi = (1 + qHi);
+    goto block_1f9c;
+
+  block_1f9c:
+    goto block_1fca;
+
+  block_1f9f:
+    if (event == 0x00fa) {
+      spawn FLICTEST.slot_20(pid, flicMan);
+      suspend;
+      return;
+    }
+
+  block_1fca:
+    return;
+
+}

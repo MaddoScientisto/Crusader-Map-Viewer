@@ -1,0 +1,13 @@
+function avatar_cachein() /* entry=2051 class_id=0x0801 slot=0x04 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    item, /* [BP-02h] type=0x24 */
+    slot, /* [BP-04h] type=0x69 */
+    counter; /* [BP-06h] type=0x69 */
+
+  set_info(0x0213, *(arg_06));
+  process_exclude();
+  spawn AVATAR.cast(0, arg_06);
+  return;
+}

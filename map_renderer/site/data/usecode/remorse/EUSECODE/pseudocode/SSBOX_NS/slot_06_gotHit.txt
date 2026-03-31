@@ -1,0 +1,43 @@
+function ssbox_ns_gotHit() /* entry=716 class_id=0x02ca slot=0x06 */
+{
+  entry:
+    set_info(0x020c, *(arg_06));
+    process_exclude();
+    FREE.slot_2c(arg_12, arg_10);
+    if retval goto block_01f2;
+
+  block_00fd:
+    if (!Item.getFrame(arg_06)) goto block_014e;
+
+  block_0110:
+    spawn ITEM.slot_28(pid, 0, 0, arg_06);
+    suspend;
+    goto block_01f2;
+
+  block_014e:
+    spawn ITEM.slot_27(pid, 100, arg_12, arg_10, arg_06);
+    suspend;
+    /* dword_to_word */
+    if (!process_result) goto block_01ae;
+
+  block_017e:
+    FREE.slot_20(1);
+    if retval goto block_019e;
+
+  block_018e:
+    goto block_01ab;
+
+  block_01ab:
+    goto block_01f2;
+
+  block_01ae:
+    spawn ITEM.slot_2a(pid, arg_06);
+    suspend;
+    spawn ITEM.slot_28(pid, 1, 1, arg_06);
+    suspend;
+
+  block_01f2:
+    return;
+
+  /* decompilation stopped at SEARCH_SURFACE */
+}

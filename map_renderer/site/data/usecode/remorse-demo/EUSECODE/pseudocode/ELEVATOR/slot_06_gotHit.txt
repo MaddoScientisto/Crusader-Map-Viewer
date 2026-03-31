@@ -1,0 +1,109 @@
+function elevator_gotHit() /* entry=544 class_id=0x021e slot=0x06 */
+{
+  entry:
+    set_info(0x020c, *(arg_06));
+    process_exclude();
+    if ((arg_10 != 1) || (intrinsic_0071() != 1)) goto block_010e;
+
+  block_0108:
+    goto block_04fa;
+
+  block_010e:
+    FREE.slot_33(0x0220, 0);
+
+  block_0136:
+    while (!intrinsic_0036()) {
+      spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+      suspend;
+    }
+
+  block_016f:
+    /* global_address */
+    if intrinsic_0038() goto block_01af;
+
+  block_017f:
+    /* global_address */
+    /* global_address */
+    suspend;
+
+  block_01af:
+    local_02 = arg_10;
+    local_04 = Kernel.getNumProcesses(arg_06);
+    local_06 = intrinsic_0051(arg_06);
+    /* loopscr */
+    /* loop */
+
+  block_01e2:
+    if condition goto block_0395;
+
+  block_01e5:
+    if (local_02 != *(arg_06)) goto block_0391;
+
+  block_01f8:
+    if Actor.isNPC(local_02) goto block_0235;
+
+  block_0207:
+    if (local_02 != 1) goto block_0232;
+
+  block_0215:
+    local_08 = local_02;
+
+  block_0232:
+    goto block_0391;
+
+  block_0235:
+    local_10 = intrinsic_0016(local_02);
+    if (((((((((((((((((((((((((local_10 != 0x0194) && (local_10 != 0x04d0)) && (local_10 != 17)) && (local_10 != 0x04b1)) && (local_10 != 0x0476)) && (local_10 != 0x01c6)) && (local_10 != 0x018d)) && (local_10 != 0x0193)) && (local_10 != 0x01c7)) && (local_10 != 0x028a)) && (local_10 != 0x018c)) && (local_10 != 0x0192)) && (local_10 != 0x0288)) && (local_10 != 0x028b)) && (local_10 != 0x018b)) && (local_10 != 0x0191)) && (local_10 != 0x028c)) && (local_10 != 0x028d)) && (local_10 != 0x018a)) && (local_10 != 0x0190)) && (local_10 != 0x0287)) && (local_10 != 0x028e)) && (local_10 != 0x0187)) && (local_10 != 0x0189)) && (local_10 != 0x0289)) goto block_0391;
+
+  block_0391:
+    /* loopnext */
+    goto block_01e2;
+
+  block_0395:
+    set_info(0x0220, 0);
+    if (local_06 != 0) goto block_03b1;
+
+  block_03ae:
+    goto block_03bb;
+
+  block_03b1:
+    local_06 = (local_06 - 1);
+
+  block_03bb:
+    if (local_04 < 16) goto block_03fb;
+
+  block_03c9:
+    /* global_address */
+    spawn ELEVATOR.slot_20(intrinsic_0011(pid, local_04), local_06, arg_06);
+    suspend;
+    goto block_0499;
+
+  block_03fb:
+    if (local_04 == 16) {
+      /* global_address */
+      spawn ELEVATOR.slot_20(intrinsic_0011(pid, 4), local_06, arg_06);
+      suspend;
+    }
+    else if (local_04 == 17) {
+      spawn ELEVATOR.slot_20(pid, 17, 10, local_06, arg_06);
+      suspend;
+    }
+    else if (local_04 == 18) {
+      spawn ELEVATOR.slot_20(pid, 18, 24, local_06, arg_06);
+      suspend;
+    }
+
+  block_0499:
+    while (!intrinsic_0036()) {
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+    }
+
+  block_04d2:
+    FREE.slot_33(0x0220, 0);
+
+  block_04fa:
+    return;
+
+  /* decompilation stopped at SEARCH_SURFACE */
+}

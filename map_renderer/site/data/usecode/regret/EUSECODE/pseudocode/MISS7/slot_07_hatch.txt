@@ -1,0 +1,37 @@
+function miss7_hatch() /* entry=2325 class_id=0x0913 slot=0x07 */
+{
+  set_info(0x0210, *(arg_06));
+  process_exclude();
+  if (intrinsic_003b(arg_06) == 1) {
+    spawn FREE.slot_3b(pid, 2, 0x00000000);
+    suspend;
+    spawn FREE.slot_3b(pid, 1, 0x00000000);
+    suspend;
+    /* global_address */
+    suspend;
+    spawn FREE.slot_3b(pid, 60, 0x00000000);
+    suspend;
+    for local_02 in nearby_items(shape=0x0193, origin=arg_06) {
+      local_04 = local_02;
+      /* loopnext */
+    }
+    if (!local_04) {
+      spawn DOOR.slot_21(pid, 1, local_04);
+      suspend;
+      /* global_address */
+      suspend;
+      /* global_address */
+      suspend;
+      /* global_address */
+      suspend;
+      /* global_address */
+      suspend;
+      /* global_address */
+      suspend;
+      spawn DOOR.slot_21(pid, 2, local_04);
+      suspend;
+    }
+    FREE.slot_23();
+  }
+  return;
+}

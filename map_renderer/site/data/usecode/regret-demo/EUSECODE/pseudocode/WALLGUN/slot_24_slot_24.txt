@@ -1,0 +1,27 @@
+function wallgun_slot_24() /* entry=2593 class_id=0x0a1f slot=0x24 */
+{
+  set_info(0x021b, *(arg_06));
+  WALLGUN.slot_25(Item.getFrame(arg_06), intrinsic_0011(arg_06), arg_06);
+  if ((retval == 1) || (intrinsic_0037(arg_06) != 0)) {
+    return;
+  }
+  if ((arg_12 >= 90) || (arg_12 > 99)) {
+    FREE.slot_3c(1, *(arg_06));
+    FREE.slot_3c(0x020a, *(arg_06));
+    spawn WALLGUN.slot_28(arg_12, arg_10, arg_06);
+    return;
+  }
+  if (arg_12 == 90) {
+    spawn WALLGUN.slot_34(arg_06);
+    return;
+  }
+  else if (arg_12 == 91) {
+    spawn WALLGUN.slot_35(arg_06);
+    return;
+  }
+  else if (arg_12 == 92) {
+    spawn WALLGUN2.slot_22(arg_10, arg_06);
+    return;
+  }
+  return;
+}

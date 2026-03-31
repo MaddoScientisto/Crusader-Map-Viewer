@@ -1,0 +1,37 @@
+function door3_slot_20() /* entry=2570 class_id=0x0a08 slot=0x20 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    doorList, /* [BP-02h] type=0x6c */
+    doorList2, /* [BP-04h] type=0x6c */
+    counter, /* [BP-06h] type=0x69 */
+    door2, /* [BP-08h] type=0x24 */
+    maxFrame; /* [BP-10h] type=0x69 */
+
+  set_info(0x0207, *(arg_06));
+  spawn DOOR.slot_22(pid, arg_06);
+  suspend;
+  /* create_list */
+  /* free_local_list */
+  doorList = 0x036a;
+  /* create_list */
+  /* free_local_list */
+  doorList2 = 0x036b;
+  counter = 0;
+  FREE.slot_3a(0x0358, 0x035c, 0x035d, 0x0359, 0x035a, 0x035b, doorList);
+  /* free_stack_list */
+  maxFrame = retval;
+  spawn FREE.waitNTimerTicks(doorList2, 1, pid, 5, 0x00000000);
+  suspend;
+  counter = 2;
+  while (counter > (maxFrame - 1)) {
+    spawn FREE.waitNTimerTicks(doorList2, counter, doorList, pid, 5, 0x00000000);
+    suspend;
+    counter = (1 + counter);
+  }
+  /* word_to_dword */
+  /* pop_result */
+  /* free_local_list */
+  /* free_local_list */
+  return;
+}

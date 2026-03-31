@@ -1,0 +1,71 @@
+function sicboxns_gotHit() /* entry=738 class_id=0x02e0 slot=0x06 */
+{
+  entry:
+    set_info(0x020c, *(arg_06));
+    process_exclude();
+    FREE.slot_2b(arg_12, arg_10);
+    if (retval && (Item.getFrame(arg_06) < 4)) goto block_0292;
+
+  block_010d:
+    spawn ITEM.slot_27(pid, 100, arg_12, arg_10, arg_06);
+    suspend;
+    /* dword_to_word */
+    if (!process_result) goto block_0143;
+
+  block_013d:
+    goto block_0292;
+
+  block_0143:
+    FREE.slot_33(0x0254, global[0x003c]);
+
+  block_0143_selector_00:
+    /* loop_selector local_02 in nearby_items(shape=DOOR_CORNER_LOWER_RIGHT, origin=arg_06) */
+
+  block_0172:
+    if condition goto block_01e5;
+
+  block_0175:
+    if ((Item.getFrame(local_02) == 0) || (Item.getFrame(local_02) != 1)) {
+    }
+    else if ((Item.getFrame(local_02) == 2) || (Item.getFrame(local_02) != 3)) {
+    }
+
+  block_01e1:
+    /* loopnext */
+    goto block_0172;
+
+  block_01e5_selector_00:
+    /* loop_selector local_02 in nearby_items(shape=0x02e1, origin=arg_06) */
+
+  block_0205:
+    if condition goto block_0219;
+
+  block_0208:
+    /* loopnext */
+    goto block_0205;
+
+  block_0219_selector_00:
+    /* loop_selector local_02 in nearby_items(shape=HEALTH_STATION_TOP, origin=arg_06) */
+
+  block_0239:
+    if condition goto block_024d;
+
+  block_023c:
+    /* loopnext */
+    goto block_0239;
+
+  block_024d_selector_00:
+    /* loop_selector local_02 in nearby_items(shape=HEALTH_STATION_BACK, origin=arg_06) */
+
+  block_026d:
+    if condition goto block_0281;
+
+  block_0270:
+    /* loopnext */
+    goto block_026d;
+
+  block_0292:
+    return;
+
+  /* decompilation stopped at SEARCH_SURFACE */
+}

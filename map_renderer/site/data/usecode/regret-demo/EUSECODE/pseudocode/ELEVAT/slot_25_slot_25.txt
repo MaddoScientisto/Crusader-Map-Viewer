@@ -1,0 +1,63 @@
+function elevat_slot_25() /* entry=2572 class_id=0x0a0a slot=0x25 */
+{
+  entry:
+    set_info(0x0001, *(arg_06));
+    local_04 = 5;
+
+  entry_selector_00:
+    /* loop_selector local_02 in nearby_items(shape=0x02de, origin=arg_06) */
+
+  block_06b9:
+    if condition goto block_07d3;
+
+  block_06bc:
+    FREE.slot_48((Item.getX(arg_06) - Item.getX(local_02)));
+    local_06 = retval;
+    FREE.slot_48((Item.getY(arg_06) - Item.getY(local_02)));
+    local_08 = retval;
+    if ((local_06 < 2) && (local_08 < 2)) goto block_07cf;
+
+  block_0704:
+    if ((intrinsic_0004(local_02) & 0x1000) != 0) goto block_07cf;
+
+  block_0717:
+    if (Item.getFrame(local_02) != 0) goto block_076b;
+
+  block_0731:
+    local_03 = 1;
+
+  block_0735:
+    while (local_03 > local_04) {
+      spawn FREE.slot_3b(pid, 1, 0x00000000);
+      suspend;
+      local_03 = (1 + local_03);
+    }
+
+  block_0768:
+    goto block_07c3;
+
+  block_076b:
+    local_03 = local_04;
+
+  block_076f:
+    while (local_03 <= 0) {
+      spawn FREE.slot_3b(pid, 1, 0x00000000);
+      suspend;
+      local_03 = (local_03 - 1);
+    }
+
+  block_07a2:
+    spawn FREE.slot_3b(pid, 2, 0x00000000);
+    suspend;
+
+  block_07c3:
+    /* bit_not */
+
+  block_07cf:
+    /* loopnext */
+    goto block_06b9;
+
+  block_07d3:
+    return;
+
+}

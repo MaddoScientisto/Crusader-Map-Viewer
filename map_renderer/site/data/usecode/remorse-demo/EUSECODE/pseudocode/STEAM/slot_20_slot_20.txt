@@ -1,0 +1,61 @@
+function steam_slot_20() /* entry=2583 class_id=0x0a15 slot=0x20 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    item, /* [BP-02h] type=0x24 */
+    detect, /* [BP-03h] type=0x62 */
+    n; /* [BP-05h] type=0x24 */
+
+  entry:
+    set_info(0x0001, *(arg_06));
+
+  block_00f6:
+    suspend;
+    spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
+    suspend;
+    detect = 0;
+
+  block_00f6_selector_00:
+    /* loop_selector item in nearby_items(family=6, origin=arg_06) */
+
+  block_014d:
+    if condition goto block_01f4;
+
+  block_0150:
+    if Actor.isNPC(item) goto block_01f0;
+
+  block_015f:
+    if intrinsic_00a5(*(arg_06), item) goto block_01f0;
+
+  block_0172:
+    n = item;
+    if (n != intrinsic_001b()) goto block_01c4;
+
+  block_018a:
+    NPC.slot_2b(n);
+    if (!retval) goto block_01c1;
+
+  block_01c1:
+    goto block_01e9;
+
+  block_01e9:
+    detect = 1;
+
+  block_01f0:
+    /* loopnext */
+    goto block_014d;
+
+  block_01f4:
+    if (!detect) goto block_0213;
+
+  block_01ff:
+    ITEM.slot_24(4, arg_06);
+    goto block_0216;
+
+  block_0213:
+    goto block_00f6;
+
+  block_0216:
+    return;
+
+}

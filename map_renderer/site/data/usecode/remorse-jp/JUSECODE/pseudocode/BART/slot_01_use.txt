@@ -1,0 +1,20 @@
+function bart_use() /* entry=503 class_id=0x01f5 slot=0x01 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    counter; /* [BP-02h] type=0x69 */
+
+  set_info(0x0207, *(arg_06));
+  process_exclude();
+  FREE.slot_33(0x021b, *(arg_06));
+  while (Item.getFrame(arg_06) <= 1) {
+    spawn FREE.slot_32(pid, 10, 0x00000000);
+    suspend;
+  }
+  spawn FREE.slot_21(pid, 0x00e8, 0x00000000);
+  suspend;
+  spawn FREE.slot_32(pid, 30, 0x00000000);
+  suspend;
+  spawn BART.enterFastArea(arg_06);
+  return;
+}

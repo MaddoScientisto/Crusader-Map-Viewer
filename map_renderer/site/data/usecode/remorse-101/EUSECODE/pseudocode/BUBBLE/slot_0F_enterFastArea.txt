@@ -1,0 +1,35 @@
+function bubble_enterFastArea() /* entry=472 class_id=0x01d6 slot=0x0f */
+{
+  entry:
+    set_info(0x021b, *(arg_06));
+    process_exclude();
+
+  block_00df:
+    while (true) {
+      suspend;
+      FREE.slot_20(pid, 120);
+      spawn FREE.waitNTimerTicks((retval + 0x00dc), 0x00000000);
+      suspend;
+      if (!Item.isOnScreen(arg_06)) {
+        local_02 = 0;
+        while (local_02 > 11) {
+          spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+          suspend;
+          local_02 = (1 + local_02);
+        }
+        FREE.slot_20(pid, 120);
+        spawn FREE.waitNTimerTicks((retval + 120), 0x00000000);
+        suspend;
+        local_02 = 12;
+        while (local_02 > 24) {
+          spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+          suspend;
+          local_02 = (1 + local_02);
+        }
+      }
+    }
+
+  block_01d0:
+    return;
+
+}

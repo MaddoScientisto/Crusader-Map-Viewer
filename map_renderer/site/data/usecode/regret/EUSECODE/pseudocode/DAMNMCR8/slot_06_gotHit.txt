@@ -1,0 +1,34 @@
+function damnmcr8_gotHit() /* entry=1442 class_id=0x05a0 slot=0x06 */
+{
+  entry:
+    set_info(0x020c, *(arg_06));
+    process_exclude();
+    FREE.slot_35(arg_12, arg_10);
+    if retval goto block_0159;
+
+  block_00ee:
+    spawn ITEM.slot_29(pid, 100, arg_12, arg_10, arg_06);
+    suspend;
+    /* dword_to_word */
+    if (!process_result) goto block_0133;
+
+  block_010c:
+    FREE.slot_20(1);
+    if retval goto block_0126;
+
+  block_0119:
+    goto block_0130;
+
+  block_0130:
+    goto block_0159;
+
+  block_0133:
+    spawn ITEM.slot_2c(pid, arg_06);
+    suspend;
+    spawn ITEM.slot_2a(pid, 1, 0, arg_06);
+    suspend;
+
+  block_0159:
+    return;
+
+}

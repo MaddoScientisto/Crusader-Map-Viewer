@@ -1,0 +1,25 @@
+function nostril_slot_20() /* entry=1088 class_id=0x043e slot=0x20 */
+{
+  entry:
+    set_info(1, *(arg_06));
+    spawn STEAM.slot_22(local_04);
+    if intrinsic_006a() goto block_01ec;
+
+  block_01c0:
+    while (Item.getFrame(local_04) == 21) {
+      spawn FREE.slot_3b(pid, 2, 0x00000000);
+      suspend;
+    }
+
+  block_01e9:
+    goto block_0203;
+
+  block_01ec:
+    spawn FREE.slot_3b(pid, 30, 0x00000000);
+    suspend;
+
+  block_0203:
+    ITEM.slot_25(0x1000, arg_06);
+    return;
+
+}

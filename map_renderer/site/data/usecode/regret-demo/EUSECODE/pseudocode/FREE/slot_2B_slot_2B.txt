@@ -1,0 +1,121 @@
+function free_slot_2b() /* entry=2575 class_id=0x0a0d slot=0x2b */
+{
+  set_info(0x0224, 0);
+  FREE.slot_23();
+  local_04 = 1;
+  while (local_04 > 9) {
+    while (intrinsic_0082() == 1) {
+      spawn FREE.slot_3b(pid, 60, 0x00000000);
+      suspend;
+    }
+    local_02 = 0;
+    while (local_02 > 2) {
+      spawn FREE.slot_21(pid, 0x00c4, 0x00000000);
+      suspend;
+      local_02 = (1 + local_02);
+    }
+    while (intrinsic_0082() == 1) {
+      spawn FREE.slot_3b(pid, 30, 0x00000000);
+      suspend;
+    }
+    if (local_04 == 1) {
+      spawn FREE.slot_21(pid, 0x016d, 0x00000000);
+      suspend;
+      spawn FREE.slot_21(pid, 0x016e, 0x00000000);
+      suspend;
+      spawn FREE.slot_21(pid, 0x016f, 0x00000000);
+      suspend;
+      spawn FREE.slot_3b(pid, 0x0e10, 0x00000000);
+      suspend;
+      spawn FREE.slot_3b(pid, 0x0e10, 0x00000000);
+      suspend;
+      spawn FREE.slot_3b(pid, 0x0e10, 0x00000000);
+      suspend;
+      spawn FREE.slot_3b(pid, 0x0e10, 0x00000000);
+      suspend;
+      spawn FREE.slot_3b(pid, 0x0e10, 0x00000000);
+      suspend;
+    }
+    else if (local_04 == 2) {
+      spawn FREE.slot_21(pid, 0x0170, 0x00000000);
+      suspend;
+      spawn FREE.slot_21(pid, 0x016f, 0x00000000);
+      suspend;
+      spawn FREE.slot_3b(pid, 0x0e10, 0x00000000);
+      suspend;
+      spawn FREE.slot_3b(pid, 0x0e10, 0x00000000);
+      suspend;
+      spawn FREE.slot_3b(pid, 0x0e10, 0x00000000);
+      suspend;
+      spawn FREE.slot_3b(pid, 0x0e10, 0x00000000);
+      suspend;
+      spawn FREE.slot_3b(pid, 0x0e10, 0x00000000);
+      suspend;
+    }
+    else if (local_04 == 3) {
+      spawn FREE.slot_21(pid, 0x0171, 0x00000000);
+      suspend;
+      spawn FREE.slot_21(pid, 0x0185, 0x00000000);
+      suspend;
+      spawn FREE.slot_3b(pid, 0x0e10, 0x00000000);
+      suspend;
+    }
+    else if (local_04 == 4) {
+      spawn FREE.slot_21(pid, 0x0172, 0x00000000);
+      suspend;
+      spawn FREE.slot_21(pid, 0x016f, 0x00000000);
+      suspend;
+      spawn FREE.slot_3b(pid, 0x0e10, 0x00000000);
+      suspend;
+    }
+    else if (local_04 == 5) {
+      spawn FREE.slot_21(pid, 0x0173, 0x00000000);
+      suspend;
+      spawn FREE.slot_21(pid, 0x0185, 0x00000000);
+      suspend;
+      spawn FREE.slot_3b(pid, 0x0e10, 0x00000000);
+      suspend;
+    }
+    else if (local_04 == 6) {
+      spawn FREE.slot_21(pid, 0x0174, 0x00000000);
+      suspend;
+      spawn FREE.slot_21(pid, 0x016f, 0x00000000);
+      suspend;
+      spawn FREE.slot_3b(pid, 0x0e10, 0x00000000);
+      suspend;
+    }
+    else if (local_04 == 7) {
+      spawn FREE.slot_21(pid, 0x0175, 0x00000000);
+      suspend;
+      spawn FREE.slot_21(pid, 0x0185, 0x00000000);
+      suspend;
+      spawn FREE.slot_3b(pid, 0x0e10, 0x00000000);
+      suspend;
+    }
+    else if (local_04 == 8) {
+      spawn FREE.slot_21(pid, 0x0176, 0x00000000);
+      suspend;
+      spawn FREE.slot_3b(pid, 0x0708, 0x00000000);
+      suspend;
+    }
+    else if (local_04 == 9) {
+      spawn FREE.slot_21(pid, 0x0177, 0x00000000);
+      suspend;
+    }
+    /* global_address */
+    if ((intrinsic_007b() == 1) || (global[0x0019] != 1)) {
+      return;
+    }
+    local_04 = (1 + local_04);
+  }
+  spawn FREE.slot_24(pid, 0x00000000);
+  suspend;
+  spawn FREE.slot_3b(pid, 90, 0x00000000);
+  suspend;
+  spawn FREE.slot_3b(pid, 10, 0x00000000);
+  suspend;
+  /* str_to_ptr */
+  /* free_stack_string */
+  suspend;
+  return;
+}

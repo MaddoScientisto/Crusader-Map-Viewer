@@ -1,0 +1,14 @@
+function keypadew_cast() /* entry=1102 class_id=0x044c slot=0x11 */
+{
+  set_info(0x021d, *(arg_06));
+  process_exclude();
+  spawn FREE.slot_21(pid, 93, 0x00000000);
+  suspend;
+  spawn FREE.slot_3b(pid, 60, 0x00000000);
+  suspend;
+  spawn FREE.slot_21(pid, 0x0183, 0x00000000);
+  suspend;
+  spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
+  suspend;
+  return;
+}

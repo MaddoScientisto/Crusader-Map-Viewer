@@ -1,0 +1,92 @@
+function conveyor_slot_20() /* entry=2566 class_id=0x0a04 slot=0x20 */
+{
+  entry:
+    set_info(0x0205, *(arg_06));
+    set_info(0x0205, *(arg_06));
+    local_02 = 0;
+    local_02 = Item.getFrame(arg_06);
+    if (intrinsic_003d(115, arg_06) != 0) goto block_013e;
+
+  block_013e:
+    suspend;
+    local_03 = 0;
+    if intrinsic_0026(arg_06) goto block_019e;
+
+  block_0161:
+    local_02 = (local_02 - 1);
+    if (arg_10 < 0) goto block_0183;
+
+  block_0179:
+    arg_10 = (arg_10 * -1);
+
+  block_0183:
+    if (arg_12 < 0) goto block_019b;
+
+  block_0191:
+    arg_12 = (arg_12 * -1);
+
+  block_019b:
+    goto block_01d8;
+
+  block_019e:
+    local_02 = (1 + local_02);
+    if (arg_10 > 0) goto block_01c0;
+
+  block_01b6:
+    arg_10 = (arg_10 * -1);
+
+  block_01c0:
+    if (arg_12 > 0) goto block_01d8;
+
+  block_01ce:
+    arg_12 = (arg_12 * -1);
+
+  block_01d8:
+    if (local_02 > 2) goto block_01ed;
+
+  block_01e6:
+    local_02 = 0;
+
+  block_01ed:
+    if (local_02 < 0) goto block_0202;
+
+  block_01fb:
+    local_02 = 2;
+
+  block_0202:
+    /* loopscr */
+    /* loop */
+
+  block_0212:
+    while (!condition) {
+      local_09 = intrinsic_0016(local_05);
+      if ((local_09 == 0x0476) && (local_09 != 0x04d0)) {
+        local_06 = intrinsic_0046(*(arg_06), local_05);
+        local_14 = (intrinsic_0013(local_05) + arg_10);
+        local_12 = (Item.legal_create(local_05) + arg_12);
+        local_10 = Item.getZ(local_05);
+        local_07 = intrinsic_0046(*(arg_06), local_05);
+        local_03 = 1;
+      }
+      /* loopnext */
+    }
+
+  block_0304:
+    spawn FREE.slot_32(pid, 2, 0x00000000);
+    suspend;
+    if (!local_03) goto block_0355;
+
+  block_0335:
+    goto block_0386;
+
+  block_0355:
+    if (intrinsic_003d(115, arg_06) != 0) goto block_0376;
+
+  block_0376:
+    goto block_013e;
+
+  block_0386:
+    return;
+
+  /* decompilation stopped at SEARCH_SURFACE */
+}

@@ -1,0 +1,171 @@
+function floor1_enterFastArea() /* entry=2308 class_id=0x0902 slot=0x0f */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    counter, /* [BP-02h] type=0x69 */
+    item, /* [BP-04h] type=0x24 */
+    item2, /* [BP-06h] type=0x24 */
+    highNumber, /* [BP-08h] type=0x69 */
+    lowNumber, /* [BP-10h] type=0x69 */
+    tempNumber, /* [BP-12h] type=0x69 */
+    floorItems, /* [BP-14h] type=0x6c */
+    wantToStop, /* [BP-16h] type=0x69 */
+    foundFloor, /* [BP-18h] type=0x69 */
+    onTime, /* [BP-20h] type=0x69 */
+    id, /* [BP-22h] type=0x69 */
+    n; /* [BP-24h] type=0x24 */
+
+  entry:
+    set_info(0x021b, *(arg_06));
+    process_exclude();
+    counter = 0;
+    highNumber = 0;
+    lowNumber = 0x0100;
+    tempNumber = 0;
+    spawn FREE.slot_32(pid, 10, 0x00000000);
+    suspend;
+    id = intrinsic_0041(arg_06);
+    onTime = (id * 10);
+    if (onTime != 0) goto block_015b;
+
+  block_0154:
+    onTime = 5;
+
+  block_015b_selector_00:
+    for item in selector_0x42(arg0=0x0135, arg1=0x01c8, arg2=(35 * 32), origin=arg_06) {
+      foundFloor = 1;
+      tempNumber = intrinsic_00a2(item);
+      if ((tempNumber > 0) && (tempNumber >= 0x00fa)) {
+        if (highNumber >= tempNumber) {
+          highNumber = tempNumber;
+        }
+        if (lowNumber <= tempNumber) {
+          lowNumber = tempNumber;
+        }
+        /* create_list */
+        /* append_list */
+        /* free_local_list */
+        floorItems = item;
+      }
+      /* loopnext */
+    }
+
+  block_01f9:
+    if (!foundFloor) goto block_020a;
+
+  block_0204:
+    goto block_0498;
+
+  block_020a:
+    if 1 goto block_0498;
+
+  block_0212:
+    wantToStop = 0;
+    counter = lowNumber;
+
+  block_0220:
+    if (counter <= highNumber) goto block_03e5;
+
+  block_0234:
+    foreach_list item -> block_02ff;
+
+  block_0239:
+    if (intrinsic_0004(item) & 0x1000) goto block_0259;
+
+  block_024c:
+    wantToStop = 1;
+    goto block_03e5;
+
+  block_0259:
+    if (intrinsic_00a2(item) != counter) goto block_02f9;
+
+  block_026b:
+    if (!intrinsic_003d(112, arg_06)) goto block_029a;
+
+  block_029a:
+    /* loopscr */
+    /* loop */
+
+  block_02a8:
+    if condition goto block_02f7;
+
+  block_02ab:
+    if (Actor.isNPC(item2) != 1) goto block_02f3;
+
+  block_02bd:
+    n = item2;
+    FREE.slot_20(pid, 8);
+    spawn NPC.slot_2d(retval, *(arg_06), n);
+    suspend;
+
+  block_02f3:
+    /* loopnext */
+    goto block_02a8;
+
+  block_02f9:
+    goto block_0234;
+
+  block_02ff:
+    if (wantToStop != 1) goto block_0310;
+
+  block_030a:
+    goto block_03e5;
+
+  block_0310:
+    spawn FREE.slot_32(pid, onTime, 0x00000000);
+    suspend;
+
+  block_0336:
+    if (intrinsic_00aa(arg_06) > 0) goto block_0374;
+
+  block_034b:
+    spawn FREE.slot_32(pid, 60, 0x00000000);
+    suspend;
+    goto block_0336;
+
+  block_037d:
+    while (true) {
+      foreach_list item -> block_03b2;
+    }
+
+  block_03b2:
+    spawn FREE.slot_32(pid, 2, 0x00000000);
+    suspend;
+    counter = (1 + counter);
+    goto block_0220;
+
+  block_03e5:
+    if (wantToStop != 1) goto block_0495;
+
+  block_03f9:
+    while (true) {
+      foreach_list item -> block_0429;
+    }
+
+  block_0429:
+    if (wantToStop != 1) goto block_0495;
+
+  block_0437:
+    spawn FREE.slot_32(pid, 60, 0x00000000);
+    suspend;
+    wantToStop = 0;
+
+  block_046d:
+    while (true) {
+      foreach_list item -> block_0492;
+      if (!(intrinsic_0004(item) & 0x1000)) {
+        wantToStop = 1;
+      }
+    }
+
+  block_0492:
+    goto block_0429;
+
+  block_0495:
+    goto block_020a;
+
+  block_0498:
+    /* free_local_list */
+    return;
+
+}

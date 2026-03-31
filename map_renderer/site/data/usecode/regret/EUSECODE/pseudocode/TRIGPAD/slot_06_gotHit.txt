@@ -1,0 +1,78 @@
+function trigpad_gotHit() /* entry=1231 class_id=0x04cd slot=0x06 */
+{
+  entry:
+    set_info(0x020c, *(arg_06));
+    process_exclude();
+    local_02 = arg_10;
+    FREE.slot_34(arg_12, arg_10);
+    if retval goto block_00f5;
+
+  block_00f2:
+    goto block_026d;
+
+  block_00f5:
+    local_04 = arg_10;
+    if (intrinsic_0003(arg_06) != 0) goto block_026d;
+
+  block_0108:
+    if ((intrinsic_005b(arg_06) != 0) || (intrinsic_002d(*(arg_06), local_04) != 0)) goto block_012b;
+
+  block_0128:
+    goto block_026d;
+
+  block_012b:
+    spawn FREE.slot_3b(pid, 1, 0x00000000);
+    suspend;
+    spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
+    suspend;
+
+  block_0164:
+    if 1 goto block_026d;
+
+  block_0169:
+    if (intrinsic_005b(arg_06) != 0) goto block_0192;
+
+  block_0178:
+    spawn FREE.slot_3b(pid, 2, 0x00000000);
+    suspend;
+    goto block_026a;
+
+  block_0192:
+    spawn TRIGGER.slot_20(pid, 1, *(arg_06), arg_06);
+    suspend;
+    spawn FREE.slot_3b(pid, 2, 0x00000000);
+    suspend;
+    /* loopscr */
+    /* loopscr */
+    /* loopscr */
+    /* loopscr */
+    /* loop */
+
+  block_01e1:
+    while (!condition) {
+      while (!(intrinsic_0004(local_06) & 0x1000)) {
+        spawn FREE.slot_3b(pid, 2, 0x00000000);
+        suspend;
+      }
+      spawn FREE.slot_3b(pid, 120, 0x00000000);
+      suspend;
+      /* global_address */
+      if (Item.getZ() >= (Item.getZ(local_06) - 5)) {
+        ELEVAT.slot_21(Item.getZ(local_06), local_06);
+        if (!retval) {
+          spawn ELEVAT.slot_20(local_06);
+        }
+      }
+      /* loopnext */
+    }
+
+  block_0265:
+    goto block_026d;
+
+  block_026a:
+    goto block_0164;
+
+  block_026d:
+    return;
+
+}

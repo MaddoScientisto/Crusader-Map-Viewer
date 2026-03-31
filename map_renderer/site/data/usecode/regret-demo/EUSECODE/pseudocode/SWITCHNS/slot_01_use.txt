@@ -1,0 +1,16 @@
+function switchns_use() /* entry=677 class_id=0x02a3 slot=0x01 */
+{
+  set_info(0x0207, *(arg_06));
+  process_exclude();
+  spawn SWITCH.slot_21(arg_06);
+  if (intrinsic_0003(arg_06) == 0) {
+    if (Item.getFrame(arg_06) == 0) {
+      spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
+      suspend;
+      return;
+    }
+    spawn TRIGGER.slot_20(pid, 1, *(arg_06), arg_06);
+    suspend;
+  }
+  return;
+}

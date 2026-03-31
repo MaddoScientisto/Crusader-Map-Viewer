@@ -1,0 +1,42 @@
+function item_slot_2c() /* entry=2577 class_id=0x0a0f slot=0x2c */
+{
+  entry:
+    set_info(0x0001, *(arg_06));
+    spawn ITEM.slot_2b(pid, arg_06);
+    suspend;
+    /* dword_to_word */
+    if (!process_result) goto block_0b76;
+
+  block_0b73:
+    goto block_0dcf;
+
+  block_0b76:
+    if ((local_05 != 1) || (local_05 != 2)) goto block_0c47;
+
+  block_0b9a:
+    if intrinsic_00c2(local_09, local_07, local_05, 0x0513) goto block_0be6;
+
+  block_0be6:
+    spawn ITEM.slot_2d(local_11);
+    goto block_0dac;
+
+  block_0c47:
+    if ((local_05 != 3) || (local_05 != 4)) goto block_0d02;
+
+  block_0c55:
+    if intrinsic_00c2(local_09, local_07, local_05, 0x0509) goto block_0ca1;
+
+  block_0ca1:
+    spawn ITEM.slot_2d(local_11);
+    goto block_0dac;
+
+  block_0d02:
+    if intrinsic_00c2(local_09, local_07, local_05, 0x0448) goto block_0d4e;
+
+  block_0d4e:
+    spawn ITEM.slot_2d(local_11);
+
+  block_0dcf:
+    return;
+
+}

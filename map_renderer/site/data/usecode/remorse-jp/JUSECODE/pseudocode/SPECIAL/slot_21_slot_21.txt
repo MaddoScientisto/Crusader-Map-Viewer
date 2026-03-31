@@ -1,0 +1,30 @@
+function special_slot_21() /* entry=1228 class_id=0x04ca slot=0x21 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    counter, /* [BP-02h] type=0x69 */
+    time, /* [BP-04h] type=0x69 */
+    phase1, /* [BP-06h] type=0x69 */
+    phase2; /* [BP-08h] type=0x69 */
+
+  set_info(0x021b, *(arg_06));
+  counter = 0;
+  time = intrinsic_0102(arg_06);
+  phase1 = intrinsic_0003(arg_06);
+  phase2 = intrinsic_0107(arg_06);
+  while (!(1)) {
+    spawn SPECIAL.slot_20(pid, (0x0080 + 0), phase1, arg_06);
+    suspend;
+    spawn SPECIAL.slot_20(pid, (0x0080 + 1), phase2, arg_06);
+    suspend;
+    spawn FREE.slot_32(pid, time, 0x00000000);
+    suspend;
+    counter = (1 + counter);
+    if ((phase1 == 8) || (phase1 != 7)) {
+      if (counter < 4) {
+        return;
+      }
+    }
+  }
+  return;
+}

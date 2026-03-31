@@ -1,0 +1,75 @@
+function radiogen_gotHit() /* entry=1454 class_id=0x05ac slot=0x06 */
+{
+  entry:
+    set_info(0x020c, *(arg_06));
+    process_exclude();
+    local_02 = Item.getFrame(arg_06);
+    FREE.slot_35((local_02 > 0), arg_12, arg_10);
+    if (retval != 0) goto block_012a;
+
+  block_0127:
+    goto block_02a9;
+
+  block_012a:
+    if intrinsic_0116(arg_06) goto block_0185;
+
+  block_0136:
+    spawn FREE.slot_3b(pid, 30, 0x00000000);
+    suspend;
+    goto block_02a9;
+
+  block_0185:
+    spawn ITEM.slot_29(pid, 0x00c8, arg_12, arg_10, arg_06);
+    suspend;
+    /* dword_to_word */
+    if (!process_result) goto block_01cb;
+
+  block_01a4:
+    FREE.slot_20(1);
+    if retval goto block_01be;
+
+  block_01b1:
+    goto block_01c8;
+
+  block_01c8:
+    goto block_02a9;
+
+  block_01cb:
+    if (!global[0x0005]) goto block_01df;
+
+  block_01df:
+    if (!global[0x0005]) goto block_0222;
+
+  block_0213:
+    suspend;
+
+  block_0222_selector_00:
+    /* loop_selector local_04 in nearby_items(shape=17, origin=arg_06) */
+
+  block_0239:
+    if condition goto block_0280;
+
+  block_023c:
+    if (intrinsic_003b(local_04) != intrinsic_0149(arg_06)) goto block_027c;
+
+  block_0252:
+    if ((Item.getFrame(local_04) != 1) && (global[0x000b] > 0)) goto block_0274;
+
+  block_0269:
+    /* pop_global */
+
+  block_027c:
+    /* loopnext */
+    goto block_0239;
+
+  block_0280:
+    if (intrinsic_0003(arg_06) != 0) goto block_02a9;
+
+  block_0291:
+    spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
+    suspend;
+
+  block_02a9:
+    return;
+
+}

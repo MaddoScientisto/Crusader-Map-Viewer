@@ -1,0 +1,91 @@
+function special_slot_20() /* entry=1228 class_id=0x04ca slot=0x20 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    cmd, /* [BP+10h] type=0x69 */
+    phase, /* [BP+12h] type=0x69 */
+    a, /* [BP-02h] type=0x69 */
+    npc, /* [BP-04h] type=0x24 */
+    q; /* [BP-06h] type=0x69 */
+
+  set_info(0x021b, *(arg_06));
+  if (cmd == 3) {
+    /* global_address */
+    a = intrinsic_001c();
+    if ((a > 4) || (a >= 12)) {
+      spawn TRIGGER.slot_20(pid, phase, *(arg_06), arg_06);
+      suspend;
+    }
+    return;
+  }
+  else if (cmd == 4) {
+    /* global_address */
+    a = intrinsic_001c();
+    if ((a > 4) && (a >= 12)) {
+      spawn TRIGGER.slot_20(pid, phase, *(arg_06), arg_06);
+      suspend;
+    }
+    return;
+  }
+  else if (cmd == 5) {
+    /* global_address */
+    if (intrinsic_00db() == 1) {
+      spawn TRIGGER.slot_20(pid, phase, *(arg_06), arg_06);
+      suspend;
+    }
+    return;
+  }
+  else if (cmd == 6) {
+    /* global_address */
+    if (intrinsic_00db() == 0) {
+      spawn FREE.slot_32(pid, 10, 0x00000000);
+      suspend;
+      /* global_address */
+      if (intrinsic_00db() == 0) {
+        spawn TRIGGER.slot_20(pid, phase, *(arg_06), arg_06);
+        suspend;
+      }
+    }
+    return;
+  }
+  else if (cmd == 7) {
+    a = 0;
+    for npc in nearby_items(family=6, origin=global[0x003c]) {
+      if (npc >= 0x0100) {
+        a = (1 + a);
+      }
+      /* loopnext */
+    }
+    if (a <= 4) {
+      spawn TRIGGER.slot_20(pid, phase, *(arg_06), arg_06);
+      suspend;
+    }
+    spawn FREE.slot_32(pid, (intrinsic_0102(arg_06) * 9), 0x00000000);
+    suspend;
+    return;
+  }
+  else if (cmd == 8) {
+    a = 0;
+    for npc in nearby_items(family=6, origin=global[0x003c]) {
+      if (npc >= 0x0100) {
+        a = (1 + a);
+      }
+      /* loopnext */
+    }
+    if (a > 4) {
+      spawn TRIGGER.slot_20(pid, phase, *(arg_06), arg_06);
+      suspend;
+    }
+    spawn FREE.slot_32(pid, (intrinsic_0102(arg_06) * 9), 0x00000000);
+    suspend;
+    return;
+  }
+  else if (cmd == 9) {
+    q = intrinsic_00fc(arg_06);
+    FREE.slot_20(q, 3);
+    spawn TRIGGER.slot_20(pid, phase, *(arg_06), arg_06);
+    suspend;
+    return;
+  }
+  return;
+}

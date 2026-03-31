@@ -1,0 +1,33 @@
+function npctrig_slot_20() /* entry=869 class_id=0x0363 slot=0x20 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    typeNpc, /* [BP+10h] type=0x69 */
+    n, /* [BP-02h] type=0x24 */
+    item, /* [BP-04h] type=0x24 */
+    item2; /* [BP-06h] type=0x24 */
+
+  entry:
+    set_info(0x0001, *(arg_06));
+
+  entry_selector_00:
+    for item in nearby_items(shape=TELEPORTER_LIGHTS, origin=arg_06) {
+      item2 = item;
+      /* loopnext */
+    }
+
+  block_0291:
+    if item2 goto block_0370;
+
+  block_029b:
+    spawn NPC.slot_23(pid, n);
+    suspend;
+    if (intrinsic_001b() != 0) goto block_0361;
+
+  block_034e:
+    goto block_0370;
+
+  block_0370:
+    return;
+
+}

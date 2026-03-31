@@ -1,0 +1,15 @@
+function dooregg_slot_20() /* entry=2316 class_id=0x090a slot=0x20 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    door; /* [BP-02h] type=0x24 */
+
+  set_info(0x0001, *(arg_06));
+  for door in nearby_items(family=1, origin=arg_06) {
+    if (Kernel.getNumProcesses(door) == intrinsic_0041(arg_06)) {
+      spawn DOOR.slot_21(1, door);
+    }
+    /* loopnext */
+  }
+  return;
+}

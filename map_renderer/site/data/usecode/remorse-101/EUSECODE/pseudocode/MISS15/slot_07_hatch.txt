@@ -1,0 +1,64 @@
+function miss15_hatch() /* entry=2333 class_id=0x091b slot=0x07 */
+{
+  set_info(0x0210, *(arg_06));
+  process_exclude();
+  if (intrinsic_003e(arg_06) == 1) {
+    /* pop_global */
+    spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+    suspend;
+    /* str_to_ptr */
+    /* free_stack_string */
+    suspend;
+    /* global_address */
+    suspend;
+    suspend;
+    for local_06 in nearby_items(shape=51, origin=arg_06) {
+      spawn DOOR.slot_21(pid, 1, local_06);
+      suspend;
+      /* loopnext */
+    }
+    spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
+    suspend;
+    /* global_address */
+    suspend;
+    /* global_address */
+    suspend;
+    /* global_address */
+    suspend;
+    /* global_address */
+    suspend;
+    /* global_address */
+    suspend;
+    /* pop_global */
+    return;
+  }
+  else if (intrinsic_003e(arg_06) == 2) {
+    spawn FREE.slot_26(pid, "15c", 0x00000000);
+    /* free_stack_string */
+    suspend;
+    return;
+  }
+  else if (intrinsic_003e(arg_06) == 3) {
+    /* global_address */
+    while (!intrinsic_0033()) {
+      spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+      suspend;
+    }
+    FREE.slot_41();
+    /* global_address */
+    suspend;
+    /* str_to_ptr */
+    /* free_stack_string */
+    suspend;
+    spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
+    suspend;
+    for local_08 in nearby_items(shape=npcdeath_shape_03ac, origin=arg_06) {
+      /* loopnext */
+    }
+    return;
+  }
+  else if (intrinsic_003e(arg_06) == 4) {
+    return;
+  }
+  return;
+}

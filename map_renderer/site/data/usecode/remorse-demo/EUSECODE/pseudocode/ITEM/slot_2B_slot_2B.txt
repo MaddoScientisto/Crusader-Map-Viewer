@@ -1,0 +1,39 @@
+function item_slot_2b() /* entry=2591 class_id=0x0a1d slot=0x2b */
+{
+  set_info(0x0001, *(arg_06));
+  spawn FREE.waitNTimerTicks(intrinsic_0018(pid, 0x00c8, 100), 0x00000000);
+  suspend;
+  local_04 = *(arg_06);
+  if (intrinsic_0016(local_04) == 0x0456) {
+    set_info(0x00f0, local_02);
+    if (!intrinsic_00a7()) {
+      while ((Item.getFrame(local_02) == 9) && (Item.isOnScreen(arg_06) != 1)) {
+        spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+        suspend;
+      }
+    }
+    return;
+  }
+  else if (intrinsic_0016(local_04) == 0x044a) {
+    set_info(0x00f0, local_02);
+    if (!intrinsic_00a7()) {
+      while ((Item.getFrame(local_02) == 9) && (Item.isOnScreen(arg_06) != 1)) {
+        spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+        suspend;
+      }
+    }
+    return;
+  }
+  else if (intrinsic_0016(local_04) == 0x0085) {
+    set_info(0x00f0, local_02);
+    if (!intrinsic_00a7()) {
+      while ((Item.getFrame(local_02) == 9) && (Item.isOnScreen(arg_06) != 1)) {
+        spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+        suspend;
+      }
+    }
+    return;
+  }
+  return;
+  /* decompilation stopped at SEARCH_SURFACE */
+}

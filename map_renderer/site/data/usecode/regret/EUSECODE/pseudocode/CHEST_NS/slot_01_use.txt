@@ -1,0 +1,106 @@
+function chest_ns_use() /* entry=1361 class_id=0x054f slot=0x01 */
+{
+  entry:
+    set_info(0x0207, *(arg_06));
+    process_exclude();
+    if (Item.getFrame(arg_06) > 1) goto block_0199;
+
+  block_0196:
+    goto block_03f3;
+
+  block_0199:
+    if (Item.getFrame(arg_06) != 1) goto block_022d;
+
+  block_01a8:
+    FREE.slot_36(Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06), 6, 0x054a, *(arg_06));
+    if retval goto block_021c;
+
+  block_01d7:
+    local_06 = 6;
+
+  block_01e6:
+    while (local_06 > 10) {
+      spawn FREE.slot_3b(pid, 10, 0x00000000);
+      suspend;
+      local_06 = (1 + local_06);
+    }
+
+  block_0219:
+    goto block_022a;
+
+  block_021c:
+    goto block_03f3;
+
+  block_022a:
+    goto block_02ae;
+
+  block_022d:
+    FREE.slot_36(Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06), 1, 0x054a, *(arg_06));
+    if retval goto block_02a1;
+
+  block_025c:
+    local_06 = 1;
+
+  block_026b:
+    while (local_06 > 5) {
+      spawn FREE.slot_3b(pid, 10, 0x00000000);
+      suspend;
+      local_06 = (1 + local_06);
+    }
+
+  block_029e:
+    goto block_02ae;
+
+  block_02a1:
+    goto block_03f3;
+
+  block_02ae:
+    spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
+    suspend;
+    local_08 = (Item.getX(arg_06) + 56);
+    local_10 = (Item.getY(arg_06) + 64);
+
+  block_02ae_selector_00:
+    /* loop_selector local_02 in nearby_items(shape=0x0476, origin=arg_06) */
+
+  block_02fa:
+    if condition goto block_03f1;
+
+  block_02fd:
+    if (intrinsic_001f(arg_06) != intrinsic_001f(local_02)) goto block_03ed;
+
+  block_0313:
+    FREE.slot_37(local_02);
+    local_04 = retval;
+    if ((((intrinsic_0031(local_04) != 10) || (intrinsic_0031(local_04) != 11)) || (intrinsic_0031(local_04) != 12)) || (intrinsic_0031(local_04) != 13)) goto block_03d6;
+
+  block_0355:
+    if (!intrinsic_003c(1, local_04)) goto block_03d3;
+
+  block_0364:
+    /* global_address */
+    if (intrinsic_003d() != 25) goto block_03ad;
+
+  block_0387:
+    goto block_03d3;
+
+  block_03ad:
+    /* global_address */
+    /* global_address */
+    /* global_address */
+
+  block_03d3:
+    goto block_03ed;
+
+  block_03d6:
+    spawn FREE.slot_3a(pid, local_04, 0x00000000);
+    suspend;
+
+  block_03ed:
+    /* loopnext */
+    goto block_02fa;
+
+  block_03f3:
+    return;
+
+}

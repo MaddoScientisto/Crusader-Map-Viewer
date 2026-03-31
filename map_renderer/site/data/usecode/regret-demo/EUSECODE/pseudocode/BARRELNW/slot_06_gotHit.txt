@@ -1,0 +1,8 @@
+function barrelnw_gotHit() /* entry=342 class_id=0x0154 slot=0x06 */
+{
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  spawn BARREL.slot_20(pid, arg_12, arg_10, arg_06);
+  suspend;
+  return;
+}

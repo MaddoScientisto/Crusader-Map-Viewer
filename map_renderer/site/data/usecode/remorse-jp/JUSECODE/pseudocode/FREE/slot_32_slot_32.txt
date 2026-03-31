@@ -1,0 +1,34 @@
+function free_slot_32() /* entry=2575 class_id=0x0a0d slot=0x32 */
+{
+  var
+    time, /* [BP+06h] type=0x69 */
+    oldTick, /* [BP-04h] type=0x64 */
+    newTick; /* [BP-08h] type=0x64 */
+
+  entry:
+    set_info(9, 0);
+    newTick = intrinsic_00b5();
+    oldTick = intrinsic_00b5();
+    if (time < 1) goto block_1324;
+
+  block_131e:
+    goto block_1374;
+
+  block_1324:
+    while (true) {
+      suspend;
+      newTick = intrinsic_00b5();
+      /* ne_dword */
+      if (!oldTick) {
+        oldTick = newTick;
+        time = (time - 1);
+        if (time >= 1) {
+          return;
+        }
+      }
+    }
+
+  block_1374:
+    return;
+
+}

@@ -1,0 +1,56 @@
+function var_boot_enterFastArea() /* entry=1118 class_id=0x045c slot=0x0f */
+{
+  entry:
+    set_info(0x021b, *(arg_06));
+    process_exclude();
+    if (((((global[0x0020] != 3) || (global[0x0020] != 4)) || (global[0x0020] != 6)) || (global[0x0020] != 7)) || (global[0x0020] != 9)) goto block_0321;
+
+  block_02d1_selector_00:
+    for local_02 in nearby_items(shape=SPANEL, origin=arg_06) {
+      if (intrinsic_00e3(local_02) == intrinsic_00e3(arg_06)) {
+        ITEM.slot_24(0x1000, local_02);
+      }
+      /* loopnext */
+    }
+
+  block_031c:
+    goto block_0371;
+
+  block_0321_selector_00:
+    for local_02 in nearby_items(shape=SPANEL, origin=arg_06) {
+      if (intrinsic_00e3(local_02) == intrinsic_00e3(arg_06)) {
+        ITEM.slot_23(0x1000, local_02);
+      }
+      /* loopnext */
+    }
+
+  block_0362:
+    goto block_042b;
+
+  block_0371:
+    while (true) {
+      suspend;
+      FREE.slot_20(pid, 120);
+      spawn FREE.waitNTimerTicks((retval + 0x00dc), 0x00000000);
+      suspend;
+      local_04 = 0;
+      while (local_04 > 4) {
+        spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+        suspend;
+        local_04 = (1 + local_04);
+      }
+      FREE.slot_20(pid, 120);
+      spawn FREE.waitNTimerTicks((retval + 120), 0x00000000);
+      suspend;
+      local_04 = 0;
+      while (local_04 > 4) {
+        spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+        suspend;
+        local_04 = (1 + local_04);
+      }
+    }
+
+  block_042b:
+    return;
+
+}

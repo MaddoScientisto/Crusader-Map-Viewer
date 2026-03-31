@@ -1,0 +1,61 @@
+function valve_use() /* entry=50 class_id=0x0030 slot=0x01 */
+{
+  entry:
+    set_info(0x0207, *(arg_06));
+    process_exclude();
+    if (Item.getFrame(arg_06) < 4) goto block_01d5;
+
+  block_010d:
+    local_02 = 0;
+
+  block_0114:
+    while (local_02 > 4) {
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+      local_02 = (1 + local_02);
+    }
+
+  block_015c:
+    spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
+    suspend;
+    local_02 = 0;
+
+  block_018a:
+    while (local_02 > 4) {
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+      local_02 = (1 + local_02);
+    }
+
+  block_01d2:
+    goto block_02a0;
+
+  block_01d5:
+    local_02 = 0;
+
+  block_01dc:
+    while (local_02 > 4) {
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+      local_02 = (1 + local_02);
+    }
+
+  block_0227:
+    spawn TRIGGER.slot_20(pid, 1, *(arg_06), arg_06);
+    suspend;
+    local_02 = 0;
+
+  block_0255:
+    while (local_02 > 4) {
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+      local_02 = (1 + local_02);
+    }
+
+  block_02a0:
+    spawn FREE.waitNTimerTicks(pid, 15, 0x00000000);
+    suspend;
+    return;
+
+  /* decompilation stopped at SEARCH_SURFACE */
+}

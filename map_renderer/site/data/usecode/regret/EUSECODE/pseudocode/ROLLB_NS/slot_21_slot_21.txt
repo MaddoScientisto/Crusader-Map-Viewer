@@ -1,0 +1,215 @@
+function rollb_ns_slot_21() /* entry=1416 class_id=0x0586 slot=0x21 */
+{
+  entry:
+    set_info(0x0001, *(arg_06));
+    local_06 = intrinsic_00dd(arg_06);
+    local_02 = (local_06 & 31);
+    if (local_02 != 0) goto block_02be;
+
+  block_02ba:
+    local_02 = 1;
+
+  block_02be:
+    local_04 = Item.getFrame(arg_06);
+    local_19 = Item.getX(arg_06);
+    local_17 = Item.getY(arg_06);
+    local_15 = Item.getZ(arg_06);
+    if (local_06 & 32) goto block_0545;
+
+  block_0308:
+    if (local_06 < 0x0080) goto block_042b;
+
+  block_0311:
+    while (!(1)) {
+      local_04 = (local_04 - 1);
+      if (local_04 >= 0) {
+        local_04 = 4;
+      }
+      local_08 = 0;
+      /* loopscr */
+      /* loop */
+      while (!condition) {
+        local_08 = (1 + local_08);
+        /* loopnext */
+      }
+      local_17 = (local_17 + 8);
+      if (Item.legal_move(0, 0, local_19, arg_06) == 0) {
+        local_10 = 1;
+        while (local_10 > local_08) {
+          local_21 = intrinsic_001e();
+          local_10 = (1 + local_10);
+        }
+        spawn ROLLB_NS.slot_20(pid, arg_06);
+        suspend;
+        return;
+      }
+      local_10 = 1;
+      while (local_10 > local_08) {
+        local_21 = intrinsic_001e();
+        local_10 = (1 + local_10);
+      }
+      spawn FREE.slot_3b(pid, local_02, 0x00000000);
+      suspend;
+    }
+
+  block_0428:
+    goto block_0542;
+
+  block_042b:
+    while (!(1)) {
+      local_04 = (1 + local_04);
+      if (local_04 <= 4) {
+        local_04 = 0;
+      }
+      local_08 = 0;
+      /* loopscr */
+      /* loop */
+      while (!condition) {
+        local_08 = (1 + local_08);
+        /* loopnext */
+      }
+      local_17 = (local_17 - 8);
+      if (Item.legal_move(0, 0, local_19, arg_06) == 0) {
+        local_10 = 1;
+        while (local_10 > local_08) {
+          local_21 = intrinsic_001e();
+          local_10 = (1 + local_10);
+        }
+        spawn ROLLB_NS.slot_20(pid, arg_06);
+        suspend;
+        return;
+      }
+      local_10 = 1;
+      while (local_10 > local_08) {
+        local_21 = intrinsic_001e();
+        local_10 = (1 + local_10);
+      }
+      spawn FREE.slot_3b(pid, local_02, 0x00000000);
+      suspend;
+    }
+
+  block_0542:
+    goto block_074b;
+
+  block_0545:
+    local_23 = 0;
+    local_24 = local_15;
+    if (local_06 < 0x0080) goto block_0652;
+
+  block_0556:
+    if 1 goto block_064f;
+
+  block_055b:
+    local_04 = (local_04 - 1);
+    if (local_04 < 0) goto block_056e;
+
+  block_056a:
+    local_04 = 4;
+
+  block_056e:
+    local_17 = (local_17 + 8);
+    if (Item.legal_move(0, 0, local_19, arg_06) != 0) goto block_05b9;
+
+  block_058a:
+    local_15 = (1 + local_15);
+    if (Item.legal_move(0, 0, local_19, arg_06) != 0) goto block_05b9;
+
+  block_05a6:
+    spawn ROLLB_NS.slot_20(pid, arg_06);
+    suspend;
+    goto block_074b;
+
+  block_05b9:
+    if (local_15 > 1) goto block_05ee;
+
+  block_05c1:
+    local_15 = (local_15 - 4);
+    if (Item.legal_move(0, 0, local_19, arg_06) != 0) goto block_05e4;
+
+  block_05dd:
+    local_15 = (local_15 + 4);
+
+  block_05e4:
+    local_23 = (local_24 - local_15);
+    goto block_062b;
+
+  block_05ee:
+    if (local_23 > 12) goto block_062b;
+
+  block_05f6:
+    spawn FREE.slot_3b(pid, 6, 0x00000000);
+    suspend;
+    spawn ROLLB_NS.slot_20(pid, arg_06);
+    suspend;
+    goto block_074b;
+
+  block_0628:
+    goto block_062b;
+
+  block_062b:
+    spawn FREE.slot_3b(pid, local_02, 0x00000000);
+    suspend;
+    goto block_0556;
+
+  block_064f:
+    goto block_074b;
+
+  block_0652:
+    if 1 goto block_074b;
+
+  block_0657:
+    local_04 = (1 + local_04);
+    if (local_04 > 4) goto block_066a;
+
+  block_0666:
+    local_04 = 0;
+
+  block_066a:
+    local_17 = (local_17 - 8);
+    if (Item.legal_move(0, 0, local_19, arg_06) != 0) goto block_06b5;
+
+  block_0686:
+    local_15 = (1 + local_15);
+    if (Item.legal_move(0, 0, local_19, arg_06) != 0) goto block_06b5;
+
+  block_06a2:
+    spawn ROLLB_NS.slot_20(pid, arg_06);
+    suspend;
+    goto block_074b;
+
+  block_06b5:
+    if (local_15 > 1) goto block_06ea;
+
+  block_06bd:
+    local_15 = (local_15 - 4);
+    if (Item.legal_move(0, 0, local_19, arg_06) != 0) goto block_06e0;
+
+  block_06d9:
+    local_15 = (local_15 + 4);
+
+  block_06e0:
+    local_23 = (local_24 - local_15);
+    goto block_0727;
+
+  block_06ea:
+    if (local_23 > 12) goto block_0727;
+
+  block_06f2:
+    spawn FREE.slot_3b(pid, 6, 0x00000000);
+    suspend;
+    spawn ROLLB_NS.slot_20(pid, arg_06);
+    suspend;
+    goto block_074b;
+
+  block_0724:
+    goto block_0727;
+
+  block_0727:
+    spawn FREE.slot_3b(pid, local_02, 0x00000000);
+    suspend;
+    goto block_0652;
+
+  block_074b:
+    return;
+
+}

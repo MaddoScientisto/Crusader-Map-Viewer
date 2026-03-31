@@ -1,0 +1,46 @@
+function wshockns_gotHit() /* entry=1103 class_id=0x044d slot=0x06 */
+{
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  local_02 = arg_10;
+  if (!Actor.isNPC(local_02)) {
+    local_04 = local_02;
+    while (intrinsic_00a5(arg_10, arg_06) == 1) {
+      local_06 = intrinsic_0120(arg_06);
+      local_08 = intrinsic_0013(arg_06);
+      local_10 = Item.legal_create(arg_06);
+      local_12 = Item.AvatarStoleSomething(local_02);
+      local_14 = Item.getZ(local_02);
+      local_18 = (local_08 - local_06);
+      local_18 = (local_18 * 2);
+      local_20 = (local_12 - local_14);
+      local_20 = ((local_20 / 2) * 3);
+      FREE.slot_20(2);
+      local_22 = (retval + 1);
+      while (local_22 == 0) {
+        FREE.slot_20(local_18);
+        local_24 = retval;
+        local_24 = (local_08 - local_24);
+        local_06 = local_24;
+        FREE.slot_20(local_20);
+        local_26 = retval;
+        local_26 = (local_26 + local_14);
+        local_12 = local_26;
+        if (!intrinsic_001f(0, 0x0459, local_16)) {
+          local_22 = 1;
+          local_28 = (1 + local_28);
+        }
+        FREE.slot_20(pid, 30);
+        spawn FREE.waitNTimerTicks(retval, 0x00000000);
+        suspend;
+        local_22 = (local_22 - 1);
+      }
+      spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
+      suspend;
+    }
+    spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+    suspend;
+  }
+  return;
+  /* decompilation stopped at SEARCH_SURFACE */
+}

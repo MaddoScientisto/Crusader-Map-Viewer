@@ -1,0 +1,13 @@
+function sentry_enterFastArea() /* entry=463 class_id=0x01cd slot=0x0f */
+{
+  set_info(0x021b, *(arg_06));
+  process_exclude();
+  if (*(arg_06) >= 0x0100) {
+    return;
+  }
+  if (!(intrinsic_0004(arg_06) & 4)) {
+    return;
+  }
+  spawn WALLGUN.slot_27(arg_06);
+  return;
+}

@@ -1,0 +1,18 @@
+function phir_use() /* entry=1281 class_id=0x04ff slot=0x01 */
+{
+  set_info(0x0207, *(arg_06));
+  process_exclude();
+  if (!intrinsic_00e6(arg_06)) {
+    spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
+    suspend;
+    if (global[0x001f] == 12) {
+      ITEM.slot_23(0x1000, arg_06);
+      spawn FREE.slot_32(pid, 30, 0x00000000);
+      suspend;
+      spawn FREE.slot_26(pid, "12e", 0x00000000);
+      /* free_stack_string */
+      suspend;
+    }
+  }
+  return;
+}

@@ -1,0 +1,40 @@
+function mcrate_gotHit() /* entry=1076 class_id=0x0432 slot=0x06 */
+{
+  entry:
+    set_info(0x020c, *(arg_06));
+    process_exclude();
+    FREE.slot_2c(arg_12, arg_10);
+    if retval goto block_01f1;
+
+  block_00ee:
+    spawn ITEM.slot_27(pid, 100, arg_12, arg_10, arg_06);
+    suspend;
+    /* dword_to_word */
+    if (!process_result) goto block_0133;
+
+  block_010c:
+    FREE.slot_20(1);
+    if retval goto block_0126;
+
+  block_0119:
+    goto block_0130;
+
+  block_0130:
+    goto block_01f1;
+
+  block_0133:
+    if (Item.getFrame(arg_06) == 0) {
+      spawn ITEM.slot_28(pid, 1, 0, arg_06);
+      suspend;
+      return;
+    }
+    else if (Item.getFrame(arg_06) == 1) {
+      spawn ITEM.slot_28(pid, 1, 1, arg_06);
+      suspend;
+      return;
+    }
+
+  block_01f1:
+    return;
+
+}

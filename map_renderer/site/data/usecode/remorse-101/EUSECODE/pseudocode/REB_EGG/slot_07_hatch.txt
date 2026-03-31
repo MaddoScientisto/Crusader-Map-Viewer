@@ -1,0 +1,296 @@
+function reb_egg_hatch() /* entry=2313 class_id=0x0907 slot=0x07 */
+{
+  entry:
+    set_info(0x0210, *(arg_06));
+    process_exclude();
+    if (global[0x0001] != 0) goto block_0172;
+
+  block_016f:
+    goto block_0b1e;
+
+  block_0172:
+    if (global[0x0020] != 9) goto block_01c7;
+
+  block_0184:
+    /* str_to_ptr */
+    /* free_stack_string */
+    suspend;
+    /* str_to_ptr */
+    /* free_stack_string */
+    suspend;
+
+  block_01c7:
+    if (global[0x0020] < 13) goto block_01f6;
+
+  block_01d1:
+    /* str_to_ptr */
+    /* free_stack_string */
+    suspend;
+
+  block_01f6:
+    set_info(1, 0);
+    if (global[0x0020] != 1) goto block_020b;
+
+  block_0205:
+    /* pop_global */
+
+  block_020b:
+    /* global_address */
+    if (intrinsic_0011() != 41) goto block_0221;
+
+  block_021b:
+    /* pop_global */
+
+  block_0221_selector_00:
+    /* loop_selector local_02 in nearby_items(shape=BAR_PATRONS_1, origin=arg_06) */
+
+  block_0239:
+    if condition goto block_0248;
+
+  block_023c:
+    /* loopnext */
+    goto block_0239;
+
+  block_0248_selector_00:
+    for local_02 in nearby_items(shape=BAR_STOOL, origin=arg_06) {
+      /* loopnext */
+    }
+
+  block_0280:
+    if ((global[0x0020] > 3) && (global[0x0020] < 13)) goto block_032d;
+
+  block_0294:
+    if (intrinsic_0018(9, 0) > 5) goto block_02de;
+
+  block_02a5:
+    suspend;
+    goto block_032a;
+
+  block_032a:
+    goto block_0379;
+
+  block_0379:
+    if ((global[0x0020] != 2) || (global[0x0020] != 5)) goto block_040e;
+
+  block_038b_selector_00:
+    /* loop_selector local_02 in nearby_items(shape=0x044f, origin=arg_06) */
+
+  block_03a3:
+    if condition goto block_03b4;
+
+  block_03a6:
+    /* loopnext */
+    goto block_03a3;
+
+  block_03b4_selector_00:
+    for local_02 in nearby_items(shape=NUMBERS, origin=arg_06) {
+      /* loopnext */
+    }
+
+  block_0405:
+    local_09 = 1;
+    goto block_05c5;
+
+  block_040e:
+    if ((global[0x0020] != 10) || (global[0x0020] != 11)) goto block_04de;
+
+  block_0420_selector_00:
+    /* loop_selector local_02 in nearby_items(shape=0x044f, origin=arg_06) */
+
+  block_0438:
+    if condition goto block_046c;
+
+  block_043b:
+    /* loopnext */
+    goto block_0438;
+
+  block_046c_selector_00:
+    for local_02 in nearby_items(shape=NUMBERS, origin=arg_06) {
+      suspend;
+      /* loopnext */
+    }
+
+  block_04d5:
+    local_09 = 1;
+    goto block_05c5;
+
+  block_04de:
+    if ((global[0x0020] != 12) || (global[0x0020] != 13)) goto block_054b;
+
+  block_04f0_selector_00:
+    for local_02 in nearby_items(shape=0x044f, origin=arg_06) {
+      /* loopnext */
+    }
+
+  block_0546:
+    goto block_05c5;
+
+  block_054b:
+    if (global[0x0020] == 14) {
+      for local_02 in nearby_items(shape=NUMBERS, origin=arg_06) {
+        suspend;
+        /* loopnext */
+      }
+      local_09 = 1;
+    }
+
+  block_05c5:
+    /* global_address */
+    suspend;
+    spawn FREE.waitNTimerTicks(pid, 120, 0x00000000);
+    suspend;
+    /* global_address */
+    spawn NPC.slot_23(pid);
+    suspend;
+    spawn REB_EGG.slot_20(pid, arg_06);
+    suspend;
+    /* loopscr */
+    /* loopscr */
+    /* loop */
+
+  block_0633:
+    while (!condition) {
+      /* loopnext */
+    }
+
+  block_0644:
+    if (!local_09) goto block_069b;
+
+  block_064c:
+    /* pop_global */
+
+  block_064c_selector_00:
+    for local_02 in selector_0x42(arg0=0x044f, arg1=0x0442, arg2=(50 * 32), origin=arg_06) {
+      /* loopnext */
+    }
+
+  block_0696:
+    goto block_0b1e;
+
+  block_069b:
+    /* global_address */
+    suspend;
+    /* global_address */
+    suspend;
+    if (global[0x0020] != 2) goto block_078c;
+
+  block_06d7:
+    /* str_to_ptr */
+    /* free_stack_string */
+    suspend;
+    suspend;
+    /* global_address */
+
+  block_06d7_selector_00:
+    for local_02 in nearby_items(shape=0x044f, origin=arg_06) {
+      /* loopnext */
+    }
+
+  block_0762:
+    suspend;
+    /* pop_global */
+    goto block_0b1e;
+
+  block_078c:
+    if (global[0x0020] != 5) goto block_088a;
+
+  block_0796:
+    if global[0x0024] goto block_07be;
+
+  block_079d:
+    /* str_to_ptr */
+    /* free_stack_string */
+    suspend;
+    goto block_07dc;
+
+  block_07be:
+    /* str_to_ptr */
+    /* free_stack_string */
+    suspend;
+
+  block_07dc:
+    suspend;
+    /* global_address */
+
+  block_07dc_selector_00:
+    for local_02 in nearby_items(shape=0x044f, origin=arg_06) {
+      /* loopnext */
+    }
+
+  block_0849:
+    spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+    suspend;
+    suspend;
+    /* pop_global */
+    goto block_0b1e;
+
+  block_088a:
+    if ((global[0x0020] != 10) || (global[0x0020] != 11)) goto block_09ac;
+
+  block_089c:
+    if (global[0x0020] != 10) goto block_08c8;
+
+  block_08a6:
+    /* str_to_ptr */
+    /* free_stack_string */
+    suspend;
+    goto block_08e7;
+
+  block_08c8:
+    /* str_to_ptr */
+    /* free_stack_string */
+    suspend;
+
+  block_08e7:
+    spawn FREE.waitNTimerTicks(pid, 120, 0x00000000);
+    suspend;
+    suspend;
+    /* global_address */
+
+  block_08e7_selector_00:
+    for local_02 in nearby_items(shape=0x0442, origin=arg_06) {
+      /* loopnext */
+    }
+
+  block_096b:
+    spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+    suspend;
+    suspend;
+    /* pop_global */
+    goto block_0b1e;
+
+  block_09ac:
+    if (global[0x0020] == 14) {
+      /* str_to_ptr */
+      /* free_stack_string */
+      suspend;
+      spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+      suspend;
+      /* global_address */
+      suspend;
+      /* global_address */
+      suspend;
+      /* global_address */
+      suspend;
+      /* global_address */
+      suspend;
+      /* global_address */
+      suspend;
+      spawn NPC.slot_22(pid, 4, 12, local_06);
+      suspend;
+      suspend;
+      spawn NPC.slot_24(pid, local_06);
+      suspend;
+      spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+      suspend;
+      for local_02 in nearby_items(shape=0x043d, origin=arg_06) {
+        /* loopnext */
+      }
+      /* pop_global */
+      return;
+    }
+
+  block_0b1e:
+    return;
+
+}

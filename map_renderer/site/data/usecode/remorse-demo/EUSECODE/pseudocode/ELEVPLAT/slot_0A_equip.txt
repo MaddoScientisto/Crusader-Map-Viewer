@@ -1,0 +1,89 @@
+function elevplat_equip() /* entry=305 class_id=0x012f slot=0x0a */
+{
+  entry:
+    set_info(0x0211, *(arg_06));
+    process_exclude();
+    if (intrinsic_0004(arg_06) & 0x1000) goto block_01b9;
+
+  block_01b3:
+    goto block_0375;
+
+  block_01b9:
+    /* pop_global */
+    local_02 = Item.getZ(arg_06);
+    if ((arg_10 >= 0x00a0) && (arg_10 < 0x00ff)) goto block_01fa;
+
+  block_01e6:
+    /* pop_global */
+    arg_10 = (arg_10 - 0x00a0);
+
+  block_01fa:
+    if (arg_10 != 0x00ff) goto block_025c;
+
+  block_0206:
+    local_04 = intrinsic_0051(arg_06);
+    if ((local_04 != 88) || ((local_02 + 1) <= local_04)) goto block_023b;
+
+  block_022b:
+    goto block_0259;
+
+  block_023b:
+    if (local_04 < 88) goto block_0259;
+
+  block_0246:
+    goto block_0259;
+
+  block_0259:
+    goto block_02df;
+
+  block_025c:
+    if arg_10 goto block_02c5;
+
+  block_0264:
+    if (local_02 < arg_10) goto block_028c;
+
+  block_026f:
+    goto block_02c2;
+
+  block_028c:
+    if (local_02 > arg_10) goto block_02b4;
+
+  block_0297:
+    goto block_02c2;
+
+  block_02b4:
+    if (local_02 == arg_10) {
+    }
+
+  block_02c2:
+    goto block_02df;
+
+  block_02df:
+    spawn ELEVAT.slot_20(pid, arg_06);
+    suspend;
+    if (global[0x0000] != 1) goto block_0375;
+
+  block_0311:
+    /* loopscr */
+    /* loopscr */
+    /* loopscr */
+    /* loopscr */
+    /* loop */
+
+  block_032c:
+    if condition goto block_0373;
+
+  block_032f:
+    spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+    suspend;
+    /* loopnext */
+    goto block_032c;
+
+  block_0375:
+    return;
+
+  block_0390:
+    arg_122 = local_02;
+    /* end */
+
+}

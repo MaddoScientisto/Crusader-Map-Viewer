@@ -1,0 +1,17 @@
+function trigegg_unhatch() /* entry=2306 class_id=0x0900 slot=0x15 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    item, /* [BP-02h] type=0x24 */
+    id, /* [BP-04h] type=0x69 */
+    qlo; /* [BP-06h] type=0x69 */
+
+  set_info(0x0239, *(arg_06));
+  process_exclude();
+  id = intrinsic_003f(arg_06);
+  item = *(arg_06);
+  qlo = intrinsic_00ea(item);
+  spawn TRIGGER.slot_20(pid, (1 + 0x0080), item, arg_06);
+  suspend;
+  return;
+}

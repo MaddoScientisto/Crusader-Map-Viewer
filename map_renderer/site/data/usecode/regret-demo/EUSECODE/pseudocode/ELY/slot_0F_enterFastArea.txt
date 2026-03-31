@@ -1,0 +1,31 @@
+function ely_enterFastArea() /* entry=863 class_id=0x035d slot=0x0f */
+{
+  entry:
+    set_info(0x021b, *(arg_06));
+    process_exclude();
+
+  block_00df:
+    while (true) {
+      suspend;
+      local_02 = 0x0096;
+      while (local_02 > 0x00a1) {
+        spawn FREE.slot_3b(pid, 10, 0x00000000);
+        suspend;
+        local_02 = (1 + local_02);
+      }
+      spawn FREE.slot_3b(pid, 0x008c, 0x00000000);
+      suspend;
+      local_02 = 0;
+      while (local_02 > 10) {
+        spawn FREE.slot_3b(pid, 10, 0x00000000);
+        suspend;
+        local_02 = (1 + local_02);
+      }
+      spawn FREE.slot_3b(pid, 120, 0x00000000);
+      suspend;
+    }
+
+  block_0186:
+    return;
+
+}

@@ -1,0 +1,26 @@
+function npctrig_slot_20() /* entry=869 class_id=0x0363 slot=0x20 */
+{
+  entry:
+    set_info(0x0001, *(arg_06));
+
+  entry_selector_00:
+    for local_04 in nearby_items(shape=TELEPORTER_LIGHTS, origin=arg_06) {
+      local_06 = local_04;
+      /* loopnext */
+    }
+
+  block_01df:
+    if local_06 goto block_0288;
+
+  block_01e6:
+    spawn NPC.slot_23(pid, local_02);
+    suspend;
+    if (intrinsic_001d() != 0) goto block_027c;
+
+  block_026c:
+    goto block_0288;
+
+  block_0288:
+    return;
+
+}

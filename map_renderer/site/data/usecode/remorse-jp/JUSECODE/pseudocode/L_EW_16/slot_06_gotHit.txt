@@ -1,0 +1,14 @@
+function l_ew_16_gotHit() /* entry=469 class_id=0x01d3 slot=0x06 */
+{
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  if (arg_10 == intrinsic_001b()) {
+    spawn LAZER.slot_20(arg_06);
+    spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
+    suspend;
+    spawn FREE.slot_32(pid, 60, 0x00000000);
+    suspend;
+  }
+  return;
+  /* decompilation stopped at SEARCH_SURFACE */
+}

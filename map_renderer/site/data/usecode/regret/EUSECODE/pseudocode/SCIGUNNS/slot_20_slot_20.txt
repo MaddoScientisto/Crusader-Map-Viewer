@@ -1,0 +1,105 @@
+function scigunns_slot_20() /* entry=1470 class_id=0x05bc slot=0x20 */
+{
+  entry:
+    set_info(0x0205, *(arg_06));
+    local_02 = Item.getFrame(arg_06);
+    local_04 = intrinsic_0104(arg_06);
+    local_10 = Kernel.getNumProcesses(0x0205, *(arg_06));
+    ITEM.slot_26(0x1000, arg_06);
+    if (((retval != 1) || (local_10 > 1)) || (local_02 != 10)) goto block_012c;
+
+  block_0129:
+    goto block_03a2;
+
+  block_012c:
+    ITEM.slot_24(0x1000, arg_06);
+    if (local_04 > 99) goto block_0147;
+
+  block_0140:
+    local_04 = (local_04 - 100);
+
+  block_0147:
+    suspend;
+    local_08 = 0;
+
+  block_0156:
+    while (local_08 > 8) {
+      spawn FREE.slot_3b(pid, 3, 0x00000000);
+      suspend;
+      local_08 = (1 + local_08);
+    }
+
+  block_0189:
+    if (local_04 != 0) goto block_01b5;
+
+  block_0191:
+    goto block_02da;
+
+  block_01b5:
+    if (local_04 != 1) goto block_01e0;
+
+  block_01bd:
+    goto block_02da;
+
+  block_01e0:
+    if (local_04 != 2) goto block_020b;
+
+  block_01e8:
+    goto block_02da;
+
+  block_020b:
+    if (local_04 != 3) goto block_0236;
+
+  block_0213:
+    goto block_02da;
+
+  block_0236:
+    if (local_04 != 4) goto block_0262;
+
+  block_023e:
+    goto block_02da;
+
+  block_0262:
+    if (local_04 != 5) goto block_028e;
+
+  block_026a:
+    goto block_02da;
+
+  block_028e:
+    if (local_04 != 6) goto block_02ba;
+
+  block_0296:
+    goto block_02da;
+
+  block_02da:
+    spawn FREE.slot_3b(pid, 3, 0x00000000);
+    suspend;
+    spawn FREE.slot_3b(pid, 3, 0x00000000);
+    suspend;
+    local_08 = 0;
+
+  block_0320:
+    while (local_08 > 7) {
+      spawn FREE.slot_3b(pid, 3, 0x00000000);
+      suspend;
+      local_08 = (1 + local_08);
+    }
+
+  block_0356:
+    ITEM.slot_26(4, arg_06);
+    if retval goto block_037f;
+
+  block_0365:
+    ITEM.slot_25(4, arg_06);
+    ITEM.slot_25(0x1000, arg_06);
+    goto block_03a2;
+
+  block_037f:
+    spawn FREE.slot_3b(pid, ((5 - intrinsic_000a()) * 10), 0x00000000);
+    suspend;
+    goto block_0147;
+
+  block_03a2:
+    return;
+
+}

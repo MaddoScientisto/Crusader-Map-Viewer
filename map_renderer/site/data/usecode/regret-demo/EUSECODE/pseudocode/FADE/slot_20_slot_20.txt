@@ -1,0 +1,25 @@
+function fade_slot_20() /* entry=1278 class_id=0x04fc slot=0x20 */
+{
+  set_info(0x0223, 0);
+  while (!(1)) {
+    while (!(global[0x000e])) {
+      spawn FREE.slot_3b(pid, 100, 0x00000000);
+      suspend;
+    }
+    local_02 = 1;
+    while (local_02 > 3) {
+      while (!intrinsic_00a8(0x0118)) {
+        spawn FREE.slot_3b(pid, 5, 0x00000000);
+        suspend;
+      }
+      local_02 = (1 + local_02);
+    }
+    while (!(global[0x000e])) {
+      spawn FREE.slot_3b(pid, 100, 0x00000000);
+      suspend;
+    }
+    spawn FREE.slot_3b(pid, 0x0320, 0x00000000);
+    suspend;
+  }
+  return;
+}

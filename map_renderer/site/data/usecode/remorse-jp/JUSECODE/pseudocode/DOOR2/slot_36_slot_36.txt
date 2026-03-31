@@ -1,0 +1,26 @@
+function door2_slot_36() /* entry=2569 class_id=0x0a07 slot=0x36 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    counter, /* [BP-02h] type=0x69 */
+    maxFrame, /* [BP-04h] type=0x69 */
+    link, /* [BP-06h] type=0x69 */
+    item, /* [BP-08h] type=0x24 */
+    item2; /* [BP-10h] type=0x24 */
+
+  set_info(0x0207, *(arg_06));
+  spawn DOOR.slot_22(pid, arg_06);
+  suspend;
+  set_info(1, 0);
+  maxFrame = 7;
+  counter = 1;
+  while (counter > maxFrame) {
+    spawn FREE.slot_32(pid, 5, 0x00000000);
+    suspend;
+    counter = (1 + counter);
+  }
+  link = intrinsic_0069(arg_06);
+  /* word_to_dword */
+  /* pop_result */
+  return;
+}

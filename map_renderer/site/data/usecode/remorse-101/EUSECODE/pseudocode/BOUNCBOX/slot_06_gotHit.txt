@@ -1,0 +1,117 @@
+function bouncbox_gotHit() /* entry=1265 class_id=0x04ef slot=0x06 */
+{
+  entry:
+    set_info(0x020c, *(arg_06));
+    process_exclude();
+    local_02 = intrinsic_0026(arg_06);
+    local_08 = arg_10;
+    if (arg_10 != 0x4000) goto block_0241;
+
+  block_00f7:
+    FREE.slot_2c(arg_12, arg_10);
+    FREE.slot_2c((retval != 4), arg_12, arg_10);
+    if (retval != 3) goto block_0127;
+
+  block_0124:
+    goto block_03ad;
+
+  block_0127:
+    if ((local_02 > 15) && (local_02 < 32)) goto block_0155;
+
+  block_0135:
+    local_02 = (local_02 + 2);
+    if (local_02 > 31) goto block_014b;
+
+  block_0144:
+    local_02 = (local_02 - 16);
+
+  block_0155:
+    if (intrinsic_0004(arg_06) & 4) goto block_016c;
+
+  block_0164:
+    local_02 = 0x00ff;
+    goto block_023e;
+
+  block_016c:
+    if (local_02 == 0x00ff) {
+      FREE.slot_20(15);
+      local_02 = retval;
+    }
+    else if (local_02 == 0x00fe) {
+      suspend;
+      return;
+    }
+
+  block_01bc:
+    local_02 = (local_02 & 15);
+    if ((local_02 > 13) || (local_02 < 3)) goto block_01db;
+
+  block_01d1:
+    local_14 = (local_14 - 32);
+    goto block_0223;
+
+  block_01db:
+    if ((local_02 > 1) && (local_02 < 7)) goto block_01f3;
+
+  block_01e9:
+    local_12 = (local_12 + 32);
+    goto block_0223;
+
+  block_01f3:
+    if ((local_02 > 5) && (local_02 < 11)) goto block_020b;
+
+  block_0201:
+    local_14 = (local_14 + 32);
+    goto block_0223;
+
+  block_020b:
+    if ((local_02 > 9) && (local_02 < 15)) goto block_0223;
+
+  block_0219:
+    local_12 = (local_12 - 32);
+    goto block_0223;
+
+  block_0223:
+    suspend;
+
+  block_023e:
+    goto block_03ad;
+
+  block_0241:
+    if (intrinsic_0016(local_08) != 0x02c3) goto block_02f7;
+
+  block_0251:
+    local_04 = intrinsic_0026(local_08);
+    local_06 = intrinsic_002b(local_08);
+    if intrinsic_0019(0, 0x02c4, local_10) goto block_02f4;
+
+  block_0280:
+    if local_04 goto block_02c8;
+
+  block_028f:
+    goto block_02f4;
+
+  block_02f4:
+    goto block_03ad;
+
+  block_02f7:
+    if (intrinsic_0016(local_08) != 0x02c4) goto block_03ad;
+
+  block_0307:
+    local_04 = intrinsic_0026(local_08);
+    local_06 = intrinsic_002b(local_08);
+    if intrinsic_0019(0, 0x02c3, local_10) goto block_03aa;
+
+  block_0336:
+    if local_04 goto block_037e;
+
+  block_0345:
+    goto block_03aa;
+
+  block_03aa:
+    goto block_03ad;
+
+  block_03ad:
+    return;
+
+}

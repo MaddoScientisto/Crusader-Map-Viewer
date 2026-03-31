@@ -1,0 +1,92 @@
+function miss2_slot_29() /* entry=2320 class_id=0x090e slot=0x29 */
+{
+  entry:
+    set_info(0x0001, *(arg_06));
+    local_02 = 0;
+    local_06 = *(arg_06);
+    set_info(1, 0);
+
+  block_13b6:
+    while (!intrinsic_0033()) {
+      spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+      suspend;
+    }
+
+  block_13dd:
+    /* global_address */
+    if intrinsic_0035() goto block_140b;
+
+  block_13ea:
+    /* global_address */
+    /* global_address */
+    suspend;
+
+  block_140b_selector_00:
+    /* loop_selector local_04 in nearby_items(shape=npcdeath_shape_03ac, origin=global[0x003d]) */
+
+  block_1423:
+    if condition goto block_1465;
+
+  block_1426:
+    goto block_1465;
+
+  block_1461:
+    /* loopnext */
+    goto block_1423;
+
+  block_1465:
+    if local_08 goto block_1646;
+
+  block_146c:
+    /* global_address */
+    spawn NPC.slot_22(pid, 3, 0);
+    suspend;
+    /* global_address */
+    spawn NPC.slot_22(pid, 3, 14);
+    suspend;
+    suspend;
+    /* global_address */
+    /* global_address */
+    suspend;
+    spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
+    suspend;
+    spawn FREE.waitNTimerTicks(pid, 100, 0x00000000);
+    suspend;
+
+  block_146c_selector_00:
+    for local_04 in selector_0x42(arg0=0x0329, arg1=0x032a, arg2=(30 * 32), origin=global[0x003d]) {
+      /* loopnext */
+    }
+
+  block_1534:
+    spawn FREE.waitNTimerTicks(pid, 100, 0x00000000);
+    suspend;
+    /* str_to_ptr */
+    /* free_stack_string */
+    suspend;
+    spawn MISS2.slot_21(local_08, 0x00000000);
+    /* global_address */
+    spawn NPC.slot_22(pid, 2, 2);
+    suspend;
+    /* global_address */
+    spawn NPC.slot_22(pid, 5, 0);
+    suspend;
+    /* global_address */
+    spawn NPC.slot_22(pid, 1, 14);
+    suspend;
+    /* global_address */
+    spawn NPC.slot_22(pid, 7, 12);
+    suspend;
+    /* global_address */
+    /* global_address */
+    suspend;
+    spawn FREE.waitNTimerTicks(pid, 100, 0x00000000);
+    suspend;
+    spawn NPC.slot_24(pid, local_08);
+    suspend;
+    /* global_address */
+
+  block_1646:
+    return;
+
+}

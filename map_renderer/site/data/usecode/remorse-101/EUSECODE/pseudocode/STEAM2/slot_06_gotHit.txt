@@ -1,0 +1,8 @@
+function steam2_gotHit() /* entry=1299 class_id=0x0511 slot=0x06 */
+{
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  spawn STEAM.slot_21(pid, arg_10, arg_06);
+  suspend;
+  return;
+}

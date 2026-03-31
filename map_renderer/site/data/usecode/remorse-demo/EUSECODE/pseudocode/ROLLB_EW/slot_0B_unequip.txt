@@ -1,0 +1,8 @@
+function rollb_ew_unequip() /* entry=1421 class_id=0x058b slot=0x0b */
+{
+  set_info(0x0212, *(arg_06));
+  process_exclude();
+  spawn ROLLB_EW.equip(pid, arg_10, arg_06);
+  suspend;
+  return;
+}

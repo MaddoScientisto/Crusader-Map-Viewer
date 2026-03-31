@@ -1,0 +1,9 @@
+function wallgun_slot_26() /* entry=2591 class_id=0x0a1d slot=0x26 */
+{
+  set_info(0x0001, *(arg_06));
+  while (Item.isOnScreen(arg_06) == 0) {
+    spawn FREE.slot_32(pid, 20, 0x00000000);
+    suspend;
+  }
+  return;
+}

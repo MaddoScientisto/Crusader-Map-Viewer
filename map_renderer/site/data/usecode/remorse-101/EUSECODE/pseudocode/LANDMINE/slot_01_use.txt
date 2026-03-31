@@ -1,0 +1,141 @@
+function landmine_use() /* entry=924 class_id=0x039a slot=0x01 */
+{
+  entry:
+    set_info(0x0207, *(arg_06));
+    process_exclude();
+    local_03 = *(arg_06);
+    /* global_address */
+    if (intrinsic_0011() != 40) goto block_011d;
+
+  block_00f5:
+    goto block_0430;
+
+  block_011d:
+    set_info(0x00f0, 0);
+
+  block_012b:
+    while (!intrinsic_0033()) {
+      spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+      suspend;
+    }
+
+  block_0152:
+    if (intrinsic_001e() == 0) {
+      local_07 = -1;
+      local_09 = -3;
+    }
+    else if (intrinsic_001e() == 1) {
+      local_07 = 0;
+      local_09 = -3;
+    }
+    else if (intrinsic_001e() == 2) {
+      local_07 = 2;
+      local_09 = -3;
+    }
+    else if (intrinsic_001e() == 3) {
+      local_07 = 2;
+      local_09 = -2;
+    }
+    else if (intrinsic_001e() == 4) {
+      local_07 = 2;
+      local_09 = -1;
+    }
+    else if (intrinsic_001e() == 5) {
+      local_07 = 2;
+      local_09 = 0;
+    }
+    else if (intrinsic_001e() == 6) {
+      local_07 = 2;
+      local_09 = 2;
+    }
+    else if (intrinsic_001e() == 7) {
+      local_07 = 0;
+      local_09 = 2;
+    }
+    else if (intrinsic_001e() == 8) {
+      local_07 = -1;
+      local_09 = 2;
+    }
+    else if (intrinsic_001e() == 9) {
+      local_07 = -2;
+      local_09 = 2;
+    }
+    else if (intrinsic_001e() == 10) {
+      local_07 = -3;
+      local_09 = 2;
+    }
+    else if (intrinsic_001e() == 11) {
+      local_07 = -3;
+      local_09 = 1;
+    }
+    else if (intrinsic_001e() == 12) {
+      local_07 = -3;
+      local_09 = 0;
+    }
+    else if (intrinsic_001e() == 13) {
+      local_07 = -3;
+      local_09 = -1;
+    }
+    else if (intrinsic_001e() == 14) {
+      local_07 = -3;
+      local_09 = -2;
+    }
+    else if (intrinsic_001e() == 15) {
+      local_07 = -3;
+      local_09 = -3;
+    }
+
+  block_0302:
+    /* global_address */
+    if intrinsic_0035() goto block_0316;
+
+  block_030f:
+    local_01 = 1;
+    goto block_033b;
+
+  block_0316:
+    local_01 = 0;
+    /* global_address */
+    /* global_address */
+    suspend;
+
+  block_033b:
+    /* global_address */
+    local_16 = (intrinsic_0013() + (local_07 * 16));
+    /* global_address */
+    local_14 = (Item.legal_create() + (local_09 * 16));
+    /* global_address */
+    local_12 = Item.getZ();
+    if intrinsic_005a(local_16, 0, 0x039a, local_11) goto block_0389;
+
+  block_037e:
+    goto block_03e0;
+
+  block_0389:
+    if (!local_01) goto block_03d5;
+
+  block_03b4:
+    /* global_address */
+    /* global_address */
+    suspend;
+
+  block_03d5:
+    goto block_0430;
+
+  block_03e0:
+    if (!local_01) goto block_0407;
+
+  block_03e6:
+    /* global_address */
+    /* global_address */
+    suspend;
+
+  block_0407:
+    /* global_address */
+    /* global_address */
+    suspend;
+
+  block_0430:
+    return;
+
+}

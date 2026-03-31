@@ -1,0 +1,37 @@
+function hover_slot_22() /* entry=2575 class_id=0x0a0d slot=0x22 */
+{
+  set_info(0x021b, *(arg_06));
+  if (arg_10 == 0x00ff) {
+    if ((intrinsic_0004(arg_06) & 0x1000) == 0) {
+      spawn HOVER.slot_21(*(arg_06), arg_06);
+    }
+    return;
+  }
+  if (arg_10 == 0x00fe) {
+    /* bit_not */
+    return;
+  }
+  if (arg_10 == 0x00fd) {
+    /* bit_not */
+    spawn FREE.waitNTimerTicks(pid, 20, 0x00000000);
+    suspend;
+    local_02 = intrinsic_00b6(arg_06);
+    spawn HOVER.slot_20(pid, 0, Item.legal_create(arg_06), intrinsic_0013(arg_06), *(arg_06), arg_06);
+    suspend;
+    /* bit_not */
+    return;
+  }
+  if (arg_10 == 0x00fc) {
+    /* bit_not */
+    spawn FREE.waitNTimerTicks(pid, 20, 0x00000000);
+    suspend;
+    spawn HOVER.slot_23(pid, 0, *(arg_06), arg_06);
+    suspend;
+    return;
+  }
+  if ((intrinsic_0004(arg_06) & 0x1000) == 0) {
+    spawn HOVER.slot_21(pid, *(arg_06), arg_06);
+    suspend;
+  }
+  return;
+}

@@ -1,0 +1,106 @@
+function wallgun_slot_35() /* entry=2587 class_id=0x0a19 slot=0x35 */
+{
+  entry:
+    set_info(0x0001, *(arg_06));
+    local_09 = 1;
+    WALLGUN.slot_29(arg_06);
+    local_10 = retval;
+    if (local_10 != 1) goto block_12ef;
+
+  block_12e0:
+    local_06 = 1;
+    local_02 = 0;
+    local_04 = 15;
+    goto block_1317;
+
+  block_12ef:
+    WALLGUN.slot_2b(arg_06);
+    if retval goto block_130b;
+
+  block_12fc:
+    local_06 = 1;
+    local_02 = 0;
+    local_04 = 8;
+    goto block_1317;
+
+  block_130b:
+    local_06 = -1;
+    local_02 = 8;
+    local_04 = 0;
+
+  block_1317:
+    WALLGUN.slot_20(arg_06);
+    local_12 = (retval * 5);
+
+  block_1326:
+    if 1 goto block_1404;
+
+  block_132b:
+    local_08 = Item.getFrame(arg_06);
+    if (local_10 != 1) goto block_1363;
+
+  block_133e:
+    if (local_08 > 19) goto block_1360;
+
+  block_1346:
+    spawn FREE.slot_3b(pid, 10, 0x00000000);
+    suspend;
+    goto block_1326;
+
+  block_1360:
+    goto block_1388;
+
+  block_1363:
+    if (local_08 > 8) goto block_1388;
+
+  block_136b:
+    spawn FREE.slot_3b(pid, 10, 0x00000000);
+    suspend;
+    goto block_1326;
+
+  block_1385:
+    goto block_1388;
+
+  block_1388:
+    if (local_09 != 1) goto block_13ac;
+
+  block_1390:
+    if (local_08 != local_02) goto block_13a2;
+
+  block_1398:
+    local_09 = 0;
+    goto block_1326;
+
+  block_139f:
+    goto block_13a9;
+
+  block_13a2:
+    local_08 = (local_08 - local_06);
+
+  block_13a9:
+    goto block_13d3;
+
+  block_13ac:
+    if (local_10 != 1) goto block_13bb;
+
+  block_13b4:
+    local_08 = local_04;
+    goto block_13d3;
+
+  block_13bb:
+    if ((local_08 == 4) && (local_08 != local_02)) {
+      local_08 = (local_08 - local_06);
+    }
+
+  block_13d3:
+    spawn FREE.slot_3b(pid, local_12, 0x00000000);
+    suspend;
+    goto block_1404;
+
+  block_1401:
+    goto block_1326;
+
+  block_1404:
+    return;
+
+}

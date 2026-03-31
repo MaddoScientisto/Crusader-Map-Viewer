@@ -1,0 +1,109 @@
+function door2_slot_31() /* entry=2569 class_id=0x0a07 slot=0x31 */
+{
+  entry:
+    set_info(0x0207, *(arg_06));
+    /* create_list */
+    /* free_local_list */
+    local_02 = 0x0189;
+    /* create_list */
+    /* free_local_list */
+    local_04 = 0x0187;
+    FREE.slot_3a(0x0193, 0x0192, 0x0191, 0x0190, 0x018d, 0x018c, 0x018b, 0x018a, local_02);
+    /* free_stack_list */
+    local_19 = retval;
+
+  entry_selector_00:
+    /* loop_selector local_14 in nearby_items(shape=ELEVATOR_DOOR_SEGMENT, origin=arg_06) */
+
+  block_1185:
+    if condition goto block_1190;
+
+  block_1188:
+    local_10 = local_14;
+    /* loopnext */
+    goto block_1185;
+
+  block_1190_selector_00:
+    for local_14 in nearby_items(shape=WALL_EDGE, origin=arg_06) {
+      local_12 = local_14;
+      /* loopnext */
+    }
+
+  block_11b5:
+    if (local_10 && local_12) goto block_13c2;
+
+  block_11bf:
+    local_06 = 1;
+
+  block_11cd:
+    if (local_06 <= (local_19 - 1)) goto block_13c2;
+
+  block_11d8:
+    FREE.slot_2d(Item.getZ(local_10), Item.legal_create(local_10), intrinsic_0013(local_10), 0, local_02, (local_19 - local_06), list_element(size=0x2), local_10);
+    if (!retval) goto block_1211;
+
+  block_120d:
+    local_15 = 1;
+
+  block_1211:
+    FREE.slot_2d(Item.getZ(local_12), Item.legal_create(local_12), (intrinsic_0013(local_12) + 16), 0, local_04, (local_19 - local_06), list_element(size=0x2), local_12);
+    if (!retval) goto block_124d;
+
+  block_1249:
+    local_16 = 1;
+
+  block_124d:
+    if ((!local_15) && (!local_16)) goto block_1281;
+
+  block_1257:
+    spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+    suspend;
+    goto block_13b8;
+
+  block_1281:
+    spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
+    suspend;
+    if local_15 goto block_12e0;
+
+  block_12e0:
+    if local_16 goto block_12fa;
+
+  block_12fa:
+    local_08 = ((local_19 - local_06) + 1);
+
+  block_1304:
+    if (local_08 <= local_19) goto block_13b1;
+
+  block_130c:
+    if (!local_17) goto block_136a;
+
+  block_1340:
+    local_17 = 1;
+    goto block_1390;
+
+  block_1390:
+    spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+    suspend;
+    local_08 = (1 + local_08);
+    goto block_1304;
+
+  block_13b1:
+    /* word_to_dword */
+    /* pop_result */
+    goto block_13c9;
+
+  block_13b8:
+    local_06 = (1 + local_06);
+    goto block_11cd;
+
+  block_13c2:
+    /* word_to_dword */
+    /* pop_result */
+    goto block_13c9;
+
+  block_13c9:
+    /* free_local_list */
+    /* free_local_list */
+    return;
+
+}

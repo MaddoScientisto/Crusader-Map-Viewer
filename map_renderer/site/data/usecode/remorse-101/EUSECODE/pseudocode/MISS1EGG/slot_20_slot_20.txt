@@ -1,0 +1,134 @@
+function miss1egg_slot_20() /* entry=2319 class_id=0x090d slot=0x20 */
+{
+  entry:
+    set_info(0x00f0, *(arg_06));
+
+  block_0216:
+    while (!intrinsic_0033()) {
+      spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+      suspend;
+    }
+
+  block_023d:
+    /* global_address */
+    suspend;
+
+  block_023d_selector_00:
+    /* loop_selector local_04 in nearby_items(shape=EVENT_CONTROLLER, origin=global[0x003d]) */
+
+  block_026e:
+    if condition goto block_02a1;
+
+  block_0271:
+    /* global_address */
+    /* loopnext */
+    goto block_026e;
+
+  block_02a1_selector_00:
+    for local_06 in selector_0x42(arg0=0x032a, arg1=0x0329, arg2=(100 * 32), origin=global[0x003d]) {
+      /* loopnext */
+    }
+
+  block_02c9:
+    /* global_address */
+    spawn NPC.slot_22(pid, 5, 8);
+    suspend;
+    /* global_address */
+    spawn NPC.slot_22(pid, 8, 6);
+    suspend;
+    /* global_address */
+    spawn NPC.slot_22(pid, 2, 8);
+    suspend;
+    /* global_address */
+    spawn NPC.slot_22(pid, 2, 12);
+    suspend;
+    /* global_address */
+    suspend;
+    /* loopscr */
+    /* loopscr */
+    /* loopscr */
+    /* loopscr */
+    /* loop */
+
+  block_0373:
+    while (!condition) {
+      /* loopnext */
+    }
+
+  block_0382:
+    /* global_address */
+    suspend;
+    /* global_address */
+    suspend;
+    /* global_address */
+    suspend;
+    /* global_address */
+    suspend;
+    local_08 = 1;
+
+  block_03ec:
+    while (local_08 > 5) {
+      spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
+      suspend;
+      local_08 = (1 + local_08);
+    }
+
+  block_041f:
+    spawn ITEM.slot_28(pid, 1, 1, local_02);
+    suspend;
+    spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+    suspend;
+
+  block_041f_selector_00:
+    /* loop_selector local_06 in nearby_items(shape=REACTOR, origin=global[0x003d]) */
+
+  block_0464:
+    if condition goto block_0496;
+
+  block_0467:
+    spawn ITEM.slot_28(pid, 0, 2, local_06);
+    suspend;
+    /* loopnext */
+    goto block_0464;
+
+  block_0496_selector_00:
+    for local_06 in nearby_items(shape=REACTOR_CELL, origin=global[0x003d]) {
+      spawn ITEM.slot_28(pid, 1, 0, local_06);
+      suspend;
+      spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
+      suspend;
+      /* loopnext */
+    }
+
+  block_04e4:
+    spawn FREE.slot_3b(0x00000000);
+
+  block_04e4_selector_00:
+    for local_06 in nearby_items(shape=NUMBERS, origin=global[0x003d]) {
+      spawn FREE.waitNTimerTicks(intrinsic_0018(pid, 20, 10), 0x00000000);
+      suspend;
+      /* loopnext */
+    }
+
+  block_053f:
+    spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
+    suspend;
+
+  block_053f_selector_00:
+    for local_06 in nearby_items(shape=ELECTRODE, origin=global[0x003d]) {
+      spawn ITEM.slot_28(pid, 0, 0, local_06);
+      suspend;
+      spawn FREE.waitNTimerTicks(intrinsic_0018(pid, 10, 5), 0x00000000);
+      suspend;
+      /* loopnext */
+    }
+
+  block_05b7:
+    spawn FREE.waitNTimerTicks(pid, 0x00c8, 0x00000000);
+    suspend;
+    spawn FREE.slot_26(pid, "1c", 0x00000000);
+    /* free_stack_string */
+    suspend;
+    return;
+
+}

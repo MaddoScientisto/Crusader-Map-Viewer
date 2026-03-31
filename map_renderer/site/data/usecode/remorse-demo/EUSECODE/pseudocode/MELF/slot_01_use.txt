@@ -1,0 +1,45 @@
+function melf_use() /* entry=957 class_id=0x03bb slot=0x01 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    item; /* [BP-02h] type=0x24 */
+
+  entry:
+    set_info(0x0207, *(arg_06));
+    process_exclude();
+    if intrinsic_00ca(arg_06) goto block_0100;
+
+  block_00fa:
+    goto block_0229;
+
+  block_0100:
+    /* global_address */
+    /* global_address */
+    suspend;
+    /* str_to_ptr */
+    /* free_stack_string */
+    suspend;
+    /* str_to_ptr */
+    /* free_stack_string */
+    suspend;
+    spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
+    suspend;
+    /* pop_global */
+    /* loopscr */
+    /* loopscr */
+    /* loop */
+
+  block_01e6:
+    if condition goto block_0227;
+
+  block_01e9:
+    if (intrinsic_00af(item) != 34) goto block_0223;
+
+  block_0223:
+    /* loopnext */
+    goto block_01e6;
+
+  block_0229:
+    return;
+
+}

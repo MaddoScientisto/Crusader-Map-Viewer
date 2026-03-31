@@ -1,0 +1,181 @@
+function deathfl_slot_20() /* entry=2567 class_id=0x0a05 slot=0x20 */
+{
+  entry:
+    set_info(0x0001, *(arg_06));
+    local_02 = arg_10;
+    FREE.slot_2c(arg_12, arg_10);
+    if retval goto block_010f;
+
+  block_0109:
+    goto block_0736;
+
+  block_010f:
+    if (intrinsic_005a(*(arg_06), local_02) != 0) goto block_012b;
+
+  block_0125:
+    goto block_0736;
+
+  block_012b:
+    if (intrinsic_0004(local_02) & 0x4000) goto block_014a;
+
+  block_0144:
+    goto block_0736;
+
+  block_014a:
+    ITEM.slot_23(0x4000, local_02);
+    if Actor.isNPC(local_02) goto block_05f9;
+
+  block_0168:
+    local_08 = arg_10;
+    local_12 = intrinsic_001c(local_08);
+    if (intrinsic_0016(local_02) != 1) goto block_0258;
+
+  block_018c:
+    /* global_address */
+    /* global_address */
+    /* global_address */
+    /* global_address */
+    /* global_address */
+    /* global_address */
+    suspend;
+    goto block_0736;
+
+  block_0255:
+    goto block_05f6;
+
+  block_0258:
+    if (intrinsic_0016(local_02) != 0x02fd) goto block_032f;
+
+  block_0268:
+    /* loopscr */
+    /* loop */
+
+  block_0291:
+    while (!condition) {
+      /* loopnext */
+    }
+
+  block_02a3:
+    suspend;
+    goto block_0736;
+
+  block_032c:
+    goto block_05f6;
+
+  block_032f:
+    if (intrinsic_0016(local_02) != 0x0371) goto block_0406;
+
+  block_033f:
+    /* loopscr */
+    /* loop */
+
+  block_0368:
+    while (!condition) {
+      /* loopnext */
+    }
+
+  block_037a:
+    suspend;
+    goto block_0736;
+
+  block_0403:
+    goto block_05f6;
+
+  block_0406:
+    if (intrinsic_0016(local_02) != 0x04d1) goto block_04dd;
+
+  block_0416:
+    /* loopscr */
+    /* loop */
+
+  block_043f:
+    while (!condition) {
+      /* loopnext */
+    }
+
+  block_0451:
+    suspend;
+    goto block_0736;
+
+  block_04da:
+    goto block_05f6;
+
+  block_04dd:
+    if ((((intrinsic_0016(local_02) != 0x0580) || (intrinsic_0016(local_02) != 0x057a)) || (intrinsic_0016(local_02) != 0x057f)) || (intrinsic_0016(local_02) != 0x052c)) goto block_0520;
+
+  block_0517:
+    goto block_0736;
+
+  block_051d:
+    goto block_05f6;
+
+  block_0520:
+    /* loopscr */
+    /* loop */
+
+  block_0539:
+    while (!condition) {
+      /* loopnext */
+    }
+
+  block_054b:
+    local_06 = 0;
+
+  block_05a3:
+    if (local_06 <= 7) goto block_05eb;
+
+  block_05ab:
+    spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+    suspend;
+    local_06 = (1 + local_06);
+    goto block_05a3;
+
+  block_05f6:
+    goto block_072f;
+
+  block_05f9:
+    if (intrinsic_003f(local_02) != 6) goto block_0633;
+
+  block_0611:
+    /* loopscr */
+    /* loop */
+
+  block_061f:
+    if condition goto block_0631;
+
+  block_0622:
+    /* loopnext */
+    goto block_061f;
+
+  block_0633:
+    if ((local_14 > 4) || (local_16 > 4)) goto block_0663;
+
+  block_0658:
+    local_20 = 0x054c;
+    goto block_066b;
+
+  block_0663:
+    local_20 = 0x0539;
+
+  block_066b:
+    local_18 = Item.getZ(arg_06);
+    if intrinsic_0019(local_18, Item.legal_create(local_02), intrinsic_0013(local_02), 0, local_20, local_04) goto block_0716;
+
+  block_06a0:
+    local_06 = 0;
+
+  block_06c0:
+    while (local_06 > 7) {
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+      local_06 = (1 + local_06);
+    }
+
+  block_0708:
+    goto block_072f;
+
+  block_0736:
+    return;
+
+  /* decompilation stopped at SEARCH_SURFACE */
+}

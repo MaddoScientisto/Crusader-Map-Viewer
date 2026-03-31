@@ -1,0 +1,135 @@
+function wallgun_slot_3a() /* entry=2593 class_id=0x0a1f slot=0x3a */
+{
+  entry:
+    set_info(0x0001, *(arg_06));
+    local_09 = 1;
+    local_10 = 1;
+    WALLGUN.slot_29(arg_06);
+    local_11 = retval;
+    if (local_11 != 1) goto block_1a5c;
+
+  block_1a4d:
+    local_06 = 1;
+    local_02 = 8;
+    local_04 = 12;
+    goto block_1a84;
+
+  block_1a5c:
+    WALLGUN.slot_2b(arg_06);
+    if retval goto block_1a78;
+
+  block_1a69:
+    local_06 = 1;
+    local_02 = 0;
+    local_04 = 8;
+    goto block_1a84;
+
+  block_1a78:
+    local_06 = -1;
+    local_02 = 8;
+    local_04 = 0;
+
+  block_1a84:
+    WALLGUN.slot_20(arg_06);
+    local_13 = (retval * 15);
+
+  block_1a93:
+    if 1 goto block_1be0;
+
+  block_1a98:
+    spawn WALLGUN.slot_26(pid, arg_06);
+    suspend;
+    local_08 = Item.getFrame(arg_06);
+    if (local_11 != 1) goto block_1ae0;
+
+  block_1abb:
+    if (local_08 > 19) goto block_1add;
+
+  block_1ac3:
+    spawn FREE.slot_3b(pid, 10, 0x00000000);
+    suspend;
+    goto block_1a93;
+
+  block_1add:
+    goto block_1b05;
+
+  block_1ae0:
+    if (local_08 > 8) goto block_1b05;
+
+  block_1ae8:
+    spawn FREE.slot_3b(pid, 10, 0x00000000);
+    suspend;
+    goto block_1a93;
+
+  block_1b02:
+    goto block_1b05;
+
+  block_1b05:
+    if local_09 goto block_1b3d;
+
+  block_1b0a:
+    if (local_08 != local_04) goto block_1b33;
+
+  block_1b12:
+    local_09 = 0;
+    spawn FREE.slot_3b(pid, 20, 0x00000000);
+    suspend;
+    goto block_1a93;
+
+  block_1b30:
+    goto block_1b3a;
+
+  block_1b33:
+    local_08 = (local_08 + local_06);
+
+  block_1b3a:
+    goto block_1b8f;
+
+  block_1b3d:
+    if (local_10 != 1) goto block_1b78;
+
+  block_1b45:
+    if (local_08 != local_02) goto block_1b6e;
+
+  block_1b4d:
+    local_10 = 0;
+    spawn FREE.slot_3b(pid, 20, 0x00000000);
+    suspend;
+    goto block_1a93;
+
+  block_1b6b:
+    goto block_1b75;
+
+  block_1b6e:
+    local_08 = (local_08 - local_06);
+
+  block_1b75:
+    goto block_1b8f;
+
+  block_1b78:
+    if (local_08 != 4) goto block_1b87;
+
+  block_1b80:
+    local_08 = (local_08 + local_06);
+
+  block_1b87:
+    local_09 = 1;
+    local_10 = 1;
+
+  block_1b8f:
+    spawn FREE.slot_3b(pid, local_13, 0x00000000);
+    suspend;
+    WALLGUN.slot_2e(arg_10, arg_06);
+    if retval goto block_1bdd;
+
+  block_1bc9:
+    spawn WALLGUN.slot_46(pid, arg_10, arg_06);
+    suspend;
+
+  block_1bdd:
+    goto block_1a93;
+
+  block_1be0:
+    return;
+
+}

@@ -1,0 +1,30 @@
+function miss1egg_slot_21() /* entry=2319 class_id=0x090d slot=0x21 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    buster; /* [BP-02h] type=0x24 */
+
+  entry:
+    set_info(1, 0);
+    spawn FREE.slot_32(pid, ((5 - intrinsic_0029()) * 100), 0x00000000);
+    suspend;
+    if (!global[0x003b]) goto block_0921;
+
+  block_08df:
+    /* pop_global */
+
+  block_08df_selector_00:
+    /* loop_selector buster in nearby_items(shape=NPC_TECH, origin=global[0x003c]) */
+
+  block_0906:
+    if condition goto block_091f;
+
+  block_0909:
+    spawn MISS1EGG.slot_22(buster, arg_06);
+    /* loopnext */
+    goto block_0906;
+
+  block_0921:
+    return;
+
+}

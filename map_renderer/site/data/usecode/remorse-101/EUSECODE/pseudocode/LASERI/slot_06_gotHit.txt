@@ -1,0 +1,37 @@
+function laseri_gotHit() /* entry=471 class_id=0x01d5 slot=0x06 */
+{
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  FREE.slot_2c(arg_12, arg_10);
+  local_04 = retval;
+  local_06 = intrinsic_00a7(arg_06);
+  FREE.slot_2c(arg_12, arg_10);
+  if (retval) {
+    return;
+  }
+  spawn ITEM.slot_27(pid, 50, arg_12, arg_10, arg_06);
+  suspend;
+  /* dword_to_word */
+  local_08 = process_result;
+  if ((local_04 == 4) && (!local_08)) {
+    return;
+  }
+  if ((local_04 > 0) && (Item.getFrame(arg_06) == 0)) {
+    /* loopscr */
+    /* loopscr */
+    /* loop */
+    while (!condition) {
+      /* loopnext */
+    }
+    spawn ITEM.slot_28(pid, 0, 0, arg_06);
+    suspend;
+    if (intrinsic_0003(arg_06) == 0) {
+      spawn TRIGGER.slot_2a(pid, 0, *(arg_06), arg_06);
+      suspend;
+      return;
+    }
+    spawn TRIGGER.slot_2a(pid, (0 + 0x0080), *(arg_06), arg_06);
+    suspend;
+  }
+  return;
+}

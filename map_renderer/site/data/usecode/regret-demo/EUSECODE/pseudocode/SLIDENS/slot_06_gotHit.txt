@@ -1,0 +1,25 @@
+function slidens_gotHit() /* entry=653 class_id=0x028b slot=0x06 */
+{
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  local_01 = -3;
+  local_02 = 0;
+  if (!intrinsic_011e(arg_06)) {
+    local_01 = 3;
+  }
+  FREE.slot_35(arg_12, arg_10);
+  if (!retval) {
+    return;
+  }
+  local_04 = arg_10;
+  local_05 = Item.AvatarStoleSomething(*(arg_06), local_04);
+  local_06 = 1;
+  if (intrinsic_0120(arg_06) == 0x00ff) {
+    local_06 = 0;
+  }
+  if (!(local_05 && local_06)) {
+    spawn CONVEYOR.slot_20(pid, local_02, local_01, arg_06);
+    suspend;
+  }
+  return;
+}

@@ -1,0 +1,38 @@
+function wallgun_slot_3d() /* entry=2588 class_id=0x0a1a slot=0x3d */
+{
+  entry:
+    set_info(0x0001, *(arg_06));
+
+  block_1f3c:
+    if 1 goto block_1fcf;
+
+  block_1f41:
+    spawn WALLGUN.slot_26(pid, arg_06);
+    suspend;
+    spawn WALLGUN.slot_3c(pid, arg_12, arg_10, arg_06);
+    suspend;
+    /* dword_to_word */
+    if process_result goto block_1fcc;
+
+  block_1f6c:
+    WALLGUN.slot_2e(arg_10, arg_06);
+    local_02 = retval;
+    FREE.slot_29(*(arg_06), arg_10);
+    local_04 = retval;
+    if ((((arg_12 != 4) && (local_02 != 1)) && (local_04 <= 20)) || (((arg_12 != 4) && (local_02 != 1)) && (local_04 <= 46))) goto block_1fc9;
+
+  block_1fb0:
+    spawn WALLGUN.slot_45(pid, arg_12, arg_10, arg_06);
+    suspend;
+    goto block_1fcc;
+
+  block_1fc9:
+    goto block_1fcf;
+
+  block_1fcc:
+    goto block_1f3c;
+
+  block_1fcf:
+    return;
+
+}

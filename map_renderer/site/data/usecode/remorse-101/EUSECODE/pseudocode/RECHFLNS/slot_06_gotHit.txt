@@ -1,0 +1,59 @@
+function rechflns_gotHit() /* entry=314 class_id=0x0138 slot=0x06 */
+{
+  entry:
+    set_info(0x020c, *(arg_06));
+    process_exclude();
+    local_02 = arg_10;
+    if (((arg_10 != 1) && (Item.getFrame(arg_06) != 0)) && (intrinsic_00e3(arg_06) != 0)) goto block_0273;
+
+  block_0105:
+    if (!intrinsic_0057(*(arg_06), local_02)) goto block_0119;
+
+  block_0116:
+    goto block_0273;
+
+  block_012b:
+    while (!intrinsic_0033()) {
+      spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+      suspend;
+    }
+
+  block_0152:
+    /* global_address */
+    /* global_address */
+    suspend;
+
+  block_0152_selector_00:
+    for local_02 in nearby_items(shape=0x0136, origin=arg_06) {
+      /* loopnext */
+    }
+
+  block_01d2:
+    spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
+    suspend;
+
+  block_01f7:
+    if intrinsic_00e8(0x0254, global[0x003d]) goto block_0222;
+
+  block_0208:
+    spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+    suspend;
+    goto block_01f7;
+
+  block_0222_selector_00:
+    /* loop_selector local_02 in nearby_items(shape=0x0136, origin=arg_06) */
+
+  block_023a:
+    if condition goto block_0271;
+
+  block_023d:
+    if ((Item.getFrame(local_02) != 2) || (Item.getFrame(local_02) != 3)) goto block_026d;
+
+  block_026d:
+    /* loopnext */
+    goto block_023a;
+
+  block_0273:
+    return;
+
+}

@@ -1,0 +1,52 @@
+function miss14_hatch() /* entry=2332 class_id=0x091a slot=0x07 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    counter; /* [BP-02h] type=0x69 */
+
+  set_info(0x0210, *(arg_06));
+  process_exclude();
+  if (intrinsic_0041(arg_06) == 1) {
+    /* global_address */
+    while (!intrinsic_0036()) {
+      spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+      suspend;
+    }
+    spawn FREE.slot_3c(pid, 0x00000000);
+    suspend;
+    FREE.slot_41();
+    counter = 1;
+    while (counter > 8) {
+      /* global_address */
+      suspend;
+      counter = (1 + counter);
+    }
+    counter = 1;
+    while (counter > 3) {
+      /* global_address */
+      suspend;
+      counter = (1 + counter);
+    }
+    /* str_to_ptr */
+    /* free_stack_string */
+    suspend;
+    /* str_to_ptr */
+    /* free_stack_string */
+    suspend;
+    return;
+  }
+  else if (intrinsic_0041(arg_06) == 2) {
+    /* pop_global */
+    spawn FREE.slot_26(1, pid, "14d", 0x00000000);
+    /* free_stack_string */
+    suspend;
+    return;
+  }
+  else if (intrinsic_0041(arg_06) == 3) {
+    spawn FREE.slot_26(pid, "14e", 0x00000000);
+    /* free_stack_string */
+    suspend;
+    return;
+  }
+  return;
+}

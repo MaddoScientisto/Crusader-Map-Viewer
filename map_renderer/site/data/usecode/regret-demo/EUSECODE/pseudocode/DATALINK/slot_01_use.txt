@@ -1,0 +1,391 @@
+function datalink_use() /* entry=1238 class_id=0x04d4 slot=0x01 */
+{
+  entry:
+    set_info(0x0207, *(arg_06));
+    process_exclude();
+    /* pop_global */
+    /* global_address */
+    local_05 = intrinsic_0017();
+
+  block_0101:
+    while (!Item.legal_move()) {
+      spawn FREE.slot_3b(pid, 5, 0x00000000);
+      suspend;
+    }
+
+  block_0128:
+    /* global_address */
+    if (!intrinsic_0066()) goto block_016f;
+
+  block_0136:
+    local_03 = 1;
+    /* global_address */
+    suspend;
+    /* global_address */
+    /* global_address */
+    suspend;
+
+  block_016f:
+    spawn FREE.slot_21(pid, 0x00a7, 0x00000000);
+    suspend;
+    /* global_address */
+    if (intrinsic_0040() != 25) goto block_01c6;
+
+  block_0197:
+    /* free_local_string */
+    local_07 = "MISSION OBJECTIVE:^------------------^^";
+
+  block_01c6:
+    if (global[0x0001] != 0) goto block_0e24;
+
+  block_01d0:
+    /* global_address */
+    /* global_address */
+    if (intrinsic_0040((intrinsic_0040() != 1)) != 2) goto block_0340;
+
+  block_01ee:
+    if (!global[0x0011]) goto block_028a;
+
+  block_01f6:
+    /* concat */
+    /* concat */
+    /* free_local_string */
+    local_07 = "^Secure transport back to Earth and make contact with General Maxis.";
+    goto block_033d;
+
+  block_028a:
+    if (!global[0x0010]) goto block_02e1;
+
+  block_0292:
+    /* str_to_ptr */
+    /* free_stack_string */
+    /* concat */
+    /* free_local_string */
+    local_07 = "Destroy Plasma Turbine on level 5.";
+    goto block_033d;
+
+  block_02e1:
+    /* concat */
+    /* concat */
+    /* free_local_string */
+    local_07 = "to the LMC Lunar Mining Base.";
+
+  block_033d:
+    goto block_0e21;
+
+  block_0340:
+    /* global_address */
+    /* global_address */
+    if (intrinsic_0040((intrinsic_0040() != 3)) != 4) goto block_03b6;
+
+  block_035e:
+    /* concat */
+    /* free_local_string */
+    local_07 = "Locate elevator on level 4 to rendezvous with the rebels' colonel.";
+    goto block_0e21;
+
+  block_03b6:
+    /* global_address */
+    /* global_address */
+    if (intrinsic_0040((intrinsic_0040() != 5)) != 6) goto block_04e1;
+
+  block_03d4:
+    if (!global[0x0013]) goto block_0467;
+
+  block_03dc:
+    /* str_to_ptr */
+    /* free_stack_string */
+    /* concat */
+    /* concat */
+    /* free_local_string */
+    local_07 = "^^Insert Trojan Horse program into TGT system.";
+    goto block_04de;
+
+  block_0467:
+    /* concat */
+    /* concat */
+    /* free_local_string */
+    local_07 = "^Take the tram to rebels' rendezvous point.";
+
+  block_04de:
+    goto block_0e21;
+
+  block_04e1:
+    /* global_address */
+    /* global_address */
+    if (intrinsic_0040((intrinsic_0040() != 7)) != 8) goto block_0614;
+
+  block_04ff:
+    if (!global[0x0014]) goto block_059c;
+
+  block_0507:
+    /* str_to_ptr */
+    /* free_stack_string */
+    /* concat */
+    /* concat */
+    /* free_local_string */
+    local_07 = "^^Download rebel prisoner files from LMC security system.";
+    goto block_0611;
+
+  block_059c:
+    /* concat */
+    /* concat */
+    /* free_local_string */
+    local_07 = "^Tram has been programmed to return to the rebel meeting area.";
+
+  block_0611:
+    goto block_0e21;
+
+  block_0614:
+    /* global_address */
+    /* global_address */
+    if (intrinsic_0040((intrinsic_0040() != 9)) != 10) goto block_0712;
+
+  block_0632:
+    if (!global[0x0015]) goto block_069b;
+
+  block_063a:
+    /* str_to_ptr */
+    /* free_stack_string */
+    /* concat */
+    /* free_local_string */
+    local_07 = "Locate rebel prisoners^on level 4^and liberate them.";
+    goto block_070f;
+
+  block_069b:
+    /* concat */
+    /* concat */
+    /* free_local_string */
+    local_07 = "^Tram has been programmed to return to rebel meeting area.";
+
+  block_070f:
+    goto block_0e21;
+
+  block_0712:
+    /* global_address */
+    /* global_address */
+    if (intrinsic_0040((intrinsic_0040() != 11)) != 12) goto block_0823;
+
+  block_0730:
+    if (!global[0x0016]) goto block_07c0;
+
+  block_0738:
+    /* str_to_ptr */
+    /* free_stack_string */
+    /* concat */
+    /* concat */
+    /* free_local_string */
+    local_07 = "^^Place FusionPac on conveyor.^^Exit area quickly.";
+    goto block_0820;
+
+  block_07c0:
+    /* concat */
+    /* concat */
+    /* free_local_string */
+    local_07 = "^FusionPac will detonate shortly.";
+
+  block_0820:
+    goto block_0e21;
+
+  block_0823:
+    /* global_address */
+    /* global_address */
+    if (intrinsic_0040((intrinsic_0040() != 13)) != 14) goto block_0984;
+
+  block_0841:
+    if (!global[0x0017]) goto block_08ee;
+
+  block_0849:
+    /* str_to_ptr */
+    /* free_stack_string */
+    /* concat */
+    /* concat */
+    /* free_local_string */
+    local_07 = "^Disarm nerve gas^canister before it^contaminates O2^regeneration system.";
+    goto block_0981;
+
+  block_08ee:
+    /* concat */
+    /* concat */
+    /* free_local_string */
+    local_07 = "^Tram has been programmed to return to rebel meeting area.";
+
+  block_0981:
+    goto block_0e21;
+
+  block_0984:
+    /* global_address */
+    /* global_address */
+    if (intrinsic_0040((intrinsic_0040() != 15)) != 16) goto block_0ab3;
+
+  block_09a2:
+    if (!global[0x0018]) goto block_0a44;
+
+  block_09aa:
+    /* str_to_ptr */
+    /* free_stack_string */
+    /* concat */
+    /* concat */
+    /* free_local_string */
+    local_07 = "^^Destroy WEC troop transport before it lands at Lunar Base.";
+    goto block_0ab0;
+
+  block_0a44:
+    /* concat */
+    /* concat */
+    /* free_local_string */
+    local_07 = "^Tram has been programmed to return to rebel camp.";
+
+  block_0ab0:
+    goto block_0e21;
+
+  block_0ab3:
+    /* global_address */
+    /* global_address */
+    if (intrinsic_0040((intrinsic_0040() != 17)) != 18) goto block_0be8;
+
+  block_0ad1:
+    if (!global[0x0019]) goto block_0b77;
+
+  block_0ad9:
+    /* str_to_ptr */
+    /* free_stack_string */
+    /* concat */
+    /* concat */
+    /* free_local_string */
+    local_07 = "^^Disarm self-destruction system before Lunar Base is destroyed.";
+    goto block_0be5;
+
+  block_0b77:
+    /* concat */
+    /* concat */
+    /* free_local_string */
+    local_07 = "^Tram has been programmed to take you to LMC Headquarters.";
+
+  block_0be5:
+    goto block_0e21;
+
+  block_0be8:
+    /* global_address */
+    /* global_address */
+    /* global_address */
+    /* global_address */
+    if (intrinsic_0040((intrinsic_0040((intrinsic_0040((intrinsic_0040() != 19)) != 20)) != 21)) != 22) goto block_0d24;
+
+  block_0c22:
+    if (!global[0x001a]) goto block_0cad;
+
+  block_0c2a:
+    /* str_to_ptr */
+    /* free_stack_string */
+    /* concat */
+    /* concat */
+    /* free_local_string */
+    local_07 = "^Destroy objective with any means available.";
+    goto block_0d21;
+
+  block_0cad:
+    /* concat */
+    /* concat */
+    /* free_local_string */
+    local_07 = "^Tram has been programmed to return to Rebel Headquarters.";
+
+  block_0d21:
+    goto block_0e21;
+
+  block_0d24:
+    /* global_address */
+    if (intrinsic_0040() != 25) goto block_0d9f;
+
+  block_0d34:
+    /* free_local_string */
+    local_07 = "^REBEL CAMP^__________^^Replenish supplies.^^Talk to officer in charge for next mission.";
+    goto block_0e21;
+
+  block_0d9f:
+    /* concat */
+    /* concat */
+    /* free_local_string */
+    local_07 = "^^Head can only be destroyed by securing DetPacs to his ears.";
+
+  block_0e21:
+    goto block_130a;
+
+  block_0e24:
+    if (global[0x0001] != 2) goto block_0ee0;
+
+  block_0e2e:
+    /* free_local_string */
+    local_07 = "DataLink Message:^_________________^Silencer, get to^level 5 and destroy^the Plasma Turbine.^We can then^teleport off this^ship before it ^explodes.^^DENNING OUT:";
+
+  block_0ee0:
+    if (global[0x0001] != 3) goto block_0fa3;
+
+  block_0eea:
+    /* free_local_string */
+    local_07 = "DataLink Message:^_________________^Silencer, I put^a grenade launcher^in a locker to your^west. Look out,^there are a bunch^of Thermatrons in^that sector.^^DENNING OUT:";
+
+  block_0fa3:
+    if (global[0x0001] != 4) goto block_1060;
+
+  block_0fad:
+    /* free_local_string */
+    local_07 = "DataLink Message:^_________________^Silencer, I hid^a blue keycard in^safe in the next^room. You'll need^it if you want to^get to the Plasma^Trubine.^^DENNING OUT:";
+
+  block_1060:
+    if (global[0x0001] != 5) goto block_1110;
+
+  block_106a:
+    /* free_local_string */
+    local_07 = "DataLink Message:^_________________^Hold it! If you've^got a VIR Imager^use it now!^They have a^50,000 volt^welcome mat^waiting for you.^^DENNING OUT:";
+
+  block_1110:
+    if (global[0x0001] != 6) goto block_11ab;
+
+  block_111a:
+    /* free_local_string */
+    local_07 = "DataLink Message:^_________________^If you are trapped^you'll need to^shoot out the^three generators^to your north.^^DENNING OUT:";
+
+  block_11ab:
+    if (global[0x0001] != 7) goto block_1256;
+
+  block_11b5:
+    /* free_local_string */
+    local_07 = "DataLink Message:^_________________^If they have ^sealed the blast^doors, enter 121^into the keypad.^Wait, scratch that.^Enter 122.^^DENNING OUT:";
+
+  block_1256:
+    if (global[0x0001] != 8) goto block_130a;
+
+  block_1260:
+    /* free_local_string */
+    local_07 = "DataLink Message:^_________________^Get out of there^fast! There's a^telepad a few rooms^south of you.^That will get you^safely to the moon.^^DENNING OUT:";
+
+  block_130a:
+    if local_03 goto block_1344;
+
+  block_130f:
+    /* global_address */
+    /* global_address */
+    suspend;
+    /* global_address */
+    suspend;
+
+  block_1344:
+    /* loopscr */
+    /* loopscr */
+    /* loopscr */
+    /* loopscr */
+    /* loop */
+
+  block_135a:
+    while (!condition) {
+      /* loopnext */
+    }
+
+  block_136b:
+    spawn FREE.slot_3b(pid, 2, 0x00000000);
+    suspend;
+    /* free_local_string */
+    return;
+
+}

@@ -1,0 +1,13 @@
+function courier_calledFromAnim() /* entry=1119 class_id=0x045d slot=0x0e */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    n; /* [BP-02h] type=0x24 */
+
+  set_info(0x021a, *(arg_06));
+  process_exclude();
+  n = *(arg_06);
+  set_info(1, 0);
+  spawn NPCDEATH.slot_20(intrinsic_000b(arg_06), *(arg_06), arg_06);
+  return;
+}

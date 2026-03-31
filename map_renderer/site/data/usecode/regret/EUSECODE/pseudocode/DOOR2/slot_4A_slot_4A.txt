@@ -1,0 +1,18 @@
+function door2_slot_4a() /* entry=2567 class_id=0x0a05 slot=0x4a */
+{
+  set_info(0x0207, *(arg_06));
+  spawn DOOR.slot_22(pid, arg_06);
+  suspend;
+  set_info(1, 0);
+  local_04 = 7;
+  local_02 = 1;
+  while (local_02 > local_04) {
+    spawn FREE.slot_3b(pid, 5, 0x00000000);
+    suspend;
+    local_02 = (1 + local_02);
+  }
+  local_06 = intrinsic_001f(arg_06);
+  /* word_to_dword */
+  /* pop_result */
+  return;
+}

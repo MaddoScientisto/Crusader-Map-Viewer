@@ -1,0 +1,88 @@
+function tramflor_slot_20() /* entry=1498 class_id=0x05d8 slot=0x20 */
+{
+  entry:
+    set_info(1, 0);
+
+  entry_selector_00:
+    for local_02 in selector_0x42(arg0=0x028d, arg1=0x0287, arg2=(10 * 32), origin=arg_06) {
+      local_06 = local_02;
+      /* loopnext */
+    }
+
+  block_0580:
+    if (!local_06) goto block_058b;
+
+  block_0588:
+    goto block_07da;
+
+  block_058b:
+    if (intrinsic_0011(local_06) != 0x0287) goto block_05e4;
+
+  block_059b:
+    /* global_address */
+    suspend;
+    /* global_address */
+    suspend;
+    /* global_address */
+    suspend;
+    goto block_062a;
+
+  block_05e4:
+    /* global_address */
+    suspend;
+    /* global_address */
+    suspend;
+    /* global_address */
+    suspend;
+
+  block_062a:
+    spawn DOOR.slot_21(pid, 2, local_06);
+    suspend;
+    suspend;
+    spawn FREE.slot_45(pid, 0x00000000);
+    suspend;
+    spawn FREE.slot_3b(pid, 60, 0x00000000);
+    suspend;
+    suspend;
+
+  block_062a_selector_00:
+    for local_02 in nearby_items(shape=0x05d8, origin=global[0x001e]) {
+      /* global_address */
+      /* global_address */
+      /* global_address */
+      suspend;
+      /* loopnext */
+    }
+
+  block_06f1:
+    suspend;
+    spawn FREE.slot_3b(pid, 120, 0x00000000);
+    suspend;
+
+  block_06f1_selector_00:
+    for local_02 in selector_0x42(arg0=0x0193, arg1=0x00c0, arg2=(10 * 32), origin=global[0x001e]) {
+      local_06 = local_02;
+      spawn DOOR.slot_21(pid, 1, local_06);
+      suspend;
+      /* loopnext */
+    }
+
+  block_074b:
+    /* global_address */
+    /* global_address */
+    suspend;
+    /* global_address */
+    /* global_address */
+    suspend;
+    /* global_address */
+    /* global_address */
+    suspend;
+    /* global_address */
+    /* global_address */
+    suspend;
+    /* global_address */
+
+  block_07da:
+    return;
+
+}

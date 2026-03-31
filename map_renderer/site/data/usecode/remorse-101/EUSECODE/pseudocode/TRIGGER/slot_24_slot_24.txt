@@ -1,0 +1,170 @@
+function trigger_slot_24() /* entry=2586 class_id=0x0a18 slot=0x24 */
+{
+  entry:
+    set_info(0x021b, 0);
+    local_18 = arg_18;
+    local_16 = arg_10;
+    local_04 = (arg_16 & 3);
+    if (local_04 != 0) goto block_0f46;
+
+  block_0f02_selector_00:
+    for local_14 in nearby_items(shape=arg_20, origin=local_16) {
+      if (intrinsic_00e3(local_14) == arg_18) {
+      }
+      /* loopnext */
+    }
+
+  block_0f41:
+    goto block_1335;
+
+  block_0f46:
+    if (local_04 != 1) goto block_0f92;
+
+  block_0f4e_selector_00:
+    for local_14 in nearby_items(shape=arg_20, origin=local_16) {
+      if (intrinsic_00e3(local_14) == arg_18) {
+      }
+      /* loopnext */
+    }
+
+  block_0f8d:
+    goto block_1335;
+
+  block_0f92:
+    if (local_04 != 2) goto block_0fe0;
+
+  block_0f9a_selector_00:
+    for local_14 in nearby_items(shape=arg_20, origin=local_16) {
+      if (intrinsic_00e3(local_14) == arg_18) {
+      }
+      /* loopnext */
+    }
+
+  block_0fdb:
+    goto block_1335;
+
+  block_0fe0:
+    if (local_04 != 3) goto block_1335;
+
+  block_0fe8:
+    local_02 = (arg_12 & 7);
+    if (local_02 != 0) goto block_106b;
+
+  block_0ff7:
+    local_12 = (arg_12 / 8);
+
+  block_0ff7_selector_00:
+    for local_14 in nearby_items(shape=0x0476, origin=local_16) {
+      if (intrinsic_00e3(local_14) == arg_18) {
+        local_06 = intrinsic_0101(local_14);
+        local_10 = (local_06 & 15);
+        local_08 = intrinsic_0003(local_14);
+        local_08 = (((local_06 & 0x00e0) * 8) + local_08);
+        FREE.slot_30(local_12, local_10, local_08, local_14);
+      }
+      /* loopnext */
+    }
+
+  block_1066:
+    goto block_1332;
+
+  block_106b:
+    if (local_02 != 1) goto block_1176;
+
+  block_1073:
+    local_12 = (arg_12 / 8);
+
+  block_1073_selector_00:
+    /* loop_selector local_14 in nearby_items(shape=arg_20, origin=local_16) */
+
+  block_1091:
+    if condition goto block_1171;
+
+  block_1094:
+    if (intrinsic_00e3(local_14) != arg_18) goto block_116d;
+
+  block_10a3:
+    if (arg_10 != local_14) goto block_116d;
+
+  block_10ab:
+    if (local_12 != 31) goto block_10d9;
+
+  block_10bd:
+    suspend;
+    goto block_116d;
+
+  block_10d9:
+    local_10 = Item.getFrame(local_14);
+    local_08 = intrinsic_0016(local_14);
+    local_06 = (local_08 & 0x00ff);
+    local_08 = (local_08 & 0x0700);
+    local_08 = (local_08 / 8);
+    local_08 = (local_08 + local_10);
+    suspend;
+    /* bit_not */
+
+  block_116d:
+    /* loopnext */
+    goto block_1091;
+
+  block_1171:
+    goto block_1332;
+
+  block_1176:
+    if (local_02 == 2) {
+      local_06 = (arg_12 / 8);
+      for local_14 in nearby_items(shape=arg_20, origin=local_16) {
+        if (intrinsic_00e3(local_14) == arg_18) {
+        }
+        /* loopnext */
+      }
+    }
+    else if (local_02 == 3) {
+      for local_14 in nearby_items(shape=arg_20, origin=local_16) {
+        if (intrinsic_00e3(local_14) == arg_18) {
+          if (arg_10 == local_14) {
+            local_06 = (arg_12 / 8);
+            spawn TRIGGER.slot_23(local_06, local_14, arg_06);
+          }
+        }
+        /* loopnext */
+      }
+    }
+    else if (local_02 == 4) {
+      local_06 = (arg_12 / 8);
+      local_18 = (local_18 + local_06);
+    }
+    else if (local_02 == 5) {
+      local_06 = (arg_12 / 8);
+      local_18 = (local_18 - local_06);
+    }
+    else if (local_02 == 6) {
+      local_12 = (arg_12 / 8);
+      for local_14 in nearby_items(shape=0x0476, origin=local_16) {
+        if (intrinsic_00e3(local_14) == arg_18) {
+          local_06 = intrinsic_0103(local_14);
+          local_10 = (local_06 & 15);
+          local_08 = intrinsic_0003(local_14);
+          local_08 = (((local_06 & 0x00e0) * 8) + local_08);
+          if (local_08 == 0) {
+            if (intrinsic_0019(local_10, local_08, local_20) == 1) {
+              suspend;
+            }
+          }
+        }
+        /* loopnext */
+      }
+    }
+
+  block_1332:
+    goto block_1335;
+
+  block_1335:
+    /* word_to_dword */
+    /* pop_result */
+    goto block_133c;
+
+  block_133c:
+    return;
+
+}

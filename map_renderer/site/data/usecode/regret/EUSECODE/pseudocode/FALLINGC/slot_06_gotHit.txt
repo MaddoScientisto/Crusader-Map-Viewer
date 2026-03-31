@@ -1,0 +1,31 @@
+function fallingc_gotHit() /* entry=97 class_id=0x005f slot=0x06 */
+{
+  entry:
+    set_info(0x020c, *(arg_06));
+    process_exclude();
+    /* loopscr */
+    /* loop */
+
+  block_00ec:
+    if condition goto block_014a;
+
+  block_00ef:
+    if (intrinsic_0011(local_02) != 95) goto block_0109;
+
+  block_00fe:
+    goto block_0146;
+
+  block_0109:
+    if ((intrinsic_0031(local_02) == 6) && (Actor.isNPC(local_02) != 0)) {
+      spawn ITEM.slot_2a(pid, 1, 0, local_02);
+      suspend;
+    }
+
+  block_0146:
+    /* loopnext */
+    goto block_00ec;
+
+  block_014a:
+    return;
+
+}

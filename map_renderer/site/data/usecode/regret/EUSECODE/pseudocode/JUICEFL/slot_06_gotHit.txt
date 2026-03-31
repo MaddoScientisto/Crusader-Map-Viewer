@@ -1,0 +1,46 @@
+function juicefl_gotHit() /* entry=1465 class_id=0x05b7 slot=0x06 */
+{
+  entry:
+    set_info(0x020c, *(arg_06));
+    process_exclude();
+    spawn FREE.slot_3b(pid, 1, 0x00000000);
+    suspend;
+    FREE.slot_35(arg_12, arg_10);
+    if (retval > 0) goto block_0131;
+
+  block_012e:
+    goto block_01bf;
+
+  block_0131:
+    local_02 = arg_10;
+    if (Actor.isNPC(local_02) != 0) goto block_0150;
+
+  block_0150:
+    if (!intrinsic_005c(*(arg_06), local_02)) goto block_0164;
+
+  block_0161:
+    goto block_01bf;
+
+  block_0164:
+    if ((intrinsic_0011(local_02) != 1) && (intrinsic_005c(*(arg_06), local_02) != 1)) goto block_01bf;
+
+  block_0184_selector_00:
+    /* loop_selector local_02 in selector_0x42(arg0=0x05b8, arg1=0x05b9, arg2=(8 * 32), origin=arg_06) */
+
+  block_019b:
+    if condition goto block_01bd;
+
+  block_019e:
+    if (Item.getFrame(local_02) != 0) goto block_01b9;
+
+  block_01ad:
+    ITEM.slot_25(0x1000, local_02);
+
+  block_01b9:
+    /* loopnext */
+    goto block_019b;
+
+  block_01bf:
+    return;
+
+}

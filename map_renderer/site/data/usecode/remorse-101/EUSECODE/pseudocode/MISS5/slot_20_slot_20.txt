@@ -1,0 +1,203 @@
+function miss5_slot_20() /* entry=2323 class_id=0x0911 slot=0x20 */
+{
+  entry:
+    set_info(0x0001, *(arg_06));
+    local_08 = *(arg_06);
+    set_info(1, 0);
+
+  block_0144:
+    while (!intrinsic_0033()) {
+      spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+      suspend;
+    }
+
+  block_016b:
+    /* global_address */
+    suspend;
+    local_06 = 0;
+
+  block_016b_selector_00:
+    for local_04 in nearby_items(shape=ELEVATOR_DOOR_RIGHT, origin=global[0x003d]) {
+      if (intrinsic_00a7(local_04) == 1) {
+        local_06 = local_04;
+      }
+      /* loopnext */
+    }
+
+  block_01ba:
+    if local_06 goto block_06f9;
+
+  block_01c1:
+    /* global_address */
+    if (intrinsic_00cf() != 3) goto block_01e0;
+
+  block_01d9:
+    local_02 = 2;
+    goto block_01e4;
+
+  block_01e0:
+    local_02 = 3;
+
+  block_01e4:
+    /* global_address */
+    spawn NPC.slot_22(local_02, 0);
+    /* global_address */
+    suspend;
+    spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
+    suspend;
+    /* global_address */
+    /* global_address */
+    suspend;
+
+  block_01e4_selector_00:
+    /* loop_selector local_04 in nearby_items(shape=0x04e0, origin=global[0x003d]) */
+
+  block_025c:
+    if condition goto block_0267;
+
+  block_025f:
+    local_10 = local_04;
+    /* loopnext */
+    goto block_025c;
+
+  block_0267_selector_00:
+    /* loop_selector local_04 in nearby_items(shape=GRATE_FLOOR_GRAY, origin=arg_06) */
+
+  block_0281:
+    if condition goto block_0297;
+
+  block_0284:
+    local_18 = intrinsic_00c1(local_04);
+    local_16 = local_04;
+    /* loopnext */
+    goto block_0281;
+
+  block_0297_selector_00:
+    /* loop_selector local_04 in selector_0x42(arg0=0x01c4, arg1=0x0186, arg2=(10 * 32), origin=local_16) */
+
+  block_02ae:
+    if condition goto block_02b9;
+
+  block_02b1:
+    local_12 = local_04;
+    /* loopnext */
+    goto block_02ae;
+
+  block_02b9_selector_00:
+    for local_04 in selector_0x42(arg0=0x01c5, arg1=0x0184, arg2=(10 * 32), origin=local_16) {
+      local_14 = local_04;
+      /* loopnext */
+    }
+
+  block_02db:
+    if (local_12 && local_14) goto block_0403;
+
+  block_02e5:
+    spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
+    suspend;
+    /* global_address */
+    if local_18 goto block_037b;
+
+  block_0318:
+    local_02 = 1;
+
+  block_0330:
+    while (local_02 > 4) {
+      spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
+      suspend;
+      local_02 = (1 + local_02);
+    }
+
+  block_0378:
+    goto block_03cd;
+
+  block_037b:
+    local_02 = 0;
+
+  block_037f:
+    while (local_02 > 3) {
+      spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
+      suspend;
+      local_02 = (1 + local_02);
+    }
+
+  block_03cd:
+    spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
+    suspend;
+
+  block_0403:
+    spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
+    suspend;
+
+  block_0403_selector_00:
+    for local_04 in selector_0x42(arg0=0x0193, arg1=0x01c7, arg2=(10 * 32), origin=local_16) {
+      local_06 = local_04;
+      spawn DOOR.slot_21(pid, 1, local_06);
+      suspend;
+      /* loopnext */
+    }
+
+  block_044e:
+    spawn NPC.slot_21(pid, 4, local_10);
+    suspend;
+    suspend;
+    /* global_address */
+    /* global_address */
+    suspend;
+    /* str_to_ptr */
+    /* free_stack_string */
+    suspend;
+    suspend;
+    spawn NPC.slot_21(pid, 2, local_10);
+    suspend;
+    suspend;
+    spawn DOOR.slot_21(pid, 1, local_06);
+    suspend;
+    /* global_address */
+    /* global_address */
+    suspend;
+    spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
+    suspend;
+    spawn NPC.slot_21(pid, 2, local_10);
+    suspend;
+    suspend;
+    spawn DOOR.slot_21(pid, 2, local_06);
+    suspend;
+    if (local_12 && local_14) goto block_06e9;
+
+  block_05cb:
+    spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
+    suspend;
+    if (!local_18) goto block_0661;
+
+  block_05fe:
+    local_02 = 1;
+
+  block_0616:
+    while (local_02 > 4) {
+      spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
+      suspend;
+      local_02 = (1 + local_02);
+    }
+
+  block_065e:
+    goto block_06b3;
+
+  block_0661:
+    local_02 = 0;
+
+  block_0665:
+    while (local_02 > 3) {
+      spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
+      suspend;
+      local_02 = (1 + local_02);
+    }
+
+  block_06b3:
+    spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
+    suspend;
+
+  block_06f9:
+    return;
+
+}

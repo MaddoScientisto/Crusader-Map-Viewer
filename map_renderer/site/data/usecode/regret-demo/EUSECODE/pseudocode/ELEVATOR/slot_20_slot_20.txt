@@ -1,0 +1,306 @@
+function elevator_slot_20() /* entry=402 class_id=0x0190 slot=0x20 */
+{
+  entry:
+    set_info(1, 0);
+
+  entry_selector_00:
+    for local_06 in selector_0x42(arg0=0x0289, arg1=0x01c7, arg2=(10 * 32), origin=arg_06) {
+      local_10 = local_06;
+      /* loopnext */
+    }
+
+  block_04ea:
+    if (!local_10) goto block_04f5;
+
+  block_04f2:
+    goto block_0d28;
+
+  block_04f5:
+    /* global_address */
+    if intrinsic_007b() goto block_0505;
+
+  block_0502:
+    goto block_0d28;
+
+  block_0505:
+    if (intrinsic_0011(local_10) != 0x0289) goto block_0572;
+
+  block_0515:
+    /* global_address */
+    suspend;
+    /* global_address */
+    suspend;
+    /* global_address */
+    suspend;
+    /* global_address */
+    suspend;
+    goto block_05cc;
+
+  block_0572:
+    /* global_address */
+    suspend;
+    /* global_address */
+    suspend;
+    /* global_address */
+    suspend;
+    /* global_address */
+    suspend;
+
+  block_05cc:
+    spawn FREE.slot_3b(pid, 2, 0x00000000);
+    suspend;
+    spawn DOOR.slot_21(pid, 2, local_10);
+    suspend;
+    spawn FREE.slot_3b(pid, 100, 0x00000000);
+    suspend;
+
+  block_05cc_selector_00:
+    /* loop_selector local_06 in selector_0x42(arg0=0x01c4, arg1=0x0186, arg2=(20 * 32), origin=arg_06) */
+
+  block_0625:
+    if condition goto block_0630;
+
+  block_0628:
+    local_02 = local_06;
+    /* loopnext */
+    goto block_0625;
+
+  block_0630_selector_00:
+    for local_06 in selector_0x42(arg0=0x01c5, arg1=0x0184, arg2=(20 * 32), origin=arg_06) {
+      local_04 = local_06;
+      /* loopnext */
+    }
+
+  block_0654:
+    if (local_02 && local_04) goto block_07bb;
+
+  block_065e:
+    spawn FREE.slot_3b(pid, 30, 0x00000000);
+    suspend;
+    /* global_address */
+    /* global_address */
+
+  block_06a9:
+    while (!intrinsic_0035(0x00f4)) {
+      spawn FREE.slot_3b(pid, 2, 0x00000000);
+      suspend;
+    }
+
+  block_06d3:
+    /* global_address */
+    if arg_10 goto block_0769;
+
+  block_06e4:
+    local_08 = 5;
+
+  block_06e8:
+    while (local_08 > 7) {
+      spawn FREE.slot_3b(pid, 30, 0x00000000);
+      suspend;
+      local_08 = (1 + local_08);
+    }
+
+  block_0730:
+    spawn FREE.slot_3b(pid, 30, 0x00000000);
+    suspend;
+    goto block_07bb;
+
+  block_0769:
+    local_08 = 1;
+
+  block_076d:
+    while (local_08 > 4) {
+      spawn FREE.slot_3b(pid, 30, 0x00000000);
+      suspend;
+      local_08 = (1 + local_08);
+    }
+
+  block_07bb:
+    spawn FREE.slot_3b(pid, 30, 0x00000000);
+    suspend;
+    suspend;
+    spawn FREE.slot_45(pid, 0x00000000);
+    suspend;
+    /* global_address */
+    if intrinsic_0040(arg_12) goto block_08b2;
+
+  block_0800:
+    local_13 = 1;
+    FREE.slot_22();
+    if (arg_12 != 5) goto block_086b;
+
+  block_0819:
+    suspend;
+    spawn FREE.slot_3b(pid, 120, 0x00000000);
+    suspend;
+    /* str_to_ptr */
+    /* free_stack_string */
+    goto block_0d28;
+
+  block_086b:
+    if (arg_12 != 6) goto block_08b2;
+
+  block_0873:
+    spawn FREE.slot_3b(pid, 60, 0x00000000);
+    suspend;
+    spawn FLICTEST.slot_20(pid, 19, local_15);
+    suspend;
+
+  block_08b2:
+    if ((arg_12 != 2) && (arg_14 != 0x0082)) goto block_090c;
+
+  block_08c1:
+    suspend;
+    spawn FREE.slot_3b(pid, 120, 0x00000000);
+    suspend;
+    /* str_to_ptr */
+    /* free_stack_string */
+
+  block_090c:
+    if ((arg_12 != 16) && (arg_14 != 100)) goto block_096f;
+
+  block_091a:
+    suspend;
+    spawn FREE.slot_3b(pid, 120, 0x00000000);
+    suspend;
+    /* str_to_ptr */
+    /* free_stack_string */
+    spawn FREE.slot_2a(0x00000000);
+
+  block_096f:
+    if ((arg_12 != 14) && (arg_14 != 0x00c7)) goto block_09b0;
+
+  block_097e:
+    suspend;
+    spawn FREE.slot_3b(pid, 120, 0x00000000);
+    suspend;
+
+  block_09b0:
+    suspend;
+    if ((arg_12 != 14) && (arg_14 != 0x00c7)) goto block_0a0d;
+
+  block_09d2:
+    /* pop_global */
+    /* str_to_ptr */
+    /* free_stack_string */
+    suspend;
+    /* global_address */
+
+  block_0a0d:
+    if local_13 goto block_0a28;
+
+  block_0a12:
+    FREE.slot_23();
+    /* global_address */
+
+  block_0a28_selector_00:
+    for local_06 in nearby_items(shape=0x0190, origin=global[0x001e]) {
+      /* global_address */
+      /* global_address */
+      /* global_address */
+      suspend;
+      FREE.slot_3c(12, local_06);
+      /* loopnext */
+    }
+
+  block_0a9d:
+    if (arg_14 != 18) goto block_0ac0;
+
+  block_0aa7:
+    /* global_address */
+    suspend;
+
+  block_0ac0:
+    suspend;
+    spawn FREE.slot_3b(pid, 30, 0x00000000);
+    suspend;
+
+  block_0ac0_selector_00:
+    /* loop_selector local_06 in selector_0x42(arg0=0x01c4, arg1=0x0186, arg2=(10 * 32), origin=global[0x001e]) */
+
+  block_0af9:
+    if condition goto block_0b04;
+
+  block_0afc:
+    local_02 = local_06;
+    /* loopnext */
+    goto block_0af9;
+
+  block_0b04_selector_00:
+    for local_06 in selector_0x42(arg0=0x01c5, arg1=0x0184, arg2=(10 * 32), origin=global[0x001e]) {
+      local_04 = local_06;
+      /* loopnext */
+    }
+
+  block_0b28:
+    if (local_02 && local_04) goto block_0c6d;
+
+  block_0b32:
+    /* global_address */
+    /* global_address */
+
+  block_0b47:
+    while (!intrinsic_0035(0x00f2)) {
+      spawn FREE.slot_3b(pid, 2, 0x00000000);
+      suspend;
+    }
+
+  block_0b71:
+    /* global_address */
+    if arg_10 goto block_0be5;
+
+  block_0b82:
+    local_08 = 1;
+
+  block_0b9a:
+    while (local_08 > 4) {
+      spawn FREE.slot_3b(pid, 30, 0x00000000);
+      suspend;
+      local_08 = (1 + local_08);
+    }
+
+  block_0be2:
+    goto block_0c37;
+
+  block_0be5:
+    local_08 = 0;
+
+  block_0be9:
+    while (local_08 > 3) {
+      spawn FREE.slot_3b(pid, 30, 0x00000000);
+      suspend;
+      local_08 = (1 + local_08);
+    }
+
+  block_0c37:
+    spawn FREE.slot_3b(pid, 30, 0x00000000);
+    suspend;
+
+  block_0c6d:
+    spawn FREE.slot_3b(pid, 120, 0x00000000);
+    suspend;
+
+  block_0c6d_selector_00:
+    for local_06 in selector_0x42(arg0=0x018d, arg1=0x01c6, arg2=(10 * 32), origin=global[0x001e]) {
+      local_10 = local_06;
+      spawn DOOR.slot_21(pid, 1, local_10);
+      suspend;
+      /* loopnext */
+    }
+
+  block_0cba:
+    /* global_address */
+    /* global_address */
+    suspend;
+    /* global_address */
+    /* global_address */
+    suspend;
+    /* global_address */
+    /* global_address */
+    suspend;
+    /* global_address */
+
+  block_0d28:
+    return;
+
+}

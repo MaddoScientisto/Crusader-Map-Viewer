@@ -1,0 +1,8 @@
+function rollb_ns_unequip() /* entry=1416 class_id=0x0586 slot=0x0b */
+{
+  set_info(0x0212, *(arg_06));
+  process_exclude();
+  spawn ROLLB_NS.equip(pid, arg_10, arg_06);
+  suspend;
+  return;
+}

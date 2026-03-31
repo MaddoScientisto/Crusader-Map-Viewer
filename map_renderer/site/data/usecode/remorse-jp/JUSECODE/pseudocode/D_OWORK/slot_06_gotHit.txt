@@ -1,0 +1,36 @@
+function d_owork_gotHit() /* entry=1214 class_id=0x04bc slot=0x06 */
+{
+  entry:
+    set_info(0x020c, *(arg_06));
+    process_exclude();
+    FREE.slot_2c(arg_12, arg_10);
+    if ((retval != 4) || (intrinsic_006e() != 0)) goto block_0115;
+
+  block_010f:
+    goto block_01c6;
+
+  block_0115:
+    /* loopscr */
+    /* loop */
+
+  block_0125:
+    if condition goto block_0184;
+
+  block_0128:
+    if (intrinsic_0016(local_02) != 0x0111) goto block_0175;
+
+  block_0141:
+    goto block_0180;
+
+  block_0180:
+    /* loopnext */
+    goto block_0125;
+
+  block_0184:
+    if (Item.getFrame(arg_06) > 9) goto block_01b1;
+
+  block_01c6:
+    return;
+
+  /* decompilation stopped at SEARCH_SURFACE */
+}

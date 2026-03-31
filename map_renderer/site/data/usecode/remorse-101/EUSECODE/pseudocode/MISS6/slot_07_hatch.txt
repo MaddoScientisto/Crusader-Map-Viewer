@@ -1,0 +1,18 @@
+function miss6_hatch() /* entry=2324 class_id=0x0912 slot=0x07 */
+{
+  set_info(0x0210, *(arg_06));
+  process_exclude();
+  if (intrinsic_003e(arg_06) == 1) {
+    FREE.slot_41();
+    spawn MISS6.slot_20(pid, arg_06);
+    suspend;
+    return;
+  }
+  else if (intrinsic_003e(arg_06) == 2) {
+    /* pop_global */
+    spawn MISS6.slot_21(1, pid, arg_06);
+    suspend;
+    return;
+  }
+  return;
+}

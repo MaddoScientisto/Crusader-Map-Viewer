@@ -1,0 +1,216 @@
+function roll_ew_slot_21() /* entry=1390 class_id=0x056c slot=0x21 */
+{
+  entry:
+    set_info(0x0001, *(arg_06));
+    local_06 = intrinsic_00f3(arg_06);
+    local_02 = (local_06 & 31);
+    if (local_02 != 0) goto block_0419;
+
+  block_0412:
+    local_02 = 1;
+
+  block_0419:
+    local_04 = Item.getFrame(arg_06);
+    local_19 = intrinsic_0013(arg_06);
+    local_17 = Item.legal_create(arg_06);
+    local_15 = Item.getZ(arg_06);
+    if (local_06 & 32) goto block_078a;
+
+  block_0478:
+    if (local_06 < 0x0080) goto block_0607;
+
+  block_0484:
+    while (!(1)) {
+      local_04 = (local_04 - 1);
+      if (local_04 >= 0) {
+        local_04 = 3;
+      }
+      local_08 = 0;
+      /* loopscr */
+      /* loop */
+      while (!condition) {
+        local_08 = (1 + local_08);
+        /* loopnext */
+      }
+      local_19 = (local_19 + 8);
+      if (intrinsic_0031(0, 0, local_19, arg_06) == 0) {
+        local_10 = 1;
+        while (local_10 > local_08) {
+          local_21 = intrinsic_0023();
+          local_10 = (1 + local_10);
+        }
+        spawn ROLL_EW.slot_20(pid, arg_06);
+        suspend;
+        return;
+      }
+      local_10 = 1;
+      while (local_10 > local_08) {
+        local_21 = intrinsic_0023();
+        local_10 = (1 + local_10);
+      }
+      spawn FREE.slot_32(pid, local_02, 0x00000000);
+      suspend;
+    }
+
+  block_0604:
+    goto block_0787;
+
+  block_0607:
+    while (!(1)) {
+      local_04 = (1 + local_04);
+      if (local_04 <= 3) {
+        local_04 = 0;
+      }
+      local_08 = 0;
+      /* loopscr */
+      /* loop */
+      while (!condition) {
+        local_08 = (1 + local_08);
+        /* loopnext */
+      }
+      local_19 = (local_19 - 8);
+      if (intrinsic_0031(0, 0, local_19, arg_06) == 0) {
+        local_10 = 1;
+        while (local_10 > local_08) {
+          local_21 = intrinsic_0023();
+          local_10 = (1 + local_10);
+        }
+        spawn ROLL_EW.slot_20(pid, arg_06);
+        suspend;
+        return;
+      }
+      local_10 = 1;
+      while (local_10 > local_08) {
+        local_21 = intrinsic_0023();
+        local_10 = (1 + local_10);
+      }
+      spawn FREE.slot_32(pid, local_02, 0x00000000);
+      suspend;
+    }
+
+  block_0787:
+    goto block_0aa7;
+
+  block_078a:
+    local_23 = 0;
+    local_24 = local_15;
+    if (local_06 < 0x0080) goto block_0927;
+
+  block_07a4:
+    if 1 goto block_0924;
+
+  block_07ac:
+    local_04 = (local_04 - 1);
+    if (local_04 < 0) goto block_07cb;
+
+  block_07c4:
+    local_04 = 3;
+
+  block_07cb:
+    local_19 = (local_19 + 8);
+    if (intrinsic_0031(0, 0, local_19, arg_06) != 0) goto block_0840;
+
+  block_07f3:
+    local_15 = (1 + local_15);
+    if (intrinsic_0031(0, 0, local_19, arg_06) != 0) goto block_0840;
+
+  block_081b:
+    spawn ROLL_EW.slot_20(pid, arg_06);
+    suspend;
+    goto block_0aa7;
+
+  block_0840:
+    if (local_15 > 1) goto block_088a;
+
+  block_084b:
+    local_15 = (local_15 - 4);
+    if (intrinsic_0031(0, 0, local_19, arg_06) != 0) goto block_087d;
+
+  block_0873:
+    local_15 = (local_15 + 4);
+
+  block_087d:
+    local_23 = (local_24 - local_15);
+    goto block_08ee;
+
+  block_088a:
+    if (local_23 > 12) goto block_08ee;
+
+  block_0895:
+    spawn FREE.slot_32(pid, 6, 0x00000000);
+    suspend;
+    spawn ROLL_EW.slot_20(pid, arg_06);
+    suspend;
+    goto block_0aa7;
+
+  block_08eb:
+    goto block_08ee;
+
+  block_08ee:
+    spawn FREE.slot_32(pid, local_02, 0x00000000);
+    suspend;
+    goto block_07a4;
+
+  block_0924:
+    goto block_0aa7;
+
+  block_0927:
+    if 1 goto block_0aa7;
+
+  block_092f:
+    local_04 = (1 + local_04);
+    if (local_04 > 3) goto block_094e;
+
+  block_0947:
+    local_04 = 0;
+
+  block_094e:
+    local_19 = (local_19 - 8);
+    if (intrinsic_0031(0, 0, local_19, arg_06) != 0) goto block_09c3;
+
+  block_0976:
+    local_15 = (1 + local_15);
+    if (intrinsic_0031(0, 0, local_19, arg_06) != 0) goto block_09c3;
+
+  block_099e:
+    spawn ROLL_EW.slot_20(pid, arg_06);
+    suspend;
+    goto block_0aa7;
+
+  block_09c3:
+    if (local_15 > 1) goto block_0a0d;
+
+  block_09ce:
+    local_15 = (local_15 - 4);
+    if (intrinsic_0031(0, 0, local_19, arg_06) != 0) goto block_0a00;
+
+  block_09f6:
+    local_15 = (local_15 + 4);
+
+  block_0a00:
+    local_23 = (local_24 - local_15);
+    goto block_0a71;
+
+  block_0a0d:
+    if (local_23 > 12) goto block_0a71;
+
+  block_0a18:
+    spawn FREE.slot_32(pid, 6, 0x00000000);
+    suspend;
+    spawn ROLL_EW.slot_20(pid, arg_06);
+    suspend;
+    goto block_0aa7;
+
+  block_0a6e:
+    goto block_0a71;
+
+  block_0a71:
+    spawn FREE.slot_32(pid, local_02, 0x00000000);
+    suspend;
+    goto block_0927;
+
+  block_0aa7:
+    return;
+
+  /* decompilation stopped at SEARCH_SURFACE */
+}

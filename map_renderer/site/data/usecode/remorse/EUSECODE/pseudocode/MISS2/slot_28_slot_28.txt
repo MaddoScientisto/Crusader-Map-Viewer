@@ -1,0 +1,349 @@
+function miss2_slot_28() /* entry=2320 class_id=0x090e slot=0x28 */
+{
+  entry:
+    set_info(0x0001, *(arg_06));
+    local_02 = 0;
+    local_18 = *(arg_06);
+    set_info(1, 0);
+
+  block_0cd5:
+    while (!intrinsic_0033()) {
+      spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+      suspend;
+    }
+
+  block_0d0b:
+    /* global_address */
+    if intrinsic_0035() goto block_0d4b;
+
+  block_0d1b:
+    /* global_address */
+    /* global_address */
+    suspend;
+
+  block_0d4b:
+    local_20 = 0;
+    /* loopscr */
+    /* loop */
+
+  block_0d68:
+    if condition goto block_0e2a;
+
+  block_0d6b:
+    if ((Item.getZ(local_04) > 96) && (Item.getZ(local_04) < 0x0096)) goto block_0e26;
+
+  block_0d8e:
+    local_22 = intrinsic_0013(local_04);
+    local_24 = Item.legal_create(local_04);
+    if ((((local_22 > 0x522f) && (local_22 < 0x53bf)) && (local_24 < 0x448e)) && (local_24 > 0x407f)) goto block_0e26;
+
+  block_0dce:
+    if (((intrinsic_0016(local_04) != 17) && (intrinsic_0016(local_04) != 0x04fe)) && (intrinsic_0016(local_04) != 0x0135)) goto block_0e26;
+
+  block_0e26:
+    /* loopnext */
+    goto block_0d68;
+
+  block_0e2a_selector_00:
+    /* loop_selector local_04 in nearby_items(shape=0x04d9, origin=global[0x003c]) */
+
+  block_0e4a:
+    if condition goto block_0e98;
+
+  block_0e4d:
+    goto block_0e98;
+
+  block_0e94:
+    /* loopnext */
+    goto block_0e4a;
+
+  block_0e98:
+    if local_20 goto block_1ced;
+
+  block_0ea2_selector_00:
+    for local_04 in nearby_items(shape=door_shape_0046, origin=global[0x003c]) {
+      FREE.slot_29(local_04, global[0x003c]);
+      while ((retval > 3) && (local_02 == 10)) {
+        /* global_address */
+        /* global_address */
+        /* global_address */
+        spawn NPC.slot_22(intrinsic_0034(intrinsic_0013(pid, 1, Item.legal_create((Item.legal_create(local_04) - 32), (intrinsic_0013(local_04) - 16)))));
+        suspend;
+        local_02 = (1 + local_02);
+      }
+      local_10 = local_04;
+      spawn DOOR.slot_20(pid, local_10);
+      suspend;
+      /* loopnext */
+    }
+
+  block_0f73:
+    /* global_address */
+    spawn NPC.slot_22(pid, 3, 4);
+    suspend;
+    /* global_address */
+    /* global_address */
+    /* global_address */
+    spawn NPC.slot_22(intrinsic_0034(intrinsic_0013(pid, 3, Item.legal_create(Item.legal_create(local_20), intrinsic_0013(local_20)))));
+    suspend;
+    /* global_address */
+    /* global_address */
+    suspend;
+
+  block_0f73_selector_00:
+    /* loop_selector local_04 in nearby_items(shape=NUMBERS, origin=global[0x003c]) */
+
+  block_103a:
+    if condition goto block_104e;
+
+  block_103d:
+    local_26 = local_04;
+    goto block_104e;
+
+  block_104a:
+    /* loopnext */
+    goto block_103a;
+
+  block_1050:
+    while ((retval > 2) && (local_02 == 20)) {
+      /* global_address */
+      /* global_address */
+      /* global_address */
+      spawn NPC.slot_22(intrinsic_0034(intrinsic_0013(pid, 1, Item.legal_create(Item.legal_create(local_26), intrinsic_0013(local_26)))));
+      suspend;
+      local_02 = (1 + local_02);
+    }
+
+  block_10d1:
+    /* global_address */
+    /* global_address */
+    suspend;
+    /* str_to_ptr */
+    /* free_stack_string */
+    suspend;
+    spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+    suspend;
+    suspend;
+    suspend;
+    suspend;
+    suspend;
+    /* global_address */
+    /* global_address */
+    suspend;
+
+  block_10d1_selector_00:
+    for local_04 in nearby_items(shape=SPANEL, origin=local_20) {
+      if (intrinsic_00ae(local_04) == 13) {
+        suspend;
+        suspend;
+      }
+      /* loopnext */
+    }
+
+  block_12a1:
+    suspend;
+    spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
+    suspend;
+
+  block_12a1_selector_00:
+    for local_04 in nearby_items(shape=0x04d5, origin=global[0x003c]) {
+      if (intrinsic_007e(local_04) == 1) {
+        /* global_address */
+      }
+      /* loopnext */
+    }
+
+  block_1362:
+    spawn FREE.waitNTimerTicks(pid, 45, 0x00000000);
+    suspend;
+    spawn MISS2.slot_20(pid, 1, 0x00000000);
+    suspend;
+    spawn MISS2.slot_23(pid, 0x00000000);
+    suspend;
+    local_08 = 0;
+
+  block_1362_selector_00:
+    for local_04 in nearby_items(shape=wallgun_shape_04c8, origin=global[0x003c]) {
+      local_08 = local_04;
+      /* loopnext */
+    }
+
+  block_1405:
+    if local_08 goto block_1432;
+
+  block_140f:
+    spawn MISS2.slot_25(pid, 1, 0x00000000);
+    suspend;
+
+  block_1432:
+    spawn FREE.waitNTimerTicks(pid, 15, 0x00000000);
+    suspend;
+    local_10 = 0;
+    local_12 = 0;
+    local_14 = 0;
+    local_16 = 0;
+
+  block_1432_selector_00:
+    /* loop_selector local_04 in nearby_items(shape=PRISON_BARS_DOOR, origin=local_08) */
+
+  block_1490:
+    if condition goto block_14f9;
+
+  block_1493:
+    if (!intrinsic_00ae(local_04)) goto block_14aa;
+
+  block_14a3:
+    local_10 = local_04;
+    goto block_14f5;
+
+  block_14aa:
+    if (intrinsic_00ae(local_04) == 1) {
+      local_12 = local_04;
+    }
+    else if (intrinsic_00ae(local_04) == 2) {
+      local_14 = local_04;
+    }
+    else if (intrinsic_00ae(local_04) == 3) {
+      local_16 = local_04;
+    }
+
+  block_14f5:
+    /* loopnext */
+    goto block_1490;
+
+  block_14f9:
+    if (((local_10 && local_12) && local_14) && local_16) goto block_1a3e;
+
+  block_1515:
+    spawn MISS2.slot_26(pid, 0, 0x00000000);
+    suspend;
+    spawn DOOR.slot_20(pid, local_10);
+    suspend;
+    spawn MISS2.slot_27(pid, local_08, 0x00000000);
+    suspend;
+    spawn FREE.waitNTimerTicks(pid, 3, 0x00000000);
+    suspend;
+
+  block_1515_selector_00:
+    /* loop_selector local_04 in nearby_items(shape=PRISONER_2, origin=local_10) */
+
+  block_15c2:
+    if condition goto block_1645;
+
+  block_15c5:
+    spawn FREE.waitNTimerTicks(pid, 15, 0x00000000);
+    suspend;
+    /* loopnext */
+    goto block_15c2;
+
+  block_1647:
+    while (Item.getFrame(local_08) == 4) {
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+    }
+
+  block_169c:
+    spawn DOOR.slot_20(pid, local_12);
+    suspend;
+    spawn MISS2.slot_27(pid, local_08, 0x00000000);
+    suspend;
+    spawn FREE.waitNTimerTicks(pid, 3, 0x00000000);
+    suspend;
+
+  block_169c_selector_00:
+    for local_04 in nearby_items(shape=PRISONER_1, origin=local_12) {
+      spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
+      suspend;
+      /* loopnext */
+    }
+
+  block_17a9:
+    spawn MISS2.slot_26(pid, 1, 0x00000000);
+    suspend;
+    spawn DOOR.slot_20(pid, local_14);
+    suspend;
+    spawn MISS2.slot_27(pid, local_08, 0x00000000);
+    suspend;
+    spawn FREE.waitNTimerTicks(pid, 6, 0x00000000);
+    suspend;
+
+  block_17a9_selector_00:
+    /* loop_selector local_04 in nearby_items(shape=PRISONER_1, origin=local_14) */
+
+  block_1858:
+    if condition goto block_18db;
+
+  block_185b:
+    spawn FREE.waitNTimerTicks(pid, 15, 0x00000000);
+    suspend;
+    /* loopnext */
+    goto block_1858;
+
+  block_18dd:
+    while (Item.getFrame(local_08) == 4) {
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+    }
+
+  block_1932:
+    spawn DOOR.slot_20(pid, local_16);
+    suspend;
+    spawn MISS2.slot_27(pid, local_08, 0x00000000);
+    suspend;
+    spawn FREE.waitNTimerTicks(pid, 6, 0x00000000);
+    suspend;
+
+  block_1932_selector_00:
+    /* loop_selector local_04 in nearby_items(shape=PRISONER_3, origin=local_16) */
+
+  block_19b9:
+    if condition goto block_1a3c;
+
+  block_19bc:
+    spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
+    suspend;
+    /* loopnext */
+    goto block_19b9;
+
+  block_1a3e:
+    spawn MISS2.slot_25(pid, 0, 0x00000000);
+    suspend;
+    spawn MISS2.slot_23(pid, 0x00000000);
+    suspend;
+    spawn MISS2.slot_20(pid, 0, 0x00000000);
+    suspend;
+    spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
+    suspend;
+    /* global_address */
+    suspend;
+    suspend;
+    suspend;
+    suspend;
+    suspend;
+    suspend;
+    suspend;
+    suspend;
+    suspend;
+    suspend;
+
+  block_1a3e_selector_00:
+    /* loop_selector local_04 in nearby_items(shape=PANELNS, origin=local_20) */
+
+  block_1c99:
+    if condition goto block_1cd3;
+
+  block_1c9c:
+    if (intrinsic_00ae(local_04) != 13) goto block_1ccf;
+
+  block_1cb1:
+    suspend;
+
+  block_1ccf:
+    /* loopnext */
+    goto block_1c99;
+
+  block_1ced:
+    return;
+
+  /* decompilation stopped at SEARCH_SURFACE */
+}

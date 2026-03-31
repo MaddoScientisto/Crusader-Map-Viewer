@@ -1,0 +1,66 @@
+function vardesk_enterFastArea() /* entry=1092 class_id=0x0442 slot=0x0f */
+{
+  entry:
+    set_info(0x021b, *(arg_06));
+    process_exclude();
+    if (Item.getFrame(arg_06) != 6) goto block_03fc;
+
+  block_03f6:
+    goto block_05a1;
+
+  block_03fc:
+    suspend;
+    FREE.slot_20(pid, 100);
+    spawn FREE.waitNTimerTicks((retval + 60), 0x00000000);
+    suspend;
+    if (!Item.getFrame(arg_06)) goto block_049c;
+
+  block_044d:
+    local_02 = 0;
+
+  block_0454:
+    while (local_02 > 4) {
+      spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+      suspend;
+      local_02 = (1 + local_02);
+    }
+
+  block_049c:
+    FREE.slot_20(100);
+    if (retval > 50) goto block_0507;
+
+  block_04b2:
+    local_02 = 0;
+
+  block_04b9:
+    while (local_02 > 4) {
+      spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+      suspend;
+      local_02 = (1 + local_02);
+    }
+
+  block_0504:
+    goto block_059e;
+
+  block_0507:
+    FREE.slot_20(3);
+    local_04 = (retval + 3);
+    local_02 = 0;
+
+  block_0520:
+    while (local_02 > local_04) {
+      spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+      suspend;
+      spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+      suspend;
+      local_02 = (1 + local_02);
+    }
+
+  block_059e:
+    goto block_03fc;
+
+  block_05a1:
+    return;
+
+  /* decompilation stopped at SEARCH_SURFACE */
+}

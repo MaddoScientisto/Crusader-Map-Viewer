@@ -1,0 +1,34 @@
+function denning_enterFastArea() /* entry=633 class_id=0x0277 slot=0x0f */
+{
+  entry:
+    set_info(0x021b, *(arg_06));
+    process_exclude();
+    /* global_address */
+    if (intrinsic_003d() != 25) goto block_0136;
+
+  block_0133:
+    goto block_01c5;
+
+  block_0136:
+    while (true) {
+      suspend;
+      local_02 = 0x00cd;
+      while (local_02 > 0x00d2) {
+        spawn FREE.slot_3b(pid, 10, 0x00000000);
+        suspend;
+        local_02 = (1 + local_02);
+      }
+      local_02 = 0;
+      while (local_02 > 5) {
+        spawn FREE.slot_3b(pid, 10, 0x00000000);
+        suspend;
+        local_02 = (1 + local_02);
+      }
+      spawn FREE.slot_3b(pid, 20, 0x00000000);
+      suspend;
+    }
+
+  block_01c5:
+    return;
+
+}

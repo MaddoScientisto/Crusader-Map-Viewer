@@ -1,0 +1,127 @@
+function wallgun_slot_36() /* entry=2588 class_id=0x0a1a slot=0x36 */
+{
+  entry:
+    set_info(0x0001, *(arg_06));
+    local_09 = 1;
+    local_10 = 1;
+    WALLGUN.slot_29(arg_06);
+    local_11 = retval;
+    if (local_11 != 1) goto block_1445;
+
+  block_1436:
+    local_06 = 1;
+    local_02 = 0;
+    local_04 = 15;
+    goto block_146d;
+
+  block_1445:
+    WALLGUN.slot_2b(arg_06);
+    if retval goto block_1461;
+
+  block_1452:
+    local_06 = 1;
+    local_02 = 0;
+    local_04 = 8;
+    goto block_146d;
+
+  block_1461:
+    local_06 = -1;
+    local_02 = 8;
+    local_04 = 0;
+
+  block_146d:
+    WALLGUN.slot_20(arg_06);
+    local_13 = (retval * 5);
+
+  block_147c:
+    if 1 goto block_1590;
+
+  block_1481:
+    spawn WALLGUN.slot_26(pid, arg_06);
+    suspend;
+    local_08 = Item.getFrame(arg_06);
+    if (local_11 != 1) goto block_14c9;
+
+  block_14a4:
+    if (local_08 > 19) goto block_14c6;
+
+  block_14ac:
+    spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+    suspend;
+    goto block_147c;
+
+  block_14c6:
+    goto block_14ee;
+
+  block_14c9:
+    if (local_08 > 8) goto block_14ee;
+
+  block_14d1:
+    spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+    suspend;
+    goto block_147c;
+
+  block_14eb:
+    goto block_14ee;
+
+  block_14ee:
+    if local_09 goto block_150f;
+
+  block_14f3:
+    if (local_08 != local_04) goto block_1505;
+
+  block_14fb:
+    local_09 = 0;
+    goto block_147c;
+
+  block_1502:
+    goto block_150c;
+
+  block_1505:
+    local_08 = (local_08 + local_06);
+
+  block_150c:
+    goto block_1562;
+
+  block_150f:
+    if ((local_10 != 1) && (local_11 != 0)) goto block_1539;
+
+  block_151d:
+    if (local_08 != local_02) goto block_152f;
+
+  block_1525:
+    local_10 = 0;
+    goto block_147c;
+
+  block_152c:
+    goto block_1536;
+
+  block_152f:
+    local_08 = (local_08 - local_06);
+
+  block_1536:
+    goto block_1562;
+
+  block_1539:
+    local_09 = 1;
+    local_10 = 1;
+    if (local_11 != 1) goto block_1550;
+
+  block_1549:
+    local_08 = local_02;
+    goto block_1562;
+
+  block_1550:
+    if (local_08 == 4) {
+      local_08 = (local_08 + local_06);
+    }
+
+  block_1562:
+    spawn FREE.waitNTimerTicks(pid, local_13, 0x00000000);
+    suspend;
+    goto block_147c;
+
+  block_1590:
+    return;
+
+}

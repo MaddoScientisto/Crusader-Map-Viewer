@@ -1,0 +1,10 @@
+function powergen_equip() /* entry=654 class_id=0x028c slot=0x0a */
+{
+  set_info(0x0211, *(arg_06));
+  process_exclude();
+  if (arg_10 == 0x00ff) {
+    spawn FREE.slot_3b(pid, 10, 0x00000000);
+    suspend;
+  }
+  return;
+}

@@ -1,0 +1,29 @@
+function free_slot_3b() /* entry=2591 class_id=0x0a1d slot=0x3b */
+{
+  entry:
+    set_info(9, 0);
+    local_08 = intrinsic_014b();
+    local_04 = intrinsic_014b();
+    if (arg_06 < 1) goto block_1868;
+
+  block_1865:
+    goto block_1891;
+
+  block_1868:
+    while (true) {
+      suspend;
+      local_08 = intrinsic_014b();
+      /* ne_dword */
+      if (!local_04) {
+        local_04 = local_08;
+        arg_06 = (arg_06 - 1);
+        if (arg_06 >= 1) {
+          return;
+        }
+      }
+    }
+
+  block_1891:
+    return;
+
+}

@@ -1,0 +1,38 @@
+function wallgun_slot_2e() /* entry=2588 class_id=0x0a1a slot=0x2e */
+{
+  WALLGUN.slot_2c(arg_06);
+  local_11 = retval;
+  WALLGUN.slot_3e(local_11, arg_06);
+  local_02 = retval;
+  WALLGUN.slot_3f(local_11, arg_06);
+  local_06 = retval;
+  WALLGUN.slot_40(local_11, arg_06);
+  local_09 = retval;
+  local_13 = arg_10;
+  if (!intrinsic_003c(local_13)) {
+    return;
+  }
+  WALLGUN.slot_2d(arg_10, arg_06);
+  if (retval) {
+    if (intrinsic_0115(arg_06) <= 99) {
+      return;
+    }
+    if (!intrinsic_0116(local_09, local_06, local_02, local_11, arg_10, arg_06)) {
+      return;
+    }
+    WALLGUN.slot_29(arg_06);
+    if (!retval) {
+      WALLGUN.slot_41(local_11, arg_06);
+      local_04 = retval;
+      WALLGUN.slot_42(local_11, arg_06);
+      local_08 = retval;
+      WALLGUN.slot_43(local_11, arg_06);
+      local_10 = retval;
+      if (!intrinsic_0116(local_10, local_08, local_04, local_11, arg_10, arg_06)) {
+        return;
+      }
+    }
+  }
+  return;
+  /* decompilation stopped at SEARCH_SURFACE */
+}

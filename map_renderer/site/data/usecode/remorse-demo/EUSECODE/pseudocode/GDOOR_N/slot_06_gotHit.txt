@@ -1,0 +1,9 @@
+function gdoor_n_gotHit() /* entry=780 class_id=0x030a slot=0x06 */
+{
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  spawn DOOR.slot_23(pid, arg_12, arg_10, arg_06);
+  suspend;
+  return;
+  /* decompilation stopped at SEARCH_SURFACE */
+}

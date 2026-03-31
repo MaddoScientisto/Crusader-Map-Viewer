@@ -1,0 +1,187 @@
+function spider_slot_22() /* entry=2585 class_id=0x0a17 slot=0x22 */
+{
+  entry:
+    set_info(0x00f0, *(arg_06));
+    local_07 = intrinsic_0013(arg_06);
+    local_09 = Item.legal_create(arg_06);
+    local_10 = Item.getZ(arg_06);
+    local_12 = ((arg_10 - local_07) + 1);
+    local_14 = ((arg_12 - local_09) + 1);
+    local_16 = 0;
+    local_18 = 1;
+    local_28 = arg_16;
+    local_30 = 0;
+    local_32 = 1;
+    FREE.slot_3f(local_12);
+    FREE.slot_3f(retval, local_14);
+    if retval goto block_0652;
+
+  block_064b:
+    local_32 = 0;
+
+  block_0652:
+    if (local_32 != 0) goto block_06bd;
+
+  block_065d:
+    FREE.slot_3f(((local_14 / local_12) * local_12));
+    local_22 = retval;
+    /* mod */
+    FREE.slot_3f(local_14, local_12);
+    local_20 = retval;
+    if (local_12 < 0) goto block_0699;
+
+  block_068f:
+    local_28 = (-1 * arg_16);
+
+  block_0699:
+    if (local_14 < 0) goto block_06ab;
+
+  block_06a4:
+    local_18 = -1;
+
+  block_06ab:
+    FREE.slot_3f(local_12);
+    local_24 = retval;
+    goto block_071a;
+
+  block_06bd:
+    FREE.slot_3f(((local_12 / local_14) * local_14));
+    local_22 = retval;
+    /* mod */
+    FREE.slot_3f(local_12, local_14);
+    local_20 = retval;
+    if (local_14 < 0) goto block_06f9;
+
+  block_06ef:
+    local_28 = (-1 * arg_16);
+
+  block_06f9:
+    if (local_12 < 0) goto block_070b;
+
+  block_0704:
+    local_18 = -1;
+
+  block_070b:
+    FREE.slot_3f(local_14);
+    local_24 = retval;
+
+  block_071a:
+    suspend;
+    spawn FREE.slot_32(pid, 2, 0x00000000);
+    suspend;
+    local_36 = (local_10 & 0x00ff);
+    local_34 = (arg_14 & 0x00ff);
+    if (local_36 != local_34) goto block_07c2;
+
+  block_076e:
+    FREE.slot_3f((local_34 - local_36));
+    local_38 = ((retval / 20) + 1);
+    if (local_38 != 0) goto block_0795;
+
+  block_0791:
+    local_38 = 1;
+
+  block_0795:
+    if (local_36 < local_34) goto block_07ad;
+
+  block_07a0:
+    local_10 = (local_10 + local_38);
+    goto block_07c2;
+
+  block_07ad:
+    local_36 = (local_36 - local_38);
+    local_10 = (local_36 & 0x00ff);
+
+  block_07c2:
+    if (local_30 >= local_24) goto block_083a;
+
+  block_07d3:
+    if (local_36 > (local_34 - 2)) goto block_07ff;
+
+  block_07e4:
+    if (local_36 < (local_34 + 2)) goto block_07ff;
+
+  block_07f5:
+    /* word_to_dword */
+    /* pop_result */
+    goto block_096f;
+
+  block_07ff:
+    local_05 = local_07;
+    local_03 = local_09;
+    local_01 = local_10;
+    if (!intrinsic_0031(0, 1, local_05, arg_06)) goto block_0837;
+
+  block_082d:
+    /* word_to_dword */
+    /* pop_result */
+    goto block_096f;
+
+  block_0837:
+    goto block_096c;
+
+  block_083a:
+    local_30 = (local_30 + arg_16);
+    if (local_32 != 0) goto block_08e2;
+
+  block_0855:
+    local_05 = local_07;
+    local_03 = local_09;
+    local_01 = local_10;
+    if (!intrinsic_0031(0, 1, local_05, arg_06)) goto block_088d;
+
+  block_0883:
+    /* word_to_dword */
+    /* pop_result */
+    goto block_096f;
+
+  block_088d:
+    local_07 = (local_07 + local_28);
+    local_26 = 1;
+
+  block_089e:
+    while (local_26 > arg_16) {
+      local_16 = (local_16 + (local_20 + local_22));
+      if (local_16 < local_24) {
+        local_16 = (local_16 - local_24);
+        local_09 = (local_09 + local_18);
+      }
+      local_26 = (1 + local_26);
+    }
+
+  block_08df:
+    goto block_096c;
+
+  block_08e2:
+    local_05 = local_07;
+    local_03 = local_09;
+    local_01 = local_10;
+    if (!intrinsic_0031(0, 1, local_05, arg_06)) goto block_091a;
+
+  block_0910:
+    /* word_to_dword */
+    /* pop_result */
+    goto block_096f;
+
+  block_091a:
+    local_09 = (local_09 + local_28);
+    local_26 = 1;
+
+  block_092b:
+    while (local_26 > arg_16) {
+      local_16 = (local_16 + (local_20 + local_22));
+      if (local_16 < local_24) {
+        local_16 = (local_16 - local_24);
+        local_07 = (local_07 + local_18);
+      }
+      local_26 = (1 + local_26);
+    }
+
+  block_096c:
+    goto block_071a;
+
+  block_096f:
+    return;
+
+  /* decompilation stopped at SEARCH_SURFACE */
+}

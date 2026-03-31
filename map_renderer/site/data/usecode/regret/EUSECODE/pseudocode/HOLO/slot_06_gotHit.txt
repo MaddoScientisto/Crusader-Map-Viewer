@@ -1,0 +1,34 @@
+function holo_gotHit() /* entry=1455 class_id=0x05ad slot=0x06 */
+{
+  entry:
+    set_info(0x020c, *(arg_06));
+    process_exclude();
+    if (Item.getFrame(arg_06) > 1) goto block_00f1;
+
+  block_00ee:
+    goto block_0151;
+
+  block_00f1:
+    FREE.slot_35(arg_12, arg_10);
+    if retval goto block_0151;
+
+  block_0100:
+    spawn ITEM.slot_2a(pid, 0, 1, arg_06);
+    suspend;
+    /* loopscr */
+    /* loopscr */
+    /* loopscr */
+    /* loopscr */
+    /* loop */
+
+  block_0136:
+    if condition goto block_014f;
+
+  block_0139:
+    /* loopnext */
+    goto block_0136;
+
+  block_0151:
+    return;
+
+}

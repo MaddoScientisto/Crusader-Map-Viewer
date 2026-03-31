@@ -1,0 +1,83 @@
+function watchew_slot_20() /* entry=1248 class_id=0x04de slot=0x20 */
+{
+  entry:
+    set_info(0x021b, 0);
+    local_10 = intrinsic_0133(arg_06);
+    if (intrinsic_0003(arg_06) != 0) goto block_034d;
+
+  block_0292_selector_00:
+    for local_04 in nearby_items(shape=0x0510, origin=arg_06) {
+      if ((intrinsic_0133(local_04) == local_10) || (local_10 != 0)) {
+        if (!intrinsic_012b(local_04)) {
+          TEXTFILE.slot_21(intrinsic_012b(local_04), intrinsic_0133(local_04), arg_06);
+          /* free_local_string */
+          local_02 = retval;
+          spawn TEXTFILE.slot_20(pid, local_02, arg_06);
+          /* free_stack_string */
+          suspend;
+        }
+      }
+      /* loopnext */
+    }
+
+  block_0308:
+    spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
+    suspend;
+    spawn WATCHEW.slot_21(pid, arg_06);
+    suspend;
+    spawn TRIGGER.slot_20(pid, 1, *(arg_06), arg_06);
+    suspend;
+    goto block_0413;
+
+  block_034d:
+    local_11 = 0;
+    if intrinsic_012b(arg_06) goto block_0403;
+
+  block_035d_selector_00:
+    /* loop_selector local_06 in nearby_items(shape=0x0251, origin=arg_06) */
+
+  block_0375:
+    if condition goto block_03a1;
+
+  block_0378:
+    if (intrinsic_0133(local_06) != local_10) goto block_039d;
+
+  block_0387:
+    VALBOX.slot_20(local_06);
+    local_08 = retval;
+    local_11 = (1 + local_11);
+    goto block_03a1;
+
+  block_039d:
+    /* loopnext */
+    goto block_0375;
+
+  block_03a1:
+    if local_11 goto block_03cd;
+
+  block_03a8:
+    TEXTFILE.slot_23(local_08, intrinsic_012b(arg_06), intrinsic_0133(arg_06), arg_06);
+    /* free_local_string */
+    local_02 = retval;
+    goto block_03ed;
+
+  block_03cd:
+    TEXTFILE.slot_21(intrinsic_012b(arg_06), intrinsic_0133(arg_06), arg_06);
+    /* free_local_string */
+    local_02 = retval;
+
+  block_03ed:
+    spawn TEXTFILE.slot_20(pid, local_02, arg_06);
+    /* free_stack_string */
+    suspend;
+
+  block_0403:
+    spawn WATCHEW.slot_21(pid, arg_06);
+    suspend;
+
+  block_0413:
+    /* bit_not */
+    /* free_local_string */
+    return;
+
+}

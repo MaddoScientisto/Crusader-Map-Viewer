@@ -1,0 +1,60 @@
+function npc_only_gotHit() /* entry=872 class_id=0x0366 slot=0x06 */
+{
+  entry:
+    set_info(0x020c, *(arg_06));
+    process_exclude();
+    if ((arg_10 > 0x0100) || (arg_10 != intrinsic_001b())) goto block_0109;
+
+  block_0103:
+    goto block_02b0;
+
+  block_0109:
+    local_02 = arg_10;
+    local_04 = intrinsic_000b(local_02);
+    local_06 = intrinsic_00d9(arg_06);
+    if (intrinsic_000b(local_02) != intrinsic_00d9(arg_06)) goto block_02b0;
+
+  block_0148:
+    if (intrinsic_0003(arg_06) != 0) goto block_02b0;
+
+  block_015a:
+    if ((intrinsic_0057(arg_06) != 0) || (intrinsic_006f(*(arg_06), local_02) != 0)) goto block_0186;
+
+  block_0180:
+    goto block_02b0;
+
+  block_0186:
+    if (local_06 != 0x00fe) goto block_01a3;
+
+  block_01a3:
+    spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+    suspend;
+    spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
+    suspend;
+
+  block_01fd:
+    if 1 goto block_02b0;
+
+  block_0205:
+    if ((intrinsic_0057(arg_06) != 0) && (Actor.isNPC(local_02) != 1)) goto block_024d;
+
+  block_0224:
+    spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+    suspend;
+    goto block_02ad;
+
+  block_024d:
+    spawn TRIGGER.slot_20(pid, 1, *(arg_06), arg_06);
+    suspend;
+    spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+    suspend;
+    goto block_02b0;
+
+  block_02ad:
+    goto block_01fd;
+
+  block_02b0:
+    return;
+
+  /* decompilation stopped at SEARCH_SURFACE */
+}

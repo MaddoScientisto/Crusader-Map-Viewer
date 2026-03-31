@@ -1,0 +1,36 @@
+function med_back_gotHit() /* entry=349 class_id=0x015b slot=0x06 */
+{
+  entry:
+    set_info(0x020c, *(arg_06));
+    process_exclude();
+    FREE.slot_34(arg_12, arg_10);
+    if (retval && (Item.getFrame(arg_06) < 2)) goto block_0173;
+
+  block_00fb:
+    spawn ITEM.slot_29(pid, 100, arg_12, arg_10, arg_06);
+    suspend;
+    /* dword_to_word */
+    if (!process_result) goto block_011c;
+
+  block_0119:
+    goto block_0173;
+
+  block_011c:
+    FREE.slot_3c(0x0254, global[0x001e]);
+    /* loopscr */
+    /* loopscr */
+    /* loop */
+
+  block_014a:
+    if condition goto block_0171;
+
+  block_014d:
+    spawn ITEM.slot_2a(pid, 0, 0, local_02);
+    suspend;
+    /* loopnext */
+    goto block_014a;
+
+  block_0173:
+    return;
+
+}

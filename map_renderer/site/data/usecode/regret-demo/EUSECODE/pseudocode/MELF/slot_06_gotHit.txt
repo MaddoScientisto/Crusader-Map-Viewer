@@ -1,0 +1,53 @@
+function melf_gotHit() /* entry=957 class_id=0x03bb slot=0x06 */
+{
+  entry:
+    set_info(0x020c, *(arg_06));
+    process_exclude();
+    if (Item.getFrame(arg_06) > 0) goto block_00f1;
+
+  block_00ee:
+    goto block_019b;
+
+  block_00f1:
+    FREE.slot_35(arg_12, arg_10);
+    if (!retval) goto block_0104;
+
+  block_0101:
+    goto block_019b;
+
+  block_0104:
+    spawn ITEM.slot_29(pid, 0x0096, arg_12, arg_10, arg_06);
+    suspend;
+    /* dword_to_word */
+    if (!process_result) goto block_014a;
+
+  block_0123:
+    FREE.slot_20(1);
+    if retval goto block_013d;
+
+  block_0130:
+    goto block_0147;
+
+  block_0147:
+    goto block_019b;
+
+  block_014a:
+    spawn ITEM.slot_2a(pid, 0, 1, arg_06);
+    suspend;
+    /* loopscr */
+    /* loopscr */
+    /* loopscr */
+    /* loopscr */
+    /* loop */
+
+  block_0180:
+    if condition goto block_0199;
+
+  block_0183:
+    /* loopnext */
+    goto block_0180;
+
+  block_019b:
+    return;
+
+}

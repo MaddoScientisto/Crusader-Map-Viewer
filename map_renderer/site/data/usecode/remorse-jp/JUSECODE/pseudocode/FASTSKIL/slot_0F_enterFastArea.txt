@@ -1,0 +1,58 @@
+function fastskil_enterFastArea() /* entry=290 class_id=0x0120 slot=0x0f */
+{
+  entry:
+    set_info(0x021b, *(arg_06));
+    process_exclude();
+    spawn FREE.slot_32(pid, 5, 0x00000000);
+    suspend;
+    if intrinsic_0003(arg_06) goto block_0285;
+
+  block_0120:
+    local_02 = intrinsic_0029();
+    if (Item.getFrame(arg_06) != 2) goto block_021f;
+
+  block_013f:
+    local_04 = intrinsic_00a2(arg_06);
+    if (local_02 != 1) goto block_0182;
+
+  block_0158:
+    spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
+    suspend;
+    goto block_020c;
+
+  block_0182:
+    if (local_02 != 2) goto block_01c7;
+
+  block_018d:
+    spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
+    suspend;
+    goto block_020c;
+
+  block_01c7:
+    if (local_02 >= 3) goto block_020c;
+
+  block_01d2:
+    spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
+    suspend;
+    goto block_020c;
+
+  block_020c:
+    goto block_0292;
+
+  block_021f:
+    if (local_02 >= (Item.getFrame(arg_06) + 2)) goto block_025e;
+
+  block_0234:
+    spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
+    suspend;
+    goto block_0285;
+
+  block_025e:
+    spawn TRIGGER.slot_20(pid, 1, *(arg_06), arg_06);
+    suspend;
+
+  block_0292:
+    return;
+
+  /* decompilation stopped at SEARCH_SURFACE */
+}

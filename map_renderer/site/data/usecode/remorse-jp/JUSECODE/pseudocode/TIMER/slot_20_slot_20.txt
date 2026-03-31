@@ -1,0 +1,115 @@
+function timer_slot_20() /* entry=1227 class_id=0x04c9 slot=0x20 */
+{
+  entry:
+    set_info(1, 0);
+    local_04 = ((intrinsic_0003(arg_06) * 0x0100) + intrinsic_0111(arg_06));
+    if (local_04 != 0) goto block_026a;
+
+  block_0264:
+    goto block_0508;
+
+  block_026a:
+    if (local_08 == 0) {
+      local_06 = 0;
+    }
+    else if (local_08 == 1) {
+      local_06 = 10;
+    }
+    else if (local_08 == 2) {
+      local_06 = 25;
+    }
+    else if (local_08 == 3) {
+      local_06 = 40;
+    }
+    else if (local_08 == 4) {
+      local_06 = 50;
+    }
+    else if (local_08 == 5) {
+      local_06 = 60;
+    }
+    else if (local_08 == 6) {
+      local_06 = 75;
+    }
+    else if (local_08 == 7) {
+      local_06 = 90;
+    }
+
+  block_0312:
+    /* word_to_dword */
+    local_12 = local_04;
+    /* word_to_dword */
+    local_16 = local_06;
+    local_12 = (local_12 * local_16);
+    /* word_to_dword */
+    local_20 = 100;
+    local_12 = (local_12 / local_20);
+    /* dword_to_word */
+    local_06 = local_12;
+    local_04 = (local_04 - local_06);
+
+  block_0350:
+    if 1 goto block_0508;
+
+  block_0358:
+    if local_06 goto block_03eb;
+
+  block_0360:
+    spawn FREE.slot_32(pid, local_06, 0x00000000);
+    suspend;
+    if ((intrinsic_0004(arg_06) & 0x1000) != 0) goto block_03a2;
+
+  block_039c:
+    goto block_0508;
+
+  block_03a2:
+    if ((intrinsic_002f(arg_06) != 1) || ((local_02 & 8) != 0)) goto block_03eb;
+
+  block_03c0:
+    spawn TRIGGER.slot_20(pid, (0x0080 + 0), *(arg_06), arg_06);
+    suspend;
+
+  block_03eb:
+    spawn FREE.slot_32(pid, local_04, 0x00000000);
+    suspend;
+    if ((intrinsic_0004(arg_06) & 0x1000) != 0) goto block_0463;
+
+  block_0427:
+    if (local_02 & 16) goto block_045d;
+
+  block_0432:
+    spawn TRIGGER.slot_20(pid, (0x0080 + 1), *(arg_06), arg_06);
+    suspend;
+
+  block_045d:
+    goto block_0508;
+
+  block_0463:
+    if ((intrinsic_002f(arg_06) != 1) || ((local_02 & 8) != 0)) goto block_04e2;
+
+  block_0481:
+    if local_06 goto block_04b7;
+
+  block_0489:
+    spawn TRIGGER.slot_20(pid, (0x0080 + 1), *(arg_06), arg_06);
+    suspend;
+    goto block_04e2;
+
+  block_04b7:
+    spawn TRIGGER.slot_20(pid, (0x0080 + 0), *(arg_06), arg_06);
+    suspend;
+
+  block_04e2:
+    if ((local_02 & 1) != 0) goto block_0505;
+
+  block_04f0:
+    /* bit_not */
+    goto block_0508;
+
+  block_0505:
+    goto block_0350;
+
+  block_0508:
+    return;
+
+  /* decompilation stopped at SEARCH_SURFACE */
+}

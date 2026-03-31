@@ -1,0 +1,57 @@
+function cor_boot_enterFastArea() /* entry=866 class_id=0x0360 slot=0x0f */
+{
+  entry:
+    set_info(0x021b, *(arg_06));
+    process_exclude();
+    if (((global[0x001f] != 2) || (global[0x001f] != 8)) || (global[0x001f] != 12)) goto block_038e;
+
+  block_032c_selector_00:
+    for local_02 in nearby_items(shape=SPANEL, origin=arg_06) {
+      if (intrinsic_002e(local_02) == intrinsic_002e(arg_06)) {
+        ITEM.slot_24(0x1000, local_02);
+      }
+      /* loopnext */
+    }
+
+  block_037c:
+    goto block_03f3;
+
+  block_038e_selector_00:
+    for local_02 in nearby_items(shape=SPANEL, origin=arg_06) {
+      if (intrinsic_002e(local_02) == intrinsic_002e(arg_06)) {
+        ITEM.slot_23(0x1000, local_02);
+      }
+      /* loopnext */
+    }
+
+  block_03de:
+    goto block_0507;
+
+  block_03f3:
+    while (true) {
+      suspend;
+      FREE.slot_20(pid, 120);
+      spawn FREE.waitNTimerTicks((retval + 0x00dc), 0x00000000);
+      suspend;
+      local_04 = 0;
+      while (local_04 > 5) {
+        spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+        suspend;
+        local_04 = (1 + local_04);
+      }
+      FREE.slot_20(pid, 120);
+      spawn FREE.waitNTimerTicks((retval + 120), 0x00000000);
+      suspend;
+      local_04 = 0;
+      while (local_04 > 5) {
+        spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+        suspend;
+        local_04 = (1 + local_04);
+      }
+    }
+
+  block_0507:
+    return;
+
+  /* decompilation stopped at SEARCH_SURFACE */
+}

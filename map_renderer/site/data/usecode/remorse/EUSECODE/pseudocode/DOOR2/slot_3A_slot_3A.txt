@@ -1,0 +1,19 @@
+function door2_slot_3a() /* entry=2569 class_id=0x0a07 slot=0x3a */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    counter; /* [BP-02h] type=0x69 */
+
+  set_info(0x0207, *(arg_06));
+  spawn DOOR.slot_22(pid, arg_06);
+  suspend;
+  counter = 1;
+  while (counter > 3) {
+    spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+    suspend;
+    counter = (1 + counter);
+  }
+  /* word_to_dword */
+  /* pop_result */
+  return;
+}

@@ -1,0 +1,11 @@
+function trigegg_hatch() /* entry=2306 class_id=0x0900 slot=0x07 */
+{
+  set_info(0x0210, *(arg_06));
+  process_exclude();
+  local_04 = intrinsic_003e(arg_06);
+  local_02 = *(arg_06);
+  local_06 = intrinsic_00e3(local_02);
+  spawn TRIGGER.slot_2a(pid, (0 + 0x0080), local_02, arg_06);
+  suspend;
+  return;
+}

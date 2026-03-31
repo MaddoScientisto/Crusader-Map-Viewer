@@ -1,0 +1,25 @@
+function conv_el_gotHit() /* entry=661 class_id=0x0293 slot=0x06 */
+{
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  local_01 = 0;
+  local_02 = -3;
+  if (!intrinsic_0048(arg_06)) {
+    local_02 = 3;
+  }
+  FREE.slot_35(arg_12, arg_10);
+  if (!retval) {
+    return;
+  }
+  local_04 = arg_10;
+  local_05 = intrinsic_0049(*(arg_06), local_04);
+  local_06 = 1;
+  if (intrinsic_004a(arg_06) == 0x00ff) {
+    local_06 = 0;
+  }
+  if (!(local_05 && local_06)) {
+    spawn CONVEYOR.slot_20(pid, local_02, local_01, arg_06);
+    suspend;
+  }
+  return;
+}

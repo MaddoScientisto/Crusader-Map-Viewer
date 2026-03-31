@@ -1,0 +1,57 @@
+function keypad_slot_20() /* entry=2575 class_id=0x0a0d slot=0x20 */
+{
+  entry:
+    set_info(0x0207, *(arg_06));
+    local_06 = 0;
+    local_08 = 0;
+
+  entry_selector_00:
+    for local_02 in nearby_items(shape=0x0251, origin=arg_06) {
+      if (intrinsic_001f(local_02) == intrinsic_001f(arg_06)) {
+        VALBOX.slot_20(local_02);
+        local_10 = retval;
+        if (local_10 <= 0x03e7) {
+          return;
+        }
+      }
+      /* loopnext */
+    }
+
+  block_0139:
+    if ((intrinsic_0004(arg_06) & 0x1000) != 0) goto block_021c;
+
+  block_014e:
+    local_12 = intrinsic_00be(local_10);
+    if (local_12 != -1) goto block_017b;
+
+  block_016c:
+    /* bit_not */
+    goto block_021c;
+
+  block_017b:
+    if (local_12 != local_10) goto block_01ca;
+
+  block_0183:
+    spawn FREE.slot_3b(pid, 60, 0x00000000);
+    suspend;
+    spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
+    suspend;
+    goto block_0210;
+
+  block_01ca:
+    spawn TRIGGER.slot_20(pid, 1, *(arg_06), arg_06);
+    suspend;
+    spawn FREE.slot_3b(pid, 60, 0x00000000);
+    suspend;
+    if (!intrinsic_0000()) goto block_0210;
+
+  block_0202:
+    spawn FREE.slot_44(0x00000000);
+
+  block_0210:
+    /* bit_not */
+
+  block_021c:
+    return;
+
+}

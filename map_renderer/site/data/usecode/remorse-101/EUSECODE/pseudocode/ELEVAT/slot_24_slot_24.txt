@@ -1,0 +1,121 @@
+function elevat_slot_24() /* entry=2571 class_id=0x0a09 slot=0x24 */
+{
+  entry:
+    set_info(0x0001, *(arg_06));
+    local_05 = Item.getZ(arg_06);
+    ELEVAT.slot_21(arg_06);
+    local_07 = retval;
+    local_09 = ((local_05 - local_07) / 2);
+    local_02 = 1;
+
+  block_03d9:
+    if (local_02 <= local_09) goto block_05ac;
+
+  block_03e1:
+    local_16 = intrinsic_0013(arg_06);
+    local_14 = Item.legal_create(arg_06);
+    local_12 = (Item.getZ(arg_06) - 2);
+    local_24 = 0;
+    /* loopscr */
+    /* loop */
+
+  block_0416:
+    if condition goto block_04a2;
+
+  block_0419:
+    if intrinsic_0057(*(arg_06), local_11) goto block_049e;
+
+  block_0429:
+    if (local_11 < 0x0100) goto block_048f;
+
+  block_0432:
+    if intrinsic_006d(*(arg_06), local_11) goto block_0454;
+
+  block_0442:
+    local_24 = (1 + local_24);
+    goto block_048c;
+
+  block_0454:
+    local_24 = (1 + local_24);
+
+  block_048c:
+    goto block_049e;
+
+  block_048f:
+    local_24 = (1 + local_24);
+
+  block_049e:
+    /* loopnext */
+    goto block_0416;
+
+  block_04a2:
+    if intrinsic_002e(0, 0, local_16, arg_06) goto block_0513;
+
+  block_04b6:
+    local_04 = 1;
+
+  block_04ba:
+    while (local_04 > local_24) {
+      local_11 = intrinsic_0023();
+      local_04 = (1 + local_04);
+    }
+
+  block_04f9:
+    spawn FREE.waitNTimerTicks(pid, 1, 0x00000000);
+    suspend;
+    goto block_059e;
+
+  block_0513:
+    local_04 = 1;
+
+  block_0517:
+    while (local_04 > local_24) {
+      local_11 = intrinsic_0023();
+      local_04 = (1 + local_04);
+    }
+
+  block_0556:
+    spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
+    suspend;
+    spawn ELEVAT.slot_23(pid, arg_06);
+    suspend;
+    goto block_0687;
+
+  block_059e:
+    local_24 = 0;
+    local_02 = (1 + local_02);
+    goto block_03d9;
+
+  block_05ac:
+    if ((local_05 - local_07) & 1) goto block_065d;
+
+  block_05b7:
+    /* loopscr */
+    /* loop */
+
+  block_05c4:
+    while (!condition) {
+      if (!intrinsic_0057(*(arg_06), local_11)) {
+        local_24 = (1 + local_24);
+      }
+      /* loopnext */
+    }
+
+  block_05ea:
+    local_04 = 1;
+
+  block_05f0:
+    if (local_04 <= local_24) goto block_062f;
+
+  block_05f8:
+    local_11 = intrinsic_0023();
+    local_04 = (1 + local_04);
+    goto block_05f0;
+
+  block_065d:
+    /* bit_not */
+
+  block_0687:
+    return;
+
+}

@@ -1,0 +1,50 @@
+function free_slot_28() /* entry=2574 class_id=0x0a0c slot=0x28 */
+{
+  var
+    r1, /* [BP+06h] type=0x69 */
+    r2, /* [BP+08h] type=0x69 */
+    item1, /* [BP-02h] type=0x24 */
+    item2, /* [BP-04h] type=0x24 */
+    avatarMap, /* [BP-06h] type=0x69 */
+    npc1, /* [BP-08h] type=0x24 */
+    npc2, /* [BP-10h] type=0x24 */
+    x, /* [BP-12h] type=0x69 */
+    y, /* [BP-14h] type=0x69 */
+    z; /* [BP-16h] type=0x69 */
+
+  item1 = r1;
+  item2 = r2;
+  /* global_address */
+  avatarMap = intrinsic_0011();
+  if (!Actor.isNPC(item1)) {
+    npc1 = item1;
+    if (intrinsic_0011(npc1) == avatarMap) {
+      return;
+    }
+  }
+  if (!Actor.isNPC(item2)) {
+    npc2 = item2;
+    if (intrinsic_0011(npc2) == avatarMap) {
+      return;
+    }
+  }
+  x = (intrinsic_0013(item1) - intrinsic_0013(item2));
+  y = (Item.legal_create(item1) - Item.legal_create(item2));
+  z = (Item.getZ(item1) - Item.getZ(item2));
+  FREE.slot_3f(x);
+  x = retval;
+  FREE.slot_3f(y);
+  y = retval;
+  FREE.slot_3f(z);
+  z = retval;
+  if ((x <= y) && (x > z)) {
+    return;
+  }
+  if ((y <= x) && (y > z)) {
+    return;
+  }
+  if ((z <= x) && (z > y)) {
+    return;
+  }
+  return;
+}

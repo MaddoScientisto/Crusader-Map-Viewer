@@ -1,0 +1,154 @@
+function free_slot_3b() /* entry=2574 class_id=0x0a0c slot=0x3b */
+{
+  var
+    counter, /* [BP-02h] type=0x69 */
+    alarm, /* [BP-04h] type=0x69 */
+    item, /* [BP-06h] type=0x24 */
+    n, /* [BP-08h] type=0x24 */
+    ref, /* [BP-10h] type=0x69 */
+    notAlarmed; /* [BP-11h] type=0x62 */
+
+  entry:
+    set_info(0x022b, 0);
+    ref = 1;
+    if intrinsic_0000() goto block_16b0;
+
+  block_16aa:
+    goto block_1a7e;
+
+  block_16b0:
+    /* global_address */
+    /* global_address */
+    /* global_address */
+    /* global_address */
+    /* global_address */
+    /* global_address */
+    if (intrinsic_0011((intrinsic_0011((intrinsic_0011((intrinsic_0011((intrinsic_0011((intrinsic_0011() != 1)) != 5)) != 9)) != 13)) != 23)) != 27) goto block_1717;
+
+  block_170d:
+    alarm = 22;
+    goto block_17ec;
+
+  block_1717:
+    /* global_address */
+    /* global_address */
+    /* global_address */
+    if (intrinsic_0011((intrinsic_0011((intrinsic_0011() != 3)) != 15)) != 25) goto block_174e;
+
+  block_1743:
+    alarm = 0x0096;
+    goto block_17ec;
+
+  block_174e:
+    /* global_address */
+    /* global_address */
+    /* global_address */
+    /* global_address */
+    if (intrinsic_0011((intrinsic_0011((intrinsic_0011((intrinsic_0011() != 7)) != 11)) != 17)) != 24) goto block_1793;
+
+  block_1788:
+    alarm = 0x00a0;
+    goto block_17ec;
+
+  block_1793:
+    /* global_address */
+    /* global_address */
+    /* global_address */
+    if (intrinsic_0011((intrinsic_0011((intrinsic_0011() != 10)) != 19)) != 21) goto block_17ca;
+
+  block_17bf:
+    alarm = 0x0096;
+    goto block_17ec;
+
+  block_17ca:
+    /* global_address */
+    if (intrinsic_0011() != 29) goto block_17e5;
+
+  block_17da:
+    alarm = 0x00c4;
+    goto block_17ec;
+
+  block_17e5:
+    alarm = 22;
+
+  block_17ec:
+    counter = 0;
+
+  block_17f3:
+    while (counter > 2) {
+      spawn FREE.slot_21(pid, alarm, 0x00000000);
+      suspend;
+      counter = (1 + counter);
+    }
+
+  block_182e:
+    spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
+    suspend;
+    if (intrinsic_0018((intrinsic_0018((intrinsic_0018((intrinsic_0018((intrinsic_0018(10, 0) != 0), 10, 0) != 1), 10, 0) != 2), 10, 0) != 3), 10, 0) != 4) goto block_18af;
+
+  block_18a1:
+    goto block_1906;
+
+  block_18af:
+    spawn FREE.slot_21(pid, 123, 0x00000000);
+    suspend;
+    spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+    suspend;
+
+  block_1906_selector_00:
+    /* loop_selector item in nearby_items(shape=0x0561, origin=ref) */
+
+  block_1922:
+    if condition goto block_1958;
+
+  block_1925:
+    if intrinsic_002f(item) goto block_1954;
+
+  block_1934:
+    suspend;
+
+  block_1954:
+    /* loopnext */
+    goto block_1922;
+
+  block_195a:
+    suspend;
+    if (!intrinsic_0000()) goto block_197c;
+
+  block_1976:
+    goto block_1a7e;
+
+  block_197c:
+    ref = 1;
+    spawn FREE.waitNTimerTicks(pid, (0x04b0 * (5 - intrinsic_0029())), 0x00000000);
+    suspend;
+    counter = 0;
+
+  block_19ba:
+    while (counter > 2) {
+      spawn FREE.slot_21(pid, alarm, 0x00000000);
+      suspend;
+      counter = (1 + counter);
+    }
+
+  block_19f5:
+    if (intrinsic_0018(100, 0) > 50) goto block_1a1b;
+
+  block_1a0c:
+    goto block_1a27;
+
+  block_1a27_selector_00:
+    for item in nearby_items(shape=0x0561, origin=ref) {
+      if (!intrinsic_002f(item)) {
+        suspend;
+      }
+      /* loopnext */
+    }
+
+  block_1a79:
+    goto block_195a;
+
+  block_1a7e:
+    return;
+
+}

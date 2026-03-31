@@ -1,0 +1,60 @@
+function steambox_slot_20() /* entry=1282 class_id=0x0500 slot=0x20 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    steam, /* [BP+10h] type=0x24 */
+    direction, /* [BP+12h] type=0x69 */
+    count, /* [BP-02h] type=0x69 */
+    steam2; /* [BP-04h] type=0x24 */
+
+  entry:
+    set_info(0x00f0, *(arg_06));
+    if intrinsic_00a7() goto block_03f6;
+
+  block_036a:
+    while ((Item.getFrame(steam) == 39) && (Item.isOnScreen(steam) != 1)) {
+      spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+      suspend;
+      if (Item.getFrame(steam) == 12) {
+        ITEM.slot_23(4, steam);
+        spawn STEAM.slot_20(steam);
+      }
+    }
+
+  block_03f3:
+    goto block_041c;
+
+  block_03f6:
+    spawn FREE.waitNTimerTicks(pid, 120, 0x00000000);
+    suspend;
+
+  block_041c:
+    if (direction != 0) goto block_0455;
+
+  block_0424:
+    if intrinsic_00a7() goto block_0442;
+
+  block_042f:
+    goto block_0452;
+
+  block_0452:
+    goto block_048e;
+
+  block_0455:
+    if (direction != 1) goto block_048e;
+
+  block_045d:
+    if intrinsic_00a7() goto block_047b;
+
+  block_0468:
+    goto block_048b;
+
+  block_048b:
+    goto block_048e;
+
+  block_048e:
+    ITEM.slot_23(4, steam2);
+    spawn STEAM.slot_20(steam2);
+    return;
+
+}

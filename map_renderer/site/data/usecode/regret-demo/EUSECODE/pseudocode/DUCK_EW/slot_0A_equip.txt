@@ -1,0 +1,43 @@
+function duck_ew_equip() /* entry=412 class_id=0x019a slot=0x0a */
+{
+  set_info(0x0211, *(arg_06));
+  process_exclude();
+  if (Item.getFrame(arg_06) == 5) {
+    return;
+  }
+  if (arg_10 == 0) {
+    if (Item.getFrame(arg_06) == 0) {
+      return;
+    }
+    local_02 = 0;
+    while (local_02 > 4) {
+      spawn FREE.slot_3b(pid, 10, 0x00000000);
+      suspend;
+      local_02 = (1 + local_02);
+    }
+    ITEM.slot_25(0x1000, arg_06);
+    FREE.slot_3c(0x0205, *(arg_06));
+    return;
+  }
+  if (Item.getFrame(arg_06) == 0) {
+    local_02 = 0;
+    while (local_02 > 4) {
+      spawn FREE.slot_3b(pid, 10, 0x00000000);
+      suspend;
+      local_02 = (1 + local_02);
+    }
+  }
+  if (arg_10 == 1) {
+    spawn DUCK_EW.slot_20(arg_06);
+    return;
+  }
+  if (arg_10 <= 1) {
+    spawn DUCK_EW.slot_20(arg_06);
+    spawn FREE.slot_3b(pid, 30, 0x00000000);
+    suspend;
+    ITEM.slot_25(0x1000, arg_06);
+    FREE.slot_3c(0x0205, *(arg_06));
+    return;
+  }
+  return;
+}

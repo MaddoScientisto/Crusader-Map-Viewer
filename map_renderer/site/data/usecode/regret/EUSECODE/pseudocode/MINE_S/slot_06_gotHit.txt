@@ -1,0 +1,35 @@
+function mine_s_gotHit() /* entry=1343 class_id=0x053d slot=0x06 */
+{
+  entry:
+    set_info(0x020c, *(arg_06));
+    process_exclude();
+    FREE.slot_35(arg_12, arg_10);
+    local_02 = retval;
+    if local_02 goto block_0162;
+
+  block_00f2:
+    if (local_02 != 4) goto block_0100;
+
+  block_00fa:
+    goto block_01f7;
+
+  block_00fd:
+    goto block_015f;
+
+  block_015f:
+    goto block_01f7;
+
+  block_0162:
+    local_04 = arg_10;
+    if intrinsic_00cb(*(arg_06), local_04) goto block_01f7;
+
+  block_0176:
+    if (((arg_10 < 0x00ff) && (arg_10 != intrinsic_0016())) && (Item.isOnScreen(arg_06) != 0)) goto block_0198;
+
+  block_0195:
+    goto block_01f7;
+
+  block_01f7:
+    return;
+
+}

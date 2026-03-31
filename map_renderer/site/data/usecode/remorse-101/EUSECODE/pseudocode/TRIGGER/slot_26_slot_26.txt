@@ -1,0 +1,153 @@
+function trigger_slot_26() /* entry=2586 class_id=0x0a18 slot=0x26 */
+{
+  entry:
+    set_info(0x021b, 0);
+    local_18 = arg_18;
+    local_16 = arg_10;
+    local_04 = (arg_16 & 3);
+    if (local_04 != 0) goto block_1802;
+
+  block_17cd_selector_00:
+    for local_14 in nearby_items(shape=arg_20, origin=local_16) {
+      /* loopnext */
+    }
+
+  block_17fd:
+    goto block_1b88;
+
+  block_1802:
+    if (local_04 != 1) goto block_183f;
+
+  block_180a_selector_00:
+    for local_14 in nearby_items(shape=arg_20, origin=local_16) {
+      /* loopnext */
+    }
+
+  block_183a:
+    goto block_1b88;
+
+  block_183f:
+    if (local_04 != 2) goto block_187e;
+
+  block_1847_selector_00:
+    for local_14 in nearby_items(shape=arg_20, origin=local_16) {
+      /* loopnext */
+    }
+
+  block_1879:
+    goto block_1b88;
+
+  block_187e:
+    if (local_04 != 3) goto block_1b88;
+
+  block_1886:
+    local_02 = (arg_12 & 7);
+    if (local_02 != 0) goto block_18fa;
+
+  block_1895:
+    local_12 = (arg_12 / 8);
+
+  block_1895_selector_00:
+    for local_14 in nearby_items(shape=0x0476, origin=local_16) {
+      local_06 = intrinsic_0105(local_14);
+      local_10 = (local_06 & 15);
+      local_08 = intrinsic_0003(local_14);
+      local_08 = (((local_06 & 0x00e0) * 8) + local_08);
+      FREE.slot_30(local_12, local_10, local_08, local_14);
+      /* loopnext */
+    }
+
+  block_18f5:
+    goto block_1b85;
+
+  block_18fa:
+    if (local_02 != 1) goto block_19f6;
+
+  block_1902:
+    local_12 = (arg_12 / 8);
+
+  block_1902_selector_00:
+    /* loop_selector local_14 in nearby_items(shape=arg_20, origin=local_16) */
+
+  block_1920:
+    if condition goto block_19f1;
+
+  block_1923:
+    if (arg_10 != local_14) goto block_19ed;
+
+  block_192b:
+    if (local_12 != 31) goto block_1959;
+
+  block_193d:
+    suspend;
+    goto block_19ed;
+
+  block_1959:
+    local_10 = Item.getFrame(local_14);
+    local_08 = intrinsic_0016(local_14);
+    local_06 = (local_08 & 0x00ff);
+    local_08 = (local_08 & 0x0700);
+    local_08 = (local_08 / 8);
+    local_08 = (local_08 + local_10);
+    suspend;
+    /* bit_not */
+
+  block_19ed:
+    /* loopnext */
+    goto block_1920;
+
+  block_19f1:
+    goto block_1b85;
+
+  block_19f6:
+    if (local_02 == 2) {
+      local_06 = (arg_12 / 8);
+      for local_14 in nearby_items(shape=arg_20, origin=local_16) {
+        /* loopnext */
+      }
+    }
+    else if (local_02 == 3) {
+      for local_14 in nearby_items(shape=arg_20, origin=local_16) {
+        if (arg_10 == local_14) {
+          local_06 = (arg_12 / 8);
+          spawn TRIGGER.slot_23(local_06, local_14, arg_06);
+        }
+        /* loopnext */
+      }
+    }
+    else if (local_02 == 4) {
+      local_06 = (arg_12 / 8);
+      local_18 = (local_18 + local_06);
+    }
+    else if (local_02 == 5) {
+      local_06 = (arg_12 / 8);
+      local_18 = (local_18 - local_06);
+    }
+    else if (local_02 == 6) {
+      local_12 = (arg_12 / 8);
+      for local_14 in nearby_items(shape=0x0476, origin=local_16) {
+        local_06 = intrinsic_0107(local_14);
+        local_10 = (local_06 & 15);
+        local_08 = intrinsic_0003(local_14);
+        local_08 = (((local_06 & 0x00e0) * 8) + local_08);
+        if (local_08 == 0) {
+          if (intrinsic_0019(local_10, local_08, local_20) == 1) {
+            suspend;
+          }
+        }
+        /* loopnext */
+      }
+    }
+
+  block_1b85:
+    goto block_1b88;
+
+  block_1b88:
+    /* word_to_dword */
+    /* pop_result */
+    goto block_1b8f;
+
+  block_1b8f:
+    return;
+
+}

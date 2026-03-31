@@ -1,0 +1,23 @@
+function surcamew_use() /* entry=1248 class_id=0x04de slot=0x01 */
+{
+  set_info(0x0207, *(arg_06));
+  process_exclude();
+  if (!(intrinsic_0004(arg_06) & 0x1000)) {
+    return;
+  }
+  /* global_address */
+  if (intrinsic_0011((intrinsic_00ea(arg_06) == 4)) != 25) {
+    if (global[0x002c] == 0) {
+      /* pop_global */
+      /* str_to_ptr */
+      /* free_stack_string */
+      suspend;
+      spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
+      suspend;
+    }
+    /* bit_not */
+    return;
+  }
+  spawn SURCAMEW.slot_20(arg_06);
+  return;
+}

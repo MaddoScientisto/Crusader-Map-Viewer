@@ -1,0 +1,53 @@
+function door_slot_22() /* entry=2568 class_id=0x0a06 slot=0x22 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    roof, /* [BP-02h] type=0x24 */
+    count, /* [BP-04h] type=0x69 */
+    doorParam, /* [BP-06h] type=0x69 */
+    doorQuality, /* [BP-08h] type=0x69 */
+    roofQuality; /* [BP-10h] type=0x69 */
+
+  entry:
+    set_info(0x0001, *(arg_06));
+    count = 0;
+    /* loopscr */
+    /* loopscr */
+    /* loop */
+
+  block_1708:
+    if condition goto block_171f;
+
+  block_170b:
+    count = (1 + count);
+    goto block_171f;
+
+  block_171b:
+    /* loopnext */
+    goto block_1708;
+
+  block_171f:
+    doorQuality = intrinsic_0066(arg_06);
+    doorParam = intrinsic_004f(arg_06);
+    if count goto block_17ad;
+
+  block_1745:
+    /* loopscr */
+    /* loopscr */
+    /* loop */
+
+  block_1777:
+    if condition goto block_17ab;
+
+  block_177a:
+    roofQuality = intrinsic_0066(roof);
+    if ((roofQuality != doorQuality) || (roofQuality != doorParam)) goto block_17a7;
+
+  block_17a7:
+    /* loopnext */
+    goto block_1777;
+
+  block_17ad:
+    return;
+
+}

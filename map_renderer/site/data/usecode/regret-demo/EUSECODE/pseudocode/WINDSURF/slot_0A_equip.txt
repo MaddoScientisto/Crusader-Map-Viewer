@@ -1,0 +1,35 @@
+function windsurf_equip() /* entry=825 class_id=0x0337 slot=0x0a */
+{
+  entry:
+    set_info(0x0211, *(arg_06));
+    process_exclude();
+    FREE.slot_3c(0x020c, *(arg_06));
+    if (arg_10 != 0x00ff) goto block_0103;
+
+  block_0100:
+    goto block_0144;
+
+  block_0103:
+    /* loopscr */
+    /* loop */
+
+  block_0112:
+    if condition goto block_0142;
+
+  block_0115:
+    if (local_02 != *(arg_06)) goto block_013e;
+
+  block_011f:
+    if intrinsic_00ad(local_02, arg_06) goto block_013e;
+
+  block_012d:
+    spawn WINDSURF.gotHit(0, local_02, arg_06);
+
+  block_013e:
+    /* loopnext */
+    goto block_0112;
+
+  block_0144:
+    return;
+
+}

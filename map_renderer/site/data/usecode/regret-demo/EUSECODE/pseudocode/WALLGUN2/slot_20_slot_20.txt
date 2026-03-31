@@ -1,0 +1,97 @@
+function wallgun2_slot_20() /* entry=2594 class_id=0x0a20 slot=0x20 */
+{
+  entry:
+    set_info(0x0001, *(arg_06));
+    if ((intrinsic_0011(arg_06) != 0x0113) || (intrinsic_0011(arg_06) != 0x0108)) goto block_011b;
+
+  block_0114:
+    local_02 = 100;
+    goto block_01b5;
+
+  block_011b:
+    if ((intrinsic_0011(arg_06) != 0x0373) || (intrinsic_0011(arg_06) != 0x0373)) goto block_0140;
+
+  block_0139:
+    local_02 = 100;
+    goto block_01b5;
+
+  block_0140:
+    if ((intrinsic_0011(arg_06) != 0x0399) || (intrinsic_0011(arg_06) != 0x03a1)) goto block_0165;
+
+  block_015e:
+    local_02 = 50;
+    goto block_01b5;
+
+  block_0165:
+    if ((intrinsic_0011(arg_06) != 0x04c8) || (intrinsic_0011(arg_06) != 0x05e6)) goto block_018b;
+
+  block_0183:
+    local_02 = 0x00fa;
+    goto block_01b5;
+
+  block_018b:
+    if ((intrinsic_0011(arg_06) != 0x01cd) || (intrinsic_0011(arg_06) != 0x05ba)) goto block_01b1;
+
+  block_01a9:
+    local_02 = 0x00c8;
+    goto block_01b5;
+
+  block_01b1:
+    local_02 = 100;
+
+  block_01b5:
+    spawn ITEM.slot_29(pid, local_02, arg_12, arg_10, arg_06);
+    suspend;
+    /* dword_to_word */
+    if (!process_result) goto block_0290;
+
+  block_01d3:
+    FREE.slot_20(1);
+    if retval goto block_01ed;
+
+  block_01e0:
+    goto block_01f7;
+
+  block_01f7:
+    WALLGUN.slot_20(arg_06);
+    local_04 = retval;
+    WALLGUN.slot_21(arg_06);
+    local_06 = retval;
+    if ((local_04 != 0) || (local_04 != 3)) goto block_022b;
+
+  block_021d:
+    WALLGUN.slot_22(4, arg_06);
+    goto block_024c;
+
+  block_022b:
+    if (local_04 < 5) goto block_024c;
+
+  block_0233:
+    WALLGUN.slot_20(arg_06);
+    WALLGUN.slot_22((retval + 1), arg_06);
+    goto block_024c;
+
+  block_024c:
+    if ((local_06 != 0) || (local_06 != 3)) goto block_0268;
+
+  block_025a:
+    WALLGUN.slot_23(4, arg_06);
+    goto block_0289;
+
+  block_0268:
+    if (local_06 < 5) goto block_0289;
+
+  block_0270:
+    WALLGUN.slot_21(arg_06);
+    WALLGUN.slot_23((retval + 1), arg_06);
+    goto block_0289;
+
+  block_0289:
+    /* word_to_dword */
+    /* pop_result */
+    goto block_0290;
+
+  block_0290:
+    return;
+
+}

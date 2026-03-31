@@ -1,0 +1,41 @@
+function spider_slot_20() /* entry=2581 class_id=0x0a13 slot=0x20 */
+{
+  set_info(1, *(arg_06));
+  if (arg_10) {
+    ITEM.slot_24(4, arg_06);
+    return;
+  }
+  if (!(intrinsic_0004(arg_06) & 0x1000)) {
+    return;
+  }
+  ITEM.slot_24(0x1000, arg_06);
+  local_04 = intrinsic_0016();
+  while ((Item.getZ(local_04) > (Item.getZ(arg_06) + 16)) || (Item.getZ(local_04) >= (Item.getZ(arg_06) - 16))) {
+    spawn FREE.slot_3b(pid, 10, 0x00000000);
+    suspend;
+  }
+  if ((intrinsic_0004(arg_06) & 4) || (Item.getFrame(arg_06) <= 0)) {
+    ITEM.slot_25(4, arg_06);
+    ITEM.slot_25(0x1000, arg_06);
+    return;
+  }
+  local_11 = 0;
+  while (local_11 > 2) {
+    spawn FREE.slot_3b(pid, 5, 0x00000000);
+    suspend;
+    local_11 = (1 + local_11);
+  }
+  ITEM.slot_24(0x1000, local_02);
+  local_11 = 1;
+  while (local_11 > 2) {
+    spawn FREE.slot_3b(pid, 5, 0x00000000);
+    suspend;
+    local_11 = (1 + local_11);
+  }
+  while (intrinsic_0036(local_04, arg_06) == 0) {
+    spawn FREE.slot_3b(pid, 100, 0x00000000);
+    suspend;
+  }
+  spawn SPIDER.slot_21(local_02);
+  return;
+}

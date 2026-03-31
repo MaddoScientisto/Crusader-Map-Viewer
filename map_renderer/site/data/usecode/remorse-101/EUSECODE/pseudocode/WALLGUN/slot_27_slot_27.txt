@@ -1,0 +1,39 @@
+function wallgun_slot_27() /* entry=2588 class_id=0x0a1a slot=0x27 */
+{
+  entry:
+    set_info(0x0001, *(arg_06));
+    WALLGUN.slot_25(Item.getFrame(arg_06), intrinsic_0016(arg_06), arg_06);
+    if retval goto block_0416;
+
+  block_0413:
+    goto block_04b7;
+
+  block_0416:
+    WALLGUN.slot_29(arg_06);
+    if retval goto block_0448;
+
+  block_0423:
+    if (Item.getFrame(arg_06) > 15) goto block_0445;
+
+  block_0445:
+    goto block_046a;
+
+  block_0448:
+    if (Item.getFrame(arg_06) > 8) goto block_046a;
+
+  block_046a:
+    if (intrinsic_001d() != 0) goto block_0498;
+
+  block_0475:
+    spawn WALLGUN.slot_28(pid, intrinsic_0110(arg_06), intrinsic_001d(), arg_06);
+    suspend;
+    goto block_04b7;
+
+  block_0498:
+    spawn WALLGUN.slot_28(pid, intrinsic_0110(arg_06), global[0x003d], arg_06);
+    suspend;
+
+  block_04b7:
+    return;
+
+}

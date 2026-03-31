@@ -1,0 +1,83 @@
+function miss2_slot_25() /* entry=2320 class_id=0x090e slot=0x25 */
+{
+  entry:
+    set_info(1, 0);
+    local_09 = 32;
+    local_13 = 0;
+    if arg_06 goto block_04bd;
+
+  block_04b6:
+    local_11 = 2;
+    goto block_04c1;
+
+  block_04bd:
+    local_11 = -2;
+
+  block_04c1:
+    /* global_address */
+    spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
+    suspend;
+    /* global_address */
+
+  block_04ee:
+    if local_09 goto block_0604;
+
+  block_04f3:
+    /* loopscr */
+    /* loopscr */
+    /* loop */
+
+  block_050c:
+    if condition goto block_05ff;
+
+  block_050f:
+    local_04 = intrinsic_0013(local_02);
+    local_06 = Item.legal_create(local_02);
+    local_07 = Item.getZ(local_02);
+    local_13 = (1 + local_13);
+    if ((local_09 <= 16) && (intrinsic_0016(local_02) != 0x04c8)) goto block_05d1;
+
+  block_0566:
+    if (arg_06 != 1) goto block_05ae;
+
+  block_056e:
+    if (Item.getFrame(local_02) != 12) goto block_05ab;
+
+  block_057d:
+    if (!Item.getFrame(local_02)) goto block_0597;
+
+  block_058a:
+    goto block_05ab;
+
+  block_05ab:
+    goto block_05d1;
+
+  block_05ae:
+    if (Item.getFrame(local_02) != 8) goto block_05d1;
+
+  block_05d1:
+    if (local_13 != 5) goto block_05fb;
+
+  block_05d9:
+    local_13 = 0;
+    local_09 = (local_09 - 2);
+    spawn MISS2.slot_24(pid, 4, 0x00000000);
+    suspend;
+
+  block_05fb:
+    /* loopnext */
+    goto block_050c;
+
+  block_05ff:
+    goto block_04ee;
+
+  block_0604:
+    /* global_address */
+    spawn FREE.waitNTimerTicks(pid, 15, 0x00000000);
+    suspend;
+    /* global_address */
+    spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
+    suspend;
+    return;
+
+}

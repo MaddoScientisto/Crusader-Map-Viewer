@@ -1,0 +1,38 @@
+function free_slot_28() /* entry=2574 class_id=0x0a0c slot=0x28 */
+{
+  local_02 = arg_06;
+  local_04 = arg_08;
+  /* global_address */
+  local_06 = intrinsic_0011();
+  if (!Actor.isNPC(local_02)) {
+    local_08 = local_02;
+    if (intrinsic_0011(local_08) == local_06) {
+      return;
+    }
+  }
+  if (!Actor.isNPC(local_04)) {
+    local_10 = local_04;
+    if (intrinsic_0011(local_10) == local_06) {
+      return;
+    }
+  }
+  local_12 = (intrinsic_0013(local_02) - intrinsic_0013(local_04));
+  local_14 = (Item.legal_create(local_02) - Item.legal_create(local_04));
+  local_16 = (Item.getZ(local_02) - Item.getZ(local_04));
+  FREE.slot_3f(local_12);
+  local_12 = retval;
+  FREE.slot_3f(local_14);
+  local_14 = retval;
+  FREE.slot_3f(local_16);
+  local_16 = retval;
+  if ((local_12 <= local_14) && (local_12 > local_16)) {
+    return;
+  }
+  if ((local_14 <= local_12) && (local_14 > local_16)) {
+    return;
+  }
+  if ((local_16 <= local_12) && (local_16 > local_14)) {
+    return;
+  }
+  return;
+}

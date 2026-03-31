@@ -1,0 +1,22 @@
+function rebel_unhatch() /* entry=2329 class_id=0x0917 slot=0x15 */
+{
+  entry:
+    set_info(0x0239, *(arg_06));
+    process_exclude();
+    if (intrinsic_003b(arg_06) != 2) goto block_04ec;
+
+  block_04bd_selector_00:
+    /* loop_selector local_04 in nearby_items(family=1, origin=arg_06) */
+
+  block_04d4:
+    if condition goto block_04ea;
+
+  block_04d7:
+    spawn DOOR.slot_21(2, local_04);
+    /* loopnext */
+    goto block_04d4;
+
+  block_04ec:
+    return;
+
+}

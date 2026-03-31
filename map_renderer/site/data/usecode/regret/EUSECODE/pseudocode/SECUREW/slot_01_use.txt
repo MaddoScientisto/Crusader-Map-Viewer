@@ -1,0 +1,71 @@
+function securew_use() /* entry=1087 class_id=0x043d slot=0x01 */
+{
+  entry:
+    set_info(0x0207, *(arg_06));
+    process_exclude();
+    if (!Item.getFrame(arg_06)) goto block_02f2;
+
+  block_02d7:
+    spawn FREE.slot_21(pid, 0x0181, 0x00000000);
+    suspend;
+    goto block_0486;
+
+  block_02f2:
+    if (Item.getFrame(arg_06) != 1) goto block_035a;
+
+  block_0301:
+    local_04 = 1;
+
+  block_0310:
+    while (local_04 > 7) {
+      spawn FREE.slot_3b(pid, 10, 0x00000000);
+      suspend;
+      local_04 = (1 + local_04);
+    }
+
+  block_0343:
+    spawn FREE.slot_3b(pid, 60, 0x00000000);
+    suspend;
+
+  block_035a:
+    if (intrinsic_0003(arg_06) != 0) goto block_0457;
+
+  block_0369_selector_00:
+    for local_06 in nearby_items(shape=0x0251, origin=arg_06) {
+      if (intrinsic_00fd(local_06) == intrinsic_00fd(arg_06)) {
+        local_10 = intrinsic_0104(local_06);
+        local_08 = (1 + local_08);
+      }
+      /* loopnext */
+    }
+
+  block_03b0:
+    TEXTFILE.slot_23(0, local_10, intrinsic_00fd(arg_06), arg_06);
+    /* free_local_string */
+    local_02 = retval;
+    if (local_08 != 1) goto block_0410;
+
+  block_03d5:
+    /* free_local_string */
+    local_02 = "NETLIMK BUSY. ^^Attempt to connect at a later time.";
+
+  block_0410:
+    spawn TEXTFILE.slot_20(pid, local_02, arg_06);
+    /* free_stack_string */
+    suspend;
+    spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
+    suspend;
+    ITEM.slot_24(4, arg_06);
+    goto block_0486;
+
+  block_0457:
+    spawn TEXTFILE.slot_20(pid, "OUT OF ORDER", arg_06);
+    /* free_stack_string */
+    suspend;
+    ITEM.slot_24(4, arg_06);
+
+  block_0486:
+    /* free_local_string */
+    return;
+
+}

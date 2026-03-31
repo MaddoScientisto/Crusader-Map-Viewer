@@ -1,0 +1,59 @@
+function switch_slot_21() /* entry=2584 class_id=0x0a16 slot=0x21 */
+{
+  entry:
+    set_info(0x0207, *(arg_06));
+    local_01 = intrinsic_00f8(intrinsic_00e3(arg_06));
+    if (Item.getFrame(arg_06) != 4) goto block_01fa;
+
+  block_01ad:
+    spawn FREE.slot_21(pid, 0x00ad, 0x00000000);
+    suspend;
+    spawn TRIGGER.slot_2a(pid, 0, *(arg_06), arg_06);
+    suspend;
+    spawn FREE.waitNTimerTicks(pid, 1, 0x00000000);
+    suspend;
+    goto block_0313;
+
+  block_01f7:
+    goto block_0313;
+
+  block_01fa:
+    if intrinsic_0000() goto block_0247;
+
+  block_0202:
+    spawn FREE.slot_21(pid, 0x0090, 0x00000000);
+    suspend;
+    if (intrinsic_0018(100, 0) > 50) goto block_0239;
+
+  block_022b:
+    goto block_0244;
+
+  block_0244:
+    goto block_0313;
+
+  block_0247:
+    if local_01 goto block_029c;
+
+  block_024c:
+    spawn FREE.waitNTimerTicks(pid, 1, 0x00000000);
+    suspend;
+    spawn TRIGGER.slot_2a(pid, 0, *(arg_06), arg_06);
+    suspend;
+    goto block_0313;
+
+  block_02b1:
+    while (!intrinsic_003a(0x0090, arg_06)) {
+      spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+      suspend;
+    }
+
+  block_02da:
+    spawn FREE.waitNTimerTicks(pid, 1, 0x00000000);
+    suspend;
+    spawn TRIGGER.slot_2a(pid, 1, *(arg_06), arg_06);
+    suspend;
+
+  block_0313:
+    return;
+
+}

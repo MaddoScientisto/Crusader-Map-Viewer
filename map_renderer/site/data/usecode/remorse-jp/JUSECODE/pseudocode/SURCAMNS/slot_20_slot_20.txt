@@ -1,0 +1,84 @@
+function surcamns_slot_20() /* entry=1224 class_id=0x04c6 slot=0x20 */
+{
+  entry:
+    set_info(0x021b, 0);
+    local_10 = intrinsic_00fc(arg_06);
+    if (intrinsic_0003(arg_06) != 0) goto block_0356;
+
+  block_024d_selector_00:
+    for local_04 in nearby_items(shape=0x037a, origin=arg_06) {
+      if ((intrinsic_00fc(local_04) == local_10) || (local_10 != 0)) {
+        if (!intrinsic_010b(local_04)) {
+          TEXTFILE.slot_21(intrinsic_010b(local_04), intrinsic_00fc(local_04), arg_06);
+          /* free_local_string */
+          local_02 = retval;
+          spawn TEXTFILE.slot_20(pid, local_02, arg_06);
+          /* free_stack_string */
+          suspend;
+        }
+      }
+      /* loopnext */
+    }
+
+  block_02e4:
+    spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
+    suspend;
+    spawn SURCAMNS.slot_21(pid, arg_06);
+    suspend;
+    spawn TRIGGER.slot_20(pid, 1, *(arg_06), arg_06);
+    suspend;
+    goto block_045b;
+
+  block_0356:
+    local_11 = 0;
+    if intrinsic_010b(arg_06) goto block_043c;
+
+  block_036c_selector_00:
+    /* loop_selector local_06 in nearby_items(shape=PLACEHOLDER_KEY_CUBE, origin=arg_06) */
+
+  block_038a:
+    if condition goto block_03c2;
+
+  block_038d:
+    if (intrinsic_00fc(local_06) != local_10) goto block_03be;
+
+  block_039f:
+    VALBOX.slot_20(local_06);
+    local_08 = retval;
+    local_11 = (1 + local_11);
+    goto block_03c2;
+
+  block_03be:
+    /* loopnext */
+    goto block_038a;
+
+  block_03c2:
+    if local_11 goto block_03f4;
+
+  block_03cc:
+    TEXTFILE.slot_23(local_08, intrinsic_010b(arg_06), intrinsic_00fc(arg_06), arg_06);
+    /* free_local_string */
+    local_02 = retval;
+    goto block_0417;
+
+  block_03f4:
+    TEXTFILE.slot_21(intrinsic_010b(arg_06), intrinsic_00fc(arg_06), arg_06);
+    /* free_local_string */
+    local_02 = retval;
+
+  block_0417:
+    spawn TEXTFILE.slot_20(pid, local_02, arg_06);
+    /* free_stack_string */
+    suspend;
+
+  block_043c:
+    spawn SURCAMNS.slot_21(pid, arg_06);
+    suspend;
+
+  block_045b:
+    /* bit_not */
+    /* free_local_string */
+    return;
+
+  /* decompilation stopped at SEARCH_SURFACE */
+}

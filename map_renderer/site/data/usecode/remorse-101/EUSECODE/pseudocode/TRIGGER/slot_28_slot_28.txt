@@ -1,0 +1,181 @@
+function trigger_slot_28() /* entry=2586 class_id=0x0a18 slot=0x28 */
+{
+  entry:
+    set_info(0x021b, 0);
+    local_18 = arg_18;
+    local_16 = arg_10;
+    local_04 = (arg_16 & 3);
+    if (local_04 != 0) goto block_2017;
+
+  block_1fdb_selector_00:
+    for local_14 in nearby_items(family=1, origin=local_16) {
+      /* loopnext */
+    }
+
+  block_2012:
+    goto block_23f3;
+
+  block_2017:
+    if (local_04 != 1) goto block_205b;
+
+  block_201f_selector_00:
+    for local_14 in nearby_items(family=1, origin=local_16) {
+      /* loopnext */
+    }
+
+  block_2056:
+    goto block_23f3;
+
+  block_205b:
+    if (local_04 != 2) goto block_20a1;
+
+  block_2063_selector_00:
+    for local_14 in nearby_items(family=1, origin=local_16) {
+      /* loopnext */
+    }
+
+  block_209c:
+    goto block_23f3;
+
+  block_20a1:
+    if (local_04 != 3) goto block_23f3;
+
+  block_20a9:
+    local_02 = (arg_12 & 7);
+    if (local_02 != 0) goto block_212c;
+
+  block_20b8:
+    local_12 = (arg_12 / 8);
+
+  block_20b8_selector_00:
+    for local_14 in nearby_items(shape=0x0476, origin=local_16) {
+      if (intrinsic_00e3(local_14) == arg_18) {
+        local_06 = intrinsic_0109(local_14);
+        local_10 = (local_06 & 15);
+        local_08 = intrinsic_0003(local_14);
+        local_08 = (((local_06 & 0x00e0) * 8) + local_08);
+        FREE.slot_30(local_12, local_10, local_08, local_14);
+      }
+      /* loopnext */
+    }
+
+  block_2127:
+    goto block_23f0;
+
+  block_212c:
+    if (local_02 != 1) goto block_222f;
+
+  block_2134:
+    local_12 = (arg_12 / 8);
+
+  block_2134_selector_00:
+    /* loop_selector local_14 in nearby_items(family=1, origin=local_16) */
+
+  block_2152:
+    if condition goto block_222a;
+
+  block_2155:
+    if (intrinsic_00e3(local_14) != arg_18) goto block_2226;
+
+  block_2164:
+    if (local_12 != 31) goto block_2192;
+
+  block_2176:
+    suspend;
+    goto block_2226;
+
+  block_2192:
+    local_10 = Item.getFrame(local_14);
+    local_08 = intrinsic_0016(local_14);
+    local_06 = (local_08 & 0x00ff);
+    local_08 = (local_08 & 0x0700);
+    local_08 = (local_08 / 8);
+    local_08 = (local_08 + local_10);
+    suspend;
+    /* bit_not */
+
+  block_2226:
+    /* loopnext */
+    goto block_2152;
+
+  block_222a:
+    goto block_23f0;
+
+  block_222f:
+    if (local_02 != 2) goto block_227a;
+
+  block_2237:
+    local_06 = (arg_12 / 8);
+
+  block_2237_selector_00:
+    for local_14 in nearby_items(family=1, origin=local_16) {
+      /* loopnext */
+    }
+
+  block_2275:
+    goto block_23f0;
+
+  block_227a:
+    if (local_02 != 3) goto block_22e1;
+
+  block_2282:
+    if (global[0x0041] != 100) goto block_2293;
+
+  block_228c:
+    local_20 = 32;
+    goto block_2299;
+
+  block_2293:
+    local_20 = global[0x0041];
+
+  block_2299_selector_00:
+    for local_14 in nearby_items(family=1, origin=local_16) {
+      if (intrinsic_00e3(local_14) == arg_18) {
+        local_06 = (arg_12 / 8);
+        spawn TRIGGER.slot_23(local_06, local_14, arg_06);
+      }
+      /* loopnext */
+    }
+
+  block_22dc:
+    goto block_23f0;
+
+  block_22e1:
+    if (local_02 == 4) {
+      local_06 = (arg_12 / 8);
+      local_18 = (local_18 + local_06);
+    }
+    else if (local_02 == 5) {
+      local_06 = (arg_12 / 8);
+      local_18 = (local_18 - local_06);
+    }
+    else if (local_02 == 6) {
+      local_12 = (arg_12 / 8);
+      for local_14 in nearby_items(shape=0x0476, origin=local_16) {
+        if (intrinsic_00e3(local_14) == arg_18) {
+          local_06 = intrinsic_010b(local_14);
+          local_10 = (local_06 & 15);
+          local_08 = intrinsic_0003(local_14);
+          local_08 = (((local_06 & 0x00e0) * 8) + local_08);
+          if (local_08 == 0) {
+            if (intrinsic_0019(local_10, local_08, local_22) == 1) {
+              suspend;
+            }
+          }
+        }
+        /* loopnext */
+      }
+    }
+
+  block_23f0:
+    goto block_23f3;
+
+  block_23f3:
+    /* word_to_dword */
+    /* pop_result */
+    goto block_23fa;
+
+  block_23fa:
+    return;
+
+}

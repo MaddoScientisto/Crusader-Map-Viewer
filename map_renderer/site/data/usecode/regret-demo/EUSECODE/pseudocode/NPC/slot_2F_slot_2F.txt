@@ -1,0 +1,29 @@
+function npc_slot_2f() /* entry=2580 class_id=0x0a12 slot=0x2f */
+{
+  set_info(0x020a, *(arg_06));
+  if (*(arg_06) <= 0x0100) {
+    return;
+  }
+  if (*(arg_06) == 1) {
+    if (global[0x0004] == 1) {
+      return;
+    }
+    local_02 = intrinsic_00f0(arg_06);
+    spawn NPC.slot_30(arg_06);
+    return;
+  }
+  else if (*(arg_06) == intrinsic_0016()) {
+    NPC.slot_2a(arg_06);
+    if ((retval == 0) && (Item.isOnScreen(arg_06) != 1)) {
+      local_04 = intrinsic_0013(1, 0);
+      if (local_04 == 0) {
+      }
+      else if (local_04 == 1) {
+      }
+      spawn FREE.slot_3b(pid, 20, 0x00000000);
+      suspend;
+    }
+    return;
+  }
+  return;
+}

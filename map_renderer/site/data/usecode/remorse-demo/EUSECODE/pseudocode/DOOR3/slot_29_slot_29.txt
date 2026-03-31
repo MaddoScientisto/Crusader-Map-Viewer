@@ -1,0 +1,38 @@
+function door3_slot_29() /* entry=2570 class_id=0x0a08 slot=0x29 */
+{
+  entry:
+    set_info(0x0207, *(arg_06));
+    local_04 = 9;
+    FREE.slot_2d(Item.getZ(arg_06), Item.legal_create(arg_06), intrinsic_0013(arg_06), local_04, 0x053d, *(arg_06));
+    if retval goto block_2187;
+
+  block_2151:
+    spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+    suspend;
+    goto block_2191;
+
+  block_2187:
+    /* word_to_dword */
+    /* pop_result */
+    goto block_21f0;
+
+  block_2191:
+    local_02 = (local_04 - 1);
+
+  block_219b:
+    while (local_02 < 0) {
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+      local_02 = (local_02 - 1);
+    }
+
+  block_21e6:
+    /* word_to_dword */
+    /* pop_result */
+    goto block_21f0;
+
+  block_21f0:
+    return;
+
+  /* decompilation stopped at SEARCH_SURFACE */
+}

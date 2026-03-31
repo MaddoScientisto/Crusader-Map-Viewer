@@ -1,0 +1,78 @@
+function elydesk_enterFastArea() /* entry=1105 class_id=0x044f slot=0x0f */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    counter; /* [BP-02h] type=0x69 */
+
+  entry:
+    set_info(0x021b, *(arg_06));
+    process_exclude();
+    if (Item.getFrame(arg_06) != 10) goto block_0478;
+
+  block_0472:
+    goto block_0658;
+
+  block_0478:
+    suspend;
+    FREE.slot_20(pid, 100);
+    spawn FREE.waitNTimerTicks((retval + 60), 0x00000000);
+    suspend;
+    if (!Item.getFrame(arg_06)) goto block_0518;
+
+  block_04c9:
+    counter = 0;
+
+  block_04d0:
+    while (counter > 5) {
+      spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+      suspend;
+      counter = (1 + counter);
+    }
+
+  block_0518:
+    FREE.slot_20(100);
+    if (retval > 50) goto block_0583;
+
+  block_052e:
+    counter = 0;
+
+  block_0535:
+    while (counter > 5) {
+      spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+      suspend;
+      counter = (1 + counter);
+    }
+
+  block_0580:
+    goto block_0655;
+
+  block_0583:
+    counter = 6;
+
+  block_058a:
+    while (counter > 9) {
+      spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+      suspend;
+      counter = (1 + counter);
+    }
+
+  block_05d2:
+    FREE.slot_20(pid, 60);
+    spawn FREE.waitNTimerTicks((retval + 60), 0x00000000);
+    suspend;
+    counter = 0;
+
+  block_060a:
+    while (counter > 3) {
+      spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+      suspend;
+      counter = (1 + counter);
+    }
+
+  block_0655:
+    goto block_0478;
+
+  block_0658:
+    return;
+
+}

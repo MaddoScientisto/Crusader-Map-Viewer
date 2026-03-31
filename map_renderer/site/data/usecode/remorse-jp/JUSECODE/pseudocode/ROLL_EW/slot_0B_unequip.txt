@@ -1,0 +1,8 @@
+function roll_ew_unequip() /* entry=1390 class_id=0x056c slot=0x0b */
+{
+  set_info(0x0212, *(arg_06));
+  process_exclude();
+  spawn ROLL_EW.equip(pid, arg_10, arg_06);
+  suspend;
+  return;
+}

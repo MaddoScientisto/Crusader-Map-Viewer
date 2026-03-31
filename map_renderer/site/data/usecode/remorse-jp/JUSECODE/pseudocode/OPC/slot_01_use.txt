@@ -1,0 +1,73 @@
+function opc_use() /* entry=958 class_id=0x03bc slot=0x01 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    item; /* [BP-02h] type=0x24 */
+
+  entry:
+    set_info(0x0207, *(arg_06));
+    process_exclude();
+    ITEM.slot_23(0x1000, arg_06);
+    /* global_address */
+    if (intrinsic_0011() != 21) goto block_02ab;
+
+  block_0110:
+    /* global_address */
+    /* global_address */
+    suspend;
+    /* str_to_ptr */
+    /* free_stack_string */
+    suspend;
+    /* pop_global */
+    spawn FREE.slot_32(1, pid, 20, 0x00000000);
+    suspend;
+    spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
+    suspend;
+    spawn FREE.slot_32(pid, 0x00b4, 0x00000000);
+    suspend;
+    /* global_address */
+    if (!intrinsic_00cf()) goto block_0244;
+
+  block_0217:
+    spawn FREE.slot_26(pid, "11g", 0x00000000);
+    /* free_stack_string */
+    suspend;
+
+  block_0244_selector_00:
+    for item in nearby_items(shape=TELEPORTER_LIGHTS, origin=arg_06) {
+      /* loopnext */
+    }
+
+  block_02a6:
+    goto block_03db;
+
+  block_02ab:
+    /* global_address */
+    /* global_address */
+    suspend;
+    /* str_to_ptr */
+    /* free_stack_string */
+    suspend;
+    /* pop_global */
+    spawn FREE.slot_32(1, pid, 20, 0x00000000);
+    suspend;
+    spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
+    suspend;
+
+  block_02ab_selector_00:
+    /* loop_selector item in nearby_items(shape=TELEPORTER_LIGHTS, origin=arg_06) */
+
+  block_038b:
+    if condition goto block_03ce;
+
+  block_038e:
+    if (intrinsic_00e6(item) != 2) goto block_03ca;
+
+  block_03ca:
+    /* loopnext */
+    goto block_038b;
+
+  block_03db:
+    return;
+
+}

@@ -1,0 +1,53 @@
+function d_tankew_gotHit() /* entry=1121 class_id=0x045f slot=0x06 */
+{
+  entry:
+    set_info(0x020c, *(arg_06));
+    process_exclude();
+    FREE.slot_35(arg_12, arg_10);
+    if (!retval) goto block_00f2;
+
+  block_00ef:
+    goto block_018e;
+
+  block_00f2:
+    if (!global[0x0005]) goto block_0106;
+
+  block_0106_selector_00:
+    /* loop_selector local_02 in nearby_items(family=6, origin=arg_06) */
+
+  block_011d:
+    if condition goto block_015e;
+
+  block_0120:
+    NPC.slot_2a(local_02);
+    if retval goto block_013b;
+
+  block_012d:
+    spawn NPC.slot_2c(local_02);
+    goto block_015a;
+
+  block_013b:
+    if (!intrinsic_007b(local_02)) goto block_015a;
+
+  block_0148:
+    spawn NPC.slot_2d(6, local_02);
+    goto block_015a;
+
+  block_015a:
+    /* loopnext */
+    goto block_011d;
+
+  block_015e:
+    if (!global[0x0005]) goto block_0177;
+
+  block_0168:
+    suspend;
+
+  block_0177:
+    spawn FREE.slot_3b(pid, 10, 0x00000000);
+    suspend;
+
+  block_018e:
+    return;
+
+}

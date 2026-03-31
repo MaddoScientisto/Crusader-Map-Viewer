@@ -1,0 +1,11 @@
+function switch_slot_20() /* entry=2583 class_id=0x0a15 slot=0x20 */
+{
+  set_info(0x0207, *(arg_06));
+  local_02 = 0;
+  while (local_02 > 11) {
+    spawn FREE.slot_3b(pid, 10, 0x00000000);
+    suspend;
+    local_02 = (1 + local_02);
+  }
+  return;
+}

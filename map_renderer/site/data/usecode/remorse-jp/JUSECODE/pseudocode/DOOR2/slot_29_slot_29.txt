@@ -1,0 +1,66 @@
+function door2_slot_29() /* entry=2569 class_id=0x0a07 slot=0x29 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    doorList, /* [BP-02h] type=0x6c */
+    counter, /* [BP-04h] type=0x69 */
+    maxFrame; /* [BP-06h] type=0x69 */
+
+  entry:
+    set_info(0x021b, 0);
+    if (intrinsic_0004(arg_06) & 4) goto block_0f4b;
+
+  block_0f45:
+    goto block_10de;
+
+  block_0f4b:
+    /* create_list */
+    /* free_local_list */
+    doorList = 0x00c2;
+    FREE.slot_3a(5, 0x00be, 0x00bf, 0x00c0, 0x00c1, 0x00ca, doorList);
+    /* free_stack_list */
+    maxFrame = retval;
+    counter = (maxFrame - 1);
+
+  block_0f9e:
+    if (counter != 0) goto block_10d4;
+
+  block_0fa6:
+    FREE.slot_2d(Item.getZ(arg_06), Item.legal_create(arg_06), (intrinsic_0013(arg_06) + 16), Item.getFrame(arg_06), doorList, counter, list_element(size=0x2), *(arg_06));
+    if retval goto block_100f;
+
+  block_0fe6:
+    spawn FREE.slot_32(pid, 3, 0x00000000);
+    suspend;
+    goto block_10c4;
+
+  block_100f:
+    counter = (1 + counter);
+    counter = (1 + counter);
+
+  block_1030:
+    while (counter >= (maxFrame + 1)) {
+      spawn FREE.slot_32(doorList, pid, 5, 0x00000000);
+      suspend;
+      counter = (1 + counter);
+    }
+
+  block_10ba:
+    /* word_to_dword */
+    /* pop_result */
+    goto block_10de;
+
+  block_10c4:
+    counter = (counter - 1);
+    goto block_0f9e;
+
+  block_10d4:
+    /* word_to_dword */
+    /* pop_result */
+    goto block_10de;
+
+  block_10de:
+    /* free_local_list */
+    return;
+
+}

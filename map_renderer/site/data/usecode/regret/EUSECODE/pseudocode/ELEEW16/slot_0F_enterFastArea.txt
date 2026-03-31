@@ -1,0 +1,17 @@
+function eleew16_enterFastArea() /* entry=9 class_id=0x0007 slot=0x0f */
+{
+  set_info(0x021b, *(arg_06));
+  process_exclude();
+  if ((Item.getFrame(arg_06) == 1) || (intrinsic_0004(arg_06) & 0x1000)) {
+    return;
+  }
+  local_10 = intrinsic_001f(arg_06);
+  ITEM.slot_24(0x1000, arg_06);
+  local_04 = (Item.getX(arg_06) + 64);
+  local_06 = Item.getY(arg_06);
+  local_08 = Item.getZ(arg_06);
+  suspend;
+  suspend;
+  suspend;
+  return;
+}

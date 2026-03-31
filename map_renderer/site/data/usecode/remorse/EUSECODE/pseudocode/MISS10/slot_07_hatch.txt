@@ -1,0 +1,20 @@
+function miss10_hatch() /* entry=2328 class_id=0x0916 slot=0x07 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    item; /* [BP-02h] type=0x24 */
+
+  set_info(0x0210, *(arg_06));
+  process_exclude();
+  if (intrinsic_003f(arg_06) == 1) {
+    if (global[0x0029] == 1) {
+      spawn FREE.slot_26(pid, "10g", 0x00000000);
+      /* free_stack_string */
+      suspend;
+    }
+  }
+  if (intrinsic_003f(arg_06) == 2) {
+    /* pop_global */
+  }
+  return;
+}

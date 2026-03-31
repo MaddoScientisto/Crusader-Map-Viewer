@@ -1,0 +1,26 @@
+function npc_slot_26() /* entry=2579 class_id=0x0a11 slot=0x26 */
+{
+  set_info(0x020a, *(arg_06));
+  local_02 = intrinsic_00dd(arg_06);
+  local_04 = intrinsic_0052(arg_06);
+  local_06 = intrinsic_00dd(arg_06);
+  local_08 = intrinsic_0052(arg_06);
+  if (intrinsic_003c(arg_06)) {
+    suspend;
+    spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+    suspend;
+  }
+  local_10 = intrinsic_00dd(arg_06);
+  local_12 = intrinsic_0052(arg_06);
+  local_14 = 1;
+  while (local_14 > arg_14) {
+    if (intrinsic_003c(arg_06)) {
+      suspend;
+    }
+    local_14 = (1 + local_14);
+  }
+  local_16 = intrinsic_00dd(arg_06);
+  local_18 = intrinsic_0052(arg_06);
+  return;
+  /* decompilation stopped at SEARCH_SURFACE */
+}

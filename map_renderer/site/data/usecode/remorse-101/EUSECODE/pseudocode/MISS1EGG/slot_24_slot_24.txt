@@ -1,0 +1,19 @@
+function miss1egg_slot_24() /* entry=2319 class_id=0x090d slot=0x24 */
+{
+  set_info(0x0001, *(arg_06));
+  set_info(1, 0);
+  spawn NPC.slot_22(pid, 5, 0, arg_10);
+  suspend;
+  for local_02 in nearby_items(shape=0x00c2, origin=arg_10) {
+    if (intrinsic_00a7(local_02) == 21) {
+      spawn DOOR.slot_20(pid, local_02);
+      suspend;
+    }
+    /* loopnext */
+  }
+  spawn NPC.slot_21(pid, 3, arg_10);
+  suspend;
+  spawn NPC.slot_21(pid, 2, arg_10);
+  suspend;
+  return;
+}

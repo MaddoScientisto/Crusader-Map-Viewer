@@ -1,0 +1,17 @@
+function free_slot_33() /* entry=2591 class_id=0x0a1d slot=0x33 */
+{
+  local_06 = 0x7d00;
+  local_04 = 0;
+  for local_02 in nearby_items(shape=arg_08, origin=global[0x001e]) {
+    if (Item.getFrame(local_02) == arg_10) {
+      FREE.slot_31(local_02, global[0x001e]);
+      local_08 = retval;
+      if (local_08 >= local_06) {
+        local_06 = local_08;
+        local_04 = local_02;
+      }
+    }
+    /* loopnext */
+  }
+  return;
+}

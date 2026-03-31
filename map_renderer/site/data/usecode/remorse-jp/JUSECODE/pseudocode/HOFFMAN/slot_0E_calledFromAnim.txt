@@ -1,0 +1,17 @@
+function hoffman_calledFromAnim() /* entry=1243 class_id=0x04d9 slot=0x0e */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    hoffy, /* [BP-02h] type=0x24 */
+    deathBox, /* [BP-04h] type=0x24 */
+    deadGuy, /* [BP-06h] type=0x24 */
+    item; /* [BP-08h] type=0x24 */
+
+  set_info(0x021a, *(arg_06));
+  process_exclude();
+  hoffy = *(arg_06);
+  /* pop_global */
+  /* pop_global */
+  spawn NPCDEATH.slot_20(1, 1, intrinsic_000b(arg_06), *(arg_06), arg_06);
+  return;
+}

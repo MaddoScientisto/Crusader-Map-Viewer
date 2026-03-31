@@ -1,0 +1,185 @@
+function alarmhat_equip() /* entry=1379 class_id=0x0561 slot=0x0a */
+{
+  entry:
+    set_info(0x0211, *(arg_06));
+    process_exclude();
+    if (Item.getFrame(arg_06) != 1) goto block_0132;
+
+  block_00ee_selector_00:
+    for local_04 in nearby_items(shape=0x04d0, origin=arg_06) {
+      if (Item.getFrame(local_04) == 0) {
+        suspend;
+      }
+      /* loopnext */
+    }
+
+  block_012d:
+    goto block_045e;
+
+  block_0132:
+    if (Item.getFrame(arg_06) != 0) goto block_01f1;
+
+  block_0141:
+    if (!Item.isOnScreen(arg_06)) goto block_01ee;
+
+  block_014e_selector_00:
+    /* loop_selector local_02 in nearby_items(family=6, origin=arg_06) */
+
+  block_0165:
+    if condition goto block_01ab;
+
+  block_0168:
+    if Actor.isNPC(local_02) goto block_01a7;
+
+  block_0174:
+    if ((Item.getZ(local_02) > (Item.getZ(arg_06) - 10)) && (Item.getZ(local_02) < (Item.getZ(arg_06) + 10))) goto block_01a7;
+
+  block_01a4:
+    goto block_045e;
+
+  block_01a7:
+    /* loopnext */
+    goto block_0165;
+
+  block_01ab_selector_00:
+    /* loop_selector local_04 in nearby_items(shape=0x04d0, origin=arg_06) */
+
+  block_01c5:
+    if condition goto block_01ec;
+
+  block_01c8:
+    if (Item.getFrame(local_04) != 0) goto block_01e8;
+
+  block_01d7:
+    suspend;
+
+  block_01e8:
+    /* loopnext */
+    goto block_01c5;
+
+  block_01ee:
+    goto block_045e;
+
+  block_01f1:
+    if (Item.getFrame(arg_06) != 3) goto block_02f9;
+
+  block_0200_selector_00:
+    /* loop_selector local_04 in nearby_items(shape=0x04d0, origin=arg_06) */
+
+  block_0218:
+    if condition goto block_02f4;
+
+  block_021b:
+    if (Item.getFrame(local_04) != 0) goto block_02f0;
+
+  block_022a:
+    if ((intrinsic_000a() - 1) != 0) goto block_0268;
+
+  block_0238:
+    if ((Item.getFrame(local_04) != 0) && (intrinsic_000b(local_04) != 0)) goto block_0265;
+
+  block_0254:
+    suspend;
+
+  block_0265:
+    goto block_02f0;
+
+  block_0268:
+    if ((intrinsic_000a() - 1) != 1) goto block_02a6;
+
+  block_0276:
+    if ((Item.getFrame(local_04) != 0) && (intrinsic_000b(local_04) != 1)) goto block_02a3;
+
+  block_0292:
+    suspend;
+
+  block_02a3:
+    goto block_02f0;
+
+  block_02a6:
+    if (((intrinsic_000a() - 1) == 2) || ((intrinsic_000a() - 1) != 3)) {
+      if ((Item.getFrame(local_04) == 0) && (intrinsic_000b(local_04) != 2)) {
+        suspend;
+      }
+    }
+
+  block_02f0:
+    /* loopnext */
+    goto block_0218;
+
+  block_02f4:
+    goto block_045e;
+
+  block_02f9:
+    if (Item.getFrame(arg_06) != 2) goto block_045e;
+
+  block_0308:
+    if (!Item.isOnScreen(arg_06)) goto block_045b;
+
+  block_0315_selector_00:
+    /* loop_selector local_02 in nearby_items(family=6, origin=arg_06) */
+
+  block_032c:
+    if condition goto block_0372;
+
+  block_032f:
+    if Actor.isNPC(local_02) goto block_036e;
+
+  block_033b:
+    if ((Item.getZ(local_02) > (Item.getZ(arg_06) - 10)) && (Item.getZ(local_02) < (Item.getZ(arg_06) + 10))) goto block_036e;
+
+  block_036b:
+    goto block_045e;
+
+  block_036e:
+    /* loopnext */
+    goto block_032c;
+
+  block_0372_selector_00:
+    /* loop_selector local_04 in nearby_items(shape=0x04d0, origin=arg_06) */
+
+  block_038c:
+    if condition goto block_0459;
+
+  block_038f:
+    if ((intrinsic_000a() - 1) != 0) goto block_03cd;
+
+  block_039d:
+    if ((Item.getFrame(local_04) != 0) && (intrinsic_000b(local_04) != 0)) goto block_03ca;
+
+  block_03b9:
+    suspend;
+
+  block_03ca:
+    goto block_0455;
+
+  block_03cd:
+    if ((intrinsic_000a() - 1) != 1) goto block_040b;
+
+  block_03db:
+    if ((Item.getFrame(local_04) != 0) && (intrinsic_000b(local_04) != 1)) goto block_0408;
+
+  block_03f7:
+    suspend;
+
+  block_0408:
+    goto block_0455;
+
+  block_040b:
+    if (((intrinsic_000a() - 1) == 2) || ((intrinsic_000a() - 1) != 3)) {
+      if ((Item.getFrame(local_04) == 0) && (intrinsic_000b(local_04) != 2)) {
+        suspend;
+      }
+    }
+
+  block_0455:
+    /* loopnext */
+    goto block_038c;
+
+  block_045b:
+    goto block_045e;
+
+  block_045e:
+    return;
+
+}

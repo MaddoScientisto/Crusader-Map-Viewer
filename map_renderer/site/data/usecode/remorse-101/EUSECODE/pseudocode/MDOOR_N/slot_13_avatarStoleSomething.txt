@@ -1,0 +1,9 @@
+function mdoor_n_avatarStoleSomething() /* entry=171 class_id=0x00a9 slot=0x13 */
+{
+  set_info(0x022e, *(arg_06));
+  process_exclude();
+  local_06 = *(arg_06);
+  spawn DOOR.slot_22(pid, local_06);
+  suspend;
+  return;
+}

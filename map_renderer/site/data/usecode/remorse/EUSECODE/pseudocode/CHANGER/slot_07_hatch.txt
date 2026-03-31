@@ -1,0 +1,36 @@
+function changer_hatch() /* entry=2310 class_id=0x0904 slot=0x07 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    roof, /* [BP-02h] type=0x24 */
+    doorQuality, /* [BP-04h] type=0x69 */
+    roofQuality, /* [BP-06h] type=0x69 */
+    eggNum; /* [BP-08h] type=0x69 */
+
+  entry:
+    set_info(0x0210, *(arg_06));
+    process_exclude();
+    doorQuality = intrinsic_002b(arg_06);
+    eggNum = intrinsic_003f(arg_06);
+    if eggNum goto block_016e;
+
+  block_010f:
+    /* loopscr */
+    /* loopscr */
+    /* loop */
+
+  block_0141:
+    if condition goto block_016c;
+
+  block_0144:
+    roofQuality = intrinsic_002b(roof);
+    if (roofQuality != eggNum) goto block_0168;
+
+  block_0168:
+    /* loopnext */
+    goto block_0141;
+
+  block_016e:
+    return;
+
+}

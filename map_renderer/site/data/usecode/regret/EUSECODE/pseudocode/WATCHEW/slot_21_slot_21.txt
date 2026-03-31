@@ -1,0 +1,71 @@
+function watchew_slot_21() /* entry=1248 class_id=0x04de slot=0x21 */
+{
+  entry:
+    local_04 = *(arg_06);
+    set_info(0x021b, 0);
+    spawn FREE.slot_3b(pid, 60, 0x00000000);
+    suspend;
+    local_06 = Camera.getX();
+    local_08 = intrinsic_0135();
+    local_10 = intrinsic_0136();
+
+  entry_selector_00:
+    /* loop_selector local_02 in nearby_items(shape=0x0361, origin=arg_06) */
+
+  block_0488:
+    if condition goto block_05ad;
+
+  block_048b:
+    if (intrinsic_0149(local_02) != intrinsic_0149(arg_06)) goto block_05a9;
+
+  block_04a1:
+    if (intrinsic_0149(arg_06) > 0x00f9) goto block_04cc;
+
+  block_04b1:
+    spawn WATCHEW.slot_22(pid, local_02, arg_06);
+    suspend;
+    goto block_05a6;
+
+  block_04cc:
+    local_12 = Item.getX(local_02);
+    local_14 = Item.getY(local_02);
+    local_16 = Item.getZ(local_02);
+    /* global_address */
+    spawn FREE.slot_3b(pid, 10, 0x00000000);
+    suspend;
+    /* pop_global */
+    spawn FREE.slot_3b(1, pid, 60, 0x00000000);
+    suspend;
+    if (intrinsic_0003(local_02) != 0) goto block_0568;
+
+  block_0552:
+    spawn TRIGGER.slot_20(pid, 0, local_02, arg_06);
+    suspend;
+
+  block_0568:
+    spawn FREE.slot_3b(pid, 120, 0x00000000);
+    suspend;
+
+  block_057f:
+    if (!intrinsic_0099()) goto block_05a2;
+
+  block_0588:
+    spawn FREE.slot_3b(pid, 2, 0x00000000);
+    suspend;
+    goto block_057f;
+
+  block_05a6:
+    goto block_05ad;
+
+  block_05a9:
+    /* loopnext */
+    goto block_0488;
+
+  block_05ad:
+    /* global_address */
+    spawn FREE.slot_3b(pid, 10, 0x00000000);
+    suspend;
+    /* pop_global */
+    return;
+
+}

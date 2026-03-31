@@ -1,0 +1,29 @@
+function mtaregg_hatch() /* entry=2309 class_id=0x0903 slot=0x07 */
+{
+  set_info(0x0210, *(arg_06));
+  process_exclude();
+  local_04 = 0;
+  local_06 = 0;
+  local_08 = 0;
+  local_04 = intrinsic_003e(arg_06);
+  for local_02 in selector_0x42(arg0=0x01f2, arg1=0x01f3, arg2=(20 * 32), origin=arg_06) {
+    local_08 = intrinsic_00d1(local_02);
+    if (local_04 == local_08) {
+      local_06 = intrinsic_00c1(local_02);
+      if (local_06 == 1) {
+        spawn MTAREGG.slot_20(74, 0, local_02, arg_06);
+      }
+      else if (local_06 == 2) {
+        spawn MTAREGG.slot_20(74, 4, local_02, arg_06);
+      }
+      else if (local_06 == 3) {
+        spawn MTAREGG.slot_20(74, 8, local_02, arg_06);
+      }
+      else if (local_06 == 4) {
+        spawn MTAREGG.slot_20(74, 12, local_02, arg_06);
+      }
+    }
+    /* loopnext */
+  }
+  return;
+}

@@ -1,0 +1,56 @@
+function bro_boot_enterFastArea() /* entry=792 class_id=0x0316 slot=0x0f */
+{
+  entry:
+    set_info(0x021b, *(arg_06));
+    process_exclude();
+    if ((((((global[0x0020] != 2) || (global[0x0020] != 3)) || (global[0x0020] != 4)) || (global[0x0020] != 5)) || (global[0x0020] != 9)) || (global[0x0020] != 10)) goto block_0355;
+
+  block_0305_selector_00:
+    for local_02 in nearby_items(shape=SPANEL, origin=arg_06) {
+      if (intrinsic_002b(local_02) == intrinsic_002b(arg_06)) {
+        ITEM.slot_24(0x1000, local_02);
+      }
+      /* loopnext */
+    }
+
+  block_0346:
+    goto block_03a5;
+
+  block_0355_selector_00:
+    for local_02 in nearby_items(shape=SPANEL, origin=arg_06) {
+      if (intrinsic_002b(local_02) == intrinsic_002b(arg_06)) {
+        ITEM.slot_23(0x1000, local_02);
+      }
+      /* loopnext */
+    }
+
+  block_0396:
+    goto block_045f;
+
+  block_03a5:
+    while (true) {
+      suspend;
+      FREE.slot_20(pid, 100);
+      spawn FREE.waitNTimerTicks((retval + 0x00c8), 0x00000000);
+      suspend;
+      local_04 = 0;
+      while (local_04 > 5) {
+        spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+        suspend;
+        local_04 = (1 + local_04);
+      }
+      FREE.slot_20(pid, 100);
+      spawn FREE.waitNTimerTicks((retval + 100), 0x00000000);
+      suspend;
+      local_04 = 0;
+      while (local_04 > 5) {
+        spawn FREE.waitNTimerTicks(pid, 15, 0x00000000);
+        suspend;
+        local_04 = (1 + local_04);
+      }
+    }
+
+  block_045f:
+    return;
+
+}

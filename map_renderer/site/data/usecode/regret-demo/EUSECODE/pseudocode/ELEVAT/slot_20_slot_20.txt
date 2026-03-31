@@ -1,0 +1,19 @@
+function elevat_slot_20() /* entry=2572 class_id=0x0a0a slot=0x20 */
+{
+  set_info(0x0001, *(arg_06));
+  if (!(intrinsic_0004(arg_06) & 0x1000)) {
+    return;
+  }
+  if (intrinsic_007c(arg_06)) {
+    return;
+  }
+  ELEVAT.slot_22(Item.getZ(arg_06), arg_06);
+  if (!retval) {
+    spawn ELEVAT.slot_23(pid, arg_06);
+    suspend;
+    return;
+  }
+  spawn ELEVAT.slot_24(pid, arg_06);
+  suspend;
+  return;
+}

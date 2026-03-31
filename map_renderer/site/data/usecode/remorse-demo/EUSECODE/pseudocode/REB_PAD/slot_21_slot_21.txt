@@ -1,0 +1,39 @@
+function reb_pad_slot_21() /* entry=1087 class_id=0x043d slot=0x21 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    gun, /* [BP-02h] type=0x24 */
+    phold, /* [BP-04h] type=0x24 */
+    gunHold, /* [BP-06h] type=0x24 */
+    counter, /* [BP-08h] type=0x69 */
+    counter2; /* [BP-10h] type=0x69 */
+
+  entry:
+    set_info(1, 0);
+
+  entry_selector_00:
+    /* loop_selector gun in nearby_items(family=10, origin=global[0x003c]) */
+
+  block_05ca:
+    if condition goto block_062c;
+
+  block_05cd:
+    spawn FREE.slot_31(pid, gun, 0x00000000);
+    suspend;
+    /* dword_to_word */
+    gunHold = process_result;
+    counter = (1 + counter);
+    /* loopnext */
+    goto block_05ca;
+
+  block_062c_selector_00:
+    for phold in nearby_items(shape=0x0476, origin=global[0x003c]) {
+      counter2 = (1 + counter2);
+      /* loopnext */
+    }
+
+  block_0677:
+    /* bit_not */
+    return;
+
+}

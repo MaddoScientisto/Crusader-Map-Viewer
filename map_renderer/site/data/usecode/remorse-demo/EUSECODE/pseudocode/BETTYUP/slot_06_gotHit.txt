@@ -1,0 +1,18 @@
+function bettyup_gotHit() /* entry=715 class_id=0x02c9 slot=0x06 */
+{
+  entry:
+    set_info(0x020c, *(arg_06));
+    process_exclude();
+    spawn ITEM.slot_27(pid, 0x00c8, arg_12, arg_10, arg_06);
+    suspend;
+    /* dword_to_word */
+    if (!process_result) goto block_015a;
+
+  block_0154:
+    goto block_019f;
+
+  block_019f:
+    return;
+
+  /* decompilation stopped at SEARCH_SURFACE */
+}

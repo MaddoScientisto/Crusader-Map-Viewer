@@ -1,0 +1,63 @@
+function duck_ew_slot_20() /* entry=412 class_id=0x019a slot=0x20 */
+{
+  entry:
+    set_info(0x0205, *(arg_06));
+    if (intrinsic_0004(arg_06) & 0x1000) goto block_00f7;
+
+  block_00f4:
+    goto block_02b3;
+
+  block_00f7:
+    ITEM.slot_24(0x1000, arg_06);
+    local_02 = Item.getFrame(arg_06);
+    local_04 = intrinsic_004c(arg_06);
+
+  block_0119:
+    suspend;
+    /* global_address */
+    if intrinsic_0074() goto block_012a;
+
+  block_0127:
+    goto block_02b3;
+
+  block_012a:
+    if (local_04 > 99) goto block_0139;
+
+  block_0132:
+    local_04 = (local_04 - 100);
+
+  block_0139:
+    if (local_04 != 0) goto block_0172;
+
+  block_0141:
+    goto block_0290;
+
+  block_0172:
+    if (local_04 != 1) goto block_019d;
+
+  block_017a:
+    goto block_0290;
+
+  block_019d:
+    if (local_04 != 2) goto block_01c8;
+
+  block_01a5:
+    goto block_0290;
+
+  block_01c8:
+    if (local_04 != 3) goto block_023d;
+
+  block_01d0:
+    spawn FREE.slot_3b(pid, 100, 0x00000000);
+    suspend;
+    goto block_0290;
+
+  block_0290:
+    spawn FREE.slot_3b(pid, ((5 - intrinsic_000a()) * 20), 0x00000000);
+    suspend;
+    goto block_0119;
+
+  block_02b3:
+    return;
+
+}

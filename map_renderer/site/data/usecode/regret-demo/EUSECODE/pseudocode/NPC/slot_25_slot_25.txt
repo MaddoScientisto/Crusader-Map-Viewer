@@ -1,0 +1,9 @@
+function npc_slot_25() /* entry=2580 class_id=0x0a12 slot=0x25 */
+{
+  set_info(0x020a, *(arg_06));
+  suspend;
+  spawn FREE.slot_3b(pid, 2, 0x00000000);
+  suspend;
+  local_02 = intrinsic_00e7(arg_06);
+  return;
+}

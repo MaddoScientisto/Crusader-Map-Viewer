@@ -1,0 +1,8 @@
+function dooregg_hatch() /* entry=2316 class_id=0x090a slot=0x07 */
+{
+  set_info(0x0210, *(arg_06));
+  process_exclude();
+  spawn DOOREGG.slot_20(pid, arg_06);
+  suspend;
+  return;
+}

@@ -1,0 +1,52 @@
+function door2_slot_40() /* entry=2569 class_id=0x0a07 slot=0x40 */
+{
+  entry:
+    set_info(0x0207, *(arg_06));
+    if (intrinsic_0016(arg_06) != 0x043f) goto block_3873;
+
+  block_3830:
+    FREE.slot_2d(Item.getZ(arg_06), Item.legal_create(arg_06), intrinsic_0013(arg_06), 4, 0x03f8, *(arg_06));
+    if (!retval) goto block_3870;
+
+  block_3866:
+    /* word_to_dword */
+    /* pop_result */
+    goto block_3987;
+
+  block_3870:
+    goto block_391e;
+
+  block_3873_selector_00:
+    for local_04 in nearby_items(shape=0x0401, origin=arg_06) {
+      /* loopnext */
+    }
+
+  block_38a3:
+    FREE.slot_2d(Item.getZ(arg_06), Item.legal_create(arg_06), intrinsic_0013(arg_06), 4, 108, *(arg_06));
+    if (!retval) goto block_391e;
+
+  block_38da:
+    /* word_to_dword */
+    /* pop_result */
+    goto block_3987;
+
+  block_391e:
+    local_02 = 0;
+
+  block_3932:
+    while (local_02 > 4) {
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+      local_02 = (1 + local_02);
+    }
+
+  block_397d:
+    /* word_to_dword */
+    /* pop_result */
+    goto block_3987;
+
+  block_3987:
+    return;
+
+  /* decompilation stopped at SEARCH_SURFACE */
+}

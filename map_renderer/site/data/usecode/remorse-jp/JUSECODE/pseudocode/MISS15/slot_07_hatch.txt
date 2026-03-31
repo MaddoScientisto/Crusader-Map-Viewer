@@ -1,0 +1,66 @@
+function miss15_hatch() /* entry=2333 class_id=0x091b slot=0x07 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    item, /* [BP-02h] type=0x24 */
+    counter, /* [BP-04h] type=0x69 */
+    door, /* [BP-06h] type=0x24 */
+    n; /* [BP-08h] type=0x24 */
+
+  set_info(0x0210, *(arg_06));
+  process_exclude();
+  if (intrinsic_0041(arg_06) == 1) {
+    spawn FREE.slot_32(pid, 5, 0x00000000);
+    suspend;
+    /* str_to_ptr */
+    /* free_stack_string */
+    suspend;
+    /* global_address */
+    suspend;
+    suspend;
+    for door in nearby_items(shape=51, origin=arg_06) {
+      spawn DOOR.slot_21(pid, 1, door);
+      suspend;
+      /* loopnext */
+    }
+    spawn FREE.slot_32(pid, 60, 0x00000000);
+    suspend;
+    /* global_address */
+    suspend;
+    /* global_address */
+    suspend;
+    /* global_address */
+    suspend;
+    /* global_address */
+    suspend;
+    /* global_address */
+    suspend;
+    return;
+  }
+  else if (intrinsic_0041(arg_06) == 2) {
+    spawn FREE.slot_26(pid, "15c", 0x00000000);
+    /* free_stack_string */
+    suspend;
+    return;
+  }
+  else if (intrinsic_0041(arg_06) == 3) {
+    /* global_address */
+    while (!intrinsic_0036()) {
+      spawn FREE.slot_32(pid, 2, 0x00000000);
+      suspend;
+    }
+    FREE.slot_41();
+    /* global_address */
+    suspend;
+    /* str_to_ptr */
+    /* free_stack_string */
+    suspend;
+    spawn FREE.slot_32(pid, 30, 0x00000000);
+    suspend;
+    for n in nearby_items(shape=npcdeath_shape_03ac, origin=arg_06) {
+      /* loopnext */
+    }
+    return;
+  }
+  return;
+}

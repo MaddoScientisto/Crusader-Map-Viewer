@@ -1,0 +1,36 @@
+function landmine_gotHit() /* entry=924 class_id=0x039a slot=0x06 */
+{
+  entry:
+    set_info(0x020c, *(arg_06));
+    process_exclude();
+    if (arg_10 != 1) goto block_0585;
+
+  block_057f:
+    goto block_05f3;
+
+  block_0585:
+    FREE.slot_2c(arg_12, arg_10);
+    local_02 = retval;
+    if local_02 goto block_05ca;
+
+  block_059e:
+    if (local_02 != 4) goto block_05b8;
+
+  block_05af:
+    goto block_05f3;
+
+  block_05b5:
+    goto block_05c7;
+
+  block_05c7:
+    goto block_05f3;
+
+  block_05ca:
+    local_04 = arg_10;
+    if intrinsic_00cd(*(arg_06), local_04) goto block_05f3;
+
+  block_05f3:
+    return;
+
+  /* decompilation stopped at SEARCH_SURFACE */
+}

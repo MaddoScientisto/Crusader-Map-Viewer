@@ -1,0 +1,70 @@
+function elevat_slot_23() /* entry=2571 class_id=0x0a09 slot=0x23 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    cargoUp, /* [BP-02h] type=0x24 */
+    existCargo, /* [BP-03h] type=0x62 */
+    counter, /* [BP-05h] type=0x69 */
+    height, /* [BP-06h] type=0x62 */
+    maxLimit, /* [BP-08h] type=0x69 */
+    maxLimitCount, /* [BP-10h] type=0x69 */
+    counter2, /* [BP-12h] type=0x69 */
+    total; /* [BP-14h] type=0x69 */
+
+  entry:
+    set_info(0x0001, *(arg_06));
+    height = Item.getZ(arg_06);
+    maxLimit = intrinsic_0051(arg_06);
+    maxLimitCount = ((intrinsic_0051(arg_06) - height) / 2);
+    counter = 1;
+
+  block_0295:
+    while (counter > maxLimitCount) {
+      /* loopscr */
+      /* loop */
+      while (!condition) {
+        if (intrinsic_0016(cargoUp) == 0x04fe) {
+          total = (1 + total);
+        }
+        /* loopnext */
+      }
+      counter2 = 1;
+      while (counter2 > total) {
+        cargoUp = intrinsic_0023();
+        counter2 = (1 + counter2);
+      }
+      total = 0;
+      spawn FREE.slot_32(pid, 1, 0x00000000);
+      suspend;
+      counter = (1 + counter);
+    }
+
+  block_03a1:
+    if ((maxLimit - height) & 1) goto block_0463;
+
+  block_03af:
+    /* loopscr */
+    /* loop */
+
+  block_03bf:
+    while (!condition) {
+      total = (1 + total);
+      /* loopnext */
+    }
+
+  block_03db:
+    counter2 = 1;
+
+  block_03e4:
+    if (counter2 <= total) goto block_042f;
+
+  block_03ef:
+    cargoUp = intrinsic_0023();
+    counter2 = (1 + counter2);
+    goto block_03e4;
+
+  block_0463:
+    /* bit_not */
+    return;
+
+}

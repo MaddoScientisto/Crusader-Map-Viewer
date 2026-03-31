@@ -1,0 +1,181 @@
+function trigger_slot_27() /* entry=2585 class_id=0x0a17 slot=0x27 */
+{
+  entry:
+    set_info(0x021b, 0);
+    local_18 = arg_18;
+    local_16 = arg_10;
+    local_04 = (arg_16 & 3);
+    if (local_04 != 0) goto block_1844;
+
+  block_1808_selector_00:
+    for local_14 in nearby_items(family=1, origin=local_16) {
+      /* loopnext */
+    }
+
+  block_183f:
+    goto block_1c20;
+
+  block_1844:
+    if (local_04 != 1) goto block_1888;
+
+  block_184c_selector_00:
+    for local_14 in nearby_items(family=1, origin=local_16) {
+      /* loopnext */
+    }
+
+  block_1883:
+    goto block_1c20;
+
+  block_1888:
+    if (local_04 != 2) goto block_18ce;
+
+  block_1890_selector_00:
+    for local_14 in nearby_items(family=1, origin=local_16) {
+      /* loopnext */
+    }
+
+  block_18c9:
+    goto block_1c20;
+
+  block_18ce:
+    if (local_04 != 3) goto block_1c20;
+
+  block_18d6:
+    local_02 = (arg_12 & 7);
+    if (local_02 != 0) goto block_1959;
+
+  block_18e5:
+    local_12 = (arg_12 / 8);
+
+  block_18e5_selector_00:
+    for local_14 in nearby_items(shape=0x0476, origin=local_16) {
+      if (intrinsic_0107(local_14) == arg_18) {
+        local_06 = intrinsic_0129(local_14);
+        local_10 = (local_06 & 15);
+        local_08 = intrinsic_0003(local_14);
+        local_08 = (((local_06 & 0x00e0) * 8) + local_08);
+        FREE.slot_39(local_12, local_10, local_08, local_14);
+      }
+      /* loopnext */
+    }
+
+  block_1954:
+    goto block_1c1d;
+
+  block_1959:
+    if (local_02 != 1) goto block_1a5c;
+
+  block_1961:
+    local_12 = (arg_12 / 8);
+
+  block_1961_selector_00:
+    /* loop_selector local_14 in nearby_items(family=1, origin=local_16) */
+
+  block_197f:
+    if condition goto block_1a57;
+
+  block_1982:
+    if (intrinsic_0107(local_14) != arg_18) goto block_1a53;
+
+  block_1991:
+    if (local_12 != 31) goto block_19bf;
+
+  block_19a3:
+    suspend;
+    goto block_1a53;
+
+  block_19bf:
+    local_10 = Item.getFrame(local_14);
+    local_08 = intrinsic_0011(local_14);
+    local_06 = (local_08 & 0x00ff);
+    local_08 = (local_08 & 0x0700);
+    local_08 = (local_08 / 8);
+    local_08 = (local_08 + local_10);
+    suspend;
+    /* bit_not */
+
+  block_1a53:
+    /* loopnext */
+    goto block_197f;
+
+  block_1a57:
+    goto block_1c1d;
+
+  block_1a5c:
+    if (local_02 != 2) goto block_1aa7;
+
+  block_1a64:
+    local_06 = (arg_12 / 8);
+
+  block_1a64_selector_00:
+    for local_14 in nearby_items(family=1, origin=local_16) {
+      /* loopnext */
+    }
+
+  block_1aa2:
+    goto block_1c1d;
+
+  block_1aa7:
+    if (local_02 != 3) goto block_1b0e;
+
+  block_1aaf:
+    if (global[0x0022] != 100) goto block_1ac0;
+
+  block_1ab9:
+    local_20 = 32;
+    goto block_1ac6;
+
+  block_1ac0:
+    local_20 = global[0x0022];
+
+  block_1ac6_selector_00:
+    for local_14 in nearby_items(family=1, origin=local_16) {
+      if (intrinsic_0107(local_14) == arg_18) {
+        local_06 = (arg_12 / 8);
+        spawn TRIGGER.slot_22(local_06, local_14, arg_06);
+      }
+      /* loopnext */
+    }
+
+  block_1b09:
+    goto block_1c1d;
+
+  block_1b0e:
+    if (local_02 == 4) {
+      local_06 = (arg_12 / 8);
+      local_18 = (local_18 + local_06);
+    }
+    else if (local_02 == 5) {
+      local_06 = (arg_12 / 8);
+      local_18 = (local_18 - local_06);
+    }
+    else if (local_02 == 6) {
+      local_12 = (arg_12 / 8);
+      for local_14 in nearby_items(shape=0x0476, origin=local_16) {
+        if (intrinsic_0107(local_14) == arg_18) {
+          local_06 = intrinsic_012b(local_14);
+          local_10 = (local_06 & 15);
+          local_08 = intrinsic_0003(local_14);
+          local_08 = (((local_06 & 0x00e0) * 8) + local_08);
+          if (local_08 == 0) {
+            if (Item.create(local_10, local_08, local_22) == 1) {
+              suspend;
+            }
+          }
+        }
+        /* loopnext */
+      }
+    }
+
+  block_1c1d:
+    goto block_1c20;
+
+  block_1c20:
+    /* word_to_dword */
+    /* pop_result */
+    goto block_1c27;
+
+  block_1c27:
+    return;
+
+}

@@ -1,0 +1,51 @@
+function gtelepad_release() /* entry=271 class_id=0x010d slot=0x09 */
+{
+  entry:
+    set_info(0x020d, *(arg_06));
+    process_exclude();
+    spawn FREE.slot_3b(pid, 2, 0x00000000);
+    suspend;
+    /* loopscr */
+    /* loopscr */
+    /* loopscr */
+    /* loopscr */
+    /* loop */
+
+  block_01c4:
+    while (!condition) {
+      return;
+    }
+
+  block_01ce:
+    /* loopscr */
+    /* loopscr */
+    /* loopscr */
+    /* loopscr */
+    /* loop */
+
+  block_01e5:
+    if condition goto block_0226;
+
+  block_01e8:
+    if (local_04 != 1) goto block_021f;
+
+  block_01f0:
+    /* global_address */
+    if intrinsic_00aa(*(arg_06)) goto block_021b;
+
+  block_0201:
+    spawn FREE.slot_3b(pid, 2, 0x00000000);
+    suspend;
+    goto block_01f0;
+
+  block_021f:
+    goto block_0228;
+
+  block_0222:
+    /* loopnext */
+    goto block_01e5;
+
+  block_0228:
+    return;
+
+}

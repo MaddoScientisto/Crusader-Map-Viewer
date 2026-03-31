@@ -1,0 +1,23 @@
+function npc_slot_2d() /* entry=2579 class_id=0x0a11 slot=0x2d */
+{
+  set_info(0x020a, *(arg_06));
+  if (*(arg_06) <= 0x0100) {
+    return;
+  }
+  if (*(arg_06) == 1) {
+    if (global[0x0009] == 1) {
+      return;
+    }
+    local_02 = intrinsic_00e4(arg_06);
+    spawn NPC.slot_2e(arg_06);
+    return;
+  }
+  else if (*(arg_06) == intrinsic_001b()) {
+    NPC.slot_2b(arg_06);
+    spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+    suspend;
+    return;
+  }
+  return;
+  /* decompilation stopped at SEARCH_SURFACE */
+}

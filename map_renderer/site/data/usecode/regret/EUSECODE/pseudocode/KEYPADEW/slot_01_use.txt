@@ -1,0 +1,39 @@
+function keypadew_use() /* entry=1102 class_id=0x044c slot=0x01 */
+{
+  entry:
+    set_info(0x0207, *(arg_06));
+    process_exclude();
+    if (intrinsic_0003(arg_06) != 0) goto block_0223;
+
+  block_018d:
+    local_01 = (intrinsic_0004(arg_06) & 4);
+    if (local_01 != 0) goto block_0208;
+
+  block_01a3:
+    if intrinsic_0000() goto block_01f5;
+
+  block_01ab:
+    spawn FREE.slot_21(pid, 0x0184, 0x00000000);
+    suspend;
+    spawn FREE.slot_3b(pid, 2, 0x00000000);
+    suspend;
+    spawn FREE.slot_21(pid, 0x0181, 0x00000000);
+    suspend;
+    goto block_0223;
+
+  block_01f5:
+    spawn KEYPAD.slot_20(pid, arg_06);
+    suspend;
+    goto block_0220;
+
+  block_0208:
+    spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
+    suspend;
+
+  block_0220:
+    goto block_0223;
+
+  block_0223:
+    return;
+
+}

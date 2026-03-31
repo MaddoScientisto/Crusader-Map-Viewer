@@ -1,0 +1,17 @@
+function vir_use() /* entry=1263 class_id=0x04ed slot=0x01 */
+{
+  set_info(0x0207, *(arg_06));
+  process_exclude();
+  set_info(0x00f0, 0);
+  /* global_address */
+  if (intrinsic_003d() == 25) {
+    return;
+  }
+  if (!(global[0x0009])) {
+    /* pop_global */
+    return;
+  }
+  /* pop_global */
+  spawn VIR.slot_20(1, arg_06);
+  return;
+}

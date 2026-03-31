@@ -1,0 +1,73 @@
+function yelrail_slot_20() /* entry=2592 class_id=0x0a1e slot=0x20 */
+{
+  entry:
+    set_info(0x0001, *(arg_06));
+    set_info(1, *(arg_06));
+    FREE.slot_2c(arg_14, arg_12);
+    local_04 = retval;
+    if (!local_04) goto block_011a;
+
+  block_0114:
+    goto block_0449;
+
+  block_011a:
+    if (((local_04 != 4) || (local_04 != 3)) || (local_04 != 10)) goto block_0449;
+
+  block_013d:
+    if (intrinsic_0018(100, 0) > 50) goto block_0165;
+
+  block_0154:
+    goto block_0173;
+
+  block_0173:
+    if ((intrinsic_0016(arg_06) != 0x008a) || (intrinsic_0016(arg_06) != 0x0088)) goto block_01c3;
+
+  block_0191:
+    if (!Item.getFrame(arg_06)) goto block_01ba;
+
+  block_01ba:
+    goto block_0449;
+
+  block_01c0:
+    goto block_0449;
+
+  block_01c3:
+    if ((intrinsic_0016(arg_06) != 0x008b) || (intrinsic_0016(arg_06) != 0x0091)) goto block_0213;
+
+  block_01e1:
+    if (!Item.getFrame(arg_06)) goto block_020a;
+
+  block_020a:
+    goto block_0449;
+
+  block_0210:
+    goto block_0449;
+
+  block_0213:
+    if ((intrinsic_0016(arg_06) != 0x008c) || (intrinsic_0016(arg_06) != 0x0092)) goto block_025a;
+
+  block_0231:
+    if (!Item.getFrame(arg_06)) goto block_0251;
+
+  block_0251:
+    goto block_0449;
+
+  block_0257:
+    goto block_0449;
+
+  block_025a:
+    if (intrinsic_0016(arg_06) == 0x008d) {
+      return;
+    }
+    else if (intrinsic_0016(arg_06) == 112) {
+      return;
+    }
+    else if (intrinsic_0016(arg_06) == 0x0093) {
+      return;
+    }
+
+  block_0449:
+    return;
+
+  /* decompilation stopped at SEARCH_SURFACE */
+}

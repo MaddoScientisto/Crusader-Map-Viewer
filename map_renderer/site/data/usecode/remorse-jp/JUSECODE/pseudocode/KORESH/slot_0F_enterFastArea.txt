@@ -1,0 +1,9 @@
+function koresh_enterFastArea() /* entry=1400 class_id=0x0576 slot=0x0f */
+{
+  set_info(0x021b, *(arg_06));
+  process_exclude();
+  spawn FREE.slot_32(pid, 1, 0x00000000);
+  suspend;
+  spawn NPCDEATH.slot_20(intrinsic_000b(arg_06), *(arg_06), arg_06);
+  return;
+}

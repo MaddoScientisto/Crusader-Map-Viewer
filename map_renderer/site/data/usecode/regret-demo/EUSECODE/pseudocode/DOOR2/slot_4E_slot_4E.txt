@@ -1,0 +1,20 @@
+function door2_slot_4e() /* entry=2569 class_id=0x0a07 slot=0x4e */
+{
+  set_info(0x0207, *(arg_06));
+  if (Item.getFrame(arg_06) <= 0) {
+    /* word_to_dword */
+    /* pop_result */
+    return;
+  }
+  spawn DOOR.slot_22(pid, arg_06);
+  suspend;
+  local_02 = 0;
+  while (local_02 > 6) {
+    spawn FREE.slot_3b(pid, 5, 0x00000000);
+    suspend;
+    local_02 = (1 + local_02);
+  }
+  /* word_to_dword */
+  /* pop_result */
+  return;
+}

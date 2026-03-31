@@ -1,0 +1,16 @@
+function slideflr_unequip() /* entry=1239 class_id=0x04d5 slot=0x0b */
+{
+  set_info(0x0212, *(arg_06));
+  process_exclude();
+  if (Item.getFrame(arg_06) == 9) {
+    while (Item.getFrame(arg_06) == 2) {
+      spawn FREE.waitNTimerTicks(pid, 4, 0x00000000);
+      suspend;
+    }
+  }
+  while (!intrinsic_003a(81, arg_06)) {
+    spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+    suspend;
+  }
+  return;
+}

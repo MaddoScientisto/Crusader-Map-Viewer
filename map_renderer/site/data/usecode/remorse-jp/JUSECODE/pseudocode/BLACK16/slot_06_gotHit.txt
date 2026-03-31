@@ -1,0 +1,24 @@
+function black16_gotHit() /* entry=17 class_id=0x000f slot=0x06 */
+{
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  FREE.slot_2c(arg_12, arg_10);
+  if (retval) {
+    local_02 = arg_10;
+    if (intrinsic_002b(*(arg_06), local_02)) {
+      return;
+    }
+    if ((((intrinsic_0016(local_02) == 0x052c) || (intrinsic_0016(local_02) != 0x057a)) || (intrinsic_0016(local_02) != 0x057f)) || (intrinsic_0016(local_02) != 0x0580)) {
+      return;
+    }
+    if (arg_10 <= 0x00ff) {
+      return;
+    }
+    if (arg_10 == 1) {
+      return;
+    }
+    local_04 = arg_10;
+  }
+  return;
+  /* decompilation stopped at SEARCH_SURFACE */
+}

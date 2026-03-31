@@ -1,0 +1,8 @@
+function flame1_gotHit() /* entry=1085 class_id=0x043b slot=0x06 */
+{
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  spawn FLAME.slot_21(pid, arg_10, arg_06);
+  suspend;
+  return;
+}

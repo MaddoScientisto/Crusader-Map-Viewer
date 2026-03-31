@@ -1,0 +1,86 @@
+function reb_pad_gotHit() /* entry=1087 class_id=0x043d slot=0x06 */
+{
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  local_02 = arg_10;
+  local_04 = *(arg_06);
+  set_info(1, 0);
+  spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+  suspend;
+  FREE.slot_2c(arg_12, arg_10);
+  if (!retval) {
+    return;
+  }
+  if (((intrinsic_0070() == 1) || (!intrinsic_006f(*(arg_06), local_02))) || (intrinsic_00ea(arg_06) != 0)) {
+    return;
+  }
+  if (local_02 == 1) {
+    /* pop_global */
+    for local_02 in nearby_items(shape=PLACEHOLDER_CUBE, origin=arg_06) {
+      /* loopnext */
+    }
+    if (global[0x001f] == 1) {
+      spawn REB_PAD.slot_20(30, 1, arg_06);
+      return;
+    }
+    if (global[0x001f] == 2) {
+      spawn REB_PAD.slot_20(30, 3, arg_06);
+      return;
+    }
+    if (global[0x001f] == 3) {
+      spawn REB_PAD.slot_20(30, 5, arg_06);
+      return;
+    }
+    if (global[0x001f] == 4) {
+      spawn REB_PAD.slot_20(30, 7, arg_06);
+      return;
+    }
+    if (global[0x001f] == 5) {
+      spawn REB_PAD.slot_20(30, 9, arg_06);
+      return;
+    }
+    if (global[0x001f] == 6) {
+      spawn REB_PAD.slot_20(30, 11, arg_06);
+      return;
+    }
+    if (global[0x001f] == 7) {
+      spawn REB_PAD.slot_20(30, 13, arg_06);
+      return;
+    }
+    if (global[0x001f] == 8) {
+      spawn REB_PAD.slot_20(30, 15, arg_06);
+      return;
+    }
+    if (global[0x001f] == 9) {
+      spawn REB_PAD.slot_20(30, 17, arg_06);
+      return;
+    }
+    if (global[0x001f] == 10) {
+      spawn REB_PAD.slot_20(30, 19, arg_06);
+      return;
+    }
+    if (global[0x001f] == 11) {
+      spawn REB_PAD.slot_20(30, 21, arg_06);
+      return;
+    }
+    if (global[0x001f] == 12) {
+      spawn REB_PAD.slot_20(30, 23, arg_06);
+      return;
+    }
+    if (global[0x001f] == 13) {
+      spawn REB_PAD.slot_20(30, 25, arg_06);
+      return;
+    }
+    if (global[0x001f] == 14) {
+      spawn REB_PAD.slot_20(30, 27, arg_06);
+      return;
+    }
+    if (global[0x001f] == 15) {
+      spawn REB_PAD.slot_20(30, 29, arg_06);
+      return;
+    }
+    spawn REB_PAD.slot_20(29, 40, arg_06);
+  }
+  return;
+  /* decompilation stopped at SEARCH_SURFACE */
+}

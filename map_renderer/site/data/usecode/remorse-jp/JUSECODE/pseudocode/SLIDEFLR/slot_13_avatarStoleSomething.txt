@@ -1,0 +1,16 @@
+function slideflr_avatarStoleSomething() /* entry=1239 class_id=0x04d5 slot=0x13 */
+{
+  set_info(0x022e, *(arg_06));
+  process_exclude();
+  if (Item.getFrame(arg_06) == 9) {
+    while (Item.getFrame(arg_06) == 9) {
+      spawn FREE.slot_32(pid, 4, 0x00000000);
+      suspend;
+    }
+  }
+  while (!intrinsic_003d(81, arg_06)) {
+    spawn FREE.slot_32(pid, 2, 0x00000000);
+    suspend;
+  }
+  return;
+}

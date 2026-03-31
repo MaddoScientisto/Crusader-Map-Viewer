@@ -1,0 +1,23 @@
+function free_slot_2e() /* entry=2574 class_id=0x0a0c slot=0x2e */
+{
+  var
+    ref, /* [BP+06h] type=0x69 */
+    phold, /* [BP-02h] type=0x24 */
+    item, /* [BP-04h] type=0x24 */
+    a, /* [BP-06h] type=0x69 */
+    b, /* [BP-08h] type=0x69 */
+    c; /* [BP-10h] type=0x69 */
+
+  set_info(1, 0);
+  phold = ref;
+  if (intrinsic_0016(phold) == 0x0476) {
+    a = intrinsic_00ae(phold);
+    c = (a & 15);
+    b = intrinsic_0003(phold);
+    b = (((a & 0x00e0) * 8) + b);
+    if (b == 0) {
+      return;
+    }
+  }
+  return;
+}

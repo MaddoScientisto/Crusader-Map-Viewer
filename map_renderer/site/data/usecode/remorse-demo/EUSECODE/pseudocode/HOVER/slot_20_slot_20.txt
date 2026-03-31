@@ -1,0 +1,591 @@
+function hover_slot_20() /* entry=2575 class_id=0x0a0d slot=0x20 */
+{
+  entry:
+    set_info(1, 0);
+    local_25 = arg_10;
+    local_27 = intrinsic_0013(local_25);
+    local_29 = Item.legal_create(local_25);
+    local_30 = Item.getZ(local_25);
+    FREE.slot_3f((arg_12 - local_27));
+    local_32 = retval;
+    FREE.slot_3f((arg_14 - local_29));
+    local_34 = retval;
+    FREE.slot_3f((arg_16 - local_30));
+    local_36 = retval;
+    if ((local_32 > local_34) && (local_32 > local_36)) goto block_05b3;
+
+  block_0183:
+    /* word_to_dword */
+    local_64 = local_32;
+    /* word_to_dword */
+    local_56 = local_34;
+    /* word_to_dword */
+    local_56 = (local_56 * 0x0fa0);
+    local_56 = (local_56 / local_64);
+    /* word_to_dword */
+    local_44 = 0;
+    /* word_to_dword */
+    local_60 = local_36;
+    /* word_to_dword */
+    local_60 = (local_60 * 0x0fa0);
+    local_60 = (local_60 / local_64);
+    /* word_to_dword */
+    local_48 = 0;
+
+  block_01d7:
+    if 1 goto block_05b0;
+
+  block_01df:
+    if ((intrinsic_0004(local_25) & 0x1000) != 0) goto block_01ff;
+
+  block_01f5:
+    /* word_to_dword */
+    /* pop_result */
+    goto block_0e24;
+
+  block_01ff:
+    local_17 = (arg_12 - local_27);
+    local_19 = (arg_14 - local_29);
+    local_21 = (arg_16 - local_30);
+    local_11 = 0;
+    local_13 = 0;
+    local_15 = 0;
+    if ((local_17 < 4) && (local_17 > -4)) goto block_0250;
+
+  block_0246:
+    /* word_to_dword */
+    /* pop_result */
+    goto block_0e24;
+
+  block_0250:
+    local_11 = 4;
+    if (local_17 < 0) goto block_0269;
+
+  block_0262:
+    local_11 = -4;
+
+  block_0269:
+    if local_19 goto block_02ad;
+
+  block_0271:
+    local_44 = (local_44 + local_56);
+    /* word_to_dword */
+    /* gt_dword */
+    if 0x0fa0 goto block_02ad;
+
+  block_0288:
+    /* word_to_dword */
+    local_44 = (local_44 - 0x0fa0);
+    local_13 = 4;
+    if (local_19 < 0) goto block_02ad;
+
+  block_02a6:
+    local_13 = -4;
+
+  block_02ad:
+    if local_21 goto block_02f1;
+
+  block_02b5:
+    local_48 = (local_48 + local_60);
+    /* word_to_dword */
+    /* gt_dword */
+    if 0x0fa0 goto block_02f1;
+
+  block_02cc:
+    /* word_to_dword */
+    local_48 = (local_48 - 0x0fa0);
+    local_15 = 4;
+    if (local_21 < 0) goto block_02f1;
+
+  block_02ea:
+    local_15 = -4;
+
+  block_02f1:
+    local_07 = 0;
+    /* loopscr */
+    /* loop */
+
+  block_0306:
+    if condition goto block_039b;
+
+  block_0309:
+    if (intrinsic_0016(local_23) != 0x033a) goto block_0397;
+
+  block_031c:
+    if (local_23 < 0x00ff) goto block_0382;
+
+  block_032b:
+    local_66 = local_23;
+    if intrinsic_003c(local_66) goto block_036a;
+
+  block_0341:
+    suspend;
+    goto block_037f;
+
+  block_036a:
+    local_07 = (1 + local_07);
+
+  block_037f:
+    goto block_0397;
+
+  block_0382:
+    local_07 = (1 + local_07);
+
+  block_0397:
+    /* loopnext */
+    goto block_0306;
+
+  block_039b:
+    local_27 = (local_27 + local_11);
+    local_29 = (local_29 + local_13);
+    local_30 = (local_30 + local_15);
+    local_05 = local_27;
+    local_03 = local_29;
+    local_01 = local_30;
+    if (intrinsic_002f(local_25) != 0) goto block_0459;
+
+  block_03e2:
+    local_09 = 1;
+
+  block_0405:
+    while (local_09 > local_07) {
+      local_23 = intrinsic_0023();
+      local_09 = (1 + local_09);
+    }
+
+  block_0456:
+    goto block_0587;
+
+  block_0459:
+    if intrinsic_0031(0, 1, local_05, local_25) goto block_04c9;
+
+  block_046e:
+    local_09 = 1;
+
+  block_0475:
+    while (local_09 > local_07) {
+      local_23 = intrinsic_0023();
+      local_09 = (1 + local_09);
+    }
+
+  block_04c6:
+    goto block_0587;
+
+  block_04c9:
+    local_09 = 1;
+
+  block_04d0:
+    while (local_09 > local_07) {
+      local_23 = intrinsic_0023();
+      local_09 = (1 + local_09);
+    }
+
+  block_0518:
+    if (intrinsic_00bf(local_25) & 16) goto block_0543;
+
+  block_052a:
+    /* bit_not */
+    /* word_to_dword */
+    /* pop_result */
+    goto block_0e24;
+
+  block_0543:
+    local_27 = (local_27 - local_11);
+    local_29 = (local_29 - local_13);
+    local_30 = (local_30 - local_15);
+    spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+    suspend;
+
+  block_0587:
+    spawn FREE.waitNTimerTicks(pid, 1, 0x00000000);
+    suspend;
+    goto block_01d7;
+
+  block_05b0:
+    goto block_0e24;
+
+  block_05b3:
+    if ((local_34 > local_32) && (local_34 > local_36)) goto block_09f7;
+
+  block_05c7:
+    /* word_to_dword */
+    local_64 = local_34;
+    /* word_to_dword */
+    local_52 = local_32;
+    /* word_to_dword */
+    local_52 = (local_52 * 0x0fa0);
+    local_52 = (local_52 / local_64);
+    /* word_to_dword */
+    local_40 = 0;
+    /* word_to_dword */
+    local_60 = local_36;
+    /* word_to_dword */
+    local_60 = (local_60 * 0x0fa0);
+    local_60 = (local_60 / local_64);
+    /* word_to_dword */
+    local_48 = 0;
+
+  block_061b:
+    if 1 goto block_09f4;
+
+  block_0623:
+    if ((intrinsic_0004(local_25) & 0x1000) != 0) goto block_0643;
+
+  block_0639:
+    /* word_to_dword */
+    /* pop_result */
+    goto block_0e24;
+
+  block_0643:
+    local_17 = (arg_12 - local_27);
+    local_19 = (arg_14 - local_29);
+    local_21 = (arg_16 - local_30);
+    local_11 = 0;
+    local_13 = 0;
+    local_15 = 0;
+    if ((local_19 < 4) && (local_19 > -4)) goto block_0694;
+
+  block_068a:
+    /* word_to_dword */
+    /* pop_result */
+    goto block_0e24;
+
+  block_0694:
+    if local_17 goto block_06d8;
+
+  block_069c:
+    local_40 = (local_40 + local_52);
+    /* word_to_dword */
+    /* gt_dword */
+    if 0x0fa0 goto block_06d8;
+
+  block_06b3:
+    /* word_to_dword */
+    local_40 = (local_40 - 0x0fa0);
+    local_11 = 4;
+    if (local_17 < 0) goto block_06d8;
+
+  block_06d1:
+    local_11 = -4;
+
+  block_06d8:
+    local_13 = 4;
+    if (local_19 < 0) goto block_06f1;
+
+  block_06ea:
+    local_13 = -4;
+
+  block_06f1:
+    if local_21 goto block_0735;
+
+  block_06f9:
+    local_48 = (local_48 + local_60);
+    /* word_to_dword */
+    /* gt_dword */
+    if 0x0fa0 goto block_0735;
+
+  block_0710:
+    /* word_to_dword */
+    local_48 = (local_48 - 0x0fa0);
+    local_15 = 4;
+    if (local_21 < 0) goto block_0735;
+
+  block_072e:
+    local_15 = -4;
+
+  block_0735:
+    local_07 = 0;
+    /* loopscr */
+    /* loop */
+
+  block_074a:
+    if condition goto block_07df;
+
+  block_074d:
+    if (intrinsic_0016(local_23) != 0x033a) goto block_07db;
+
+  block_0760:
+    if (local_23 < 0x00ff) goto block_07c6;
+
+  block_076f:
+    local_66 = local_23;
+    if intrinsic_003c(local_66) goto block_07ae;
+
+  block_0785:
+    suspend;
+    goto block_07c3;
+
+  block_07ae:
+    local_07 = (1 + local_07);
+
+  block_07c3:
+    goto block_07db;
+
+  block_07c6:
+    local_07 = (1 + local_07);
+
+  block_07db:
+    /* loopnext */
+    goto block_074a;
+
+  block_07df:
+    local_27 = (local_27 + local_11);
+    local_29 = (local_29 + local_13);
+    local_30 = (local_30 + local_15);
+    local_05 = local_27;
+    local_03 = local_29;
+    local_01 = local_30;
+    if (intrinsic_002f(local_25) != 0) goto block_089d;
+
+  block_0826:
+    local_09 = 1;
+
+  block_0849:
+    while (local_09 > local_07) {
+      local_23 = intrinsic_0023();
+      local_09 = (1 + local_09);
+    }
+
+  block_089a:
+    goto block_09cb;
+
+  block_089d:
+    if intrinsic_0031(0, 1, local_05, local_25) goto block_090d;
+
+  block_08b2:
+    local_09 = 1;
+
+  block_08b9:
+    while (local_09 > local_07) {
+      local_23 = intrinsic_0023();
+      local_09 = (1 + local_09);
+    }
+
+  block_090a:
+    goto block_09cb;
+
+  block_090d:
+    local_09 = 1;
+
+  block_0914:
+    while (local_09 > local_07) {
+      local_23 = intrinsic_0023();
+      local_09 = (1 + local_09);
+    }
+
+  block_095c:
+    if (intrinsic_00bf(local_25) & 16) goto block_0987;
+
+  block_096e:
+    /* bit_not */
+    /* word_to_dword */
+    /* pop_result */
+    goto block_0e24;
+
+  block_0987:
+    local_27 = (local_27 - local_11);
+    local_29 = (local_29 - local_13);
+    local_30 = (local_30 - local_15);
+    spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+    suspend;
+
+  block_09cb:
+    spawn FREE.waitNTimerTicks(pid, 1, 0x00000000);
+    suspend;
+    goto block_061b;
+
+  block_09f4:
+    goto block_0e24;
+
+  block_09f7:
+    /* word_to_dword */
+    local_64 = local_36;
+    /* word_to_dword */
+    local_52 = local_32;
+    /* word_to_dword */
+    local_52 = (local_52 * 0x0fa0);
+    local_52 = (local_52 / local_64);
+    /* word_to_dword */
+    local_40 = 0;
+    /* word_to_dword */
+    local_56 = local_34;
+    /* word_to_dword */
+    local_56 = (local_56 * 0x0fa0);
+    local_56 = (local_56 / local_64);
+    /* word_to_dword */
+    local_44 = 0;
+
+  block_0a4b:
+    if 1 goto block_0e24;
+
+  block_0a53:
+    if ((intrinsic_0004(local_25) & 0x1000) != 0) goto block_0a73;
+
+  block_0a69:
+    /* word_to_dword */
+    /* pop_result */
+    goto block_0e24;
+
+  block_0a73:
+    local_17 = (arg_12 - local_27);
+    local_19 = (arg_14 - local_29);
+    local_21 = (arg_16 - local_30);
+    local_11 = 0;
+    local_13 = 0;
+    local_15 = 0;
+    if ((local_21 < 4) && (local_21 > -4)) goto block_0ac4;
+
+  block_0aba:
+    /* word_to_dword */
+    /* pop_result */
+    goto block_0e24;
+
+  block_0ac4:
+    if local_17 goto block_0b08;
+
+  block_0acc:
+    local_40 = (local_40 + local_52);
+    /* word_to_dword */
+    /* gt_dword */
+    if 0x0fa0 goto block_0b08;
+
+  block_0ae3:
+    /* word_to_dword */
+    local_40 = (local_40 - 0x0fa0);
+    local_11 = 4;
+    if (local_17 < 0) goto block_0b08;
+
+  block_0b01:
+    local_11 = -4;
+
+  block_0b08:
+    if local_19 goto block_0b4c;
+
+  block_0b10:
+    local_44 = (local_44 + local_56);
+    /* word_to_dword */
+    /* gt_dword */
+    if 0x0fa0 goto block_0b4c;
+
+  block_0b27:
+    /* word_to_dword */
+    local_44 = (local_44 - 0x0fa0);
+    local_13 = 4;
+    if (local_19 < 0) goto block_0b4c;
+
+  block_0b45:
+    local_13 = -4;
+
+  block_0b4c:
+    local_15 = 4;
+    if (local_21 < 0) goto block_0b65;
+
+  block_0b5e:
+    local_15 = -4;
+
+  block_0b65:
+    local_07 = 0;
+    /* loopscr */
+    /* loop */
+
+  block_0b7a:
+    if condition goto block_0c0f;
+
+  block_0b7d:
+    if (intrinsic_0016(local_23) != 0x033a) goto block_0c0b;
+
+  block_0b90:
+    if (local_23 < 0x00ff) goto block_0bf6;
+
+  block_0b9f:
+    local_66 = local_23;
+    if intrinsic_003c(local_66) goto block_0bde;
+
+  block_0bb5:
+    suspend;
+    goto block_0bf3;
+
+  block_0bde:
+    local_07 = (1 + local_07);
+
+  block_0bf3:
+    goto block_0c0b;
+
+  block_0bf6:
+    local_07 = (1 + local_07);
+
+  block_0c0b:
+    /* loopnext */
+    goto block_0b7a;
+
+  block_0c0f:
+    local_27 = (local_27 + local_11);
+    local_29 = (local_29 + local_13);
+    local_30 = (local_30 + local_15);
+    local_05 = local_27;
+    local_03 = local_29;
+    local_01 = local_30;
+    if (intrinsic_002f(local_25) != 0) goto block_0ccd;
+
+  block_0c56:
+    local_09 = 1;
+
+  block_0c79:
+    while (local_09 > local_07) {
+      local_23 = intrinsic_0023();
+      local_09 = (1 + local_09);
+    }
+
+  block_0cca:
+    goto block_0dfb;
+
+  block_0ccd:
+    if intrinsic_0031(0, 1, local_05, local_25) goto block_0d3d;
+
+  block_0ce2:
+    local_09 = 1;
+
+  block_0ce9:
+    while (local_09 > local_07) {
+      local_23 = intrinsic_0023();
+      local_09 = (1 + local_09);
+    }
+
+  block_0d3a:
+    goto block_0dfb;
+
+  block_0d3d:
+    local_09 = 1;
+
+  block_0d44:
+    while (local_09 > local_07) {
+      local_23 = intrinsic_0023();
+      local_09 = (1 + local_09);
+    }
+
+  block_0d8c:
+    if (intrinsic_00bf(local_25) & 16) goto block_0db7;
+
+  block_0d9e:
+    /* bit_not */
+    /* word_to_dword */
+    /* pop_result */
+    goto block_0e24;
+
+  block_0db7:
+    local_27 = (local_27 - local_11);
+    local_29 = (local_29 - local_13);
+    local_30 = (local_30 - local_15);
+    spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+    suspend;
+
+  block_0dfb:
+    spawn FREE.waitNTimerTicks(pid, 1, 0x00000000);
+    suspend;
+    goto block_0a4b;
+
+  block_0e24:
+    return;
+
+  /* decompilation stopped at SEARCH_SURFACE */
+}

@@ -1,0 +1,38 @@
+function free_slot_24() /* entry=2574 class_id=0x0a0c slot=0x24 */
+{
+  entry:
+    set_info(0x0224, 0);
+    if global[0x0007] goto block_0413;
+
+  block_0410:
+    goto block_04b9;
+
+  block_0413:
+    /* pop_global */
+
+  block_0419:
+    while (true) {
+      suspend;
+      spawn FREE.waitNTimerTicks(pid, arg_06, 0x00000000);
+      suspend;
+      if (global[0x0007]) {
+        return;
+      }
+      arg_06 = (arg_06 - 1);
+      if (arg_06 == 0) {
+        /* pop_global */
+        /* global_address */
+        spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+        suspend;
+        /* str_to_ptr */
+        /* global_address */
+        /* free_stack_string */
+        suspend;
+        return;
+      }
+    }
+
+  block_04b9:
+    return;
+
+}

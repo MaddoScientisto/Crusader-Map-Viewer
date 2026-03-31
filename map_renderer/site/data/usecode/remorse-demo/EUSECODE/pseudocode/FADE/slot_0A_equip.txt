@@ -1,0 +1,39 @@
+function fade_equip() /* entry=1278 class_id=0x04fc slot=0x0a */
+{
+  set_info(0x0211, *(arg_06));
+  process_exclude();
+  ITEM.slot_23(0x1000, arg_06);
+  if (arg_10 == 0) {
+  }
+  else if (arg_10 == 1) {
+    suspend;
+  }
+  else if (arg_10 == 2) {
+    suspend;
+  }
+  else if (arg_10 == 3) {
+  }
+  else if (arg_10 == 4) {
+  }
+  else if (arg_10 == 5) {
+    suspend;
+  }
+  else if (arg_10 == 6) {
+    suspend;
+  }
+  else if (arg_10 == 7) {
+    suspend;
+  }
+  else if (arg_10 == 8) {
+    suspend;
+  }
+  else if (arg_10 == 9) {
+    spawn FADE.slot_20(arg_06);
+    ITEM.slot_24(0x1000, arg_06);
+  }
+  else if (arg_10 == 10) {
+    /* pop_global */
+  }
+  ITEM.slot_24(0x1000, arg_06);
+  return;
+}

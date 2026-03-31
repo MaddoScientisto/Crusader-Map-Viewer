@@ -1,0 +1,38 @@
+function npc_slot_2b() /* entry=2577 class_id=0x0a0f slot=0x2b */
+{
+  entry:
+    set_info(0x020a, *(arg_06));
+    local_02 = intrinsic_00c3(arg_06);
+    if (local_02 > 8) goto block_0bda;
+
+  block_0bd0:
+    local_02 = (local_02 - 8);
+    goto block_0be1;
+
+  block_0bda:
+    local_02 = (local_02 + 8);
+
+  block_0be1:
+    /* create_list */
+    /* in_list */
+    if 0x01b4 goto block_0c2b;
+
+  block_0bf9:
+    if (!intrinsic_00bb(arg_06)) goto block_0c28;
+
+  block_0c06:
+    suspend;
+
+  block_0c28:
+    goto block_0c5a;
+
+  block_0c2b:
+    if (!intrinsic_00bb(arg_06)) goto block_0c5a;
+
+  block_0c38:
+    suspend;
+
+  block_0c5a:
+    return;
+
+}

@@ -1,0 +1,17 @@
+function sswitchn_gotHit() /* entry=1108 class_id=0x0452 slot=0x06 */
+{
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  if (Item.isOnScreen(arg_06)) {
+    return;
+  }
+  FREE.slot_34(arg_12, arg_10);
+  if (retval == 4) {
+    if (arg_10 == 1) {
+      return;
+    }
+    spawn SSWITCHN.use(pid, arg_06);
+    suspend;
+  }
+  return;
+}

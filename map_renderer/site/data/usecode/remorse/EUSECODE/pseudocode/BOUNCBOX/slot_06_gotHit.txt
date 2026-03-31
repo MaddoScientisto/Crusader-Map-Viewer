@@ -1,0 +1,118 @@
+function bouncbox_gotHit() /* entry=1265 class_id=0x04ef slot=0x06 */
+{
+  entry:
+    set_info(0x020c, *(arg_06));
+    process_exclude();
+    local_02 = intrinsic_0026(arg_06);
+    local_08 = arg_10;
+    if (arg_10 != 0x4000) goto block_02d1;
+
+  block_010f:
+    FREE.slot_2c(arg_12, arg_10);
+    FREE.slot_2c((retval != 4), arg_12, arg_10);
+    if (retval != 3) goto block_014b;
+
+  block_0145:
+    goto block_0479;
+
+  block_014b:
+    if ((local_02 > 15) && (local_02 < 32)) goto block_018b;
+
+  block_015f:
+    local_02 = (local_02 + 2);
+    if (local_02 > 31) goto block_017e;
+
+  block_0174:
+    local_02 = (local_02 - 16);
+
+  block_018b:
+    if (intrinsic_0004(arg_06) & 4) goto block_01a8;
+
+  block_019d:
+    local_02 = 0x00ff;
+    goto block_02ce;
+
+  block_01a8:
+    if (local_02 == 0x00ff) {
+      FREE.slot_20(15);
+      local_02 = retval;
+    }
+    else if (local_02 == 0x00fe) {
+      suspend;
+      return;
+    }
+
+  block_0216:
+    local_02 = (local_02 & 15);
+    if ((local_02 > 13) || (local_02 < 3)) goto block_0241;
+
+  block_0234:
+    local_14 = (local_14 - 32);
+    goto block_02a4;
+
+  block_0241:
+    if ((local_02 > 1) && (local_02 < 7)) goto block_0262;
+
+  block_0255:
+    local_12 = (local_12 + 32);
+    goto block_02a4;
+
+  block_0262:
+    if ((local_02 > 5) && (local_02 < 11)) goto block_0283;
+
+  block_0276:
+    local_14 = (local_14 + 32);
+    goto block_02a4;
+
+  block_0283:
+    if ((local_02 > 9) && (local_02 < 15)) goto block_02a4;
+
+  block_0297:
+    local_12 = (local_12 - 32);
+    goto block_02a4;
+
+  block_02a4:
+    suspend;
+
+  block_02ce:
+    goto block_0479;
+
+  block_02d1:
+    if (intrinsic_0016(local_08) != 0x02c3) goto block_03a5;
+
+  block_02e4:
+    local_04 = intrinsic_0026(local_08);
+    local_06 = intrinsic_002b(local_08);
+    if intrinsic_001f(0, 0x02c4, local_10) goto block_03a2;
+
+  block_031f:
+    if local_04 goto block_0373;
+
+  block_0334:
+    goto block_03a2;
+
+  block_03a2:
+    goto block_0479;
+
+  block_03a5:
+    if (intrinsic_0016(local_08) != 0x02c4) goto block_0479;
+
+  block_03b8:
+    local_04 = intrinsic_0026(local_08);
+    local_06 = intrinsic_002b(local_08);
+    if intrinsic_001f(0, 0x02c3, local_10) goto block_0476;
+
+  block_03f3:
+    if local_04 goto block_0447;
+
+  block_0408:
+    goto block_0476;
+
+  block_0476:
+    goto block_0479;
+
+  block_0479:
+    return;
+
+  /* decompilation stopped at SEARCH_SURFACE */
+}

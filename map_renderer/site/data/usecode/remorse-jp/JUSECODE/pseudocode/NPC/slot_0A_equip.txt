@@ -1,0 +1,41 @@
+function npc_equip() /* entry=2581 class_id=0x0a13 slot=0x0a */
+{
+  set_info(0x0211, *(arg_06));
+  process_exclude();
+  if (!intrinsic_00cf(arg_06)) {
+    return;
+  }
+  if (arg_10 == 1) {
+    return;
+  }
+  else if (arg_10 == 2) {
+    return;
+  }
+  else if (arg_10 == 3) {
+    return;
+  }
+  else if (arg_10 == 10) {
+    spawn FREE.slot_32(pid, 2, 0x00000000);
+    suspend;
+    local_02 = intrinsic_0087();
+    local_04 = intrinsic_0088();
+    local_06 = intrinsic_0013(arg_06);
+    local_08 = Item.legal_create(arg_06);
+    spawn NPC.slot_29(pid, local_08, local_06, local_04, local_02, arg_06);
+    suspend;
+    spawn FREE.slot_32(pid, 10, 0x00000000);
+    suspend;
+    return;
+  }
+  else if (arg_10 == 30) {
+    local_10 = intrinsic_00ed(1, arg_06);
+    local_12 = intrinsic_00ed(2, arg_06);
+    local_14 = intrinsic_00ed(0, arg_06);
+    return;
+  }
+  else if (arg_10 == 31) {
+    suspend;
+    return;
+  }
+  return;
+}

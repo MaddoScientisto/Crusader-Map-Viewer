@@ -1,0 +1,41 @@
+function flormine_gotHit() /* entry=673 class_id=0x029f slot=0x06 */
+{
+  entry:
+    set_info(0x020c, *(arg_06));
+    process_exclude();
+    if (Item.getFrame(arg_06) > 1) goto block_012c;
+
+  block_0129:
+    goto block_0244;
+
+  block_012c:
+    FREE.slot_35(arg_12, arg_10);
+    local_02 = retval;
+    if local_02 goto block_01af;
+
+  block_013f:
+    if (local_02 != 4) goto block_014d;
+
+  block_0147:
+    goto block_0244;
+
+  block_014a:
+    goto block_01ac;
+
+  block_01ac:
+    goto block_0244;
+
+  block_01af:
+    local_04 = arg_10;
+    if intrinsic_00ae(*(arg_06), local_04) goto block_0244;
+
+  block_01c3:
+    if (((arg_10 < 0x00ff) && (arg_10 != intrinsic_0016())) && (Item.isOnScreen(arg_06) != 0)) goto block_01e5;
+
+  block_01e2:
+    goto block_0244;
+
+  block_0244:
+    return;
+
+}

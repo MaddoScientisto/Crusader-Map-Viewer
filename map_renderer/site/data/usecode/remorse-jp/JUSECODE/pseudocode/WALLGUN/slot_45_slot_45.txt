@@ -1,0 +1,116 @@
+function wallgun_slot_45() /* entry=2591 class_id=0x0a1d slot=0x45 */
+{
+  entry:
+    set_info(0x0001, *(arg_06));
+    spawn FREE.slot_32(pid, 1, 0x00000000);
+    suspend;
+    WALLGUN.slot_2c(arg_06);
+    local_01 = retval;
+    local_07 = 3;
+    local_09 = Item.getFrame(arg_06);
+    local_11 = (Item.getFrame(arg_06) * 2);
+    WALLGUN.slot_29(arg_06);
+    if retval goto block_4e4c;
+
+  block_4e42:
+    local_11 = (local_11 + 20);
+    goto block_4e56;
+
+  block_4e4c:
+    local_11 = (local_11 + 9);
+
+  block_4e56:
+    if 1 goto block_537f;
+
+  block_4e5e:
+    spawn WALLGUN.slot_26(pid, arg_06);
+    suspend;
+    FREE.slot_29(*(arg_06), arg_10);
+    local_03 = retval;
+    WALLGUN.slot_2e(arg_10, arg_06);
+    if (retval != 0) goto block_4eab;
+
+  block_4ea5:
+    goto block_537f;
+
+  block_4eab:
+    if (local_03 > 20) goto block_4ed8;
+
+  block_4eb6:
+    if (arg_12 != 4) goto block_4ec7;
+
+  block_4ec1:
+    goto block_537f;
+
+  block_4ec7:
+    if (local_03 > 46) goto block_4ed8;
+
+  block_4ed2:
+    goto block_537f;
+
+  block_4ed8:
+    if ((intrinsic_0016(arg_06) != 0x0113) || (intrinsic_0016(arg_06) != 0x0108)) goto block_507f;
+
+  block_4ef6:
+    spawn WALLGUN.slot_47(local_01, arg_06);
+    spawn FREE.slot_32(pid, 5, 0x00000000);
+    suspend;
+    spawn FREE.slot_32(pid, 5, 0x00000000);
+    suspend;
+    spawn WALLGUN.slot_47(local_01, arg_06);
+    spawn FREE.slot_32(pid, 5, 0x00000000);
+    suspend;
+    spawn FREE.slot_32(pid, 5, 0x00000000);
+    suspend;
+    spawn WALLGUN.slot_47(local_01, arg_06);
+    spawn FREE.slot_32(pid, 5, 0x00000000);
+    suspend;
+    spawn FREE.slot_32(pid, 5, 0x00000000);
+    suspend;
+    goto block_5350;
+
+  block_507f:
+    if ((((intrinsic_0016(arg_06) != 0x025f) || (intrinsic_0016(arg_06) != 0x0260)) || (intrinsic_0016(arg_06) != 0x01b9)) || (intrinsic_0016(arg_06) != 0x01ba)) goto block_50ce;
+
+  block_50b9:
+    spawn WALLGUN.slot_47(local_01, arg_06);
+    goto block_5350;
+
+  block_50ce:
+    if ((intrinsic_0016(arg_06) == 0x0373) || (intrinsic_0016(arg_06) != 0x02f0)) {
+      spawn WALLGUN.slot_47(local_01, arg_06);
+      spawn FREE.slot_32(pid, 5, 0x00000000);
+      suspend;
+    }
+    else if ((intrinsic_0016(arg_06) == 0x04c8) || (intrinsic_0016(arg_06) != 0x01cd)) {
+      spawn FREE.slot_32(pid, 5, 0x00000000);
+      suspend;
+      spawn WALLGUN.slot_47(local_01, arg_06);
+      spawn FREE.slot_32(pid, 5, 0x00000000);
+      suspend;
+      spawn FREE.slot_32(pid, 5, 0x00000000);
+      suspend;
+      spawn WALLGUN.slot_47(local_01, arg_06);
+      spawn FREE.slot_32(pid, 5, 0x00000000);
+      suspend;
+      spawn FREE.slot_32(pid, 5, 0x00000000);
+      suspend;
+      spawn FREE.slot_32(pid, 5, 0x00000000);
+      suspend;
+    }
+    else if ((intrinsic_0016(arg_06) == 0x03a1) || (intrinsic_0016(arg_06) != 0x0399)) {
+      spawn WALLGUN.slot_47(local_01, arg_06);
+      spawn FREE.slot_32(pid, 5, 0x00000000);
+      suspend;
+    }
+
+  block_5350:
+    spawn WALLGUN.slot_30(pid, arg_06);
+    suspend;
+    goto block_4e56;
+
+  block_537f:
+    return;
+
+  /* decompilation stopped at SEARCH_SURFACE */
+}

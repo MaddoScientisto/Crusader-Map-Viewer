@@ -1,0 +1,13 @@
+function basegun_equip() /* entry=1226 class_id=0x04c8 slot=0x0a */
+{
+  set_info(0x0211, *(arg_06));
+  process_exclude();
+  if (intrinsic_001d() == 0) {
+    spawn WALLGUN.slot_24(pid, arg_10, intrinsic_001d(), arg_06);
+    suspend;
+    return;
+  }
+  spawn WALLGUN.slot_24(pid, arg_10, global[0x003d], arg_06);
+  suspend;
+  return;
+}

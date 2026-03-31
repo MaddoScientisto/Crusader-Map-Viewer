@@ -1,0 +1,44 @@
+function flamebox_slot_20() /* entry=1029 class_id=0x0403 slot=0x20 */
+{
+  entry:
+    set_info(0x00f0, *(arg_06));
+    if intrinsic_009f() goto block_0300;
+
+  block_02ca:
+    while ((Item.getFrame(arg_10) == 5) && (Item.isOnScreen(arg_10) != 1)) {
+      spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+      suspend;
+    }
+
+  block_0300:
+    ITEM.slot_23(4, arg_10);
+    spawn FLAME.slot_20(arg_10);
+    if (arg_12 != 0) goto block_0346;
+
+  block_031e:
+    if intrinsic_009f() goto block_0336;
+
+  block_0326:
+    goto block_0343;
+
+  block_0343:
+    goto block_0376;
+
+  block_0346:
+    if (arg_12 != 1) goto block_0376;
+
+  block_034e:
+    if intrinsic_009f() goto block_0366;
+
+  block_0356:
+    goto block_0373;
+
+  block_0373:
+    goto block_0376;
+
+  block_0376:
+    ITEM.slot_23(4, local_04);
+    spawn FLAME.slot_20(local_04);
+    return;
+
+}

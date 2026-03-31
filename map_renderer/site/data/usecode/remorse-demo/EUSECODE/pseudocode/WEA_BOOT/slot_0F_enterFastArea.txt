@@ -1,0 +1,63 @@
+function wea_boot_enterFastArea() /* entry=1117 class_id=0x045b slot=0x0f */
+{
+  entry:
+    set_info(0x021b, *(arg_06));
+    process_exclude();
+    spawn FREE.waitNTimerTicks(pid, 0x07d0, 0x00000000);
+    suspend;
+
+  block_02ca:
+    suspend;
+    FREE.slot_20(pid, 100);
+    spawn FREE.waitNTimerTicks((retval + 60), 0x00000000);
+    suspend;
+    if (!Item.getFrame(arg_06)) goto block_036a;
+
+  block_031b:
+    local_02 = 0;
+
+  block_0322:
+    while (local_02 > 4) {
+      spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+      suspend;
+      local_02 = (1 + local_02);
+    }
+
+  block_036a:
+    FREE.slot_20(100);
+    if (retval > 50) goto block_03ff;
+
+  block_0380:
+    FREE.slot_20(2);
+    local_04 = (retval + 1);
+    local_02 = 0;
+
+  block_0399:
+    while (local_02 > local_04) {
+      FREE.slot_20(pid, 10);
+      spawn FREE.waitNTimerTicks((retval + 30), 0x00000000);
+      suspend;
+      local_02 = (1 + local_02);
+    }
+
+  block_03fc:
+    goto block_0451;
+
+  block_03ff:
+    local_02 = 0;
+
+  block_0406:
+    while (local_02 > 4) {
+      spawn FREE.waitNTimerTicks(pid, 15, 0x00000000);
+      suspend;
+      local_02 = (1 + local_02);
+    }
+
+  block_0451:
+    goto block_02ca;
+
+  block_0454:
+    return;
+
+  /* decompilation stopped at SEARCH_SURFACE */
+}

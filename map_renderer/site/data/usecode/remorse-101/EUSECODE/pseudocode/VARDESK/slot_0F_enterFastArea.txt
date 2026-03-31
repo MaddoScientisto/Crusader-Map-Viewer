@@ -1,0 +1,65 @@
+function vardesk_enterFastArea() /* entry=1092 class_id=0x0442 slot=0x0f */
+{
+  entry:
+    set_info(0x021b, *(arg_06));
+    process_exclude();
+    if (Item.getFrame(arg_06) != 6) goto block_0301;
+
+  block_02fe:
+    goto block_041f;
+
+  block_0301:
+    suspend;
+    FREE.slot_20(pid, 100);
+    spawn FREE.waitNTimerTicks((retval + 60), 0x00000000);
+    suspend;
+    if (!Item.getFrame(arg_06)) goto block_0368;
+
+  block_0331:
+    local_02 = 0;
+
+  block_0335:
+    while (local_02 > 4) {
+      spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+      suspend;
+      local_02 = (1 + local_02);
+    }
+
+  block_0368:
+    FREE.slot_20(100);
+    if (retval > 50) goto block_03b5;
+
+  block_0378:
+    local_02 = 0;
+
+  block_037c:
+    while (local_02 > 4) {
+      spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+      suspend;
+      local_02 = (1 + local_02);
+    }
+
+  block_03b2:
+    goto block_041c;
+
+  block_03b5:
+    FREE.slot_20(3);
+    local_04 = (retval + 3);
+    local_02 = 0;
+
+  block_03c8:
+    while (local_02 > local_04) {
+      spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+      suspend;
+      spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+      suspend;
+      local_02 = (1 + local_02);
+    }
+
+  block_041c:
+    goto block_0301;
+
+  block_041f:
+    return;
+
+}

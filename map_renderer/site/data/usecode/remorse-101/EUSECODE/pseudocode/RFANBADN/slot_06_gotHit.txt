@@ -1,0 +1,35 @@
+function rfanbadn_gotHit() /* entry=981 class_id=0x03d3 slot=0x06 */
+{
+  entry:
+    set_info(0x020c, *(arg_06));
+    process_exclude();
+    if (!Item.getFrame(arg_06)) goto block_00ef;
+
+  block_00ec:
+    goto block_0172;
+
+  block_00ef:
+    FREE.slot_2b(arg_12, arg_10);
+    if (retval && (Item.getFrame(arg_06) > 0)) goto block_0172;
+
+  block_010b:
+    local_06 = intrinsic_00e3(arg_06);
+
+  block_010b_selector_00:
+    /* loop_selector local_02 in nearby_items(shape=WIND_AREA, origin=arg_06) */
+
+  block_014e:
+    if condition goto block_0170;
+
+  block_0151:
+    local_04 = intrinsic_00e3(local_02);
+    if (local_04 != local_06) goto block_016c;
+
+  block_016c:
+    /* loopnext */
+    goto block_014e;
+
+  block_0172:
+    return;
+
+}

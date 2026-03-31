@@ -1,0 +1,235 @@
+function sswitche_use() /* entry=1113 class_id=0x0457 slot=0x01 */
+{
+  entry:
+    set_info(0x0207, *(arg_06));
+    process_exclude();
+    local_01 = Item.getFrame(arg_06);
+    if (intrinsic_0003(arg_06) != 0) goto block_01b6;
+
+  block_0143:
+    if (local_01 != 2) goto block_0171;
+
+  block_014b:
+    spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
+    suspend;
+    goto block_01b3;
+
+  block_0171:
+    if (local_01 < 2) goto block_01b3;
+
+  block_0179:
+    local_02 = ((local_01 + 1) & 1);
+    spawn TRIGGER.slot_20(pid, local_01, *(arg_06), arg_06);
+    suspend;
+    goto block_01b3;
+
+  block_01b3:
+    goto block_05b7;
+
+  block_01b6:
+    local_27 = intrinsic_011c(arg_06);
+
+  block_01b6_selector_00:
+    /* loop_selector local_07 in nearby_items(shape=0x0457, origin=arg_06) */
+
+  block_01d9:
+    if condition goto block_0264;
+
+  block_01dc:
+    if (!(local_07 == *(arg_06))) {
+      if (intrinsic_0003(local_07) == 0) {
+        if (intrinsic_011c(local_07) == 29) {
+          local_09 = local_07;
+          local_03 = Item.getFrame(local_09);
+        }
+        else if (intrinsic_011c(local_07) == 30) {
+          local_11 = local_07;
+          local_04 = Item.getFrame(local_11);
+        }
+        else if (intrinsic_011c(local_07) == 31) {
+          local_13 = local_07;
+          local_05 = Item.getFrame(local_13);
+        }
+      }
+    }
+
+  block_0259:
+    local_25 = (1 + local_25);
+    /* loopnext */
+    goto block_01d9;
+
+  block_0264_selector_00:
+    for local_17 in nearby_items(shape=0x0452, origin=arg_06) {
+      if (intrinsic_0003(local_17) == 0) {
+        if (intrinsic_011c(local_17) == 29) {
+          local_19 = local_17;
+        }
+        else if (intrinsic_011c(local_17) == 30) {
+          local_21 = local_17;
+        }
+        else if (intrinsic_011c(local_17) == 31) {
+          local_23 = local_17;
+        }
+      }
+      /* loopnext */
+    }
+
+  block_02d6:
+    if (local_27 != 29) goto block_0364;
+
+  block_02e0:
+    local_03 = Item.getFrame(arg_06);
+    local_09 = *(arg_06);
+    if (local_11 && local_13) goto block_0361;
+
+  block_02f9:
+    if local_03 goto block_0331;
+
+  block_02fe:
+    local_03 = 0;
+    local_04 = 1;
+    goto block_0361;
+
+  block_0331:
+    local_03 = 1;
+    local_04 = 0;
+
+  block_0361:
+    goto block_04ac;
+
+  block_0364:
+    if (local_27 != 30) goto block_0420;
+
+  block_036c:
+    local_04 = Item.getFrame(arg_06);
+    local_11 = *(arg_06);
+    if (local_09 && local_13) goto block_041d;
+
+  block_0385:
+    if local_04 goto block_03d5;
+
+  block_038a:
+    local_04 = 0;
+    local_03 = 1;
+    local_05 = 1;
+    goto block_041d;
+
+  block_03d5:
+    local_04 = 1;
+    local_03 = 0;
+    local_05 = 0;
+
+  block_041d:
+    goto block_04ac;
+
+  block_0420:
+    if (local_27 != 31) goto block_04ac;
+
+  block_0428:
+    local_05 = Item.getFrame(arg_06);
+    local_13 = *(arg_06);
+    if (local_09 && local_11) goto block_04a9;
+
+  block_0441:
+    if local_05 goto block_0479;
+
+  block_0446:
+    local_05 = 0;
+    local_04 = 1;
+    goto block_04a9;
+
+  block_0479:
+    local_05 = 1;
+    local_04 = 0;
+
+  block_04a9:
+    goto block_04ac;
+
+  block_04ac:
+    if local_03 goto block_0503;
+
+  block_04b1:
+    if (local_04 || local_05) goto block_04bf;
+
+  block_04b9:
+    goto block_05ce;
+
+  block_04bc:
+    goto block_0500;
+
+  block_04bf_selector_00:
+    /* loop_selector local_15 in nearby_items(shape=0x04c9, origin=arg_06) */
+
+  block_04d7:
+    if condition goto block_04fe;
+
+  block_04da:
+    if (intrinsic_011c(local_15) != 29) goto block_04fa;
+
+  block_04e9:
+    suspend;
+
+  block_04fa:
+    /* loopnext */
+    goto block_04d7;
+
+  block_0500:
+    goto block_05a0;
+
+  block_0503:
+    if local_04 goto block_0557;
+
+  block_0508:
+    if local_05 goto block_0513;
+
+  block_050d:
+    goto block_05ce;
+
+  block_0510:
+    goto block_0554;
+
+  block_0513_selector_00:
+    /* loop_selector local_15 in nearby_items(shape=0x04c9, origin=arg_06) */
+
+  block_052b:
+    if condition goto block_0552;
+
+  block_052e:
+    if (intrinsic_011c(local_15) != 30) goto block_054e;
+
+  block_053d:
+    suspend;
+
+  block_054e:
+    /* loopnext */
+    goto block_052b;
+
+  block_0554:
+    goto block_05a0;
+
+  block_0557:
+    if local_05 goto block_05a0;
+
+  block_055c_selector_00:
+    for local_15 in nearby_items(shape=0x04c9, origin=arg_06) {
+      if (intrinsic_011c(local_15) == 31) {
+        suspend;
+      }
+      /* loopnext */
+    }
+
+  block_059b:
+    goto block_05a0;
+
+  block_05a0:
+    spawn FREE.slot_3b(pid, 20, 0x00000000);
+    suspend;
+
+  block_05b7:
+    spawn FREE.slot_3b(pid, 20, 0x00000000);
+    suspend;
+
+  block_05ce:
+    return;
+
+}

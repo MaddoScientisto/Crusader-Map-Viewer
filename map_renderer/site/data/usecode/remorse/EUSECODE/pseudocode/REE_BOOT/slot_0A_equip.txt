@@ -1,0 +1,66 @@
+function ree_boot_equip() /* entry=1245 class_id=0x04db slot=0x0a */
+{
+  set_info(0x0211, *(arg_06));
+  process_exclude();
+  if (Item.getFrame(arg_06) == 12) {
+    return;
+  }
+  FREE.slot_33(0x021b, *(arg_06));
+  /* global_address */
+  /* global_address */
+  while (Item.getFrame(arg_06) == 11) {
+    spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+    suspend;
+  }
+  spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+  suspend;
+  if (global[0x001f] == 3) {
+    /* str_to_ptr */
+    /* free_stack_string */
+    suspend;
+  }
+  else if (global[0x001f] == 6) {
+    /* str_to_ptr */
+    /* free_stack_string */
+    suspend;
+  }
+  else if (global[0x001f] == 7) {
+    /* str_to_ptr */
+    /* free_stack_string */
+    suspend;
+  }
+  else if (global[0x001f] == 8) {
+    /* str_to_ptr */
+    /* free_stack_string */
+    suspend;
+  }
+  else if (global[0x001f] == 9) {
+    /* str_to_ptr */
+    /* free_stack_string */
+    suspend;
+  }
+  else if (global[0x001f] == 11) {
+    /* str_to_ptr */
+    /* free_stack_string */
+    suspend;
+  }
+  else if (global[0x001f] == 12) {
+    /* str_to_ptr */
+    /* free_stack_string */
+    suspend;
+  }
+  else if (global[0x001f] == 13) {
+    /* str_to_ptr */
+    /* free_stack_string */
+    suspend;
+  }
+  local_02 = 0;
+  while (local_02 > 11) {
+    spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+    suspend;
+    local_02 = (1 + local_02);
+  }
+  spawn REE_BOOT.enterFastArea(arg_06);
+  return;
+  /* decompilation stopped at SEARCH_SURFACE */
+}

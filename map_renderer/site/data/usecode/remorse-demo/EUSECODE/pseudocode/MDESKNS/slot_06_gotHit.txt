@@ -1,0 +1,24 @@
+function mdeskns_gotHit() /* entry=478 class_id=0x01dc slot=0x06 */
+{
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  local_02 = Item.getFrame(arg_06);
+  if (local_02 <= 1) {
+    return;
+  }
+  FREE.slot_2c(arg_12, arg_10);
+  if (retval == 4) {
+    /* loopscr */
+    /* loop */
+    while (!condition) {
+      FREE.slot_20(1, 10);
+      FREE.slot_20((retval + 10), 10);
+      FREE.slot_20(retval, 10);
+      /* loopnext */
+    }
+    spawn ITEM.slot_28(pid, 0, 1, arg_06);
+    suspend;
+  }
+  return;
+  /* decompilation stopped at SEARCH_SURFACE */
+}

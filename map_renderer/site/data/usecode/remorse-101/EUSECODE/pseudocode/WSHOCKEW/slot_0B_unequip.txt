@@ -1,0 +1,30 @@
+function wshockew_unequip() /* entry=1104 class_id=0x044e slot=0x0b */
+{
+  entry:
+    set_info(0x0212, *(arg_06));
+    process_exclude();
+
+  entry_selector_00:
+    /* loop_selector local_02 in nearby_items(family=6, origin=arg_06) */
+
+  block_0100:
+    if condition goto block_0138;
+
+  block_0103:
+    if Actor.isNPC(local_02) goto block_0134;
+
+  block_010f:
+    if (intrinsic_009d(local_02, arg_06) != 1) goto block_0134;
+
+  block_0120:
+    spawn WSHOCKEW.gotHit(0, local_02, arg_06);
+    goto block_013a;
+
+  block_0134:
+    /* loopnext */
+    goto block_0100;
+
+  block_013a:
+    return;
+
+}

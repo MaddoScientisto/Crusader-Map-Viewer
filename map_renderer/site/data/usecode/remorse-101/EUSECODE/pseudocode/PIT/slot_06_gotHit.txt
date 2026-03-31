@@ -1,0 +1,37 @@
+function pit_gotHit() /* entry=870 class_id=0x0364 slot=0x06 */
+{
+  entry:
+    set_info(0x020c, *(arg_06));
+    process_exclude();
+    local_02 = arg_10;
+    FREE.slot_2c(arg_12, arg_10);
+    if retval goto block_00f5;
+
+  block_00f2:
+    goto block_017f;
+
+  block_00f5:
+    if Actor.isNPC(local_02) goto block_0177;
+
+  block_0101:
+    local_04 = arg_10;
+    if (local_04 != 1) goto block_014f;
+
+  block_010d:
+    spawn FREE.slot_21(pid, 98, 0x00000000);
+    suspend;
+    goto block_017f;
+
+  block_014c:
+    goto block_0174;
+
+  block_014f:
+    goto block_017f;
+
+  block_0174:
+    goto block_017f;
+
+  block_017f:
+    return;
+
+}

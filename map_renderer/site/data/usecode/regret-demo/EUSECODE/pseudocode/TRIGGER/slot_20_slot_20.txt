@@ -1,0 +1,239 @@
+function trigger_slot_20() /* entry=2591 class_id=0x0a1d slot=0x20 */
+{
+  entry:
+    set_info(0x021b, 0);
+    local_16 = 0;
+    local_18 = 0;
+    local_20 = 0;
+    spawn FREE.slot_3b(pid, 1, 0x00000000);
+    suspend;
+    local_14 = arg_10;
+    if (arg_12 != 0x00fe) goto block_0161;
+
+  block_0154:
+    local_16 = 0x00fe;
+    arg_12 = 0x0080;
+    goto block_018d;
+
+  block_0161:
+    local_06 = intrinsic_012b(local_14);
+    local_16 = intrinsic_0133(local_14);
+    local_10 = intrinsic_0003(local_14);
+    local_08 = intrinsic_0132(local_14);
+
+  block_018d:
+    local_18 = local_16;
+    /* pop_global */
+    if (arg_12 < 0x0080) goto block_03a6;
+
+  block_01a0:
+    local_20 = (((local_10 & 0x00e0) * 8) + local_08);
+    if (local_10 != 0) goto block_01b9;
+
+  block_01b6:
+    goto block_0485;
+
+  block_01b9:
+    if (local_16 != 0) goto block_01c4;
+
+  block_01c1:
+    goto block_0485;
+
+  block_01c4:
+    local_04 = 0;
+    if (local_10 & 8) goto block_01d4;
+
+  block_01d0:
+    local_04 = 1;
+
+  block_01d4:
+    if (arg_12 != local_04) goto block_03a6;
+
+  block_01dc:
+    if (local_10 & 4) goto block_0306;
+
+  block_01e4:
+    if intrinsic_0134(local_20) goto block_0275;
+
+  block_01f0:
+    if (local_16 != 0x00ff) goto block_0222;
+
+  block_01f9:
+    if (local_20 != 0) goto block_021f;
+
+  block_0201:
+    spawn TRIGGER.slot_2a(pid, local_20, local_16, local_10, local_08, local_06, arg_10, arg_06);
+    suspend;
+
+  block_021f:
+    goto block_0272;
+
+  block_0222:
+    if (local_20 != 0x07fe) goto block_024c;
+
+  block_022b:
+    spawn TRIGGER.slot_2b(pid, local_20, local_16, local_10, local_08, local_06, arg_10, arg_06);
+    suspend;
+    goto block_0272;
+
+  block_024c:
+    if (local_20 != 0) goto block_0272;
+
+  block_0254:
+    spawn TRIGGER.slot_29(pid, local_20, local_16, local_10, local_08, local_06, arg_10, arg_06);
+    suspend;
+
+  block_0272:
+    goto block_0303;
+
+  block_0275:
+    if (local_16 != 0x00ff) goto block_02ab;
+
+  block_027e:
+    if (local_20 != 0) goto block_02a8;
+
+  block_0286:
+    spawn TRIGGER.slot_25(pid, local_20, local_16, local_10, local_08, local_06, arg_10, arg_06);
+    suspend;
+    /* dword_to_word */
+    local_16 = process_result;
+
+  block_02a8:
+    goto block_0303;
+
+  block_02ab:
+    if (local_20 != 0x07ff) goto block_02d9;
+
+  block_02b4:
+    spawn TRIGGER.slot_24(pid, local_20, local_16, local_10, local_08, local_06, arg_10, arg_06);
+    suspend;
+    /* dword_to_word */
+    local_16 = process_result;
+    goto block_0303;
+
+  block_02d9:
+    if (local_20 != 0) goto block_0303;
+
+  block_02e1:
+    spawn TRIGGER.slot_23(pid, local_20, local_16, local_10, local_08, local_06, arg_10, arg_06);
+    suspend;
+    /* dword_to_word */
+    local_16 = process_result;
+
+  block_0303:
+    goto block_0394;
+
+  block_0306:
+    if (local_16 != 0x00ff) goto block_033c;
+
+  block_030f:
+    if (local_20 != 0) goto block_0339;
+
+  block_0317:
+    spawn TRIGGER.slot_28(pid, local_20, local_16, local_10, local_08, local_06, arg_10, arg_06);
+    suspend;
+    /* dword_to_word */
+    local_16 = process_result;
+
+  block_0339:
+    goto block_0394;
+
+  block_033c:
+    if (local_20 != 0x07ff) goto block_036a;
+
+  block_0345:
+    spawn TRIGGER.slot_27(pid, local_20, local_16, local_10, local_08, local_06, arg_10, arg_06);
+    suspend;
+    /* dword_to_word */
+    local_16 = process_result;
+    goto block_0394;
+
+  block_036a:
+    if (local_20 != 0) goto block_0394;
+
+  block_0372:
+    spawn TRIGGER.slot_26(pid, local_20, local_16, local_10, local_08, local_06, arg_10, arg_06);
+    suspend;
+    /* dword_to_word */
+    local_16 = process_result;
+
+  block_0394:
+    if (local_10 & 16) goto block_03a6;
+
+  block_03a6:
+    local_22 = (arg_12 & 1);
+
+  block_03ad:
+    if 1 goto block_0485;
+
+  block_03b2_selector_00:
+    /* loop_selector local_12 in nearby_items(shape=0x04b1, origin=local_14) */
+
+  block_03c8:
+    if condition goto block_0431;
+
+  block_03cb:
+    if (intrinsic_0133(local_12) != local_16) goto block_042d;
+
+  block_03da:
+    local_10 = intrinsic_0003(local_12);
+    local_04 = 0;
+    if (local_10 & 8) goto block_03f5;
+
+  block_03f1:
+    local_04 = 1;
+
+  block_03f5:
+    if (local_22 != local_04) goto block_042d;
+
+  block_03fd:
+    if (local_10 & 16) goto block_0420;
+
+  block_0405:
+    spawn TRIGGER.slot_21(pid, local_12, arg_06);
+    suspend;
+    /* dword_to_word */
+    local_18 = process_result;
+    goto block_042d;
+
+  block_0420:
+    /* create_list */
+    /* append_list */
+    /* free_local_list */
+    local_02 = local_12;
+
+  block_042d:
+    /* loopnext */
+    goto block_03c8;
+
+  block_0439:
+    while (true) {
+      foreach_list local_12 -> block_0473;
+      spawn TRIGGER.slot_21(pid, local_12, arg_06);
+      suspend;
+      /* dword_to_word */
+      local_24 = process_result;
+      /* create_list */
+      /* remove_matching_inline */
+      /* free_local_list */
+      local_02 = local_12;
+      if (local_24 == local_16) {
+        local_18 = local_24;
+      }
+    }
+
+  block_0473:
+    if (local_18 != local_16) goto block_047e;
+
+  block_047b:
+    goto block_0485;
+
+  block_047e:
+    local_16 = local_18;
+    goto block_03ad;
+
+  block_0485:
+    /* free_local_list */
+    return;
+
+}

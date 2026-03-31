@@ -1,0 +1,17 @@
+function windsurf_unequip() /* entry=825 class_id=0x0337 slot=0x0b */
+{
+  set_info(0x0212, *(arg_06));
+  process_exclude();
+  /* loopscr */
+  /* loop */
+  while (!condition) {
+    if (local_02 == *(arg_06)) {
+      if (!intrinsic_00a4(local_02, arg_06)) {
+        spawn WINDSURF.gotHit(0, local_02, arg_06);
+      }
+    }
+    /* loopnext */
+  }
+  return;
+  /* decompilation stopped at SEARCH_SURFACE */
+}

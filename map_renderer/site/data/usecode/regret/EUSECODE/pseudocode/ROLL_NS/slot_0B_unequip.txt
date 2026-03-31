@@ -1,0 +1,8 @@
+function roll_ns_unequip() /* entry=840 class_id=0x0346 slot=0x0b */
+{
+  set_info(0x0212, *(arg_06));
+  process_exclude();
+  spawn ROLL_NS.equip(pid, arg_10, arg_06);
+  suspend;
+  return;
+}

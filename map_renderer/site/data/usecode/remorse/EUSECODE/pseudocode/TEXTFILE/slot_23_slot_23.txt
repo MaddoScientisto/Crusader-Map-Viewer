@@ -1,0 +1,566 @@
+function textfile_slot_23() /* entry=2585 class_id=0x0a17 slot=0x23 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    linkNum, /* [BP+10h] type=0x69 */
+    msgNum, /* [BP+12h] type=0x69 */
+    passcode, /* [BP+14h] type=0x69 */
+    textFile, /* [BP-02h] type=0x73 */
+    rnge; /* [BP-04h] type=0x69 */
+
+  entry:
+    if (msgNum >= 110) goto block_02eb;
+
+  block_02d1:
+    TEXTFIL2.slot_20(passcode, msgNum, linkNum, arg_06);
+    goto block_24dd;
+
+  block_02e8:
+    goto block_0313;
+
+  block_02eb:
+    if (msgNum >= 60) goto block_0313;
+
+  block_02f9:
+    TEXTFIL1.slot_20(passcode, msgNum, linkNum, arg_06);
+    goto block_24dd;
+
+  block_0310:
+    goto block_0313;
+
+  block_0313:
+    if (msgNum != 0) goto block_0967;
+
+  block_031b:
+    rnge = intrinsic_0018(11, 1);
+    if (rnge != 1) goto block_03c9;
+
+  block_0333:
+    /* free_local_string */
+    textFile = "Due to recent rebel activity, the T-300 lines have failed. *^Do NOT attempt to access the WEC network at this time.^END OF MESSAGE...";
+    goto block_0964;
+
+  block_03c9:
+    if (rnge != 2) goto block_0462;
+
+  block_03d1:
+    /* free_local_string */
+    textFile = "The use of WEC equipment for playing computerized entertainment software is strictly prohibited!* Return to work IMMEDIATELY!***";
+    goto block_0964;
+
+  block_0462:
+    if (rnge != 3) goto block_04e9;
+
+  block_046a:
+    /* free_local_string */
+    textFile = "All workers must display their badges at ALL TIMES!* Failure to comply will result in immediate termination!*^";
+    goto block_0964;
+
+  block_04e9:
+    if (rnge != 4) goto block_0591;
+
+  block_04f1:
+    /* free_local_string */
+    textFile = "Report all unauthorized use of WEC equipment immediately! Remember, your co-workers could be rebel sympathizers! Collect big cash rewards too!*";
+    goto block_0964;
+
+  block_0591:
+    if (rnge != 5) goto block_0667;
+
+  block_0599:
+    /* free_local_string */
+    textFile = "Unauthorized access of this terminal constitutes a violation of WEC security code 1701-D. Please report yourself to the nearest WEC security officer for correctional measures IMMEDIATELY.*^";
+    goto block_0964;
+
+  block_0667:
+    if (rnge != 6) goto block_06d8;
+
+  block_066f:
+    /* free_local_string */
+    textFile = "The WEC network is exp*erien^*cing*^ slight dif^*ficulties.^Please st$#@**%^#@!*)(*^%$#^";
+    goto block_0964;
+
+  block_06d8:
+    if (rnge != 7) goto block_07a0;
+
+  block_06e0:
+    /* free_local_string */
+    textFile = "The carrying of unregistered radiation detection devices is strictly prohibited by the WEC. Register yours today. Remember, the WEC is just like family, and we care about you!";
+    goto block_0964;
+
+  block_07a0:
+    if (rnge != 8) goto block_07d6;
+
+  block_07a8:
+    /* free_local_string */
+    textFile = "WEC T-300/SYS out of disk space^";
+    goto block_0964;
+
+  block_07d6:
+    if (rnge != 9) goto block_0865;
+
+  block_07de:
+    /* free_local_string */
+    textFile = "Consortium-wide meeting tomorrow at 1330. WedgeRoom 1501. This is a mandatory meeting! All Branch Leaders must attend!";
+    goto block_0964;
+
+  block_0865:
+    if (rnge != 10) goto block_090b;
+
+  block_086d:
+    /* free_local_string */
+    textFile = "The WEC Regulatory Commission requires reports of your daily activities. Failure to submit these reports may result in immediate termination.";
+    goto block_0964;
+
+  block_090b:
+    /* free_local_string */
+    textFile = "The WEC network is experiencing slight difficulties.^Please stand by*.*.*.^";
+
+  block_0964:
+    goto block_24d4;
+
+  block_0967:
+    if (msgNum != 1) goto block_0995;
+
+  block_096f:
+    /* free_local_string */
+    textFile = "Doors have been opened.^";
+    goto block_24d4;
+
+  block_0995:
+    if (msgNum != 2) goto block_09c4;
+
+  block_099d:
+    /* free_local_string */
+    textFile = "Force field deactivated.^";
+    goto block_24d4;
+
+  block_09c4:
+    if (msgNum != 3) goto block_09f6;
+
+  block_09cc:
+    /* free_local_string */
+    textFile = "Electronic bridge extended.^";
+    goto block_24d4;
+
+  block_09f6:
+    if (msgNum != 4) goto block_0a28;
+
+  block_09fe:
+    /* free_local_string */
+    textFile = "Security systems activated.^";
+    goto block_24d4;
+
+  block_0a28:
+    if (msgNum != 5) goto block_0a5d;
+
+  block_0a30:
+    /* free_local_string */
+    textFile = "Security systems de-activated.^";
+    goto block_24d4;
+
+  block_0a5d:
+    if ((((msgNum != 6) || (msgNum != 7)) || (msgNum != 8)) || (msgNum != 9)) goto block_0aaf;
+
+  block_0a77:
+    /* free_local_string */
+    textFile = "All alarm systems have been de-activated.^";
+    goto block_24d4;
+
+  block_0aaf:
+    if (msgNum != 10) goto block_0b7c;
+
+  block_0ab7:
+    /* concat */
+    /* concat */
+    /* free_local_string */
+    textFile = "^Remember, delete this message! Spies are everywhere!";
+    goto block_24d4;
+
+  block_0b7c:
+    if (msgNum != 11) goto block_0bf1;
+
+  block_0b84:
+    /* free_local_string */
+    textFile = "Security Cartel HQD^___________________^*^Accessing system:*.*.*.*^^Thresher Cannon: *ACTIVE";
+    goto block_24d4;
+
+  block_0bf1:
+    if (msgNum != 12) goto block_0cb1;
+
+  block_0bf9:
+    /* free_local_string */
+    textFile = "To all Refinery Ops^2nd Class Tech Stokes has once again started a fire in the thermalcoupler area.^We ask again that all employees smoke only in the authorized areas.";
+    goto block_24d4;
+
+  block_0cb1:
+    if (msgNum != 13) goto block_0d59;
+
+  block_0cb9:
+    /* free_local_string */
+    textFile = "To all Refinery Ops^3rd Class Tech Brandt has contaminated the fifth level with dangerous^plutonium isotopes again. Be careful where you step.^";
+    goto block_24d4;
+
+  block_0d59:
+    if (msgNum != 14) goto block_0dea;
+
+  block_0d61:
+    /* free_local_string */
+    textFile = "Security Cartel:^________________^Remote viewing facility.^*Thermal Coupler power system.^^Watch Station: ^*<NOW ACTIVE>";
+    goto block_24d4;
+
+  block_0dea:
+    if (msgNum != 15) goto block_0e85;
+
+  block_0df2:
+    /* free_local_string */
+    textFile = "Refinery Operations:^____________________^Now interfacing with remote service droid...*^Thermatron ZC90201^^Unit is now *-ONLINE-.";
+    goto block_24d4;
+
+  block_0e85:
+    if (msgNum != 16) goto block_0f00;
+
+  block_0e8d:
+    /* free_local_string */
+    textFile = "Security Cartel: ^^Remote alarm panel^User ID <TZ81664>^*^Area is secured:*^Stand down from alert.";
+    goto block_24d4;
+
+  block_0f00:
+    if (msgNum != 17) goto block_0f6c;
+
+  block_0f08:
+    /* free_local_string */
+    textFile = "Security Cartel:^__________________^Remote Operations^Watch Station: ^*<NOW ACTIVE>";
+    goto block_24d4;
+
+  block_0f6c:
+    if (msgNum != 18) goto block_10a9;
+
+  block_0f74:
+    /* concat */
+    /* concat */
+    /* free_local_string */
+    textFile = " is this week's passcode.";
+    goto block_24d4;
+
+  block_10a9:
+    if (msgNum != 19) goto block_118f;
+
+  block_10b1:
+    /* concat */
+    /* concat */
+    /* concat */
+    /* free_local_string */
+    textFile = "^This is the last time, Philbert!^";
+    goto block_24d4;
+
+  block_118f:
+    if (msgNum != 20) goto block_1200;
+
+  block_1197:
+    /* free_local_string */
+    textFile = "NOTICE:^^To: All Personnel^Please remember to keep your keycards with you at all times.^";
+    goto block_24d4;
+
+  block_1200:
+    if (msgNum != 21) goto block_1278;
+
+  block_1208:
+    /* free_local_string */
+    textFile = "Security Cartel: ^Operations Center.^User ID T*Z*1*6*^^Area is secured:*^Stand down from Alert.";
+    goto block_24d4;
+
+  block_1278:
+    if (msgNum != 22) goto block_1342;
+
+  block_1280:
+    /* free_local_string */
+    textFile = "Security Cartel: ^Operations Center.*^User ID T*Z*1*6*^^Due to malfunctions within the security grid, the telepad is inoperative. Please use the backup telepad in the west wing.";
+    goto block_24d4;
+
+  block_1342:
+    if (msgNum != 25) goto block_1396;
+
+  block_134a:
+    /* free_local_string */
+    textFile = "Phase one of the impassable laser field has been de-activated.";
+    goto block_24d4;
+
+  block_1396:
+    if (msgNum != 27) goto block_1425;
+
+  block_139e:
+    /* concat */
+    /* concat */
+    /* free_local_string */
+    textFile = ".^*End of Message <";
+    goto block_24d4;
+
+  block_1425:
+    if (((((msgNum != 23) || (msgNum != 24)) || (msgNum != 26)) || (msgNum != 28)) || (msgNum != 29)) goto block_1471;
+
+  block_1445:
+    /* free_local_string */
+    textFile = "Mission 2 Generic Message 0-9^";
+    goto block_24d4;
+
+  block_1471:
+    if (msgNum != 30) goto block_1528;
+
+  block_1479:
+    /* concat */
+    /* concat */
+    /* free_local_string */
+    textFile = ".^*End of Message <";
+    goto block_24d4;
+
+  block_1528:
+    if (msgNum != 31) goto block_15bd;
+
+  block_1530:
+    /* free_local_string */
+    textFile = "Thermatron Assembly Line:^_____________^Now interfacing with remote droid *.*.*.^<Thermatron> VTK944^^Unit is now *-ONLINE-.";
+    goto block_24d4;
+
+  block_15bd:
+    if (msgNum != 32) goto block_1600;
+
+  block_15c5:
+    /* free_local_string */
+    textFile = "Thermatron Manufacturing Plant:^_____________";
+    goto block_24d4;
+
+  block_1600:
+    if (msgNum != 33) goto block_166f;
+
+  block_1608:
+    /* free_local_string */
+    textFile = "Refinery Operations:^____________^Remote viewing facility.^*Restricted Access*^Granted";
+    goto block_24d4;
+
+  block_166f:
+    if (msgNum != 34) goto block_16e2;
+
+  block_1677:
+    /* free_local_string */
+    textFile = "Security Cartel:^________________^Remote viewing facility.^*Production Line^*<DEACTIVATED>";
+    goto block_24d4;
+
+  block_16e2:
+    if (msgNum != 35) goto block_176c;
+
+  block_16ea:
+    /* free_local_string */
+    textFile = "Security Cartel:^________________^*Auxiliary Production Line^*<ACTIVE>^Shut down requires Security Card Clearance";
+    goto block_24d4;
+
+  block_176c:
+    if (msgNum != 36) goto block_17b0;
+
+  block_1774:
+    /* free_local_string */
+    textFile = "Thermatron Auxiliary Production Line:^________";
+    goto block_24d4;
+
+  block_17b0:
+    if (msgNum != 37) goto block_1806;
+
+  block_17b8:
+    /* free_local_string */
+    textFile = "Security Cartel:^________________^*Laser Field^*<DEACTIVATED>";
+    goto block_24d4;
+
+  block_1806:
+    if (msgNum != 38) goto block_18a0;
+
+  block_180e:
+    /* free_local_string */
+    textFile = "Security Cartel:^________________^Remote viewing facility.^*Laser Field^*<ACTIVE>^Security card clearance required to de-activate";
+    goto block_24d4;
+
+  block_18a0:
+    if (msgNum != 39) goto block_196f;
+
+  block_18a8:
+    /* concat */
+    /* concat */
+    /* free_local_string */
+    textFile = "^Memorize the code and delete this message immediately! <";
+    goto block_24d4;
+
+  block_196f:
+    if (msgNum != 40) goto block_19c5;
+
+  block_1977:
+    /* free_local_string */
+    textFile = "Security Cartel:^________________^*Laser Field^*<DEACTIVATED>";
+    goto block_24d4;
+
+  block_19c5:
+    if (msgNum != 41) goto block_1a54;
+
+  block_19cd:
+    /* free_local_string */
+    textFile = "Remote Security Op:^_____________^Now interfacing with remote droid *.*.*.^<Thermatron> ATK656^^Unit is now *-ONLINE-.";
+    goto block_24d4;
+
+  block_1a54:
+    if (msgNum != 42) goto block_1aaa;
+
+  block_1a5c:
+    /* free_local_string */
+    textFile = "^Security Control:^_______________^^*Laser Field^*<ACTIVATED>";
+    goto block_24d4;
+
+  block_1aaa:
+    if (msgNum != 43) goto block_1b1f;
+
+  block_1ab2:
+    /* free_local_string */
+    textFile = "Security Cartel HQD^___________________^*^Accessing system:*.*.*.*^^Thresher Cannon: *ACTIVE";
+    goto block_24d4;
+
+  block_1b1f:
+    if (msgNum != 44) goto block_1bb3;
+
+  block_1b27:
+    /* free_local_string */
+    textFile = "Security Cartel HQD^___________________^*^Accessing system:*.*.*.*^^SORC Monitoring station security field:^^*<DEACTIVATED>";
+    goto block_24d4;
+
+  block_1bb3:
+    if (msgNum != 45) goto block_1c6f;
+
+  block_1bbb:
+    /* concat */
+    /* concat */
+    /* concat */
+    /* free_local_string */
+    textFile = "^^Spies are everywhere so be alert!";
+    goto block_24d4;
+
+  block_1c6f:
+    if (msgNum != 46) goto block_1dfd;
+
+  block_1c77:
+    /* free_local_string */
+    textFile = "^* WEC Email^^To: Prof. Coulson^^From: Sev Dorren,^Security Chief^^Professor, I have installed a force-field at the entrance to the SORC station as you instructed. If there is anything further required please let me know. ^PS: The only way to access the force-field is through the central computer, so I am sure it will be quite safe from any saboteurs. .^*End of Message <";
+    goto block_24d4;
+
+  block_1dfd:
+    if (msgNum != 47) goto block_1ebf;
+
+  block_1e05:
+    /* concat */
+    /* concat */
+    /* free_local_string */
+    textFile = "^*End of Message <";
+    goto block_24d4;
+
+  block_1ebf:
+    if (msgNum != 48) goto block_1f13;
+
+  block_1ec7:
+    /* concat */
+    /* free_local_string */
+    textFile = intrinsic_00ff(passcode);
+    goto block_24d4;
+
+  block_1f13:
+    if (msgNum != 49) goto block_1f62;
+
+  block_1f1b:
+    /* concat */
+    /* free_local_string */
+    textFile = intrinsic_00ff(passcode);
+    goto block_24d4;
+
+  block_1f62:
+    if (msgNum != 50) goto block_2069;
+
+  block_1f6a:
+    if (linkNum && passcode) goto block_202c;
+
+  block_1f7b:
+    /* concat */
+    /* concat */
+    /* free_local_string */
+    textFile = ". J.J.";
+    goto block_2066;
+
+  block_202c:
+    /* free_local_string */
+    textFile = "WEC SECURITY SYSTEM:^^Remote Camera: ACTIVE*";
+
+  block_2066:
+    goto block_24d4;
+
+  block_2069:
+    if (msgNum != 52) goto block_217a;
+
+  block_2071:
+    /* free_local_string */
+    textFile = "Dr. Watson:^Since we no longer produce the 37x18 Chip at the Snell Memorial Science Center, you can expect to receive the remaining chips for meltdown this afternoon. See that no chips find their way out of your facility.^L. Probst^End of Message <";
+    goto block_24d4;
+
+  block_217a:
+    if (msgNum != 53) goto block_225d;
+
+  block_2182:
+    /* free_local_string */
+    textFile = "Ms. Ashcraft - *It has come to my attention that you have had problems with your platform elevator. Just put an Out of Order sign on it, and I'll send a maintenance worker out to fix it A.S.A.P. Larson ";
+    goto block_24d4;
+
+  block_225d:
+    if (msgNum != 54) goto block_22b3;
+
+  block_2265:
+    /* free_local_string */
+    textFile = "WEC SECURITY SYSTEM:^^Remote Camera: ACTIVE*^M.E.L.F. Station";
+    goto block_24d4;
+
+  block_22b3:
+    if (msgNum != 56) goto block_2313;
+
+  block_22bb:
+    /* free_local_string */
+    textFile = "WEC SECURITY SYSTEM:^^Remote Camera: *ACTIVE^Teleporter Room^Level Four";
+    goto block_24d4;
+
+  block_2313:
+    if (msgNum != 57) goto block_2370;
+
+  block_231b:
+    /* free_local_string */
+    textFile = "WEC SECURITY SYSTEM:^^Remote Camera: ACTIVE*^Security System^*ACTIVE";
+    goto block_24d4;
+
+  block_2370:
+    if (msgNum != 58) goto block_24d4;
+
+  block_2378:
+    if (linkNum && passcode) goto block_2469;
+
+  block_2389:
+    /* concat */
+    /* concat */
+    /* concat */
+    /* free_local_string */
+    textFile = "Now you can store your very own load!";
+    goto block_24d1;
+
+  block_2469:
+    /* free_local_string */
+    textFile = "WEC SECURITY SYSTEM:^Remote Camera: ACTIVE*^Security System^*ACTIVE^Forcefield Deactivated";
+
+  block_24d1:
+    goto block_24d4;
+
+  block_24d4:
+    goto block_24dd;
+
+  block_24dd:
+    /* free_local_string */
+    return;
+
+}

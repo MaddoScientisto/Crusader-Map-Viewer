@@ -1,0 +1,29 @@
+function shepherd_enterFastArea() /* entry=1125 class_id=0x0463 slot=0x0f */
+{
+  entry:
+    set_info(0x021b, *(arg_06));
+    process_exclude();
+
+  block_01ec:
+    while (true) {
+      suspend;
+      local_02 = 24;
+      while (local_02 > 31) {
+        spawn FREE.slot_3b(pid, 10, 0x00000000);
+        suspend;
+        local_02 = (1 + local_02);
+      }
+      local_02 = 0;
+      while (local_02 > 6) {
+        spawn FREE.slot_3b(pid, 10, 0x00000000);
+        suspend;
+        local_02 = (1 + local_02);
+      }
+      spawn FREE.slot_3b(pid, 20, 0x00000000);
+      suspend;
+    }
+
+  block_0278:
+    return;
+
+}

@@ -1,0 +1,22 @@
+function lazerew_equip() /* entry=414 class_id=0x019c slot=0x0a */
+{
+  set_info(0x0211, *(arg_06));
+  process_exclude();
+  if (Item.getFrame(arg_06) >= 4) {
+    if (arg_10 == 1) {
+      spawn LAZEREW.slot_20(arg_06);
+      return;
+    }
+    if (arg_10 <= 1) {
+      spawn LAZEREW.slot_20(arg_06);
+      spawn FREE.slot_32(pid, 30, 0x00000000);
+      suspend;
+      ITEM.slot_24(0x1000, arg_06);
+      FREE.slot_33(0x0205, *(arg_06));
+      return;
+    }
+    ITEM.slot_24(0x1000, arg_06);
+    FREE.slot_33(0x0205, *(arg_06));
+  }
+  return;
+}

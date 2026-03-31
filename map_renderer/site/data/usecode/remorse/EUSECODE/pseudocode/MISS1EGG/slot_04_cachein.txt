@@ -1,0 +1,34 @@
+function miss1egg_cachein() /* entry=2319 class_id=0x090d slot=0x04 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    item, /* [BP-02h] type=0x24 */
+    pad2, /* [BP-04h] type=0x24 */
+    counter, /* [BP-06h] type=0x69 */
+    slot; /* [BP-08h] type=0x69 */
+
+  set_info(0x0213, *(arg_06));
+  process_exclude();
+  if (intrinsic_003f(arg_06) == 30) {
+    if (intrinsic_00ce()) {
+      spawn FREE.waitNTimerTicks(pid, 1, 0x00000000);
+      suspend;
+      /* pop_global */
+      /* global_address */
+      suspend;
+      return;
+    }
+    /* pop_global */
+    /* global_address */
+    /* str_to_ptr */
+    /* free_stack_string */
+    suspend;
+    spawn FREE.waitNTimerTicks(pid, 1, 0x00000000);
+    suspend;
+    /* global_address */
+    spawn FREE.waitNTimerTicks(pid, 1, 0x00000000);
+    suspend;
+    suspend;
+  }
+  return;
+}

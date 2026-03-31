@@ -1,0 +1,165 @@
+function windsurf_gotHit() /* entry=825 class_id=0x0337 slot=0x06 */
+{
+  entry:
+    set_info(0x020c, *(arg_06));
+    process_exclude();
+    FREE.slot_2c(arg_12, arg_10);
+    if retval goto block_0255;
+
+  block_024f:
+    goto block_0626;
+
+  block_0255:
+    if (intrinsic_0003(arg_06) != 0) goto block_05ff;
+
+  block_026a:
+    local_02 = arg_10;
+    if intrinsic_011b(0, local_02) goto block_0288;
+
+  block_0282:
+    goto block_0626;
+
+  block_0288:
+    if (intrinsic_0016(local_02) != 0x01d9) goto block_02a1;
+
+  block_029b:
+    goto block_0626;
+
+  block_02a1:
+    if (intrinsic_00a5(arg_10, arg_06) != 0) goto block_02bb;
+
+  block_02b5:
+    goto block_0626;
+
+  block_02bb:
+    if (intrinsic_00fb(arg_06) != 0x00ff) goto block_02d4;
+
+  block_02ce:
+    goto block_0626;
+
+  block_02d4:
+    if (Item.getZ(arg_06) != 0x00fe) goto block_02ed;
+
+  block_02e7:
+    goto block_0626;
+
+  block_02ed:
+    if (intrinsic_011c(arg_06) != 0x00ff) goto block_0324;
+
+  block_0300:
+    if (!Actor.isNPC(local_02)) goto block_031e;
+
+  block_031e:
+    goto block_0626;
+
+  block_0324:
+    if (local_08 == 0) {
+      local_08 = 3;
+    }
+    else if (local_08 == 15) {
+      local_08 = (3 + (intrinsic_0029() * 2));
+    }
+
+  block_038a:
+    if (local_10 == 0) {
+      local_06 = -1;
+    }
+    else if (local_10 == 1) {
+      local_06 = -2;
+      local_04 = 1;
+    }
+    else if (local_10 == 2) {
+      local_06 = -1;
+      local_04 = 1;
+    }
+    else if (local_10 == 3) {
+      local_06 = -1;
+      local_04 = 2;
+    }
+    else if (local_10 == 4) {
+      local_04 = 1;
+    }
+    else if (local_10 == 5) {
+      local_04 = 2;
+      local_06 = 1;
+    }
+    else if (local_10 == 6) {
+      local_04 = 1;
+      local_06 = 1;
+    }
+    else if (local_10 == 7) {
+      local_04 = 1;
+      local_06 = 2;
+    }
+    else if (local_10 == 8) {
+      local_06 = 1;
+    }
+    else if (local_10 == 9) {
+      local_06 = 2;
+      local_04 = -1;
+    }
+    else if (local_10 == 10) {
+      local_06 = 1;
+      local_04 = -1;
+    }
+    else if (local_10 == 11) {
+      local_06 = 1;
+      local_04 = -2;
+    }
+    else if (local_10 == 12) {
+      local_04 = -1;
+    }
+    else if (local_10 == 13) {
+      local_04 = -2;
+      local_06 = -1;
+    }
+    else if (local_10 == 14) {
+      local_04 = -1;
+      local_06 = -1;
+    }
+    else if (local_10 == 15) {
+      local_04 = -1;
+      local_06 = -2;
+    }
+
+  block_04fe:
+    local_04 = (local_04 * local_08);
+    local_06 = (local_06 * local_08);
+    spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+    suspend;
+
+  block_0538:
+    if 1 goto block_05c4;
+
+  block_0540:
+    local_15 = (intrinsic_0013(local_02) + local_04);
+    local_13 = (Item.legal_create(local_02) + local_06);
+    local_11 = Item.getZ(local_02);
+    spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+    suspend;
+    if (intrinsic_00a5(arg_10, arg_06) != 0) goto block_05c1;
+
+  block_05bb:
+    goto block_05c4;
+
+  block_05c1:
+    goto block_0538;
+
+  block_05c4:
+    if (Item.getZ(local_02) > 1) goto block_05fc;
+
+  block_05d6:
+    suspend;
+
+  block_05fc:
+    goto block_0626;
+
+  block_05ff:
+    spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
+    suspend;
+
+  block_0626:
+    return;
+
+  /* decompilation stopped at SEARCH_SURFACE */
+}

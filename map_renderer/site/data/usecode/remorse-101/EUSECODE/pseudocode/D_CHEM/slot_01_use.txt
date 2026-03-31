@@ -1,0 +1,13 @@
+function d_chem_use() /* entry=1211 class_id=0x04b9 slot=0x01 */
+{
+  set_info(0x0207, *(arg_06));
+  process_exclude();
+  if (!(intrinsic_0004(arg_06) & 0x1000)) {
+    return;
+  }
+  FREE.slot_40(*(arg_06));
+  if (!retval) {
+    ITEM.slot_23(0x1000, arg_06);
+  }
+  return;
+}

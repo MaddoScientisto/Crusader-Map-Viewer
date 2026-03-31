@@ -1,0 +1,58 @@
+function thermal2_gotHit() /* entry=1258 class_id=0x04e8 slot=0x06 */
+{
+  entry:
+    set_info(0x020c, *(arg_06));
+    process_exclude();
+    FREE.slot_35(arg_12, arg_10);
+    if retval goto block_01ed;
+
+  block_00ee:
+    local_04 = intrinsic_0116(arg_06);
+    if (Item.getFrame(arg_06) > 0) goto block_010e;
+
+  block_0108:
+    goto block_01ed;
+
+  block_010b:
+    goto block_01ed;
+
+  block_010e:
+    spawn ITEM.slot_29(pid, 120, arg_12, arg_10, arg_06);
+    suspend;
+    /* dword_to_word */
+    if (!process_result) goto block_0153;
+
+  block_012c:
+    FREE.slot_20(1);
+    if retval goto block_0146;
+
+  block_0139:
+    goto block_0150;
+
+  block_0150:
+    goto block_01ed;
+
+  block_0153:
+    spawn ITEM.slot_2a(pid, 0, 2, arg_06);
+    suspend;
+    /* loopscr */
+    /* loopscr */
+    /* loop */
+
+  block_018b:
+    while (!condition) {
+      spawn ITEM.slot_2a(pid, 0, 1, local_02);
+      suspend;
+      /* loopnext */
+    }
+
+  block_01b2:
+    spawn TRIGGER.slot_20(pid, (0 + 0x0080), *(arg_06), arg_06);
+    suspend;
+    spawn FREE.slot_2c(pid, 0x00000000);
+    suspend;
+
+  block_01ed:
+    return;
+
+}

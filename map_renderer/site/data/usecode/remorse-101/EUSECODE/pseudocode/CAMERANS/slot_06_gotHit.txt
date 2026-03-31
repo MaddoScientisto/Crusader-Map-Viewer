@@ -1,0 +1,14 @@
+function camerans_gotHit() /* entry=442 class_id=0x01b8 slot=0x06 */
+{
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  FREE.slot_2b(arg_12, arg_10);
+  if (retval && (Item.getFrame(arg_06) == 9)) {
+    FREE.slot_33(0x021b, *(arg_06));
+    spawn TRIGGER.slot_2a(pid, 1, *(arg_06), arg_06);
+    suspend;
+    spawn ITEM.slot_28(pid, 0, 0, arg_06);
+    suspend;
+  }
+  return;
+}

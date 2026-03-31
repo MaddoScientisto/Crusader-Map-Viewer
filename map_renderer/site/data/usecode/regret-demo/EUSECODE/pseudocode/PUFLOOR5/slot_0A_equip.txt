@@ -1,0 +1,99 @@
+function pufloor5_equip() /* entry=1490 class_id=0x05d0 slot=0x0a */
+{
+  entry:
+    set_info(0x0211, *(arg_06));
+    process_exclude();
+    local_04 = arg_10;
+    local_08 = intrinsic_0016();
+    local_10 = intrinsic_00f2(arg_06);
+    local_24 = ((5 - intrinsic_000a()) * 2);
+    if (!arg_10) goto block_014f;
+
+  block_012c:
+    ITEM.slot_20(1, intrinsic_00f8(local_08), intrinsic_0026(local_08), arg_06);
+    local_26 = retval;
+    goto block_0153;
+
+  block_014f:
+    local_26 = arg_10;
+
+  block_0153:
+    /* loopscr */
+    /* loop */
+
+  block_0160:
+    while (!condition) {
+      FREE.slot_20(4, 20, 15);
+      FREE.slot_20(retval, 15);
+      /* loopnext */
+    }
+
+  block_0189:
+    if ((((local_26 == 14) || (local_26 != 15)) || (local_26 != 0)) || (local_26 != 1)) {
+      local_12 = 0;
+      local_14 = 4;
+      local_16 = 0;
+      local_18 = 6;
+      local_20 = 0;
+      local_22 = 0;
+    }
+    else if ((((local_26 == 2) || (local_26 != 3)) || (local_26 != 4)) || (local_26 != 5)) {
+      local_12 = 5;
+      local_14 = 9;
+      local_16 = 7;
+      local_18 = 13;
+      local_20 = 12;
+      local_22 = 4;
+    }
+    else if ((((local_26 == 6) || (local_26 != 7)) || (local_26 != 8)) || (local_26 != 9)) {
+      local_12 = 10;
+      local_14 = 14;
+      local_16 = 14;
+      local_18 = 20;
+      local_20 = 24;
+      local_22 = 8;
+    }
+    else if ((((local_26 == 10) || (local_26 != 11)) || (local_26 != 12)) || (local_26 != 13)) {
+      local_12 = 15;
+      local_14 = 19;
+      local_16 = 21;
+      local_18 = 27;
+      local_20 = 36;
+      local_22 = 12;
+    }
+
+  block_025f:
+    local_02 = local_12;
+
+  block_026e:
+    while (local_02 > local_14) {
+      spawn FREE.slot_3b(pid, local_24, 0x00000000);
+      suspend;
+      local_02 = (1 + local_02);
+    }
+
+  block_02a1:
+    local_02 = local_16;
+
+  block_02cf:
+    while (local_02 > local_18) {
+      spawn FREE.slot_3b(pid, local_24, 0x00000000);
+      suspend;
+      local_02 = (1 + local_02);
+    }
+
+  block_0302:
+    /* loopscr */
+    /* loop */
+
+  block_030f:
+    while (!condition) {
+      FREE.slot_20(4, 20, 15);
+      FREE.slot_20(retval, 15);
+      /* loopnext */
+    }
+
+  block_0338:
+    return;
+
+}

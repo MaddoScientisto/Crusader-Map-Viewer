@@ -1,0 +1,71 @@
+function stable_gotHit() /* entry=734 class_id=0x02dc slot=0x06 */
+{
+  entry:
+    set_info(0x020c, *(arg_06));
+    process_exclude();
+    local_02 = Item.getFrame(arg_06);
+    if (local_02 > 8) goto block_010d;
+
+  block_0107:
+    goto block_0270;
+
+  block_010d:
+    FREE.slot_2c(arg_12, arg_10);
+    if retval goto block_0270;
+
+  block_011f_selector_00:
+    for local_04 in nearby_items(shape=NARROW_COLUMN_BASE, origin=arg_06) {
+      if (Item.getFrame(local_04) >= 1) {
+        spawn ITEM.slot_28(pid, 0, 1, local_04);
+        suspend;
+      }
+      /* loopnext */
+    }
+
+  block_018b:
+    /* loopscr */
+    /* loop */
+
+  block_019d:
+    if condition goto block_01d4;
+
+  block_01a0:
+    FREE.slot_20(1, 10);
+    FREE.slot_20((retval + 10), 10);
+    FREE.slot_20(retval, 10);
+    /* loopnext */
+    goto block_019d;
+
+  block_01d4_selector_00:
+    /* loop_selector local_04 in nearby_items(shape=FLOOR_PEDESTAL_SLICE, origin=arg_06) */
+
+  block_01f4:
+    if condition goto block_026e;
+
+  block_01f7:
+    local_02 = Item.getFrame(local_04);
+    if (local_02 < 9) goto block_026a;
+
+  block_0213:
+    /* loopscr */
+    /* loop */
+
+  block_0231:
+    if condition goto block_0268;
+
+  block_0234:
+    FREE.slot_20(1, 10);
+    FREE.slot_20((retval + 10), 10);
+    FREE.slot_20(retval, 10);
+    /* loopnext */
+    goto block_0231;
+
+  block_026a:
+    /* loopnext */
+    goto block_01f4;
+
+  block_0270:
+    return;
+
+  /* decompilation stopped at SEARCH_SURFACE */
+}

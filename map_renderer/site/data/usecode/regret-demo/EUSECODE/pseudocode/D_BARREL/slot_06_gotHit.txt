@@ -1,0 +1,23 @@
+function d_barrel_gotHit() /* entry=557 class_id=0x022b slot=0x06 */
+{
+  entry:
+    set_info(0x020c, *(arg_06));
+    process_exclude();
+    FREE.slot_35(arg_12, arg_10);
+    if retval goto block_0129;
+
+  block_00ee:
+    FREE.slot_35(arg_12, arg_10);
+    if (retval != 4) goto block_0129;
+
+  block_0100:
+    FREE.slot_20(10);
+    if (retval > 5) goto block_011d;
+
+  block_0110:
+    goto block_0129;
+
+  block_0129:
+    return;
+
+}

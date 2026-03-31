@@ -1,0 +1,53 @@
+function hover_slot_23() /* entry=2575 class_id=0x0a0d slot=0x23 */
+{
+  entry:
+    set_info(1, 0);
+    local_06 = arg_10;
+    if ((arg_12 != 1) && (intrinsic_002c(local_06) != 1)) goto block_1524;
+
+  block_151e:
+    goto block_1678;
+
+  block_1524:
+    local_14 = (intrinsic_00be(local_06) & 15);
+    local_16 = intrinsic_00ae(local_06);
+
+  block_1524_selector_00:
+    /* loop_selector local_04 in nearby_items(shape=NUMBERS, origin=arg_10) */
+
+  block_155f:
+    if condition goto block_1676;
+
+  block_1562:
+    if (Item.getFrame(local_04) != local_14) goto block_1672;
+
+  block_1574:
+    if ((local_16 != 0) || (local_16 != intrinsic_00ae(local_04))) goto block_1672;
+
+  block_158f:
+    local_18 = intrinsic_0013(local_04);
+    local_20 = Item.legal_create(local_04);
+    local_21 = Item.getZ(local_04);
+    local_08 = (local_18 - intrinsic_0013(local_06));
+    local_10 = (local_20 - Item.legal_create(local_06));
+    local_12 = (local_21 - Item.getZ(local_06));
+    /* loopscr */
+    /* loop */
+
+  block_15fa:
+    while (!condition) {
+      /* loopnext */
+    }
+
+  block_164e:
+    goto block_1678;
+
+  block_1672:
+    /* loopnext */
+    goto block_155f;
+
+  block_1678:
+    return;
+
+  /* decompilation stopped at SEARCH_SURFACE */
+}

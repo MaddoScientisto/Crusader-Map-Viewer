@@ -1,0 +1,85 @@
+function bbetty_slot_21() /* entry=2563 class_id=0x0a01 slot=0x21 */
+{
+  entry:
+    set_info(0x00f0, *(arg_06));
+    spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
+    suspend;
+
+  block_02bb:
+    suspend;
+    if intrinsic_0026(arg_06) goto block_0312;
+
+  block_02d7:
+    /* global_address */
+    /* global_address */
+    local_11 = intrinsic_0027(intrinsic_0013(Item.legal_create(8, 0, 8)), Item.legal_create(arg_06), intrinsic_0013(arg_06));
+    goto block_0331;
+
+  block_0312:
+    local_11 = (1 + local_11);
+    if (local_11 > 7) goto block_0331;
+
+  block_032a:
+    local_11 = 0;
+
+  block_0331:
+    if (local_11 == 0) {
+      local_02 = 0;
+      local_04 = -1;
+      local_06 = -16;
+      local_08 = -48;
+    }
+    else if (local_11 == 1) {
+      local_02 = 1;
+      local_04 = -1;
+      local_06 = 16;
+      local_08 = -48;
+    }
+    else if (local_11 == 2) {
+      local_02 = 1;
+      local_04 = 0;
+      local_06 = 16;
+      local_08 = -16;
+    }
+    else if (local_11 == 3) {
+      local_02 = 1;
+      local_04 = 1;
+      local_06 = 16;
+      local_08 = 16;
+    }
+    else if (local_11 == 4) {
+      local_02 = 0;
+      local_04 = 1;
+      local_06 = -16;
+      local_08 = 16;
+    }
+    else if (local_11 == 5) {
+      local_02 = -1;
+      local_04 = 1;
+      local_06 = -48;
+      local_08 = 16;
+    }
+    else if (local_11 == 6) {
+      local_02 = -1;
+      local_04 = 0;
+      local_06 = -48;
+      local_08 = -16;
+    }
+    else if (local_11 == 7) {
+      local_02 = -1;
+      local_04 = -1;
+      local_06 = -48;
+      local_08 = -48;
+    }
+
+  block_0469:
+    FREE.slot_20(8, 30, 15);
+    spawn FREE.waitNTimerTicks(pid, ((5 - intrinsic_0029()) * 20), 0x00000000);
+    suspend;
+    goto block_02bb;
+
+  block_051b:
+    return;
+
+  /* decompilation stopped at SEARCH_SURFACE */
+}

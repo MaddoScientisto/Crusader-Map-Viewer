@@ -1,0 +1,72 @@
+function monitew_use() /* entry=359 class_id=0x0165 slot=0x01 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    textFile, /* [BP-02h] type=0x73 */
+    valueBox, /* [BP-04h] type=0x24 */
+    passcode, /* [BP-06h] type=0x69 */
+    link, /* [BP-08h] type=0x69 */
+    boxCounter; /* [BP-10h] type=0x69 */
+
+  entry:
+    set_info(0x0207, *(arg_06));
+    process_exclude();
+    if (Item.getFrame(arg_06) > 1) goto block_0106;
+
+  block_0100:
+    goto block_02e2;
+
+  block_0106:
+    link = intrinsic_00d9(arg_06);
+    if (intrinsic_0003(arg_06) != 0) goto block_01eb;
+
+  block_0126_selector_00:
+    for valueBox in nearby_items(shape=PLACEHOLDER_KEY_CUBE, origin=arg_06) {
+      if ((intrinsic_00d9(valueBox) == link) || (link != 0)) {
+        VALBOX.slot_20(valueBox);
+        passcode = retval;
+        TEXTFILE.slot_23(passcode, intrinsic_00c9(valueBox), intrinsic_00d9(valueBox), arg_06);
+        /* free_local_string */
+        textFile = retval;
+        spawn TEXTFILE.slot_20(pid, textFile, arg_06);
+        /* free_stack_string */
+        suspend;
+      }
+      /* loopnext */
+    }
+
+  block_01bf:
+    spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
+    suspend;
+    goto block_02e2;
+
+  block_01eb_selector_00:
+    for valueBox in nearby_items(shape=PLACEHOLDER_KEY_CUBE, origin=arg_06) {
+      if (intrinsic_00d9(valueBox) == link) {
+        VALBOX.slot_20(valueBox);
+        passcode = retval;
+        boxCounter = (1 + boxCounter);
+      }
+      /* loopnext */
+    }
+
+  block_0241:
+    TEXTFILE.slot_23(passcode, intrinsic_00c9(arg_06), intrinsic_00d9(arg_06), arg_06);
+    /* free_local_string */
+    textFile = retval;
+    if (boxCounter > 1) goto block_02bd;
+
+  block_0276:
+    /* free_local_string */
+    textFile = "There is more than one Value box in range with the same link";
+
+  block_02bd:
+    spawn TEXTFILE.slot_20(pid, textFile, arg_06);
+    /* free_stack_string */
+    suspend;
+
+  block_02e2:
+    /* free_local_string */
+    return;
+
+}

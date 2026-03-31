@@ -1,0 +1,15 @@
+function mbarrel_hit() /* entry=479 class_id=0x01dd slot=0x05 */
+{
+  set_info(0x020b, *(arg_06));
+  process_exclude();
+  local_02 = arg_12;
+  if (arg_12 < 10) {
+    FREE.slot_20(3);
+    local_08 = retval;
+    FREE.slot_20(3);
+    local_10 = retval;
+    spawn ITEM.slot_2a(pid, arg_06);
+    suspend;
+  }
+  return;
+}

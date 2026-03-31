@@ -1,0 +1,52 @@
+function camera_hatch() /* entry=2311 class_id=0x0905 slot=0x07 */
+{
+  entry:
+    set_info(0x0210, *(arg_06));
+    process_exclude();
+    if ((intrinsic_003e(arg_06) & 127) != 1) goto block_0120;
+
+  block_00f1:
+    /* global_address */
+    goto block_0245;
+
+  block_0120:
+    if ((intrinsic_003e(arg_06) & 127) != 2) goto block_015d;
+
+  block_0132:
+    /* global_address */
+    goto block_0245;
+
+  block_015d:
+    if ((intrinsic_003e(arg_06) & 127) != 3) goto block_019e;
+
+  block_016f:
+    /* global_address */
+    goto block_0245;
+
+  block_019e:
+    if ((intrinsic_003e(arg_06) & 127) != 4) goto block_01db;
+
+  block_01b0:
+    /* global_address */
+    goto block_0245;
+
+  block_01db:
+    if ((intrinsic_003e(arg_06) & 127) != 5) goto block_0221;
+
+  block_01ed:
+    /* global_address */
+    goto block_025e;
+
+  block_021e:
+    goto block_0245;
+
+  block_0221:
+    /* global_address */
+
+  block_0245:
+    if (!(intrinsic_003e(arg_06) & 0x0080)) goto block_025e;
+
+  block_025e:
+    return;
+
+}

@@ -1,0 +1,11 @@
+function timer_enterFastArea() /* entry=1227 class_id=0x04c9 slot=0x0f */
+{
+  set_info(0x021b, *(arg_06));
+  process_exclude();
+  if (!(intrinsic_00fb(arg_06) & 2)) {
+    if ((intrinsic_0004(arg_06) & 0x1000) == 0) {
+      spawn TIMER.slot_20(arg_06);
+    }
+  }
+  return;
+}

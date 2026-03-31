@@ -1,0 +1,29 @@
+function tramflor_release() /* entry=1498 class_id=0x05d8 slot=0x09 */
+{
+  entry:
+    set_info(0x020d, *(arg_06));
+    process_exclude();
+    local_02 = intrinsic_005b(arg_06);
+    if (local_02 != 0) goto block_0849;
+
+  block_07fa:
+    spawn FREE.slot_3b(pid, 30, 0x00000000);
+    suspend;
+
+  block_07fa_selector_00:
+    /* loop_selector local_04 in selector_0x42(arg0=0x028d, arg1=0x0287, arg2=(10 * 32), origin=global[0x001e]) */
+
+  block_0828:
+    if condition goto block_0847;
+
+  block_082b:
+    local_06 = local_04;
+    spawn DOOR.slot_21(pid, 2, local_06);
+    suspend;
+    /* loopnext */
+    goto block_0828;
+
+  block_0849:
+    return;
+
+}

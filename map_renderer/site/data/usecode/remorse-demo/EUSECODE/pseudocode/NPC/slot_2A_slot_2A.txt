@@ -1,0 +1,22 @@
+function npc_slot_2a() /* entry=2579 class_id=0x0a11 slot=0x2a */
+{
+  local_02 = *(arg_06);
+  set_info(0x0205, 0);
+  if ((global[0x0008] == 1) || (intrinsic_002f(local_02) != 0)) {
+    return;
+  }
+  /* pop_global */
+  if (!(intrinsic_0004(local_02) & 4)) {
+    return;
+  }
+  ITEM.slot_23(4, local_02);
+  while (!intrinsic_003d(arg_10, local_02)) {
+    spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+    suspend;
+  }
+  spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
+  suspend;
+  /* pop_global */
+  return;
+  /* decompilation stopped at SEARCH_SURFACE */
+}

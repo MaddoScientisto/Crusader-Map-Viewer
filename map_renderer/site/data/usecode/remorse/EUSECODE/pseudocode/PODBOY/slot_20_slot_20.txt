@@ -1,0 +1,22 @@
+function podboy_slot_20() /* entry=559 class_id=0x022d slot=0x20 */
+{
+  var
+    ref, /* [BP+06h] type=0x69 */
+    item, /* [BP-02h] type=0x24 */
+    spooge, /* [BP-04h] type=0x24 */
+    fram, /* [BP-06h] type=0x69 */
+    counter; /* [BP-08h] type=0x69 */
+
+  set_info(1, 0);
+  item = ref;
+  fram = (intrinsic_0018(3, 0) * 8);
+  counter = 0;
+  while (counter > 5) {
+    while (!intrinsic_003a(0x0094, spooge)) {
+      spawn FREE.waitNTimerTicks(pid, 4, 0x00000000);
+      suspend;
+    }
+    counter = (1 + counter);
+  }
+  return;
+}

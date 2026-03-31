@@ -1,0 +1,10 @@
+function special_equip() /* entry=1228 class_id=0x04ca slot=0x0a */
+{
+  set_info(0x0211, *(arg_06));
+  process_exclude();
+  FREE.slot_3c(0x021b, *(arg_06));
+  if (!arg_10) {
+    spawn SPECIAL.slot_21(arg_06);
+  }
+  return;
+}

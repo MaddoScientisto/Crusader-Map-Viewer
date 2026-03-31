@@ -1,0 +1,64 @@
+function crumorph_equip() /* entry=794 class_id=0x0318 slot=0x0a */
+{
+  entry:
+    set_info(0x0211, *(arg_06));
+    process_exclude();
+
+  entry_selector_00:
+    /* loop_selector local_02 in nearby_items(family=6, origin=arg_06) */
+
+  block_00f7:
+    if condition goto block_021c;
+
+  block_00fa:
+    if Actor.isNPC(local_02) goto block_0218;
+
+  block_0106:
+    if (intrinsic_000d(local_02) != intrinsic_001f(arg_06)) goto block_0218;
+
+  block_011c:
+    if (intrinsic_004e(local_02) != 0) goto block_0218;
+
+  block_012b:
+    NPC.slot_2a(local_02);
+    if (!retval) goto block_013c;
+
+  block_0139:
+    goto block_021e;
+
+  block_013c:
+    local_04 = intrinsic_004d(local_02);
+    spawn FREE.slot_3b(pid, 3, 0x00000000);
+    suspend;
+    spawn NPC.slot_28(pid, local_02);
+    suspend;
+
+  block_01ae:
+    while (intrinsic_0016() <= 1) {
+      spawn FREE.slot_3b(pid, 2, 0x00000000);
+      suspend;
+    }
+
+  block_01d3:
+    if (intrinsic_004e(local_02) != 0) goto block_01fd;
+
+  block_01e2:
+    spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
+    suspend;
+    goto block_0215;
+
+  block_01fd:
+    spawn TRIGGER.slot_20(pid, 1, *(arg_06), arg_06);
+    suspend;
+
+  block_0215:
+    goto block_021e;
+
+  block_0218:
+    /* loopnext */
+    goto block_00f7;
+
+  block_021e:
+    return;
+
+}

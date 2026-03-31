@@ -1,0 +1,16 @@
+function lwplate4_gotHit() /* entry=1128 class_id=0x0466 slot=0x06 */
+{
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  FREE.slot_2c(arg_12, arg_10);
+  if (!retval) {
+    return;
+  }
+  local_02 = arg_10;
+  if (arg_10 == 1) {
+    spawn LITEWALL.slot_21(pid, arg_10, arg_06);
+    suspend;
+  }
+  return;
+  /* decompilation stopped at SEARCH_SURFACE */
+}

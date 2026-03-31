@@ -1,0 +1,170 @@
+function trigger_slot_23() /* entry=2591 class_id=0x0a1d slot=0x23 */
+{
+  entry:
+    set_info(0x021b, 0);
+    local_18 = arg_18;
+    local_16 = arg_10;
+    local_04 = (arg_16 & 3);
+    if (local_04 != 0) goto block_0773;
+
+  block_072f_selector_00:
+    for local_14 in nearby_items(shape=arg_20, origin=local_16) {
+      if (intrinsic_0133(local_14) == arg_18) {
+      }
+      /* loopnext */
+    }
+
+  block_076e:
+    goto block_0b62;
+
+  block_0773:
+    if (local_04 != 1) goto block_07bf;
+
+  block_077b_selector_00:
+    for local_14 in nearby_items(shape=arg_20, origin=local_16) {
+      if (intrinsic_0133(local_14) == arg_18) {
+      }
+      /* loopnext */
+    }
+
+  block_07ba:
+    goto block_0b62;
+
+  block_07bf:
+    if (local_04 != 2) goto block_080d;
+
+  block_07c7_selector_00:
+    for local_14 in nearby_items(shape=arg_20, origin=local_16) {
+      if (intrinsic_0133(local_14) == arg_18) {
+      }
+      /* loopnext */
+    }
+
+  block_0808:
+    goto block_0b62;
+
+  block_080d:
+    if (local_04 != 3) goto block_0b62;
+
+  block_0815:
+    local_02 = (arg_12 & 7);
+    if (local_02 != 0) goto block_0898;
+
+  block_0824:
+    local_12 = (arg_12 / 8);
+
+  block_0824_selector_00:
+    for local_14 in nearby_items(shape=0x0476, origin=local_16) {
+      if (intrinsic_0133(local_14) == arg_18) {
+        local_06 = intrinsic_0136(local_14);
+        local_10 = (local_06 & 15);
+        local_08 = intrinsic_0003(local_14);
+        local_08 = (((local_06 & 0x00e0) * 8) + local_08);
+        FREE.slot_39(local_12, local_10, local_08, local_14);
+      }
+      /* loopnext */
+    }
+
+  block_0893:
+    goto block_0b5f;
+
+  block_0898:
+    if (local_02 != 1) goto block_09a3;
+
+  block_08a0:
+    local_12 = (arg_12 / 8);
+
+  block_08a0_selector_00:
+    /* loop_selector local_14 in nearby_items(shape=arg_20, origin=local_16) */
+
+  block_08be:
+    if condition goto block_099e;
+
+  block_08c1:
+    if (intrinsic_0133(local_14) != arg_18) goto block_099a;
+
+  block_08d0:
+    if (arg_10 != local_14) goto block_099a;
+
+  block_08d8:
+    if (local_12 != 31) goto block_0906;
+
+  block_08ea:
+    suspend;
+    goto block_099a;
+
+  block_0906:
+    local_10 = Item.getFrame(local_14);
+    local_08 = intrinsic_0011(local_14);
+    local_06 = (local_08 & 0x00ff);
+    local_08 = (local_08 & 0x0700);
+    local_08 = (local_08 / 8);
+    local_08 = (local_08 + local_10);
+    suspend;
+    /* bit_not */
+
+  block_099a:
+    /* loopnext */
+    goto block_08be;
+
+  block_099e:
+    goto block_0b5f;
+
+  block_09a3:
+    if (local_02 == 2) {
+      local_06 = (arg_12 / 8);
+      for local_14 in nearby_items(shape=arg_20, origin=local_16) {
+        if (intrinsic_0133(local_14) == arg_18) {
+        }
+        /* loopnext */
+      }
+    }
+    else if (local_02 == 3) {
+      for local_14 in nearby_items(shape=arg_20, origin=local_16) {
+        if (intrinsic_0133(local_14) == arg_18) {
+          if (arg_10 == local_14) {
+            local_06 = (arg_12 / 8);
+            spawn TRIGGER.slot_22(local_06, local_14, arg_06);
+          }
+        }
+        /* loopnext */
+      }
+    }
+    else if (local_02 == 4) {
+      local_06 = (arg_12 / 8);
+      local_18 = (local_18 + local_06);
+    }
+    else if (local_02 == 5) {
+      local_06 = (arg_12 / 8);
+      local_18 = (local_18 - local_06);
+    }
+    else if (local_02 == 6) {
+      local_12 = (arg_12 / 8);
+      for local_14 in nearby_items(shape=0x0476, origin=local_16) {
+        if (intrinsic_0133(local_14) == arg_18) {
+          local_06 = intrinsic_0138(local_14);
+          local_10 = (local_06 & 15);
+          local_08 = intrinsic_0003(local_14);
+          local_08 = (((local_06 & 0x00e0) * 8) + local_08);
+          if (local_08 == 0) {
+            if (Item.create(local_10, local_08, local_20) == 1) {
+              suspend;
+            }
+          }
+        }
+        /* loopnext */
+      }
+    }
+
+  block_0b5f:
+    goto block_0b62;
+
+  block_0b62:
+    /* word_to_dword */
+    /* pop_result */
+    goto block_0b69;
+
+  block_0b69:
+    return;
+
+}

@@ -1,0 +1,12 @@
+function minepad_equip() /* entry=743 class_id=0x02e5 slot=0x0a */
+{
+  set_info(0x0211, *(arg_06));
+  process_exclude();
+  if (!arg_10) {
+    spawn SPIDER.slot_20(arg_10, arg_06);
+    return;
+  }
+  FREE.slot_3c(0x00f0, *(arg_06));
+  ITEM.slot_24(4, arg_06);
+  return;
+}

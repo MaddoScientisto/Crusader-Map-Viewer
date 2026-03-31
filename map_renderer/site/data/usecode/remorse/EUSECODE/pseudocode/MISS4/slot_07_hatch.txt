@@ -1,0 +1,11 @@
+function miss4_hatch() /* entry=2322 class_id=0x0910 slot=0x07 */
+{
+  set_info(0x0210, *(arg_06));
+  process_exclude();
+  if (intrinsic_003f(arg_06) == 1) {
+    spawn MISS4.slot_20(pid, arg_06);
+    suspend;
+    return;
+  }
+  return;
+}

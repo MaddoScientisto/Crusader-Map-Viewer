@@ -1,0 +1,25 @@
+function reb_pad_slot_20() /* entry=1087 class_id=0x043d slot=0x20 */
+{
+  set_info(1, 0);
+  /* global_address */
+  spawn NPC.slot_24(pid);
+  suspend;
+  suspend;
+  if (intrinsic_0004(arg_06) & 0x1000) {
+    spawn REB_PAD.slot_21(pid, arg_06);
+    suspend;
+  }
+  spawn FREE.slot_32(pid, 10, 0x00000000);
+  suspend;
+  suspend;
+  if (arg_10 == 29) {
+    return;
+  }
+  /* global_address */
+  suspend;
+  /* global_address */
+  spawn NPC.slot_23(pid);
+  suspend;
+  return;
+  /* decompilation stopped at SEARCH_SURFACE */
+}

@@ -1,0 +1,13 @@
+function l_ns_16_gotHit() /* entry=465 class_id=0x01cf slot=0x06 */
+{
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  if (arg_10 == intrinsic_001d()) {
+    spawn LAZER.slot_20(arg_06);
+    spawn TRIGGER.slot_2a(pid, 0, *(arg_06), arg_06);
+    suspend;
+    spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
+    suspend;
+  }
+  return;
+}

@@ -1,0 +1,25 @@
+function door4_slot_21() /* entry=2571 class_id=0x0a09 slot=0x21 */
+{
+  set_info(0x0207, *(arg_06));
+  /* loopscr */
+  /* loopscr */
+  /* loop */
+  while (!condition) {
+    /* loopnext */
+  }
+  FREE.slot_36(Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06), 4, 0x05f9, *(arg_06));
+  if (retval) {
+    /* word_to_dword */
+    /* pop_result */
+    return;
+  }
+  local_02 = 0;
+  while (local_02 > 4) {
+    spawn FREE.slot_3b(pid, 5, 0x00000000);
+    suspend;
+    local_02 = (1 + local_02);
+  }
+  /* word_to_dword */
+  /* pop_result */
+  return;
+}

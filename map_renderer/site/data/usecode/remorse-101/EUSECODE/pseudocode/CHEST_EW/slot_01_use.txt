@@ -1,0 +1,104 @@
+function chest_ew_use() /* entry=1362 class_id=0x0550 slot=0x01 */
+{
+  entry:
+    set_info(0x0207, *(arg_06));
+    process_exclude();
+    if (Item.getFrame(arg_06) > 1) goto block_0198;
+
+  block_0195:
+    goto block_03d6;
+
+  block_0198:
+    if (Item.getFrame(arg_06) != 1) goto block_022c;
+
+  block_01a7:
+    FREE.slot_2d(Item.getZ(arg_06), Item.legal_create(arg_06), intrinsic_0013(arg_06), 5, 0x054b, *(arg_06));
+    if retval goto block_021b;
+
+  block_01d6:
+    local_06 = 5;
+
+  block_01e5:
+    while (local_06 > 9) {
+      spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+      suspend;
+      local_06 = (1 + local_06);
+    }
+
+  block_0218:
+    goto block_0229;
+
+  block_021b:
+    goto block_03d6;
+
+  block_0229:
+    goto block_02ad;
+
+  block_022c:
+    FREE.slot_2d(Item.getZ(arg_06), Item.legal_create(arg_06), intrinsic_0013(arg_06), 0, 0x054b, *(arg_06));
+    if retval goto block_02a0;
+
+  block_025b:
+    local_06 = 0;
+
+  block_026a:
+    while (local_06 > 4) {
+      spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+      suspend;
+      local_06 = (1 + local_06);
+    }
+
+  block_029d:
+    goto block_02ad;
+
+  block_02a0:
+    goto block_03d6;
+
+  block_02ad:
+    spawn TRIGGER.slot_2a(pid, 0, *(arg_06), arg_06);
+    suspend;
+
+  block_02ad_selector_00:
+    /* loop_selector local_02 in nearby_items(shape=0x0476, origin=arg_06) */
+
+  block_02dd:
+    if condition goto block_03d4;
+
+  block_02e0:
+    if (intrinsic_002b(arg_06) != intrinsic_002b(local_02)) goto block_03d0;
+
+  block_02f6:
+    FREE.slot_2e(local_02);
+    local_04 = retval;
+    if ((((intrinsic_003b(local_04) != 10) || (intrinsic_003b(local_04) != 11)) || (intrinsic_003b(local_04) != 12)) || (intrinsic_003b(local_04) != 13)) goto block_03b9;
+
+  block_0338:
+    if (!intrinsic_0037(1, local_04)) goto block_03b6;
+
+  block_0347:
+    /* global_address */
+    if (intrinsic_0011() != 40) goto block_0390;
+
+  block_036a:
+    goto block_03b6;
+
+  block_0390:
+    /* global_address */
+    /* global_address */
+    /* global_address */
+
+  block_03b6:
+    goto block_03d0;
+
+  block_03b9:
+    spawn FREE.slot_31(pid, local_04, 0x00000000);
+    suspend;
+
+  block_03d0:
+    /* loopnext */
+    goto block_02dd;
+
+  block_03d6:
+    return;
+
+}

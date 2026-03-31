@@ -1,0 +1,10 @@
+function hover1_unequip() /* entry=1266 class_id=0x04f0 slot=0x0b */
+{
+  set_info(0x0212, *(arg_06));
+  process_exclude();
+  if (arg_10 == 0) {
+    spawn HOVER1.enterFastArea(pid, arg_06);
+    suspend;
+  }
+  return;
+}

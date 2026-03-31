@@ -1,0 +1,20 @@
+function d_cour_gotHit() /* entry=1220 class_id=0x04c2 slot=0x06 */
+{
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  if (intrinsic_0013(100, 0) <= 50) {
+    return;
+  }
+  /* loopscr */
+  /* loop */
+  while (!condition) {
+    spawn FREE.slot_3b(pid, 30, 0x00000000);
+    suspend;
+    spawn ITEM.slot_2a(pid, 1, 0, local_02);
+    suspend;
+    /* loopnext */
+  }
+  spawn FREE.slot_3b(pid, 30, 0x00000000);
+  suspend;
+  return;
+}

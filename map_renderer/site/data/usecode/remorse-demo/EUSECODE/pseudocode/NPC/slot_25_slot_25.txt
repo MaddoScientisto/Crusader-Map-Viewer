@@ -1,0 +1,10 @@
+function npc_slot_25() /* entry=2579 class_id=0x0a11 slot=0x25 */
+{
+  set_info(0x020a, *(arg_06));
+  suspend;
+  spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+  suspend;
+  local_02 = intrinsic_00dd(arg_06);
+  return;
+  /* decompilation stopped at SEARCH_SURFACE */
+}

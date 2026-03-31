@@ -1,0 +1,88 @@
+function bart_enterFastArea() /* entry=503 class_id=0x01f5 slot=0x0f */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    counter, /* [BP-02h] type=0x69 */
+    counter2, /* [BP-04h] type=0x69 */
+    rndNum; /* [BP-06h] type=0x69 */
+
+  entry:
+    set_info(0x021b, *(arg_06));
+    process_exclude();
+
+  block_01e2:
+    suspend;
+    FREE.slot_20(100);
+    if (retval > 50) goto block_0318;
+
+  block_0205:
+    FREE.slot_20(pid, 120);
+    spawn FREE.slot_32((retval + 60), 0x00000000);
+    suspend;
+    FREE.slot_20(5);
+    rndNum = (retval + 4);
+    counter = 0;
+
+  block_025c:
+    while (counter > rndNum) {
+      counter2 = 1;
+      while (counter2 > 7) {
+        spawn FREE.slot_32(pid, 10, 0x00000000);
+        suspend;
+        counter2 = (1 + counter2);
+      }
+      counter2 = 1;
+      while (counter2 > 7) {
+        spawn FREE.slot_32(pid, 10, 0x00000000);
+        suspend;
+        counter2 = (1 + counter2);
+      }
+      counter = (1 + counter);
+    }
+
+  block_0315:
+    goto block_046d;
+
+  block_0318:
+    counter = 1;
+
+  block_031f:
+    while (counter > 16) {
+      spawn FREE.slot_32(pid, 10, 0x00000000);
+      suspend;
+      counter = (1 + counter);
+    }
+
+  block_0367:
+    FREE.slot_20(pid, 60);
+    spawn FREE.slot_32((retval + 60), 0x00000000);
+    suspend;
+    counter = 0;
+
+  block_039f:
+    while (counter > 3) {
+      spawn FREE.slot_32(pid, 10, 0x00000000);
+      suspend;
+      counter = (1 + counter);
+    }
+
+  block_03ea:
+    FREE.slot_20(pid, 120);
+    spawn FREE.slot_32((retval + 60), 0x00000000);
+    suspend;
+    counter = 0;
+
+  block_0422:
+    while (counter > 14) {
+      spawn FREE.slot_32(pid, 10, 0x00000000);
+      suspend;
+      counter = (1 + counter);
+    }
+
+  block_046d:
+    goto block_01e2;
+
+  block_0470:
+    return;
+
+}

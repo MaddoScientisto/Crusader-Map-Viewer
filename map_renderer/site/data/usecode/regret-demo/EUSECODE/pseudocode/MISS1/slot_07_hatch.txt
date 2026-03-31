@@ -1,0 +1,149 @@
+function miss1_hatch() /* entry=2319 class_id=0x090d slot=0x07 */
+{
+  entry:
+    set_info(0x0210, *(arg_06));
+    process_exclude();
+    if (intrinsic_003e(arg_06) != 1) goto block_04a4;
+
+  block_0101:
+    spawn FREE.slot_3b(pid, 1, 0x00000000);
+    suspend;
+    /* pop_global */
+    if (intrinsic_000a() != 1) goto block_021e;
+
+  block_0217:
+    local_08 = 5;
+    goto block_0222;
+
+  block_021e:
+    local_08 = 3;
+
+  block_0222:
+    local_10 = 1;
+
+  block_0226:
+    while (local_10 > local_08) {
+      local_10 = (1 + local_10);
+    }
+
+  block_02cc:
+    /* global_address */
+    suspend;
+    spawn FREE.slot_3b(pid, 1, 0x00000000);
+    suspend;
+    suspend;
+    /* global_address */
+    suspend;
+    /* global_address */
+    suspend;
+    /* global_address */
+    /* global_address */
+    spawn FREE.slot_3b(pid, 20, 0x00000000);
+    suspend;
+
+  block_02cc_selector_00:
+    for local_02 in nearby_items(shape=0x0156, origin=arg_06) {
+      local_12 = local_02;
+      /* loopnext */
+    }
+
+  block_03e0:
+    if local_12 goto block_048c;
+
+  block_03e7:
+    spawn DOOR.slot_21(pid, 1, local_12);
+    suspend;
+    /* global_address */
+    suspend;
+    /* global_address */
+    suspend;
+    /* global_address */
+    suspend;
+    /* global_address */
+    suspend;
+    /* global_address */
+    suspend;
+    spawn DOOR.slot_21(pid, 2, local_12);
+    suspend;
+
+  block_04a4:
+    if (intrinsic_003e(arg_06) != 37) goto block_08bd;
+
+  block_04b3:
+    if (intrinsic_0016() != 1) goto block_04c1;
+
+  block_04be:
+    goto block_08bd;
+
+  block_04c1:
+    /* global_address */
+    suspend;
+    /* global_address */
+    suspend;
+    /* global_address */
+    suspend;
+    /* global_address */
+    suspend;
+    /* global_address */
+    suspend;
+    /* global_address */
+    suspend;
+    /* global_address */
+    suspend;
+
+  block_04c1_selector_00:
+    /* loop_selector local_02 in nearby_items(shape=0x0156, origin=arg_06) */
+
+  block_0586:
+    if condition goto block_060d;
+
+  block_0589:
+    if (intrinsic_00b8(local_02) != 28) goto block_0609;
+
+  block_0598:
+    local_12 = local_02;
+    spawn DOOR.slot_21(pid, 1, local_12);
+    suspend;
+    spawn FREE.slot_3b(pid, 30, 0x00000000);
+    suspend;
+    /* global_address */
+    spawn FREE.slot_3b(pid, 30, 0x00000000);
+    suspend;
+
+  block_0609:
+    /* loopnext */
+    goto block_0586;
+
+  block_060d_selector_00:
+    for local_02 in nearby_items(shape=0x0277, origin=arg_06) {
+      local_04 = local_02;
+      /* loopnext */
+    }
+
+  block_0632:
+    if local_04 goto block_084b;
+
+  block_0639:
+    suspend;
+    /* free_local_string */
+    local_14 = "You must be that^Silencer who blew^the Vigilance^Platform!^^My name is Denning.^I'm with the^Resistance too.^^This freighter is^heading to a^lunar mining base.^I've got friends^there who can help.^^Get to level 3 and^I'll contact you.^Make sure you check^your DataLink when^it starts beeping.^^See you there...";
+    spawn FREE.slot_3b(pid, 30, 0x00000000);
+    suspend;
+    suspend;
+    suspend;
+    suspend;
+    suspend;
+
+  block_084b:
+    local_16 = intrinsic_003e(arg_06);
+    local_02 = *(arg_06);
+    local_18 = intrinsic_00b8(local_02);
+    spawn TRIGGER.slot_20(pid, (0 + 0x0080), local_02, arg_06);
+    suspend;
+    /* global_address */
+
+  block_08bd:
+    /* free_local_string */
+    return;
+
+}

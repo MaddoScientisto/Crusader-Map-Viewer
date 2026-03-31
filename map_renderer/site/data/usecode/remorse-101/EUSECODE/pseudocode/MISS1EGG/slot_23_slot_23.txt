@@ -1,0 +1,35 @@
+function miss1egg_slot_23() /* entry=2319 class_id=0x090d slot=0x23 */
+{
+  set_info(0x0001, *(arg_06));
+  spawn MISS1EGG.slot_25(arg_06);
+  for local_02 in nearby_items(shape=0x04e0, origin=global[0x003d]) {
+    local_06 = local_02;
+    /* loopnext */
+  }
+  if (local_06) {
+    return;
+  }
+  suspend;
+  for local_02 in nearby_items(shape=door_shape_007b, origin=arg_06) {
+    if (intrinsic_00a7(local_02) == 23) {
+      local_10 = local_02;
+      spawn DOOR.slot_20(pid, local_10);
+      suspend;
+    }
+    /* loopnext */
+  }
+  spawn NPC.slot_22(pid, 5, 4, local_06);
+  suspend;
+  suspend;
+  /* str_to_ptr */
+  /* free_stack_string */
+  suspend;
+  spawn FREE.slot_3b(0x00000000);
+  for local_08 in nearby_items(shape=npcdeath_shape_02fd, origin=global[0x003d]) {
+    /* loopnext */
+  }
+  /* pop_global */
+  spawn MISS1EGG.slot_24(1, pid, local_06, arg_06);
+  suspend;
+  return;
+}

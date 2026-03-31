@@ -1,0 +1,32 @@
+function medikit_use() /* entry=851 class_id=0x0351 slot=0x01 */
+{
+  entry:
+    set_info(0x0207, *(arg_06));
+    process_exclude();
+    set_info(0x00f0, 0);
+    /* global_address */
+    if (intrinsic_002f() >= 0x0096) goto block_010e;
+
+  block_00f6:
+    spawn FREE.slot_21(pid, 0x01a7, 0x00000000);
+    suspend;
+
+  block_010e:
+    /* global_address */
+    if intrinsic_00c7(80) goto block_0138;
+
+  block_011d:
+    spawn FREE.slot_21(pid, 0x00db, 0x00000000);
+    suspend;
+    goto block_0175;
+
+  block_0138:
+    spawn FREE.slot_21(pid, 0x01a7, 0x00000000);
+    suspend;
+
+  block_0175:
+    spawn FREE.slot_3b(pid, 30, 0x00000000);
+    suspend;
+    return;
+
+}

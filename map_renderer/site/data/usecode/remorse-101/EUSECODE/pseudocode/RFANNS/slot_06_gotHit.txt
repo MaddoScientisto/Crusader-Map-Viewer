@@ -1,0 +1,29 @@
+function rfanns_gotHit() /* entry=191 class_id=0x00bd slot=0x06 */
+{
+  entry:
+    set_info(0x020c, *(arg_06));
+    process_exclude();
+    FREE.slot_2b(arg_12, arg_10);
+    if retval goto block_0156;
+
+  block_0105:
+    local_06 = intrinsic_00e3(arg_06);
+
+  block_0105_selector_00:
+    /* loop_selector local_02 in nearby_items(shape=WIND_AREA, origin=arg_06) */
+
+  block_0132:
+    if condition goto block_0154;
+
+  block_0135:
+    local_04 = intrinsic_00e3(local_02);
+    if (local_04 != local_06) goto block_0150;
+
+  block_0150:
+    /* loopnext */
+    goto block_0132;
+
+  block_0156:
+    return;
+
+}

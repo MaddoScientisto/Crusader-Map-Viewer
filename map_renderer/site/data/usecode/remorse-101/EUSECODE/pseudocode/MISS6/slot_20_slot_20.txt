@@ -1,0 +1,122 @@
+function miss6_slot_20() /* entry=2324 class_id=0x0912 slot=0x20 */
+{
+  entry:
+    set_info(0x0001, *(arg_06));
+
+  block_0161:
+    /* global_address */
+    if intrinsic_0033() goto block_0188;
+
+  block_016e:
+    spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+    suspend;
+    goto block_0161;
+
+  block_0188_selector_00:
+    for local_04 in nearby_items(shape=0x04dc, origin=global[0x003d]) {
+      /* loopnext */
+    }
+
+  block_01df:
+    if local_02 goto block_04e5;
+
+  block_01e6:
+    suspend;
+    local_08 = 0;
+
+  block_01e6_selector_00:
+    for local_06 in nearby_items(shape=door_shape_0095, origin=global[0x003d]) {
+      if (intrinsic_00d1(local_06) == 19) {
+        local_08 = local_06;
+        spawn DOOR.slot_20(pid, local_08);
+        suspend;
+        local_10 = intrinsic_0013(local_08);
+      }
+      /* loopnext */
+    }
+
+  block_024f:
+    if (!local_08) goto block_0297;
+
+  block_0257_selector_00:
+    /* loop_selector local_06 in nearby_items(shape=0x0493, origin=global[0x003d]) */
+
+  block_026f:
+    if condition goto block_0295;
+
+  block_0272:
+    local_08 = local_06;
+    spawn DOOR.slot_20(pid, local_08);
+    suspend;
+    local_10 = intrinsic_0013(local_08);
+    /* loopnext */
+    goto block_026f;
+
+  block_0297:
+    /* global_address */
+    if (intrinsic_0013() > local_10) goto block_02c1;
+
+  block_02a7:
+    /* global_address */
+    spawn NPC.slot_22(pid, 1, 12);
+    suspend;
+    goto block_02ee;
+
+  block_02c1:
+    /* global_address */
+    if (intrinsic_0013() < (local_10 - 64)) goto block_02ee;
+
+  block_02d4:
+    /* global_address */
+    spawn NPC.slot_22(pid, 1, 4);
+    suspend;
+    goto block_02ee;
+
+  block_02ee:
+    /* global_address */
+    spawn NPC.slot_22(pid, 4, 0);
+    suspend;
+    /* global_address */
+    spawn NPC.slot_22(pid, 2, 14);
+    suspend;
+    /* global_address */
+    /* global_address */
+    spawn NPC.slot_22(pid, 2, 4, local_02);
+    suspend;
+    spawn NPC.slot_22(pid, 1, 6, local_02);
+    suspend;
+    suspend;
+    suspend;
+    spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
+    suspend;
+    /* global_address */
+    suspend;
+    /* str_to_ptr */
+    /* free_stack_string */
+    suspend;
+    /* str_to_ptr */
+    /* free_stack_string */
+    suspend;
+    /* str_to_ptr */
+    /* free_stack_string */
+    suspend;
+    spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
+    suspend;
+    spawn NPC.slot_22(pid, 1, 4, local_02);
+    suspend;
+    spawn NPC.slot_22(pid, 1, 2, local_02);
+    suspend;
+    spawn NPC.slot_22(pid, 1, 4, local_02);
+    suspend;
+    suspend;
+    spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
+    suspend;
+    spawn NPC.slot_24(pid, local_02);
+    suspend;
+    /* global_address */
+    suspend;
+
+  block_04e5:
+    return;
+
+}

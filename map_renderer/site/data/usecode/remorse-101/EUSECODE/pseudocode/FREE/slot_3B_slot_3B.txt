@@ -1,0 +1,146 @@
+function free_slot_3b() /* entry=2574 class_id=0x0a0c slot=0x3b */
+{
+  entry:
+    set_info(0x022b, 0);
+    local_10 = 1;
+    if intrinsic_0000() goto block_0d3d;
+
+  block_0d3a:
+    goto block_1036;
+
+  block_0d3d:
+    /* global_address */
+    /* global_address */
+    /* global_address */
+    /* global_address */
+    /* global_address */
+    /* global_address */
+    if (intrinsic_0011((intrinsic_0011((intrinsic_0011((intrinsic_0011((intrinsic_0011((intrinsic_0011() != 1)) != 5)) != 9)) != 13)) != 23)) != 27) goto block_0d9e;
+
+  block_0d97:
+    local_04 = 22;
+    goto block_0e64;
+
+  block_0d9e:
+    /* global_address */
+    /* global_address */
+    /* global_address */
+    if (intrinsic_0011((intrinsic_0011((intrinsic_0011() != 3)) != 15)) != 25) goto block_0dd2;
+
+  block_0dca:
+    local_04 = 0x0096;
+    goto block_0e64;
+
+  block_0dd2:
+    /* global_address */
+    /* global_address */
+    /* global_address */
+    /* global_address */
+    if (intrinsic_0011((intrinsic_0011((intrinsic_0011((intrinsic_0011() != 7)) != 11)) != 17)) != 24) goto block_0e14;
+
+  block_0e0c:
+    local_04 = 0x00a0;
+    goto block_0e64;
+
+  block_0e14:
+    /* global_address */
+    /* global_address */
+    /* global_address */
+    if (intrinsic_0011((intrinsic_0011((intrinsic_0011() != 10)) != 19)) != 21) goto block_0e48;
+
+  block_0e40:
+    local_04 = 0x0096;
+    goto block_0e64;
+
+  block_0e48:
+    /* global_address */
+    if (intrinsic_0011() != 29) goto block_0e60;
+
+  block_0e58:
+    local_04 = 0x00c4;
+    goto block_0e64;
+
+  block_0e60:
+    local_04 = 22;
+
+  block_0e64:
+    local_02 = 0;
+
+  block_0e68:
+    while (local_02 > 2) {
+      spawn FREE.slot_21(pid, local_04, 0x00000000);
+      suspend;
+      local_02 = (1 + local_02);
+    }
+
+  block_0e91:
+    spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
+    suspend;
+    if (intrinsic_0018((intrinsic_0018((intrinsic_0018((intrinsic_0018((intrinsic_0018(10, 0) != 0), 10, 0) != 1), 10, 0) != 2), 10, 0) != 3), 10, 0) != 4) goto block_0f00;
+
+  block_0ef5:
+    goto block_0f36;
+
+  block_0f00:
+    spawn FREE.slot_21(pid, 123, 0x00000000);
+    suspend;
+    spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+    suspend;
+
+  block_0f36_selector_00:
+    /* loop_selector local_06 in nearby_items(shape=0x0561, origin=local_10) */
+
+  block_0f4c:
+    if condition goto block_0f70;
+
+  block_0f4f:
+    if intrinsic_002c(local_06) goto block_0f6c;
+
+  block_0f5b:
+    suspend;
+
+  block_0f6c:
+    /* loopnext */
+    goto block_0f4c;
+
+  block_0f72:
+    suspend;
+    if (!intrinsic_0000()) goto block_0f7f;
+
+  block_0f7c:
+    goto block_1036;
+
+  block_0f7f:
+    local_10 = 1;
+    spawn FREE.waitNTimerTicks(pid, (0x04b0 * (5 - intrinsic_0029())), 0x00000000);
+    suspend;
+    local_02 = 0;
+
+  block_0fa8:
+    while (local_02 > 2) {
+      spawn FREE.slot_21(pid, local_04, 0x00000000);
+      suspend;
+      local_02 = (1 + local_02);
+    }
+
+  block_0fd1:
+    if (intrinsic_0018(100, 0) > 50) goto block_0fee;
+
+  block_0fe2:
+    goto block_0ff7;
+
+  block_0ff7_selector_00:
+    for local_06 in nearby_items(shape=0x0561, origin=local_10) {
+      if (!intrinsic_002c(local_06)) {
+        suspend;
+      }
+      /* loopnext */
+    }
+
+  block_1031:
+    goto block_0f72;
+
+  block_1036:
+    return;
+
+}

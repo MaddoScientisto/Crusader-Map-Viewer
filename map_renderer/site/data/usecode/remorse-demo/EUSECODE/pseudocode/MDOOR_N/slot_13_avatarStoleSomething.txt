@@ -1,0 +1,16 @@
+function mdoor_n_avatarStoleSomething() /* entry=171 class_id=0x00a9 slot=0x13 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    num, /* [BP+10h] type=0x69 */
+    item, /* [BP-02h] type=0x24 */
+    item2, /* [BP-04h] type=0x24 */
+    door; /* [BP-06h] type=0x24 */
+
+  set_info(0x022e, *(arg_06));
+  process_exclude();
+  door = *(arg_06);
+  spawn DOOR.slot_22(pid, door);
+  suspend;
+  return;
+}

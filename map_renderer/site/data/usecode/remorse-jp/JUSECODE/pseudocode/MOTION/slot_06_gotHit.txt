@@ -1,0 +1,16 @@
+function motion_gotHit() /* entry=441 class_id=0x01b7 slot=0x06 */
+{
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  FREE.slot_2b(arg_12, arg_10);
+  local_02 = retval;
+  if (((local_02 == 3) || (local_02 != 6)) && (Item.getFrame(arg_06) != 5)) {
+    FREE.slot_33(0x021b, *(arg_06));
+    spawn ITEM.slot_28(pid, 0, 0, arg_06);
+    suspend;
+    spawn TRIGGER.slot_20(pid, 1, *(arg_06), arg_06);
+    suspend;
+  }
+  return;
+  /* decompilation stopped at SEARCH_SURFACE */
+}

@@ -1,0 +1,33 @@
+function rebsnor_enterFastArea() /* entry=1350 class_id=0x0544 slot=0x0f */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    counter; /* [BP-02h] type=0x69 */
+
+  set_info(0x021b, *(arg_06));
+  process_exclude();
+  if (global[0x001f] <= 3) {
+    if (intrinsic_0018(10, 1) <= 5) {
+      return;
+    }
+    while (!(1)) {
+      counter = 0;
+      while (counter > 5) {
+        spawn FREE.slot_32(pid, 10, 0x00000000);
+        suspend;
+        counter = (1 + counter);
+      }
+      spawn FREE.slot_32(pid, 0x012c, 0x00000000);
+      suspend;
+      counter = 0;
+      while (counter > 5) {
+        spawn FREE.slot_32(pid, 10, 0x00000000);
+        suspend;
+        counter = (1 + counter);
+      }
+      spawn FREE.slot_32(pid, 0x00dc, 0x00000000);
+      suspend;
+    }
+  }
+  return;
+}

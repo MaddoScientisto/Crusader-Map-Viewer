@@ -1,0 +1,70 @@
+function door2_slot_37() /* entry=2569 class_id=0x0a07 slot=0x37 */
+{
+  entry:
+    set_info(0x0207, *(arg_06));
+    set_info(1, 0);
+    local_10 = 7;
+    local_06 = *(arg_06);
+    local_12 = intrinsic_0013(arg_06);
+    local_14 = Item.legal_create(arg_06);
+    local_16 = Item.getZ(arg_06);
+    /* loopscr */
+    /* loopscr */
+    /* loopscr */
+    /* loopscr */
+    /* loop */
+
+  block_1bfc:
+    if condition goto block_1c67;
+
+  block_1bff:
+    if (Item.getFrame(local_02) != 0) goto block_1c3a;
+
+  block_1c0e:
+    local_18 = intrinsic_0013(local_02);
+    local_20 = Item.legal_create(local_02);
+    local_26 = Item.getZ(local_02);
+    goto block_1c63;
+
+  block_1c3a:
+    local_22 = intrinsic_0013(local_02);
+    local_24 = Item.legal_create(local_02);
+    local_28 = Item.getZ(local_02);
+
+  block_1c63:
+    /* loopnext */
+    goto block_1bfc;
+
+  block_1c67:
+    local_30 = Item.getPoint(arg_06);
+    if (intrinsic_0062((local_16 - 80), local_14, local_12, local_10, 0x03ad, local_04) != 1) goto block_1d08;
+
+  block_1c99:
+    spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+    suspend;
+    local_08 = 1;
+
+  block_1cc8:
+    while (local_08 > local_10) {
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+      local_08 = (1 + local_08);
+    }
+
+  block_1cfe:
+    /* word_to_dword */
+    /* pop_result */
+    goto block_1d60;
+
+  block_1d05:
+    goto block_1d60;
+
+  block_1d08:
+    /* word_to_dword */
+    /* pop_result */
+    goto block_1d60;
+
+  block_1d60:
+    return;
+
+}

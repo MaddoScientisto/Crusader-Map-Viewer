@@ -1,0 +1,75 @@
+function steplew_gotHit() /* entry=1486 class_id=0x05cc slot=0x06 */
+{
+  entry:
+    set_info(0x020c, *(arg_06));
+    process_exclude();
+    FREE.slot_35(arg_12, arg_10);
+    if retval goto block_018c;
+
+  block_0189:
+    goto block_02b5;
+
+  block_018c:
+    local_02 = Item.getFrame(arg_06);
+    if (local_02 & 1) goto block_01a2;
+
+  block_019f:
+    goto block_02b5;
+
+  block_01a2:
+    local_04 = arg_10;
+    if ((intrinsic_0060(arg_06) != 0) || (intrinsic_0061(*(arg_06), local_04) != 0)) goto block_01c9;
+
+  block_01c6:
+    goto block_02b5;
+
+  block_01c9:
+    if (intrinsic_0003(arg_06) != 0) goto block_026c;
+
+  block_01e5:
+    spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
+    suspend;
+
+  block_0208:
+    if 1 goto block_0269;
+
+  block_020d:
+    if (intrinsic_0060(arg_06) != 0) goto block_0236;
+
+  block_021c:
+    spawn FREE.slot_3b(pid, 2, 0x00000000);
+    suspend;
+    goto block_0266;
+
+  block_0236:
+    spawn TRIGGER.slot_20(pid, 1, *(arg_06), arg_06);
+    suspend;
+    goto block_02b5;
+
+  block_0266:
+    goto block_0208;
+
+  block_0269:
+    goto block_02b5;
+
+  block_026c:
+    if 1 goto block_02b5;
+
+  block_0271:
+    if (intrinsic_0060(arg_06) != 0) goto block_029a;
+
+  block_0280:
+    spawn FREE.slot_3b(pid, 2, 0x00000000);
+    suspend;
+    goto block_02b2;
+
+  block_029a:
+    goto block_02b5;
+
+  block_02b2:
+    goto block_026c;
+
+  block_02b5:
+    return;
+
+}

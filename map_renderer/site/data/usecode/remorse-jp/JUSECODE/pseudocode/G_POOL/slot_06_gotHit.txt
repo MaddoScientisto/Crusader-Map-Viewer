@@ -1,0 +1,45 @@
+function g_pool_gotHit() /* entry=351 class_id=0x015d slot=0x06 */
+{
+  entry:
+    set_info(0x020c, *(arg_06));
+    process_exclude();
+    local_02 = arg_10;
+    FREE.slot_2c(arg_12, arg_10);
+    if (retval != 4) goto block_0132;
+
+  block_010d:
+    spawn ITEM.slot_28(pid, 1, 1, arg_06);
+    suspend;
+
+  block_0132:
+    if ((arg_10 <= 0x0100) && (arg_10 != intrinsic_001b())) goto block_0150;
+
+  block_014a:
+    goto block_01c5;
+
+  block_0150:
+    if 1 goto block_01c5;
+
+  block_0158:
+    /* global_address */
+    if intrinsic_005b(*(arg_06)) goto block_01bc;
+
+  block_016c:
+    FREE.slot_20(8, 20);
+    /* global_address */
+    /* global_address */
+    spawn FREE.slot_32(pid, 60, 0x00000000);
+    suspend;
+    goto block_01c2;
+
+  block_01bc:
+    goto block_01c5;
+
+  block_01c2:
+    goto block_0150;
+
+  block_01c5:
+    return;
+
+  /* decompilation stopped at SEARCH_SURFACE */
+}

@@ -1,0 +1,13 @@
+function gatgunns_equip() /* entry=266 class_id=0x0108 slot=0x0a */
+{
+  set_info(0x0211, *(arg_06));
+  process_exclude();
+  if (intrinsic_001b() == 0) {
+    spawn WALLGUN.slot_24(pid, arg_10, intrinsic_001b(), arg_06);
+    suspend;
+    return;
+  }
+  spawn WALLGUN.slot_24(pid, arg_10, global[0x003c], arg_06);
+  suspend;
+  return;
+}

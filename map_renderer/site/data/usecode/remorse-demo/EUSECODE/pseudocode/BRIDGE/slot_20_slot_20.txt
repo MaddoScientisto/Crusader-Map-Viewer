@@ -1,0 +1,29 @@
+function bridge_slot_20() /* entry=2565 class_id=0x0a03 slot=0x20 */
+{
+  set_info(0x0211, *(arg_06));
+  if (arg_10 == 1) {
+    local_02 = intrinsic_002e(arg_06);
+    spawn BRIDGE.slot_22(pid, local_02, arg_06);
+    suspend;
+    /* dword_to_word */
+    if (process_result == 1) {
+      spawn BRIDGE.slot_24(pid, local_02, arg_06);
+      suspend;
+      spawn BRIDGE.slot_26(0, local_02, arg_06);
+    }
+    return;
+  }
+  else if (arg_10 == 2) {
+    local_02 = intrinsic_002e(arg_06);
+    spawn BRIDGE.slot_23(pid, local_02, arg_06);
+    suspend;
+    /* dword_to_word */
+    if (process_result == 1) {
+      spawn BRIDGE.slot_25(pid, local_02, arg_06);
+      suspend;
+    }
+    return;
+  }
+  return;
+  /* decompilation stopped at SEARCH_SURFACE */
+}

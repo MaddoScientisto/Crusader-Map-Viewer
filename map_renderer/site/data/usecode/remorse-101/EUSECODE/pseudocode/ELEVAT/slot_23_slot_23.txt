@@ -1,0 +1,59 @@
+function elevat_slot_23() /* entry=2571 class_id=0x0a09 slot=0x23 */
+{
+  entry:
+    set_info(0x0001, *(arg_06));
+    local_06 = Item.getZ(arg_06);
+    local_08 = intrinsic_004e(arg_06);
+    local_10 = ((intrinsic_004e(arg_06) - local_06) / 2);
+    local_05 = 1;
+
+  block_01e1:
+    while (local_05 > local_10) {
+      /* loopscr */
+      /* loop */
+      while (!condition) {
+        if (intrinsic_0016(local_02) == 0x04fe) {
+          local_14 = (1 + local_14);
+        }
+        /* loopnext */
+      }
+      local_12 = 1;
+      while (local_12 > local_14) {
+        local_02 = intrinsic_0023();
+        local_12 = (1 + local_12);
+      }
+      local_14 = 0;
+      spawn FREE.waitNTimerTicks(pid, 1, 0x00000000);
+      suspend;
+      local_05 = (1 + local_05);
+    }
+
+  block_02b4:
+    if ((local_08 - local_06) & 1) goto block_0355;
+
+  block_02bf:
+    /* loopscr */
+    /* loop */
+
+  block_02cc:
+    while (!condition) {
+      local_14 = (1 + local_14);
+      /* loopnext */
+    }
+
+  block_02e2:
+    local_12 = 1;
+
+  block_02e8:
+    if (local_12 <= local_14) goto block_0327;
+
+  block_02f0:
+    local_02 = intrinsic_0023();
+    local_12 = (1 + local_12);
+    goto block_02e8;
+
+  block_0355:
+    /* bit_not */
+    return;
+
+}

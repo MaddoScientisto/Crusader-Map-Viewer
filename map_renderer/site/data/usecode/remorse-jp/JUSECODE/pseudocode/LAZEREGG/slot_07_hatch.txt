@@ -1,0 +1,36 @@
+function lazeregg_hatch() /* entry=2318 class_id=0x090c slot=0x07 */
+{
+  entry:
+    set_info(0x0210, *(arg_06));
+    process_exclude();
+    local_04 = 0;
+    local_04 = intrinsic_0041(arg_06);
+
+  entry_selector_00:
+    /* loop_selector local_02 in nearby_items(shape=IR_SENSOR, origin=arg_06) */
+
+  block_011e:
+    if condition goto block_0169;
+
+  block_0121:
+    if (Item.getFrame(local_02) != 1) goto block_013f;
+
+  block_0136:
+    goto block_016b;
+
+  block_013c:
+    goto block_0165;
+
+  block_013f:
+    spawn FREE.slot_31(pid, local_02, 0x00000000);
+    suspend;
+
+  block_0165:
+    /* loopnext */
+    goto block_011e;
+
+  block_016b:
+    return;
+
+  /* decompilation stopped at SEARCH_SURFACE */
+}

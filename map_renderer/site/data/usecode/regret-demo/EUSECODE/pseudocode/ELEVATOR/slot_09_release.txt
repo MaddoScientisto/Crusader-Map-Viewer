@@ -1,0 +1,29 @@
+function elevator_release() /* entry=402 class_id=0x0190 slot=0x09 */
+{
+  entry:
+    set_info(0x020d, *(arg_06));
+    process_exclude();
+    local_02 = intrinsic_0060(arg_06);
+    if (local_02 != 0) goto block_0d97;
+
+  block_0d48:
+    spawn FREE.slot_3b(pid, 30, 0x00000000);
+    suspend;
+
+  block_0d48_selector_00:
+    /* loop_selector local_04 in selector_0x42(arg0=0x0289, arg1=0x01c7, arg2=(10 * 32), origin=global[0x001e]) */
+
+  block_0d76:
+    if condition goto block_0d95;
+
+  block_0d79:
+    local_06 = local_04;
+    spawn DOOR.slot_21(pid, 2, local_06);
+    suspend;
+    /* loopnext */
+    goto block_0d76;
+
+  block_0d97:
+    return;
+
+}

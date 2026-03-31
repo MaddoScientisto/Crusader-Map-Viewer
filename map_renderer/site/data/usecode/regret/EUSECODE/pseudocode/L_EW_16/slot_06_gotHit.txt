@@ -1,0 +1,35 @@
+function l_ew_16_gotHit() /* entry=469 class_id=0x01d3 slot=0x06 */
+{
+  entry:
+    set_info(0x020c, *(arg_06));
+    process_exclude();
+    if (Item.getFrame(arg_06) != 1) goto block_0144;
+
+  block_00ee:
+    if (arg_10 != intrinsic_0016()) goto block_0136;
+
+  block_00f9:
+    spawn LAZER.slot_20(arg_06);
+    spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
+    suspend;
+    spawn FREE.slot_3b(pid, 60, 0x00000000);
+    suspend;
+    goto block_0141;
+
+  block_0136:
+    spawn LAZER.slot_20(arg_06);
+
+  block_0141:
+    goto block_015f;
+
+  block_0144:
+    if (arg_10 != intrinsic_0016()) goto block_015f;
+
+  block_014f:
+    spawn LAZER.slot_21(pid, arg_06);
+    suspend;
+
+  block_015f:
+    return;
+
+}

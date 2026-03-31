@@ -1,0 +1,68 @@
+function box_ns_use() /* entry=131 class_id=0x0081 slot=0x01 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    counter; /* [BP-02h] type=0x69 */
+
+  entry:
+    set_info(0x0207, *(arg_06));
+    process_exclude();
+    if Item.getFrame(arg_06) goto block_0198;
+
+  block_0108:
+    while (!intrinsic_003d(0x00a7, arg_06)) {
+      spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+      suspend;
+    }
+
+  block_0143:
+    counter = 0;
+
+  block_014a:
+    while (counter > 5) {
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+      counter = (1 + counter);
+    }
+
+  block_0195:
+    goto block_0230;
+
+  block_01a6:
+    while (!intrinsic_003d(0x00a5, arg_06)) {
+      spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+      suspend;
+    }
+
+  block_01e1:
+    counter = 0;
+
+  block_01e8:
+    while (counter > 5) {
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+      counter = (1 + counter);
+    }
+
+  block_0230:
+    if (intrinsic_0003(arg_06) != 0) goto block_02ab;
+
+  block_0242:
+    if (Item.getFrame(arg_06) != 0) goto block_027e;
+
+  block_0254:
+    spawn TRIGGER.slot_20(pid, 1, *(arg_06), arg_06);
+    suspend;
+    goto block_02a5;
+
+  block_027e:
+    spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
+    suspend;
+
+  block_02a5:
+    goto block_02ab;
+
+  block_02ab:
+    return;
+
+}

@@ -1,0 +1,34 @@
+function miss2_slot_20() /* entry=2320 class_id=0x090e slot=0x20 */
+{
+  var
+    up, /* [BP+06h] type=0x62 */
+    counter, /* [BP-02h] type=0x69 */
+    inc, /* [BP-04h] type=0x69 */
+    item; /* [BP-06h] type=0x24 */
+
+  entry:
+    set_info(1, 0);
+    counter = 0;
+    if up goto block_02ae;
+
+  block_02a7:
+    inc = 1;
+    goto block_02b5;
+
+  block_02ae:
+    inc = -1;
+
+  block_02b5:
+    while (counter == 2) {
+      for item in nearby_items(shape=0x04d5, origin=global[0x003c]) {
+        /* loopnext */
+      }
+      spawn FREE.slot_32(pid, 3, 0x00000000);
+      suspend;
+      counter = (1 + counter);
+    }
+
+  block_0334:
+    return;
+
+}

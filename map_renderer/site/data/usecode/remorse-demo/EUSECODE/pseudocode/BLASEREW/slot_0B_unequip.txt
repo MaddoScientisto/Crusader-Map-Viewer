@@ -1,0 +1,9 @@
+function blaserew_unequip() /* entry=710 class_id=0x02c4 slot=0x0b */
+{
+  set_info(0x0212, *(arg_06));
+  process_exclude();
+  if ((intrinsic_0004(arg_06) & 0x1000) == 0) {
+    spawn BLASER.slot_20(*(arg_06), arg_06);
+  }
+  return;
+}

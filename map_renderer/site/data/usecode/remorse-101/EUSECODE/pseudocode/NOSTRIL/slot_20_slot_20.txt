@@ -1,0 +1,24 @@
+function nostril_slot_20() /* entry=1088 class_id=0x043e slot=0x20 */
+{
+  entry:
+    set_info(1, *(arg_06));
+    if intrinsic_009f() goto block_01e1;
+
+  block_01b5:
+    while (Item.getFrame(local_04) == 21) {
+      spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+      suspend;
+    }
+
+  block_01de:
+    goto block_01f8;
+
+  block_01e1:
+    spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
+    suspend;
+
+  block_01f8:
+    ITEM.slot_24(0x1000, arg_06);
+    return;
+
+}

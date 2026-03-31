@@ -1,0 +1,31 @@
+function reb_pad_slot_21() /* entry=1087 class_id=0x043d slot=0x21 */
+{
+  entry:
+    set_info(1, 0);
+
+  entry_selector_00:
+    /* loop_selector local_02 in nearby_items(family=10, origin=global[0x003d]) */
+
+  block_0412:
+    if condition goto block_0459;
+
+  block_0415:
+    spawn FREE.slot_31(pid, local_02, 0x00000000);
+    suspend;
+    /* dword_to_word */
+    local_06 = process_result;
+    local_08 = (1 + local_08);
+    /* loopnext */
+    goto block_0412;
+
+  block_0459_selector_00:
+    for local_04 in nearby_items(shape=0x0476, origin=global[0x003d]) {
+      local_10 = (1 + local_10);
+      /* loopnext */
+    }
+
+  block_0495:
+    /* bit_not */
+    return;
+
+}

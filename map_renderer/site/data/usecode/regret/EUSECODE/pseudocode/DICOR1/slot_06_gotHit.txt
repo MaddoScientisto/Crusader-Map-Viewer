@@ -1,0 +1,49 @@
+function dicor1_gotHit() /* entry=783 class_id=0x030d slot=0x06 */
+{
+  entry:
+    set_info(0x020c, *(arg_06));
+    process_exclude();
+    FREE.slot_35(arg_12, arg_10);
+    if (!retval) goto block_00f2;
+
+  block_00ef:
+    goto block_01c7;
+
+  block_00f2:
+    local_02 = Item.getFrame(arg_06);
+    spawn ITEM.slot_2a(pid, 0, 0, arg_06);
+    suspend;
+    if (!global[0x0005]) goto block_0165;
+
+  block_014a:
+    suspend;
+
+  block_0165_selector_00:
+    /* loop_selector local_06 in nearby_items(family=6, origin=arg_06) */
+
+  block_017c:
+    if condition goto block_01bd;
+
+  block_017f:
+    NPC.slot_2a(local_06);
+    if retval goto block_019a;
+
+  block_018c:
+    spawn NPC.slot_2c(local_06);
+    goto block_01b9;
+
+  block_019a:
+    if (!intrinsic_0074(local_06)) goto block_01b9;
+
+  block_01a7:
+    spawn NPC.slot_2d(3, local_06);
+    goto block_01b9;
+
+  block_01b9:
+    /* loopnext */
+    goto block_017c;
+
+  block_01c7:
+    return;
+
+}

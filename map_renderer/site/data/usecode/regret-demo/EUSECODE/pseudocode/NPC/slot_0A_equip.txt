@@ -1,0 +1,44 @@
+function npc_equip() /* entry=2580 class_id=0x0a12 slot=0x0a */
+{
+  set_info(0x0211, *(arg_06));
+  process_exclude();
+  if (!intrinsic_00d2(arg_06)) {
+    return;
+  }
+  if (arg_10 == 1) {
+    return;
+  }
+  else if (arg_10 == 2) {
+    return;
+  }
+  else if (arg_10 == 3) {
+    return;
+  }
+  else if (arg_10 == 5) {
+    return;
+  }
+  else if (arg_10 == 10) {
+    spawn FREE.slot_3b(pid, 2, 0x00000000);
+    suspend;
+    local_02 = Item.enterFastArea();
+    local_04 = intrinsic_00ea();
+    local_06 = Item.getX(arg_06);
+    local_08 = Item.getY(arg_06);
+    spawn NPC.slot_29(pid, local_08, local_06, local_04, local_02, arg_06);
+    suspend;
+    spawn FREE.slot_3b(pid, 10, 0x00000000);
+    suspend;
+    return;
+  }
+  else if (arg_10 == 30) {
+    local_10 = intrinsic_00eb(1, arg_06);
+    local_12 = intrinsic_00eb(2, arg_06);
+    local_14 = intrinsic_00eb(0, arg_06);
+    return;
+  }
+  else if (arg_10 == 31) {
+    suspend;
+    return;
+  }
+  return;
+}

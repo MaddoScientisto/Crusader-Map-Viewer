@@ -1,0 +1,75 @@
+function pit_gotHit() /* entry=870 class_id=0x0364 slot=0x06 */
+{
+  entry:
+    set_info(0x020c, *(arg_06));
+    process_exclude();
+    local_02 = arg_10;
+    FREE.slot_35(arg_12, arg_10);
+    if retval goto block_00f5;
+
+  block_00f2:
+    goto block_02a2;
+
+  block_00f5:
+    if Actor.isNPC(local_02) goto block_0251;
+
+  block_0101:
+    local_04 = arg_10;
+    if (local_04 != intrinsic_0016()) goto block_01e5;
+
+  block_0110:
+    if (intrinsic_0011(local_04) != 1) goto block_018d;
+
+  block_013a:
+    while (intrinsic_00bb(local_04)) {
+    }
+
+  block_0161:
+    spawn FREE.slot_21(pid, 98, 0x00000000);
+    suspend;
+    goto block_01df;
+
+  block_018d:
+    while (intrinsic_00bb(local_04)) {
+    }
+
+  block_01b4:
+    spawn FREE.slot_3b(pid, 2, 0x00000000);
+    suspend;
+
+  block_01df:
+    goto block_02a2;
+
+  block_01e2:
+    goto block_024e;
+
+  block_01e5:
+    while (intrinsic_00bb(local_04)) {
+    }
+
+  block_020c:
+    NPC.slot_2a(local_04);
+    if (!retval) goto block_023f;
+
+  block_0222:
+    goto block_024b;
+
+  block_024b:
+    goto block_02a2;
+
+  block_024e:
+    goto block_02a2;
+
+  block_0251:
+    if ((intrinsic_0011(local_02) != 0x039c) && (global[0x0016] != 0)) goto block_029a;
+
+  block_0269:
+    spawn FREE.slot_21(pid, 0x00d1, 0x00000000);
+    suspend;
+    /* pop_global */
+    spawn FREE.slot_2d(1, 0x00c8, 0x00000000);
+
+  block_02a2:
+    return;
+
+}

@@ -1,0 +1,199 @@
+function trigger_slot_2b() /* entry=2586 class_id=0x0a18 slot=0x2b */
+{
+  entry:
+    set_info(0x021b, 0);
+    local_14 = arg_10;
+    local_04 = (arg_16 & 3);
+    if (local_04 != 0) goto block_3cb2;
+
+  block_3ad7_selector_00:
+    /* loop_selector local_16 in nearby_items(family=6, origin=local_14) */
+
+  block_3af4:
+    if condition goto block_3cad;
+
+  block_3af7:
+    if intrinsic_0103(intrinsic_0016(local_16)) goto block_3ca9;
+
+  block_3b0d:
+    if (intrinsic_000b(local_16) != arg_18) goto block_3ca9;
+
+  block_3b1f:
+    local_06 = (arg_12 / 16);
+    local_08 = (arg_12 & 15);
+    if (local_06 != 0) goto block_3baa;
+
+  block_3b3e:
+    suspend;
+    spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+    suspend;
+    goto block_3ca9;
+
+  block_3baa:
+    suspend;
+    spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+    suspend;
+    if (intrinsic_003c(local_16) != 1) goto block_3c17;
+
+  block_3c11:
+    goto block_40fe;
+
+  block_3c17:
+    local_18 = 1;
+
+  block_3c1e:
+    if (local_18 <= local_06) goto block_3c95;
+
+  block_3c29:
+    if (intrinsic_003c(local_16) != 0) goto block_3c62;
+
+  block_3c3b:
+    suspend;
+
+  block_3c62:
+    spawn FREE.waitNTimerTicks(pid, 1, 0x00000000);
+    suspend;
+    local_18 = (1 + local_18);
+    goto block_3c1e;
+
+  block_3ca9:
+    /* loopnext */
+    goto block_3af4;
+
+  block_3cad:
+    goto block_40fe;
+
+  block_3cb2:
+    if (local_04 != 1) goto block_3d18;
+
+  block_3cba_selector_00:
+    for local_16 in nearby_items(family=6, origin=local_14) {
+      if (!intrinsic_0103(intrinsic_0016(local_16))) {
+      }
+      /* loopnext */
+    }
+
+  block_3d13:
+    goto block_40fe;
+
+  block_3d18:
+    if (local_04 != 2) goto block_3d8e;
+
+  block_3d20_selector_00:
+    for local_16 in nearby_items(family=6, origin=local_14) {
+      if (!intrinsic_0103(intrinsic_0016(local_16))) {
+      }
+      /* loopnext */
+    }
+
+  block_3d89:
+    goto block_40fe;
+
+  block_3d8e:
+    if (local_04 != 3) goto block_40fe;
+
+  block_3d96:
+    local_02 = (arg_12 & 7);
+    local_06 = (arg_12 / 8);
+    if (local_02 != 0) goto block_3e58;
+
+  block_3db2_selector_00:
+    /* loop_selector local_16 in nearby_items(family=6, origin=local_14) */
+
+  block_3dcf:
+    if condition goto block_3e53;
+
+  block_3dd2:
+    if intrinsic_0103(intrinsic_0016(local_16)) goto block_3e4f;
+
+  block_3de8:
+    if (intrinsic_000b(local_16) != arg_18) goto block_3e4f;
+
+  block_3dfa:
+    if (local_06 != 1) goto block_3e12;
+
+  block_3e02:
+    goto block_3e4f;
+
+  block_3e12:
+    if (local_06 != 2) goto block_3e2a;
+
+  block_3e1a:
+    goto block_3e4f;
+
+  block_3e2a:
+    if (local_06 != 3) goto block_3e42;
+
+  block_3e32:
+    goto block_3e4f;
+
+  block_3e4f:
+    /* loopnext */
+    goto block_3dcf;
+
+  block_3e53:
+    goto block_40fb;
+
+  block_3e58:
+    if (local_02 == 1) {
+      for local_16 in nearby_items(family=6, origin=local_14) {
+        if (!intrinsic_0103(intrinsic_0016(local_16))) {
+          if (intrinsic_000b(local_16) == arg_18) {
+            spawn FREE.waitNTimerTicks(pid, 1, 0x00000000);
+            suspend;
+          }
+        }
+        /* loopnext */
+      }
+    }
+    else if (local_02 == 2) {
+      for local_16 in nearby_items(family=6, origin=local_14) {
+        if (!intrinsic_0103(intrinsic_0016(local_16))) {
+          if (intrinsic_000b(local_16) == arg_18) {
+            spawn FREE.waitNTimerTicks(pid, 1, 0x00000000);
+            suspend;
+          }
+        }
+        /* loopnext */
+      }
+    }
+    else if (local_02 == 3) {
+      for local_16 in nearby_items(family=6, origin=local_14) {
+        if (!intrinsic_0103(intrinsic_0016(local_16))) {
+          if (intrinsic_000b(local_16) == arg_18) {
+            spawn FREE.waitNTimerTicks(pid, 1, 0x00000000);
+            suspend;
+          }
+        }
+        /* loopnext */
+      }
+    }
+    else if (local_02 == 4) {
+      for local_16 in nearby_items(family=6, origin=local_14) {
+        if (!intrinsic_0103(intrinsic_0016(local_16))) {
+          if (intrinsic_000b(local_16) == arg_18) {
+            local_20 = local_06;
+          }
+        }
+        /* loopnext */
+      }
+    }
+    else if (local_02 == 5) {
+      for local_16 in nearby_items(family=6, origin=local_14) {
+        if (!intrinsic_0103(intrinsic_0016(local_16))) {
+          if (intrinsic_000b(local_16) == arg_18) {
+            spawn NPC.equip(local_06, local_16);
+          }
+        }
+        /* loopnext */
+      }
+    }
+
+  block_40fb:
+    goto block_40fe;
+
+  block_40fe:
+    return;
+
+  /* decompilation stopped at SEARCH_SURFACE */
+}

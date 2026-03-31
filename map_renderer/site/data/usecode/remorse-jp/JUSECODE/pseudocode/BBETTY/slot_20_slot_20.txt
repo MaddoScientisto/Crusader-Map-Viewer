@@ -1,0 +1,50 @@
+function bbetty_slot_20() /* entry=2563 class_id=0x0a01 slot=0x20 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    item, /* [BP-02h] type=0x24 */
+    counter, /* [BP-04h] type=0x69 */
+    counter2, /* [BP-06h] type=0x69 */
+    total; /* [BP-08h] type=0x69 */
+
+  entry:
+    set_info(0x0205, *(arg_06));
+    if (intrinsic_0016(arg_06) != 0x02c9) goto block_0232;
+
+  block_010f:
+    counter = 0;
+
+  block_0116:
+    if (counter <= 4) goto block_0219;
+
+  block_011e:
+    total = 0;
+    /* loopscr */
+    /* loop */
+
+  block_0142:
+    while (!condition) {
+      total = (1 + total);
+      /* loopnext */
+    }
+
+  block_015e:
+    counter2 = 1;
+
+  block_019b:
+    while (counter2 > total) {
+      item = intrinsic_0023();
+      counter2 = (1 + counter2);
+    }
+
+  block_01e6:
+    spawn FREE.slot_32(pid, 5, 0x00000000);
+    suspend;
+    counter = (1 + counter);
+    goto block_0116;
+
+  block_0232:
+    spawn BBETTY.slot_21(arg_06);
+    return;
+
+}

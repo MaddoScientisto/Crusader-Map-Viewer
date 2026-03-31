@@ -1,0 +1,14 @@
+function john_cachein() /* entry=431 class_id=0x01ad slot=0x04 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    fram; /* [BP-02h] type=0x69 */
+
+  set_info(0x0213, *(arg_06));
+  process_exclude();
+  fram = Item.getFrame(arg_06);
+  if (fram <= 1) {
+    ITEM.slot_23(0x1000, arg_06);
+  }
+  return;
+}

@@ -1,0 +1,71 @@
+function door2_slot_35() /* entry=2569 class_id=0x0a07 slot=0x35 */
+{
+  entry:
+    set_info(0x0207, *(arg_06));
+    set_info(1, 0);
+    local_12 = 7;
+    local_08 = *(arg_06);
+    local_14 = intrinsic_0013(arg_06);
+    local_16 = Item.legal_create(arg_06);
+    local_18 = Item.getZ(arg_06);
+    /* loopscr */
+    /* loopscr */
+    /* loopscr */
+    /* loopscr */
+    /* loop */
+
+  block_2778:
+    if condition goto block_27fe;
+
+  block_277b:
+    if (Item.getFrame(local_02) != 0) goto block_27c5;
+
+  block_278d:
+    local_20 = intrinsic_0013(local_02);
+    local_22 = Item.legal_create(local_02);
+    local_28 = Item.getZ(local_02);
+    goto block_27fa;
+
+  block_27c5:
+    local_24 = intrinsic_0013(local_02);
+    local_26 = Item.legal_create(local_02);
+    local_30 = Item.getZ(local_02);
+
+  block_27fa:
+    /* loopnext */
+    goto block_2778;
+
+  block_27fe:
+    local_32 = intrinsic_0069(arg_06);
+    if (intrinsic_0019((local_18 - 80), local_16, local_14, 7, 0x01ee, local_04) != 1) goto block_28db;
+
+  block_2839:
+    spawn FREE.slot_32(pid, 5, 0x00000000);
+    suspend;
+    local_10 = 1;
+
+  block_2880:
+    while (local_10 > local_12) {
+      spawn FREE.slot_32(pid, 5, 0x00000000);
+      suspend;
+      local_10 = (1 + local_10);
+    }
+
+  block_28ce:
+    /* word_to_dword */
+    /* pop_result */
+    goto block_2948;
+
+  block_28d8:
+    goto block_2948;
+
+  block_28db:
+    /* word_to_dword */
+    /* pop_result */
+    goto block_2948;
+
+  block_2948:
+    return;
+
+  /* decompilation stopped at SEARCH_SURFACE */
+}

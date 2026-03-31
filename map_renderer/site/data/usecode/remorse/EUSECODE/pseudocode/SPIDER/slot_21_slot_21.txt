@@ -1,0 +1,18 @@
+function spider_slot_21() /* entry=2582 class_id=0x0a14 slot=0x21 */
+{
+  set_info(1, arg_10);
+  local_02 = arg_12;
+  while ((arg_14 - 1) <= 0) {
+    /* rsh */
+    local_04 = 1;
+    /* rsh */
+    local_06 = 1;
+    spawn SPIDER.slot_22((intrinsic_0013(local_02) - intrinsic_0013(arg_06)), (Item.legal_create(local_02) - Item.legal_create(arg_06)), pid, (intrinsic_0029() + 5), Item.getZ(arg_06), (local_06 + Item.legal_create(arg_06)), (local_04 + intrinsic_0013(arg_06)), arg_06);
+    suspend;
+    arg_14 = (arg_14 - 1);
+  }
+  spawn SPIDER.slot_22(pid, (intrinsic_0029() + 5), Item.getZ(arg_06), Item.legal_create(local_02), intrinsic_0013(local_02), arg_06);
+  suspend;
+  return;
+  /* decompilation stopped at SEARCH_SURFACE */
+}
