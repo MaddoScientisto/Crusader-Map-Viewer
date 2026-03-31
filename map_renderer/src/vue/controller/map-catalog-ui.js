@@ -27,6 +27,61 @@ export function getSelectedVersion() {
   return state.catalog.games.find((game) => game.id === versionSelect.value) ?? state.catalog.games[0] ?? null;
 }
 
+function getVersionById(gameId) {
+  if (!state.catalog?.games?.length) {
+    return null;
+  }
+  return state.catalog.games.find((game) => game.id === gameId) ?? null;
+}
+
+function versionHasMapId(version, mapId) {
+  return Number.isInteger(mapId) && version.maps.some((map) => map.id === mapId);
+}
+
+export function rememberSelection(selected) {
+  if (!selected || !Number.isInteger(selected.mapId)) {
+    return;
+  }
+  const version = getVersionById(selected.game);
+  if (!version) {
+    return;
+  }
+  state.selectionMemory.byVersion[selected.game] = { game: selected.game, mapId: selected.mapId };
+  state.selectionMemory.byFamily[version.gameId] = { game: selected.game, mapId: selected.mapId };
+}
+
+function resolvePreferredSelection(selectedVersion, previousSelection = null) {
+  if (!selectedVersion) {
+    return null;
+  }
+
+  if (previousSelection?.game === selectedVersion.id && versionHasMapId(selectedVersion, previousSelection.mapId)) {
+    return { game: selectedVersion.id, mapId: previousSelection.mapId };
+  }
+
+  if (selectedVersion.maps.length === 1) {
+    return { game: selectedVersion.id, mapId: selectedVersion.maps[0].id };
+  }
+
+  const previousVersion = previousSelection ? getVersionById(previousSelection.game) : null;
+  const sameFamily = previousVersion?.gameId === selectedVersion.gameId;
+  if (sameFamily && previousVersion?.mapCount === selectedVersion.mapCount && versionHasMapId(selectedVersion, previousSelection?.mapId)) {
+    return { game: selectedVersion.id, mapId: previousSelection.mapId };
+  }
+
+  const versionMemory = state.selectionMemory.byVersion[selectedVersion.id];
+  if (versionHasMapId(selectedVersion, versionMemory?.mapId)) {
+    return { game: selectedVersion.id, mapId: versionMemory.mapId };
+  }
+
+  const familyMemory = state.selectionMemory.byFamily[selectedVersion.gameId];
+  if (versionHasMapId(selectedVersion, familyMemory?.mapId)) {
+    return { game: selectedVersion.id, mapId: familyMemory.mapId };
+  }
+
+  return null;
+}
+
 function createMapValue(gameId, mapId) {
   return JSON.stringify({ game: gameId, mapId });
 }
@@ -53,9 +108,9 @@ export function syncVersionSelection(preferredSelection = null) {
     mapSelect.append(option);
   }
 
-  const preferredMapId = preferredSelection?.game === selectedVersion.id ? preferredSelection.mapId : null;
-  if (Number.isInteger(preferredMapId)) {
-    const preferredValue = createMapValue(selectedVersion.id, preferredMapId);
+  const resolvedSelection = resolvePreferredSelection(selectedVersion, preferredSelection);
+  if (Number.isInteger(resolvedSelection?.mapId)) {
+    const preferredValue = createMapValue(selectedVersion.id, resolvedSelection.mapId);
     const hasMatch = [...mapSelect.options].some((option) => option.value === preferredValue);
     mapSelect.value = hasMatch ? preferredValue : "";
   } else {
@@ -63,6 +118,9 @@ export function syncVersionSelection(preferredSelection = null) {
   }
 
   mapSelect.disabled = selectedVersion.maps.length === 0;
+  if (mapSelect.value) {
+    rememberSelection(getSelectedMap());
+  }
   updateMapNavigationState();
   return selectedVersion;
 }
@@ -100,6 +158,7 @@ export function stepSelectedMap(direction, scheduleAutoBuild) {
   }
 
   mapSelect.value = JSON.stringify(catalogSelections[nextIndex]);
+  rememberSelection(getSelectedMap());
   updateMapNavigationState();
   scheduleAutoBuild();
 }

@@ -23,6 +23,7 @@ const REMORSE_STATIC_101_DIR = process.env.REMORSE_STATIC_101_DIR || path.join(A
 const REMORSE_STATIC_DEMO_DIR = process.env.REMORSE_STATIC_DEMO_DIR || path.join(APP_ROOT, "STATIC_DEMO");
 const REMORSE_STATIC_JP_DIR = process.env.REMORSE_STATIC_JP_DIR || path.join(APP_ROOT, "STATIC_JP");
 const REGRET_STATIC_DIR = process.env.REGRET_STATIC_DIR || path.join(APP_ROOT, "STATIC_REGRET");
+const REGRET_STATIC_DEMO_DIR = process.env.REGRET_STATIC_DEMO_DIR || path.join(APP_ROOT, "STATIC_REGRET_DEMO");
 
 export const GAMES = [
   {
@@ -102,5 +103,22 @@ export const GAMES = [
     fallbackStaticDirs: [],
     usecodeFileName: "EUSECODE.FLX",
     supportsMissionMapExtraction: true
+  },
+  {
+    id: "regret-demo",
+    gameId: "regret",
+    versionId: "demo",
+    versionLabel: "Demo",
+    label: "No Regret Demo",
+    selectorLabel: "No Regret Demo",
+    catalogId: "regret",
+    tableId: "regret",
+    staticDir: REGRET_STATIC_DEMO_DIR,
+    fallbackStaticDirs: [REGRET_STATIC_DIR],
+    usecodeFileName: "EUSECODE.FLX",
+    supportsMissionMapExtraction: true,
+    missionTableExecutableFileName: "REGRET.DAT",
+    missionTableAbsoluteFileOffset: 0x0e295c,
+    missionTableEntryCount: 17
   }
 ];

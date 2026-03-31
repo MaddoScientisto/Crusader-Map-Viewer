@@ -26,6 +26,14 @@ export const state = {
   lastPointerClient: null,
   eggPlacement: null,
   syntheticItemSerial: 0,
+  selectionMemory: {
+    byFamily: {},
+    byVersion: {}
+  },
+  viewMemory: {
+    byFamily: {},
+    byVersion: {}
+  },
   highlightOverlay: {
     itemId: null,
     geometry: null,

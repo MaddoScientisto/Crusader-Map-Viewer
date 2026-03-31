@@ -96,6 +96,7 @@ import {
 import { getNpcSpawnerInfo, loadNpcSpawnerData } from "../../public/npc-spawner-data.js";
 import {
   getSelectedMap,
+  rememberSelection,
   syncVersionSelection,
   updateMapNavigationState,
   stepSelectedMap,
@@ -802,6 +803,7 @@ const runtime = createSceneRuntimeController({
   eggSection,
   monsterSpawnerSection,
   getSelectedMap,
+  rememberSelection,
   syncVersionSelection,
   updateMapNavigationState,
   stepSelectedMap,

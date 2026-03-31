@@ -73,14 +73,23 @@ function fileStamp(filePath) {
 }
 
 function resolveGameAssetPath(gameConfig, name) {
+  const candidatePaths = resolveGameAssetPaths(gameConfig, name);
+  if (candidatePaths.length) {
+    return candidatePaths[0];
+  }
+  return resolveStaticFile(gameConfig.staticDir, name);
+}
+
+function resolveGameAssetPaths(gameConfig, name) {
   const directories = [gameConfig.staticDir, ...(gameConfig.fallbackStaticDirs ?? [])];
+  const candidates = [];
   for (const directory of directories) {
     const candidate = path.join(directory, name);
     if (fs.existsSync(candidate)) {
-      return candidate;
+      candidates.push(candidate);
     }
   }
-  return resolveStaticFile(gameConfig.staticDir, name);
+  return [...new Set(candidates)];
 }
 
 function resolveOptionalXformPath(gameConfig) {
@@ -744,11 +753,11 @@ export class BuildManager {
 
   computeBuildFingerprint(gameConfig, mapId, options, catalogInfo, dtableInfo) {
     const relevantFiles = [
-      resolveGameAssetPath(gameConfig, "FIXED.DAT"),
-      resolveGameAssetPath(gameConfig, "GAMEPAL.PAL"),
-      resolveGameAssetPath(gameConfig, "TYPEFLAG.DAT"),
-      resolveGameAssetPath(gameConfig, "GLOB.FLX"),
-      resolveGameAssetPath(gameConfig, "SHAPES.FLX")
+      ...resolveGameAssetPaths(gameConfig, "FIXED.DAT"),
+      ...resolveGameAssetPaths(gameConfig, "GAMEPAL.PAL"),
+      ...resolveGameAssetPaths(gameConfig, "TYPEFLAG.DAT"),
+      ...resolveGameAssetPaths(gameConfig, "GLOB.FLX"),
+      ...resolveGameAssetPaths(gameConfig, "SHAPES.FLX")
     ];
     const xformPath = resolveOptionalXformPath(gameConfig);
     if (xformPath) {
@@ -852,10 +861,14 @@ export class BuildManager {
     const palettePath = resolveGameAssetPath(gameConfig, "GAMEPAL.PAL");
     const typeflagPath = resolveGameAssetPath(gameConfig, "TYPEFLAG.DAT");
     const globPath = resolveGameAssetPath(gameConfig, "GLOB.FLX");
-    const shapesPath = resolveGameAssetPath(gameConfig, "SHAPES.FLX");
+    const shapePaths = resolveGameAssetPaths(gameConfig, "SHAPES.FLX");
+    const shapesPath = shapePaths[0] ?? resolveGameAssetPath(gameConfig, "SHAPES.FLX");
     const dtablePath = resolveGameAssetPath(gameConfig, "DTABLE.FLX");
     const xformPath = resolveOptionalXformPath(gameConfig);
-    const stamp = [palettePath, typeflagPath, globPath, shapesPath, dtablePath, xformPath].filter(Boolean).map((filePath) => fileStamp(filePath)).join("|");
+    const stamp = [palettePath, typeflagPath, globPath, ...shapePaths, dtablePath, xformPath]
+      .filter(Boolean)
+      .map((filePath) => fileStamp(filePath))
+      .join("|");
     const cached = this.assetCache.get(gameConfig.id);
     if (cached?.stamp === stamp) {
       return cached.assets;
@@ -868,7 +881,7 @@ export class BuildManager {
       xformPalette: xformPath ? loadXformPalette(xformPath) : null,
       shapeInfos: loadTypeflags(typeflagPath),
       globs: loadGlobs(globPath),
-      shapeArchive: new ShapeArchive(shapesPath),
+      shapeArchive: new ShapeArchive(shapesPath, shapePaths.slice(1)),
       npcSpawnerRows,
       npcSpawnerRowIndex: new Map(npcSpawnerRows.map((row) => [row.index, row]))
     };

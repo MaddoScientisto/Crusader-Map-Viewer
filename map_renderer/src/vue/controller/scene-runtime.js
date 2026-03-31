@@ -39,6 +39,7 @@ export function createSceneRuntimeController(deps) {
     includeRoofsCheckbox: includeRoofs,
     includeOobCheckbox: includeOob,
     getSelectedMap,
+    rememberSelection,
     syncVersionSelection,
     updateMapNavigationState,
     stepSelectedMap,
@@ -158,6 +159,8 @@ export function createSceneRuntimeController(deps) {
         JSON.stringify({
           selectedVersion: versionSelect.value,
           selectedMap: getSelectedMap(),
+          selectionMemory: state.selectionMemory,
+          viewMemory: state.viewMemory,
           options
         })
       );
@@ -176,6 +179,115 @@ export function createSceneRuntimeController(deps) {
         checkbox.checked = options[key];
       }
     }
+  }
+
+  function restoreSelectionMemory(preferences) {
+    const selectionMemory = preferences?.selectionMemory;
+    if (!selectionMemory || typeof selectionMemory !== "object") {
+      return;
+    }
+    state.selectionMemory = {
+      byFamily: selectionMemory.byFamily && typeof selectionMemory.byFamily === "object" ? { ...selectionMemory.byFamily } : {},
+      byVersion: selectionMemory.byVersion && typeof selectionMemory.byVersion === "object" ? { ...selectionMemory.byVersion } : {}
+    };
+  }
+
+  function restoreViewMemory(preferences) {
+    const viewMemory = preferences?.viewMemory;
+    if (!viewMemory || typeof viewMemory !== "object") {
+      return;
+    }
+    state.viewMemory = {
+      byFamily: viewMemory.byFamily && typeof viewMemory.byFamily === "object" ? { ...viewMemory.byFamily } : {},
+      byVersion: viewMemory.byVersion && typeof viewMemory.byVersion === "object" ? { ...viewMemory.byVersion } : {}
+    };
+  }
+
+  function getVersionForGameId(gameId) {
+    if (!gameId || !state.catalog?.games?.length) {
+      return null;
+    }
+    return state.catalog.games.find((game) => game.id === gameId) ?? null;
+  }
+
+  function selectionsShareFamily(left, right) {
+    if (!left?.game || !right?.game) {
+      return false;
+    }
+    const leftVersion = getVersionForGameId(left.game);
+    const rightVersion = getVersionForGameId(right.game);
+    return Boolean(leftVersion && rightVersion && leftVersion.gameId === rightVersion.gameId);
+  }
+
+  function snapshotViewport(selected = state.current?.selected ?? null) {
+    if (!selected || !Number.isInteger(selected.mapId)) {
+      return null;
+    }
+    return {
+      game: selected.game,
+      mapId: selected.mapId,
+      zoom: state.zoom,
+      offsetX: state.offsetX,
+      offsetY: state.offsetY
+    };
+  }
+
+  function rememberViewport(selected = state.current?.selected ?? null) {
+    const snapshot = snapshotViewport(selected);
+    if (!snapshot) {
+      return;
+    }
+    const version = getVersionForGameId(snapshot.game);
+    if (!version) {
+      return;
+    }
+    state.viewMemory.byVersion[snapshot.game] = snapshot;
+    state.viewMemory.byFamily[version.gameId] = snapshot;
+  }
+
+  function applyViewport(viewState) {
+    if (!viewState) {
+      return false;
+    }
+    const zoomBounds = state.current?.metadata?.zoom;
+    if (zoomBounds) {
+      state.zoom = Math.min(zoomBounds.max, Math.max(zoomBounds.min, viewState.zoom));
+    } else {
+      state.zoom = viewState.zoom;
+    }
+    state.offsetX = viewState.offsetX;
+    state.offsetY = viewState.offsetY;
+    clampOffsets();
+    scheduleRender();
+    return true;
+  }
+
+  function resolveViewportForSelection(selected) {
+    if (!selected || !Number.isInteger(selected.mapId)) {
+      return null;
+    }
+
+    const currentSelection = state.current?.selected ?? null;
+    if (
+      currentSelection
+      && currentSelection.mapId === selected.mapId
+      && (currentSelectionMatches(selected) || selectionsShareFamily(currentSelection, selected))
+    ) {
+      return snapshotViewport(currentSelection);
+    }
+
+    const versionView = state.viewMemory.byVersion[selected.game];
+    if (versionView?.mapId === selected.mapId) {
+      return versionView;
+    }
+
+    const version = getVersionForGameId(selected.game);
+    const familyView = version ? state.viewMemory.byFamily[version.gameId] : null;
+    if (familyView?.mapId === selected.mapId) {
+      return familyView;
+    }
+
+    return null;
   }
 
   function restoreSelectedMap(preferences) {
@@ -465,7 +577,7 @@ export function createSceneRuntimeController(deps) {
     downloadBlob(blob, `${payload.game}-map-${payload.mapId}-hidden-shapes.json`);
   }
 
-  function applyLoadedScene(selected, jobId, scene, atlasImages, preserveView) {
+  function applyLoadedScene(selected, jobId, scene, atlasImages, preservedView = null) {
     const editableMapSource = cloneMapSource(scene.mapSource);
     scene.mapSource = editableMapSource;
     resetRenderCaches();
@@ -507,18 +619,17 @@ export function createSceneRuntimeController(deps) {
     renderMonsterSpawnerList();
     monsterSpawnerSection.open = getMonsterSpawnerItems().length > 0;
 
-    if (!preserveView) {
+    if (!applyViewport(preservedView)) {
       fitMap();
-    } else {
-      clampOffsets();
-      scheduleRender();
     }
+    rememberViewport(selected);
+    writeViewerPreferences();
   }
 
-  async function loadStaticScene(selected, token, preserveView) {
+  async function loadStaticScene(selected, token, preservedView) {
     setLoadingState(true, { phase: "loading-static-scene" });
     setStatus(
-      preserveView
+      preservedView
         ? `Reloading prebuilt ${getSelectedGameLabel(selected)} map ${selected.mapId}. The current camera stays in place until the new scene is ready.`
         : `Loading prebuilt ${getSelectedGameLabel(selected)} map ${selected.mapId}...`
     );
@@ -535,7 +646,7 @@ export function createSceneRuntimeController(deps) {
       return;
     }
 
-    applyLoadedScene(selected, null, scene, atlasImages, preserveView);
+    applyLoadedScene(selected, null, scene, atlasImages, preservedView);
     setLoadingState(false);
     setStatus(`Ready. ${getSelectedGameLabel(selected)} map ${selected.mapId} prebuilt static scene loaded.`);
   }
@@ -543,7 +654,8 @@ export function createSceneRuntimeController(deps) {
   async function startBuild(selected) {
     clearTimeout(state.buildPollTimer);
     const token = ++state.buildToken;
-    const preserveView = currentSelectionMatches(selected);
+    rememberViewport();
+    const preservedView = resolveViewportForSelection(selected);
 
     hideOverlayTooltip();
     hideInspectHighlight();
@@ -559,13 +671,13 @@ export function createSceneRuntimeController(deps) {
     }
 
     if (isStaticMode()) {
-      await loadStaticScene(selected, token, preserveView);
+      await loadStaticScene(selected, token, preservedView);
       return;
     }
 
     setLoadingState(true, { phase: "queued" });
     setStatus(
-      preserveView
+      preservedView
         ? `Rebuilding ${getSelectedGameLabel(selected)} map ${selected.mapId}. The current camera stays in place until the new scene is ready.`
         : `Building ${getSelectedGameLabel(selected)} map ${selected.mapId}...`
     );
@@ -576,10 +688,10 @@ export function createSceneRuntimeController(deps) {
       body: JSON.stringify(selected)
     });
 
-    await pollBuild(build.id, selected, token, preserveView);
+    await pollBuild(build.id, selected, token, preservedView);
   }
 
-  async function pollBuild(jobId, selected, token, preserveView) {
+  async function pollBuild(jobId, selected, token, preservedView) {
     if (token !== state.buildToken) {
       return;
     }
@@ -597,7 +709,7 @@ export function createSceneRuntimeController(deps) {
     }
     if (build.status !== "ready") {
       state.buildPollTimer = window.setTimeout(() => {
-        pollBuild(jobId, selected, token, preserveView).catch((error) => {
+        pollBuild(jobId, selected, token, preservedView).catch((error) => {
           setStatus(error.message);
         });
       }, 1000);
@@ -615,7 +727,7 @@ export function createSceneRuntimeController(deps) {
       return;
     }
 
-    applyLoadedScene(selected, jobId, scene, atlasImages, preserveView);
+    applyLoadedScene(selected, jobId, scene, atlasImages, preservedView);
     setLoadingState(false);
     setStatus(`Ready. ${getSelectedGameLabel(selected)} map ${selected.mapId} is atlas-backed and fully loaded.`);
   }
@@ -786,11 +898,14 @@ export function createSceneRuntimeController(deps) {
     });
 
     mapSelect.addEventListener("change", () => {
+      rememberViewport();
       updateMapNavigationState();
+      rememberSelection(getSelectedMap());
       writeViewerPreferences();
       scheduleAutoBuild();
     });
     versionSelect.addEventListener("change", () => {
+      rememberViewport();
       const previousSelection = getSelectedMap();
       const selectedVersion = syncVersionSelection(previousSelection);
       writeViewerPreferences();
@@ -1107,6 +1222,7 @@ export function createSceneRuntimeController(deps) {
       state.offsetX = state.drag.originX + (event.clientX - state.drag.startX);
       state.offsetY = state.drag.originY + (event.clientY - state.drag.startY);
       clampOffsets();
+      rememberViewport();
       scheduleRender();
     });
 
@@ -1123,6 +1239,8 @@ export function createSceneRuntimeController(deps) {
   async function bootstrap() {
     const viewerPreferences = readViewerPreferences();
     restoreViewerOptions(viewerPreferences);
+    restoreSelectionMemory(viewerPreferences);
+    restoreViewMemory(viewerPreferences);
     setInspectMode(inspectShapesCheckbox.checked);
     state.siteConfig = await loadSiteConfig();
     await loadNpcSpawnerData(state.siteConfig);

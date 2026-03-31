@@ -103,8 +103,9 @@ export class FlexArchive {
 }
 
 export class ShapeArchive {
-  constructor(filePath) {
+  constructor(filePath, fallbackFilePaths = []) {
     this.archive = new FlexArchive(filePath);
+    this.fallbackArchives = fallbackFilePaths.map((fallbackPath) => new FlexArchive(fallbackPath));
     this.shapeCache = new Map();
     this.decodedFrameCache = new Map();
   }
@@ -132,7 +133,15 @@ export class ShapeArchive {
     if (this.shapeCache.has(shapeIndex)) {
       return this.shapeCache.get(shapeIndex);
     }
-    const raw = this.archive.get(shapeIndex);
+    let raw = this.archive.get(shapeIndex);
+    if (!raw.length) {
+      for (const fallbackArchive of this.fallbackArchives) {
+        raw = fallbackArchive.get(shapeIndex);
+        if (raw.length) {
+          break;
+        }
+      }
+    }
     if (!raw.length) {
       throw new Error(`shape ${shapeIndex} has no data`);
     }

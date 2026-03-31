@@ -49,12 +49,13 @@ function segmentAddress(profile, offset) {
 }
 
 function resolveExePath(profile, gameEntry) {
+  const executableFileName = gameEntry?.missionTableExecutableFileName ?? profile.exeName;
   const candidates = [
     process.env[profile.envVar],
     // Check the game's staticDir (for example STATIC_1.01 or STATIC_REGRET).
-    gameEntry && gameEntry.staticDir ? path.join(gameEntry.staticDir, profile.exeName) : null,
+    gameEntry && gameEntry.staticDir ? path.join(gameEntry.staticDir, executableFileName) : null,
     // Finally check alongside the renderer root
-    path.join(APP_ROOT, profile.exeName)
+    path.join(APP_ROOT, executableFileName)
   ].filter(Boolean);
 
   for (const candidate of candidates) {
@@ -64,7 +65,7 @@ function resolveExePath(profile, gameEntry) {
   }
 
   throw new Error(
-    `Missing ${profile.exeName}. Set ${profile.envVar} or place the retail executable in the game's static export folder or beside the renderer.`
+    `Missing ${executableFileName}. Set ${profile.envVar} or place the required executable payload in the game's static export folder or beside the renderer.`
   );
 }
 
