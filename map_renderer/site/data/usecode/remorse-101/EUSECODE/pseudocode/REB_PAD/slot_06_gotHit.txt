@@ -5,13 +5,12 @@ function reb_pad_gotHit() /* entry=1087 class_id=0x043d slot=0x06 */
   local_02 = arg_10;
   local_04 = *(arg_06);
   set_info(1, 0);
-  if (((global[0x0001] == 1) || (!intrinsic_006d(*(arg_06), local_02))) || (intrinsic_00e3(arg_06) == 0)) {
+  if (((global[0x0001] == 1) || (!Item.getNPCNum(*(arg_06), local_02))) || (Actor.getDefaultActivity2(arg_06) == 0)) {
     return;
   }
   else if (local_02 == 1) {
     /* pop_global */
     for local_02 in nearby_items(shape=PLACEHOLDER_CUBE, origin=arg_06) {
-      /* loopnext */
     }
     if (global[0x0020] == 1) {
       spawn REB_PAD.slot_20(30, 1, arg_06);

@@ -1,14 +1,14 @@
 function roll_ew_slot_21() /* entry=1390 class_id=0x056c slot=0x21 */
 {
   set_info(0x0001, *(arg_06));
-  local_06 = intrinsic_00e9(arg_06);
+  local_06 = Item.andStatus(arg_06);
   local_02 = (local_06 & 31);
   if (local_02 == 0) {
     local_02 = 1;
   }
   local_04 = Item.getFrame(arg_06);
-  local_19 = intrinsic_0013(arg_06);
-  local_17 = Item.legal_create(arg_06);
+  local_19 = Item.getX(arg_06);
+  local_17 = Item.getY(arg_06);
   local_15 = Item.getZ(arg_06);
   if (local_06 & 32) {
     if (local_06 < 0x0080) {
@@ -22,13 +22,12 @@ function roll_ew_slot_21() /* entry=1390 class_id=0x056c slot=0x21 */
         /* loop */
         while (condition) {
           local_08 = (1 + local_08);
-          /* loopnext */
         }
         local_19 = (local_19 + 8);
-        if (intrinsic_002e(0, 0, local_19, arg_06) == 0) {
+        if (legalMoveToPoint(0, 0, local_19, arg_06) == 0) {
           local_10 = 1;
           while (local_10 <= local_08) {
-            local_21 = intrinsic_0023();
+            local_21 = Item.getEtherealTop();
             local_10 = (1 + local_10);
           }
           spawn ROLL_EW.slot_20(pid, arg_06);
@@ -37,7 +36,7 @@ function roll_ew_slot_21() /* entry=1390 class_id=0x056c slot=0x21 */
         }
         local_10 = 1;
         while (local_10 <= local_08) {
-          local_21 = intrinsic_0023();
+          local_21 = Item.getEtherealTop();
           local_10 = (1 + local_10);
         }
         spawn FREE.waitNTimerTicks(pid, local_02, 0x00000000);
@@ -55,13 +54,12 @@ function roll_ew_slot_21() /* entry=1390 class_id=0x056c slot=0x21 */
         /* loop */
         while (condition) {
           local_08 = (1 + local_08);
-          /* loopnext */
         }
         local_19 = (local_19 - 8);
-        if (intrinsic_002e(0, 0, local_19, arg_06) == 0) {
+        if (legalMoveToPoint(0, 0, local_19, arg_06) == 0) {
           local_10 = 1;
           while (local_10 <= local_08) {
-            local_21 = intrinsic_0023();
+            local_21 = Item.getEtherealTop();
             local_10 = (1 + local_10);
           }
           spawn ROLL_EW.slot_20(pid, arg_06);
@@ -70,7 +68,7 @@ function roll_ew_slot_21() /* entry=1390 class_id=0x056c slot=0x21 */
         }
         local_10 = 1;
         while (local_10 <= local_08) {
-          local_21 = intrinsic_0023();
+          local_21 = Item.getEtherealTop();
           local_10 = (1 + local_10);
         }
         spawn FREE.waitNTimerTicks(pid, local_02, 0x00000000);
@@ -89,9 +87,9 @@ function roll_ew_slot_21() /* entry=1390 class_id=0x056c slot=0x21 */
           local_04 = 3;
         }
         local_19 = (local_19 + 8);
-        if (intrinsic_002e(0, 0, local_19, arg_06) == 0) {
+        if (legalMoveToPoint(0, 0, local_19, arg_06) == 0) {
           local_15 = (1 + local_15);
-          if (intrinsic_002e(0, 0, local_19, arg_06) == 0) {
+          if (legalMoveToPoint(0, 0, local_19, arg_06) == 0) {
             spawn ROLL_EW.slot_20(pid, arg_06);
             suspend;
             return;
@@ -99,7 +97,7 @@ function roll_ew_slot_21() /* entry=1390 class_id=0x056c slot=0x21 */
         }
         if (local_15 > 1) {
           local_15 = (local_15 - 4);
-          if (intrinsic_002e(0, 0, local_19, arg_06) == 0) {
+          if (legalMoveToPoint(0, 0, local_19, arg_06) == 0) {
             local_15 = (local_15 + 4);
           }
           local_23 = (local_24 - local_15);
@@ -123,9 +121,9 @@ function roll_ew_slot_21() /* entry=1390 class_id=0x056c slot=0x21 */
           local_04 = 0;
         }
         local_19 = (local_19 - 8);
-        if (intrinsic_002e(0, 0, local_19, arg_06) == 0) {
+        if (legalMoveToPoint(0, 0, local_19, arg_06) == 0) {
           local_15 = (1 + local_15);
-          if (intrinsic_002e(0, 0, local_19, arg_06) == 0) {
+          if (legalMoveToPoint(0, 0, local_19, arg_06) == 0) {
             spawn ROLL_EW.slot_20(pid, arg_06);
             suspend;
             return;
@@ -133,7 +131,7 @@ function roll_ew_slot_21() /* entry=1390 class_id=0x056c slot=0x21 */
         }
         if (local_15 > 1) {
           local_15 = (local_15 - 4);
-          if (intrinsic_002e(0, 0, local_19, arg_06) == 0) {
+          if (legalMoveToPoint(0, 0, local_19, arg_06) == 0) {
             local_15 = (local_15 + 4);
           }
           local_23 = (local_24 - local_15);

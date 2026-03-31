@@ -3,25 +3,21 @@ function med_flor_gotHit() /* entry=739 class_id=0x02e1 slot=0x06 */
   set_info(0x020c, *(arg_06));
   process_exclude();
   local_02 = arg_10;
-  if (((arg_10 == 1) && (intrinsic_001f(arg_06) == 0)) && (Item.getFrame(arg_06) == 0)) {
-    if (!intrinsic_005c(*(arg_06), local_02)) {
+  if (((arg_10 == 1) && (Item.getQLo(arg_06) == 0)) && (Item.getFrame(arg_06) == 0)) {
+    if (!Item.isCentreOn(*(arg_06), local_02)) {
       return;
     }
     else {
-      /* global_address */
-      while (intrinsic_0060()) {
+      while (Actor.isBusy(&global[0x001e])) {
         spawn FREE.slot_3b(pid, 2, 0x00000000);
         suspend;
       }
-      /* global_address */
       suspend;
-      /* global_address */
       suspend;
       /* loopscr */
       /* loopscr */
       /* loop */
       while (condition) {
-        /* loopnext */
       }
       while (Kernel.getNumProcesses(0x0254, global[0x001e])) {
         spawn FREE.slot_3b(pid, 2, 0x00000000);
@@ -33,7 +29,6 @@ function med_flor_gotHit() /* entry=739 class_id=0x02e1 slot=0x06 */
       /* loopscr */
       /* loop */
       while (condition) {
-        /* loopnext */
       }
     }
   }

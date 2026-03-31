@@ -12,7 +12,6 @@ function miss1egg_slot_23() /* entry=2319 class_id=0x090d slot=0x23 */
   spawn MISS1EGG.slot_25(arg_06);
   for item in nearby_items(shape=0x04e0, origin=global[0x003c]) {
     n = item;
-    /* loopnext */
   }
   if (!n) {
     return;
@@ -20,12 +19,11 @@ function miss1egg_slot_23() /* entry=2319 class_id=0x090d slot=0x23 */
   else {
     suspend;
     for item in nearby_items(shape=door_shape_007b, origin=arg_06) {
-      if (intrinsic_00b0(item) == 23) {
+      if (Item.unequip(item) == 23) {
         door = item;
         spawn DOOR.slot_20(pid, door);
         suspend;
       }
-      /* loopnext */
     }
     spawn NPC.slot_22(pid, 5, 4, n);
     suspend;
@@ -35,7 +33,6 @@ function miss1egg_slot_23() /* entry=2319 class_id=0x090d slot=0x23 */
     suspend;
     spawn FREE.slot_3b(0x00000000);
     for guardBoy in nearby_items(shape=npcdeath_shape_02fd, origin=global[0x003c]) {
-      /* loopnext */
     }
     /* pop_global */
     spawn MISS1EGG.slot_24(1, pid, n, arg_06);

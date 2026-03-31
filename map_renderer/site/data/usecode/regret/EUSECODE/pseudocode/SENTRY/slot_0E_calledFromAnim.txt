@@ -4,8 +4,8 @@ function sentry_calledFromAnim() /* entry=463 class_id=0x01cd slot=0x0e */
     set_info(0x021a, *(arg_06));
     process_exclude();
     local_02 = *(arg_06);
-    local_04 = intrinsic_00c3(local_02);
-    local_06 = intrinsic_0105(local_02);
+    local_04 = Actor.getDir(local_02);
+    local_06 = Actor.getLastAnimSet(local_02);
     if (local_06 != 13) || (local_06 == 8) goto block_025d;
 
   block_021c:
@@ -24,10 +24,10 @@ function sentry_calledFromAnim() /* entry=463 class_id=0x01cd slot=0x0e */
     if !condition goto block_02be;
 
   block_027c:
-    if intrinsic_000d(local_02) != intrinsic_00fd(local_08) goto block_02ba;
+    if Intrinsic000D(local_02) != Item.getQLo(local_08) goto block_02ba;
 
   block_0292:
-    if intrinsic_0003(local_08) == 0 goto block_02ba;
+    if Item.getMapArray(local_08) == 0 goto block_02ba;
 
   block_02a1:
     spawn TRIGGER.slot_20(pid, 0, local_08, local_08);
@@ -35,7 +35,6 @@ function sentry_calledFromAnim() /* entry=463 class_id=0x01cd slot=0x0e */
     goto block_02be;
 
   block_02ba:
-    /* loopnext */
     goto block_0279;
 
   block_02be:

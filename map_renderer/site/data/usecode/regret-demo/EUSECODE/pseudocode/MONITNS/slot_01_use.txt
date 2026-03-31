@@ -5,7 +5,7 @@ function monitns_use() /* entry=260 class_id=0x0102 slot=0x01 */
   if (Item.getFrame(arg_06) > 1) {
   }
   else {
-    ITEM.slot_26((intrinsic_0000() == 1), 4, arg_06);
+    ITEM.slot_26((World.getAlertActive() == 1), 4, arg_06);
     if (retval == 1) {
       /* free_local_string */
       local_02 = "LMC SECURITY SYSTEM-----------------^^Unable to Access Monitor^Red Alert in Progress";
@@ -14,34 +14,32 @@ function monitns_use() /* entry=260 class_id=0x0102 slot=0x01 */
       suspend;
     }
     else {
-      local_08 = intrinsic_00b8(arg_06);
-      if (intrinsic_0003(arg_06) != 0) {
+      local_08 = Item.getCY(arg_06);
+      if (Item.getMapArray(arg_06) != 0) {
         for local_04 in nearby_items(shape=0x0251, origin=arg_06) {
-          if ((intrinsic_00b8(local_04) == local_08) || (local_08 == 0)) {
+          if ((Item.getCY(local_04) == local_08) || (local_08 == 0)) {
             VALBOX.slot_20(local_04);
             local_06 = retval;
-            TEXTFILE.slot_23(local_06, intrinsic_00e4(local_04), intrinsic_00b8(local_04), arg_06);
+            TEXTFILE.slot_23(local_06, Item.getNpcNum(local_04), Item.getCY(local_04), arg_06);
             /* free_local_string */
             local_02 = retval;
             spawn TEXTFILE.slot_20(pid, local_02, arg_06);
             /* free_stack_string */
             suspend;
           }
-          /* loopnext */
         }
         spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
         suspend;
       }
       else {
         for local_04 in nearby_items(shape=0x0251, origin=arg_06) {
-          if (intrinsic_00b8(local_04) == local_08) {
+          if (Item.getCY(local_04) == local_08) {
             VALBOX.slot_20(local_04);
             local_06 = retval;
             local_10 = (1 + local_10);
           }
-          /* loopnext */
         }
-        TEXTFILE.slot_23(local_06, intrinsic_00e4(arg_06), intrinsic_00b8(arg_06), arg_06);
+        TEXTFILE.slot_23(local_06, Item.getNpcNum(arg_06), Item.getCY(arg_06), arg_06);
         /* free_local_string */
         local_02 = retval;
         if (local_10 > 1) {

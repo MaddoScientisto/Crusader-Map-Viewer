@@ -2,7 +2,7 @@ function mgr_ns_gotHit() /* entry=662 class_id=0x0294 slot=0x06 */
 {
   set_info(0x020c, *(arg_06));
   process_exclude();
-  if (intrinsic_0004(arg_06) & 0x1000) {
+  if (Item.getStatus(arg_06) & 0x1000) {
     return;
   }
   else {

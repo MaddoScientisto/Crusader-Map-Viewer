@@ -1,21 +1,25 @@
 function nostril_equip() /* entry=1088 class_id=0x043e slot=0x0a */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    event, /* [BP+10h] type=0x69 */
+    fire; /* [BP-02h] type=0x24 */
+
   set_info(0x0211, *(arg_06));
   process_exclude();
-  if (arg_10 == 0) {
+  if (event == 0) {
     /* loopscr */
     /* loopscr */
     /* loopscr */
     /* loopscr */
     /* loop */
     while (condition) {
-      spawn NOSTRIL.slot_20(local_02, arg_06);
-      /* loopnext */
+      spawn NOSTRIL.slot_20(fire, arg_06);
     }
     return;
   }
-  else if (arg_10 == 1) {
-    if (intrinsic_0004(arg_06) & 0x1000) {
+  else if (event == 1) {
+    if (Item.getStatus(arg_06) & 0x1000) {
       return;
     }
     else {
@@ -25,5 +29,4 @@ function nostril_equip() /* entry=1088 class_id=0x043e slot=0x0a */
     }
   }
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

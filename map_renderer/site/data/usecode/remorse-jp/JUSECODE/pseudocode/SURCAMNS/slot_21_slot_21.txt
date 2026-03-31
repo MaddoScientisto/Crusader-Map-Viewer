@@ -1,74 +1,82 @@
 function surcamns_slot_21() /* entry=1224 class_id=0x04c6 slot=0x21 */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    screen, /* [BP-02h] type=0x24 */
+    cameraEgg, /* [BP-04h] type=0x24 */
+    trueRef, /* [BP-06h] type=0x69 */
+    x1, /* [BP-08h] type=0x69 */
+    y1, /* [BP-10h] type=0x69 */
+    z1, /* [BP-11h] type=0x62 */
+    npc, /* [BP-13h] type=0x24 */
+    therma, /* [BP-15h] type=0x24 */
+    x, /* [BP-17h] type=0x69 */
+    y, /* [BP-19h] type=0x69 */
+    z; /* [BP-20h] type=0x62 */
+
   entry:
     set_info(0x021b, 0);
-    local_06 = *(arg_06);
-    if !intrinsic_001f(0, 0x0471, local_02) goto block_0534;
+    trueRef = *(arg_06);
+    if !Item.create(0, 0x0471, screen) goto block_0534;
 
   block_0534:
     spawn FREE.slot_32(pid, 30, 0x00000000);
     suspend;
 
   block_0534_selector_00:
-    /* loop_selector local_04 in nearby_items(shape=EVENT_CONTROLLER, origin=arg_06) */
+    /* loop_selector cameraEgg in nearby_items(shape=EVENT_CONTROLLER, origin=arg_06) */
 
   block_0579:
     if !condition goto block_0b05;
 
   block_057c:
-    if intrinsic_00fc(local_04) != intrinsic_00fc(arg_06) goto block_0b01;
+    if Item.andStatus(cameraEgg) != Item.andStatus(arg_06) goto block_0b01;
 
   block_0598:
-    if intrinsic_00fc(arg_06) != 0x00fe goto block_085d;
+    if Item.andStatus(arg_06) != 0x00fe goto block_085d;
 
   block_05ab:
-    /* global_address */
     spawn FREE.slot_32(pid, 10, 0x00000000);
     suspend;
     spawn FREE.slot_32(pid, 10, 0x00000000);
     suspend;
 
   block_05ab_selector_00:
-    /* loop_selector local_13 in nearby_items(shape=MECH_1, origin=local_04) */
+    /* loop_selector npc in nearby_items(shape=MECH_1, origin=cameraEgg) */
 
   block_0656:
     if !condition goto block_0695;
 
   block_0659:
-    if !Actor.isNPC(local_13) goto block_0691;
+    if !Actor.isNPC(npc) goto block_0691;
 
   block_0668:
-    if intrinsic_000b(local_13) != intrinsic_00fc(arg_06) goto block_0691;
+    if Actor.GetNPCDataField0x63_00B(npc) != Item.andStatus(arg_06) goto block_0691;
 
   block_0684:
-    local_15 = local_13;
+    therma = npc;
     goto block_0695;
 
   block_0691:
-    /* loopnext */
     goto block_0656;
 
   block_0695:
-    if !local_15 goto block_079b;
+    if !therma goto block_079b;
 
   block_069f:
-    /* global_address */
-    local_08 = intrinsic_0013();
-    /* global_address */
-    local_10 = Item.legal_create();
-    /* global_address */
-    local_11 = Item.getZ();
-    spawn NPC.slot_28(pid, local_15);
+    x1 = Item.getX(&global[0x003c]);
+    y1 = Item.getY(&global[0x003c]);
+    z1 = Item.getZ(&global[0x003c]);
+    spawn NPC.slot_28(pid, therma);
     suspend;
 
   block_06fd:
-    while (intrinsic_001b() != 1) {
+    while (getTargetNPCNumMaybe() != 1) {
       spawn FREE.slot_32(pid, 3, 0x00000000);
       suspend;
     }
 
   block_0737:
-    /* global_address */
     spawn FREE.slot_32(pid, 10, 0x00000000);
     suspend;
     goto block_0b05;
@@ -77,21 +85,17 @@ function surcamns_slot_21() /* entry=1224 class_id=0x04c6 slot=0x21 */
     goto block_085a;
 
   block_079b:
-    /* global_address */
-    local_08 = intrinsic_0013();
-    /* global_address */
-    local_10 = Item.legal_create();
-    /* global_address */
-    local_11 = Item.getZ();
+    x1 = Item.getX(&global[0x003c]);
+    y1 = Item.getY(&global[0x003c]);
+    z1 = Item.getZ(&global[0x003c]);
 
   block_07c8:
-    while (!intrinsic_0096()) {
+    while (!MainActor.teleportToEgg()) {
       spawn FREE.slot_32(pid, 2, 0x00000000);
       suspend;
     }
 
   block_0800:
-    /* global_address */
     spawn FREE.slot_32(pid, 10, 0x00000000);
     suspend;
     goto block_0b05;
@@ -100,7 +104,7 @@ function surcamns_slot_21() /* entry=1224 class_id=0x04c6 slot=0x21 */
     goto block_0b01;
 
   block_085d:
-    if intrinsic_00fc(arg_06) != 0x00fd goto block_08c6;
+    if Item.andStatus(arg_06) != 0x00fd goto block_08c6;
 
   block_0870:
     spawn FREE.slot_32(pid, 60, 0x00000000);
@@ -111,31 +115,29 @@ function surcamns_slot_21() /* entry=1224 class_id=0x04c6 slot=0x21 */
     goto block_0b01;
 
   block_08c6:
-    if intrinsic_00fc(arg_06) <= 0x00f9 goto block_0956;
+    if Item.andStatus(arg_06) <= 0x00f9 goto block_0956;
 
   block_08d9:
-    /* global_address */
     spawn FREE.slot_32(pid, 10, 0x00000000);
     suspend;
-    spawn SURCAMNS.slot_22(local_04, arg_06);
+    spawn SURCAMNS.slot_22(cameraEgg, arg_06);
     goto block_0b05;
 
   block_0953:
     goto block_0b01;
 
   block_0956:
-    local_17 = intrinsic_0013(local_04);
-    local_19 = Item.legal_create(local_04);
-    local_20 = Item.getZ(local_04);
-    /* global_address */
+    x = Item.getX(cameraEgg);
+    y = Item.getY(cameraEgg);
+    z = Item.getZ(cameraEgg);
     spawn FREE.slot_32(pid, 10, 0x00000000);
     suspend;
     spawn FREE.slot_32(pid, 60, 0x00000000);
     suspend;
-    if intrinsic_0003(local_04) == 0 goto block_0a31;
+    if Item.getMapArray(cameraEgg) == 0 goto block_0a31;
 
   block_0a0c:
-    spawn TRIGGER.slot_20(pid, 0, local_04, arg_06);
+    spawn TRIGGER.slot_20(pid, 0, cameraEgg, arg_06);
     suspend;
 
   block_0a31:
@@ -143,31 +145,25 @@ function surcamns_slot_21() /* entry=1224 class_id=0x04c6 slot=0x21 */
     suspend;
 
   block_0a57:
-    while (!intrinsic_0096()) {
+    while (!MainActor.teleportToEgg()) {
       spawn FREE.slot_32(pid, 2, 0x00000000);
       suspend;
     }
 
   block_0a8f:
-    /* global_address */
-    /* global_address */
-    /* global_address */
-    /* global_address */
     spawn FREE.slot_32(pid, 10, 0x00000000);
     suspend;
     goto block_0b05;
 
   block_0b01:
-    /* loopnext */
     goto block_0579;
 
   block_0b05:
     spawn FREE.slot_32(pid, 30, 0x00000000);
     suspend;
-    if !local_02 goto block_0b40;
+    if !screen goto block_0b40;
 
   block_0b40:
     return;
 
-  /* decompilation stopped at SEARCH_SURFACE */
 }

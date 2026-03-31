@@ -1,58 +1,68 @@
 function conveyor_slot_20() /* entry=2566 class_id=0x0a04 slot=0x20 */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    xdir, /* [BP+10h] type=0x62 */
+    ydir, /* [BP+12h] type=0x62 */
+    counter, /* [BP-02h] type=0x69 */
+    areThereItems, /* [BP-03h] type=0x62 */
+    cargo_item, /* [BP-05h] type=0x24 */
+    a, /* [BP-06h] type=0x62 */
+    b, /* [BP-07h] type=0x62 */
+    t, /* [BP-09h] type=0x69 */
+    wp; /* [BP-14h] type=0x24 */
+
   set_info(0x0205, *(arg_06));
   set_info(0x0205, *(arg_06));
-  local_02 = 0;
-  local_02 = Item.getFrame(arg_06);
+  counter = 0;
+  counter = Item.getFrame(arg_06);
   suspend;
-  local_03 = 0;
+  areThereItems = 0;
   while (true) {
     suspend;
-    local_03 = 0;
-    if (intrinsic_0026(arg_06)) {
-      local_02 = (local_02 - 1);
-      if (arg_10 < 0) {
-        arg_10 = (arg_10 * -1);
+    areThereItems = 0;
+    if (Item.getQHi(arg_06)) {
+      counter = (counter - 1);
+      if (xdir < 0) {
+        xdir = (xdir * -1);
       }
-      if (arg_12 < 0) {
-        arg_12 = (arg_12 * -1);
+      if (ydir < 0) {
+        ydir = (ydir * -1);
       }
     }
     else {
-      local_02 = (1 + local_02);
-      if (arg_10 > 0) {
-        arg_10 = (arg_10 * -1);
+      counter = (1 + counter);
+      if (xdir > 0) {
+        xdir = (xdir * -1);
       }
-      if (arg_12 > 0) {
-        arg_12 = (arg_12 * -1);
+      if (ydir > 0) {
+        ydir = (ydir * -1);
       }
     }
-    if (local_02 > 2) {
-      local_02 = 0;
+    if (counter > 2) {
+      counter = 0;
     }
-    if (local_02 < 0) {
-      local_02 = 2;
+    if (counter < 0) {
+      counter = 2;
     }
     /* loopscr */
     /* loop */
     while (condition) {
-      local_09 = intrinsic_0016(local_05);
-      if ((local_09 == 0x0476) && (local_09 == 0x04d0)) {
-        local_06 = intrinsic_0046(*(arg_06), local_05);
-        local_14 = (intrinsic_0013(local_05) + arg_10);
-        local_12 = (Item.legal_create(local_05) + arg_12);
-        local_10 = Item.getZ(local_05);
-        local_07 = intrinsic_0046(*(arg_06), local_05);
-        local_03 = 1;
+      t = Item.getShape(cargo_item);
+      if ((t == 0x0476) && (t == 0x04d0)) {
+        a = Item.IsOn(*(arg_06), cargo_item);
+        wp = (Item.getX(cargo_item) + xdir);
+        local_12 = (Item.getY(cargo_item) + ydir);
+        local_10 = Item.getZ(cargo_item);
+        b = Item.IsOn(*(arg_06), cargo_item);
+        areThereItems = 1;
       }
-      /* loopnext */
     }
     spawn FREE.slot_32(pid, 2, 0x00000000);
     suspend;
-    if (!local_03) {
+    if (!areThereItems) {
       return;
     }
   }
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

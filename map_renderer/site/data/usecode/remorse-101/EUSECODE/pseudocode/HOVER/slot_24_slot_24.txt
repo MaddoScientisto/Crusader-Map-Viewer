@@ -2,25 +2,23 @@ function hover_slot_24() /* entry=2575 class_id=0x0a0d slot=0x24 */
 {
   set_info(1, 0);
   local_06 = arg_10;
-  local_16 = intrinsic_00a7(local_06);
+  local_16 = Egg.getEggXRange(local_06);
   for local_04 in nearby_items(shape=NUMBERS, origin=arg_10) {
     if (Item.getFrame(local_04) == arg_12) {
-      if ((local_16 == 0) || (local_16 == intrinsic_00a7(local_04))) {
-        local_18 = intrinsic_0013(local_04);
-        local_20 = Item.legal_create(local_04);
+      if ((local_16 == 0) || (local_16 == Egg.getEggXRange(local_04))) {
+        local_18 = Item.getX(local_04);
+        local_20 = Item.getY(local_04);
         local_21 = Item.getZ(local_04);
-        local_08 = (local_18 - intrinsic_0013(local_06));
-        local_10 = (local_20 - Item.legal_create(local_06));
+        local_08 = (local_18 - Item.getX(local_06));
+        local_10 = (local_20 - Item.getY(local_06));
         local_12 = (local_21 - Item.getZ(local_06));
         /* loopscr */
         /* loop */
         while (condition) {
-          /* loopnext */
         }
         return;
       }
     }
-    /* loopnext */
   }
   return;
 }

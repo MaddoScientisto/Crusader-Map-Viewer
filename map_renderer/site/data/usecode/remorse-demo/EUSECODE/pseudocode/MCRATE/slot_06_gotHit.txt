@@ -1,10 +1,19 @@
 function mcrate_gotHit() /* entry=1076 class_id=0x0432 slot=0x06 */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    vel, /* [BP+12h] type=0x69 */
+    x, /* [BP-02h] type=0x69 */
+    y, /* [BP-04h] type=0x69 */
+    z, /* [BP-05h] type=0x62 */
+    item; /* [BP-07h] type=0x24 */
+
   set_info(0x020c, *(arg_06));
   process_exclude();
-  FREE.slot_2c(arg_12, arg_10);
+  FREE.slot_2c(vel, ref);
   if (retval) {
-    spawn ITEM.slot_27(pid, 100, arg_12, arg_10, arg_06);
+    spawn ITEM.slot_27(pid, 100, vel, ref, arg_06);
     suspend;
     /* dword_to_word */
     if (!process_result) {
@@ -14,9 +23,9 @@ function mcrate_gotHit() /* entry=1076 class_id=0x0432 slot=0x06 */
       return;
     }
     else {
-      local_02 = intrinsic_0013(arg_06);
-      local_04 = Item.legal_create(arg_06);
-      local_05 = Item.getZ(arg_06);
+      x = Item.getX(arg_06);
+      y = Item.getY(arg_06);
+      z = Item.getZ(arg_06);
       set_info(1, 0);
       if (Item.getFrame(arg_06) == 0) {
         spawn ITEM.slot_28(pid, 1, 0, arg_06);
@@ -31,5 +40,4 @@ function mcrate_gotHit() /* entry=1076 class_id=0x0432 slot=0x06 */
     }
   }
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

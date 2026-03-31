@@ -5,7 +5,7 @@ function door2_slot_3c() /* entry=2569 class_id=0x0a07 slot=0x3c */
     counter; /* [BP-02h] type=0x69 */
 
   set_info(0x0207, *(arg_06));
-  if (!(intrinsic_0004(arg_06) & 0x1000)) {
+  if (!(Item.getStatus(arg_06) & 0x1000)) {
     return;
   }
   else {

@@ -1,10 +1,23 @@
 function cameraew_enterFastArea() /* entry=473 class_id=0x01d7 slot=0x0f */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    delay, /* [BP-02h] type=0x69 */
+    iSeeYou, /* [BP-04h] type=0x69 */
+    trackedEnough, /* [BP-06h] type=0x69 */
+    fram, /* [BP-08h] type=0x69 */
+    counter, /* [BP-10h] type=0x69 */
+    sawCrusader, /* [BP-12h] type=0x69 */
+    movement, /* [BP-14h] type=0x69 */
+    target, /* [BP-16h] type=0x24 */
+    range, /* [BP-18h] type=0x69 */
+    dir; /* [BP-20h] type=0x69 */
+
   entry:
     set_info(0x021b, *(arg_06));
     process_exclude();
-    local_02 = ((5 - intrinsic_0029()) * 5);
-    local_04 = (5 - (intrinsic_0029() * 5));
+    delay = ((5 - Game.getDifficultyLevel()) * 5);
+    iSeeYou = (5 - (Game.getDifficultyLevel() * 5));
     if Item.getFrame(arg_06) != 9 goto block_0126;
 
   block_0120:
@@ -12,39 +25,39 @@ function cameraew_enterFastArea() /* entry=473 class_id=0x01d7 slot=0x0f */
 
   block_0126:
     while (!Item.isOnScreen(arg_06)) {
-      spawn FREE.waitNTimerTicks(pid, local_02, 0x00000000);
+      spawn FREE.waitNTimerTicks(pid, delay, 0x00000000);
       suspend;
     }
 
   block_0162:
-    local_12 = 0;
-    local_14 = 1;
+    sawCrusader = 0;
+    movement = 1;
 
   block_0170:
     while (true) {
       suspend;
-      local_18 = 0;
+      range = 0;
       while (!Item.isOnScreen(arg_06)) {
-        spawn FREE.waitNTimerTicks(pid, local_02, 0x00000000);
+        spawn FREE.waitNTimerTicks(pid, delay, 0x00000000);
         suspend;
       }
-      spawn FREE.waitNTimerTicks(pid, local_02, 0x00000000);
+      spawn FREE.waitNTimerTicks(pid, delay, 0x00000000);
       suspend;
-      if (intrinsic_001b() != 0) {
-        local_16 = intrinsic_001b();
+      if (getTargetNPCNumMaybe() != 0) {
+        target = getTargetNPCNumMaybe();
       }
       else {
-        local_16 = 1;
+        target = 1;
       }
-      local_20 = intrinsic_0027(15, 0, 16, Item.legal_create(local_16), intrinsic_0013(local_16), Item.legal_create(arg_06), intrinsic_0013(arg_06));
-      local_08 = Item.getFrame(arg_06);
-      if ((8 - local_20) == local_08) {
-        local_18 = intrinsic_0042(local_16, arg_06);
-        if (local_18) {
-          local_12 = 1;
-          local_06 = (1 + local_06);
-          if ((local_06 > local_04) && (!(intrinsic_0004(arg_06) & 0x1000))) {
-            spawn FREE.waitNTimerTicks(pid, local_02, 0x00000000);
+      dir = getClosestDirectionInRange(15, 0, 16, Item.getY(target), Item.getX(target), Item.getY(arg_06), Item.getX(arg_06));
+      fram = Item.getFrame(arg_06);
+      if ((8 - dir) == fram) {
+        range = Item.getRangeIfVisible(target, arg_06);
+        if (range) {
+          sawCrusader = 1;
+          trackedEnough = (1 + trackedEnough);
+          if ((trackedEnough > iSeeYou) && (!(Item.getStatus(arg_06) & 0x1000))) {
+            spawn FREE.waitNTimerTicks(pid, delay, 0x00000000);
             suspend;
             spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
             suspend;
@@ -52,39 +65,39 @@ function cameraew_enterFastArea() /* entry=473 class_id=0x01d7 slot=0x0f */
           }
         }
         else {
-          local_12 = 0;
-          if ((local_08 + local_14) < 0) {
-            local_14 = 1;
+          sawCrusader = 0;
+          if ((fram + movement) < 0) {
+            movement = 1;
             spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
             suspend;
           }
-          else if ((local_08 + local_14) > 8) {
-            local_14 = -1;
+          else if ((fram + movement) > 8) {
+            movement = -1;
             spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
             suspend;
           }
         }
       }
-      else if (local_06 && local_12) {
-        if ((8 - local_20) > local_08) {
-          local_14 = 1;
+      else if (trackedEnough && sawCrusader) {
+        if ((8 - dir) > fram) {
+          movement = 1;
         }
         else {
-          local_14 = -1;
+          movement = -1;
         }
       }
       else {
-        local_06 = 0;
-        local_12 = 0;
+        trackedEnough = 0;
+        sawCrusader = 0;
         /* bit_not */
       }
-      if ((local_08 + local_14) < 0) {
-        local_14 = 1;
+      if ((fram + movement) < 0) {
+        movement = 1;
         spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
         suspend;
       }
-      else if ((local_08 + local_14) > 8) {
-        local_14 = -1;
+      else if ((fram + movement) > 8) {
+        movement = -1;
         spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
         suspend;
       }
@@ -93,5 +106,4 @@ function cameraew_enterFastArea() /* entry=473 class_id=0x01d7 slot=0x0f */
   block_04a7:
     return;
 
-  /* decompilation stopped at SEARCH_SURFACE */
 }

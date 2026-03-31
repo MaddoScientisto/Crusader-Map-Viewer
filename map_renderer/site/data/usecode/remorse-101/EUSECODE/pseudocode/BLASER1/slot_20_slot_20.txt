@@ -3,20 +3,19 @@ function blaser1_slot_20() /* entry=1093 class_id=0x0443 slot=0x20 */
   entry:
     set_info(1, 0);
     local_09 = arg_10;
-    local_21 = intrinsic_002b(local_09);
+    local_21 = Item.getQLo(local_09);
     local_13 = 0;
 
   entry_selector_00:
     for local_09 in nearby_items(shape=0x0443, origin=arg_10) {
-      if ((intrinsic_002b(local_09) == local_21) && ((intrinsic_0004(local_09) & 0x1000) == 0)) {
+      if ((Item.getQLo(local_09) == local_21) && ((Item.getStatus(local_09) & 0x1000) == 0)) {
         /* create_list */
         /* append_list */
         /* free_local_list */
         local_07 = local_09;
-        local_19 = intrinsic_0026(local_09);
+        local_19 = Item.getQHi(local_09);
         local_13 = (1 + local_13);
       }
-      /* loopnext */
     }
 
   block_028f:
@@ -40,15 +39,15 @@ function blaser1_slot_20() /* entry=1093 class_id=0x0443 slot=0x20 */
         /* free_local_list */
         local_07 = local_09;
       }
-      else if (intrinsic_0004(local_09) & (0x1000 == 0)) {
+      else if (Item.getStatus(local_09) & (0x1000 == 0)) {
         /* create_list */
         /* remove_matching_inline */
         /* free_local_list */
         local_07 = local_09;
       }
-      else if ((intrinsic_002c(local_09) != 1) && (intrinsic_0016(local_09) == 0x0476)) {
+      else if ((Item.inFastArea(local_09) != 1) && (Item.getShape(local_09) == 0x0476)) {
         local_11 = (1 + local_11);
-        local_19 = intrinsic_0026(local_09);
+        local_19 = Item.getQHi(local_09);
         local_17 = Item.getFrame(local_09);
         if (local_19 & 4) {
           /* bit_not */
@@ -68,40 +67,40 @@ function blaser1_slot_20() /* entry=1093 class_id=0x0443 slot=0x20 */
         local_15 = ((local_19 & 2) + local_17);
         if ((local_19 & 1) == 0) {
           if (local_15 == 0) {
-            local_03 = (Item.legal_create(local_09) - 4);
-            local_05 = (intrinsic_0013(local_09) + 4);
+            local_03 = (Item.getY(local_09) - 4);
+            local_05 = (Item.getX(local_09) + 4);
           }
           else if (local_15 == 1) {
-            local_03 = (Item.legal_create(local_09) + 4);
-            local_05 = (intrinsic_0013(local_09) + 4);
+            local_03 = (Item.getY(local_09) + 4);
+            local_05 = (Item.getX(local_09) + 4);
           }
           else if (local_15 == 2) {
-            local_03 = (Item.legal_create(local_09) + 4);
-            local_05 = (intrinsic_0013(local_09) - 4);
+            local_03 = (Item.getY(local_09) + 4);
+            local_05 = (Item.getX(local_09) - 4);
           }
           else if (local_15 == 3) {
-            local_03 = (Item.legal_create(local_09) - 4);
-            local_05 = (intrinsic_0013(local_09) - 4);
+            local_03 = (Item.getY(local_09) - 4);
+            local_05 = (Item.getX(local_09) - 4);
           }
         }
         else if (local_15 == 0) {
-          local_03 = (Item.legal_create(local_09) + 4);
-          local_05 = (intrinsic_0013(local_09) - 4);
+          local_03 = (Item.getY(local_09) + 4);
+          local_05 = (Item.getX(local_09) - 4);
         }
         else if (local_15 == 1) {
-          local_03 = (Item.legal_create(local_09) - 4);
-          local_05 = (intrinsic_0013(local_09) - 4);
+          local_03 = (Item.getY(local_09) - 4);
+          local_05 = (Item.getX(local_09) - 4);
         }
         else if (local_15 == 2) {
-          local_03 = (Item.legal_create(local_09) - 4);
-          local_05 = (intrinsic_0013(local_09) + 4);
+          local_03 = (Item.getY(local_09) - 4);
+          local_05 = (Item.getX(local_09) + 4);
         }
         else if (local_15 == 3) {
-          local_03 = (Item.legal_create(local_09) + 4);
-          local_05 = (intrinsic_0013(local_09) + 4);
+          local_03 = (Item.getY(local_09) + 4);
+          local_05 = (Item.getX(local_09) + 4);
         }
-        if (intrinsic_002e(0, 0, local_05, local_09) == 0) {
-          local_19 = intrinsic_0026(local_09);
+        if (legalMoveToPoint(0, 0, local_05, local_09) == 0) {
+          local_19 = Item.getQHi(local_09);
           if ((local_19 & 8) == 0) {
           }
           else {
@@ -117,7 +116,7 @@ function blaser1_slot_20() /* entry=1093 class_id=0x0443 slot=0x20 */
           }
         }
         else {
-          local_19 = intrinsic_0026(local_09);
+          local_19 = Item.getQHi(local_09);
           /* bit_not */
           local_19 = (local_19 & 8);
         }

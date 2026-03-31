@@ -19,8 +19,7 @@ function stelepad_release() /* entry=241 class_id=0x00ef slot=0x09 */
   /* loop */
   while (condition) {
     if (local_04 == 1) {
-      /* global_address */
-      while (intrinsic_0110(*(arg_06))) {
+      while (Item.isOn(*(arg_06), &global[0x001e])) {
         spawn FREE.slot_3b(pid, 2, 0x00000000);
         suspend;
       }

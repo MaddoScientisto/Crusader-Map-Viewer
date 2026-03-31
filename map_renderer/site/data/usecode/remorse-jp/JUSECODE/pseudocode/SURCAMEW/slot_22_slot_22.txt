@@ -1,29 +1,29 @@
 function surcamew_slot_22() /* entry=1248 class_id=0x04de slot=0x22 */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    eventTrigger, /* [BP+10h] type=0x24 */
+    n, /* [BP-02h] type=0x24 */
+    foundGun; /* [BP-03h] type=0x62 */
+
   set_info(0x00f0, 0);
-  for local_02 in selector_0x42(arg0=0x04c8, arg1=0x01cd, arg2=(50 * 32), origin=arg_10) {
-    if (Actor.isNPC(local_02)) {
-      local_03 = 1;
+  for n in selector_0x42(arg0=0x04c8, arg1=0x01cd, arg2=(50 * 32), origin=eventTrigger) {
+    if (Actor.isNPC(n)) {
+      foundGun = 1;
     }
-    /* loopnext */
   }
-  /* global_address */
   spawn FREE.slot_32(pid, 10, 0x00000000);
   suspend;
-  if (local_03) {
-    while (intrinsic_001b() != 1) {
+  if (foundGun) {
+    while (getTargetNPCNumMaybe() != 1) {
       spawn FREE.slot_32(pid, 5, 0x00000000);
       suspend;
     }
+    return;
   }
   else {
     spawn FREE.slot_32(pid, 0x00c8, 0x00000000);
     suspend;
   }
-  /* global_address */
-  /* global_address */
-  /* global_address */
-  /* global_address */
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

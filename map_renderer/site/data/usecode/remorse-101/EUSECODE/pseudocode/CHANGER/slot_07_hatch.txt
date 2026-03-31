@@ -2,15 +2,14 @@ function changer_hatch() /* entry=2310 class_id=0x0904 slot=0x07 */
 {
   set_info(0x0210, *(arg_06));
   process_exclude();
-  local_04 = intrinsic_002b(arg_06);
-  local_08 = intrinsic_003e(arg_06);
+  local_04 = Item.getQLo(arg_06);
+  local_08 = Item.fallProbably_03E(arg_06);
   if (local_08) {
     /* loopscr */
     /* loopscr */
     /* loop */
     while (condition) {
-      local_06 = intrinsic_002b(local_02);
-      /* loopnext */
+      local_06 = Item.getQLo(local_02);
     }
   }
   return;

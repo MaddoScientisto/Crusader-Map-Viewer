@@ -1,77 +1,88 @@
 function trigger_slot_21() /* entry=2589 class_id=0x0a1b slot=0x21 */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    cmd, /* [BP-02h] type=0x69 */
+    qHi, /* [BP-04h] type=0x69 */
+    npcNum, /* [BP-06h] type=0x69 */
+    mapNum, /* [BP-08h] type=0x69 */
+    searchtype, /* [BP-10h] type=0x69 */
+    aitem, /* [BP-12h] type=0x24 */
+    baseLink, /* [BP-14h] type=0x69 */
+    newLink; /* [BP-16h] type=0x69 */
+
   set_info(0x021b, 0);
-  local_12 = arg_10;
-  local_14 = intrinsic_0110(local_12);
-  local_16 = local_14;
-  local_04 = intrinsic_010b(local_12);
-  local_08 = intrinsic_0003(local_12);
-  local_06 = intrinsic_0113(local_12);
-  local_10 = (((local_08 & 0x00e0) * 8) + local_06);
-  if (local_08 == 0) {
+  aitem = ref;
+  baseLink = Item.andStatus(aitem);
+  newLink = baseLink;
+  qHi = Item.getNPCNum(aitem);
+  mapNum = Item.getMapArray(aitem);
+  npcNum = UCMachine.numToStr(aitem);
+  searchtype = (((mapNum & 0x00e0) * 8) + npcNum);
+  if (mapNum == 0) {
     return;
   }
-  else if (local_08 & 4) {
-    if (intrinsic_0114(local_10)) {
-      if (local_14 == 0x00ff) {
-        if (local_10 != 0) {
-          spawn TRIGGER.slot_2a(pid, local_10, local_14, local_08, local_06, local_04, arg_10, arg_06);
+  else if (mapNum & 4) {
+    if (Item.andStatus(searchtype)) {
+      if (baseLink == 0x00ff) {
+        if (searchtype != 0) {
+          spawn TRIGGER.slot_2a(pid, searchtype, baseLink, mapNum, npcNum, qHi, ref, arg_06);
           suspend;
         }
       }
-      else if (local_10 == 0x07fe) {
-        spawn TRIGGER.slot_2b(pid, local_10, local_14, local_08, local_06, local_04, arg_10, arg_06);
+      else if (searchtype == 0x07fe) {
+        spawn TRIGGER.slot_2b(pid, searchtype, baseLink, mapNum, npcNum, qHi, ref, arg_06);
         suspend;
       }
-      else if (local_10 != 0) {
-        spawn TRIGGER.slot_29(pid, local_10, local_14, local_08, local_06, local_04, arg_10, arg_06);
+      else if (searchtype != 0) {
+        spawn TRIGGER.slot_29(pid, searchtype, baseLink, mapNum, npcNum, qHi, ref, arg_06);
         suspend;
       }
     }
-    else if (local_14 == 0x00ff) {
-      if (local_10 != 0) {
-        spawn TRIGGER.slot_25(pid, local_10, local_14, local_08, local_06, local_04, arg_10, arg_06);
+    else if (baseLink == 0x00ff) {
+      if (searchtype != 0) {
+        spawn TRIGGER.slot_25(pid, searchtype, baseLink, mapNum, npcNum, qHi, ref, arg_06);
         suspend;
         /* dword_to_word */
-        local_16 = process_result;
+        newLink = process_result;
       }
     }
-    else if (local_10 == 0x07ff) {
-      spawn TRIGGER.slot_24(pid, local_10, local_14, local_08, local_06, local_04, arg_10, arg_06);
+    else if (searchtype == 0x07ff) {
+      spawn TRIGGER.slot_24(pid, searchtype, baseLink, mapNum, npcNum, qHi, ref, arg_06);
       suspend;
       /* dword_to_word */
-      local_16 = process_result;
+      newLink = process_result;
     }
-    else if (local_10 != 0) {
-      spawn TRIGGER.slot_23(pid, local_10, local_14, local_08, local_06, local_04, arg_10, arg_06);
+    else if (searchtype != 0) {
+      spawn TRIGGER.slot_23(pid, searchtype, baseLink, mapNum, npcNum, qHi, ref, arg_06);
       suspend;
       /* dword_to_word */
-      local_16 = process_result;
-    }
-  }
-  else if (local_14 == 0x00ff) {
-    if (local_10 != 0) {
-      spawn TRIGGER.slot_28(pid, local_10, local_14, local_08, local_06, local_04, arg_10, arg_06);
-      suspend;
-      /* dword_to_word */
-      local_16 = process_result;
+      newLink = process_result;
     }
   }
-  else if (local_10 == 0x07ff) {
-    spawn TRIGGER.slot_27(pid, local_10, local_14, local_08, local_06, local_04, arg_10, arg_06);
+  else if (baseLink == 0x00ff) {
+    if (searchtype != 0) {
+      spawn TRIGGER.slot_28(pid, searchtype, baseLink, mapNum, npcNum, qHi, ref, arg_06);
+      suspend;
+      /* dword_to_word */
+      newLink = process_result;
+    }
+  }
+  else if (searchtype == 0x07ff) {
+    spawn TRIGGER.slot_27(pid, searchtype, baseLink, mapNum, npcNum, qHi, ref, arg_06);
     suspend;
     /* dword_to_word */
-    local_16 = process_result;
+    newLink = process_result;
   }
-  else if (local_10 != 0) {
-    spawn TRIGGER.slot_26(pid, local_10, local_14, local_08, local_06, local_04, arg_10, arg_06);
+  else if (searchtype != 0) {
+    spawn TRIGGER.slot_26(pid, searchtype, baseLink, mapNum, npcNum, qHi, ref, arg_06);
     suspend;
     /* dword_to_word */
-    local_16 = process_result;
+    newLink = process_result;
   }
   /* word_to_dword */
   /* pop_result */
   return;
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

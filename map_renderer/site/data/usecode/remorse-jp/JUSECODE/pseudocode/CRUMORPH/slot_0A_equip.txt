@@ -10,22 +10,22 @@ function crumorph_equip() /* entry=794 class_id=0x0318 slot=0x0a */
   process_exclude();
   for n in nearby_items(family=6, origin=arg_06) {
     if (Actor.isNPC(n)) {
-      if (intrinsic_000b(n) == intrinsic_002e(arg_06)) {
-        if (intrinsic_003c(n) == 0) {
+      if (Actor.GetNPCDataField0x63_00B(n) == legalMoveToPoint(arg_06)) {
+        if (Item.getItemFamily(n) == 0) {
           NPC.slot_2b(n);
           if (!retval) {
             return;
           }
-          lastAct = intrinsic_0053(n);
+          lastAct = Actor.setDefaultActivity1(n);
           spawn FREE.slot_32(pid, 3, 0x00000000);
           suspend;
           spawn NPC.slot_28(pid, n);
           suspend;
-          while (intrinsic_001b() > 1) {
+          while (getTargetNPCNumMaybe() > 1) {
             spawn FREE.slot_32(pid, 2, 0x00000000);
             suspend;
           }
-          if (intrinsic_003c(n) == 0) {
+          if (Item.getItemFamily(n) == 0) {
             spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
             suspend;
           }
@@ -37,7 +37,6 @@ function crumorph_equip() /* entry=794 class_id=0x0318 slot=0x0a */
         }
       }
     }
-    /* loopnext */
   }
   return;
 }

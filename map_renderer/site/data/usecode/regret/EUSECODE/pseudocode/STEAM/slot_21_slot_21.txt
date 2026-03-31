@@ -2,7 +2,7 @@ function steam_slot_21() /* entry=2582 class_id=0x0a14 slot=0x21 */
 {
   set_info(0x0001, *(arg_06));
   local_02 = arg_10;
-  if (intrinsic_0004(arg_06) & 4) {
+  if (Item.getStatus(arg_06) & 4) {
     return;
   }
   else {
@@ -11,7 +11,7 @@ function steam_slot_21() /* entry=2582 class_id=0x0a14 slot=0x21 */
     while (true) {
       suspend;
       if (arg_10 < 0x00ff) {
-        if (arg_10 == intrinsic_0016()) {
+        if (arg_10 == World.getControlledNPCNum()) {
         }
         else {
           NPC.slot_2a(local_02);

@@ -1,8 +1,13 @@
 function door2_slot_2f() /* entry=2569 class_id=0x0a07 slot=0x2f */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    counter, /* [BP-02h] type=0x69 */
+    maxFrame; /* [BP-04h] type=0x69 */
+
   set_info(0x0207, *(arg_06));
-  local_04 = 11;
-  FREE.slot_2d(Item.getZ(arg_06), Item.legal_create(arg_06), intrinsic_0013(arg_06), local_04, 0x0393, *(arg_06));
+  maxFrame = 11;
+  FREE.slot_2d(Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06), maxFrame, 0x0393, *(arg_06));
   if (retval) {
     spawn FREE.slot_32(pid, 5, 0x00000000);
     suspend;
@@ -12,14 +17,13 @@ function door2_slot_2f() /* entry=2569 class_id=0x0a07 slot=0x2f */
     /* pop_result */
     return;
   }
-  local_02 = (local_04 - 1);
-  while (local_02 >= 0) {
+  counter = (maxFrame - 1);
+  while (counter >= 0) {
     spawn FREE.slot_32(pid, 5, 0x00000000);
     suspend;
-    local_02 = (local_02 - 1);
+    counter = (counter - 1);
   }
   /* word_to_dword */
   /* pop_result */
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

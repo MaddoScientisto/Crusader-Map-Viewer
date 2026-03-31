@@ -2,25 +2,25 @@ function miss2_hatch() /* entry=2320 class_id=0x090e slot=0x07 */
 {
   set_info(0x0210, *(arg_06));
   process_exclude();
-  if (intrinsic_0041(arg_06) == 1) {
+  if (CameraProcess.setCenterOn(arg_06) == 1) {
     FREE.slot_41();
     spawn MISS2.slot_28(pid, arg_06);
     suspend;
     /* pop_global */
     return;
   }
-  else if (intrinsic_0041(arg_06) == 2) {
+  else if (CameraProcess.setCenterOn(arg_06) == 2) {
     FREE.slot_41();
     spawn MISS2.slot_29(pid, arg_06);
     suspend;
     return;
   }
-  else if (intrinsic_0041(arg_06) == 3) {
+  else if (CameraProcess.setCenterOn(arg_06) == 3) {
     spawn MISS2.slot_2a(pid, arg_06);
     suspend;
     return;
   }
-  else if (intrinsic_0041(arg_06) == 4) {
+  else if (CameraProcess.setCenterOn(arg_06) == 4) {
     spawn MISS2.slot_2b(pid, arg_06);
     suspend;
     return;

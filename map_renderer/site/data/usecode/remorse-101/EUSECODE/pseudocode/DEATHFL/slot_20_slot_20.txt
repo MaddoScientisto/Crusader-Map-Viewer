@@ -6,62 +6,52 @@ function deathfl_slot_20() /* entry=2567 class_id=0x0a05 slot=0x20 */
   if (retval) {
     return;
   }
-  else if (intrinsic_0057(*(arg_06), local_02) == 0) {
+  else if (Item.getSurfaceWeight(*(arg_06), local_02) == 0) {
     return;
   }
-  else if (intrinsic_0004(local_02) & 0x4000) {
+  else if (Item.getStatus(local_02) & 0x4000) {
     return;
   }
   else {
     ITEM.slot_23(0x4000, local_02);
     if (Actor.isNPC(local_02)) {
       local_08 = arg_10;
-      local_12 = intrinsic_001e(local_08);
-      if (intrinsic_0016(local_02) == 1) {
-        /* global_address */
-        /* global_address */
-        /* global_address */
-        /* global_address */
-        /* global_address */
-        /* global_address */
+      local_12 = Actor.maybeFire(local_08);
+      if (Item.getShape(local_02) == 1) {
         suspend;
         return;
       }
-      else if (intrinsic_0016(local_02) == 0x02fd) {
+      else if (Item.getShape(local_02) == npcdeath_shape_02fd) {
         /* loopscr */
         /* loop */
         while (condition) {
-          /* loopnext */
         }
         suspend;
         return;
       }
-      else if (intrinsic_0016(local_02) == 0x0371) {
+      else if (Item.getShape(local_02) == npcdeath_shape_0371) {
         /* loopscr */
         /* loop */
         while (condition) {
-          /* loopnext */
         }
         suspend;
         return;
       }
-      else if (intrinsic_0016(local_02) == 0x04d1) {
+      else if (Item.getShape(local_02) == npcdeath_shape_04d1) {
         /* loopscr */
         /* loop */
         while (condition) {
-          /* loopnext */
         }
         suspend;
         return;
       }
-      else if ((((intrinsic_0016(local_02) == 0x0580) || (intrinsic_0016(local_02) == 0x057a)) || (intrinsic_0016(local_02) == 0x057f)) || (intrinsic_0016(local_02) == 0x052c)) {
+      else if ((((Item.getShape(local_02) == 0x0580) || (Item.getShape(local_02) == 0x057a)) || (Item.getShape(local_02) == 0x057f)) || (Item.getShape(local_02) == 0x052c)) {
         return;
       }
       else {
         /* loopscr */
         /* loop */
         while (condition) {
-          /* loopnext */
         }
         local_06 = 0;
         while (local_06 <= 7) {
@@ -71,11 +61,10 @@ function deathfl_slot_20() /* entry=2567 class_id=0x0a05 slot=0x20 */
         }
       }
     }
-    else if (intrinsic_003b(local_02) == 6) {
+    else if (Item.setQLo(local_02) == 6) {
       /* loopscr */
       /* loop */
       while (condition) {
-        /* loopnext */
       }
     }
     if ((local_14 > 4) || (local_16 > 4)) {
@@ -85,7 +74,7 @@ function deathfl_slot_20() /* entry=2567 class_id=0x0a05 slot=0x20 */
       local_20 = 0x0539;
     }
     local_18 = Item.getZ(arg_06);
-    if (intrinsic_0062(local_18, Item.legal_create(local_02), intrinsic_0013(local_02), 0, local_20, local_04)) {
+    if (CameraProcess.somethingAboutCameraUpdate(local_18, Item.getY(local_02), Item.getX(local_02), 0, local_20, local_04)) {
       local_06 = 0;
       while (local_06 <= 7) {
         spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);

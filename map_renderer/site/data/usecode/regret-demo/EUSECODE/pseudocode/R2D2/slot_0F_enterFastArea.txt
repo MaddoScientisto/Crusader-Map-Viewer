@@ -7,9 +7,9 @@ function r2d2_enterFastArea() /* entry=441 class_id=0x01b7 slot=0x0f */
   }
   else {
     local_06 = 1;
-    local_10 = ((5 - intrinsic_000a()) * 5);
-    local_12 = ((5 - intrinsic_000a()) * 2);
-    if (intrinsic_0004(arg_06) & 4) {
+    local_10 = ((5 - World.gameDifficulty()) * 5);
+    local_12 = ((5 - World.gameDifficulty()) * 2);
+    if (Item.getStatus(arg_06) & 4) {
       local_06 = 1;
     }
     else {
@@ -18,24 +18,20 @@ function r2d2_enterFastArea() /* entry=441 class_id=0x01b7 slot=0x0f */
     suspend;
     spawn FREE.slot_3b(pid, local_10, 0x00000000);
     suspend;
-    /* global_address */
-    /* global_address */
-    local_14 = intrinsic_0023(Item.getX(Item.getY(16, 0, 16)), Item.getY(arg_06), Item.getX(arg_06));
+    local_14 = Item.getClosestDirectionInRange(16, Item.getX(Item.getY(0, 16, &global[0x001e]), &global[0x001e]), Item.getY(arg_06), Item.getX(arg_06));
     local_04 = Item.getFrame(arg_06);
-    local_16 = intrinsic_0016();
+    local_16 = World.getControlledNPCNum();
     while (true) {
       suspend;
       spawn FREE.slot_3b(pid, local_10, 0x00000000);
       suspend;
-      /* global_address */
-      /* global_address */
-      local_14 = intrinsic_0023(Item.getX(Item.getY(16, 0, 16)), Item.getY(arg_06), Item.getX(arg_06));
+      local_14 = Item.getClosestDirectionInRange(16, Item.getX(Item.getY(0, 16, &global[0x001e]), &global[0x001e]), Item.getY(arg_06), Item.getX(arg_06));
       local_04 = Item.getFrame(arg_06);
-      local_16 = intrinsic_0016();
+      local_16 = World.getControlledNPCNum();
       if ((local_14 == local_04) && (local_08 < 20)) {
         local_02 = (1 + local_02);
         if (((local_02 > local_12) && (local_07 == 0)) && (local_16 > 0)) {
-          if (intrinsic_003a(local_16, arg_06)) {
+          if (Item.touch(local_16, arg_06)) {
             local_07 = 1;
             spawn TRIGGER.slot_20(0, *(arg_06), arg_06);
           }

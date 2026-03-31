@@ -1,11 +1,17 @@
 function art_gotHit() /* entry=1079 class_id=0x0435 slot=0x06 */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    vel, /* [BP+12h] type=0x69 */
+    fram; /* [BP-02h] type=0x69 */
+
   set_info(0x020c, *(arg_06));
   process_exclude();
-  local_02 = Item.getFrame(arg_06);
-  FREE.slot_2c(arg_12, arg_10);
+  fram = Item.getFrame(arg_06);
+  FREE.slot_2c(vel, ref);
   if (retval) {
-    if (local_02 > 7) {
+    if (fram > 7) {
       spawn ITEM.slot_28(pid, 1, 0, arg_06);
       suspend;
       return;
@@ -16,5 +22,4 @@ function art_gotHit() /* entry=1079 class_id=0x0435 slot=0x06 */
     }
   }
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

@@ -2,7 +2,7 @@ function free_slot_44() /* entry=2575 class_id=0x0a0d slot=0x44 */
 {
   set_info(0x022b, 0);
   local_10 = 1;
-  if (intrinsic_0000()) {
+  if (World.getAlertActive()) {
     return;
   }
   else if (((global[0x000f] == 2) || (global[0x000f] == 4)) || (global[0x000f] == 7)) {
@@ -28,7 +28,7 @@ function free_slot_44() /* entry=2575 class_id=0x0a0d slot=0x44 */
   }
   spawn FREE.slot_3b(pid, 60, 0x00000000);
   suspend;
-  if (intrinsic_0013((intrinsic_0013((intrinsic_0013((intrinsic_0013((intrinsic_0013(10, 0) == 0), 10, 0) == 1), 10, 0) == 2), 10, 0) == 3), 10, 0) == 4) {
+  if (UCMachine.rndRange((UCMachine.rndRange((UCMachine.rndRange((UCMachine.rndRange((UCMachine.rndRange(10, 0) == 0), 10, 0) == 1), 10, 0) == 2), 10, 0) == 3), 10, 0) == 4) {
     spawn FREE.slot_21(pid, 0x0184, 0x00000000);
     suspend;
   }
@@ -39,16 +39,15 @@ function free_slot_44() /* entry=2575 class_id=0x0a0d slot=0x44 */
     suspend;
   }
   for local_06 in nearby_items(shape=0x0561, origin=local_10) {
-    if (intrinsic_0037(local_06)) {
+    if (udioProcess.playSFXCru(local_06)) {
       suspend;
     }
-    /* loopnext */
   }
-  local_13 = (0x03e8 * (5 - intrinsic_000a()));
+  local_13 = (0x03e8 * (5 - World.gameDifficulty()));
   suspend;
   while (true) {
     suspend;
-    if (!intrinsic_0000()) {
+    if (!World.getAlertActive()) {
       return;
     }
     local_10 = 1;
@@ -60,11 +59,11 @@ function free_slot_44() /* entry=2575 class_id=0x0a0d slot=0x44 */
       suspend;
       local_02 = (1 + local_02);
     }
-    if (intrinsic_0013((intrinsic_0013((intrinsic_0013((intrinsic_0013((intrinsic_0013(10, 0) == 0), 10, 0) == 1), 10, 0) == 2), 10, 0) == 4), 10, 0) == 5) {
+    if (UCMachine.rndRange((UCMachine.rndRange((UCMachine.rndRange((UCMachine.rndRange((UCMachine.rndRange(10, 0) == 0), 10, 0) == 1), 10, 0) == 2), 10, 0) == 4), 10, 0) == 5) {
       spawn FREE.slot_21(pid, 0x0182, 0x00000000);
       suspend;
     }
-    else if (intrinsic_0013((intrinsic_0013(10, 0) == 6), 10, 0) == 7) {
+    else if (UCMachine.rndRange((UCMachine.rndRange(10, 0) == 6), 10, 0) == 7) {
       spawn FREE.slot_21(pid, 0x0184, 0x00000000);
       suspend;
       spawn FREE.slot_21(pid, 0x018c, 0x00000000);
@@ -75,12 +74,11 @@ function free_slot_44() /* entry=2575 class_id=0x0a0d slot=0x44 */
       suspend;
     }
     for local_06 in nearby_items(shape=0x0561, origin=local_10) {
-      if (intrinsic_0037(local_06)) {
+      if (udioProcess.playSFXCru(local_06)) {
         suspend;
         spawn FREE.slot_3b(pid, 120, 0x00000000);
         suspend;
       }
-      /* loopnext */
     }
   }
   return;

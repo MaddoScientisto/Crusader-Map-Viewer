@@ -14,15 +14,14 @@ function bridge_slot_26() /* entry=2590 class_id=0x0a1c slot=0x26 */
     if !condition goto block_08db;
 
   block_08b6:
-    local_10 = intrinsic_0107(local_04);
+    local_10 = Item.getQLo(local_04);
     if local_10 != arg_10 goto block_08d7;
 
   block_08c9:
-    local_08 = intrinsic_0116(local_04);
+    local_08 = Item.getQHi(local_04);
     goto block_08db;
 
   block_08d7:
-    /* loopnext */
     goto block_08b3;
 
   block_08db:
@@ -54,14 +53,14 @@ function bridge_slot_26() /* entry=2590 class_id=0x0a1c slot=0x26 */
     if !condition goto block_09a8;
 
   block_0921:
-    local_10 = intrinsic_0107(local_04);
+    local_10 = Item.getQLo(local_04);
     if local_10 != local_12 goto block_09a4;
 
   block_0934:
     if local_10 != (arg_10 + 1) goto block_098d;
 
   block_093f:
-    local_16 = intrinsic_0116(local_04);
+    local_16 = Item.getQHi(local_04);
     if local_16 >= 0 goto block_095a;
 
   block_0952:
@@ -92,7 +91,6 @@ function bridge_slot_26() /* entry=2590 class_id=0x0a1c slot=0x26 */
     goto block_09a8;
 
   block_09a4:
-    /* loopnext */
     goto block_091e;
 
   block_09a8:
@@ -126,7 +124,7 @@ function bridge_slot_26() /* entry=2590 class_id=0x0a1c slot=0x26 */
   block_0a0c:
     while (true) {
       foreach_list local_04 -> block_0a2a;
-      if (intrinsic_00ad(local_04) == 0) {
+      if (Intrinsic00AD(local_04) == 0) {
         local_10 = (1 + local_10);
       }
     }
@@ -160,7 +158,6 @@ function bridge_slot_26() /* entry=2590 class_id=0x0a1c slot=0x26 */
           FREE.slot_20(pid, 8);
           spawn NPC.slot_2f(retval, local_04, local_02);
           suspend;
-          /* loopnext */
         }
       }
       else if (local_10 == 2) {
@@ -168,7 +165,6 @@ function bridge_slot_26() /* entry=2590 class_id=0x0a1c slot=0x26 */
         /* loopscr */
         /* loop */
         while (condition) {
-          /* loopnext */
         }
         spawn FREE.slot_3b(pid, local_20, 0x00000000);
         suspend;
@@ -195,13 +191,13 @@ function bridge_slot_26() /* entry=2590 class_id=0x0a1c slot=0x26 */
     foreach_list local_04 -> block_0cec;
 
   block_0bbb:
-    if intrinsic_00ad(local_04) != 0 goto block_0bcd;
+    if Intrinsic00AD(local_04) != 0 goto block_0bcd;
 
   block_0bca:
     goto block_0cef;
 
   block_0bcd:
-    local_10 = intrinsic_0011(local_04);
+    local_10 = Item.getShape(local_04);
     if (local_10 != 0x0336) || (local_10 == 0x0290) goto block_0beb;
 
   block_0be8:
@@ -220,7 +216,6 @@ function bridge_slot_26() /* entry=2590 class_id=0x0a1c slot=0x26 */
       FREE.slot_20(pid, 8);
       spawn NPC.slot_2f(retval, local_04, local_02);
       suspend;
-      /* loopnext */
     }
 
   block_0c31:
@@ -238,7 +233,6 @@ function bridge_slot_26() /* entry=2590 class_id=0x0a1c slot=0x26 */
 
   block_0c8b:
     while (condition) {
-      /* loopnext */
     }
 
   block_0c9a:

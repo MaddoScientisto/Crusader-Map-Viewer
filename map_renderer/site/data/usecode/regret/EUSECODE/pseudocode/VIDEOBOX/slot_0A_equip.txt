@@ -4,8 +4,7 @@ function videobox_equip() /* entry=1391 class_id=0x056d slot=0x0a */
   process_exclude();
   /* pop_global */
   if (global[0x0001]) {
-    /* global_address */
-    spawn ITEM.slot_21();
+    spawn ITEM.slot_21(&global[0x001e]);
     return;
   }
   else {
@@ -15,7 +14,6 @@ function videobox_equip() /* entry=1391 class_id=0x056d slot=0x0a */
     /* loopscr */
     /* loop */
     while (condition) {
-      /* loopnext */
     }
     /* pop_global */
   }

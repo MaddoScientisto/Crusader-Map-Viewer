@@ -18,7 +18,7 @@ function contain_slot_20() /* entry=2566 class_id=0x0a04 slot=0x20 */
     }
     else {
       local_04 = *(arg_06);
-      local_06 = intrinsic_001f(arg_06);
+      local_06 = Item.getQLo(arg_06);
       if (global[0x0007]) {
         return;
       }
@@ -28,24 +28,24 @@ function contain_slot_20() /* entry=2566 class_id=0x0a04 slot=0x20 */
         /* loopscr */
         /* loop */
         while (condition) {
-          if (local_06 == intrinsic_001f(local_02)) {
-            if (intrinsic_0011(local_02) == 52) {
+          if (local_06 == Item.getQLo(local_02)) {
+            if (Item.getShape(local_02) == 52) {
               if (Item.getFrame(arg_06) == 0) {
                 suspend;
               }
             }
-            else if (intrinsic_0011(local_02) == 0x034b) {
+            else if (Item.getShape(local_02) == 0x034b) {
               spawn ITEM.slot_2a(pid, 1, 0, local_02);
               suspend;
             }
-            else if (intrinsic_0011(local_02) == 11) {
+            else if (Item.getShape(local_02) == 11) {
               ITEM.slot_24(0x1000, local_02);
               if (!Item.getFrame(local_02)) {
                 spawn ITEM.slot_2a(pid, 0, 1, local_02);
                 suspend;
               }
             }
-            else if (intrinsic_0011(local_02) == 0x0127) {
+            else if (Item.getShape(local_02) == 0x0127) {
               ITEM.slot_24(0x1000, local_02);
               if (!Item.getFrame(local_02)) {
                 spawn ITEM.slot_2a(pid, 0, 1, local_02);
@@ -53,7 +53,6 @@ function contain_slot_20() /* entry=2566 class_id=0x0a04 slot=0x20 */
               }
             }
           }
-          /* loopnext */
         }
         /* pop_global */
       }

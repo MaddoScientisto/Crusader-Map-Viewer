@@ -2,11 +2,11 @@ function miss1_hatch() /* entry=2319 class_id=0x090d slot=0x07 */
 {
   set_info(0x0210, *(arg_06));
   process_exclude();
-  if (intrinsic_003e(arg_06) == 1) {
+  if (Item.callEvent11(arg_06) == 1) {
     spawn FREE.slot_3b(pid, 1, 0x00000000);
     suspend;
     /* pop_global */
-    if (intrinsic_000a() == 1) {
+    if (World.gameDifficulty() == 1) {
       local_08 = 5;
     }
     else {
@@ -16,74 +16,53 @@ function miss1_hatch() /* entry=2319 class_id=0x090d slot=0x07 */
     while (local_10 <= local_08) {
       local_10 = (1 + local_10);
     }
-    /* global_address */
     suspend;
     spawn FREE.slot_3b(pid, 1, 0x00000000);
     suspend;
     suspend;
-    /* global_address */
     suspend;
-    /* global_address */
     suspend;
-    /* global_address */
-    /* global_address */
     spawn FREE.slot_3b(pid, 20, 0x00000000);
     suspend;
     for local_02 in nearby_items(shape=0x0156, origin=arg_06) {
       local_12 = local_02;
-      /* loopnext */
     }
     if (local_12) {
       spawn DOOR.slot_21(pid, 1, local_12);
       suspend;
-      /* global_address */
       suspend;
-      /* global_address */
       suspend;
-      /* global_address */
       suspend;
-      /* global_address */
       suspend;
-      /* global_address */
       suspend;
       spawn DOOR.slot_21(pid, 2, local_12);
       suspend;
     }
   }
-  if (intrinsic_003e(arg_06) == 37) {
-    if (intrinsic_0016() != 1) {
+  if (Item.callEvent11(arg_06) == 37) {
+    if (World.getControlledNPCNum() != 1) {
     }
     else {
-      /* global_address */
       suspend;
-      /* global_address */
       suspend;
-      /* global_address */
       suspend;
-      /* global_address */
       suspend;
-      /* global_address */
       suspend;
-      /* global_address */
       suspend;
-      /* global_address */
       suspend;
       for local_02 in nearby_items(shape=0x0156, origin=arg_06) {
-        if (intrinsic_00b8(local_02) == 28) {
+        if (Item.getCY(local_02) == 28) {
           local_12 = local_02;
           spawn DOOR.slot_21(pid, 1, local_12);
           suspend;
           spawn FREE.slot_3b(pid, 30, 0x00000000);
           suspend;
-          /* global_address */
           spawn FREE.slot_3b(pid, 30, 0x00000000);
           suspend;
         }
-        /* loopnext */
       }
       for local_02 in nearby_items(shape=0x0277, origin=arg_06) {
         local_04 = local_02;
-        /* loopnext */
       }
       if (local_04) {
         suspend;
@@ -96,12 +75,11 @@ function miss1_hatch() /* entry=2319 class_id=0x090d slot=0x07 */
         suspend;
         suspend;
       }
-      local_16 = intrinsic_003e(arg_06);
+      local_16 = Item.callEvent11(arg_06);
       local_02 = *(arg_06);
-      local_18 = intrinsic_00b8(local_02);
+      local_18 = Item.getCY(local_02);
       spawn TRIGGER.slot_20(pid, (0 + 0x0080), local_02, arg_06);
       suspend;
-      /* global_address */
     }
   }
   /* free_local_string */

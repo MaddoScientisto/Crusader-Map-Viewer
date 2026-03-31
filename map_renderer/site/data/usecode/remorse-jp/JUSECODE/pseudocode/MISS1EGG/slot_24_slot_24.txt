@@ -1,20 +1,23 @@
 function miss1egg_slot_24() /* entry=2319 class_id=0x090d slot=0x24 */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    n, /* [BP+10h] type=0x24 */
+    door; /* [BP-02h] type=0x24 */
+
   set_info(0x0001, *(arg_06));
   set_info(1, 0);
-  spawn NPC.slot_22(pid, 5, 0, arg_10);
+  spawn NPC.slot_22(pid, 5, 0, n);
   suspend;
-  for local_02 in nearby_items(shape=0x00c2, origin=arg_10) {
-    if (intrinsic_00b0(local_02) == 21) {
-      spawn DOOR.slot_20(pid, local_02);
+  for door in nearby_items(shape=0x00c2, origin=n) {
+    if (Item.unequip(door) == 21) {
+      spawn DOOR.slot_20(pid, door);
       suspend;
     }
-    /* loopnext */
   }
-  spawn NPC.slot_21(pid, 3, arg_10);
+  spawn NPC.slot_21(pid, 3, n);
   suspend;
-  spawn NPC.slot_21(pid, 2, arg_10);
+  spawn NPC.slot_21(pid, 2, n);
   suspend;
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

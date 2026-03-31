@@ -3,10 +3,9 @@ function door3_slot_42() /* entry=2568 class_id=0x0a06 slot=0x42 */
   set_info(0x0207, *(arg_06));
   if (Item.getFrame(arg_06) == 0) {
     for local_04 in nearby_items(shape=0x051a, origin=arg_06) {
-      if ((Item.getFrame(local_04) == 1) && (intrinsic_001f(local_04) == intrinsic_001f(arg_06))) {
+      if ((Item.getFrame(local_04) == 1) && (Item.getQLo(local_04) == Item.getQLo(arg_06))) {
         local_06 = local_04;
       }
-      /* loopnext */
     }
     if (!local_06) {
       /* str_to_ptr */

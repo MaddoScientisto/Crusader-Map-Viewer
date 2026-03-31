@@ -2,10 +2,10 @@ function skillbox_equip() /* entry=1253 class_id=0x04e3 slot=0x0a */
 {
   set_info(0x0211, *(arg_06));
   process_exclude();
-  local_02 = intrinsic_000a();
-  if (intrinsic_0003(arg_06) != 0) {
+  local_02 = World.gameDifficulty();
+  if (Item.getMapArray(arg_06) != 0) {
     if (Item.getFrame(arg_06) == 2) {
-      local_04 = intrinsic_011c(arg_06);
+      local_04 = Item.isCrusTypeNPC(arg_06);
       if (local_02 == 1) {
         spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
         suspend;

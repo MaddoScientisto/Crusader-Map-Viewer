@@ -2,10 +2,10 @@ function keypadew_use() /* entry=1102 class_id=0x044c slot=0x01 */
 {
   set_info(0x0207, *(arg_06));
   process_exclude();
-  if (intrinsic_0003(arg_06) != 0) {
-    local_01 = (intrinsic_0004(arg_06) & 4);
+  if (Item.getMapArray(arg_06) != 0) {
+    local_01 = (Item.getStatus(arg_06) & 4);
     if (local_01 == 0) {
-      if (intrinsic_0000()) {
+      if (World.getAlertActive()) {
         spawn FREE.slot_21(pid, 0x0184, 0x00000000);
         suspend;
         spawn FREE.slot_3b(pid, 2, 0x00000000);

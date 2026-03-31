@@ -1,22 +1,29 @@
 function reb_egg_slot_20() /* entry=2313 class_id=0x0907 slot=0x20 */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    chest, /* [BP-02h] type=0x24 */
+    phold, /* [BP-04h] type=0x24 */
+    counter, /* [BP-06h] type=0x69 */
+    counter2, /* [BP-08h] type=0x69 */
+    x, /* [BP-10h] type=0x69 */
+    y; /* [BP-12h] type=0x69 */
+
   set_info(0x021b, 0);
-  for local_02 in nearby_items(shape=0x054f, origin=global[0x003c]) {
-    local_10 = (intrinsic_0013(local_02) + 48);
-    local_12 = (Item.legal_create(local_02) + 48);
+  for chest in nearby_items(shape=0x054f, origin=global[0x003c]) {
+    x = (Item.getX(chest) + 48);
+    y = (Item.getY(chest) + 48);
     /* loopscr */
     /* loopscr */
     /* loopscr */
     /* loopscr */
     /* loop */
     while (condition) {
-      local_10 = (local_10 - 4);
+      x = (x - 4);
       /* bit_not */
-      local_06 = (1 + local_06);
-      /* loopnext */
+      counter = (1 + counter);
     }
     return;
   }
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

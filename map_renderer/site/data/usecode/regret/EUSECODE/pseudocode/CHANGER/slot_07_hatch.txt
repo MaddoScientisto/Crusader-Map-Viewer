@@ -2,17 +2,16 @@ function changer_hatch() /* entry=2314 class_id=0x0908 slot=0x07 */
 {
   set_info(0x0210, *(arg_06));
   process_exclude();
-  local_04 = intrinsic_001f(arg_06);
-  local_08 = intrinsic_003b(arg_06);
+  local_04 = Item.getQLo(arg_06);
+  local_08 = Egg.getEggId(arg_06);
   if (local_08) {
     /* loopscr */
     /* loopscr */
     /* loop */
     while (condition) {
-      local_06 = intrinsic_001f(local_02);
+      local_06 = Item.getQLo(local_02);
       if (local_06 == local_08) {
       }
-      /* loopnext */
     }
   }
   return;

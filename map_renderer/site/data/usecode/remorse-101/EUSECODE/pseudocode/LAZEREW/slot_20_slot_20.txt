@@ -1,7 +1,7 @@
 function lazerew_slot_20() /* entry=414 class_id=0x019c slot=0x20 */
 {
   set_info(0x0205, *(arg_06));
-  if (intrinsic_0004(arg_06) & 0x1000) {
+  if (Item.getStatus(arg_06) & 0x1000) {
     return;
   }
   else {
@@ -18,7 +18,7 @@ function lazerew_slot_20() /* entry=414 class_id=0x019c slot=0x20 */
         spawn FREE.waitNTimerTicks(pid, 100, 0x00000000);
         suspend;
       }
-      spawn FREE.waitNTimerTicks(pid, ((5 - intrinsic_0029()) * 20), 0x00000000);
+      spawn FREE.waitNTimerTicks(pid, ((5 - Game.getDifficultyLevel()) * 20), 0x00000000);
       suspend;
     }
   }

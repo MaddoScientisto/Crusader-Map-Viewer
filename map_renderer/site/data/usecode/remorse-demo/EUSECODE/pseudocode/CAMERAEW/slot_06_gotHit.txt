@@ -1,8 +1,13 @@
 function cameraew_gotHit() /* entry=473 class_id=0x01d7 slot=0x06 */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    vel; /* [BP+12h] type=0x69 */
+
   set_info(0x020c, *(arg_06));
   process_exclude();
-  FREE.slot_2b(arg_12, arg_10);
+  FREE.slot_2b(vel, ref);
   if (retval && (Item.getFrame(arg_06) != 9)) {
     FREE.slot_33(0x021b, *(arg_06));
     spawn TRIGGER.slot_20(pid, 1, *(arg_06), arg_06);
@@ -11,5 +16,4 @@ function cameraew_gotHit() /* entry=473 class_id=0x01d7 slot=0x06 */
     suspend;
   }
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

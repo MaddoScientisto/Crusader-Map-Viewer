@@ -1,34 +1,26 @@
 function telepad_slot_20() /* entry=477 class_id=0x01db slot=0x20 */
 {
   set_info(1, 0);
-  /* global_address */
-  if (intrinsic_0128()) {
+  if (Item.andStatus(&global[0x001e])) {
     return;
   }
   else {
-    /* global_address */
     /* pop_global */
     /* pop_global */
     spawn FREE.slot_3b(0, 0, pid, 0, 0x00000000);
     suspend;
     FREE.slot_3c(0x0215, 0);
     FREE.slot_3c(0x0228, 0);
-    /* global_address */
-    while (Item.legal_move()) {
+    while (Item.legal_move(&global[0x001e])) {
       spawn FREE.slot_3b(pid, 2, 0x00000000);
       suspend;
     }
-    /* global_address */
-    if (intrinsic_0066()) {
-      /* global_address */
-      /* global_address */
+    if (Item.fall(&global[0x001e])) {
       suspend;
     }
-    /* global_address */
-    spawn NPC.slot_24(pid);
+    spawn NPC.slot_24(pid, &global[0x001e]);
     suspend;
-    /* global_address */
-    if (intrinsic_0040() != arg_10) {
+    if (AudioProcess.stopSFXCru(&global[0x001e]) != arg_10) {
       suspend;
       FREE.slot_22();
       if (arg_10 == 3) {
@@ -44,17 +36,13 @@ function telepad_slot_20() /* entry=477 class_id=0x01db slot=0x20 */
         suspend;
       }
       FREE.slot_23();
-      /* global_address */
-      /* global_address */
       suspend;
     }
     else {
       suspend;
     }
-    /* global_address */
-    spawn NPC.slot_23(pid);
+    spawn NPC.slot_23(pid, &global[0x001e]);
     suspend;
-    /* global_address */
   }
   return;
 }

@@ -2,8 +2,8 @@ function cryobox_slot_21() /* entry=1507 class_id=0x05e1 slot=0x21 */
 {
   set_info(1, *(arg_06));
   ITEM.slot_24(0x1000, arg_10);
-  if (intrinsic_006a()) {
-    if ((intrinsic_0011(arg_10) == 0x05d9) || (intrinsic_0011(arg_10) == 0x05da)) {
+  if (Intrinsic006A()) {
+    if ((Item.getShape(arg_10) == 0x05d9) || (Item.getShape(arg_10) == 0x05da)) {
       while ((Item.getFrame(arg_10) != 39) && (Item.isOnScreen(arg_10) == 1)) {
         spawn FREE.slot_3b(pid, 2, 0x00000000);
         suspend;
@@ -27,7 +27,7 @@ function cryobox_slot_21() /* entry=1507 class_id=0x05e1 slot=0x21 */
     local_06 = 0x05e0;
   }
   ITEM.slot_24(0x1000, local_04);
-  if (intrinsic_006a()) {
+  if (Intrinsic006A()) {
     while ((Item.getFrame(local_04) != 29) && (Item.isOnScreen(local_04) == 1)) {
       spawn FREE.slot_3b(pid, 2, 0x00000000);
       suspend;

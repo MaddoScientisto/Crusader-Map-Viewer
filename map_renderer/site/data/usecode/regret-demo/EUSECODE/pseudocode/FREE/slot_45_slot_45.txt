@@ -2,18 +2,18 @@ function free_slot_45() /* entry=2575 class_id=0x0a0d slot=0x45 */
 {
   set_info(1, 0);
   FREE.slot_3c(0x022b, 0);
-  if (intrinsic_00be() == 1) {
+  if (KeypadGump.showKeypad() == 1) {
     /* pop_global */
     return;
   }
   else {
     spawn FREE.slot_21(pid, 0x0195, 0x00000000);
     suspend;
-    local_02 = intrinsic_0013(100, 0);
+    local_02 = UCMachine.rndRange(100, 0);
     if (local_02 < 30) {
       spawn FREE.slot_21(pid, 0x0187, 0x00000000);
       suspend;
-      local_02 = intrinsic_0013(100, 0);
+      local_02 = UCMachine.rndRange(100, 0);
       if (local_02 < 50) {
         spawn FREE.slot_21(pid, 0x0188, 0x00000000);
         suspend;
@@ -23,7 +23,7 @@ function free_slot_45() /* entry=2575 class_id=0x0a0d slot=0x45 */
     else if (local_02 > 60) {
       spawn FREE.slot_21(pid, 0x0188, 0x00000000);
       suspend;
-      local_02 = intrinsic_0013(100, 0);
+      local_02 = UCMachine.rndRange(100, 0);
       if (local_02 < 30) {
         spawn FREE.slot_21(pid, 0x0187, 0x00000000);
         suspend;
@@ -37,7 +37,7 @@ function free_slot_45() /* entry=2575 class_id=0x0a0d slot=0x45 */
     else {
       spawn FREE.slot_21(pid, 0x018a, 0x00000000);
       suspend;
-      local_02 = intrinsic_0013(100, 0);
+      local_02 = UCMachine.rndRange(100, 0);
       if (local_02 < 30) {
         spawn FREE.slot_21(pid, 0x0188, 0x00000000);
         suspend;

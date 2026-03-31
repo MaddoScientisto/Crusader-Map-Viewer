@@ -1,8 +1,14 @@
 function d_susan_gotHit() /* entry=1222 class_id=0x04c4 slot=0x06 */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    vel, /* [BP+12h] type=0x69 */
+    goods; /* [BP-02h] type=0x24 */
+
   set_info(0x020c, *(arg_06));
   process_exclude();
-  if (intrinsic_0018(100, 0) > 50) {
+  if (UCMachine.rndRange(100, 0) > 50) {
     return;
   }
   else {
@@ -11,13 +17,11 @@ function d_susan_gotHit() /* entry=1222 class_id=0x04c4 slot=0x06 */
     while (condition) {
       spawn FREE.slot_32(pid, 30, 0x00000000);
       suspend;
-      spawn ITEM.slot_28(pid, 1, 0, local_02);
+      spawn ITEM.slot_28(pid, 1, 0, goods);
       suspend;
-      /* loopnext */
     }
     spawn FREE.slot_32(pid, 30, 0x00000000);
     suspend;
   }
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

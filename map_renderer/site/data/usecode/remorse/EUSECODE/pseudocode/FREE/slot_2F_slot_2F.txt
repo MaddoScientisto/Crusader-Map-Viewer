@@ -1,16 +1,24 @@
 function free_slot_2f() /* entry=2574 class_id=0x0a0c slot=0x2f */
 {
+  var
+    ref, /* [BP+06h] type=0x69 */
+    addType, /* [BP+08h] type=0x69 */
+    phold, /* [BP-02h] type=0x24 */
+    item, /* [BP-04h] type=0x24 */
+    a, /* [BP-06h] type=0x69 */
+    b, /* [BP-08h] type=0x69 */
+    c; /* [BP-10h] type=0x69 */
+
   set_info(1, 0);
-  local_02 = arg_06;
-  if (intrinsic_0016(local_02) == 0x0476) {
-    local_06 = intrinsic_00ad(local_02);
-    local_10 = (local_06 & 15);
-    local_08 = intrinsic_0003(local_02);
-    local_08 = (((local_06 & 0x00e0) * 8) + local_08);
-    if ((local_08 != 0) && (local_08 == arg_08)) {
+  phold = ref;
+  if (Item.getShape(phold) == 0x0476) {
+    a = Item.getNPCNum(phold);
+    c = (a & 15);
+    b = Item.getMapArray(phold);
+    b = (((a & 0x00e0) * 8) + b);
+    if ((b != 0) && (b == addType)) {
       return;
     }
   }
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

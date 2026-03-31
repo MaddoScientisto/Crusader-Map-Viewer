@@ -9,7 +9,7 @@ function floor1_enterFastArea() /* entry=2308 class_id=0x0902 slot=0x0f */
     local_12 = 0;
     spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
     suspend;
-    local_22 = intrinsic_003e(arg_06);
+    local_22 = Item.fallProbably_03E(arg_06);
     local_20 = (local_22 * 10);
     if local_20 != 0 goto block_0125;
 
@@ -19,7 +19,7 @@ function floor1_enterFastArea() /* entry=2308 class_id=0x0902 slot=0x0f */
   block_0125_selector_00:
     for local_04 in selector_0x42(arg0=0x0135, arg1=0x01c8, arg2=(35 * 32), origin=arg_06) {
       local_18 = 1;
-      local_12 = teleportToEgg(local_04);
+      local_12 = PaletteFaderProcess.stopFadesAndResetToGamePal(local_04);
       if ((local_12 > 0) && (local_12 < 0x00fa)) {
         if (local_08 < local_12) {
           local_08 = local_12;
@@ -32,7 +32,6 @@ function floor1_enterFastArea() /* entry=2308 class_id=0x0902 slot=0x0f */
         /* free_local_list */
         local_14 = local_04;
       }
-      /* loopnext */
     }
 
   block_0190:
@@ -55,17 +54,17 @@ function floor1_enterFastArea() /* entry=2308 class_id=0x0902 slot=0x0f */
     foreach_list local_04 -> block_024e;
 
   block_01bb:
-    if !(intrinsic_0004(local_04) & 0x1000) goto block_01d2;
+    if !(Item.getStatus(local_04) & 0x1000) goto block_01d2;
 
   block_01cb:
     local_16 = 1;
     goto block_02e9;
 
   block_01d2:
-    if teleportToEgg(local_04) != local_02 goto block_024b;
+    if PaletteFaderProcess.stopFadesAndResetToGamePal(local_04) != local_02 goto block_024b;
 
   block_01e1:
-    if intrinsic_003a(112, arg_06) goto block_0204;
+    if AudioProcess.isSFXPlayingForObject(112, arg_06) goto block_0204;
 
   block_0204:
     /* loopscr */
@@ -79,7 +78,6 @@ function floor1_enterFastArea() /* entry=2308 class_id=0x0902 slot=0x0f */
         spawn NPC.slot_2d(retval, *(arg_06), local_24);
         suspend;
       }
-      /* loopnext */
     }
 
   block_024b:
@@ -96,7 +94,7 @@ function floor1_enterFastArea() /* entry=2308 class_id=0x0902 slot=0x0f */
     suspend;
 
   block_0270:
-    while (intrinsic_00a0(arg_06) > 0) {
+    while (Actor.setDead(arg_06) > 0) {
       spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
       suspend;
     }
@@ -131,7 +129,7 @@ function floor1_enterFastArea() /* entry=2308 class_id=0x0902 slot=0x0f */
   block_0344:
     while (true) {
       foreach_list local_04 -> block_0360;
-      if (intrinsic_0004(local_04) & 0x1000) {
+      if (Item.getStatus(local_04) & 0x1000) {
         local_16 = 1;
       }
     }

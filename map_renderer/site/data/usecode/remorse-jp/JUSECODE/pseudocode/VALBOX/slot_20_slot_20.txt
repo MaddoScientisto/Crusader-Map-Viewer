@@ -6,7 +6,7 @@ function valbox_slot_20() /* entry=2590 class_id=0x0a1c slot=0x20 */
     highByte, /* [BP-04h] type=0x69 */
     keypadCode; /* [BP-06h] type=0x69 */
 
-  lowByte = (intrinsic_0122(arg_06) & 0x00ff);
+  lowByte = (Actor.isDead(arg_06) & 0x00ff);
   /* lsh */
   highByte = 8;
   keypadCode = (lowByte + highByte);

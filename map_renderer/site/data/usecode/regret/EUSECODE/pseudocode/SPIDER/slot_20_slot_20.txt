@@ -5,17 +5,17 @@ function spider_slot_20() /* entry=2581 class_id=0x0a13 slot=0x20 */
     ITEM.slot_24(4, arg_06);
     return;
   }
-  else if (intrinsic_0004(arg_06) & 0x1000) {
+  else if (Item.getStatus(arg_06) & 0x1000) {
     return;
   }
   else {
     ITEM.slot_24(0x1000, arg_06);
-    local_04 = intrinsic_0016();
+    local_04 = World.getControlledNPCNum();
     while ((Item.getZ(local_04) > (Item.getZ(arg_06) + 16)) || (Item.getZ(local_04) < (Item.getZ(arg_06) - 16))) {
       spawn FREE.slot_3b(pid, 10, 0x00000000);
       suspend;
     }
-    if ((intrinsic_0004(arg_06) & 4) || (Item.getFrame(arg_06) > 0)) {
+    if ((Item.getStatus(arg_06) & 4) || (Item.getFrame(arg_06) > 0)) {
       ITEM.slot_25(4, arg_06);
       ITEM.slot_25(0x1000, arg_06);
       return;
@@ -34,7 +34,7 @@ function spider_slot_20() /* entry=2581 class_id=0x0a13 slot=0x20 */
         suspend;
         local_11 = (1 + local_11);
       }
-      while (intrinsic_0036(local_04, arg_06) == 0) {
+      while (Intrinsic0036(local_04, arg_06) == 0) {
         spawn FREE.slot_3b(pid, 100, 0x00000000);
         suspend;
       }

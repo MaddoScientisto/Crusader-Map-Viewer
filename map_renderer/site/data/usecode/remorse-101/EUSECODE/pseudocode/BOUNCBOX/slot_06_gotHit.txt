@@ -2,7 +2,7 @@ function bouncbox_gotHit() /* entry=1265 class_id=0x04ef slot=0x06 */
 {
   set_info(0x020c, *(arg_06));
   process_exclude();
-  local_02 = intrinsic_0026(arg_06);
+  local_02 = Item.getQHi(arg_06);
   local_08 = arg_10;
   if (arg_10 == 0x4000) {
     FREE.slot_2c(arg_12, arg_10);
@@ -16,7 +16,7 @@ function bouncbox_gotHit() /* entry=1265 class_id=0x04ef slot=0x06 */
         local_02 = (local_02 - 16);
       }
     }
-    if (intrinsic_0004(arg_06) & 4) {
+    if (Item.getStatus(arg_06) & 4) {
       local_02 = 0x00ff;
     }
     else {
@@ -47,19 +47,19 @@ function bouncbox_gotHit() /* entry=1265 class_id=0x04ef slot=0x06 */
     }
     return;
   }
-  else if (intrinsic_0016(local_08) == 0x02c3) {
-    local_04 = intrinsic_0026(local_08);
-    local_06 = intrinsic_002b(local_08);
-    if (intrinsic_0019(0, 0x02c4, local_10)) {
+  else if (Item.getShape(local_08) == 0x02c3) {
+    local_04 = Item.getQHi(local_08);
+    local_06 = Item.getQLo(local_08);
+    if (Item.legal_create(0, 0x02c4, local_10)) {
       if (local_04) {
       }
     }
     return;
   }
-  else if (intrinsic_0016(local_08) == 0x02c4) {
-    local_04 = intrinsic_0026(local_08);
-    local_06 = intrinsic_002b(local_08);
-    if (intrinsic_0019(0, 0x02c3, local_10)) {
+  else if (Item.getShape(local_08) == 0x02c4) {
+    local_04 = Item.getQHi(local_08);
+    local_06 = Item.getQLo(local_08);
+    if (Item.legal_create(0, 0x02c3, local_10)) {
       if (local_04) {
       }
     }

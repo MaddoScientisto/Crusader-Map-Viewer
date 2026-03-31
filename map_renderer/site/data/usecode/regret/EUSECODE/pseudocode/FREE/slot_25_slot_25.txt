@@ -12,24 +12,14 @@ function free_slot_25() /* entry=2591 class_id=0x0a1d slot=0x25 */
       if (Kernel.getNumProcesses(0x0215, 0) > 1) {
         return;
       }
-      /* global_address */
-      if ((intrinsic_0143() == 1) || (global[0x000b] == 0)) {
+      if ((Actor.isDead(&global[0x001e]) == 1) || (global[0x000b] == 0)) {
         return;
       }
       if (global[0x000d]) {
-        /* global_address */
-        /* global_address */
-        /* global_address */
-        /* global_address */
         spawn FREE.slot_3b(pid, 120, 0x00000000);
         suspend;
       }
       else {
-        /* global_address */
-        /* global_address */
-        /* global_address */
-        /* global_address */
-        /* global_address */
         spawn FREE.slot_3b(pid, 100, 0x00000000);
         suspend;
       }

@@ -1,39 +1,58 @@
 function wshockew_gotHit() /* entry=1104 class_id=0x044e slot=0x06 */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    vel, /* [BP+12h] type=0x69 */
+    item, /* [BP-02h] type=0x24 */
+    n, /* [BP-04h] type=0x24 */
+    x, /* [BP-06h] type=0x69 */
+    y, /* [BP-08h] type=0x69 */
+    y1, /* [BP-10h] type=0x69 */
+    z, /* [BP-12h] type=0x69 */
+    z1, /* [BP-14h] type=0x69 */
+    shocker, /* [BP-16h] type=0x24 */
+    a, /* [BP-18h] type=0x69 */
+    b, /* [BP-20h] type=0x69 */
+    c, /* [BP-22h] type=0x69 */
+    d, /* [BP-24h] type=0x69 */
+    e, /* [BP-26h] type=0x69 */
+    shockCount; /* [BP-28h] type=0x69 */
+
   set_info(0x020c, *(arg_06));
   process_exclude();
-  local_02 = arg_10;
-  if (Actor.isNPC(local_02)) {
-    local_04 = local_02;
-    while (intrinsic_00a5(arg_10, arg_06) == 1) {
-      local_06 = intrinsic_0013(arg_06);
-      local_08 = intrinsic_012f(arg_06);
-      local_10 = Item.legal_create(arg_06);
-      local_12 = intrinsic_0130(local_02);
-      local_14 = Item.getZ(local_02);
-      local_18 = (local_10 - local_08);
-      local_18 = (local_18 * 2);
-      local_20 = (local_12 - local_14);
-      local_20 = ((local_20 / 2) * 3);
+  item = ref;
+  if (Actor.isNPC(item)) {
+    n = item;
+    while (Item.isOn(ref, arg_06) == 1) {
+      x = Item.getX(arg_06);
+      y = Actor.createActorCru(arg_06);
+      y1 = Item.getY(arg_06);
+      z = Actor.clrImmortal(item);
+      z1 = Item.getZ(item);
+      a = (y1 - y);
+      a = (a * 2);
+      b = (z - z1);
+      b = ((b / 2) * 3);
       FREE.slot_20(2);
-      local_22 = (retval + 1);
-      while (local_22 != 0) {
-        FREE.slot_20(local_18);
-        local_24 = retval;
-        local_24 = (local_10 - local_24);
-        local_08 = local_24;
-        FREE.slot_20(local_20);
-        local_26 = retval;
-        local_26 = (local_26 + local_14);
-        local_12 = local_26;
-        if (intrinsic_001f(0, 0x045a, local_16)) {
-          local_22 = 1;
-          local_28 = (1 + local_28);
+      c = (retval + 1);
+      while (c != 0) {
+        FREE.slot_20(a);
+        d = retval;
+        d = (y1 - d);
+        y = d;
+        FREE.slot_20(b);
+        e = retval;
+        e = (e + z1);
+        z = e;
+        if (Item.create(0, 0x045a, shocker)) {
+          c = 1;
+          shockCount = (1 + shockCount);
         }
         FREE.slot_20(pid, 30);
         spawn FREE.slot_32(retval, 0x00000000);
         suspend;
-        local_22 = (local_22 - 1);
+        c = (c - 1);
       }
       spawn FREE.slot_32(pid, 60, 0x00000000);
       suspend;
@@ -42,5 +61,4 @@ function wshockew_gotHit() /* entry=1104 class_id=0x044e slot=0x06 */
     suspend;
   }
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

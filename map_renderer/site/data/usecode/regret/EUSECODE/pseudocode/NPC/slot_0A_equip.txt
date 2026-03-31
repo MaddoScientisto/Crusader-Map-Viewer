@@ -2,7 +2,7 @@ function npc_equip() /* entry=2577 class_id=0x0a0f slot=0x0a */
 {
   set_info(0x0211, *(arg_06));
   process_exclude();
-  if (intrinsic_00bb(arg_06)) {
+  if (Actor.isDead(arg_06)) {
     return;
   }
   else if (arg_10 == 1) {
@@ -21,7 +21,7 @@ function npc_equip() /* entry=2577 class_id=0x0a0f slot=0x0a */
     spawn FREE.slot_3b(pid, 2, 0x00000000);
     suspend;
     local_02 = Camera.getX();
-    local_04 = intrinsic_00d4();
+    local_04 = CameraProcess.getCameraY();
     local_06 = Item.getX(arg_06);
     local_08 = Item.getY(arg_06);
     spawn NPC.slot_29(pid, local_08, local_06, local_04, local_02, arg_06);
@@ -31,9 +31,9 @@ function npc_equip() /* entry=2577 class_id=0x0a0f slot=0x0a */
     return;
   }
   else if (arg_10 == 30) {
-    local_10 = intrinsic_00d5(1, arg_06);
-    local_12 = intrinsic_00d5(2, arg_06);
-    local_14 = intrinsic_00d5(0, arg_06);
+    local_10 = Actor.getEquip(1, arg_06);
+    local_12 = Actor.getEquip(2, arg_06);
+    local_14 = Actor.getEquip(0, arg_06);
     return;
   }
   else if (arg_10 == 31) {

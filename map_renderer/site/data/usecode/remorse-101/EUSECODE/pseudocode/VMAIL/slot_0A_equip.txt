@@ -2,8 +2,6 @@ function vmail_equip() /* entry=873 class_id=0x0367 slot=0x0a */
 {
   set_info(0x0211, *(arg_06));
   process_exclude();
-  /* global_address */
-  /* global_address */
   suspend;
   /* concat */
   /* concat */
@@ -23,8 +21,8 @@ function vmail_equip() /* entry=873 class_id=0x0367 slot=0x0a */
   /* concat */
   /* concat */
   /* free_local_string */
-  local_02 = intrinsic_010e(global[0x001c]);
-  spawn FREE.waitNTimerTicks("KILL BOARD:^-----------^Guards: ", intrinsic_010e(global[0x000c]), "^Soldiers: ", intrinsic_010e(global[0x000e]), "^Storm troopers: ", intrinsic_010e(global[0x0010]), "^Elite troopers: ", intrinsic_010e(global[0x0012]), "^Enforcers: ", intrinsic_010e(global[0x0014]), "^^Androids: ", intrinsic_010e(global[0x0016]), "^Thermatrons: ", intrinsic_010e(global[0x0018]), "^Vetrons: ", intrinsic_010e(global[0x001a]), pid, 10, 0x00000000);
+  local_02 = Item.andStatus(global[0x001c]);
+  spawn FREE.waitNTimerTicks("KILL BOARD:^-----------^Guards: ", Item.andStatus(global[0x000c]), "^Soldiers: ", Item.andStatus(global[0x000e]), "^Storm troopers: ", Item.andStatus(global[0x0010]), "^Elite troopers: ", Item.andStatus(global[0x0012]), "^Enforcers: ", Item.andStatus(global[0x0014]), "^^Androids: ", Item.andStatus(global[0x0016]), "^Thermatrons: ", Item.andStatus(global[0x0018]), "^Vetrons: ", Item.andStatus(global[0x001a]), pid, 10, 0x00000000);
   suspend;
   if (global[0x0020] == 4) {
     /* str_to_ptr */

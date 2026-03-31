@@ -5,14 +5,14 @@ function npc_slot_27() /* entry=2580 class_id=0x0a12 slot=0x27 */
     spawn FREE.slot_3b(pid, 2, 0x00000000);
     suspend;
   }
-  if (intrinsic_00d2(arg_06)) {
+  if (Actor.setCombatTactic(arg_06)) {
     return;
   }
   else if (arg_10 == 0) {
-    local_02 = intrinsic_0052(arg_06);
-    local_04 = intrinsic_00ed(arg_06);
-    local_06 = intrinsic_00ee(arg_06);
-    local_08 = intrinsic_00ef(arg_06);
+    local_02 = Actor.setDefaultActivity2(arg_06);
+    local_04 = Item.hurl(arg_06);
+    local_06 = Item.getNpcNum(arg_06);
+    local_08 = Item.hurl(arg_06);
     if (local_02 == 112) {
     }
     else if (local_02 == 113) {

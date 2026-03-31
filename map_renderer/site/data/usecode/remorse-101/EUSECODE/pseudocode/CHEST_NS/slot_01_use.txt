@@ -6,7 +6,7 @@ function chest_ns_use() /* entry=1361 class_id=0x054f slot=0x01 */
     return;
   }
   else if (Item.getFrame(arg_06) == 1) {
-    FREE.slot_2d(Item.getZ(arg_06), Item.legal_create(arg_06), intrinsic_0013(arg_06), 5, 0x054a, *(arg_06));
+    FREE.slot_2d(Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06), 5, 0x054a, *(arg_06));
     if (retval) {
       local_06 = 5;
       while (local_06 <= 9) {
@@ -20,7 +20,7 @@ function chest_ns_use() /* entry=1361 class_id=0x054f slot=0x01 */
     }
   }
   else {
-    FREE.slot_2d(Item.getZ(arg_06), Item.legal_create(arg_06), intrinsic_0013(arg_06), 0, 0x054a, *(arg_06));
+    FREE.slot_2d(Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06), 0, 0x054a, *(arg_06));
     if (retval) {
       local_06 = 0;
       while (local_06 <= 4) {
@@ -35,22 +35,16 @@ function chest_ns_use() /* entry=1361 class_id=0x054f slot=0x01 */
   }
   spawn TRIGGER.slot_2a(pid, 0, *(arg_06), arg_06);
   suspend;
-  local_08 = (intrinsic_0013(arg_06) + 56);
-  local_10 = (Item.legal_create(arg_06) + 64);
+  local_08 = (Item.getX(arg_06) + 56);
+  local_10 = (Item.getY(arg_06) + 64);
   for local_02 in nearby_items(shape=0x0476, origin=arg_06) {
-    if (intrinsic_002b(arg_06) == intrinsic_002b(local_02)) {
+    if (Item.getQLo(arg_06) == Item.getQLo(local_02)) {
       FREE.slot_2e(local_02);
       local_04 = retval;
-      if ((((intrinsic_003b(local_04) == 10) || (intrinsic_003b(local_04) == 11)) || (intrinsic_003b(local_04) == 12)) || (intrinsic_003b(local_04) == 13)) {
-        if (!intrinsic_0037(1, local_04)) {
-          /* global_address */
-          if (intrinsic_0011() == 40) {
+      if ((((Item.setQLo(local_04) == 10) || (Item.setQLo(local_04) == 11)) || (Item.setQLo(local_04) == 12)) || (Item.setQLo(local_04) == 13)) {
+        if (!MainActor.addItemCru(1, local_04)) {
+          if (Actor.getMap(&global[0x003d]) == 40) {
             local_08 = (local_08 - 32);
-          }
-          else {
-            /* global_address */
-            /* global_address */
-            /* global_address */
           }
         }
       }
@@ -59,7 +53,6 @@ function chest_ns_use() /* entry=1361 class_id=0x054f slot=0x01 */
         suspend;
       }
     }
-    /* loopnext */
   }
   return;
 }

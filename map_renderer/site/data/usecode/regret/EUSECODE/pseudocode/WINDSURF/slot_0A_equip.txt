@@ -11,11 +11,10 @@ function windsurf_equip() /* entry=825 class_id=0x0337 slot=0x0a */
     /* loop */
     while (condition) {
       if (local_02 != *(arg_06)) {
-        if (intrinsic_00a4(local_02, arg_06)) {
+        if (Item.overlaps(local_02, arg_06)) {
           spawn WINDSURF.gotHit(0, local_02, arg_06);
         }
       }
-      /* loopnext */
     }
   }
   return;

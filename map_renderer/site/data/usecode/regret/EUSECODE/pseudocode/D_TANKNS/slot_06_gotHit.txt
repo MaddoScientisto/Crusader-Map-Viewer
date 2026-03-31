@@ -12,10 +12,9 @@ function d_tankns_gotHit() /* entry=1123 class_id=0x0461 slot=0x06 */
       if (retval) {
         spawn NPC.slot_2c(local_02);
       }
-      else if (!intrinsic_0074(local_02)) {
+      else if (!Actor.isDead(local_02)) {
         spawn NPC.slot_2d(6, local_02);
       }
-      /* loopnext */
     }
     if (!(global[0x0005])) {
       suspend;

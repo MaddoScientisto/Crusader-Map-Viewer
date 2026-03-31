@@ -10,47 +10,35 @@ function miss9_slot_20() /* entry=2327 class_id=0x0915 slot=0x20 */
 
   set_info(0x0001, *(arg_06));
   /* pop_global */
-  /* global_address */
-  while (intrinsic_0033()) {
+  while (Actor.isBusy(&global[0x003c])) {
     spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
     suspend;
   }
-  /* global_address */
-  /* global_address */
   suspend;
   for item in nearby_items(shape=0x04c6, origin=arg_06) {
     station = item;
-    /* loopnext */
   }
   for item in nearby_items(shape=0x037a, origin=arg_06) {
-    if (intrinsic_00d9(item) == 99) {
+    if (Item.getQLo(item) == 99) {
       screen = item;
     }
-    /* loopnext */
   }
   for item in nearby_items(shape=0x053a, origin=arg_06) {
     target = item;
-    /* loopnext */
   }
   if (target) {
     for item in nearby_items(shape=15, origin=arg_06) {
-      /* loopnext */
     }
     FREE.slot_29(*(arg_06), global[0x003c]);
     while ((retval > 2) && (counter != 6)) {
-      /* global_address */
-      /* global_address */
-      /* global_address */
-      spawn NPC.slot_22(intrinsic_0034(intrinsic_0013(pid, 1, Item.legal_create(Item.legal_create(arg_06), intrinsic_0013(arg_06)))));
+      spawn NPC.slot_22(Item.getDirFromTo16(pid, 1, Item.getY(arg_06), Item.getX(Item.getY(Item.getX(arg_06), &global[0x003c]), &global[0x003c])), &global[0x003c]);
       suspend;
       counter = (1 + counter);
     }
-    /* global_address */
-    /* global_address */
     suspend;
     spawn FREE.waitNTimerTicks(pid, 120, 0x00000000);
     suspend;
-    spawn FREE.slot_3d(pid, Item.legal_create(target), intrinsic_0013(target), 0x00000000);
+    spawn FREE.slot_3d(pid, Item.getY(target), Item.getX(target), 0x00000000);
     suspend;
     spawn FREE.waitNTimerTicks(pid, 100, 0x00000000);
     suspend;
@@ -66,7 +54,6 @@ function miss9_slot_20() /* entry=2327 class_id=0x0915 slot=0x20 */
     spawn FREE.waitNTimerTicks(pid, 100, 0x00000000);
     suspend;
     for item in nearby_items(shape=TELEPORTER_LIGHTS, origin=arg_06) {
-      /* loopnext */
     }
     spawn FREE.slot_26(pid, "9f", 0x00000000);
     /* free_stack_string */

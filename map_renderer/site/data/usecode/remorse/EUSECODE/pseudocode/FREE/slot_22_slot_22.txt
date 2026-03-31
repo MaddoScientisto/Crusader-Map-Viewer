@@ -72,14 +72,11 @@ function free_slot_22() /* entry=2574 class_id=0x0a0c slot=0x22 */
       if (!(global[0x0006])) {
         return;
       }
-      /* global_address */
-      if (!Kernel.resetRef()) {
-        /* global_address */
+      if (!Actor.isDead(&global[0x003c])) {
         /* pop_global */
         spawn FREE.waitNTimerTicks(0, pid, 10, 0x00000000);
         suspend;
         /* str_to_ptr */
-        /* global_address */
         /* free_stack_string */
         suspend;
         return;

@@ -1,20 +1,26 @@
 function pplate_gotHit() /* entry=410 class_id=0x0198 slot=0x06 */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    vel, /* [BP+12h] type=0x69 */
+    item; /* [BP-02h] type=0x24 */
+
   set_info(0x020c, *(arg_06));
   process_exclude();
-  FREE.slot_2c(arg_12, arg_10);
+  FREE.slot_2c(vel, ref);
   if (retval) {
     return;
   }
-  else if (intrinsic_0003(arg_06) != 0) {
-    local_02 = arg_10;
-    if ((intrinsic_005a(arg_06) == 0) || (intrinsic_005b(*(arg_06), local_02) == 0)) {
+  else if (Item.getMapArray(arg_06) != 0) {
+    item = ref;
+    if ((Actor.getLastAnimSet(arg_06) == 0) || (Item.legal_create(*(arg_06), item) == 0)) {
       return;
     }
     spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
     suspend;
     while (1) {
-      if (intrinsic_005a(arg_06) != 0) {
+      if (Actor.getLastAnimSet(arg_06) != 0) {
         spawn FREE.slot_32(pid, 2, 0x00000000);
         suspend;
       }
@@ -26,5 +32,4 @@ function pplate_gotHit() /* entry=410 class_id=0x0198 slot=0x06 */
     }
   }
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

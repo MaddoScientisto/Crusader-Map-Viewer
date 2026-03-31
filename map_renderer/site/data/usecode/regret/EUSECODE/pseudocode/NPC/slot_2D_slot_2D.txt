@@ -9,13 +9,9 @@ function npc_slot_2d() /* entry=2577 class_id=0x0a0f slot=0x2d */
   else {
     local_02 = 1;
     while (local_02 <= arg_10) {
-      if (*(arg_06) == intrinsic_0016()) {
+      if (*(arg_06) == World.getControlledNPCNum()) {
         if (*(arg_06) == 1) {
           if (global[0x000d]) {
-            /* global_address */
-            /* global_address */
-            /* global_address */
-            /* global_address */
             spawn FREE.slot_3b(pid, 120, 0x00000000);
             suspend;
           }

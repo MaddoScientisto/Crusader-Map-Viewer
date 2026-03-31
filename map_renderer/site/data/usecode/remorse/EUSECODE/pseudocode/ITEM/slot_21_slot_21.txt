@@ -1,15 +1,19 @@
 function item_slot_21() /* entry=2592 class_id=0x0a1e slot=0x21 */
 {
-  local_02 = arg_10;
-  if (arg_10) {
-    if (intrinsic_003c(local_02) == 6) {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    targetRef, /* [BP+10h] type=0x69 */
+    targetItem, /* [BP-02h] type=0x24 */
+    item; /* [BP-04h] type=0x24 */
+
+  targetItem = targetRef;
+  if (targetRef) {
+    if (Item.getItemFamily(targetItem) == 6) {
       /* loopscr */
       /* loop */
       while (condition) {
-        /* loopnext */
       }
     }
   }
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

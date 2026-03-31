@@ -2,7 +2,7 @@ function npc_equip() /* entry=2579 class_id=0x0a11 slot=0x0a */
 {
   set_info(0x0211, *(arg_06));
   process_exclude();
-  if (Kernel.resetRef(arg_06)) {
+  if (Actor.isDead(arg_06)) {
     return;
   }
   else if (arg_10 == 1) {
@@ -17,10 +17,10 @@ function npc_equip() /* entry=2579 class_id=0x0a11 slot=0x0a */
   else if (arg_10 == 10) {
     spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
     suspend;
-    local_02 = intrinsic_007f();
-    local_04 = intrinsic_0080();
-    local_06 = intrinsic_0013(arg_06);
-    local_08 = Item.legal_create(arg_06);
+    local_02 = Item.setQuality();
+    local_04 = Item.use();
+    local_06 = Item.getX(arg_06);
+    local_08 = Item.getY(arg_06);
     spawn NPC.slot_29(pid, local_08, local_06, local_04, local_02, arg_06);
     suspend;
     spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
@@ -28,9 +28,9 @@ function npc_equip() /* entry=2579 class_id=0x0a11 slot=0x0a */
     return;
   }
   else if (arg_10 == 30) {
-    local_10 = intrinsic_00d7(1, arg_06);
-    local_12 = intrinsic_00d7(2, arg_06);
-    local_14 = intrinsic_00d7(0, arg_06);
+    local_10 = Actor.getLastAnimSet(1, arg_06);
+    local_12 = Actor.getLastAnimSet(2, arg_06);
+    local_14 = Actor.getLastAnimSet(0, arg_06);
     return;
   }
   else if (arg_10 == 31) {

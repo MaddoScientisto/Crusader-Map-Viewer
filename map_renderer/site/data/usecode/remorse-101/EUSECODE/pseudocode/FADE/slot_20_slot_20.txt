@@ -18,15 +18,11 @@ function fade_slot_20() /* entry=1278 class_id=0x04fc slot=0x20 */
       suspend;
       local_02 = (1 + local_02);
     }
-    /* global_address */
-    if (!Kernel.resetRef()) {
-      /* global_address */
-      /* global_address */
+    if (!Actor.isDead(&global[0x003d])) {
       spawn FREE.waitNTimerTicks(pid, 0x00c8, 0x00000000);
       suspend;
     }
     /* pop_global */
-    /* global_address */
   }
   return;
 }

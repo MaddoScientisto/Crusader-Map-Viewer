@@ -1,18 +1,25 @@
 function free_slot_2a() /* entry=2575 class_id=0x0a0d slot=0x2a */
 {
-  local_06 = 0x7d00;
-  local_04 = 0;
-  for local_02 in nearby_items(shape=arg_08, origin=global[0x003c]) {
-    if (Item.getFrame(local_02) == arg_10) {
-      FREE.slot_28(local_02, global[0x003c]);
-      local_08 = retval;
-      if (local_08 < local_06) {
-        local_06 = local_08;
-        local_04 = local_02;
+  var
+    range, /* [BP+06h] type=0x69 */
+    t, /* [BP+08h] type=0x69 */
+    f, /* [BP+10h] type=0x69 */
+    item, /* [BP-02h] type=0x24 */
+    closestItem, /* [BP-04h] type=0x24 */
+    closest, /* [BP-06h] type=0x69 */
+    dist; /* [BP-08h] type=0x69 */
+
+  closest = 0x7d00;
+  closestItem = 0;
+  for item in nearby_items(shape=t, origin=global[0x003c]) {
+    if (Item.getFrame(item) == f) {
+      FREE.slot_28(item, global[0x003c]);
+      dist = retval;
+      if (dist < closest) {
+        closest = dist;
+        closestItem = item;
       }
     }
-    /* loopnext */
   }
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

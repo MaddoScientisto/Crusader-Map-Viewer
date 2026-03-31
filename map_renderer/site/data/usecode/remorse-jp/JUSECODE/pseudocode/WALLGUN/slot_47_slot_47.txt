@@ -1,27 +1,37 @@
 function wallgun_slot_47() /* entry=2591 class_id=0x0a1d slot=0x47 */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    dir, /* [BP+10h] type=0x62 */
+    x1, /* [BP-02h] type=0x69 */
+    x2, /* [BP-04h] type=0x69 */
+    y1, /* [BP-06h] type=0x69 */
+    y2, /* [BP-08h] type=0x69 */
+    z1, /* [BP-09h] type=0x62 */
+    z2, /* [BP-10h] type=0x62 */
+    ammo; /* [BP-12h] type=0x69 */
+
   set_info(0x0001, *(arg_06));
   spawn FREE.slot_32(pid, 1, 0x00000000);
   suspend;
   WALLGUN.slot_44(arg_06);
-  local_12 = retval;
-  arg_10 = (arg_10 & 15);
-  WALLGUN.slot_3e(arg_10, arg_06);
-  local_02 = retval;
-  WALLGUN.slot_3f(arg_10, arg_06);
-  local_06 = retval;
-  WALLGUN.slot_40(arg_10, arg_06);
-  local_09 = retval;
+  ammo = retval;
+  dir = (dir & 15);
+  WALLGUN.slot_3e(dir, arg_06);
+  x1 = retval;
+  WALLGUN.slot_3f(dir, arg_06);
+  y1 = retval;
+  WALLGUN.slot_40(dir, arg_06);
+  z1 = retval;
   WALLGUN.slot_29(arg_06);
   if (retval) {
-    WALLGUN.slot_41(arg_10, arg_06);
-    local_04 = retval;
-    WALLGUN.slot_42(arg_10, arg_06);
-    local_08 = retval;
-    WALLGUN.slot_43(arg_10, arg_06);
-    local_10 = retval;
+    WALLGUN.slot_41(dir, arg_06);
+    x2 = retval;
+    WALLGUN.slot_42(dir, arg_06);
+    y2 = retval;
+    WALLGUN.slot_43(dir, arg_06);
+    z2 = retval;
     return;
   }
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

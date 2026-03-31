@@ -6,9 +6,9 @@ function alarmbox_use() /* entry=1145 class_id=0x0477 slot=0x01 */
 
   set_info(0x0207, *(arg_06));
   process_exclude();
-  if (intrinsic_0000()) {
+  if (World.getAlertActive()) {
     spawn FREE.slot_3c(0x00000000);
-    if (intrinsic_0003(arg_06) != 0) {
+    if (Item.getMapArray(arg_06) != 0) {
       spawn TRIGGER.slot_20(pid, 1, *(arg_06), arg_06);
       suspend;
     }

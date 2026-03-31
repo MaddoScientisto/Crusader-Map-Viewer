@@ -1,15 +1,21 @@
 function rfanns_gotHit() /* entry=191 class_id=0x00bd slot=0x06 */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    vel, /* [BP+12h] type=0x69 */
+    item, /* [BP-02h] type=0x24 */
+    fart, /* [BP-04h] type=0x69 */
+    fart2; /* [BP-06h] type=0x69 */
+
   set_info(0x020c, *(arg_06));
   process_exclude();
-  FREE.slot_2b(arg_12, arg_10);
+  FREE.slot_2b(vel, ref);
   if (retval) {
-    local_06 = intrinsic_00fc(arg_06);
-    for local_02 in nearby_items(shape=WIND_AREA, origin=arg_06) {
-      local_04 = intrinsic_00fc(local_02);
-      /* loopnext */
+    fart2 = Item.andStatus(arg_06);
+    for item in nearby_items(shape=WIND_AREA, origin=arg_06) {
+      fart = Item.andStatus(item);
     }
   }
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

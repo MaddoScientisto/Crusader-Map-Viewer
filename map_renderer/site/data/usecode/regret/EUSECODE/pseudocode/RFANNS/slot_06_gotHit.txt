@@ -4,10 +4,9 @@ function rfanns_gotHit() /* entry=191 class_id=0x00bd slot=0x06 */
   process_exclude();
   FREE.slot_34(arg_12, arg_10);
   if (retval) {
-    local_06 = intrinsic_00fd(arg_06);
+    local_06 = Item.getQLo(arg_06);
     for local_02 in nearby_items(shape=PLACEHOLDER_CUBE_0337, origin=arg_06) {
-      local_04 = intrinsic_00fd(local_02);
-      /* loopnext */
+      local_04 = Item.getQLo(local_02);
     }
   }
   return;

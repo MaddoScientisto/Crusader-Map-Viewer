@@ -1,19 +1,14 @@
 function npc_slot_23() /* entry=2579 class_id=0x0a11 slot=0x23 */
 {
   set_info(0x020a, *(arg_06));
-  /* global_address */
-  if (intrinsic_0011((*(arg_06) != 1)) == 40) {
-    /* global_address */
-  }
   for local_02 in selector_0x42(arg0=0x01db, arg1=0x043d, arg2=(5 * 32), origin=arg_06) {
     local_04 = local_02;
-    /* loopnext */
   }
   /* loopscr */
   /* loopscr */
   /* loop */
   while (condition) {
-    if (intrinsic_0016(local_02) == 0x018e) {
+    if (Item.getShape(local_02) == TELEPAD_RED) {
       if (!Item.getFrame(local_02)) {
         local_06 = 1;
       }
@@ -21,24 +16,18 @@ function npc_slot_23() /* entry=2579 class_id=0x0a11 slot=0x23 */
     else if (Item.getFrame(local_02)) {
       local_06 = 1;
     }
-    /* loopnext */
   }
   spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
   suspend;
-  /* global_address */
   if (!local_06) {
     suspend;
   }
   else {
     suspend;
   }
-  /* global_address */
-  if (intrinsic_003a(48)) {
+  if (AudioProcess.isSFXPlayingForObject(48, &global[0x003d])) {
     spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
     suspend;
-  }
-  if (*(arg_06) == 1) {
-    /* global_address */
   }
   return;
 }

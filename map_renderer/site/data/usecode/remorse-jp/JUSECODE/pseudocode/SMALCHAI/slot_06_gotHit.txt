@@ -1,46 +1,55 @@
 function smalchai_gotHit() /* entry=509 class_id=0x01fb slot=0x06 */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    vel, /* [BP+12h] type=0x69 */
+    fram, /* [BP-02h] type=0x69 */
+    item, /* [BP-04h] type=0x24 */
+    count, /* [BP-06h] type=0x69 */
+    spin, /* [BP-08h] type=0x69 */
+    direction; /* [BP-10h] type=0x69 */
+
   set_info(0x020c, *(arg_06));
   process_exclude();
-  local_02 = Item.getFrame(arg_06);
-  if (local_02 > 7) {
+  fram = Item.getFrame(arg_06);
+  if (fram > 7) {
     return;
   }
   else {
-    FREE.slot_2c(arg_12, arg_10);
+    FREE.slot_2c(vel, ref);
     if (retval) {
       FREE.slot_20(10);
-      local_08 = (retval + 5);
+      spin = (retval + 5);
       FREE.slot_20(1);
-      local_10 = retval;
-      if (local_10 == 0) {
-        local_06 = 1;
-        while (local_06 <= local_08) {
-          local_02 = (local_02 + 1);
-          if (local_02 == 8) {
-            local_02 = 0;
+      direction = retval;
+      if (direction == 0) {
+        count = 1;
+        while (count <= spin) {
+          fram = (fram + 1);
+          if (fram == 8) {
+            fram = 0;
           }
           spawn FREE.slot_32(pid, 5, 0x00000000);
           suspend;
-          local_06 = (1 + local_06);
+          count = (1 + count);
         }
         return;
       }
-      else if (local_10 == 1) {
-        local_06 = 1;
-        while (local_06 <= local_08) {
-          local_02 = (local_02 - 1);
-          if (local_02 == -1) {
-            local_02 = 7;
+      else if (direction == 1) {
+        count = 1;
+        while (count <= spin) {
+          fram = (fram - 1);
+          if (fram == -1) {
+            fram = 7;
           }
           spawn FREE.slot_32(pid, 5, 0x00000000);
           suspend;
-          local_06 = (1 + local_06);
+          count = (1 + count);
         }
         return;
       }
     }
   }
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

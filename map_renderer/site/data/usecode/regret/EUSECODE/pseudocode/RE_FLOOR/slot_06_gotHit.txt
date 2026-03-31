@@ -3,23 +3,18 @@ function re_floor_gotHit() /* entry=314 class_id=0x0138 slot=0x06 */
   set_info(0x020c, *(arg_06));
   process_exclude();
   local_02 = arg_10;
-  if (((arg_10 == 1) && (Item.getFrame(arg_06) < 2)) && (intrinsic_00fd(arg_06) == 0)) {
-    if (!intrinsic_005c(*(arg_06), local_02)) {
+  if (((arg_10 == 1) && (Item.getFrame(arg_06) < 2)) && (Item.getQLo(arg_06) == 0)) {
+    if (!Item.isCentreOn(*(arg_06), local_02)) {
       return;
     }
     else {
-      /* global_address */
       suspend;
-      /* global_address */
-      /* global_address */
       suspend;
-      /* global_address */
       suspend;
       /* loopscr */
       /* loopscr */
       /* loop */
       while (condition) {
-        /* loopnext */
       }
       spawn FREE.slot_3b(pid, 60, 0x00000000);
       suspend;
@@ -31,7 +26,6 @@ function re_floor_gotHit() /* entry=314 class_id=0x0138 slot=0x06 */
       /* loopscr */
       /* loop */
       while (condition) {
-        /* loopnext */
       }
     }
   }

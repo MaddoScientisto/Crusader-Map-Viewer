@@ -1,31 +1,28 @@
 function lift_gotHit() /* entry=309 class_id=0x0133 slot=0x06 */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    vel, /* [BP+12h] type=0x69 */
+    item; /* [BP-02h] type=0x24 */
+
   set_info(0x020c, *(arg_06));
   process_exclude();
-  local_02 = arg_10;
-  FREE.slot_2c(arg_12, arg_10);
+  item = ref;
+  FREE.slot_2c(vel, ref);
   if (retval) {
     return;
   }
-  else if (arg_10 != 1) {
+  else if (ref != 1) {
     return;
   }
-  else if (intrinsic_007f(arg_06) == 1) {
-    /* global_address */
-    if (intrinsic_0036()) {
+  else if (Item.setQuality(arg_06) == 1) {
+    if (Actor.doAnim(&global[0x003c])) {
       spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
       suspend;
     }
-    /* global_address */
-    /* global_address */
-    /* global_address */
-    /* global_address */
-    /* global_address */
     suspend;
-    /* global_address */
-    /* global_address */
     suspend;
-    /* global_address */
     suspend;
     spawn LIFT.slot_20(pid, arg_06);
     suspend;
@@ -33,24 +30,18 @@ function lift_gotHit() /* entry=309 class_id=0x0133 slot=0x06 */
     suspend;
     return;
   }
-  else if (intrinsic_007f(arg_06) == 10) {
-    /* global_address */
-    if (intrinsic_0036()) {
+  else if (Item.setQuality(arg_06) == 10) {
+    if (Actor.doAnim(&global[0x003c])) {
       spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
       suspend;
     }
-    /* global_address */
-    /* global_address */
     suspend;
-    /* global_address */
     suspend;
     spawn LIFT.slot_20(pid, arg_06);
     suspend;
     suspend;
-    /* global_address */
     suspend;
     return;
   }
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

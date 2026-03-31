@@ -13,7 +13,7 @@ function moveflor_equip() /* entry=166 class_id=0x00a4 slot=0x0a */
   }
   else if (arg_10 == 0) {
     ITEM.slot_26(0x1000, arg_06);
-    if ((retval == 1) || (intrinsic_00ce(arg_06) == 0)) {
+    if ((retval == 1) || (Item.getQHi(arg_06) == 0)) {
       return;
     }
     else {

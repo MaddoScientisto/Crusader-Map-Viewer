@@ -1,17 +1,23 @@
 function fight_e2_gotHit() /* entry=408 class_id=0x0196 slot=0x06 */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    vel, /* [BP+12h] type=0x69 */
+    item; /* [BP-02h] type=0x24 */
+
   set_info(0x020c, *(arg_06));
   process_exclude();
-  if (intrinsic_0004(arg_06) & 0x1000) {
+  if (Item.getStatus(arg_06) & 0x1000) {
     return;
   }
   else {
-    FREE.slot_2c(arg_12, arg_10);
+    FREE.slot_2c(vel, ref);
     if (!retval) {
       return;
     }
     else {
-      spawn ITEM.slot_27(pid, 0x00c8, arg_12, arg_10, arg_06);
+      spawn ITEM.slot_27(pid, 0x00c8, vel, ref, arg_06);
       suspend;
       /* dword_to_word */
       if (!process_result) {
@@ -25,16 +31,14 @@ function fight_e2_gotHit() /* entry=408 class_id=0x0196 slot=0x06 */
         /* loopscr */
         /* loop */
         while (condition) {
-          ITEM.slot_23(0x1000, local_02);
-          if (!Item.getFrame(local_02)) {
-            if ((intrinsic_0016(local_02) == 0x0196) || (intrinsic_0016(local_02) == 0x018f)) {
+          ITEM.slot_23(0x1000, item);
+          if (!Item.getFrame(item)) {
+            if ((Item.getShape(item) == 0x0196) || (Item.getShape(item) == 0x018f)) {
             }
           }
-          /* loopnext */
         }
       }
     }
   }
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

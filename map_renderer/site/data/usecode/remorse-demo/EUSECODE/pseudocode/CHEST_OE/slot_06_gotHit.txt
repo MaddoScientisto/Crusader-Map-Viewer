@@ -1,18 +1,22 @@
 function chest_oe_gotHit() /* entry=1357 class_id=0x054b slot=0x06 */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    vel; /* [BP+12h] type=0x69 */
+
   set_info(0x020c, *(arg_06));
   process_exclude();
-  FREE.slot_2c(arg_12, arg_10);
+  FREE.slot_2c(vel, ref);
   if (!retval) {
     return;
   }
   else if (Item.getFrame(arg_06) < 10) {
-    FREE.slot_2c(arg_12, arg_10);
+    FREE.slot_2c(vel, ref);
     if (retval) {
       spawn ITEM.slot_28(pid, 0, 0, arg_06);
       suspend;
     }
   }
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

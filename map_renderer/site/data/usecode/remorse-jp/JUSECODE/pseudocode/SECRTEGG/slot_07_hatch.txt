@@ -11,12 +11,11 @@ function secrtegg_hatch() /* entry=2312 class_id=0x0906 slot=0x07 */
   process_exclude();
   id = 0;
   range = 32;
-  id = intrinsic_0041(arg_06);
+  id = CameraProcess.setCenterOn(arg_06);
   for door in selector_0x42(arg0=0x01ab, arg1=0x0393, arg2=(range * 32), origin=arg_06) {
-    if (id == intrinsic_00fc(door)) {
+    if (id == Item.andStatus(door)) {
       spawn DOOR.slot_20(door);
     }
-    /* loopnext */
   }
   return;
 }

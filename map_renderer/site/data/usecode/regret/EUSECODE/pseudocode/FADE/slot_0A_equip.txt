@@ -2,7 +2,7 @@ function fade_equip() /* entry=1278 class_id=0x04fc slot=0x0a */
 {
   set_info(0x0211, *(arg_06));
   process_exclude();
-  local_27 = intrinsic_0149(arg_06);
+  local_27 = Item.getQLo(arg_06);
   if (arg_10 == 1) {
     spawn FREE.slot_44(0x00000000);
     spawn FREE.slot_3b(pid, 0x03e8, 0x00000000);
@@ -27,7 +27,6 @@ function fade_equip() /* entry=1278 class_id=0x04fc slot=0x0a */
     /* free_stack_string */
     /* str_to_ptr */
     /* free_stack_string */
-    /* global_address */
     spawn FREE.slot_3b(pid, 5, 0x00000000);
     suspend;
     spawn FREE.slot_44(0x00000000);
@@ -38,9 +37,6 @@ function fade_equip() /* entry=1278 class_id=0x04fc slot=0x0a */
     /* pop_global */
     spawn FREE.slot_3b(1, pid, 2, 0x00000000);
     suspend;
-    /* global_address */
-    /* global_address */
-    /* global_address */
     spawn FREE.slot_3b(pid, 5, 0x00000000);
     suspend;
     return;
@@ -58,42 +54,30 @@ function fade_equip() /* entry=1278 class_id=0x04fc slot=0x0a */
     return;
   }
   else if (arg_10 == 0x00d2) {
-    /* global_address */
-    if (intrinsic_0061()) {
-      /* global_address */
-      /* global_address */
+    if (Intrinsic0061(&global[0x001e])) {
       suspend;
     }
-    /* global_address */
     suspend;
-    /* global_address */
     suspend;
-    /* global_address */
     suspend;
     for local_02 in nearby_items(shape=0x053a, origin=arg_06) {
-      if (intrinsic_0149(local_02) == 1) {
+      if (Item.getQLo(local_02) == 1) {
         FREE.slot_32(local_02, global[0x001e]);
         while ((retval > 3) && (local_15 != 10)) {
-          /* global_address */
-          /* global_address */
-          /* global_address */
-          spawn NPC.slot_22(intrinsic_00cd(Item.getX(pid, 1, Item.getY((Item.getY(local_02) - 32), (Item.getX(local_02) - 16)))));
+          spawn NPC.slot_22(Item.getDirFromTo16(pid, 1, (Item.getY(local_02) - 32), Item.getX(Item.getY((Item.getX(local_02) - 16), &global[0x001e]), &global[0x001e])), &global[0x001e]);
           suspend;
           local_15 = (1 + local_15);
         }
       }
-      /* loopnext */
     }
-    /* global_address */
     suspend;
     for local_02 in selector_0x42(arg0=0x04d9, arg1=0x03ac, arg2=(32 * 32), origin=arg_06) {
-      if (intrinsic_0011(local_02) == 0x04d9) {
+      if (Item.getShape(local_02) == 0x04d9) {
         local_39 = local_02;
       }
-      if (intrinsic_0011(local_02) == 0x03ac) {
+      if (Item.getShape(local_02) == 0x03ac) {
         local_41 = local_02;
       }
-      /* loopnext */
     }
     if (local_39) {
       suspend;
@@ -115,12 +99,7 @@ function fade_equip() /* entry=1278 class_id=0x04fc slot=0x0a */
     /* free_stack_string */
     /* str_to_ptr */
     /* free_stack_string */
-    /* global_address */
-    /* global_address */
-    /* global_address */
-    /* global_address */
     for local_02 in nearby_items(shape=TELEPORTER_LIGHTS, origin=arg_06) {
-      /* loopnext */
     }
     return;
   }
@@ -128,13 +107,12 @@ function fade_equip() /* entry=1278 class_id=0x04fc slot=0x0a */
     spawn FREE.slot_3b(pid, 0x00c8, 0x00000000);
     suspend;
     for local_02 in selector_0x42(arg0=0x04d9, arg1=0x03ac, arg2=(32 * 32), origin=arg_06) {
-      if (intrinsic_0011(local_02) == 0x04d9) {
+      if (Item.getShape(local_02) == 0x04d9) {
         local_39 = local_02;
       }
-      if (intrinsic_0011(local_02) == 0x03ac) {
+      if (Item.getShape(local_02) == 0x03ac) {
         local_41 = local_02;
       }
-      /* loopnext */
     }
     if (local_39) {
       suspend;
@@ -160,20 +138,18 @@ function fade_equip() /* entry=1278 class_id=0x04fc slot=0x0a */
       suspend;
     }
     for local_02 in nearby_items(shape=0x03ad, origin=arg_06) {
-      if (intrinsic_0149(local_02) == 78) {
+      if (Item.getQLo(local_02) == 78) {
         local_08 = local_02;
         spawn DOOR.slot_21(pid, 0, local_08);
         suspend;
       }
-      /* loopnext */
     }
     for local_02 in nearby_items(shape=0x01ee, origin=arg_06) {
-      if (intrinsic_0149(local_02) == 0x0084) {
+      if (Item.getQLo(local_02) == 0x0084) {
         local_08 = local_02;
         spawn DOOR.slot_21(pid, 0, local_08);
         suspend;
       }
-      /* loopnext */
     }
     spawn FREE.slot_3b(pid, 60, 0x00000000);
     suspend;
@@ -184,34 +160,25 @@ function fade_equip() /* entry=1278 class_id=0x04fc slot=0x0a */
     return;
   }
   else if (arg_10 == 0x00de) {
-    /* global_address */
-    if (intrinsic_0061()) {
-      /* global_address */
-      /* global_address */
+    if (Intrinsic0061(&global[0x001e])) {
       suspend;
     }
     for local_02 in nearby_items(shape=0x053a, origin=arg_06) {
-      if (intrinsic_0149(local_02) == 1) {
+      if (Item.getQLo(local_02) == 1) {
         FREE.slot_32(local_02, global[0x001e]);
         while ((retval > 3) && (local_15 != 10)) {
-          /* global_address */
-          /* global_address */
-          /* global_address */
-          spawn NPC.slot_22(intrinsic_00cd(Item.getX(pid, 1, Item.getY((Item.getY(local_02) - 32), (Item.getX(local_02) - 16)))));
+          spawn NPC.slot_22(Item.getDirFromTo16(pid, 1, (Item.getY(local_02) - 32), Item.getX(Item.getY((Item.getX(local_02) - 16), &global[0x001e]), &global[0x001e])), &global[0x001e]);
           suspend;
           local_15 = (1 + local_15);
         }
       }
-      /* loopnext */
     }
-    /* global_address */
     suspend;
     for local_08 in nearby_items(shape=0x05a4, origin=arg_06) {
-      if (intrinsic_0149(local_08) == 2) {
+      if (Item.getQLo(local_08) == 2) {
         spawn DOOR.slot_21(pid, 2, local_08);
         suspend;
       }
-      /* loopnext */
     }
     spawn FREE.slot_3b(pid, 60, 0x00000000);
     suspend;
@@ -220,9 +187,7 @@ function fade_equip() /* entry=1278 class_id=0x04fc slot=0x0a */
     spawn FREE.slot_21(pid, 0x01e6, 0x00000000);
     suspend;
     for local_25 in nearby_items(shape=0x05b1, origin=arg_06) {
-      /* loopnext */
     }
-    /* global_address */
     suspend;
     return;
   }

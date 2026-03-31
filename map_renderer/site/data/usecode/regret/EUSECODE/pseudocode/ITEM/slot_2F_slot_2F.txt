@@ -6,32 +6,30 @@ function item_slot_2f() /* entry=2574 class_id=0x0a0c slot=0x2f */
     return;
   }
   else {
-    local_06 = intrinsic_001f(local_02);
+    local_06 = Item.getQLo(local_02);
     for local_04 in nearby_items(shape=0x04d0, origin=local_02) {
-      if (intrinsic_001f(local_04) == local_06) {
+      if (Item.getQLo(local_04) == local_06) {
         if (Item.getFrame(local_04) == 1) {
           if ((arg_12 == 2) || (arg_12 == 3)) {
             for local_12 in nearby_items(family=6, origin=local_02) {
               if (Actor.isNPC(local_12)) {
-                if (!intrinsic_00bb(local_12)) {
+                if (!Actor.isDead(local_12)) {
                   /* word_to_dword */
                   /* pop_result */
                   return;
                 }
               }
-              /* loopnext */
             }
-            local_14 = intrinsic_00bc(local_04, arg_06);
+            local_14 = Actor.createNPCCru(local_04, arg_06);
             if (local_14) {
               local_10 = local_14;
-              local_08 = (intrinsic_00b7(local_02) & 15);
+              local_08 = (Item.getNpcNum(local_02) & 15);
               if ((local_08 == 2) || (local_08 == 4)) {
                 for local_16 in nearby_items(shape=DISRUPTER, origin=local_02) {
                   if (Item.getFrame(local_16) == 1) {
                     local_18 = local_16;
                     local_19 = 1;
                   }
-                  /* loopnext */
                 }
                 suspend;
                 spawn FREE.slot_3b(pid, 30, 0x00000000);
@@ -39,24 +37,24 @@ function item_slot_2f() /* entry=2574 class_id=0x0a0c slot=0x2f */
                 spawn FREE.slot_3b(pid, 30, 0x00000000);
                 suspend;
                 if (local_19) {
-                  if (intrinsic_0035(13, local_18)) {
+                  if (Intrinsic0035(13, local_18)) {
                     spawn FREE.slot_3b(pid, 2, 0x00000000);
                     suspend;
                   }
-                  if (intrinsic_0035(13, local_18)) {
+                  if (Intrinsic0035(13, local_18)) {
                     spawn FREE.slot_3b(pid, 2, 0x00000000);
                     suspend;
                   }
-                  if (intrinsic_0035(13, local_18)) {
+                  if (Intrinsic0035(13, local_18)) {
                     spawn FREE.slot_3b(pid, 2, 0x00000000);
                     suspend;
                   }
-                  while (!intrinsic_00bb(local_10)) {
+                  while (!Actor.isDead(local_10)) {
                     spawn FREE.slot_3b(pid, 2, 0x00000000);
                     suspend;
                   }
                 }
-                while (intrinsic_0035(48, arg_06)) {
+                while (Intrinsic0035(48, arg_06)) {
                   spawn FREE.slot_3b(pid, 2, 0x00000000);
                   suspend;
                 }
@@ -64,7 +62,7 @@ function item_slot_2f() /* entry=2574 class_id=0x0a0c slot=0x2f */
             }
           }
           else {
-            local_14 = intrinsic_00bc(local_04, arg_06);
+            local_14 = Actor.createNPCCru(local_04, arg_06);
             if (local_14) {
               local_10 = local_14;
             }
@@ -77,7 +75,6 @@ function item_slot_2f() /* entry=2574 class_id=0x0a0c slot=0x2f */
           return;
         }
       }
-      /* loopnext */
     }
   }
   return;

@@ -16,10 +16,10 @@ function trigger_slot_2a() /* entry=2586 class_id=0x0a18 slot=0x2a */
     goto block_2820;
 
   block_27f4:
-    local_06 = intrinsic_00f4(local_14);
-    local_16 = intrinsic_00e3(local_14);
-    local_10 = intrinsic_0003(local_14);
-    local_08 = intrinsic_010d(local_14);
+    local_06 = Item.getQ(local_14);
+    local_16 = Actor.getDefaultActivity2(local_14);
+    local_10 = Item.getMapArray(local_14);
+    local_08 = Item.getNPCNum(local_14);
 
   block_2820:
     local_18 = local_16;
@@ -53,7 +53,7 @@ function trigger_slot_2a() /* entry=2586 class_id=0x0a18 slot=0x2a */
     if !(local_10 & 4) goto block_2999;
 
   block_2877:
-    if !intrinsic_00ff(local_20) goto block_2908;
+    if !UCMachine.numToStr(local_20) goto block_2908;
 
   block_2883:
     if local_16 != 0x00ff goto block_28b5;
@@ -168,8 +168,8 @@ function trigger_slot_2a() /* entry=2586 class_id=0x0a18 slot=0x2a */
 
   block_2a45_selector_00:
     for local_12 in nearby_items(shape=0x04b1, origin=local_14) {
-      if (intrinsic_00e3(local_12) == local_16) {
-        local_10 = intrinsic_0003(local_12);
+      if (Actor.getDefaultActivity2(local_12) == local_16) {
+        local_10 = Item.getMapArray(local_12);
         local_04 = 0;
         if (local_10 & 8) {
           local_04 = 1;
@@ -189,7 +189,6 @@ function trigger_slot_2a() /* entry=2586 class_id=0x0a18 slot=0x2a */
           }
         }
       }
-      /* loopnext */
     }
 
   block_2acc:

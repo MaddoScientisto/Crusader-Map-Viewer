@@ -5,11 +5,10 @@ function blastpac_use() /* entry=925 class_id=0x039b slot=0x01 */
     process_exclude();
     local_03 = *(arg_06);
     set_info(0x00f0, 0);
-    /* global_address */
-    local_11 = intrinsic_001f();
+    local_11 = Item.create(&global[0x003d]);
 
   block_0105:
-    while (intrinsic_0033()) {
+    while (Actor.isBusy(&global[0x003d])) {
       spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
       suspend;
     }
@@ -25,86 +24,80 @@ function blastpac_use() /* entry=925 class_id=0x039b slot=0x01 */
 
   block_014b:
     while ((retval > 3) && (local_09 != 6)) {
-      /* global_address */
-      /* global_address */
-      /* global_address */
-      spawn NPC.slot_22(intrinsic_0034(intrinsic_0013(pid, 1, Item.legal_create(Item.legal_create(local_05), intrinsic_0013(local_05)))));
+      spawn NPC.slot_22(Item.getDirFromTo16(pid, 1, Item.getY(local_05), Item.getX(Item.getY(Item.getX(local_05), &global[0x003d]), &global[0x003d])), &global[0x003d]);
       suspend;
       local_09 = (1 + local_09);
     }
 
   block_01b1:
-    /* global_address */
-    /* global_address */
     suspend;
     goto block_01d6;
 
   block_01d2:
-    /* loopnext */
     goto block_0144;
 
   block_01d6:
-    if (intrinsic_001e() == 0) {
+    if (Actor.maybeFire(&global[0x003d]) == 0) {
       local_13 = -1;
       local_15 = -3;
     }
-    else if (intrinsic_001e() == 1) {
+    else if (Actor.maybeFire(&global[0x003d]) == 1) {
       local_13 = 0;
       local_15 = -3;
     }
-    else if (intrinsic_001e() == 2) {
+    else if (Actor.maybeFire(&global[0x003d]) == 2) {
       local_13 = 1;
       local_15 = -3;
     }
-    else if (intrinsic_001e() == 3) {
+    else if (Actor.maybeFire(&global[0x003d]) == 3) {
       local_13 = 2;
       local_15 = -2;
     }
-    else if (intrinsic_001e() == 4) {
+    else if (Actor.maybeFire(&global[0x003d]) == 4) {
       local_13 = 2;
       local_15 = -1;
     }
-    else if (intrinsic_001e() == 5) {
+    else if (Actor.maybeFire(&global[0x003d]) == 5) {
       local_13 = 2;
       local_15 = 0;
     }
-    else if (intrinsic_001e() == 6) {
+    else if (Actor.maybeFire(&global[0x003d]) == 6) {
       local_13 = 2;
       local_15 = 2;
     }
-    else if (intrinsic_001e() == 7) {
+    else if (Actor.maybeFire(&global[0x003d]) == 7) {
       local_13 = 0;
       local_15 = 2;
     }
-    else if (intrinsic_001e() == 8) {
+    else if (Actor.maybeFire(&global[0x003d]) == 8) {
       local_13 = -1;
       local_15 = 2;
     }
-    else if (intrinsic_001e() == 9) {
+    else if (Actor.maybeFire(&global[0x003d]) == 9) {
       local_13 = -2;
       local_15 = 2;
     }
-    else if (intrinsic_001e() == 10) {
+    else if (Actor.maybeFire(&global[0x003d]) == 10) {
       local_13 = -3;
       local_15 = 2;
     }
-    else if (intrinsic_001e() == 11) {
+    else if (Actor.maybeFire(&global[0x003d]) == 11) {
       local_13 = -3;
       local_15 = 1;
     }
-    else if (intrinsic_001e() == 12) {
+    else if (Actor.maybeFire(&global[0x003d]) == 12) {
       local_13 = -3;
       local_15 = 0;
     }
-    else if (intrinsic_001e() == 13) {
+    else if (Actor.maybeFire(&global[0x003d]) == 13) {
       local_13 = -3;
       local_15 = -1;
     }
-    else if (intrinsic_001e() == 14) {
+    else if (Actor.maybeFire(&global[0x003d]) == 14) {
       local_13 = -3;
       local_15 = -2;
     }
-    else if (intrinsic_001e() == 15) {
+    else if (Actor.maybeFire(&global[0x003d]) == 15) {
       local_13 = -3;
       local_15 = -3;
     }
@@ -113,8 +106,7 @@ function blastpac_use() /* entry=925 class_id=0x039b slot=0x01 */
     if !local_05 goto block_0503;
 
   block_038d:
-    /* global_address */
-    if !intrinsic_0035() goto block_03a1;
+    if !Actor.getSomeFlagProbablyCrouch(&global[0x003d]) goto block_03a1;
 
   block_039a:
     local_01 = 1;
@@ -122,18 +114,13 @@ function blastpac_use() /* entry=925 class_id=0x039b slot=0x01 */
 
   block_03a1:
     local_01 = 0;
-    /* global_address */
-    /* global_address */
     suspend;
 
   block_03c6:
-    /* global_address */
-    /* global_address */
-    /* global_address */
     spawn BLASTPAC.slot_20(local_17, arg_06);
 
   block_0414:
-    while (intrinsic_0033()) {
+    while (Actor.isBusy(&global[0x003d])) {
       spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
       suspend;
     }
@@ -144,17 +131,11 @@ function blastpac_use() /* entry=925 class_id=0x039b slot=0x01 */
     if local_01 goto block_04c3;
 
   block_0458:
-    /* global_address */
-    /* global_address */
     suspend;
     if !local_05 goto block_04c0;
 
   block_047e:
-    /* global_address */
-    /* global_address */
     suspend;
-    /* global_address */
-    /* global_address */
     suspend;
 
   block_04c0:

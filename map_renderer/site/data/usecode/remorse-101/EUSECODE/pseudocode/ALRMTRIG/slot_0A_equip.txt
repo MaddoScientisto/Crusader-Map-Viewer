@@ -2,8 +2,8 @@ function alrmtrig_equip() /* entry=1411 class_id=0x0581 slot=0x0a */
 {
   set_info(0x0211, *(arg_06));
   process_exclude();
-  if (intrinsic_0003(arg_06) != 0) {
-    if (intrinsic_0000()) {
+  if (Item.getMapArray(arg_06) != 0) {
+    if (World.getAlertActive()) {
       spawn TRIGGER.slot_2a(pid, 0, *(arg_06), arg_06);
       suspend;
     }
@@ -12,7 +12,7 @@ function alrmtrig_equip() /* entry=1411 class_id=0x0581 slot=0x0a */
       suspend;
     }
   }
-  else if (intrinsic_0000()) {
+  else if (World.getAlertActive()) {
     spawn TRIGGER.slot_2a(pid, (0 + 0x0080), *(arg_06), arg_06);
     suspend;
   }

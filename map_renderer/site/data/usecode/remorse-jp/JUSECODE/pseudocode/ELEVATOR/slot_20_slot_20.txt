@@ -1,73 +1,69 @@
 function elevator_slot_20() /* entry=544 class_id=0x021e slot=0x20 */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    dir, /* [BP+10h] type=0x69 */
+    mapNum, /* [BP+12h] type=0x69 */
+    eggNum, /* [BP+14h] type=0x69 */
+    post1, /* [BP-02h] type=0x24 */
+    post2, /* [BP-04h] type=0x24 */
+    item, /* [BP-06h] type=0x24 */
+    counter, /* [BP-08h] type=0x69 */
+    door, /* [BP-10h] type=0x24 */
+    door1; /* [BP-12h] type=0x24 */
+
   set_info(1, 0);
-  for local_06 in selector_0x42(arg0=0x0189, arg1=0x0289, arg2=(10 * 32), origin=arg_06) {
-    local_10 = local_06;
-    /* loopnext */
+  for item in selector_0x42(arg0=0x0189, arg1=0x0289, arg2=(10 * 32), origin=arg_06) {
+    door = item;
   }
-  if (!local_10) {
+  if (!door) {
     return;
   }
-  else if (intrinsic_0016(local_10) == 0x0189) {
-    /* global_address */
+  else if (Item.getShape(door) == ELEVATOR_DOOR_SEGMENT) {
     suspend;
-    /* global_address */
     suspend;
-    /* global_address */
     suspend;
-    /* global_address */
     suspend;
   }
   else {
-    /* global_address */
     suspend;
-    /* global_address */
     suspend;
-    /* global_address */
     suspend;
-    /* global_address */
     suspend;
   }
-  /* global_address */
   spawn FREE.slot_32(pid, 2, 0x00000000);
   suspend;
-  spawn DOOR.slot_21(pid, 2, local_10);
+  spawn DOOR.slot_21(pid, 2, door);
   suspend;
-  for local_06 in selector_0x42(arg0=0x01c4, arg1=0x0186, arg2=(20 * 32), origin=arg_06) {
-    local_02 = local_06;
-    /* loopnext */
+  for item in selector_0x42(arg0=0x01c4, arg1=0x0186, arg2=(20 * 32), origin=arg_06) {
+    post1 = item;
   }
-  for local_06 in selector_0x42(arg0=0x01c5, arg1=0x0184, arg2=(20 * 32), origin=arg_06) {
-    local_04 = local_06;
-    /* loopnext */
+  for item in selector_0x42(arg0=0x01c5, arg1=0x0184, arg2=(20 * 32), origin=arg_06) {
+    post2 = item;
   }
-  if (local_02 && local_04) {
+  if (post1 && post2) {
     spawn FREE.slot_32(pid, 30, 0x00000000);
     suspend;
-    /* global_address */
-    /* global_address */
-    /* global_address */
-    while (intrinsic_003d(0x00f4)) {
+    while (Container.destroyContents(0x00f4, &global[0x003c])) {
       spawn FREE.slot_32(pid, 2, 0x00000000);
       suspend;
     }
-    /* global_address */
-    if (arg_10) {
-      local_08 = 5;
-      while (local_08 <= 7) {
+    if (dir) {
+      counter = 5;
+      while (counter <= 7) {
         spawn FREE.slot_32(pid, 30, 0x00000000);
         suspend;
-        local_08 = (1 + local_08);
+        counter = (1 + counter);
       }
       spawn FREE.slot_32(pid, 30, 0x00000000);
       suspend;
     }
     else {
-      local_08 = 1;
-      while (local_08 <= 4) {
+      counter = 1;
+      while (counter <= 4) {
         spawn FREE.slot_32(pid, 30, 0x00000000);
         suspend;
-        local_08 = (1 + local_08);
+        counter = (1 + counter);
       }
     }
   }
@@ -76,54 +72,42 @@ function elevator_slot_20() /* entry=544 class_id=0x021e slot=0x20 */
   suspend;
   spawn FREE.slot_3c(pid, 0x00000000);
   suspend;
-  /* global_address */
   suspend;
-  for local_06 in nearby_items(shape=GRATE_FLOOR_GRAY, origin=global[0x003c]) {
-    /* global_address */
-    /* global_address */
-    /* global_address */
+  for item in nearby_items(shape=GRATE_FLOOR_GRAY, origin=global[0x003c]) {
     suspend;
-    FREE.slot_33(12, local_06);
-    /* loopnext */
+    FREE.slot_33(12, item);
   }
-  if (arg_14 == 18) {
-    /* global_address */
+  if (eggNum == 18) {
     suspend;
   }
   suspend;
   spawn FREE.slot_32(pid, 30, 0x00000000);
   suspend;
-  for local_06 in selector_0x42(arg0=0x01c4, arg1=0x0186, arg2=(10 * 32), origin=global[0x003c]) {
-    local_02 = local_06;
-    /* loopnext */
+  for item in selector_0x42(arg0=0x01c4, arg1=0x0186, arg2=(10 * 32), origin=global[0x003c]) {
+    post1 = item;
   }
-  for local_06 in selector_0x42(arg0=0x01c5, arg1=0x0184, arg2=(10 * 32), origin=global[0x003c]) {
-    local_04 = local_06;
-    /* loopnext */
+  for item in selector_0x42(arg0=0x01c5, arg1=0x0184, arg2=(10 * 32), origin=global[0x003c]) {
+    post2 = item;
   }
-  if (local_02 && local_04) {
-    /* global_address */
-    /* global_address */
-    /* global_address */
-    while (intrinsic_003d(0x00f2)) {
+  if (post1 && post2) {
+    while (Container.destroyContents(0x00f2, &global[0x003c])) {
       spawn FREE.slot_32(pid, 2, 0x00000000);
       suspend;
     }
-    /* global_address */
-    if (arg_10) {
-      local_08 = 1;
-      while (local_08 <= 4) {
+    if (dir) {
+      counter = 1;
+      while (counter <= 4) {
         spawn FREE.slot_32(pid, 30, 0x00000000);
         suspend;
-        local_08 = (1 + local_08);
+        counter = (1 + counter);
       }
     }
     else {
-      local_08 = 0;
-      while (local_08 <= 3) {
+      counter = 0;
+      while (counter <= 3) {
         spawn FREE.slot_32(pid, 30, 0x00000000);
         suspend;
-        local_08 = (1 + local_08);
+        counter = (1 + counter);
       }
     }
     spawn FREE.slot_32(pid, 30, 0x00000000);
@@ -131,22 +115,13 @@ function elevator_slot_20() /* entry=544 class_id=0x021e slot=0x20 */
   }
   spawn FREE.slot_32(pid, 120, 0x00000000);
   suspend;
-  for local_06 in selector_0x42(arg0=0x0193, arg1=0x01c7, arg2=(10 * 32), origin=global[0x003c]) {
-    local_10 = local_06;
-    spawn DOOR.slot_21(pid, 1, local_10);
+  for item in selector_0x42(arg0=0x0193, arg1=0x01c7, arg2=(10 * 32), origin=global[0x003c]) {
+    door = item;
+    spawn DOOR.slot_21(pid, 1, door);
     suspend;
-    /* loopnext */
   }
-  /* global_address */
-  /* global_address */
   suspend;
-  /* global_address */
-  /* global_address */
   suspend;
-  /* global_address */
-  /* global_address */
   suspend;
-  /* global_address */
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

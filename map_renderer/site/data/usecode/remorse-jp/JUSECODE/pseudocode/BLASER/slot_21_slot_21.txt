@@ -1,25 +1,32 @@
 function blaser_slot_21() /* entry=2564 class_id=0x0a02 slot=0x21 */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    ke, /* [BP+12h] type=0x69 */
+    n, /* [BP-02h] type=0x24 */
+    f, /* [BP-04h] type=0x69 */
+    h; /* [BP-06h] type=0x69 */
+
   set_info(1, *(arg_06));
-  local_02 = arg_10;
-  if (Actor.isNPC(local_02)) {
-    local_04 = Item.getFrame(arg_06);
-    if (local_04 == 1) {
-      local_06 = intrinsic_0026(arg_06);
+  n = ref;
+  if (Actor.isNPC(n)) {
+    f = Item.getFrame(arg_06);
+    if (f == 1) {
+      h = Item.getQHi(arg_06);
       return;
     }
-    else if (local_04 == 2) {
+    else if (f == 2) {
       /* bit_not */
-      local_06 = intrinsic_0026(arg_06);
+      h = Item.getQHi(arg_06);
       return;
     }
     else {
-      spawn NPC.slot_2c(pid, *(arg_06), local_02);
+      spawn NPC.slot_2c(pid, *(arg_06), n);
       suspend;
       spawn FREE.slot_32(pid, 2, 0x00000000);
       suspend;
     }
   }
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

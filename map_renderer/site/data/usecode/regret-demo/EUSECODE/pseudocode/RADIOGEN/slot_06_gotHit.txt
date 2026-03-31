@@ -7,7 +7,7 @@ function radiogen_gotHit() /* entry=1454 class_id=0x05ac slot=0x06 */
   if (retval == 0) {
     return;
   }
-  else if (intrinsic_00f2(arg_06)) {
+  else if (Item.getNpcNum(arg_06)) {
     spawn FREE.slot_3b(pid, 30, 0x00000000);
     suspend;
     return;
@@ -26,14 +26,13 @@ function radiogen_gotHit() /* entry=1454 class_id=0x05ac slot=0x06 */
       suspend;
     }
     for local_04 in nearby_items(shape=17, origin=arg_06) {
-      if (intrinsic_003e(local_04) == intrinsic_010e(arg_06)) {
+      if (Item.callEvent11(local_04) == Item.getCY(arg_06)) {
         if ((Item.getFrame(local_04) == 1) && (global[0x000b] > 0)) {
           /* pop_global */
         }
       }
-      /* loopnext */
     }
-    if (intrinsic_0003(arg_06) != 0) {
+    if (Item.getMapArray(arg_06) != 0) {
       spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
       suspend;
     }

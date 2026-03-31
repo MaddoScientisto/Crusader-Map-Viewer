@@ -1,9 +1,13 @@
 function flamelp_gotHit() /* entry=1304 class_id=0x0516 slot=0x06 */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    vel; /* [BP+12h] type=0x69 */
+
   set_info(0x020c, *(arg_06));
   process_exclude();
-  spawn FLAME.slot_21(pid, arg_10, arg_06);
+  spawn FLAME.slot_21(pid, ref, arg_06);
   suspend;
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

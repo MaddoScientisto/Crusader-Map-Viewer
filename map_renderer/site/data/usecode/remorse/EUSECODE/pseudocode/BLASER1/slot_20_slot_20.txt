@@ -1,26 +1,40 @@
 function blaser1_slot_20() /* entry=1093 class_id=0x0443 slot=0x20 */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    wp, /* [BP-05h] type=0x24 */
+    laserList, /* [BP-07h] type=0x6c */
+    item, /* [BP-09h] type=0x24 */
+    inFastArea, /* [BP-11h] type=0x69 */
+    count, /* [BP-13h] type=0x69 */
+    a, /* [BP-15h] type=0x69 */
+    f, /* [BP-17h] type=0x69 */
+    h, /* [BP-19h] type=0x69 */
+    link, /* [BP-21h] type=0x69 */
+    x, /* [BP-23h] type=0x69 */
+    y; /* [BP-25h] type=0x69 */
+
   entry:
     set_info(1, 0);
-    local_09 = arg_10;
-    local_21 = intrinsic_002b(local_09);
-    local_13 = 0;
+    item = ref;
+    link = Item.getQLo(item);
+    count = 0;
 
   entry_selector_00:
-    for local_09 in nearby_items(shape=0x0443, origin=arg_10) {
-      if ((intrinsic_002b(local_09) == local_21) && ((intrinsic_0004(local_09) & 0x1000) == 0)) {
+    for item in nearby_items(shape=0x0443, origin=ref) {
+      if ((Item.getQLo(item) == link) && ((Item.getStatus(item) & 0x1000) == 0)) {
         /* create_list */
         /* append_list */
         /* free_local_list */
-        local_07 = local_09;
-        local_19 = intrinsic_0026(local_09);
-        local_13 = (1 + local_13);
+        laserList = item;
+        h = Item.getQHi(item);
+        count = (1 + count);
       }
-      /* loopnext */
     }
 
   block_03e6:
-    if local_13 != 0 goto block_03f9;
+    if count != 0 goto block_03f9;
 
   block_03f3:
     goto block_07cc;
@@ -29,97 +43,97 @@ function blaser1_slot_20() /* entry=1093 class_id=0x0443 slot=0x20 */
     if !(1) goto block_07cc;
 
   block_0401:
-    local_11 = 0;
+    inFastArea = 0;
 
   block_0411:
     while (true) {
-      foreach_list local_09 -> block_076f;
-      if (local_19 & 31) {
+      foreach_list item -> block_076f;
+      if (h & 31) {
         /* create_list */
         /* remove_matching_inline */
         /* free_local_list */
-        local_07 = local_09;
+        laserList = item;
       }
-      else if (intrinsic_0004(local_09) & (0x1000 == 0)) {
+      else if (Item.getStatus(item) & (0x1000 == 0)) {
         /* create_list */
         /* remove_matching_inline */
         /* free_local_list */
-        local_07 = local_09;
+        laserList = item;
       }
-      else if ((intrinsic_002c(local_09) != 1) && (intrinsic_0016(local_09) == 0x0476)) {
-        local_11 = (1 + local_11);
-        local_19 = intrinsic_0026(local_09);
-        local_17 = Item.getFrame(local_09);
-        if (local_19 & 4) {
+      else if ((Item.inFastArea(item) != 1) && (Item.getShape(item) == 0x0476)) {
+        inFastArea = (1 + inFastArea);
+        h = Item.getQHi(item);
+        f = Item.getFrame(item);
+        if (h & 4) {
           /* bit_not */
-          local_19 = (local_19 & 4);
-          if (local_17 == 1) {
-            if (local_19 & 2) {
+          h = (h & 4);
+          if (f == 1) {
+            if (h & 2) {
               /* bit_not */
-              local_19 = (local_19 & 2);
+              h = (h & 2);
             }
             else {
-              local_19 = (local_19 | 2);
+              h = (h | 2);
             }
           }
-          local_17 = ((local_17 + 1) & 1);
+          f = ((f + 1) & 1);
         }
-        local_01 = Item.getZ(local_09);
-        local_15 = ((local_19 & 2) + local_17);
-        if ((local_19 & 1) == 0) {
-          if (local_15 == 0) {
-            local_03 = (Item.legal_create(local_09) - 4);
-            local_05 = (intrinsic_0013(local_09) + 4);
+        local_01 = Item.getZ(item);
+        a = ((h & 2) + f);
+        if ((h & 1) == 0) {
+          if (a == 0) {
+            local_03 = (Item.getY(item) - 4);
+            wp = (Item.getX(item) + 4);
           }
-          else if (local_15 == 1) {
-            local_03 = (Item.legal_create(local_09) + 4);
-            local_05 = (intrinsic_0013(local_09) + 4);
+          else if (a == 1) {
+            local_03 = (Item.getY(item) + 4);
+            wp = (Item.getX(item) + 4);
           }
-          else if (local_15 == 2) {
-            local_03 = (Item.legal_create(local_09) + 4);
-            local_05 = (intrinsic_0013(local_09) - 4);
+          else if (a == 2) {
+            local_03 = (Item.getY(item) + 4);
+            wp = (Item.getX(item) - 4);
           }
-          else if (local_15 == 3) {
-            local_03 = (Item.legal_create(local_09) - 4);
-            local_05 = (intrinsic_0013(local_09) - 4);
+          else if (a == 3) {
+            local_03 = (Item.getY(item) - 4);
+            wp = (Item.getX(item) - 4);
           }
         }
-        else if (local_15 == 0) {
-          local_03 = (Item.legal_create(local_09) + 4);
-          local_05 = (intrinsic_0013(local_09) - 4);
+        else if (a == 0) {
+          local_03 = (Item.getY(item) + 4);
+          wp = (Item.getX(item) - 4);
         }
-        else if (local_15 == 1) {
-          local_03 = (Item.legal_create(local_09) - 4);
-          local_05 = (intrinsic_0013(local_09) - 4);
+        else if (a == 1) {
+          local_03 = (Item.getY(item) - 4);
+          wp = (Item.getX(item) - 4);
         }
-        else if (local_15 == 2) {
-          local_03 = (Item.legal_create(local_09) - 4);
-          local_05 = (intrinsic_0013(local_09) + 4);
+        else if (a == 2) {
+          local_03 = (Item.getY(item) - 4);
+          wp = (Item.getX(item) + 4);
         }
-        else if (local_15 == 3) {
-          local_03 = (Item.legal_create(local_09) + 4);
-          local_05 = (intrinsic_0013(local_09) + 4);
+        else if (a == 3) {
+          local_03 = (Item.getY(item) + 4);
+          wp = (Item.getX(item) + 4);
         }
-        if (intrinsic_002e(0, 0, local_05, local_09) == 0) {
-          local_19 = intrinsic_0026(local_09);
-          if ((local_19 & 8) == 0) {
+        if (legalMoveToPoint(0, 0, wp, item) == 0) {
+          h = Item.getQHi(item);
+          if ((h & 8) == 0) {
           }
           else {
             /* bit_not */
-            local_19 = (local_19 & 8);
-            if (local_19 & 1) {
+            h = (h & 8);
+            if (h & 1) {
               /* bit_not */
-              local_19 = (local_19 & 1);
+              h = (h & 1);
             }
             else {
-              local_19 = (local_19 | 1);
+              h = (h | 1);
             }
           }
         }
         else {
-          local_19 = intrinsic_0026(local_09);
+          h = Item.getQHi(item);
           /* bit_not */
-          local_19 = (local_19 & 8);
+          h = (h & 8);
         }
       }
     }
@@ -127,11 +141,11 @@ function blaser1_slot_20() /* entry=1093 class_id=0x0443 slot=0x20 */
   block_076f:
     spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
     suspend;
-    if local_11 != 0 goto block_07c9;
+    if inFastArea != 0 goto block_07c9;
 
   block_07a9:
     while (true) {
-      foreach_list local_09 -> block_07c3;
+      foreach_list item -> block_07c3;
       /* bit_not */
     }
 
@@ -145,5 +159,4 @@ function blaser1_slot_20() /* entry=1093 class_id=0x0443 slot=0x20 */
     /* free_local_list */
     return;
 
-  /* decompilation stopped at SEARCH_SURFACE */
 }

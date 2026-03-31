@@ -4,17 +4,16 @@ function keypad_slot_20() /* entry=2575 class_id=0x0a0d slot=0x20 */
   local_06 = 0;
   local_08 = 0;
   for local_02 in nearby_items(shape=0x0251, origin=arg_06) {
-    if (intrinsic_001f(local_02) == intrinsic_001f(arg_06)) {
+    if (Item.getQLo(local_02) == Item.getQLo(arg_06)) {
       VALBOX.slot_20(local_02);
       local_10 = retval;
       if (local_10 > 0x03e7) {
         return;
       }
     }
-    /* loopnext */
   }
-  if ((intrinsic_0004(arg_06) & 0x1000) == 0) {
-    local_12 = intrinsic_00be(local_10);
+  if ((Item.getStatus(arg_06) & 0x1000) == 0) {
+    local_12 = KeypadGump.showKeypad(local_10);
     if (local_12 == -1) {
       /* bit_not */
       return;
@@ -30,7 +29,7 @@ function keypad_slot_20() /* entry=2575 class_id=0x0a0d slot=0x20 */
       suspend;
       spawn FREE.slot_3b(pid, 60, 0x00000000);
       suspend;
-      if (!intrinsic_0000()) {
+      if (!World.getAlertActive()) {
         spawn FREE.slot_44(0x00000000);
       }
     }

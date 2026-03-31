@@ -1,99 +1,102 @@
 function deathfl_slot_20() /* entry=2567 class_id=0x0a05 slot=0x20 */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    vel, /* [BP+12h] type=0x69 */
+    item, /* [BP-02h] type=0x24 */
+    item2, /* [BP-04h] type=0x24 */
+    counter, /* [BP-06h] type=0x69 */
+    n, /* [BP-08h] type=0x24 */
+    n2, /* [BP-10h] type=0x24 */
+    dir, /* [BP-12h] type=0x69 */
+    x, /* [BP-14h] type=0x69 */
+    y, /* [BP-16h] type=0x69 */
+    z, /* [BP-18h] type=0x69 */
+    spoogeType; /* [BP-20h] type=0x69 */
+
   set_info(0x0001, *(arg_06));
-  local_02 = arg_10;
-  FREE.slot_2c(arg_12, arg_10);
+  item = ref;
+  FREE.slot_2c(vel, ref);
   if (retval) {
     return;
   }
-  else if (intrinsic_005a(*(arg_06), local_02) == 0) {
+  else if (Actor.getLastAnimSet(*(arg_06), item) == 0) {
     return;
   }
-  else if (intrinsic_0004(local_02) & 0x4000) {
+  else if (Item.getStatus(item) & 0x4000) {
     return;
   }
   else {
-    ITEM.slot_23(0x4000, local_02);
-    if (Actor.isNPC(local_02)) {
-      local_08 = arg_10;
-      local_12 = intrinsic_001c(local_08);
-      if (intrinsic_0016(local_02) == 1) {
-        /* global_address */
-        /* global_address */
-        /* global_address */
-        /* global_address */
-        /* global_address */
-        /* global_address */
+    ITEM.slot_23(0x4000, item);
+    if (Actor.isNPC(item)) {
+      n = ref;
+      dir = Actor.getDir(n);
+      if (Item.getShape(item) == 1) {
         suspend;
         return;
       }
-      else if (intrinsic_0016(local_02) == 0x02fd) {
+      else if (Item.getShape(item) == npcdeath_shape_02fd) {
         /* loopscr */
         /* loop */
         while (condition) {
-          /* loopnext */
         }
         suspend;
         return;
       }
-      else if (intrinsic_0016(local_02) == 0x0371) {
+      else if (Item.getShape(item) == npcdeath_shape_0371) {
         /* loopscr */
         /* loop */
         while (condition) {
-          /* loopnext */
         }
         suspend;
         return;
       }
-      else if (intrinsic_0016(local_02) == 0x04d1) {
+      else if (Item.getShape(item) == npcdeath_shape_04d1) {
         /* loopscr */
         /* loop */
         while (condition) {
-          /* loopnext */
         }
         suspend;
         return;
       }
-      else if ((((intrinsic_0016(local_02) == 0x0580) || (intrinsic_0016(local_02) == 0x057a)) || (intrinsic_0016(local_02) == 0x057f)) || (intrinsic_0016(local_02) == 0x052c)) {
+      else if ((((Item.getShape(item) == 0x0580) || (Item.getShape(item) == 0x057a)) || (Item.getShape(item) == 0x057f)) || (Item.getShape(item) == 0x052c)) {
         return;
       }
       else {
         /* loopscr */
         /* loop */
         while (condition) {
-          /* loopnext */
         }
-        local_06 = 0;
-        while (local_06 <= 7) {
+        counter = 0;
+        while (counter <= 7) {
           spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
           suspend;
-          local_06 = (1 + local_06);
+          counter = (1 + counter);
         }
       }
     }
-    else if (intrinsic_003f(local_02) == 6) {
+    else if (Egg.getEggId(item) == 6) {
       /* loopscr */
       /* loop */
       while (condition) {
-        /* loopnext */
       }
     }
-    if ((local_14 > 4) || (local_16 > 4)) {
-      local_20 = 0x054c;
+    if ((x > 4) || (y > 4)) {
+      spoogeType = 0x054c;
     }
     else {
-      local_20 = 0x0539;
+      spoogeType = 0x0539;
     }
-    local_18 = Item.getZ(arg_06);
-    if (intrinsic_0019(local_18, Item.legal_create(local_02), intrinsic_0013(local_02), 0, local_20, local_04)) {
-      local_06 = 0;
-      while (local_06 <= 7) {
+    z = Item.getZ(arg_06);
+    if (Item.legal_create(z, Item.getY(item), Item.getX(item), 0, spoogeType, item2)) {
+      counter = 0;
+      while (counter <= 7) {
         spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
         suspend;
-        local_06 = (1 + local_06);
+        counter = (1 + counter);
       }
     }
   }
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

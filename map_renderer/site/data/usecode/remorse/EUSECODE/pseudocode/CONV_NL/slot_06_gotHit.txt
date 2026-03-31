@@ -1,28 +1,37 @@
 function conv_nl_gotHit() /* entry=660 class_id=0x0292 slot=0x06 */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    v, /* [BP+12h] type=0x69 */
+    xdir, /* [BP-01h] type=0x62 */
+    ydir, /* [BP-02h] type=0x62 */
+    item, /* [BP-04h] type=0x24 */
+    a, /* [BP-05h] type=0x62 */
+    b; /* [BP-06h] type=0x62 */
+
   set_info(0x020c, *(arg_06));
   process_exclude();
-  local_01 = -3;
-  local_02 = 0;
-  if (intrinsic_004d(arg_06)) {
-    local_01 = 3;
+  xdir = -3;
+  ydir = 0;
+  if (Item.getQHi(arg_06)) {
+    xdir = 3;
   }
-  FREE.slot_2c(arg_12, arg_10);
+  FREE.slot_2c(v, ref);
   if (retval) {
     return;
   }
   else {
-    local_04 = arg_10;
-    local_05 = intrinsic_004e(*(arg_06), local_04);
-    local_06 = 1;
-    if (intrinsic_004f(arg_06) == 0x00ff) {
-      local_06 = 0;
+    item = ref;
+    a = Item.IsOn(*(arg_06), item);
+    b = 1;
+    if (Item.getQHi(arg_06) == 0x00ff) {
+      b = 0;
     }
-    if (local_05 && local_06) {
-      spawn CONVEYOR.slot_20(pid, local_02, local_01, arg_06);
+    if (a && b) {
+      spawn CONVEYOR.slot_20(pid, ydir, xdir, arg_06);
       suspend;
     }
   }
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

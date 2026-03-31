@@ -2,12 +2,12 @@ function cruztrig_gotHit() /* entry=871 class_id=0x0365 slot=0x06 */
 {
   set_info(0x020c, *(arg_06));
   process_exclude();
-  if (arg_10 != intrinsic_001d()) {
+  if (arg_10 != Actor.getLastAnimSet()) {
     return;
   }
-  else if (intrinsic_0003(arg_06) != 0) {
+  else if (Item.getMapArray(arg_06) != 0) {
     local_02 = arg_10;
-    if ((intrinsic_0056(arg_06) == 0) || (intrinsic_0057(*(arg_06), local_02) == 0)) {
+    if ((Intrinsic056(arg_06) == 0) || (Item.getSurfaceWeight(*(arg_06), local_02) == 0)) {
       return;
     }
     else {
@@ -16,7 +16,7 @@ function cruztrig_gotHit() /* entry=871 class_id=0x0365 slot=0x06 */
       spawn TRIGGER.slot_2a(pid, 0, *(arg_06), arg_06);
       suspend;
       while (1) {
-        if (intrinsic_0056(arg_06) != 0) {
+        if (Intrinsic056(arg_06) != 0) {
           spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
           suspend;
         }
@@ -31,20 +31,18 @@ function cruztrig_gotHit() /* entry=871 class_id=0x0365 slot=0x06 */
           /* loopscr */
           /* loop */
           while (condition) {
-            while (intrinsic_0004(local_04) & 0x1000) {
+            while (Item.getStatus(local_04) & 0x1000) {
               spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
               suspend;
             }
             spawn FREE.waitNTimerTicks(pid, 120, 0x00000000);
             suspend;
-            /* global_address */
-            if (Item.getZ() < (Item.getZ(local_04) - 5)) {
+            if (Item.getZ(&global[0x003d]) < (Item.getZ(local_04) - 5)) {
               ELEVAT.slot_21(Item.getZ(local_04), local_04);
               if (retval) {
                 spawn ELEVAT.slot_20(local_04);
               }
             }
-            /* loopnext */
           }
           return;
         }

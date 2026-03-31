@@ -11,12 +11,12 @@ function elevat_slot_25() /* entry=2571 class_id=0x0a09 slot=0x25 */
   set_info(0x0001, *(arg_06));
   totFrames = 5;
   for liftpit in nearby_items(shape=ELEVATOR_BASE, origin=arg_06) {
-    FREE.slot_3f((intrinsic_0013(arg_06) - intrinsic_0013(liftpit)));
+    FREE.slot_3f((Item.getX(arg_06) - Item.getX(liftpit)));
     checkX = retval;
-    FREE.slot_3f((Item.legal_create(arg_06) - Item.legal_create(liftpit)));
+    FREE.slot_3f((Item.getY(arg_06) - Item.getY(liftpit)));
     checkY = retval;
     if ((checkX < 2) && (checkY < 2)) {
-      if ((intrinsic_0004(liftpit) & 0x1000) == 0) {
+      if ((Item.getStatus(liftpit) & 0x1000) == 0) {
         if (Item.getFrame(liftpit) == 0) {
           pitCounter = 1;
           while (pitCounter <= totFrames) {
@@ -38,7 +38,6 @@ function elevat_slot_25() /* entry=2571 class_id=0x0a09 slot=0x25 */
         /* bit_not */
       }
     }
-    /* loopnext */
   }
   return;
 }

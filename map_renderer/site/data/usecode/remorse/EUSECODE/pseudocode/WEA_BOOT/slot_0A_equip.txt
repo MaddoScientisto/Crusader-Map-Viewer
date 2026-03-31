@@ -1,10 +1,13 @@
 function wea_boot_equip() /* entry=1117 class_id=0x045b slot=0x0a */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    var, /* [BP+10h] type=0x69 */
+    counter; /* [BP-02h] type=0x69 */
+
   set_info(0x0211, *(arg_06));
   process_exclude();
   FREE.slot_33(0x021b, *(arg_06));
-  /* global_address */
-  /* global_address */
   while (Item.getFrame(arg_06) != 5) {
     spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
     suspend;
@@ -13,13 +16,12 @@ function wea_boot_equip() /* entry=1117 class_id=0x045b slot=0x0a */
   suspend;
   if ((global[0x001f] != 0) && (global[0x001f] < 15)) {
   }
-  local_02 = 0;
-  while (local_02 <= 4) {
+  counter = 0;
+  while (counter <= 4) {
     spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
     suspend;
-    local_02 = (1 + local_02);
+    counter = (1 + counter);
   }
   spawn WEA_BOOT.enterFastArea(arg_06);
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

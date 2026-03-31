@@ -3,15 +3,15 @@ function thrmbcke_equip() /* entry=1385 class_id=0x0567 slot=0x0a */
   set_info(0x0211, *(arg_06));
   process_exclude();
   if (arg_10) {
-    while (intrinsic_0035(4, arg_06)) {
+    while (Intrinsic0035(4, arg_06)) {
       spawn FREE.slot_3b(pid, 2, 0x00000000);
       suspend;
     }
-    while (intrinsic_0035(4, arg_06)) {
+    while (Intrinsic0035(4, arg_06)) {
       spawn FREE.slot_3b(pid, 2, 0x00000000);
       suspend;
     }
-    while (intrinsic_0035(4, arg_06)) {
+    while (Intrinsic0035(4, arg_06)) {
       spawn FREE.slot_3b(pid, 2, 0x00000000);
       suspend;
     }
@@ -19,15 +19,14 @@ function thrmbcke_equip() /* entry=1385 class_id=0x0567 slot=0x0a */
     /* loopscr */
     /* loop */
     while (condition) {
-      /* loopnext */
     }
     /* loopscr */
     /* loopscr */
     /* loop */
     while (condition) {
-      if (intrinsic_000d(local_04) == intrinsic_011c(arg_06)) {
+      if (Intrinsic000D(local_04) == Item.isCrusTypeNPC(arg_06)) {
         local_08 = 3;
-        if (intrinsic_000a() > 2) {
+        if (World.gameDifficulty() > 2) {
           local_06 = 10;
         }
         else {
@@ -39,7 +38,6 @@ function thrmbcke_equip() /* entry=1385 class_id=0x0567 slot=0x0a */
         suspend;
         return;
       }
-      /* loopnext */
     }
   }
   return;

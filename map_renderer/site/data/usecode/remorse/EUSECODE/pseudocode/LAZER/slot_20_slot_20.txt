@@ -8,7 +8,7 @@ function lazer_slot_20() /* entry=2577 class_id=0x0a0f slot=0x20 */
 
   set_info(0x0205, *(arg_06));
   set_info(0x0205, *(arg_06));
-  if ((intrinsic_0004(arg_06) & 0x1000) || (Item.getFrame(arg_06) != 0)) {
+  if ((Item.getStatus(arg_06) & 0x1000) || (Item.getFrame(arg_06) != 0)) {
     return;
   }
   else {
@@ -17,16 +17,15 @@ function lazer_slot_20() /* entry=2577 class_id=0x0a0f slot=0x20 */
     /* loopscr */
     /* loop */
     while (condition) {
-      if (intrinsic_00ae(arg_06) == intrinsic_00ae(item)) {
+      if (Item.getQLo(arg_06) == Item.getQLo(item)) {
         ITEM.slot_23(0x1000, item);
       }
-      /* loopnext */
     }
     for monster in nearby_items(family=6, origin=arg_06) {
       if (monster <= 0x0100) {
-        if (intrinsic_00a4(monster, arg_06)) {
-          if (monster != intrinsic_001b()) {
-            dir = intrinsic_001c(monster);
+        if (Item.overlaps(monster, arg_06)) {
+          if (monster != getTargetNPCNumMaybe()) {
+            dir = Actor.getDir(monster);
             if (dir < 8) {
               dir = (dir + 8);
             }
@@ -41,16 +40,14 @@ function lazer_slot_20() /* entry=2577 class_id=0x0a0f slot=0x20 */
           }
         }
       }
-      /* loopnext */
     }
     /* loopscr */
     /* loopscr */
     /* loop */
     while (condition) {
-      if (intrinsic_00ae(arg_06) == intrinsic_00ae(item)) {
+      if (Item.getQLo(arg_06) == Item.getQLo(item)) {
         ITEM.slot_24(0x1000, item);
       }
-      /* loopnext */
     }
     ITEM.slot_24(0x1000, arg_06);
   }

@@ -1,10 +1,10 @@
 function elevat_slot_20() /* entry=2572 class_id=0x0a0a slot=0x20 */
 {
   set_info(0x0001, *(arg_06));
-  if (intrinsic_0004(arg_06) & 0x1000) {
+  if (Item.getStatus(arg_06) & 0x1000) {
     return;
   }
-  else if (!intrinsic_007c(arg_06)) {
+  else if (!Ultima8Engine.setUnkCrusaderFlag(arg_06)) {
     return;
   }
   else {

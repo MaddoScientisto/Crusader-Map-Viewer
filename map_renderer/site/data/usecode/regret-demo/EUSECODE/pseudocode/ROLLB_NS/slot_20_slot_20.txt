@@ -4,7 +4,7 @@ function rollb_ns_slot_20() /* entry=1416 class_id=0x0586 slot=0x20 */
     set_info(1, *(arg_06));
     spawn FREE.slot_3b(pid, 2, 0x00000000);
     suspend;
-    local_12 = intrinsic_00f2(arg_06);
+    local_12 = Item.getNpcNum(arg_06);
     if !(local_12 & 32) goto block_01c1;
 
   block_019e:
@@ -17,7 +17,6 @@ function rollb_ns_slot_20() /* entry=1416 class_id=0x0586 slot=0x20 */
       /* append_list */
       /* free_local_list */
       local_06 = local_04;
-      /* loopnext */
     }
 
   block_01c1:
@@ -50,7 +49,7 @@ function rollb_ns_slot_20() /* entry=1416 class_id=0x0586 slot=0x20 */
     local_14 = Item.getX(arg_06);
     local_16 = Item.getY(arg_06);
     local_17 = Item.getZ(arg_06);
-    local_19 = intrinsic_0112(arg_06);
+    local_19 = IntrinsicReturn0(arg_06);
     spawn ITEM.slot_2c(pid, arg_06);
     suspend;
 

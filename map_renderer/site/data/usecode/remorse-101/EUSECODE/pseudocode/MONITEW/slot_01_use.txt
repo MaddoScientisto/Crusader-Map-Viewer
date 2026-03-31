@@ -5,34 +5,32 @@ function monitew_use() /* entry=359 class_id=0x0165 slot=0x01 */
   if (Item.getFrame(arg_06) > 1) {
   }
   else {
-    local_08 = intrinsic_00d1(arg_06);
-    if (intrinsic_0003(arg_06) != 0) {
+    local_08 = void AudioProcess:stopAllSFX(arg_06);
+    if (Item.getMapArray(arg_06) != 0) {
       for local_04 in nearby_items(shape=PLACEHOLDER_KEY_CUBE, origin=arg_06) {
-        if ((intrinsic_00d1(local_04) == local_08) || (local_08 == 0)) {
+        if ((void AudioProcess:stopAllSFX(local_04) == local_08) || (local_08 == 0)) {
           VALBOX.slot_20(local_04);
           local_06 = retval;
-          TEXTFILE.slot_23(local_06, intrinsic_00c1(local_04), intrinsic_00d1(local_04), arg_06);
+          TEXTFILE.slot_23(local_06, Item.andStatus(local_04), void AudioProcess:stopAllSFX(local_04), arg_06);
           /* free_local_string */
           local_02 = retval;
           spawn TEXTFILE.slot_20(pid, local_02, arg_06);
           /* free_stack_string */
           suspend;
         }
-        /* loopnext */
       }
       spawn TRIGGER.slot_2a(pid, 0, *(arg_06), arg_06);
       suspend;
     }
     else {
       for local_04 in nearby_items(shape=PLACEHOLDER_KEY_CUBE, origin=arg_06) {
-        if (intrinsic_00d1(local_04) == local_08) {
+        if (void AudioProcess:stopAllSFX(local_04) == local_08) {
           VALBOX.slot_20(local_04);
           local_06 = retval;
           local_10 = (1 + local_10);
         }
-        /* loopnext */
       }
-      TEXTFILE.slot_23(local_06, intrinsic_00c1(arg_06), intrinsic_00d1(arg_06), arg_06);
+      TEXTFILE.slot_23(local_06, Item.andStatus(arg_06), void AudioProcess:stopAllSFX(arg_06), arg_06);
       /* free_local_string */
       local_02 = retval;
       if (local_10 > 1) {

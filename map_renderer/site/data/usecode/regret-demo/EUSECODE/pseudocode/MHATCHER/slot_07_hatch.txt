@@ -2,13 +2,12 @@ function mhatcher_hatch() /* entry=2311 class_id=0x0905 slot=0x07 */
 {
   set_info(0x0210, *(arg_06));
   process_exclude();
-  local_04 = intrinsic_003e(arg_06);
+  local_04 = Item.callEvent11(arg_06);
   for local_02 in nearby_items(shape=0x04d0, origin=arg_06) {
-    local_06 = intrinsic_00b8(local_02);
+    local_06 = Item.getCY(local_02);
     if (local_06 == local_04) {
       suspend;
     }
-    /* loopnext */
   }
   return;
 }

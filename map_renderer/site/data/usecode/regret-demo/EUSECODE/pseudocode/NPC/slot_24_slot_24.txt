@@ -2,16 +2,11 @@ function npc_slot_24() /* entry=2580 class_id=0x0a12 slot=0x24 */
 {
   set_info(0x020a, *(arg_06));
   if (global[0x001e] == *(arg_06)) {
-    /* global_address */
-    /* global_address */
-    while (Item.legal_move()) {
+    while (Item.legal_move(&global[0x001e])) {
       spawn FREE.slot_3b(pid, 2, 0x00000000);
       suspend;
     }
-    /* global_address */
-    if (intrinsic_0066()) {
-      /* global_address */
-      /* global_address */
+    if (Item.fall(&global[0x001e])) {
       suspend;
     }
   }
@@ -20,7 +15,6 @@ function npc_slot_24() /* entry=2580 class_id=0x0a12 slot=0x24 */
   /* loop */
   while (condition) {
     local_04 = local_02;
-    /* loopnext */
   }
   if (local_04) {
     if (Item.getFrame(local_04) == 1) {
@@ -37,8 +31,7 @@ function npc_slot_24() /* entry=2580 class_id=0x0a12 slot=0x24 */
       suspend;
       suspend;
     }
-    /* global_address */
-    if (intrinsic_0035(52)) {
+    if (Intrinsic0035(52, &global[0x001e])) {
       spawn FREE.slot_3b(pid, 2, 0x00000000);
       suspend;
     }

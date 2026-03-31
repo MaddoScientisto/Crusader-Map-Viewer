@@ -1,137 +1,161 @@
 function spider_slot_22() /* entry=2582 class_id=0x0a14 slot=0x22 */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    destX, /* [BP+10h] type=0x69 */
+    destY, /* [BP+12h] type=0x69 */
+    destZ, /* [BP+14h] type=0x62 */
+    vel, /* [BP+16h] type=0x69 */
+    currentP, /* [BP-05h] type=0x24 */
+    x, /* [BP-07h] type=0x69 */
+    y, /* [BP-09h] type=0x69 */
+    z, /* [BP-10h] type=0x62 */
+    w, /* [BP-12h] type=0x69 */
+    h, /* [BP-14h] type=0x69 */
+    counter, /* [BP-16h] type=0x69 */
+    minor, /* [BP-18h] type=0x69 */
+    r, /* [BP-20h] type=0x69 */
+    q, /* [BP-22h] type=0x69 */
+    oabs, /* [BP-24h] type=0x69 */
+    v, /* [BP-26h] type=0x69 */
+    ovel, /* [BP-28h] type=0x69 */
+    c, /* [BP-30h] type=0x69 */
+    axis, /* [BP-32h] type=0x69 */
+    ztarg, /* [BP-34h] type=0x69 */
+    zcur, /* [BP-36h] type=0x69 */
+    dif; /* [BP-38h] type=0x69 */
+
   set_info(0x00f0, *(arg_06));
-  local_07 = intrinsic_0013(arg_06);
-  local_09 = Item.legal_create(arg_06);
-  local_10 = Item.getZ(arg_06);
-  local_12 = ((arg_10 - local_07) + 1);
-  local_14 = ((arg_12 - local_09) + 1);
-  local_16 = 0;
-  local_18 = 1;
-  local_28 = arg_16;
-  local_30 = 0;
-  local_32 = 1;
-  FREE.slot_3f(local_12);
-  FREE.slot_3f(retval, local_14);
+  x = Item.getX(arg_06);
+  y = Item.getY(arg_06);
+  z = Item.getZ(arg_06);
+  w = ((destX - x) + 1);
+  h = ((destY - y) + 1);
+  counter = 0;
+  minor = 1;
+  ovel = vel;
+  c = 0;
+  axis = 1;
+  FREE.slot_3f(w);
+  FREE.slot_3f(retval, h);
   if (retval) {
-    local_32 = 0;
+    axis = 0;
   }
-  if (local_32 == 0) {
-    FREE.slot_3f(((local_14 / local_12) * local_12));
-    local_22 = retval;
+  if (axis == 0) {
+    FREE.slot_3f(((h / w) * w));
+    q = retval;
     /* mod */
-    FREE.slot_3f(local_14, local_12);
-    local_20 = retval;
-    if (local_12 < 0) {
-      local_28 = (-1 * arg_16);
+    FREE.slot_3f(h, w);
+    r = retval;
+    if (w < 0) {
+      ovel = (-1 * vel);
     }
-    if (local_14 < 0) {
-      local_18 = -1;
+    if (h < 0) {
+      minor = -1;
     }
-    FREE.slot_3f(local_12);
-    local_24 = retval;
+    FREE.slot_3f(w);
+    oabs = retval;
   }
   else {
-    FREE.slot_3f(((local_12 / local_14) * local_14));
-    local_22 = retval;
+    FREE.slot_3f(((w / h) * h));
+    q = retval;
     /* mod */
-    FREE.slot_3f(local_12, local_14);
-    local_20 = retval;
-    if (local_14 < 0) {
-      local_28 = (-1 * arg_16);
+    FREE.slot_3f(w, h);
+    r = retval;
+    if (h < 0) {
+      ovel = (-1 * vel);
     }
-    if (local_12 < 0) {
-      local_18 = -1;
+    if (w < 0) {
+      minor = -1;
     }
-    FREE.slot_3f(local_14);
-    local_24 = retval;
+    FREE.slot_3f(h);
+    oabs = retval;
   }
   suspend;
   spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
   suspend;
-  local_36 = (local_10 & 0x00ff);
-  local_34 = (arg_14 & 0x00ff);
+  zcur = (z & 0x00ff);
+  ztarg = (destZ & 0x00ff);
   while (true) {
     suspend;
     spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
     suspend;
-    local_36 = (local_10 & 0x00ff);
-    local_34 = (arg_14 & 0x00ff);
-    if (local_36 != local_34) {
-      FREE.slot_3f((local_34 - local_36));
-      local_38 = ((retval / 20) + 1);
-      if (local_38 == 0) {
-        local_38 = 1;
+    zcur = (z & 0x00ff);
+    ztarg = (destZ & 0x00ff);
+    if (zcur != ztarg) {
+      FREE.slot_3f((ztarg - zcur));
+      dif = ((retval / 20) + 1);
+      if (dif == 0) {
+        dif = 1;
       }
-      if (local_36 < local_34) {
-        local_10 = (local_10 + local_38);
+      if (zcur < ztarg) {
+        z = (z + dif);
       }
       else {
-        local_36 = (local_36 - local_38);
-        local_10 = (local_36 & 0x00ff);
+        zcur = (zcur - dif);
+        z = (zcur & 0x00ff);
       }
     }
-    if (local_30 >= local_24) {
-      if (local_36 > (local_34 - 2)) {
-        if (local_36 < (local_34 + 2)) {
+    if (c >= oabs) {
+      if (zcur > (ztarg - 2)) {
+        if (zcur < (ztarg + 2)) {
           /* word_to_dword */
           /* pop_result */
           return;
         }
       }
-      local_05 = local_07;
-      local_03 = local_09;
-      local_01 = local_10;
-      if (!intrinsic_0031(0, 1, local_05, arg_06)) {
+      currentP = x;
+      local_03 = y;
+      local_01 = z;
+      if (!Item.andStatus(0, 1, currentP, arg_06)) {
         /* word_to_dword */
         /* pop_result */
         return;
       }
     }
     else {
-      local_30 = (local_30 + arg_16);
-      if (local_32 == 0) {
-        local_05 = local_07;
-        local_03 = local_09;
-        local_01 = local_10;
-        if (!intrinsic_0031(0, 1, local_05, arg_06)) {
+      c = (c + vel);
+      if (axis == 0) {
+        currentP = x;
+        local_03 = y;
+        local_01 = z;
+        if (!Item.andStatus(0, 1, currentP, arg_06)) {
           /* word_to_dword */
           /* pop_result */
           return;
         }
-        local_07 = (local_07 + local_28);
-        local_26 = 1;
-        while (local_26 <= arg_16) {
-          local_16 = (local_16 + (local_20 + local_22));
-          if (local_16 >= local_24) {
-            local_16 = (local_16 - local_24);
-            local_09 = (local_09 + local_18);
+        x = (x + ovel);
+        v = 1;
+        while (v <= vel) {
+          counter = (counter + (r + q));
+          if (counter >= oabs) {
+            counter = (counter - oabs);
+            y = (y + minor);
           }
-          local_26 = (1 + local_26);
+          v = (1 + v);
         }
       }
       else {
-        local_05 = local_07;
-        local_03 = local_09;
-        local_01 = local_10;
-        if (!intrinsic_0031(0, 1, local_05, arg_06)) {
+        currentP = x;
+        local_03 = y;
+        local_01 = z;
+        if (!Item.andStatus(0, 1, currentP, arg_06)) {
           /* word_to_dword */
           /* pop_result */
           return;
         }
-        local_09 = (local_09 + local_28);
-        local_26 = 1;
-        while (local_26 <= arg_16) {
-          local_16 = (local_16 + (local_20 + local_22));
-          if (local_16 >= local_24) {
-            local_16 = (local_16 - local_24);
-            local_07 = (local_07 + local_18);
+        y = (y + ovel);
+        v = 1;
+        while (v <= vel) {
+          counter = (counter + (r + q));
+          if (counter >= oabs) {
+            counter = (counter - oabs);
+            x = (x + minor);
           }
-          local_26 = (1 + local_26);
+          v = (1 + v);
         }
       }
     }
   }
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

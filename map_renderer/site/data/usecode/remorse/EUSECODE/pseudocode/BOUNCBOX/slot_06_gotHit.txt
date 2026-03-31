@@ -1,70 +1,82 @@
 function bouncbox_gotHit() /* entry=1265 class_id=0x04ef slot=0x06 */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    vel, /* [BP+12h] type=0x69 */
+    dir, /* [BP-02h] type=0x69 */
+    qHi, /* [BP-04h] type=0x69 */
+    qLo, /* [BP-06h] type=0x69 */
+    item, /* [BP-08h] type=0x24 */
+    item2, /* [BP-10h] type=0x24 */
+    x1, /* [BP-12h] type=0x69 */
+    y1, /* [BP-14h] type=0x69 */
+    ammo; /* [BP-16h] type=0x69 */
+
   set_info(0x020c, *(arg_06));
   process_exclude();
-  local_02 = intrinsic_0026(arg_06);
-  local_08 = arg_10;
-  if (arg_10 == 0x4000) {
-    FREE.slot_2c(arg_12, arg_10);
-    FREE.slot_2c((retval == 4), arg_12, arg_10);
+  dir = Item.getQHi(arg_06);
+  item = ref;
+  if (ref == 0x4000) {
+    FREE.slot_2c(vel, ref);
+    FREE.slot_2c((retval == 4), vel, ref);
     if (retval == 3) {
       return;
     }
-    if ((local_02 > 15) && (local_02 < 32)) {
-      local_02 = (local_02 + 2);
-      if (local_02 > 31) {
-        local_02 = (local_02 - 16);
+    if ((dir > 15) && (dir < 32)) {
+      dir = (dir + 2);
+      if (dir > 31) {
+        dir = (dir - 16);
       }
     }
-    if (intrinsic_0004(arg_06) & 4) {
-      local_02 = 0x00ff;
+    if (Item.getStatus(arg_06) & 4) {
+      dir = 0x00ff;
     }
     else {
-      FREE.slot_2c(arg_12, arg_10);
-      local_16 = retval;
-      if (local_02 == 0x00ff) {
+      FREE.slot_2c(vel, ref);
+      ammo = retval;
+      if (dir == 0x00ff) {
         FREE.slot_20(15);
-        local_02 = retval;
+        dir = retval;
       }
-      else if (local_02 == 0x00fe) {
+      else if (dir == 0x00fe) {
         suspend;
         return;
       }
-      local_02 = (local_02 & 15);
-      if ((local_02 > 13) || (local_02 < 3)) {
-        local_14 = (local_14 - 32);
+      dir = (dir & 15);
+      if ((dir > 13) || (dir < 3)) {
+        y1 = (y1 - 32);
       }
-      else if ((local_02 > 1) && (local_02 < 7)) {
-        local_12 = (local_12 + 32);
+      else if ((dir > 1) && (dir < 7)) {
+        x1 = (x1 + 32);
       }
-      else if ((local_02 > 5) && (local_02 < 11)) {
-        local_14 = (local_14 + 32);
+      else if ((dir > 5) && (dir < 11)) {
+        y1 = (y1 + 32);
       }
-      else if ((local_02 > 9) && (local_02 < 15)) {
-        local_12 = (local_12 - 32);
+      else if ((dir > 9) && (dir < 15)) {
+        x1 = (x1 - 32);
       }
       suspend;
     }
     return;
   }
-  else if (intrinsic_0016(local_08) == 0x02c3) {
-    local_04 = intrinsic_0026(local_08);
-    local_06 = intrinsic_002b(local_08);
-    if (intrinsic_001f(0, 0x02c4, local_10)) {
-      if (local_04) {
+  else if (Item.getShape(item) == 0x02c3) {
+    qHi = Item.getQHi(item);
+    qLo = Item.getQLo(item);
+    if (Item.create(0, 0x02c4, item2)) {
+      if (qHi) {
       }
     }
     return;
   }
-  else if (intrinsic_0016(local_08) == 0x02c4) {
-    local_04 = intrinsic_0026(local_08);
-    local_06 = intrinsic_002b(local_08);
-    if (intrinsic_001f(0, 0x02c3, local_10)) {
-      if (local_04) {
+  else if (Item.getShape(item) == 0x02c4) {
+    qHi = Item.getQHi(item);
+    qLo = Item.getQLo(item);
+    if (Item.create(0, 0x02c3, item2)) {
+      if (qHi) {
       }
     }
     return;
   }
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

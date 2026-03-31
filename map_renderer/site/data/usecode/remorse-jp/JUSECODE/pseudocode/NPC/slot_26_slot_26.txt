@@ -1,26 +1,40 @@
 function npc_slot_26() /* entry=2581 class_id=0x0a13 slot=0x26 */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    toDir, /* [BP+12h] type=0x69 */
+    stepNum, /* [BP+14h] type=0x69 */
+    a, /* [BP-02h] type=0x69 */
+    b, /* [BP-04h] type=0x69 */
+    c, /* [BP-06h] type=0x69 */
+    d, /* [BP-08h] type=0x69 */
+    e, /* [BP-10h] type=0x69 */
+    f, /* [BP-12h] type=0x69 */
+    counter, /* [BP-14h] type=0x69 */
+    g, /* [BP-16h] type=0x69 */
+    h; /* [BP-18h] type=0x69 */
+
   set_info(0x020a, *(arg_06));
-  local_02 = intrinsic_00eb(arg_06);
-  local_04 = intrinsic_0053(arg_06);
-  local_06 = intrinsic_00eb(arg_06);
-  local_08 = intrinsic_0053(arg_06);
-  if (!intrinsic_00cf(arg_06)) {
+  a = GetQOfAvatarInventoryItem0x4ed_0EB(arg_06);
+  b = Actor.setDefaultActivity1(arg_06);
+  c = GetQOfAvatarInventoryItem0x4ed_0EB(arg_06);
+  d = Actor.setDefaultActivity1(arg_06);
+  if (!Item.setQAndCombine(arg_06)) {
     suspend;
     spawn FREE.slot_32(pid, 2, 0x00000000);
     suspend;
   }
-  local_10 = intrinsic_00eb(arg_06);
-  local_12 = intrinsic_0053(arg_06);
-  local_14 = 1;
-  while (local_14 <= arg_14) {
-    if (!intrinsic_00cf(arg_06)) {
+  e = GetQOfAvatarInventoryItem0x4ed_0EB(arg_06);
+  f = Actor.setDefaultActivity1(arg_06);
+  counter = 1;
+  while (counter <= stepNum) {
+    if (!Item.setQAndCombine(arg_06)) {
       suspend;
     }
-    local_14 = (1 + local_14);
+    counter = (1 + counter);
   }
-  local_16 = intrinsic_00eb(arg_06);
-  local_18 = intrinsic_0053(arg_06);
+  g = GetQOfAvatarInventoryItem0x4ed_0EB(arg_06);
+  h = Actor.setDefaultActivity1(arg_06);
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

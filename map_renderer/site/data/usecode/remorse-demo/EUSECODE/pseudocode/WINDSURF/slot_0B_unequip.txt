@@ -1,17 +1,20 @@
 function windsurf_unequip() /* entry=825 class_id=0x0337 slot=0x0b */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    var, /* [BP+10h] type=0x69 */
+    item; /* [BP-02h] type=0x24 */
+
   set_info(0x0212, *(arg_06));
   process_exclude();
   /* loopscr */
   /* loop */
   while (condition) {
-    if (local_02 != *(arg_06)) {
-      if (intrinsic_00a5(local_02, arg_06)) {
-        spawn WINDSURF.gotHit(0, local_02, arg_06);
+    if (item != *(arg_06)) {
+      if (Item.isOn(item, arg_06)) {
+        spawn WINDSURF.gotHit(0, item, arg_06);
       }
     }
-    /* loopnext */
   }
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

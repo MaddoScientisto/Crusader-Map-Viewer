@@ -9,8 +9,8 @@ function trigpad_gotHit() /* entry=1231 class_id=0x04cd slot=0x06 */
   }
   else {
     local_04 = arg_10;
-    if (intrinsic_0003(arg_06) != 0) {
-      if ((intrinsic_005b(arg_06) == 0) || (intrinsic_002d(*(arg_06), local_04) == 0)) {
+    if (Item.getMapArray(arg_06) != 0) {
+      if ((Item.getSurfaceWeight(arg_06) == 0) || (Item.isCompletelyOn(*(arg_06), local_04) == 0)) {
         return;
       }
       else {
@@ -19,7 +19,7 @@ function trigpad_gotHit() /* entry=1231 class_id=0x04cd slot=0x06 */
         spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
         suspend;
         while (1) {
-          if (intrinsic_005b(arg_06) != 0) {
+          if (Item.getSurfaceWeight(arg_06) != 0) {
             spawn FREE.slot_3b(pid, 2, 0x00000000);
             suspend;
           }
@@ -34,20 +34,18 @@ function trigpad_gotHit() /* entry=1231 class_id=0x04cd slot=0x06 */
             /* loopscr */
             /* loop */
             while (condition) {
-              while (intrinsic_0004(local_06) & 0x1000) {
+              while (Item.getStatus(local_06) & 0x1000) {
                 spawn FREE.slot_3b(pid, 2, 0x00000000);
                 suspend;
               }
               spawn FREE.slot_3b(pid, 120, 0x00000000);
               suspend;
-              /* global_address */
-              if (Item.getZ() < (Item.getZ(local_06) - 5)) {
+              if (Item.getZ(&global[0x001e]) < (Item.getZ(local_06) - 5)) {
                 ELEVAT.slot_21(Item.getZ(local_06), local_06);
                 if (retval) {
                   spawn ELEVAT.slot_20(local_06);
                 }
               }
-              /* loopnext */
             }
             return;
           }

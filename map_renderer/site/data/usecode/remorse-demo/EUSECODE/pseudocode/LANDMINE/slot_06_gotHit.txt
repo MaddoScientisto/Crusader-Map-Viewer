@@ -1,23 +1,29 @@
 function landmine_gotHit() /* entry=924 class_id=0x039a slot=0x06 */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    vel, /* [BP+12h] type=0x69 */
+    hType, /* [BP-02h] type=0x69 */
+    item; /* [BP-04h] type=0x24 */
+
   set_info(0x020c, *(arg_06));
   process_exclude();
-  if (arg_10 == 1) {
+  if (ref == 1) {
     return;
   }
   else {
-    FREE.slot_2c(arg_12, arg_10);
-    local_02 = retval;
-    if (local_02) {
-      if (local_02 == 4) {
+    FREE.slot_2c(vel, ref);
+    hType = retval;
+    if (hType) {
+      if (hType == 4) {
         return;
       }
       return;
     }
     else {
-      local_04 = arg_10;
+      item = ref;
     }
   }
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

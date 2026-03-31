@@ -2,24 +2,16 @@ function camera_hatch() /* entry=2311 class_id=0x0905 slot=0x07 */
 {
   set_info(0x0210, *(arg_06));
   process_exclude();
-  if ((intrinsic_0041(arg_06) & 127) == 1) {
-    /* global_address */
+  if ((CameraProcess.setCenterOn(arg_06) & 127) == 1) {
   }
-  else if ((intrinsic_0041(arg_06) & 127) == 2) {
-    /* global_address */
+  else if ((CameraProcess.setCenterOn(arg_06) & 127) == 2) {
   }
-  else if ((intrinsic_0041(arg_06) & 127) == 3) {
-    /* global_address */
+  else if ((CameraProcess.setCenterOn(arg_06) & 127) == 3) {
   }
-  else if ((intrinsic_0041(arg_06) & 127) == 4) {
-    /* global_address */
+  else if ((CameraProcess.setCenterOn(arg_06) & 127) == 4) {
   }
-  else if ((intrinsic_0041(arg_06) & 127) == 5) {
-    /* global_address */
+  else if ((CameraProcess.setCenterOn(arg_06) & 127) == 5) {
     return;
-  }
-  else {
-    /* global_address */
   }
   return;
 }

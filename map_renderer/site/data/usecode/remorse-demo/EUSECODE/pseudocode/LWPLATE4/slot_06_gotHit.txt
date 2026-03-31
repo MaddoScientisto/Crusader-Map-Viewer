@@ -1,18 +1,23 @@
 function lwplate4_gotHit() /* entry=1128 class_id=0x0466 slot=0x06 */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    r, /* [BP+10h] type=0x69 */
+    vel, /* [BP+12h] type=0x69 */
+    item; /* [BP-02h] type=0x24 */
+
   set_info(0x020c, *(arg_06));
   process_exclude();
-  FREE.slot_2c(arg_12, arg_10);
+  FREE.slot_2c(vel, r);
   if (retval) {
     return;
   }
   else {
-    local_02 = arg_10;
-    if (arg_10 == 1) {
-      spawn LITEWALL.slot_21(pid, arg_10, arg_06);
+    item = r;
+    if (r == 1) {
+      spawn LITEWALL.slot_21(pid, r, arg_06);
       suspend;
     }
   }
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

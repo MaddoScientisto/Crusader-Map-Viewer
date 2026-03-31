@@ -1,38 +1,45 @@
 function litewall_slot_20() /* entry=2580 class_id=0x0a12 slot=0x20 */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    r, /* [BP+10h] type=0x69 */
+    wall, /* [BP-02h] type=0x24 */
+    tempType, /* [BP-04h] type=0x69 */
+    realType, /* [BP-06h] type=0x69 */
+    counter; /* [BP-08h] type=0x69 */
+
   set_info(0x0001, *(arg_06));
-  set_info(1, arg_10);
-  local_02 = arg_10;
-  local_08 = 0;
-  if (intrinsic_0016(local_02) == 0x045e) {
-    local_06 = 0x045e;
-    local_04 = 0x0462;
+  set_info(1, r);
+  wall = r;
+  counter = 0;
+  if (Item.getShape(wall) == 0x045e) {
+    realType = 0x045e;
+    tempType = 0x0462;
   }
-  else if (intrinsic_0016(local_02) == 0x045f) {
-    local_06 = 0x045f;
-    local_04 = 0x0463;
+  else if (Item.getShape(wall) == 0x045f) {
+    realType = 0x045f;
+    tempType = 0x0463;
   }
-  else if (intrinsic_0016(local_02) == 0x0460) {
-    local_06 = 0x0460;
-    local_04 = 0x0464;
+  else if (Item.getShape(wall) == 0x0460) {
+    realType = 0x0460;
+    tempType = 0x0464;
   }
-  else if (intrinsic_0016(local_02) == 0x0461) {
-    local_06 = 0x0461;
-    local_04 = 0x0465;
+  else if (Item.getShape(wall) == 0x0461) {
+    realType = 0x0461;
+    tempType = 0x0465;
   }
-  while (local_08 < 4) {
+  while (counter < 4) {
     spawn FREE.slot_32(pid, 2, 0x00000000);
     suspend;
-    local_08 = (1 + local_08);
+    counter = (1 + counter);
   }
   spawn FREE.slot_32(pid, 3, 0x00000000);
   suspend;
-  while (local_08) {
+  while (counter) {
     spawn FREE.slot_32(pid, 2, 0x00000000);
     suspend;
-    local_08 = (local_08 - 1);
+    counter = (counter - 1);
   }
   /* pop_global */
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

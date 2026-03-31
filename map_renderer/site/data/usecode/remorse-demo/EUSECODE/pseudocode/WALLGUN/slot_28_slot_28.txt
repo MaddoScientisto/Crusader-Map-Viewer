@@ -1,24 +1,31 @@
 function wallgun_slot_28() /* entry=2588 class_id=0x0a1a slot=0x28 */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    target, /* [BP+10h] type=0x69 */
+    brain, /* [BP+12h] type=0x69 */
+    h, /* [BP-02h] type=0x69 */
+    delay; /* [BP-04h] type=0x69 */
+
   entry:
     set_info(0x020a, *(arg_06));
-    if arg_12 <= 99 goto block_06ed;
+    if brain <= 99 goto block_06ed;
 
   block_06e3:
-    arg_12 = (arg_12 - 100);
+    brain = (brain - 100);
 
   block_06ed:
-    local_02 = intrinsic_00fb(arg_06);
-    if local_02 != 0 goto block_0713;
+    h = Item.getQHi(arg_06);
+    if h != 0 goto block_0713;
 
   block_0713:
-    if ((local_02 != 99) || (local_02 == 0x00c7)) || (arg_12 == 6) goto block_0734;
+    if ((h != 99) || (h == 0x00c7)) || (brain == 6) goto block_0734;
 
   block_072e:
     goto block_0bfe;
 
   block_0734:
-    WALLGUN.slot_25(Item.getFrame(arg_06), intrinsic_0016(arg_06), arg_06);
+    WALLGUN.slot_25(Item.getFrame(arg_06), Item.getShape(arg_06), arg_06);
     if retval != 1 goto block_075f;
 
   block_0759:
@@ -30,7 +37,7 @@ function wallgun_slot_28() /* entry=2588 class_id=0x0a1a slot=0x28 */
   block_0767:
     spawn WALLGUN.slot_26(pid, arg_06);
     suspend;
-    if arg_12 != 7 goto block_07b0;
+    if brain != 7 goto block_07b0;
 
   block_078e:
     spawn WALLGUN.slot_36(pid, arg_06);
@@ -38,7 +45,7 @@ function wallgun_slot_28() /* entry=2588 class_id=0x0a1a slot=0x28 */
     goto block_0bd5;
 
   block_07b0:
-    if arg_12 != 9 goto block_07da;
+    if brain != 9 goto block_07da;
 
   block_07b8:
     spawn WALLGUN.slot_37(pid, arg_06);
@@ -46,35 +53,35 @@ function wallgun_slot_28() /* entry=2588 class_id=0x0a1a slot=0x28 */
     goto block_0bd5;
 
   block_07da:
-    if arg_12 != 8 goto block_0808;
+    if brain != 8 goto block_0808;
 
   block_07e2:
-    spawn WALLGUN.slot_32(pid, arg_10, arg_06);
+    spawn WALLGUN.slot_32(pid, target, arg_06);
     suspend;
     goto block_0bd5;
 
   block_0808:
-    if arg_12 != 10 goto block_0836;
+    if brain != 10 goto block_0836;
 
   block_0810:
-    spawn WALLGUN.slot_33(pid, arg_10, arg_06);
+    spawn WALLGUN.slot_33(pid, target, arg_06);
     suspend;
     goto block_0bd5;
 
   block_0836:
-    if arg_12 != 11 goto block_0900;
+    if brain != 11 goto block_0900;
 
   block_083e:
     while (1) {
-      if (intrinsic_001b() != 0) {
-        arg_10 = intrinsic_001b();
+      if (getTargetNPCNumMaybe() != 0) {
+        target = getTargetNPCNumMaybe();
       }
       else {
-        arg_10 = 1;
+        target = 1;
       }
-      spawn WALLGUN.slot_3c(pid, arg_12, arg_10, arg_06);
+      spawn WALLGUN.slot_3c(pid, brain, target, arg_06);
       suspend;
-      spawn WALLGUN.slot_2f(pid, arg_12, arg_10, arg_06);
+      spawn WALLGUN.slot_2f(pid, brain, target, arg_06);
       suspend;
       spawn FREE.waitNTimerTicks(pid, 3, 0x00000000);
       suspend;
@@ -86,43 +93,43 @@ function wallgun_slot_28() /* entry=2588 class_id=0x0a1a slot=0x28 */
     goto block_0bd5;
 
   block_0900:
-    if arg_12 != 1 goto block_0955;
+    if brain != 1 goto block_0955;
 
   block_0908:
-    if intrinsic_001b() == 0 goto block_0926;
+    if getTargetNPCNumMaybe() == 0 goto block_0926;
 
   block_0919:
-    arg_10 = intrinsic_001b();
+    target = getTargetNPCNumMaybe();
     goto block_092d;
 
   block_0926:
-    arg_10 = 1;
+    target = 1;
 
   block_092d:
-    spawn WALLGUN.slot_3d(pid, arg_12, arg_10, arg_06);
+    spawn WALLGUN.slot_3d(pid, brain, target, arg_06);
     suspend;
     goto block_0bd5;
 
   block_0955:
-    if arg_12 != 2 goto block_0a04;
+    if brain != 2 goto block_0a04;
 
   block_095d:
     if !(1) goto block_09dc;
 
   block_0965:
-    if intrinsic_001b() == 0 goto block_0983;
+    if getTargetNPCNumMaybe() == 0 goto block_0983;
 
   block_0976:
-    arg_10 = intrinsic_001b();
+    target = getTargetNPCNumMaybe();
     goto block_098a;
 
   block_0983:
-    arg_10 = 1;
+    target = 1;
 
   block_098a:
     spawn WALLGUN.slot_26(pid, arg_06);
     suspend;
-    spawn WALLGUN.slot_31(pid, arg_12, arg_10, arg_06);
+    spawn WALLGUN.slot_31(pid, brain, target, arg_06);
     suspend;
     /* dword_to_word */
     if !process_result goto block_09d9;
@@ -134,12 +141,12 @@ function wallgun_slot_28() /* entry=2588 class_id=0x0a1a slot=0x28 */
     goto block_095d;
 
   block_09dc:
-    spawn WALLGUN.slot_3d(pid, arg_12, arg_10, arg_06);
+    spawn WALLGUN.slot_3d(pid, brain, target, arg_06);
     suspend;
     goto block_0bd5;
 
   block_0a04:
-    if arg_12 != 5 goto block_0a35;
+    if brain != 5 goto block_0a35;
 
   block_0a0c:
     spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
@@ -147,77 +154,77 @@ function wallgun_slot_28() /* entry=2588 class_id=0x0a1a slot=0x28 */
     goto block_0bd5;
 
   block_0a35:
-    if arg_12 != 12 goto block_0a63;
+    if brain != 12 goto block_0a63;
 
   block_0a3d:
-    spawn WALLGUN.slot_38(pid, arg_10, arg_06);
+    spawn WALLGUN.slot_38(pid, target, arg_06);
     suspend;
     goto block_0bd5;
 
   block_0a63:
-    if arg_12 != 13 goto block_0a91;
+    if brain != 13 goto block_0a91;
 
   block_0a6b:
-    spawn WALLGUN.slot_39(pid, arg_10, arg_06);
+    spawn WALLGUN.slot_39(pid, target, arg_06);
     suspend;
     goto block_0bd5;
 
   block_0a91:
-    if arg_12 != 14 goto block_0abf;
+    if brain != 14 goto block_0abf;
 
   block_0a99:
-    spawn WALLGUN.slot_3a(pid, arg_10, arg_06);
+    spawn WALLGUN.slot_3a(pid, target, arg_06);
     suspend;
     goto block_0bd5;
 
   block_0abf:
-    if arg_12 != 15 goto block_0aed;
+    if brain != 15 goto block_0aed;
 
   block_0ac7:
-    spawn WALLGUN.slot_3b(pid, arg_10, arg_06);
+    spawn WALLGUN.slot_3b(pid, target, arg_06);
     suspend;
     goto block_0bd5;
 
   block_0aed:
-    if intrinsic_001b() == 0 goto block_0b0b;
+    if getTargetNPCNumMaybe() == 0 goto block_0b0b;
 
   block_0afe:
-    arg_10 = intrinsic_001b();
+    target = getTargetNPCNumMaybe();
     goto block_0b12;
 
   block_0b0b:
-    arg_10 = 1;
+    target = 1;
 
   block_0b12:
-    spawn WALLGUN.slot_31(pid, arg_12, arg_10, arg_06);
+    spawn WALLGUN.slot_31(pid, brain, target, arg_06);
     suspend;
     /* dword_to_word */
     if !process_result goto block_0b64;
 
   block_0b3c:
-    spawn WALLGUN.slot_3d(pid, arg_12, arg_10, arg_06);
+    spawn WALLGUN.slot_3d(pid, brain, target, arg_06);
     suspend;
     goto block_0bd5;
 
   block_0b64:
     WALLGUN.slot_20(arg_06);
-    local_04 = retval;
-    if local_04 != 0 goto block_0b82;
+    delay = retval;
+    if delay != 0 goto block_0b82;
 
   block_0b7e:
-    local_04 = 3;
+    delay = 3;
 
   block_0b82:
-    if local_04 <= 5 goto block_0b91;
+    if delay <= 5 goto block_0b91;
 
   block_0b8d:
-    local_04 = 5;
+    delay = 5;
 
   block_0b91:
-    local_04 = (local_04 - 1);
-    local_04 = (local_04 * 30);
-    local_04 = (local_04 + 120);
-    spawn FREE.waitNTimerTicks(pid, local_04, 0x00000000);
+    delay = (delay - 1);
+    delay = (delay * 30);
+    delay = (delay + 120);
+    spawn FREE.waitNTimerTicks(pid, delay, 0x00000000);
     suspend;
 
   block_0bd5:
@@ -228,5 +235,4 @@ function wallgun_slot_28() /* entry=2588 class_id=0x0a1a slot=0x28 */
   block_0bfe:
     return;
 
-  /* decompilation stopped at SEARCH_SURFACE */
 }

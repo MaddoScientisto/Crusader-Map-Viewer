@@ -3,7 +3,7 @@ function v_lasers_equip() /* entry=1052 class_id=0x041a slot=0x0a */
   set_info(0x0211, *(arg_06));
   process_exclude();
   ITEM.slot_24(0x1000, arg_06);
-  if (!(intrinsic_0004(arg_06) & 0x1000)) {
+  if (!(Item.getStatus(arg_06) & 0x1000)) {
     return;
   }
   else {
@@ -16,7 +16,6 @@ function v_lasers_equip() /* entry=1052 class_id=0x041a slot=0x0a */
       if (Actor.isNPC(local_02)) {
         FREE.slot_20(8, 20, 8);
       }
-      /* loopnext */
     }
     spawn FREE.slot_3b(pid, 10, 0x00000000);
     suspend;
@@ -32,11 +31,10 @@ function v_lasers_equip() /* entry=1052 class_id=0x041a slot=0x0a */
     suspend;
     for local_02 in nearby_items(family=6, origin=arg_06) {
       if (Actor.isNPC(local_02)) {
-        if (intrinsic_00a4(*(arg_06), local_02)) {
-          FREE.slot_20(8, intrinsic_002f(local_02), 8);
+        if (Item.overlaps(*(arg_06), local_02)) {
+          FREE.slot_20(8, Actor.getHp(local_02), 8);
         }
       }
-      /* loopnext */
     }
     ITEM.slot_25(0x1000, arg_06);
   }

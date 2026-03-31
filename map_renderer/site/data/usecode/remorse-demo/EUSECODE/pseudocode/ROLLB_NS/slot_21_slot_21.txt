@@ -1,97 +1,109 @@
 function rollb_ns_slot_21() /* entry=1416 class_id=0x0586 slot=0x21 */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    time, /* [BP-02h] type=0x69 */
+    f, /* [BP-04h] type=0x69 */
+    a, /* [BP-06h] type=0x69 */
+    total, /* [BP-08h] type=0x69 */
+    counter, /* [BP-10h] type=0x69 */
+    dz, /* [BP-12h] type=0x69 */
+    oldz, /* [BP-14h] type=0x69 */
+    wp, /* [BP-19h] type=0x24 */
+    cargo, /* [BP-21h] type=0x24 */
+    zCheck, /* [BP-23h] type=0x69 */
+    zMax; /* [BP-24h] type=0x62 */
+
   set_info(0x0001, *(arg_06));
-  local_06 = intrinsic_00f0(arg_06);
-  local_02 = (local_06 & 31);
-  if (local_02 == 0) {
-    local_02 = 1;
+  a = Item.getQHi(arg_06);
+  time = (a & 31);
+  if (time == 0) {
+    time = 1;
   }
-  local_04 = Item.getFrame(arg_06);
-  local_19 = intrinsic_0013(arg_06);
-  local_17 = Item.legal_create(arg_06);
+  f = Item.getFrame(arg_06);
+  wp = Item.getX(arg_06);
+  local_17 = Item.getY(arg_06);
   local_15 = Item.getZ(arg_06);
-  if (local_06 & 32) {
-    if (local_06 < 0x0080) {
+  if (a & 32) {
+    if (a < 0x0080) {
       while (1) {
-        local_04 = (local_04 - 1);
-        if (local_04 < 0) {
-          local_04 = 4;
+        f = (f - 1);
+        if (f < 0) {
+          f = 4;
         }
-        local_08 = 0;
+        total = 0;
         /* loopscr */
         /* loop */
         while (condition) {
-          local_08 = (1 + local_08);
-          /* loopnext */
+          total = (1 + total);
         }
         local_17 = (local_17 + 8);
-        if (intrinsic_0031(0, 0, local_19, arg_06) == 0) {
-          local_10 = 1;
-          while (local_10 <= local_08) {
-            local_21 = intrinsic_0023();
-            local_10 = (1 + local_10);
+        if (Item.andStatus(0, 0, wp, arg_06) == 0) {
+          counter = 1;
+          while (counter <= total) {
+            cargo = Item.getEtherealTop();
+            counter = (1 + counter);
           }
           spawn ROLLB_NS.slot_20(pid, arg_06);
           suspend;
           return;
         }
-        local_10 = 1;
-        while (local_10 <= local_08) {
-          local_21 = intrinsic_0023();
-          local_10 = (1 + local_10);
+        counter = 1;
+        while (counter <= total) {
+          cargo = Item.getEtherealTop();
+          counter = (1 + counter);
         }
-        spawn FREE.waitNTimerTicks(pid, local_02, 0x00000000);
+        spawn FREE.waitNTimerTicks(pid, time, 0x00000000);
         suspend;
       }
     }
     else {
       while (1) {
-        local_04 = (1 + local_04);
-        if (local_04 > 4) {
-          local_04 = 0;
+        f = (1 + f);
+        if (f > 4) {
+          f = 0;
         }
-        local_08 = 0;
+        total = 0;
         /* loopscr */
         /* loop */
         while (condition) {
-          local_08 = (1 + local_08);
-          /* loopnext */
+          total = (1 + total);
         }
         local_17 = (local_17 - 8);
-        if (intrinsic_0031(0, 0, local_19, arg_06) == 0) {
-          local_10 = 1;
-          while (local_10 <= local_08) {
-            local_21 = intrinsic_0023();
-            local_10 = (1 + local_10);
+        if (Item.andStatus(0, 0, wp, arg_06) == 0) {
+          counter = 1;
+          while (counter <= total) {
+            cargo = Item.getEtherealTop();
+            counter = (1 + counter);
           }
           spawn ROLLB_NS.slot_20(pid, arg_06);
           suspend;
           return;
         }
-        local_10 = 1;
-        while (local_10 <= local_08) {
-          local_21 = intrinsic_0023();
-          local_10 = (1 + local_10);
+        counter = 1;
+        while (counter <= total) {
+          cargo = Item.getEtherealTop();
+          counter = (1 + counter);
         }
-        spawn FREE.waitNTimerTicks(pid, local_02, 0x00000000);
+        spawn FREE.waitNTimerTicks(pid, time, 0x00000000);
         suspend;
       }
     }
     return;
   }
   else {
-    local_23 = 0;
-    local_24 = local_15;
-    if (local_06 < 0x0080) {
+    zCheck = 0;
+    zMax = local_15;
+    if (a < 0x0080) {
       while (1) {
-        local_04 = (local_04 - 1);
-        if (local_04 < 0) {
-          local_04 = 4;
+        f = (f - 1);
+        if (f < 0) {
+          f = 4;
         }
         local_17 = (local_17 + 8);
-        if (intrinsic_0031(0, 0, local_19, arg_06) == 0) {
+        if (Item.andStatus(0, 0, wp, arg_06) == 0) {
           local_15 = (1 + local_15);
-          if (intrinsic_0031(0, 0, local_19, arg_06) == 0) {
+          if (Item.andStatus(0, 0, wp, arg_06) == 0) {
             spawn ROLLB_NS.slot_20(pid, arg_06);
             suspend;
             return;
@@ -99,33 +111,33 @@ function rollb_ns_slot_21() /* entry=1416 class_id=0x0586 slot=0x21 */
         }
         if (local_15 > 1) {
           local_15 = (local_15 - 4);
-          if (intrinsic_0031(0, 0, local_19, arg_06) == 0) {
+          if (Item.andStatus(0, 0, wp, arg_06) == 0) {
             local_15 = (local_15 + 4);
           }
-          local_23 = (local_24 - local_15);
+          zCheck = (zMax - local_15);
         }
-        else if (local_23 > 12) {
+        else if (zCheck > 12) {
           spawn FREE.waitNTimerTicks(pid, 6, 0x00000000);
           suspend;
           spawn ROLLB_NS.slot_20(pid, arg_06);
           suspend;
           return;
         }
-        spawn FREE.waitNTimerTicks(pid, local_02, 0x00000000);
+        spawn FREE.waitNTimerTicks(pid, time, 0x00000000);
         suspend;
       }
       return;
     }
     else {
       while (1) {
-        local_04 = (1 + local_04);
-        if (local_04 > 4) {
-          local_04 = 0;
+        f = (1 + f);
+        if (f > 4) {
+          f = 0;
         }
         local_17 = (local_17 - 8);
-        if (intrinsic_0031(0, 0, local_19, arg_06) == 0) {
+        if (Item.andStatus(0, 0, wp, arg_06) == 0) {
           local_15 = (1 + local_15);
-          if (intrinsic_0031(0, 0, local_19, arg_06) == 0) {
+          if (Item.andStatus(0, 0, wp, arg_06) == 0) {
             spawn ROLLB_NS.slot_20(pid, arg_06);
             suspend;
             return;
@@ -133,23 +145,22 @@ function rollb_ns_slot_21() /* entry=1416 class_id=0x0586 slot=0x21 */
         }
         if (local_15 > 1) {
           local_15 = (local_15 - 4);
-          if (intrinsic_0031(0, 0, local_19, arg_06) == 0) {
+          if (Item.andStatus(0, 0, wp, arg_06) == 0) {
             local_15 = (local_15 + 4);
           }
-          local_23 = (local_24 - local_15);
+          zCheck = (zMax - local_15);
         }
-        else if (local_23 > 12) {
+        else if (zCheck > 12) {
           spawn FREE.waitNTimerTicks(pid, 6, 0x00000000);
           suspend;
           spawn ROLLB_NS.slot_20(pid, arg_06);
           suspend;
           return;
         }
-        spawn FREE.waitNTimerTicks(pid, local_02, 0x00000000);
+        spawn FREE.waitNTimerTicks(pid, time, 0x00000000);
         suspend;
       }
     }
   }
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

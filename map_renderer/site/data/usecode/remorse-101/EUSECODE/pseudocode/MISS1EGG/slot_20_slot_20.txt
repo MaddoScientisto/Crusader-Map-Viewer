@@ -1,33 +1,23 @@
 function miss1egg_slot_20() /* entry=2319 class_id=0x090d slot=0x20 */
 {
   set_info(0x00f0, *(arg_06));
-  /* global_address */
-  while (intrinsic_0033()) {
+  while (Actor.isBusy(&global[0x003d])) {
     spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
     suspend;
   }
-  /* global_address */
   suspend;
   for local_04 in nearby_items(shape=EVENT_CONTROLLER, origin=global[0x003d]) {
-    /* global_address */
-    /* loopnext */
   }
   for local_06 in selector_0x42(arg0=0x032a, arg1=0x0329, arg2=(100 * 32), origin=global[0x003d]) {
-    /* loopnext */
   }
-  /* global_address */
-  spawn NPC.slot_22(pid, 5, 8);
+  spawn NPC.slot_22(pid, 5, 8, &global[0x003d]);
   suspend;
-  /* global_address */
-  spawn NPC.slot_22(pid, 8, 6);
+  spawn NPC.slot_22(pid, 8, 6, &global[0x003d]);
   suspend;
-  /* global_address */
-  spawn NPC.slot_22(pid, 2, 8);
+  spawn NPC.slot_22(pid, 2, 8, &global[0x003d]);
   suspend;
-  /* global_address */
-  spawn NPC.slot_22(pid, 2, 12);
+  spawn NPC.slot_22(pid, 2, 12, &global[0x003d]);
   suspend;
-  /* global_address */
   suspend;
   /* loopscr */
   /* loopscr */
@@ -35,15 +25,10 @@ function miss1egg_slot_20() /* entry=2319 class_id=0x090d slot=0x20 */
   /* loopscr */
   /* loop */
   while (condition) {
-    /* loopnext */
   }
-  /* global_address */
   suspend;
-  /* global_address */
   suspend;
-  /* global_address */
   suspend;
-  /* global_address */
   suspend;
   local_08 = 1;
   while (local_08 <= 5) {
@@ -58,29 +43,25 @@ function miss1egg_slot_20() /* entry=2319 class_id=0x090d slot=0x20 */
   for local_06 in nearby_items(shape=REACTOR, origin=global[0x003d]) {
     spawn ITEM.slot_28(pid, 0, 2, local_06);
     suspend;
-    /* loopnext */
   }
   for local_06 in nearby_items(shape=REACTOR_CELL, origin=global[0x003d]) {
     spawn ITEM.slot_28(pid, 1, 0, local_06);
     suspend;
     spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
     suspend;
-    /* loopnext */
   }
   spawn FREE.slot_3b(0x00000000);
   for local_06 in nearby_items(shape=NUMBERS, origin=global[0x003d]) {
-    spawn FREE.waitNTimerTicks(intrinsic_0018(pid, 20, 10), 0x00000000);
+    spawn FREE.waitNTimerTicks(UCMachine.rndRange(pid, 20, 10), 0x00000000);
     suspend;
-    /* loopnext */
   }
   spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
   suspend;
   for local_06 in nearby_items(shape=ELECTRODE, origin=global[0x003d]) {
     spawn ITEM.slot_28(pid, 0, 0, local_06);
     suspend;
-    spawn FREE.waitNTimerTicks(intrinsic_0018(pid, 10, 5), 0x00000000);
+    spawn FREE.waitNTimerTicks(UCMachine.rndRange(pid, 10, 5), 0x00000000);
     suspend;
-    /* loopnext */
   }
   spawn FREE.waitNTimerTicks(pid, 0x00c8, 0x00000000);
   suspend;

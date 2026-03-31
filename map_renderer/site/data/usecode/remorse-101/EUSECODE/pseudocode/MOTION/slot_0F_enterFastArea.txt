@@ -3,22 +3,18 @@ function motion_enterFastArea() /* entry=441 class_id=0x01b7 slot=0x0f */
   set_info(0x021b, *(arg_06));
   process_exclude();
   local_06 = 1;
-  local_09 = ((5 - intrinsic_0029()) * 2);
-  local_11 = ((5 - intrinsic_0029()) * 5);
+  local_09 = ((5 - Game.getDifficultyLevel()) * 2);
+  local_11 = ((5 - Game.getDifficultyLevel()) * 5);
   suspend;
   spawn FREE.waitNTimerTicks(pid, local_09, 0x00000000);
   suspend;
-  /* global_address */
-  /* global_address */
-  local_13 = intrinsic_0027(intrinsic_0013(Item.legal_create(16, 0, 16)), Item.legal_create(arg_06), intrinsic_0013(arg_06));
+  local_13 = getClosestDirectionInRange(16, Item.getX(Item.getY(0, 16, &global[0x003d]), &global[0x003d]), Item.getY(arg_06), Item.getX(arg_06));
   local_04 = Item.getFrame(arg_06);
   while (true) {
     suspend;
     spawn FREE.waitNTimerTicks(pid, local_09, 0x00000000);
     suspend;
-    /* global_address */
-    /* global_address */
-    local_13 = intrinsic_0027(intrinsic_0013(Item.legal_create(16, 0, 16)), Item.legal_create(arg_06), intrinsic_0013(arg_06));
+    local_13 = getClosestDirectionInRange(16, Item.getX(Item.getY(0, 16, &global[0x003d]), &global[0x003d]), Item.getY(arg_06), Item.getX(arg_06));
     local_04 = Item.getFrame(arg_06);
     if (local_13 == local_04) {
       local_02 = (1 + local_02);

@@ -3,100 +3,89 @@ function detpac_use() /* entry=1377 class_id=0x055f slot=0x01 */
   set_info(0x0207, *(arg_06));
   process_exclude();
   local_03 = *(arg_06);
-  if (Item.legal_create(arg_06)) {
-    /* global_address */
-    if (intrinsic_0011() == 40) {
+  if (Actor.teleport(arg_06)) {
+    if (Actor.getMap(&global[0x003d]) == 40) {
       return;
     }
     else {
       set_info(0x00f0, 0);
       local_07 = 0;
-      /* global_address */
-      while (intrinsic_0033()) {
+      while (Actor.isBusy(&global[0x003d])) {
         spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
         suspend;
       }
-      /* global_address */
-      if (intrinsic_001e() == 0) {
+      if (Actor.maybeFire(&global[0x003d]) == 0) {
         local_09 = -1;
         local_11 = -3;
       }
-      else if (intrinsic_001e() == 1) {
+      else if (Actor.maybeFire(&global[0x003d]) == 1) {
         local_09 = 0;
         local_11 = -3;
       }
-      else if (intrinsic_001e() == 2) {
+      else if (Actor.maybeFire(&global[0x003d]) == 2) {
         local_09 = 1;
         local_11 = -3;
       }
-      else if (intrinsic_001e() == 3) {
+      else if (Actor.maybeFire(&global[0x003d]) == 3) {
         local_09 = 2;
         local_11 = -2;
       }
-      else if (intrinsic_001e() == 4) {
+      else if (Actor.maybeFire(&global[0x003d]) == 4) {
         local_09 = 2;
         local_11 = -1;
       }
-      else if (intrinsic_001e() == 5) {
+      else if (Actor.maybeFire(&global[0x003d]) == 5) {
         local_09 = 2;
         local_11 = 0;
       }
-      else if (intrinsic_001e() == 6) {
+      else if (Actor.maybeFire(&global[0x003d]) == 6) {
         local_09 = 2;
         local_11 = 2;
       }
-      else if (intrinsic_001e() == 7) {
+      else if (Actor.maybeFire(&global[0x003d]) == 7) {
         local_09 = 0;
         local_11 = 2;
       }
-      else if (intrinsic_001e() == 8) {
+      else if (Actor.maybeFire(&global[0x003d]) == 8) {
         local_09 = -1;
         local_11 = 2;
       }
-      else if (intrinsic_001e() == 9) {
+      else if (Actor.maybeFire(&global[0x003d]) == 9) {
         local_09 = -2;
         local_11 = 2;
       }
-      else if (intrinsic_001e() == 10) {
+      else if (Actor.maybeFire(&global[0x003d]) == 10) {
         local_09 = -3;
         local_11 = 2;
       }
-      else if (intrinsic_001e() == 11) {
+      else if (Actor.maybeFire(&global[0x003d]) == 11) {
         local_09 = -3;
         local_11 = 1;
       }
-      else if (intrinsic_001e() == 12) {
+      else if (Actor.maybeFire(&global[0x003d]) == 12) {
         local_09 = -3;
         local_11 = 0;
       }
-      else if (intrinsic_001e() == 13) {
+      else if (Actor.maybeFire(&global[0x003d]) == 13) {
         local_09 = -3;
         local_11 = -1;
       }
-      else if (intrinsic_001e() == 14) {
+      else if (Actor.maybeFire(&global[0x003d]) == 14) {
         local_09 = -3;
         local_11 = -2;
       }
-      else if (intrinsic_001e() == 15) {
+      else if (Actor.maybeFire(&global[0x003d]) == 15) {
         local_09 = -3;
         local_11 = -3;
       }
-      /* global_address */
-      if (intrinsic_0035()) {
+      if (Actor.getSomeFlagProbablyCrouch(&global[0x003d])) {
         local_01 = 1;
       }
       else {
         local_01 = 0;
-        /* global_address */
-        /* global_address */
         suspend;
       }
-      /* global_address */
-      /* global_address */
-      /* global_address */
       if (!local_01) {
-        /* global_address */
-        /* global_address */
         suspend;
       }
       return;

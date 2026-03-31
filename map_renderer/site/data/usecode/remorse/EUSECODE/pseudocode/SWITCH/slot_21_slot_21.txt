@@ -5,7 +5,7 @@ function switch_slot_21() /* entry=2584 class_id=0x0a16 slot=0x21 */
     okay; /* [BP-01h] type=0x62 */
 
   set_info(0x0207, *(arg_06));
-  okay = intrinsic_00fd(intrinsic_00ea(arg_06));
+  okay = MainActor.hasKeycard(Item.getQLo(arg_06));
   if (Item.getFrame(arg_06) == 4) {
     spawn FREE.slot_21(pid, 0x00ad, 0x00000000);
     suspend;
@@ -15,10 +15,10 @@ function switch_slot_21() /* entry=2584 class_id=0x0a16 slot=0x21 */
     suspend;
     return;
   }
-  else if (intrinsic_0000()) {
+  else if (World.getAlertActive()) {
     spawn FREE.slot_21(pid, 0x0090, 0x00000000);
     suspend;
-    if (intrinsic_0018(100, 0) > 50) {
+    if (UCMachine.rndRange(100, 0) > 50) {
     }
     return;
   }
@@ -30,7 +30,7 @@ function switch_slot_21() /* entry=2584 class_id=0x0a16 slot=0x21 */
     return;
   }
   else {
-    while (intrinsic_003a(0x0090, arg_06)) {
+    while (AudioProcess.isSFXPlayingForObject(0x0090, arg_06)) {
       spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
       suspend;
     }

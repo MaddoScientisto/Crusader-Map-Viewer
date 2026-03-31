@@ -4,7 +4,7 @@ function reb_coup_equip() /* entry=847 class_id=0x034d slot=0x0a */
   process_exclude();
   FREE.slot_33(0x021b, *(arg_06));
   if (arg_10) {
-    if (intrinsic_0004(arg_06) & 0x1000) {
+    if (Item.getStatus(arg_06) & 0x1000) {
       return;
     }
     ITEM.slot_23(0x1000, arg_06);

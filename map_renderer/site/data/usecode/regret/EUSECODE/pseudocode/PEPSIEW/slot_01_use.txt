@@ -7,15 +7,14 @@ function pepsiew_use() /* entry=150 class_id=0x0094 slot=0x01 */
   local_13 = (Item.getX(arg_06) + 32);
   local_11 = Item.getY(arg_06);
   local_09 = (Item.getZ(arg_06) + 32);
-  if (intrinsic_0013(100, 0) > 50) {
+  if (UCMachine.rndRange(100, 0) > 50) {
     if (Item.legal_create(local_13, 0, 0x0343, local_02)) {
       suspend;
       for local_02 in nearby_items(shape=0x01e4, origin=global[0x001e]) {
-        if (intrinsic_0004(local_02) & 0x0080) {
+        if (Item.getStatus(local_02) & 0x0080) {
           spawn ITEM.slot_2a(pid, 1, 0, local_02);
           suspend;
         }
-        /* loopnext */
       }
     }
     return;

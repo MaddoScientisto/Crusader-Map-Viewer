@@ -1,5 +1,10 @@
 function gtelepad_release() /* entry=271 class_id=0x010d slot=0x09 */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    tele, /* [BP-02h] type=0x24 */
+    npc; /* [BP-04h] type=0x24 */
+
   set_info(0x020d, *(arg_06));
   process_exclude();
   spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
@@ -18,9 +23,8 @@ function gtelepad_release() /* entry=271 class_id=0x010d slot=0x09 */
   /* loopscr */
   /* loop */
   while (condition) {
-    if (local_04 == 1) {
-      /* global_address */
-      while (intrinsic_00bc(*(arg_06))) {
+    if (npc == 1) {
+      while (Item.isOn(*(arg_06), &global[0x003c])) {
         spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
         suspend;
       }
@@ -28,5 +32,4 @@ function gtelepad_release() /* entry=271 class_id=0x010d slot=0x09 */
     return;
   }
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

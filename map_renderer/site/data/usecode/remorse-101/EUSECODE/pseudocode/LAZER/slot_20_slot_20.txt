@@ -2,7 +2,7 @@ function lazer_slot_20() /* entry=2577 class_id=0x0a0f slot=0x20 */
 {
   set_info(0x0205, *(arg_06));
   set_info(0x0205, *(arg_06));
-  if ((intrinsic_0004(arg_06) & 0x1000) || (Item.getFrame(arg_06) != 0)) {
+  if ((Item.getStatus(arg_06) & 0x1000) || (Item.getFrame(arg_06) != 0)) {
     return;
   }
   else {
@@ -11,16 +11,15 @@ function lazer_slot_20() /* entry=2577 class_id=0x0a0f slot=0x20 */
     /* loopscr */
     /* loop */
     while (condition) {
-      if (intrinsic_00a7(arg_06) == intrinsic_00a7(local_02)) {
+      if (Egg.getEggXRange(arg_06) == Egg.getEggXRange(local_02)) {
         ITEM.slot_23(0x1000, local_02);
       }
-      /* loopnext */
     }
     for local_04 in nearby_items(family=6, origin=arg_06) {
       if (local_04 <= 0x0100) {
-        if (intrinsic_009d(local_04, arg_06)) {
-          if (local_04 != intrinsic_001d()) {
-            local_06 = intrinsic_001e(local_04);
+        if (PaletteFaderProcess.fadeToBlack(local_04, arg_06)) {
+          if (local_04 != Actor.getLastAnimSet()) {
+            local_06 = Actor.maybeFire(local_04);
             if (local_06 < 8) {
               local_06 = (local_06 + 8);
             }
@@ -35,16 +34,14 @@ function lazer_slot_20() /* entry=2577 class_id=0x0a0f slot=0x20 */
           }
         }
       }
-      /* loopnext */
     }
     /* loopscr */
     /* loopscr */
     /* loop */
     while (condition) {
-      if (intrinsic_00a7(arg_06) == intrinsic_00a7(local_02)) {
+      if (Egg.getEggXRange(arg_06) == Egg.getEggXRange(local_02)) {
         ITEM.slot_24(0x1000, local_02);
       }
-      /* loopnext */
     }
     ITEM.slot_24(0x1000, arg_06);
   }

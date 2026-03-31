@@ -1,12 +1,19 @@
 function free_slot_30() /* entry=2575 class_id=0x0a0d slot=0x30 */
 {
+  var
+    ref, /* [BP+06h] type=0x69 */
+    addType, /* [BP+08h] type=0x69 */
+    fram, /* [BP+10h] type=0x69 */
+    var, /* [BP+12h] type=0x69 */
+    phold, /* [BP-02h] type=0x24 */
+    item; /* [BP-04h] type=0x24 */
+
   set_info(1, 0);
-  local_02 = arg_06;
-  if (intrinsic_0016(local_02) == 0x0476) {
-    if (arg_08 != 0) {
+  phold = ref;
+  if (Item.getShape(phold) == 0x0476) {
+    if (addType != 0) {
       return;
     }
   }
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

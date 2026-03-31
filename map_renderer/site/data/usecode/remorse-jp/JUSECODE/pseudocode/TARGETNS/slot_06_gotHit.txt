@@ -1,9 +1,15 @@
 function targetns_gotHit() /* entry=500 class_id=0x01f2 slot=0x06 */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    vel, /* [BP+12h] type=0x69 */
+    item; /* [BP-02h] type=0x24 */
+
   set_info(0x020c, *(arg_06));
   process_exclude();
-  local_02 = arg_10;
-  FREE.slot_2b(arg_12, arg_10);
+  item = ref;
+  FREE.slot_2b(vel, ref);
   if (retval) {
     if (Item.getFrame(arg_06) == 0) {
       return;
@@ -18,5 +24,4 @@ function targetns_gotHit() /* entry=500 class_id=0x01f2 slot=0x06 */
     }
   }
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

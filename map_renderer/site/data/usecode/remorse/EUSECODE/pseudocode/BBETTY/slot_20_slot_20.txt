@@ -8,7 +8,7 @@ function bbetty_slot_20() /* entry=2563 class_id=0x0a01 slot=0x20 */
     total; /* [BP-08h] type=0x69 */
 
   set_info(0x0205, *(arg_06));
-  if (intrinsic_0016(arg_06) != 0x02c9) {
+  if (Item.getShape(arg_06) != bbetty_shape_02c9) {
     counter = 0;
     while (counter <= 4) {
       total = 0;
@@ -16,11 +16,10 @@ function bbetty_slot_20() /* entry=2563 class_id=0x0a01 slot=0x20 */
       /* loop */
       while (condition) {
         total = (1 + total);
-        /* loopnext */
       }
       counter2 = 1;
       while (counter2 <= total) {
-        item = intrinsic_0023();
+        item = Item.getEtherealTop();
         counter2 = (1 + counter2);
       }
       spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);

@@ -1,33 +1,46 @@
 function hover_slot_23() /* entry=2575 class_id=0x0a0d slot=0x23 */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    check, /* [BP+12h] type=0x62 */
+    cargo, /* [BP-02h] type=0x24 */
+    item, /* [BP-04h] type=0x24 */
+    hover, /* [BP-06h] type=0x24 */
+    dx, /* [BP-08h] type=0x69 */
+    dy, /* [BP-10h] type=0x69 */
+    dz, /* [BP-12h] type=0x69 */
+    firstEgg, /* [BP-14h] type=0x69 */
+    link, /* [BP-16h] type=0x69 */
+    x, /* [BP-18h] type=0x69 */
+    y, /* [BP-20h] type=0x69 */
+    z; /* [BP-21h] type=0x62 */
+
   set_info(1, 0);
-  local_06 = arg_10;
-  if ((arg_12 == 1) && (intrinsic_002c(local_06) == 1)) {
+  hover = ref;
+  if ((check == 1) && (Item.inFastArea(hover) == 1)) {
     return;
   }
   else {
-    local_14 = (intrinsic_00be(local_06) & 15);
-    local_16 = intrinsic_00ae(local_06);
-    for local_04 in nearby_items(shape=NUMBERS, origin=arg_10) {
-      if (Item.getFrame(local_04) == local_14) {
-        if ((local_16 == 0) || (local_16 == intrinsic_00ae(local_04))) {
-          local_18 = intrinsic_0013(local_04);
-          local_20 = Item.legal_create(local_04);
-          local_21 = Item.getZ(local_04);
-          local_08 = (local_18 - intrinsic_0013(local_06));
-          local_10 = (local_20 - Item.legal_create(local_06));
-          local_12 = (local_21 - Item.getZ(local_06));
+    firstEgg = (Item.getQHi(hover) & 15);
+    link = Item.getQLo(hover);
+    for item in nearby_items(shape=NUMBERS, origin=ref) {
+      if (Item.getFrame(item) == firstEgg) {
+        if ((link == 0) || (link == Item.getQLo(item))) {
+          x = Item.getX(item);
+          y = Item.getY(item);
+          z = Item.getZ(item);
+          dx = (x - Item.getX(hover));
+          dy = (y - Item.getY(hover));
+          dz = (z - Item.getZ(hover));
           /* loopscr */
           /* loop */
           while (condition) {
-            /* loopnext */
           }
           return;
         }
       }
-      /* loopnext */
     }
   }
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

@@ -1,84 +1,101 @@
 function bridge_slot_26() /* entry=2565 class_id=0x0a03 slot=0x26 */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    start, /* [BP+10h] type=0x69 */
+    end, /* [BP+12h] type=0x69 */
+    n, /* [BP-02h] type=0x24 */
+    item, /* [BP-04h] type=0x24 */
+    bridgeitems, /* [BP-06h] type=0x6c */
+    bridgemax, /* [BP-08h] type=0x69 */
+    x, /* [BP-10h] type=0x69 */
+    y, /* [BP-12h] type=0x69 */
+    z, /* [BP-14h] type=0x69 */
+    a, /* [BP-16h] type=0x69 */
+    cycletype, /* [BP-18h] type=0x69 */
+    delay, /* [BP-20h] type=0x69 */
+    retry, /* [BP-22h] type=0x69 */
+    wp, /* [BP-27h] type=0x24 */
+    item2; /* [BP-29h] type=0x24 */
+
   entry:
     set_info(0x021b, *(arg_06));
-    local_18 = 0;
-    local_20 = 1;
-    local_08 = arg_12;
-    if local_08 != 0 goto block_0d66;
+    cycletype = 0;
+    delay = 1;
+    bridgemax = end;
+    if bridgemax != 0 goto block_0d66;
 
   block_0cff_selector_00:
-    /* loop_selector local_04 in selector_0x42(arg0=0x03a6, arg1=0x0413, arg2=(70 * 32), origin=arg_06) */
+    /* loop_selector item in selector_0x42(arg0=0x03a6, arg1=0x0413, arg2=(70 * 32), origin=arg_06) */
 
   block_0d1f:
     if !condition goto block_0d53;
 
   block_0d22:
-    local_10 = intrinsic_002b(local_04);
-    if local_10 != arg_10 goto block_0d4f;
+    x = Item.getQLo(item);
+    if x != start goto block_0d4f;
 
   block_0d3b:
-    local_08 = intrinsic_0026(local_04);
+    bridgemax = Item.getQHi(item);
     goto block_0d53;
 
   block_0d4f:
-    /* loopnext */
     goto block_0d1f;
 
   block_0d53:
-    if local_08 != 0 goto block_0d66;
+    if bridgemax != 0 goto block_0d66;
 
   block_0d60:
     goto block_12f6;
 
   block_0d66:
-    if local_08 >= arg_10 goto block_0d77;
+    if bridgemax >= start goto block_0d77;
 
   block_0d71:
     goto block_12f6;
 
   block_0d77:
-    local_12 = arg_10;
-    local_22 = 100;
+    y = start;
+    retry = 100;
 
   block_0d85:
-    if local_12 > local_08 goto block_0ee8;
+    if y > bridgemax goto block_0ee8;
 
   block_0d90:
-    local_14 = local_12;
+    z = y;
 
   block_0d90_selector_00:
-    /* loop_selector local_04 in selector_0x42(arg0=0x03a6, arg1=0x0413, arg2=(70 * 32), origin=arg_06) */
+    /* loop_selector item in selector_0x42(arg0=0x03a6, arg1=0x0413, arg2=(70 * 32), origin=arg_06) */
 
   block_0db7:
     if !condition goto block_0e74;
 
   block_0dba:
-    local_10 = intrinsic_002b(local_04);
-    if local_10 != local_12 goto block_0e70;
+    x = Item.getQLo(item);
+    if x != y goto block_0e70;
 
   block_0dd3:
-    if local_10 != (arg_10 + 1) goto block_0e50;
+    if x != (start + 1) goto block_0e50;
 
   block_0de1:
-    local_16 = intrinsic_0026(local_04);
-    if local_16 >= 0 goto block_0e05;
+    a = Item.getQHi(item);
+    if a >= 0 goto block_0e05;
 
   block_0dfa:
-    local_16 = (local_16 + 0x0100);
+    a = (a + 0x0100);
 
   block_0e05:
-    local_16 = (local_16 & 127);
-    local_18 = (local_16 & 7);
-    local_20 = (local_16 / 8);
-    if local_20 != 0 goto block_0e35;
+    a = (a & 127);
+    cycletype = (a & 7);
+    delay = (a / 8);
+    if delay != 0 goto block_0e35;
 
   block_0e2e:
-    local_20 = 1;
+    delay = 1;
 
   block_0e35:
-    local_20 = (local_20 * 5);
-    if local_18 != 0 goto block_0e50;
+    delay = (delay * 5);
+    if cycletype != 0 goto block_0e50;
 
   block_0e4a:
     goto block_12f6;
@@ -87,19 +104,18 @@ function bridge_slot_26() /* entry=2565 class_id=0x0a03 slot=0x26 */
     /* create_list */
     /* append_list */
     /* free_local_list */
-    local_06 = local_04;
-    local_12 = (1 + local_12);
+    bridgeitems = item;
+    y = (1 + y);
     goto block_0e74;
 
   block_0e70:
-    /* loopnext */
     goto block_0db7;
 
   block_0e74:
-    if local_14 != local_12 goto block_0ee5;
+    if z != y goto block_0ee5;
 
   block_0e81:
-    if local_22 != 0 goto block_0eb5;
+    if retry != 0 goto block_0eb5;
 
   block_0e8c:
     spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
@@ -107,7 +123,7 @@ function bridge_slot_26() /* entry=2565 class_id=0x0a03 slot=0x26 */
     goto block_0ee5;
 
   block_0eb5:
-    local_22 = (local_22 - 1);
+    retry = (retry - 1);
     spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
     suspend;
 
@@ -115,100 +131,98 @@ function bridge_slot_26() /* entry=2565 class_id=0x0a03 slot=0x26 */
     goto block_0d85;
 
   block_0ee8:
-    if local_18 != 3 goto block_110a;
+    if cycletype != 3 goto block_110a;
 
   block_0ef3:
     if !(1) goto block_110a;
 
   block_0efb:
-    local_10 = 0;
+    x = 0;
 
   block_0f0b:
     while (true) {
-      foreach_list local_04 -> block_0f32;
-      if (intrinsic_002c(local_04) == 0) {
-        local_10 = (1 + local_10);
+      foreach_list item -> block_0f32;
+      if (Item.inFastArea(item) == 0) {
+        x = (1 + x);
       }
     }
 
   block_0f32:
-    if local_10 != 0 goto block_10e1;
+    if x != 0 goto block_10e1;
 
   block_0f46:
     while (true) {
-      foreach_list local_04 -> block_0f9d;
-      if (local_10 == 0) {
-        local_12 = Item.getFrame(local_04);
-        local_29 = local_04;
-        local_10 = 1;
+      foreach_list item -> block_0f9d;
+      if (x == 0) {
+        y = Item.getFrame(item);
+        item2 = item;
+        x = 1;
       }
       else {
-        local_14 = Item.getFrame(local_04);
-        local_12 = local_14;
+        z = Item.getFrame(item);
+        y = z;
       }
     }
 
   block_0fb3:
     while (true) {
-      foreach_list local_04 -> block_10e1;
-      local_10 = Item.getFrame(local_04);
-      if (local_10 == 1) {
+      foreach_list item -> block_10e1;
+      x = Item.getFrame(item);
+      if (x == 1) {
         /* loopscr */
         /* loop */
         while (condition) {
-          local_02 = local_29;
+          n = item2;
           FREE.slot_20(pid, 8);
-          spawn NPC.slot_2d(retval, local_04, local_02);
+          spawn NPC.slot_2d(retval, item, n);
           suspend;
-          /* loopnext */
         }
       }
-      else if (local_10 == 2) {
-        BRIDGE.slot_21(0x0336, local_04);
+      else if (x == 2) {
+        BRIDGE.slot_21(0x0336, item);
         /* loopscr */
         /* loop */
         while (condition) {
-          /* loopnext */
         }
-        spawn FREE.waitNTimerTicks(pid, local_20, 0x00000000);
+        spawn FREE.waitNTimerTicks(pid, delay, 0x00000000);
         suspend;
-        if (Item.getFrame(local_04) == 1) {
-          BRIDGE.slot_21(0x03a6, local_04);
+        if (Item.getFrame(item) == 1) {
+          BRIDGE.slot_21(0x03a6, item);
         }
       }
     }
 
   block_10e1:
-    spawn FREE.waitNTimerTicks(pid, local_20, 0x00000000);
+    spawn FREE.waitNTimerTicks(pid, delay, 0x00000000);
     suspend;
     goto block_0ef3;
 
   block_1113:
     while (true) {
-      foreach_list local_04 -> block_113d;
+      foreach_list item -> block_113d;
     }
 
   block_113d:
     if !(1) goto block_12f6;
 
   block_114e:
-    foreach_list local_04 -> block_12f3;
+    foreach_list item -> block_12f3;
 
   block_1153:
-    if intrinsic_002c(local_04) != 0 goto block_116b;
+    if Item.inFastArea(item) != 0 goto block_116b;
 
   block_1165:
     goto block_12f6;
 
   block_116b:
-    local_10 = intrinsic_0016(local_04);
-    if (local_10 != 0x0336) || (local_10 == 0x0290) goto block_1192;
+    x = Item.getShape(item);
+    if (x != 0x0336) || (x == 0x0290) goto block_1192;
 
   block_118c:
     goto block_12f6;
 
   block_1192:
-    if local_18 != 1 goto block_122b;
+    if cycletype != 1 goto block_122b;
 
   block_119d:
     /* loopscr */
@@ -216,38 +230,36 @@ function bridge_slot_26() /* entry=2565 class_id=0x0a03 slot=0x26 */
 
   block_11b8:
     while (condition) {
-      local_02 = local_29;
+      n = item2;
       FREE.slot_20(pid, 8);
-      spawn NPC.slot_2d(retval, local_04, local_02);
+      spawn NPC.slot_2d(retval, item, n);
       suspend;
-      /* loopnext */
     }
 
   block_11f3:
-    spawn FREE.waitNTimerTicks(pid, local_20, 0x00000000);
+    spawn FREE.waitNTimerTicks(pid, delay, 0x00000000);
     suspend;
     goto block_12ed;
 
   block_122b:
-    if local_18 != 2 goto block_12e7;
+    if cycletype != 2 goto block_12e7;
 
   block_1236:
-    BRIDGE.slot_21(0x0336, local_04);
+    BRIDGE.slot_21(0x0336, item);
     /* loopscr */
     /* loop */
 
   block_126e:
     while (condition) {
-      /* loopnext */
     }
 
   block_1280:
-    spawn FREE.waitNTimerTicks(pid, local_20, 0x00000000);
+    spawn FREE.waitNTimerTicks(pid, delay, 0x00000000);
     suspend;
-    if Item.getFrame(local_04) != 1 goto block_12e4;
+    if Item.getFrame(item) != 1 goto block_12e4;
 
   block_12ba:
-    BRIDGE.slot_21(0x03a6, local_04);
+    BRIDGE.slot_21(0x03a6, item);
 
   block_12e4:
     goto block_12ed;
@@ -265,5 +277,4 @@ function bridge_slot_26() /* entry=2565 class_id=0x0a03 slot=0x26 */
     /* free_local_list */
     return;
 
-  /* decompilation stopped at SEARCH_SURFACE */
 }

@@ -1,17 +1,25 @@
 function npc_only_gotHit() /* entry=872 class_id=0x0366 slot=0x06 */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    vel, /* [BP+12h] type=0x69 */
+    item, /* [BP-02h] type=0x24 */
+    l, /* [BP-04h] type=0x69 */
+    link; /* [BP-06h] type=0x69 */
+
   set_info(0x020c, *(arg_06));
   process_exclude();
-  if ((arg_10 > 0x0100) || (arg_10 == intrinsic_001b())) {
+  if ((ref > 0x0100) || (ref == getTargetNPCNumMaybe())) {
     return;
   }
   else {
-    local_02 = arg_10;
-    local_04 = intrinsic_000b(local_02);
-    local_06 = intrinsic_00d9(arg_06);
-    if (intrinsic_000b(local_02) == intrinsic_00d9(arg_06)) {
-      if (intrinsic_0003(arg_06) != 0) {
-        if ((intrinsic_0057(arg_06) == 0) || (intrinsic_006f(*(arg_06), local_02) == 0)) {
+    item = ref;
+    l = Actor.GetNPCDataField0x63_00B(item);
+    link = Item.getQLo(arg_06);
+    if (Actor.GetNPCDataField0x63_00B(item) == Item.getQLo(arg_06)) {
+      if (Item.getMapArray(arg_06) != 0) {
+        if ((Item.getSurfaceWeight(arg_06) == 0) || (Item.isCompletelyOn(*(arg_06), item) == 0)) {
           return;
         }
         else {
@@ -20,7 +28,7 @@ function npc_only_gotHit() /* entry=872 class_id=0x0366 slot=0x06 */
           spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
           suspend;
           while (1) {
-            if ((intrinsic_0057(arg_06) != 0) && (Actor.isNPC(local_02) == 1)) {
+            if ((Item.getSurfaceWeight(arg_06) != 0) && (Actor.isNPC(item) == 1)) {
               spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
               suspend;
             }
@@ -37,5 +45,4 @@ function npc_only_gotHit() /* entry=872 class_id=0x0366 slot=0x06 */
     }
   }
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

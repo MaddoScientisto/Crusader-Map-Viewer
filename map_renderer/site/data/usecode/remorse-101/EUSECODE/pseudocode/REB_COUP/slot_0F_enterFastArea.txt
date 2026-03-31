@@ -7,7 +7,7 @@ function reb_coup_enterFastArea() /* entry=847 class_id=0x034d slot=0x0f */
   block_00df:
     while (true) {
       suspend;
-      spawn FREE.waitNTimerTicks(intrinsic_0018(pid, 60, 30), 0x00000000);
+      spawn FREE.waitNTimerTicks(UCMachine.rndRange(pid, 60, 30), 0x00000000);
       suspend;
       local_02 = 0;
       while (local_02 <= 4) {
@@ -15,7 +15,7 @@ function reb_coup_enterFastArea() /* entry=847 class_id=0x034d slot=0x0f */
         suspend;
         local_02 = (1 + local_02);
       }
-      spawn FREE.waitNTimerTicks(intrinsic_0018(pid, 60, 30), 0x00000000);
+      spawn FREE.waitNTimerTicks(UCMachine.rndRange(pid, 60, 30), 0x00000000);
       suspend;
       local_02 = 0;
       while (local_02 <= 4) {

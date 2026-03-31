@@ -2,7 +2,7 @@ function fight_n3_gotHit() /* entry=386 class_id=0x0180 slot=0x06 */
 {
   set_info(0x020c, *(arg_06));
   process_exclude();
-  if (intrinsic_0004(arg_06) & 0x1000) {
+  if (Item.getStatus(arg_06) & 0x1000) {
     return;
   }
   else {
@@ -27,7 +27,7 @@ function fight_n3_gotHit() /* entry=386 class_id=0x0180 slot=0x06 */
         while (condition) {
           ITEM.slot_23(0x1000, local_02);
           if (!Item.getFrame(local_02)) {
-            if ((intrinsic_0016(local_02) == 0x017f) || (intrinsic_0016(local_02) == 0x0141)) {
+            if ((Item.getShape(local_02) == 0x017f) || (Item.getShape(local_02) == 0x0141)) {
               spawn ITEM.slot_28(pid, 0, 2, local_02);
               suspend;
             }
@@ -36,7 +36,6 @@ function fight_n3_gotHit() /* entry=386 class_id=0x0180 slot=0x06 */
               suspend;
             }
           }
-          /* loopnext */
         }
       }
     }

@@ -3,15 +3,15 @@ function free_slot_3c() /* entry=2574 class_id=0x0a0c slot=0x3c */
   set_info(1, 0);
   FREE.slot_33(0x022b, 0);
   local_04 = 1;
-  if (intrinsic_00b0() == 1) {
+  if (Item.unequip() == 1) {
     return;
   }
   else {
-    local_06 = intrinsic_0018(100, 0);
+    local_06 = UCMachine.rndRange(100, 0);
     if (local_06 < 30) {
       spawn FREE.slot_21(pid, 15, 0x00000000);
       suspend;
-      local_06 = intrinsic_0018(100, 0);
+      local_06 = UCMachine.rndRange(100, 0);
       if (local_06 < 50) {
         spawn FREE.slot_21(pid, 14, 0x00000000);
         suspend;
@@ -21,7 +21,7 @@ function free_slot_3c() /* entry=2574 class_id=0x0a0c slot=0x3c */
     else if (local_06 > 60) {
       spawn FREE.slot_21(pid, 14, 0x00000000);
       suspend;
-      local_06 = intrinsic_0018(100, 0);
+      local_06 = UCMachine.rndRange(100, 0);
       if (local_06 < 30) {
         spawn FREE.slot_21(pid, 15, 0x00000000);
         suspend;
@@ -35,7 +35,7 @@ function free_slot_3c() /* entry=2574 class_id=0x0a0c slot=0x3c */
     else {
       spawn FREE.slot_21(pid, 0x00d2, 0x00000000);
       suspend;
-      local_06 = intrinsic_0018(100, 0);
+      local_06 = UCMachine.rndRange(100, 0);
       if (local_06 < 30) {
         spawn FREE.slot_21(pid, 14, 0x00000000);
         suspend;

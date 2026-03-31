@@ -1,5 +1,10 @@
 function vardesk_enterFastArea() /* entry=1092 class_id=0x0442 slot=0x0f */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    counter, /* [BP-02h] type=0x69 */
+    ran; /* [BP-04h] type=0x69 */
+
   set_info(0x021b, *(arg_06));
   process_exclude();
   if (Item.getFrame(arg_06) == 6) {
@@ -16,36 +21,35 @@ function vardesk_enterFastArea() /* entry=1092 class_id=0x0442 slot=0x0f */
       spawn FREE.waitNTimerTicks((retval + 60), 0x00000000);
       suspend;
       if (!Item.getFrame(arg_06)) {
-        local_02 = 0;
-        while (local_02 <= 4) {
+        counter = 0;
+        while (counter <= 4) {
           spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
           suspend;
-          local_02 = (1 + local_02);
+          counter = (1 + counter);
         }
       }
       FREE.slot_20(100);
       if (retval > 50) {
-        local_02 = 0;
-        while (local_02 <= 4) {
+        counter = 0;
+        while (counter <= 4) {
           spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
           suspend;
-          local_02 = (1 + local_02);
+          counter = (1 + counter);
         }
       }
       else {
         FREE.slot_20(3);
-        local_04 = (retval + 3);
-        local_02 = 0;
-        while (local_02 <= local_04) {
+        ran = (retval + 3);
+        counter = 0;
+        while (counter <= ran) {
           spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
           suspend;
           spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
           suspend;
-          local_02 = (1 + local_02);
+          counter = (1 + counter);
         }
       }
     }
   }
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

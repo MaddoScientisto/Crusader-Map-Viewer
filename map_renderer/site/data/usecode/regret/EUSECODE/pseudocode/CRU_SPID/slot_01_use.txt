@@ -2,105 +2,93 @@ function cru_spid_use() /* entry=1378 class_id=0x0560 slot=0x01 */
 {
   set_info(0x0207, *(arg_06));
   process_exclude();
-  /* global_address */
-  if (intrinsic_003d() == 25) {
+  if (Actor.getMap(&global[0x001e]) == 25) {
     return;
   }
   else {
     local_05 = *(arg_06);
     set_info(0x00f0, 0);
-    /* global_address */
-    local_13 = intrinsic_005e();
-    /* global_address */
-    while (intrinsic_0060()) {
+    local_13 = Actor.getLastAnimSet(&global[0x001e]);
+    while (Actor.isBusy(&global[0x001e])) {
       spawn FREE.slot_3b(pid, 2, 0x00000000);
       suspend;
     }
-    /* global_address */
-    if (intrinsic_0017() == 0) {
+    if (Actor.getDir(&global[0x001e]) == 0) {
       local_15 = -1;
       local_17 = -3;
     }
-    else if (intrinsic_0017() == 1) {
+    else if (Actor.getDir(&global[0x001e]) == 1) {
       local_15 = 0;
       local_17 = -3;
     }
-    else if (intrinsic_0017() == 2) {
+    else if (Actor.getDir(&global[0x001e]) == 2) {
       local_15 = 1;
       local_17 = -3;
     }
-    else if (intrinsic_0017() == 3) {
+    else if (Actor.getDir(&global[0x001e]) == 3) {
       local_15 = 2;
       local_17 = -2;
     }
-    else if (intrinsic_0017() == 4) {
+    else if (Actor.getDir(&global[0x001e]) == 4) {
       local_15 = 2;
       local_17 = -1;
     }
-    else if (intrinsic_0017() == 5) {
+    else if (Actor.getDir(&global[0x001e]) == 5) {
       local_15 = 2;
       local_17 = 0;
     }
-    else if (intrinsic_0017() == 6) {
+    else if (Actor.getDir(&global[0x001e]) == 6) {
       local_15 = 2;
       local_17 = 2;
     }
-    else if (intrinsic_0017() == 7) {
+    else if (Actor.getDir(&global[0x001e]) == 7) {
       local_15 = 0;
       local_17 = 2;
     }
-    else if (intrinsic_0017() == 8) {
+    else if (Actor.getDir(&global[0x001e]) == 8) {
       local_15 = -1;
       local_17 = 2;
     }
-    else if (intrinsic_0017() == 9) {
+    else if (Actor.getDir(&global[0x001e]) == 9) {
       local_15 = -2;
       local_17 = 2;
     }
-    else if (intrinsic_0017() == 10) {
+    else if (Actor.getDir(&global[0x001e]) == 10) {
       local_15 = -3;
       local_17 = 2;
     }
-    else if (intrinsic_0017() == 11) {
+    else if (Actor.getDir(&global[0x001e]) == 11) {
       local_15 = -3;
       local_17 = 1;
     }
-    else if (intrinsic_0017() == 12) {
+    else if (Actor.getDir(&global[0x001e]) == 12) {
       local_15 = -3;
       local_17 = 0;
     }
-    else if (intrinsic_0017() == 13) {
+    else if (Actor.getDir(&global[0x001e]) == 13) {
       local_15 = -3;
       local_17 = -1;
     }
-    else if (intrinsic_0017() == 14) {
+    else if (Actor.getDir(&global[0x001e]) == 14) {
       local_15 = -3;
       local_17 = -3;
     }
-    else if (intrinsic_0017() == 15) {
+    else if (Actor.getDir(&global[0x001e]) == 15) {
       local_15 = -3;
       local_17 = -3;
     }
-    /* global_address */
-    if (intrinsic_0061()) {
+    if (Intrinsic0061(&global[0x001e])) {
       local_03 = 1;
     }
     else {
       local_03 = 0;
-      /* global_address */
-      /* global_address */
       suspend;
     }
-    /* global_address */
-    local_22 = (Item.getX() + (local_15 * 16));
-    /* global_address */
-    local_20 = (Item.getY() + (local_17 * 16));
-    /* global_address */
-    local_18 = (Item.getZ() + 2);
+    local_22 = (Item.getX(&global[0x001e]) + (local_15 * 16));
+    local_20 = (Item.getY(&global[0x001e]) + (local_17 * 16));
+    local_18 = (Item.getZ(&global[0x001e]) + 2);
     if (!Item.legal_create(local_22, 0, 0x0560, local_02)) {
       if (!local_03) {
-        /* global_address */
-        /* global_address */
         suspend;
       }
       return;

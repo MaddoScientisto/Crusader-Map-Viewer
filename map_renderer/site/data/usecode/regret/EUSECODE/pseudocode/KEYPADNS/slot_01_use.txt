@@ -3,13 +3,12 @@ function keypadns_use() /* entry=1101 class_id=0x044b slot=0x01 */
   entry:
     set_info(0x0207, *(arg_06));
     process_exclude();
-    /* global_address */
-    if (intrinsic_003d() != 26) && (intrinsic_001f(arg_06) == 0) goto block_03a3;
+    if (Actor.getMap(&global[0x001e]) != 26) && (Item.getQLo(arg_06) == 0) goto block_03a3;
 
   block_018e:
     /* free_local_string */
     local_06 = "Cheaters Menu^_____________^^Select a mission^number (1-10)^and Col. Shepherd^will assign it to you.";
-    local_02 = intrinsic_00be(0);
+    local_02 = KeypadGump.showKeypad(0);
     if local_02 <= 10 goto block_0219;
 
   block_0215:
@@ -62,14 +61,12 @@ function keypadns_use() /* entry=1101 class_id=0x044b slot=0x01 */
     goto block_051a;
 
   block_03a3:
-    /* global_address */
-    /* global_address */
-    if (intrinsic_003d(((intrinsic_003d() != 25) && (intrinsic_001f(arg_06) == 1))) == 26) && (intrinsic_001f(arg_06) == 1) goto block_048c;
+    if (Actor.getMap(((Actor.getMap(&global[0x001e]) != 25) && (Item.getQLo(arg_06) == 1)), &global[0x001e]) == 26) && (Item.getQLo(arg_06) == 1) goto block_048c;
 
   block_03db:
     /* free_local_string */
     local_06 = "VIDEO PLAYER^_____________^^Mission video 0-72^Mission MVAs 73-89^Game Flicks  90-102";
-    local_02 = intrinsic_00be(0);
+    local_02 = KeypadGump.showKeypad(0);
     if local_02 != 0 goto block_0456;
 
   block_0453:
@@ -89,18 +86,17 @@ function keypadns_use() /* entry=1101 class_id=0x044b slot=0x01 */
     suspend;
 
   block_047c:
-    /* global_address */
     goto block_051a;
 
   block_048c:
-    if intrinsic_0003(arg_06) == 0 goto block_051a;
+    if Item.getMapArray(arg_06) == 0 goto block_051a;
 
   block_049b:
-    local_07 = (intrinsic_0004(arg_06) & 4);
+    local_07 = (Item.getStatus(arg_06) & 4);
     if local_07 != 0 goto block_04ff;
 
   block_04b1:
-    if !intrinsic_0000() goto block_04ec;
+    if !World.getAlertActive() goto block_04ec;
 
   block_04b9:
     spawn FREE.slot_21(pid, 0x0184, 0x00000000);

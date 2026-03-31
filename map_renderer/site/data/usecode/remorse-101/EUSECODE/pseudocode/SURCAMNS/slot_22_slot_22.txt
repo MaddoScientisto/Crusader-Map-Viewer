@@ -5,24 +5,19 @@ function surcamns_slot_22() /* entry=1224 class_id=0x04c6 slot=0x22 */
     if (Actor.isNPC(local_02)) {
       local_03 = 1;
     }
-    /* loopnext */
   }
-  /* global_address */
   spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
   suspend;
   if (local_03) {
-    while (intrinsic_001d() != 1) {
+    while (Actor.getLastAnimSet() != 1) {
       spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
       suspend;
     }
+    return;
   }
   else {
     spawn FREE.waitNTimerTicks(pid, 0x00c8, 0x00000000);
     suspend;
   }
-  /* global_address */
-  /* global_address */
-  /* global_address */
-  /* global_address */
   return;
 }

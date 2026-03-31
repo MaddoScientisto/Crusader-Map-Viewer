@@ -8,11 +8,11 @@ function npc_slot_2d() /* entry=2579 class_id=0x0a11 slot=0x2d */
     if (global[0x000a] == 1) {
       return;
     }
-    local_02 = intrinsic_00dc(arg_06);
+    local_02 = Item.isOn(arg_06);
     spawn NPC.slot_2e(arg_06);
     return;
   }
-  else if (*(arg_06) != intrinsic_001d()) {
+  else if (*(arg_06) != Actor.getLastAnimSet()) {
     NPC.slot_2b(arg_06);
     spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
     suspend;

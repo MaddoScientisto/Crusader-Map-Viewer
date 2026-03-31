@@ -1,5 +1,11 @@
 function npc_slot_2d() /* entry=2579 class_id=0x0a11 slot=0x2d */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    damageSource, /* [BP+10h] type=0x69 */
+    dir, /* [BP+12h] type=0x69 */
+    aSet; /* [BP-02h] type=0x69 */
+
   set_info(0x020a, *(arg_06));
   if (*(arg_06) > 0x0100) {
     return;
@@ -8,16 +14,15 @@ function npc_slot_2d() /* entry=2579 class_id=0x0a11 slot=0x2d */
     if (global[0x0009] == 1) {
       return;
     }
-    local_02 = intrinsic_00e4(arg_06);
+    aSet = Actor.getLastAnimSet(arg_06);
     spawn NPC.slot_2e(arg_06);
     return;
   }
-  else if (*(arg_06) != intrinsic_001b()) {
+  else if (*(arg_06) != getTargetNPCNumMaybe()) {
     NPC.slot_2b(arg_06);
     spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
     suspend;
     return;
   }
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

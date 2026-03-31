@@ -13,14 +13,13 @@ function float_gotHit() /* entry=1409 class_id=0x057f slot=0x06 */
         if ((Item.getX(local_02) == Item.getX(arg_06)) && (Item.getY(local_02) == Item.getY(arg_06))) {
           return;
         }
-        /* loopnext */
       }
     }
     return;
   }
   else {
     local_10 = arg_10;
-    if (((arg_10 < 0x00ff) && (arg_10 != intrinsic_0016())) && (Item.isOnScreen(arg_06) == 0)) {
+    if (((arg_10 < 0x00ff) && (arg_10 != World.getControlledNPCNum())) && (Item.isOnScreen(arg_06) == 0)) {
       return;
     }
     else {
@@ -28,7 +27,6 @@ function float_gotHit() /* entry=1409 class_id=0x057f slot=0x06 */
         if ((Item.getX(local_02) == Item.getX(arg_06)) && (Item.getY(local_02) == Item.getY(arg_06))) {
           return;
         }
-        /* loopnext */
       }
     }
   }

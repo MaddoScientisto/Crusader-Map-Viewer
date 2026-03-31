@@ -4,7 +4,7 @@ function roll_ew_slot_20() /* entry=1390 class_id=0x056c slot=0x20 */
     set_info(1, *(arg_06));
     spawn FREE.slot_3b(pid, 2, 0x00000000);
     suspend;
-    local_10 = intrinsic_00f2(arg_06);
+    local_10 = Item.getNpcNum(arg_06);
     if !(local_10 & 64) goto block_01bb;
 
   block_019b:
@@ -34,7 +34,7 @@ function roll_ew_slot_20() /* entry=1390 class_id=0x056c slot=0x20 */
     local_12 = Item.getX(arg_06);
     local_14 = Item.getY(arg_06);
     local_15 = Item.getZ(arg_06);
-    local_17 = intrinsic_0112(arg_06);
+    local_17 = IntrinsicReturn0(arg_06);
     spawn ITEM.slot_2c(pid, arg_06);
     suspend;
 

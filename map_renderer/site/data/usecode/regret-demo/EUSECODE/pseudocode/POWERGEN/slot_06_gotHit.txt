@@ -7,7 +7,7 @@ function powergen_gotHit() /* entry=654 class_id=0x028c slot=0x06 */
   if (retval == 0) {
     return;
   }
-  else if (intrinsic_00f2(arg_06)) {
+  else if (Item.getNpcNum(arg_06)) {
     spawn FREE.slot_3b(pid, 30, 0x00000000);
     suspend;
     return;
@@ -29,20 +29,18 @@ function powergen_gotHit() /* entry=654 class_id=0x028c slot=0x06 */
       /* loopscr */
       /* loop */
       while (condition) {
-        /* loopnext */
       }
       if (!(global[0x0005])) {
         suspend;
       }
       for local_06 in nearby_items(shape=17, origin=arg_06) {
-        if (intrinsic_003e(local_06) == intrinsic_00f7(arg_06)) {
+        if (Item.callEvent11(local_06) == Item.andStatus(arg_06)) {
           if ((Item.getFrame(local_06) == 1) && (global[0x000c] > 0)) {
             /* pop_global */
           }
         }
-        /* loopnext */
       }
-      if (intrinsic_0003(arg_06) != 0) {
+      if (Item.getMapArray(arg_06) != 0) {
         spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
         suspend;
       }

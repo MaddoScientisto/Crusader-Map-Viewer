@@ -6,7 +6,7 @@ function npc_slot_21() /* entry=2579 class_id=0x0a11 slot=0x21 */
   }
   local_02 = 1;
   while (local_02 <= arg_10) {
-    if ((Kernel.resetRef(arg_06) == 0) && (intrinsic_00c4(arg_06) == 0)) {
+    if ((Actor.isDead(arg_06) == 0) && (KeypadGump.showKeypad(arg_06) == 0)) {
       suspend;
     }
     local_02 = (1 + local_02);

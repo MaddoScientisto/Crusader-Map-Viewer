@@ -1,18 +1,14 @@
 function telepad_slot_20() /* entry=477 class_id=0x01db slot=0x20 */
 {
   set_info(1, 0);
-  /* global_address */
-  if (intrinsic_012b()) {
+  if (IItem.getCY(&global[0x003d])) {
     return;
   }
   else {
-    /* global_address */
-    /* global_address */
-    spawn NPC.slot_24(pid);
+    spawn NPC.slot_24(pid, &global[0x003d]);
     suspend;
     if (arg_10 != 69) {
-      /* global_address */
-      if (intrinsic_0011() != arg_10) {
+      if (Actor.getMap(&global[0x003d]) != arg_10) {
         suspend;
         if (arg_10 == 40) {
           spawn FREE.slot_23(pid, 0x00000000);
@@ -21,18 +17,17 @@ function telepad_slot_20() /* entry=477 class_id=0x01db slot=0x20 */
           suspend;
           spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
           suspend;
-          /* global_address */
-          if (intrinsic_0011() == 1) {
+          if (Actor.getMap(&global[0x003d]) == 1) {
             /* str_to_ptr */
             /* free_stack_string */
             suspend;
           }
-          else if (intrinsic_0011() == 13) {
+          else if (Actor.getMap(&global[0x003d]) == 13) {
             /* str_to_ptr */
             /* free_stack_string */
             suspend;
           }
-          else if (intrinsic_0011() == 5) {
+          else if (Actor.getMap(&global[0x003d]) == 5) {
             /* str_to_ptr */
             /* free_stack_string */
             suspend;
@@ -61,22 +56,16 @@ function telepad_slot_20() /* entry=477 class_id=0x01db slot=0x20 */
         suspend;
       }
     }
-    /* global_address */
-    spawn NPC.slot_23(pid);
+    spawn NPC.slot_23(pid, &global[0x003d]);
     suspend;
     if (arg_12 == 69) {
-      /* global_address */
-      local_15 = Item.legal_create();
-      /* global_address */
-      /* global_address */
+      local_15 = Item.getY(&global[0x003d]);
       for local_09 in nearby_items(shape=TELEPAD_RED, origin=global[0x003d]) {
-        local_02 = intrinsic_0013(local_09);
-        local_04 = Item.legal_create(local_09);
+        local_02 = Item.getX(local_09);
+        local_04 = Item.getY(local_09);
         local_05 = Item.getZ(local_09);
-        /* loopnext */
       }
       for local_09 in nearby_items(shape=0x04ee, origin=global[0x003d]) {
-        /* loopnext */
       }
       spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
       suspend;
@@ -86,11 +75,7 @@ function telepad_slot_20() /* entry=477 class_id=0x01db slot=0x20 */
         suspend;
         local_07 = (1 + local_07);
       }
-      /* global_address */
       return;
-    }
-    else {
-      /* global_address */
     }
   }
   return;

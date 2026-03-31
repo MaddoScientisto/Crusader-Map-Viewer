@@ -1,15 +1,22 @@
 function pit_gotHit() /* entry=870 class_id=0x0364 slot=0x06 */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    vel, /* [BP+12h] type=0x69 */
+    item, /* [BP-02h] type=0x24 */
+    n; /* [BP-04h] type=0x24 */
+
   set_info(0x020c, *(arg_06));
   process_exclude();
-  local_02 = arg_10;
-  FREE.slot_2c(arg_12, arg_10);
+  item = ref;
+  FREE.slot_2c(vel, ref);
   if (retval) {
     return;
   }
-  else if (Actor.isNPC(local_02)) {
-    local_04 = arg_10;
-    if (local_04 == 1) {
+  else if (Actor.isNPC(item)) {
+    n = ref;
+    if (n == 1) {
       spawn FREE.slot_21(pid, 98, 0x00000000);
       suspend;
       return;
@@ -20,5 +27,4 @@ function pit_gotHit() /* entry=870 class_id=0x0364 slot=0x06 */
     return;
   }
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

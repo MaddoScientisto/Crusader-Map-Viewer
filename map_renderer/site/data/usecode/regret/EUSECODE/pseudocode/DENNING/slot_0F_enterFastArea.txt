@@ -3,8 +3,7 @@ function denning_enterFastArea() /* entry=633 class_id=0x0277 slot=0x0f */
   entry:
     set_info(0x021b, *(arg_06));
     process_exclude();
-    /* global_address */
-    if intrinsic_003d() == 25 goto block_0136;
+    if Actor.getMap(&global[0x001e]) == 25 goto block_0136;
 
   block_0133:
     goto block_01c5;

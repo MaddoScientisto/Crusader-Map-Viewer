@@ -12,21 +12,19 @@ function laseri_gotHit() /* entry=471 class_id=0x01d5 slot=0x06 */
     suspend;
     /* dword_to_word */
     local_06 = process_result;
-    local_08 = intrinsic_0149(arg_06);
+    local_08 = Item.getQLo(arg_06);
     if (!Item.getFrame(arg_06)) {
       /* loopscr */
       /* loopscr */
       /* loop */
       while (condition) {
-        local_10 = intrinsic_0149(local_02);
-        /* loopnext */
+        local_10 = Item.getQLo(local_02);
       }
       /* loopscr */
       /* loopscr */
       /* loop */
       while (condition) {
-        local_10 = intrinsic_0149(local_02);
-        /* loopnext */
+        local_10 = Item.getQLo(local_02);
       }
       spawn FREE.slot_3b(pid, 2, 0x00000000);
       suspend;

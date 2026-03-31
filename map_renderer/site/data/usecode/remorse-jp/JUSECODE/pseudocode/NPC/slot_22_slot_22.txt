@@ -1,9 +1,13 @@
 function npc_slot_22() /* entry=2581 class_id=0x0a13 slot=0x22 */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    dir, /* [BP+10h] type=0x62 */
+    x; /* [BP+12h] type=0x69 */
+
   set_info(0x020a, *(arg_06));
   suspend;
-  spawn NPC.slot_21(pid, arg_12, arg_06);
+  spawn NPC.slot_21(pid, x, arg_06);
   suspend;
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

@@ -6,7 +6,7 @@ function npc_slot_21() /* entry=2577 class_id=0x0a0f slot=0x21 */
   }
   local_02 = 1;
   while (local_02 <= arg_10) {
-    if ((intrinsic_00bb(arg_06) == 0) && (intrinsic_00d0(arg_06) == 0)) {
+    if ((Actor.isDead(arg_06) == 0) && (Actor.isInCombat(arg_06) == 0)) {
       suspend;
     }
     local_02 = (1 + local_02);

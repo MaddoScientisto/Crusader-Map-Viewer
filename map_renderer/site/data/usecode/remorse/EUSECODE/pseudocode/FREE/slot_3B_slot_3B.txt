@@ -10,97 +10,68 @@ function free_slot_3b() /* entry=2574 class_id=0x0a0c slot=0x3b */
 
   set_info(0x022b, 0);
   ref = 1;
-  if (intrinsic_0000()) {
+  if (World.getAlertActive()) {
     return;
   }
+  else if (Actor.getMap((Actor.getMap((Actor.getMap((Actor.getMap((Actor.getMap((Actor.getMap(&global[0x003c]) == 1), &global[0x003c]) == 5), &global[0x003c]) == 9), &global[0x003c]) == 13), &global[0x003c]) == 23), &global[0x003c]) == 27) {
+    alarm = 22;
+  }
+  else if (Actor.getMap((Actor.getMap((Actor.getMap(&global[0x003c]) == 3), &global[0x003c]) == 15), &global[0x003c]) == 25) {
+    alarm = 0x0096;
+  }
+  else if (Actor.getMap((Actor.getMap((Actor.getMap((Actor.getMap(&global[0x003c]) == 7), &global[0x003c]) == 11), &global[0x003c]) == 17), &global[0x003c]) == 24) {
+    alarm = 0x00a0;
+  }
+  else if (Actor.getMap((Actor.getMap((Actor.getMap(&global[0x003c]) == 10), &global[0x003c]) == 19), &global[0x003c]) == 21) {
+    alarm = 0x0096;
+  }
+  else if (Actor.getMap(&global[0x003c]) == 29) {
+    alarm = 0x00c4;
+  }
   else {
-    /* global_address */
-    /* global_address */
-    /* global_address */
-    /* global_address */
-    /* global_address */
-    /* global_address */
-    if (intrinsic_0011((intrinsic_0011((intrinsic_0011((intrinsic_0011((intrinsic_0011((intrinsic_0011() == 1)) == 5)) == 9)) == 13)) == 23)) == 27) {
-      alarm = 22;
+    alarm = 22;
+  }
+  counter = 0;
+  while (counter <= 2) {
+    spawn FREE.slot_21(pid, alarm, 0x00000000);
+    suspend;
+    counter = (1 + counter);
+  }
+  spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
+  suspend;
+  if (UCMachine.rndRange((UCMachine.rndRange((UCMachine.rndRange((UCMachine.rndRange((UCMachine.rndRange(10, 0) == 0), 10, 0) == 1), 10, 0) == 2), 10, 0) == 3), 10, 0) == 4) {
+  }
+  else {
+    spawn FREE.slot_21(pid, 123, 0x00000000);
+    suspend;
+    spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+    suspend;
+  }
+  for item in nearby_items(shape=0x0561, origin=ref) {
+    if (Item.inFastArea(item)) {
+      suspend;
     }
-    else {
-      /* global_address */
-      /* global_address */
-      /* global_address */
-      if (intrinsic_0011((intrinsic_0011((intrinsic_0011() == 3)) == 15)) == 25) {
-        alarm = 0x0096;
-      }
-      else {
-        /* global_address */
-        /* global_address */
-        /* global_address */
-        /* global_address */
-        if (intrinsic_0011((intrinsic_0011((intrinsic_0011((intrinsic_0011() == 7)) == 11)) == 17)) == 24) {
-          alarm = 0x00a0;
-        }
-        else {
-          /* global_address */
-          /* global_address */
-          /* global_address */
-          if (intrinsic_0011((intrinsic_0011((intrinsic_0011() == 10)) == 19)) == 21) {
-            alarm = 0x0096;
-          }
-          else {
-            /* global_address */
-            if (intrinsic_0011() == 29) {
-              alarm = 0x00c4;
-            }
-            else {
-              alarm = 22;
-            }
-          }
-        }
-      }
+  }
+  suspend;
+  while (true) {
+    suspend;
+    if (!World.getAlertActive()) {
+      return;
     }
+    ref = 1;
+    spawn FREE.waitNTimerTicks(pid, (0x04b0 * (5 - Game.getDifficultyLevel())), 0x00000000);
+    suspend;
     counter = 0;
     while (counter <= 2) {
       spawn FREE.slot_21(pid, alarm, 0x00000000);
       suspend;
       counter = (1 + counter);
     }
-    spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
-    suspend;
-    if (intrinsic_0018((intrinsic_0018((intrinsic_0018((intrinsic_0018((intrinsic_0018(10, 0) == 0), 10, 0) == 1), 10, 0) == 2), 10, 0) == 3), 10, 0) == 4) {
-    }
-    else {
-      spawn FREE.slot_21(pid, 123, 0x00000000);
-      suspend;
-      spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
-      suspend;
+    if (UCMachine.rndRange(100, 0) > 50) {
     }
     for item in nearby_items(shape=0x0561, origin=ref) {
-      if (intrinsic_002c(item)) {
+      if (Item.inFastArea(item)) {
         suspend;
-      }
-      /* loopnext */
-    }
-    suspend;
-    while (true) {
-      suspend;
-      if (!intrinsic_0000()) {
-        return;
-      }
-      ref = 1;
-      spawn FREE.waitNTimerTicks(pid, (0x04b0 * (5 - intrinsic_0029())), 0x00000000);
-      suspend;
-      counter = 0;
-      while (counter <= 2) {
-        spawn FREE.slot_21(pid, alarm, 0x00000000);
-        suspend;
-        counter = (1 + counter);
-      }
-      if (intrinsic_0018(100, 0) > 50) {
-      }
-      for item in nearby_items(shape=0x0561, origin=ref) {
-        if (intrinsic_002c(item)) {
-          suspend;
-        }
-        /* loopnext */
       }
     }
   }

@@ -1,9 +1,7 @@
 function free_slot_21() /* entry=2574 class_id=0x0a0c slot=0x21 */
 {
   set_info(1, 0);
-  /* global_address */
-  /* global_address */
-  while (intrinsic_003a(arg_06)) {
+  while (AudioProcess.isSFXPlayingForObject(arg_06, &global[0x003d])) {
     spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
     suspend;
   }

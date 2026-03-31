@@ -14,9 +14,9 @@ function elevat_slot_24() /* entry=2572 class_id=0x0a0a slot=0x24 */
     /* loopscr */
     /* loop */
     while (condition) {
-      if (intrinsic_0061(*(arg_06), local_11)) {
+      if (Intrinsic0061(*(arg_06), local_11)) {
         if (local_11 < 0x0100) {
-          if (intrinsic_002d(*(arg_06), local_11)) {
+          if (Item.isCompletelyOn(*(arg_06), local_11)) {
             local_24 = (1 + local_24);
           }
           else {
@@ -27,12 +27,11 @@ function elevat_slot_24() /* entry=2572 class_id=0x0a0a slot=0x24 */
           local_24 = (1 + local_24);
         }
       }
-      /* loopnext */
     }
-    if (intrinsic_0044(0, 0, local_16, arg_06)) {
+    if (Item.getQHi(0, 0, local_16, arg_06)) {
       local_04 = 1;
       while (local_04 <= local_24) {
-        local_11 = intrinsic_001e();
+        local_11 = Item.getEtherealTop();
         local_04 = (1 + local_04);
       }
       spawn FREE.slot_3b(pid, 1, 0x00000000);
@@ -41,7 +40,7 @@ function elevat_slot_24() /* entry=2572 class_id=0x0a0a slot=0x24 */
     else {
       local_04 = 1;
       while (local_04 <= local_24) {
-        local_11 = intrinsic_001e();
+        local_11 = Item.getEtherealTop();
         local_04 = (1 + local_04);
       }
       spawn FREE.slot_3b(pid, 60, 0x00000000);
@@ -57,14 +56,13 @@ function elevat_slot_24() /* entry=2572 class_id=0x0a0a slot=0x24 */
     /* loopscr */
     /* loop */
     while (condition) {
-      if (intrinsic_0061(*(arg_06), local_11)) {
+      if (Intrinsic0061(*(arg_06), local_11)) {
         local_24 = (1 + local_24);
       }
-      /* loopnext */
     }
     local_04 = 1;
     while (local_04 <= local_24) {
-      local_11 = intrinsic_001e();
+      local_11 = Item.getEtherealTop();
       local_04 = (1 + local_04);
     }
   }

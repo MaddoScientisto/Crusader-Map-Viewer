@@ -1,16 +1,26 @@
 function door_slot_23() /* entry=2568 class_id=0x0a06 slot=0x23 */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    vel, /* [BP+12h] type=0x69 */
+    deathBox, /* [BP-02h] type=0x24 */
+    item, /* [BP-04h] type=0x24 */
+    item2, /* [BP-06h] type=0x24 */
+    hitMe, /* [BP-08h] type=0x69 */
+    damagePoints; /* [BP-10h] type=0x69 */
+
   set_info(0x0207, *(arg_06));
-  FREE.slot_2c(arg_12, arg_10);
-  local_08 = retval;
-  if (((local_08 == 3) || (local_08 == 4)) || (local_08 == 10)) {
-    FREE.slot_2b(arg_12, arg_10);
-    local_10 = retval;
+  FREE.slot_2c(vel, ref);
+  hitMe = retval;
+  if (((hitMe == 3) || (hitMe == 4)) || (hitMe == 10)) {
+    FREE.slot_2b(vel, ref);
+    damagePoints = retval;
   }
   else {
     return;
   }
-  spawn ITEM.slot_27(pid, 0x00c8, arg_12, arg_10, arg_06);
+  spawn ITEM.slot_27(pid, 0x00c8, vel, ref, arg_06);
   suspend;
   /* dword_to_word */
   if (!process_result) {
@@ -20,70 +30,68 @@ function door_slot_23() /* entry=2568 class_id=0x0a06 slot=0x23 */
     return;
   }
   else {
-    for local_02 in nearby_items(shape=0x04f8, origin=arg_06) {
-      if (intrinsic_0069(local_02) == intrinsic_0069(arg_06)) {
-        if (intrinsic_0003(local_02) != 0) {
-          spawn TRIGGER.slot_20(pid, 0, local_02, arg_06);
+    for deathBox in nearby_items(shape=0x04f8, origin=arg_06) {
+      if (Item.andStatus(deathBox) == Item.andStatus(arg_06)) {
+        if (Item.getMapArray(deathBox) != 0) {
+          spawn TRIGGER.slot_20(pid, 0, deathBox, arg_06);
           suspend;
         }
         else {
-          spawn TRIGGER.slot_20(pid, (0 + 0x0080), local_02, arg_06);
+          spawn TRIGGER.slot_20(pid, (0 + 0x0080), deathBox, arg_06);
           suspend;
         }
       }
-      /* loopnext */
     }
     spawn FREE.slot_32(pid, 10, 0x00000000);
     suspend;
-    if (intrinsic_0000() == 0) {
+    if (World.getAlertActive() == 0) {
       spawn FREE.slot_3b(0x00000000);
     }
-    if (intrinsic_0016(arg_06) == 123) {
+    if (Item.getShape(arg_06) == door_shape_007b) {
       if (Item.getFrame(arg_06)) {
       }
       spawn DOOR.slot_22(pid, arg_06);
       suspend;
     }
-    else if (intrinsic_0016(arg_06) == 0x03ff) {
+    else if (Item.getShape(arg_06) == 0x03ff) {
       spawn DOOR.slot_22(pid, arg_06);
       suspend;
     }
-    else if (intrinsic_0016(arg_06) == 70) {
+    else if (Item.getShape(arg_06) == door_shape_0046) {
       spawn DOOR.slot_22(pid, arg_06);
       suspend;
     }
-    else if (intrinsic_0016(arg_06) == 0x030b) {
+    else if (Item.getShape(arg_06) == door_shape_030b) {
       spawn DOOR.slot_22(pid, arg_06);
       suspend;
     }
-    else if (intrinsic_0016(arg_06) == 0x0099) {
+    else if (Item.getShape(arg_06) == door_shape_0099) {
       spawn DOOR.slot_22(pid, arg_06);
       suspend;
     }
-    else if (intrinsic_0016(arg_06) == 5) {
+    else if (Item.getShape(arg_06) == door_shape_0005) {
       if (Item.getFrame(arg_06)) {
       }
       spawn DOOR.slot_22(pid, arg_06);
       suspend;
     }
-    else if (intrinsic_0016(arg_06) == 0x03f8) {
+    else if (Item.getShape(arg_06) == 0x03f8) {
       spawn DOOR.slot_22(pid, arg_06);
       suspend;
     }
-    else if (intrinsic_0016(arg_06) == 0x00a9) {
+    else if (Item.getShape(arg_06) == door_shape_00a9) {
       spawn DOOR.slot_22(pid, arg_06);
       suspend;
     }
-    else if (intrinsic_0016(arg_06) == 0x030a) {
+    else if (Item.getShape(arg_06) == door_shape_030a) {
       spawn DOOR.slot_22(pid, arg_06);
       suspend;
     }
-    else if (intrinsic_0016(arg_06) == 0x0095) {
+    else if (Item.getShape(arg_06) == door_shape_0095) {
       spawn DOOR.slot_22(pid, arg_06);
       suspend;
     }
     /* bit_not */
   }
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

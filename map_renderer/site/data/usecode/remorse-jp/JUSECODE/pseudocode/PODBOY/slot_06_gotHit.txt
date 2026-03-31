@@ -1,28 +1,35 @@
 function podboy_gotHit() /* entry=559 class_id=0x022d slot=0x06 */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    vel, /* [BP+12h] type=0x69 */
+    fram, /* [BP-02h] type=0x69 */
+    counter, /* [BP-04h] type=0x69 */
+    item; /* [BP-06h] type=0x24 */
+
   set_info(0x020c, *(arg_06));
   process_exclude();
   if (Item.getFrame(arg_06) == 1) {
-    local_02 = 22;
+    fram = 22;
   }
   else if (Item.getFrame(arg_06) == 2) {
-    local_02 = 11;
+    fram = 11;
   }
   else if (Item.getFrame(arg_06) == 3) {
-    local_02 = 0;
+    fram = 0;
   }
   else {
-    local_02 = 34;
+    fram = 34;
   }
   spawn PODBOY.slot_20(*(arg_06), 0x00000000);
   spawn ITEM.slot_28(pid, 0, 1, arg_06);
   suspend;
-  local_04 = 0;
-  while (local_04 <= 10) {
-    spawn FREE.slot_32(pid, (15 - local_04), 0x00000000);
+  counter = 0;
+  while (counter <= 10) {
+    spawn FREE.slot_32(pid, (15 - counter), 0x00000000);
     suspend;
-    local_04 = (1 + local_04);
+    counter = (1 + counter);
   }
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

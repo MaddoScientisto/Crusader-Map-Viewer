@@ -1,17 +1,17 @@
 function free_slot_3b() /* entry=2591 class_id=0x0a1d slot=0x3b */
 {
   set_info(9, 0);
-  local_08 = intrinsic_014b();
-  local_04 = intrinsic_014b();
+  local_08 = Ultima8Engine.getCurrentTimerTick();
+  local_04 = Ultima8Engine.getCurrentTimerTick();
   if (arg_06 < 1) {
     return;
   }
   else {
     suspend;
-    local_08 = intrinsic_014b();
+    local_08 = Ultima8Engine.getCurrentTimerTick();
     while (true) {
       suspend;
-      local_08 = intrinsic_014b();
+      local_08 = Ultima8Engine.getCurrentTimerTick();
       if (local_08 != local_04) {
         local_04 = local_08;
         arg_06 = (arg_06 - 1);

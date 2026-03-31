@@ -8,9 +8,9 @@ function onceegg_unhatch() /* entry=2307 class_id=0x0901 slot=0x15 */
 
   set_info(0x0239, *(arg_06));
   process_exclude();
-  id = intrinsic_0041(arg_06);
+  id = CameraProcess.setCenterOn(arg_06);
   item = *(arg_06);
-  qlo = intrinsic_00e6(item);
+  qlo = Actor.SetNPCDataField0x63_0E6(item);
   spawn TRIGGER.slot_20(pid, (1 + 0x0080), item, arg_06);
   suspend;
   return;

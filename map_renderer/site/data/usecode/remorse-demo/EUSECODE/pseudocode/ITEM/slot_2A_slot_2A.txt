@@ -1,5 +1,14 @@
 function item_slot_2a() /* entry=2591 class_id=0x0a1d slot=0x2a */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    item, /* [BP-02h] type=0x24 */
+    onFloor, /* [BP-03h] type=0x62 */
+    x, /* [BP-05h] type=0x69 */
+    y, /* [BP-07h] type=0x69 */
+    z, /* [BP-09h] type=0x69 */
+    burn; /* [BP-11h] type=0x24 */
+
   set_info(0x0001, *(arg_06));
   spawn ITEM.slot_29(pid, arg_06);
   suspend;
@@ -7,15 +16,14 @@ function item_slot_2a() /* entry=2591 class_id=0x0a1d slot=0x2a */
   if (!process_result) {
     return;
   }
-  else if ((local_05 == 1) || (local_05 == 2)) {
-    spawn ITEM.slot_2b(local_11);
+  else if ((x == 1) || (x == 2)) {
+    spawn ITEM.slot_2b(burn);
   }
-  else if ((local_05 == 3) || (local_05 == 4)) {
-    spawn ITEM.slot_2b(local_11);
+  else if ((x == 3) || (x == 4)) {
+    spawn ITEM.slot_2b(burn);
   }
   else {
-    spawn ITEM.slot_2b(local_11);
+    spawn ITEM.slot_2b(burn);
   }
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

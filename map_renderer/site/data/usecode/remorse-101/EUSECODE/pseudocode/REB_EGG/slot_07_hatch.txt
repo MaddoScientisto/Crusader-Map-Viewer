@@ -22,58 +22,47 @@ function reb_egg_hatch() /* entry=2313 class_id=0x0907 slot=0x07 */
   if (global[0x0020] == 1) {
     /* pop_global */
   }
-  /* global_address */
-  if (intrinsic_0011() == 41) {
+  if (Actor.getMap(&global[0x003d]) == 41) {
     /* pop_global */
   }
   for local_02 in nearby_items(shape=BAR_PATRONS_1, origin=arg_06) {
-    /* loopnext */
   }
   for local_02 in nearby_items(shape=BAR_STOOL, origin=arg_06) {
-    /* loopnext */
   }
   if ((global[0x0020] > 3) && (global[0x0020] < 13)) {
-    if (intrinsic_0018(9, 0) > 5) {
+    if (UCMachine.rndRange(9, 0) > 5) {
       suspend;
     }
   }
   if ((global[0x0020] == 2) || (global[0x0020] == 5)) {
     for local_02 in nearby_items(shape=0x044f, origin=arg_06) {
-      /* loopnext */
     }
     for local_02 in nearby_items(shape=NUMBERS, origin=arg_06) {
-      /* loopnext */
     }
     local_09 = 1;
   }
   else if ((global[0x0020] == 10) || (global[0x0020] == 11)) {
     for local_02 in nearby_items(shape=0x044f, origin=arg_06) {
-      /* loopnext */
     }
     for local_02 in nearby_items(shape=NUMBERS, origin=arg_06) {
       suspend;
-      /* loopnext */
     }
     local_09 = 1;
   }
   else if ((global[0x0020] == 12) || (global[0x0020] == 13)) {
     for local_02 in nearby_items(shape=0x044f, origin=arg_06) {
-      /* loopnext */
     }
   }
   else if (global[0x0020] == 14) {
     for local_02 in nearby_items(shape=NUMBERS, origin=arg_06) {
       suspend;
-      /* loopnext */
     }
     local_09 = 1;
   }
-  /* global_address */
   suspend;
   spawn FREE.waitNTimerTicks(pid, 120, 0x00000000);
   suspend;
-  /* global_address */
-  spawn NPC.slot_23(pid);
+  spawn NPC.slot_23(pid, &global[0x003d]);
   suspend;
   spawn REB_EGG.slot_20(pid, arg_06);
   suspend;
@@ -81,28 +70,22 @@ function reb_egg_hatch() /* entry=2313 class_id=0x0907 slot=0x07 */
   /* loopscr */
   /* loop */
   while (condition) {
-    /* loopnext */
   }
   if (!local_09) {
     /* pop_global */
     for local_02 in selector_0x42(arg0=0x044f, arg1=0x0442, arg2=(50 * 32), origin=arg_06) {
-      /* loopnext */
     }
     return;
   }
   else {
-    /* global_address */
     suspend;
-    /* global_address */
     suspend;
     if (global[0x0020] == 2) {
       /* str_to_ptr */
       /* free_stack_string */
       suspend;
       suspend;
-      /* global_address */
       for local_02 in nearby_items(shape=0x044f, origin=arg_06) {
-        /* loopnext */
       }
       suspend;
       /* pop_global */
@@ -120,9 +103,7 @@ function reb_egg_hatch() /* entry=2313 class_id=0x0907 slot=0x07 */
         suspend;
       }
       suspend;
-      /* global_address */
       for local_02 in nearby_items(shape=0x044f, origin=arg_06) {
-        /* loopnext */
       }
       spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
       suspend;
@@ -144,9 +125,7 @@ function reb_egg_hatch() /* entry=2313 class_id=0x0907 slot=0x07 */
       spawn FREE.waitNTimerTicks(pid, 120, 0x00000000);
       suspend;
       suspend;
-      /* global_address */
       for local_02 in nearby_items(shape=0x0442, origin=arg_06) {
-        /* loopnext */
       }
       spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
       suspend;
@@ -160,15 +139,10 @@ function reb_egg_hatch() /* entry=2313 class_id=0x0907 slot=0x07 */
       suspend;
       spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
       suspend;
-      /* global_address */
       suspend;
-      /* global_address */
       suspend;
-      /* global_address */
       suspend;
-      /* global_address */
       suspend;
-      /* global_address */
       suspend;
       spawn NPC.slot_22(pid, 4, 12, local_06);
       suspend;
@@ -178,7 +152,6 @@ function reb_egg_hatch() /* entry=2313 class_id=0x0907 slot=0x07 */
       spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
       suspend;
       for local_02 in nearby_items(shape=0x043d, origin=arg_06) {
-        /* loopnext */
       }
       /* pop_global */
       return;

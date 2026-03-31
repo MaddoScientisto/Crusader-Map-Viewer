@@ -1,39 +1,46 @@
 function rfanns_equip() /* entry=191 class_id=0x00bd slot=0x0a */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    var, /* [BP+10h] type=0x69 */
+    fram, /* [BP-02h] type=0x69 */
+    counter, /* [BP-04h] type=0x69 */
+    counter2, /* [BP-06h] type=0x69 */
+    item, /* [BP-08h] type=0x24 */
+    wind; /* [BP-10h] type=0x24 */
+
   set_info(0x0211, *(arg_06));
   process_exclude();
-  if (intrinsic_0004(arg_06) & 0x1000) {
+  if (Item.getStatus(arg_06) & 0x1000) {
     return;
   }
-  else if (arg_10 == 0) {
+  else if (var == 0) {
     ITEM.slot_23(0x1000, arg_06);
-    local_02 = Item.getFrame(arg_06);
-    local_02 = (1 + local_02);
-    local_06 = 1;
-    spawn FREE.slot_32(pid, local_06, 0x00000000);
+    fram = Item.getFrame(arg_06);
+    fram = (1 + fram);
+    counter2 = 1;
+    spawn FREE.slot_32(pid, counter2, 0x00000000);
     suspend;
-    local_04 = 1;
-    while (local_04 <= 15) {
-      local_02 = (1 + local_02);
-      if (local_02 > 5) {
-        local_02 = 1;
+    counter = 1;
+    while (counter <= 15) {
+      fram = (1 + fram);
+      if (fram > 5) {
+        fram = 1;
       }
-      local_06 = (local_06 + 1);
-      spawn FREE.slot_32(pid, local_06, 0x00000000);
+      counter2 = (counter2 + 1);
+      spawn FREE.slot_32(pid, counter2, 0x00000000);
       suspend;
-      if (local_06 == 4) {
-        for local_10 in nearby_items(shape=WIND_AREA, origin=arg_06) {
-          if (intrinsic_00fc(local_10) == intrinsic_00fc(arg_06)) {
-            spawn FREE.slot_31(pid, local_10, 0x00000000);
+      if (counter2 == 4) {
+        for wind in nearby_items(shape=WIND_AREA, origin=arg_06) {
+          if (Item.andStatus(wind) == Item.andStatus(arg_06)) {
+            spawn FREE.slot_31(pid, wind, 0x00000000);
             suspend;
           }
-          /* loopnext */
         }
       }
-      local_04 = (1 + local_04);
+      counter = (1 + counter);
     }
     ITEM.slot_24(0x1000, arg_06);
   }
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

@@ -2,13 +2,13 @@ function npcdeath_slot_20() /* entry=2581 class_id=0x0a13 slot=0x20 */
 {
   entry:
     set_info(0x0205, 0);
-    if intrinsic_00d2(arg_06) goto block_00f2;
+    if Actor.setCombatTactic(arg_06) goto block_00f2;
 
   block_00ef:
     goto block_171c;
 
   block_00f2:
-    while (intrinsic_00b5(arg_06)) {
+    while (Intrinsic00B5(arg_06)) {
       spawn FREE.slot_3b(pid, 2, 0x00000000);
       suspend;
     }
@@ -24,10 +24,10 @@ function npcdeath_slot_20() /* entry=2581 class_id=0x0a13 slot=0x20 */
     if !condition goto block_0277;
 
   block_0139:
-    if arg_12 != intrinsic_00f1(local_05) goto block_0273;
+    if arg_12 != Item.hurl(local_05) goto block_0273;
 
   block_0148:
-    if intrinsic_0003(local_05) == 0 goto block_0173;
+    if Item.getMapArray(local_05) == 0 goto block_0173;
 
   block_0157:
     spawn TRIGGER.slot_20(pid, 0, local_05, local_05);
@@ -38,8 +38,8 @@ function npcdeath_slot_20() /* entry=2581 class_id=0x0a13 slot=0x20 */
     goto block_0273;
 
   block_0173:
-    local_07 = intrinsic_00f2(local_05);
-    local_09 = intrinsic_00f3(local_05);
+    local_07 = Item.getNpcNum(local_05);
+    local_09 = Item.hurl(local_05);
     if local_07 != 0 goto block_0194;
 
   block_0191:
@@ -49,7 +49,7 @@ function npcdeath_slot_20() /* entry=2581 class_id=0x0a13 slot=0x20 */
     if ((((local_07 == 1) || (local_07 == 2)) || (local_07 == 3)) || (local_07 == 4)) {
       if (local_09) {
       }
-      local_13 = intrinsic_0011(arg_06);
+      local_13 = Item.getShape(arg_06);
       /* create_list */
       /* in_list */
       NPC.slot_2a(local_13, 0x0576, 0x0278, 0x05ef, 0x0596, 0x058f, 0x059c, 0x0656, arg_06);
@@ -64,19 +64,18 @@ function npcdeath_slot_20() /* entry=2581 class_id=0x0a13 slot=0x20 */
     goto block_0277;
 
   block_0273:
-    /* loopnext */
     goto block_0136;
 
   block_0277:
     local_26 = Item.getX(local_02);
     local_28 = Item.getY(local_02);
     local_29 = Item.getZ(local_02);
-    local_31 = (intrinsic_00d9(local_02) / 2);
+    local_31 = (Actor.getDefaultActivity2(local_02) / 2);
     NPC.slot_2a(local_02);
     if !retval goto block_02bd;
 
   block_02bd:
-    if (intrinsic_0011(local_02) != 0x058f) || (intrinsic_0011(local_02) == 0x05d6) goto block_02e9;
+    if (Item.getShape(local_02) != 0x058f) || (Item.getShape(local_02) == 0x05d6) goto block_02e9;
 
   block_02db:
     goto block_171c;
@@ -85,7 +84,7 @@ function npcdeath_slot_20() /* entry=2581 class_id=0x0a13 slot=0x20 */
     goto block_13d6;
 
   block_02e9:
-    if intrinsic_0011(local_02) != 0x0308 goto block_0351;
+    if Item.getShape(local_02) != booty_shape_0308 goto block_0351;
 
   block_02f9:
     local_36 = 0x0608;
@@ -127,7 +126,7 @@ function npcdeath_slot_20() /* entry=2581 class_id=0x0a13 slot=0x20 */
     goto block_13d6;
 
   block_0351:
-    if intrinsic_0011(local_02) != 0x05b1 goto block_0407;
+    if Item.getShape(local_02) != 0x05b1 goto block_0407;
 
   block_0361:
     local_36 = 0x060e;
@@ -177,7 +176,7 @@ function npcdeath_slot_20() /* entry=2581 class_id=0x0a13 slot=0x20 */
     goto block_13d6;
 
   block_0407:
-    if intrinsic_0011(local_02) != 0x05d5 goto block_046f;
+    if Item.getShape(local_02) != booty_shape_05d5 goto block_046f;
 
   block_0417:
     local_36 = 0x0607;
@@ -219,7 +218,7 @@ function npcdeath_slot_20() /* entry=2581 class_id=0x0a13 slot=0x20 */
     goto block_13d6;
 
   block_046f:
-    if intrinsic_0011(local_02) != 0x0606 goto block_04d7;
+    if Item.getShape(local_02) != booty_shape_0606 goto block_04d7;
 
   block_047f:
     local_36 = 0x060c;
@@ -261,7 +260,7 @@ function npcdeath_slot_20() /* entry=2581 class_id=0x0a13 slot=0x20 */
     goto block_13d6;
 
   block_04d7:
-    if intrinsic_0011(local_02) != 0x062e goto block_053f;
+    if Item.getShape(local_02) != booty_shape_062e goto block_053f;
 
   block_04e7:
     local_36 = 0x0633;
@@ -303,7 +302,7 @@ function npcdeath_slot_20() /* entry=2581 class_id=0x0a13 slot=0x20 */
     goto block_13d6;
 
   block_053f:
-    if intrinsic_0011(local_02) != 0x0631 goto block_05a7;
+    if Item.getShape(local_02) != booty_shape_0631 goto block_05a7;
 
   block_054f:
     local_36 = 0x0632;
@@ -345,7 +344,7 @@ function npcdeath_slot_20() /* entry=2581 class_id=0x0a13 slot=0x20 */
     goto block_13d6;
 
   block_05a7:
-    if intrinsic_0011(local_02) != 0x0371 goto block_0625;
+    if Item.getShape(local_02) != booty_shape_0371 goto block_0625;
 
   block_05b7:
     local_36 = 0x04be;
@@ -383,7 +382,7 @@ function npcdeath_slot_20() /* entry=2581 class_id=0x0a13 slot=0x20 */
     local_33 = local_31;
 
   block_0608:
-    if intrinsic_00f0(local_02) != 18 goto block_061e;
+    if Item.getNpcNum(local_02) != 18 goto block_061e;
 
   block_0617:
     local_33 = (local_33 + 10);
@@ -393,7 +392,7 @@ function npcdeath_slot_20() /* entry=2581 class_id=0x0a13 slot=0x20 */
     goto block_13d6;
 
   block_0625:
-    if intrinsic_0011(local_02) != 0x057a goto block_0645;
+    if Item.getShape(local_02) != booty_shape_057a goto block_0645;
 
   block_0635:
     local_36 = 0x05fd;
@@ -402,7 +401,7 @@ function npcdeath_slot_20() /* entry=2581 class_id=0x0a13 slot=0x20 */
     goto block_13d6;
 
   block_0645:
-    if intrinsic_0011(local_02) != 0x0095 goto block_0674;
+    if Item.getShape(local_02) != 0x0095 goto block_0674;
 
   block_0655:
     local_36 = 0x065b;
@@ -420,7 +419,7 @@ function npcdeath_slot_20() /* entry=2581 class_id=0x0a13 slot=0x20 */
     goto block_13d6;
 
   block_0674:
-    if intrinsic_0011(local_02) != 0x04d1 goto block_0694;
+    if Item.getShape(local_02) != booty_shape_04d1 goto block_0694;
 
   block_0684:
     local_36 = 0x04d2;
@@ -429,7 +428,7 @@ function npcdeath_slot_20() /* entry=2581 class_id=0x0a13 slot=0x20 */
     goto block_13d6;
 
   block_0694:
-    if intrinsic_0011(local_02) != 0x0528 goto block_06b4;
+    if Item.getShape(local_02) != booty_shape_0528 goto block_06b4;
 
   block_06a4:
     local_36 = 0x054d;
@@ -438,12 +437,12 @@ function npcdeath_slot_20() /* entry=2581 class_id=0x0a13 slot=0x20 */
     goto block_13d6;
 
   block_06b4:
-    if intrinsic_0011(local_02) != 0x0338 goto block_06ea;
+    if Item.getShape(local_02) != 0x0338 goto block_06ea;
 
   block_06c4:
     local_36 = 0x04c5;
     local_33 = local_31;
-    if intrinsic_00f0(local_02) != 18 goto block_06e3;
+    if Item.getNpcNum(local_02) != 18 goto block_06e3;
 
   block_06dc:
     local_33 = (local_31 + 10);
@@ -453,7 +452,7 @@ function npcdeath_slot_20() /* entry=2581 class_id=0x0a13 slot=0x20 */
     goto block_13d6;
 
   block_06ea:
-    if intrinsic_0011(local_02) != 0x01b4 goto block_0768;
+    if Item.getShape(local_02) != booty_shape_01b4 goto block_0768;
 
   block_06fa:
     local_36 = 0x055d;
@@ -491,7 +490,7 @@ function npcdeath_slot_20() /* entry=2581 class_id=0x0a13 slot=0x20 */
     local_33 = local_31;
 
   block_074b:
-    if intrinsic_00f0(local_02) != 18 goto block_0761;
+    if Item.getNpcNum(local_02) != 18 goto block_0761;
 
   block_075a:
     local_33 = (local_33 + 10);
@@ -501,12 +500,12 @@ function npcdeath_slot_20() /* entry=2581 class_id=0x0a13 slot=0x20 */
     goto block_13d6;
 
   block_0768:
-    if intrinsic_0011(local_02) != 0x02df goto block_079e;
+    if Item.getShape(local_02) != booty_shape_02df goto block_079e;
 
   block_0778:
     local_36 = 0x04ba;
     local_33 = local_31;
-    if intrinsic_00f0(local_02) != 20 goto block_0797;
+    if Item.getNpcNum(local_02) != 20 goto block_0797;
 
   block_0790:
     local_33 = (local_31 + 10);
@@ -516,7 +515,7 @@ function npcdeath_slot_20() /* entry=2581 class_id=0x0a13 slot=0x20 */
     goto block_13d6;
 
   block_079e:
-    if intrinsic_0011(local_02) != 0x0383 goto block_0818;
+    if Item.getShape(local_02) != 0x0383 goto block_0818;
 
   block_07ae:
     local_36 = 0x04c1;
@@ -554,7 +553,7 @@ function npcdeath_slot_20() /* entry=2581 class_id=0x0a13 slot=0x20 */
     local_33 = local_31;
 
   block_07ff:
-    if intrinsic_00f0(local_02) != 20 goto block_0815;
+    if Item.getNpcNum(local_02) != 20 goto block_0815;
 
   block_080e:
     local_33 = (local_33 + 10);
@@ -563,7 +562,7 @@ function npcdeath_slot_20() /* entry=2581 class_id=0x0a13 slot=0x20 */
     goto block_13d6;
 
   block_0818:
-    if intrinsic_0011(local_02) != 0x05e2 goto block_08e6;
+    if Item.getShape(local_02) != 0x05e2 goto block_08e6;
 
   block_0828:
     if local_31 != 4 goto block_083b;
@@ -614,7 +613,7 @@ function npcdeath_slot_20() /* entry=2581 class_id=0x0a13 slot=0x20 */
     goto block_13d6;
 
   block_08e6:
-    if intrinsic_0011(local_02) != 0x0385 goto block_09b9;
+    if Item.getShape(local_02) != 0x0385 goto block_09b9;
 
   block_08f6:
     local_36 = 0x0220;
@@ -666,7 +665,7 @@ function npcdeath_slot_20() /* entry=2581 class_id=0x0a13 slot=0x20 */
     goto block_13d6;
 
   block_09b9:
-    if intrinsic_0011(local_02) != 0x02cb goto block_0a2c;
+    if Item.getShape(local_02) != 0x02cb goto block_0a2c;
 
   block_09c9:
     /* loopscr */
@@ -676,7 +675,6 @@ function npcdeath_slot_20() /* entry=2581 class_id=0x0a13 slot=0x20 */
     while (condition) {
       spawn ITEM.slot_2a(pid, 1, 0, local_19);
       suspend;
-      /* loopnext */
     }
 
   block_09f1:
@@ -690,7 +688,7 @@ function npcdeath_slot_20() /* entry=2581 class_id=0x0a13 slot=0x20 */
     goto block_13d6;
 
   block_0a2c:
-    if intrinsic_0011(local_02) != 0x04e6 goto block_0b05;
+    if Item.getShape(local_02) != 0x04e6 goto block_0b05;
 
   block_0a3c:
     if local_31 != 4 goto block_0a4f;
@@ -742,7 +740,7 @@ function npcdeath_slot_20() /* entry=2581 class_id=0x0a13 slot=0x20 */
     goto block_13d6;
 
   block_0b05:
-    if intrinsic_0011(local_02) != 0x030c goto block_0bd3;
+    if Item.getShape(local_02) != 0x030c goto block_0bd3;
 
   block_0b15:
     if local_31 != 4 goto block_0b28;
@@ -793,7 +791,7 @@ function npcdeath_slot_20() /* entry=2581 class_id=0x0a13 slot=0x20 */
     goto block_13d6;
 
   block_0bd3:
-    if intrinsic_0011(local_02) != 0x0319 goto block_0ca1;
+    if Item.getShape(local_02) != 0x0319 goto block_0ca1;
 
   block_0be3:
     if local_31 != 4 goto block_0bf6;
@@ -844,7 +842,7 @@ function npcdeath_slot_20() /* entry=2581 class_id=0x0a13 slot=0x20 */
     goto block_13d6;
 
   block_0ca1:
-    if intrinsic_0011(local_02) != 0x0576 goto block_0d0b;
+    if Item.getShape(local_02) != 0x0576 goto block_0d0b;
 
   block_0cb1:
     /* loopscr */
@@ -852,7 +850,6 @@ function npcdeath_slot_20() /* entry=2581 class_id=0x0a13 slot=0x20 */
 
   block_0cbc:
     while (condition) {
-      /* loopnext */
     }
 
   block_0ccb:
@@ -862,7 +859,7 @@ function npcdeath_slot_20() /* entry=2581 class_id=0x0a13 slot=0x20 */
     goto block_13d6;
 
   block_0d0b:
-    if intrinsic_0011(local_02) != 0x0596 goto block_0de7;
+    if Item.getShape(local_02) != 0x0596 goto block_0de7;
 
   block_0d1b:
     if local_31 != 4 goto block_0d2e;
@@ -899,7 +896,7 @@ function npcdeath_slot_20() /* entry=2581 class_id=0x0a13 slot=0x20 */
     local_33 = local_31;
 
   block_0d67:
-    if intrinsic_00f0(local_02) != 20 goto block_0d7d;
+    if Item.getNpcNum(local_02) != 20 goto block_0d7d;
 
   block_0d76:
     local_33 = (local_33 + 10);
@@ -910,7 +907,6 @@ function npcdeath_slot_20() /* entry=2581 class_id=0x0a13 slot=0x20 */
 
   block_0d88:
     while (condition) {
-      /* loopnext */
     }
 
   block_0d97:
@@ -926,7 +922,7 @@ function npcdeath_slot_20() /* entry=2581 class_id=0x0a13 slot=0x20 */
     goto block_13d6;
 
   block_0de7:
-    if intrinsic_0011(local_02) != 0x0278 goto block_0ead;
+    if Item.getShape(local_02) != 0x0278 goto block_0ead;
 
   block_0df7:
     if local_31 != 4 goto block_0e0a;
@@ -968,7 +964,6 @@ function npcdeath_slot_20() /* entry=2581 class_id=0x0a13 slot=0x20 */
 
   block_0e4e:
     while (condition) {
-      /* loopnext */
     }
 
   block_0e5d:
@@ -984,7 +979,7 @@ function npcdeath_slot_20() /* entry=2581 class_id=0x0a13 slot=0x20 */
     goto block_13d6;
 
   block_0ead:
-    if intrinsic_0011(local_02) != 0x0656 goto block_0f73;
+    if Item.getShape(local_02) != 0x0656 goto block_0f73;
 
   block_0ebd:
     if local_31 != 4 goto block_0ed0;
@@ -1026,7 +1021,6 @@ function npcdeath_slot_20() /* entry=2581 class_id=0x0a13 slot=0x20 */
 
   block_0f14:
     while (condition) {
-      /* loopnext */
     }
 
   block_0f23:
@@ -1042,7 +1036,7 @@ function npcdeath_slot_20() /* entry=2581 class_id=0x0a13 slot=0x20 */
     goto block_13d6;
 
   block_0f73:
-    if intrinsic_0011(local_02) != 0x062d goto block_1039;
+    if Item.getShape(local_02) != 0x062d goto block_1039;
 
   block_0f83:
     if local_31 != 4 goto block_0f96;
@@ -1084,7 +1078,6 @@ function npcdeath_slot_20() /* entry=2581 class_id=0x0a13 slot=0x20 */
 
   block_0fda:
     while (condition) {
-      /* loopnext */
     }
 
   block_0fe9:
@@ -1100,7 +1093,7 @@ function npcdeath_slot_20() /* entry=2581 class_id=0x0a13 slot=0x20 */
     goto block_13d6;
 
   block_1039:
-    if intrinsic_0011(local_02) != 0x05ef goto block_10ff;
+    if Item.getShape(local_02) != 0x05ef goto block_10ff;
 
   block_1049:
     if local_31 != 4 goto block_105c;
@@ -1142,7 +1135,6 @@ function npcdeath_slot_20() /* entry=2581 class_id=0x0a13 slot=0x20 */
 
   block_10a0:
     while (condition) {
-      /* loopnext */
     }
 
   block_10af:
@@ -1158,7 +1150,7 @@ function npcdeath_slot_20() /* entry=2581 class_id=0x0a13 slot=0x20 */
     goto block_13d6;
 
   block_10ff:
-    if intrinsic_0011(local_02) != 0x02f6 goto block_1167;
+    if Item.getShape(local_02) != 0x02f6 goto block_1167;
 
   block_110f:
     local_36 = 0x04b9;
@@ -1200,7 +1192,7 @@ function npcdeath_slot_20() /* entry=2581 class_id=0x0a13 slot=0x20 */
     goto block_13d6;
 
   block_1167:
-    if intrinsic_0011(local_02) != 0x04e0 goto block_11cf;
+    if Item.getShape(local_02) != 0x04e0 goto block_11cf;
 
   block_1177:
     local_36 = 0x0610;
@@ -1242,7 +1234,7 @@ function npcdeath_slot_20() /* entry=2581 class_id=0x0a13 slot=0x20 */
     goto block_13d6;
 
   block_11cf:
-    if intrinsic_0011(local_02) != 0x0384 goto block_1237;
+    if Item.getShape(local_02) != 0x0384 goto block_1237;
 
   block_11df:
     local_36 = 0x0360;
@@ -1284,7 +1276,7 @@ function npcdeath_slot_20() /* entry=2581 class_id=0x0a13 slot=0x20 */
     goto block_13d6;
 
   block_1237:
-    if intrinsic_0011(local_02) != 0x02f5 goto block_129f;
+    if Item.getShape(local_02) != 0x02f5 goto block_129f;
 
   block_1247:
     local_36 = 0x04bb;
@@ -1326,7 +1318,7 @@ function npcdeath_slot_20() /* entry=2581 class_id=0x0a13 slot=0x20 */
     goto block_13d6;
 
   block_129f:
-    if intrinsic_0011(local_02) != 0x0344 goto block_12bf;
+    if Item.getShape(local_02) != 0x0344 goto block_12bf;
 
   block_12af:
     local_36 = 0x04bd;
@@ -1335,7 +1327,7 @@ function npcdeath_slot_20() /* entry=2581 class_id=0x0a13 slot=0x20 */
     goto block_13d6;
 
   block_12bf:
-    if (intrinsic_0011(local_02) != 0x0597) || (intrinsic_0011(local_02) == 0x0595) goto block_12e3;
+    if (Item.getShape(local_02) != 0x0597) || (Item.getShape(local_02) == 0x0595) goto block_12e3;
 
   block_12dd:
     goto block_171c;
@@ -1344,22 +1336,22 @@ function npcdeath_slot_20() /* entry=2581 class_id=0x0a13 slot=0x20 */
     goto block_13d6;
 
   block_12e3:
-    if (intrinsic_0011(local_02) == 0x02f7) {
+    if (Item.getShape(local_02) == 0x02f7) {
       local_36 = 0x04bc;
       local_33 = local_31;
       local_22 = 1;
     }
-    else if (intrinsic_0011(local_02) == 0x045d) {
+    else if (Item.getShape(local_02) == 0x045d) {
       return;
     }
-    else if (intrinsic_0011(local_02) == 0x05b1) {
-      if (intrinsic_00f0(local_02) == 20) {
+    else if (Item.getShape(local_02) == 0x05b1) {
+      if (Item.getNpcNum(local_02) == 20) {
         local_36 = 0x060e;
       }
-      else if (intrinsic_00f0(local_02) == 21) {
+      else if (Item.getNpcNum(local_02) == 21) {
         local_36 = 0x065c;
       }
-      else if (intrinsic_00f0(local_02) == 22) {
+      else if (Item.getNpcNum(local_02) == 22) {
         local_36 = 0x063f;
       }
       else {
@@ -1387,55 +1379,55 @@ function npcdeath_slot_20() /* entry=2581 class_id=0x0a13 slot=0x20 */
 
   block_13d6:
     BOOTY.slot_21(local_17, local_02);
-    if !intrinsic_00c2(local_29, local_28, local_26, local_36) goto block_1418;
+    if !IntrinsicReturn0(local_29, local_28, local_26, local_36) goto block_1418;
 
   block_1407:
     goto block_156e;
 
   block_1418:
-    if !intrinsic_00c2(local_29, local_28, (local_26 - 16), local_36) goto block_1441;
+    if !IntrinsicReturn0(local_29, local_28, (local_26 - 16), local_36) goto block_1441;
 
   block_142d:
     goto block_156e;
 
   block_1441:
-    if !intrinsic_00c2(local_29, (local_28 - 16), local_26, local_36) goto block_146a;
+    if !IntrinsicReturn0(local_29, (local_28 - 16), local_26, local_36) goto block_146a;
 
   block_1456:
     goto block_156e;
 
   block_146a:
-    if !intrinsic_00c2(local_29, (local_28 + 16), local_26, local_36) goto block_1493;
+    if !IntrinsicReturn0(local_29, (local_28 + 16), local_26, local_36) goto block_1493;
 
   block_147f:
     goto block_156e;
 
   block_1493:
-    if !intrinsic_00c2(local_29, local_28, (local_26 + 16), local_36) goto block_14bc;
+    if !IntrinsicReturn0(local_29, local_28, (local_26 + 16), local_36) goto block_14bc;
 
   block_14a8:
     goto block_156e;
 
   block_14bc:
-    if !intrinsic_00c2(local_29, local_28, (local_26 - 32), local_36) goto block_14e5;
+    if !IntrinsicReturn0(local_29, local_28, (local_26 - 32), local_36) goto block_14e5;
 
   block_14d1:
     goto block_156e;
 
   block_14e5:
-    if !intrinsic_00c2(local_29, (local_28 - 32), local_26, local_36) goto block_150e;
+    if !IntrinsicReturn0(local_29, (local_28 - 32), local_26, local_36) goto block_150e;
 
   block_14fa:
     goto block_156e;
 
   block_150e:
-    if !intrinsic_00c2(local_29, (local_28 + 32), local_26, local_36) goto block_1537;
+    if !IntrinsicReturn0(local_29, (local_28 + 32), local_26, local_36) goto block_1537;
 
   block_1523:
     goto block_156e;
 
   block_1537:
-    if !intrinsic_00c2(local_29, local_28, (local_26 + 32), local_36) goto block_1560;
+    if !IntrinsicReturn0(local_29, local_28, (local_26 + 32), local_36) goto block_1560;
 
   block_154c:
     goto block_156e;
@@ -1448,7 +1440,7 @@ function npcdeath_slot_20() /* entry=2581 class_id=0x0a13 slot=0x20 */
 
   block_157e:
     BOOTY.slot_20(local_17, arg_06);
-    if !intrinsic_007e() goto block_169a;
+    if !Actor.turnToward() goto block_169a;
 
   block_1595:
     if !local_22 goto block_169a;
@@ -1462,7 +1454,7 @@ function npcdeath_slot_20() /* entry=2581 class_id=0x0a13 slot=0x20 */
     if retval <= 50 goto block_162a;
 
   block_15b7:
-    if !intrinsic_00c2(local_29, local_28, local_26, 0x04b8) goto block_1627;
+    if !IntrinsicReturn0(local_29, local_28, local_26, 0x04b8) goto block_1627;
 
   block_15ca:
     local_21 = 0;
@@ -1478,7 +1470,7 @@ function npcdeath_slot_20() /* entry=2581 class_id=0x0a13 slot=0x20 */
     goto block_169a;
 
   block_162a:
-    if !intrinsic_00c2(local_29, local_28, local_26, 0x04b8) goto block_169a;
+    if !IntrinsicReturn0(local_29, local_28, local_26, 0x04b8) goto block_169a;
 
   block_163d:
     local_21 = 10;
@@ -1498,7 +1490,7 @@ function npcdeath_slot_20() /* entry=2581 class_id=0x0a13 slot=0x20 */
     if !retval goto block_171c;
 
   block_16ac:
-    if !intrinsic_00c2(local_29, local_28, local_26, 0x04b8) goto block_171c;
+    if !IntrinsicReturn0(local_29, local_28, local_26, 0x04b8) goto block_171c;
 
   block_16bf:
     local_21 = 20;

@@ -2,15 +2,14 @@ function steamegg_hatch() /* entry=2309 class_id=0x0903 slot=0x07 */
 {
   set_info(0x0210, *(arg_06));
   process_exclude();
-  local_04 = intrinsic_003e(arg_06);
+  local_04 = Item.callEvent11(arg_06);
   for local_02 in nearby_items(shape=0x0500, origin=arg_06) {
-    if (intrinsic_011c(local_02) == local_04) {
+    if (Item.isCrusTypeNPC(local_02) == local_04) {
       suspend;
       spawn FREE.slot_3b(pid, 0x015e, 0x00000000);
       suspend;
       suspend;
     }
-    /* loopnext */
   }
   return;
 }

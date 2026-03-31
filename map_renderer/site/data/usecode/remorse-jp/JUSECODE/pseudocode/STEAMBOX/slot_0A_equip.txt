@@ -14,23 +14,22 @@ function steambox_equip() /* entry=1282 class_id=0x0500 slot=0x0a */
     /* loopscr */
     /* loop */
     while (condition) {
-      if (intrinsic_00fc(steam) == intrinsic_00fc(arg_06)) {
-        if (intrinsic_0004(steam) & 0x1000) {
+      if (Item.andStatus(steam) == Item.andStatus(arg_06)) {
+        if (Item.getStatus(steam) & 0x1000) {
         }
-        else if ((intrinsic_0016(steam) == 0x04fa) || (intrinsic_0016(steam) == 0x04f9)) {
+        else if ((Item.getShape(steam) == 0x04fa) || (Item.getShape(steam) == 0x04f9)) {
           spawn STEAMBOX.slot_21(0, steam, arg_06);
         }
-        else if ((intrinsic_0016(steam) == 0x0511) || (intrinsic_0016(steam) == 0x04fd)) {
+        else if ((Item.getShape(steam) == 0x0511) || (Item.getShape(steam) == 0x04fd)) {
           spawn STEAMBOX.slot_21(1, steam, arg_06);
         }
       }
-      /* loopnext */
     }
     return;
   }
   else if (event == 1) {
     for steam in nearby_items(shape=0x03a9, origin=arg_06) {
-      if (intrinsic_00fc(steam) == intrinsic_00fc(arg_06)) {
+      if (Item.andStatus(steam) == Item.andStatus(arg_06)) {
         if (Item.getFrame(steam) == 0) {
           spawn STEAMBOX.slot_20(0, steam2, arg_06);
         }
@@ -38,7 +37,6 @@ function steambox_equip() /* entry=1282 class_id=0x0500 slot=0x0a */
           spawn STEAMBOX.slot_20(1, steam2, arg_06);
         }
       }
-      /* loopnext */
     }
     return;
   }

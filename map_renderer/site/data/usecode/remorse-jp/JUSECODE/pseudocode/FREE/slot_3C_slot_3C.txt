@@ -8,15 +8,15 @@ function free_slot_3c() /* entry=2575 class_id=0x0a0d slot=0x3c */
   set_info(1, 0);
   FREE.slot_33(0x022b, 0);
   ref = 1;
-  if (intrinsic_00b9() == 1) {
+  if (Actor.getLastAnimSet() == 1) {
     return;
   }
   else {
-    rndVoice = intrinsic_0018(100, 0);
+    rndVoice = UCMachine.rndRange(100, 0);
     if (rndVoice < 30) {
       spawn FREE.slot_21(pid, 15, 0x00000000);
       suspend;
-      rndVoice = intrinsic_0018(100, 0);
+      rndVoice = UCMachine.rndRange(100, 0);
       if (rndVoice < 50) {
         spawn FREE.slot_21(pid, 14, 0x00000000);
         suspend;
@@ -26,7 +26,7 @@ function free_slot_3c() /* entry=2575 class_id=0x0a0d slot=0x3c */
     else if (rndVoice > 60) {
       spawn FREE.slot_21(pid, 14, 0x00000000);
       suspend;
-      rndVoice = intrinsic_0018(100, 0);
+      rndVoice = UCMachine.rndRange(100, 0);
       if (rndVoice < 30) {
         spawn FREE.slot_21(pid, 15, 0x00000000);
         suspend;
@@ -40,7 +40,7 @@ function free_slot_3c() /* entry=2575 class_id=0x0a0d slot=0x3c */
     else {
       spawn FREE.slot_21(pid, 0x00d2, 0x00000000);
       suspend;
-      rndVoice = intrinsic_0018(100, 0);
+      rndVoice = UCMachine.rndRange(100, 0);
       if (rndVoice < 30) {
         spawn FREE.slot_21(pid, 14, 0x00000000);
         suspend;

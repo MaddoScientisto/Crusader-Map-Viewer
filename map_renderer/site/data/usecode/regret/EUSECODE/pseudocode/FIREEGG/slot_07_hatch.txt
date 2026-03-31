@@ -2,15 +2,14 @@ function fireegg_hatch() /* entry=2310 class_id=0x0904 slot=0x07 */
 {
   set_info(0x0210, *(arg_06));
   process_exclude();
-  local_04 = intrinsic_003b(arg_06);
+  local_04 = Egg.getEggId(arg_06);
   for local_02 in nearby_items(shape=0x0403, origin=arg_06) {
-    if (intrinsic_001f(local_02) == local_04) {
+    if (Item.getQLo(local_02) == local_04) {
       suspend;
       spawn FREE.slot_3b(pid, 0x015e, 0x00000000);
       suspend;
       suspend;
     }
-    /* loopnext */
   }
   return;
 }

@@ -8,7 +8,7 @@ function wallgun_slot_28() /* entry=2588 class_id=0x0a1a slot=0x28 */
     arg_12 = (arg_12 - 100);
 
   block_04dc:
-    local_02 = intrinsic_00f4(arg_06);
+    local_02 = Item.getQ(arg_06);
     if local_02 != 0 goto block_04f9;
 
   block_04f9:
@@ -18,7 +18,7 @@ function wallgun_slot_28() /* entry=2588 class_id=0x0a1a slot=0x28 */
     goto block_083d;
 
   block_0511:
-    WALLGUN.slot_25(Item.getFrame(arg_06), intrinsic_0016(arg_06), arg_06);
+    WALLGUN.slot_25(Item.getFrame(arg_06), Item.getShape(arg_06), arg_06);
     if retval != 1 goto block_0536;
 
   block_0533:
@@ -66,8 +66,8 @@ function wallgun_slot_28() /* entry=2588 class_id=0x0a1a slot=0x28 */
 
   block_05c7:
     while (1) {
-      if (intrinsic_001d() != 0) {
-        arg_10 = intrinsic_001d();
+      if (Actor.getLastAnimSet() != 0) {
+        arg_10 = Actor.getLastAnimSet();
       }
       else {
         arg_10 = 1;
@@ -89,10 +89,10 @@ function wallgun_slot_28() /* entry=2588 class_id=0x0a1a slot=0x28 */
     if arg_12 != 1 goto block_0678;
 
   block_0646:
-    if intrinsic_001d() == 0 goto block_065b;
+    if Actor.getLastAnimSet() == 0 goto block_065b;
 
   block_0651:
-    arg_10 = intrinsic_001d();
+    arg_10 = Actor.getLastAnimSet();
     goto block_065f;
 
   block_065b:
@@ -110,10 +110,10 @@ function wallgun_slot_28() /* entry=2588 class_id=0x0a1a slot=0x28 */
     if !(1) goto block_06cf;
 
   block_0685:
-    if intrinsic_001d() == 0 goto block_069a;
+    if Actor.getLastAnimSet() == 0 goto block_069a;
 
   block_0690:
-    arg_10 = intrinsic_001d();
+    arg_10 = Actor.getLastAnimSet();
     goto block_069e;
 
   block_069a:
@@ -179,10 +179,10 @@ function wallgun_slot_28() /* entry=2588 class_id=0x0a1a slot=0x28 */
     goto block_0823;
 
   block_0786:
-    if intrinsic_001d() == 0 goto block_079b;
+    if Actor.getLastAnimSet() == 0 goto block_079b;
 
   block_0791:
-    arg_10 = intrinsic_001d();
+    arg_10 = Actor.getLastAnimSet();
     goto block_079f;
 
   block_079b:

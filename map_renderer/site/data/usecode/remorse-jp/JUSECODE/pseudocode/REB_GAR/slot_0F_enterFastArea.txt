@@ -7,7 +7,7 @@ function reb_gar_enterFastArea() /* entry=1262 class_id=0x04ec slot=0x0f */
   entry:
     set_info(0x021b, *(arg_06));
     process_exclude();
-    if intrinsic_0018(10, 1) <= 5 goto block_0178;
+    if UCMachine.rndRange(10, 1) <= 5 goto block_0178;
 
   block_0165:
     goto block_02ae;
@@ -15,7 +15,7 @@ function reb_gar_enterFastArea() /* entry=1262 class_id=0x04ec slot=0x0f */
   block_0178:
     while (true) {
       suspend;
-      spawn FREE.slot_32(intrinsic_0018(pid, 0x00dc, 120), 0x00000000);
+      spawn FREE.slot_32(UCMachine.rndRange(pid, 0x00dc, 120), 0x00000000);
       suspend;
       counter = 1;
       while (counter <= 7) {
@@ -23,7 +23,7 @@ function reb_gar_enterFastArea() /* entry=1262 class_id=0x04ec slot=0x0f */
         suspend;
         counter = (1 + counter);
       }
-      spawn FREE.slot_32(intrinsic_0018(pid, 0x00dc, 120), 0x00000000);
+      spawn FREE.slot_32(UCMachine.rndRange(pid, 0x00dc, 120), 0x00000000);
       suspend;
       counter = 1;
       while (counter <= 7) {

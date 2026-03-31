@@ -1,28 +1,36 @@
 function deathbox_equip() /* entry=1257 class_id=0x04e7 slot=0x0a */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    var, /* [BP+10h] type=0x69 */
+    sswitch, /* [BP-02h] type=0x24 */
+    a, /* [BP-03h] type=0x62 */
+    b, /* [BP-04h] type=0x62 */
+    c, /* [BP-05h] type=0x62 */
+    counter; /* [BP-07h] type=0x69 */
+
   set_info(0x0211, *(arg_06));
   process_exclude();
   spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
   suspend;
-  if (intrinsic_0004(arg_06) & 0x1000) {
+  if (Item.getStatus(arg_06) & 0x1000) {
     return;
   }
   else {
     spawn FREE.waitNTimerTicks(pid, 12, 0x00000000);
     suspend;
     ITEM.slot_23(0x1000, arg_06);
-    if (arg_10 == 2) {
-      for local_02 in nearby_items(shape=48, origin=arg_06) {
-        if (intrinsic_002b(local_02) == 10) {
-          local_03 = Item.getFrame(local_02);
+    if (var == 2) {
+      for sswitch in nearby_items(shape=48, origin=arg_06) {
+        if (Item.getQLo(sswitch) == 10) {
+          a = Item.getFrame(sswitch);
         }
-        else if (intrinsic_002b(local_02) == 11) {
-          local_04 = Item.getFrame(local_02);
+        else if (Item.getQLo(sswitch) == 11) {
+          b = Item.getFrame(sswitch);
         }
-        local_07 = (1 + local_07);
-        /* loopnext */
+        counter = (1 + counter);
       }
-      if ((local_04 == 4) && (local_03 == 0)) {
+      if ((b == 4) && (a == 0)) {
         spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
         suspend;
         spawn TRIGGER.slot_20(pid, 0x0080, *(arg_06), arg_06);
@@ -32,5 +40,4 @@ function deathbox_equip() /* entry=1257 class_id=0x04e7 slot=0x0a */
     ITEM.slot_24(0x1000, arg_06);
   }
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

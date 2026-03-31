@@ -7,10 +7,10 @@ function mtelepad_gotHit() /* entry=400 class_id=0x018e slot=0x06 */
   if (retval) {
     return;
   }
-  else if ((intrinsic_0011(local_02) == 0x055f) || (intrinsic_0011(local_02) == 0x039a)) {
+  else if ((Item.getShape(local_02) == DET_PAC) || (Item.getShape(local_02) == LAND_MINE)) {
     return;
   }
-  else if (intrinsic_007b() == 1) {
+  else if (Ultima8Engine.getUnkCrusaderFlag() == 1) {
     /* loopscr */
     /* loopscr */
     /* loopscr */
@@ -19,7 +19,6 @@ function mtelepad_gotHit() /* entry=400 class_id=0x018e slot=0x06 */
     while (condition) {
       if (local_04 < 0x0100) {
       }
-      /* loopnext */
     }
     return;
   }

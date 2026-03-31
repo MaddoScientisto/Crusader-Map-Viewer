@@ -2,7 +2,7 @@ function gatgunew_unequip() /* entry=277 class_id=0x0113 slot=0x0b */
 {
   set_info(0x0212, *(arg_06));
   process_exclude();
-  if (intrinsic_0004(arg_06) & 4) {
+  if (Item.getStatus(arg_06) & 4) {
     return;
   }
   else {

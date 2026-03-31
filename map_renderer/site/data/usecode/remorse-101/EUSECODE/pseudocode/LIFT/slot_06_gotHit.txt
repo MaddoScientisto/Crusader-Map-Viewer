@@ -10,22 +10,13 @@ function lift_gotHit() /* entry=309 class_id=0x0133 slot=0x06 */
   else if (arg_10 != 1) {
     return;
   }
-  else if (intrinsic_0077(arg_06) == 1) {
-    /* global_address */
-    if (intrinsic_0033()) {
+  else if (PaletteFaderProcess.fadeToBlack(arg_06) == 1) {
+    if (Actor.isBusy(&global[0x003d])) {
       spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
       suspend;
     }
-    /* global_address */
-    /* global_address */
-    /* global_address */
-    /* global_address */
-    /* global_address */
     suspend;
-    /* global_address */
-    /* global_address */
     suspend;
-    /* global_address */
     suspend;
     spawn LIFT.slot_20(pid, arg_06);
     suspend;
@@ -33,21 +24,16 @@ function lift_gotHit() /* entry=309 class_id=0x0133 slot=0x06 */
     suspend;
     return;
   }
-  else if (intrinsic_0077(arg_06) == 10) {
-    /* global_address */
-    if (intrinsic_0033()) {
+  else if (PaletteFaderProcess.fadeToBlack(arg_06) == 10) {
+    if (Actor.isBusy(&global[0x003d])) {
       spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
       suspend;
     }
-    /* global_address */
-    /* global_address */
     suspend;
-    /* global_address */
     suspend;
     spawn LIFT.slot_20(pid, arg_06);
     suspend;
     suspend;
-    /* global_address */
     suspend;
     return;
   }

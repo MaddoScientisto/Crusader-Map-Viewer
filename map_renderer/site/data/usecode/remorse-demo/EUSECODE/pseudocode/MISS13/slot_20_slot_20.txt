@@ -1,83 +1,74 @@
 function miss13_slot_20() /* entry=2331 class_id=0x0919 slot=0x20 */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    counter, /* [BP-02h] type=0x69 */
+    item, /* [BP-04h] type=0x24 */
+    egg, /* [BP-06h] type=0x24 */
+    wench, /* [BP-08h] type=0x24 */
+    npcWench, /* [BP-10h] type=0x24 */
+    door; /* [BP-12h] type=0x24 */
+
   set_info(0x0001, *(arg_06));
-  local_02 = 0;
-  local_06 = *(arg_06);
+  counter = 0;
+  egg = *(arg_06);
   set_info(1, 0);
-  /* global_address */
-  while (intrinsic_0036()) {
+  while (Actor.doAnim(&global[0x003c])) {
     spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
     suspend;
   }
-  local_08 = 0;
-  local_12 = 0;
-  for local_10 in nearby_items(shape=0x0524, origin=global[0x003c]) {
-    local_08 = local_10;
-    /* loopnext */
+  wench = 0;
+  door = 0;
+  for npcWench in nearby_items(shape=0x0524, origin=global[0x003c]) {
+    wench = npcWench;
   }
-  for local_04 in nearby_items(shape=PRISON_BARS_DOOR, origin=global[0x003c]) {
-    if (intrinsic_00af(local_04) == 4) {
+  for item in nearby_items(shape=PRISON_BARS_DOOR, origin=global[0x003c]) {
+    if (Item.getQHi(item) == 4) {
       return;
     }
-    /* loopnext */
   }
-  if (local_08) {
+  if (wench) {
     suspend;
-    for local_04 in nearby_items(shape=door_shape_00a9, origin=global[0x003c]) {
-      FREE.slot_29(local_04, global[0x003c]);
-      while ((retval > 3) && (local_02 != 20)) {
-        /* global_address */
-        /* global_address */
-        /* global_address */
-        spawn NPC.slot_22(intrinsic_0037(intrinsic_0013(pid, 1, Item.legal_create(Item.legal_create(local_08), intrinsic_0013(local_08)))));
+    for item in nearby_items(shape=door_shape_00a9, origin=global[0x003c]) {
+      FREE.slot_29(item, global[0x003c]);
+      while ((retval > 3) && (counter != 20)) {
+        spawn NPC.slot_22(MainActor.addItemCru(pid, 1, Item.getY(wench), Item.getX(Item.getY(Item.getX(wench), &global[0x003c]), &global[0x003c])), &global[0x003c]);
         suspend;
-        local_02 = (1 + local_02);
+        counter = (1 + counter);
       }
-      local_12 = local_04;
-      spawn DOOR.slot_20(pid, local_12);
+      door = item;
+      spawn DOOR.slot_20(pid, door);
       suspend;
-      /* loopnext */
     }
-    /* global_address */
     suspend;
-    /* global_address */
-    spawn NPC.slot_22(pid, 3, 0);
+    spawn NPC.slot_22(pid, 3, 0, &global[0x003c]);
     suspend;
-    /* global_address */
-    spawn NPC.slot_22(pid, 2, 14);
+    spawn NPC.slot_22(pid, 2, 14, &global[0x003c]);
     suspend;
-    /* global_address */
-    spawn NPC.slot_22(pid, 4, 12);
+    spawn NPC.slot_22(pid, 4, 12, &global[0x003c]);
     suspend;
     suspend;
     /* str_to_ptr */
-    /* global_address */
     /* free_stack_string */
     suspend;
-    spawn NPC.slot_22(pid, 6, 4, local_08);
+    spawn NPC.slot_22(pid, 6, 4, wench);
     suspend;
-    spawn NPC.slot_22(pid, 3, 4, local_08);
+    spawn NPC.slot_22(pid, 3, 4, wench);
     suspend;
     suspend;
-    /* global_address */
-    spawn NPC.slot_22(pid, 2, 4);
+    spawn NPC.slot_22(pid, 2, 4, &global[0x003c]);
     suspend;
-    /* global_address */
-    /* global_address */
     suspend;
-    for local_04 in selector_0x42(arg0=0x0329, arg1=0x032a, arg2=(15 * 32), origin=global[0x003c]) {
-      /* loopnext */
+    for item in selector_0x42(arg0=0x0329, arg1=0x032a, arg2=(15 * 32), origin=global[0x003c]) {
     }
-    spawn NPC.slot_22(pid, 3, 0, local_08);
-    suspend;
-    /* global_address */
+    spawn NPC.slot_22(pid, 3, 0, wench);
     suspend;
     suspend;
-    spawn NPC.slot_24(pid, local_08);
+    suspend;
+    spawn NPC.slot_24(pid, wench);
     suspend;
     spawn FREE.waitNTimerTicks(pid, 15, 0x00000000);
     suspend;
   }
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

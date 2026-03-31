@@ -1,9 +1,14 @@
 function pplate2_equip() /* entry=411 class_id=0x0199 slot=0x0a */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    var, /* [BP+10h] type=0x69 */
+    ff; /* [BP-02h] type=0x69 */
+
   set_info(0x0211, *(arg_06));
   process_exclude();
-  local_02 = Item.getFrame(arg_06);
-  if (local_02 & 1) {
+  ff = Item.getFrame(arg_06);
+  if (ff & 1) {
     spawn FREE.slot_32(pid, 2, 0x00000000);
     suspend;
     spawn TRIGGER.slot_20(pid, 1, *(arg_06), arg_06);
@@ -17,5 +22,4 @@ function pplate2_equip() /* entry=411 class_id=0x0199 slot=0x0a */
     suspend;
   }
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

@@ -9,7 +9,7 @@ function item_slot_29() /* entry=2592 class_id=0x0a1e slot=0x29 */
     if !condition goto block_0a2d;
 
   block_09af:
-    if !intrinsic_0129(local_02, arg_06) goto block_0a29;
+    if !Item.getNPCNum(local_02, arg_06) goto block_0a29;
 
   block_09bd:
     if local_08 <= 1 goto block_09da;
@@ -19,7 +19,7 @@ function item_slot_29() /* entry=2592 class_id=0x0a1e slot=0x29 */
     goto block_0a2d;
 
   block_09da:
-    local_12 = intrinsic_0016(local_02);
+    local_12 = Item.getShape(local_02);
     if (((((((local_12 != 95) || (local_12 == 0x0096)) || (local_12 == 0x0132)) || (local_12 == 0x04cd)) || (local_12 == 0x0366)) || (local_12 == 0x0365)) || (local_12 == 0x0290)) || (local_12 == 0x0336) goto block_0a25;
 
   block_0a1e:
@@ -30,7 +30,6 @@ function item_slot_29() /* entry=2592 class_id=0x0a1e slot=0x29 */
     local_09 = 1;
 
   block_0a29:
-    /* loopnext */
     goto block_09ac;
 
   block_0a2d:

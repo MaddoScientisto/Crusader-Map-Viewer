@@ -4,23 +4,22 @@ function pepsins_use() /* entry=156 class_id=0x009a slot=0x01 */
   process_exclude();
   local_04 = 0;
   local_06 = 1;
-  local_13 = intrinsic_0013(arg_06);
-  local_11 = (Item.legal_create(arg_06) + 32);
+  local_13 = Item.getX(arg_06);
+  local_11 = (Item.getY(arg_06) + 32);
   local_09 = (Item.getZ(arg_06) + 32);
-  if (intrinsic_0018(100, 0) > 50) {
-    if (intrinsic_005a(local_13, 0, 0x0343, local_02)) {
+  if (UCMachine.rndRange(100, 0) > 50) {
+    if (Actor.getLastAnimSet(local_13, 0, 0x0343, local_02)) {
       suspend;
       for local_02 in nearby_items(shape=SMALL_BOX_PROP, origin=global[0x003d]) {
-        if (intrinsic_0004(local_02) & 0x0080) {
+        if (Item.getStatus(local_02) & 0x0080) {
           spawn ITEM.slot_28(pid, 1, 0, local_02);
           suspend;
         }
-        /* loopnext */
       }
     }
     return;
   }
-  else if (intrinsic_005a(local_13, 0, 0x0579, local_02)) {
+  else if (Actor.getLastAnimSet(local_13, 0, 0x0579, local_02)) {
     suspend;
   }
   return;

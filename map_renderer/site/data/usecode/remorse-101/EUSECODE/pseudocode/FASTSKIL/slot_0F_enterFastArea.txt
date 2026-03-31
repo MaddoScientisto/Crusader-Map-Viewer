@@ -4,10 +4,10 @@ function fastskil_enterFastArea() /* entry=290 class_id=0x0120 slot=0x0f */
   process_exclude();
   spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
   suspend;
-  if (intrinsic_0003(arg_06)) {
-    local_02 = intrinsic_0029();
+  if (Item.getMapArray(arg_06)) {
+    local_02 = Game.getDifficultyLevel();
     if (Item.getFrame(arg_06) == 2) {
-      local_04 = teleportToEgg(arg_06);
+      local_04 = PaletteFaderProcess.stopFadesAndResetToGamePal(arg_06);
       if (local_02 == 1) {
         spawn TRIGGER.slot_2a(pid, 0, *(arg_06), arg_06);
         suspend;

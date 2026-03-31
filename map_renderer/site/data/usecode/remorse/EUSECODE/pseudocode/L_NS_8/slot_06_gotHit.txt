@@ -1,8 +1,13 @@
 function l_ns_8_gotHit() /* entry=464 class_id=0x01ce slot=0x06 */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    vel; /* [BP+12h] type=0x69 */
+
   set_info(0x020c, *(arg_06));
   process_exclude();
-  if (arg_10 == intrinsic_001b()) {
+  if (ref == getTargetNPCNumMaybe()) {
     spawn LAZER.slot_20(arg_06);
     spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
     suspend;
@@ -10,5 +15,4 @@ function l_ns_8_gotHit() /* entry=464 class_id=0x01ce slot=0x06 */
     suspend;
   }
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

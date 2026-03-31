@@ -7,19 +7,15 @@ function free_slot_2f() /* entry=2591 class_id=0x0a1d slot=0x2f */
   spawn FREE.slot_3b(pid, 60, 0x00000000);
   suspend;
   FREE.slot_4a();
-  /* global_address */
-  while (intrinsic_00db()) {
+  while (Actor.isInCombat(&global[0x001e])) {
     spawn FREE.slot_3b(pid, 2, 0x00000000);
     suspend;
   }
-  /* global_address */
-  if (!intrinsic_0143()) {
-    /* global_address */
-    while (intrinsic_0060()) {
+  if (!Actor.isDead(&global[0x001e])) {
+    while (Actor.isBusy(&global[0x001e])) {
       spawn FREE.slot_3b(pid, 2, 0x00000000);
       suspend;
     }
-    /* global_address */
     suspend;
   }
   /* free_local_string */

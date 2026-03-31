@@ -1,17 +1,29 @@
 function wallgun_slot_32() /* entry=2588 class_id=0x0a1a slot=0x32 */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    target, /* [BP+10h] type=0x69 */
+    left, /* [BP-02h] type=0x69 */
+    right, /* [BP-04h] type=0x69 */
+    inc, /* [BP-06h] type=0x69 */
+    f, /* [BP-08h] type=0x69 */
+    panRight, /* [BP-09h] type=0x62 */
+    panLeft, /* [BP-10h] type=0x62 */
+    isTurret, /* [BP-11h] type=0x62 */
+    delay; /* [BP-13h] type=0x69 */
+
   entry:
     set_info(0x0001, *(arg_06));
-    local_09 = 1;
-    local_10 = 1;
+    panRight = 1;
+    panLeft = 1;
     WALLGUN.slot_29(arg_06);
-    local_11 = retval;
-    if local_11 != 1 goto block_16c5;
+    isTurret = retval;
+    if isTurret != 1 goto block_16c5;
 
   block_16ad:
-    local_06 = 1;
-    local_02 = 0;
-    local_04 = 15;
+    inc = 1;
+    left = 0;
+    right = 15;
     goto block_1702;
 
   block_16c5:
@@ -19,19 +31,19 @@ function wallgun_slot_32() /* entry=2588 class_id=0x0a1a slot=0x32 */
     if !retval goto block_16ed;
 
   block_16d5:
-    local_06 = 1;
-    local_02 = 0;
-    local_04 = 8;
+    inc = 1;
+    left = 0;
+    right = 8;
     goto block_1702;
 
   block_16ed:
-    local_06 = -1;
-    local_02 = 8;
-    local_04 = 0;
+    inc = -1;
+    left = 8;
+    right = 0;
 
   block_1702:
     WALLGUN.slot_20(arg_06);
-    local_13 = (retval * 5);
+    delay = (retval * 5);
 
   block_1714:
     if !(1) goto block_18f9;
@@ -39,11 +51,11 @@ function wallgun_slot_32() /* entry=2588 class_id=0x0a1a slot=0x32 */
   block_171c:
     spawn WALLGUN.slot_26(pid, arg_06);
     suspend;
-    local_08 = Item.getFrame(arg_06);
-    if local_11 != 1 goto block_178e;
+    f = Item.getFrame(arg_06);
+    if isTurret != 1 goto block_178e;
 
   block_1754:
-    if local_08 <= 19 goto block_178b;
+    if f <= 19 goto block_178b;
 
   block_175f:
     spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
@@ -54,7 +66,7 @@ function wallgun_slot_32() /* entry=2588 class_id=0x0a1a slot=0x32 */
     goto block_17c8;
 
   block_178e:
-    if local_08 <= 8 goto block_17c8;
+    if f <= 8 goto block_17c8;
 
   block_1799:
     spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
@@ -65,69 +77,69 @@ function wallgun_slot_32() /* entry=2588 class_id=0x0a1a slot=0x32 */
     goto block_17c8;
 
   block_17c8:
-    if !local_09 goto block_17fe;
+    if !panRight goto block_17fe;
 
   block_17d0:
-    if local_08 != local_04 goto block_17f1;
+    if f != right goto block_17f1;
 
   block_17e1:
-    local_09 = 0;
+    panRight = 0;
     goto block_1714;
 
   block_17ee:
     goto block_17fb;
 
   block_17f1:
-    local_08 = (local_08 + local_06);
+    f = (f + inc);
 
   block_17fb:
     goto block_1881;
 
   block_17fe:
-    if (local_10 != 1) && (local_11 == 0) goto block_1840;
+    if (panLeft != 1) && (isTurret == 0) goto block_1840;
 
   block_1812:
-    if local_08 != local_02 goto block_1833;
+    if f != left goto block_1833;
 
   block_1823:
-    local_10 = 0;
+    panLeft = 0;
     goto block_1714;
 
   block_1830:
     goto block_183d;
 
   block_1833:
-    local_08 = (local_08 - local_06);
+    f = (f - inc);
 
   block_183d:
     goto block_1881;
 
   block_1840:
-    if local_11 != 1 goto block_185b;
+    if isTurret != 1 goto block_185b;
 
   block_1851:
-    local_08 = local_02;
+    f = left;
     goto block_1873;
 
   block_185b:
-    if local_08 == 4 goto block_1873;
+    if f == 4 goto block_1873;
 
   block_1866:
-    local_08 = (local_08 + local_06);
+    f = (f + inc);
     goto block_1873;
 
   block_1873:
-    local_09 = 1;
-    local_10 = 1;
+    panRight = 1;
+    panLeft = 1;
 
   block_1881:
-    spawn FREE.waitNTimerTicks(pid, local_13, 0x00000000);
+    spawn FREE.waitNTimerTicks(pid, delay, 0x00000000);
     suspend;
-    WALLGUN.slot_2e(arg_10, arg_06);
+    WALLGUN.slot_2e(target, arg_06);
     if !retval goto block_18f6;
 
   block_18d3:
-    spawn WALLGUN.slot_46(pid, arg_10, arg_06);
+    spawn WALLGUN.slot_46(pid, target, arg_06);
     suspend;
 
   block_18f6:
@@ -136,5 +148,4 @@ function wallgun_slot_32() /* entry=2588 class_id=0x0a1a slot=0x32 */
   block_18f9:
     return;
 
-  /* decompilation stopped at SEARCH_SURFACE */
 }

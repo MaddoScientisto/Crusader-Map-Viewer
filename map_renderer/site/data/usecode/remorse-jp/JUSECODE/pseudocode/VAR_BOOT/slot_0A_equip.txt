@@ -1,5 +1,10 @@
 function var_boot_equip() /* entry=1118 class_id=0x045c slot=0x0a */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    event, /* [BP+10h] type=0x69 */
+    counter; /* [BP-02h] type=0x69 */
+
   set_info(0x0211, *(arg_06));
   process_exclude();
   if (Item.getFrame(arg_06) == 5) {
@@ -7,8 +12,6 @@ function var_boot_equip() /* entry=1118 class_id=0x045c slot=0x0a */
   }
   else {
     FREE.slot_33(0x021b, *(arg_06));
-    /* global_address */
-    /* global_address */
     while (Item.getFrame(arg_06) != 4) {
       spawn FREE.slot_32(pid, 5, 0x00000000);
       suspend;
@@ -40,14 +43,13 @@ function var_boot_equip() /* entry=1118 class_id=0x045c slot=0x0a */
       /* free_stack_string */
       suspend;
     }
-    local_02 = 0;
-    while (local_02 <= 4) {
+    counter = 0;
+    while (counter <= 4) {
       spawn FREE.slot_32(pid, 10, 0x00000000);
       suspend;
-      local_02 = (1 + local_02);
+      counter = (1 + counter);
     }
     spawn VAR_BOOT.enterFastArea(arg_06);
   }
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

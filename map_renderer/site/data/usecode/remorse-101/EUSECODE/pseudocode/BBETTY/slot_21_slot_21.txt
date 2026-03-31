@@ -6,10 +6,8 @@ function bbetty_slot_21() /* entry=2563 class_id=0x0a01 slot=0x21 */
   suspend;
   while (true) {
     suspend;
-    if (intrinsic_0026(arg_06)) {
-      /* global_address */
-      /* global_address */
-      local_11 = intrinsic_0027(intrinsic_0013(Item.legal_create(8, 0, 8)), Item.legal_create(arg_06), intrinsic_0013(arg_06));
+    if (Item.getQHi(arg_06)) {
+      local_11 = getClosestDirectionInRange(8, Item.getX(Item.getY(0, 8, &global[0x003d]), &global[0x003d]), Item.getY(arg_06), Item.getX(arg_06));
     }
     else {
       local_11 = (1 + local_11);
@@ -66,7 +64,7 @@ function bbetty_slot_21() /* entry=2563 class_id=0x0a01 slot=0x21 */
       local_08 = -48;
     }
     FREE.slot_20(8, 30, 15);
-    spawn FREE.waitNTimerTicks(pid, ((5 - intrinsic_0029()) * 20), 0x00000000);
+    spawn FREE.waitNTimerTicks(pid, ((5 - Game.getDifficultyLevel()) * 20), 0x00000000);
     suspend;
   }
   return;

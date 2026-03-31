@@ -7,9 +7,9 @@ function nostril_slot_21() /* entry=1088 class_id=0x043e slot=0x21 */
     count; /* [BP-06h] type=0x69 */
 
   set_info(1, *(arg_06));
-  spawn FREE.slot_32(intrinsic_0018(pid, 15, 0), 0x00000000);
+  spawn FREE.slot_32(UCMachine.rndRange(pid, 15, 0), 0x00000000);
   suspend;
-  if (intrinsic_00a7()) {
+  if (Egg.getEggXRange()) {
     while (Item.getFrame(fire) != 10) {
       spawn FREE.slot_32(pid, 2, 0x00000000);
       suspend;
@@ -19,7 +19,7 @@ function nostril_slot_21() /* entry=1088 class_id=0x043e slot=0x21 */
     spawn FREE.slot_32(pid, 30, 0x00000000);
     suspend;
   }
-  if (intrinsic_00a7()) {
+  if (Egg.getEggXRange()) {
     return;
   }
   return;

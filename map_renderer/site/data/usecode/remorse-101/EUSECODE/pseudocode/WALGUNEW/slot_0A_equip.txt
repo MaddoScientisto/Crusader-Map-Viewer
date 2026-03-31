@@ -2,8 +2,8 @@ function walgunew_equip() /* entry=885 class_id=0x0373 slot=0x0a */
 {
   set_info(0x0211, *(arg_06));
   process_exclude();
-  if (intrinsic_001d() != 0) {
-    spawn WALLGUN.slot_24(pid, arg_10, intrinsic_001d(), arg_06);
+  if (Actor.getLastAnimSet() != 0) {
+    spawn WALLGUN.slot_24(pid, arg_10, Actor.getLastAnimSet(), arg_06);
     suspend;
     return;
   }

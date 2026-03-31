@@ -3,7 +3,7 @@ function box_ns_use() /* entry=131 class_id=0x0081 slot=0x01 */
   set_info(0x0207, *(arg_06));
   process_exclude();
   if (Item.getFrame(arg_06)) {
-    while (intrinsic_003a(0x00a7, arg_06)) {
+    while (AudioProcess.isSFXPlayingForObject(0x00a7, arg_06)) {
       spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
       suspend;
     }
@@ -15,7 +15,7 @@ function box_ns_use() /* entry=131 class_id=0x0081 slot=0x01 */
     }
   }
   else {
-    while (intrinsic_003a(0x00a5, arg_06)) {
+    while (AudioProcess.isSFXPlayingForObject(0x00a5, arg_06)) {
       spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
       suspend;
     }
@@ -26,7 +26,7 @@ function box_ns_use() /* entry=131 class_id=0x0081 slot=0x01 */
       local_02 = (1 + local_02);
     }
   }
-  if (intrinsic_0003(arg_06) != 0) {
+  if (Item.getMapArray(arg_06) != 0) {
     if (Item.getFrame(arg_06) == 0) {
       spawn TRIGGER.slot_2a(pid, 1, *(arg_06), arg_06);
       suspend;

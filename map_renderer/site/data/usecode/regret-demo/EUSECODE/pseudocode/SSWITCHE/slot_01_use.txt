@@ -3,7 +3,7 @@ function sswitche_use() /* entry=1113 class_id=0x0457 slot=0x01 */
   set_info(0x0207, *(arg_06));
   process_exclude();
   local_01 = Item.getFrame(arg_06);
-  if (intrinsic_0003(arg_06) != 0) {
+  if (Item.getMapArray(arg_06) != 0) {
     if (local_01 == 2) {
       spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
       suspend;
@@ -15,40 +15,38 @@ function sswitche_use() /* entry=1113 class_id=0x0457 slot=0x01 */
     }
   }
   else {
-    local_27 = intrinsic_011c(arg_06);
+    local_27 = Item.isCrusTypeNPC(arg_06);
     for local_07 in nearby_items(shape=0x0457, origin=arg_06) {
       if (!(local_07 == *(arg_06))) {
-        if (intrinsic_0003(local_07) == 0) {
-          if (intrinsic_011c(local_07) == 29) {
+        if (Item.getMapArray(local_07) == 0) {
+          if (Item.isCrusTypeNPC(local_07) == 29) {
             local_09 = local_07;
             local_03 = Item.getFrame(local_09);
           }
-          else if (intrinsic_011c(local_07) == 30) {
+          else if (Item.isCrusTypeNPC(local_07) == 30) {
             local_11 = local_07;
             local_04 = Item.getFrame(local_11);
           }
-          else if (intrinsic_011c(local_07) == 31) {
+          else if (Item.isCrusTypeNPC(local_07) == 31) {
             local_13 = local_07;
             local_05 = Item.getFrame(local_13);
           }
         }
       }
       local_25 = (1 + local_25);
-      /* loopnext */
     }
     for local_17 in nearby_items(shape=0x0452, origin=arg_06) {
-      if (intrinsic_0003(local_17) == 0) {
-        if (intrinsic_011c(local_17) == 29) {
+      if (Item.getMapArray(local_17) == 0) {
+        if (Item.isCrusTypeNPC(local_17) == 29) {
           local_19 = local_17;
         }
-        else if (intrinsic_011c(local_17) == 30) {
+        else if (Item.isCrusTypeNPC(local_17) == 30) {
           local_21 = local_17;
         }
-        else if (intrinsic_011c(local_17) == 31) {
+        else if (Item.isCrusTypeNPC(local_17) == 31) {
           local_23 = local_17;
         }
       }
-      /* loopnext */
     }
     if (local_27 == 29) {
       local_03 = Item.getFrame(arg_06);
@@ -100,10 +98,9 @@ function sswitche_use() /* entry=1113 class_id=0x0457 slot=0x01 */
       }
       else {
         for local_15 in nearby_items(shape=0x04c9, origin=arg_06) {
-          if (intrinsic_011c(local_15) == 29) {
+          if (Item.isCrusTypeNPC(local_15) == 29) {
             suspend;
           }
-          /* loopnext */
         }
       }
     }
@@ -113,19 +110,17 @@ function sswitche_use() /* entry=1113 class_id=0x0457 slot=0x01 */
       }
       else {
         for local_15 in nearby_items(shape=0x04c9, origin=arg_06) {
-          if (intrinsic_011c(local_15) == 30) {
+          if (Item.isCrusTypeNPC(local_15) == 30) {
             suspend;
           }
-          /* loopnext */
         }
       }
     }
     else if (local_05) {
       for local_15 in nearby_items(shape=0x04c9, origin=arg_06) {
-        if (intrinsic_011c(local_15) == 31) {
+        if (Item.isCrusTypeNPC(local_15) == 31) {
           suspend;
         }
-        /* loopnext */
       }
     }
     spawn FREE.slot_3b(pid, 20, 0x00000000);

@@ -15,12 +15,11 @@ function door_slot_22() /* entry=2568 class_id=0x0a06 slot=0x22 */
     goto block_0f34;
 
   block_0f30:
-    /* loopnext */
     goto block_0f23;
 
   block_0f34:
-    local_08 = Item.getPoint(arg_06);
-    local_06 = intrinsic_004e(arg_06);
+    local_08 = Item.getFootpad(arg_06);
+    local_06 = Item.IsOn(arg_06);
     if !local_04 goto block_0f9e;
 
   block_0f51:
@@ -30,8 +29,7 @@ function door_slot_22() /* entry=2568 class_id=0x0a06 slot=0x22 */
 
   block_0f74:
     while (condition) {
-      local_10 = Item.getPoint(local_02);
-      /* loopnext */
+      local_10 = Item.getFootpad(local_02);
     }
 
   block_0f9e:

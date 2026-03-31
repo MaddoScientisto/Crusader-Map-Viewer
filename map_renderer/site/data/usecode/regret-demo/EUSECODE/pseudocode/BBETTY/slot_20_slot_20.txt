@@ -1,7 +1,7 @@
 function bbetty_slot_20() /* entry=2563 class_id=0x0a01 slot=0x20 */
 {
   set_info(0x0205, *(arg_06));
-  if (intrinsic_0011(arg_06) != 0x02c9) {
+  if (Item.getShape(arg_06) != bbetty_shape_02c9) {
     local_04 = 0;
     while (local_04 <= 4) {
       local_08 = 0;
@@ -9,11 +9,10 @@ function bbetty_slot_20() /* entry=2563 class_id=0x0a01 slot=0x20 */
       /* loop */
       while (condition) {
         local_08 = (1 + local_08);
-        /* loopnext */
       }
       local_06 = 1;
       while (local_06 <= local_08) {
-        local_02 = intrinsic_001e();
+        local_02 = Item.getEtherealTop();
         local_06 = (1 + local_06);
       }
       spawn FREE.slot_3b(pid, 5, 0x00000000);

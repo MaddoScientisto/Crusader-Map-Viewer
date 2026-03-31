@@ -1,23 +1,26 @@
 function y_pool_gotHit() /* entry=352 class_id=0x015e slot=0x06 */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    vel, /* [BP+12h] type=0x69 */
+    item; /* [BP-02h] type=0x24 */
+
   set_info(0x020c, *(arg_06));
   process_exclude();
-  local_02 = arg_10;
-  FREE.slot_2c(arg_12, arg_10);
+  item = ref;
+  FREE.slot_2c(vel, ref);
   if (retval == 4) {
     spawn ITEM.slot_28(pid, 1, 1, arg_06);
     suspend;
   }
-  if ((arg_10 <= 0x0100) && (arg_10 != intrinsic_001b())) {
+  if ((ref <= 0x0100) && (ref != getTargetNPCNumMaybe())) {
     return;
   }
   else {
     while (1) {
-      /* global_address */
-      if (intrinsic_005a(*(arg_06))) {
+      if (Actor.getLastAnimSet(*(arg_06), &global[0x003c])) {
         FREE.slot_20(8, 10);
-        /* global_address */
-        /* global_address */
         spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
         suspend;
       }
@@ -27,5 +30,4 @@ function y_pool_gotHit() /* entry=352 class_id=0x015e slot=0x06 */
     }
   }
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

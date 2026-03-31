@@ -4,7 +4,7 @@ function convey_n_gotHit() /* entry=109 class_id=0x006b slot=0x06 */
   process_exclude();
   local_01 = -3;
   local_02 = 0;
-  if (intrinsic_0046(arg_06)) {
+  if (Item.IsOn(arg_06)) {
     local_01 = 3;
   }
   FREE.slot_2c(arg_12, arg_10);
@@ -13,9 +13,9 @@ function convey_n_gotHit() /* entry=109 class_id=0x006b slot=0x06 */
   }
   else {
     local_04 = arg_10;
-    local_05 = intrinsic_0047(*(arg_06), local_04);
+    local_05 = Item.getQHi(*(arg_06), local_04);
     local_06 = 1;
-    if (intrinsic_0048(arg_06) == 0x00ff) {
+    if (Item.IsOn(arg_06) == 0x00ff) {
       local_06 = 0;
     }
     if (local_05 && local_06) {

@@ -1,9 +1,12 @@
 function vmail_equip() /* entry=873 class_id=0x0367 slot=0x0a */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    var, /* [BP+10h] type=0x69 */
+    textFile; /* [BP-02h] type=0x73 */
+
   set_info(0x0211, *(arg_06));
   process_exclude();
-  /* global_address */
-  /* global_address */
   suspend;
   /* concat */
   /* concat */
@@ -23,8 +26,8 @@ function vmail_equip() /* entry=873 class_id=0x0367 slot=0x0a */
   /* concat */
   /* concat */
   /* free_local_string */
-  local_02 = intrinsic_0113(global[0x001b]);
-  spawn FREE.waitNTimerTicks("KILL BOARD:^-----------^Guards: ", intrinsic_0113(global[0x000b]), "^Soldiers: ", intrinsic_0113(global[0x000d]), "^Storm troopers: ", intrinsic_0113(global[0x000f]), "^Elite troopers: ", intrinsic_0113(global[0x0011]), "^Enforcers: ", intrinsic_0113(global[0x0013]), "^^Androids: ", intrinsic_0113(global[0x0015]), "^Thermatrons: ", intrinsic_0113(global[0x0017]), "^Vetrons: ", intrinsic_0113(global[0x0019]), pid, 10, 0x00000000);
+  textFile = UCMachine.numToStr(global[0x001b]);
+  spawn FREE.waitNTimerTicks("KILL BOARD:^-----------^Guards: ", UCMachine.numToStr(global[0x000b]), "^Soldiers: ", UCMachine.numToStr(global[0x000d]), "^Storm troopers: ", UCMachine.numToStr(global[0x000f]), "^Elite troopers: ", UCMachine.numToStr(global[0x0011]), "^Enforcers: ", UCMachine.numToStr(global[0x0013]), "^^Androids: ", UCMachine.numToStr(global[0x0015]), "^Thermatrons: ", UCMachine.numToStr(global[0x0017]), "^Vetrons: ", UCMachine.numToStr(global[0x0019]), pid, 10, 0x00000000);
   suspend;
   if (global[0x001f] == 4) {
     /* str_to_ptr */
@@ -63,5 +66,4 @@ function vmail_equip() /* entry=873 class_id=0x0367 slot=0x0a */
   }
   /* free_local_string */
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

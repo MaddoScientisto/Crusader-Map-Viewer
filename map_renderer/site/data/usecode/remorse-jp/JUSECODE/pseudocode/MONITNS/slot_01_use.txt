@@ -13,34 +13,32 @@ function monitns_use() /* entry=260 class_id=0x0102 slot=0x01 */
   if (Item.getFrame(arg_06) > 1) {
   }
   else {
-    link = intrinsic_00e6(arg_06);
-    if (intrinsic_0003(arg_06) != 0) {
+    link = Actor.SetNPCDataField0x63_0E6(arg_06);
+    if (Item.getMapArray(arg_06) != 0) {
       for valueBox in nearby_items(shape=PLACEHOLDER_KEY_CUBE, origin=arg_06) {
-        if ((intrinsic_00e6(valueBox) == link) || (link == 0)) {
+        if ((Actor.SetNPCDataField0x63_0E6(valueBox) == link) || (link == 0)) {
           VALBOX.slot_20(valueBox);
           passcode = retval;
-          TEXTFILE.slot_23(passcode, intrinsic_00d7(valueBox), intrinsic_00e6(valueBox), arg_06);
+          TEXTFILE.slot_23(passcode, Actor.getLastAnimSet(valueBox), Actor.SetNPCDataField0x63_0E6(valueBox), arg_06);
           /* free_local_string */
           textFile = retval;
           spawn TEXTFILE.slot_20(pid, textFile, arg_06);
           /* free_stack_string */
           suspend;
         }
-        /* loopnext */
       }
       spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
       suspend;
     }
     else {
       for valueBox in nearby_items(shape=PLACEHOLDER_KEY_CUBE, origin=arg_06) {
-        if (intrinsic_00e6(valueBox) == link) {
+        if (Actor.SetNPCDataField0x63_0E6(valueBox) == link) {
           VALBOX.slot_20(valueBox);
           passcode = retval;
           boxCounter = (1 + boxCounter);
         }
-        /* loopnext */
       }
-      TEXTFILE.slot_23(passcode, intrinsic_00d7(arg_06), intrinsic_00e6(arg_06), arg_06);
+      TEXTFILE.slot_23(passcode, Actor.getLastAnimSet(arg_06), Actor.SetNPCDataField0x63_0E6(arg_06), arg_06);
       /* free_local_string */
       textFile = retval;
       if (boxCounter > 1) {

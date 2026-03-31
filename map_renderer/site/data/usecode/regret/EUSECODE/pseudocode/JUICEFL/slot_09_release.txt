@@ -11,14 +11,12 @@ function juicefl_release() /* entry=1465 class_id=0x05b7 slot=0x09 */
     if (local_02 == 1) {
       local_03 = 1;
     }
-    /* loopnext */
   }
   if (!local_03) {
     for local_02 in selector_0x42(arg0=0x05b8, arg1=0x05b9, arg2=(16 * 32), origin=arg_06) {
-      if (intrinsic_001f(local_02) == intrinsic_001f(arg_06)) {
+      if (Item.getQLo(local_02) == Item.getQLo(arg_06)) {
         ITEM.slot_24(0x1000, local_02);
       }
-      /* loopnext */
     }
   }
   return;

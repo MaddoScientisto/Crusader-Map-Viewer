@@ -1,59 +1,45 @@
 function free_slot_27() /* entry=2575 class_id=0x0a0d slot=0x27 */
 {
   set_info(0x0229, 0);
-  /* global_address */
-  if (intrinsic_0030() < 100) {
+  if (Actor.getMana(&global[0x001e]) < 100) {
     return;
   }
   else if (global[0x000d]) {
     /* pop_global */
   }
-  else if (intrinsic_006a(0x0229, 0) > 1) {
+  else if (Intrinsic006A(0x0229, 0) > 1) {
     return;
   }
   /* pop_global */
-  /* global_address */
   /* loopscr */
   /* loopscr */
   /* loopscr */
   /* loopscr */
   /* loop */
   while (condition) {
-    /* loopnext */
   }
   suspend;
   while (true) {
     suspend;
-    if (intrinsic_006a(0x0229, 0) > 1) {
+    if (Intrinsic006A(0x0229, 0) > 1) {
       return;
     }
-    /* global_address */
-    local_04 = intrinsic_0030();
-    /* global_address */
-    if (((intrinsic_007b() == 1) || (global[0x000d] == 0)) || (local_04 < 100)) {
-      /* global_address */
-      /* global_address */
+    local_04 = Actor.getMana(&global[0x001e]);
+    if (((Ultima8Engine.getUnkCrusaderFlag(&global[0x001e]) == 1) || (global[0x000d] == 0)) || (local_04 < 100)) {
       /* loopscr */
       /* loopscr */
       /* loopscr */
       /* loopscr */
       /* loop */
       while (condition) {
-        /* loopnext */
       }
       /* pop_global */
       return;
     }
     if (local_04 > 75) {
-      /* global_address */
     }
     else {
-      /* global_address */
       /* pop_global */
-    }
-    /* global_address */
-    if (!intrinsic_0035(57)) {
-      /* global_address */
     }
     spawn FREE.slot_3b(pid, 60, 0x00000000);
     suspend;

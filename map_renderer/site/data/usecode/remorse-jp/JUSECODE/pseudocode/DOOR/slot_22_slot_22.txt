@@ -23,12 +23,11 @@ function door_slot_22() /* entry=2568 class_id=0x0a06 slot=0x22 */
     goto block_171f;
 
   block_171b:
-    /* loopnext */
     goto block_1708;
 
   block_171f:
-    doorQuality = intrinsic_0069(arg_06);
-    doorParam = intrinsic_0051(arg_06);
+    doorQuality = Item.andStatus(arg_06);
+    doorParam = Actor.clrInCombat(arg_06);
     if !count goto block_17ad;
 
   block_1745:
@@ -38,8 +37,7 @@ function door_slot_22() /* entry=2568 class_id=0x0a06 slot=0x22 */
 
   block_1777:
     while (condition) {
-      roofQuality = intrinsic_0069(roof);
-      /* loopnext */
+      roofQuality = Item.andStatus(roof);
     }
 
   block_17ad:

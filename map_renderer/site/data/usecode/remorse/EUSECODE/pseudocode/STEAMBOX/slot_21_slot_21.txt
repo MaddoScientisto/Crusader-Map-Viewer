@@ -9,8 +9,8 @@ function steambox_slot_21() /* entry=1282 class_id=0x0500 slot=0x21 */
 
   set_info(1, *(arg_06));
   ITEM.slot_23(0x1000, steam);
-  if (intrinsic_00a6()) {
-    if ((intrinsic_0016(steam) == 0x04f9) || (intrinsic_0016(steam) == 0x04fd)) {
+  if (getAnimationsDisabled()) {
+    if ((Item.getShape(steam) == 0x04f9) || (Item.getShape(steam) == 0x04fd)) {
       while ((Item.getFrame(steam) != 39) && (Item.isOnScreen(arg_06) == 1)) {
         spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
         suspend;
@@ -28,7 +28,7 @@ function steambox_slot_21() /* entry=1282 class_id=0x0500 slot=0x21 */
     suspend;
   }
   ITEM.slot_23(0x1000, steam2);
-  if (intrinsic_00a6()) {
+  if (getAnimationsDisabled()) {
     while ((Item.getFrame(steam2) != 29) && (Item.isOnScreen(steam2) == 1)) {
       spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
       suspend;

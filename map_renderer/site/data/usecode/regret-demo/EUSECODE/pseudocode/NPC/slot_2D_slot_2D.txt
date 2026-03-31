@@ -2,20 +2,16 @@ function npc_slot_2d() /* entry=2580 class_id=0x0a12 slot=0x2d */
 {
   set_info(0x0218, *(arg_06));
   set_info(0x0218, *(arg_06));
-  local_04 = intrinsic_006a(0x0218, *(arg_06));
+  local_04 = Intrinsic006A(0x0218, *(arg_06));
   if (local_04 > 1) {
     return;
   }
   else {
     local_02 = 1;
     while (local_02 <= arg_10) {
-      if (*(arg_06) == intrinsic_0016()) {
+      if (*(arg_06) == World.getControlledNPCNum()) {
         if (*(arg_06) == 1) {
           if (global[0x000d]) {
-            /* global_address */
-            /* global_address */
-            /* global_address */
-            /* global_address */
             spawn FREE.slot_3b(pid, 120, 0x00000000);
             suspend;
           }

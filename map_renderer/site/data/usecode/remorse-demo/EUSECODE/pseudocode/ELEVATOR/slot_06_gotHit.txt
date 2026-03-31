@@ -1,72 +1,73 @@
 function elevator_gotHit() /* entry=544 class_id=0x021e slot=0x06 */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    ke, /* [BP+12h] type=0x69 */
+    item, /* [BP-02h] type=0x24 */
+    lowQuality, /* [BP-04h] type=0x69 */
+    direction, /* [BP-06h] type=0x69 */
+    n, /* [BP-08h] type=0x24 */
+    nT; /* [BP-10h] type=0x69 */
+
   set_info(0x020c, *(arg_06));
   process_exclude();
-  if ((arg_10 != 1) || (intrinsic_0071() == 1)) {
+  if ((ref != 1) || (Ultima8Engine.setUnkCrusaderFlag() == 1)) {
     return;
   }
   else {
     FREE.slot_33(0x0220, 0);
-    /* global_address */
-    while (intrinsic_0036()) {
+    while (Actor.doAnim(&global[0x003c])) {
       spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
       suspend;
     }
-    /* global_address */
-    if (intrinsic_0038()) {
-      /* global_address */
-      /* global_address */
+    if (AudioProcess.stopSFXCru(&global[0x003c])) {
       suspend;
     }
-    local_02 = arg_10;
-    local_04 = Kernel.getNumProcesses(arg_06);
-    local_06 = intrinsic_0051(arg_06);
+    item = ref;
+    lowQuality = Item.setNpcNum(arg_06);
+    direction = Actor.clrInCombat(arg_06);
     /* loopscr */
     /* loop */
     while (condition) {
-      if (local_02 != *(arg_06)) {
-        if (Actor.isNPC(local_02)) {
-          if (local_02 != 1) {
-            local_08 = local_02;
+      if (item != *(arg_06)) {
+        if (Actor.isNPC(item)) {
+          if (item != 1) {
+            n = item;
           }
         }
         else {
-          local_10 = intrinsic_0016(local_02);
+          nT = Item.getShape(item);
         }
       }
-      /* loopnext */
     }
     set_info(0x0220, 0);
-    if (local_06 == 0) {
+    if (direction == 0) {
     }
     else {
-      local_06 = (local_06 - 1);
+      direction = (direction - 1);
     }
-    if (local_04 < 16) {
-      /* global_address */
-      spawn ELEVATOR.slot_20(intrinsic_0011(pid, local_04), local_06, arg_06);
+    if (lowQuality < 16) {
+      spawn ELEVATOR.slot_20(pid, Actor.getMap(lowQuality, &global[0x003c]), direction, arg_06);
       suspend;
     }
-    else if (local_04 == 16) {
-      /* global_address */
-      spawn ELEVATOR.slot_20(intrinsic_0011(pid, 4), local_06, arg_06);
+    else if (lowQuality == 16) {
+      spawn ELEVATOR.slot_20(Actor.getMap(pid, 4, &global[0x003c]), direction, arg_06);
       suspend;
     }
-    else if (local_04 == 17) {
-      spawn ELEVATOR.slot_20(pid, 17, 10, local_06, arg_06);
+    else if (lowQuality == 17) {
+      spawn ELEVATOR.slot_20(pid, 17, 10, direction, arg_06);
       suspend;
     }
-    else if (local_04 == 18) {
-      spawn ELEVATOR.slot_20(pid, 18, 24, local_06, arg_06);
+    else if (lowQuality == 18) {
+      spawn ELEVATOR.slot_20(pid, 18, 24, direction, arg_06);
       suspend;
     }
-    /* global_address */
-    while (intrinsic_0036()) {
+    while (Actor.doAnim(&global[0x003c])) {
       spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
       suspend;
     }
     FREE.slot_33(0x0220, 0);
   }
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

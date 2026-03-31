@@ -1,19 +1,22 @@
 function lazeregg_hatch() /* entry=2318 class_id=0x090c slot=0x07 */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    laser, /* [BP-02h] type=0x24 */
+    id; /* [BP-04h] type=0x69 */
+
   set_info(0x0210, *(arg_06));
   process_exclude();
-  local_04 = 0;
-  local_04 = intrinsic_0041(arg_06);
-  for local_02 in nearby_items(shape=IR_SENSOR, origin=arg_06) {
-    if (Item.getFrame(local_02) == 1) {
+  id = 0;
+  id = CameraProcess.setCenterOn(arg_06);
+  for laser in nearby_items(shape=IR_SENSOR, origin=arg_06) {
+    if (Item.getFrame(laser) == 1) {
       return;
     }
     else {
-      spawn FREE.slot_31(pid, local_02, 0x00000000);
+      spawn FREE.slot_31(pid, laser, 0x00000000);
       suspend;
     }
-    /* loopnext */
   }
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

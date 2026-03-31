@@ -11,11 +11,11 @@ function litewall_slot_21() /* entry=2578 class_id=0x0a10 slot=0x21 */
     local_02 = arg_10;
     local_06 = 0;
     local_15 = 21;
-    local_17 = intrinsic_00b2(local_02);
+    local_17 = Item.andStatus(local_02);
     local_19 = 3;
     local_21 = 48;
     local_23 = 49;
-    if ((intrinsic_00b2(local_02) != 3) || (intrinsic_00b2(local_02) == 48)) || (intrinsic_00b2(local_02) == 49) goto block_031a;
+    if ((Item.andStatus(local_02) != 3) || (Item.andStatus(local_02) == 48)) || (Item.andStatus(local_02) == 49) goto block_031a;
 
   block_0269:
     /* loopscr */
@@ -34,7 +34,6 @@ function litewall_slot_21() /* entry=2578 class_id=0x0a10 slot=0x21 */
         local_15 = retval;
         local_06 = local_04;
       }
-      /* loopnext */
     }
 
   block_02be:
@@ -50,7 +49,7 @@ function litewall_slot_21() /* entry=2578 class_id=0x0a10 slot=0x21 */
     }
 
   block_02f1:
-    spawn NPC.slot_2d(pid, intrinsic_00bf(local_06, local_02), local_06, local_02);
+    spawn NPC.slot_2d(pid, Item.andStatus(local_06, local_02), local_06, local_02);
     suspend;
 
   block_031a:

@@ -1,18 +1,26 @@
 function spider_slot_21() /* entry=2585 class_id=0x0a17 slot=0x21 */
 {
-  set_info(1, arg_10);
-  local_02 = arg_12;
-  while ((arg_14 - 1) > 0) {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    spider, /* [BP+10h] type=0x69 */
+    tar, /* [BP+12h] type=0x69 */
+    targetLoop, /* [BP+14h] type=0x69 */
+    target, /* [BP-02h] type=0x24 */
+    x, /* [BP-04h] type=0x69 */
+    y; /* [BP-06h] type=0x69 */
+
+  set_info(1, spider);
+  target = tar;
+  while ((targetLoop - 1) > 0) {
     /* rsh */
-    local_04 = 1;
+    x = 1;
     /* rsh */
-    local_06 = 1;
-    spawn SPIDER.slot_22((intrinsic_0013(local_02) - intrinsic_0013(arg_06)), (Item.legal_create(local_02) - Item.legal_create(arg_06)), pid, (intrinsic_0029() + 5), Item.getZ(arg_06), (local_06 + Item.legal_create(arg_06)), (local_04 + intrinsic_0013(arg_06)), arg_06);
+    y = 1;
+    spawn SPIDER.slot_22((Item.getX(target) - Item.getX(arg_06)), (Item.getY(target) - Item.getY(arg_06)), pid, (Game.getDifficultyLevel() + 5), Item.getZ(arg_06), (y + Item.getY(arg_06)), (x + Item.getX(arg_06)), arg_06);
     suspend;
-    arg_14 = (arg_14 - 1);
+    targetLoop = (targetLoop - 1);
   }
-  spawn SPIDER.slot_22(pid, (intrinsic_0029() + 5), Item.getZ(arg_06), Item.legal_create(local_02), intrinsic_0013(local_02), arg_06);
+  spawn SPIDER.slot_22(pid, (Game.getDifficultyLevel() + 5), Item.getZ(arg_06), Item.getY(target), Item.getX(target), arg_06);
   suspend;
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

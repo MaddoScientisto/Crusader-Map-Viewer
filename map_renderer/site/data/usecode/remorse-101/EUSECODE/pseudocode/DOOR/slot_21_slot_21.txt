@@ -3,7 +3,7 @@ function door_slot_21() /* entry=2568 class_id=0x0a06 slot=0x21 */
   set_info(0x0207, *(arg_06));
   spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
   suspend;
-  local_02 = intrinsic_0016(arg_06);
+  local_02 = Item.getShape(arg_06);
   if (local_02 == 0x00a9) {
     if (arg_10 == 2) {
       /* word_to_dword */
@@ -16,11 +16,10 @@ function door_slot_21() /* entry=2568 class_id=0x0a06 slot=0x21 */
     if (process_result) {
       if (arg_10 == 1) {
         for local_04 in nearby_items(shape=FORCEFIELD_NE, origin=arg_06) {
-          if (Item.getPoint(local_04) == Item.getPoint(arg_06)) {
+          if (Item.getFootpad(local_04) == Item.getFootpad(arg_06)) {
             spawn FREE.slot_31(pid, local_04, 0x00000000);
             suspend;
           }
-          /* loopnext */
         }
       }
       /* word_to_dword */
@@ -57,11 +56,10 @@ function door_slot_21() /* entry=2568 class_id=0x0a06 slot=0x21 */
     if (process_result) {
       if (arg_10 == 1) {
         for local_04 in nearby_items(shape=FORCEFIELD_NW, origin=arg_06) {
-          if (Item.getPoint(local_04) == Item.getPoint(arg_06)) {
+          if (Item.getFootpad(local_04) == Item.getFootpad(arg_06)) {
             spawn FREE.slot_31(pid, local_04, 0x00000000);
             suspend;
           }
-          /* loopnext */
         }
       }
       /* word_to_dword */
@@ -162,11 +160,10 @@ function door_slot_21() /* entry=2568 class_id=0x0a06 slot=0x21 */
     if (process_result) {
       if (arg_10 == 1) {
         for local_04 in nearby_items(shape=FORCEFIELD_NE, origin=arg_06) {
-          if (Item.getPoint(local_04) == Item.getPoint(arg_06)) {
+          if (Item.getFootpad(local_04) == Item.getFootpad(arg_06)) {
             spawn FREE.slot_31(pid, local_04, 0x00000000);
             suspend;
           }
-          /* loopnext */
         }
       }
       /* word_to_dword */
@@ -203,11 +200,10 @@ function door_slot_21() /* entry=2568 class_id=0x0a06 slot=0x21 */
     if (process_result) {
       if (arg_10 == 1) {
         for local_04 in nearby_items(shape=FORCEFIELD_NW, origin=arg_06) {
-          if (Item.getPoint(local_04) == Item.getPoint(arg_06)) {
+          if (Item.getFootpad(local_04) == Item.getFootpad(arg_06)) {
             spawn FREE.slot_31(pid, local_04, 0x00000000);
             suspend;
           }
-          /* loopnext */
         }
       }
       /* word_to_dword */

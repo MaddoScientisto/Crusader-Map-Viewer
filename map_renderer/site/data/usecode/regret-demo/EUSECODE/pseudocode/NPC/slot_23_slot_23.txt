@@ -1,25 +1,20 @@
 function npc_slot_23() /* entry=2580 class_id=0x0a12 slot=0x23 */
 {
   set_info(0x020a, *(arg_06));
-  if (*(arg_06) == 1) {
-    /* global_address */
-  }
   for local_02 in nearby_items(shape=DISRUPTER, origin=arg_06) {
     if (Item.getFrame(local_02) == 1) {
       local_09 = 1;
       local_06 = local_02;
     }
-    /* loopnext */
   }
   for local_02 in nearby_items(shape=TELEPORTER_LIGHTS, origin=arg_06) {
     local_04 = local_02;
-    /* loopnext */
   }
   /* loopscr */
   /* loopscr */
   /* loop */
   while (condition) {
-    if (intrinsic_0011(local_02) == 0x018e) {
+    if (Item.getShape(local_02) == 0x018e) {
       if (!Item.getFrame(local_02)) {
         local_08 = 1;
       }
@@ -27,19 +22,14 @@ function npc_slot_23() /* entry=2580 class_id=0x0a12 slot=0x23 */
     else if (Item.getFrame(local_02)) {
       local_08 = 1;
     }
-    /* loopnext */
   }
   spawn FREE.slot_3b(pid, 60, 0x00000000);
   suspend;
-  /* global_address */
   if (!local_08) {
     suspend;
   }
   else {
     suspend;
-  }
-  if (*(arg_06) == 1) {
-    /* global_address */
   }
   if (local_09) {
     spawn FREE.slot_3b(pid, 20, 0x00000000);
@@ -48,7 +38,7 @@ function npc_slot_23() /* entry=2580 class_id=0x0a12 slot=0x23 */
     suspend;
     spawn FREE.slot_3b(pid, 20, 0x00000000);
     suspend;
-    while (!intrinsic_00d2(arg_06)) {
+    while (!Actor.setCombatTactic(arg_06)) {
       spawn FREE.slot_3b(pid, 2, 0x00000000);
       suspend;
     }

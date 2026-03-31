@@ -11,15 +11,14 @@ function bridge_slot_25() /* entry=2590 class_id=0x0a1c slot=0x25 */
     if !condition goto block_0593;
 
   block_056e:
-    local_08 = intrinsic_0107(local_02);
+    local_08 = Item.getQLo(local_02);
     if local_08 != arg_10 goto block_058f;
 
   block_0581:
-    local_06 = intrinsic_0116(local_02);
+    local_06 = Item.getQHi(local_02);
     goto block_0593;
 
   block_058f:
-    /* loopnext */
     goto block_056b;
 
   block_0593:
@@ -35,15 +34,14 @@ function bridge_slot_25() /* entry=2590 class_id=0x0a1c slot=0x25 */
     if Item.getFrame(arg_06) != 1 goto block_05e7;
 
   block_05c6:
-    local_08 = intrinsic_0107(local_02);
+    local_08 = Item.getQLo(local_02);
     if local_08 != arg_10 goto block_05e7;
 
   block_05d9:
-    local_06 = intrinsic_0116(local_02);
+    local_06 = Item.getQHi(local_02);
     goto block_05eb;
 
   block_05e7:
-    /* loopnext */
     goto block_05b4;
 
   block_05eb:
@@ -75,7 +73,7 @@ function bridge_slot_25() /* entry=2590 class_id=0x0a1c slot=0x25 */
     if !condition goto block_0662;
 
   block_0634:
-    local_08 = intrinsic_0107(local_02);
+    local_08 = Item.getQLo(local_02);
     if local_08 != local_10 goto block_065e;
 
   block_0647:
@@ -87,7 +85,6 @@ function bridge_slot_25() /* entry=2590 class_id=0x0a1c slot=0x25 */
     goto block_0662;
 
   block_065e:
-    /* loopnext */
     goto block_0631;
 
   block_0662:
@@ -103,7 +100,7 @@ function bridge_slot_25() /* entry=2590 class_id=0x0a1c slot=0x25 */
     if Item.getFrame(arg_06) != 1 goto block_06bf;
 
   block_0695:
-    local_08 = intrinsic_0107(local_02);
+    local_08 = Item.getQLo(local_02);
     if local_08 != local_10 goto block_06bf;
 
   block_06a8:
@@ -115,7 +112,6 @@ function bridge_slot_25() /* entry=2590 class_id=0x0a1c slot=0x25 */
     goto block_06c3;
 
   block_06bf:
-    /* loopnext */
     goto block_0683;
 
   block_06c3:
@@ -131,7 +127,7 @@ function bridge_slot_25() /* entry=2590 class_id=0x0a1c slot=0x25 */
   block_06ed:
     while (true) {
       foreach_list local_02 -> block_07bc;
-      if (intrinsic_00ad(local_02) == 1) {
+      if (Intrinsic00AD(local_02) == 1) {
         BRIDGE.slot_21(0x0336, local_02);
         spawn FREE.slot_3b(pid, 15, 0x00000000);
         suspend;
@@ -139,34 +135,30 @@ function bridge_slot_25() /* entry=2590 class_id=0x0a1c slot=0x25 */
       /* loopscr */
       /* loop */
       while (condition) {
-        if ((intrinsic_0031(local_14) == 6) && (Actor.isNPC(local_14) == 0)) {
+        if ((Item.getItemFamily(local_14) == 6) && (Actor.isNPC(local_14) == 0)) {
           for local_16 in nearby_items(shape=0x04b8, origin=local_14) {
-            /* loopnext */
           }
           spawn ITEM.slot_2a(pid, 1, 0, local_14);
           suspend;
         }
-        /* loopnext */
       }
     }
 
   block_07c2:
     while (true) {
       foreach_list local_02 -> block_087a;
-      if (intrinsic_00ad(local_02) == 1) {
+      if (Intrinsic00AD(local_02) == 1) {
         BRIDGE.slot_21(0x0336, local_02);
       }
       /* loopscr */
       /* loop */
       while (condition) {
-        if ((intrinsic_0031(local_14) == 6) && (Actor.isNPC(local_14) == 0)) {
+        if ((Item.getItemFamily(local_14) == 6) && (Actor.isNPC(local_14) == 0)) {
           for local_16 in nearby_items(shape=0x04b8, origin=local_14) {
-            /* loopnext */
           }
           spawn ITEM.slot_2a(pid, 1, 0, local_14);
           suspend;
         }
-        /* loopnext */
       }
     }
 

@@ -19,22 +19,16 @@ function safe_ew_equip() /* entry=533 class_id=0x0213 slot=0x0a */
     spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
     suspend;
     for item in nearby_items(shape=0x0476, origin=arg_06) {
-      if (intrinsic_00fc(arg_06) == intrinsic_00fc(item)) {
+      if (Item.andStatus(arg_06) == Item.andStatus(item)) {
         FREE.slot_2e(item);
         item2 = retval;
-        if ((((intrinsic_003f(item2) == 10) || (intrinsic_003f(item2) == 11)) || (intrinsic_003f(item2) == 12)) || (intrinsic_003f(item2) == 13)) {
-          if (!Item.getFootpad(1, item2)) {
-            /* global_address */
-            /* global_address */
-            /* global_address */
-          }
+        if ((((Egg.getEggId(item2) == 10) || (Egg.getEggId(item2) == 11)) || (Egg.getEggId(item2) == 12)) || (Egg.getEggId(item2) == 13)) {
         }
         else {
           spawn FREE.slot_31(pid, item2, 0x00000000);
           suspend;
         }
       }
-      /* loopnext */
     }
     spawn TRIGGER.slot_20(pid, 1, *(arg_06), arg_06);
     suspend;

@@ -1,7 +1,7 @@
 function steambox_slot_20() /* entry=1282 class_id=0x0500 slot=0x20 */
 {
   set_info(0x00f0, *(arg_06));
-  if (intrinsic_009f()) {
+  if (PaletteFaderProcess.fadeToColor()) {
     while ((Item.getFrame(arg_10) != 39) && (Item.isOnScreen(arg_10) == 1)) {
       spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
       suspend;
@@ -16,11 +16,11 @@ function steambox_slot_20() /* entry=1282 class_id=0x0500 slot=0x20 */
     suspend;
   }
   if (arg_12 == 0) {
-    if (intrinsic_009f()) {
+    if (PaletteFaderProcess.fadeToColor()) {
     }
   }
   else if (arg_12 == 1) {
-    if (intrinsic_009f()) {
+    if (PaletteFaderProcess.fadeToColor()) {
     }
   }
   ITEM.slot_23(4, local_04);

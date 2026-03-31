@@ -11,28 +11,27 @@ function thrmbckn_equip() /* entry=1384 class_id=0x0566 slot=0x0a */
   set_info(0x0211, *(arg_06));
   process_exclude();
   if (var) {
-    while (intrinsic_003d(4, arg_06)) {
+    while (Container.destroyContents(4, arg_06)) {
       spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
       suspend;
     }
-    while (intrinsic_003d(4, arg_06)) {
+    while (Container.destroyContents(4, arg_06)) {
       spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
       suspend;
     }
-    while (intrinsic_003d(4, arg_06)) {
+    while (Container.destroyContents(4, arg_06)) {
       spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
       suspend;
     }
     for ewall in selector_0x42(arg0=0x0564, arg1=0x0565, arg2=(6 * 32), origin=arg_06) {
-      /* loopnext */
     }
     /* loopscr */
     /* loopscr */
     /* loop */
     while (condition) {
-      if (intrinsic_000b(therma) == intrinsic_00ea(arg_06)) {
+      if (Actor.GetNPCDataField0x63_00B(therma) == Item.getQLo(arg_06)) {
         b = 3;
-        if (intrinsic_0029() > 2) {
+        if (Game.getDifficultyLevel() > 2) {
           a = 10;
         }
         else {
@@ -44,7 +43,6 @@ function thrmbckn_equip() /* entry=1384 class_id=0x0566 slot=0x0a */
         suspend;
         return;
       }
-      /* loopnext */
     }
   }
   return;

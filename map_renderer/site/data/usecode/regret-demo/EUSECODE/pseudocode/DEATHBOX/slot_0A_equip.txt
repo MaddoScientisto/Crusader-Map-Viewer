@@ -4,7 +4,7 @@ function deathbox_equip() /* entry=1257 class_id=0x04e7 slot=0x0a */
   process_exclude();
   spawn FREE.slot_3b(pid, 2, 0x00000000);
   suspend;
-  if (intrinsic_0004(arg_06) & 0x1000) {
+  if (Item.getStatus(arg_06) & 0x1000) {
     return;
   }
   else {
@@ -13,14 +13,13 @@ function deathbox_equip() /* entry=1257 class_id=0x04e7 slot=0x0a */
     ITEM.slot_24(0x1000, arg_06);
     if (arg_10 == 2) {
       for local_02 in nearby_items(shape=48, origin=arg_06) {
-        if (intrinsic_001f(local_02) == 10) {
+        if (Item.getQLo(local_02) == 10) {
           local_03 = Item.getFrame(local_02);
         }
-        else if (intrinsic_001f(local_02) == 11) {
+        else if (Item.getQLo(local_02) == 11) {
           local_04 = Item.getFrame(local_02);
         }
         local_07 = (1 + local_07);
-        /* loopnext */
       }
       if ((local_04 == 4) && (local_03 == 0)) {
         spawn FREE.slot_3b(pid, 2, 0x00000000);

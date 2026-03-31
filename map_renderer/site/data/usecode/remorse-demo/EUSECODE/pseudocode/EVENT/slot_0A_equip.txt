@@ -28,22 +28,19 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
 
   set_info(0x0211, *(arg_06));
   process_exclude();
-  link = intrinsic_0085(arg_06);
+  link = Actor.setImmortal(arg_06);
   if (event == 0) {
-    /* global_address */
     return;
   }
   else if (event == 1) {
-    /* global_address */
-    while (intrinsic_0036()) {
+    while (Actor.doAnim(&global[0x003c])) {
       spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
       suspend;
     }
-    /* global_address */
-    cx = intrinsic_0087();
-    cy = intrinsic_0088();
-    ex = intrinsic_0013(arg_06);
-    ey = Item.legal_create(arg_06);
+    cx = CameraProcess.getCameraY();
+    cy = Item.setMapArray();
+    ex = Item.getX(arg_06);
+    ey = Item.getY(arg_06);
     spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
     suspend;
     spawn TRIGGER.slot_20(pid, (0 + 0x0080), *(arg_06), arg_06);
@@ -52,16 +49,14 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
     suspend;
     spawn TRIGGER.slot_20(pid, (1 + 0x0080), *(arg_06), arg_06);
     suspend;
-    /* global_address */
     return;
   }
   else if (event == 2) {
-    /* global_address */
-    while (intrinsic_0036()) {
+    while (Actor.doAnim(&global[0x003c])) {
       spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
       suspend;
     }
-    spawn FREE.slot_3d(pid, Item.legal_create(arg_06), intrinsic_0013(arg_06), 0x00000000);
+    spawn FREE.slot_3d(pid, Item.getY(arg_06), Item.getX(arg_06), 0x00000000);
     suspend;
     spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
     suspend;
@@ -86,115 +81,95 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
     return;
   }
   else if (event == 8) {
-    counter = intrinsic_0051(arg_06);
+    counter = Actor.clrInCombat(arg_06);
     if (counter == 0) {
       spawn TRIGGER.slot_20(pid, (0 + 0x0080), *(arg_06), arg_06);
       suspend;
     }
     else {
-      counter2 = intrinsic_0085(arg_06);
+      counter2 = Actor.setImmortal(arg_06);
       spawn TRIGGER.slot_20(pid, (0 + 0x0080), *(arg_06), arg_06);
       suspend;
     }
     return;
   }
   else if (event == 9) {
-    counter = intrinsic_0085(arg_06);
+    counter = Actor.setImmortal(arg_06);
     for item in nearby_items(family=1, origin=arg_06) {
-      /* loopnext */
     }
     return;
   }
   else if (event == 10) {
     for item in nearby_items(shape=NUMBERS, origin=arg_06) {
-      if (intrinsic_0085(arg_06) == intrinsic_0085(item)) {
+      if (Actor.setImmortal(arg_06) == Actor.setImmortal(item)) {
         if (Item.getFrame(item) == 0) {
           source = item;
         }
       }
-      /* loopnext */
     }
     for item in nearby_items(shape=NUMBERS, origin=arg_06) {
-      if (intrinsic_0085(arg_06) == intrinsic_0085(item)) {
+      if (Actor.setImmortal(arg_06) == Actor.setImmortal(item)) {
         if (Item.getFrame(item) == 1) {
           dest = item;
         }
       }
-      /* loopnext */
     }
     if (source && dest) {
-      wp = intrinsic_0013(dest);
-      local_11 = Item.legal_create(dest);
+      wp = Item.getX(dest);
+      local_11 = Item.getY(dest);
       local_09 = Item.getZ(dest);
     }
     return;
   }
   else if (event == 15) {
-    /* global_address */
     return;
   }
   else if (event == 16) {
-    /* global_address */
-    /* global_address */
-    /* global_address */
     return;
   }
   else if (event == 22) {
-    cx = intrinsic_0087();
-    cy = intrinsic_0088();
-    /* global_address */
-    while (intrinsic_003d(54, arg_06)) {
+    cx = CameraProcess.getCameraY();
+    cy = Item.setMapArray();
+    while (Container.destroyContents(54, arg_06)) {
       spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
       suspend;
     }
-    /* global_address */
     return;
   }
   else if (event == 40) {
-    /* global_address */
-    if (!intrinsic_003c()) {
-      /* global_address */
-      while (intrinsic_0036()) {
+    if (!Item.getItemFamily(&global[0x003c])) {
+      while (Actor.doAnim(&global[0x003c])) {
         spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
         suspend;
       }
-      /* global_address */
       suspend;
     }
     return;
   }
   else if (event == 41) {
-    /* global_address */
-    if (intrinsic_003c((global[0x0029] == 1)) == 1) {
+    if (Item.getItemFamily((global[0x0029] == 1), &global[0x003c]) == 1) {
       return;
     }
     spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
     suspend;
-    /* global_address */
-    spawn NPC.slot_22(pid, 3, 0);
+    spawn NPC.slot_22(pid, 3, 0, &global[0x003c]);
     suspend;
-    /* global_address */
-    spawn NPC.slot_22(pid, 4, 14);
+    spawn NPC.slot_22(pid, 4, 14, &global[0x003c]);
     suspend;
-    /* global_address */
-    spawn NPC.slot_22(pid, 3, 12);
+    spawn NPC.slot_22(pid, 3, 12, &global[0x003c]);
     suspend;
-    /* global_address */
-    /* global_address */
     suspend;
     /* pop_global */
     /* loopscr */
     /* loop */
     while (condition) {
-      if (intrinsic_0085(door) == 5) {
+      if (Actor.setImmortal(door) == 5) {
         spawn DOOR.slot_20(pid, door);
         suspend;
       }
-      /* loopnext */
     }
     for door in nearby_items(shape=0x04d9, origin=arg_06) {
       n = door;
-      /* loopnext */
     }
     spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
     suspend;
@@ -204,9 +179,8 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
     spawn FREE.waitNTimerTicks(pid, 120, 0x00000000);
     suspend;
     while (1) {
-      /* global_address */
-      op = intrinsic_003c();
-      opp = intrinsic_003c(n);
+      op = Item.getItemFamily(&global[0x003c]);
+      opp = Item.getItemFamily(n);
       if ((op == 1) || (opp == 1)) {
         return;
       }
@@ -218,10 +192,10 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
     return;
   }
   else if (event == 45) {
-    time = intrinsic_008a(arg_06);
+    time = Intrinsic08A(arg_06);
     while (1) {
       counter = 0;
-      FREE.slot_29((intrinsic_0051(arg_06) == 0), *(arg_06), global[0x003c]);
+      FREE.slot_29((Actor.clrInCombat(arg_06) == 0), *(arg_06), global[0x003c]);
       if (retval > 50) {
         return;
       }
@@ -229,7 +203,6 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
         if (Actor.isNPC(item)) {
           counter = (1 + counter);
         }
-        /* loopnext */
       }
       if (counter <= 4) {
         spawn TRIGGER.slot_20(pid, (0 + 0x0080), *(arg_06), arg_06);
@@ -249,10 +222,10 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
     return;
   }
   else if (event == 46) {
-    time = intrinsic_008a(arg_06);
+    time = Intrinsic08A(arg_06);
     while (1) {
       counter = 0;
-      FREE.slot_29((intrinsic_0051(arg_06) == 0), *(arg_06), global[0x003c]);
+      FREE.slot_29((Actor.clrInCombat(arg_06) == 0), *(arg_06), global[0x003c]);
       if ((retval > 50) || (Item.isOnScreen(arg_06) == 1)) {
         return;
       }
@@ -260,7 +233,6 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
         if (item < 0x00ff) {
           counter = (1 + counter);
         }
-        /* loopnext */
       }
       if (counter <= 4) {
         spawn TRIGGER.slot_20(pid, (0 + 0x0080), *(arg_06), arg_06);
@@ -280,10 +252,10 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
     return;
   }
   else if (event == 47) {
-    time = intrinsic_008a(arg_06);
-    counter2 = intrinsic_0051(arg_06);
+    time = Intrinsic08A(arg_06);
+    counter2 = Actor.clrInCombat(arg_06);
     while (1) {
-      if (intrinsic_0051(arg_06) == 1) {
+      if (Actor.clrInCombat(arg_06) == 1) {
         counter = 1;
         while (counter <= counter2) {
           spawn TRIGGER.slot_20(pid, (0 + 0x0080), *(arg_06), arg_06);
@@ -297,7 +269,7 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
           counter = (1 + counter);
         }
       }
-      else if (intrinsic_0051(arg_06) > 1) {
+      else if (Actor.clrInCombat(arg_06) > 1) {
         counter = 1;
         while (counter <= counter2) {
           spawn TRIGGER.slot_20(pid, (0 + 0x0080), *(arg_06), arg_06);
@@ -324,8 +296,8 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
     return;
   }
   else if (event == 48) {
-    time = intrinsic_008a(arg_06);
-    counter2 = intrinsic_0051(arg_06);
+    time = Intrinsic08A(arg_06);
+    counter2 = Actor.clrInCombat(arg_06);
     counter = 1;
     while (counter <= counter2) {
       spawn TRIGGER.slot_20(pid, (0 + 0x0080), *(arg_06), arg_06);
@@ -345,10 +317,10 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
     return;
   }
   else if (event == 49) {
-    time = intrinsic_008a(arg_06);
-    counter2 = intrinsic_0051(arg_06);
+    time = Intrinsic08A(arg_06);
+    counter2 = Actor.clrInCombat(arg_06);
     while (1) {
-      if (intrinsic_0051(arg_06)) {
+      if (Actor.clrInCombat(arg_06)) {
         counter = 1;
         while (counter <= counter2) {
           spawn TRIGGER.slot_20(pid, (0 + 0x0080), *(arg_06), arg_06);
@@ -378,33 +350,27 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
     /* loopscr */
     /* loop */
     while (condition) {
-      if (intrinsic_0085(door) == 100) {
+      if (Actor.setImmortal(door) == 100) {
         spawn DOOR.slot_20(pid, door);
         suspend;
       }
-      /* loopnext */
     }
     return;
   }
   else if (event == 51) {
     for item in nearby_items(shape=GRATE_FLOOR_GRAY, origin=arg_06) {
-      dir = intrinsic_0051(item);
+      dir = Actor.clrInCombat(item);
       floor = item;
-      /* loopnext */
     }
     for item in selector_0x42(arg0=0x01c4, arg1=0x0186, arg2=(10 * 32), origin=floor) {
       post1 = item;
-      /* loopnext */
     }
     for item in selector_0x42(arg0=0x01c5, arg1=0x0184, arg2=(10 * 32), origin=floor) {
       post2 = item;
-      /* loopnext */
     }
     if (post1 && post2) {
-      /* global_address */
       spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
       suspend;
-      /* global_address */
       if (dir) {
         counter = 1;
         while (counter <= 4) {
@@ -432,24 +398,22 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
       door = item;
       spawn DOOR.slot_20(pid, door);
       suspend;
-      /* loopnext */
     }
     spawn TRIGGER.slot_20(pid, 1, *(arg_06), arg_06);
     suspend;
     return;
   }
   else if (event == 52) {
-    time = intrinsic_008a(arg_06);
-    counter2 = intrinsic_0051(arg_06);
+    time = Intrinsic08A(arg_06);
+    counter2 = Actor.clrInCombat(arg_06);
     while (1) {
       for n in nearby_items(family=6, origin=arg_06) {
         if (Actor.isNPC(n)) {
-          if (intrinsic_000b(n) == intrinsic_0085(arg_06)) {
+          if (Actor.GetNPCDataField0x63_00B(n) == Actor.setImmortal(arg_06)) {
           }
         }
         spawn FREE.waitNTimerTicks(pid, time, 0x00000000);
         suspend;
-        /* loopnext */
       }
       return;
     }
@@ -459,13 +423,11 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
     for n in nearby_items(shape=wallgun_shape_04c8, origin=arg_06) {
       spawn FREE.waitNTimerTicks(pid, 1, 0x00000000);
       suspend;
-      /* loopnext */
     }
     return;
   }
   else if (event == 54) {
     for n in nearby_items(shape=wallgun_shape_04c8, origin=arg_06) {
-      /* loopnext */
     }
     return;
   }
@@ -473,7 +435,7 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
     if (!(global[0x0038])) {
       return;
     }
-    time = intrinsic_008a(arg_06);
+    time = Intrinsic08A(arg_06);
     while (1) {
       counter = 0;
       spawn TRIGGER.slot_20(pid, (0 + 0x0080), *(arg_06), arg_06);
@@ -484,7 +446,7 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
       suspend;
       spawn FREE.waitNTimerTicks(pid, time, 0x00000000);
       suspend;
-      if (intrinsic_0051(arg_06) == 0) {
+      if (Actor.clrInCombat(arg_06) == 0) {
         return;
       }
     }
@@ -492,18 +454,17 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
   }
   else if (event == 75) {
     for item in nearby_items(family=6, origin=arg_06) {
-      if (intrinsic_0085(item) == intrinsic_0085(arg_06)) {
+      if (Actor.setImmortal(item) == Actor.setImmortal(arg_06)) {
         suspend;
       }
-      /* loopnext */
     }
     return;
   }
   else if (event == 85) {
-    time = (Camera.getX(arg_06) * 5);
+    time = (PaletteFaderProcess.setPalToAllBlack(arg_06) * 5);
     while (1) {
       counter = 0;
-      FREE.slot_29((intrinsic_0051(arg_06) == 0), *(arg_06), global[0x003c]);
+      FREE.slot_29((Actor.clrInCombat(arg_06) == 0), *(arg_06), global[0x003c]);
       if (retval > 50) {
         return;
       }
@@ -511,7 +472,6 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
         if (Actor.isNPC(item)) {
           counter = (1 + counter);
         }
-        /* loopnext */
       }
       if (counter <= 4) {
         spawn TRIGGER.slot_20(pid, (0 + 0x0080), *(arg_06), arg_06);
@@ -539,25 +499,19 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
     return;
   }
   else if (event == 97) {
-    /* global_address */
-    while (!intrinsic_0096()) {
+    while (!MainActor.teleportToEgg()) {
       spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
       suspend;
     }
-    /* global_address */
-    /* global_address */
-    /* global_address */
     return;
   }
   else if (event == 98) {
     for item in nearby_items(shape=EVENT_CONTROLLER, origin=arg_06) {
-      /* loopnext */
     }
     return;
   }
   else if (event == 99) {
     for item in nearby_items(shape=EVENT_CONTROLLER, origin=arg_06) {
-      /* loopnext */
     }
     return;
   }
@@ -582,7 +536,7 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
     return;
   }
   else if (event == 0x00c9) {
-    qHi = intrinsic_0051(arg_06);
+    qHi = Actor.clrInCombat(arg_06);
     if (qHi < 4) {
       qHi = (1 + qHi);
     }
@@ -610,7 +564,7 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
     return;
   }
   else if (event == 0x00e6) {
-    qHi = intrinsic_0051(arg_06);
+    qHi = Actor.clrInCombat(arg_06);
     if (qHi < 2) {
       qHi = (1 + qHi);
     }

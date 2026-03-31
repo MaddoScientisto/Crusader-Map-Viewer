@@ -26,12 +26,12 @@ function mtaregg_slot_20() /* entry=2309 class_id=0x0903 slot=0x20 */
       return;
     }
     local_04 = (local_04 - 1);
-    local_14 = intrinsic_0013(local_02);
-    local_12 = Item.legal_create(local_02);
+    local_14 = Item.getX(local_02);
+    local_12 = Item.getY(local_02);
     local_10 = Item.getZ(local_02);
     local_14 = (local_14 + local_09);
     local_12 = (local_12 + local_07);
-    if (intrinsic_002e(0, 1, local_14, local_02) == 0) {
+    if (legalMoveToPoint(0, 1, local_14, local_02) == 0) {
       return;
     }
   }

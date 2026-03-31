@@ -9,13 +9,12 @@ function item_slot_2c() /* entry=2577 class_id=0x0a0f slot=0x2c */
   /* loop */
   while (condition) {
     if (n < 0x00ff) {
-      if ((n > 1) && (intrinsic_00cf(n) == 0)) {
+      if ((n > 1) && (Item.setQAndCombine(n) == 0)) {
         /* word_to_dword */
         /* pop_result */
         return;
       }
     }
-    /* loopnext */
   }
   /* word_to_dword */
   /* pop_result */

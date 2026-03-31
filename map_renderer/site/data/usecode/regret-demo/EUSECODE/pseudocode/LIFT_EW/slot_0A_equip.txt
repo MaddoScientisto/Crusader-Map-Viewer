@@ -2,7 +2,7 @@ function lift_ew_equip() /* entry=1579 class_id=0x0629 slot=0x0a */
 {
   set_info(0x0211, *(arg_06));
   process_exclude();
-  if (intrinsic_0004(arg_06) & 0x1000) {
+  if (Item.getStatus(arg_06) & 0x1000) {
     return;
   }
   else {
@@ -13,7 +13,7 @@ function lift_ew_equip() /* entry=1579 class_id=0x0629 slot=0x0a */
       arg_10 = (arg_10 - 0x00a0);
     }
     if (arg_10 == 0x00ff) {
-      local_05 = intrinsic_00da(arg_06);
+      local_05 = Actor.getLastAnimSet(arg_06);
       if ((local_05 == 88) || ((local_03 + 1) <= local_05)) {
       }
       else if (local_05 < 88) {
@@ -32,7 +32,6 @@ function lift_ew_equip() /* entry=1579 class_id=0x0629 slot=0x0a */
       while (condition) {
         spawn FREE.slot_3b(pid, 2, 0x00000000);
         suspend;
-        /* loopnext */
       }
     }
   }

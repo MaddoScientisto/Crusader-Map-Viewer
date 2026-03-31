@@ -1,7 +1,7 @@
 function wallgun_slot_27() /* entry=2593 class_id=0x0a1f slot=0x27 */
 {
   set_info(0x0001, *(arg_06));
-  WALLGUN.slot_25(Item.getFrame(arg_06), intrinsic_0011(arg_06), arg_06);
+  WALLGUN.slot_25(Item.getFrame(arg_06), Item.getShape(arg_06), arg_06);
   if (retval) {
     return;
   }
@@ -9,13 +9,13 @@ function wallgun_slot_27() /* entry=2593 class_id=0x0a1f slot=0x27 */
     WALLGUN.slot_29(arg_06);
     if (retval) {
     }
-    if (intrinsic_0016() != 0) {
-      spawn WALLGUN.slot_28(pid, intrinsic_0146(arg_06), intrinsic_0016(), arg_06);
+    if (World.getControlledNPCNum() != 0) {
+      spawn WALLGUN.slot_28(pid, PaletteFaderProcess.jumpToAllGrey(arg_06), World.getControlledNPCNum(), arg_06);
       suspend;
       return;
     }
     else {
-      spawn WALLGUN.slot_28(pid, intrinsic_0146(arg_06), global[0x001e], arg_06);
+      spawn WALLGUN.slot_28(pid, PaletteFaderProcess.jumpToAllGrey(arg_06), global[0x001e], arg_06);
       suspend;
     }
   }

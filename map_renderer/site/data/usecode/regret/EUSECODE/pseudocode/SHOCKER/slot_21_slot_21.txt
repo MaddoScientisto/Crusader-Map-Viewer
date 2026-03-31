@@ -11,8 +11,8 @@ function shocker_slot_21() /* entry=2580 class_id=0x0a12 slot=0x21 */
       suspend;
       for local_02 in nearby_items(family=6, origin=arg_06) {
         if (Actor.isNPC(local_02) == 1) {
-          if (!intrinsic_0102(local_02)) {
-            if ((intrinsic_00a4(local_02, arg_06) == 1) && (Item.getFrame(arg_06) < 6)) {
+          if (!Actor.isDead(local_02)) {
+            if ((Item.overlaps(local_02, arg_06) == 1) && (Item.getFrame(arg_06) < 6)) {
               FREE.slot_20(pid, 8);
               spawn NPC.slot_2f(retval, *(arg_06), local_02);
               suspend;
@@ -22,7 +22,6 @@ function shocker_slot_21() /* entry=2580 class_id=0x0a12 slot=0x21 */
             }
           }
         }
-        /* loopnext */
       }
     }
 

@@ -2,8 +2,8 @@ function railgun_equip() /* entry=1512 class_id=0x05e6 slot=0x0a */
 {
   set_info(0x0211, *(arg_06));
   process_exclude();
-  if (intrinsic_0016() != 0) {
-    spawn WALLGUN.slot_24(pid, arg_10, intrinsic_0016(), arg_06);
+  if (World.getControlledNPCNum() != 0) {
+    spawn WALLGUN.slot_24(pid, arg_10, World.getControlledNPCNum(), arg_06);
     suspend;
     return;
   }

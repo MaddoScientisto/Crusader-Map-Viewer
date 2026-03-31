@@ -15,19 +15,19 @@ function miss2_slot_23() /* entry=2320 class_id=0x090e slot=0x23 */
     for item in nearby_items(shape=0x04d5, origin=global[0x003c]) {
       activate = 0;
       if (!done0) {
-        if (intrinsic_00af(item) == 0) {
+        if (Item.getQHi(item) == 0) {
           activate = 1;
           done0 = 1;
         }
       }
       else if (!done1) {
-        if (intrinsic_00af(item) == 1) {
+        if (Item.getQHi(item) == 1) {
           activate = 1;
           done1 = 1;
         }
       }
       else if (!done2) {
-        if (intrinsic_00af(item) == 2) {
+        if (Item.getQHi(item) == 2) {
           activate = 1;
           done2 = 1;
         }
@@ -43,7 +43,6 @@ function miss2_slot_23() /* entry=2320 class_id=0x090e slot=0x23 */
           suspend;
         }
       }
-      /* loopnext */
     }
   }
   return;

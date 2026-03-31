@@ -1,40 +1,45 @@
 function miss1egg_slot_22() /* entry=2319 class_id=0x090d slot=0x22 */
 {
-  set_info(1, arg_10);
-  FREE.slot_33(arg_10, 0x0205);
-  local_02 = arg_10;
-  if (intrinsic_00cf(local_02)) {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    buster, /* [BP+10h] type=0x69 */
+    rubberSuit, /* [BP-02h] type=0x24 */
+    counter; /* [BP-04h] type=0x69 */
+
+  set_info(1, buster);
+  FREE.slot_33(buster, 0x0205);
+  rubberSuit = buster;
+  if (Item.setQAndCombine(rubberSuit)) {
     return;
   }
   else {
     suspend;
-    spawn NPC.slot_2a(pid, 0x00b4, local_02);
+    spawn NPC.slot_2a(pid, 0x00b4, rubberSuit);
     suspend;
-    if (intrinsic_00cf(local_02)) {
+    if (Item.setQAndCombine(rubberSuit)) {
       return;
     }
     else {
       suspend;
-      while (((intrinsic_00db(local_02) == 0) && (intrinsic_00cf(local_02) == 0)) && (local_04 < 4)) {
+      while (((Actor.setActivity(rubberSuit) == 0) && (Item.setQAndCombine(rubberSuit) == 0)) && (counter < 4)) {
         suspend;
-        local_04 = (1 + local_04);
+        counter = (1 + counter);
       }
-      if (intrinsic_00cf(local_02)) {
+      if (Item.setQAndCombine(rubberSuit)) {
         return;
       }
       else {
         suspend;
-        if ((intrinsic_00db(local_02) == 0) && (intrinsic_00cf(local_02) == 0)) {
+        if ((Actor.setActivity(rubberSuit) == 0) && (Item.setQAndCombine(rubberSuit) == 0)) {
           suspend;
         }
         spawn FREE.slot_32(pid, 30, 0x00000000);
         suspend;
-        if ((intrinsic_00db(local_02) == 0) || (intrinsic_00cf(local_02) == 0)) {
+        if ((Actor.setActivity(rubberSuit) == 0) || (Item.setQAndCombine(rubberSuit) == 0)) {
           spawn FREE.slot_3b(0x00000000);
         }
       }
     }
   }
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

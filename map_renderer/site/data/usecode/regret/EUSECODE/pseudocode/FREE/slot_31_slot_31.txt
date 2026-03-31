@@ -2,17 +2,16 @@ function free_slot_31() /* entry=2591 class_id=0x0a1d slot=0x31 */
 {
   local_02 = arg_06;
   local_04 = arg_08;
-  /* global_address */
-  local_06 = intrinsic_003d();
+  local_06 = Actor.getMap(&global[0x001e]);
   if (Actor.isNPC(local_02)) {
     local_08 = local_02;
-    if (intrinsic_003d(local_08) != local_06) {
+    if (Actor.getMap(local_08) != local_06) {
       return;
     }
   }
   else if (Actor.isNPC(local_04)) {
     local_10 = local_04;
-    if (intrinsic_003d(local_10) != local_06) {
+    if (Actor.getMap(local_10) != local_06) {
       return;
     }
   }

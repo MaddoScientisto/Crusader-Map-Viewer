@@ -1,223 +1,237 @@
 function trigger_slot_20() /* entry=2589 class_id=0x0a1b slot=0x20 */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    phase, /* [BP+12h] type=0x69 */
+    lowPriorityTriggers, /* [BP-02h] type=0x6c */
+    cmdphase, /* [BP-04h] type=0x69 */
+    qHi, /* [BP-06h] type=0x69 */
+    npcNum, /* [BP-08h] type=0x69 */
+    mapNum, /* [BP-10h] type=0x69 */
+    item, /* [BP-12h] type=0x24 */
+    aitem, /* [BP-14h] type=0x24 */
+    baseLink, /* [BP-16h] type=0x69 */
+    newLink, /* [BP-18h] type=0x69 */
+    searchtype, /* [BP-20h] type=0x69 */
+    newphase; /* [BP-22h] type=0x69 */
+
   entry:
     set_info(0x021b, 0);
-    local_16 = 0;
-    local_18 = 0;
-    local_20 = 0;
+    baseLink = 0;
+    newLink = 0;
+    searchtype = 0;
     spawn FREE.slot_32(pid, 1, 0x00000000);
     suspend;
-    local_14 = arg_10;
-    if arg_12 != 0x00fe goto block_0194;
+    aitem = ref;
+    if phase != 0x00fe goto block_0194;
 
   block_0181:
-    local_16 = 0x00fe;
-    arg_12 = 0x0080;
+    baseLink = 0x00fe;
+    phase = 0x0080;
     goto block_01cc;
 
   block_0194:
-    local_06 = intrinsic_010b(local_14);
-    local_16 = intrinsic_0110(local_14);
-    local_10 = intrinsic_0003(local_14);
-    local_08 = intrinsic_0113(local_14);
+    qHi = Item.getNPCNum(aitem);
+    baseLink = Item.andStatus(aitem);
+    mapNum = Item.getMapArray(aitem);
+    npcNum = UCMachine.numToStr(aitem);
 
   block_01cc:
-    local_18 = local_16;
+    newLink = baseLink;
     /* pop_global */
-    if arg_12 >= 0x0080 goto block_04c0;
+    if phase >= 0x0080 goto block_04c0;
 
   block_01e8:
-    local_20 = (((local_10 & 0x00e0) * 8) + local_08);
-    if local_10 != 0 goto block_020a;
+    searchtype = (((mapNum & 0x00e0) * 8) + npcNum);
+    if mapNum != 0 goto block_020a;
 
   block_0204:
     goto block_05e7;
 
   block_020a:
-    if local_16 != 0 goto block_021b;
+    if baseLink != 0 goto block_021b;
 
   block_0215:
     goto block_05e7;
 
   block_021b:
-    local_04 = 0;
-    if !(local_10 & 8) goto block_0234;
+    cmdphase = 0;
+    if !(mapNum & 8) goto block_0234;
 
   block_022d:
-    local_04 = 1;
+    cmdphase = 1;
 
   block_0234:
-    if arg_12 != local_04 goto block_04c0;
+    if phase != cmdphase goto block_04c0;
 
   block_023f:
-    if !(local_10 & 4) goto block_03e1;
+    if !(mapNum & 4) goto block_03e1;
 
   block_024a:
-    if !intrinsic_0114(local_20) goto block_0317;
+    if !Item.andStatus(searchtype) goto block_0317;
 
   block_0259:
-    if local_16 != 0x00ff goto block_02a0;
+    if baseLink != 0x00ff goto block_02a0;
 
   block_0265:
-    if local_20 == 0 goto block_029d;
+    if searchtype == 0 goto block_029d;
 
   block_0270:
-    spawn TRIGGER.slot_2a(pid, local_20, local_16, local_10, local_08, local_06, arg_10, arg_06);
+    spawn TRIGGER.slot_2a(pid, searchtype, baseLink, mapNum, npcNum, qHi, ref, arg_06);
     suspend;
 
   block_029d:
     goto block_0314;
 
   block_02a0:
-    if local_20 != 0x07fe goto block_02dc;
+    if searchtype != 0x07fe goto block_02dc;
 
   block_02ac:
-    spawn TRIGGER.slot_2b(pid, local_20, local_16, local_10, local_08, local_06, arg_10, arg_06);
+    spawn TRIGGER.slot_2b(pid, searchtype, baseLink, mapNum, npcNum, qHi, ref, arg_06);
     suspend;
     goto block_0314;
 
   block_02dc:
-    if local_20 == 0 goto block_0314;
+    if searchtype == 0 goto block_0314;
 
   block_02e7:
-    spawn TRIGGER.slot_29(pid, local_20, local_16, local_10, local_08, local_06, arg_10, arg_06);
+    spawn TRIGGER.slot_29(pid, searchtype, baseLink, mapNum, npcNum, qHi, ref, arg_06);
     suspend;
 
   block_0314:
     goto block_03de;
 
   block_0317:
-    if local_16 != 0x00ff goto block_0362;
+    if baseLink != 0x00ff goto block_0362;
 
   block_0323:
-    if local_20 == 0 goto block_035f;
+    if searchtype == 0 goto block_035f;
 
   block_032e:
-    spawn TRIGGER.slot_25(pid, local_20, local_16, local_10, local_08, local_06, arg_10, arg_06);
+    spawn TRIGGER.slot_25(pid, searchtype, baseLink, mapNum, npcNum, qHi, ref, arg_06);
     suspend;
     /* dword_to_word */
-    local_16 = process_result;
+    baseLink = process_result;
 
   block_035f:
     goto block_03de;
 
   block_0362:
-    if local_20 != 0x07ff goto block_03a2;
+    if searchtype != 0x07ff goto block_03a2;
 
   block_036e:
-    spawn TRIGGER.slot_24(pid, local_20, local_16, local_10, local_08, local_06, arg_10, arg_06);
+    spawn TRIGGER.slot_24(pid, searchtype, baseLink, mapNum, npcNum, qHi, ref, arg_06);
     suspend;
     /* dword_to_word */
-    local_16 = process_result;
+    baseLink = process_result;
     goto block_03de;
 
   block_03a2:
-    if local_20 == 0 goto block_03de;
+    if searchtype == 0 goto block_03de;
 
   block_03ad:
-    spawn TRIGGER.slot_23(pid, local_20, local_16, local_10, local_08, local_06, arg_10, arg_06);
+    spawn TRIGGER.slot_23(pid, searchtype, baseLink, mapNum, npcNum, qHi, ref, arg_06);
     suspend;
     /* dword_to_word */
-    local_16 = process_result;
+    baseLink = process_result;
 
   block_03de:
     goto block_04a8;
 
   block_03e1:
-    if local_16 != 0x00ff goto block_042c;
+    if baseLink != 0x00ff goto block_042c;
 
   block_03ed:
-    if local_20 == 0 goto block_0429;
+    if searchtype == 0 goto block_0429;
 
   block_03f8:
-    spawn TRIGGER.slot_28(pid, local_20, local_16, local_10, local_08, local_06, arg_10, arg_06);
+    spawn TRIGGER.slot_28(pid, searchtype, baseLink, mapNum, npcNum, qHi, ref, arg_06);
     suspend;
     /* dword_to_word */
-    local_16 = process_result;
+    baseLink = process_result;
 
   block_0429:
     goto block_04a8;
 
   block_042c:
-    if local_20 != 0x07ff goto block_046c;
+    if searchtype != 0x07ff goto block_046c;
 
   block_0438:
-    spawn TRIGGER.slot_27(pid, local_20, local_16, local_10, local_08, local_06, arg_10, arg_06);
+    spawn TRIGGER.slot_27(pid, searchtype, baseLink, mapNum, npcNum, qHi, ref, arg_06);
     suspend;
     /* dword_to_word */
-    local_16 = process_result;
+    baseLink = process_result;
     goto block_04a8;
 
   block_046c:
-    if local_20 == 0 goto block_04a8;
+    if searchtype == 0 goto block_04a8;
 
   block_0477:
-    spawn TRIGGER.slot_26(pid, local_20, local_16, local_10, local_08, local_06, arg_10, arg_06);
+    spawn TRIGGER.slot_26(pid, searchtype, baseLink, mapNum, npcNum, qHi, ref, arg_06);
     suspend;
     /* dword_to_word */
-    local_16 = process_result;
+    baseLink = process_result;
 
   block_04a8:
-    if !(local_10 & 16) goto block_04c0;
+    if !(mapNum & 16) goto block_04c0;
 
   block_04c0:
-    local_22 = (arg_12 & 1);
+    newphase = (phase & 1);
 
   block_04ca:
     if !(1) goto block_05e7;
 
   block_04d2_selector_00:
-    for local_12 in nearby_items(shape=0x04b1, origin=local_14) {
-      if (intrinsic_0110(local_12) == local_16) {
-        local_10 = intrinsic_0003(local_12);
-        local_04 = 0;
-        if (local_10 & 8) {
-          local_04 = 1;
+    for item in nearby_items(shape=0x04b1, origin=aitem) {
+      if (Item.andStatus(item) == baseLink) {
+        mapNum = Item.getMapArray(item);
+        cmdphase = 0;
+        if (mapNum & 8) {
+          cmdphase = 1;
         }
-        if (local_22 == local_04) {
-          if (local_10 & 16) {
-            spawn TRIGGER.slot_21(pid, local_12, arg_06);
+        if (newphase == cmdphase) {
+          if (mapNum & 16) {
+            spawn TRIGGER.slot_21(pid, item, arg_06);
             suspend;
             /* dword_to_word */
-            local_18 = process_result;
+            newLink = process_result;
           }
           else {
             /* create_list */
             /* append_list */
             /* free_local_list */
-            local_02 = local_12;
+            lowPriorityTriggers = item;
           }
         }
       }
-      /* loopnext */
     }
 
   block_0589:
     while (true) {
-      foreach_list local_12 -> block_05cc;
-      spawn TRIGGER.slot_21(pid, local_12, arg_06);
+      foreach_list item -> block_05cc;
+      spawn TRIGGER.slot_21(pid, item, arg_06);
       suspend;
       /* dword_to_word */
-      local_18 = process_result;
+      newLink = process_result;
       /* create_list */
       /* remove_matching_inline */
       /* free_local_list */
-      local_02 = local_12;
+      lowPriorityTriggers = item;
     }
 
   block_05cc:
-    if local_18 != local_16 goto block_05dd;
+    if newLink != baseLink goto block_05dd;
 
   block_05d7:
     goto block_05e7;
 
   block_05dd:
-    local_16 = local_18;
+    baseLink = newLink;
     goto block_04ca;
 
   block_05e7:
     /* free_local_list */
     return;
 
-  /* decompilation stopped at SEARCH_SURFACE */
 }

@@ -2,30 +2,28 @@ function hover_slot_23() /* entry=2575 class_id=0x0a0d slot=0x23 */
 {
   set_info(1, 0);
   local_06 = arg_10;
-  if ((arg_12 == 1) && (intrinsic_002c(local_06) == 1)) {
+  if ((arg_12 == 1) && (Item.inFastArea(local_06) == 1)) {
     return;
   }
   else {
-    local_14 = (intrinsic_00b6(local_06) & 15);
-    local_16 = intrinsic_00a7(local_06);
+    local_14 = (Ultima8Engine.clrAlertActive(local_06) & 15);
+    local_16 = Egg.getEggXRange(local_06);
     for local_04 in nearby_items(shape=NUMBERS, origin=arg_10) {
       if (Item.getFrame(local_04) == local_14) {
-        if ((local_16 == 0) || (local_16 == intrinsic_00a7(local_04))) {
-          local_18 = intrinsic_0013(local_04);
-          local_20 = Item.legal_create(local_04);
+        if ((local_16 == 0) || (local_16 == Egg.getEggXRange(local_04))) {
+          local_18 = Item.getX(local_04);
+          local_20 = Item.getY(local_04);
           local_21 = Item.getZ(local_04);
-          local_08 = (local_18 - intrinsic_0013(local_06));
-          local_10 = (local_20 - Item.legal_create(local_06));
+          local_08 = (local_18 - Item.getX(local_06));
+          local_10 = (local_20 - Item.getY(local_06));
           local_12 = (local_21 - Item.getZ(local_06));
           /* loopscr */
           /* loop */
           while (condition) {
-            /* loopnext */
           }
           return;
         }
       }
-      /* loopnext */
     }
   }
   return;

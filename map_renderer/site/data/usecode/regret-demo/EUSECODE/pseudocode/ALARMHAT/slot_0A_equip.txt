@@ -7,7 +7,6 @@ function alarmhat_equip() /* entry=1379 class_id=0x0561 slot=0x0a */
       if (Item.getFrame(local_04) == 0) {
         suspend;
       }
-      /* loopnext */
     }
     return;
   }
@@ -19,13 +18,11 @@ function alarmhat_equip() /* entry=1379 class_id=0x0561 slot=0x0a */
             return;
           }
         }
-        /* loopnext */
       }
       for local_04 in nearby_items(shape=0x04d0, origin=arg_06) {
         if (Item.getFrame(local_04) == 0) {
           suspend;
         }
-        /* loopnext */
       }
     }
     return;
@@ -33,23 +30,22 @@ function alarmhat_equip() /* entry=1379 class_id=0x0561 slot=0x0a */
   else if (Item.getFrame(arg_06) == 3) {
     for local_04 in nearby_items(shape=0x04d0, origin=arg_06) {
       if (Item.getFrame(local_04) == 0) {
-        if ((intrinsic_000a() - 1) == 0) {
-          if ((Item.getFrame(local_04) == 0) && (intrinsic_000b(local_04) == 0)) {
+        if ((World.gameDifficulty() - 1) == 0) {
+          if ((Item.getFrame(local_04) == 0) && (Item.getQLo(local_04) == 0)) {
             suspend;
           }
         }
-        else if ((intrinsic_000a() - 1) == 1) {
-          if ((Item.getFrame(local_04) == 0) && (intrinsic_000b(local_04) == 1)) {
+        else if ((World.gameDifficulty() - 1) == 1) {
+          if ((Item.getFrame(local_04) == 0) && (Item.getQLo(local_04) == 1)) {
             suspend;
           }
         }
-        else if (((intrinsic_000a() - 1) == 2) || ((intrinsic_000a() - 1) == 3)) {
-          if ((Item.getFrame(local_04) == 0) && (intrinsic_000b(local_04) == 2)) {
+        else if (((World.gameDifficulty() - 1) == 2) || ((World.gameDifficulty() - 1) == 3)) {
+          if ((Item.getFrame(local_04) == 0) && (Item.getQLo(local_04) == 2)) {
             suspend;
           }
         }
       }
-      /* loopnext */
     }
     return;
   }
@@ -61,25 +57,23 @@ function alarmhat_equip() /* entry=1379 class_id=0x0561 slot=0x0a */
             return;
           }
         }
-        /* loopnext */
       }
       for local_04 in nearby_items(shape=0x04d0, origin=arg_06) {
-        if ((intrinsic_000a() - 1) == 0) {
-          if ((Item.getFrame(local_04) == 0) && (intrinsic_000b(local_04) == 0)) {
+        if ((World.gameDifficulty() - 1) == 0) {
+          if ((Item.getFrame(local_04) == 0) && (Item.getQLo(local_04) == 0)) {
             suspend;
           }
         }
-        else if ((intrinsic_000a() - 1) == 1) {
-          if ((Item.getFrame(local_04) == 0) && (intrinsic_000b(local_04) == 1)) {
+        else if ((World.gameDifficulty() - 1) == 1) {
+          if ((Item.getFrame(local_04) == 0) && (Item.getQLo(local_04) == 1)) {
             suspend;
           }
         }
-        else if (((intrinsic_000a() - 1) == 2) || ((intrinsic_000a() - 1) == 3)) {
-          if ((Item.getFrame(local_04) == 0) && (intrinsic_000b(local_04) == 2)) {
+        else if (((World.gameDifficulty() - 1) == 2) || ((World.gameDifficulty() - 1) == 3)) {
+          if ((Item.getFrame(local_04) == 0) && (Item.getQLo(local_04) == 2)) {
             suspend;
           }
         }
-        /* loopnext */
       }
     }
     return;

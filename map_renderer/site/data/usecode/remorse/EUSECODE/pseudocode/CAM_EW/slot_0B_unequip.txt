@@ -2,7 +2,7 @@ function cam_ew_unequip() /* entry=443 class_id=0x01b9 slot=0x0b */
 {
   set_info(0x0212, *(arg_06));
   process_exclude();
-  if (intrinsic_0004(arg_06) & 4) {
+  if (Item.getStatus(arg_06) & 4) {
     return;
   }
   else {

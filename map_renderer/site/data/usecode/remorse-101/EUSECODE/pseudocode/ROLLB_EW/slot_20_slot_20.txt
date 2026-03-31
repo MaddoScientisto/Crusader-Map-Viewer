@@ -4,7 +4,7 @@ function rollb_ew_slot_20() /* entry=1421 class_id=0x058b slot=0x20 */
     set_info(1, *(arg_06));
     spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
     suspend;
-    local_12 = intrinsic_00e9(arg_06);
+    local_12 = Item.andStatus(arg_06);
     if !(local_12 & 32) goto block_01c1;
 
   block_019e:
@@ -17,7 +17,6 @@ function rollb_ew_slot_20() /* entry=1421 class_id=0x058b slot=0x20 */
       /* append_list */
       /* free_local_list */
       local_06 = local_04;
-      /* loopnext */
     }
 
   block_01c1:
@@ -47,10 +46,10 @@ function rollb_ew_slot_20() /* entry=1421 class_id=0x058b slot=0x20 */
     goto block_01f6;
 
   block_0215:
-    local_14 = intrinsic_0013(arg_06);
-    local_16 = Item.legal_create(arg_06);
+    local_14 = Item.getX(arg_06);
+    local_16 = Item.getY(arg_06);
     local_17 = Item.getZ(arg_06);
-    local_19 = intrinsic_00e3(arg_06);
+    local_19 = Actor.getDefaultActivity2(arg_06);
     spawn ITEM.slot_2a(pid, arg_06);
     suspend;
 

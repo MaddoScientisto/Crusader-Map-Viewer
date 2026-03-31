@@ -1,16 +1,20 @@
 function wallgun_slot_40() /* entry=2588 class_id=0x0a1a slot=0x40 */
 {
-  if ((((intrinsic_0016(arg_06) == 0x0108) || (intrinsic_0016(arg_06) == 0x0113)) || (intrinsic_0016(arg_06) == 0x0399)) || (intrinsic_0016(arg_06) == 0x03a1)) {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    dir; /* [BP+10h] type=0x62 */
+
+  if ((((Item.getShape(arg_06) == wallgun_shape_0108) || (Item.getShape(arg_06) == wallgun_shape_0113)) || (Item.getShape(arg_06) == wallgun_shape_0399)) || (Item.getShape(arg_06) == wallgun_shape_03a1)) {
     return;
   }
-  else if (intrinsic_0016(arg_06) == 0x02f0) {
-    if (arg_10 == 6) {
+  else if (Item.getShape(arg_06) == wallgun_shape_02f0) {
+    if (dir == 6) {
       return;
     }
-    else if (arg_10 == 5) {
+    else if (dir == 5) {
       return;
     }
-    else if (arg_10 == 4) {
+    else if (dir == 4) {
       return;
     }
     else {
@@ -18,11 +22,11 @@ function wallgun_slot_40() /* entry=2588 class_id=0x0a1a slot=0x40 */
     }
     return;
   }
-  else if (intrinsic_0016(arg_06) == 0x0373) {
-    if (arg_10 == 6) {
+  else if (Item.getShape(arg_06) == wallgun_shape_0373) {
+    if (dir == 6) {
       return;
     }
-    else if ((arg_10 == 7) || (arg_10 == 8)) {
+    else if ((dir == 7) || (dir == 8)) {
       return;
     }
     else {
@@ -34,5 +38,4 @@ function wallgun_slot_40() /* entry=2588 class_id=0x0a1a slot=0x40 */
     return;
   }
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

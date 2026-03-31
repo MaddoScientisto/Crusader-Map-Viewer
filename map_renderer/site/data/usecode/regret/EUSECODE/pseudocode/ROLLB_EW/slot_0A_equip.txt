@@ -3,13 +3,13 @@ function rollb_ew_equip() /* entry=1421 class_id=0x058b slot=0x0a */
   set_info(0x0211, *(arg_06));
   process_exclude();
   if (arg_10 == 1) {
-    if ((intrinsic_0004(arg_06) & 0x1000) == 0) {
+    if ((Item.getStatus(arg_06) & 0x1000) == 0) {
       spawn ROLLB_EW.slot_21(arg_06);
     }
     return;
   }
   else if (arg_10 == 2) {
-    if (intrinsic_0004(arg_06) & 0x1000) {
+    if (Item.getStatus(arg_06) & 0x1000) {
       /* bit_not */
     }
     return;

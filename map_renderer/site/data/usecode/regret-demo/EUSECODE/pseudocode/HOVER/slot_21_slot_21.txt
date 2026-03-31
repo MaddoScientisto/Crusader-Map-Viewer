@@ -3,7 +3,7 @@ function hover_slot_21() /* entry=2576 class_id=0x0a0e slot=0x21 */
   entry:
     set_info(1, 0);
     local_19 = arg_10;
-    local_02 = intrinsic_00c6(local_19);
+    local_02 = Item.hurl(local_19);
     local_10 = local_02;
     local_04 = (local_02 & 15);
     local_06 = local_04;
@@ -12,7 +12,7 @@ function hover_slot_21() /* entry=2576 class_id=0x0a0e slot=0x21 */
     if !(1) goto block_0cda;
 
   block_0ad4:
-    if (intrinsic_0004(local_19) & 0x1000) != 0 goto block_0b0a;
+    if (Item.getStatus(local_19) & 0x1000) != 0 goto block_0b0a;
 
   block_0ae7:
     spawn HOVER.slot_23(pid, 1, arg_10, arg_06);
@@ -20,7 +20,7 @@ function hover_slot_21() /* entry=2576 class_id=0x0a0e slot=0x21 */
     goto block_0cda;
 
   block_0b0a:
-    local_12 = intrinsic_00b8(local_19);
+    local_12 = Item.getCY(local_19);
     local_14 = -1;
 
   block_0b0a_selector_00:
@@ -33,17 +33,16 @@ function hover_slot_21() /* entry=2576 class_id=0x0a0e slot=0x21 */
     if Item.getFrame(local_21) != local_06 goto block_0b85;
 
   block_0b41:
-    if (local_12 != 0) || (local_12 == intrinsic_00b8(local_21)) goto block_0b85;
+    if (local_12 != 0) || (local_12 == Item.getCY(local_21)) goto block_0b85;
 
   block_0b56:
     local_14 = Item.getX(local_21);
     local_16 = Item.getY(local_21);
     local_17 = Item.getZ(local_21);
-    local_08 = intrinsic_00c6(local_21);
+    local_08 = Item.hurl(local_21);
     goto block_0b89;
 
   block_0b85:
-    /* loopnext */
     goto block_0b2f;
 
   block_0b89:
@@ -73,7 +72,7 @@ function hover_slot_21() /* entry=2576 class_id=0x0a0e slot=0x21 */
   block_0bff:
     spawn HOVER.slot_24(pid, local_06, arg_10, arg_06);
     suspend;
-    if (intrinsic_0004(local_19) & 0x1000) != 0 goto block_0c4b;
+    if (Item.getStatus(local_19) & 0x1000) != 0 goto block_0c4b;
 
   block_0c28:
     spawn HOVER.slot_23(pid, 1, arg_10, arg_06);
@@ -95,7 +94,7 @@ function hover_slot_21() /* entry=2576 class_id=0x0a0e slot=0x21 */
     suspend;
 
   block_0c90:
-    local_02 = intrinsic_00c6(local_19);
+    local_02 = Item.hurl(local_19);
     if (local_02 & 15) != local_06 goto block_0cb3;
 
   block_0ca6:

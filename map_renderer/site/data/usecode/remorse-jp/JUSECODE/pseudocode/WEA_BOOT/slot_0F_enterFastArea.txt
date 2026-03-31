@@ -1,5 +1,10 @@
 function wea_boot_enterFastArea() /* entry=1117 class_id=0x045b slot=0x0f */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    counter, /* [BP-02h] type=0x69 */
+    ran; /* [BP-04h] type=0x69 */
+
   set_info(0x021b, *(arg_06));
   process_exclude();
   spawn FREE.slot_32(pid, 0x07d0, 0x00000000);
@@ -14,34 +19,33 @@ function wea_boot_enterFastArea() /* entry=1117 class_id=0x045b slot=0x0f */
     spawn FREE.slot_32((retval + 60), 0x00000000);
     suspend;
     if (!Item.getFrame(arg_06)) {
-      local_02 = 0;
-      while (local_02 <= 4) {
+      counter = 0;
+      while (counter <= 4) {
         spawn FREE.slot_32(pid, 10, 0x00000000);
         suspend;
-        local_02 = (1 + local_02);
+        counter = (1 + counter);
       }
     }
     FREE.slot_20(100);
     if (retval > 50) {
       FREE.slot_20(2);
-      local_04 = (retval + 1);
-      local_02 = 0;
-      while (local_02 <= local_04) {
+      ran = (retval + 1);
+      counter = 0;
+      while (counter <= ran) {
         FREE.slot_20(pid, 10);
         spawn FREE.slot_32((retval + 30), 0x00000000);
         suspend;
-        local_02 = (1 + local_02);
+        counter = (1 + counter);
       }
     }
     else {
-      local_02 = 0;
-      while (local_02 <= 4) {
+      counter = 0;
+      while (counter <= 4) {
         spawn FREE.slot_32(pid, 15, 0x00000000);
         suspend;
-        local_02 = (1 + local_02);
+        counter = (1 + counter);
       }
     }
   }
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

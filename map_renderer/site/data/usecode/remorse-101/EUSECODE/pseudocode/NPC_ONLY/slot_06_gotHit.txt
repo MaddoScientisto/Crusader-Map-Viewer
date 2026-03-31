@@ -2,16 +2,16 @@ function npc_only_gotHit() /* entry=872 class_id=0x0366 slot=0x06 */
 {
   set_info(0x020c, *(arg_06));
   process_exclude();
-  if ((arg_10 > 0x0100) || (arg_10 == intrinsic_001d())) {
+  if ((arg_10 > 0x0100) || (arg_10 == Actor.getLastAnimSet())) {
     return;
   }
   else {
     local_02 = arg_10;
-    local_04 = intrinsic_000b(local_02);
-    local_06 = intrinsic_00d1(arg_06);
-    if (intrinsic_000b(local_02) == intrinsic_00d1(arg_06)) {
-      if (intrinsic_0003(arg_06) != 0) {
-        if ((intrinsic_0056(arg_06) == 0) || (intrinsic_006d(*(arg_06), local_02) == 0)) {
+    local_04 = Actor.GetNPCDataField0x63_00B(local_02);
+    local_06 = void AudioProcess:stopAllSFX(arg_06);
+    if (Actor.GetNPCDataField0x63_00B(local_02) == void AudioProcess:stopAllSFX(arg_06)) {
+      if (Item.getMapArray(arg_06) != 0) {
+        if ((Intrinsic056(arg_06) == 0) || (Item.getNPCNum(*(arg_06), local_02) == 0)) {
           return;
         }
         else {
@@ -20,7 +20,7 @@ function npc_only_gotHit() /* entry=872 class_id=0x0366 slot=0x06 */
           spawn TRIGGER.slot_2a(pid, 0, *(arg_06), arg_06);
           suspend;
           while (1) {
-            if ((intrinsic_0056(arg_06) != 0) && (Actor.isNPC(local_02) == 1)) {
+            if ((Intrinsic056(arg_06) != 0) && (Actor.isNPC(local_02) == 1)) {
               spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
               suspend;
             }

@@ -2,7 +2,7 @@ function rfanbadn_equip() /* entry=981 class_id=0x03d3 slot=0x0a */
 {
   set_info(0x0211, *(arg_06));
   process_exclude();
-  if ((Item.getFrame(arg_06) == 0) || (intrinsic_0004(arg_06) & 0x1000)) {
+  if ((Item.getFrame(arg_06) == 0) || (Item.getStatus(arg_06) & 0x1000)) {
     return;
   }
   else if (arg_10) {
@@ -20,10 +20,9 @@ function rfanbadn_equip() /* entry=981 class_id=0x03d3 slot=0x0a */
       suspend;
       if (local_06 == 4) {
         for local_10 in nearby_items(shape=0x0476, origin=arg_06) {
-          if (intrinsic_0112(local_10) == intrinsic_0112(arg_06)) {
+          if (IntrinsicReturn0(local_10) == IntrinsicReturn0(arg_06)) {
             FREE.slot_38(0x0337, local_10);
           }
-          /* loopnext */
         }
       }
       local_04 = (1 + local_04);

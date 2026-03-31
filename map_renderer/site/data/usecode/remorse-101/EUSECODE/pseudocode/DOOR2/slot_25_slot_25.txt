@@ -2,7 +2,7 @@ function door2_slot_25() /* entry=2569 class_id=0x0a07 slot=0x25 */
 {
   set_info(0x0207, *(arg_06));
   local_06 = 8;
-  FREE.slot_2d((Item.getZ(arg_06) - (8 * 10)), Item.legal_create(arg_06), intrinsic_0013(arg_06), local_06, 0x02d6, *(arg_06));
+  FREE.slot_2d((Item.getZ(arg_06) - (8 * 10)), Item.getY(arg_06), Item.getX(arg_06), local_06, 0x02d6, *(arg_06));
   if (retval) {
     spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
     suspend;

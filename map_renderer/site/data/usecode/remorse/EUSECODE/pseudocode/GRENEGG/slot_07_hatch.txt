@@ -14,17 +14,15 @@ function grenegg_hatch() /* entry=2315 class_id=0x0909 slot=0x07 */
     if (Item.getFrame(item) == 0) {
       source = item;
     }
-    /* loopnext */
   }
   for item in nearby_items(shape=NUMBERS, origin=arg_06) {
     if (Item.getFrame(item) == 0) {
       dest = item;
     }
-    /* loopnext */
   }
   if (source && dest) {
-    wp = intrinsic_0013(dest);
-    local_11 = Item.legal_create(dest);
+    wp = Item.getX(dest);
+    local_11 = Item.getY(dest);
     local_09 = Item.getZ(dest);
   }
   return;

@@ -1,6 +1,6 @@
 function booty_slot_20() /* entry=2564 class_id=0x0a02 slot=0x20 */
 {
-  local_08 = intrinsic_000a();
+  local_08 = World.gameDifficulty();
   if (local_08 == 1) {
     local_06 = 50;
   }
@@ -13,54 +13,39 @@ function booty_slot_20() /* entry=2564 class_id=0x0a02 slot=0x20 */
   else {
     local_06 = 40;
   }
-  if ((intrinsic_0011(arg_06) == 0x0308) || (intrinsic_0011(arg_06) == 0x05d5)) {
-    /* global_address */
-    /* global_address */
+  if ((Item.getShape(arg_06) == booty_shape_0308) || (Item.getShape(arg_06) == booty_shape_05d5)) {
   }
-  else if (((intrinsic_0011(arg_06) == 0x0371) || (intrinsic_0011(arg_06) == 0x04d1)) || (intrinsic_0011(arg_06) == 0x0631)) {
-    /* global_address */
-    /* global_address */
+  else if (((Item.getShape(arg_06) == booty_shape_0371) || (Item.getShape(arg_06) == booty_shape_04d1)) || (Item.getShape(arg_06) == booty_shape_0631)) {
   }
-  else if (intrinsic_0011(arg_06) == 0x0528) {
+  else if (Item.getShape(arg_06) == booty_shape_0528) {
   }
-  else if ((intrinsic_0011(arg_06) == 0x01b4) || (intrinsic_0011(arg_06) == 0x062e)) {
-    /* global_address */
-    /* global_address */
+  else if ((Item.getShape(arg_06) == booty_shape_01b4) || (Item.getShape(arg_06) == booty_shape_062e)) {
   }
-  else if ((intrinsic_0011(arg_06) == 0x057a) || (intrinsic_0011(arg_06) == 0x0606)) {
-    if (intrinsic_0013(100, 0) < 10) {
+  else if ((Item.getShape(arg_06) == booty_shape_057a) || (Item.getShape(arg_06) == booty_shape_0606)) {
+    if (UCMachine.rndRange(100, 0) < 10) {
     }
-    else if (intrinsic_0013(100, 0) < 25) {
+    else if (UCMachine.rndRange(100, 0) < 25) {
     }
-    else if (intrinsic_0013(100, 0) < 10) {
+    else if (UCMachine.rndRange(100, 0) < 10) {
     }
-    else if (intrinsic_0013(100, 0) < 10) {
+    else if (UCMachine.rndRange(100, 0) < 10) {
     }
-    /* global_address */
-    /* global_address */
   }
-  else if (intrinsic_0011(arg_06) == 0x02df) {
+  else if (Item.getShape(arg_06) == booty_shape_02df) {
     return;
   }
-  else if (((((((((intrinsic_0011(arg_06) == 0x045d) || (intrinsic_0011(arg_06) == 0x0338)) || (intrinsic_0011(arg_06) == 0x02cb)) || (intrinsic_0011(arg_06) == 0x04e6)) || (intrinsic_0011(arg_06) == 0x0385)) || (intrinsic_0011(arg_06) == 0x0383)) || (intrinsic_0011(arg_06) == 0x030c)) || (intrinsic_0011(arg_06) == 0x0319)) || (intrinsic_0011(arg_06) == 0x05e2)) {
+  else if (((((((((Item.getShape(arg_06) == 0x045d) || (Item.getShape(arg_06) == 0x0338)) || (Item.getShape(arg_06) == 0x02cb)) || (Item.getShape(arg_06) == 0x04e6)) || (Item.getShape(arg_06) == 0x0385)) || (Item.getShape(arg_06) == 0x0383)) || (Item.getShape(arg_06) == 0x030c)) || (Item.getShape(arg_06) == 0x0319)) || (Item.getShape(arg_06) == 0x05e2)) {
     ITEM.slot_24(0x1000, arg_06);
     return;
   }
-  else {
-    /* global_address */
-    if (intrinsic_002f((intrinsic_0013(100, 0) < 40)) < 100) {
-    }
-    else {
-      /* global_address */
-      if (intrinsic_0030((intrinsic_0013(100, 0) < 20)) < 0x09c4) {
-      }
-    }
+  else if (Actor.getHp((UCMachine.rndRange(100, 0) < 40), &global[0x001e]) < 100) {
+  }
+  else if (Actor.getMana((UCMachine.rndRange(100, 0) < 20), &global[0x001e]) < 0x09c4) {
   }
   /* loopscr */
   /* loop */
   while (condition) {
     local_09 = 1;
-    /* loopnext */
   }
   if (!local_09) {
     local_11 = arg_10;

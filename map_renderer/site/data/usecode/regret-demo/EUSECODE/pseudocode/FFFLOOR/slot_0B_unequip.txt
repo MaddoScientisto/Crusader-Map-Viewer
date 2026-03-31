@@ -8,13 +8,12 @@ function fffloor_unequip() /* entry=311 class_id=0x0135 slot=0x0b */
   else {
     for local_02 in nearby_items(family=6, origin=arg_06) {
       if (Actor.isNPC(local_02) == 1) {
-        if (intrinsic_00ad(local_02, arg_06)) {
+        if (Intrinsic00AD(local_02, arg_06)) {
           FREE.slot_20(pid, 8);
           spawn NPC.slot_2f(retval, *(arg_06), local_02);
           suspend;
         }
       }
-      /* loopnext */
     }
   }
   return;

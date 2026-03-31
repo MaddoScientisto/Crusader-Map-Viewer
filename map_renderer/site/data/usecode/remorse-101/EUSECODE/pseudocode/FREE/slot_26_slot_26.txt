@@ -7,21 +7,16 @@ function free_slot_26() /* entry=2574 class_id=0x0a0c slot=0x26 */
   spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
   suspend;
   FREE.slot_41();
-  /* global_address */
-  while (intrinsic_00a4()) {
+  while (Item.overlaps(&global[0x003d])) {
     spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
     suspend;
   }
-  /* global_address */
-  if (!Kernel.resetRef()) {
-    /* global_address */
-    while (intrinsic_0033()) {
+  if (!Actor.isDead(&global[0x003d])) {
+    while (Actor.isBusy(&global[0x003d])) {
       spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
       suspend;
     }
-    /* global_address */
     suspend;
-    /* global_address */
     suspend;
   }
   /* free_local_string */

@@ -6,9 +6,8 @@ function miss14_hatch() /* entry=2332 class_id=0x091a slot=0x07 */
 
   set_info(0x0210, *(arg_06));
   process_exclude();
-  if (intrinsic_0041(arg_06) == 1) {
-    /* global_address */
-    while (intrinsic_0036()) {
+  if (CameraProcess.setCenterOn(arg_06) == 1) {
+    while (Actor.doAnim(&global[0x003c])) {
       spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
       suspend;
     }
@@ -17,13 +16,11 @@ function miss14_hatch() /* entry=2332 class_id=0x091a slot=0x07 */
     FREE.slot_41();
     counter = 1;
     while (counter <= 8) {
-      /* global_address */
       suspend;
       counter = (1 + counter);
     }
     counter = 1;
     while (counter <= 3) {
-      /* global_address */
       suspend;
       counter = (1 + counter);
     }
@@ -35,14 +32,14 @@ function miss14_hatch() /* entry=2332 class_id=0x091a slot=0x07 */
     suspend;
     return;
   }
-  else if (intrinsic_0041(arg_06) == 2) {
+  else if (CameraProcess.setCenterOn(arg_06) == 2) {
     /* pop_global */
     spawn FREE.slot_26(1, pid, "14d", 0x00000000);
     /* free_stack_string */
     suspend;
     return;
   }
-  else if (intrinsic_0041(arg_06) == 3) {
+  else if (CameraProcess.setCenterOn(arg_06) == 3) {
     spawn FREE.slot_26(pid, "14e", 0x00000000);
     /* free_stack_string */
     suspend;

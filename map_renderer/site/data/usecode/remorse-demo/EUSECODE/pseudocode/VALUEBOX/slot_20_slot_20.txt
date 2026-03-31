@@ -1,8 +1,13 @@
 function valuebox_slot_20() /* entry=595 class_id=0x0251 slot=0x20 */
 {
-  local_02 = (arg_10 & 0x00ff);
+  var
+    referent, /* [BP+00h] type=0x69 */
+    rand, /* [BP+10h] type=0x69 */
+    lowByte, /* [BP-02h] type=0x69 */
+    highByte; /* [BP-04h] type=0x69 */
+
+  lowByte = (rand & 0x00ff);
   /* rsh */
-  local_04 = (8 & 3);
+  highByte = (8 & 3);
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

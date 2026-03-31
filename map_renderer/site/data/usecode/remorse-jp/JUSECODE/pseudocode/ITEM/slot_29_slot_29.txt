@@ -1,5 +1,15 @@
 function item_slot_29() /* entry=2577 class_id=0x0a0f slot=0x29 */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    item, /* [BP-02h] type=0x24 */
+    x, /* [BP-04h] type=0x69 */
+    y, /* [BP-06h] type=0x69 */
+    z, /* [BP-08h] type=0x69 */
+    onSomething, /* [BP-09h] type=0x62 */
+    failTest, /* [BP-10h] type=0x62 */
+    theType; /* [BP-12h] type=0x69 */
+
   entry:
     set_info(0x0001, *(arg_06));
     /* loopscr */
@@ -9,32 +19,31 @@ function item_slot_29() /* entry=2577 class_id=0x0a0f slot=0x29 */
     if !condition goto block_1055;
 
   block_0f82:
-    if !intrinsic_00cd(local_02, arg_06) goto block_1051;
+    if !Actor.setActivity(item, arg_06) goto block_1051;
 
   block_0f93:
-    if local_08 <= 1 goto block_0fbc;
+    if z <= 1 goto block_0fbc;
 
   block_0faf:
-    local_10 = 1;
+    failTest = 1;
     goto block_1055;
 
   block_0fbc:
-    local_12 = intrinsic_0016(local_02);
-    if ((((((((local_12 != 95) || (local_12 == 0x0096)) || (local_12 == 0x0132)) || (local_12 == 0x04cd)) || (local_12 == 0x0366)) || (local_12 == 0x0365)) || (local_12 == 0x0290)) || (local_12 == 0x0336)) || (local_12 == 0x0150) goto block_104a;
+    theType = Item.getShape(item);
+    if ((((((((theType != 95) || (theType == 0x0096)) || (theType == 0x0132)) || (theType == 0x04cd)) || (theType == 0x0366)) || (theType == 0x0365)) || (theType == 0x0290)) || (theType == 0x0336)) || (theType == 0x0150) goto block_104a;
 
   block_103d:
-    local_10 = 1;
+    failTest = 1;
     goto block_1055;
 
   block_104a:
-    local_09 = 1;
+    onSomething = 1;
 
   block_1051:
-    /* loopnext */
     goto block_0f7f;
 
   block_1055:
-    if (local_10 != 1) || (local_09 == 0) goto block_1078;
+    if (failTest != 1) || (onSomething == 0) goto block_1078;
 
   block_106b:
     /* word_to_dword */
@@ -52,5 +61,4 @@ function item_slot_29() /* entry=2577 class_id=0x0a0f slot=0x29 */
   block_1082:
     return;
 
-  /* decompilation stopped at SEARCH_SURFACE */
 }

@@ -15,13 +15,11 @@ function door3_slot_25() /* entry=2570 class_id=0x0a08 slot=0x25 */
   entry_selector_00:
     for local_14 in nearby_items(shape=0x030e, origin=arg_06) {
       local_10 = local_14;
-      /* loopnext */
     }
 
   block_0d6e_selector_00:
     for local_14 in nearby_items(shape=0x030d, origin=arg_06) {
       local_12 = local_14;
-      /* loopnext */
     }
 
   block_0d93:
@@ -34,7 +32,7 @@ function door3_slot_25() /* entry=2570 class_id=0x0a08 slot=0x25 */
     if local_06 > (local_19 - 1) goto block_104a;
 
   block_0dc1:
-    FREE.slot_2d(Item.getZ(local_10), Item.legal_create(local_10), intrinsic_0013(local_10), 0, local_04, (local_19 - local_06), list_element(size=0x2), local_10);
+    FREE.slot_2d(Item.getZ(local_10), Item.getY(local_10), Item.getX(local_10), 0, local_04, (local_19 - local_06), list_element(size=0x2), local_10);
     if retval goto block_0dfa;
 
   block_0df6:
@@ -44,7 +42,7 @@ function door3_slot_25() /* entry=2570 class_id=0x0a08 slot=0x25 */
     if !((!local_17) && (!local_15)) goto block_0e44;
 
   block_0e04:
-    FREE.slot_2d(Item.getZ(local_12), Item.legal_create(local_12), intrinsic_0013(local_12), 0, local_02, (local_19 - local_06), list_element(size=0x2), local_12);
+    FREE.slot_2d(Item.getZ(local_12), Item.getY(local_12), Item.getX(local_12), 0, local_02, (local_19 - local_06), list_element(size=0x2), local_12);
     if retval goto block_0e3d;
 
   block_0e39:
@@ -55,7 +53,7 @@ function door3_slot_25() /* entry=2570 class_id=0x0a08 slot=0x25 */
     goto block_0e80;
 
   block_0e44:
-    FREE.slot_2d(Item.getZ(local_12), Item.legal_create(local_12), (intrinsic_0013(local_12) + 16), 0, local_02, (local_19 - local_06), list_element(size=0x2), local_12);
+    FREE.slot_2d(Item.getZ(local_12), Item.getY(local_12), (Item.getX(local_12) + 16), 0, local_02, (local_19 - local_06), list_element(size=0x2), local_12);
     if retval goto block_0e80;
 
   block_0e7c:

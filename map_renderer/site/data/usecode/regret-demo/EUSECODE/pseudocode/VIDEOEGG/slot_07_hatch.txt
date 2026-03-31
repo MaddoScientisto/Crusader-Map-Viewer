@@ -2,14 +2,13 @@ function videoegg_hatch() /* entry=2330 class_id=0x0918 slot=0x07 */
 {
   set_info(0x0210, *(arg_06));
   process_exclude();
-  if (intrinsic_0016() != 1) {
+  if (World.getControlledNPCNum() != 1) {
     return;
   }
   else {
     /* pop_global */
     if (global[0x0001]) {
-      /* global_address */
-      spawn ITEM.slot_21();
+      spawn ITEM.slot_21(&global[0x001e]);
     }
     else {
       /* loopscr */
@@ -18,7 +17,6 @@ function videoegg_hatch() /* entry=2330 class_id=0x0918 slot=0x07 */
       /* loopscr */
       /* loop */
       while (condition) {
-        /* loopnext */
       }
       /* pop_global */
     }

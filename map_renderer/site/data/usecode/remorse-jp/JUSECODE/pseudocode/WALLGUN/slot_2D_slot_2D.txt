@@ -1,54 +1,62 @@
 function wallgun_slot_2d() /* entry=2591 class_id=0x0a1d slot=0x2d */
 {
-  local_02 = arg_10;
-  local_04 = intrinsic_0037(Item.legal_create(local_02), intrinsic_0013(local_02), Item.legal_create(arg_06), intrinsic_0013(arg_06));
+  var
+    referent, /* [BP+00h] type=0x69 */
+    target, /* [BP+10h] type=0x69 */
+    targItem, /* [BP-02h] type=0x24 */
+    coordToCoordDir, /* [BP-04h] type=0x69 */
+    left, /* [BP-06h] type=0x69 */
+    right, /* [BP-08h] type=0x69 */
+    dir; /* [BP-10h] type=0x69 */
+
+  targItem = target;
+  coordToCoordDir = MainActor.addItemCru(Item.getY(targItem), Item.getX(targItem), Item.getY(arg_06), Item.getX(arg_06));
   WALLGUN.slot_2c(arg_06);
-  if (retval == local_04) {
+  if (retval == coordToCoordDir) {
     return;
   }
   else {
     WALLGUN.slot_29(arg_06);
     if (retval) {
       WALLGUN.slot_2c(arg_06);
-      local_10 = retval;
-      local_06 = 0;
-      local_08 = 0;
-      while ((local_10 != local_04) && (local_06 < 15)) {
-        local_06 = (1 + local_06);
-        if (local_10 == 0) {
-          local_10 = 15;
+      dir = retval;
+      left = 0;
+      right = 0;
+      while ((dir != coordToCoordDir) && (left < 15)) {
+        left = (1 + left);
+        if (dir == 0) {
+          dir = 15;
         }
         else {
-          local_10 = (local_10 - 1);
+          dir = (dir - 1);
         }
       }
       WALLGUN.slot_2c(arg_06);
-      local_10 = retval;
-      while ((local_10 != local_04) && (local_08 < 15)) {
-        local_08 = (1 + local_08);
-        if (local_10 == 15) {
-          local_10 = 0;
+      dir = retval;
+      while ((dir != coordToCoordDir) && (right < 15)) {
+        right = (1 + right);
+        if (dir == 15) {
+          dir = 0;
         }
         else {
-          local_10 = (1 + local_10);
+          dir = (1 + dir);
         }
       }
-      if (local_06 < local_08) {
+      if (left < right) {
         return;
       }
     }
     else {
       WALLGUN.slot_2a(arg_06);
-      if (((retval == 1) && (local_04 >= 13)) && (local_04 <= 15)) {
+      if (((retval == 1) && (coordToCoordDir >= 13)) && (coordToCoordDir <= 15)) {
         return;
       }
       WALLGUN.slot_2c(arg_06);
-      if (retval > local_04) {
+      if (retval > coordToCoordDir) {
         return;
       }
     }
     return;
   }
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

@@ -1,25 +1,30 @@
 function mtelepad_gotHit() /* entry=400 class_id=0x018e slot=0x06 */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    ke, /* [BP+12h] type=0x69 */
+    item, /* [BP-02h] type=0x24 */
+    npc; /* [BP-04h] type=0x24 */
+
   set_info(0x020c, *(arg_06));
   process_exclude();
-  local_02 = arg_10;
-  FREE.slot_2c(arg_12, arg_10);
+  item = ref;
+  FREE.slot_2c(ke, ref);
   if (retval) {
     return;
   }
-  else if (intrinsic_0071() == 1) {
+  else if (Ultima8Engine.setUnkCrusaderFlag() == 1) {
     /* loopscr */
     /* loopscr */
     /* loopscr */
     /* loopscr */
     /* loop */
     while (condition) {
-      if (local_04 < 0x0100) {
+      if (npc < 0x0100) {
       }
-      /* loopnext */
     }
     return;
   }
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

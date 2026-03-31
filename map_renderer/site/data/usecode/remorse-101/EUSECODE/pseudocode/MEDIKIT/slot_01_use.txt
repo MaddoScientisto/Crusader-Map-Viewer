@@ -3,13 +3,11 @@ function medikit_use() /* entry=851 class_id=0x0351 slot=0x01 */
   set_info(0x0207, *(arg_06));
   process_exclude();
   set_info(0x00f0, 0);
-  /* global_address */
-  if (intrinsic_0075() >= 0x0096) {
+  if (Ultima8Engine.clrCruStasis(&global[0x003d]) >= 0x0096) {
     spawn FREE.slot_21(pid, 0x00b0, 0x00000000);
     suspend;
   }
-  /* global_address */
-  if (intrinsic_00c2(80)) {
+  if (Item.hurl(80, &global[0x003d])) {
     spawn FREE.slot_21(pid, 0x00db, 0x00000000);
     suspend;
   }

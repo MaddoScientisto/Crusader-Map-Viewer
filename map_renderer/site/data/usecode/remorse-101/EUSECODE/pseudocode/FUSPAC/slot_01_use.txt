@@ -5,11 +5,10 @@ function fuspac_use() /* entry=926 class_id=0x039c slot=0x01 */
     process_exclude();
     local_04 = *(arg_06);
     set_info(0x00f0, 0);
-    /* global_address */
-    local_12 = intrinsic_00b2();
+    local_12 = Item.andStatus(&global[0x003d]);
 
   block_00ff:
-    while (intrinsic_0033()) {
+    while (Actor.isBusy(&global[0x003d])) {
       spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
       suspend;
     }
@@ -25,86 +24,80 @@ function fuspac_use() /* entry=926 class_id=0x039c slot=0x01 */
 
   block_0145:
     while ((retval > 3) && (local_10 != 6)) {
-      /* global_address */
-      /* global_address */
-      /* global_address */
-      spawn NPC.slot_22(intrinsic_0034(intrinsic_0013(pid, 1, Item.legal_create(Item.legal_create(local_06), intrinsic_0013(local_06)))));
+      spawn NPC.slot_22(Item.getDirFromTo16(pid, 1, Item.getY(local_06), Item.getX(Item.getY(Item.getX(local_06), &global[0x003d]), &global[0x003d])), &global[0x003d]);
       suspend;
       local_10 = (1 + local_10);
     }
 
   block_01ab:
-    /* global_address */
-    /* global_address */
     suspend;
     goto block_01d0;
 
   block_01cc:
-    /* loopnext */
     goto block_013e;
 
   block_01d0:
-    if (intrinsic_001e() == 0) {
+    if (Actor.maybeFire(&global[0x003d]) == 0) {
       local_14 = -1;
       local_16 = -3;
     }
-    else if (intrinsic_001e() == 1) {
+    else if (Actor.maybeFire(&global[0x003d]) == 1) {
       local_14 = 0;
       local_16 = -3;
     }
-    else if (intrinsic_001e() == 2) {
+    else if (Actor.maybeFire(&global[0x003d]) == 2) {
       local_14 = 1;
       local_16 = -3;
     }
-    else if (intrinsic_001e() == 3) {
+    else if (Actor.maybeFire(&global[0x003d]) == 3) {
       local_14 = 2;
       local_16 = -2;
     }
-    else if (intrinsic_001e() == 4) {
+    else if (Actor.maybeFire(&global[0x003d]) == 4) {
       local_14 = 2;
       local_16 = -1;
     }
-    else if (intrinsic_001e() == 5) {
+    else if (Actor.maybeFire(&global[0x003d]) == 5) {
       local_14 = 2;
       local_16 = 0;
     }
-    else if (intrinsic_001e() == 6) {
+    else if (Actor.maybeFire(&global[0x003d]) == 6) {
       local_14 = 2;
       local_16 = 2;
     }
-    else if (intrinsic_001e() == 7) {
+    else if (Actor.maybeFire(&global[0x003d]) == 7) {
       local_14 = 0;
       local_16 = 2;
     }
-    else if (intrinsic_001e() == 8) {
+    else if (Actor.maybeFire(&global[0x003d]) == 8) {
       local_14 = -1;
       local_16 = 2;
     }
-    else if (intrinsic_001e() == 9) {
+    else if (Actor.maybeFire(&global[0x003d]) == 9) {
       local_14 = -2;
       local_16 = 2;
     }
-    else if (intrinsic_001e() == 10) {
+    else if (Actor.maybeFire(&global[0x003d]) == 10) {
       local_14 = -3;
       local_16 = 2;
     }
-    else if (intrinsic_001e() == 11) {
+    else if (Actor.maybeFire(&global[0x003d]) == 11) {
       local_14 = -3;
       local_16 = 1;
     }
-    else if (intrinsic_001e() == 12) {
+    else if (Actor.maybeFire(&global[0x003d]) == 12) {
       local_14 = -3;
       local_16 = 0;
     }
-    else if (intrinsic_001e() == 13) {
+    else if (Actor.maybeFire(&global[0x003d]) == 13) {
       local_14 = -3;
       local_16 = -1;
     }
-    else if (intrinsic_001e() == 14) {
+    else if (Actor.maybeFire(&global[0x003d]) == 14) {
       local_14 = -3;
       local_16 = -2;
     }
-    else if (intrinsic_001e() == 15) {
+    else if (Actor.maybeFire(&global[0x003d]) == 15) {
       local_14 = -3;
       local_16 = -3;
     }
@@ -121,8 +114,7 @@ function fuspac_use() /* entry=926 class_id=0x039c slot=0x01 */
     goto block_05c5;
 
   block_03d3:
-    /* global_address */
-    if !intrinsic_0035() goto block_03e7;
+    if !Actor.getSomeFlagProbablyCrouch(&global[0x003d]) goto block_03e7;
 
   block_03e0:
     local_01 = 1;
@@ -130,18 +122,13 @@ function fuspac_use() /* entry=926 class_id=0x039c slot=0x01 */
 
   block_03e7:
     local_01 = 0;
-    /* global_address */
-    /* global_address */
     suspend;
 
   block_040c:
-    /* global_address */
-    /* global_address */
-    /* global_address */
     local_02 = 1;
 
   block_045a:
-    while (intrinsic_0033()) {
+    while (Actor.isBusy(&global[0x003d])) {
       spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
       suspend;
     }
@@ -157,7 +144,6 @@ function fuspac_use() /* entry=926 class_id=0x039c slot=0x01 */
 
   block_0486_selector_00:
     for local_08 in selector_0x42(arg0=0x032a, arg1=0x0329, arg2=(50 * 32), origin=global[0x003d]) {
-      /* loopnext */
     }
 
   block_04f3:
@@ -167,12 +153,11 @@ function fuspac_use() /* entry=926 class_id=0x039c slot=0x01 */
 
   block_0508:
     while (condition) {
-      if (intrinsic_00a7(local_08) == 10) {
+      if (Egg.getEggXRange(local_08) == 10) {
         local_20 = local_08;
         spawn DOOR.slot_20(pid, local_20);
         suspend;
       }
-      /* loopnext */
     }
 
   block_0532:
@@ -182,15 +167,13 @@ function fuspac_use() /* entry=926 class_id=0x039c slot=0x01 */
 
   block_0549:
     while (condition) {
-      /* loopnext */
     }
 
   block_0574_selector_00:
     for local_08 in nearby_items(shape=NPC_SPAWNER_04D0, origin=arg_06) {
-      if ((Item.getFrame(local_08) == 0) && (intrinsic_00a7(local_08) == 47)) {
+      if ((Item.getFrame(local_08) == 0) && (Egg.getEggXRange(local_08) == 47)) {
         suspend;
       }
-      /* loopnext */
     }
 
   block_05c5:

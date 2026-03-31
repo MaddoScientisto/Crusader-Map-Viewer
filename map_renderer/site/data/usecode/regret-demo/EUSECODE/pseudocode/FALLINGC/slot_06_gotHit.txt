@@ -5,13 +5,12 @@ function fallingc_gotHit() /* entry=97 class_id=0x005f slot=0x06 */
   /* loopscr */
   /* loop */
   while (condition) {
-    if (intrinsic_0011(local_02) == 95) {
+    if (Item.getShape(local_02) == 95) {
     }
-    else if ((intrinsic_0031(local_02) == 6) && (Actor.isNPC(local_02) == 0)) {
+    else if ((Item.getItemFamily(local_02) == 6) && (Actor.isNPC(local_02) == 0)) {
       spawn ITEM.slot_2a(pid, 1, 0, local_02);
       suspend;
     }
-    /* loopnext */
   }
   return;
 }

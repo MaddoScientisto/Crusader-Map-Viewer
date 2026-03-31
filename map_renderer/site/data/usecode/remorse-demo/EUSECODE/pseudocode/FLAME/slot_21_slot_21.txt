@@ -1,8 +1,13 @@
 function flame_slot_21() /* entry=2573 class_id=0x0a0b slot=0x21 */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    n; /* [BP-02h] type=0x24 */
+
   set_info(0x0001, *(arg_06));
-  local_02 = arg_10;
-  if (intrinsic_0004(arg_06) & 4) {
+  n = ref;
+  if (Item.getStatus(arg_06) & 4) {
     return;
   }
   else {
@@ -10,13 +15,12 @@ function flame_slot_21() /* entry=2573 class_id=0x0a0b slot=0x21 */
     suspend;
     while (true) {
       suspend;
-      if (arg_10 < 0x00ff) {
-        NPC.slot_2b(local_02);
+      if (ref < 0x00ff) {
+        NPC.slot_2b(n);
         spawn FLAME.slot_20(arg_06);
         return;
       }
     }
   }
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

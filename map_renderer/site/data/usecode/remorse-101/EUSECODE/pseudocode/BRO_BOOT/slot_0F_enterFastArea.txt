@@ -7,10 +7,9 @@ function bro_boot_enterFastArea() /* entry=792 class_id=0x0316 slot=0x0f */
 
   block_0305_selector_00:
     for local_02 in nearby_items(shape=SPANEL, origin=arg_06) {
-      if (intrinsic_002b(local_02) == intrinsic_002b(arg_06)) {
+      if (Item.getQLo(local_02) == Item.getQLo(arg_06)) {
         ITEM.slot_24(0x1000, local_02);
       }
-      /* loopnext */
     }
 
   block_0346:
@@ -18,10 +17,9 @@ function bro_boot_enterFastArea() /* entry=792 class_id=0x0316 slot=0x0f */
 
   block_0355_selector_00:
     for local_02 in nearby_items(shape=SPANEL, origin=arg_06) {
-      if (intrinsic_002b(local_02) == intrinsic_002b(arg_06)) {
+      if (Item.getQLo(local_02) == Item.getQLo(arg_06)) {
         ITEM.slot_23(0x1000, local_02);
       }
-      /* loopnext */
     }
 
   block_0396:

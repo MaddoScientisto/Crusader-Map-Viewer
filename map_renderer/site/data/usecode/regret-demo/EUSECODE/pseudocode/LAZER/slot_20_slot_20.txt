@@ -7,16 +7,15 @@ function lazer_slot_20() /* entry=2579 class_id=0x0a11 slot=0x20 */
   /* loopscr */
   /* loop */
   while (condition) {
-    if (intrinsic_00b8(arg_06) == intrinsic_00b8(local_02)) {
+    if (Item.getCY(arg_06) == Item.getCY(local_02)) {
       ITEM.slot_24(0x1000, local_02);
     }
-    /* loopnext */
   }
   for local_04 in nearby_items(family=6, origin=arg_06) {
     if (local_04 <= 0x0100) {
-      if (intrinsic_00ad(local_04, arg_06)) {
-        if (local_04 != intrinsic_0016()) {
-          local_06 = intrinsic_00d9(local_04);
+      if (Intrinsic00AD(local_04, arg_06)) {
+        if (local_04 != World.getControlledNPCNum()) {
+          local_06 = Actor.getDefaultActivity2(local_04);
           if (local_06 < 8) {
             local_06 = (local_06 + 8);
           }
@@ -24,10 +23,10 @@ function lazer_slot_20() /* entry=2579 class_id=0x0a11 slot=0x20 */
             local_06 = (local_06 - 8);
           }
           NPC.slot_2a(local_04);
-          if (!intrinsic_00d2(local_04)) {
-            if (intrinsic_0052(local_04) == 5) {
+          if (!Actor.setCombatTactic(local_04)) {
+            if (Actor.setDefaultActivity2(local_04) == 5) {
             }
-            else if (intrinsic_0052(local_04) == 10) {
+            else if (Actor.setDefaultActivity2(local_04) == 10) {
             }
           }
         }
@@ -37,16 +36,14 @@ function lazer_slot_20() /* entry=2579 class_id=0x0a11 slot=0x20 */
         }
       }
     }
-    /* loopnext */
   }
   /* loopscr */
   /* loopscr */
   /* loop */
   while (condition) {
-    if (intrinsic_00b8(arg_06) == intrinsic_00b8(local_02)) {
+    if (Item.getCY(arg_06) == Item.getCY(local_02)) {
       ITEM.slot_25(0x1000, local_02);
     }
-    /* loopnext */
   }
   ITEM.slot_25(0x1000, arg_06);
   return;

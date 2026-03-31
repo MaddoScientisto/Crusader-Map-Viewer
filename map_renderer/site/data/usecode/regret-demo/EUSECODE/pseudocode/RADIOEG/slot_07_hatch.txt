@@ -2,7 +2,7 @@ function radioeg_hatch() /* entry=2332 class_id=0x091a slot=0x07 */
 {
   set_info(0x0210, *(arg_06));
   process_exclude();
-  if (intrinsic_0016() == 1) {
+  if (World.getControlledNPCNum() == 1) {
     spawn FREE.slot_25(0x00000000);
   }
   return;

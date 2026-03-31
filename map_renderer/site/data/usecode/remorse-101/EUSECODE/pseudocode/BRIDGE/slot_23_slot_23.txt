@@ -11,11 +11,11 @@ function bridge_slot_23() /* entry=2565 class_id=0x0a03 slot=0x23 */
     if !condition goto block_02ae;
 
   block_027d:
-    local_04 = intrinsic_002b(local_02);
+    local_04 = Item.getQLo(local_02);
     if local_04 != arg_10 goto block_02aa;
 
   block_0290:
-    local_04 = intrinsic_0026(local_02);
+    local_04 = Item.getQHi(local_02);
     if local_04 == 0 goto block_02aa;
 
   block_02a3:
@@ -23,7 +23,6 @@ function bridge_slot_23() /* entry=2565 class_id=0x0a03 slot=0x23 */
     goto block_02ae;
 
   block_02aa:
-    /* loopnext */
     goto block_027a;
 
   block_02ae:
@@ -39,11 +38,11 @@ function bridge_slot_23() /* entry=2565 class_id=0x0a03 slot=0x23 */
     if Item.getFrame(local_02) != 1 goto block_030e;
 
   block_02e1:
-    local_04 = intrinsic_002b(local_02);
+    local_04 = Item.getQLo(local_02);
     if local_04 != arg_10 goto block_030e;
 
   block_02f4:
-    local_04 = intrinsic_0026(local_02);
+    local_04 = Item.getQHi(local_02);
     if local_04 == 0 goto block_030e;
 
   block_0307:
@@ -51,7 +50,6 @@ function bridge_slot_23() /* entry=2565 class_id=0x0a03 slot=0x23 */
     goto block_0312;
 
   block_030e:
-    /* loopnext */
     goto block_02cf;
 
   block_0314:
@@ -59,26 +57,24 @@ function bridge_slot_23() /* entry=2565 class_id=0x0a03 slot=0x23 */
 
   block_031c_selector_00:
     for local_02 in selector_0x42(arg0=0x03a6, arg1=0x0413, arg2=(70 * 32), origin=arg_06) {
-      local_04 = intrinsic_002b(local_02);
+      local_04 = Item.getQLo(local_02);
       if (local_04 == local_06) {
         /* word_to_dword */
         /* pop_result */
         return;
       }
-      /* loopnext */
     }
 
   block_035f_selector_00:
     for local_02 in selector_0x42(arg0=0x0336, arg1=0x0290, arg2=(70 * 32), origin=arg_06) {
       if (Item.getFrame(arg_06) == 1) {
-        local_04 = intrinsic_002b(local_02);
+        local_04 = Item.getQLo(local_02);
         if (local_04 == local_06) {
           /* word_to_dword */
           /* pop_result */
           return;
         }
       }
-      /* loopnext */
     }
 
   block_03b5:

@@ -1,10 +1,15 @@
 function damnmcr8_gotHit() /* entry=1442 class_id=0x05a0 slot=0x06 */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    vel; /* [BP+12h] type=0x69 */
+
   set_info(0x020c, *(arg_06));
   process_exclude();
-  FREE.slot_2c(arg_12, arg_10);
+  FREE.slot_2c(vel, ref);
   if (retval) {
-    spawn ITEM.slot_27(pid, 100, arg_12, arg_10, arg_06);
+    spawn ITEM.slot_27(pid, 100, vel, ref, arg_06);
     suspend;
     /* dword_to_word */
     if (!process_result) {
@@ -21,5 +26,4 @@ function damnmcr8_gotHit() /* entry=1442 class_id=0x05a0 slot=0x06 */
     }
   }
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

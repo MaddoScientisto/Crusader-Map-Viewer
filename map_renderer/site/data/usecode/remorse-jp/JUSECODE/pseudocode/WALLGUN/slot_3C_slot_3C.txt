@@ -1,15 +1,26 @@
 function wallgun_slot_3c() /* entry=2591 class_id=0x0a1d slot=0x3c */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    target, /* [BP+10h] type=0x69 */
+    brain, /* [BP+12h] type=0x69 */
+    x, /* [BP-02h] type=0x69 */
+    left, /* [BP-04h] type=0x69 */
+    right, /* [BP-06h] type=0x69 */
+    inc, /* [BP-08h] type=0x69 */
+    f, /* [BP-10h] type=0x69 */
+    isTurret; /* [BP-12h] type=0x69 */
+
   entry:
     set_info(0x0001, *(arg_06));
     WALLGUN.slot_29(arg_06);
-    local_12 = retval;
-    if local_12 != 1 goto block_32d1;
+    isTurret = retval;
+    if isTurret != 1 goto block_32d1;
 
   block_32b9:
-    local_08 = -1;
-    local_04 = 0;
-    local_06 = 15;
+    inc = -1;
+    left = 0;
+    right = 15;
     goto block_330e;
 
   block_32d1:
@@ -17,18 +28,18 @@ function wallgun_slot_3c() /* entry=2591 class_id=0x0a1d slot=0x3c */
     if !retval goto block_32f9;
 
   block_32e1:
-    local_08 = -1;
-    local_04 = 0;
-    local_06 = 8;
+    inc = -1;
+    left = 0;
+    right = 8;
     goto block_330e;
 
   block_32f9:
-    local_08 = 1;
-    local_04 = 8;
-    local_06 = 0;
+    inc = 1;
+    left = 8;
+    right = 0;
 
   block_330e:
-    WALLGUN.slot_2d(arg_10, arg_06);
+    WALLGUN.slot_2d(target, arg_06);
     if retval goto block_3328;
 
   block_3321:
@@ -42,13 +53,13 @@ function wallgun_slot_3c() /* entry=2591 class_id=0x0a1d slot=0x3c */
   block_3330:
     spawn WALLGUN.slot_26(pid, arg_06);
     suspend;
-    spawn WALLGUN.slot_2f(pid, arg_12, arg_10, arg_06);
+    spawn WALLGUN.slot_2f(pid, brain, target, arg_06);
     suspend;
-    local_10 = Item.getFrame(arg_06);
-    if local_12 != 1 goto block_33c7;
+    f = Item.getFrame(arg_06);
+    if isTurret != 1 goto block_33c7;
 
   block_338d:
-    if local_10 <= 19 goto block_33c4;
+    if f <= 19 goto block_33c4;
 
   block_3398:
     spawn FREE.slot_32(pid, 10, 0x00000000);
@@ -59,7 +70,7 @@ function wallgun_slot_3c() /* entry=2591 class_id=0x0a1d slot=0x3c */
     goto block_3401;
 
   block_33c7:
-    if local_10 <= 8 goto block_3401;
+    if f <= 8 goto block_3401;
 
   block_33d2:
     spawn FREE.slot_32(pid, 10, 0x00000000);
@@ -70,9 +81,9 @@ function wallgun_slot_3c() /* entry=2591 class_id=0x0a1d slot=0x3c */
     goto block_3401;
 
   block_3401:
-    WALLGUN.slot_2d(arg_10, arg_06);
-    local_02 = retval;
-    if local_02 != 0 goto block_342a;
+    WALLGUN.slot_2d(target, arg_06);
+    x = retval;
+    if x != 0 goto block_342a;
 
   block_3420:
     /* word_to_dword */
@@ -80,16 +91,16 @@ function wallgun_slot_3c() /* entry=2591 class_id=0x0a1d slot=0x3c */
     goto block_34de;
 
   block_342a:
-    if local_02 != 1 goto block_347e;
+    if x != 1 goto block_347e;
 
   block_3438:
-    if local_10 != local_04 goto block_3471;
+    if f != left goto block_3471;
 
   block_3449:
-    if local_12 != 1 goto block_3464;
+    if isTurret != 1 goto block_3464;
 
   block_345a:
-    local_10 = local_06;
+    f = right;
     goto block_346e;
 
   block_3464:
@@ -101,19 +112,19 @@ function wallgun_slot_3c() /* entry=2591 class_id=0x0a1d slot=0x3c */
     goto block_347b;
 
   block_3471:
-    local_10 = (local_10 + local_08);
+    f = (f + inc);
 
   block_347b:
     goto block_34c1;
 
   block_347e:
-    if local_10 != local_06 goto block_34b7;
+    if f != right goto block_34b7;
 
   block_348f:
-    if local_12 != 1 goto block_34aa;
+    if isTurret != 1 goto block_34aa;
 
   block_34a0:
-    local_10 = local_04;
+    f = left;
     goto block_34b4;
 
   block_34aa:
@@ -125,7 +136,7 @@ function wallgun_slot_3c() /* entry=2591 class_id=0x0a1d slot=0x3c */
     goto block_34c1;
 
   block_34b7:
-    local_10 = (local_10 - local_08);
+    f = (f - inc);
 
   block_34c1:
     goto block_3328;
@@ -133,5 +144,4 @@ function wallgun_slot_3c() /* entry=2591 class_id=0x0a1d slot=0x3c */
   block_34de:
     return;
 
-  /* decompilation stopped at SEARCH_SURFACE */
 }

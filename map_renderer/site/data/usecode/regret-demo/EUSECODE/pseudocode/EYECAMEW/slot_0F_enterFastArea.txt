@@ -2,7 +2,7 @@ function eyecamew_enterFastArea() /* entry=610 class_id=0x0260 slot=0x0f */
 {
   set_info(0x021b, *(arg_06));
   process_exclude();
-  if (intrinsic_0004(arg_06) & 4) {
+  if (Item.getStatus(arg_06) & 4) {
     return;
   }
   else {

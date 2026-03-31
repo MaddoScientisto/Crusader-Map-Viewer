@@ -9,7 +9,7 @@ function npctrig_equip() /* entry=869 class_id=0x0363 slot=0x0a */
 
   set_info(0x0211, *(arg_06));
   process_exclude();
-  if (intrinsic_0004(arg_06) & 0x1000) {
+  if (Item.getStatus(arg_06) & 0x1000) {
     return;
   }
   else {

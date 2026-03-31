@@ -1,121 +1,132 @@
 function trigger_slot_24() /* entry=2586 class_id=0x0a18 slot=0x24 */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    qHi, /* [BP+12h] type=0x69 */
+    npcNum, /* [BP+14h] type=0x69 */
+    mapNum, /* [BP+16h] type=0x69 */
+    baseLink, /* [BP+18h] type=0x69 */
+    searchtype, /* [BP+20h] type=0x69 */
+    scmd, /* [BP-02h] type=0x69 */
+    cmd, /* [BP-04h] type=0x69 */
+    a, /* [BP-06h] type=0x69 */
+    b, /* [BP-08h] type=0x69 */
+    c, /* [BP-10h] type=0x69 */
+    d, /* [BP-12h] type=0x69 */
+    item, /* [BP-14h] type=0x24 */
+    aitem, /* [BP-16h] type=0x24 */
+    newLink, /* [BP-18h] type=0x69 */
+    distance, /* [BP-20h] type=0x69 */
+    item2; /* [BP-22h] type=0x24 */
+
   set_info(0x021b, 0);
-  local_18 = arg_18;
-  local_16 = arg_10;
-  local_04 = (arg_16 & 3);
-  if (local_04 == 0) {
-    for local_14 in nearby_items(family=1, origin=local_16) {
-      if (intrinsic_00ea(local_14) == arg_18) {
+  newLink = baseLink;
+  aitem = ref;
+  cmd = (mapNum & 3);
+  if (cmd == 0) {
+    for item in nearby_items(family=1, origin=aitem) {
+      if (Item.getQLo(item) == baseLink) {
       }
-      /* loopnext */
     }
   }
-  else if (local_04 == 1) {
-    for local_14 in nearby_items(family=1, origin=local_16) {
-      if (intrinsic_00ea(local_14) == arg_18) {
+  else if (cmd == 1) {
+    for item in nearby_items(family=1, origin=aitem) {
+      if (Item.getQLo(item) == baseLink) {
       }
-      /* loopnext */
     }
   }
-  else if (local_04 == 2) {
-    for local_14 in nearby_items(family=1, origin=local_16) {
-      if (intrinsic_00ea(local_14) == arg_18) {
+  else if (cmd == 2) {
+    for item in nearby_items(family=1, origin=aitem) {
+      if (Item.getQLo(item) == baseLink) {
       }
-      /* loopnext */
     }
   }
-  else if (local_04 == 3) {
-    local_02 = (arg_12 & 7);
-    if (local_02 == 0) {
-      local_12 = (arg_12 / 8);
-      for local_14 in nearby_items(shape=0x0476, origin=local_16) {
-        if (intrinsic_00ea(local_14) == arg_18) {
-          local_06 = intrinsic_0107(local_14);
-          local_10 = (local_06 & 15);
-          local_08 = intrinsic_0003(local_14);
-          local_08 = (((local_06 & 0x00e0) * 8) + local_08);
-          FREE.slot_30(local_12, local_10, local_08, local_14);
+  else if (cmd == 3) {
+    scmd = (qHi & 7);
+    if (scmd == 0) {
+      d = (qHi / 8);
+      for item in nearby_items(shape=0x0476, origin=aitem) {
+        if (Item.getQLo(item) == baseLink) {
+          a = Item.getNPCNum(item);
+          c = (a & 15);
+          b = Item.getMapArray(item);
+          b = (((a & 0x00e0) * 8) + b);
+          FREE.slot_30(d, c, b, item);
         }
-        /* loopnext */
       }
     }
-    else if (local_02 == 1) {
-      local_12 = (arg_12 / 8);
-      for local_14 in nearby_items(family=1, origin=local_16) {
-        if (intrinsic_00ea(local_14) == arg_18) {
-          if (arg_10 != local_14) {
-            if (local_12 == 31) {
+    else if (scmd == 1) {
+      d = (qHi / 8);
+      for item in nearby_items(family=1, origin=aitem) {
+        if (Item.getQLo(item) == baseLink) {
+          if (ref != item) {
+            if (d == 31) {
               suspend;
             }
             else {
-              local_10 = Item.getFrame(local_14);
-              local_08 = intrinsic_0016(local_14);
-              local_06 = (local_08 & 0x00ff);
-              local_08 = (local_08 & 0x0700);
-              local_08 = (local_08 / 8);
-              local_08 = (local_08 + local_10);
+              c = Item.getFrame(item);
+              b = Item.getShape(item);
+              a = (b & 0x00ff);
+              b = (b & 0x0700);
+              b = (b / 8);
+              b = (b + c);
               suspend;
               /* bit_not */
             }
           }
         }
-        /* loopnext */
       }
     }
-    else if (local_02 == 2) {
-      local_06 = (arg_12 / 8);
-      for local_14 in nearby_items(family=1, origin=local_16) {
-        if (intrinsic_00ea(local_14) == arg_18) {
+    else if (scmd == 2) {
+      a = (qHi / 8);
+      for item in nearby_items(family=1, origin=aitem) {
+        if (Item.getQLo(item) == baseLink) {
         }
-        /* loopnext */
       }
     }
-    else if (local_02 == 3) {
+    else if (scmd == 3) {
       if (global[0x0040] == 100) {
-        local_20 = 32;
+        distance = 32;
       }
       else {
-        local_20 = global[0x0040];
+        distance = global[0x0040];
       }
-      for local_14 in nearby_items(family=1, origin=local_16) {
-        if (intrinsic_00ea(local_14) == arg_18) {
-          if (arg_10 != local_14) {
-            local_06 = (arg_12 / 8);
-            spawn TRIGGER.slot_22(local_06, local_14, arg_06);
+      for item in nearby_items(family=1, origin=aitem) {
+        if (Item.getQLo(item) == baseLink) {
+          if (ref != item) {
+            a = (qHi / 8);
+            spawn TRIGGER.slot_22(a, item, arg_06);
           }
         }
-        /* loopnext */
       }
     }
-    else if (local_02 == 4) {
-      local_06 = (arg_12 / 8);
-      local_18 = (local_18 + local_06);
+    else if (scmd == 4) {
+      a = (qHi / 8);
+      newLink = (newLink + a);
     }
-    else if (local_02 == 5) {
-      local_06 = (arg_12 / 8);
-      local_18 = (local_18 - local_06);
+    else if (scmd == 5) {
+      a = (qHi / 8);
+      newLink = (newLink - a);
     }
-    else if (local_02 == 6) {
-      local_12 = (arg_12 / 8);
-      for local_14 in nearby_items(shape=0x0476, origin=local_16) {
-        if (intrinsic_00ea(local_14) == arg_18) {
-          local_06 = intrinsic_0109(local_14);
-          local_10 = (local_06 & 15);
-          local_08 = intrinsic_0003(local_14);
-          local_08 = (((local_06 & 0x00e0) * 8) + local_08);
-          if (local_08 != 0) {
-            if (intrinsic_001f(local_10, local_08, local_22) == 1) {
+    else if (scmd == 6) {
+      d = (qHi / 8);
+      for item in nearby_items(shape=0x0476, origin=aitem) {
+        if (Item.getQLo(item) == baseLink) {
+          a = Item.getNPCNum(item);
+          c = (a & 15);
+          b = Item.getMapArray(item);
+          b = (((a & 0x00e0) * 8) + b);
+          if (b != 0) {
+            if (Item.create(c, b, item2) == 1) {
               suspend;
             }
           }
         }
-        /* loopnext */
       }
     }
   }
   /* word_to_dword */
   /* pop_result */
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

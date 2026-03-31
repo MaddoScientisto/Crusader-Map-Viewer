@@ -1,11 +1,17 @@
 function door_slot_21() /* entry=2568 class_id=0x0a06 slot=0x21 */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    num, /* [BP+10h] type=0x69 */
+    doorType, /* [BP-02h] type=0x69 */
+    ewall; /* [BP-04h] type=0x24 */
+
   set_info(0x0207, *(arg_06));
   spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
   suspend;
-  local_02 = intrinsic_0016(arg_06);
-  if (local_02 == 0x00a9) {
-    if (arg_10 == 2) {
+  doorType = Item.getShape(arg_06);
+  if (doorType == 0x00a9) {
+    if (num == 2) {
       /* word_to_dword */
       /* pop_result */
       return;
@@ -14,13 +20,12 @@ function door_slot_21() /* entry=2568 class_id=0x0a06 slot=0x21 */
     suspend;
     /* dword_to_word */
     if (process_result) {
-      if (arg_10 == 1) {
-        for local_04 in nearby_items(shape=FORCEFIELD_NE, origin=arg_06) {
-          if (Kernel.getNumProcesses(local_04) == Kernel.getNumProcesses(arg_06)) {
-            spawn FREE.slot_31(pid, local_04, 0x00000000);
+      if (num == 1) {
+        for ewall in nearby_items(shape=FORCEFIELD_NE, origin=arg_06) {
+          if (Item.setNpcNum(ewall) == Item.setNpcNum(arg_06)) {
+            spawn FREE.slot_31(pid, ewall, 0x00000000);
             suspend;
           }
-          /* loopnext */
         }
       }
       /* word_to_dword */
@@ -29,8 +34,8 @@ function door_slot_21() /* entry=2568 class_id=0x0a06 slot=0x21 */
     }
     return;
   }
-  else if (local_02 == 0x00d0) {
-    if (arg_10 == 1) {
+  else if (doorType == 0x00d0) {
+    if (num == 1) {
       /* word_to_dword */
       /* pop_result */
       return;
@@ -45,8 +50,8 @@ function door_slot_21() /* entry=2568 class_id=0x0a06 slot=0x21 */
     }
     return;
   }
-  else if (local_02 == 70) {
-    if (arg_10 == 2) {
+  else if (doorType == 70) {
+    if (num == 2) {
       /* word_to_dword */
       /* pop_result */
       return;
@@ -55,13 +60,12 @@ function door_slot_21() /* entry=2568 class_id=0x0a06 slot=0x21 */
     suspend;
     /* dword_to_word */
     if (process_result) {
-      if (arg_10 == 1) {
-        for local_04 in nearby_items(shape=FORCEFIELD_NW, origin=arg_06) {
-          if (Kernel.getNumProcesses(local_04) == Kernel.getNumProcesses(arg_06)) {
-            spawn FREE.slot_31(pid, local_04, 0x00000000);
+      if (num == 1) {
+        for ewall in nearby_items(shape=FORCEFIELD_NW, origin=arg_06) {
+          if (Item.setNpcNum(ewall) == Item.setNpcNum(arg_06)) {
+            spawn FREE.slot_31(pid, ewall, 0x00000000);
             suspend;
           }
-          /* loopnext */
         }
       }
       /* word_to_dword */
@@ -70,8 +74,8 @@ function door_slot_21() /* entry=2568 class_id=0x0a06 slot=0x21 */
     }
     return;
   }
-  else if (local_02 == 0x0107) {
-    if (arg_10 == 1) {
+  else if (doorType == 0x0107) {
+    if (num == 1) {
       /* word_to_dword */
       /* pop_result */
       return;
@@ -86,8 +90,8 @@ function door_slot_21() /* entry=2568 class_id=0x0a06 slot=0x21 */
     }
     return;
   }
-  else if (local_02 == 0x02d6) {
-    if (arg_10 == 2) {
+  else if (doorType == 0x02d6) {
+    if (num == 2) {
       /* word_to_dword */
       /* pop_result */
       return;
@@ -102,8 +106,8 @@ function door_slot_21() /* entry=2568 class_id=0x0a06 slot=0x21 */
     }
     return;
   }
-  else if (local_02 == 0x02db) {
-    if (arg_10 == 1) {
+  else if (doorType == 0x02db) {
+    if (num == 1) {
       /* word_to_dword */
       /* pop_result */
       return;
@@ -118,8 +122,8 @@ function door_slot_21() /* entry=2568 class_id=0x0a06 slot=0x21 */
     }
     return;
   }
-  else if (local_02 == 0x02d5) {
-    if (arg_10 == 2) {
+  else if (doorType == 0x02d5) {
+    if (num == 2) {
       /* word_to_dword */
       /* pop_result */
       return;
@@ -134,8 +138,8 @@ function door_slot_21() /* entry=2568 class_id=0x0a06 slot=0x21 */
     }
     return;
   }
-  else if (local_02 == 0x02da) {
-    if (arg_10 == 1) {
+  else if (doorType == 0x02da) {
+    if (num == 1) {
       /* word_to_dword */
       /* pop_result */
       return;
@@ -150,8 +154,8 @@ function door_slot_21() /* entry=2568 class_id=0x0a06 slot=0x21 */
     }
     return;
   }
-  else if (local_02 == 5) {
-    if (arg_10 == 2) {
+  else if (doorType == 5) {
+    if (num == 2) {
       /* word_to_dword */
       /* pop_result */
       return;
@@ -160,13 +164,12 @@ function door_slot_21() /* entry=2568 class_id=0x0a06 slot=0x21 */
     suspend;
     /* dword_to_word */
     if (process_result) {
-      if (arg_10 == 1) {
-        for local_04 in nearby_items(shape=FORCEFIELD_NE, origin=arg_06) {
-          if (Kernel.getNumProcesses(local_04) == Kernel.getNumProcesses(arg_06)) {
-            spawn FREE.slot_31(pid, local_04, 0x00000000);
+      if (num == 1) {
+        for ewall in nearby_items(shape=FORCEFIELD_NE, origin=arg_06) {
+          if (Item.setNpcNum(ewall) == Item.setNpcNum(arg_06)) {
+            spawn FREE.slot_31(pid, ewall, 0x00000000);
             suspend;
           }
-          /* loopnext */
         }
       }
       /* word_to_dword */
@@ -175,8 +178,8 @@ function door_slot_21() /* entry=2568 class_id=0x0a06 slot=0x21 */
     }
     return;
   }
-  else if (local_02 == 0x00c2) {
-    if (arg_10 == 1) {
+  else if (doorType == 0x00c2) {
+    if (num == 1) {
       /* word_to_dword */
       /* pop_result */
       return;
@@ -191,8 +194,8 @@ function door_slot_21() /* entry=2568 class_id=0x0a06 slot=0x21 */
     }
     return;
   }
-  else if (local_02 == 123) {
-    if (arg_10 == 2) {
+  else if (doorType == 123) {
+    if (num == 2) {
       /* word_to_dword */
       /* pop_result */
       return;
@@ -201,13 +204,12 @@ function door_slot_21() /* entry=2568 class_id=0x0a06 slot=0x21 */
     suspend;
     /* dword_to_word */
     if (process_result) {
-      if (arg_10 == 1) {
-        for local_04 in nearby_items(shape=FORCEFIELD_NW, origin=arg_06) {
-          if (Kernel.getNumProcesses(local_04) == Kernel.getNumProcesses(arg_06)) {
-            spawn FREE.slot_31(pid, local_04, 0x00000000);
+      if (num == 1) {
+        for ewall in nearby_items(shape=FORCEFIELD_NW, origin=arg_06) {
+          if (Item.setNpcNum(ewall) == Item.setNpcNum(arg_06)) {
+            spawn FREE.slot_31(pid, ewall, 0x00000000);
             suspend;
           }
-          /* loopnext */
         }
       }
       /* word_to_dword */
@@ -216,8 +218,8 @@ function door_slot_21() /* entry=2568 class_id=0x0a06 slot=0x21 */
     }
     return;
   }
-  else if (local_02 == 0x00cb) {
-    if (arg_10 == 1) {
+  else if (doorType == 0x00cb) {
+    if (num == 1) {
       /* word_to_dword */
       /* pop_result */
       return;
@@ -232,8 +234,8 @@ function door_slot_21() /* entry=2568 class_id=0x0a06 slot=0x21 */
     }
     return;
   }
-  else if (local_02 == 0x01ab) {
-    if (arg_10 == 2) {
+  else if (doorType == 0x01ab) {
+    if (num == 2) {
       /* word_to_dword */
       /* pop_result */
       return;
@@ -248,8 +250,8 @@ function door_slot_21() /* entry=2568 class_id=0x0a06 slot=0x21 */
     }
     return;
   }
-  else if (local_02 == 0x0215) {
-    if (arg_10 == 1) {
+  else if (doorType == 0x0215) {
+    if (num == 1) {
       /* word_to_dword */
       /* pop_result */
       return;
@@ -264,8 +266,8 @@ function door_slot_21() /* entry=2568 class_id=0x0a06 slot=0x21 */
     }
     return;
   }
-  else if (local_02 == 0x0393) {
-    if (arg_10 == 2) {
+  else if (doorType == 0x0393) {
+    if (num == 2) {
       /* word_to_dword */
       /* pop_result */
       return;
@@ -280,8 +282,8 @@ function door_slot_21() /* entry=2568 class_id=0x0a06 slot=0x21 */
     }
     return;
   }
-  else if (local_02 == 0x0394) {
-    if (arg_10 == 1) {
+  else if (doorType == 0x0394) {
+    if (num == 1) {
       /* word_to_dword */
       /* pop_result */
       return;
@@ -296,8 +298,8 @@ function door_slot_21() /* entry=2568 class_id=0x0a06 slot=0x21 */
     }
     return;
   }
-  else if (local_02 == 0x0193) {
-    if (arg_10 == 2) {
+  else if (doorType == 0x0193) {
+    if (num == 2) {
       /* word_to_dword */
       /* pop_result */
       return;
@@ -312,8 +314,8 @@ function door_slot_21() /* entry=2568 class_id=0x0a06 slot=0x21 */
     }
     return;
   }
-  else if (local_02 == 0x0189) {
-    if (arg_10 == 1) {
+  else if (doorType == 0x0189) {
+    if (num == 1) {
       /* word_to_dword */
       /* pop_result */
       return;
@@ -328,8 +330,8 @@ function door_slot_21() /* entry=2568 class_id=0x0a06 slot=0x21 */
     }
     return;
   }
-  else if (local_02 == 0x01c7) {
-    if (arg_10 == 2) {
+  else if (doorType == 0x01c7) {
+    if (num == 2) {
       /* word_to_dword */
       /* pop_result */
       return;
@@ -344,8 +346,8 @@ function door_slot_21() /* entry=2568 class_id=0x0a06 slot=0x21 */
     }
     return;
   }
-  else if (local_02 == 0x0289) {
-    if (arg_10 == 1) {
+  else if (doorType == 0x0289) {
+    if (num == 1) {
       /* word_to_dword */
       /* pop_result */
       return;
@@ -360,8 +362,8 @@ function door_slot_21() /* entry=2568 class_id=0x0a06 slot=0x21 */
     }
     return;
   }
-  else if (local_02 == 0x030a) {
-    if (arg_10 == 2) {
+  else if (doorType == 0x030a) {
+    if (num == 2) {
       /* word_to_dword */
       /* pop_result */
       return;
@@ -376,8 +378,8 @@ function door_slot_21() /* entry=2568 class_id=0x0a06 slot=0x21 */
     }
     return;
   }
-  else if (local_02 == 0x036b) {
-    if (arg_10 == 1) {
+  else if (doorType == 0x036b) {
+    if (num == 1) {
       /* word_to_dword */
       /* pop_result */
       return;
@@ -392,8 +394,8 @@ function door_slot_21() /* entry=2568 class_id=0x0a06 slot=0x21 */
     }
     return;
   }
-  else if (local_02 == 0x030b) {
-    if (arg_10 == 2) {
+  else if (doorType == 0x030b) {
+    if (num == 2) {
       /* word_to_dword */
       /* pop_result */
       return;
@@ -408,8 +410,8 @@ function door_slot_21() /* entry=2568 class_id=0x0a06 slot=0x21 */
     }
     return;
   }
-  else if (local_02 == 0x0368) {
-    if (arg_10 == 1) {
+  else if (doorType == 0x0368) {
+    if (num == 1) {
       /* word_to_dword */
       /* pop_result */
       return;
@@ -424,8 +426,8 @@ function door_slot_21() /* entry=2568 class_id=0x0a06 slot=0x21 */
     }
     return;
   }
-  else if (local_02 == 0x0095) {
-    if (arg_10 == 2) {
+  else if (doorType == 0x0095) {
+    if (num == 2) {
       /* word_to_dword */
       /* pop_result */
       return;
@@ -440,8 +442,8 @@ function door_slot_21() /* entry=2568 class_id=0x0a06 slot=0x21 */
     }
     return;
   }
-  else if (local_02 == 0x030e) {
-    if (arg_10 == 1) {
+  else if (doorType == 0x030e) {
+    if (num == 1) {
       /* word_to_dword */
       /* pop_result */
       return;
@@ -456,8 +458,8 @@ function door_slot_21() /* entry=2568 class_id=0x0a06 slot=0x21 */
     }
     return;
   }
-  else if (local_02 == 0x0099) {
-    if (arg_10 == 2) {
+  else if (doorType == 0x0099) {
+    if (num == 2) {
       /* word_to_dword */
       /* pop_result */
       return;
@@ -472,8 +474,8 @@ function door_slot_21() /* entry=2568 class_id=0x0a06 slot=0x21 */
     }
     return;
   }
-  else if (local_02 == 0x0100) {
-    if (arg_10 == 1) {
+  else if (doorType == 0x0100) {
+    if (num == 1) {
       /* word_to_dword */
       /* pop_result */
       return;
@@ -488,8 +490,8 @@ function door_slot_21() /* entry=2568 class_id=0x0a06 slot=0x21 */
     }
     return;
   }
-  else if (local_02 == 0x053d) {
-    if (arg_10 == 2) {
+  else if (doorType == 0x053d) {
+    if (num == 2) {
       /* word_to_dword */
       /* pop_result */
       return;
@@ -504,8 +506,8 @@ function door_slot_21() /* entry=2568 class_id=0x0a06 slot=0x21 */
     }
     return;
   }
-  else if (local_02 == 0x053e) {
-    if (arg_10 == 1) {
+  else if (doorType == 0x053e) {
+    if (num == 1) {
       /* word_to_dword */
       /* pop_result */
       return;
@@ -520,8 +522,8 @@ function door_slot_21() /* entry=2568 class_id=0x0a06 slot=0x21 */
     }
     return;
   }
-  else if (local_02 == 0x053b) {
-    if (arg_10 == 2) {
+  else if (doorType == 0x053b) {
+    if (num == 2) {
       /* word_to_dword */
       /* pop_result */
       return;
@@ -536,8 +538,8 @@ function door_slot_21() /* entry=2568 class_id=0x0a06 slot=0x21 */
     }
     return;
   }
-  else if (local_02 == 0x053c) {
-    if (arg_10 == 1) {
+  else if (doorType == 0x053c) {
+    if (num == 1) {
       /* word_to_dword */
       /* pop_result */
       return;
@@ -552,8 +554,8 @@ function door_slot_21() /* entry=2568 class_id=0x0a06 slot=0x21 */
     }
     return;
   }
-  else if (local_02 == 0x01ee) {
-    if (arg_10 == 2) {
+  else if (doorType == 0x01ee) {
+    if (num == 2) {
       /* word_to_dword */
       /* pop_result */
       return;
@@ -568,8 +570,8 @@ function door_slot_21() /* entry=2568 class_id=0x0a06 slot=0x21 */
     }
     return;
   }
-  else if (local_02 == 0x01ed) {
-    if (arg_10 == 1) {
+  else if (doorType == 0x01ed) {
+    if (num == 1) {
       /* word_to_dword */
       /* pop_result */
       return;
@@ -584,8 +586,8 @@ function door_slot_21() /* entry=2568 class_id=0x0a06 slot=0x21 */
     }
     return;
   }
-  else if (local_02 == 0x03ad) {
-    if (arg_10 == 2) {
+  else if (doorType == 0x03ad) {
+    if (num == 2) {
       /* word_to_dword */
       /* pop_result */
       return;
@@ -600,8 +602,8 @@ function door_slot_21() /* entry=2568 class_id=0x0a06 slot=0x21 */
     }
     return;
   }
-  else if (local_02 == 0x03c7) {
-    if (arg_10 == 1) {
+  else if (doorType == 0x03c7) {
+    if (num == 1) {
       /* word_to_dword */
       /* pop_result */
       return;
@@ -616,8 +618,8 @@ function door_slot_21() /* entry=2568 class_id=0x0a06 slot=0x21 */
     }
     return;
   }
-  else if (local_02 == 0x03b9) {
-    if (arg_10 == 2) {
+  else if (doorType == 0x03b9) {
+    if (num == 2) {
       /* word_to_dword */
       /* pop_result */
       return;
@@ -632,8 +634,8 @@ function door_slot_21() /* entry=2568 class_id=0x0a06 slot=0x21 */
     }
     return;
   }
-  else if (local_02 == 0x03bd) {
-    if (arg_10 == 1) {
+  else if (doorType == 0x03bd) {
+    if (num == 1) {
       /* word_to_dword */
       /* pop_result */
       return;
@@ -648,8 +650,8 @@ function door_slot_21() /* entry=2568 class_id=0x0a06 slot=0x21 */
     }
     return;
   }
-  else if (local_02 == 0x03ba) {
-    if (arg_10 == 2) {
+  else if (doorType == 0x03ba) {
+    if (num == 2) {
       /* word_to_dword */
       /* pop_result */
       return;
@@ -664,8 +666,8 @@ function door_slot_21() /* entry=2568 class_id=0x0a06 slot=0x21 */
     }
     return;
   }
-  else if (local_02 == 0x03be) {
-    if (arg_10 == 1) {
+  else if (doorType == 0x03be) {
+    if (num == 1) {
       /* word_to_dword */
       /* pop_result */
       return;
@@ -680,8 +682,8 @@ function door_slot_21() /* entry=2568 class_id=0x0a06 slot=0x21 */
     }
     return;
   }
-  else if (local_02 == 0x046a) {
-    if (arg_10 == 2) {
+  else if (doorType == 0x046a) {
+    if (num == 2) {
       /* word_to_dword */
       /* pop_result */
       return;
@@ -696,8 +698,8 @@ function door_slot_21() /* entry=2568 class_id=0x0a06 slot=0x21 */
     }
     return;
   }
-  else if (local_02 == 0x046c) {
-    if (arg_10 == 1) {
+  else if (doorType == 0x046c) {
+    if (num == 1) {
       /* word_to_dword */
       /* pop_result */
       return;
@@ -712,8 +714,8 @@ function door_slot_21() /* entry=2568 class_id=0x0a06 slot=0x21 */
     }
     return;
   }
-  else if (local_02 == 0x03c6) {
-    if (arg_10 == 2) {
+  else if (doorType == 0x03c6) {
+    if (num == 2) {
       /* word_to_dword */
       /* pop_result */
       return;
@@ -728,8 +730,8 @@ function door_slot_21() /* entry=2568 class_id=0x0a06 slot=0x21 */
     }
     return;
   }
-  else if (local_02 == 0x046b) {
-    if (arg_10 == 1) {
+  else if (doorType == 0x046b) {
+    if (num == 1) {
       /* word_to_dword */
       /* pop_result */
       return;
@@ -744,8 +746,8 @@ function door_slot_21() /* entry=2568 class_id=0x0a06 slot=0x21 */
     }
     return;
   }
-  else if (local_02 == 0x028f) {
-    if (arg_10 == 2) {
+  else if (doorType == 0x028f) {
+    if (num == 2) {
       /* word_to_dword */
       /* pop_result */
       return;
@@ -760,8 +762,8 @@ function door_slot_21() /* entry=2568 class_id=0x0a06 slot=0x21 */
     }
     return;
   }
-  else if (local_02 == 0x0428) {
-    if (arg_10 == 1) {
+  else if (doorType == 0x0428) {
+    if (num == 1) {
       /* word_to_dword */
       /* pop_result */
       return;
@@ -776,8 +778,8 @@ function door_slot_21() /* entry=2568 class_id=0x0a06 slot=0x21 */
     }
     return;
   }
-  else if (local_02 == 0x0312) {
-    if (arg_10 == 2) {
+  else if (doorType == 0x0312) {
+    if (num == 2) {
       /* word_to_dword */
       /* pop_result */
       return;
@@ -792,8 +794,8 @@ function door_slot_21() /* entry=2568 class_id=0x0a06 slot=0x21 */
     }
     return;
   }
-  else if (local_02 == 0x0415) {
-    if (arg_10 == 1) {
+  else if (doorType == 0x0415) {
+    if (num == 1) {
       /* word_to_dword */
       /* pop_result */
       return;
@@ -808,7 +810,7 @@ function door_slot_21() /* entry=2568 class_id=0x0a06 slot=0x21 */
     }
     return;
   }
-  else if (local_02 == 0x04d8) {
+  else if (doorType == 0x04d8) {
     spawn DOOR2.slot_3c(pid, arg_06);
     suspend;
     /* dword_to_word */
@@ -819,8 +821,8 @@ function door_slot_21() /* entry=2568 class_id=0x0a06 slot=0x21 */
     }
     return;
   }
-  else if (local_02 == 0x03ff) {
-    if (arg_10 == 2) {
+  else if (doorType == 0x03ff) {
+    if (num == 2) {
       /* word_to_dword */
       /* pop_result */
       return;
@@ -835,8 +837,8 @@ function door_slot_21() /* entry=2568 class_id=0x0a06 slot=0x21 */
     }
     return;
   }
-  else if (local_02 == 0x0440) {
-    if (arg_10 == 1) {
+  else if (doorType == 0x0440) {
+    if (num == 1) {
       /* word_to_dword */
       /* pop_result */
       return;
@@ -851,8 +853,8 @@ function door_slot_21() /* entry=2568 class_id=0x0a06 slot=0x21 */
     }
     return;
   }
-  else if (local_02 == 0x03f8) {
-    if (arg_10 == 2) {
+  else if (doorType == 0x03f8) {
+    if (num == 2) {
       /* word_to_dword */
       /* pop_result */
       return;
@@ -867,8 +869,8 @@ function door_slot_21() /* entry=2568 class_id=0x0a06 slot=0x21 */
     }
     return;
   }
-  else if (local_02 == 0x043f) {
-    if (arg_10 == 1) {
+  else if (doorType == 0x043f) {
+    if (num == 1) {
       /* word_to_dword */
       /* pop_result */
       return;
@@ -883,8 +885,8 @@ function door_slot_21() /* entry=2568 class_id=0x0a06 slot=0x21 */
     }
     return;
   }
-  else if (local_02 == 51) {
-    if (arg_10 == 2) {
+  else if (doorType == 51) {
+    if (num == 2) {
       /* word_to_dword */
       /* pop_result */
       return;
@@ -899,8 +901,8 @@ function door_slot_21() /* entry=2568 class_id=0x0a06 slot=0x21 */
     }
     return;
   }
-  else if (local_02 == 0x009c) {
-    if (arg_10 == 1) {
+  else if (doorType == 0x009c) {
+    if (num == 1) {
       /* word_to_dword */
       /* pop_result */
       return;
@@ -915,8 +917,8 @@ function door_slot_21() /* entry=2568 class_id=0x0a06 slot=0x21 */
     }
     return;
   }
-  else if (local_02 == 108) {
-    if (arg_10 == 2) {
+  else if (doorType == 108) {
+    if (num == 2) {
       /* word_to_dword */
       /* pop_result */
       return;
@@ -931,8 +933,8 @@ function door_slot_21() /* entry=2568 class_id=0x0a06 slot=0x21 */
     }
     return;
   }
-  else if (local_02 == 0x0400) {
-    if (arg_10 == 1) {
+  else if (doorType == 0x0400) {
+    if (num == 1) {
       /* word_to_dword */
       /* pop_result */
       return;
@@ -953,5 +955,4 @@ function door_slot_21() /* entry=2568 class_id=0x0a06 slot=0x21 */
     return;
   }
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

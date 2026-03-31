@@ -4,22 +4,22 @@ function crumorph_equip() /* entry=794 class_id=0x0318 slot=0x0a */
   process_exclude();
   for local_02 in nearby_items(family=6, origin=arg_06) {
     if (Actor.isNPC(local_02)) {
-      if (intrinsic_000d(local_02) == intrinsic_001f(arg_06)) {
-        if (intrinsic_0053(local_02) == 0) {
+      if (Intrinsic000D(local_02) == Item.getQLo(arg_06)) {
+        if (Actor.setActivity(local_02) == 0) {
           NPC.slot_2a(local_02);
           if (!retval) {
             return;
           }
-          local_04 = intrinsic_0052(local_02);
+          local_04 = Actor.setDefaultActivity2(local_02);
           spawn FREE.slot_3b(pid, 3, 0x00000000);
           suspend;
           spawn NPC.slot_28(pid, local_02);
           suspend;
-          while (intrinsic_0016() > 1) {
+          while (World.getControlledNPCNum() > 1) {
             spawn FREE.slot_3b(pid, 2, 0x00000000);
             suspend;
           }
-          if (intrinsic_0053(local_02) == 0) {
+          if (Actor.setActivity(local_02) == 0) {
             spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
             suspend;
           }
@@ -31,7 +31,6 @@ function crumorph_equip() /* entry=794 class_id=0x0318 slot=0x0a */
         }
       }
     }
-    /* loopnext */
   }
   return;
 }

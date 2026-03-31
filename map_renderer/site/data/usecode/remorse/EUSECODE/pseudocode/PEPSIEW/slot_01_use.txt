@@ -12,23 +12,22 @@ function pepsiew_use() /* entry=150 class_id=0x0094 slot=0x01 */
   process_exclude();
   x = 1;
   y = 0;
-  wp = (intrinsic_0013(arg_06) + 32);
-  local_11 = Item.legal_create(arg_06);
+  wp = (Item.getX(arg_06) + 32);
+  local_11 = Item.getY(arg_06);
   local_09 = (Item.getZ(arg_06) + 32);
-  if (intrinsic_0018(100, 0) > 50) {
-    if (intrinsic_005b(wp, 0, 0x0343, item)) {
+  if (UCMachine.rndRange(100, 0) > 50) {
+    if (Item.legal_create(wp, 0, 0x0343, item)) {
       suspend;
       for item in nearby_items(shape=SMALL_BOX_PROP, origin=global[0x003c]) {
-        if (intrinsic_0004(item) & 0x0080) {
+        if (Item.getStatus(item) & 0x0080) {
           spawn ITEM.slot_28(pid, 1, 0, item);
           suspend;
         }
-        /* loopnext */
       }
     }
     return;
   }
-  else if (intrinsic_005b(wp, 1, 0x0579, item)) {
+  else if (Item.legal_create(wp, 1, 0x0579, item)) {
     suspend;
   }
   return;

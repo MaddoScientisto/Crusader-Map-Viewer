@@ -1,18 +1,22 @@
 function fallingc_gotHit() /* entry=97 class_id=0x005f slot=0x06 */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    vel, /* [BP+12h] type=0x69 */
+    item; /* [BP-02h] type=0x24 */
+
   set_info(0x020c, *(arg_06));
   process_exclude();
   /* loopscr */
   /* loop */
   while (condition) {
-    if (intrinsic_0016(local_02) == 95) {
+    if (Item.getShape(item) == 95) {
     }
-    else if ((intrinsic_003c(local_02) == 6) && (Actor.isNPC(local_02) == 0)) {
-      spawn ITEM.slot_28(pid, 1, 0, local_02);
+    else if ((Item.getItemFamily(item) == 6) && (Actor.isNPC(item) == 0)) {
+      spawn ITEM.slot_28(pid, 1, 0, item);
       suspend;
     }
-    /* loopnext */
   }
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

@@ -7,31 +7,29 @@ function cryobox_equip() /* entry=1507 class_id=0x05e1 slot=0x0a */
     /* loopscr */
     /* loop */
     while (condition) {
-      if (intrinsic_001f(local_02) == intrinsic_001f(arg_06)) {
-        if (intrinsic_0004(local_02) & 0x1000) {
+      if (Item.getQLo(local_02) == Item.getQLo(arg_06)) {
+        if (Item.getStatus(local_02) & 0x1000) {
         }
-        else if ((intrinsic_0011(local_02) == 0x05dd) || (intrinsic_0011(local_02) == 0x05d9)) {
+        else if ((Item.getShape(local_02) == 0x05dd) || (Item.getShape(local_02) == 0x05d9)) {
           spawn CRYOBOX.slot_21(0, local_02, arg_06);
         }
-        else if ((intrinsic_0011(local_02) == 0x05de) || (intrinsic_0011(local_02) == 0x05da)) {
+        else if ((Item.getShape(local_02) == 0x05de) || (Item.getShape(local_02) == 0x05da)) {
           spawn CRYOBOX.slot_21(1, local_02, arg_06);
         }
       }
-      /* loopnext */
     }
     return;
   }
   else if (arg_10 == 1) {
     for local_02 in selector_0x42(arg0=0x05e0, arg1=0x05df, arg2=(32 * 32), origin=arg_06) {
-      if (intrinsic_001f(local_02) == intrinsic_001f(arg_06)) {
-        if (intrinsic_0011(local_02) == 0x05df) {
+      if (Item.getQLo(local_02) == Item.getQLo(arg_06)) {
+        if (Item.getShape(local_02) == 0x05df) {
           spawn CRYOBOX.slot_20(0, local_04, arg_06);
         }
-        else if (intrinsic_0011(local_02) == 0x05e0) {
+        else if (Item.getShape(local_02) == 0x05e0) {
           spawn CRYOBOX.slot_20(1, local_04, arg_06);
         }
       }
-      /* loopnext */
     }
     return;
   }

@@ -1,39 +1,57 @@
 function door2_slot_35() /* entry=2569 class_id=0x0a07 slot=0x35 */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    item, /* [BP-02h] type=0x24 */
+    item2, /* [BP-04h] type=0x24 */
+    item3, /* [BP-06h] type=0x24 */
+    prisDoor, /* [BP-08h] type=0x24 */
+    counter, /* [BP-10h] type=0x69 */
+    maxFrame, /* [BP-12h] type=0x69 */
+    cox, /* [BP-14h] type=0x69 */
+    coy, /* [BP-16h] type=0x69 */
+    coz, /* [BP-18h] type=0x69 */
+    x1, /* [BP-20h] type=0x69 */
+    y1, /* [BP-22h] type=0x69 */
+    x2, /* [BP-24h] type=0x69 */
+    y2, /* [BP-26h] type=0x69 */
+    z1, /* [BP-28h] type=0x69 */
+    z2, /* [BP-30h] type=0x69 */
+    link; /* [BP-32h] type=0x69 */
+
   set_info(0x0207, *(arg_06));
   set_info(1, 0);
-  local_12 = 7;
-  local_08 = *(arg_06);
-  local_14 = intrinsic_0013(arg_06);
-  local_16 = Item.legal_create(arg_06);
-  local_18 = Item.getZ(arg_06);
+  maxFrame = 7;
+  prisDoor = *(arg_06);
+  cox = Item.getX(arg_06);
+  coy = Item.getY(arg_06);
+  coz = Item.getZ(arg_06);
   /* loopscr */
   /* loopscr */
   /* loopscr */
   /* loopscr */
   /* loop */
   while (condition) {
-    if (Item.getFrame(local_02) == 0) {
-      local_20 = intrinsic_0013(local_02);
-      local_22 = Item.legal_create(local_02);
-      local_28 = Item.getZ(local_02);
+    if (Item.getFrame(item) == 0) {
+      x1 = Item.getX(item);
+      y1 = Item.getY(item);
+      z1 = Item.getZ(item);
     }
     else {
-      local_24 = intrinsic_0013(local_02);
-      local_26 = Item.legal_create(local_02);
-      local_30 = Item.getZ(local_02);
+      x2 = Item.getX(item);
+      y2 = Item.getY(item);
+      z2 = Item.getZ(item);
     }
-    /* loopnext */
   }
-  local_32 = intrinsic_0069(arg_06);
-  if (intrinsic_0019((local_18 - 80), local_16, local_14, 7, 0x01ee, local_04) == 1) {
+  link = Item.andStatus(arg_06);
+  if (Item.legal_create((coz - 80), coy, cox, 7, 0x01ee, item2) == 1) {
     spawn FREE.slot_32(pid, 5, 0x00000000);
     suspend;
-    local_10 = 1;
-    while (local_10 <= local_12) {
+    counter = 1;
+    while (counter <= maxFrame) {
       spawn FREE.slot_32(pid, 5, 0x00000000);
       suspend;
-      local_10 = (1 + local_10);
+      counter = (1 + counter);
     }
     /* word_to_dword */
     /* pop_result */
@@ -45,5 +63,4 @@ function door2_slot_35() /* entry=2569 class_id=0x0a07 slot=0x35 */
     return;
   }
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

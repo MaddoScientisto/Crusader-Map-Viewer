@@ -20,11 +20,10 @@ function monster_equip() /* entry=1234 class_id=0x04d0 slot=0x0a */
             return;
           }
         }
-        /* loopnext */
       }
       arg_10 = (arg_10 - 10);
       for local_08 in nearby_items(family=1, origin=local_02) {
-        if (intrinsic_00b8(local_08) == intrinsic_00b8(local_02)) {
+        if (Item.getCY(local_08) == Item.getCY(local_02)) {
           spawn DOOR.slot_21(pid, 1, local_08);
           suspend;
           /* dword_to_word */
@@ -39,7 +38,6 @@ function monster_equip() /* entry=1234 class_id=0x04d0 slot=0x0a */
             }
           }
         }
-        /* loopnext */
       }
       return;
     }
@@ -55,7 +53,6 @@ function monster_equip() /* entry=1234 class_id=0x04d0 slot=0x0a */
         if (local_06 < 0x0100) {
           local_04 = (1 + local_04);
         }
-        /* loopnext */
       }
       if (local_04 <= 4) {
         arg_10 = (arg_10 - 20);
@@ -81,7 +78,6 @@ function monster_equip() /* entry=1234 class_id=0x04d0 slot=0x0a */
             return;
           }
         }
-        /* loopnext */
       }
       arg_10 = (arg_10 - 80);
       spawn ITEM.slot_2f(pid, arg_10, local_02, arg_06);

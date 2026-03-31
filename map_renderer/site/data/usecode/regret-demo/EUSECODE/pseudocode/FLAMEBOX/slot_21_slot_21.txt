@@ -2,8 +2,8 @@ function flamebox_slot_21() /* entry=1029 class_id=0x0403 slot=0x21 */
 {
   set_info(1, *(arg_06));
   ITEM.slot_24(0x1000, arg_10);
-  if (intrinsic_006d()) {
-    if ((intrinsic_0011(arg_10) == 0x043a) || (intrinsic_0011(arg_10) == 0x0518)) {
+  if (Intrinsic006D()) {
+    if ((Item.getShape(arg_10) == 0x043a) || (Item.getShape(arg_10) == 0x0518)) {
       while ((Item.getFrame(arg_10) != 5) && (Item.isOnScreen(arg_10) == 1)) {
         spawn FREE.slot_3b(pid, 2, 0x00000000);
         suspend;
@@ -23,7 +23,7 @@ function flamebox_slot_21() /* entry=1029 class_id=0x0403 slot=0x21 */
     local_06 = 0x0438;
   }
   ITEM.slot_24(0x1000, local_04);
-  if (intrinsic_006d()) {
+  if (Intrinsic006D()) {
     while ((Item.getFrame(local_04) != 4) && (Item.isOnScreen(local_04) == 1)) {
       spawn FREE.slot_3b(pid, 2, 0x00000000);
       suspend;

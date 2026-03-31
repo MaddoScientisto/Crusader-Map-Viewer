@@ -15,13 +15,12 @@ function flame_slot_20() /* entry=2573 class_id=0x0a0b slot=0x20 */
       detect = 0;
       for item in nearby_items(family=6, origin=arg_06) {
         if (Actor.isNPC(item)) {
-          if (intrinsic_00a4(*(arg_06), item)) {
+          if (Item.overlaps(*(arg_06), item)) {
             n = item;
             NPC.slot_2b(n);
             detect = 1;
           }
         }
-        /* loopnext */
       }
       spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
       suspend;

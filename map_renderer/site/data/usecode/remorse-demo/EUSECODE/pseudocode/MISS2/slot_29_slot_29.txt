@@ -14,18 +14,15 @@ function miss2_slot_29() /* entry=2320 class_id=0x090e slot=0x29 */
     set_info(1, 0);
 
   block_1dbd:
-    while (intrinsic_0036()) {
+    while (Actor.doAnim(&global[0x003c])) {
       spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
       suspend;
     }
 
   block_1df3:
-    /* global_address */
-    if !intrinsic_0038() goto block_1e33;
+    if !AudioProcess.stopSFXCru(&global[0x003c]) goto block_1e33;
 
   block_1e03:
-    /* global_address */
-    /* global_address */
     suspend;
 
   block_1e33_selector_00:
@@ -38,22 +35,17 @@ function miss2_slot_29() /* entry=2320 class_id=0x090e slot=0x29 */
     goto block_1e9f;
 
   block_1e9b:
-    /* loopnext */
     goto block_1e51;
 
   block_1e9f:
     if !vargas goto block_217f;
 
   block_1ea9:
-    /* global_address */
-    spawn NPC.slot_22(pid, 3, 0);
+    spawn NPC.slot_22(pid, 3, 0, &global[0x003c]);
     suspend;
-    /* global_address */
-    spawn NPC.slot_22(pid, 3, 14);
+    spawn NPC.slot_22(pid, 3, 14, &global[0x003c]);
     suspend;
     suspend;
-    /* global_address */
-    /* global_address */
     suspend;
     spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
     suspend;
@@ -62,7 +54,6 @@ function miss2_slot_29() /* entry=2320 class_id=0x090e slot=0x29 */
 
   block_1ea9_selector_00:
     for item in selector_0x42(arg0=0x0329, arg1=0x032a, arg2=(30 * 32), origin=global[0x003c]) {
-      /* loopnext */
     }
 
   block_1fda:
@@ -72,26 +63,19 @@ function miss2_slot_29() /* entry=2320 class_id=0x090e slot=0x29 */
     /* free_stack_string */
     suspend;
     spawn MISS2.slot_21(vargas, 0x00000000);
-    /* global_address */
-    spawn NPC.slot_22(pid, 2, 2);
+    spawn NPC.slot_22(pid, 2, 2, &global[0x003c]);
     suspend;
-    /* global_address */
-    spawn NPC.slot_22(pid, 5, 0);
+    spawn NPC.slot_22(pid, 5, 0, &global[0x003c]);
     suspend;
-    /* global_address */
-    spawn NPC.slot_22(pid, 1, 14);
+    spawn NPC.slot_22(pid, 1, 14, &global[0x003c]);
     suspend;
-    /* global_address */
-    spawn NPC.slot_22(pid, 7, 12);
+    spawn NPC.slot_22(pid, 7, 12, &global[0x003c]);
     suspend;
-    /* global_address */
-    /* global_address */
     suspend;
     spawn FREE.waitNTimerTicks(pid, 100, 0x00000000);
     suspend;
     spawn NPC.slot_24(pid, vargas);
     suspend;
-    /* global_address */
 
   block_217f:
     return;

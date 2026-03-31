@@ -10,8 +10,7 @@ function special_slot_20() /* entry=1228 class_id=0x04ca slot=0x20 */
 
   set_info(0x021b, *(arg_06));
   if (cmd == 3) {
-    /* global_address */
-    a = intrinsic_001c();
+    a = Actor.getDir(&global[0x003c]);
     if ((a > 4) || (a < 12)) {
       spawn TRIGGER.slot_20(pid, phase, *(arg_06), arg_06);
       suspend;
@@ -19,8 +18,7 @@ function special_slot_20() /* entry=1228 class_id=0x04ca slot=0x20 */
     return;
   }
   else if (cmd == 4) {
-    /* global_address */
-    a = intrinsic_001c();
+    a = Actor.getDir(&global[0x003c]);
     if ((a > 4) && (a < 12)) {
       spawn TRIGGER.slot_20(pid, phase, *(arg_06), arg_06);
       suspend;
@@ -28,20 +26,17 @@ function special_slot_20() /* entry=1228 class_id=0x04ca slot=0x20 */
     return;
   }
   else if (cmd == 5) {
-    /* global_address */
-    if (intrinsic_00cc() == 1) {
+    if (Actor.getInCombat(&global[0x003c]) == 1) {
       spawn TRIGGER.slot_20(pid, phase, *(arg_06), arg_06);
       suspend;
     }
     return;
   }
   else if (cmd == 6) {
-    /* global_address */
-    if (intrinsic_00cc() == 0) {
+    if (Actor.getInCombat(&global[0x003c]) == 0) {
       spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
       suspend;
-      /* global_address */
-      if (intrinsic_00cc() == 0) {
+      if (Actor.getInCombat(&global[0x003c]) == 0) {
         spawn TRIGGER.slot_20(pid, phase, *(arg_06), arg_06);
         suspend;
       }
@@ -54,13 +49,12 @@ function special_slot_20() /* entry=1228 class_id=0x04ca slot=0x20 */
       if (npc < 0x0100) {
         a = (1 + a);
       }
-      /* loopnext */
     }
     if (a > 4) {
       spawn TRIGGER.slot_20(pid, phase, *(arg_06), arg_06);
       suspend;
     }
-    spawn FREE.waitNTimerTicks(pid, (intrinsic_00f3(arg_06) * 9), 0x00000000);
+    spawn FREE.waitNTimerTicks(pid, (Item.getQHi(arg_06) * 9), 0x00000000);
     suspend;
     return;
   }
@@ -70,18 +64,17 @@ function special_slot_20() /* entry=1228 class_id=0x04ca slot=0x20 */
       if (npc < 0x0100) {
         a = (1 + a);
       }
-      /* loopnext */
     }
     if (a <= 4) {
       spawn TRIGGER.slot_20(pid, phase, *(arg_06), arg_06);
       suspend;
     }
-    spawn FREE.waitNTimerTicks(pid, (intrinsic_00f3(arg_06) * 9), 0x00000000);
+    spawn FREE.waitNTimerTicks(pid, (Item.getQHi(arg_06) * 9), 0x00000000);
     suspend;
     return;
   }
   else if (cmd == 9) {
-    q = intrinsic_00ea(arg_06);
+    q = Item.getQLo(arg_06);
     FREE.slot_20(q, 3);
     spawn TRIGGER.slot_20(pid, phase, *(arg_06), arg_06);
     suspend;

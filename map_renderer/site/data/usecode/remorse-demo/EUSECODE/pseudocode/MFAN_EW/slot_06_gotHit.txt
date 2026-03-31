@@ -1,13 +1,17 @@
 function mfan_ew_gotHit() /* entry=514 class_id=0x0200 slot=0x06 */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    vel; /* [BP+12h] type=0x69 */
+
   set_info(0x020c, *(arg_06));
   process_exclude();
-  FREE.slot_2c(arg_12, arg_10);
+  FREE.slot_2c(vel, ref);
   if (retval) {
     FREE.slot_20(1);
     spawn ITEM.slot_28(pid, 0, 1, arg_06);
     suspend;
   }
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

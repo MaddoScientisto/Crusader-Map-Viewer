@@ -1,71 +1,81 @@
 function timer_slot_20() /* entry=1227 class_id=0x04c9 slot=0x20 */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    cmd, /* [BP-02h] type=0x69 */
+    time, /* [BP-04h] type=0x69 */
+    phase2, /* [BP-06h] type=0x69 */
+    a, /* [BP-08h] type=0x69 */
+    l1, /* [BP-12h] type=0x64 */
+    l2, /* [BP-16h] type=0x64 */
+    l3; /* [BP-20h] type=0x64 */
+
   set_info(1, 0);
-  local_04 = ((intrinsic_0003(arg_06) * 0x0100) + intrinsic_0100(arg_06));
-  if (local_04 == 0) {
+  time = ((Item.getMapArray(arg_06) * 0x0100) + Item.getNPCNum(arg_06));
+  if (time == 0) {
     return;
   }
   else {
-    local_02 = intrinsic_00fb(arg_06);
-    local_08 = (local_02 / 32);
-    if (local_08 == 0) {
-      local_06 = 0;
+    cmd = Item.getQHi(arg_06);
+    a = (cmd / 32);
+    if (a == 0) {
+      phase2 = 0;
     }
-    else if (local_08 == 1) {
-      local_06 = 10;
+    else if (a == 1) {
+      phase2 = 10;
     }
-    else if (local_08 == 2) {
-      local_06 = 25;
+    else if (a == 2) {
+      phase2 = 25;
     }
-    else if (local_08 == 3) {
-      local_06 = 40;
+    else if (a == 3) {
+      phase2 = 40;
     }
-    else if (local_08 == 4) {
-      local_06 = 50;
+    else if (a == 4) {
+      phase2 = 50;
     }
-    else if (local_08 == 5) {
-      local_06 = 60;
+    else if (a == 5) {
+      phase2 = 60;
     }
-    else if (local_08 == 6) {
-      local_06 = 75;
+    else if (a == 6) {
+      phase2 = 75;
     }
-    else if (local_08 == 7) {
-      local_06 = 90;
+    else if (a == 7) {
+      phase2 = 90;
     }
     /* word_to_dword */
-    local_12 = local_04;
+    l1 = time;
     /* word_to_dword */
-    local_16 = local_06;
-    local_12 = (local_12 * local_16);
+    l2 = phase2;
+    l1 = (l1 * l2);
     /* word_to_dword */
-    local_20 = 100;
-    local_12 = (local_12 / local_20);
+    l3 = 100;
+    l1 = (l1 / l3);
     /* dword_to_word */
-    local_06 = local_12;
-    local_04 = (local_04 - local_06);
+    phase2 = l1;
+    time = (time - phase2);
     while (1) {
-      if (local_06) {
-        spawn FREE.waitNTimerTicks(pid, local_06, 0x00000000);
+      if (phase2) {
+        spawn FREE.waitNTimerTicks(pid, phase2, 0x00000000);
         suspend;
-        if ((intrinsic_0004(arg_06) & 0x1000) == 0) {
+        if ((Item.getStatus(arg_06) & 0x1000) == 0) {
           return;
         }
-        if ((intrinsic_002c(arg_06) == 1) || ((local_02 & 8) == 0)) {
+        if ((Item.inFastArea(arg_06) == 1) || ((cmd & 8) == 0)) {
           spawn TRIGGER.slot_20(pid, (0x0080 + 0), *(arg_06), arg_06);
           suspend;
         }
       }
-      spawn FREE.waitNTimerTicks(pid, local_04, 0x00000000);
+      spawn FREE.waitNTimerTicks(pid, time, 0x00000000);
       suspend;
-      if ((intrinsic_0004(arg_06) & 0x1000) == 0) {
-        if (local_02 & 16) {
+      if ((Item.getStatus(arg_06) & 0x1000) == 0) {
+        if (cmd & 16) {
           spawn TRIGGER.slot_20(pid, (0x0080 + 1), *(arg_06), arg_06);
           suspend;
         }
         return;
       }
-      if ((intrinsic_002c(arg_06) == 1) || ((local_02 & 8) == 0)) {
-        if (local_06) {
+      if ((Item.inFastArea(arg_06) == 1) || ((cmd & 8) == 0)) {
+        if (phase2) {
           spawn TRIGGER.slot_20(pid, (0x0080 + 1), *(arg_06), arg_06);
           suspend;
         }
@@ -74,12 +84,11 @@ function timer_slot_20() /* entry=1227 class_id=0x04c9 slot=0x20 */
           suspend;
         }
       }
-      if ((local_02 & 1) == 0) {
+      if ((cmd & 1) == 0) {
         /* bit_not */
         return;
       }
     }
   }
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

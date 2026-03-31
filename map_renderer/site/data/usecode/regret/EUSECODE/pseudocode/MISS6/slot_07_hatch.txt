@@ -2,77 +2,57 @@ function miss6_hatch() /* entry=2324 class_id=0x0912 slot=0x07 */
 {
   set_info(0x0210, *(arg_06));
   process_exclude();
-  if (intrinsic_003b(arg_06) == 1) {
+  if (Egg.getEggId(arg_06) == 1) {
     spawn FREE.slot_3b(pid, 1, 0x00000000);
     suspend;
-    /* global_address */
     suspend;
     spawn FREE.slot_3b(pid, 60, 0x00000000);
     suspend;
     for local_02 in nearby_items(shape=0x00c0, origin=arg_06) {
       local_06 = local_02;
-      /* loopnext */
     }
     if (local_06) {
       spawn DOOR.slot_21(pid, 1, local_06);
       suspend;
-      /* global_address */
       suspend;
-      /* global_address */
       suspend;
-      /* global_address */
       suspend;
-      /* global_address */
       suspend;
-      /* global_address */
       suspend;
       spawn DOOR.slot_21(pid, 2, local_06);
       suspend;
     }
     FREE.slot_23();
   }
-  if (intrinsic_003b(arg_06) == 22) {
+  if (Egg.getEggId(arg_06) == 22) {
     for local_06 in nearby_items(shape=0x01ab, origin=arg_06) {
-      if (intrinsic_001f(local_06) == 22) {
+      if (Item.getQLo(local_06) == 22) {
         spawn DOOR.slot_21(pid, 1, local_06);
         suspend;
       }
-      /* loopnext */
     }
-    /* global_address */
-    if (intrinsic_0061()) {
-      /* global_address */
-      /* global_address */
+    if (Intrinsic0061(&global[0x001e])) {
       suspend;
     }
-    /* global_address */
     suspend;
-    /* global_address */
     suspend;
-    /* global_address */
     suspend;
     for local_02 in nearby_items(shape=0x053a, origin=arg_06) {
-      if (intrinsic_001f(local_02) == 22) {
+      if (Item.getQLo(local_02) == 22) {
         FREE.slot_32(local_02, global[0x001e]);
         while ((retval > 3) && (local_04 != 10)) {
-          /* global_address */
-          /* global_address */
-          /* global_address */
-          spawn NPC.slot_22(intrinsic_00cd(Item.getX(pid, 1, Item.getY((Item.getY(local_02) - 32), (Item.getX(local_02) - 16)))));
+          spawn NPC.slot_22(Item.getDirFromTo16(pid, 1, (Item.getY(local_02) - 32), Item.getX(Item.getY((Item.getX(local_02) - 16), &global[0x001e]), &global[0x001e])), &global[0x001e]);
           suspend;
           local_04 = (1 + local_04);
         }
       }
-      /* loopnext */
     }
-    /* global_address */
     suspend;
-    /* global_address */
     suspend;
     spawn FREE.slot_3b(pid, 60, 0x00000000);
     suspend;
     for local_02 in nearby_items(shape=0x041c, origin=arg_06) {
-      if (intrinsic_001f(local_02) == 22) {
+      if (Item.getQLo(local_02) == 22) {
         local_04 = 2;
         while (local_04 <= 29) {
           spawn FREE.slot_3b(pid, 10, 0x00000000);
@@ -81,22 +61,15 @@ function miss6_hatch() /* entry=2324 class_id=0x0912 slot=0x07 */
           local_04 = (1 + local_04);
         }
       }
-      /* loopnext */
     }
     spawn FREE.slot_21(pid, 0x01e5, 0x00000000);
     suspend;
     spawn FREE.slot_21(pid, 0x01e6, 0x00000000);
     suspend;
-    /* global_address */
     suspend;
     for local_02 in nearby_items(shape=0x0361, origin=arg_06) {
-      if (intrinsic_001f(local_02) == 22) {
-        /* global_address */
-      }
-      /* loopnext */
     }
     for local_02 in nearby_items(shape=0x041c, origin=arg_06) {
-      /* loopnext */
     }
     spawn FREE.slot_21(pid, 0x0084, 0x00000000);
     suspend;
@@ -104,14 +77,13 @@ function miss6_hatch() /* entry=2324 class_id=0x0912 slot=0x07 */
     suspend;
     local_04 = 1;
     while (local_04 <= 3) {
-      /* global_address */
       suspend;
       spawn FREE.slot_3b(pid, 20, 0x00000000);
       suspend;
       local_04 = (1 + local_04);
     }
     for local_02 in nearby_items(shape=0x041c, origin=arg_06) {
-      if (intrinsic_001f(local_02) == 22) {
+      if (Item.getQLo(local_02) == 22) {
         local_04 = 31;
         while (local_04 <= 60) {
           spawn FREE.slot_3b(pid, 10, 0x00000000);
@@ -120,7 +92,6 @@ function miss6_hatch() /* entry=2324 class_id=0x0912 slot=0x07 */
           local_04 = (1 + local_04);
         }
       }
-      /* loopnext */
     }
   }
   return;

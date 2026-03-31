@@ -10,8 +10,8 @@ function basegun_calledFromAnim() /* entry=1226 class_id=0x04c8 slot=0x0e */
   set_info(0x021a, *(arg_06));
   process_exclude();
   n = *(arg_06);
-  dir = intrinsic_001c(n);
-  b = intrinsic_001d(n);
+  dir = Actor.getDir(n);
+  b = Actor.getLastAnimSet(n);
   if ((b == 13) || (b == 8)) {
     WALLGUN.slot_40(0, 5, dir, dir, arg_06);
     WALLGUN.slot_3f(retval, dir, arg_06);

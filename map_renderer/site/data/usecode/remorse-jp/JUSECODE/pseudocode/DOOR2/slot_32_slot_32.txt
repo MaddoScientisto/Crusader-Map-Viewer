@@ -1,35 +1,42 @@
 function door2_slot_32() /* entry=2569 class_id=0x0a07 slot=0x32 */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    doorList, /* [BP-02h] type=0x6c */
+    doorList2, /* [BP-04h] type=0x6c */
+    counter, /* [BP-06h] type=0x69 */
+    door1, /* [BP-08h] type=0x24 */
+    door2, /* [BP-10h] type=0x24 */
+    item, /* [BP-12h] type=0x24 */
+    maxFrame; /* [BP-14h] type=0x69 */
+
   set_info(0x0207, *(arg_06));
   spawn DOOR.slot_22(pid, arg_06);
   suspend;
   /* create_list */
   /* free_local_list */
-  local_02 = 0x0289;
+  doorList = 0x0289;
   /* create_list */
   /* free_local_list */
-  local_04 = 0x028e;
-  FREE.slot_3a(0x01c7, 0x0288, 0x028c, 0x0287, 0x01c6, 0x028a, 0x028b, 0x028d, local_02);
+  doorList2 = 0x028e;
+  FREE.slot_3a(0x01c7, 0x0288, 0x028c, 0x0287, 0x01c6, 0x028a, 0x028b, 0x028d, doorList);
   /* free_stack_list */
-  local_14 = retval;
-  for local_12 in nearby_items(shape=ELEVATOR_DOOR_RIGHT_2, origin=arg_06) {
-    local_08 = local_12;
-    /* loopnext */
+  maxFrame = retval;
+  for item in nearby_items(shape=ELEVATOR_DOOR_RIGHT_2, origin=arg_06) {
+    door1 = item;
   }
-  for local_12 in nearby_items(shape=ELEVATOR_DOOR_LEFT_2, origin=arg_06) {
-    local_10 = local_12;
-    /* loopnext */
+  for item in nearby_items(shape=ELEVATOR_DOOR_LEFT_2, origin=arg_06) {
+    door2 = item;
   }
-  local_06 = 2;
-  while (local_06 <= local_14) {
+  counter = 2;
+  while (counter <= maxFrame) {
     spawn FREE.slot_32(pid, 5, 0x00000000);
     suspend;
-    local_06 = (1 + local_06);
+    counter = (1 + counter);
   }
   /* word_to_dword */
   /* pop_result */
   /* free_local_list */
   /* free_local_list */
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

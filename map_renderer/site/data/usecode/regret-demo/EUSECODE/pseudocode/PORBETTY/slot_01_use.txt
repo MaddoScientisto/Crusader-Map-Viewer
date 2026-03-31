@@ -3,123 +3,104 @@ function porbetty_use() /* entry=1600 class_id=0x063e slot=0x01 */
   set_info(0x0207, *(arg_06));
   process_exclude();
   local_03 = *(arg_06);
-  if (intrinsic_0076(arg_06)) {
-    /* global_address */
-    if (intrinsic_0040() == 25) {
+  if (IntrinsicReturn0(arg_06)) {
+    if (AudioProcess.stopSFXCru(&global[0x001e]) == 25) {
       return;
     }
     set_info(0x00f0, 0);
     local_07 = 0;
-    /* global_address */
-    while (Item.legal_move()) {
+    while (Item.legal_move(&global[0x001e])) {
       spawn FREE.slot_3b(pid, 2, 0x00000000);
       suspend;
     }
-    /* global_address */
-    if (intrinsic_00d9() == 0) {
+    if (Actor.getDefaultActivity2(&global[0x001e]) == 0) {
       local_09 = -1;
       local_11 = -3;
     }
-    else if (intrinsic_00d9() == 1) {
+    else if (Actor.getDefaultActivity2(&global[0x001e]) == 1) {
       local_09 = 0;
       local_11 = -3;
     }
-    else if (intrinsic_00d9() == 2) {
+    else if (Actor.getDefaultActivity2(&global[0x001e]) == 2) {
       local_09 = 1;
       local_11 = -3;
     }
-    else if (intrinsic_00d9() == 3) {
+    else if (Actor.getDefaultActivity2(&global[0x001e]) == 3) {
       local_09 = 2;
       local_11 = -2;
     }
-    else if (intrinsic_00d9() == 4) {
+    else if (Actor.getDefaultActivity2(&global[0x001e]) == 4) {
       local_09 = 2;
       local_11 = -1;
     }
-    else if (intrinsic_00d9() == 5) {
+    else if (Actor.getDefaultActivity2(&global[0x001e]) == 5) {
       local_09 = 2;
       local_11 = 0;
     }
-    else if (intrinsic_00d9() == 6) {
+    else if (Actor.getDefaultActivity2(&global[0x001e]) == 6) {
       local_09 = 2;
       local_11 = 2;
     }
-    else if (intrinsic_00d9() == 7) {
+    else if (Actor.getDefaultActivity2(&global[0x001e]) == 7) {
       local_09 = 0;
       local_11 = 2;
     }
-    else if (intrinsic_00d9() == 8) {
+    else if (Actor.getDefaultActivity2(&global[0x001e]) == 8) {
       local_09 = -1;
       local_11 = 2;
     }
-    else if (intrinsic_00d9() == 9) {
+    else if (Actor.getDefaultActivity2(&global[0x001e]) == 9) {
       local_09 = -2;
       local_11 = 2;
     }
-    else if (intrinsic_00d9() == 10) {
+    else if (Actor.getDefaultActivity2(&global[0x001e]) == 10) {
       local_09 = -3;
       local_11 = 2;
     }
-    else if (intrinsic_00d9() == 11) {
+    else if (Actor.getDefaultActivity2(&global[0x001e]) == 11) {
       local_09 = -3;
       local_11 = 1;
     }
-    else if (intrinsic_00d9() == 12) {
+    else if (Actor.getDefaultActivity2(&global[0x001e]) == 12) {
       local_09 = -3;
       local_11 = 0;
     }
-    else if (intrinsic_00d9() == 13) {
+    else if (Actor.getDefaultActivity2(&global[0x001e]) == 13) {
       local_09 = -3;
       local_11 = -1;
     }
-    else if (intrinsic_00d9() == 14) {
+    else if (Actor.getDefaultActivity2(&global[0x001e]) == 14) {
       local_09 = -3;
       local_11 = -2;
     }
-    else if (intrinsic_00d9() == 15) {
+    else if (Actor.getDefaultActivity2(&global[0x001e]) == 15) {
       local_09 = -3;
       local_11 = -3;
     }
-    /* global_address */
-    if (intrinsic_0066()) {
+    if (Item.fall(&global[0x001e])) {
       local_01 = 1;
     }
     else {
       local_01 = 0;
-      /* global_address */
-      /* global_address */
       suspend;
     }
-    /* global_address */
-    local_18 = (Item.getX() + (local_09 * 16));
-    /* global_address */
-    local_16 = (Item.getY() + (local_11 * 16));
-    /* global_address */
-    local_14 = Item.getZ();
+    local_18 = (Item.getX(&global[0x001e]) + (local_09 * 16));
+    local_16 = (Item.getY(&global[0x001e]) + (local_11 * 16));
+    local_14 = Item.getZ(&global[0x001e]);
     if (Kernel.getNumProcesses(local_18, 0, 0x063e, local_13)) {
     }
-    else {
-      /* global_address */
-    }
     if (!local_01) {
-      /* global_address */
-      /* global_address */
       suspend;
-      /* global_address */
-      /* global_address */
       suspend;
     }
     return;
   }
+  else if (AudioProcess.stopSFXCru(&global[0x001e]) == 25) {
+    return;
+  }
   else {
-    /* global_address */
-    if (intrinsic_0040() == 25) {
-      return;
-    }
-    else {
-      spawn FREE.slot_3b(pid, 100, 0x00000000);
-      suspend;
-    }
+    spawn FREE.slot_3b(pid, 100, 0x00000000);
+    suspend;
   }
   return;
 }

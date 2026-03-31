@@ -1,13 +1,13 @@
 function spider_slot_21() /* entry=2581 class_id=0x0a13 slot=0x21 */
 {
   set_info(0x00f0, *(arg_06));
-  local_02 = intrinsic_0016();
+  local_02 = World.getControlledNPCNum();
   while (local_06 < 0x01f4) {
-    while (!intrinsic_0036(local_02, arg_06)) {
+    while (!Intrinsic0036(local_02, arg_06)) {
       spawn FREE.slot_3b(pid, 30, 0x00000000);
       suspend;
     }
-    ITEM.slot_20(1, intrinsic_010e(local_02), intrinsic_0026(local_02), arg_06);
+    ITEM.slot_20(1, Item.getCY(local_02), Item.getCX(local_02), arg_06);
     local_19 = retval;
     if ((local_19 == 0) || (local_19 == 1)) {
       local_08 = 0;

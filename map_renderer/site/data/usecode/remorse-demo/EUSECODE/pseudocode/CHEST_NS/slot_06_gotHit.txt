@@ -1,15 +1,21 @@
 function chest_ns_gotHit() /* entry=1361 class_id=0x054f slot=0x06 */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    vel, /* [BP+12h] type=0x69 */
+    fram; /* [BP-02h] type=0x69 */
+
   set_info(0x020c, *(arg_06));
   process_exclude();
-  FREE.slot_2c(arg_12, arg_10);
+  FREE.slot_2c(vel, ref);
   if (!retval) {
     return;
   }
   else {
-    local_02 = Item.getFrame(arg_06);
-    if (local_02 < 2) {
-      spawn ITEM.slot_27(pid, 40, arg_12, arg_10, arg_06);
+    fram = Item.getFrame(arg_06);
+    if (fram < 2) {
+      spawn ITEM.slot_27(pid, 40, vel, ref, arg_06);
       suspend;
       /* dword_to_word */
       if (!process_result) {
@@ -26,5 +32,4 @@ function chest_ns_gotHit() /* entry=1361 class_id=0x054f slot=0x06 */
     }
   }
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

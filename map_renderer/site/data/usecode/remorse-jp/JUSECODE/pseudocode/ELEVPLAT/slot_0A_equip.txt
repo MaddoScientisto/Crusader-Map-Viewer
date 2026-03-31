@@ -2,7 +2,7 @@ function elevplat_equip() /* entry=305 class_id=0x012f slot=0x0a */
 {
   set_info(0x0211, *(arg_06));
   process_exclude();
-  if (intrinsic_0004(arg_06) & 0x1000) {
+  if (Item.getStatus(arg_06) & 0x1000) {
     return;
   }
   else {
@@ -13,7 +13,7 @@ function elevplat_equip() /* entry=305 class_id=0x012f slot=0x0a */
       arg_10 = (arg_10 - 0x00a0);
     }
     if (arg_10 == 0x00ff) {
-      local_04 = intrinsic_0051(arg_06);
+      local_04 = Actor.clrInCombat(arg_06);
       if ((local_04 == 88) || ((local_02 + 1) <= local_04)) {
       }
       else if (local_04 < 88) {
@@ -32,7 +32,6 @@ function elevplat_equip() /* entry=305 class_id=0x012f slot=0x0a */
       while (condition) {
         spawn FREE.slot_32(pid, 2, 0x00000000);
         suspend;
-        /* loopnext */
       }
     }
   }

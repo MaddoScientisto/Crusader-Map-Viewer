@@ -1,23 +1,28 @@
 function fffloor2_gotHit() /* entry=458 class_id=0x01c8 slot=0x06 */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    vel, /* [BP+12h] type=0x69 */
+    n; /* [BP-02h] type=0x24 */
+
   set_info(0x020c, *(arg_06));
   process_exclude();
-  if ((Item.getFrame(arg_06) == 1) || (arg_10 > 0x0100)) {
+  if ((Item.getFrame(arg_06) == 1) || (ref > 0x0100)) {
     return;
   }
   else {
-    local_02 = arg_10;
-    while (intrinsic_00a6(*(arg_06), local_02)) {
+    n = ref;
+    while (getAnimationsDisabled(*(arg_06), n)) {
       if (Item.getFrame(arg_06) == 1) {
         return;
       }
       FREE.slot_20(pid, 8);
-      spawn NPC.slot_2d(retval, *(arg_06), local_02);
+      spawn NPC.slot_2d(retval, *(arg_06), n);
       suspend;
       spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
       suspend;
     }
   }
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

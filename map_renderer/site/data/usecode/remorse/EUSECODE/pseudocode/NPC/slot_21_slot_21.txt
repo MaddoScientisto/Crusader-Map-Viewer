@@ -1,16 +1,20 @@
 function npc_slot_21() /* entry=2579 class_id=0x0a11 slot=0x21 */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    x, /* [BP+10h] type=0x69 */
+    counter; /* [BP-02h] type=0x69 */
+
   set_info(0x020a, *(arg_06));
-  if (!arg_10) {
-    arg_10 = 1;
+  if (!x) {
+    x = 1;
   }
-  local_02 = 1;
-  while (local_02 <= arg_10) {
-    if ((Kernel.resetRef(arg_06) == 0) && (intrinsic_00cc(arg_06) == 0)) {
+  counter = 1;
+  while (counter <= x) {
+    if ((Actor.isDead(arg_06) == 0) && (Actor.getInCombat(arg_06) == 0)) {
       suspend;
     }
-    local_02 = (1 + local_02);
+    counter = (1 + counter);
   }
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

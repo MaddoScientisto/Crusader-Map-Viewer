@@ -6,7 +6,7 @@ function npc_slot_21() /* entry=2580 class_id=0x0a12 slot=0x21 */
   }
   local_02 = 1;
   while (local_02 <= arg_10) {
-    if ((intrinsic_00d2(arg_06) == 0) && (intrinsic_00e6(arg_06) == 0)) {
+    if ((Actor.setCombatTactic(arg_06) == 0) && (Item.getNpcNum(arg_06) == 0)) {
       suspend;
     }
     local_02 = (1 + local_02);

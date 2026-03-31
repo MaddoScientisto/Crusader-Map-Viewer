@@ -2,8 +2,7 @@ function spanel_use() /* entry=940 class_id=0x03aa slot=0x01 */
 {
   set_info(0x0207, *(arg_06));
   process_exclude();
-  if (intrinsic_0003(arg_06) != 0) {
-    /* global_address */
+  if (Item.getMapArray(arg_06) != 0) {
     spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
     suspend;
   }

@@ -16,12 +16,12 @@ function trigger_slot_21() /* entry=2586 class_id=0x0a18 slot=0x21 */
         suspend;
         spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
         suspend;
-        if (Kernel.resetRef(local_16) == 1) {
+        if (Actor.isDead(local_16) == 1) {
           return;
         }
         local_18 = 1;
         while (local_18 <= local_06) {
-          if (Kernel.resetRef(local_16) == 0) {
+          if (Actor.isDead(local_16) == 0) {
             suspend;
           }
           spawn FREE.waitNTimerTicks(pid, 1, 0x00000000);
@@ -29,19 +29,16 @@ function trigger_slot_21() /* entry=2586 class_id=0x0a18 slot=0x21 */
           local_18 = (1 + local_18);
         }
       }
-      /* loopnext */
     }
     return;
   }
   else if (local_04 == 1) {
     for local_16 in nearby_items(shape=arg_20, origin=local_14) {
-      /* loopnext */
     }
     return;
   }
   else if (local_04 == 2) {
     for local_16 in nearby_items(shape=arg_20, origin=local_14) {
-      /* loopnext */
     }
     return;
   }
@@ -56,40 +53,34 @@ function trigger_slot_21() /* entry=2586 class_id=0x0a18 slot=0x21 */
         }
         else if (local_06 == 3) {
         }
-        /* loopnext */
       }
     }
     else if (local_02 == 1) {
       for local_16 in nearby_items(shape=arg_20, origin=local_14) {
         spawn FREE.waitNTimerTicks(pid, 1, 0x00000000);
         suspend;
-        /* loopnext */
       }
     }
     else if (local_02 == 2) {
       for local_16 in nearby_items(shape=arg_20, origin=local_14) {
         spawn FREE.waitNTimerTicks(pid, 1, 0x00000000);
         suspend;
-        /* loopnext */
       }
     }
     else if (local_02 == 3) {
       for local_16 in nearby_items(shape=arg_20, origin=local_14) {
         spawn FREE.waitNTimerTicks(pid, 1, 0x00000000);
         suspend;
-        /* loopnext */
       }
     }
     else if (local_02 == 4) {
       for local_16 in nearby_items(shape=arg_20, origin=local_14) {
         local_20 = local_06;
-        /* loopnext */
       }
     }
     else if (local_02 == 5) {
       for local_16 in nearby_items(shape=arg_20, origin=local_14) {
         spawn NPC.equip(local_06, local_16);
-        /* loopnext */
       }
     }
     return;

@@ -2,7 +2,7 @@ function alarm_ns_enterFastArea() /* entry=75 class_id=0x0049 slot=0x0f */
 {
   set_info(0x021b, *(arg_06));
   process_exclude();
-  if (intrinsic_0000()) {
+  if (World.getAlertActive()) {
     return;
   }
   return;

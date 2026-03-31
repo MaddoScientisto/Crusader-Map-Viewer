@@ -1,31 +1,35 @@
 function reb_coup_equip() /* entry=847 class_id=0x034d slot=0x0a */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    val, /* [BP+10h] type=0x69 */
+    counter; /* [BP-02h] type=0x69 */
+
   set_info(0x0211, *(arg_06));
   process_exclude();
   FREE.slot_33(0x021b, *(arg_06));
-  if (arg_10) {
-    if (intrinsic_0004(arg_06) & 0x1000) {
+  if (val) {
+    if (Item.getStatus(arg_06) & 0x1000) {
       return;
     }
     ITEM.slot_23(0x1000, arg_06);
-    local_02 = Item.getFrame(arg_06);
-    while (local_02 <= 9) {
+    counter = Item.getFrame(arg_06);
+    while (counter <= 9) {
       spawn FREE.slot_32(pid, 10, 0x00000000);
       suspend;
-      local_02 = (1 + local_02);
+      counter = (1 + counter);
     }
     return;
   }
   else {
-    local_02 = 0;
-    while (local_02 <= 9) {
+    counter = 0;
+    while (counter <= 9) {
       spawn FREE.slot_32(pid, 10, 0x00000000);
       suspend;
-      local_02 = (1 + local_02);
+      counter = (1 + counter);
     }
     ITEM.slot_24(0x1000, arg_06);
     spawn REB_COUP.enterFastArea(arg_06);
   }
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

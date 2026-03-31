@@ -1,40 +1,47 @@
 function lift_slot_20() /* entry=309 class_id=0x0133 slot=0x20 */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    counter, /* [BP-02h] type=0x69 */
+    total, /* [BP-04h] type=0x69 */
+    alt, /* [BP-06h] type=0x69 */
+    wp, /* [BP-11h] type=0x24 */
+    cargo, /* [BP-13h] type=0x24 */
+    cargoType; /* [BP-15h] type=0x69 */
+
   set_info(0x0001, *(arg_06));
-  local_06 = 1;
-  while (local_06 <= 47) {
-    local_11 = intrinsic_0013(arg_06);
-    local_09 = Item.legal_create(arg_06);
+  alt = 1;
+  while (alt <= 47) {
+    wp = Item.getX(arg_06);
+    local_09 = Item.getY(arg_06);
     local_07 = (Item.getZ(arg_06) - 2);
-    local_04 = 0;
+    total = 0;
     /* loopscr */
     /* loop */
     while (condition) {
-      local_15 = intrinsic_0016(local_13);
-      if (local_13 != *(arg_06)) {
-        local_04 = (1 + local_04);
+      cargoType = Item.getShape(cargo);
+      if (cargo != *(arg_06)) {
+        total = (1 + total);
       }
-      /* loopnext */
     }
-    if (intrinsic_0031(0, 1, local_11, arg_06)) {
-      local_02 = 1;
-      while (local_02 <= local_04) {
-        local_13 = intrinsic_0023();
-        local_02 = (1 + local_02);
+    if (Item.andStatus(0, 1, wp, arg_06)) {
+      counter = 1;
+      while (counter <= total) {
+        cargo = Item.getEtherealTop();
+        counter = (1 + counter);
       }
       spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
       suspend;
     }
     else {
-      local_02 = 1;
-      while (local_02 <= local_04) {
-        local_13 = intrinsic_0023();
-        local_02 = (1 + local_02);
+      counter = 1;
+      while (counter <= total) {
+        cargo = Item.getEtherealTop();
+        counter = (1 + counter);
       }
       return;
     }
-    local_06 = (1 + local_06);
+    alt = (1 + alt);
   }
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

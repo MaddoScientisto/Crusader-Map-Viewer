@@ -7,7 +7,7 @@ function box_ew_use() /* entry=130 class_id=0x0080 slot=0x01 */
   set_info(0x0207, *(arg_06));
   process_exclude();
   if (Item.getFrame(arg_06)) {
-    while (intrinsic_003d(0x00a7, arg_06)) {
+    while (Container.destroyContents(0x00a7, arg_06)) {
       spawn FREE.slot_32(pid, 2, 0x00000000);
       suspend;
     }
@@ -19,7 +19,7 @@ function box_ew_use() /* entry=130 class_id=0x0080 slot=0x01 */
     }
   }
   else {
-    while (intrinsic_003d(0x00a5, arg_06)) {
+    while (Container.destroyContents(0x00a5, arg_06)) {
       spawn FREE.slot_32(pid, 2, 0x00000000);
       suspend;
     }
@@ -30,7 +30,7 @@ function box_ew_use() /* entry=130 class_id=0x0080 slot=0x01 */
       counter = (1 + counter);
     }
   }
-  if (intrinsic_0003(arg_06) != 0) {
+  if (Item.getMapArray(arg_06) != 0) {
     if (Item.getFrame(arg_06) == 0) {
       spawn TRIGGER.slot_20(pid, 1, *(arg_06), arg_06);
       suspend;

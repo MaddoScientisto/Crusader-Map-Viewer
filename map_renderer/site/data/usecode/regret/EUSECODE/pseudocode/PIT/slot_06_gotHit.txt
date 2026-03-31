@@ -9,15 +9,15 @@ function pit_gotHit() /* entry=870 class_id=0x0364 slot=0x06 */
   }
   else if (Actor.isNPC(local_02)) {
     local_04 = arg_10;
-    if (local_04 == intrinsic_0016()) {
-      if (intrinsic_0011(local_04) == 1) {
-        while (!intrinsic_00bb(local_04)) {
+    if (local_04 == World.getControlledNPCNum()) {
+      if (Item.getShape(local_04) == 1) {
+        while (!Actor.isDead(local_04)) {
         }
         spawn FREE.slot_21(pid, 98, 0x00000000);
         suspend;
       }
       else {
-        while (!intrinsic_00bb(local_04)) {
+        while (!Actor.isDead(local_04)) {
         }
         spawn FREE.slot_3b(pid, 2, 0x00000000);
         suspend;
@@ -25,7 +25,7 @@ function pit_gotHit() /* entry=870 class_id=0x0364 slot=0x06 */
       return;
     }
     else {
-      while (!intrinsic_00bb(local_04)) {
+      while (!Actor.isDead(local_04)) {
       }
       NPC.slot_2a(local_04);
       if (!retval) {
@@ -34,7 +34,7 @@ function pit_gotHit() /* entry=870 class_id=0x0364 slot=0x06 */
     }
     return;
   }
-  else if ((intrinsic_0011(local_02) == 0x039c) && (global[0x0016] == 0)) {
+  else if ((Item.getShape(local_02) == FUSION_PAC) && (global[0x0016] == 0)) {
     spawn FREE.slot_21(pid, 0x00d1, 0x00000000);
     suspend;
     /* pop_global */

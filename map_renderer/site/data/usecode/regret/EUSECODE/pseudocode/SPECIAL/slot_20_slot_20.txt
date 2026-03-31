@@ -2,8 +2,7 @@ function special_slot_20() /* entry=1228 class_id=0x04ca slot=0x20 */
 {
   set_info(0x021b, *(arg_06));
   if (arg_10 == 3) {
-    /* global_address */
-    local_02 = intrinsic_00c3();
+    local_02 = Actor.getDir(&global[0x001e]);
     if ((local_02 > 4) || (local_02 < 12)) {
       spawn TRIGGER.slot_20(pid, arg_12, *(arg_06), arg_06);
       suspend;
@@ -11,8 +10,7 @@ function special_slot_20() /* entry=1228 class_id=0x04ca slot=0x20 */
     return;
   }
   else if (arg_10 == 4) {
-    /* global_address */
-    local_02 = intrinsic_00c3();
+    local_02 = Actor.getDir(&global[0x001e]);
     if ((local_02 > 4) && (local_02 < 12)) {
       spawn TRIGGER.slot_20(pid, arg_12, *(arg_06), arg_06);
       suspend;
@@ -20,20 +18,17 @@ function special_slot_20() /* entry=1228 class_id=0x04ca slot=0x20 */
     return;
   }
   else if (arg_10 == 5) {
-    /* global_address */
-    if (intrinsic_00d0() == 1) {
+    if (Actor.isInCombat(&global[0x001e]) == 1) {
       spawn TRIGGER.slot_20(pid, arg_12, *(arg_06), arg_06);
       suspend;
     }
     return;
   }
   else if (arg_10 == 6) {
-    /* global_address */
-    if (intrinsic_00d0() == 0) {
+    if (Actor.isInCombat(&global[0x001e]) == 0) {
       spawn FREE.slot_3b(pid, 10, 0x00000000);
       suspend;
-      /* global_address */
-      if (intrinsic_00d0() == 0) {
+      if (Actor.isInCombat(&global[0x001e]) == 0) {
         spawn TRIGGER.slot_20(pid, arg_12, *(arg_06), arg_06);
         suspend;
       }
@@ -46,13 +41,12 @@ function special_slot_20() /* entry=1228 class_id=0x04ca slot=0x20 */
       if (local_04 < 0x0100) {
         local_02 = (1 + local_02);
       }
-      /* loopnext */
     }
     if (local_02 > 4) {
       spawn TRIGGER.slot_20(pid, arg_12, *(arg_06), arg_06);
       suspend;
     }
-    spawn FREE.slot_3b(pid, (intrinsic_010b(arg_06) * 9), 0x00000000);
+    spawn FREE.slot_3b(pid, (Item.getQHi(arg_06) * 9), 0x00000000);
     suspend;
     return;
   }
@@ -62,18 +56,17 @@ function special_slot_20() /* entry=1228 class_id=0x04ca slot=0x20 */
       if (local_04 < 0x0100) {
         local_02 = (1 + local_02);
       }
-      /* loopnext */
     }
     if (local_02 <= 4) {
       spawn TRIGGER.slot_20(pid, arg_12, *(arg_06), arg_06);
       suspend;
     }
-    spawn FREE.slot_3b(pid, (intrinsic_010b(arg_06) * 9), 0x00000000);
+    spawn FREE.slot_3b(pid, (Item.getQHi(arg_06) * 9), 0x00000000);
     suspend;
     return;
   }
   else if (arg_10 == 9) {
-    local_06 = intrinsic_0107(arg_06);
+    local_06 = Item.getQLo(arg_06);
     FREE.slot_20(local_06, 3);
     spawn TRIGGER.slot_20(pid, arg_12, *(arg_06), arg_06);
     suspend;

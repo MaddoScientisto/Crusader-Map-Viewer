@@ -1,69 +1,76 @@
 function npcdeath_slot_22() /* entry=2582 class_id=0x0a14 slot=0x22 */
 {
-  local_08 = intrinsic_0029();
-  if (local_08 == 1) {
-    local_06 = 50;
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    item, /* [BP-02h] type=0x24 */
+    counter, /* [BP-04h] type=0x69 */
+    skill, /* [BP-06h] type=0x69 */
+    sLevel, /* [BP-08h] type=0x69 */
+    wimp, /* [BP-09h] type=0x62 */
+    fullOfShit; /* [BP-10h] type=0x62 */
+
+  sLevel = Game.getDifficultyLevel();
+  if (sLevel == 1) {
+    skill = 50;
   }
-  else if (local_08 == 2) {
-    local_06 = 40;
+  else if (sLevel == 2) {
+    skill = 40;
   }
-  else if (local_08 == 3) {
-    local_06 = 20;
+  else if (sLevel == 3) {
+    skill = 20;
   }
   else {
-    local_06 = 40;
+    skill = 40;
   }
-  if (((intrinsic_0016(arg_06) == 0x02fd) || (intrinsic_0016(arg_06) == 0x0319)) || (intrinsic_0016(arg_06) == 0x0384)) {
-    if (local_08 < 3) {
+  if (((Item.getShape(arg_06) == npcdeath_shape_02fd) || (Item.getShape(arg_06) == npcdeath_shape_0319)) || (Item.getShape(arg_06) == npcdeath_shape_0384)) {
+    if (sLevel < 3) {
     }
   }
-  else if (intrinsic_0016(arg_06) == 0x0384) {
-    if (local_08 < 3) {
+  else if (Item.getShape(arg_06) == npcdeath_shape_0384) {
+    if (sLevel < 3) {
     }
   }
-  else if ((intrinsic_0016(arg_06) == 0x0371) || (intrinsic_0016(arg_06) == 0x04d1)) {
-    if (local_08 < 3) {
+  else if ((Item.getShape(arg_06) == npcdeath_shape_0371) || (Item.getShape(arg_06) == npcdeath_shape_04d1)) {
+    if (sLevel < 3) {
     }
-    else if (intrinsic_0018(100, 0) > 98) {
-    }
-  }
-  else if (intrinsic_0016(arg_06) == 0x04d1) {
-  }
-  else if (intrinsic_0016(arg_06) == 0x0528) {
-    if (intrinsic_0018(100, 0) > 50) {
+    else if (UCMachine.rndRange(100, 0) > 98) {
     }
   }
-  else if (intrinsic_0016(arg_06) == 0x01b4) {
-    if (local_08 < 3) {
+  else if (Item.getShape(arg_06) == npcdeath_shape_04d1) {
+  }
+  else if (Item.getShape(arg_06) == npcdeath_shape_0528) {
+    if (UCMachine.rndRange(100, 0) > 50) {
     }
   }
-  else if (intrinsic_0016(arg_06) == 0x02df) {
+  else if (Item.getShape(arg_06) == npcdeath_shape_01b4) {
+    if (sLevel < 3) {
+    }
+  }
+  else if (Item.getShape(arg_06) == npcdeath_shape_02df) {
     return;
   }
-  else if (((((((intrinsic_0016(arg_06) == 0x045d) || (intrinsic_0016(arg_06) == 0x0338)) || (intrinsic_0016(arg_06) == 0x02cb)) || (intrinsic_0016(arg_06) == 0x04e6)) || (intrinsic_0016(arg_06) == 0x03ac)) || (intrinsic_0016(arg_06) == 0x0385)) || (intrinsic_0016(arg_06) == 0x0383)) {
+  else if (((((((Item.getShape(arg_06) == 0x045d) || (Item.getShape(arg_06) == MECH_1)) || (Item.getShape(arg_06) == 0x02cb)) || (Item.getShape(arg_06) == 0x04e6)) || (Item.getShape(arg_06) == npcdeath_shape_03ac)) || (Item.getShape(arg_06) == 0x0385)) || (Item.getShape(arg_06) == 0x0383)) {
     ITEM.slot_23(0x1000, arg_06);
     return;
   }
   else {
-    /* global_address */
-    local_09 = 1;
+    wimp = 1;
   }
   NPC.slot_2b(arg_06);
   if (!retval) {
-    if ((intrinsic_00f6() - global[0x001d]) < 0x1194) {
-      if (local_09) {
+    if ((CruHealer.create_0F6() - global[0x001d]) < 0x1194) {
+      if (wimp) {
       }
     }
   }
   /* loopscr */
   /* loop */
   while (condition) {
-    local_10 = 1;
-    /* loopnext */
+    fullOfShit = 1;
   }
-  if (!local_10) {
+  if (!fullOfShit) {
     ITEM.slot_23(0x1000, arg_06);
   }
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

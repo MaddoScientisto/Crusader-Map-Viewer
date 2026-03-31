@@ -10,10 +10,10 @@ function free_slot_2e() /* entry=2575 class_id=0x0a0d slot=0x2e */
 
   set_info(1, 0);
   phold = ref;
-  if (intrinsic_0016(phold) == 0x0476) {
-    a = intrinsic_00af(phold);
+  if (Item.getShape(phold) == 0x0476) {
+    a = Item.getQHi(phold);
     c = (a & 15);
-    b = intrinsic_0003(phold);
+    b = Item.getMapArray(phold);
     b = (((a & 0x00e0) * 8) + b);
     if (b != 0) {
       return;

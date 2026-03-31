@@ -7,10 +7,9 @@ function var_boot_enterFastArea() /* entry=1118 class_id=0x045c slot=0x0f */
 
   block_02d1_selector_00:
     for local_02 in nearby_items(shape=SPANEL, origin=arg_06) {
-      if (intrinsic_00e3(local_02) == intrinsic_00e3(arg_06)) {
+      if (Actor.getDefaultActivity2(local_02) == Actor.getDefaultActivity2(arg_06)) {
         ITEM.slot_24(0x1000, local_02);
       }
-      /* loopnext */
     }
 
   block_031c:
@@ -18,10 +17,9 @@ function var_boot_enterFastArea() /* entry=1118 class_id=0x045c slot=0x0f */
 
   block_0321_selector_00:
     for local_02 in nearby_items(shape=SPANEL, origin=arg_06) {
-      if (intrinsic_00e3(local_02) == intrinsic_00e3(arg_06)) {
+      if (Actor.getDefaultActivity2(local_02) == Actor.getDefaultActivity2(arg_06)) {
         ITEM.slot_23(0x1000, local_02);
       }
-      /* loopnext */
     }
 
   block_0362:

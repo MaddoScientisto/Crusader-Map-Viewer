@@ -2,7 +2,7 @@ function roll_ns_gotHit() /* entry=840 class_id=0x0346 slot=0x06 */
 {
   set_info(0x020c, *(arg_06));
   process_exclude();
-  if ((intrinsic_0004(arg_06) & 0x1000) == 0) {
+  if ((Item.getStatus(arg_06) & 0x1000) == 0) {
     spawn ROLL_NS.slot_21(arg_06);
     return;
   }

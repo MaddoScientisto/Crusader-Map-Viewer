@@ -3,49 +3,29 @@ function energy_use() /* entry=1412 class_id=0x0582 slot=0x01 */
   set_info(0x0207, *(arg_06));
   process_exclude();
   set_info(0x00f0, 0);
-  /* global_address */
-  if (intrinsic_008c() == 0x09c4) {
+  if (MainActor.getMaxEnergy(&global[0x001e]) == 0x09c4) {
     local_04 = 0x03e8;
   }
-  else {
-    /* global_address */
-    if (intrinsic_008c() == 0x1388) {
-      local_04 = 0x07d0;
-    }
-    else {
-      /* global_address */
-      if (intrinsic_008c() == 0x2710) {
-        local_04 = 0x0bb8;
-      }
-      else {
-        /* global_address */
-      }
-    }
+  else if (MainActor.getMaxEnergy(&global[0x001e]) == 0x1388) {
+    local_04 = 0x07d0;
   }
-  /* global_address */
-  /* global_address */
-  if (intrinsic_008c(intrinsic_0030())) {
+  else if (MainActor.getMaxEnergy(&global[0x001e]) == 0x2710) {
+    local_04 = 0x0bb8;
+  }
+  if (MainActor.getMaxEnergy(Actor.getMana(&global[0x001e]), &global[0x001e])) {
     spawn FREE.slot_21(pid, 0x01a7, 0x00000000);
     suspend;
     return;
   }
-  else {
-    /* global_address */
-    /* global_address */
-    if (intrinsic_008c((intrinsic_0030() + local_04))) {
-      /* global_address */
-      /* global_address */
-      spawn FREE.slot_21(pid, 0x010d, 0x00000000);
-      suspend;
-    }
-    else {
-      /* global_address */
-      /* global_address */
-      spawn FREE.slot_21(pid, 0x010d, 0x00000000);
-      suspend;
-    }
-    spawn FREE.slot_3b(pid, 30, 0x00000000);
+  else if (MainActor.getMaxEnergy((Actor.getMana(&global[0x001e]) + local_04), &global[0x001e])) {
+    spawn FREE.slot_21(pid, 0x010d, 0x00000000);
     suspend;
   }
+  else {
+    spawn FREE.slot_21(pid, 0x010d, 0x00000000);
+    suspend;
+  }
+  spawn FREE.slot_3b(pid, 30, 0x00000000);
+  suspend;
   return;
 }

@@ -2,25 +2,21 @@ function tramflor_gotHit() /* entry=1498 class_id=0x05d8 slot=0x06 */
 {
   set_info(0x020c, *(arg_06));
   process_exclude();
-  if (((arg_10 != 1) || (intrinsic_0082() == 1)) || (intrinsic_011c(arg_06) == 0)) {
+  if (((arg_10 != 1) || (PaletteFaderProcess.jumpToAllBlack() == 1)) || (Item.isCrusTypeNPC(arg_06) == 0)) {
     return;
   }
   else {
     FREE.slot_3c(0x0220, 0);
     FREE.slot_22();
-    /* global_address */
-    while (Item.legal_move()) {
+    while (Item.legal_move(&global[0x001e])) {
       spawn FREE.slot_3b(pid, 2, 0x00000000);
       suspend;
     }
-    /* global_address */
-    if (intrinsic_0066()) {
-      /* global_address */
-      /* global_address */
+    if (Item.fall(&global[0x001e])) {
       suspend;
     }
     local_04 = arg_10;
-    local_06 = intrinsic_011c(arg_06);
+    local_06 = Item.isCrusTypeNPC(arg_06);
     /* loopscr */
     /* loop */
     while (condition) {
@@ -31,41 +27,30 @@ function tramflor_gotHit() /* entry=1498 class_id=0x05d8 slot=0x06 */
           }
         }
         else {
-          local_10 = intrinsic_0011(local_04);
+          local_10 = Item.getShape(local_04);
         }
       }
-      /* loopnext */
     }
     set_info(0x0220, 0);
-    /* global_address */
-    if (intrinsic_0128()) {
+    if (Item.andStatus(&global[0x001e])) {
       return;
     }
     else {
       for local_04 in selector_0x42(arg0=0x028d, arg1=0x0287, arg2=(10 * 32), origin=arg_06) {
         local_02 = local_04;
-        /* loopnext */
       }
       if (!local_02) {
         return;
       }
-      else if (intrinsic_0011(local_02) == 0x0287) {
-        /* global_address */
+      else if (Item.getShape(local_02) == 0x0287) {
         suspend;
-        /* global_address */
         suspend;
-        /* global_address */
         suspend;
-        /* global_address */
       }
       else {
-        /* global_address */
         suspend;
-        /* global_address */
         suspend;
-        /* global_address */
         suspend;
-        /* global_address */
       }
       spawn DOOR.slot_21(pid, 2, local_02);
       suspend;
@@ -77,76 +62,56 @@ function tramflor_gotHit() /* entry=1498 class_id=0x05d8 slot=0x06 */
         /* free_stack_string */
       }
       if (local_06 == 0x00ff) {
-        /* global_address */
-        if (intrinsic_0040() == 6) {
+        if (AudioProcess.stopSFXCru(&global[0x001e]) == 6) {
           /* str_to_ptr */
           /* free_stack_string */
           local_12 = 25;
         }
-        else {
-          /* global_address */
-          if (intrinsic_0040() == 8) {
+        else if (AudioProcess.stopSFXCru(&global[0x001e]) == 8) {
+          /* str_to_ptr */
+          /* free_stack_string */
+          local_12 = 25;
+        }
+        else if (AudioProcess.stopSFXCru(&global[0x001e]) == 10) {
+          /* str_to_ptr */
+          /* free_stack_string */
+          local_12 = 25;
+        }
+        else if (AudioProcess.stopSFXCru(&global[0x001e]) == 11) {
+          if (global[0x0016] == 1) {
             /* str_to_ptr */
             /* free_stack_string */
-            local_12 = 25;
+            /* str_to_ptr */
+            /* free_stack_string */
           }
           else {
-            /* global_address */
-            if (intrinsic_0040() == 10) {
-              /* str_to_ptr */
-              /* free_stack_string */
-              local_12 = 25;
-            }
-            else {
-              /* global_address */
-              if (intrinsic_0040() == 11) {
-                if (global[0x0016] == 1) {
-                  /* str_to_ptr */
-                  /* free_stack_string */
-                  /* str_to_ptr */
-                  /* free_stack_string */
-                }
-                else {
-                  /* str_to_ptr */
-                  /* free_stack_string */
-                }
-                local_12 = 25;
-              }
-              else {
-                /* global_address */
-                if (intrinsic_0040() == 14) {
-                  /* str_to_ptr */
-                  /* free_stack_string */
-                  local_12 = 25;
-                }
-                else {
-                  /* global_address */
-                  if (intrinsic_0040() == 16) {
-                    /* str_to_ptr */
-                    /* free_stack_string */
-                    /* str_to_ptr */
-                    /* free_stack_string */
-                    local_12 = 17;
-                  }
-                  else {
-                    /* global_address */
-                    if (intrinsic_0040() == 18) {
-                      /* str_to_ptr */
-                      /* free_stack_string */
-                      /* str_to_ptr */
-                      /* free_stack_string */
-                      local_12 = 19;
-                    }
-                    else {
-                      local_12 = 25;
-                    }
-                  }
-                }
-              }
-            }
+            /* str_to_ptr */
+            /* free_stack_string */
           }
+          local_12 = 25;
         }
-        /* global_address */
+        else if (AudioProcess.stopSFXCru(&global[0x001e]) == 14) {
+          /* str_to_ptr */
+          /* free_stack_string */
+          local_12 = 25;
+        }
+        else if (AudioProcess.stopSFXCru(&global[0x001e]) == 16) {
+          /* str_to_ptr */
+          /* free_stack_string */
+          /* str_to_ptr */
+          /* free_stack_string */
+          local_12 = 17;
+        }
+        else if (AudioProcess.stopSFXCru(&global[0x001e]) == 18) {
+          /* str_to_ptr */
+          /* free_stack_string */
+          /* str_to_ptr */
+          /* free_stack_string */
+          local_12 = 19;
+        }
+        else {
+          local_12 = 25;
+        }
         return;
       }
       else if (local_06 == 0x00fe) {

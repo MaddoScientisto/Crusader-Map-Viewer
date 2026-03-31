@@ -3,7 +3,7 @@ function mbgunew_slot_20() /* entry=1523 class_id=0x05f1 slot=0x20 */
   entry:
     set_info(0x0205, *(arg_06));
     local_02 = Item.getFrame(arg_06);
-    local_04 = intrinsic_00c4(arg_06);
+    local_04 = Item.getQHi(arg_06);
     local_10 = Kernel.getNumProcesses(0x0205, *(arg_06));
     ITEM.slot_26(0x1000, arg_06);
     if ((retval != 1) || (local_10 > 1)) || (local_02 == 10) goto block_012c;
@@ -51,7 +51,7 @@ function mbgunew_slot_20() /* entry=1523 class_id=0x05f1 slot=0x20 */
         ITEM.slot_25(0x1000, arg_06);
         return;
       }
-      spawn FREE.slot_3b(pid, ((5 - intrinsic_000a()) * 10), 0x00000000);
+      spawn FREE.slot_3b(pid, ((5 - World.gameDifficulty()) * 10), 0x00000000);
       suspend;
     }
 

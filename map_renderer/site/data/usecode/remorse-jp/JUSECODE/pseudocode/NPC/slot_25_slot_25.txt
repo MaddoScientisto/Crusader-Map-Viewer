@@ -1,10 +1,15 @@
 function npc_slot_25() /* entry=2581 class_id=0x0a13 slot=0x25 */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    toDir, /* [BP+12h] type=0x69 */
+    e; /* [BP-02h] type=0x69 */
+
   set_info(0x020a, *(arg_06));
   suspend;
   spawn FREE.slot_32(pid, 2, 0x00000000);
   suspend;
-  local_02 = intrinsic_00eb(arg_06);
+  e = GetQOfAvatarInventoryItem0x4ed_0EB(arg_06);
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

@@ -3,7 +3,7 @@ function switchns_use() /* entry=677 class_id=0x02a3 slot=0x01 */
   set_info(0x0207, *(arg_06));
   process_exclude();
   spawn SWITCH.slot_20(arg_06);
-  if (intrinsic_0003(arg_06) != 0) {
+  if (Item.getMapArray(arg_06) != 0) {
     if (Item.getFrame(arg_06) == 0) {
       spawn TRIGGER.slot_2a(pid, 0, *(arg_06), arg_06);
       suspend;

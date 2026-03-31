@@ -13,7 +13,7 @@ function free_slot_21() /* entry=2591 class_id=0x0a1d slot=0x21 */
   if ((arg_06 > 0x0164) && (arg_06 < 0x01a6)) {
     /* pop_global */
   }
-  while (intrinsic_0140(arg_06)) {
+  while (AudioProcess.isSFXPlaying(arg_06)) {
     spawn FREE.slot_3b(pid, 2, 0x00000000);
     suspend;
   }

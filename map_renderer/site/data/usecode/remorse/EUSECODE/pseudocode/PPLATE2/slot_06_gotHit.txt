@@ -1,26 +1,33 @@
 function pplate2_gotHit() /* entry=411 class_id=0x0199 slot=0x06 */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    vel, /* [BP+12h] type=0x69 */
+    f, /* [BP-02h] type=0x69 */
+    item; /* [BP-04h] type=0x24 */
+
   set_info(0x020c, *(arg_06));
   process_exclude();
-  FREE.slot_2c(arg_12, arg_10);
+  FREE.slot_2c(vel, ref);
   if (retval) {
     return;
   }
   else {
-    local_02 = Item.getFrame(arg_06);
-    if (local_02 & 1) {
+    f = Item.getFrame(arg_06);
+    if (f & 1) {
       return;
     }
     else {
-      local_04 = arg_10;
-      if ((intrinsic_0057(arg_06) == 0) || (Item.use(*(arg_06), local_04) == 0)) {
+      item = ref;
+      if ((Item.getSurfaceWeight(arg_06) == 0) || (Item.isCentreOn(*(arg_06), item) == 0)) {
         return;
       }
-      else if (intrinsic_0003(arg_06) != 0) {
+      else if (Item.getMapArray(arg_06) != 0) {
         spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
         suspend;
         while (1) {
-          if (intrinsic_0057(arg_06) != 0) {
+          if (Item.getSurfaceWeight(arg_06) != 0) {
             spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
             suspend;
           }
@@ -34,7 +41,7 @@ function pplate2_gotHit() /* entry=411 class_id=0x0199 slot=0x06 */
       }
       else {
         while (1) {
-          if (intrinsic_0057(arg_06) != 0) {
+          if (Item.getSurfaceWeight(arg_06) != 0) {
             spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
             suspend;
           }
@@ -46,5 +53,4 @@ function pplate2_gotHit() /* entry=411 class_id=0x0199 slot=0x06 */
     }
   }
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

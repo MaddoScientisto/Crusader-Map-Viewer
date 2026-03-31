@@ -3,16 +3,15 @@ function d_grenad_gotHit() /* entry=1359 class_id=0x054d slot=0x06 */
   set_info(0x020c, *(arg_06));
   process_exclude();
   FREE.slot_35(arg_12, arg_10);
-  if ((retval != 4) || (intrinsic_007e() == 0)) {
+  if ((retval != 4) || (Actor.turnToward() == 0)) {
     return;
   }
   else {
     /* loopscr */
     /* loop */
     while (condition) {
-      if (intrinsic_0011(local_02) == 0x0111) {
+      if (Item.getShape(local_02) == 0x0111) {
       }
-      /* loopnext */
     }
   }
   return;

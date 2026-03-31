@@ -13,14 +13,14 @@ function pplate2_gotHit() /* entry=411 class_id=0x0199 slot=0x06 */
     }
     else {
       local_04 = arg_10;
-      if ((intrinsic_0060(arg_06) == 0) || (intrinsic_0061(*(arg_06), local_04) == 0)) {
+      if ((Actor.isBusy(arg_06) == 0) || (Intrinsic0061(*(arg_06), local_04) == 0)) {
         return;
       }
-      else if (intrinsic_0003(arg_06) != 0) {
+      else if (Item.getMapArray(arg_06) != 0) {
         spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
         suspend;
         while (1) {
-          if (intrinsic_0060(arg_06) != 0) {
+          if (Actor.isBusy(arg_06) != 0) {
             spawn FREE.slot_3b(pid, 2, 0x00000000);
             suspend;
           }
@@ -34,7 +34,7 @@ function pplate2_gotHit() /* entry=411 class_id=0x0199 slot=0x06 */
       }
       else {
         while (1) {
-          if (intrinsic_0060(arg_06) != 0) {
+          if (Actor.isBusy(arg_06) != 0) {
             spawn FREE.slot_3b(pid, 2, 0x00000000);
             suspend;
           }

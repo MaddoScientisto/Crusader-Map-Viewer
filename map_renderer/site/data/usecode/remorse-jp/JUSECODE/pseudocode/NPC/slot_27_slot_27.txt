@@ -1,18 +1,18 @@
 function npc_slot_27() /* entry=2581 class_id=0x0a13 slot=0x27 */
 {
   set_info(0x020a, *(arg_06));
-  while (intrinsic_0036(arg_06)) {
+  while (Actor.doAnim(arg_06)) {
     spawn FREE.slot_32(pid, 2, 0x00000000);
     suspend;
   }
-  if (intrinsic_00cf(arg_06)) {
+  if (Item.setQAndCombine(arg_06)) {
     return;
   }
   else if (arg_10 == 0) {
-    local_02 = intrinsic_0053(arg_06);
-    local_04 = intrinsic_00ef(arg_06);
-    local_06 = intrinsic_00f0(arg_06);
-    local_08 = intrinsic_00f1(arg_06);
+    local_02 = Actor.setDefaultActivity1(arg_06);
+    local_04 = Kernel.getNumProcesses(arg_06);
+    local_06 = Item.getQHi(arg_06);
+    local_08 = Item.isOn(arg_06);
     if (local_02 == 112) {
     }
     else if (local_02 == 113) {

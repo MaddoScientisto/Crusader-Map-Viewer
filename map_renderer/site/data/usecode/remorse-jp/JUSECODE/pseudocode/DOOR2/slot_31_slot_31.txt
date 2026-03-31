@@ -1,54 +1,66 @@
 function door2_slot_31() /* entry=2569 class_id=0x0a07 slot=0x31 */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    doorList, /* [BP-02h] type=0x6c */
+    doorList2, /* [BP-04h] type=0x6c */
+    counter, /* [BP-06h] type=0x69 */
+    counter2, /* [BP-08h] type=0x69 */
+    door1, /* [BP-10h] type=0x24 */
+    door2, /* [BP-12h] type=0x24 */
+    item, /* [BP-14h] type=0x24 */
+    nonLegalDoor1, /* [BP-15h] type=0x62 */
+    nonLegalDoor2, /* [BP-16h] type=0x62 */
+    bool, /* [BP-17h] type=0x62 */
+    maxFrame; /* [BP-19h] type=0x69 */
+
   entry:
     set_info(0x0207, *(arg_06));
     /* create_list */
     /* free_local_list */
-    local_02 = 0x0189;
+    doorList = 0x0189;
     /* create_list */
     /* free_local_list */
-    local_04 = 0x0187;
-    FREE.slot_3a(0x0193, 0x0192, 0x0191, 0x0190, 0x018d, 0x018c, 0x018b, 0x018a, local_02);
+    doorList2 = 0x0187;
+    FREE.slot_3a(0x0193, 0x0192, 0x0191, 0x0190, 0x018d, 0x018c, 0x018b, 0x018a, doorList);
     /* free_stack_list */
-    local_19 = retval;
+    maxFrame = retval;
 
   entry_selector_00:
-    for local_14 in nearby_items(shape=ELEVATOR_DOOR_SEGMENT, origin=arg_06) {
-      local_10 = local_14;
-      /* loopnext */
+    for item in nearby_items(shape=ELEVATOR_DOOR_SEGMENT, origin=arg_06) {
+      door1 = item;
     }
 
   block_1b6f_selector_00:
-    for local_14 in nearby_items(shape=WALL_EDGE, origin=arg_06) {
-      local_12 = local_14;
-      /* loopnext */
+    for item in nearby_items(shape=WALL_EDGE, origin=arg_06) {
+      door2 = item;
     }
 
   block_1b9d:
-    if !(local_10 && local_12) goto block_1e43;
+    if !(door1 && door2) goto block_1e43;
 
   block_1bb0:
-    local_06 = 1;
+    counter = 1;
 
   block_1bc4:
-    if local_06 > (local_19 - 1) goto block_1e43;
+    if counter > (maxFrame - 1) goto block_1e43;
 
   block_1bd5:
-    FREE.slot_2d(Item.getZ(local_10), Item.legal_create(local_10), intrinsic_0013(local_10), 0, local_02, (local_19 - local_06), list_element(size=0x2), local_10);
+    FREE.slot_2d(Item.getZ(door1), Item.getY(door1), Item.getX(door1), 0, doorList, (maxFrame - counter), list_element(size=0x2), door1);
     if retval goto block_1c17;
 
   block_1c10:
-    local_15 = 1;
+    nonLegalDoor1 = 1;
 
   block_1c17:
-    FREE.slot_2d(Item.getZ(local_12), Item.legal_create(local_12), (intrinsic_0013(local_12) + 16), 0, local_04, (local_19 - local_06), list_element(size=0x2), local_12);
+    FREE.slot_2d(Item.getZ(door2), Item.getY(door2), (Item.getX(door2) + 16), 0, doorList2, (maxFrame - counter), list_element(size=0x2), door2);
     if retval goto block_1c5c;
 
   block_1c55:
-    local_16 = 1;
+    nonLegalDoor2 = 1;
 
   block_1c5c:
-    if !((!local_15) && (!local_16)) goto block_1cab;
+    if !((!nonLegalDoor1) && (!nonLegalDoor2)) goto block_1cab;
 
   block_1c6c:
     spawn FREE.slot_32(pid, 5, 0x00000000);
@@ -58,22 +70,22 @@ function door2_slot_31() /* entry=2569 class_id=0x0a07 slot=0x31 */
   block_1cab:
     spawn FREE.slot_32(pid, 30, 0x00000000);
     suspend;
-    if !local_15 goto block_1d25;
+    if !nonLegalDoor1 goto block_1d25;
 
   block_1d25:
-    if !local_16 goto block_1d45;
+    if !nonLegalDoor2 goto block_1d45;
 
   block_1d45:
-    local_08 = ((local_19 - local_06) + 1);
+    counter2 = ((maxFrame - counter) + 1);
 
   block_1d52:
-    while (local_08 <= local_19) {
-      if (!local_17) {
-        local_17 = 1;
+    while (counter2 <= maxFrame) {
+      if (!bool) {
+        bool = 1;
       }
       spawn FREE.slot_32(pid, 10, 0x00000000);
       suspend;
-      local_08 = (1 + local_08);
+      counter2 = (1 + counter2);
     }
 
   block_1e2c:
@@ -82,7 +94,7 @@ function door2_slot_31() /* entry=2569 class_id=0x0a07 slot=0x31 */
     goto block_1e4d;
 
   block_1e36:
-    local_06 = (1 + local_06);
+    counter = (1 + counter);
     goto block_1bc4;
 
   block_1e43:
@@ -95,5 +107,4 @@ function door2_slot_31() /* entry=2569 class_id=0x0a07 slot=0x31 */
     /* free_local_list */
     return;
 
-  /* decompilation stopped at SEARCH_SURFACE */
 }

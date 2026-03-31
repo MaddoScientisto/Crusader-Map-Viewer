@@ -1,9 +1,13 @@
 function blaserns_gotHit() /* entry=709 class_id=0x02c3 slot=0x06 */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    ke; /* [BP+12h] type=0x69 */
+
   set_info(0x020c, *(arg_06));
   process_exclude();
-  spawn BLASER.slot_21(pid, arg_12, arg_10, arg_06);
+  spawn BLASER.slot_21(pid, ke, ref, arg_06);
   suspend;
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

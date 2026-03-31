@@ -1,63 +1,71 @@
 function cru_spid_slot_20() /* entry=1378 class_id=0x0560 slot=0x20 */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    counter, /* [BP-02h] type=0x69 */
+    xOff, /* [BP-04h] type=0x69 */
+    yOff, /* [BP-06h] type=0x69 */
+    counter2, /* [BP-08h] type=0x69 */
+    wp, /* [BP-13h] type=0x24 */
+    item, /* [BP-15h] type=0x24 */
+    spider; /* [BP-17h] type=0x24 */
+
   set_info(0x00f0, *(arg_06));
-  local_15 = arg_10;
-  set_info(0x00f0, local_17);
-  while (local_02 < 0x01f4) {
-    /* global_address */
-    /* global_address */
-    if (intrinsic_001c((intrinsic_001c() == 0)) == 1) {
-      local_04 = 0;
-      local_06 = -1;
+  item = ref;
+  set_info(0x00f0, spider);
+  while (counter < 0x01f4) {
+    if (Actor.getDir((Actor.getDir(&global[0x003c]) == 0), &global[0x003c]) == 1) {
+      xOff = 0;
+      yOff = -1;
     }
-    else if (intrinsic_001c((intrinsic_001c() == 2)) == 3) {
-      local_04 = 1;
-      local_06 = -1;
+    else if (Actor.getDir((Actor.getDir(&global[0x003c]) == 2), &global[0x003c]) == 3) {
+      xOff = 1;
+      yOff = -1;
     }
-    else if (intrinsic_001c((intrinsic_001c() == 4)) == 5) {
-      local_04 = 1;
-      local_06 = 0;
+    else if (Actor.getDir((Actor.getDir(&global[0x003c]) == 4), &global[0x003c]) == 5) {
+      xOff = 1;
+      yOff = 0;
     }
-    else if (intrinsic_001c((intrinsic_001c() == 6)) == 7) {
-      local_04 = 1;
-      local_06 = 1;
+    else if (Actor.getDir((Actor.getDir(&global[0x003c]) == 6), &global[0x003c]) == 7) {
+      xOff = 1;
+      yOff = 1;
     }
-    else if (intrinsic_001c((intrinsic_001c() == 8)) == 9) {
-      local_04 = 0;
-      local_06 = 1;
+    else if (Actor.getDir((Actor.getDir(&global[0x003c]) == 8), &global[0x003c]) == 9) {
+      xOff = 0;
+      yOff = 1;
     }
-    else if (intrinsic_001c((intrinsic_001c() == 10)) == 11) {
-      local_04 = -1;
-      local_06 = 1;
+    else if (Actor.getDir((Actor.getDir(&global[0x003c]) == 10), &global[0x003c]) == 11) {
+      xOff = -1;
+      yOff = 1;
     }
-    else if (intrinsic_001c((intrinsic_001c() == 12)) == 13) {
-      local_04 = -1;
-      local_06 = 0;
+    else if (Actor.getDir((Actor.getDir(&global[0x003c]) == 12), &global[0x003c]) == 13) {
+      xOff = -1;
+      yOff = 0;
     }
-    else if (intrinsic_001c((intrinsic_001c() == 14)) == 15) {
-      local_04 = -1;
-      local_06 = -1;
+    else if (Actor.getDir((Actor.getDir(&global[0x003c]) == 14), &global[0x003c]) == 15) {
+      xOff = -1;
+      yOff = -1;
     }
-    local_13 = (local_13 + (local_04 * 8));
-    local_11 = (local_11 + (local_06 * 8));
-    if (!intrinsic_0031(0, 1, local_13, local_17)) {
+    wp = (wp + (xOff * 8));
+    local_11 = (local_11 + (yOff * 8));
+    if (!Item.andStatus(0, 1, wp, spider)) {
       local_09 = (local_09 + 1);
-      if (!intrinsic_0031(0, 1, local_13, local_17)) {
+      if (!Item.andStatus(0, 1, wp, spider)) {
       }
     }
-    local_08 = (1 + local_08);
-    if ((local_08 == 20) && (local_09 > 4)) {
+    counter2 = (1 + counter2);
+    if ((counter2 == 20) && (local_09 > 4)) {
       local_09 = (local_09 - 4);
-      if (intrinsic_0031(0, 1, local_13, local_17)) {
+      if (Item.andStatus(0, 1, wp, spider)) {
         spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
         suspend;
       }
-      local_08 = 0;
+      counter2 = 0;
     }
-    local_02 = (1 + local_02);
+    counter = (1 + counter);
     spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
     suspend;
   }
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

@@ -9,9 +9,9 @@ function special_slot_21() /* entry=1228 class_id=0x04ca slot=0x21 */
 
   set_info(0x021b, *(arg_06));
   counter = 0;
-  time = intrinsic_0102(arg_06);
-  phase1 = intrinsic_0003(arg_06);
-  phase2 = intrinsic_0107(arg_06);
+  time = Item.getNPCNum(arg_06);
+  phase1 = Item.getMapArray(arg_06);
+  phase2 = Item.getNPCNum(arg_06);
   while (1) {
     spawn SPECIAL.slot_20(pid, (0x0080 + 0), phase1, arg_06);
     suspend;

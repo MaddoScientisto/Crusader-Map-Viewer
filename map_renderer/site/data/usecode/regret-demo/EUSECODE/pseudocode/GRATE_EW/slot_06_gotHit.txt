@@ -15,7 +15,7 @@ function grate_ew_gotHit() /* entry=274 class_id=0x0110 slot=0x06 */
       return;
     }
     else {
-      local_16 = intrinsic_00b8(arg_06);
+      local_16 = Item.getCY(arg_06);
       local_10 = Item.getX(arg_06);
       local_12 = Item.getY(arg_06);
       local_14 = Item.getZ(arg_06);
@@ -23,10 +23,9 @@ function grate_ew_gotHit() /* entry=274 class_id=0x0110 slot=0x06 */
       /* loopscr */
       /* loop */
       while (condition) {
-        local_18 = intrinsic_00b8(local_08);
+        local_18 = Item.getCY(local_08);
         if (local_18 == local_16) {
         }
-        /* loopnext */
       }
     }
   }

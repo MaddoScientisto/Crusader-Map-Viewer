@@ -8,7 +8,7 @@ function wallgun_slot_28() /* entry=2587 class_id=0x0a19 slot=0x28 */
     arg_12 = (arg_12 - 100);
 
   block_04d9:
-    local_02 = intrinsic_0116(arg_06);
+    local_02 = Item.getQHi(arg_06);
     if local_02 != 0 goto block_04f6;
 
   block_04f6:
@@ -18,7 +18,7 @@ function wallgun_slot_28() /* entry=2587 class_id=0x0a19 slot=0x28 */
     goto block_083a;
 
   block_050e:
-    WALLGUN.slot_25(Item.getFrame(arg_06), intrinsic_0011(arg_06), arg_06);
+    WALLGUN.slot_25(Item.getFrame(arg_06), Item.getShape(arg_06), arg_06);
     if retval != 1 goto block_0533;
 
   block_0530:
@@ -66,8 +66,8 @@ function wallgun_slot_28() /* entry=2587 class_id=0x0a19 slot=0x28 */
 
   block_05c4:
     while (1) {
-      if (intrinsic_0016() != 0) {
-        arg_10 = intrinsic_0016();
+      if (World.getControlledNPCNum() != 0) {
+        arg_10 = World.getControlledNPCNum();
       }
       else {
         arg_10 = 1;
@@ -89,10 +89,10 @@ function wallgun_slot_28() /* entry=2587 class_id=0x0a19 slot=0x28 */
     if arg_12 != 1 goto block_0675;
 
   block_0643:
-    if intrinsic_0016() == 0 goto block_0658;
+    if World.getControlledNPCNum() == 0 goto block_0658;
 
   block_064e:
-    arg_10 = intrinsic_0016();
+    arg_10 = World.getControlledNPCNum();
     goto block_065c;
 
   block_0658:
@@ -110,10 +110,10 @@ function wallgun_slot_28() /* entry=2587 class_id=0x0a19 slot=0x28 */
     if !(1) goto block_06cc;
 
   block_0682:
-    if intrinsic_0016() == 0 goto block_0697;
+    if World.getControlledNPCNum() == 0 goto block_0697;
 
   block_068d:
-    arg_10 = intrinsic_0016();
+    arg_10 = World.getControlledNPCNum();
     goto block_069b;
 
   block_0697:
@@ -179,10 +179,10 @@ function wallgun_slot_28() /* entry=2587 class_id=0x0a19 slot=0x28 */
     goto block_0820;
 
   block_0783:
-    if intrinsic_0016() == 0 goto block_0798;
+    if World.getControlledNPCNum() == 0 goto block_0798;
 
   block_078e:
-    arg_10 = intrinsic_0016();
+    arg_10 = World.getControlledNPCNum();
     goto block_079c;
 
   block_0798:

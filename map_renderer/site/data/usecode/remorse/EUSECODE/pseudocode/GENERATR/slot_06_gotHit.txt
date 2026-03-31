@@ -1,9 +1,13 @@
 function generatr_gotHit() /* entry=963 class_id=0x03c1 slot=0x06 */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    vel; /* [BP+12h] type=0x69 */
+
   set_info(0x020c, *(arg_06));
   process_exclude();
   spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
   suspend;
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

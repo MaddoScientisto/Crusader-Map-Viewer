@@ -2,7 +2,7 @@ function d_sold_use() /* entry=1217 class_id=0x04bf slot=0x01 */
 {
   set_info(0x0207, *(arg_06));
   process_exclude();
-  if (intrinsic_0004(arg_06) & 0x1000) {
+  if (Item.getStatus(arg_06) & 0x1000) {
     return;
   }
   else {

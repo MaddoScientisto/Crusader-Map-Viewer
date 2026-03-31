@@ -5,11 +5,11 @@ function wshockns_gotHit() /* entry=1103 class_id=0x044d slot=0x06 */
   local_02 = arg_10;
   if (Actor.isNPC(local_02)) {
     local_04 = local_02;
-    while (intrinsic_00ad(arg_10, arg_06) == 1) {
-      local_06 = intrinsic_0026(arg_06);
+    while (Intrinsic00AD(arg_10, arg_06) == 1) {
+      local_06 = Item.getCX(arg_06);
       local_08 = Item.getX(arg_06);
       local_10 = Item.getY(arg_06);
-      local_12 = intrinsic_0152(local_02);
+      local_12 = Item.setFrame(local_02);
       local_14 = Item.getZ(local_02);
       local_18 = (local_08 - local_06);
       local_18 = (local_18 * 2);

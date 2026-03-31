@@ -1,33 +1,33 @@
 function fade_slot_20() /* entry=1278 class_id=0x04fc slot=0x20 */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    loop, /* [BP-02h] type=0x69 */
+    loop2; /* [BP-04h] type=0x69 */
+
   set_info(0x00f0, *(arg_06));
   if (global[0x000a] == 0) {
     /* pop_global */
-    local_02 = 1;
-    while (local_02 <= 20) {
-      local_04 = 1;
-      while (local_04 <= 4) {
+    loop = 1;
+    while (loop <= 20) {
+      loop2 = 1;
+      while (loop2 <= 4) {
         spawn FREE.slot_32(pid, 20, 0x00000000);
         suspend;
         if (!(global[0x000a])) {
           suspend;
           return;
         }
-        local_04 = (1 + local_04);
+        loop2 = (1 + loop2);
       }
       suspend;
-      local_02 = (1 + local_02);
+      loop = (1 + loop);
     }
-    /* global_address */
-    if (!intrinsic_003c()) {
-      /* global_address */
-      /* global_address */
+    if (!Item.getItemFamily(&global[0x003c])) {
       spawn FREE.slot_32(pid, 0x00c8, 0x00000000);
       suspend;
     }
     /* pop_global */
-    /* global_address */
   }
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

@@ -1,109 +1,113 @@
 function telepad_gotHit() /* entry=477 class_id=0x01db slot=0x06 */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    ke, /* [BP+12h] type=0x69 */
+    item, /* [BP-02h] type=0x24 */
+    pad, /* [BP-04h] type=0x24 */
+    pad2, /* [BP-06h] type=0x24 */
+    theQual, /* [BP-08h] type=0x69 */
+    npc; /* [BP-10h] type=0x24 */
+
   set_info(0x020c, *(arg_06));
   process_exclude();
-  local_02 = arg_10;
-  local_04 = *(arg_06);
-  local_08 = intrinsic_007f(local_04);
+  item = ref;
+  pad = *(arg_06);
+  theQual = Item.setQuality(pad);
   set_info(1, 0);
   spawn FREE.waitNTimerTicks(pid, 1, 0x00000000);
   suspend;
-  FREE.slot_2c(arg_12, arg_10);
+  FREE.slot_2c(ke, ref);
   if (retval) {
     return;
   }
-  else if (intrinsic_0071() == 1) {
+  else if (Ultima8Engine.setUnkCrusaderFlag() == 1) {
     /* loopscr */
     /* loopscr */
     /* loopscr */
     /* loopscr */
     /* loop */
     while (condition) {
-      if (local_10 < 0x0100) {
+      if (npc < 0x0100) {
       }
-      /* loopnext */
     }
     return;
   }
-  else if (!intrinsic_005a(*(arg_06), local_02)) {
+  else if (!Actor.getLastAnimSet(*(arg_06), item)) {
     return;
   }
-  else {
-    /* global_address */
-    if (intrinsic_0016((local_02 == 1)) == 1) {
-      if (local_08 == 0x00ff) {
-        return;
-      }
-      else if ((local_08 > 0) && (local_08 < 30)) {
-        /* global_address */
-        spawn TELEPAD.slot_20(intrinsic_0011(local_08), arg_06);
-        return;
-      }
-      else if (local_08 == 30) {
-        spawn TELEPAD.slot_20(30, 40, arg_06);
-        return;
-      }
-      else if (local_08 == 31) {
-        spawn TELEPAD.slot_20(69, 69, arg_06);
-        return;
-      }
-      else if (local_08 == 32) {
-        spawn TELEPAD.slot_20(16, 4, arg_06);
-        return;
-      }
-      else if (local_08 == 33) {
-        spawn TELEPAD.slot_20(17, 3, arg_06);
-        return;
-      }
-      else if (local_08 == 35) {
-        spawn TELEPAD.slot_20(30, 41, arg_06);
-        return;
-      }
-      else if (local_08 == 100) {
-        spawn TELEPAD.slot_20(100, 5, arg_06);
-        return;
-      }
-      else if (local_08 == 101) {
-        spawn TELEPAD.slot_20(101, 5, arg_06);
-        return;
-      }
-      else if (local_08 == 0x0082) {
-        spawn TELEPAD.slot_20(0x0082, 25, arg_06);
-        return;
-      }
-      else if (local_08 == 0x0083) {
-        spawn TELEPAD.slot_20(0x0083, 25, arg_06);
-        return;
-      }
-      else if (local_08 == 0x0084) {
-        spawn TELEPAD.slot_20(0x0082, 25, arg_06);
-        return;
-      }
-      else if (local_08 == 0x0085) {
-        spawn TELEPAD.slot_20(0x0083, 25, arg_06);
-        return;
-      }
-      else if (local_08 == 0x00d7) {
-        spawn TELEPAD.slot_20(0x00d7, 5, arg_06);
-        return;
-      }
-      else if (local_08 == 0x00da) {
-        spawn TELEPAD.slot_20(0x00da, 5, arg_06);
-        return;
-      }
-      else if (local_08 == 0x00db) {
-        spawn TELEPAD.slot_20(0x00db, 5, arg_06);
-        return;
-      }
-      else if (local_08 == 0x00dc) {
-        spawn TELEPAD.slot_20(0x00dc, 5, arg_06);
-        return;
-      }
-      else {
-        return;
-      }
+  else if (Item.getShape((item == 1), &global[0x003c]) == 1) {
+    if (theQual == 0x00ff) {
+      return;
+    }
+    else if ((theQual > 0) && (theQual < 30)) {
+      spawn TELEPAD.slot_20(Actor.getMap(theQual, &global[0x003c]), arg_06);
+      return;
+    }
+    else if (theQual == 30) {
+      spawn TELEPAD.slot_20(30, 40, arg_06);
+      return;
+    }
+    else if (theQual == 31) {
+      spawn TELEPAD.slot_20(69, 69, arg_06);
+      return;
+    }
+    else if (theQual == 32) {
+      spawn TELEPAD.slot_20(16, 4, arg_06);
+      return;
+    }
+    else if (theQual == 33) {
+      spawn TELEPAD.slot_20(17, 3, arg_06);
+      return;
+    }
+    else if (theQual == 35) {
+      spawn TELEPAD.slot_20(30, 41, arg_06);
+      return;
+    }
+    else if (theQual == 100) {
+      spawn TELEPAD.slot_20(100, 5, arg_06);
+      return;
+    }
+    else if (theQual == 101) {
+      spawn TELEPAD.slot_20(101, 5, arg_06);
+      return;
+    }
+    else if (theQual == 0x0082) {
+      spawn TELEPAD.slot_20(0x0082, 25, arg_06);
+      return;
+    }
+    else if (theQual == 0x0083) {
+      spawn TELEPAD.slot_20(0x0083, 25, arg_06);
+      return;
+    }
+    else if (theQual == 0x0084) {
+      spawn TELEPAD.slot_20(0x0082, 25, arg_06);
+      return;
+    }
+    else if (theQual == 0x0085) {
+      spawn TELEPAD.slot_20(0x0083, 25, arg_06);
+      return;
+    }
+    else if (theQual == 0x00d7) {
+      spawn TELEPAD.slot_20(0x00d7, 5, arg_06);
+      return;
+    }
+    else if (theQual == 0x00da) {
+      spawn TELEPAD.slot_20(0x00da, 5, arg_06);
+      return;
+    }
+    else if (theQual == 0x00db) {
+      spawn TELEPAD.slot_20(0x00db, 5, arg_06);
+      return;
+    }
+    else if (theQual == 0x00dc) {
+      spawn TELEPAD.slot_20(0x00dc, 5, arg_06);
+      return;
+    }
+    else {
+      return;
     }
   }
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

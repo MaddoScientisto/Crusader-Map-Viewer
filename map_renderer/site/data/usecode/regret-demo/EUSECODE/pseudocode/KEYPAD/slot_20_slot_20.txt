@@ -4,17 +4,16 @@ function keypad_slot_20() /* entry=2578 class_id=0x0a10 slot=0x20 */
   local_06 = 0;
   local_08 = 0;
   for local_02 in nearby_items(shape=0x0251, origin=arg_06) {
-    if (intrinsic_00b8(local_02) == intrinsic_00b8(arg_06)) {
+    if (Item.getCY(local_02) == Item.getCY(arg_06)) {
       VALBOX.slot_20(local_02);
       local_10 = retval;
       if (local_10 > 0x03e7) {
         return;
       }
     }
-    /* loopnext */
   }
-  if ((intrinsic_0004(arg_06) & 0x1000) == 0) {
-    local_12 = intrinsic_00d5(local_10);
+  if ((Item.getStatus(arg_06) & 0x1000) == 0) {
+    local_12 = Actor.getEquip(local_10);
     if (local_12 == -1) {
       /* bit_not */
       return;
@@ -30,7 +29,7 @@ function keypad_slot_20() /* entry=2578 class_id=0x0a10 slot=0x20 */
       suspend;
       spawn FREE.slot_3b(pid, 60, 0x00000000);
       suspend;
-      if (!intrinsic_0000()) {
+      if (!World.getAlertActive()) {
         spawn FREE.slot_44(0x00000000);
       }
     }

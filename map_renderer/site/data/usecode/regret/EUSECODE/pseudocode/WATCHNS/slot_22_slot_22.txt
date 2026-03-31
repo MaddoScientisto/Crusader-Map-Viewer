@@ -1,15 +1,13 @@
 function watchns_slot_22() /* entry=1224 class_id=0x04c6 slot=0x22 */
 {
   set_info(0x020a, 0);
-  /* global_address */
   spawn FREE.slot_3b(pid, 5, 0x00000000);
   suspend;
   /* loopscr */
   /* loopscr */
   /* loop */
   while (condition) {
-    /* global_address */
-    if (intrinsic_003d() == 14) {
+    if (Actor.getMap(&global[0x001e]) == 14) {
       if (Actor.isNPC(local_02)) {
         local_03 = 1;
       }
@@ -20,19 +18,17 @@ function watchns_slot_22() /* entry=1224 class_id=0x04c6 slot=0x22 */
       }
     }
     else if (Actor.isNPC(local_02)) {
-      if (intrinsic_0107(arg_06) == intrinsic_000d(local_02)) {
+      if (Item.getQLo(arg_06) == Intrinsic000D(local_02)) {
         ITEM.slot_24(2, local_02);
         local_03 = 1;
       }
     }
-    /* loopnext */
   }
-  /* global_address */
   spawn FREE.slot_3b(pid, 10, 0x00000000);
   suspend;
   /* pop_global */
   if (local_03) {
-    while (intrinsic_0016() != 1) {
+    while (World.getControlledNPCNum() != 1) {
       spawn FREE.slot_3b(pid, 5, 0x00000000);
       suspend;
     }

@@ -4,8 +4,8 @@ function door2_slot_35() /* entry=2569 class_id=0x0a07 slot=0x35 */
   set_info(1, 0);
   local_12 = 7;
   local_08 = *(arg_06);
-  local_14 = intrinsic_0013(arg_06);
-  local_16 = Item.legal_create(arg_06);
+  local_14 = Item.getX(arg_06);
+  local_16 = Item.getY(arg_06);
   local_18 = Item.getZ(arg_06);
   /* loopscr */
   /* loopscr */
@@ -14,19 +14,18 @@ function door2_slot_35() /* entry=2569 class_id=0x0a07 slot=0x35 */
   /* loop */
   while (condition) {
     if (Item.getFrame(local_02) == 0) {
-      local_20 = intrinsic_0013(local_02);
-      local_22 = Item.legal_create(local_02);
+      local_20 = Item.getX(local_02);
+      local_22 = Item.getY(local_02);
       local_28 = Item.getZ(local_02);
     }
     else {
-      local_24 = intrinsic_0013(local_02);
-      local_26 = Item.legal_create(local_02);
+      local_24 = Item.getX(local_02);
+      local_26 = Item.getY(local_02);
       local_30 = Item.getZ(local_02);
     }
-    /* loopnext */
   }
-  local_32 = Item.getPoint(arg_06);
-  if (intrinsic_0062((local_18 - 80), local_16, local_14, 7, 0x01ee, local_04) == 1) {
+  local_32 = Item.getFootpad(arg_06);
+  if (CameraProcess.somethingAboutCameraUpdate((local_18 - 80), local_16, local_14, 7, 0x01ee, local_04) == 1) {
     spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
     suspend;
     local_10 = 1;

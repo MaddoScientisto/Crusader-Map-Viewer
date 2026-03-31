@@ -2,14 +2,14 @@ function watchns_use() /* entry=1224 class_id=0x04c6 slot=0x01 */
 {
   set_info(0x0207, *(arg_06));
   process_exclude();
-  if (intrinsic_0004(arg_06) & 0x1000) {
+  if (Item.getStatus(arg_06) & 0x1000) {
   }
   else if (Item.getFrame(arg_06) == 1) {
     spawn FREE.slot_21(pid, 0x01a7, 0x00000000);
     suspend;
   }
   else {
-    ITEM.slot_26((intrinsic_0000() == 1), 4, arg_06);
+    ITEM.slot_26((World.getAlertActive() == 1), 4, arg_06);
     if (retval == 1) {
       /* free_local_string */
       local_02 = "SECURITY OPS^_____________^^CODE RED IN PROGRESS.^UNABLE TO ACCESS CENTRAL SECURITY.";

@@ -32,7 +32,7 @@ function textfile_slot_23() /* entry=2593 class_id=0x0a1f slot=0x23 */
     if msgNum != 0 goto block_087f;
 
   block_031b:
-    rnge = intrinsic_0018(11, 1);
+    rnge = UCMachine.rndRange(11, 1);
     if rnge != 1 goto block_03c0;
 
   block_0333:
@@ -391,12 +391,12 @@ function textfile_slot_23() /* entry=2593 class_id=0x0a1f slot=0x23 */
     else if (msgNum == 48) {
       /* concat */
       /* free_local_string */
-      textFile = intrinsic_0132(passcode);
+      textFile = Item.andStatus(passcode);
     }
     else if (msgNum == 49) {
       /* concat */
       /* free_local_string */
-      textFile = intrinsic_0132(passcode);
+      textFile = Item.andStatus(passcode);
     }
     else if (msgNum == 50) {
       if (linkNum && passcode) {

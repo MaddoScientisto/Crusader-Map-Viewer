@@ -1,5 +1,10 @@
 function door3_slot_28() /* entry=2570 class_id=0x0a08 slot=0x28 */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    counter, /* [BP-02h] type=0x69 */
+    maxFrame; /* [BP-04h] type=0x69 */
+
   set_info(0x0207, *(arg_06));
   if (Item.getFrame(arg_06) > 0) {
     /* word_to_dword */
@@ -9,17 +14,16 @@ function door3_slot_28() /* entry=2570 class_id=0x0a08 slot=0x28 */
   else {
     spawn DOOR.slot_22(pid, arg_06);
     suspend;
-    local_04 = 9;
-    local_02 = 1;
-    while (local_02 <= local_04) {
+    maxFrame = 9;
+    counter = 1;
+    while (counter <= maxFrame) {
       spawn FREE.slot_32(pid, 5, 0x00000000);
       suspend;
-      local_02 = (1 + local_02);
+      counter = (1 + counter);
     }
     /* word_to_dword */
     /* pop_result */
     return;
   }
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

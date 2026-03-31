@@ -1,48 +1,61 @@
 function elevat_slot_24() /* entry=2571 class_id=0x0a09 slot=0x24 */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    counter, /* [BP-02h] type=0x69 */
+    counter2, /* [BP-04h] type=0x69 */
+    height, /* [BP-05h] type=0x62 */
+    minLimit, /* [BP-07h] type=0x69 */
+    minLimitCount, /* [BP-09h] type=0x69 */
+    cargoDown, /* [BP-11h] type=0x24 */
+    wp, /* [BP-16h] type=0x24 */
+    x, /* [BP-18h] type=0x69 */
+    y, /* [BP-20h] type=0x69 */
+    z, /* [BP-22h] type=0x69 */
+    total2; /* [BP-24h] type=0x69 */
+
   set_info(0x0001, *(arg_06));
-  local_05 = Item.getZ(arg_06);
+  height = Item.getZ(arg_06);
   ELEVAT.slot_21(arg_06);
-  local_07 = retval;
-  local_09 = ((local_05 - local_07) / 2);
-  local_02 = 1;
-  while (local_02 <= local_09) {
-    local_16 = intrinsic_0013(arg_06);
-    local_14 = Item.legal_create(arg_06);
+  minLimit = retval;
+  minLimitCount = ((height - minLimit) / 2);
+  counter = 1;
+  while (counter <= minLimitCount) {
+    wp = Item.getX(arg_06);
+    local_14 = Item.getY(arg_06);
     local_12 = (Item.getZ(arg_06) - 2);
-    local_24 = 0;
+    total2 = 0;
     /* loopscr */
     /* loop */
     while (condition) {
-      if (Item.use(*(arg_06), local_11)) {
-        if (local_11 < 0x0100) {
-          if (intrinsic_006f(*(arg_06), local_11)) {
-            local_24 = (1 + local_24);
+      if (Item.isCentreOn(*(arg_06), cargoDown)) {
+        if (cargoDown < 0x0100) {
+          if (Item.isCompletelyOn(*(arg_06), cargoDown)) {
+            total2 = (1 + total2);
           }
           else {
-            local_24 = (1 + local_24);
+            total2 = (1 + total2);
           }
         }
         else {
-          local_24 = (1 + local_24);
+          total2 = (1 + total2);
         }
       }
-      /* loopnext */
     }
-    if (intrinsic_002e(0, 0, local_16, arg_06)) {
-      local_04 = 1;
-      while (local_04 <= local_24) {
-        local_11 = intrinsic_0023();
-        local_04 = (1 + local_04);
+    if (legalMoveToPoint(0, 0, wp, arg_06)) {
+      counter2 = 1;
+      while (counter2 <= total2) {
+        cargoDown = Item.getEtherealTop();
+        counter2 = (1 + counter2);
       }
       spawn FREE.waitNTimerTicks(pid, 1, 0x00000000);
       suspend;
     }
     else {
-      local_04 = 1;
-      while (local_04 <= local_24) {
-        local_11 = intrinsic_0023();
-        local_04 = (1 + local_04);
+      counter2 = 1;
+      while (counter2 <= total2) {
+        cargoDown = Item.getEtherealTop();
+        counter2 = (1 + counter2);
       }
       spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
       suspend;
@@ -50,25 +63,23 @@ function elevat_slot_24() /* entry=2571 class_id=0x0a09 slot=0x24 */
       suspend;
       return;
     }
-    local_24 = 0;
-    local_02 = (1 + local_02);
+    total2 = 0;
+    counter = (1 + counter);
   }
-  if ((local_05 - local_07) & 1) {
+  if ((height - minLimit) & 1) {
     /* loopscr */
     /* loop */
     while (condition) {
-      if (Item.use(*(arg_06), local_11)) {
-        local_24 = (1 + local_24);
+      if (Item.isCentreOn(*(arg_06), cargoDown)) {
+        total2 = (1 + total2);
       }
-      /* loopnext */
     }
-    local_04 = 1;
-    while (local_04 <= local_24) {
-      local_11 = intrinsic_0023();
-      local_04 = (1 + local_04);
+    counter2 = 1;
+    while (counter2 <= total2) {
+      cargoDown = Item.getEtherealTop();
+      counter2 = (1 + counter2);
     }
   }
   /* bit_not */
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

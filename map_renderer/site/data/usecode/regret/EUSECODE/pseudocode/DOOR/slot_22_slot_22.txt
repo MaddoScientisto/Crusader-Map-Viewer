@@ -15,12 +15,11 @@ function door_slot_22() /* entry=2566 class_id=0x0a04 slot=0x22 */
     goto block_14dc;
 
   block_14d8:
-    /* loopnext */
     goto block_14cb;
 
   block_14dc:
-    local_08 = intrinsic_001f(arg_06);
-    local_06 = intrinsic_004c(arg_06);
+    local_08 = Item.getQLo(arg_06);
+    local_06 = Item.getQHi(arg_06);
     if !local_04 goto block_1561;
 
   block_14f9:
@@ -30,10 +29,9 @@ function door_slot_22() /* entry=2566 class_id=0x0a04 slot=0x22 */
 
   block_152e:
     while (condition) {
-      local_10 = intrinsic_001f(local_02);
+      local_10 = Item.getQLo(local_02);
       if ((local_10 == local_08) || (local_10 == local_06)) {
       }
-      /* loopnext */
     }
 
   block_1561:

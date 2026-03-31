@@ -14,7 +14,6 @@ function juicens_use() /* entry=1466 class_id=0x05b8 slot=0x01 */
     while (condition) {
       local_05 = 1;
       local_04 = local_02;
-      /* loopnext */
     }
     if (!local_05) {
       spawn TRIGGER.slot_20(pid, 1, *(arg_06), arg_06);
@@ -23,33 +22,25 @@ function juicens_use() /* entry=1466 class_id=0x05b8 slot=0x01 */
     }
     else {
       ITEM.slot_24(0x1000, arg_06);
-      /* global_address */
-      /* global_address */
       suspend;
-      /* global_address */
-      if (!intrinsic_0061()) {
+      if (!Intrinsic0061(&global[0x001e])) {
         local_06 = 0;
       }
       else {
         local_06 = 1;
-        /* global_address */
-        /* global_address */
         suspend;
       }
       spawn SWITCH.slot_20(pid, arg_06);
       suspend;
-      if (intrinsic_0003(arg_06) != 0) {
+      if (Item.getMapArray(arg_06) != 0) {
         spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
         suspend;
       }
-      /* global_address */
-      while (intrinsic_0060()) {
+      while (Actor.isBusy(&global[0x001e])) {
         spawn FREE.slot_3b(pid, 2, 0x00000000);
         suspend;
       }
       if (local_06) {
-        /* global_address */
-        /* global_address */
         suspend;
       }
     }

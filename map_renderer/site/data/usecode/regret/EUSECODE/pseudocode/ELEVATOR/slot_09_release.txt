@@ -2,7 +2,7 @@ function elevator_release() /* entry=402 class_id=0x0190 slot=0x09 */
 {
   set_info(0x020d, *(arg_06));
   process_exclude();
-  local_02 = intrinsic_005b(arg_06);
+  local_02 = Item.getSurfaceWeight(arg_06);
   if (local_02 == 0) {
     spawn FREE.slot_3b(pid, 30, 0x00000000);
     suspend;
@@ -10,7 +10,6 @@ function elevator_release() /* entry=402 class_id=0x0190 slot=0x09 */
       local_06 = local_04;
       spawn DOOR.slot_21(pid, 2, local_06);
       suspend;
-      /* loopnext */
     }
   }
   return;

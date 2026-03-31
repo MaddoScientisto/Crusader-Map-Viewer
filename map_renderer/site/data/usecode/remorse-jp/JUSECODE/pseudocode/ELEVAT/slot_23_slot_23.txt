@@ -13,21 +13,20 @@ function elevat_slot_23() /* entry=2571 class_id=0x0a09 slot=0x23 */
 
   set_info(0x0001, *(arg_06));
   height = Item.getZ(arg_06);
-  maxLimit = intrinsic_0051(arg_06);
-  maxLimitCount = ((intrinsic_0051(arg_06) - height) / 2);
+  maxLimit = Actor.clrInCombat(arg_06);
+  maxLimitCount = ((Actor.clrInCombat(arg_06) - height) / 2);
   counter = 1;
   while (counter <= maxLimitCount) {
     /* loopscr */
     /* loop */
     while (condition) {
-      if (intrinsic_0016(cargoUp) != 0x04fe) {
+      if (Item.getShape(cargoUp) != BRO_BOOT) {
         total = (1 + total);
       }
-      /* loopnext */
     }
     counter2 = 1;
     while (counter2 <= total) {
-      cargoUp = intrinsic_0023();
+      cargoUp = Item.getEtherealTop();
       counter2 = (1 + counter2);
     }
     total = 0;
@@ -40,11 +39,10 @@ function elevat_slot_23() /* entry=2571 class_id=0x0a09 slot=0x23 */
     /* loop */
     while (condition) {
       total = (1 + total);
-      /* loopnext */
     }
     counter2 = 1;
     while (counter2 <= total) {
-      cargoUp = intrinsic_0023();
+      cargoUp = Item.getEtherealTop();
       counter2 = (1 + counter2);
     }
   }

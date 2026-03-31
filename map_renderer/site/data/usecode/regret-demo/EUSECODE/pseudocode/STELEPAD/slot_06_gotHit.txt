@@ -7,10 +7,10 @@ function stelepad_gotHit() /* entry=241 class_id=0x00ef slot=0x06 */
   if (retval) {
     return;
   }
-  else if ((intrinsic_0011(local_02) == 0x055f) || (intrinsic_0011(local_02) == 0x039a)) {
+  else if ((Item.getShape(local_02) == DET_PAC) || (Item.getShape(local_02) == LAND_MINE)) {
     return;
   }
-  else if (intrinsic_0082() == 1) {
+  else if (PaletteFaderProcess.jumpToAllBlack() == 1) {
     /* loopscr */
     /* loopscr */
     /* loopscr */
@@ -19,7 +19,6 @@ function stelepad_gotHit() /* entry=241 class_id=0x00ef slot=0x06 */
     while (condition) {
       if (local_04 < 0x0100) {
       }
-      /* loopnext */
     }
     return;
   }

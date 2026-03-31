@@ -24,7 +24,7 @@ function textfile_slot_23() /* entry=2585 class_id=0x0a17 slot=0x23 */
     if arg_12 != 0 goto block_0839;
 
   block_022f:
-    local_04 = intrinsic_0018(11, 1);
+    local_04 = UCMachine.rndRange(11, 1);
     if local_04 != 1 goto block_02d4;
 
   block_0244:
@@ -381,12 +381,12 @@ function textfile_slot_23() /* entry=2585 class_id=0x0a17 slot=0x23 */
     else if (arg_12 == 48) {
       /* concat */
       /* free_local_string */
-      local_02 = intrinsic_00fa(arg_14);
+      local_02 = Item.isOn(arg_14);
     }
     else if (arg_12 == 49) {
       /* concat */
       /* free_local_string */
-      local_02 = intrinsic_00fa(arg_14);
+      local_02 = Item.isOn(arg_14);
     }
     else if (arg_12 == 50) {
       if (arg_10 && arg_14) {

@@ -8,7 +8,7 @@ function door2_slot_29() /* entry=2569 class_id=0x0a07 slot=0x29 */
 
   entry:
     set_info(0x021b, 0);
-    if !(intrinsic_0004(arg_06) & 4) goto block_0f4b;
+    if !(Item.getStatus(arg_06) & 4) goto block_0f4b;
 
   block_0f45:
     goto block_10de;
@@ -26,7 +26,7 @@ function door2_slot_29() /* entry=2569 class_id=0x0a07 slot=0x29 */
     if counter == 0 goto block_10d4;
 
   block_0fa6:
-    FREE.slot_2d(Item.getZ(arg_06), Item.legal_create(arg_06), (intrinsic_0013(arg_06) + 16), Item.getFrame(arg_06), doorList, counter, list_element(size=0x2), *(arg_06));
+    FREE.slot_2d(Item.getZ(arg_06), Item.getY(arg_06), (Item.getX(arg_06) + 16), Item.getFrame(arg_06), doorList, counter, list_element(size=0x2), *(arg_06));
     if !retval goto block_100f;
 
   block_0fe6:

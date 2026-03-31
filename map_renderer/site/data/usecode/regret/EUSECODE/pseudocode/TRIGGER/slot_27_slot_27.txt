@@ -6,17 +6,14 @@ function trigger_slot_27() /* entry=2585 class_id=0x0a17 slot=0x27 */
   local_04 = (arg_16 & 3);
   if (local_04 == 0) {
     for local_14 in nearby_items(family=1, origin=local_16) {
-      /* loopnext */
     }
   }
   else if (local_04 == 1) {
     for local_14 in nearby_items(family=1, origin=local_16) {
-      /* loopnext */
     }
   }
   else if (local_04 == 2) {
     for local_14 in nearby_items(family=1, origin=local_16) {
-      /* loopnext */
     }
   }
   else if (local_04 == 3) {
@@ -24,26 +21,25 @@ function trigger_slot_27() /* entry=2585 class_id=0x0a17 slot=0x27 */
     if (local_02 == 0) {
       local_12 = (arg_12 / 8);
       for local_14 in nearby_items(shape=0x0476, origin=local_16) {
-        if (intrinsic_0107(local_14) == arg_18) {
-          local_06 = intrinsic_0129(local_14);
+        if (Item.getQLo(local_14) == arg_18) {
+          local_06 = Item.getNpcNum(local_14);
           local_10 = (local_06 & 15);
-          local_08 = intrinsic_0003(local_14);
+          local_08 = Item.getMapArray(local_14);
           local_08 = (((local_06 & 0x00e0) * 8) + local_08);
           FREE.slot_39(local_12, local_10, local_08, local_14);
         }
-        /* loopnext */
       }
     }
     else if (local_02 == 1) {
       local_12 = (arg_12 / 8);
       for local_14 in nearby_items(family=1, origin=local_16) {
-        if (intrinsic_0107(local_14) == arg_18) {
+        if (Item.getQLo(local_14) == arg_18) {
           if (local_12 == 31) {
             suspend;
           }
           else {
             local_10 = Item.getFrame(local_14);
-            local_08 = intrinsic_0011(local_14);
+            local_08 = Item.getShape(local_14);
             local_06 = (local_08 & 0x00ff);
             local_08 = (local_08 & 0x0700);
             local_08 = (local_08 / 8);
@@ -52,13 +48,11 @@ function trigger_slot_27() /* entry=2585 class_id=0x0a17 slot=0x27 */
             /* bit_not */
           }
         }
-        /* loopnext */
       }
     }
     else if (local_02 == 2) {
       local_06 = (arg_12 / 8);
       for local_14 in nearby_items(family=1, origin=local_16) {
-        /* loopnext */
       }
     }
     else if (local_02 == 3) {
@@ -69,11 +63,10 @@ function trigger_slot_27() /* entry=2585 class_id=0x0a17 slot=0x27 */
         local_20 = global[0x0022];
       }
       for local_14 in nearby_items(family=1, origin=local_16) {
-        if (intrinsic_0107(local_14) == arg_18) {
+        if (Item.getQLo(local_14) == arg_18) {
           local_06 = (arg_12 / 8);
           spawn TRIGGER.slot_22(local_06, local_14, arg_06);
         }
-        /* loopnext */
       }
     }
     else if (local_02 == 4) {
@@ -87,10 +80,10 @@ function trigger_slot_27() /* entry=2585 class_id=0x0a17 slot=0x27 */
     else if (local_02 == 6) {
       local_12 = (arg_12 / 8);
       for local_14 in nearby_items(shape=0x0476, origin=local_16) {
-        if (intrinsic_0107(local_14) == arg_18) {
-          local_06 = intrinsic_012b(local_14);
+        if (Item.getQLo(local_14) == arg_18) {
+          local_06 = Item.getNpcNum(local_14);
           local_10 = (local_06 & 15);
-          local_08 = intrinsic_0003(local_14);
+          local_08 = Item.getMapArray(local_14);
           local_08 = (((local_06 & 0x00e0) * 8) + local_08);
           if (local_08 != 0) {
             if (Item.create(local_10, local_08, local_22) == 1) {
@@ -98,7 +91,6 @@ function trigger_slot_27() /* entry=2585 class_id=0x0a17 slot=0x27 */
             }
           }
         }
-        /* loopnext */
       }
     }
   }

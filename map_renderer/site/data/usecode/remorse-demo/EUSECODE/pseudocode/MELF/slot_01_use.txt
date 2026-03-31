@@ -6,12 +6,10 @@ function melf_use() /* entry=957 class_id=0x03bb slot=0x01 */
 
   set_info(0x0207, *(arg_06));
   process_exclude();
-  if (intrinsic_00ca(arg_06)) {
+  if (Actor.addHp(arg_06)) {
     return;
   }
   else {
-    /* global_address */
-    /* global_address */
     suspend;
     /* str_to_ptr */
     /* free_stack_string */
@@ -26,7 +24,6 @@ function melf_use() /* entry=957 class_id=0x03bb slot=0x01 */
     /* loopscr */
     /* loop */
     while (condition) {
-      /* loopnext */
     }
   }
   return;

@@ -1,23 +1,31 @@
 function surcamew_slot_20() /* entry=1248 class_id=0x04de slot=0x20 */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    textFile, /* [BP-02h] type=0x73 */
+    monit, /* [BP-04h] type=0x24 */
+    valueBox, /* [BP-06h] type=0x24 */
+    passcode, /* [BP-08h] type=0x69 */
+    link, /* [BP-10h] type=0x69 */
+    code; /* [BP-11h] type=0x62 */
+
   entry:
     set_info(0x021b, 0);
-    local_10 = intrinsic_00ea(arg_06);
-    if intrinsic_0003(arg_06) == 0 goto block_03fc;
+    link = Item.getQLo(arg_06);
+    if Item.getMapArray(arg_06) == 0 goto block_03fc;
 
   block_02f3_selector_00:
-    for local_04 in nearby_items(shape=0x037d, origin=arg_06) {
-      if ((intrinsic_00ea(local_04) == local_10) || (local_10 == 0)) {
-        if (intrinsic_012c(local_04)) {
-          TEXTFILE.slot_21(intrinsic_012c(local_04), intrinsic_00ea(local_04), arg_06);
+    for monit in nearby_items(shape=0x037d, origin=arg_06) {
+      if ((Item.getQLo(monit) == link) || (link == 0)) {
+        if (Item.isOn(monit)) {
+          TEXTFILE.slot_21(Item.isOn(monit), Item.getQLo(monit), arg_06);
           /* free_local_string */
-          local_02 = retval;
-          spawn TEXTFILE.slot_20(pid, local_02, arg_06);
+          textFile = retval;
+          spawn TEXTFILE.slot_20(pid, textFile, arg_06);
           /* free_stack_string */
           suspend;
         }
       }
-      /* loopnext */
     }
 
   block_038a:
@@ -30,44 +38,43 @@ function surcamew_slot_20() /* entry=1248 class_id=0x04de slot=0x20 */
     goto block_0501;
 
   block_03fc:
-    local_11 = 0;
-    if !intrinsic_012c(arg_06) goto block_04e2;
+    code = 0;
+    if !Item.isOn(arg_06) goto block_04e2;
 
   block_0412_selector_00:
-    /* loop_selector local_06 in nearby_items(shape=PLACEHOLDER_KEY_CUBE, origin=arg_06) */
+    /* loop_selector valueBox in nearby_items(shape=PLACEHOLDER_KEY_CUBE, origin=arg_06) */
 
   block_0430:
     if !condition goto block_0468;
 
   block_0433:
-    if intrinsic_00ea(local_06) != local_10 goto block_0464;
+    if Item.getQLo(valueBox) != link goto block_0464;
 
   block_0445:
-    VALBOX.slot_20(local_06);
-    local_08 = retval;
-    local_11 = (1 + local_11);
+    VALBOX.slot_20(valueBox);
+    passcode = retval;
+    code = (1 + code);
     goto block_0468;
 
   block_0464:
-    /* loopnext */
     goto block_0430;
 
   block_0468:
-    if !local_11 goto block_049a;
+    if !code goto block_049a;
 
   block_0472:
-    TEXTFILE.slot_23(local_08, intrinsic_012c(arg_06), intrinsic_00ea(arg_06), arg_06);
+    TEXTFILE.slot_23(passcode, Item.isOn(arg_06), Item.getQLo(arg_06), arg_06);
     /* free_local_string */
-    local_02 = retval;
+    textFile = retval;
     goto block_04bd;
 
   block_049a:
-    TEXTFILE.slot_21(intrinsic_012c(arg_06), intrinsic_00ea(arg_06), arg_06);
+    TEXTFILE.slot_21(Item.isOn(arg_06), Item.getQLo(arg_06), arg_06);
     /* free_local_string */
-    local_02 = retval;
+    textFile = retval;
 
   block_04bd:
-    spawn TEXTFILE.slot_20(pid, local_02, arg_06);
+    spawn TEXTFILE.slot_20(pid, textFile, arg_06);
     /* free_stack_string */
     suspend;
 
@@ -80,5 +87,4 @@ function surcamew_slot_20() /* entry=1248 class_id=0x04de slot=0x20 */
     /* free_local_string */
     return;
 
-  /* decompilation stopped at SEARCH_SURFACE */
 }

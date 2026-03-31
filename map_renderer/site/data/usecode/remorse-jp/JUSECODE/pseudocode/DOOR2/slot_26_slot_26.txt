@@ -1,17 +1,21 @@
 function door2_slot_26() /* entry=2569 class_id=0x0a07 slot=0x26 */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    counter, /* [BP-02h] type=0x69 */
+    maxFrame; /* [BP-04h] type=0x69 */
+
   set_info(0x0207, *(arg_06));
   spawn DOOR.slot_22(pid, arg_06);
   suspend;
-  local_04 = 8;
-  local_02 = 1;
-  while (local_02 <= local_04) {
+  maxFrame = 8;
+  counter = 1;
+  while (counter <= maxFrame) {
     spawn FREE.slot_32(pid, 10, 0x00000000);
     suspend;
-    local_02 = (1 + local_02);
+    counter = (1 + counter);
   }
   /* word_to_dword */
   /* pop_result */
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

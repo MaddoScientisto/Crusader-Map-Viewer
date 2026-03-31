@@ -1,80 +1,91 @@
 function wallgun_slot_45() /* entry=2591 class_id=0x0a1d slot=0x45 */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    target, /* [BP+10h] type=0x69 */
+    brain, /* [BP+12h] type=0x69 */
+    dir, /* [BP-01h] type=0x62 */
+    dist, /* [BP-03h] type=0x69 */
+    t, /* [BP-05h] type=0x69 */
+    del, /* [BP-07h] type=0x69 */
+    old, /* [BP-09h] type=0x69 */
+    new; /* [BP-11h] type=0x69 */
+
   set_info(0x0001, *(arg_06));
   spawn FREE.slot_32(pid, 1, 0x00000000);
   suspend;
   WALLGUN.slot_2c(arg_06);
-  local_01 = retval;
-  local_07 = 3;
-  local_09 = Item.getFrame(arg_06);
-  local_11 = (Item.getFrame(arg_06) * 2);
+  dir = retval;
+  del = 3;
+  old = Item.getFrame(arg_06);
+  new = (Item.getFrame(arg_06) * 2);
   WALLGUN.slot_29(arg_06);
   if (retval) {
-    local_11 = (local_11 + 20);
+    new = (new + 20);
   }
   else {
-    local_11 = (local_11 + 9);
+    new = (new + 9);
   }
   while (1) {
     spawn WALLGUN.slot_26(pid, arg_06);
     suspend;
-    FREE.slot_29(*(arg_06), arg_10);
-    local_03 = retval;
-    WALLGUN.slot_2e(arg_10, arg_06);
+    FREE.slot_29(*(arg_06), target);
+    dist = retval;
+    WALLGUN.slot_2e(target, arg_06);
     if (retval == 0) {
       return;
     }
-    if (local_03 > 20) {
-      if (arg_12 == 4) {
+    if (dist > 20) {
+      if (brain == 4) {
         return;
       }
-      if (local_03 > 46) {
+      if (dist > 46) {
         return;
       }
     }
-    if ((intrinsic_0016(arg_06) == 0x0113) || (intrinsic_0016(arg_06) == 0x0108)) {
-      spawn WALLGUN.slot_47(local_01, arg_06);
+    if ((Item.getShape(arg_06) == wallgun_shape_0113) || (Item.getShape(arg_06) == wallgun_shape_0108)) {
+      spawn WALLGUN.slot_47(dir, arg_06);
       spawn FREE.slot_32(pid, 5, 0x00000000);
       suspend;
       spawn FREE.slot_32(pid, 5, 0x00000000);
       suspend;
-      spawn WALLGUN.slot_47(local_01, arg_06);
+      spawn WALLGUN.slot_47(dir, arg_06);
       spawn FREE.slot_32(pid, 5, 0x00000000);
       suspend;
       spawn FREE.slot_32(pid, 5, 0x00000000);
       suspend;
-      spawn WALLGUN.slot_47(local_01, arg_06);
-      spawn FREE.slot_32(pid, 5, 0x00000000);
-      suspend;
-      spawn FREE.slot_32(pid, 5, 0x00000000);
-      suspend;
-    }
-    else if ((((intrinsic_0016(arg_06) == 0x025f) || (intrinsic_0016(arg_06) == 0x0260)) || (intrinsic_0016(arg_06) == 0x01b9)) || (intrinsic_0016(arg_06) == 0x01ba)) {
-      spawn WALLGUN.slot_47(local_01, arg_06);
-    }
-    else if ((intrinsic_0016(arg_06) == 0x0373) || (intrinsic_0016(arg_06) == 0x02f0)) {
-      spawn WALLGUN.slot_47(local_01, arg_06);
-      spawn FREE.slot_32(pid, 5, 0x00000000);
-      suspend;
-    }
-    else if ((intrinsic_0016(arg_06) == 0x04c8) || (intrinsic_0016(arg_06) == 0x01cd)) {
-      spawn FREE.slot_32(pid, 5, 0x00000000);
-      suspend;
-      spawn WALLGUN.slot_47(local_01, arg_06);
-      spawn FREE.slot_32(pid, 5, 0x00000000);
-      suspend;
-      spawn FREE.slot_32(pid, 5, 0x00000000);
-      suspend;
-      spawn WALLGUN.slot_47(local_01, arg_06);
-      spawn FREE.slot_32(pid, 5, 0x00000000);
-      suspend;
+      spawn WALLGUN.slot_47(dir, arg_06);
       spawn FREE.slot_32(pid, 5, 0x00000000);
       suspend;
       spawn FREE.slot_32(pid, 5, 0x00000000);
       suspend;
     }
-    else if ((intrinsic_0016(arg_06) == 0x03a1) || (intrinsic_0016(arg_06) == 0x0399)) {
-      spawn WALLGUN.slot_47(local_01, arg_06);
+    else if ((((Item.getShape(arg_06) == wallgun_shape_025f) || (Item.getShape(arg_06) == wallgun_shape_0260)) || (Item.getShape(arg_06) == wallgun_shape_01b9)) || (Item.getShape(arg_06) == wallgun_shape_01ba)) {
+      spawn WALLGUN.slot_47(dir, arg_06);
+    }
+    else if ((Item.getShape(arg_06) == wallgun_shape_0373) || (Item.getShape(arg_06) == wallgun_shape_02f0)) {
+      spawn WALLGUN.slot_47(dir, arg_06);
+      spawn FREE.slot_32(pid, 5, 0x00000000);
+      suspend;
+    }
+    else if ((Item.getShape(arg_06) == wallgun_shape_04c8) || (Item.getShape(arg_06) == wallgun_shape_01cd)) {
+      spawn FREE.slot_32(pid, 5, 0x00000000);
+      suspend;
+      spawn WALLGUN.slot_47(dir, arg_06);
+      spawn FREE.slot_32(pid, 5, 0x00000000);
+      suspend;
+      spawn FREE.slot_32(pid, 5, 0x00000000);
+      suspend;
+      spawn WALLGUN.slot_47(dir, arg_06);
+      spawn FREE.slot_32(pid, 5, 0x00000000);
+      suspend;
+      spawn FREE.slot_32(pid, 5, 0x00000000);
+      suspend;
+      spawn FREE.slot_32(pid, 5, 0x00000000);
+      suspend;
+    }
+    else if ((Item.getShape(arg_06) == wallgun_shape_03a1) || (Item.getShape(arg_06) == wallgun_shape_0399)) {
+      spawn WALLGUN.slot_47(dir, arg_06);
       spawn FREE.slot_32(pid, 5, 0x00000000);
       suspend;
     }
@@ -82,5 +93,4 @@ function wallgun_slot_45() /* entry=2591 class_id=0x0a1d slot=0x45 */
     suspend;
   }
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

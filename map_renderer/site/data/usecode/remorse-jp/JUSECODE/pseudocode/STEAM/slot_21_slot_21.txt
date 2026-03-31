@@ -1,8 +1,13 @@
 function steam_slot_21() /* entry=2586 class_id=0x0a18 slot=0x21 */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    n; /* [BP-02h] type=0x24 */
+
   set_info(0x0001, *(arg_06));
-  local_02 = arg_10;
-  if (intrinsic_0004(arg_06) & 4) {
+  n = ref;
+  if (Item.getStatus(arg_06) & 4) {
     return;
   }
   else {
@@ -10,11 +15,11 @@ function steam_slot_21() /* entry=2586 class_id=0x0a18 slot=0x21 */
     suspend;
     while (true) {
       suspend;
-      if (arg_10 < 0x00ff) {
-        if (arg_10 == intrinsic_001b()) {
+      if (ref < 0x00ff) {
+        if (ref == getTargetNPCNumMaybe()) {
         }
         else {
-          NPC.slot_2b(local_02);
+          NPC.slot_2b(n);
         }
         spawn STEAM.slot_20(arg_06);
         return;
@@ -22,5 +27,4 @@ function steam_slot_21() /* entry=2586 class_id=0x0a18 slot=0x21 */
     }
   }
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

@@ -1,40 +1,49 @@
 function mtaregg_slot_20() /* entry=2309 class_id=0x0903 slot=0x20 */
 {
-  set_info(0x00f0, arg_10);
-  local_02 = arg_10;
-  local_04 = arg_14;
-  if (arg_12 == 0) {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    dir, /* [BP+12h] type=0x62 */
+    num, /* [BP+14h] type=0x69 */
+    me, /* [BP-02h] type=0x24 */
+    num, /* [BP-04h] type=0x69 */
+    dp, /* [BP-09h] type=0x24 */
+    wp; /* [BP-14h] type=0x24 */
+
+  set_info(0x00f0, ref);
+  me = ref;
+  num = num;
+  if (dir == 0) {
     local_07 = -2;
-    local_09 = 0;
+    dp = 0;
   }
-  else if (arg_12 == 8) {
+  else if (dir == 8) {
     local_07 = 2;
-    local_09 = 0;
+    dp = 0;
   }
-  else if (arg_12 == 4) {
+  else if (dir == 4) {
     local_07 = 0;
-    local_09 = 2;
+    dp = 2;
   }
-  else if (arg_12 == 12) {
+  else if (dir == 12) {
     local_07 = 0;
-    local_09 = -2;
+    dp = -2;
   }
   suspend;
   while (true) {
     suspend;
-    if (local_04 == 0) {
+    if (num == 0) {
       return;
     }
-    local_04 = (local_04 - 1);
-    local_14 = intrinsic_0013(local_02);
-    local_12 = Item.legal_create(local_02);
-    local_10 = Item.getZ(local_02);
-    local_14 = (local_14 + local_09);
+    num = (num - 1);
+    wp = Item.getX(me);
+    local_12 = Item.getY(me);
+    local_10 = Item.getZ(me);
+    wp = (wp + dp);
     local_12 = (local_12 + local_07);
-    if (intrinsic_0031(0, 1, local_14, local_02) == 0) {
+    if (Item.andStatus(0, 1, wp, me) == 0) {
       return;
     }
   }
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

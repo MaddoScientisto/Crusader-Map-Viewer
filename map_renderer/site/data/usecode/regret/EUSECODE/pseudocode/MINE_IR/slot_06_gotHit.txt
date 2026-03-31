@@ -12,8 +12,8 @@ function mine_ir_gotHit() /* entry=42 class_id=0x0028 slot=0x06 */
   }
   else {
     local_04 = arg_10;
-    if (intrinsic_00cb(*(arg_06), local_04)) {
-      if (((arg_10 < 0x00ff) && (arg_10 != intrinsic_0016())) && (Item.isOnScreen(arg_06) == 0)) {
+    if (Item.isOn(*(arg_06), local_04)) {
+      if (((arg_10 < 0x00ff) && (arg_10 != World.getControlledNPCNum())) && (Item.isOnScreen(arg_06) == 0)) {
         return;
       }
     }

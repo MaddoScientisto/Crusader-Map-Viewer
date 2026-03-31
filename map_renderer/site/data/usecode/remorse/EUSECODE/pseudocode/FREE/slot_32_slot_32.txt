@@ -6,17 +6,17 @@ function free_slot_32() /* entry=2574 class_id=0x0a0c slot=0x32 */
     newTick; /* [BP-08h] type=0x64 */
 
   set_info(9, 0);
-  newTick = intrinsic_00b3();
-  oldTick = intrinsic_00b3();
+  newTick = getCurrentTimerTick();
+  oldTick = getCurrentTimerTick();
   if (time < 1) {
     return;
   }
   else {
     suspend;
-    newTick = intrinsic_00b3();
+    newTick = getCurrentTimerTick();
     while (true) {
       suspend;
-      newTick = intrinsic_00b3();
+      newTick = getCurrentTimerTick();
       if (newTick != oldTick) {
         oldTick = newTick;
         time = (time - 1);

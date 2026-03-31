@@ -2,11 +2,11 @@ function shocker_slot_20() /* entry=2583 class_id=0x0a15 slot=0x20 */
 {
   set_info(0x020a, *(arg_06));
   set_info(0x0205, *(arg_06));
-  if (intrinsic_0119(arg_06) == 0) {
+  if (Item.getNpcNum(arg_06) == 0) {
     FREE.slot_20(29);
     local_02 = (retval + 1);
   }
-  local_04 = intrinsic_0119(arg_06);
+  local_04 = Item.getNpcNum(arg_06);
   if (local_04 == 31) {
     local_06 = 1;
   }
@@ -14,16 +14,16 @@ function shocker_slot_20() /* entry=2583 class_id=0x0a15 slot=0x20 */
     return;
   }
   else {
-    local_08 = intrinsic_000a();
-    local_06 = ((6 - intrinsic_000a()) * (10 + local_04));
+    local_08 = World.gameDifficulty();
+    local_06 = ((6 - World.gameDifficulty()) * (10 + local_04));
   }
   spawn FREE.slot_3b(pid, local_06, 0x00000000);
   suspend;
   suspend;
-  local_10 = intrinsic_006a(0x020c, *(arg_06));
+  local_10 = Intrinsic006A(0x020c, *(arg_06));
   while (true) {
     suspend;
-    local_10 = intrinsic_006a(0x020c, *(arg_06));
+    local_10 = Intrinsic006A(0x020c, *(arg_06));
     if (local_10 == 0) {
       spawn SHOCKER.slot_21(arg_06);
     }

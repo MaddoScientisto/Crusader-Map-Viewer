@@ -16,10 +16,10 @@ function trigger_slot_20() /* entry=2591 class_id=0x0a1d slot=0x20 */
     goto block_018d;
 
   block_0161:
-    local_06 = intrinsic_012b(local_14);
-    local_16 = intrinsic_0133(local_14);
-    local_10 = intrinsic_0003(local_14);
-    local_08 = intrinsic_0132(local_14);
+    local_06 = Item.getNpcNum(local_14);
+    local_16 = Item.hurl(local_14);
+    local_10 = Item.getMapArray(local_14);
+    local_08 = Item.andStatus(local_14);
 
   block_018d:
     local_18 = local_16;
@@ -53,7 +53,7 @@ function trigger_slot_20() /* entry=2591 class_id=0x0a1d slot=0x20 */
     if !(local_10 & 4) goto block_0306;
 
   block_01e4:
-    if !intrinsic_0134(local_20) goto block_0275;
+    if !Item.andStatus(local_20) goto block_0275;
 
   block_01f0:
     if local_16 != 0x00ff goto block_0222;
@@ -168,8 +168,8 @@ function trigger_slot_20() /* entry=2591 class_id=0x0a1d slot=0x20 */
 
   block_03b2_selector_00:
     for local_12 in nearby_items(shape=0x04b1, origin=local_14) {
-      if (intrinsic_0133(local_12) == local_16) {
-        local_10 = intrinsic_0003(local_12);
+      if (Item.hurl(local_12) == local_16) {
+        local_10 = Item.getMapArray(local_12);
         local_04 = 0;
         if (local_10 & 8) {
           local_04 = 1;
@@ -189,7 +189,6 @@ function trigger_slot_20() /* entry=2591 class_id=0x0a1d slot=0x20 */
           }
         }
       }
-      /* loopnext */
     }
 
   block_0439:

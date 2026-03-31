@@ -1,15 +1,19 @@
 function blaserew_equip() /* entry=710 class_id=0x02c4 slot=0x0a */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    var, /* [BP+10h] type=0x69 */
+    h; /* [BP-02h] type=0x69 */
+
   set_info(0x0211, *(arg_06));
   process_exclude();
-  if (arg_10 == 1) {
-    local_02 = intrinsic_0026(arg_06);
+  if (var == 1) {
+    h = Item.getQHi(arg_06);
     return;
   }
-  else if (arg_10 == 31) {
-    local_02 = intrinsic_0026(arg_06);
+  else if (var == 31) {
+    h = Item.getQHi(arg_06);
     return;
   }
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

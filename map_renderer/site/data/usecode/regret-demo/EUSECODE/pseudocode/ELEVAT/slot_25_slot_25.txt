@@ -8,7 +8,7 @@ function elevat_slot_25() /* entry=2572 class_id=0x0a0a slot=0x25 */
     FREE.slot_48((Item.getY(arg_06) - Item.getY(local_02)));
     local_08 = retval;
     if ((local_06 < 2) && (local_08 < 2)) {
-      if ((intrinsic_0004(local_02) & 0x1000) == 0) {
+      if ((Item.getStatus(local_02) & 0x1000) == 0) {
         if (Item.getFrame(local_02) == 0) {
           local_03 = 1;
           while (local_03 <= local_04) {
@@ -30,7 +30,6 @@ function elevat_slot_25() /* entry=2572 class_id=0x0a0a slot=0x25 */
         /* bit_not */
       }
     }
-    /* loopnext */
   }
   return;
 }

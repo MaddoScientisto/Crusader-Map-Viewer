@@ -2,7 +2,7 @@ function bridge_slot_20() /* entry=2565 class_id=0x0a03 slot=0x20 */
 {
   set_info(0x0211, *(arg_06));
   if (arg_10 == 1) {
-    local_02 = intrinsic_002b(arg_06);
+    local_02 = Item.getQLo(arg_06);
     spawn BRIDGE.slot_22(pid, local_02, arg_06);
     suspend;
     /* dword_to_word */
@@ -14,7 +14,7 @@ function bridge_slot_20() /* entry=2565 class_id=0x0a03 slot=0x20 */
     return;
   }
   else if (arg_10 == 2) {
-    local_02 = intrinsic_002b(arg_06);
+    local_02 = Item.getQLo(arg_06);
     spawn BRIDGE.slot_23(pid, local_02, arg_06);
     suspend;
     /* dword_to_word */

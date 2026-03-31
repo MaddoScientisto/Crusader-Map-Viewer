@@ -2,15 +2,15 @@ function hover_slot_23() /* entry=2573 class_id=0x0a0b slot=0x23 */
 {
   set_info(1, 0);
   local_06 = arg_10;
-  if ((arg_12 == 1) && (intrinsic_00ad(local_06) == 1)) {
+  if ((arg_12 == 1) && (Intrinsic00AD(local_06) == 1)) {
     return;
   }
   else {
-    local_14 = (intrinsic_00ae(local_06) & 15);
-    local_16 = intrinsic_001f(local_06);
+    local_14 = (Item.getQHi(local_06) & 15);
+    local_16 = Item.getQLo(local_06);
     for local_04 in nearby_items(shape=NUMBERS, origin=arg_10) {
       if (Item.getFrame(local_04) == local_14) {
-        if ((local_16 == 0) || (local_16 == intrinsic_001f(local_04))) {
+        if ((local_16 == 0) || (local_16 == Item.getQLo(local_04))) {
           local_18 = Item.getX(local_04);
           local_20 = Item.getY(local_04);
           local_21 = Item.getZ(local_04);
@@ -20,12 +20,10 @@ function hover_slot_23() /* entry=2573 class_id=0x0a0b slot=0x23 */
           /* loopscr */
           /* loop */
           while (condition) {
-            /* loopnext */
           }
           return;
         }
       }
-      /* loopnext */
     }
   }
   return;

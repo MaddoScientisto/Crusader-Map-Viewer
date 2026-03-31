@@ -36,18 +36,12 @@ function chest_ew_use() /* entry=1362 class_id=0x0550 slot=0x01 */
   spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
   suspend;
   for local_02 in nearby_items(shape=0x0476, origin=arg_06) {
-    if (intrinsic_001f(arg_06) == intrinsic_001f(local_02)) {
+    if (Item.getQLo(arg_06) == Item.getQLo(local_02)) {
       FREE.slot_37(local_02);
       local_04 = retval;
-      if ((((intrinsic_0031(local_04) == 10) || (intrinsic_0031(local_04) == 11)) || (intrinsic_0031(local_04) == 12)) || (intrinsic_0031(local_04) == 13)) {
-        if (!intrinsic_003c(1, local_04)) {
-          /* global_address */
-          if (intrinsic_003d() == 25) {
-          }
-          else {
-            /* global_address */
-            /* global_address */
-            /* global_address */
+      if ((((Item.getItemFamily(local_04) == 10) || (Item.getItemFamily(local_04) == 11)) || (Item.getItemFamily(local_04) == 12)) || (Item.getItemFamily(local_04) == 13)) {
+        if (!MainActor.addItemCru(1, local_04)) {
+          if (Actor.getMap(&global[0x001e]) == 25) {
           }
         }
       }
@@ -56,7 +50,6 @@ function chest_ew_use() /* entry=1362 class_id=0x0550 slot=0x01 */
         suspend;
       }
     }
-    /* loopnext */
   }
   return;
 }

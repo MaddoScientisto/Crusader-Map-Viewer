@@ -6,11 +6,11 @@ function keypadew_use() /* entry=1102 class_id=0x044c slot=0x01 */
 
   set_info(0x0207, *(arg_06));
   process_exclude();
-  if (intrinsic_0003(arg_06) != 0) {
-    alreadyPassed = (intrinsic_0004(arg_06) & 4);
+  if (Item.getMapArray(arg_06) != 0) {
+    alreadyPassed = (Item.getStatus(arg_06) & 4);
     if (alreadyPassed == 0) {
-      if (intrinsic_0000()) {
-        while (intrinsic_003d(123, arg_06)) {
+      if (World.getAlertActive()) {
+        while (Container.destroyContents(123, arg_06)) {
           spawn FREE.slot_32(pid, 2, 0x00000000);
           suspend;
         }

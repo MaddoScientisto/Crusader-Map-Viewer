@@ -1,7 +1,7 @@
 function wallgun_slot_2d() /* entry=2588 class_id=0x0a1a slot=0x2d */
 {
   local_02 = arg_10;
-  local_04 = intrinsic_0034(Item.legal_create(local_02), intrinsic_0013(local_02), Item.legal_create(arg_06), intrinsic_0013(arg_06));
+  local_04 = Item.getDirFromTo16(Item.getY(local_02), Item.getX(local_02), Item.getY(arg_06), Item.getX(arg_06));
   WALLGUN.slot_2c(arg_06);
   if (retval == local_04) {
     return;

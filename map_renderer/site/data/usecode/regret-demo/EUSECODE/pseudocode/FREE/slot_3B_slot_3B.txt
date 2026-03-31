@@ -1,17 +1,17 @@
 function free_slot_3b() /* entry=2575 class_id=0x0a0d slot=0x3b */
 {
   set_info(9, 0);
-  local_08 = intrinsic_00bc();
-  local_04 = intrinsic_00bc();
+  local_08 = Actor.createNPCCru();
+  local_04 = Actor.createNPCCru();
   if (arg_06 < 1) {
     return;
   }
   else {
     suspend;
-    local_08 = intrinsic_00bc();
+    local_08 = Actor.createNPCCru();
     while (true) {
       suspend;
-      local_08 = intrinsic_00bc();
+      local_08 = Actor.createNPCCru();
       if (local_08 != local_04) {
         local_04 = local_08;
         arg_06 = (arg_06 - 1);

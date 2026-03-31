@@ -1,5 +1,21 @@
 function litewall_slot_21() /* entry=2578 class_id=0x0a10 slot=0x21 */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    r, /* [BP+10h] type=0x69 */
+    stepper, /* [BP-02h] type=0x24 */
+    item, /* [BP-04h] type=0x24 */
+    wall, /* [BP-06h] type=0x24 */
+    wallList, /* [BP-08h] type=0x6c */
+    x, /* [BP-10h] type=0x69 */
+    y, /* [BP-12h] type=0x69 */
+    z, /* [BP-13h] type=0x62 */
+    dist, /* [BP-15h] type=0x69 */
+    aSet, /* [BP-17h] type=0x69 */
+    aSet1, /* [BP-19h] type=0x69 */
+    aSet2, /* [BP-21h] type=0x69 */
+    aSet3; /* [BP-23h] type=0x69 */
+
   entry:
     set_info(0x0001, *(arg_06));
     if !(global[0x0005]) goto block_02ed;
@@ -8,14 +24,14 @@ function litewall_slot_21() /* entry=2578 class_id=0x0a10 slot=0x21 */
     goto block_044d;
 
   block_02ed:
-    local_02 = arg_10;
-    local_06 = 0;
-    local_15 = 21;
-    local_17 = intrinsic_00b9(local_02);
-    local_19 = 3;
-    local_21 = 48;
-    local_23 = 49;
-    if ((intrinsic_00b9(local_02) != 3) || (intrinsic_00b9(local_02) == 48)) || (intrinsic_00b9(local_02) == 49) goto block_044d;
+    stepper = r;
+    wall = 0;
+    dist = 21;
+    aSet = Actor.getLastAnimSet(stepper);
+    aSet1 = 3;
+    aSet2 = 48;
+    aSet3 = 49;
+    if ((Actor.getLastAnimSet(stepper) != 3) || (Actor.getLastAnimSet(stepper) == 48)) || (Actor.getLastAnimSet(stepper) == 49) goto block_044d;
 
   block_035a:
     /* loopscr */
@@ -27,35 +43,33 @@ function litewall_slot_21() /* entry=2578 class_id=0x0a10 slot=0x21 */
       /* create_list */
       /* append_list */
       /* free_local_list */
-      local_08 = local_04;
-      FREE.slot_29(local_08, local_02, local_04);
-      if (retval < local_15) {
-        FREE.slot_29(local_02, local_04);
-        local_15 = retval;
-        local_06 = local_04;
+      wallList = item;
+      FREE.slot_29(wallList, stepper, item);
+      if (retval < dist) {
+        FREE.slot_29(stepper, item);
+        dist = retval;
+        wall = item;
       }
-      /* loopnext */
     }
 
   block_03cd:
-    if (local_06 == 0) && (local_15 <= 2) goto block_044d;
+    if (wall == 0) && (dist <= 2) goto block_044d;
 
   block_03e3:
     /* pop_global */
 
   block_03f5:
     while (true) {
-      foreach_list local_04 -> block_0412;
-      spawn LITEWALL.slot_20(local_04, arg_06);
+      foreach_list item -> block_0412;
+      spawn LITEWALL.slot_20(item, arg_06);
     }
 
   block_0412:
-    spawn NPC.slot_2d(pid, intrinsic_00c7(local_06, local_02), local_06, local_02);
+    spawn NPC.slot_2d(pid, Item.getDirFromItem(wall, stepper), wall, stepper);
     suspend;
 
   block_044d:
     /* free_local_list */
     return;
 
-  /* decompilation stopped at SEARCH_SURFACE */
 }

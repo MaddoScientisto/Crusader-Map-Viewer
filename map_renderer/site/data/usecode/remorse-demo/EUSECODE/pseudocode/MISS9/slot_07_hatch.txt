@@ -2,7 +2,7 @@ function miss9_hatch() /* entry=2327 class_id=0x0915 slot=0x07 */
 {
   set_info(0x0210, *(arg_06));
   process_exclude();
-  if (intrinsic_0041(arg_06) == 1) {
+  if (CameraProcess.setCenterOn(arg_06) == 1) {
     FREE.slot_41();
     spawn MISS9.slot_20(pid, arg_06);
     suspend;

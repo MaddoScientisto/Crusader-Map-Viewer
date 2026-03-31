@@ -5,50 +5,47 @@ function trigger_slot_29() /* entry=2585 class_id=0x0a17 slot=0x29 */
   local_04 = (arg_16 & 3);
   if (local_04 == 0) {
     for local_16 in nearby_items(shape=arg_20, origin=local_14) {
-      if (intrinsic_000d(local_16) == arg_18) {
+      if (Intrinsic000D(local_16) == arg_18) {
         local_06 = (arg_12 / 16);
         local_08 = (arg_12 & 15);
         if (local_06 == 0) {
-          local_18 = intrinsic_00d1(local_16);
+          local_18 = Actor.getNPCDataField0x4(local_16);
           suspend;
           spawn FREE.slot_3b(pid, 2, 0x00000000);
           suspend;
-          local_20 = intrinsic_00d1(local_16);
+          local_20 = Actor.getNPCDataField0x4(local_16);
         }
         else {
-          local_22 = intrinsic_00d1(local_16);
+          local_22 = Actor.getNPCDataField0x4(local_16);
           suspend;
           spawn FREE.slot_3b(pid, 2, 0x00000000);
           suspend;
-          if (intrinsic_0113(local_16) == 1) {
+          if (Actor.isDead(local_16) == 1) {
             return;
           }
           local_24 = 1;
           while (local_24 <= local_06) {
-            if (intrinsic_0113(local_16) == 0) {
+            if (Actor.isDead(local_16) == 0) {
               suspend;
             }
             spawn FREE.slot_3b(pid, 1, 0x00000000);
             suspend;
             local_24 = (1 + local_24);
           }
-          local_26 = intrinsic_00d1(local_16);
-          local_28 = intrinsic_004d(local_16);
+          local_26 = Actor.getNPCDataField0x4(local_16);
+          local_28 = Actor.getCurrentActivityNo(local_16);
         }
       }
-      /* loopnext */
     }
     return;
   }
   else if (local_04 == 1) {
     for local_16 in nearby_items(shape=arg_20, origin=local_14) {
-      /* loopnext */
     }
     return;
   }
   else if (local_04 == 2) {
     for local_16 in nearby_items(shape=arg_20, origin=local_14) {
-      /* loopnext */
     }
     return;
   }
@@ -57,7 +54,7 @@ function trigger_slot_29() /* entry=2585 class_id=0x0a17 slot=0x29 */
     local_06 = (arg_12 / 8);
     if (local_02 == 0) {
       for local_16 in nearby_items(shape=arg_20, origin=local_14) {
-        if (intrinsic_000d(local_16) == arg_18) {
+        if (Intrinsic000D(local_16) == arg_18) {
           if (local_06 == 1) {
           }
           else if (local_06 == 2) {
@@ -67,50 +64,44 @@ function trigger_slot_29() /* entry=2585 class_id=0x0a17 slot=0x29 */
           else if (local_06 == 4) {
           }
         }
-        /* loopnext */
       }
     }
     else if (local_02 == 1) {
       for local_16 in nearby_items(shape=arg_20, origin=local_14) {
-        if (intrinsic_000d(local_16) == arg_18) {
+        if (Intrinsic000D(local_16) == arg_18) {
           spawn FREE.slot_3b(pid, 1, 0x00000000);
           suspend;
         }
-        /* loopnext */
       }
     }
     else if (local_02 == 2) {
       for local_16 in nearby_items(shape=arg_20, origin=local_14) {
-        if (intrinsic_000d(local_16) == arg_18) {
+        if (Intrinsic000D(local_16) == arg_18) {
           spawn FREE.slot_3b(pid, 1, 0x00000000);
           suspend;
         }
-        /* loopnext */
       }
     }
     else if (local_02 == 3) {
       for local_16 in nearby_items(shape=arg_20, origin=local_14) {
-        if (intrinsic_000d(local_16) == arg_18) {
+        if (Intrinsic000D(local_16) == arg_18) {
           spawn FREE.slot_3b(pid, 1, 0x00000000);
           suspend;
         }
-        /* loopnext */
       }
     }
     else if (local_02 == 4) {
       for local_16 in nearby_items(shape=arg_20, origin=local_14) {
-        if (intrinsic_000d(local_16) == arg_18) {
+        if (Intrinsic000D(local_16) == arg_18) {
           local_30 = local_06;
         }
-        /* loopnext */
       }
     }
     else if (local_02 == 5) {
       for local_16 in nearby_items(shape=arg_20, origin=local_14) {
-        if (intrinsic_000d(local_16) == arg_18) {
+        if (Intrinsic000D(local_16) == arg_18) {
           spawn NPC.equip(local_06, local_16);
         }
-        /* loopnext */
       }
     }
     return;

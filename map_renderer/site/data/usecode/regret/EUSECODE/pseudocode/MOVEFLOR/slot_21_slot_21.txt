@@ -3,7 +3,7 @@ function moveflor_slot_21() /* entry=166 class_id=0x00a4 slot=0x21 */
   set_info(1, *(arg_06));
   ITEM.slot_26(32, arg_06);
   local_01 = retval;
-  local_11 = intrinsic_00ce(arg_06);
+  local_11 = Item.getQHi(arg_06);
   ITEM.slot_24(0x0100, arg_06);
   local_05 = 1;
   while (local_05 <= local_11) {
@@ -11,18 +11,17 @@ function moveflor_slot_21() /* entry=166 class_id=0x00a4 slot=0x21 */
     /* loopscr */
     /* loop */
     while (condition) {
-      if (intrinsic_005c(*(arg_06), local_13)) {
+      if (Item.isCentreOn(*(arg_06), local_13)) {
         if (local_13 != *(arg_06)) {
           local_07 = (1 + local_07);
         }
       }
-      /* loopnext */
     }
     if (local_01) {
     }
     local_03 = 1;
     while (local_03 <= local_07) {
-      local_13 = intrinsic_001e();
+      local_13 = Item.getEtherealTop();
       if (local_01) {
         local_18 = (Item.getX(local_13) - 2);
         local_16 = Item.getY(local_13);
@@ -45,11 +44,10 @@ function moveflor_slot_21() /* entry=166 class_id=0x00a4 slot=0x21 */
     if (local_13 != *(arg_06)) {
       local_07 = (1 + local_07);
     }
-    /* loopnext */
   }
   local_03 = 1;
   while (local_03 <= local_07) {
-    local_13 = intrinsic_001e();
+    local_13 = Item.getEtherealTop();
     local_03 = (1 + local_03);
   }
   ITEM.slot_25(0x0100, arg_06);

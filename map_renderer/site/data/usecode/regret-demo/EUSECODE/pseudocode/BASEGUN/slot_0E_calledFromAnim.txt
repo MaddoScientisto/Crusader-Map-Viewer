@@ -4,8 +4,8 @@ function basegun_calledFromAnim() /* entry=1226 class_id=0x04c8 slot=0x0e */
     set_info(0x021a, *(arg_06));
     process_exclude();
     local_02 = *(arg_06);
-    local_04 = intrinsic_0017(local_02);
-    local_06 = intrinsic_0018(local_02);
+    local_04 = Actor.getDir(local_02);
+    local_06 = Actor.getLastAnimSet(local_02);
     if (local_06 != 13) || (local_06 == 8) goto block_0296;
 
   block_021c:
@@ -28,10 +28,10 @@ function basegun_calledFromAnim() /* entry=1226 class_id=0x04c8 slot=0x0e */
     if !condition goto block_02f7;
 
   block_02b5:
-    if intrinsic_000d(local_02) != intrinsic_000b(local_08) goto block_02f3;
+    if Intrinsic000D(local_02) != Item.getQLo(local_08) goto block_02f3;
 
   block_02cb:
-    if intrinsic_0003(local_08) == 0 goto block_02f3;
+    if Item.getMapArray(local_08) == 0 goto block_02f3;
 
   block_02da:
     spawn TRIGGER.slot_20(pid, 0, local_08, local_08);
@@ -39,7 +39,6 @@ function basegun_calledFromAnim() /* entry=1226 class_id=0x04c8 slot=0x0e */
     goto block_02f7;
 
   block_02f3:
-    /* loopnext */
     goto block_02b2;
 
   block_02f7:

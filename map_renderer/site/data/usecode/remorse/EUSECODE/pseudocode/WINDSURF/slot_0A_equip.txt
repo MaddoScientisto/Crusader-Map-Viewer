@@ -1,23 +1,26 @@
 function windsurf_equip() /* entry=825 class_id=0x0337 slot=0x0a */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    var, /* [BP+10h] type=0x69 */
+    item; /* [BP-02h] type=0x24 */
+
   set_info(0x0211, *(arg_06));
   process_exclude();
   FREE.slot_33(0x020c, *(arg_06));
-  if (arg_10 == 0x00ff) {
+  if (var == 0x00ff) {
     return;
   }
   else {
     /* loopscr */
     /* loop */
     while (condition) {
-      if (local_02 != *(arg_06)) {
-        if (intrinsic_00a4(local_02, arg_06)) {
-          spawn WINDSURF.gotHit(0, local_02, arg_06);
+      if (item != *(arg_06)) {
+        if (Item.overlaps(item, arg_06)) {
+          spawn WINDSURF.gotHit(0, item, arg_06);
         }
       }
-      /* loopnext */
     }
   }
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

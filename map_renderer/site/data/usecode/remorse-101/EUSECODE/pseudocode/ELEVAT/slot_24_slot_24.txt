@@ -7,16 +7,16 @@ function elevat_slot_24() /* entry=2571 class_id=0x0a09 slot=0x24 */
   local_09 = ((local_05 - local_07) / 2);
   local_02 = 1;
   while (local_02 <= local_09) {
-    local_16 = intrinsic_0013(arg_06);
-    local_14 = Item.legal_create(arg_06);
+    local_16 = Item.getX(arg_06);
+    local_14 = Item.getY(arg_06);
     local_12 = (Item.getZ(arg_06) - 2);
     local_24 = 0;
     /* loopscr */
     /* loop */
     while (condition) {
-      if (intrinsic_0057(*(arg_06), local_11)) {
+      if (Item.getSurfaceWeight(*(arg_06), local_11)) {
         if (local_11 < 0x0100) {
-          if (intrinsic_006d(*(arg_06), local_11)) {
+          if (Item.getNPCNum(*(arg_06), local_11)) {
             local_24 = (1 + local_24);
           }
           else {
@@ -27,12 +27,11 @@ function elevat_slot_24() /* entry=2571 class_id=0x0a09 slot=0x24 */
           local_24 = (1 + local_24);
         }
       }
-      /* loopnext */
     }
-    if (intrinsic_002e(0, 0, local_16, arg_06)) {
+    if (legalMoveToPoint(0, 0, local_16, arg_06)) {
       local_04 = 1;
       while (local_04 <= local_24) {
-        local_11 = intrinsic_0023();
+        local_11 = Item.getEtherealTop();
         local_04 = (1 + local_04);
       }
       spawn FREE.waitNTimerTicks(pid, 1, 0x00000000);
@@ -41,7 +40,7 @@ function elevat_slot_24() /* entry=2571 class_id=0x0a09 slot=0x24 */
     else {
       local_04 = 1;
       while (local_04 <= local_24) {
-        local_11 = intrinsic_0023();
+        local_11 = Item.getEtherealTop();
         local_04 = (1 + local_04);
       }
       spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
@@ -57,14 +56,13 @@ function elevat_slot_24() /* entry=2571 class_id=0x0a09 slot=0x24 */
     /* loopscr */
     /* loop */
     while (condition) {
-      if (intrinsic_0057(*(arg_06), local_11)) {
+      if (Item.getSurfaceWeight(*(arg_06), local_11)) {
         local_24 = (1 + local_24);
       }
-      /* loopnext */
     }
     local_04 = 1;
     while (local_04 <= local_24) {
-      local_11 = intrinsic_0023();
+      local_11 = Item.getEtherealTop();
       local_04 = (1 + local_04);
     }
   }

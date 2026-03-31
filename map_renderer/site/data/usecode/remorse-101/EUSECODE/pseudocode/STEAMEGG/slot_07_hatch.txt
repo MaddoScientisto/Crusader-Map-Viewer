@@ -2,15 +2,14 @@ function steamegg_hatch() /* entry=2335 class_id=0x091d slot=0x07 */
 {
   set_info(0x0210, *(arg_06));
   process_exclude();
-  local_04 = intrinsic_003e(arg_06);
+  local_04 = Item.fallProbably_03E(arg_06);
   for local_02 in nearby_items(shape=STEAMBOX_HAZARD_CONTROLLER, origin=arg_06) {
-    if (intrinsic_00e3(local_02) == local_04) {
+    if (Actor.getDefaultActivity2(local_02) == local_04) {
       suspend;
       spawn FREE.waitNTimerTicks(pid, 0x015e, 0x00000000);
       suspend;
       suspend;
     }
-    /* loopnext */
   }
   return;
 }

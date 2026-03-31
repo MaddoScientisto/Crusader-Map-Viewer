@@ -1,26 +1,30 @@
 function special_enterFastArea() /* entry=1228 class_id=0x04ca slot=0x0f */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    mapNum, /* [BP-02h] type=0x69 */
+    npcNum; /* [BP-04h] type=0x69 */
+
   set_info(0x021b, *(arg_06));
   process_exclude();
-  if (intrinsic_0102(arg_06)) {
-    local_02 = intrinsic_0003(arg_06);
-    local_04 = intrinsic_0107(arg_06);
-    if (local_02 == 1) {
+  if (Item.getNPCNum(arg_06)) {
+    mapNum = Item.getMapArray(arg_06);
+    npcNum = Item.getNPCNum(arg_06);
+    if (mapNum == 1) {
       spawn FREE.slot_32(pid, 5, 0x00000000);
       suspend;
       spawn TRIGGER.slot_20(pid, (0x0080 + 0), *(arg_06), arg_06);
       suspend;
     }
-    if (local_04 == 1) {
+    if (npcNum == 1) {
       spawn FREE.slot_32(pid, 5, 0x00000000);
       suspend;
       spawn TRIGGER.slot_20(pid, (0x0080 + 1), *(arg_06), arg_06);
       suspend;
     }
-    if ((local_02 > 2) || (local_04 > 2)) {
+    if ((mapNum > 2) || (npcNum > 2)) {
       spawn SPECIAL.slot_21(arg_06);
     }
   }
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

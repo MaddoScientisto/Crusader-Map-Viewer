@@ -3,7 +3,7 @@ function bettyup_equip() /* entry=715 class_id=0x02c9 slot=0x0a */
   set_info(0x0211, *(arg_06));
   process_exclude();
   if (arg_10) {
-    if (intrinsic_0004(arg_06) & 0x1000) {
+    if (Item.getStatus(arg_06) & 0x1000) {
       return;
     }
     ITEM.slot_23(0x1000, arg_06);

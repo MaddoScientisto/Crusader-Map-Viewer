@@ -2,7 +2,7 @@ function sentry_unequip() /* entry=463 class_id=0x01cd slot=0x0b */
 {
   set_info(0x0212, *(arg_06));
   process_exclude();
-  if (intrinsic_0004(arg_06) & 4) {
+  if (Item.getStatus(arg_06) & 4) {
     return;
   }
   else {

@@ -1,156 +1,150 @@
 function blastpac_slot_20() /* entry=925 class_id=0x039b slot=0x20 */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    pac, /* [BP+10h] type=0x24 */
+    item, /* [BP-02h] type=0x24 */
+    counter, /* [BP-04h] type=0x69 */
+    therm, /* [BP-06h] type=0x24 */
+    thermTop, /* [BP-08h] type=0x24 */
+    radar, /* [BP-10h] type=0x24 */
+    radarPart, /* [BP-12h] type=0x24 */
+    x, /* [BP-14h] type=0x69 */
+    y, /* [BP-16h] type=0x69 */
+    z; /* [BP-18h] type=0x69 */
+
   spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
   suspend;
   set_info(0x00f0, 0);
-  local_04 = 1;
-  while (local_04 <= 5) {
+  counter = 1;
+  while (counter <= 5) {
     spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
     suspend;
-    local_04 = (1 + local_04);
+    counter = (1 + counter);
   }
-  spawn ITEM.slot_28(pid, 1, 2, arg_10);
+  spawn ITEM.slot_28(pid, 1, 2, pac);
   suspend;
-  /* global_address */
-  if (intrinsic_0011() == 1) {
+  if (Actor.getMap(&global[0x003c]) == 1) {
     spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
     suspend;
     /* pop_global */
-    for local_02 in nearby_items(shape=REACTOR, origin=global[0x003c]) {
-      spawn ITEM.slot_28(pid, 0, 2, local_02);
+    for item in nearby_items(shape=REACTOR, origin=global[0x003c]) {
+      spawn ITEM.slot_28(pid, 0, 2, item);
       suspend;
-      local_06 = local_02;
-      /* loopnext */
+      therm = item;
     }
-    for local_02 in nearby_items(shape=REACTOR_CELL, origin=local_06) {
-      spawn ITEM.slot_28(pid, 1, 0, local_02);
+    for item in nearby_items(shape=REACTOR_CELL, origin=therm) {
+      spawn ITEM.slot_28(pid, 1, 0, item);
       suspend;
-      local_08 = local_02;
+      thermTop = item;
       spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
       suspend;
-      /* loopnext */
     }
-    /* global_address */
-    if (Kernel.resetRef()) {
+    if (Actor.isDead(&global[0x003c])) {
       return;
     }
-    for local_02 in nearby_items(shape=NUMBERS, origin=local_06) {
-      spawn FREE.waitNTimerTicks(intrinsic_0018(pid, 20, 10), 0x00000000);
+    for item in nearby_items(shape=NUMBERS, origin=therm) {
+      spawn FREE.waitNTimerTicks(UCMachine.rndRange(pid, 20, 10), 0x00000000);
       suspend;
-      /* loopnext */
     }
-    local_04 = 0;
-    while (local_04 <= 2) {
-      while (intrinsic_003a(22, local_08)) {
+    counter = 0;
+    while (counter <= 2) {
+      while (AudioProcess.isSFXPlayingForObject(22, thermTop)) {
         spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
         suspend;
       }
-      local_04 = (1 + local_04);
+      counter = (1 + counter);
     }
     spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
     suspend;
-    for local_02 in nearby_items(shape=ELECTRODE, origin=local_06) {
-      spawn ITEM.slot_28(pid, 0, 0, local_02);
+    for item in nearby_items(shape=ELECTRODE, origin=therm) {
+      spawn ITEM.slot_28(pid, 0, 0, item);
       suspend;
-      spawn FREE.waitNTimerTicks(intrinsic_0018(pid, 10, 5), 0x00000000);
+      spawn FREE.waitNTimerTicks(UCMachine.rndRange(pid, 10, 5), 0x00000000);
       suspend;
-      /* loopnext */
     }
     spawn FREE.waitNTimerTicks(pid, 0x00c8, 0x00000000);
     suspend;
     spawn FREE.slot_26(pid, "1c", 0x00000000);
     /* free_stack_string */
     suspend;
-    for local_02 in selector_0x42(arg0=0x032a, arg1=0x0329, arg2=(50 * 32), origin=global[0x003c]) {
-      /* loopnext */
+    for item in selector_0x42(arg0=0x032a, arg1=0x0329, arg2=(50 * 32), origin=global[0x003c]) {
     }
     return;
   }
-  else if (intrinsic_0011() == 7) {
+  else if (Actor.getMap(&global[0x003c]) == 7) {
     /* pop_global */
     spawn FREE.waitNTimerTicks(1, pid, 10, 0x00000000);
     suspend;
-    for local_02 in nearby_items(shape=COMM_CONSOLE, origin=global[0x003c]) {
-      local_10 = local_02;
-      /* loopnext */
+    for item in nearby_items(shape=COMM_CONSOLE, origin=global[0x003c]) {
+      radar = item;
     }
-    for local_02 in nearby_items(shape=RADAR_DISH, origin=local_10) {
+    for item in nearby_items(shape=RADAR_DISH, origin=radar) {
       spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
       suspend;
-      local_14 = intrinsic_0013(local_02);
-      local_16 = Item.legal_create(local_02);
-      local_18 = Item.getZ(local_02);
-      /* loopnext */
+      x = Item.getX(item);
+      y = Item.getY(item);
+      z = Item.getZ(item);
     }
-    for local_02 in selector_0x42(arg0=0x01a5, arg1=0x01a4, arg2=(50 * 32), origin=local_10) {
+    for item in selector_0x42(arg0=0x01a5, arg1=0x01a4, arg2=(50 * 32), origin=radar) {
       spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
       suspend;
-      /* loopnext */
     }
     spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
     suspend;
-    /* global_address */
-    if (Kernel.resetRef()) {
+    if (Actor.isDead(&global[0x003c])) {
       return;
     }
-    for local_02 in nearby_items(shape=NUMBERS, origin=local_10) {
-      spawn FREE.waitNTimerTicks(intrinsic_0018(pid, 20, 10), 0x00000000);
+    for item in nearby_items(shape=NUMBERS, origin=radar) {
+      spawn FREE.waitNTimerTicks(UCMachine.rndRange(pid, 20, 10), 0x00000000);
       suspend;
-      /* loopnext */
     }
-    local_04 = 0;
-    while (local_04 <= 2) {
-      while (intrinsic_003a(0x0096, local_10)) {
+    counter = 0;
+    while (counter <= 2) {
+      while (AudioProcess.isSFXPlayingForObject(0x0096, radar)) {
         spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
         suspend;
       }
-      local_04 = (1 + local_04);
+      counter = (1 + counter);
     }
     spawn FREE.waitNTimerTicks(pid, 0x00c8, 0x00000000);
     suspend;
     spawn FREE.slot_26(pid, "4g", 0x00000000);
     /* free_stack_string */
     suspend;
-    for local_02 in selector_0x42(arg0=0x032a, arg1=0x0329, arg2=(50 * 32), origin=local_10) {
-      /* loopnext */
+    for item in selector_0x42(arg0=0x032a, arg1=0x0329, arg2=(50 * 32), origin=radar) {
     }
     return;
   }
-  else if (intrinsic_0011() == 29) {
+  else if (Actor.getMap(&global[0x003c]) == 29) {
     spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
     suspend;
     /* pop_global */
-    for local_02 in nearby_items(shape=LIGHT_TUBE, origin=global[0x003c]) {
-      spawn ITEM.slot_28(pid, 0, 2, local_02);
+    for item in nearby_items(shape=LIGHT_TUBE, origin=global[0x003c]) {
+      spawn ITEM.slot_28(pid, 0, 2, item);
       suspend;
-      /* loopnext */
     }
-    for local_02 in nearby_items(shape=TUBE_PLATFORM, origin=global[0x003c]) {
-      /* loopnext */
+    for item in nearby_items(shape=TUBE_PLATFORM, origin=global[0x003c]) {
     }
     spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
     suspend;
-    /* global_address */
-    if (Kernel.resetRef()) {
+    if (Actor.isDead(&global[0x003c])) {
       return;
     }
     else {
-      for local_02 in nearby_items(shape=NUMBERS, origin=global[0x003c]) {
-        if (intrinsic_002b(local_02) == 0) {
-          spawn FREE.waitNTimerTicks(intrinsic_0018(pid, 30, 20), 0x00000000);
+      for item in nearby_items(shape=NUMBERS, origin=global[0x003c]) {
+        if (Item.getQLo(item) == 0) {
+          spawn FREE.waitNTimerTicks(UCMachine.rndRange(pid, 30, 20), 0x00000000);
           suspend;
         }
-        /* loopnext */
       }
-      for local_02 in nearby_items(shape=0x03b0, origin=global[0x003c]) {
+      for item in nearby_items(shape=0x03b0, origin=global[0x003c]) {
         spawn FREE.waitNTimerTicks(pid, 20, 0x00000000);
         suspend;
-        /* loopnext */
       }
       spawn FREE.slot_22(0x00000000);
       return;
     }
   }
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

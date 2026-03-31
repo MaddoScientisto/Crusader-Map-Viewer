@@ -2,17 +2,17 @@ function trigger_slot_2b() /* entry=2586 class_id=0x0a18 slot=0x2b */
 {
   set_info(0x021b, 0);
   local_12 = arg_10;
-  local_14 = intrinsic_00e3(local_12);
+  local_14 = Actor.getDefaultActivity2(local_12);
   local_16 = local_14;
-  local_04 = intrinsic_00f4(local_12);
-  local_08 = intrinsic_0003(local_12);
-  local_06 = intrinsic_010d(local_12);
+  local_04 = Item.getQ(local_12);
+  local_08 = Item.getMapArray(local_12);
+  local_06 = Item.getNPCNum(local_12);
   local_10 = (((local_08 & 0x00e0) * 8) + local_06);
   if (local_08 == 0) {
     return;
   }
   else if (local_08 & 4) {
-    if (intrinsic_00ff(local_10)) {
+    if (UCMachine.numToStr(local_10)) {
       if (local_14 == 0x00ff) {
         if (local_10 != 0) {
           spawn TRIGGER.slot_21(pid, local_10, local_14, local_08, local_06, local_04, arg_10, arg_06);

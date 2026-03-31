@@ -1,16 +1,25 @@
 function mbarrel_hit() /* entry=479 class_id=0x01dd slot=0x05 */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    vel, /* [BP+12h] type=0x69 */
+    v, /* [BP-02h] type=0x69 */
+    item, /* [BP-04h] type=0x24 */
+    item2, /* [BP-06h] type=0x24 */
+    r1, /* [BP-08h] type=0x69 */
+    r2; /* [BP-10h] type=0x69 */
+
   set_info(0x020b, *(arg_06));
   process_exclude();
-  local_02 = arg_12;
-  if (arg_12 >= 10) {
+  v = vel;
+  if (vel >= 10) {
     FREE.slot_20(3);
-    local_08 = retval;
+    r1 = retval;
     FREE.slot_20(3);
-    local_10 = retval;
+    r2 = retval;
     spawn ITEM.slot_2a(pid, arg_06);
     suspend;
   }
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

@@ -3,8 +3,6 @@ function elydesk_use() /* entry=1105 class_id=0x044f slot=0x01 */
   set_info(0x0207, *(arg_06));
   process_exclude();
   FREE.slot_33(0x021b, *(arg_06));
-  /* global_address */
-  /* global_address */
   while (Item.getFrame(arg_06) < 5) {
     spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
     suspend;
@@ -52,7 +50,6 @@ function elydesk_use() /* entry=1105 class_id=0x044f slot=0x01 */
     suspend;
   }
   for local_04 in nearby_items(shape=0x043d, origin=arg_06) {
-    /* loopnext */
   }
   local_02 = 0;
   while (local_02 <= 5) {

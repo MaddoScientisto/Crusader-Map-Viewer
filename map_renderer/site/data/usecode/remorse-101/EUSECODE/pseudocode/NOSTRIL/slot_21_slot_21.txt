@@ -1,9 +1,9 @@
 function nostril_slot_21() /* entry=1088 class_id=0x043e slot=0x21 */
 {
   set_info(1, *(arg_06));
-  spawn FREE.waitNTimerTicks(intrinsic_0018(pid, 15, 0), 0x00000000);
+  spawn FREE.waitNTimerTicks(UCMachine.rndRange(pid, 15, 0), 0x00000000);
   suspend;
-  if (intrinsic_009f()) {
+  if (PaletteFaderProcess.fadeToColor()) {
     while (Item.getFrame(local_02) != 10) {
       spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
       suspend;
@@ -13,7 +13,7 @@ function nostril_slot_21() /* entry=1088 class_id=0x043e slot=0x21 */
     spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
     suspend;
   }
-  if (intrinsic_009f()) {
+  if (PaletteFaderProcess.fadeToColor()) {
     return;
   }
   return;

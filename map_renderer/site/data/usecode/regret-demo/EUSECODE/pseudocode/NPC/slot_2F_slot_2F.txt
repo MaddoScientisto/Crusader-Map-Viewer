@@ -8,14 +8,14 @@ function npc_slot_2f() /* entry=2580 class_id=0x0a12 slot=0x2f */
     if (global[0x0004] == 1) {
       return;
     }
-    local_02 = intrinsic_00f0(arg_06);
+    local_02 = Item.getNpcNum(arg_06);
     spawn NPC.slot_30(arg_06);
     return;
   }
-  else if (*(arg_06) != intrinsic_0016()) {
+  else if (*(arg_06) != World.getControlledNPCNum()) {
     NPC.slot_2a(arg_06);
     if ((retval == 0) && (Item.isOnScreen(arg_06) == 1)) {
-      local_04 = intrinsic_0013(1, 0);
+      local_04 = UCMachine.rndRange(1, 0);
       if (local_04 == 0) {
       }
       else if (local_04 == 1) {

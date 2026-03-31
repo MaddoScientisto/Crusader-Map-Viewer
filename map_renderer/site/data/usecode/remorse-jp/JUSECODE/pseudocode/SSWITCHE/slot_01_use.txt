@@ -1,131 +1,145 @@
 function sswitche_use() /* entry=1113 class_id=0x0457 slot=0x01 */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    a, /* [BP-01h] type=0x62 */
+    b, /* [BP-02h] type=0x62 */
+    a1, /* [BP-03h] type=0x62 */
+    b1, /* [BP-04h] type=0x62 */
+    c1, /* [BP-05h] type=0x62 */
+    sswitch, /* [BP-07h] type=0x24 */
+    switch1, /* [BP-09h] type=0x24 */
+    switch2, /* [BP-11h] type=0x24 */
+    switch3, /* [BP-13h] type=0x24 */
+    timer, /* [BP-15h] type=0x24 */
+    sswitch2, /* [BP-17h] type=0x24 */
+    switch21, /* [BP-19h] type=0x24 */
+    switch22, /* [BP-21h] type=0x24 */
+    switch23, /* [BP-23h] type=0x24 */
+    counter, /* [BP-25h] type=0x69 */
+    qLo; /* [BP-27h] type=0x69 */
+
   set_info(0x0207, *(arg_06));
   process_exclude();
-  local_01 = Item.getFrame(arg_06);
-  if (intrinsic_0003(arg_06) != 0) {
-    if (local_01 == 2) {
+  a = Item.getFrame(arg_06);
+  if (Item.getMapArray(arg_06) != 0) {
+    if (a == 2) {
       spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
       suspend;
     }
-    else if (local_01 < 2) {
-      local_02 = ((local_01 + 1) & 1);
-      spawn TRIGGER.slot_20(pid, local_01, *(arg_06), arg_06);
+    else if (a < 2) {
+      b = ((a + 1) & 1);
+      spawn TRIGGER.slot_20(pid, a, *(arg_06), arg_06);
       suspend;
     }
   }
   else {
-    local_27 = intrinsic_00fc(arg_06);
-    for local_07 in nearby_items(shape=0x0457, origin=arg_06) {
-      if (!(local_07 == *(arg_06))) {
-        if (intrinsic_0003(local_07) == 0) {
-          if (intrinsic_00fc(local_07) == 29) {
-            local_09 = local_07;
-            local_03 = Item.getFrame(local_09);
+    qLo = Item.andStatus(arg_06);
+    for sswitch in nearby_items(shape=0x0457, origin=arg_06) {
+      if (!(sswitch == *(arg_06))) {
+        if (Item.getMapArray(sswitch) == 0) {
+          if (Item.andStatus(sswitch) == 29) {
+            switch1 = sswitch;
+            a1 = Item.getFrame(switch1);
           }
-          else if (intrinsic_00fc(local_07) == 30) {
-            local_11 = local_07;
-            local_04 = Item.getFrame(local_11);
+          else if (Item.andStatus(sswitch) == 30) {
+            switch2 = sswitch;
+            b1 = Item.getFrame(switch2);
           }
-          else if (intrinsic_00fc(local_07) == 31) {
-            local_13 = local_07;
-            local_05 = Item.getFrame(local_13);
+          else if (Item.andStatus(sswitch) == 31) {
+            switch3 = sswitch;
+            c1 = Item.getFrame(switch3);
           }
         }
       }
-      local_25 = (1 + local_25);
-      /* loopnext */
+      counter = (1 + counter);
     }
-    for local_17 in nearby_items(shape=0x0452, origin=arg_06) {
-      if (intrinsic_0003(local_17) == 0) {
-        if (intrinsic_00fc(local_17) == 29) {
-          local_19 = local_17;
+    for sswitch2 in nearby_items(shape=0x0452, origin=arg_06) {
+      if (Item.getMapArray(sswitch2) == 0) {
+        if (Item.andStatus(sswitch2) == 29) {
+          switch21 = sswitch2;
         }
-        else if (intrinsic_00fc(local_17) == 30) {
-          local_21 = local_17;
+        else if (Item.andStatus(sswitch2) == 30) {
+          switch22 = sswitch2;
         }
-        else if (intrinsic_00fc(local_17) == 31) {
-          local_23 = local_17;
+        else if (Item.andStatus(sswitch2) == 31) {
+          switch23 = sswitch2;
         }
       }
-      /* loopnext */
     }
-    if (local_27 == 29) {
-      local_03 = Item.getFrame(arg_06);
-      local_09 = *(arg_06);
-      if (local_11 && local_13) {
-        if (local_03) {
-          local_03 = 0;
-          local_04 = 1;
+    if (qLo == 29) {
+      a1 = Item.getFrame(arg_06);
+      switch1 = *(arg_06);
+      if (switch2 && switch3) {
+        if (a1) {
+          a1 = 0;
+          b1 = 1;
         }
         else {
-          local_03 = 1;
-          local_04 = 0;
+          a1 = 1;
+          b1 = 0;
         }
       }
     }
-    else if (local_27 == 30) {
-      local_04 = Item.getFrame(arg_06);
-      local_11 = *(arg_06);
-      if (local_09 && local_13) {
-        if (local_04) {
-          local_04 = 0;
-          local_03 = 1;
-          local_05 = 1;
+    else if (qLo == 30) {
+      b1 = Item.getFrame(arg_06);
+      switch2 = *(arg_06);
+      if (switch1 && switch3) {
+        if (b1) {
+          b1 = 0;
+          a1 = 1;
+          c1 = 1;
         }
         else {
-          local_04 = 1;
-          local_03 = 0;
-          local_05 = 0;
+          b1 = 1;
+          a1 = 0;
+          c1 = 0;
         }
       }
     }
-    else if (local_27 == 31) {
-      local_05 = Item.getFrame(arg_06);
-      local_13 = *(arg_06);
-      if (local_09 && local_11) {
-        if (local_05) {
-          local_05 = 0;
-          local_04 = 1;
+    else if (qLo == 31) {
+      c1 = Item.getFrame(arg_06);
+      switch3 = *(arg_06);
+      if (switch1 && switch2) {
+        if (c1) {
+          c1 = 0;
+          b1 = 1;
         }
         else {
-          local_05 = 1;
-          local_04 = 0;
+          c1 = 1;
+          b1 = 0;
         }
       }
     }
-    if (local_03) {
-      if (local_04 || local_05) {
+    if (a1) {
+      if (b1 || c1) {
         return;
       }
       else {
-        for local_15 in nearby_items(shape=0x04c9, origin=arg_06) {
-          if (intrinsic_00fc(local_15) == 29) {
+        for timer in nearby_items(shape=0x04c9, origin=arg_06) {
+          if (Item.andStatus(timer) == 29) {
             suspend;
           }
-          /* loopnext */
         }
       }
     }
-    else if (local_04) {
-      if (local_05) {
+    else if (b1) {
+      if (c1) {
         return;
       }
       else {
-        for local_15 in nearby_items(shape=0x04c9, origin=arg_06) {
-          if (intrinsic_00fc(local_15) == 30) {
+        for timer in nearby_items(shape=0x04c9, origin=arg_06) {
+          if (Item.andStatus(timer) == 30) {
             suspend;
           }
-          /* loopnext */
         }
       }
     }
-    else if (local_05) {
-      for local_15 in nearby_items(shape=0x04c9, origin=arg_06) {
-        if (intrinsic_00fc(local_15) == 31) {
+    else if (c1) {
+      for timer in nearby_items(shape=0x04c9, origin=arg_06) {
+        if (Item.andStatus(timer) == 31) {
           suspend;
         }
-        /* loopnext */
       }
     }
     spawn FREE.slot_32(pid, 20, 0x00000000);
@@ -134,5 +148,4 @@ function sswitche_use() /* entry=1113 class_id=0x0457 slot=0x01 */
   spawn FREE.slot_32(pid, 20, 0x00000000);
   suspend;
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

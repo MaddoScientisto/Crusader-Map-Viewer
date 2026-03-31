@@ -1,7 +1,7 @@
 function switch_slot_22() /* entry=2583 class_id=0x0a15 slot=0x22 */
 {
   set_info(0x0207, *(arg_06));
-  local_01 = intrinsic_0111(intrinsic_0107(arg_06));
+  local_01 = MainActor.hasKeycard(Item.getQLo(arg_06));
   if (Item.getFrame(arg_06) == 4) {
     spawn FREE.slot_21(pid, 0x00ad, 0x00000000);
     suspend;
@@ -11,10 +11,10 @@ function switch_slot_22() /* entry=2583 class_id=0x0a15 slot=0x22 */
     suspend;
     return;
   }
-  else if (intrinsic_0000()) {
+  else if (World.getAlertActive()) {
     spawn FREE.slot_21(pid, 0x0181, 0x00000000);
     suspend;
-    if (intrinsic_0013(100, 0) > 50) {
+    if (UCMachine.rndRange(100, 0) > 50) {
       spawn FREE.slot_21(pid, 0x018d, 0x00000000);
       suspend;
     }

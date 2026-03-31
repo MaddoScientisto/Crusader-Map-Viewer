@@ -3,54 +3,39 @@ function elevator_slot_20() /* entry=544 class_id=0x021e slot=0x20 */
   set_info(1, 0);
   for local_06 in selector_0x42(arg0=0x0189, arg1=0x0289, arg2=(10 * 32), origin=arg_06) {
     local_10 = local_06;
-    /* loopnext */
   }
   if (!local_10) {
     return;
   }
-  else if (intrinsic_0016(local_10) == 0x0189) {
-    /* global_address */
+  else if (Item.getShape(local_10) == ELEVATOR_DOOR_SEGMENT) {
     suspend;
-    /* global_address */
     suspend;
-    /* global_address */
     suspend;
-    /* global_address */
     suspend;
   }
   else {
-    /* global_address */
     suspend;
-    /* global_address */
     suspend;
-    /* global_address */
     suspend;
-    /* global_address */
     suspend;
   }
-  /* global_address */
   spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
   suspend;
   spawn DOOR.slot_21(pid, 2, local_10);
   suspend;
   for local_06 in selector_0x42(arg0=0x01c4, arg1=0x0186, arg2=(20 * 32), origin=arg_06) {
     local_02 = local_06;
-    /* loopnext */
   }
   for local_06 in selector_0x42(arg0=0x01c5, arg1=0x0184, arg2=(20 * 32), origin=arg_06) {
     local_04 = local_06;
-    /* loopnext */
   }
   if (local_02 && local_04) {
     spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
     suspend;
-    /* global_address */
-    /* global_address */
-    while (intrinsic_003a(0x00f4)) {
+    while (AudioProcess.isSFXPlayingForObject(0x00f4, &global[0x003d])) {
       spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
       suspend;
     }
-    /* global_address */
     if (arg_10) {
       local_08 = 5;
       while (local_08 <= 7) {
@@ -77,15 +62,10 @@ function elevator_slot_20() /* entry=544 class_id=0x021e slot=0x20 */
   suspend;
   suspend;
   for local_06 in nearby_items(shape=GRATE_FLOOR_GRAY, origin=global[0x003d]) {
-    /* global_address */
-    /* global_address */
-    /* global_address */
     suspend;
     FREE.slot_33(12, local_06);
-    /* loopnext */
   }
   if (arg_14 == 18) {
-    /* global_address */
     suspend;
   }
   suspend;
@@ -93,20 +73,15 @@ function elevator_slot_20() /* entry=544 class_id=0x021e slot=0x20 */
   suspend;
   for local_06 in selector_0x42(arg0=0x01c4, arg1=0x0186, arg2=(10 * 32), origin=global[0x003d]) {
     local_02 = local_06;
-    /* loopnext */
   }
   for local_06 in selector_0x42(arg0=0x01c5, arg1=0x0184, arg2=(10 * 32), origin=global[0x003d]) {
     local_04 = local_06;
-    /* loopnext */
   }
   if (local_02 && local_04) {
-    /* global_address */
-    /* global_address */
-    while (intrinsic_003a(0x00f2)) {
+    while (AudioProcess.isSFXPlayingForObject(0x00f2, &global[0x003d])) {
       spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
       suspend;
     }
-    /* global_address */
     if (arg_10) {
       local_08 = 1;
       while (local_08 <= 4) {
@@ -132,17 +107,9 @@ function elevator_slot_20() /* entry=544 class_id=0x021e slot=0x20 */
     local_10 = local_06;
     spawn DOOR.slot_21(pid, 1, local_10);
     suspend;
-    /* loopnext */
   }
-  /* global_address */
-  /* global_address */
   suspend;
-  /* global_address */
-  /* global_address */
   suspend;
-  /* global_address */
-  /* global_address */
   suspend;
-  /* global_address */
   return;
 }

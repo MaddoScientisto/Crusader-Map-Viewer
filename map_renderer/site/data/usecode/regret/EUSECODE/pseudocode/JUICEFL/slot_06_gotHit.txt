@@ -10,15 +10,14 @@ function juicefl_gotHit() /* entry=1465 class_id=0x05b7 slot=0x06 */
   }
   else {
     local_02 = arg_10;
-    if (!intrinsic_005c(*(arg_06), local_02)) {
+    if (!Item.isCentreOn(*(arg_06), local_02)) {
       return;
     }
-    else if ((intrinsic_0011(local_02) == 1) && (intrinsic_005c(*(arg_06), local_02) == 1)) {
+    else if ((Item.getShape(local_02) == 1) && (Item.isCentreOn(*(arg_06), local_02) == 1)) {
       for local_02 in selector_0x42(arg0=0x05b8, arg1=0x05b9, arg2=(8 * 32), origin=arg_06) {
         if (Item.getFrame(local_02) == 0) {
           ITEM.slot_25(0x1000, local_02);
         }
-        /* loopnext */
       }
     }
   }

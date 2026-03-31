@@ -1,133 +1,164 @@
 function hover_slot_20() /* entry=2575 class_id=0x0a0d slot=0x20 */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    tx, /* [BP+12h] type=0x69 */
+    ty, /* [BP+14h] type=0x69 */
+    tz, /* [BP+16h] type=0x69 */
+    wp, /* [BP-05h] type=0x24 */
+    total, /* [BP-07h] type=0x69 */
+    counter, /* [BP-09h] type=0x69 */
+    ddx, /* [BP-11h] type=0x69 */
+    ddy, /* [BP-13h] type=0x69 */
+    ddz, /* [BP-15h] type=0x69 */
+    dx, /* [BP-17h] type=0x69 */
+    dy, /* [BP-19h] type=0x69 */
+    dz, /* [BP-21h] type=0x69 */
+    cargo, /* [BP-23h] type=0x24 */
+    hover, /* [BP-25h] type=0x24 */
+    sx, /* [BP-27h] type=0x69 */
+    sy, /* [BP-29h] type=0x69 */
+    sz, /* [BP-30h] type=0x62 */
+    a, /* [BP-32h] type=0x69 */
+    b, /* [BP-34h] type=0x69 */
+    c, /* [BP-36h] type=0x69 */
+    xacc, /* [BP-40h] type=0x64 */
+    yacc, /* [BP-44h] type=0x64 */
+    zacc, /* [BP-48h] type=0x64 */
+    xfract, /* [BP-52h] type=0x64 */
+    yfract, /* [BP-56h] type=0x64 */
+    zfract, /* [BP-60h] type=0x64 */
+    l1, /* [BP-64h] type=0x64 */
+    n; /* [BP-66h] type=0x24 */
+
   set_info(1, 0);
-  local_25 = arg_10;
-  local_27 = intrinsic_0013(local_25);
-  local_29 = Item.legal_create(local_25);
-  local_30 = Item.getZ(local_25);
-  FREE.slot_3f((arg_12 - local_27));
-  local_32 = retval;
-  FREE.slot_3f((arg_14 - local_29));
-  local_34 = retval;
-  FREE.slot_3f((arg_16 - local_30));
-  local_36 = retval;
-  if ((local_32 > local_34) && (local_32 > local_36)) {
+  hover = ref;
+  sx = Item.getX(hover);
+  sy = Item.getY(hover);
+  sz = Item.getZ(hover);
+  FREE.slot_3f((tx - sx));
+  a = retval;
+  FREE.slot_3f((ty - sy));
+  b = retval;
+  FREE.slot_3f((tz - sz));
+  c = retval;
+  if ((a > b) && (a > c)) {
     /* word_to_dword */
-    local_64 = local_32;
+    l1 = a;
     /* word_to_dword */
-    local_56 = local_34;
+    yfract = b;
     /* word_to_dword */
-    local_56 = (local_56 * 0x0fa0);
-    local_56 = (local_56 / local_64);
+    yfract = (yfract * 0x0fa0);
+    yfract = (yfract / l1);
     /* word_to_dword */
-    local_44 = 0;
+    yacc = 0;
     /* word_to_dword */
-    local_60 = local_36;
+    zfract = c;
     /* word_to_dword */
-    local_60 = (local_60 * 0x0fa0);
-    local_60 = (local_60 / local_64);
+    zfract = (zfract * 0x0fa0);
+    zfract = (zfract / l1);
     /* word_to_dword */
-    local_48 = 0;
+    zacc = 0;
     while (1) {
-      if ((intrinsic_0004(local_25) & 0x1000) == 0) {
+      if ((Item.getStatus(hover) & 0x1000) == 0) {
         /* word_to_dword */
         /* pop_result */
         return;
       }
-      local_17 = (arg_12 - local_27);
-      local_19 = (arg_14 - local_29);
-      local_21 = (arg_16 - local_30);
-      local_11 = 0;
-      local_13 = 0;
-      local_15 = 0;
-      if ((local_17 < 4) && (local_17 > -4)) {
+      dx = (tx - sx);
+      dy = (ty - sy);
+      dz = (tz - sz);
+      ddx = 0;
+      ddy = 0;
+      ddz = 0;
+      if ((dx < 4) && (dx > -4)) {
         /* word_to_dword */
         /* pop_result */
         return;
       }
-      local_11 = 4;
-      if (local_17 < 0) {
-        local_11 = -4;
+      ddx = 4;
+      if (dx < 0) {
+        ddx = -4;
       }
-      if (local_19) {
-        local_44 = (local_44 + local_56);
+      if (dy) {
+        yacc = (yacc + yfract);
         /* word_to_dword */
-        if (local_44 > 0x0fa0) {
+        if (yacc > 0x0fa0) {
           /* word_to_dword */
-          local_44 = (local_44 - 0x0fa0);
-          local_13 = 4;
-          if (local_19 < 0) {
-            local_13 = -4;
+          yacc = (yacc - 0x0fa0);
+          ddy = 4;
+          if (dy < 0) {
+            ddy = -4;
           }
         }
       }
-      if (local_21) {
-        local_48 = (local_48 + local_60);
+      if (dz) {
+        zacc = (zacc + zfract);
         /* word_to_dword */
-        if (local_48 > 0x0fa0) {
+        if (zacc > 0x0fa0) {
           /* word_to_dword */
-          local_48 = (local_48 - 0x0fa0);
-          local_15 = 4;
-          if (local_21 < 0) {
-            local_15 = -4;
+          zacc = (zacc - 0x0fa0);
+          ddz = 4;
+          if (dz < 0) {
+            ddz = -4;
           }
         }
       }
-      local_07 = 0;
+      total = 0;
       /* loopscr */
       /* loop */
       while (condition) {
-        if (intrinsic_0016(local_23) != 0x033a) {
-          if (local_23 < 0x00ff) {
-            local_66 = local_23;
-            if (Kernel.resetRef(local_66)) {
+        if (Item.getShape(cargo) != NUMBERS) {
+          if (cargo < 0x00ff) {
+            n = cargo;
+            if (Actor.isDead(n)) {
               suspend;
             }
             else {
-              local_07 = (1 + local_07);
+              total = (1 + total);
             }
           }
           else {
-            local_07 = (1 + local_07);
+            total = (1 + total);
           }
         }
-        /* loopnext */
       }
-      local_27 = (local_27 + local_11);
-      local_29 = (local_29 + local_13);
-      local_30 = (local_30 + local_15);
-      local_05 = local_27;
-      local_03 = local_29;
-      local_01 = local_30;
-      if (intrinsic_002c(local_25) == 0) {
-        local_09 = 1;
-        while (local_09 <= local_07) {
-          local_23 = intrinsic_0023();
-          local_09 = (1 + local_09);
+      sx = (sx + ddx);
+      sy = (sy + ddy);
+      sz = (sz + ddz);
+      wp = sx;
+      local_03 = sy;
+      local_01 = sz;
+      if (Item.inFastArea(hover) == 0) {
+        counter = 1;
+        while (counter <= total) {
+          cargo = Item.getEtherealTop();
+          counter = (1 + counter);
         }
       }
-      else if (intrinsic_002e(0, 1, local_05, local_25)) {
-        local_09 = 1;
-        while (local_09 <= local_07) {
-          local_23 = intrinsic_0023();
-          local_09 = (1 + local_09);
+      else if (legalMoveToPoint(0, 1, wp, hover)) {
+        counter = 1;
+        while (counter <= total) {
+          cargo = Item.getEtherealTop();
+          counter = (1 + counter);
         }
       }
       else {
-        local_09 = 1;
-        while (local_09 <= local_07) {
-          local_23 = intrinsic_0023();
-          local_09 = (1 + local_09);
+        counter = 1;
+        while (counter <= total) {
+          cargo = Item.getEtherealTop();
+          counter = (1 + counter);
         }
-        if (intrinsic_00be(local_25) & 16) {
+        if (Item.getQHi(hover) & 16) {
           /* bit_not */
           /* word_to_dword */
           /* pop_result */
           return;
         }
-        local_27 = (local_27 - local_11);
-        local_29 = (local_29 - local_13);
-        local_30 = (local_30 - local_15);
+        sx = (sx - ddx);
+        sy = (sy - ddy);
+        sz = (sz - ddz);
         spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
         suspend;
       }
@@ -136,123 +167,122 @@ function hover_slot_20() /* entry=2575 class_id=0x0a0d slot=0x20 */
     }
     return;
   }
-  else if ((local_34 > local_32) && (local_34 > local_36)) {
+  else if ((b > a) && (b > c)) {
     /* word_to_dword */
-    local_64 = local_34;
+    l1 = b;
     /* word_to_dword */
-    local_52 = local_32;
+    xfract = a;
     /* word_to_dword */
-    local_52 = (local_52 * 0x0fa0);
-    local_52 = (local_52 / local_64);
+    xfract = (xfract * 0x0fa0);
+    xfract = (xfract / l1);
     /* word_to_dword */
-    local_40 = 0;
+    xacc = 0;
     /* word_to_dword */
-    local_60 = local_36;
+    zfract = c;
     /* word_to_dword */
-    local_60 = (local_60 * 0x0fa0);
-    local_60 = (local_60 / local_64);
+    zfract = (zfract * 0x0fa0);
+    zfract = (zfract / l1);
     /* word_to_dword */
-    local_48 = 0;
+    zacc = 0;
     while (1) {
-      if ((intrinsic_0004(local_25) & 0x1000) == 0) {
+      if ((Item.getStatus(hover) & 0x1000) == 0) {
         /* word_to_dword */
         /* pop_result */
         return;
       }
-      local_17 = (arg_12 - local_27);
-      local_19 = (arg_14 - local_29);
-      local_21 = (arg_16 - local_30);
-      local_11 = 0;
-      local_13 = 0;
-      local_15 = 0;
-      if ((local_19 < 4) && (local_19 > -4)) {
+      dx = (tx - sx);
+      dy = (ty - sy);
+      dz = (tz - sz);
+      ddx = 0;
+      ddy = 0;
+      ddz = 0;
+      if ((dy < 4) && (dy > -4)) {
         /* word_to_dword */
         /* pop_result */
         return;
       }
-      if (local_17) {
-        local_40 = (local_40 + local_52);
+      if (dx) {
+        xacc = (xacc + xfract);
         /* word_to_dword */
-        if (local_40 > 0x0fa0) {
+        if (xacc > 0x0fa0) {
           /* word_to_dword */
-          local_40 = (local_40 - 0x0fa0);
-          local_11 = 4;
-          if (local_17 < 0) {
-            local_11 = -4;
+          xacc = (xacc - 0x0fa0);
+          ddx = 4;
+          if (dx < 0) {
+            ddx = -4;
           }
         }
       }
-      local_13 = 4;
-      if (local_19 < 0) {
-        local_13 = -4;
+      ddy = 4;
+      if (dy < 0) {
+        ddy = -4;
       }
-      if (local_21) {
-        local_48 = (local_48 + local_60);
+      if (dz) {
+        zacc = (zacc + zfract);
         /* word_to_dword */
-        if (local_48 > 0x0fa0) {
+        if (zacc > 0x0fa0) {
           /* word_to_dword */
-          local_48 = (local_48 - 0x0fa0);
-          local_15 = 4;
-          if (local_21 < 0) {
-            local_15 = -4;
+          zacc = (zacc - 0x0fa0);
+          ddz = 4;
+          if (dz < 0) {
+            ddz = -4;
           }
         }
       }
-      local_07 = 0;
+      total = 0;
       /* loopscr */
       /* loop */
       while (condition) {
-        if (intrinsic_0016(local_23) != 0x033a) {
-          if (local_23 < 0x00ff) {
-            local_66 = local_23;
-            if (Kernel.resetRef(local_66)) {
+        if (Item.getShape(cargo) != NUMBERS) {
+          if (cargo < 0x00ff) {
+            n = cargo;
+            if (Actor.isDead(n)) {
               suspend;
             }
             else {
-              local_07 = (1 + local_07);
+              total = (1 + total);
             }
           }
           else {
-            local_07 = (1 + local_07);
+            total = (1 + total);
           }
         }
-        /* loopnext */
       }
-      local_27 = (local_27 + local_11);
-      local_29 = (local_29 + local_13);
-      local_30 = (local_30 + local_15);
-      local_05 = local_27;
-      local_03 = local_29;
-      local_01 = local_30;
-      if (intrinsic_002c(local_25) == 0) {
-        local_09 = 1;
-        while (local_09 <= local_07) {
-          local_23 = intrinsic_0023();
-          local_09 = (1 + local_09);
+      sx = (sx + ddx);
+      sy = (sy + ddy);
+      sz = (sz + ddz);
+      wp = sx;
+      local_03 = sy;
+      local_01 = sz;
+      if (Item.inFastArea(hover) == 0) {
+        counter = 1;
+        while (counter <= total) {
+          cargo = Item.getEtherealTop();
+          counter = (1 + counter);
         }
       }
-      else if (intrinsic_002e(0, 1, local_05, local_25)) {
-        local_09 = 1;
-        while (local_09 <= local_07) {
-          local_23 = intrinsic_0023();
-          local_09 = (1 + local_09);
+      else if (legalMoveToPoint(0, 1, wp, hover)) {
+        counter = 1;
+        while (counter <= total) {
+          cargo = Item.getEtherealTop();
+          counter = (1 + counter);
         }
       }
       else {
-        local_09 = 1;
-        while (local_09 <= local_07) {
-          local_23 = intrinsic_0023();
-          local_09 = (1 + local_09);
+        counter = 1;
+        while (counter <= total) {
+          cargo = Item.getEtherealTop();
+          counter = (1 + counter);
         }
-        if (intrinsic_00be(local_25) & 16) {
+        if (Item.getQHi(hover) & 16) {
           /* bit_not */
           /* word_to_dword */
           /* pop_result */
           return;
         }
-        local_27 = (local_27 - local_11);
-        local_29 = (local_29 - local_13);
-        local_30 = (local_30 - local_15);
+        sx = (sx - ddx);
+        sy = (sy - ddy);
+        sz = (sz - ddz);
         spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
         suspend;
       }
@@ -263,121 +293,120 @@ function hover_slot_20() /* entry=2575 class_id=0x0a0d slot=0x20 */
   }
   else {
     /* word_to_dword */
-    local_64 = local_36;
+    l1 = c;
     /* word_to_dword */
-    local_52 = local_32;
+    xfract = a;
     /* word_to_dword */
-    local_52 = (local_52 * 0x0fa0);
-    local_52 = (local_52 / local_64);
+    xfract = (xfract * 0x0fa0);
+    xfract = (xfract / l1);
     /* word_to_dword */
-    local_40 = 0;
+    xacc = 0;
     /* word_to_dword */
-    local_56 = local_34;
+    yfract = b;
     /* word_to_dword */
-    local_56 = (local_56 * 0x0fa0);
-    local_56 = (local_56 / local_64);
+    yfract = (yfract * 0x0fa0);
+    yfract = (yfract / l1);
     /* word_to_dword */
-    local_44 = 0;
+    yacc = 0;
     while (1) {
-      if ((intrinsic_0004(local_25) & 0x1000) == 0) {
+      if ((Item.getStatus(hover) & 0x1000) == 0) {
         /* word_to_dword */
         /* pop_result */
         return;
       }
-      local_17 = (arg_12 - local_27);
-      local_19 = (arg_14 - local_29);
-      local_21 = (arg_16 - local_30);
-      local_11 = 0;
-      local_13 = 0;
-      local_15 = 0;
-      if ((local_21 < 4) && (local_21 > -4)) {
+      dx = (tx - sx);
+      dy = (ty - sy);
+      dz = (tz - sz);
+      ddx = 0;
+      ddy = 0;
+      ddz = 0;
+      if ((dz < 4) && (dz > -4)) {
         /* word_to_dword */
         /* pop_result */
         return;
       }
-      if (local_17) {
-        local_40 = (local_40 + local_52);
+      if (dx) {
+        xacc = (xacc + xfract);
         /* word_to_dword */
-        if (local_40 > 0x0fa0) {
+        if (xacc > 0x0fa0) {
           /* word_to_dword */
-          local_40 = (local_40 - 0x0fa0);
-          local_11 = 4;
-          if (local_17 < 0) {
-            local_11 = -4;
+          xacc = (xacc - 0x0fa0);
+          ddx = 4;
+          if (dx < 0) {
+            ddx = -4;
           }
         }
       }
-      if (local_19) {
-        local_44 = (local_44 + local_56);
+      if (dy) {
+        yacc = (yacc + yfract);
         /* word_to_dword */
-        if (local_44 > 0x0fa0) {
+        if (yacc > 0x0fa0) {
           /* word_to_dword */
-          local_44 = (local_44 - 0x0fa0);
-          local_13 = 4;
-          if (local_19 < 0) {
-            local_13 = -4;
+          yacc = (yacc - 0x0fa0);
+          ddy = 4;
+          if (dy < 0) {
+            ddy = -4;
           }
         }
       }
-      local_15 = 4;
-      if (local_21 < 0) {
-        local_15 = -4;
+      ddz = 4;
+      if (dz < 0) {
+        ddz = -4;
       }
-      local_07 = 0;
+      total = 0;
       /* loopscr */
       /* loop */
       while (condition) {
-        if (intrinsic_0016(local_23) != 0x033a) {
-          if (local_23 < 0x00ff) {
-            local_66 = local_23;
-            if (Kernel.resetRef(local_66)) {
+        if (Item.getShape(cargo) != NUMBERS) {
+          if (cargo < 0x00ff) {
+            n = cargo;
+            if (Actor.isDead(n)) {
               suspend;
             }
             else {
-              local_07 = (1 + local_07);
+              total = (1 + total);
             }
           }
           else {
-            local_07 = (1 + local_07);
+            total = (1 + total);
           }
         }
-        /* loopnext */
       }
-      local_27 = (local_27 + local_11);
-      local_29 = (local_29 + local_13);
-      local_30 = (local_30 + local_15);
-      local_05 = local_27;
-      local_03 = local_29;
-      local_01 = local_30;
-      if (intrinsic_002c(local_25) == 0) {
-        local_09 = 1;
-        while (local_09 <= local_07) {
-          local_23 = intrinsic_0023();
-          local_09 = (1 + local_09);
+      sx = (sx + ddx);
+      sy = (sy + ddy);
+      sz = (sz + ddz);
+      wp = sx;
+      local_03 = sy;
+      local_01 = sz;
+      if (Item.inFastArea(hover) == 0) {
+        counter = 1;
+        while (counter <= total) {
+          cargo = Item.getEtherealTop();
+          counter = (1 + counter);
         }
       }
-      else if (intrinsic_002e(0, 1, local_05, local_25)) {
-        local_09 = 1;
-        while (local_09 <= local_07) {
-          local_23 = intrinsic_0023();
-          local_09 = (1 + local_09);
+      else if (legalMoveToPoint(0, 1, wp, hover)) {
+        counter = 1;
+        while (counter <= total) {
+          cargo = Item.getEtherealTop();
+          counter = (1 + counter);
         }
       }
       else {
-        local_09 = 1;
-        while (local_09 <= local_07) {
-          local_23 = intrinsic_0023();
-          local_09 = (1 + local_09);
+        counter = 1;
+        while (counter <= total) {
+          cargo = Item.getEtherealTop();
+          counter = (1 + counter);
         }
-        if (intrinsic_00be(local_25) & 16) {
+        if (Item.getQHi(hover) & 16) {
           /* bit_not */
           /* word_to_dword */
           /* pop_result */
           return;
         }
-        local_27 = (local_27 - local_11);
-        local_29 = (local_29 - local_13);
-        local_30 = (local_30 - local_15);
+        sx = (sx - ddx);
+        sy = (sy - ddy);
+        sz = (sz - ddz);
         spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
         suspend;
       }
@@ -386,5 +415,4 @@ function hover_slot_20() /* entry=2575 class_id=0x0a0d slot=0x20 */
     }
   }
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

@@ -1,8 +1,8 @@
 function door2_slot_40() /* entry=2569 class_id=0x0a07 slot=0x40 */
 {
   set_info(0x0207, *(arg_06));
-  if (intrinsic_0016(arg_06) == 0x043f) {
-    FREE.slot_2d(Item.getZ(arg_06), Item.legal_create(arg_06), intrinsic_0013(arg_06), 4, 0x03f8, *(arg_06));
+  if (Item.getShape(arg_06) == door2_shape_043f) {
+    FREE.slot_2d(Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06), 4, 0x03f8, *(arg_06));
     if (!retval) {
       /* word_to_dword */
       /* pop_result */
@@ -11,9 +11,8 @@ function door2_slot_40() /* entry=2569 class_id=0x0a07 slot=0x40 */
   }
   else {
     for local_04 in nearby_items(shape=0x0401, origin=arg_06) {
-      /* loopnext */
     }
-    FREE.slot_2d(Item.getZ(arg_06), Item.legal_create(arg_06), intrinsic_0013(arg_06), 4, 108, *(arg_06));
+    FREE.slot_2d(Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06), 4, 108, *(arg_06));
     if (!retval) {
       /* word_to_dword */
       /* pop_result */

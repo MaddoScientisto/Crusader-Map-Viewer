@@ -1,61 +1,69 @@
 function spider_slot_20() /* entry=2585 class_id=0x0a17 slot=0x20 */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    spiderType, /* [BP+10h] type=0x69 */
+    spider, /* [BP-02h] type=0x24 */
+    target, /* [BP-04h] type=0x24 */
+    dest, /* [BP-09h] type=0x24 */
+    count, /* [BP-11h] type=0x69 */
+    targetLoop; /* [BP-13h] type=0x69 */
+
   set_info(1, *(arg_06));
-  if (!arg_10) {
+  if (!spiderType) {
     ITEM.slot_23(4, arg_06);
     return;
   }
-  else if (intrinsic_0004(arg_06) & 0x1000) {
+  else if (Item.getStatus(arg_06) & 0x1000) {
     return;
   }
   else {
     ITEM.slot_23(0x1000, arg_06);
-    local_13 = arg_10;
-    while (local_13 >= 10) {
-      local_13 = (local_13 - 10);
+    targetLoop = spiderType;
+    while (targetLoop >= 10) {
+      targetLoop = (targetLoop - 10);
     }
     suspend;
     while (true) {
       suspend;
-      if (intrinsic_001b() != 0) {
-        local_04 = intrinsic_001b();
+      if (getTargetNPCNumMaybe() != 0) {
+        target = getTargetNPCNumMaybe();
       }
       else {
-        local_04 = global[0x003c];
+        target = global[0x003c];
       }
-      while ((Item.getZ(local_04) > (Item.getZ(arg_06) + 16)) || (Item.getZ(local_04) < (Item.getZ(arg_06) - 16))) {
+      while ((Item.getZ(target) > (Item.getZ(arg_06) + 16)) || (Item.getZ(target) < (Item.getZ(arg_06) - 16))) {
         spawn FREE.slot_32(pid, 10, 0x00000000);
         suspend;
       }
-      if ((intrinsic_0004(arg_06) & 4) || (Item.getFrame(arg_06) > 0)) {
+      if ((Item.getStatus(arg_06) & 4) || (Item.getFrame(arg_06) > 0)) {
         ITEM.slot_24(4, arg_06);
         ITEM.slot_24(0x1000, arg_06);
         return;
       }
-      local_11 = 0;
-      while (local_11 <= 5) {
+      count = 0;
+      while (count <= 5) {
         spawn FREE.slot_32(pid, 5, 0x00000000);
         suspend;
-        local_11 = (1 + local_11);
+        count = (1 + count);
       }
-      local_11 = 1;
-      while (local_11 <= 9) {
+      count = 1;
+      while (count <= 9) {
         spawn FREE.slot_32(pid, 5, 0x00000000);
         suspend;
-        local_11 = (1 + local_11);
+        count = (1 + count);
       }
-      while (intrinsic_0044(local_04, arg_06) == 0) {
+      while (Item.IsOn(target, arg_06) == 0) {
         spawn FREE.slot_32(pid, 60, 0x00000000);
         suspend;
       }
-      spawn SPIDER.slot_21(pid, local_13, local_04, local_02, local_02);
+      spawn SPIDER.slot_21(pid, targetLoop, target, spider, spider);
       suspend;
-      if (arg_10 < 99) {
+      if (spiderType < 99) {
         ITEM.slot_24(0x1000, arg_06);
         return;
       }
     }
   }
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

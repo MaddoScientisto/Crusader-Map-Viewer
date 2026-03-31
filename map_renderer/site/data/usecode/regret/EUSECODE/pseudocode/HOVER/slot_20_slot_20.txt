@@ -29,7 +29,7 @@ function hover_slot_20() /* entry=2573 class_id=0x0a0b slot=0x20 */
     /* word_to_dword */
     local_48 = 0;
     while (1) {
-      if ((intrinsic_0004(local_25) & 0x1000) == 0) {
+      if ((Item.getStatus(local_25) & 0x1000) == 0) {
         /* word_to_dword */
         /* pop_result */
         return;
@@ -77,10 +77,10 @@ function hover_slot_20() /* entry=2573 class_id=0x0a0b slot=0x20 */
       /* loopscr */
       /* loop */
       while (condition) {
-        if (intrinsic_0011(local_23) != 0x033a) {
+        if (Item.getShape(local_23) != NUMBERS) {
           if (local_23 < 0x00ff) {
             local_66 = local_23;
-            if (intrinsic_00ab(local_66)) {
+            if (Actor.isDead(local_66)) {
               suspend;
             }
             else {
@@ -91,7 +91,6 @@ function hover_slot_20() /* entry=2573 class_id=0x0a0b slot=0x20 */
             local_07 = (1 + local_07);
           }
         }
-        /* loopnext */
       }
       local_27 = (local_27 + local_11);
       local_29 = (local_29 + local_13);
@@ -99,27 +98,27 @@ function hover_slot_20() /* entry=2573 class_id=0x0a0b slot=0x20 */
       local_05 = local_27;
       local_03 = local_29;
       local_01 = local_30;
-      if (intrinsic_00ad(local_25) == 0) {
+      if (Intrinsic00AD(local_25) == 0) {
         local_09 = 1;
         while (local_09 <= local_07) {
-          local_23 = intrinsic_001e();
+          local_23 = Item.getEtherealTop();
           local_09 = (1 + local_09);
         }
       }
       else if (Item.legal_move(0, 1, local_05, local_25)) {
         local_09 = 1;
         while (local_09 <= local_07) {
-          local_23 = intrinsic_001e();
+          local_23 = Item.getEtherealTop();
           local_09 = (1 + local_09);
         }
       }
       else {
         local_09 = 1;
         while (local_09 <= local_07) {
-          local_23 = intrinsic_001e();
+          local_23 = Item.getEtherealTop();
           local_09 = (1 + local_09);
         }
-        if (intrinsic_00ae(local_25) & 16) {
+        if (Item.getQHi(local_25) & 16) {
           /* bit_not */
           /* word_to_dword */
           /* pop_result */
@@ -154,7 +153,7 @@ function hover_slot_20() /* entry=2573 class_id=0x0a0b slot=0x20 */
     /* word_to_dword */
     local_48 = 0;
     while (1) {
-      if ((intrinsic_0004(local_25) & 0x1000) == 0) {
+      if ((Item.getStatus(local_25) & 0x1000) == 0) {
         /* word_to_dword */
         /* pop_result */
         return;
@@ -202,10 +201,10 @@ function hover_slot_20() /* entry=2573 class_id=0x0a0b slot=0x20 */
       /* loopscr */
       /* loop */
       while (condition) {
-        if (intrinsic_0011(local_23) != 0x033a) {
+        if (Item.getShape(local_23) != NUMBERS) {
           if (local_23 < 0x00ff) {
             local_66 = local_23;
-            if (intrinsic_00ab(local_66)) {
+            if (Actor.isDead(local_66)) {
               suspend;
             }
             else {
@@ -216,7 +215,6 @@ function hover_slot_20() /* entry=2573 class_id=0x0a0b slot=0x20 */
             local_07 = (1 + local_07);
           }
         }
-        /* loopnext */
       }
       local_27 = (local_27 + local_11);
       local_29 = (local_29 + local_13);
@@ -224,27 +222,27 @@ function hover_slot_20() /* entry=2573 class_id=0x0a0b slot=0x20 */
       local_05 = local_27;
       local_03 = local_29;
       local_01 = local_30;
-      if (intrinsic_00ad(local_25) == 0) {
+      if (Intrinsic00AD(local_25) == 0) {
         local_09 = 1;
         while (local_09 <= local_07) {
-          local_23 = intrinsic_001e();
+          local_23 = Item.getEtherealTop();
           local_09 = (1 + local_09);
         }
       }
       else if (Item.legal_move(0, 1, local_05, local_25)) {
         local_09 = 1;
         while (local_09 <= local_07) {
-          local_23 = intrinsic_001e();
+          local_23 = Item.getEtherealTop();
           local_09 = (1 + local_09);
         }
       }
       else {
         local_09 = 1;
         while (local_09 <= local_07) {
-          local_23 = intrinsic_001e();
+          local_23 = Item.getEtherealTop();
           local_09 = (1 + local_09);
         }
-        if (intrinsic_00ae(local_25) & 16) {
+        if (Item.getQHi(local_25) & 16) {
           /* bit_not */
           /* word_to_dword */
           /* pop_result */
@@ -279,7 +277,7 @@ function hover_slot_20() /* entry=2573 class_id=0x0a0b slot=0x20 */
     /* word_to_dword */
     local_44 = 0;
     while (1) {
-      if ((intrinsic_0004(local_25) & 0x1000) == 0) {
+      if ((Item.getStatus(local_25) & 0x1000) == 0) {
         /* word_to_dword */
         /* pop_result */
         return;
@@ -327,10 +325,10 @@ function hover_slot_20() /* entry=2573 class_id=0x0a0b slot=0x20 */
       /* loopscr */
       /* loop */
       while (condition) {
-        if (intrinsic_0011(local_23) != 0x033a) {
+        if (Item.getShape(local_23) != NUMBERS) {
           if (local_23 < 0x00ff) {
             local_66 = local_23;
-            if (intrinsic_00ab(local_66)) {
+            if (Actor.isDead(local_66)) {
               suspend;
             }
             else {
@@ -341,7 +339,6 @@ function hover_slot_20() /* entry=2573 class_id=0x0a0b slot=0x20 */
             local_07 = (1 + local_07);
           }
         }
-        /* loopnext */
       }
       local_27 = (local_27 + local_11);
       local_29 = (local_29 + local_13);
@@ -349,27 +346,27 @@ function hover_slot_20() /* entry=2573 class_id=0x0a0b slot=0x20 */
       local_05 = local_27;
       local_03 = local_29;
       local_01 = local_30;
-      if (intrinsic_00ad(local_25) == 0) {
+      if (Intrinsic00AD(local_25) == 0) {
         local_09 = 1;
         while (local_09 <= local_07) {
-          local_23 = intrinsic_001e();
+          local_23 = Item.getEtherealTop();
           local_09 = (1 + local_09);
         }
       }
       else if (Item.legal_move(0, 1, local_05, local_25)) {
         local_09 = 1;
         while (local_09 <= local_07) {
-          local_23 = intrinsic_001e();
+          local_23 = Item.getEtherealTop();
           local_09 = (1 + local_09);
         }
       }
       else {
         local_09 = 1;
         while (local_09 <= local_07) {
-          local_23 = intrinsic_001e();
+          local_23 = Item.getEtherealTop();
           local_09 = (1 + local_09);
         }
-        if (intrinsic_00ae(local_25) & 16) {
+        if (Item.getQHi(local_25) & 16) {
           /* bit_not */
           /* word_to_dword */
           /* pop_result */

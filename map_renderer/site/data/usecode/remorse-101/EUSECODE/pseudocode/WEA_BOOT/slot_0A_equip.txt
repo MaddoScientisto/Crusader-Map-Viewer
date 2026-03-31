@@ -3,8 +3,6 @@ function wea_boot_equip() /* entry=1117 class_id=0x045b slot=0x0a */
   set_info(0x0211, *(arg_06));
   process_exclude();
   FREE.slot_33(0x021b, *(arg_06));
-  /* global_address */
-  /* global_address */
   while (Item.getFrame(arg_06) != 5) {
     spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
     suspend;

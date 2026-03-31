@@ -1,17 +1,21 @@
 function textfile_slot_21() /* entry=2585 class_id=0x0a17 slot=0x21 */
 {
-  if (arg_12 >= 110) {
-    TEXTFIL2.slot_20(0, arg_12, arg_10, arg_06);
+  var
+    referent, /* [BP+00h] type=0x69 */
+    linkNum, /* [BP+10h] type=0x69 */
+    msgNum; /* [BP+12h] type=0x69 */
+
+  if (msgNum >= 110) {
+    TEXTFIL2.slot_20(0, msgNum, linkNum, arg_06);
     return;
   }
-  else if (arg_12 >= 60) {
-    TEXTFIL1.slot_20(0, arg_12, arg_10, arg_06);
+  else if (msgNum >= 60) {
+    TEXTFIL1.slot_20(0, msgNum, linkNum, arg_06);
     return;
   }
   else {
-    TEXTFILE.slot_23(0, arg_12, arg_10, arg_06);
+    TEXTFILE.slot_23(0, msgNum, linkNum, arg_06);
     return;
   }
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

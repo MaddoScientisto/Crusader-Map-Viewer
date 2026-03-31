@@ -2,9 +2,9 @@ function special_enterFastArea() /* entry=1228 class_id=0x04ca slot=0x0f */
 {
   set_info(0x021b, *(arg_06));
   process_exclude();
-  if (intrinsic_00ec(arg_06)) {
-    local_02 = intrinsic_0003(arg_06);
-    local_04 = intrinsic_00f1(arg_06);
+  if (Item.popToEnd(arg_06)) {
+    local_02 = Item.getMapArray(arg_06);
+    local_04 = Item.isOn(arg_06);
     if (local_02 == 1) {
       spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
       suspend;

@@ -10,29 +10,29 @@ function windsurf_gotHit() /* entry=825 class_id=0x0337 slot=0x06 */
     goto block_0483;
 
   block_01b1:
-    if intrinsic_0003(arg_06) != 0 goto block_046b;
+    if Item.getMapArray(arg_06) != 0 goto block_046b;
 
   block_01c0:
     local_02 = arg_10;
-    if !intrinsic_014e(0, local_02) goto block_01d5;
+    if !MainActor.addItemCru(0, local_02) goto block_01d5;
 
   block_01d2:
     goto block_0483;
 
   block_01d5:
-    if intrinsic_0011(local_02) != 0x01d9 goto block_01e8;
+    if Item.getShape(local_02) != 0x01d9 goto block_01e8;
 
   block_01e5:
     goto block_0483;
 
   block_01e8:
-    if intrinsic_00ad(arg_10, arg_06) != 0 goto block_01fc;
+    if Intrinsic00AD(arg_10, arg_06) != 0 goto block_01fc;
 
   block_01f9:
     goto block_0483;
 
   block_01fc:
-    if intrinsic_012b(arg_06) != 0x00ff goto block_020f;
+    if Item.getNpcNum(arg_06) != 0x00ff goto block_020f;
 
   block_020c:
     goto block_0483;
@@ -44,7 +44,7 @@ function windsurf_gotHit() /* entry=825 class_id=0x0337 slot=0x06 */
     goto block_0483;
 
   block_0222:
-    if intrinsic_014f(arg_06) != 0x00ff goto block_024a;
+    if Egg.getEggXRange(arg_06) != 0x00ff goto block_024a;
 
   block_0232:
     if Actor.isNPC(local_02) goto block_0247;
@@ -57,7 +57,7 @@ function windsurf_gotHit() /* entry=825 class_id=0x0337 slot=0x06 */
       local_08 = 3;
     }
     else if (local_08 == 15) {
-      local_08 = (3 + (intrinsic_000a() * 2));
+      local_08 = (3 + (World.gameDifficulty() * 2));
     }
 
   block_0295:
@@ -137,7 +137,7 @@ function windsurf_gotHit() /* entry=825 class_id=0x0337 slot=0x06 */
     local_11 = Item.getZ(local_02);
     spawn FREE.slot_3b(pid, 5, 0x00000000);
     suspend;
-    if intrinsic_00ad(arg_10, arg_06) != 0 goto block_043f;
+    if Intrinsic00AD(arg_10, arg_06) != 0 goto block_043f;
 
   block_043c:
     goto block_0442;

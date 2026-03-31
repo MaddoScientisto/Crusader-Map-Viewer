@@ -1,19 +1,17 @@
 function duck_ew_slot_20() /* entry=412 class_id=0x019a slot=0x20 */
 {
   set_info(0x0205, *(arg_06));
-  if (intrinsic_0004(arg_06) & 0x1000) {
+  if (Item.getStatus(arg_06) & 0x1000) {
     return;
   }
   else {
     ITEM.slot_24(0x1000, arg_06);
     local_02 = Item.getFrame(arg_06);
-    local_04 = intrinsic_0051(arg_06);
+    local_04 = Actor.setDefaultActivity1(arg_06);
     suspend;
-    /* global_address */
     while (true) {
       suspend;
-      /* global_address */
-      if (intrinsic_007b()) {
+      if (Ultima8Engine.getUnkCrusaderFlag(&global[0x001e])) {
         return;
       }
       if (local_04 > 99) {
@@ -29,7 +27,7 @@ function duck_ew_slot_20() /* entry=412 class_id=0x019a slot=0x20 */
         spawn FREE.slot_3b(pid, 100, 0x00000000);
         suspend;
       }
-      spawn FREE.slot_3b(pid, ((5 - intrinsic_000a()) * 20), 0x00000000);
+      spawn FREE.slot_3b(pid, ((5 - World.gameDifficulty()) * 20), 0x00000000);
       suspend;
     }
   }

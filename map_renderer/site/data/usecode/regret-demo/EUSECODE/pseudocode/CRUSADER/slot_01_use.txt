@@ -4,9 +4,7 @@ function crusader_use() /* entry=2051 class_id=0x0801 slot=0x01 */
   process_exclude();
   spawn FREE.slot_3b(pid, 0x00c8, 0x00000000);
   suspend;
-  /* global_address */
-  while (!intrinsic_0053()) {
-    /* global_address */
+  while (!Actor.setActivity(&global[0x001e])) {
   }
   return;
 }

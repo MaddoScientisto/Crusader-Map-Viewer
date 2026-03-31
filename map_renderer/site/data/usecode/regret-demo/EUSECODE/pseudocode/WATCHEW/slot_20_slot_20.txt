@@ -2,14 +2,14 @@ function watchew_slot_20() /* entry=1248 class_id=0x04de slot=0x20 */
 {
   entry:
     set_info(0x021b, 0);
-    local_10 = intrinsic_0133(arg_06);
-    if intrinsic_0003(arg_06) == 0 goto block_034d;
+    local_10 = Item.hurl(arg_06);
+    if Item.getMapArray(arg_06) == 0 goto block_034d;
 
   block_0292_selector_00:
     for local_04 in nearby_items(shape=0x0510, origin=arg_06) {
-      if ((intrinsic_0133(local_04) == local_10) || (local_10 == 0)) {
-        if (intrinsic_012b(local_04)) {
-          TEXTFILE.slot_21(intrinsic_012b(local_04), intrinsic_0133(local_04), arg_06);
+      if ((Item.hurl(local_04) == local_10) || (local_10 == 0)) {
+        if (Item.getNpcNum(local_04)) {
+          TEXTFILE.slot_21(Item.getNpcNum(local_04), Item.hurl(local_04), arg_06);
           /* free_local_string */
           local_02 = retval;
           spawn TEXTFILE.slot_20(pid, local_02, arg_06);
@@ -17,7 +17,6 @@ function watchew_slot_20() /* entry=1248 class_id=0x04de slot=0x20 */
           suspend;
         }
       }
-      /* loopnext */
     }
 
   block_0308:
@@ -31,7 +30,7 @@ function watchew_slot_20() /* entry=1248 class_id=0x04de slot=0x20 */
 
   block_034d:
     local_11 = 0;
-    if !intrinsic_012b(arg_06) goto block_0403;
+    if !Item.getNpcNum(arg_06) goto block_0403;
 
   block_035d_selector_00:
     /* loop_selector local_06 in nearby_items(shape=0x0251, origin=arg_06) */
@@ -40,7 +39,7 @@ function watchew_slot_20() /* entry=1248 class_id=0x04de slot=0x20 */
     if !condition goto block_03a1;
 
   block_0378:
-    if intrinsic_0133(local_06) != local_10 goto block_039d;
+    if Item.hurl(local_06) != local_10 goto block_039d;
 
   block_0387:
     VALBOX.slot_20(local_06);
@@ -49,20 +48,19 @@ function watchew_slot_20() /* entry=1248 class_id=0x04de slot=0x20 */
     goto block_03a1;
 
   block_039d:
-    /* loopnext */
     goto block_0375;
 
   block_03a1:
     if !local_11 goto block_03cd;
 
   block_03a8:
-    TEXTFILE.slot_23(local_08, intrinsic_012b(arg_06), intrinsic_0133(arg_06), arg_06);
+    TEXTFILE.slot_23(local_08, Item.getNpcNum(arg_06), Item.hurl(arg_06), arg_06);
     /* free_local_string */
     local_02 = retval;
     goto block_03ed;
 
   block_03cd:
-    TEXTFILE.slot_21(intrinsic_012b(arg_06), intrinsic_0133(arg_06), arg_06);
+    TEXTFILE.slot_21(Item.getNpcNum(arg_06), Item.hurl(arg_06), arg_06);
     /* free_local_string */
     local_02 = retval;
 

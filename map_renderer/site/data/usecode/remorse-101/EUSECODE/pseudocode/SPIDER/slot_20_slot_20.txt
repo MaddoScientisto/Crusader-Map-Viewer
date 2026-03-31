@@ -5,7 +5,7 @@ function spider_slot_20() /* entry=2582 class_id=0x0a14 slot=0x20 */
     ITEM.slot_23(4, arg_06);
     return;
   }
-  else if (intrinsic_0004(arg_06) & 0x1000) {
+  else if (Item.getStatus(arg_06) & 0x1000) {
     return;
   }
   else {
@@ -17,8 +17,8 @@ function spider_slot_20() /* entry=2582 class_id=0x0a14 slot=0x20 */
     suspend;
     while (true) {
       suspend;
-      if (intrinsic_001d() != 0) {
-        local_04 = intrinsic_001d();
+      if (Actor.getLastAnimSet() != 0) {
+        local_04 = Actor.getLastAnimSet();
       }
       else {
         local_04 = global[0x003d];
@@ -27,7 +27,7 @@ function spider_slot_20() /* entry=2582 class_id=0x0a14 slot=0x20 */
         spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
         suspend;
       }
-      if ((intrinsic_0004(arg_06) & 4) || (Item.getFrame(arg_06) > 0)) {
+      if ((Item.getStatus(arg_06) & 4) || (Item.getFrame(arg_06) > 0)) {
         ITEM.slot_24(4, arg_06);
         ITEM.slot_24(0x1000, arg_06);
         return;
@@ -44,7 +44,7 @@ function spider_slot_20() /* entry=2582 class_id=0x0a14 slot=0x20 */
         suspend;
         local_11 = (1 + local_11);
       }
-      while (intrinsic_0041(local_04, arg_06) == 0) {
+      while (CameraProcess.setCenterOn(local_04, arg_06) == 0) {
         spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
         suspend;
       }

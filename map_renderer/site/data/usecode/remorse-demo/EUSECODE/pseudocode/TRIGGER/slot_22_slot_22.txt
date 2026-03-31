@@ -1,10 +1,16 @@
 function trigger_slot_22() /* entry=2586 class_id=0x0a18 slot=0x22 */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    num, /* [BP+12h] type=0x69 */
+    door; /* [BP-02h] type=0x24 */
+
   set_info(0x021b, 0);
-  local_02 = arg_10;
+  door = ref;
   while (1) {
-    if ((intrinsic_0004(local_02) & 0x1000) == 0) {
-      spawn DOOR.slot_21(pid, arg_12, local_02);
+    if ((Item.getStatus(door) & 0x1000) == 0) {
+      spawn DOOR.slot_21(pid, num, door);
       suspend;
       /* bit_not */
       return;
@@ -15,5 +21,4 @@ function trigger_slot_22() /* entry=2586 class_id=0x0a18 slot=0x22 */
     }
   }
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

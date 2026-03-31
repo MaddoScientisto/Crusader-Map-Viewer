@@ -1,9 +1,13 @@
 function sentry_calledFromAnim() /* entry=463 class_id=0x01cd slot=0x0e */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    n, /* [BP-02h] type=0x24 */
+    dir; /* [BP-04h] type=0x69 */
+
   set_info(0x021a, *(arg_06));
   process_exclude();
-  local_02 = *(arg_06);
-  local_04 = intrinsic_001c(local_02);
+  n = *(arg_06);
+  dir = Actor.getDir(n);
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

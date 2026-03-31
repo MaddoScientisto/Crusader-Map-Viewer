@@ -1,8 +1,8 @@
 function spider_slot_22() /* entry=2582 class_id=0x0a14 slot=0x22 */
 {
   set_info(0x00f0, *(arg_06));
-  local_07 = intrinsic_0013(arg_06);
-  local_09 = Item.legal_create(arg_06);
+  local_07 = Item.getX(arg_06);
+  local_09 = Item.getY(arg_06);
   local_10 = Item.getZ(arg_06);
   local_12 = ((arg_10 - local_07) + 1);
   local_14 = ((arg_12 - local_09) + 1);
@@ -82,7 +82,7 @@ function spider_slot_22() /* entry=2582 class_id=0x0a14 slot=0x22 */
       local_05 = local_07;
       local_03 = local_09;
       local_01 = local_10;
-      if (!intrinsic_002e(0, 1, local_05, arg_06)) {
+      if (!legalMoveToPoint(0, 1, local_05, arg_06)) {
         /* word_to_dword */
         /* pop_result */
         return;
@@ -94,7 +94,7 @@ function spider_slot_22() /* entry=2582 class_id=0x0a14 slot=0x22 */
         local_05 = local_07;
         local_03 = local_09;
         local_01 = local_10;
-        if (!intrinsic_002e(0, 1, local_05, arg_06)) {
+        if (!legalMoveToPoint(0, 1, local_05, arg_06)) {
           /* word_to_dword */
           /* pop_result */
           return;
@@ -114,7 +114,7 @@ function spider_slot_22() /* entry=2582 class_id=0x0a14 slot=0x22 */
         local_05 = local_07;
         local_03 = local_09;
         local_01 = local_10;
-        if (!intrinsic_002e(0, 1, local_05, arg_06)) {
+        if (!legalMoveToPoint(0, 1, local_05, arg_06)) {
           /* word_to_dword */
           /* pop_result */
           return;

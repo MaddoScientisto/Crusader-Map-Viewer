@@ -16,15 +16,14 @@ function securew_use() /* entry=1087 class_id=0x043d slot=0x01 */
     spawn FREE.slot_3b(pid, 60, 0x00000000);
     suspend;
   }
-  if (intrinsic_0003(arg_06) != 0) {
+  if (Item.getMapArray(arg_06) != 0) {
     for local_06 in nearby_items(shape=0x0251, origin=arg_06) {
-      if (intrinsic_0112(local_06) == intrinsic_0112(arg_06)) {
-        local_10 = intrinsic_0119(local_06);
+      if (IntrinsicReturn0(local_06) == IntrinsicReturn0(arg_06)) {
+        local_10 = Item.getNpcNum(local_06);
         local_08 = (1 + local_08);
       }
-      /* loopnext */
     }
-    TEXTFILE.slot_23(0, local_10, intrinsic_0112(arg_06), arg_06);
+    TEXTFILE.slot_23(0, local_10, IntrinsicReturn0(arg_06), arg_06);
     /* free_local_string */
     local_02 = retval;
     if (local_08 != 1) {

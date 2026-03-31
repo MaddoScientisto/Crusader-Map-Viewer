@@ -2,20 +2,14 @@ function lift_enterFastArea() /* entry=309 class_id=0x0133 slot=0x0f */
 {
   set_info(0x021b, *(arg_06));
   process_exclude();
-  if (intrinsic_007e(arg_06) == 2) {
-    /* global_address */
-    /* global_address */
-    /* global_address */
+  if (Item.getQuality(arg_06) == 2) {
     spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
     suspend;
     spawn LIFT.slot_20(arg_06);
     suspend;
     return;
   }
-  else if (intrinsic_007e(arg_06) == 20) {
-    /* global_address */
-    /* global_address */
-    /* global_address */
+  else if (Item.getQuality(arg_06) == 20) {
     spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
     suspend;
     spawn LIFT.slot_20(arg_06);

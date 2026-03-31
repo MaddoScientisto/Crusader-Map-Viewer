@@ -1,7 +1,7 @@
 function npc_slot_2b() /* entry=2580 class_id=0x0a12 slot=0x2b */
 {
   set_info(0x020a, *(arg_06));
-  local_02 = intrinsic_00d9(arg_06);
+  local_02 = Actor.getDefaultActivity2(arg_06);
   if (local_02 > 8) {
     local_02 = (local_02 - 8);
   }
@@ -11,12 +11,12 @@ function npc_slot_2b() /* entry=2580 class_id=0x0a12 slot=0x2b */
   /* create_list */
   /* in_list */
   if (0x01b4) {
-    if (!intrinsic_00d2(arg_06)) {
+    if (!Actor.setCombatTactic(arg_06)) {
       suspend;
     }
     return;
   }
-  else if (!intrinsic_00d2(arg_06)) {
+  else if (!Actor.setCombatTactic(arg_06)) {
     suspend;
   }
   return;

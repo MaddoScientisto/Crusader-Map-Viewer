@@ -2,8 +2,8 @@ function hover_ns_enterFastArea() /* entry=687 class_id=0x02ad slot=0x0f */
 {
   set_info(0x021b, *(arg_06));
   process_exclude();
-  if ((intrinsic_00b6(arg_06) & 32) == 0) {
-    if ((intrinsic_0004(arg_06) & 0x1000) == 0) {
+  if ((Ultima8Engine.clrAlertActive(arg_06) & 32) == 0) {
+    if ((Item.getStatus(arg_06) & 0x1000) == 0) {
       spawn HOVER.slot_21(*(arg_06), arg_06);
     }
   }

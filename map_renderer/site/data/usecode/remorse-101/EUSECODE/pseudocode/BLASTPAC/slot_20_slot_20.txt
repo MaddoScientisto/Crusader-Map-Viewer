@@ -11,8 +11,7 @@ function blastpac_slot_20() /* entry=925 class_id=0x039b slot=0x20 */
   }
   spawn ITEM.slot_28(pid, 1, 2, arg_10);
   suspend;
-  /* global_address */
-  if (intrinsic_0011() == 1) {
+  if (Actor.getMap(&global[0x003d]) == 1) {
     spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
     suspend;
     /* pop_global */
@@ -20,7 +19,6 @@ function blastpac_slot_20() /* entry=925 class_id=0x039b slot=0x20 */
       spawn ITEM.slot_28(pid, 0, 2, local_02);
       suspend;
       local_06 = local_02;
-      /* loopnext */
     }
     for local_02 in nearby_items(shape=REACTOR_CELL, origin=local_06) {
       spawn ITEM.slot_28(pid, 1, 0, local_02);
@@ -28,20 +26,17 @@ function blastpac_slot_20() /* entry=925 class_id=0x039b slot=0x20 */
       local_08 = local_02;
       spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
       suspend;
-      /* loopnext */
     }
-    /* global_address */
-    if (Kernel.resetRef()) {
+    if (Actor.isDead(&global[0x003d])) {
       return;
     }
     for local_02 in nearby_items(shape=NUMBERS, origin=local_06) {
-      spawn FREE.waitNTimerTicks(intrinsic_0018(pid, 20, 10), 0x00000000);
+      spawn FREE.waitNTimerTicks(UCMachine.rndRange(pid, 20, 10), 0x00000000);
       suspend;
-      /* loopnext */
     }
     local_04 = 0;
     while (local_04 <= 2) {
-      while (intrinsic_003a(22, local_08)) {
+      while (AudioProcess.isSFXPlayingForObject(22, local_08)) {
         spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
         suspend;
       }
@@ -52,9 +47,8 @@ function blastpac_slot_20() /* entry=925 class_id=0x039b slot=0x20 */
     for local_02 in nearby_items(shape=ELECTRODE, origin=local_06) {
       spawn ITEM.slot_28(pid, 0, 0, local_02);
       suspend;
-      spawn FREE.waitNTimerTicks(intrinsic_0018(pid, 10, 5), 0x00000000);
+      spawn FREE.waitNTimerTicks(UCMachine.rndRange(pid, 10, 5), 0x00000000);
       suspend;
-      /* loopnext */
     }
     spawn FREE.waitNTimerTicks(pid, 0x00c8, 0x00000000);
     suspend;
@@ -62,45 +56,39 @@ function blastpac_slot_20() /* entry=925 class_id=0x039b slot=0x20 */
     /* free_stack_string */
     suspend;
     for local_02 in selector_0x42(arg0=0x032a, arg1=0x0329, arg2=(50 * 32), origin=global[0x003d]) {
-      /* loopnext */
     }
     return;
   }
-  else if (intrinsic_0011() == 7) {
+  else if (Actor.getMap(&global[0x003d]) == 7) {
     /* pop_global */
     spawn FREE.waitNTimerTicks(1, pid, 10, 0x00000000);
     suspend;
     for local_02 in nearby_items(shape=COMM_CONSOLE, origin=global[0x003d]) {
       local_10 = local_02;
-      /* loopnext */
     }
     for local_02 in nearby_items(shape=RADAR_DISH, origin=local_10) {
       spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
       suspend;
-      local_14 = intrinsic_0013(local_02);
-      local_16 = Item.legal_create(local_02);
+      local_14 = Item.getX(local_02);
+      local_16 = Item.getY(local_02);
       local_18 = Item.getZ(local_02);
-      /* loopnext */
     }
     for local_02 in selector_0x42(arg0=0x01a5, arg1=0x01a4, arg2=(50 * 32), origin=local_10) {
       spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
       suspend;
-      /* loopnext */
     }
     spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
     suspend;
-    /* global_address */
-    if (Kernel.resetRef()) {
+    if (Actor.isDead(&global[0x003d])) {
       return;
     }
     for local_02 in nearby_items(shape=NUMBERS, origin=local_10) {
-      spawn FREE.waitNTimerTicks(intrinsic_0018(pid, 20, 10), 0x00000000);
+      spawn FREE.waitNTimerTicks(UCMachine.rndRange(pid, 20, 10), 0x00000000);
       suspend;
-      /* loopnext */
     }
     local_04 = 0;
     while (local_04 <= 2) {
-      while (intrinsic_003a(0x0096, local_10)) {
+      while (AudioProcess.isSFXPlayingForObject(0x0096, local_10)) {
         spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
         suspend;
       }
@@ -112,40 +100,34 @@ function blastpac_slot_20() /* entry=925 class_id=0x039b slot=0x20 */
     /* free_stack_string */
     suspend;
     for local_02 in selector_0x42(arg0=0x032a, arg1=0x0329, arg2=(50 * 32), origin=local_10) {
-      /* loopnext */
     }
     return;
   }
-  else if (intrinsic_0011() == 29) {
+  else if (Actor.getMap(&global[0x003d]) == 29) {
     spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
     suspend;
     /* pop_global */
     for local_02 in nearby_items(shape=LIGHT_TUBE, origin=global[0x003d]) {
       spawn ITEM.slot_28(pid, 0, 2, local_02);
       suspend;
-      /* loopnext */
     }
     for local_02 in nearby_items(shape=TUBE_PLATFORM, origin=global[0x003d]) {
-      /* loopnext */
     }
     spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
     suspend;
-    /* global_address */
-    if (Kernel.resetRef()) {
+    if (Actor.isDead(&global[0x003d])) {
       return;
     }
     else {
       for local_02 in nearby_items(shape=NUMBERS, origin=global[0x003d]) {
-        if (intrinsic_002b(local_02) == 0) {
-          spawn FREE.waitNTimerTicks(intrinsic_0018(pid, 30, 20), 0x00000000);
+        if (Item.getQLo(local_02) == 0) {
+          spawn FREE.waitNTimerTicks(UCMachine.rndRange(pid, 30, 20), 0x00000000);
           suspend;
         }
-        /* loopnext */
       }
       for local_02 in nearby_items(shape=0x03b0, origin=global[0x003d]) {
         spawn FREE.waitNTimerTicks(pid, 20, 0x00000000);
         suspend;
-        /* loopnext */
       }
       spawn FREE.slot_22(0x00000000);
       return;

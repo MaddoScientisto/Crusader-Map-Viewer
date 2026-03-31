@@ -1,116 +1,123 @@
 function fuspac_use() /* entry=926 class_id=0x039c slot=0x01 */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    InCrouch, /* [BP-01h] type=0x62 */
+    droppedPac, /* [BP-02h] type=0x62 */
+    Fusionpac, /* [BP-04h] type=0x24 */
+    target, /* [BP-06h] type=0x24 */
+    item, /* [BP-08h] type=0x24 */
+    counter, /* [BP-10h] type=0x69 */
+    lastAnim, /* [BP-12h] type=0x69 */
+    xOff, /* [BP-14h] type=0x69 */
+    yOff, /* [BP-16h] type=0x69 */
+    mine, /* [BP-18h] type=0x24 */
+    door; /* [BP-20h] type=0x24 */
+
   entry:
     set_info(0x0207, *(arg_06));
     process_exclude();
-    local_04 = *(arg_06);
+    Fusionpac = *(arg_06);
     set_info(0x00f0, 0);
-    /* global_address */
-    local_12 = intrinsic_00b9();
+    lastAnim = Actor.getLastAnimSet(&global[0x003c]);
 
   block_0117:
-    while (intrinsic_0033()) {
+    while (Actor.isBusy(&global[0x003c])) {
       spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
       suspend;
     }
 
   block_014d_selector_00:
-    /* loop_selector local_08 in nearby_items(shape=0x053a, origin=global[0x003c]) */
+    /* loop_selector item in nearby_items(shape=0x053a, origin=global[0x003c]) */
 
   block_016b:
     if !condition goto block_022d;
 
   block_016e:
-    local_06 = local_08;
+    target = item;
 
   block_0175:
-    while ((retval > 3) && (local_10 != 6)) {
-      /* global_address */
-      /* global_address */
-      /* global_address */
-      spawn NPC.slot_22(intrinsic_0034(intrinsic_0013(pid, 1, Item.legal_create(Item.legal_create(local_06), intrinsic_0013(local_06)))));
+    while ((retval > 3) && (counter != 6)) {
+      spawn NPC.slot_22(Item.getDirFromTo16(pid, 1, Item.getY(target), Item.getX(Item.getY(Item.getX(target), &global[0x003c]), &global[0x003c])), &global[0x003c]);
       suspend;
-      local_10 = (1 + local_10);
+      counter = (1 + counter);
     }
 
   block_01f6:
-    /* global_address */
-    /* global_address */
     suspend;
     goto block_022d;
 
   block_0229:
-    /* loopnext */
     goto block_016b;
 
   block_022d:
-    if (intrinsic_001c() == 0) {
-      local_14 = -1;
-      local_16 = -3;
+    if (Actor.getDir(&global[0x003c]) == 0) {
+      xOff = -1;
+      yOff = -3;
     }
-    else if (intrinsic_001c() == 1) {
-      local_14 = 0;
-      local_16 = -3;
+    else if (Actor.getDir(&global[0x003c]) == 1) {
+      xOff = 0;
+      yOff = -3;
     }
-    else if (intrinsic_001c() == 2) {
-      local_14 = 1;
-      local_16 = -3;
+    else if (Actor.getDir(&global[0x003c]) == 2) {
+      xOff = 1;
+      yOff = -3;
     }
-    else if (intrinsic_001c() == 3) {
-      local_14 = 2;
-      local_16 = -2;
+    else if (Actor.getDir(&global[0x003c]) == 3) {
+      xOff = 2;
+      yOff = -2;
     }
-    else if (intrinsic_001c() == 4) {
-      local_14 = 2;
-      local_16 = -1;
+    else if (Actor.getDir(&global[0x003c]) == 4) {
+      xOff = 2;
+      yOff = -1;
     }
-    else if (intrinsic_001c() == 5) {
-      local_14 = 2;
-      local_16 = 0;
+    else if (Actor.getDir(&global[0x003c]) == 5) {
+      xOff = 2;
+      yOff = 0;
     }
-    else if (intrinsic_001c() == 6) {
-      local_14 = 2;
-      local_16 = 2;
+    else if (Actor.getDir(&global[0x003c]) == 6) {
+      xOff = 2;
+      yOff = 2;
     }
-    else if (intrinsic_001c() == 7) {
-      local_14 = 0;
-      local_16 = 2;
+    else if (Actor.getDir(&global[0x003c]) == 7) {
+      xOff = 0;
+      yOff = 2;
     }
-    else if (intrinsic_001c() == 8) {
-      local_14 = -1;
-      local_16 = 2;
+    else if (Actor.getDir(&global[0x003c]) == 8) {
+      xOff = -1;
+      yOff = 2;
     }
-    else if (intrinsic_001c() == 9) {
-      local_14 = -2;
-      local_16 = 2;
+    else if (Actor.getDir(&global[0x003c]) == 9) {
+      xOff = -2;
+      yOff = 2;
     }
-    else if (intrinsic_001c() == 10) {
-      local_14 = -3;
-      local_16 = 2;
+    else if (Actor.getDir(&global[0x003c]) == 10) {
+      xOff = -3;
+      yOff = 2;
     }
-    else if (intrinsic_001c() == 11) {
-      local_14 = -3;
-      local_16 = 1;
+    else if (Actor.getDir(&global[0x003c]) == 11) {
+      xOff = -3;
+      yOff = 1;
     }
-    else if (intrinsic_001c() == 12) {
-      local_14 = -3;
-      local_16 = 0;
+    else if (Actor.getDir(&global[0x003c]) == 12) {
+      xOff = -3;
+      yOff = 0;
     }
-    else if (intrinsic_001c() == 13) {
-      local_14 = -3;
-      local_16 = -1;
+    else if (Actor.getDir(&global[0x003c]) == 13) {
+      xOff = -3;
+      yOff = -1;
     }
-    else if (intrinsic_001c() == 14) {
-      local_14 = -3;
-      local_16 = -2;
+    else if (Actor.getDir(&global[0x003c]) == 14) {
+      xOff = -3;
+      yOff = -2;
     }
-    else if (intrinsic_001c() == 15) {
-      local_14 = -3;
-      local_16 = -3;
+    else if (Actor.getDir(&global[0x003c]) == 15) {
+      xOff = -3;
+      yOff = -3;
     }
 
   block_040f:
-    if local_06 goto block_0481;
+    if target goto block_0481;
 
   block_0418:
     spawn FREE.slot_21(pid, 0x00b0, 0x00000000);
@@ -121,33 +128,27 @@ function fuspac_use() /* entry=926 class_id=0x039c slot=0x01 */
     goto block_0772;
 
   block_0481:
-    /* global_address */
-    if !intrinsic_0035() goto block_049b;
+    if !Actor.getSomeFlagProbablyCrouch(&global[0x003c]) goto block_049b;
 
   block_0491:
-    local_01 = 1;
+    InCrouch = 1;
     goto block_04d2;
 
   block_049b:
-    local_01 = 0;
-    /* global_address */
-    /* global_address */
+    InCrouch = 0;
     suspend;
 
   block_04d2:
-    /* global_address */
-    /* global_address */
-    /* global_address */
-    local_02 = 1;
+    droppedPac = 1;
 
   block_052c:
-    while (intrinsic_0033()) {
+    while (Actor.isBusy(&global[0x003c])) {
       spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
       suspend;
     }
 
   block_0562:
-    if !local_02 goto block_0772;
+    if !droppedPac goto block_0772;
 
   block_056a:
     /* str_to_ptr */
@@ -157,16 +158,14 @@ function fuspac_use() /* entry=926 class_id=0x039c slot=0x01 */
     spawn FREE.slot_24(1, 100, 0x00000000);
 
   block_056a_selector_00:
-    for local_08 in nearby_items(shape=0x0476, origin=global[0x003c]) {
-      if (intrinsic_00ae(local_08) == 33) {
-        FREE.slot_2f(0x03b5, local_08);
+    for item in nearby_items(shape=0x0476, origin=global[0x003c]) {
+      if (Item.getQLo(item) == 33) {
+        FREE.slot_2f(0x03b5, item);
       }
-      /* loopnext */
     }
 
   block_0609_selector_00:
-    for local_08 in selector_0x42(arg0=0x032a, arg1=0x0329, arg2=(50 * 32), origin=global[0x003c]) {
-      /* loopnext */
+    for item in selector_0x42(arg0=0x032a, arg1=0x0329, arg2=(50 * 32), origin=global[0x003c]) {
     }
 
   block_0652:
@@ -176,12 +175,11 @@ function fuspac_use() /* entry=926 class_id=0x039c slot=0x01 */
 
   block_0670:
     while (condition) {
-      if (intrinsic_00ae(local_08) == 10) {
-        local_20 = local_08;
-        spawn DOOR.slot_20(pid, local_20);
+      if (Item.getQLo(item) == 10) {
+        door = item;
+        spawn DOOR.slot_20(pid, door);
         suspend;
       }
-      /* loopnext */
     }
 
   block_06b2:
@@ -191,19 +189,16 @@ function fuspac_use() /* entry=926 class_id=0x039c slot=0x01 */
 
   block_06cf:
     while (condition) {
-      /* loopnext */
     }
 
   block_0706_selector_00:
-    for local_08 in nearby_items(shape=NPC_SPAWNER_04D0, origin=arg_06) {
-      if ((Item.getFrame(local_08) == 0) && (intrinsic_00ae(local_08) == 47)) {
+    for item in nearby_items(shape=NPC_SPAWNER_04D0, origin=arg_06) {
+      if ((Item.getFrame(item) == 0) && (Item.getQLo(item) == 47)) {
         suspend;
       }
-      /* loopnext */
     }
 
   block_0772:
     return;
 
-  /* decompilation stopped at SEARCH_SURFACE */
 }

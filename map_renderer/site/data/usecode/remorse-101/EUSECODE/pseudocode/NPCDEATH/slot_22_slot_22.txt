@@ -1,6 +1,6 @@
 function npcdeath_slot_22() /* entry=2590 class_id=0x0a1c slot=0x22 */
 {
-  local_08 = intrinsic_0029();
+  local_08 = Game.getDifficultyLevel();
   if (local_08 == 1) {
     local_06 = 50;
   }
@@ -13,46 +13,45 @@ function npcdeath_slot_22() /* entry=2590 class_id=0x0a1c slot=0x22 */
   else {
     local_06 = 40;
   }
-  if (((intrinsic_0016(arg_06) == 0x02fd) || (intrinsic_0016(arg_06) == 0x0319)) || (intrinsic_0016(arg_06) == 0x0384)) {
+  if (((Item.getShape(arg_06) == npcdeath_shape_02fd) || (Item.getShape(arg_06) == npcdeath_shape_0319)) || (Item.getShape(arg_06) == npcdeath_shape_0384)) {
     if (local_08 < 3) {
     }
   }
-  else if (intrinsic_0016(arg_06) == 0x0384) {
+  else if (Item.getShape(arg_06) == npcdeath_shape_0384) {
     if (local_08 < 3) {
     }
   }
-  else if ((intrinsic_0016(arg_06) == 0x0371) || (intrinsic_0016(arg_06) == 0x04d1)) {
+  else if ((Item.getShape(arg_06) == npcdeath_shape_0371) || (Item.getShape(arg_06) == npcdeath_shape_04d1)) {
     if (local_08 < 3) {
     }
-    else if (intrinsic_0018(100, 0) > 98) {
+    else if (UCMachine.rndRange(100, 0) > 98) {
     }
   }
-  else if (intrinsic_0016(arg_06) == 0x04d1) {
+  else if (Item.getShape(arg_06) == npcdeath_shape_04d1) {
   }
-  else if (intrinsic_0016(arg_06) == 0x0528) {
-    if (intrinsic_0018(100, 0) > 50) {
+  else if (Item.getShape(arg_06) == npcdeath_shape_0528) {
+    if (UCMachine.rndRange(100, 0) > 50) {
     }
   }
-  else if (intrinsic_0016(arg_06) == 0x01b4) {
+  else if (Item.getShape(arg_06) == npcdeath_shape_01b4) {
     if (local_08 < 3) {
     }
   }
-  else if (intrinsic_0016(arg_06) == 0x02df) {
+  else if (Item.getShape(arg_06) == npcdeath_shape_02df) {
     return;
   }
-  else if (((((((intrinsic_0016(arg_06) == 0x045d) || (intrinsic_0016(arg_06) == 0x0338)) || (intrinsic_0016(arg_06) == 0x02cb)) || (intrinsic_0016(arg_06) == 0x04e6)) || (intrinsic_0016(arg_06) == 0x03ac)) || (intrinsic_0016(arg_06) == 0x0385)) || (intrinsic_0016(arg_06) == 0x0383)) {
+  else if (((((((Item.getShape(arg_06) == 0x045d) || (Item.getShape(arg_06) == MECH_1)) || (Item.getShape(arg_06) == 0x02cb)) || (Item.getShape(arg_06) == 0x04e6)) || (Item.getShape(arg_06) == npcdeath_shape_03ac)) || (Item.getShape(arg_06) == 0x0385)) || (Item.getShape(arg_06) == 0x0383)) {
     ITEM.slot_23(0x1000, arg_06);
     return;
   }
   else {
-    /* global_address */
     local_09 = 1;
   }
   NPC.slot_2b(arg_06);
   if (!retval) {
-    if ((intrinsic_00e4() - global[0x001e]) < 0x1194) {
+    if ((Actor.getLastAnimSet() - global[0x001e]) < 0x1194) {
       if (local_09) {
-        local_11 = intrinsic_0018(10, 5);
+        local_11 = UCMachine.rndRange(10, 5);
         if (local_08 == 1) {
           local_11 = (local_11 * 3);
         }
@@ -61,7 +60,7 @@ function npcdeath_slot_22() /* entry=2590 class_id=0x0a1c slot=0x22 */
         }
       }
       else {
-        local_11 = intrinsic_0018(25, 15);
+        local_11 = UCMachine.rndRange(25, 15);
         if (local_08 == 1) {
           local_11 = (local_11 * 3);
         }
@@ -75,7 +74,6 @@ function npcdeath_slot_22() /* entry=2590 class_id=0x0a1c slot=0x22 */
   /* loop */
   while (condition) {
     local_12 = 1;
-    /* loopnext */
   }
   if (!local_12) {
     ITEM.slot_23(0x1000, arg_06);

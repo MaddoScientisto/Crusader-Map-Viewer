@@ -1,8 +1,14 @@
 function nostril_slot_20() /* entry=1088 class_id=0x043e slot=0x20 */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    fire, /* [BP+10h] type=0x24 */
+    count, /* [BP-02h] type=0x69 */
+    fire2; /* [BP-04h] type=0x24 */
+
   set_info(1, *(arg_06));
-  if (intrinsic_00a7()) {
-    while (Item.getFrame(local_04) != 21) {
+  if (Egg.getEggXRange()) {
+    while (Item.getFrame(fire2) != 21) {
       spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
       suspend;
     }
@@ -13,5 +19,4 @@ function nostril_slot_20() /* entry=1088 class_id=0x043e slot=0x20 */
   }
   ITEM.slot_24(0x1000, arg_06);
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

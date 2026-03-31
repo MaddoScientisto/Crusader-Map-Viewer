@@ -1,7 +1,7 @@
 function roll_ew_slot_21() /* entry=1390 class_id=0x056c slot=0x21 */
 {
   set_info(0x0001, *(arg_06));
-  local_06 = intrinsic_00f2(arg_06);
+  local_06 = Item.getNpcNum(arg_06);
   local_02 = (local_06 & 31);
   if (local_02 == 0) {
     local_02 = 1;
@@ -19,9 +19,9 @@ function roll_ew_slot_21() /* entry=1390 class_id=0x056c slot=0x21 */
         local_04 = 3;
       }
       local_19 = (local_19 + 8);
-      if (intrinsic_0044(0, 0, local_19, arg_06) == 0) {
+      if (Item.getQHi(0, 0, local_19, arg_06) == 0) {
         local_15 = (1 + local_15);
-        if (intrinsic_0044(0, 0, local_19, arg_06) == 0) {
+        if (Item.getQHi(0, 0, local_19, arg_06) == 0) {
           spawn ROLL_EW.slot_20(pid, arg_06);
           suspend;
           return;
@@ -29,7 +29,7 @@ function roll_ew_slot_21() /* entry=1390 class_id=0x056c slot=0x21 */
       }
       if (local_15 > 1) {
         local_15 = (local_15 - 4);
-        if (intrinsic_0044(0, 0, local_19, arg_06) == 0) {
+        if (Item.getQHi(0, 0, local_19, arg_06) == 0) {
           local_15 = (local_15 + 4);
         }
         local_23 = (local_24 - local_15);
@@ -53,9 +53,9 @@ function roll_ew_slot_21() /* entry=1390 class_id=0x056c slot=0x21 */
         local_04 = 0;
       }
       local_19 = (local_19 - 8);
-      if (intrinsic_0044(0, 0, local_19, arg_06) == 0) {
+      if (Item.getQHi(0, 0, local_19, arg_06) == 0) {
         local_15 = (1 + local_15);
-        if (intrinsic_0044(0, 0, local_19, arg_06) == 0) {
+        if (Item.getQHi(0, 0, local_19, arg_06) == 0) {
           spawn ROLL_EW.slot_20(pid, arg_06);
           suspend;
           return;
@@ -63,7 +63,7 @@ function roll_ew_slot_21() /* entry=1390 class_id=0x056c slot=0x21 */
       }
       if (local_15 > 1) {
         local_15 = (local_15 - 4);
-        if (intrinsic_0044(0, 0, local_19, arg_06) == 0) {
+        if (Item.getQHi(0, 0, local_19, arg_06) == 0) {
           local_15 = (local_15 + 4);
         }
         local_23 = (local_24 - local_15);

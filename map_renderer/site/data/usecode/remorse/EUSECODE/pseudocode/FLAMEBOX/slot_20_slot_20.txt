@@ -8,7 +8,7 @@ function flamebox_slot_20() /* entry=1029 class_id=0x0403 slot=0x20 */
     flame2; /* [BP-04h] type=0x24 */
 
   set_info(0x00f0, *(arg_06));
-  if (intrinsic_00a6()) {
+  if (getAnimationsDisabled()) {
     while ((Item.getFrame(flame) != 5) && (Item.isOnScreen(flame) == 1)) {
       spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
       suspend;
@@ -17,11 +17,11 @@ function flamebox_slot_20() /* entry=1029 class_id=0x0403 slot=0x20 */
   ITEM.slot_23(4, flame);
   spawn FLAME.slot_20(flame);
   if (direction == 0) {
-    if (intrinsic_00a6()) {
+    if (getAnimationsDisabled()) {
     }
   }
   else if (direction == 1) {
-    if (intrinsic_00a6()) {
+    if (getAnimationsDisabled()) {
     }
   }
   ITEM.slot_23(4, flame2);

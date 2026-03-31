@@ -1,17 +1,20 @@
 function steamegg_hatch() /* entry=2335 class_id=0x091d slot=0x07 */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    sBox, /* [BP-02h] type=0x24 */
+    id; /* [BP-04h] type=0x69 */
+
   set_info(0x0210, *(arg_06));
   process_exclude();
-  local_04 = intrinsic_003f(arg_06);
-  for local_02 in nearby_items(shape=STEAMBOX_HAZARD_CONTROLLER, origin=arg_06) {
-    if (intrinsic_00ea(local_02) == local_04) {
+  id = Egg.getEggId(arg_06);
+  for sBox in nearby_items(shape=STEAMBOX_HAZARD_CONTROLLER, origin=arg_06) {
+    if (Item.getQLo(sBox) == id) {
       suspend;
       spawn FREE.waitNTimerTicks(pid, 0x015e, 0x00000000);
       suspend;
       suspend;
     }
-    /* loopnext */
   }
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

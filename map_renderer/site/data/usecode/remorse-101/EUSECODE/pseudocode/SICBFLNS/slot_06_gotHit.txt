@@ -3,40 +3,31 @@ function sicbflns_gotHit() /* entry=739 class_id=0x02e1 slot=0x06 */
   set_info(0x020c, *(arg_06));
   process_exclude();
   local_02 = arg_10;
-  if (((arg_10 == 1) && (Item.getFrame(arg_06) == 0)) && (intrinsic_00ed(arg_06) == 0)) {
-    if (!intrinsic_0057(*(arg_06), local_02)) {
+  if (((arg_10 == 1) && (Item.getFrame(arg_06) == 0)) && (Item.popToContainer(arg_06) == 0)) {
+    if (!Item.getSurfaceWeight(*(arg_06), local_02)) {
       return;
     }
     else {
-      /* global_address */
-      while (intrinsic_0033()) {
+      while (Actor.isBusy(&global[0x003d])) {
         spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
         suspend;
       }
-      /* global_address */
-      /* global_address */
       suspend;
       for local_02 in nearby_items(shape=DOOR_CORNER_LOWER_RIGHT, origin=arg_06) {
-        /* loopnext */
       }
       for local_02 in nearby_items(shape=HEALTH_STATION_BACK, origin=arg_06) {
-        /* loopnext */
       }
       for local_02 in nearby_items(shape=HEALTH_STATION_TOP, origin=arg_06) {
-        /* loopnext */
       }
-      while (intrinsic_00e8(0x0254, global[0x003d])) {
+      while (Item.cast(0x0254, global[0x003d])) {
         spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
         suspend;
       }
       for local_02 in nearby_items(shape=DOOR_CORNER_LOWER_RIGHT, origin=arg_06) {
-        /* loopnext */
       }
       for local_02 in nearby_items(shape=HEALTH_STATION_TOP, origin=arg_06) {
-        /* loopnext */
       }
       for local_02 in nearby_items(shape=HEALTH_STATION_BACK, origin=arg_06) {
-        /* loopnext */
       }
     }
   }

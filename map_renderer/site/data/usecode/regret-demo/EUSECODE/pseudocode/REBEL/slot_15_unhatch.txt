@@ -2,10 +2,9 @@ function rebel_unhatch() /* entry=2329 class_id=0x0917 slot=0x15 */
 {
   set_info(0x0239, *(arg_06));
   process_exclude();
-  if (intrinsic_003e(arg_06) == 2) {
+  if (Item.callEvent11(arg_06) == 2) {
     for local_04 in nearby_items(family=1, origin=arg_06) {
       spawn DOOR.slot_21(2, local_04);
-      /* loopnext */
     }
   }
   return;

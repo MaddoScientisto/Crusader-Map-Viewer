@@ -1,17 +1,17 @@
 function free_slot_32() /* entry=2574 class_id=0x0a0c slot=0x32 */
 {
   set_info(9, 0);
-  local_08 = intrinsic_00ac();
-  local_04 = intrinsic_00ac();
+  local_08 = Item.getFamilyOfType();
+  local_04 = Item.getFamilyOfType();
   if (arg_06 < 1) {
     return;
   }
   else {
     suspend;
-    local_08 = intrinsic_00ac();
+    local_08 = Item.getFamilyOfType();
     while (true) {
       suspend;
-      local_08 = intrinsic_00ac();
+      local_08 = Item.getFamilyOfType();
       if (local_08 != local_04) {
         local_04 = local_08;
         arg_06 = (arg_06 - 1);

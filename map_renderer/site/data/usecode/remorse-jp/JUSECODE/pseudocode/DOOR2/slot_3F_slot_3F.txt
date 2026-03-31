@@ -1,18 +1,22 @@
 function door2_slot_3f() /* entry=2569 class_id=0x0a07 slot=0x3f */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    counter, /* [BP-02h] type=0x69 */
+    item; /* [BP-04h] type=0x24 */
+
   set_info(0x0207, *(arg_06));
   spawn DOOR.slot_22(pid, arg_06);
   suspend;
-  local_02 = 1;
-  while (local_02 <= 4) {
+  counter = 1;
+  while (counter <= 4) {
     spawn FREE.slot_32(pid, 5, 0x00000000);
     suspend;
-    local_02 = (1 + local_02);
+    counter = (1 + counter);
   }
-  if (intrinsic_0016(arg_06) == 0x03f8) {
+  if (Item.getShape(arg_06) == 0x03f8) {
   }
   /* word_to_dword */
   /* pop_result */
   return;
-  /* decompilation stopped at SEARCH_SURFACE */
 }

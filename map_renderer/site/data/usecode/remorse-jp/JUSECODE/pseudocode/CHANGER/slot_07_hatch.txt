@@ -9,15 +9,14 @@ function changer_hatch() /* entry=2310 class_id=0x0904 slot=0x07 */
 
   set_info(0x0210, *(arg_06));
   process_exclude();
-  doorQuality = intrinsic_002e(arg_06);
-  eggNum = intrinsic_0041(arg_06);
+  doorQuality = legalMoveToPoint(arg_06);
+  eggNum = CameraProcess.setCenterOn(arg_06);
   if (eggNum) {
     /* loopscr */
     /* loopscr */
     /* loop */
     while (condition) {
-      roofQuality = intrinsic_002e(roof);
-      /* loopnext */
+      roofQuality = legalMoveToPoint(roof);
     }
   }
   return;

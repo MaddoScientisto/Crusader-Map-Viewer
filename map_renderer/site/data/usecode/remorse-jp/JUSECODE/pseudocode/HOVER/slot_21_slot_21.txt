@@ -1,68 +1,82 @@
 function hover_slot_21() /* entry=2576 class_id=0x0a0e slot=0x21 */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    h, /* [BP-02h] type=0x69 */
+    firstEgg, /* [BP-04h] type=0x69 */
+    targetEgg, /* [BP-06h] type=0x69 */
+    time, /* [BP-08h] type=0x69 */
+    oldqhi, /* [BP-10h] type=0x69 */
+    link, /* [BP-12h] type=0x69 */
+    tx, /* [BP-14h] type=0x69 */
+    ty, /* [BP-16h] type=0x69 */
+    tz, /* [BP-17h] type=0x62 */
+    hover, /* [BP-19h] type=0x24 */
+    item; /* [BP-21h] type=0x24 */
+
   entry:
     set_info(1, 0);
-    local_19 = arg_10;
-    local_02 = intrinsic_00c0(local_19);
-    local_10 = local_02;
-    local_04 = (local_02 & 15);
-    local_06 = local_04;
+    hover = ref;
+    h = Item.hurl(hover);
+    oldqhi = h;
+    firstEgg = (h & 15);
+    targetEgg = firstEgg;
 
   block_0f73:
     if !(1) goto block_1256;
 
   block_0f7b:
-    if (intrinsic_0004(local_19) & 0x1000) != 0 goto block_0fc9;
+    if (Item.getStatus(hover) & 0x1000) != 0 goto block_0fc9;
 
   block_0f91:
-    spawn HOVER.slot_23(pid, 1, arg_10, arg_06);
+    spawn HOVER.slot_23(pid, 1, ref, arg_06);
     suspend;
     goto block_1256;
 
   block_0fc9:
-    local_12 = intrinsic_00b0(local_19);
-    local_14 = -1;
+    link = Item.unequip(hover);
+    tx = -1;
 
   block_0fc9_selector_00:
-    /* loop_selector local_21 in nearby_items(shape=NUMBERS, origin=arg_10) */
+    /* loop_selector item in nearby_items(shape=NUMBERS, origin=ref) */
 
   block_0ffa:
     if !condition goto block_106c;
 
   block_0ffd:
-    if Item.getFrame(local_21) != local_06 goto block_1068;
+    if Item.getFrame(item) != targetEgg goto block_1068;
 
   block_100f:
-    if (local_12 != 0) || (local_12 == intrinsic_00b0(local_21)) goto block_1068;
+    if (link != 0) || (link == Item.unequip(item)) goto block_1068;
 
   block_102a:
-    local_14 = intrinsic_0013(local_21);
-    local_16 = Item.legal_create(local_21);
-    local_17 = Item.getZ(local_21);
-    local_08 = intrinsic_00c0(local_21);
+    tx = Item.getX(item);
+    ty = Item.getY(item);
+    tz = Item.getZ(item);
+    time = Item.hurl(item);
     goto block_106c;
 
   block_1068:
-    /* loopnext */
     goto block_0ffa;
 
   block_106c:
-    if local_14 != -1 goto block_10ce;
+    if tx != -1 goto block_10ce;
 
   block_1079:
-    if local_06 != local_04 goto block_10a6;
+    if targetEgg != firstEgg goto block_10a6;
 
   block_1084:
     /* bit_not */
     goto block_1256;
 
   block_10a6:
-    local_06 = local_04;
-    local_02 = (local_02 & 0x00f0);
+    targetEgg = firstEgg;
+    h = (h & 0x00f0);
     goto block_0f73;
 
   block_10ce:
-    spawn HOVER.slot_20(pid, local_17, local_16, local_14, arg_10, arg_06);
+    spawn HOVER.slot_20(pid, tz, ty, tx, ref, arg_06);
     suspend;
     /* dword_to_word */
     if process_result != 1 goto block_1112;
@@ -71,48 +85,47 @@ function hover_slot_21() /* entry=2576 class_id=0x0a0e slot=0x21 */
     goto block_1256;
 
   block_1112:
-    spawn HOVER.slot_24(pid, local_06, arg_10, arg_06);
+    spawn HOVER.slot_24(pid, targetEgg, ref, arg_06);
     suspend;
-    if (intrinsic_0004(local_19) & 0x1000) != 0 goto block_1185;
+    if (Item.getStatus(hover) & 0x1000) != 0 goto block_1185;
 
   block_114d:
-    spawn HOVER.slot_23(pid, 1, arg_10, arg_06);
+    spawn HOVER.slot_23(pid, 1, ref, arg_06);
     suspend;
     goto block_1256;
 
   block_1185:
-    if !(local_02 & 0x0080) goto block_11ba;
+    if !(h & 0x0080) goto block_11ba;
 
   block_1191:
-    spawn TRIGGER.slot_20(pid, (0 + 0x0080), local_21, arg_06);
+    spawn TRIGGER.slot_20(pid, (0 + 0x0080), item, arg_06);
     suspend;
 
   block_11ba:
-    if local_08 == 0 goto block_11ee;
+    if time == 0 goto block_11ee;
 
   block_11c5:
-    spawn FREE.slot_32(pid, (local_08 * 10), 0x00000000);
+    spawn FREE.slot_32(pid, (time * 10), 0x00000000);
     suspend;
 
   block_11ee:
-    local_02 = intrinsic_00c0(local_19);
-    if (local_02 & 15) != local_06 goto block_1220;
+    h = Item.hurl(hover);
+    if (h & 15) != targetEgg goto block_1220;
 
   block_1210:
-    local_06 = ((local_06 + 1) & 15);
+    targetEgg = ((targetEgg + 1) & 15);
     goto block_1238;
 
   block_1220:
-    local_04 = (local_02 & 15);
-    local_06 = local_04;
-    local_10 = local_02;
+    firstEgg = (h & 15);
+    targetEgg = firstEgg;
+    oldqhi = h;
 
   block_1238:
-    local_02 = (local_02 & 0x00f0);
+    h = (h & 0x00f0);
     goto block_0f73;
 
   block_1256:
     return;
 
-  /* decompilation stopped at SEARCH_SURFACE */
 }

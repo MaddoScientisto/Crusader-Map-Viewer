@@ -18,10 +18,9 @@ function dicor3_gotHit() /* entry=171 class_id=0x00a9 slot=0x06 */
       if (retval) {
         spawn NPC.slot_2c(local_06);
       }
-      else if (!intrinsic_007b(local_06)) {
+      else if (!Ultima8Engine.getUnkCrusaderFlag(local_06)) {
         spawn NPC.slot_2d(3, local_06);
       }
-      /* loopnext */
     }
   }
   return;

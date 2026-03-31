@@ -3,8 +3,8 @@ function cameraew_enterFastArea() /* entry=473 class_id=0x01d7 slot=0x0f */
   entry:
     set_info(0x021b, *(arg_06));
     process_exclude();
-    local_02 = ((5 - intrinsic_000a()) * 5);
-    local_04 = (5 - (intrinsic_000a() * 5));
+    local_02 = ((5 - World.gameDifficulty()) * 5);
+    local_04 = (5 - (World.gameDifficulty() * 5));
     if Item.getFrame(arg_06) != 9 goto block_010b;
 
   block_0108:
@@ -30,20 +30,20 @@ function cameraew_enterFastArea() /* entry=473 class_id=0x01d7 slot=0x0f */
       }
       spawn FREE.slot_3b(pid, local_02, 0x00000000);
       suspend;
-      if (intrinsic_0016() != 0) {
-        local_16 = intrinsic_0016();
+      if (World.getControlledNPCNum() != 0) {
+        local_16 = World.getControlledNPCNum();
       }
       else {
         local_16 = 1;
       }
-      local_20 = intrinsic_0023(15, 0, 16, Item.getY(local_16), Item.getX(local_16), Item.getY(arg_06), Item.getX(arg_06));
+      local_20 = Item.getClosestDirectionInRange(15, 0, 16, Item.getY(local_16), Item.getX(local_16), Item.getY(arg_06), Item.getX(arg_06));
       local_08 = Item.getFrame(arg_06);
       if ((8 - local_20) == local_08) {
-        local_18 = intrinsic_0036(local_16, arg_06);
+        local_18 = Intrinsic0036(local_16, arg_06);
         if (local_18) {
           local_12 = 1;
           local_06 = (1 + local_06);
-          if ((local_06 > local_04) && (!(intrinsic_0004(arg_06) & 4))) {
+          if ((local_06 > local_04) && (!(Item.getStatus(arg_06) & 4))) {
             spawn FREE.slot_3b(pid, local_02, 0x00000000);
             suspend;
             spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
