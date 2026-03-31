@@ -5,6 +5,7 @@ import path from "node:path";
 import { CACHE_ROOT, CATALOG_ROOT } from "../config.js";
 
 const USECODE_CACHE_ROOT = path.join(CACHE_ROOT, "usecode");
+const USECODE_CACHE_SCHEMA_VERSION = 2;
 const DISASM_OPCODE_TABLE_PATH = path.resolve(CACHE_ROOT, "..", "..", "..", "crusader-disasm", "usecode_opcodes.txt");
 
 const EVENT_NAME_HINTS = {
@@ -1621,14 +1622,15 @@ function computeSourceStamp(filePaths) {
 function resolveUsecodePaths(gameConfig) {
   const directories = [gameConfig.staticDir, ...(gameConfig.fallbackStaticDirs ?? [])];
   const names = [...new Set([gameConfig.usecodeFileName, "EUSECODE.FLX", "JUSECODE.FLX", "USECODE.FLX"].filter(Boolean))];
-  const results = [];
-  for (const directory of directories) {
-    for (const name of names) {
+  for (const name of names) {
+    for (const directory of directories) {
       const candidate = path.join(directory, name);
-      if (fs.existsSync(candidate)) results.push(candidate);
+      if (fs.existsSync(candidate)) {
+        return [candidate];
+      }
     }
   }
-  return [...new Set(results)];
+  return [];
 }
 
 export function getGameUsecodeCacheRoot(gameId) {
@@ -1650,7 +1652,11 @@ export function ensureGameUsecodeCache(gameConfig) {
   if (fs.existsSync(manifestPath)) {
     try {
       const manifest = JSON.parse(fs.readFileSync(manifestPath, "utf8"));
-      if (manifest.stamp === stamp && fs.existsSync(path.join(cacheRoot, "index.json"))) {
+      if (
+        manifest.schemaVersion === USECODE_CACHE_SCHEMA_VERSION
+        && manifest.stamp === stamp
+        && fs.existsSync(path.join(cacheRoot, "index.json"))
+      ) {
         return { cacheRoot, indexPath: path.join(cacheRoot, "index.json"), stamp };
       }
     } catch {
@@ -1698,7 +1704,7 @@ export function ensureGameUsecodeCache(gameConfig) {
   }
 
   fs.writeFileSync(path.join(cacheRoot, "index.json"), JSON.stringify(index, null, 2), "utf8");
-  fs.writeFileSync(manifestPath, JSON.stringify({ stamp, sources: sourcePaths }, null, 2), "utf8");
+  fs.writeFileSync(manifestPath, JSON.stringify({ schemaVersion: USECODE_CACHE_SCHEMA_VERSION, stamp, sources: sourcePaths }, null, 2), "utf8");
   return { cacheRoot, indexPath: path.join(cacheRoot, "index.json"), stamp };
 }
 

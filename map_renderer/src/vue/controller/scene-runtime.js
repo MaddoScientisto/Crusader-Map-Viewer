@@ -1,4 +1,5 @@
 export function createSceneRuntimeController(deps) {
+  const USECODE_STATE_EVENT = "crusader-map-renderer:scene-changed";
   const {
     state,
     viewport,
@@ -624,6 +625,7 @@ export function createSceneRuntimeController(deps) {
     }
     rememberViewport(selected);
     writeViewerPreferences();
+    window.dispatchEvent(new CustomEvent(USECODE_STATE_EVENT, { detail: { game: selected.game, mapId: selected.mapId } }));
   }
 
   async function loadStaticScene(selected, token, preservedView) {
@@ -1270,6 +1272,7 @@ export function createSceneRuntimeController(deps) {
     resizeCanvas();
     setInspectMode(false);
     updateEggPlacementButtonState();
+    window.dispatchEvent(new CustomEvent(USECODE_STATE_EVENT, { detail: { game: null, mapId: null } }));
   }
 
   return {
