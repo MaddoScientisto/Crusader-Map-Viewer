@@ -72,6 +72,17 @@ function fileStamp(filePath) {
   return `${path.basename(filePath)}:${stat.size}:${Math.trunc(stat.mtimeMs)}`;
 }
 
+function resolveGameAssetPath(gameConfig, name) {
+  const directories = [gameConfig.staticDir, ...(gameConfig.fallbackStaticDirs ?? [])];
+  for (const directory of directories) {
+    const candidate = path.join(directory, name);
+    if (fs.existsSync(candidate)) {
+      return candidate;
+    }
+  }
+  return resolveStaticFile(gameConfig.staticDir, name);
+}
+
 function resolveOptionalXformPath(gameConfig) {
   const explicitPath = gameConfig.gameId === "remorse" ? process.env.REMORSE_XFORMPAL_PATH : process.env.REGRET_XFORMPAL_PATH;
   if (explicitPath && fs.existsSync(explicitPath)) {
@@ -733,11 +744,11 @@ export class BuildManager {
 
   computeBuildFingerprint(gameConfig, mapId, options, catalogInfo, dtableInfo) {
     const relevantFiles = [
-      resolveStaticFile(gameConfig.staticDir, "FIXED.DAT"),
-      resolveStaticFile(gameConfig.staticDir, "GAMEPAL.PAL"),
-      resolveStaticFile(gameConfig.staticDir, "TYPEFLAG.DAT"),
-      resolveStaticFile(gameConfig.staticDir, "GLOB.FLX"),
-      resolveStaticFile(gameConfig.staticDir, "SHAPES.FLX")
+      resolveGameAssetPath(gameConfig, "FIXED.DAT"),
+      resolveGameAssetPath(gameConfig, "GAMEPAL.PAL"),
+      resolveGameAssetPath(gameConfig, "TYPEFLAG.DAT"),
+      resolveGameAssetPath(gameConfig, "GLOB.FLX"),
+      resolveGameAssetPath(gameConfig, "SHAPES.FLX")
     ];
     const xformPath = resolveOptionalXformPath(gameConfig);
     if (xformPath) {
@@ -758,7 +769,7 @@ export class BuildManager {
 
   ensureCatalogCoverage(gameConfig, mapId) {
     const assets = this.getAssets(gameConfig);
-    const fixedDatPath = resolveStaticFile(gameConfig.staticDir, "FIXED.DAT");
+    const fixedDatPath = resolveGameAssetPath(gameConfig, "FIXED.DAT");
     const baseItems = loadMapItems(fixedDatPath, mapId);
     const renderItems = collectRenderItems(baseItems, assets.shapeInfos, assets.globs, {
       includeEditor: true,
@@ -838,11 +849,11 @@ export class BuildManager {
   }
 
   getAssets(gameConfig) {
-    const palettePath = resolveStaticFile(gameConfig.staticDir, "GAMEPAL.PAL");
-    const typeflagPath = resolveStaticFile(gameConfig.staticDir, "TYPEFLAG.DAT");
-    const globPath = resolveStaticFile(gameConfig.staticDir, "GLOB.FLX");
-    const shapesPath = resolveStaticFile(gameConfig.staticDir, "SHAPES.FLX");
-    const dtablePath = resolveStaticFile(gameConfig.staticDir, "DTABLE.FLX");
+    const palettePath = resolveGameAssetPath(gameConfig, "GAMEPAL.PAL");
+    const typeflagPath = resolveGameAssetPath(gameConfig, "TYPEFLAG.DAT");
+    const globPath = resolveGameAssetPath(gameConfig, "GLOB.FLX");
+    const shapesPath = resolveGameAssetPath(gameConfig, "SHAPES.FLX");
+    const dtablePath = resolveGameAssetPath(gameConfig, "DTABLE.FLX");
     const xformPath = resolveOptionalXformPath(gameConfig);
     const stamp = [palettePath, typeflagPath, globPath, shapesPath, dtablePath, xformPath].filter(Boolean).map((filePath) => fileStamp(filePath)).join("|");
     const cached = this.assetCache.get(gameConfig.id);
@@ -890,7 +901,7 @@ export class BuildManager {
     }
 
     const assets = this.getAssets(gameConfig);
-    const fixedDatPath = resolveStaticFile(gameConfig.staticDir, "FIXED.DAT");
+    const fixedDatPath = resolveGameAssetPath(gameConfig, "FIXED.DAT");
     hooks.progress?.("loading-map", `Loading FIXED.DAT map ${mapId}`);
     const mapPayload = loadMapPayload(fixedDatPath, mapId);
     const baseItems = loadMapItems(fixedDatPath, mapId);

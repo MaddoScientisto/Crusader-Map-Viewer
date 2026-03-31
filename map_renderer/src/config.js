@@ -34,7 +34,10 @@ export const GAMES = [
     selectorLabel: "No Remorse",
     catalogId: "remorse",
     tableId: "remorse",
-    staticDir: REMORSE_STATIC_DIR
+    staticDir: REMORSE_STATIC_DIR,
+    fallbackStaticDirs: [],
+    usecodeFileName: "EUSECODE.FLX",
+    supportsMissionMapExtraction: true
   },
   {
     id: "remorse-101",
@@ -45,7 +48,12 @@ export const GAMES = [
     selectorLabel: "No Remorse 1.01",
     catalogId: "remorse",
     tableId: "remorse",
-    staticDir: REMORSE_STATIC_101_DIR
+    staticDir: REMORSE_STATIC_101_DIR,
+    fallbackStaticDirs: [REMORSE_STATIC_DIR],
+    usecodeFileName: "EUSECODE.FLX",
+    supportsMissionMapExtraction: true,
+    missionTableAbsoluteFileOffset: 0x0e16c6,
+    missionTableEntryCount: 17
   },
   {
     id: "remorse-demo",
@@ -56,7 +64,12 @@ export const GAMES = [
     selectorLabel: "No Remorse Demo",
     catalogId: "remorse",
     tableId: "remorse",
-    staticDir: REMORSE_STATIC_DEMO_DIR
+    staticDir: REMORSE_STATIC_DEMO_DIR,
+    fallbackStaticDirs: [REMORSE_STATIC_DIR],
+    usecodeFileName: "EUSECODE.FLX",
+    supportsMissionMapExtraction: true,
+    missionTableAbsoluteFileOffset: 0x0e3a88,
+    missionTableEntryCount: 17
   },
   {
     id: "remorse-jp",
@@ -67,7 +80,14 @@ export const GAMES = [
     selectorLabel: "No Remorse Japanese",
     catalogId: "remorse",
     tableId: "remorse",
-    staticDir: REMORSE_STATIC_JP_DIR
+    staticDir: REMORSE_STATIC_JP_DIR,
+    fallbackStaticDirs: [REMORSE_STATIC_DIR],
+    usecodeFileName: "JUSECODE.FLX",
+    supportsMissionMapExtraction: true,
+    missionTableBaseMaps: [0, 1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23, 25, 27, 29, 40],
+    missionTableAddress: "0x0047b72c",
+    missionTableConsumerFunction: "FUN_00428e00",
+    missionTableConsumerAddress: "0x00429056"
   },
   {
     id: "regret",
@@ -78,6 +98,9 @@ export const GAMES = [
     selectorLabel: "No Regret",
     catalogId: "regret",
     tableId: "regret",
-    staticDir: REGRET_STATIC_DIR
+    staticDir: REGRET_STATIC_DIR,
+    fallbackStaticDirs: [],
+    usecodeFileName: "EUSECODE.FLX",
+    supportsMissionMapExtraction: true
   }
 ];

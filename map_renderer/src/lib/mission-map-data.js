@@ -68,10 +68,81 @@ function resolveExePath(profile, gameEntry) {
   );
 }
 
-export function extractMissionMapTable(profile, exePath) {
+function buildMissionMapTableFromBaseMaps(profile, baseMaps, options = {}) {
+  const entries = baseMaps.map((baseMap, mission) => ({
+    mission,
+    baseMap,
+    address: options.tableAddress && profile.tableOffset !== undefined
+      ? options.addresses?.[mission] ?? null
+      : options.addresses?.[mission] ?? null
+  }));
+  const mapToMissions = {};
+  for (const entry of entries) {
+    const key = String(entry.baseMap);
+    if (!mapToMissions[key]) {
+      mapToMissions[key] = [];
+    }
+    mapToMissions[key].push(entry.mission);
+  }
+
+  return {
+    game: profile.game,
+    gameLabel: profile.gameLabel,
+    exeName: profile.exeName,
+    dataSegment: profile.dataSegment,
+    tableAddress: options.tableAddress ?? segmentAddress(profile, profile.tableOffset),
+    tableFileOffset: options.tableFileOffset ?? null,
+    terminatorAddress: options.terminatorAddress ?? null,
+    terminatorFileOffset: options.terminatorFileOffset ?? null,
+    consumerFunction: options.consumerFunction ?? profile.consumerFunction,
+    consumerAddress: options.consumerAddress ?? profile.consumerAddress,
+    entryCount: entries.length,
+    baseMaps,
+    entries,
+    mapToMissions,
+    notes: options.notes ?? []
+  };
+}
+
+export function extractMissionMapTable(profile, exePath, gameEntry = null) {
   const data = fs.readFileSync(exePath);
-  const tableFileOffset = profile.dataSegmentFileOffset + profile.tableOffset;
+  const explicitTableFileOffset = Number.isInteger(gameEntry?.missionTableAbsoluteFileOffset)
+    ? gameEntry.missionTableAbsoluteFileOffset
+    : null;
+  const dataSegmentFileOffset = gameEntry?.missionTableDataSegmentFileOffset ?? profile.dataSegmentFileOffset;
+  const tableFileOffset = explicitTableFileOffset ?? (dataSegmentFileOffset + profile.tableOffset);
+  const entryCountOverride = Number.isInteger(gameEntry?.missionTableEntryCount) ? gameEntry.missionTableEntryCount : null;
   const entries = [];
+
+  if (entryCountOverride !== null) {
+    for (let mission = 0; mission < entryCountOverride; mission += 1) {
+      const entryOffset = tableFileOffset + mission * 2;
+      if (entryOffset + 2 > data.length) {
+        throw new Error(`Mission map table for ${profile.game} runs past EOF at ${toHex(entryOffset, 6)}`);
+      }
+      entries.push({
+        mission,
+        baseMap: readU16LE(data, entryOffset),
+        address: segmentAddress(profile, profile.tableOffset + mission * 2)
+      });
+    }
+
+    return buildMissionMapTableFromBaseMaps(
+      profile,
+      entries.map((entry) => entry.baseMap),
+      {
+        tableAddress: segmentAddress(profile, profile.tableOffset),
+        tableFileOffset: toHex(tableFileOffset, 6),
+        consumerFunction: profile.consumerFunction,
+        consumerAddress: profile.consumerAddress,
+        addresses: entries.map((entry) => entry.address),
+        notes: [
+          `${profile.exeName} mission table extracted from version-specific offset ${toHex(tableFileOffset, 6)} with a fixed ${entryCountOverride}-entry length override.`,
+          `This version does not use the retail double-zero sentinel immediately after the mission table, so extraction is length-bounded instead of sentinel-bounded.`
+        ]
+      }
+    );
+  }
 
   for (let mission = 0; mission < 0x100; mission += 1) {
     const entryOffset = tableFileOffset + mission * 2;
@@ -124,14 +195,31 @@ export function collectMissionMapTables(games = GAMES) {
   const tables = {};
 
   for (const game of games) {
+    if (game.supportsMissionMapExtraction === false) {
+      continue;
+    }
+
     const profile = PROFILES[game.gameId ?? game.id];
     if (!profile) {
       continue;
     }
 
+    if (Array.isArray(game.missionTableBaseMaps) && game.missionTableBaseMaps.length > 0) {
+      tables[game.id] = buildMissionMapTableFromBaseMaps(profile, game.missionTableBaseMaps, {
+        tableAddress: game.missionTableAddress ?? null,
+        consumerFunction: game.missionTableConsumerFunction ?? profile.consumerFunction,
+        consumerAddress: game.missionTableConsumerAddress ?? profile.consumerAddress,
+        notes: [
+          `Mission table reconstructed from a verified Ghidra live-table read for this version rather than from a local executable file.`,
+          `JP live analysis showed FUN_00428e00 loading baseMap = word[mission*2 + 0x0047b72c] and then adding -mapoff from 0x004957e8.`
+        ]
+      });
+      continue;
+    }
+
     try {
       const exePath = resolveExePath(profile, game);
-      tables[game.id] = extractMissionMapTable(profile, exePath);
+      tables[game.id] = extractMissionMapTable(profile, exePath, game);
     } catch {
       // Allow scene builds to proceed when a version root lacks the retail executable.
     }
@@ -152,7 +240,7 @@ export function buildMissionMapData(gameTablesById) {
 
   return {
     generatedAt: new Date().toISOString(),
-    source: "retail_exe_bytes",
+    source: "version_executable_bytes_and_verified_ghidra_tables",
     sharedBaseMapSequence,
     games: gameTablesById
   };
