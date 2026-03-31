@@ -73,7 +73,7 @@ function fileStamp(filePath) {
 }
 
 function resolveOptionalXformPath(gameConfig) {
-  const explicitPath = gameConfig.id === "remorse" ? process.env.REMORSE_XFORMPAL_PATH : process.env.REGRET_XFORMPAL_PATH;
+  const explicitPath = gameConfig.gameId === "remorse" ? process.env.REMORSE_XFORMPAL_PATH : process.env.REGRET_XFORMPAL_PATH;
   if (explicitPath && fs.existsSync(explicitPath)) {
     return explicitPath;
   }
