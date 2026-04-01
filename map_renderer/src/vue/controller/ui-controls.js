@@ -3,6 +3,9 @@ import {
   includeRoofsCheckbox,
   includeOobCheckbox,
   alwaysShowRangesCheckbox,
+  showF7GridCheckbox,
+  showAltF7SnapRangesCheckbox,
+  showCtrlF7EggRangesCheckbox,
   showBoundingBoxesCheckbox,
   spinner,
   progressWrap,
@@ -109,7 +112,10 @@ export function setMeta(metadata) {
       <h2 class="meta-title">View</h2>
       <dl class="meta-grid">
         <dt>Editor-only</dt><dd>${includeEditorCheckbox.checked ? "Shown" : "Hidden"}</dd>
-        <dt>Ranges</dt><dd>${alwaysShowRangesCheckbox.checked ? "Shown" : "Hidden"}</dd>
+        <dt>F7 grid</dt><dd>${showF7GridCheckbox.checked ? "Shown" : "Hidden"}</dd>
+        <dt>Alt+F7</dt><dd>${showAltF7SnapRangesCheckbox.checked ? "Shown" : "Hidden"}</dd>
+        <dt>Ctrl+F7</dt><dd>${showCtrlF7EggRangesCheckbox.checked ? "Shown" : "Hidden"}</dd>
+        <dt>Legacy ranges</dt><dd>${alwaysShowRangesCheckbox.checked ? "Shown" : "Hidden"}</dd>
         <dt>Roofs</dt><dd>${includeRoofsCheckbox.checked ? "Shown" : "Hidden"}</dd>
         <dt>Out-of-bounds</dt><dd>${includeOobCheckbox.checked ? "Shown" : "Hidden"}</dd>
         <dt>Bounding boxes</dt><dd>${showBoundingBoxesCheckbox.checked ? "Shown" : "Hidden"}</dd>

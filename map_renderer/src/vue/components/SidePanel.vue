@@ -27,9 +27,13 @@
         </div>
         <label class="toggle"><input id="include-roofs" type="checkbox"> Show roofs</label>
         <label class="toggle"><input id="include-oob" type="checkbox" checked> Show black out-of-bounds surfaces</label>
+        <label class="toggle"><input id="show-f7-grid" type="checkbox"> Show F7 world grid</label>
+        <label class="toggle"><input id="show-alt-f7-snap-ranges" type="checkbox"> Show Alt+F7 snap coverage</label>
+        <label class="toggle"><input id="show-ctrl-f7-egg-ranges" type="checkbox"> Show Ctrl+F7 egg-hatcher ranges</label>
         <label class="toggle"><input id="show-bounding-boxes" type="checkbox"> Show white bounding boxes</label>
         <label class="toggle"><input id="show-link-arrows" type="checkbox" checked> Show verified link arrows</label>
         <label class="toggle"><input id="inspect-shapes" type="checkbox"> Inspect shapes under cursor</label>
+        <p class="toggle-note">The map viewer reproduces the live CRUSADER.EXE F7 overlays statically: the camera grid is exact, Ctrl+F7 uses recovered egg-hatcher range fields, and Alt+F7 broadens to the recoverable snap-oriented egg footprints available in scene data.</p>
       </div>
     </form>
 

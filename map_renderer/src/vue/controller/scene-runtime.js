@@ -317,6 +317,9 @@ export function createSceneRuntimeController(deps) {
     includeEditorCheckbox,
     showEditorLinkArrowsCheckbox,
     alwaysShowRangesCheckbox,
+    showF7GridCheckbox,
+    showAltF7SnapRangesCheckbox,
+    showCtrlF7EggRangesCheckbox,
     alwaysShowNpcPreviewsCheckbox,
     alwaysShowItemPreviewsCheckbox,
     includeRoofsCheckbox,
@@ -429,6 +432,9 @@ export function createSceneRuntimeController(deps) {
     ["includeEditor", includeEditorCheckbox],
     ["showEditorLinkArrows", showEditorLinkArrowsCheckbox],
     ["alwaysShowRanges", alwaysShowRangesCheckbox],
+    ["showF7Grid", showF7GridCheckbox],
+    ["showAltF7SnapRanges", showAltF7SnapRangesCheckbox],
+    ["showCtrlF7EggRanges", showCtrlF7EggRangesCheckbox],
     ["alwaysShowNpcPreviews", alwaysShowNpcPreviewsCheckbox],
     ["alwaysShowItemPreviews", alwaysShowItemPreviewsCheckbox],
     ["includeRoofs", includeRoofsCheckbox],
@@ -487,6 +493,10 @@ export function createSceneRuntimeController(deps) {
       if (typeof options[key] === "boolean") {
         checkbox.checked = options[key];
       }
+    }
+
+    if (typeof options.alwaysShowRanges === "boolean" && typeof options.showCtrlF7EggRanges !== "boolean") {
+      showCtrlF7EggRangesCheckbox.checked = options.alwaysShowRanges;
     }
   }
 
@@ -1384,6 +1394,27 @@ export function createSceneRuntimeController(deps) {
     });
     alwaysShowRangesCheckbox.addEventListener("change", () => {
       writeViewerPreferences();
+      scheduleRender();
+    });
+    showF7GridCheckbox.addEventListener("change", () => {
+      writeViewerPreferences();
+      if (state.current) {
+        setMeta(state.current.metadata);
+      }
+      scheduleRender();
+    });
+    showAltF7SnapRangesCheckbox.addEventListener("change", () => {
+      writeViewerPreferences();
+      if (state.current) {
+        setMeta(state.current.metadata);
+      }
+      scheduleRender();
+    });
+    showCtrlF7EggRangesCheckbox.addEventListener("change", () => {
+      writeViewerPreferences();
+      if (state.current) {
+        setMeta(state.current.metadata);
+      }
       scheduleRender();
     });
     alwaysShowNpcPreviewsCheckbox.addEventListener("change", () => {

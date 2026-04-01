@@ -10,6 +10,9 @@ export function createScenePresentationController(deps) {
     includeEditorCheckbox,
     showEditorLinkArrowsCheckbox,
     alwaysShowRangesCheckbox,
+    showF7GridCheckbox,
+    showAltF7SnapRangesCheckbox,
+    showCtrlF7EggRangesCheckbox,
     includeRoofsCheckbox,
     includeOobCheckbox,
     showBoundingBoxesCheckbox,
@@ -105,6 +108,8 @@ export function createScenePresentationController(deps) {
   const LOCAL_ALARM_LINK_DISTANCE = 512;
   const LOCAL_DOOR_LINK_DISTANCE = 640;
   const CRUSADER_EGG_RANGE_WORLD_UNITS = 64;
+  const SNAP_EGG_SHAPE = 0x04fe;
+  const F7_GRID_WORLD_UNITS = 0x200;
   const USECODE_TRIGGER_EGG_SUBTYPE_CLASSES = {
     remorse: {
       0: { className: "TRIGEGG", arrowMode: "trigger-qlo" },
@@ -148,6 +153,44 @@ export function createScenePresentationController(deps) {
     };
   }
 
+  function projectWorldDiamondBounds(centerX, centerY, worldZ, halfX, halfY) {
+    if (!state.current) {
+      return null;
+    }
+
+    const minLeft = state.current.metadata.bounds.screenLeft;
+    const minTop = state.current.metadata.bounds.screenTop;
+    const projectPoint = (worldX, worldY, z = worldZ) => ({
+      x: Math.trunc(worldX / 4 - worldY / 4) - minLeft,
+      y: Math.trunc(worldX / 8 + worldY / 8 - z) - minTop
+    });
+
+    const topPoint = projectPoint(centerX - halfX, centerY - halfY);
+    const leftPoint = projectPoint(centerX - halfX, centerY + halfY);
+    const bottomPoint = projectPoint(centerX + halfX, centerY + halfY);
+    const rightPoint = projectPoint(centerX + halfX, centerY - halfY);
+    const hitPolygon = [topPoint, leftPoint, bottomPoint, rightPoint];
+    const xs = hitPolygon.map((point) => point.x);
+    const ys = hitPolygon.map((point) => point.y);
+
+    return {
+      center: projectPoint(centerX, centerY),
+      segments: [
+        [topPoint.x, topPoint.y, rightPoint.x, rightPoint.y],
+        [rightPoint.x, rightPoint.y, bottomPoint.x, bottomPoint.y],
+        [bottomPoint.x, bottomPoint.y, leftPoint.x, leftPoint.y],
+        [leftPoint.x, leftPoint.y, topPoint.x, topPoint.y]
+      ],
+      hitPolygon,
+      bounds: {
+        left: Math.min(...xs),
+        right: Math.max(...xs),
+        top: Math.min(...ys),
+        bottom: Math.max(...ys)
+      }
+    };
+  }
+
   function getUsecodeTriggerEggSubtypeInfo(item) {
     if (getShapeNumber(item) !== USECODE_TRIGGER_EGG_SHAPE || item?.egg?.type !== "usecode-trigger") {
       return null;
@@ -179,43 +222,41 @@ export function createScenePresentationController(deps) {
       return null;
     }
 
-    const minLeft = state.current.metadata.bounds.screenLeft;
-    const minTop = state.current.metadata.bounds.screenTop;
-    const centerX = item.world.x;
-    const centerY = item.world.y;
-    const left = centerX - range.worldXRange;
-    const right = centerX + range.worldXRange;
-    const top = centerY - range.worldYRange;
-    const bottom = centerY + range.worldYRange;
-    const projectPoint = (worldX, worldY, worldZ = item.world.z) => ({
-      x: Math.trunc(worldX / 4 - worldY / 4) - minLeft,
-      y: Math.trunc(worldX / 8 + worldY / 8 - worldZ) - minTop
-    });
+    return projectWorldDiamondBounds(
+      item.world.x,
+      item.world.y,
+      item.world.z,
+      range.worldXRange,
+      range.worldYRange
+    );
+  }
 
-    const topPoint = projectPoint(left, top);
-    const leftPoint = projectPoint(left, bottom);
-    const bottomPoint = projectPoint(right, bottom);
-    const rightPoint = projectPoint(right, top);
-    const hitPolygon = [topPoint, leftPoint, bottomPoint, rightPoint];
-    const xs = hitPolygon.map((point) => point.x);
-    const ys = hitPolygon.map((point) => point.y);
+  function projectSnapMarkerRange(item) {
+    if (!hasWorldPosition(item) || getShapeNumber(item) !== SNAP_EGG_SHAPE) {
+      return null;
+    }
 
-    return {
-      center: projectPoint(centerX, centerY),
-      segments: [
-        [topPoint.x, topPoint.y, rightPoint.x, rightPoint.y],
-        [rightPoint.x, rightPoint.y, bottomPoint.x, bottomPoint.y],
-        [bottomPoint.x, bottomPoint.y, leftPoint.x, leftPoint.y],
-        [leftPoint.x, leftPoint.y, topPoint.x, topPoint.y]
-      ],
-      hitPolygon,
-      bounds: {
-        left: Math.min(...xs),
-        right: Math.max(...xs),
-        top: Math.min(...ys),
-        bottom: Math.max(...ys)
-      }
-    };
+    const rawQuality = Number.isInteger(item.quality) ? (item.quality & 0xffff) : null;
+    const rawMapNum = Number.isInteger(item.mapNum) ? (item.mapNum & 0xff) : null;
+    const rawNpcNum = Number.isInteger(item.npcNum) ? (item.npcNum & 0xff) : null;
+    if (rawQuality === null || rawMapNum === null || rawNpcNum === null) {
+      return null;
+    }
+
+    const signedByte = (value) => (value & 0x80) ? value - 0x100 : value;
+    const qHi = (rawQuality >> 8) & 0xff;
+    const xRangeWorldUnits = ((qHi >> 4) & 0x0f) * 0x20;
+    const yRangeWorldUnits = (qHi & 0x0f) * 0x20;
+    const centerX = item.world.x + signedByte(rawMapNum) * 0x20;
+    const centerY = item.world.y + signedByte(rawNpcNum) * 0x20;
+
+    return projectWorldDiamondBounds(
+      centerX,
+      centerY,
+      item.world.z,
+      xRangeWorldUnits,
+      yRangeWorldUnits
+    );
   }
 
   function sceneToViewportRect(item) {
@@ -253,6 +294,85 @@ export function createScenePresentationController(deps) {
       return null;
     }
     return projectUsecodeTriggerEggRange(item);
+  }
+
+  function isEggHatcherRangeItem(item) {
+    return item?.egg?.type === "usecode-trigger" && hasWorldPosition(item);
+  }
+
+  function isSnapCoverageItem(item) {
+    return getShapeNumber(item) === SNAP_EGG_SHAPE && hasWorldPosition(item);
+  }
+
+  function getEggHatcherRangeGeometry(item) {
+    return isEggHatcherRangeItem(item) ? projectUsecodeTriggerEggRange(item) : null;
+  }
+
+  function getSnapCoverageGeometry(item) {
+    if (!isSnapCoverageItem(item)) {
+      return null;
+    }
+    return projectSnapMarkerRange(item);
+  }
+
+  function scenePointToWorldPoint(sceneX, sceneY, worldZ = 0) {
+    if (!state.current) {
+      return null;
+    }
+
+    const sx = sceneX + state.current.metadata.bounds.screenLeft;
+    const sy = sceneY + state.current.metadata.bounds.screenTop + worldZ;
+    return {
+      x: Math.round(2 * sx + 4 * sy),
+      y: Math.round(4 * sy - 2 * sx)
+    };
+  }
+
+  function getWorldGridGeometries(canvasWidth, canvasHeight, scale, offsetX, offsetY) {
+    if (!state.current) {
+      return [];
+    }
+
+    const sceneCorners = [
+      scenePointToWorldPoint((-offsetX) / scale, (-offsetY) / scale, 0),
+      scenePointToWorldPoint((canvasWidth - offsetX) / scale, (-offsetY) / scale, 0),
+      scenePointToWorldPoint((-offsetX) / scale, (canvasHeight - offsetY) / scale, 0),
+      scenePointToWorldPoint((canvasWidth - offsetX) / scale, (canvasHeight - offsetY) / scale, 0)
+    ].filter(Boolean);
+    if (!sceneCorners.length) {
+      return [];
+    }
+
+    const worldXs = sceneCorners.map((point) => point.x);
+    const worldYs = sceneCorners.map((point) => point.y);
+    const minWorldX = Math.min(...worldXs) - F7_GRID_WORLD_UNITS;
+    const maxWorldX = Math.max(...worldXs) + F7_GRID_WORLD_UNITS;
+    const minWorldY = Math.min(...worldYs) - F7_GRID_WORLD_UNITS;
+    const maxWorldY = Math.max(...worldYs) + F7_GRID_WORLD_UNITS;
+    const startCellX = Math.floor(minWorldX / F7_GRID_WORLD_UNITS);
+    const endCellX = Math.floor(maxWorldX / F7_GRID_WORLD_UNITS);
+    const startCellY = Math.floor(minWorldY / F7_GRID_WORLD_UNITS);
+    const endCellY = Math.floor(maxWorldY / F7_GRID_WORLD_UNITS);
+    const geometries = [];
+
+    for (let cellY = startCellY; cellY <= endCellY; cellY += 1) {
+      for (let cellX = startCellX; cellX <= endCellX; cellX += 1) {
+        const x0 = cellX * F7_GRID_WORLD_UNITS;
+        const y0 = cellY * F7_GRID_WORLD_UNITS;
+        const geometry = projectWorldDiamondBounds(
+          x0 + F7_GRID_WORLD_UNITS / 2,
+          y0 + F7_GRID_WORLD_UNITS / 2,
+          0,
+          F7_GRID_WORLD_UNITS / 2,
+          F7_GRID_WORLD_UNITS / 2
+        );
+        if (geometry) {
+          geometries.push(geometry);
+        }
+      }
+    }
+
+    return geometries;
   }
 
   function showInspectHighlight(item) {
@@ -2024,6 +2144,36 @@ export function createScenePresentationController(deps) {
     targetContext.restore();
   }
 
+  function drawStyledPolygonOverlay(targetContext, scale, offsetX, offsetY, geometry, item, styles, alpha = 1) {
+    if (!geometry) {
+      return;
+    }
+
+    const fillAlpha = styles.fillAlpha ?? 0;
+    const fillRgb = styles.fillRgb ?? null;
+    const strokeRgb = styles.strokeRgb ?? "255, 255, 255";
+    const connectorRgb = styles.connectorRgb ?? strokeRgb;
+    const strokeAlpha = styles.strokeAlpha ?? 0.9;
+    const connectorAlpha = styles.connectorAlpha ?? 0.6;
+
+    targetContext.save();
+    if (fillRgb && fillAlpha > 0) {
+      targetContext.fillStyle = `rgba(${fillRgb}, ${fillAlpha * alpha})`;
+      drawScenePolygon(targetContext, scale, offsetX, offsetY, geometry.hitPolygon);
+      targetContext.fill();
+    }
+    targetContext.strokeStyle = `rgba(${strokeRgb}, ${strokeAlpha * alpha})`;
+    targetContext.lineWidth = styles.lineWidth ?? 1.5;
+    targetContext.setLineDash(styles.dash ?? []);
+    drawBoundingGeometry(targetContext, scale, offsetX, offsetY, geometry);
+    if (item) {
+      targetContext.strokeStyle = `rgba(${connectorRgb}, ${connectorAlpha * alpha})`;
+      targetContext.setLineDash(styles.connectorDash ?? styles.dash ?? []);
+      drawRangeConnector(targetContext, scale, offsetX, offsetY, geometry, item);
+    }
+    targetContext.restore();
+  }
+
   function getHighlightStrokeStyle(alpha) {
     if (showBoundingBoxesCheckbox.checked) {
       return `rgba(92, 181, 255, ${Math.max(0, Math.min(1, alpha))})`;
@@ -2087,7 +2237,7 @@ export function createScenePresentationController(deps) {
     }
     targetContext.restore();
 
-    if (!alwaysShowRangesCheckbox.checked && overlay.itemId) {
+    if (!alwaysShowRangesCheckbox.checked && !showAltF7SnapRangesCheckbox.checked && !showCtrlF7EggRangesCheckbox.checked && overlay.itemId) {
       const item = getItemById(overlay.itemId);
       const rangeGeometry = getRangeGeometry(item);
       if (item && rangeGeometry) {
@@ -2163,6 +2313,100 @@ export function createScenePresentationController(deps) {
     }
   }
 
+  function drawF7WorldGrid(targetContext, canvasWidth, canvasHeight, scale, offsetX, offsetY) {
+    if (!state.current || !showF7GridCheckbox.checked) {
+      return;
+    }
+
+    const geometries = getWorldGridGeometries(canvasWidth, canvasHeight, scale, offsetX, offsetY);
+    if (!geometries.length) {
+      return;
+    }
+
+    targetContext.save();
+    targetContext.strokeStyle = "rgba(244, 214, 142, 0.82)";
+    targetContext.lineWidth = 1.25;
+    targetContext.setLineDash([5, 7]);
+    for (const geometry of geometries) {
+      drawBoundingGeometry(targetContext, scale, offsetX, offsetY, geometry);
+    }
+    targetContext.restore();
+  }
+
+  function drawCtrlF7EggRanges(targetContext, canvasWidth, canvasHeight, scale, offsetX, offsetY, hiddenIds = new Set()) {
+    if (!state.current || !showCtrlF7EggRangesCheckbox.checked) {
+      return;
+    }
+
+    for (const item of state.current.scene.items) {
+      if (hiddenIds.has(item.id)) {
+        continue;
+      }
+
+      const geometry = getEggHatcherRangeGeometry(item);
+      if (!geometry) {
+        continue;
+      }
+
+      const left = geometry.bounds.left * scale + offsetX;
+      const top = geometry.bounds.top * scale + offsetY;
+      const width = (geometry.bounds.right - geometry.bounds.left) * scale;
+      const height = (geometry.bounds.bottom - geometry.bounds.top) * scale;
+      if (left + width < 0 || top + height < 0 || left > canvasWidth || top > canvasHeight) {
+        continue;
+      }
+
+      drawStyledPolygonOverlay(targetContext, scale, offsetX, offsetY, geometry, item, {
+        fillRgb: "64, 156, 255",
+        fillAlpha: 0.16,
+        strokeRgb: "92, 181, 255",
+        strokeAlpha: 0.92,
+        connectorRgb: "92, 181, 255",
+        connectorAlpha: 0.5,
+        dash: [2, 6],
+        connectorDash: [2, 10],
+        lineWidth: 1.5
+      });
+    }
+  }
+
+  function drawAltF7SnapRanges(targetContext, canvasWidth, canvasHeight, scale, offsetX, offsetY, hiddenIds = new Set()) {
+    if (!state.current || !showAltF7SnapRangesCheckbox.checked) {
+      return;
+    }
+
+    for (const item of state.current.scene.items) {
+      if (hiddenIds.has(item.id)) {
+        continue;
+      }
+
+      const geometry = getSnapCoverageGeometry(item);
+      if (!geometry) {
+        continue;
+      }
+
+      const left = geometry.bounds.left * scale + offsetX;
+      const top = geometry.bounds.top * scale + offsetY;
+      const width = (geometry.bounds.right - geometry.bounds.left) * scale;
+      const height = (geometry.bounds.bottom - geometry.bounds.top) * scale;
+      if (left + width < 0 || top + height < 0 || left > canvasWidth || top > canvasHeight) {
+        continue;
+      }
+
+      drawStyledPolygonOverlay(targetContext, scale, offsetX, offsetY, geometry, item, {
+        fillRgb: "255, 186, 102",
+        fillAlpha: 0.08,
+        strokeRgb: "255, 201, 127",
+        strokeAlpha: 0.88,
+        connectorRgb: "255, 192, 128",
+        connectorAlpha: 0.45,
+        dash: [6, 6],
+        connectorDash: [3, 9],
+        lineWidth: 1.3
+      });
+    }
+  }
+
   function drawEggLabels(targetContext, canvasWidth, canvasHeight) {
     if (!state.current || !showEggLabelsCheckbox.checked) {
       return;
@@ -2218,7 +2462,10 @@ export function createScenePresentationController(deps) {
     }
     drawNpcPreviewOverlay(context, viewport.clientWidth, viewport.clientHeight, state.zoom, state.offsetX, state.offsetY);
     drawItemPreviewOverlay(context, viewport.clientWidth, viewport.clientHeight, state.zoom, state.offsetX, state.offsetY);
+    drawF7WorldGrid(context, viewport.clientWidth, viewport.clientHeight, state.zoom, state.offsetX, state.offsetY);
     drawRangeOverlays(context, viewport.clientWidth, viewport.clientHeight, state.zoom, state.offsetX, state.offsetY, state.current?.hiddenIds ?? new Set());
+    drawAltF7SnapRanges(context, viewport.clientWidth, viewport.clientHeight, state.zoom, state.offsetX, state.offsetY, state.current?.hiddenIds ?? new Set());
+    drawCtrlF7EggRanges(context, viewport.clientWidth, viewport.clientHeight, state.zoom, state.offsetX, state.offsetY, state.current?.hiddenIds ?? new Set());
     drawLinkArrows(context, viewport.clientWidth, viewport.clientHeight, state.zoom, state.offsetX, state.offsetY);
     drawBoundingBoxes(context, viewport.clientWidth, viewport.clientHeight, state.zoom, state.offsetX, state.offsetY, state.current?.hiddenIds ?? new Set());
     drawEggLabels(context, viewport.clientWidth, viewport.clientHeight);
