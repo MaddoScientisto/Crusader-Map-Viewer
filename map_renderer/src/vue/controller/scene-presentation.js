@@ -1122,8 +1122,27 @@ export function createScenePresentationController(deps) {
     return getTintedPreviewGhost(itemPreviewCanvasCache, sprite, atlas, "rgba(244, 197, 84, 1)");
   }
 
-  function drawNpcPreviewOverlay(targetContext, canvasWidth, canvasHeight, scale, offsetX, offsetY) {
-    const items = getVisibleNpcPreviewItems();
+  function projectPreviewSpriteRect(item, sprite) {
+    if (!state.current || !hasWorldPosition(item)) {
+      return null;
+    }
+
+    const bounds = state.current.metadata?.bounds;
+    const sxBot = Math.trunc(item.world.x / 4 - item.world.y / 4) - (bounds?.screenLeft ?? 0);
+    const syBot = Math.trunc(item.world.x / 8 + item.world.y / 8 - item.world.z) - (bounds?.screenTop ?? 0);
+    const flipped = Boolean(item.flags?.flipped);
+    const left = flipped ? sxBot + sprite.xoff - sprite.width : sxBot - sprite.xoff;
+    const top = syBot - sprite.yoff;
+    return {
+      left,
+      top,
+      width: sprite.width,
+      height: sprite.height,
+      flipped
+    };
+  }
+
+  function drawPreviewOverlay(targetContext, canvasWidth, canvasHeight, scale, offsetX, offsetY, items, getPreviewGhost, previewKey) {
     if (!items.length) {
       return;
     }
@@ -1132,19 +1151,23 @@ export function createScenePresentationController(deps) {
     targetContext.imageSmoothingEnabled = false;
 
     for (const item of items) {
-      const preview = item.npcPreview;
+      const preview = item?.[previewKey];
       const sprite = state.current.spriteIndex.get(preview.spriteId) ?? null;
       const atlas = sprite ? state.current.atlasImages.get(sprite.atlasId) : null;
       if (!sprite || !atlas) {
         continue;
       }
 
-      const ghost = getNpcPreviewGhost(sprite, atlas);
-      const width = sprite.width * scale;
-      const height = sprite.height * scale;
-      const centerX = item.screen.anchorX * scale + offsetX;
-      const top = item.screen.top * scale + offsetY - height - Math.max(6, scale * 4);
-      const left = centerX - width / 2;
+      const screenRect = projectPreviewSpriteRect(item, sprite);
+      if (!screenRect) {
+        continue;
+      }
+
+      const ghost = getPreviewGhost(sprite, atlas);
+      const width = screenRect.width * scale;
+      const height = screenRect.height * scale;
+      const left = screenRect.left * scale + offsetX;
+      const top = screenRect.top * scale + offsetY;
       if (left + width < 0 || top + height < 0 || left > canvasWidth || top > canvasHeight) {
         continue;
       }
@@ -1152,64 +1175,42 @@ export function createScenePresentationController(deps) {
       const selected = item.id === state.pinnedItemId;
       const hovered = item.id === state.hoverItemId;
       const outlinePad = ghost.outlinePadding * scale;
+      const outlineWidth = (sprite.width + ghost.outlinePadding * 2) * scale;
+      const outlineHeight = (sprite.height + ghost.outlinePadding * 2) * scale;
       targetContext.globalAlpha = selected ? 0.88 : hovered ? 0.8 : 0.72;
-      targetContext.drawImage(
-        ghost.outline,
-        left - outlinePad,
-        top - outlinePad,
-        (sprite.width + ghost.outlinePadding * 2) * scale,
-        (sprite.height + ghost.outlinePadding * 2) * scale
-      );
+      if (screenRect.flipped) {
+        targetContext.save();
+        targetContext.translate(left + width + outlinePad, top - outlinePad);
+        targetContext.scale(-1, 1);
+        targetContext.drawImage(ghost.outline, 0, 0, outlineWidth, outlineHeight);
+        targetContext.restore();
+      } else {
+        targetContext.drawImage(ghost.outline, left - outlinePad, top - outlinePad, outlineWidth, outlineHeight);
+      }
+
       targetContext.globalAlpha = selected ? 0.42 : hovered ? 0.38 : 0.34;
-      targetContext.drawImage(atlas, sprite.x, sprite.y, sprite.width, sprite.height, left, top, width, height);
+      if (screenRect.flipped) {
+        targetContext.save();
+        targetContext.translate(left + width, top);
+        targetContext.scale(-1, 1);
+        targetContext.drawImage(atlas, sprite.x, sprite.y, sprite.width, sprite.height, 0, 0, width, height);
+        targetContext.restore();
+      } else {
+        targetContext.drawImage(atlas, sprite.x, sprite.y, sprite.width, sprite.height, left, top, width, height);
+      }
     }
 
     targetContext.restore();
   }
 
+  function drawNpcPreviewOverlay(targetContext, canvasWidth, canvasHeight, scale, offsetX, offsetY) {
+    const items = getVisibleNpcPreviewItems();
+    drawPreviewOverlay(targetContext, canvasWidth, canvasHeight, scale, offsetX, offsetY, items, getNpcPreviewGhost, "npcPreview");
+  }
+
   function drawItemPreviewOverlay(targetContext, canvasWidth, canvasHeight, scale, offsetX, offsetY) {
     const items = getVisibleItemPreviewItems();
-    if (!items.length) {
-      return;
-    }
-
-    targetContext.save();
-    targetContext.imageSmoothingEnabled = false;
-
-    for (const item of items) {
-      const preview = item.itemPreview;
-      const sprite = state.current.spriteIndex.get(preview.spriteId) ?? null;
-      const atlas = sprite ? state.current.atlasImages.get(sprite.atlasId) : null;
-      if (!sprite || !atlas) {
-        continue;
-      }
-
-      const ghost = getItemPreviewGhost(sprite, atlas);
-      const width = sprite.width * scale;
-      const height = sprite.height * scale;
-      const centerX = item.screen.anchorX * scale + offsetX;
-      const top = item.screen.top * scale + offsetY - height - Math.max(6, scale * 4);
-      const left = centerX - width / 2;
-      if (left + width < 0 || top + height < 0 || left > canvasWidth || top > canvasHeight) {
-        continue;
-      }
-
-      const selected = item.id === state.pinnedItemId;
-      const hovered = item.id === state.hoverItemId;
-      const outlinePad = ghost.outlinePadding * scale;
-      targetContext.globalAlpha = selected ? 0.88 : hovered ? 0.8 : 0.72;
-      targetContext.drawImage(
-        ghost.outline,
-        left - outlinePad,
-        top - outlinePad,
-        (sprite.width + ghost.outlinePadding * 2) * scale,
-        (sprite.height + ghost.outlinePadding * 2) * scale
-      );
-      targetContext.globalAlpha = selected ? 0.42 : hovered ? 0.38 : 0.34;
-      targetContext.drawImage(atlas, sprite.x, sprite.y, sprite.width, sprite.height, left, top, width, height);
-    }
-
-    targetContext.restore();
+    drawPreviewOverlay(targetContext, canvasWidth, canvasHeight, scale, offsetX, offsetY, items, getItemPreviewGhost, "itemPreview");
   }
 
   function getItemLinkPoint(item) {
