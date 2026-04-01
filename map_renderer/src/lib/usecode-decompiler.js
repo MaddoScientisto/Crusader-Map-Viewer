@@ -779,6 +779,16 @@ function genericLoopSelectorCall(name, argumentsList) {
   return `${name}(${argumentsList.map(([label, expr]) => `${label}=${expr}`).join(", ")})`;
 }
 
+function formatLoopSelectorShapeArgs(shapeExprs) {
+  if (!shapeExprs.length) {
+    return null;
+  }
+  if (shapeExprs.length === 1) {
+    return `shape=${shapeExprs[0]}`;
+  }
+  return `shapes=[${shapeExprs.join(", ")}]`;
+}
+
 function normalizeLoopOrigin(expr) {
   const text = String(expr).trim();
   return text.startsWith("*(") && text.endsWith(")") ? text.slice(2, -1) : text;
@@ -821,7 +831,7 @@ function tryDecodeLoopSelector(ops, startIndex, localNameMap) {
   }
   if (index >= ops.length || ops[index].mnemonic !== "loop") return null;
   const loopOperands = ops[index].operands;
-  if (loopOperands.string_bytes !== 0x6 || loopOperands.loop_type !== 0x2) return null;
+  if (loopOperands.loop_type !== 0x2) return null;
   const currentVar = formatBpName(loopOperands.current_var, localNameMap);
   if (selectorTokens.length === 4 && selectorTokens[0] === 0x24 && selectorTokens[1] === 0x3d && selectorTokens[3] === 0x25) {
     const selectorField = LOOP_SELECTOR_FIELD_HINTS[selectorTokens[2]];
@@ -839,6 +849,15 @@ function tryDecodeLoopSelector(ops, startIndex, localNameMap) {
       ])}`,
       index + 1
     ];
+  }
+  if (selectorTokens.length === 2 && selectorTokens[0] === 0x24 && selectorTokens[1] === 0x4c && selectorStack.length >= 3) {
+    const origin = normalizeLoopOrigin(selectorStack.at(-1)[0]);
+    const distance = selectorStack.at(-2)[0];
+    const shapeExprs = selectorStack.slice(0, -2).map(([expr]) => expr);
+    const shapeArgs = formatLoopSelectorShapeArgs(shapeExprs);
+    if (shapeArgs) {
+      return [`${currentVar} in nearby_items(${shapeArgs}, distance=${distance}, origin=${origin})`, index + 1];
+    }
   }
   return null;
 }

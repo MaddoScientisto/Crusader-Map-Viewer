@@ -344,6 +344,29 @@ function testCompoundFalseBranchStaysNegated() {
   assert.doesNotMatch(entryLine, /mode != 0x0001/u);
 }
 
+function testShapeWhitelistSelectorLoopRendersAsNearbyItems() {
+  const blocks = __testHooks.decompilePseudocodeBlocks(
+    makeIr([
+      op(0, "loopscr", { value_u8: 0x24 }),
+      op(1, "push_word_immediate", { value_u16: 0x03a7 }),
+      op(2, "push_word_immediate", { value_u16: 0x03a8 }),
+      op(3, "push_word_immediate", { value_u16: 0x021a }),
+      op(4, "loopscr", { value_u8: 0x4c }),
+      op(5, "push_byte_immediate", { value_signed: 100, value_u8: 100 }),
+      op(6, "push_byte_immediate", { value_signed: 32, value_u8: 32 }),
+      op(7, "mul", {}),
+      op(8, "push_local_dword", { bp_offset: 0x06 }),
+      op(9, "push_indirect", { size: 2 }),
+      op(10, "loop", { current_var: 0xfe, string_bytes: 0x06, loop_type: 0x02 }),
+      op(11, "ret", {})
+    ])
+  );
+  const text = JSON.stringify(blocks);
+
+  assert.match(text, /nearby_items\(shapes=\[0x03a7, 0x03a8, 0x021a\], distance=\(100 \* 32\), origin=arg_06\)/u);
+  assert.doesNotMatch(text, /selector_0x42/u);
+}
+
 function testSelectorChainRendersAsSwitch() {
   const structured = __testHooks.renderStructuredPseudocode([
     ["entry", ["if selector != 1 goto block_0004;"]],
@@ -433,6 +456,25 @@ function testRealRegretBridgeSlot22KeepsSideEffectsAndProcessResult() {
   assert.match(text, /Item\.playSfxCru\(0x0099, arg_06\);/u);
   assert.match(text, /process_result = 1;/u);
   assert.match(text, /process_result = 0;/u);
+}
+
+function testRealRegretChangerHatchRendersRoofSelector() {
+  const usecodePath = path.resolve("STATIC_REGRET", "EUSECODE.FLX");
+  const buffer = fs.readFileSync(usecodePath);
+  const classRows = __testHooks.buildClassRows(buffer);
+  const classRow = classRows.find((row) => row.className === "CHANGER");
+  assert.ok(classRow, "expected CHANGER class in regret EUSECODE");
+
+  const eventRow = classRow.eventRows.find((row) => row.slot === 0x07);
+  assert.ok(eventRow, "expected CHANGER slot 0x07 body");
+
+  const classNameMap = new Map(classRows.map((row) => [row.classId, row.className]));
+  const ir = __testHooks.buildIrForEvent(classRow, eventRow, "regret", classNameMap);
+  const text = __testHooks.renderPseudocode(ir, new Map());
+
+  assert.match(text, /for local_02 in nearby_items\(shapes=\[0x03a7, 0x03a8, 0x021a, 0x012e, 0x04df, 0x051c, 0x051b, 0x0639, 0x063a, 0x063b, 0x063c, 0x063d\], distance=\(100 \* 32\), origin=arg_06\) \{/u);
+  assert.match(text, /if \(local_06 == local_08\) \{/u);
+  assert.doesNotMatch(text, /while \(condition\)/u);
 }
 
 function testRealBroBootEquipRendersSwitch() {
@@ -540,11 +582,13 @@ testShiftAndStringCompareOpsRenderAsExpressions();
 testStringCompareOpsRenderAsExpressions();
 testCreateListAndAppendListRenderAsListExpressions();
 testCompoundFalseBranchStaysNegated();
+testShapeWhitelistSelectorLoopRendersAsNearbyItems();
 testSelectorChainRendersAsSwitch();
 testRegionEndGotoCountsAsStructuredExit();
 testRealTriggerSlot20NoLongerFallsBackToBlocks();
 testRealBlastpacUseNoLongerFallsBackToBlocks();
 testRealRegretBridgeSlot22KeepsSideEffectsAndProcessResult();
+testRealRegretChangerHatchRendersRoofSelector();
 testRealBroBootEquipRendersSwitch();
 testRealBroBootEnterFastAreaNoLongerFallsBackToBlocks();
 testImportedIntrinsicTablesResolveKnownOrdinals();

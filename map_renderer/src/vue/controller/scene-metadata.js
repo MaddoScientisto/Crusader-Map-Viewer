@@ -34,6 +34,14 @@ const CHEST_NS_SHAPE = 0x054f;
 const CHEST_EW_SHAPE = 0x0550;
 const CMD_LINK_MAX_DISTANCE = 768;
 const CRUSADER_EGG_RANGE_WORLD_UNITS = 64;
+const CHANGER_SCAN_DISTANCE = 100 * 32;
+const CHANGER_REMORSE_SCAN_DISTANCE = 100 * 32;
+const CHANGER_REMORSE_ROOF_TARGET_SHAPES = [0x03a7, 0x03a8, 0x021a, 0x012e, 0x051c, 0x051b];
+const CHANGER_REGRET_ROOF_TARGET_SHAPES = [0x03a7, 0x03a8, 0x021a, 0x012e, 0x04df, 0x051c, 0x051b, 0x0639, 0x063a, 0x063b, 0x063c, 0x063d];
+
+function formatWordHexLiteral(value) {
+  return `0x${value.toString(16).padStart(4, "0")}`;
+}
 const USECODE_TRIGGER_EGG_SUBTYPE_CLASSES = {
   remorse: {
     0: {
@@ -59,6 +67,14 @@ const USECODE_TRIGGER_EGG_SUBTYPE_CLASSES = {
       activeLaneLabel: "enterFastArea / leaveFastArea",
       note: "FLOOR1 does not use hatch and unhatch. Its fast-area lanes run a timed floor/NPC sweep driven by egg id timing and nearby item QLo values.",
       overlayNote: "No generic arrow overlay is shown because the recovered body scans nearby floor items and NPCs rather than a stable helper family."
+    },
+    4: {
+      className: "CHANGER",
+      slot: 0x07,
+      eventNameHint: "hatch",
+      activeLaneLabel: "hatch",
+      note: `CHANGER reads the egg id from mapNum, then runs a recovered nearby-roof selector over hardcoded roof shapes ${CHANGER_REMORSE_ROOF_TARGET_SHAPES.map((shape) => formatWordHexLiteral(shape)).join(", ")} within ${CHANGER_SCAN_DISTANCE} world units before destroying roofs whose low quality byte matches that egg id. The checked Remorse map-13 example uses egg id 37 beside eight matching roof tiles with QLo 37.`,
+      overlayNote: `Renderer arrows expose nearby roof targets for the recovered Remorse CHANGER scan: same-egg-id roof tiles on the verified shape whitelist within ${CHANGER_SCAN_DISTANCE} world units of the egg.`
     },
     13: {
       className: "MISS1EGG",
@@ -107,8 +123,8 @@ const USECODE_TRIGGER_EGG_SUBTYPE_CLASSES = {
       slot: 0x07,
       eventNameHint: "hatch",
       activeLaneLabel: "hatch",
-      note: "CHANGER reads both the egg's local QLo and egg id, then scans nearby items, but the recovered hatch body is still too incomplete for a stable generic local-target rule.",
-      overlayNote: "No generic arrow overlay is shown because the recovered body is still structurally incomplete."
+      note: `CHANGER reads the egg id from mapNum, then runs a recovered nearby-roof selector over hardcoded roof shapes ${CHANGER_REGRET_ROOF_TARGET_SHAPES.map((shape) => formatWordHexLiteral(shape)).join(", ")} within ${CHANGER_SCAN_DISTANCE} world units before destroying nonzero roofs whose low quality byte matches that egg id. Checked Regret cache examples on maps 1 and 10 produce matching nearby roof targets on this whitelist.`,
+      overlayNote: `Renderer arrows expose nearby roof targets for the recovered Regret CHANGER scan: same-egg-id roof tiles on the verified shape whitelist within ${CHANGER_SCAN_DISTANCE} world units of the egg.`
     },
     10: {
       className: "DOOREGG",

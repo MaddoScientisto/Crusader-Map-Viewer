@@ -103,10 +103,13 @@ export function createScenePresentationController(deps) {
   const FLAME_HELPER_SHAPES = new Set([0x0438, 0x0439, 0x043a, 0x043b, 0x050a, 0x0518]);
   const STEAM_TARGET_SHAPES = new Set([0x03a9, 0x04f9, 0x04fa, 0x04fd, 0x0511]);
   const DOOR_TARGET_SHAPES = new Set([0x0005, 0x0046, 0x007b, 0x0095, 0x0099, 0x00a9, 0x030a, 0x030b, 0x03f8, 0x03ff]);
+  const CHANGER_REMORSE_ROOF_TARGET_SHAPES = new Set([0x03a7, 0x03a8, 0x021a, 0x012e, 0x051c, 0x051b]);
+  const CHANGER_REGRET_ROOF_TARGET_SHAPES = new Set([0x03a7, 0x03a8, 0x021a, 0x012e, 0x04df, 0x051c, 0x051b, 0x0639, 0x063a, 0x063b, 0x063c, 0x063d]);
   const LIGHT_BLUE_ARROW_RGB = "148, 220, 255";
   const LOCAL_EDITOR_LINK_DISTANCE = 768;
   const LOCAL_ALARM_LINK_DISTANCE = 512;
   const LOCAL_DOOR_LINK_DISTANCE = 640;
+  const CHANGER_REMORSE_SCAN_DISTANCE = 100 * 32;
   const CRUSADER_EGG_RANGE_WORLD_UNITS = 64;
   const SNAP_EGG_SHAPE = 0x04fe;
   const F7_GRID_WORLD_UNITS = 0x200;
@@ -144,6 +147,7 @@ export function createScenePresentationController(deps) {
       0: { className: "TRIGEGG", arrowMode: "trigger-qlo" },
       1: { className: "ONCEEGG", arrowMode: "trigger-qlo" },
       2: { className: "FLOOR1", arrowMode: null },
+      4: { className: "CHANGER", arrowMode: "remorse-changer-roof-by-egg-id" },
       13: { className: "MISS1EGG", arrowMode: null }
     },
     regret: {
@@ -151,7 +155,7 @@ export function createScenePresentationController(deps) {
       1: { className: "ONCEEGG", arrowMode: "trigger-qlo" },
       2: { className: "FLOOR1", arrowMode: null },
       5: { className: "MHATCHER", arrowMode: "monster-by-egg-id" },
-      8: { className: "CHANGER", arrowMode: null },
+      8: { className: "CHANGER", arrowMode: "regret-changer-roof-by-egg-id" },
       10: { className: "DOOREGG", arrowMode: "door-by-egg-id" },
       13: { className: "MISS1", arrowMode: null },
       24: { className: "VIDEOEGG", arrowMode: null }
@@ -638,6 +642,14 @@ export function createScenePresentationController(deps) {
       return false;
     }
     return Math.hypot(left.world.x - right.world.x, left.world.y - right.world.y) <= maxDistance;
+  }
+
+  function isWithinAxisAlignedLinkDistance(left, right, maxDistance) {
+    if (!left || !right || !hasWorldPosition(left) || !hasWorldPosition(right)) {
+      return false;
+    }
+    return Math.abs(left.world.x - right.world.x) <= maxDistance
+      && Math.abs(left.world.y - right.world.y) <= maxDistance;
   }
 
   function pushUniqueLink(links, seenKeys, source, target, options) {
@@ -1728,6 +1740,8 @@ export function createScenePresentationController(deps) {
     const controllerTargetsByQlo = new Map();
     const controllerTargetsByMapByte = new Map();
     const monsterSpawnerTargetsByQlo = new Map();
+    const changerRemorseRoofTargetsByQlo = new Map();
+    const changerRegretRoofTargetsByQlo = new Map();
 
     const buildQloIndexForShapes = (shapes) => {
       const index = new Map();
@@ -1745,6 +1759,22 @@ export function createScenePresentationController(deps) {
     }
     for (const target of monsterSpawnerTargets) {
       addItemToBucket(monsterSpawnerTargetsByQlo, getQualityLowByte(target), target);
+    }
+    for (const shape of CHANGER_REMORSE_ROOF_TARGET_SHAPES) {
+      for (const target of byShape.get(shape) ?? []) {
+        if (target?.kind !== "roof") {
+          continue;
+        }
+        addItemToBucket(changerRemorseRoofTargetsByQlo, getQualityLowByte(target), target);
+      }
+    }
+    for (const shape of CHANGER_REGRET_ROOF_TARGET_SHAPES) {
+      for (const target of byShape.get(shape) ?? []) {
+        if (target?.kind !== "roof") {
+          continue;
+        }
+        addItemToBucket(changerRegretRoofTargetsByQlo, getQualityLowByte(target), target);
+      }
     }
 
     const doorTargetsByQlo = buildQloIndexForShapes(DOOR_TARGET_SHAPES);
@@ -1908,6 +1938,34 @@ export function createScenePresentationController(deps) {
             color: "rgba(230, 111, 81, 0.88)",
             dashed: [5, 3],
             label: `${subtype.className} egg ${subtype.eggId}`
+          });
+        }
+        continue;
+      }
+
+      if (subtype.arrowMode === "remorse-changer-roof-by-egg-id" && Number.isInteger(subtype.eggId)) {
+        for (const target of changerRemorseRoofTargetsByQlo.get(subtype.eggId) ?? []) {
+          if (!isWithinAxisAlignedLinkDistance(source, target, CHANGER_REMORSE_SCAN_DISTANCE)) {
+            continue;
+          }
+          pushUniqueLink(links, seenKeys, source, target, {
+            color: "rgba(244, 162, 97, 0.92)",
+            dashed: [6, 3],
+            label: `${subtype.className} roof egg ${subtype.eggId}`
+          });
+        }
+        continue;
+      }
+
+      if (subtype.arrowMode === "regret-changer-roof-by-egg-id" && Number.isInteger(subtype.eggId)) {
+        for (const target of changerRegretRoofTargetsByQlo.get(subtype.eggId) ?? []) {
+          if (!isWithinAxisAlignedLinkDistance(source, target, CHANGER_REMORSE_SCAN_DISTANCE)) {
+            continue;
+          }
+          pushUniqueLink(links, seenKeys, source, target, {
+            color: "rgba(233, 151, 63, 0.92)",
+            dashed: [8, 3],
+            label: `${subtype.className} roof egg ${subtype.eggId}`
           });
         }
       }
