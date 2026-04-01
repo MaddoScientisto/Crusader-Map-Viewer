@@ -56,7 +56,7 @@ function copyFile(sourcePath, targetPath) {
 
 function prepareOutputRoot(outputDir) {
   if (!fs.existsSync(path.join(VUE_DIST_ROOT, "index.html"))) {
-    throw new Error("Vue production build is missing. Run npm run build:vue before export-static.");
+    throw new Error("Vue production build is missing. Run npm run export-static from the project root, or build the Vue app before calling src/export-static.js directly.");
   }
   fs.rmSync(outputDir, { recursive: true, force: true });
   fs.cpSync(VUE_DIST_ROOT, outputDir, { recursive: true });
@@ -108,9 +108,18 @@ async function exportMap(builds, gameConfig, map, outputDir) {
   }
 
   const build = job.build;
+  const scenePayload = {
+    build: build.build,
+    metadata: build.metadata,
+    atlases: build.atlases,
+    sprites: build.sprites,
+    shapeDefinitions: build.shapeDefinitions,
+    items: build.items,
+    mapSource: build.mapSource
+  };
   const targetDir = path.join(outputDir, "data", "maps", gameConfig.id, `map-${map.id}`);
   ensureDir(targetDir);
-  copyFile(build.sceneFilePath, path.join(targetDir, "scene.json"));
+  writeJson(path.join(targetDir, "scene.json"), scenePayload);
   for (const atlas of build.atlasFiles) {
     copyFile(atlas.filePath, path.join(targetDir, atlas.fileName));
   }

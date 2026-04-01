@@ -45,6 +45,44 @@ function sha1(value) {
   return crypto.createHash("sha1").update(value).digest("hex");
 }
 
+function normalizeSceneDocument(scene) {
+  if (!scene || typeof scene !== "object") {
+    return scene;
+  }
+
+  const normalized = {
+    ...scene,
+    build: scene.build && typeof scene.build === "object"
+      ? {
+          ...scene.build
+        }
+      : scene.build,
+    metadata: scene.metadata && typeof scene.metadata === "object"
+      ? {
+          ...scene.metadata
+        }
+      : scene.metadata
+  };
+
+  if (normalized.build && typeof normalized.build === "object") {
+    delete normalized.build.fingerprint;
+    delete normalized.build.generatedAt;
+  }
+
+  if (normalized.metadata && typeof normalized.metadata === "object") {
+    delete normalized.metadata.buildFingerprint;
+    delete normalized.metadata.generatedAt;
+  }
+
+  return normalized;
+}
+
+function writeSceneDocument(filePath, scene) {
+  const normalizedScene = normalizeSceneDocument(scene);
+  fs.writeFileSync(filePath, JSON.stringify(normalizedScene, null, 2));
+  return normalizedScene;
+}
+
 function normalizeBuildOptions(options = {}) {
   return {
     includeEditor: options.includeEditor !== false,
@@ -319,16 +357,12 @@ function createEmptyScene(gameConfig, mapId, fingerprint, reason) {
       max: 8,
       step: 0.1,
       initial: 1
-    },
-    buildFingerprint: fingerprint,
-    generatedAt: nowIso()
+    }
   };
 
   return {
     build: {
       version: SCENE_CACHE_VERSION,
-      fingerprint,
-      generatedAt: metadata.generatedAt,
       cacheMode: "single-scene"
     },
     metadata,
@@ -917,14 +951,19 @@ export class BuildManager {
     hooks.progress?.("cache-check", `Checking cached scene artifacts for ${gameConfig.id} map ${mapId}`);
     if (fs.existsSync(sceneFilePath)) {
       const cachedScene = JSON.parse(fs.readFileSync(sceneFilePath, "utf8"));
+      const normalizedCachedScene = normalizeSceneDocument(cachedScene);
+      const cacheNeededNormalization = JSON.stringify(cachedScene) !== JSON.stringify(normalizedCachedScene);
+      if (cacheNeededNormalization) {
+        writeSceneDocument(sceneFilePath, normalizedCachedScene);
+      }
       const allAtlasesPresent = cachedScene.atlases.every((atlas) => fs.existsSync(path.join(cacheDir, atlas.fileName)));
       if (allAtlasesPresent) {
         hooks.progress?.("cache-hit", `Using cached atlas and scene data for ${gameConfig.id} map ${mapId}`);
         return {
-          ...cachedScene,
+          ...normalizedCachedScene,
           cacheDir,
           sceneFilePath,
-          atlasFiles: cachedScene.atlases.map((atlas) => ({
+          atlasFiles: normalizedCachedScene.atlases.map((atlas) => ({
             ...atlas,
             filePath: path.join(cacheDir, atlas.fileName)
           }))
@@ -969,9 +1008,9 @@ export class BuildManager {
       emptyScene.metadata.usage = makeUsageInfo(gameConfig.id, mapId, baseItems, []);
       emptyScene.metadata.baseItemSummary = summarizeRenderClasses(baseItems, assets.shapeInfos);
       emptyScene.mapSource = mapSource;
-      fs.writeFileSync(sceneFilePath, JSON.stringify(emptyScene, null, 2));
+      const storedScene = writeSceneDocument(sceneFilePath, emptyScene);
       return {
-        ...emptyScene,
+        ...storedScene,
         cacheDir,
         sceneFilePath,
         atlasFiles: []
@@ -999,9 +1038,9 @@ export class BuildManager {
       emptyScene.metadata.invalidItemCount = sorted.invalidItemCount;
       emptyScene.metadata.invalidItems = sorted.invalidItems;
       emptyScene.mapSource = mapSource;
-      fs.writeFileSync(sceneFilePath, JSON.stringify(emptyScene, null, 2));
+      const storedScene = writeSceneDocument(sceneFilePath, emptyScene);
       return {
-        ...emptyScene,
+        ...storedScene,
         cacheDir,
         sceneFilePath,
         atlasFiles: []
@@ -1145,8 +1184,6 @@ export class BuildManager {
     const scene = {
       build: {
         version: SCENE_CACHE_VERSION,
-        fingerprint,
-        generatedAt: nowIso(),
         cacheMode: "single-scene"
       },
       metadata: {
@@ -1185,9 +1222,7 @@ export class BuildManager {
           max: 8,
           step: 0.1,
           initial: 1
-        },
-        buildFingerprint: fingerprint,
-        generatedAt: nowIso()
+        }
       },
       atlases: atlasFiles.map((atlas) => ({
         id: atlas.id,
@@ -1201,9 +1236,9 @@ export class BuildManager {
       mapSource
     };
 
-    fs.writeFileSync(sceneFilePath, JSON.stringify(scene, null, 2));
+    const storedScene = writeSceneDocument(sceneFilePath, scene);
     return {
-      ...scene,
+      ...storedScene,
       cacheDir,
       sceneFilePath,
       atlasFiles

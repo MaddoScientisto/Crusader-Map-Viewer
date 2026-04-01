@@ -62,6 +62,9 @@ export function setMeta(metadata) {
     return;
   }
 
+  const fingerprintRow = metadata.buildFingerprint
+    ? `<dt>Fingerprint</dt><dd>${metadata.buildFingerprint}</dd>`
+    : "";
   const kindSummary = Object.entries(metadata.sceneSummary?.kindCounts ?? {})
     .sort((left, right) => left[0].localeCompare(right[0]))
     .map(([kind, count]) => `${kind}: ${count}`)
@@ -77,7 +80,7 @@ export function setMeta(metadata) {
         <dt>Game</dt><dd>${metadata.gameLabel}</dd>
         <dt>Map</dt><dd>${metadata.map}</dd>
         <dt>Bounds</dt><dd>${metadata.bounds.width} x ${metadata.bounds.height}</dd>
-        <dt>Fingerprint</dt><dd>${metadata.buildFingerprint}</dd>
+        ${fingerprintRow}
       </dl>
     </section>
     <section class="meta-section">
