@@ -110,6 +110,35 @@ export function createScenePresentationController(deps) {
   const CRUSADER_EGG_RANGE_WORLD_UNITS = 64;
   const SNAP_EGG_SHAPE = 0x04fe;
   const F7_GRID_WORLD_UNITS = 0x200;
+  const VGA_PALETTE_CHANNEL_MAX = 0x3f;
+  const VGA_PALETTE_TICK_MS = 180;
+  const OVERLAY_PALETTE_INDEX = Object.freeze({
+    f7: 0x0e,
+    altF7: 0x09,
+    ctrlF7: 0x0d
+  });
+  const CYCLE_COLOR_NUMBERS = Object.freeze([8, 9, 10, 11, 12, 13, 14]);
+  const CYCLE_COLOR_WORD_FLAGS = Object.freeze([0, 0, 0, 0, 0, 0, 1]);
+  const CYCLE_COLOR_FLAGS = Object.freeze([
+    [1, 0, 0],
+    [0, 0, 1],
+    [1, 0, 0],
+    [0, 0, 1],
+    [1, 1, 0],
+    [1, 1, 1],
+    [0, 1, 0]
+  ]);
+  const CYCLE_COLOR_VALUES = Object.freeze([
+    [0, 0, 0],
+    [0, 0, 0],
+    [0x1f, 0, 0],
+    [0, 0, 0x1f],
+    [0, 0, 0],
+    [0, 0, 0],
+    [0, 0, 0]
+  ]);
+  const OVERLAY_CYCLE_RANDOM_SEED = 0x1438;
+  const overlayPaletteCycleState = createOverlayPaletteCycleState();
   const USECODE_TRIGGER_EGG_SUBTYPE_CLASSES = {
     remorse: {
       0: { className: "TRIGEGG", arrowMode: "trigger-qlo" },
@@ -135,6 +164,94 @@ export function createScenePresentationController(deps) {
       && Number.isFinite(item.world.x)
       && Number.isFinite(item.world.y)
       && Number.isFinite(item.world.z)
+    );
+  }
+
+  function createOverlayPaletteCycleState() {
+    return {
+      tick: 0,
+      rng: OVERLAY_CYCLE_RANDOM_SEED,
+      rows: CYCLE_COLOR_VALUES.map((row) => [...row])
+    };
+  }
+
+  function resetOverlayPaletteCycleState() {
+    overlayPaletteCycleState.tick = 0;
+    overlayPaletteCycleState.rng = OVERLAY_CYCLE_RANDOM_SEED;
+    overlayPaletteCycleState.rows = CYCLE_COLOR_VALUES.map((row) => [...row]);
+  }
+
+  function nextOverlayPaletteRandom(maxExclusive) {
+    overlayPaletteCycleState.rng = (overlayPaletteCycleState.rng * 1103515245 + 12345) & 0x7fffffff;
+    return maxExclusive > 0 ? ((overlayPaletteCycleState.rng >>> 16) % maxExclusive) : 0;
+  }
+
+  function advanceOverlayPaletteCycleRow(row, flags) {
+    let wrapped = false;
+    for (let index = 0; index < row.length; index += 1) {
+      if (!flags[index]) {
+        continue;
+      }
+      row[index] += 2;
+      if (row[index] > VGA_PALETTE_CHANNEL_MAX) {
+        row[index] = 0;
+        wrapped = true;
+      }
+    }
+    return wrapped;
+  }
+
+  function advanceOverlayPaletteCycleState() {
+    for (let index = 0; index < overlayPaletteCycleState.rows.length; index += 1) {
+      const row = overlayPaletteCycleState.rows[index];
+      const wrapped = advanceOverlayPaletteCycleRow(row, CYCLE_COLOR_FLAGS[index]);
+      if (CYCLE_COLOR_WORD_FLAGS[index] === 1 && wrapped) {
+        for (let channelIndex = 0; channelIndex < row.length; channelIndex += 1) {
+          row[channelIndex] = (row[channelIndex] + nextOverlayPaletteRandom(10)) & VGA_PALETTE_CHANNEL_MAX;
+        }
+      }
+    }
+  }
+
+  function getOverlayPaletteRows(timestamp) {
+    const targetTick = Math.max(0, Math.floor(timestamp / VGA_PALETTE_TICK_MS));
+    if (targetTick < overlayPaletteCycleState.tick) {
+      resetOverlayPaletteCycleState();
+    }
+    while (overlayPaletteCycleState.tick < targetTick) {
+      advanceOverlayPaletteCycleState();
+      overlayPaletteCycleState.tick += 1;
+    }
+    return overlayPaletteCycleState.rows;
+  }
+
+  function scaleVgaPaletteChannel(value) {
+    return Math.round((Math.max(0, Math.min(VGA_PALETTE_CHANNEL_MAX, value)) * 255) / VGA_PALETTE_CHANNEL_MAX);
+  }
+
+  function getOverlayPaletteRgb(paletteIndex, timestamp) {
+    const rowIndex = CYCLE_COLOR_NUMBERS.indexOf(paletteIndex);
+    if (rowIndex === -1) {
+      return "255, 255, 255";
+    }
+    const row = getOverlayPaletteRows(timestamp)[rowIndex];
+    return row.map((channel) => scaleVgaPaletteChannel(channel)).join(", ");
+  }
+
+  function buildOverlayPaletteStyles(paletteIndex, timestamp, overrides = {}) {
+    const rgb = getOverlayPaletteRgb(paletteIndex, timestamp);
+    return {
+      fillRgb: rgb,
+      strokeRgb: rgb,
+      connectorRgb: rgb,
+      ...overrides
+    };
+  }
+
+  function hasAnimatedPaletteCycleOverlay() {
+    return Boolean(
+      state.current
+      && (showF7GridCheckbox.checked || showAltF7SnapRangesCheckbox.checked || showCtrlF7EggRangesCheckbox.checked)
     );
   }
 
@@ -180,6 +297,53 @@ export function createScenePresentationController(deps) {
         [rightPoint.x, rightPoint.y, bottomPoint.x, bottomPoint.y],
         [bottomPoint.x, bottomPoint.y, leftPoint.x, leftPoint.y],
         [leftPoint.x, leftPoint.y, topPoint.x, topPoint.y]
+      ],
+      hitPolygon,
+      bounds: {
+        left: Math.min(...xs),
+        right: Math.max(...xs),
+        top: Math.min(...ys),
+        bottom: Math.max(...ys)
+      }
+    };
+  }
+
+  function projectCycleHelperPolygon(centerX, centerY, worldZ, xRangeSteps, yRangeSteps) {
+    if (!state.current) {
+      return null;
+    }
+
+    const minLeft = state.current.metadata.bounds.screenLeft;
+    const minTop = state.current.metadata.bounds.screenTop;
+    const projectPoint = (worldX, worldY, z = worldZ) => ({
+      x: Math.trunc(worldX / 4 - worldY / 4) - minLeft,
+      y: Math.trunc(worldX / 8 + worldY / 8 - z) - minTop
+    });
+
+    const centerPoint = projectPoint(centerX, centerY);
+    const pointA = {
+      x: centerPoint.x + yRangeSteps * 0x10,
+      y: centerPoint.y - yRangeSteps * 0x08
+    };
+    const pointB = {
+      x: pointA.x - xRangeSteps * 0x10,
+      y: pointA.y - xRangeSteps * 0x08
+    };
+    const pointC = {
+      x: pointB.x - yRangeSteps * 0x10,
+      y: pointB.y + yRangeSteps * 0x08
+    };
+    const hitPolygon = [centerPoint, pointA, pointB, pointC];
+    const xs = hitPolygon.map((point) => point.x);
+    const ys = hitPolygon.map((point) => point.y);
+
+    return {
+      center: centerPoint,
+      segments: [
+        [centerPoint.x, centerPoint.y, pointA.x, pointA.y],
+        [pointA.x, pointA.y, pointB.x, pointB.y],
+        [pointB.x, pointB.y, pointC.x, pointC.y],
+        [pointC.x, pointC.y, centerPoint.x, centerPoint.y]
       ],
       hitPolygon,
       bounds: {
@@ -245,17 +409,19 @@ export function createScenePresentationController(deps) {
 
     const signedByte = (value) => (value & 0x80) ? value - 0x100 : value;
     const qHi = (rawQuality >> 8) & 0xff;
-    const xRangeWorldUnits = ((qHi >> 4) & 0x0f) * 0x20;
-    const yRangeWorldUnits = (qHi & 0x0f) * 0x20;
-    const centerX = item.world.x + signedByte(rawMapNum) * 0x20;
-    const centerY = item.world.y + signedByte(rawNpcNum) * 0x20;
+    const xRangeNibble = (qHi >> 4) & 0x0f;
+    const yRangeNibble = qHi & 0x0f;
+    const xRangeSteps = xRangeNibble * 2;
+    const yRangeSteps = yRangeNibble * 2;
+    const centerX = item.world.x + xRangeNibble * 0x20 + signedByte(rawMapNum) * 0x20;
+    const centerY = item.world.y + yRangeNibble * 0x20 + signedByte(rawNpcNum) * 0x20;
 
-    return projectWorldDiamondBounds(
+    return projectCycleHelperPolygon(
       centerX,
       centerY,
       item.world.z,
-      xRangeWorldUnits,
-      yRangeWorldUnits
+      xRangeSteps,
+      yRangeSteps
     );
   }
 
@@ -2313,7 +2479,7 @@ export function createScenePresentationController(deps) {
     }
   }
 
-  function drawF7WorldGrid(targetContext, canvasWidth, canvasHeight, scale, offsetX, offsetY) {
+  function drawF7WorldGrid(targetContext, canvasWidth, canvasHeight, scale, offsetX, offsetY, timestamp) {
     if (!state.current || !showF7GridCheckbox.checked) {
       return;
     }
@@ -2324,16 +2490,16 @@ export function createScenePresentationController(deps) {
     }
 
     targetContext.save();
-    targetContext.strokeStyle = "rgba(244, 214, 142, 0.82)";
-    targetContext.lineWidth = 1.25;
-    targetContext.setLineDash([5, 7]);
+    targetContext.strokeStyle = `rgba(${getOverlayPaletteRgb(OVERLAY_PALETTE_INDEX.f7, timestamp)}, 0.92)`;
+    targetContext.lineWidth = 1;
+    targetContext.setLineDash([]);
     for (const geometry of geometries) {
       drawBoundingGeometry(targetContext, scale, offsetX, offsetY, geometry);
     }
     targetContext.restore();
   }
 
-  function drawCtrlF7EggRanges(targetContext, canvasWidth, canvasHeight, scale, offsetX, offsetY, hiddenIds = new Set()) {
+  function drawCtrlF7EggRanges(targetContext, canvasWidth, canvasHeight, scale, offsetX, offsetY, timestamp, hiddenIds = new Set()) {
     if (!state.current || !showCtrlF7EggRangesCheckbox.checked) {
       return;
     }
@@ -2356,21 +2522,18 @@ export function createScenePresentationController(deps) {
         continue;
       }
 
-      drawStyledPolygonOverlay(targetContext, scale, offsetX, offsetY, geometry, item, {
-        fillRgb: "64, 156, 255",
-        fillAlpha: 0.16,
-        strokeRgb: "92, 181, 255",
+      drawStyledPolygonOverlay(targetContext, scale, offsetX, offsetY, geometry, item, buildOverlayPaletteStyles(OVERLAY_PALETTE_INDEX.ctrlF7, timestamp, {
+        fillAlpha: 0,
         strokeAlpha: 0.92,
-        connectorRgb: "92, 181, 255",
-        connectorAlpha: 0.5,
-        dash: [2, 6],
-        connectorDash: [2, 10],
-        lineWidth: 1.5
-      });
+        connectorAlpha: 0.72,
+        dash: [],
+        connectorDash: [],
+        lineWidth: 1
+      }));
     }
   }
 
-  function drawAltF7SnapRanges(targetContext, canvasWidth, canvasHeight, scale, offsetX, offsetY, hiddenIds = new Set()) {
+  function drawAltF7SnapRanges(targetContext, canvasWidth, canvasHeight, scale, offsetX, offsetY, timestamp, hiddenIds = new Set()) {
     if (!state.current || !showAltF7SnapRangesCheckbox.checked) {
       return;
     }
@@ -2393,17 +2556,14 @@ export function createScenePresentationController(deps) {
         continue;
       }
 
-      drawStyledPolygonOverlay(targetContext, scale, offsetX, offsetY, geometry, item, {
-        fillRgb: "255, 186, 102",
-        fillAlpha: 0.08,
-        strokeRgb: "255, 201, 127",
+      drawStyledPolygonOverlay(targetContext, scale, offsetX, offsetY, geometry, item, buildOverlayPaletteStyles(OVERLAY_PALETTE_INDEX.altF7, timestamp, {
+        fillAlpha: 0,
         strokeAlpha: 0.88,
-        connectorRgb: "255, 192, 128",
-        connectorAlpha: 0.45,
-        dash: [6, 6],
-        connectorDash: [3, 9],
-        lineWidth: 1.3
-      });
+        connectorAlpha: 0.68,
+        dash: [],
+        connectorDash: [],
+        lineWidth: 1
+      }));
     }
   }
 
@@ -2462,15 +2622,18 @@ export function createScenePresentationController(deps) {
     }
     drawNpcPreviewOverlay(context, viewport.clientWidth, viewport.clientHeight, state.zoom, state.offsetX, state.offsetY);
     drawItemPreviewOverlay(context, viewport.clientWidth, viewport.clientHeight, state.zoom, state.offsetX, state.offsetY);
-    drawF7WorldGrid(context, viewport.clientWidth, viewport.clientHeight, state.zoom, state.offsetX, state.offsetY);
+    drawF7WorldGrid(context, viewport.clientWidth, viewport.clientHeight, state.zoom, state.offsetX, state.offsetY, timestamp);
     drawRangeOverlays(context, viewport.clientWidth, viewport.clientHeight, state.zoom, state.offsetX, state.offsetY, state.current?.hiddenIds ?? new Set());
-    drawAltF7SnapRanges(context, viewport.clientWidth, viewport.clientHeight, state.zoom, state.offsetX, state.offsetY, state.current?.hiddenIds ?? new Set());
-    drawCtrlF7EggRanges(context, viewport.clientWidth, viewport.clientHeight, state.zoom, state.offsetX, state.offsetY, state.current?.hiddenIds ?? new Set());
+    drawAltF7SnapRanges(context, viewport.clientWidth, viewport.clientHeight, state.zoom, state.offsetX, state.offsetY, timestamp, state.current?.hiddenIds ?? new Set());
+    drawCtrlF7EggRanges(context, viewport.clientWidth, viewport.clientHeight, state.zoom, state.offsetX, state.offsetY, timestamp, state.current?.hiddenIds ?? new Set());
     drawLinkArrows(context, viewport.clientWidth, viewport.clientHeight, state.zoom, state.offsetX, state.offsetY);
     drawBoundingBoxes(context, viewport.clientWidth, viewport.clientHeight, state.zoom, state.offsetX, state.offsetY, state.current?.hiddenIds ?? new Set());
     drawEggLabels(context, viewport.clientWidth, viewport.clientHeight);
     syncOverlayState();
     drawHighlightOverlay(context, state.zoom, state.offsetX, state.offsetY, timestamp);
+    if (hasAnimatedPaletteCycleOverlay()) {
+      scheduleRender();
+    }
   }
 
   function resetRenderCaches() {
