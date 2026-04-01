@@ -16,6 +16,7 @@ export function initializeControllerState() {
 export const state = {
   catalog: null,
   current: null,
+  referenceDataByGame: new Map(),
   siteConfig: null,
   zoom: 1,
   offsetX: 0,

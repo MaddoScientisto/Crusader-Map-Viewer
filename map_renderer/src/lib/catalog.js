@@ -458,6 +458,7 @@ export function detectCatalog() {
       games.push({
         id: game.id,
         gameId: game.gameId,
+        referenceId: game.catalogId ?? game.gameId ?? game.id,
         versionId: game.versionId,
         versionLabel: game.versionLabel,
         label: game.label,

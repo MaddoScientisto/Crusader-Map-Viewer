@@ -3,6 +3,7 @@ import fs from "node:fs";
 import path from "node:path";
 
 import { APP_ROOT, NPC_SPAWNER_CACHE_FILE, PORT, PUBLIC_ROOT } from "./config.js";
+import { writeNpcSpawnerData } from "./generate-npc-spawner-data.js";
 import { BuildManager } from "./lib/build-manager.js";
 import usecodeDecompiler from "./lib/usecode-decompiler.js";
 import { detectCatalog, getGameConfig, getShapeCatalogFile, updateShapeCatalogEntry } from "./lib/catalog.js";
@@ -19,6 +20,8 @@ function dynamicSiteConfig() {
   return {
     mode: "dynamic",
     npcSpawnerDataUrl: "./api/npc-spawner-data",
+    referenceDataBaseUrl: "./api/references",
+    referenceAtlasBaseUrl: "./api/references",
     capabilities: {
       reload: true,
       catalogEditing: catalogEditingEnabled
@@ -38,8 +41,8 @@ if (preferredStaticRoot !== PUBLIC_ROOT) {
 
 app.get("/api/npc-spawner-data", (_request, response) => {
   if (!fs.existsSync(NPC_SPAWNER_CACHE_FILE)) {
-    response.json({});
-    return;
+    const gameConfigs = catalog.games.map((game) => getGameConfig(game.id)).filter(Boolean);
+    writeNpcSpawnerData(undefined, gameConfigs);
   }
   response.type("application/json");
   response.sendFile(path.resolve(NPC_SPAWNER_CACHE_FILE), { dotfiles: "allow" });
@@ -122,11 +125,29 @@ app.get("/api/maps/:game/:mapId/overlays", (request, response) => {
   }
 });
 
-app.get("/api/maps/:game/:mapId/atlases/:atlasId.png", (request, response) => {
+app.get("/api/references/:game", (request, response) => {
   try {
-    const buildId = String(request.query.buildId ?? "");
-    const mapId = Number.parseInt(request.params.mapId, 10);
-    const atlas = builds.getAtlas(buildId, request.params.game, mapId, request.params.atlasId);
+    const referenceId = request.params.game;
+    const referenceData = builds.ensureReferenceData(referenceId);
+    response.json({
+      referenceId: referenceData.referenceId,
+      generatedAt: referenceData.generatedAt,
+      sourceGameIds: referenceData.sourceGameIds,
+      shapeDefinitionCount: referenceData.shapeDefinitionCount,
+      spriteCount: referenceData.spriteCount,
+      atlasCount: referenceData.atlasCount,
+      shapeDefinitions: referenceData.shapeDefinitions,
+      sprites: referenceData.sprites,
+      atlases: referenceData.atlases
+    });
+  } catch (error) {
+    response.status(400).json({ error: error instanceof Error ? error.message : String(error) });
+  }
+});
+
+app.get("/api/references/:game/atlases/:atlasId.png", (request, response) => {
+  try {
+    const atlas = builds.getAtlas(request.params.game, request.params.atlasId);
     response.setHeader("Content-Type", "image/png");
     response.setHeader("Cache-Control", "public, max-age=31536000, immutable");
     response.end(atlas);

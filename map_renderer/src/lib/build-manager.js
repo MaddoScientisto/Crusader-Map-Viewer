@@ -2,9 +2,9 @@ import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 
-import { APP_ROOT, SCENE_CACHE_ROOT, TILE_SIZE } from "../config.js";
+import { APP_ROOT, NPC_SPAWNER_CACHE_FILE, REFERENCE_DATA_CACHE_ROOT, SCENE_CACHE_ROOT, TILE_SIZE } from "../config.js";
 import { packSprites } from "./atlas-packer.js";
-import { ensureShapeCatalogCoverage, getShapeCatalog } from "./catalog.js";
+import { ensureShapeCatalogCoverage, getGameConfig, getShapeCatalog } from "./catalog.js";
 import { getShapeNameTable } from "./dtable.js";
 import {
   EGG_FAMILIES,
@@ -21,8 +21,10 @@ import {
   summarizeRenderClasses
 } from "./formats.js";
 import { buildMapSource, detectDefaultTeleportEggShape, loadMapPayload } from "./map-source.js";
-import { getMissionMapTable } from "./mission-map-data.js";
+import { getMissionMapTable, loadMissionMapData, writeMissionMapData } from "./mission-map-data.js";
 import { extractNpcSpawnerRows } from "./npc-spawner-data.js";
+import { buildSceneReferencePayload, getSceneReferenceId } from "./scene-reference-data.js";
+import { writeNpcSpawnerData } from "../generate-npc-spawner-data.js";
 import decompiler from "./usecode-decompiler.js";
 import { blitFrame, encodePng, rgbaBuffer } from "./png.js";
 import { prepareSortedItems } from "./sorting.js";
@@ -81,6 +83,11 @@ function writeSceneDocument(filePath, scene) {
   const normalizedScene = normalizeSceneDocument(scene);
   fs.writeFileSync(filePath, JSON.stringify(normalizedScene, null, 2));
   return normalizedScene;
+}
+
+function writeReferenceDataDocument(filePath, payload) {
+  fs.writeFileSync(filePath, JSON.stringify(payload, null, 2));
+  return payload;
 }
 
 function normalizeBuildOptions(options = {}) {
@@ -315,6 +322,7 @@ function makeUsageInfo(gameId, mapId, baseItems, renderItems) {
 }
 
 function createEmptyScene(gameConfig, mapId, fingerprint, reason) {
+  const referenceId = getSceneReferenceId(gameConfig.id);
   const metadata = {
     game: gameConfig.id,
     gameLabel: gameConfig.label,
@@ -366,9 +374,12 @@ function createEmptyScene(gameConfig, mapId, fingerprint, reason) {
       cacheMode: "single-scene"
     },
     metadata,
-    atlases: [],
-    sprites: [],
-    shapeDefinitions: [],
+    references: {
+      referenceId,
+      atlasIds: [],
+      spriteIds: [],
+      shapeDefinitionIds: []
+    },
     items: [],
     mapSource: null
   };
@@ -730,6 +741,226 @@ function serializeSprite(sprite, placement) {
   };
 }
 
+function analyzeMapScene(gameConfig, mapId, assets, catalogInfo, dtableInfo, hooks = {}) {
+  const fixedDatPath = resolveGameAssetPath(gameConfig, "FIXED.DAT");
+  hooks.progress?.("loading-map", `Loading FIXED.DAT map ${mapId}`);
+  const mapPayload = loadMapPayload(fixedDatPath, mapId);
+  const baseItems = loadMapItems(fixedDatPath, mapId);
+  const teleportEggTemplate = selectTeleportEggTemplate(baseItems, assets.shapeInfos, assets.shapeArchive);
+  const mapSource = buildMapSource(
+    gameConfig.id,
+    mapId,
+    baseItems,
+    teleportEggTemplate,
+    mapPayload.length
+  );
+
+  hooks.progress?.("collecting-items", `Collecting renderable items for map ${mapId}`);
+  const renderItems = collectRenderItems(baseItems, assets.shapeInfos, assets.globs, {
+    includeEditor: true,
+    expandGlobs: true,
+    worldRect: null,
+    includeRoofs: true,
+    includeHiddenMarkers: true,
+    checkpointEvery: 2000,
+    progress: (message) => hooks.progress?.("collecting-items", message)
+  });
+
+  if (!renderItems.length) {
+    return {
+      mapSource,
+      baseItems,
+      renderItems,
+      emptyReason: "This map has no renderable items in FIXED.DAT.",
+      invalidItemCount: 0,
+      invalidItems: [],
+      items: [],
+      shapeDefinitions: [],
+      sprites: [],
+      atlasIds: [],
+      spriteIds: [],
+      shapeDefinitionIds: [],
+      bounds: {
+        screenLeft: 0,
+        screenTop: 0,
+        screenRight: TILE_SIZE,
+        screenBottom: TILE_SIZE,
+        width: TILE_SIZE,
+        height: TILE_SIZE
+      },
+      sceneSummary: {
+        helperCount: 0,
+        kindCounts: {},
+        sourceCounts: {},
+        topFamilies: []
+      }
+    };
+  }
+
+  hooks.progress?.("sorting", `Sorting ${renderItems.length} decoded items`);
+  const sorted = prepareSortedItems(renderItems, assets.shapeArchive, assets.shapeInfos, {
+    checkpointEvery: 2000,
+    maxInvalidDetails: 20,
+    progress: (message) => hooks.progress?.("sorting", message)
+  });
+
+  if (!sorted.prepared.length) {
+    return {
+      mapSource,
+      baseItems,
+      renderItems,
+      emptyReason: "This map resolved to no valid shape or frame pairs after decoding.",
+      invalidItemCount: sorted.invalidItemCount,
+      invalidItems: sorted.invalidItems,
+      items: [],
+      shapeDefinitions: [],
+      sprites: [],
+      atlasIds: [],
+      spriteIds: [],
+      shapeDefinitionIds: [],
+      bounds: {
+        screenLeft: 0,
+        screenTop: 0,
+        screenRight: TILE_SIZE,
+        screenBottom: TILE_SIZE,
+        width: TILE_SIZE,
+        height: TILE_SIZE
+      },
+      sceneSummary: {
+        helperCount: 0,
+        kindCounts: {},
+        sourceCounts: {},
+        topFamilies: []
+      }
+    };
+  }
+
+  const spriteMap = new Map();
+  const npcPreviews = sorted.prepared.map((node) => buildNpcPreview(node.item, node.info, assets.npcSpawnerRowIndex, assets.shapeArchive));
+  const itemPreviews = sorted.prepared.map((node) => buildItemPreview(node.item, assets.shapeInfos, assets.shapeArchive));
+  for (const [index, node] of sorted.prepared.entries()) {
+    const spriteId = `sprite:${node.item.shape}:${node.item.frame}`;
+    if (!spriteMap.has(spriteId)) {
+      spriteMap.set(spriteId, {
+        id: spriteId,
+        shape: node.item.shape,
+        frame: node.item.frame,
+        width: node.frame.width,
+        height: node.frame.height,
+        frameData: node.frame,
+        pixels: node.pixels,
+        translucent: node.info.isTranslucent === true
+      });
+    }
+
+    const npcPreview = npcPreviews[index];
+    if (npcPreview) {
+      ensureSpriteEntry(spriteMap, assets.shapeArchive, assets.shapeInfos, catalogInfo.entries, npcPreview.shape, npcPreview.frame);
+    }
+
+    const itemPreview = itemPreviews[index];
+    if (itemPreview) {
+      ensureSpriteEntry(spriteMap, assets.shapeArchive, assets.shapeInfos, catalogInfo.entries, itemPreview.shape, itemPreview.frame);
+    }
+  }
+  if (teleportEggTemplate) {
+    for (const frameIndex of new Set([teleportEggTemplate.teleporterFrame, teleportEggTemplate.destinationFrame])) {
+      ensureSpriteEntry(spriteMap, assets.shapeArchive, assets.shapeInfos, catalogInfo.entries, teleportEggTemplate.shape, frameIndex);
+    }
+  }
+
+  const shapeDefinitionMap = new Map();
+  for (const [index, node] of sorted.prepared.entries()) {
+    const shapeDefId = `shape:${node.item.shape}`;
+    if (!shapeDefinitionMap.has(shapeDefId)) {
+      const catalogEntry = catalogInfo.entries.get(node.item.shape) ?? null;
+      const dtableEntry = dtableInfo.entries.get(node.item.shape) ?? null;
+      shapeDefinitionMap.set(shapeDefId, buildShapeDefinition(node.info, node.item.shape, catalogEntry, dtableEntry));
+    }
+
+    const npcPreview = npcPreviews[index];
+    if (npcPreview && !shapeDefinitionMap.has(npcPreview.shapeDefId)) {
+      shapeDefinitionMap.set(
+        npcPreview.shapeDefId,
+        buildShapeDefinition(
+          assets.shapeInfos[npcPreview.shape],
+          npcPreview.shape,
+          catalogInfo.entries.get(npcPreview.shape) ?? null,
+          dtableInfo.entries.get(npcPreview.shape) ?? null
+        )
+      );
+    }
+
+    const itemPreview = itemPreviews[index];
+    if (itemPreview && !shapeDefinitionMap.has(itemPreview.shapeDefId)) {
+      shapeDefinitionMap.set(
+        itemPreview.shapeDefId,
+        buildShapeDefinition(
+          assets.shapeInfos[itemPreview.shape],
+          itemPreview.shape,
+          catalogInfo.entries.get(itemPreview.shape) ?? null,
+          dtableInfo.entries.get(itemPreview.shape) ?? null
+        )
+      );
+    }
+  }
+  if (teleportEggTemplate) {
+    const shapeDefId = `shape:${teleportEggTemplate.shape}`;
+    if (!shapeDefinitionMap.has(shapeDefId)) {
+      shapeDefinitionMap.set(
+        shapeDefId,
+        buildShapeDefinition(
+          assets.shapeInfos[teleportEggTemplate.shape],
+          teleportEggTemplate.shape,
+          catalogInfo.entries.get(teleportEggTemplate.shape) ?? null,
+          dtableInfo.entries.get(teleportEggTemplate.shape) ?? null
+        )
+      );
+    }
+  }
+
+  const items = sorted.prepared.map((node, index) =>
+    serializeSceneItem(
+      node,
+      sorted.minLeft,
+      sorted.minTop,
+      index,
+      catalogInfo.entries.get(node.item.shape) ?? null,
+      dtableInfo.entries.get(node.item.shape) ?? null,
+      npcPreviews[index],
+      itemPreviews[index]
+    )
+  );
+  const shapeDefinitions = [...shapeDefinitionMap.values()].sort((left, right) => left.shape - right.shape);
+  const sprites = [...spriteMap.values()].sort((left, right) => left.shape - right.shape || left.frame - right.frame);
+  const sceneSummary = summarizeSceneItems(items);
+
+  return {
+    mapSource,
+    baseItems,
+    renderItems,
+    emptyReason: null,
+    invalidItemCount: sorted.invalidItemCount,
+    invalidItems: sorted.invalidItems,
+    items,
+    shapeDefinitions,
+    sprites,
+    atlasIds: [],
+    spriteIds: sprites.map((sprite) => sprite.id),
+    shapeDefinitionIds: shapeDefinitions.map((definition) => definition.id),
+    bounds: {
+      screenLeft: sorted.minLeft,
+      screenTop: sorted.minTop,
+      screenRight: sorted.maxRight,
+      screenBottom: sorted.maxBottom,
+      width: sorted.maxRight - sorted.minLeft,
+      height: sorted.maxBottom - sorted.minTop
+    },
+    sceneSummary,
+    occludedItemCount: sorted.occludedCount
+  };
+}
+
 function collectObservedShapes(renderItems, shapeInfos) {
   const observed = new Map();
   for (const item of renderItems) {
@@ -759,10 +990,12 @@ export class BuildManager {
   constructor(catalog) {
     this.catalog = catalog;
     this.assetCache = new Map();
+    this.referenceDataCache = new Map();
     this.usecodeCache = new Map();
     this.jobs = new Map();
     this.jobsByKey = new Map();
     ensureDir(SCENE_CACHE_ROOT);
+    ensureDir(REFERENCE_DATA_CACHE_ROOT);
   }
 
   listCatalog() {
@@ -773,19 +1006,209 @@ export class BuildManager {
     return this.jobs.get(jobId) ?? null;
   }
 
+  getReferenceId(gameId) {
+    return getSceneReferenceId(gameId);
+  }
+
+  listReferenceGames(referenceId) {
+    return this.catalog.games.filter((game) => this.getReferenceId(game.id) === referenceId);
+  }
+
+  getReferenceCacheRoot(referenceId) {
+    return path.join(REFERENCE_DATA_CACHE_ROOT, referenceId);
+  }
+
+  getReferenceDataFilePath(referenceId) {
+    return path.join(this.getReferenceCacheRoot(referenceId), "reference-data.json");
+  }
+
   invalidateGameCache(gameId) {
-    const gameCacheRoot = path.join(SCENE_CACHE_ROOT, gameId);
-    fs.rmSync(gameCacheRoot, { recursive: true, force: true });
-    this.usecodeCache.delete(gameId);
+    const referenceId = this.getReferenceId(gameId);
+    const invalidatedGames = this.catalog.games.filter((game) => this.getReferenceId(game.id) === referenceId).map((game) => game.id);
+    for (const invalidatedGameId of invalidatedGames) {
+      const gameCacheRoot = path.join(SCENE_CACHE_ROOT, invalidatedGameId);
+      fs.rmSync(gameCacheRoot, { recursive: true, force: true });
+      this.usecodeCache.delete(invalidatedGameId);
+    }
+    fs.rmSync(this.getReferenceCacheRoot(referenceId), { recursive: true, force: true });
+    this.referenceDataCache.delete(referenceId);
     for (const [key, job] of this.jobsByKey.entries()) {
-      if (job.game === gameId) {
+      if (invalidatedGames.includes(job.game)) {
         this.jobsByKey.delete(key);
       }
     }
     return {
       game: gameId,
-      cacheRoot: gameCacheRoot
+      referenceId,
+      invalidatedGames,
+      cacheRoot: this.getReferenceCacheRoot(referenceId)
     };
+  }
+
+  computeReferenceFingerprint(referenceId) {
+    const groupGames = this.listReferenceGames(referenceId).map((game) => getGameConfig(game.id)).filter(Boolean);
+    const fileStamps = [];
+    for (const gameConfig of groupGames) {
+      fileStamps.push(
+        ...resolveGameAssetPaths(gameConfig, "FIXED.DAT"),
+        ...resolveGameAssetPaths(gameConfig, "GAMEPAL.PAL"),
+        ...resolveGameAssetPaths(gameConfig, "TYPEFLAG.DAT"),
+        ...resolveGameAssetPaths(gameConfig, "GLOB.FLX"),
+        ...resolveGameAssetPaths(gameConfig, "SHAPES.FLX")
+      );
+      const xformPath = resolveOptionalXformPath(gameConfig);
+      if (xformPath) {
+        fileStamps.push(xformPath);
+      }
+    }
+    const catalogDigest = groupGames[0] ? getShapeCatalog(groupGames[0].id).digest : "missing";
+    const dtableDigest = groupGames[0] ? getShapeNameTable(groupGames[0].id).digest : "missing";
+
+    return sha1(
+      JSON.stringify({
+        version: SCENE_CACHE_VERSION,
+        referenceId,
+        files: [...new Set(fileStamps)].map((filePath) => fileStamp(filePath)).sort(),
+        catalogDigest,
+        dtableDigest
+      })
+    ).slice(0, 16);
+  }
+
+  loadReferenceData(referenceId) {
+    const filePath = this.getReferenceDataFilePath(referenceId);
+    if (!fs.existsSync(filePath)) {
+      return null;
+    }
+    const stat = fs.statSync(filePath);
+    const stamp = `${stat.size}:${Math.trunc(stat.mtimeMs)}`;
+    const cached = this.referenceDataCache.get(referenceId);
+    if (cached?.stamp === stamp) {
+      return cached.value;
+    }
+    const payload = JSON.parse(fs.readFileSync(filePath, "utf8"));
+    const atlasFiles = (payload.atlases ?? []).map((atlas) => ({
+      ...atlas,
+      filePath: path.join(this.getReferenceCacheRoot(referenceId), atlas.fileName)
+    }));
+    const value = { ...payload, atlasFiles };
+    this.referenceDataCache.set(referenceId, { stamp, value });
+    return value;
+  }
+
+  buildReferenceData(referenceId, hooks = {}) {
+    const groupGames = this.listReferenceGames(referenceId);
+    if (!groupGames.length) {
+      throw new Error(`No detected games for reference group ${referenceId}`);
+    }
+
+    const referenceCacheRoot = this.getReferenceCacheRoot(referenceId);
+    fs.rmSync(referenceCacheRoot, { recursive: true, force: true });
+    ensureDir(referenceCacheRoot);
+
+    const shapeDefinitions = new Map();
+    const sprites = new Map();
+    const sourceGameIds = [];
+    const representativeAssets = this.getAssets(getGameConfig(groupGames[0].id));
+
+    for (const game of groupGames) {
+      const gameConfig = getGameConfig(game.id);
+      if (!gameConfig) {
+        continue;
+      }
+      sourceGameIds.push(game.id);
+      const catalogInfo = getShapeCatalog(gameConfig.id);
+      const dtableInfo = getShapeNameTable(gameConfig.id);
+      const assets = this.getAssets(gameConfig);
+
+      for (const map of game.maps) {
+        hooks.progress?.("global-reference", `Scanning ${game.id} map ${map.id} for ${referenceId} atlas coverage`);
+        const analysis = analyzeMapScene(gameConfig, map.id, assets, catalogInfo, dtableInfo);
+        for (const definition of analysis.shapeDefinitions) {
+          shapeDefinitions.set(definition.id, definition);
+        }
+        for (const sprite of analysis.sprites) {
+          sprites.set(sprite.id, sprite);
+        }
+      }
+    }
+
+    hooks.progress?.("packing-atlases", `Packing ${sprites.size} shared sprites for ${referenceId}`);
+    const packed = packSprites(
+      [...sprites.values()].map((sprite) => ({
+        id: sprite.id,
+        width: sprite.width,
+        height: sprite.height
+      }))
+    );
+
+    const atlasFiles = [];
+    for (const atlas of packed.atlases) {
+      hooks.progress?.("writing-atlases", `Encoding shared ${referenceId} ${atlas.id} (${atlas.width}x${atlas.height})`);
+      const buffer = rgbaBuffer(atlas.width, atlas.height, [0, 0, 0, 0]);
+      for (const placed of atlas.sprites) {
+        const sprite = sprites.get(placed.id);
+        blitFrame(buffer, atlas.width, atlas.height, placed.x, placed.y, sprite.frameData, sprite.pixels, representativeAssets.palette, false, {
+          translucent: sprite.translucent,
+          xformBlendMap: representativeAssets.xformPalette?.primaryBlendMap ?? null,
+          xformBlendRgbRemap: representativeAssets.xformPalette?.primaryBlendRgbRemap ?? null
+        });
+      }
+      const fileName = `${atlas.id}.png`;
+      const filePath = path.join(referenceCacheRoot, fileName);
+      fs.writeFileSync(filePath, encodePng(atlas.width, atlas.height, buffer));
+      atlasFiles.push({
+        id: atlas.id,
+        referenceId,
+        fileName,
+        filePath,
+        width: atlas.width,
+        height: atlas.height
+      });
+    }
+
+    const serializedSprites = [...sprites.values()]
+      .map((sprite) => serializeSprite(sprite, packed.placements.get(sprite.id)))
+      .map((sprite) => ({ ...sprite, referenceId }))
+      .sort((left, right) => left.shape - right.shape || left.frame - right.frame);
+    const serializedAtlases = atlasFiles
+      .map(({ id, referenceId: atlasReferenceId, fileName, width, height }) => ({ id, referenceId: atlasReferenceId, fileName, width, height }))
+      .sort((left, right) => left.id.localeCompare(right.id));
+    const payload = buildSceneReferencePayload(referenceId, {
+      shapeDefinitions: [...shapeDefinitions.values()].sort((left, right) => left.shape - right.shape),
+      sprites: serializedSprites,
+      atlases: serializedAtlases,
+      fingerprint: this.computeReferenceFingerprint(referenceId)
+    }, sourceGameIds);
+
+    writeReferenceDataDocument(this.getReferenceDataFilePath(referenceId), payload);
+    const value = { ...payload, atlasFiles };
+    this.referenceDataCache.set(referenceId, {
+      stamp: `${payload.shapeDefinitionCount}:${payload.spriteCount}:${payload.atlasCount}:${payload.generatedAt}`,
+      value
+    });
+    return value;
+  }
+
+  ensureReferenceData(referenceId, requiredSpriteIds = [], requiredShapeDefinitionIds = [], hooks = {}) {
+    const current = this.loadReferenceData(referenceId);
+    const expectedFingerprint = this.computeReferenceFingerprint(referenceId);
+    if (current) {
+      const spriteIds = new Set((current.sprites ?? []).map((sprite) => sprite.id));
+      const shapeDefinitionIds = new Set((current.shapeDefinitions ?? []).map((definition) => definition.id));
+      const allAtlasesPresent = (current.atlasFiles ?? []).every((atlas) => fs.existsSync(atlas.filePath));
+      const missingSprites = requiredSpriteIds.filter((id) => !spriteIds.has(id));
+      const missingShapeDefinitions = requiredShapeDefinitionIds.filter((id) => !shapeDefinitionIds.has(id));
+      if (
+        current.fingerprint === expectedFingerprint
+        && allAtlasesPresent
+        && missingSprites.length === 0
+        && missingShapeDefinitions.length === 0
+      ) {
+        return current;
+      }
+    }
+    return this.buildReferenceData(referenceId, hooks);
   }
 
   ensureUsecodeCache(gameConfig) {
@@ -796,6 +1219,22 @@ export class BuildManager {
     const result = decompiler.ensureGameUsecodeCache(gameConfig);
     this.usecodeCache.set(gameConfig.id, result);
     return result;
+  }
+
+  ensureGlobalJsonData(gameConfig) {
+    const gameConfigs = this.catalog.games.map((game) => getGameConfig(game.id)).filter(Boolean);
+    const missionMapData = loadMissionMapData();
+    if (!missionMapData?.games?.[gameConfig.id]) {
+      writeMissionMapData(undefined, gameConfigs);
+    }
+
+    let npcSpawnerData = null;
+    if (fs.existsSync(NPC_SPAWNER_CACHE_FILE)) {
+      npcSpawnerData = JSON.parse(fs.readFileSync(NPC_SPAWNER_CACHE_FILE, "utf8"));
+    }
+    if (!npcSpawnerData?.[gameConfig.id]) {
+      writeNpcSpawnerData(undefined, gameConfigs);
+    }
   }
 
   computeBuildFingerprint(gameConfig, mapId, options, catalogInfo, dtableInfo) {
@@ -837,8 +1276,9 @@ export class BuildManager {
     return ensureShapeCatalogCoverage(gameConfig.id, collectObservedShapes(renderItems, assets.shapeInfos));
   }
 
-  async createOrReuseBuild(gameConfig, mapId, rawOptions = {}) {
+  async createOrReuseBuild(gameConfig, mapId, rawOptions = {}, hooks = {}) {
     const options = normalizeBuildOptions(rawOptions);
+    this.ensureGlobalJsonData(gameConfig);
     this.ensureCatalogCoverage(gameConfig, mapId);
     const catalogInfo = getShapeCatalog(gameConfig.id);
     const dtableInfo = getShapeNameTable(gameConfig.id);
@@ -871,20 +1311,22 @@ export class BuildManager {
     };
     this.jobs.set(job.id, job);
     this.jobsByKey.set(key, job);
-    job.promise = this.runBuild(job, gameConfig, catalogInfo, dtableInfo);
+    job.promise = this.runBuild(job, gameConfig, catalogInfo, dtableInfo, hooks);
     return job;
   }
 
-  async runBuild(job, gameConfig, catalogInfo, dtableInfo) {
+  async runBuild(job, gameConfig, catalogInfo, dtableInfo, hooks = {}) {
     try {
       job.status = "building";
       job.phase = "loading-assets";
       this.touchJob(job, `Preparing ${gameConfig.label} assets`);
+      hooks.progress?.(job.phase, `Preparing ${gameConfig.label} assets`);
 
       const scene = await this.ensureSceneArtifacts(gameConfig, job.mapId, job.options, job.fingerprint, catalogInfo, dtableInfo, {
         progress: (phase, message) => {
           job.phase = phase;
           this.touchJob(job, message);
+          hooks.progress?.(phase, message);
         }
       });
 
@@ -896,11 +1338,13 @@ export class BuildManager {
         job,
         `Scene ready with ${scene.metadata.sceneSummary.spriteCount} sprites across ${scene.metadata.sceneSummary.atlasCount} atlases`
       );
+      hooks.progress?.(job.phase, `Scene ready with ${scene.metadata.sceneSummary.spriteCount} sprites across ${scene.metadata.sceneSummary.atlasCount} atlases`);
     } catch (error) {
       job.status = "failed";
       job.phase = "failed";
       job.error = error instanceof Error ? error.message : String(error);
       this.touchJob(job, `Build failed: ${job.error}`);
+      hooks.progress?.(job.phase, `Build failed: ${job.error}`);
     }
   }
 
@@ -947,6 +1391,7 @@ export class BuildManager {
     removeLegacyOptionCacheDirs(mapCacheRoot);
     const cacheDir = path.join(mapCacheRoot, fingerprint);
     const sceneFilePath = path.join(cacheDir, "scene.json");
+    const referenceId = this.getReferenceId(gameConfig.id);
 
     hooks.progress?.("cache-check", `Checking cached scene artifacts for ${gameConfig.id} map ${mapId}`);
     if (fs.existsSync(sceneFilePath)) {
@@ -956,230 +1401,55 @@ export class BuildManager {
       if (cacheNeededNormalization) {
         writeSceneDocument(sceneFilePath, normalizedCachedScene);
       }
-      const allAtlasesPresent = cachedScene.atlases.every((atlas) => fs.existsSync(path.join(cacheDir, atlas.fileName)));
+      const referenceData = this.ensureReferenceData(
+        normalizedCachedScene.references?.referenceId ?? referenceId,
+        normalizedCachedScene.references?.spriteIds ?? [],
+        normalizedCachedScene.references?.shapeDefinitionIds ?? [],
+        hooks
+      );
+      const allAtlasesPresent = (referenceData.atlasFiles ?? []).every((atlas) => fs.existsSync(atlas.filePath));
       if (allAtlasesPresent) {
         hooks.progress?.("cache-hit", `Using cached atlas and scene data for ${gameConfig.id} map ${mapId}`);
         return {
           ...normalizedCachedScene,
           cacheDir,
           sceneFilePath,
-          atlasFiles: normalizedCachedScene.atlases.map((atlas) => ({
-            ...atlas,
-            filePath: path.join(cacheDir, atlas.fileName)
-          }))
+          referenceData,
+          atlasFiles: referenceData.atlasFiles
         };
       }
     }
 
     const assets = this.getAssets(gameConfig);
-    const fixedDatPath = resolveGameAssetPath(gameConfig, "FIXED.DAT");
-    hooks.progress?.("loading-map", `Loading FIXED.DAT map ${mapId}`);
-    const mapPayload = loadMapPayload(fixedDatPath, mapId);
-    const baseItems = loadMapItems(fixedDatPath, mapId);
-    const teleportEggTemplate = selectTeleportEggTemplate(baseItems, assets.shapeInfos, assets.shapeArchive);
-    const mapSource = buildMapSource(
-      gameConfig.id,
-      mapId,
-      baseItems,
-      teleportEggTemplate,
-      mapPayload.length
-    );
+    const analysis = analyzeMapScene(gameConfig, mapId, assets, catalogInfo, dtableInfo, hooks);
 
-    hooks.progress?.("collecting-items", `Collecting renderable items for map ${mapId}`);
-    const renderItems = collectRenderItems(baseItems, assets.shapeInfos, assets.globs, {
-      includeEditor: true,
-      expandGlobs: true,
-      worldRect: null,
-      includeRoofs: true,
-      includeHiddenMarkers: true,
-      checkpointEvery: 2000,
-      progress: (message) => hooks.progress?.("collecting-items", message)
-    });
-
-    if (!renderItems.length) {
+    if (analysis.emptyReason && analysis.items.length === 0) {
       ensureDir(cacheDir);
       const emptyScene = createEmptyScene(
         gameConfig,
         mapId,
         fingerprint,
-        "This map has no renderable items in FIXED.DAT."
+        analysis.emptyReason
       );
-      emptyScene.metadata.rawItemCount = baseItems.length;
-      emptyScene.metadata.usage = makeUsageInfo(gameConfig.id, mapId, baseItems, []);
-      emptyScene.metadata.baseItemSummary = summarizeRenderClasses(baseItems, assets.shapeInfos);
-      emptyScene.mapSource = mapSource;
+      emptyScene.metadata.rawItemCount = analysis.baseItems.length;
+      emptyScene.metadata.usage = makeUsageInfo(gameConfig.id, mapId, analysis.baseItems, analysis.renderItems);
+      emptyScene.metadata.baseItemSummary = summarizeRenderClasses(analysis.baseItems, assets.shapeInfos);
+      emptyScene.metadata.invalidItemCount = analysis.invalidItemCount;
+      emptyScene.metadata.invalidItems = analysis.invalidItems;
+      emptyScene.mapSource = analysis.mapSource;
       const storedScene = writeSceneDocument(sceneFilePath, emptyScene);
+      const referenceData = this.ensureReferenceData(referenceId, [], [], hooks);
       return {
         ...storedScene,
         cacheDir,
         sceneFilePath,
-        atlasFiles: []
+        referenceData,
+        atlasFiles: referenceData.atlasFiles
       };
     }
-
-    hooks.progress?.("sorting", `Sorting ${renderItems.length} decoded items`);
-    const sorted = prepareSortedItems(renderItems, assets.shapeArchive, assets.shapeInfos, {
-      checkpointEvery: 2000,
-      maxInvalidDetails: 20,
-      progress: (message) => hooks.progress?.("sorting", message)
-    });
-
-    if (!sorted.prepared.length) {
-      ensureDir(cacheDir);
-      const emptyScene = createEmptyScene(
-        gameConfig,
-        mapId,
-        fingerprint,
-        "This map resolved to no valid shape or frame pairs after decoding."
-      );
-      emptyScene.metadata.rawItemCount = baseItems.length;
-      emptyScene.metadata.usage = makeUsageInfo(gameConfig.id, mapId, baseItems, renderItems);
-      emptyScene.metadata.baseItemSummary = summarizeRenderClasses(baseItems, assets.shapeInfos);
-      emptyScene.metadata.invalidItemCount = sorted.invalidItemCount;
-      emptyScene.metadata.invalidItems = sorted.invalidItems;
-      emptyScene.mapSource = mapSource;
-      const storedScene = writeSceneDocument(sceneFilePath, emptyScene);
-      return {
-        ...storedScene,
-        cacheDir,
-        sceneFilePath,
-        atlasFiles: []
-      };
-    }
-
-    const spriteMap = new Map();
-    const npcPreviews = sorted.prepared.map((node) => buildNpcPreview(node.item, node.info, assets.npcSpawnerRowIndex, assets.shapeArchive));
-    const itemPreviews = sorted.prepared.map((node) => buildItemPreview(node.item, assets.shapeInfos, assets.shapeArchive));
-    for (const [index, node] of sorted.prepared.entries()) {
-      const spriteId = `sprite:${node.item.shape}:${node.item.frame}`;
-      if (!spriteMap.has(spriteId)) {
-        spriteMap.set(spriteId, {
-          id: spriteId,
-          shape: node.item.shape,
-          frame: node.item.frame,
-          width: node.frame.width,
-          height: node.frame.height,
-          frameData: node.frame,
-          pixels: node.pixels,
-          translucent: node.info.isTranslucent === true
-        });
-      }
-
-      const npcPreview = npcPreviews[index];
-      if (npcPreview) {
-        ensureSpriteEntry(spriteMap, assets.shapeArchive, assets.shapeInfos, catalogInfo.entries, npcPreview.shape, npcPreview.frame);
-      }
-
-      const itemPreview = itemPreviews[index];
-      if (itemPreview) {
-        ensureSpriteEntry(spriteMap, assets.shapeArchive, assets.shapeInfos, catalogInfo.entries, itemPreview.shape, itemPreview.frame);
-      }
-    }
-    if (teleportEggTemplate) {
-      for (const frameIndex of new Set([teleportEggTemplate.teleporterFrame, teleportEggTemplate.destinationFrame])) {
-        ensureSpriteEntry(spriteMap, assets.shapeArchive, assets.shapeInfos, catalogInfo.entries, teleportEggTemplate.shape, frameIndex);
-      }
-    }
-
-    hooks.progress?.("packing-atlases", `Packing ${spriteMap.size} unique sprites into atlases`);
-    const packed = packSprites(
-      [...spriteMap.values()].map((sprite) => ({
-        id: sprite.id,
-        width: sprite.width,
-        height: sprite.height
-      }))
-    );
-
-    ensureDir(cacheDir);
-    const atlasFiles = [];
-    for (const atlas of packed.atlases) {
-      hooks.progress?.("writing-atlases", `Encoding ${atlas.id} (${atlas.width}x${atlas.height})`);
-      const buffer = rgbaBuffer(atlas.width, atlas.height, [0, 0, 0, 0]);
-      for (const placed of atlas.sprites) {
-        const sprite = spriteMap.get(placed.id);
-        blitFrame(buffer, atlas.width, atlas.height, placed.x, placed.y, sprite.frameData, sprite.pixels, assets.palette, false, {
-          translucent: sprite.translucent,
-          xformBlendMap: assets.xformPalette?.primaryBlendMap ?? null,
-          xformBlendRgbRemap: assets.xformPalette?.primaryBlendRgbRemap ?? null
-        });
-      }
-      const fileName = `${atlas.id}.png`;
-      const filePath = path.join(cacheDir, fileName);
-      fs.writeFileSync(filePath, encodePng(atlas.width, atlas.height, buffer));
-      atlasFiles.push({
-        id: atlas.id,
-        fileName,
-        filePath,
-        width: atlas.width,
-        height: atlas.height
-      });
-    }
-
-    const shapeDefinitionMap = new Map();
-    for (const [index, node] of sorted.prepared.entries()) {
-      const shapeDefId = `shape:${node.item.shape}`;
-      if (!shapeDefinitionMap.has(shapeDefId)) {
-        const catalogEntry = catalogInfo.entries.get(node.item.shape) ?? null;
-        const dtableEntry = dtableInfo.entries.get(node.item.shape) ?? null;
-        shapeDefinitionMap.set(shapeDefId, buildShapeDefinition(node.info, node.item.shape, catalogEntry, dtableEntry));
-      }
-
-      const npcPreview = npcPreviews[index];
-      if (npcPreview && !shapeDefinitionMap.has(npcPreview.shapeDefId)) {
-        shapeDefinitionMap.set(
-          npcPreview.shapeDefId,
-          buildShapeDefinition(
-            assets.shapeInfos[npcPreview.shape],
-            npcPreview.shape,
-            catalogInfo.entries.get(npcPreview.shape) ?? null,
-            dtableInfo.entries.get(npcPreview.shape) ?? null
-          )
-        );
-      }
-
-      const itemPreview = itemPreviews[index];
-      if (itemPreview && !shapeDefinitionMap.has(itemPreview.shapeDefId)) {
-        shapeDefinitionMap.set(
-          itemPreview.shapeDefId,
-          buildShapeDefinition(
-            assets.shapeInfos[itemPreview.shape],
-            itemPreview.shape,
-            catalogInfo.entries.get(itemPreview.shape) ?? null,
-            dtableInfo.entries.get(itemPreview.shape) ?? null
-          )
-        );
-      }
-    }
-    if (teleportEggTemplate) {
-      const shapeDefId = `shape:${teleportEggTemplate.shape}`;
-      if (!shapeDefinitionMap.has(shapeDefId)) {
-        shapeDefinitionMap.set(
-          shapeDefId,
-          buildShapeDefinition(
-            assets.shapeInfos[teleportEggTemplate.shape],
-            teleportEggTemplate.shape,
-            catalogInfo.entries.get(teleportEggTemplate.shape) ?? null,
-            dtableInfo.entries.get(teleportEggTemplate.shape) ?? null
-          )
-        );
-      }
-    }
-
-    const items = sorted.prepared.map((node, index) =>
-      serializeSceneItem(
-        node,
-        sorted.minLeft,
-        sorted.minTop,
-        index,
-        catalogInfo.entries.get(node.item.shape) ?? null,
-        dtableInfo.entries.get(node.item.shape) ?? null,
-        npcPreviews[index],
-        itemPreviews[index]
-      )
-    );
-    const sprites = [...spriteMap.values()].map((sprite) => serializeSprite(sprite, packed.placements.get(sprite.id)));
-    const shapeDefinitions = [...shapeDefinitionMap.values()].sort((left, right) => left.shape - right.shape);
-    const sceneSummary = summarizeSceneItems(items);
+    const referenceData = this.ensureReferenceData(referenceId, analysis.spriteIds, analysis.shapeDefinitionIds, hooks);
+    const spriteIndex = new Map((referenceData.sprites ?? []).map((sprite) => [sprite.id, sprite]));
+    const atlasIds = [...new Set(analysis.spriteIds.map((spriteId) => spriteIndex.get(spriteId)?.atlasId).filter(Boolean))].sort();
 
     const scene = {
       build: {
@@ -1190,33 +1460,26 @@ export class BuildManager {
         game: gameConfig.id,
         gameLabel: gameConfig.label,
         map: mapId,
-        rawItemCount: baseItems.length,
-        itemCount: renderItems.length,
-        paintedItemCount: items.length,
-        occludedItemCount: sorted.occludedCount,
-        invalidItemCount: sorted.invalidItemCount,
-        invalidItems: sorted.invalidItems,
+        rawItemCount: analysis.baseItems.length,
+        itemCount: analysis.renderItems.length,
+        paintedItemCount: analysis.items.length,
+        occludedItemCount: analysis.occludedItemCount,
+        invalidItemCount: analysis.invalidItemCount,
+        invalidItems: analysis.invalidItems,
         sceneSummary: {
-          atlasCount: atlasFiles.length,
-          spriteCount: sprites.length,
-          helperCount: sceneSummary.helperCount,
-          kindCounts: sceneSummary.kindCounts,
-          sourceCounts: sceneSummary.sourceCounts,
-          topFamilies: sceneSummary.topFamilies
+          atlasCount: atlasIds.length,
+          spriteCount: analysis.spriteIds.length,
+          helperCount: analysis.sceneSummary.helperCount,
+          kindCounts: analysis.sceneSummary.kindCounts,
+          sourceCounts: analysis.sceneSummary.sourceCounts,
+          topFamilies: analysis.sceneSummary.topFamilies
         },
-        usage: makeUsageInfo(gameConfig.id, mapId, baseItems, renderItems),
-        baseItemSummary: summarizeRenderClasses(baseItems, assets.shapeInfos),
+        usage: makeUsageInfo(gameConfig.id, mapId, analysis.baseItems, analysis.renderItems),
+        baseItemSummary: summarizeRenderClasses(analysis.baseItems, assets.shapeInfos),
         sorter: "scummvm_dependency_graph",
         isEmpty: false,
         emptyReason: null,
-        bounds: {
-          screenLeft: sorted.minLeft,
-          screenTop: sorted.minTop,
-          screenRight: sorted.maxRight,
-          screenBottom: sorted.maxBottom,
-          width: sorted.maxRight - sorted.minLeft,
-          height: sorted.maxBottom - sorted.minTop
-        },
+        bounds: analysis.bounds,
         zoom: {
           min: 0.01,
           max: 8,
@@ -1224,24 +1487,24 @@ export class BuildManager {
           initial: 1
         }
       },
-      atlases: atlasFiles.map((atlas) => ({
-        id: atlas.id,
-        fileName: atlas.fileName,
-        width: atlas.width,
-        height: atlas.height
-      })),
-      sprites,
-      shapeDefinitions,
-      items,
-      mapSource
+      references: {
+        referenceId,
+        atlasIds,
+        spriteIds: analysis.spriteIds,
+        shapeDefinitionIds: analysis.shapeDefinitionIds
+      },
+      items: analysis.items,
+      mapSource: analysis.mapSource
     };
 
+    ensureDir(cacheDir);
     const storedScene = writeSceneDocument(sceneFilePath, scene);
     return {
       ...storedScene,
       cacheDir,
       sceneFilePath,
-      atlasFiles
+      referenceData,
+      atlasFiles: referenceData.atlasFiles
     };
   }
 
@@ -1287,9 +1550,7 @@ export class BuildManager {
     return {
       build: job.build.build,
       metadata: job.build.metadata,
-      atlases: job.build.atlases,
-      sprites: job.build.sprites,
-      shapeDefinitions: job.build.shapeDefinitions,
+      references: job.build.references,
       items: job.build.items,
       mapSource: job.build.mapSource
     };
@@ -1297,29 +1558,31 @@ export class BuildManager {
 
   getInspectData(jobId, gameId, mapId) {
     const job = this.requireReadyJob(jobId, gameId, mapId);
+    const referenceData = job.build.referenceData ?? this.ensureReferenceData(job.build.references.referenceId, job.build.references.spriteIds, job.build.references.shapeDefinitionIds);
     return {
-      shapeDefinitions: job.build.shapeDefinitions,
+      shapeDefinitions: (referenceData.shapeDefinitions ?? []).filter((definition) => job.build.references.shapeDefinitionIds.includes(definition.id)),
       items: job.build.items
     };
   }
 
   getOverlayData(jobId, gameId, mapId) {
     const job = this.requireReadyJob(jobId, gameId, mapId);
-    const shapeDefinitions = new Map(job.build.shapeDefinitions.map((definition) => [definition.id, definition]));
+    const referenceData = job.build.referenceData ?? this.ensureReferenceData(job.build.references.referenceId, job.build.references.spriteIds, job.build.references.shapeDefinitionIds);
+    const shapeDefinitions = new Map((referenceData.shapeDefinitions ?? []).map((definition) => [definition.id, definition]));
     const overlayItems = job.build.items.filter((item) => {
       const definition = shapeDefinitions.get(item.shapeDefId);
       return definition?.traits.editor || definition?.kind === "helper" || definition?.kind === "egg";
     });
     return {
-      shapeDefinitions: job.build.shapeDefinitions,
+      shapeDefinitions: [...shapeDefinitions.values()].filter((definition) => job.build.references.shapeDefinitionIds.includes(definition.id)),
       items: overlayItems,
       summary: summarizeSceneItems(overlayItems)
     };
   }
 
-  getAtlas(jobId, gameId, mapId, atlasId) {
-    const job = this.requireReadyJob(jobId, gameId, mapId);
-    const atlas = job.build.atlasFiles.find((entry) => entry.id === atlasId);
+  getAtlas(referenceId, atlasId) {
+    const referenceData = this.ensureReferenceData(referenceId);
+    const atlas = referenceData.atlasFiles.find((entry) => entry.id === atlasId);
     if (!atlas || !fs.existsSync(atlas.filePath)) {
       throw new Error("Unknown atlas id");
     }

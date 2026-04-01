@@ -13,6 +13,7 @@ export const PORT = Number.parseInt(process.env.PORT ?? "3000", 10);
 export const CACHE_ROOT = path.join(APP_ROOT, ".cache");
 export const TILE_CACHE_ROOT = path.join(CACHE_ROOT, "tiles");
 export const SCENE_CACHE_ROOT = path.join(CACHE_ROOT, "scene-cache");
+export const REFERENCE_DATA_CACHE_ROOT = path.join(CACHE_ROOT, "reference-data");
 export const NPC_SPAWNER_CACHE_FILE = path.join(CACHE_ROOT, "npc-spawner-data.generated.json");
 export const MISSION_MAP_CACHE_FILE = path.join(CACHE_ROOT, "mission-map-data.generated.json");
 export const CATALOG_ROOT = path.join(APP_ROOT, "Catalogs");

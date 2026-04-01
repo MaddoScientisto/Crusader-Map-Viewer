@@ -36,6 +36,20 @@ export function getCatalogDataPath(siteConfig) {
     : "api/maps";
 }
 
+export function getReferenceDataPath(siteConfig, referenceGameId) {
+  if (isStaticSite(siteConfig)) {
+    return `${trimTrailingSlash(siteConfig?.referenceDataBaseUrl ?? "./data/reference-data")}/${referenceGameId}.json`;
+  }
+  return `api/references/${referenceGameId}`;
+}
+
+export function getReferenceAtlasPath(siteConfig, referenceGameId, atlas) {
+  if (isStaticSite(siteConfig)) {
+    return `${trimTrailingSlash(siteConfig?.referenceAtlasBaseUrl ?? "./data/reference-atlases")}/${referenceGameId}/${atlas.fileName}`;
+  }
+  return `api/references/${referenceGameId}/atlases/${atlas.id}.png`;
+}
+
 export function getCatalogDownloadPath(siteConfig, gameId) {
   if (isStaticSite(siteConfig)) {
     return `${trimTrailingSlash(siteConfig?.catalogDownloadBaseUrl ?? "./data/catalogs")}/${gameId}.csv`;
@@ -68,10 +82,7 @@ export function getDynamicScenePath(selected, jobId) {
 }
 
 export function getAtlasPath(siteConfig, selected, jobId, atlas) {
-  if (isStaticSite(siteConfig)) {
-    return `${trimTrailingSlash(siteConfig?.staticMapsBaseUrl ?? "./data/maps")}/${selected.game}/map-${selected.mapId}/${atlas.fileName}`;
-  }
-  return `api/maps/${selected.game}/${selected.mapId}/atlases/${atlas.id}.png?buildId=${encodeURIComponent(jobId)}`;
+  return getReferenceAtlasPath(siteConfig, atlas.referenceId ?? selected.game, atlas);
 }
 
 export function getUsecodeIndexPath(siteConfig, gameId) {

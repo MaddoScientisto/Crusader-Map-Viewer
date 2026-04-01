@@ -3,6 +3,7 @@ import {
   readViewerHistoryState,
   updateViewerHistory
 } from "../../shared/viewer-history.js";
+import { getReferenceDataPath } from "../../shared/runtime-adapter.js";
 
 export function createSceneRuntimeController(deps) {
   const USECODE_STATE_EVENT = "crusader-map-renderer:scene-changed";
@@ -595,6 +596,88 @@ export function createSceneRuntimeController(deps) {
     };
   }
 
+  function getCatalogGameEntry(gameId) {
+    if (!state.catalog?.games?.length) {
+      return null;
+    }
+    return state.catalog.games.find((game) => game.id === gameId) ?? null;
+  }
+
+  function getSceneReferenceId(selected, scene) {
+    return scene?.references?.referenceId
+      ?? getCatalogGameEntry(selected?.game)?.referenceId
+      ?? selected?.game
+      ?? null;
+  }
+
+  async function loadReferenceDefinitions(referenceId) {
+    if (!referenceId) {
+      return {
+        shapeDefinitions: [],
+        sprites: [],
+        atlases: []
+      };
+    }
+    const cached = state.referenceDataByGame.get(referenceId);
+    if (cached) {
+      return cached;
+    }
+
+    const payload = await fetchJson(appUrl(getReferenceDataPath(state.siteConfig, referenceId)));
+    state.referenceDataByGame.set(referenceId, payload);
+    return payload;
+  }
+
+  async function materializeScene(selected, scene) {
+    if (Array.isArray(scene?.shapeDefinitions) && Array.isArray(scene?.sprites) && Array.isArray(scene?.atlases)) {
+      return {
+        ...scene,
+        metadata: scene.metadata?.gameLabel
+          ? scene.metadata
+          : {
+              ...scene.metadata,
+              gameLabel: getSelectedGameLabel(selected)
+            }
+      };
+    }
+
+    const referenceId = getSceneReferenceId(selected, scene);
+    const shapeDefinitionIds = scene?.references?.shapeDefinitionIds ?? [];
+    const spriteIds = scene?.references?.spriteIds ?? [];
+    const atlasIds = scene?.references?.atlasIds ?? [];
+    const referenceDefinitions = await loadReferenceDefinitions(referenceId);
+    const shapeDefinitionIndex = new Map((referenceDefinitions.shapeDefinitions ?? []).map((definition) => [definition.id, definition]));
+    const spriteIndex = new Map((referenceDefinitions.sprites ?? []).map((sprite) => [sprite.id, sprite]));
+    const atlasIndex = new Map((referenceDefinitions.atlases ?? []).map((atlas) => [atlas.id, atlas]));
+    const shapeDefinitions = shapeDefinitionIds.map((id) => shapeDefinitionIndex.get(id)).filter(Boolean);
+    const sprites = spriteIds.map((id) => spriteIndex.get(id)).filter(Boolean);
+    const atlases = atlasIds.map((id) => atlasIndex.get(id)).filter(Boolean);
+
+    if (shapeDefinitions.length !== shapeDefinitionIds.length) {
+      const missingIds = shapeDefinitionIds.filter((id) => !shapeDefinitionIndex.has(id));
+      throw new Error(`Scene reference data is missing shape definitions for ${missingIds.slice(0, 5).join(", ")}`);
+    }
+    if (sprites.length !== spriteIds.length) {
+      const missingIds = spriteIds.filter((id) => !spriteIndex.has(id));
+      throw new Error(`Scene reference data is missing sprites for ${missingIds.slice(0, 5).join(", ")}`);
+    }
+    if (atlases.length !== atlasIds.length) {
+      const missingIds = atlasIds.filter((id) => !atlasIndex.has(id));
+      throw new Error(`Scene reference data is missing atlases for ${missingIds.slice(0, 5).join(", ")}`);
+    }
+
+    return {
+      ...scene,
+      atlases,
+      sprites,
+      shapeDefinitions,
+      metadata: {
+        ...scene.metadata,
+        gameLabel: scene.metadata?.gameLabel ?? getSelectedGameLabel(selected)
+      }
+    };
+  }
+
   async function exportHiddenShapes() {
     const payload = buildHiddenExportPayload();
     if (!payload) {
@@ -663,7 +746,8 @@ export function createSceneRuntimeController(deps) {
         : `Loading prebuilt ${getSelectedGameLabel(selected)} map ${selected.mapId}...`
     );
 
-    const scene = await fetchJson(getStaticSceneUrl(selected));
+    const rawScene = await fetchJson(getStaticSceneUrl(selected));
+    const scene = await materializeScene(selected, rawScene);
     if (token !== state.buildToken) {
       return;
     }
@@ -745,7 +829,8 @@ export function createSceneRuntimeController(deps) {
       return;
     }
 
-    const scene = await fetchJson(getDynamicSceneUrl(selected, jobId));
+    const rawScene = await fetchJson(getDynamicSceneUrl(selected, jobId));
+    const scene = await materializeScene(selected, rawScene);
     if (token !== state.buildToken) {
       return;
     }

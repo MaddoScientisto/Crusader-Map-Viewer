@@ -6,6 +6,10 @@ import { STATIC_SITE_ROOT, VUE_DIST_ROOT } from "./config.js";
 import { writeNpcSpawnerData } from "./generate-npc-spawner-data.js";
 import { BuildManager } from "./lib/build-manager.js";
 import { detectCatalog, getGameConfig, getShapeCatalogFile } from "./lib/catalog.js";
+import {
+  buildCompactScenePayload,
+  getSceneReferenceId
+} from "./lib/scene-reference-data.js";
 import { getShapeNameTableFile } from "./lib/dtable.js";
 
 function parseArgs(argv) {
@@ -108,29 +112,47 @@ async function exportMap(builds, gameConfig, map, outputDir) {
   }
 
   const build = job.build;
+  const referenceId = getSceneReferenceId(gameConfig.id);
   const scenePayload = {
     build: build.build,
     metadata: build.metadata,
-    atlases: build.atlases,
-    sprites: build.sprites,
-    shapeDefinitions: build.shapeDefinitions,
+    references: build.references,
     items: build.items,
     mapSource: build.mapSource
   };
   const targetDir = path.join(outputDir, "data", "maps", gameConfig.id, `map-${map.id}`);
   ensureDir(targetDir);
-  writeJson(path.join(targetDir, "scene.json"), scenePayload);
-  for (const atlas of build.atlasFiles) {
-    copyFile(atlas.filePath, path.join(targetDir, atlas.fileName));
-  }
+  writeJson(path.join(targetDir, "scene.json"), buildCompactScenePayload(scenePayload, referenceId));
 
   return {
     game: gameConfig.id,
+    referenceId,
     mapId: map.id,
     fingerprint: job.fingerprint,
-    atlasCount: build.atlasFiles.length,
+    atlasCount: build.metadata.sceneSummary?.atlasCount ?? 0,
     spriteCount: build.metadata.sceneSummary?.spriteCount ?? 0
   };
+}
+
+function copyReferenceDataFiles(builds, referenceIds, outputDir) {
+  const summaries = [];
+
+  for (const referenceId of [...new Set(referenceIds)].sort()) {
+    const payload = builds.ensureReferenceData(referenceId);
+    copyFile(builds.getReferenceDataFilePath(referenceId), path.join(outputDir, "data", "reference-data", `${referenceId}.json`));
+    for (const atlas of payload.atlasFiles ?? []) {
+      copyFile(atlas.filePath, path.join(outputDir, "data", "reference-atlases", referenceId, atlas.fileName));
+    }
+    summaries.push({
+      id: referenceId,
+      sourceGameIds: payload.sourceGameIds,
+      shapeDefinitionCount: payload.shapeDefinitionCount,
+      spriteCount: payload.spriteCount,
+      atlasCount: payload.atlasCount
+    });
+  }
+
+  return summaries.sort((left, right) => left.id.localeCompare(right.id));
 }
 
 async function main() {
@@ -155,6 +177,7 @@ async function main() {
 
   const exportedMaps = [];
   const exportedUsecode = [];
+  const referenceIds = new Set();
   for (const game of games) {
     const gameConfig = getGameConfig(game.id);
     if (!gameConfig) {
@@ -171,14 +194,19 @@ async function main() {
 
     for (const map of maps) {
       console.log(`exporting ${game.id} map ${map.id}`);
-      exportedMaps.push(await exportMap(builds, gameConfig, map, args.outputDir));
+      const exportedMap = await exportMap(builds, gameConfig, map, args.outputDir);
+      referenceIds.add(exportedMap.referenceId);
+      exportedMaps.push(exportedMap);
     }
   }
+  const exportedReferenceData = copyReferenceDataFiles(builds, [...referenceIds], args.outputDir);
 
   writeJson(path.join(args.outputDir, "site-config.json"), {
     mode: "static",
     catalogUrl: "./data/catalog.json",
     staticMapsBaseUrl: "./data/maps",
+    referenceDataBaseUrl: "./data/reference-data",
+    referenceAtlasBaseUrl: "./data/reference-atlases",
     staticUsecodeBaseUrl: "./data/usecode",
     catalogDownloadBaseUrl: "./data/catalogs",
     npcSpawnerDataUrl: "./data/npc-spawner-data.json",
@@ -193,7 +221,8 @@ async function main() {
     ...catalog,
     generatedAt: new Date().toISOString(),
     exportedMaps,
-    exportedUsecode
+    exportedUsecode,
+    exportedReferenceData
   });
 
   console.log(`static site ready at ${args.outputDir}`);
