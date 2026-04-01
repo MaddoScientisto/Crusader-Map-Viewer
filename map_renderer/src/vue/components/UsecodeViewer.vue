@@ -2,13 +2,25 @@
   <div class="usecode-viewer">
     <div class="usecode-left">
       <div class="usecode-toolbar">
-        <input
-          v-model.trim="searchQuery"
-          class="usecode-search"
-          type="search"
-          placeholder="Search scripts by name"
-          spellcheck="false"
-        >
+        <div class="usecode-search-wrap">
+          <input
+            v-model.trim="searchQuery"
+            class="usecode-search"
+            type="search"
+            placeholder="Search scripts by name"
+            spellcheck="false"
+          >
+          <button
+            v-if="searchQuery"
+            class="usecode-search-clear"
+            type="button"
+            aria-label="Clear usecode search"
+            title="Clear search"
+            @click="searchQuery = ''"
+          >
+            ×
+          </button>
+        </div>
       </div>
       <div v-if="loading" class="muted">Loading usecode...</div>
       <div v-else-if="!sources.length" class="muted">No usecode available for this build.</div>
@@ -366,14 +378,44 @@ const highlightedFileContent = computed(() => highlightUsecodeText(fileContent.v
   backdrop-filter: blur(10px);
 }
 
+.usecode-search-wrap {
+  position: relative;
+}
+
 .usecode-search {
   width: 100%;
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 12px;
-  padding: 10px 12px;
+  padding: 10px 40px 10px 12px;
   background: rgba(255, 255, 255, 0.06);
   color: var(--ink);
   font: inherit;
+}
+
+.usecode-search-clear {
+  position: absolute;
+  top: 50%;
+  right: 8px;
+  transform: translateY(-50%);
+  width: 28px;
+  height: 28px;
+  border: 0;
+  border-radius: 999px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.78);
+  font: inherit;
+  font-size: 1rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.usecode-search-clear:hover {
+  background: rgba(255, 255, 255, 0.14);
+  color: rgba(255, 255, 255, 0.96);
 }
 
 .usecode-right {
