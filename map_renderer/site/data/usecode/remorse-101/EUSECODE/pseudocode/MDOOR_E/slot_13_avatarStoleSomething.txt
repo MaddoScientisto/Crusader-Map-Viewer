@@ -2,6 +2,10 @@ function mdoor_e_avatarStoleSomething() /* entry=72 class_id=0x0046 slot=0x13 */
 {
   set_info(0x022e, *(arg_06));
   process_exclude();
+  Item.legal_create(OOB_FLOOR_BLACK_0003, 0x02f1, local_02);
+  Item.legal_create(OOB_FLOOR_BLACK_0003, 0x04ce, local_04);
+  getTargetNPCNumMaybe(Item.getZ(arg_06), (Item.getY(arg_06) - 96), Item.getX(arg_06), local_02);
+  getTargetNPCNumMaybe((Item.getZ(arg_06) + 1), Item.getY(arg_06), Item.getX(arg_06), local_04);
   local_06 = *(arg_06);
   spawn DOOR.slot_22(pid, local_06);
   suspend;

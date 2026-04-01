@@ -13,12 +13,11 @@ function door2_slot_32() /* entry=2569 class_id=0x0a07 slot=0x32 */
   set_info(0x0207, *(arg_06));
   spawn DOOR.slot_22(pid, arg_06);
   suspend;
-  /* create_list */
-  doorList = 0x0289;
-  /* create_list */
-  doorList2 = 0x028e;
-  FREE.slot_3a(0x01c7, 0x0288, 0x028c, 0x0287, 0x01c6, 0x028a, 0x028b, 0x028d, doorList);
+  doorList = [0x0289, 0x0287, 0x028c, 0x0288, 0x01c7];
+  doorList2 = [0x028e, 0x028d, 0x028b, 0x028a, 0x01c6];
+  FREE.slot_3a(doorList);
   maxFrame = retval;
+  AudioProcess.playSFXCru(29, arg_06);
   for item in nearby_items(shape=ELEVATOR_DOOR_RIGHT_2, origin=arg_06) {
     door1 = item;
   }
@@ -27,9 +26,20 @@ function door2_slot_32() /* entry=2569 class_id=0x0a07 slot=0x32 */
   }
   counter = 2;
   while (counter <= maxFrame) {
+    if (door1) {
+      push(door1);
+      Item.setShape(list_element(size=0x2), door1);
+      Item.popToCoords(counter, Item.getZ(door1), (Item.getY(door1) - 16), Item.getX(door1), door1);
+    }
+    if (door2) {
+      push(door2);
+      Item.setShape(list_element(size=0x2), door2);
+      Actor.isBusy(door2);
+    }
     spawn FREE.slot_32(pid, 5, 0x00000000);
     suspend;
     counter = (1 + counter);
   }
+  process_result = 1;
   return;
 }

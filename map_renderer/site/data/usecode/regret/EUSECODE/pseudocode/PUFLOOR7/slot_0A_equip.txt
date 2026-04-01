@@ -49,14 +49,21 @@ function pufloor7_equip() /* entry=1492 class_id=0x05d2 slot=0x0a */
     local_20 = 36;
     local_22 = 12;
   }
+  Item.playSfxCru(0x0124, arg_06);
   local_02 = local_12;
   while (local_02 <= local_14) {
+    Item.setFrame(local_02, arg_06);
     spawn FREE.slot_3b(pid, local_24, 0x00000000);
     suspend;
     local_02 = (1 + local_02);
   }
+  Item.setShape(0x0306, arg_06);
+  Item.setFrame(local_16, arg_06);
+  Item.setQHi(local_10, arg_06);
+  Item.playSfxCru(0x0125, arg_06);
   local_02 = local_16;
   while (local_02 <= local_18) {
+    Item.setFrame(local_02, arg_06);
     spawn FREE.slot_3b(pid, local_24, 0x00000000);
     suspend;
     local_02 = (1 + local_02);
@@ -65,5 +72,12 @@ function pufloor7_equip() /* entry=1492 class_id=0x05d2 slot=0x0a */
     FREE.slot_20(4, 20, 15);
     FREE.slot_20(retval, 15);
   }
+  Item.create(local_22, 0x05ba, local_28);
+  Item.setQHi(Item.getQHi(arg_06), local_28);
+  Item.setQLo(Item.getQLo(arg_06), local_28);
+  Item.setNpcNum(Item.getNpcNum(arg_06), local_28);
+  Item.setMapNum(Item.getMapArray(arg_06), local_28);
+  Item.popToCoords(Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06), local_28);
+  Item.destroy(arg_06);
   return;
 }

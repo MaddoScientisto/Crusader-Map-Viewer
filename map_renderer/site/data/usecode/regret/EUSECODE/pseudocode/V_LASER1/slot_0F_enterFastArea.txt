@@ -2,5 +2,8 @@ function v_laser1_enterFastArea() /* entry=1047 class_id=0x0415 slot=0x0f */
 {
   set_info(0x021b, *(arg_06));
   process_exclude();
+  if (!Item.isOnScreen(arg_06)) {
+    Item.setShape(0x041a, arg_06);
+  }
   return;
 }

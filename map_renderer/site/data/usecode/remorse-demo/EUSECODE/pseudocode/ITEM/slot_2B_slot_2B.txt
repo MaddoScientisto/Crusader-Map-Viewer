@@ -9,34 +9,48 @@ function item_slot_2b() /* entry=2591 class_id=0x0a1d slot=0x2b */
   spawn FREE.waitNTimerTicks(UCMachine.rndRange(pid, 0x00c8, 100), 0x00000000);
   suspend;
   burn2 = *(arg_06);
-  if (Item.getShape(burn2) == 0x0456) {
+  switch (Item.getShape(burn2)) {
+  case 0x0456:
+    Item.create(0, 0x0592, burn);
+    Item.orStatus(0x0080, burn);
+    Item.popToCoords(Item.getZ(burn2), Item.getY(burn2), Item.getX(burn2), burn);
     set_info(0x00f0, burn);
+    Item.destroy(burn2);
     if (Egg.getEggXRange()) {
       while ((Item.getFrame(burn) != 9) && (Item.isOnScreen(arg_06) == 1)) {
         spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
         suspend;
       }
     }
+    Item.destroy(burn);
     return;
-  }
-  else if (Item.getShape(burn2) == 0x044a) {
+  case 0x044a:
+    Item.create(0, 0x0593, burn);
+    Item.orStatus(0x0080, burn);
+    Item.popToCoords(Item.getZ(burn2), Item.getY(burn2), Item.getX(burn2), burn);
     set_info(0x00f0, burn);
+    Item.destroy(burn2);
     if (Egg.getEggXRange()) {
       while ((Item.getFrame(burn) != 9) && (Item.isOnScreen(arg_06) == 1)) {
         spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
         suspend;
       }
     }
+    Item.destroy(burn);
     return;
-  }
-  else if (Item.getShape(burn2) == 0x0085) {
+  case 0x0085:
+    Item.create(0, 0x0591, burn);
+    Item.orStatus(0x0080, burn);
+    Item.popToCoords(Item.getZ(burn2), Item.getY(burn2), Item.getX(burn2), burn);
     set_info(0x00f0, burn);
+    Item.destroy(burn2);
     if (Egg.getEggXRange()) {
       while ((Item.getFrame(burn) != 9) && (Item.isOnScreen(arg_06) == 1)) {
         spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
         suspend;
       }
     }
+    Item.destroy(burn);
     return;
   }
   return;

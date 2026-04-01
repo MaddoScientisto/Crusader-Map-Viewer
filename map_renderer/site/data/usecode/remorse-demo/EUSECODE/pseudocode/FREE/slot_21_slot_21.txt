@@ -1,6 +1,7 @@
 function free_slot_21() /* entry=2574 class_id=0x0a0c slot=0x21 */
 {
   set_info(1, 0);
+  AudioProcess.playSFXCru(arg_06, &global[0x003c]);
   while (Container.destroyContents(arg_06, &global[0x003c])) {
     spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
     suspend;

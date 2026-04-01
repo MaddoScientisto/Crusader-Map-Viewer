@@ -2,6 +2,9 @@ function datalink_use() /* entry=1238 class_id=0x04d4 slot=0x01 */
 {
   set_info(0x0207, *(arg_06));
   process_exclude();
+  MusicProcess.unpauseMusic();
+  Item.isInNpc();
+  Item.getPoint(1);
   local_05 = Actor.getDir(&global[0x001e]);
   while (Item.legal_move(&global[0x001e])) {
     spawn FREE.slot_3b(pid, 5, 0x00000000);
@@ -21,116 +24,157 @@ function datalink_use() /* entry=1238 class_id=0x04d4 slot=0x01 */
     if (AudioProcess.stopSFXCru((AudioProcess.stopSFXCru(&global[0x001e]) == 1), &global[0x001e]) == 2) {
       if (!(global[0x0011])) {
         local_07 = ((local_07 + "Locate and make contact with any possible operatives.") + "^Secure transport back to Earth and make contact with General Maxis.");
+        Ultima8Engine.clrCruStasis(local_07);
       }
       else if (!(global[0x0010])) {
+        Intrinsic0072("fretumva");
         local_07 = (local_07 + "Destroy Plasma Turbine on level 5.");
+        Ultima8Engine.clrCruStasis(local_07);
       }
       else {
         local_07 = ((local_07 + "Locate telepad on level 5 to transport ") + "to the LMC Lunar Mining Base.");
+        Ultima8Engine.clrCruStasis(local_07);
       }
     }
     else if (AudioProcess.stopSFXCru((AudioProcess.stopSFXCru(&global[0x001e]) == 3), &global[0x001e]) == 4) {
       local_07 = (local_07 + "Locate elevator on level 4 to rendezvous with the rebels' colonel.");
+      Ultima8Engine.clrCruStasis(local_07);
     }
     else if (AudioProcess.stopSFXCru((AudioProcess.stopSFXCru(&global[0x001e]) == 5), &global[0x001e]) == 6) {
       if (!(global[0x0013])) {
+        Intrinsic0072("atgsmva");
         local_07 = ((local_07 + "Locate Tubeway Guidance Terminal on level 3.") + "^^Insert Trojan Horse program into TGT system.");
+        Ultima8Engine.clrCruStasis(local_07);
       }
       else {
         local_07 = ((local_07 + "Locate transit station and take next available tram.") + "^Take the tram to rebels' rendezvous point.");
+        Ultima8Engine.clrCruStasis(local_07);
       }
     }
     else if (AudioProcess.stopSFXCru((AudioProcess.stopSFXCru(&global[0x001e]) == 7), &global[0x001e]) == 8) {
       if (!(global[0x0014])) {
+        Intrinsic0072("anatsmva");
         local_07 = ((local_07 + "Locate Network Access Terminal^on level 2.") + "^^Download rebel prisoner files from LMC security system.");
+        Ultima8Engine.clrCruStasis(local_07);
       }
       else {
         local_07 = ((local_07 + "Locate closest transit station.") + "^Tram has been programmed to return to the rebel meeting area.");
+        Ultima8Engine.clrCruStasis(local_07);
       }
     }
     else if (AudioProcess.stopSFXCru((AudioProcess.stopSFXCru(&global[0x001e]) == 9), &global[0x001e]) == 10) {
       if (!(global[0x0015])) {
+        Intrinsic0072("prisnmva");
         local_07 = (local_07 + "Locate rebel prisoners^on level 4^and liberate them.");
+        Ultima8Engine.clrCruStasis(local_07);
       }
       else {
         local_07 = ((local_07 + "Locate transit station on level 4.") + "^Tram has been programmed to return to rebel meeting area.");
+        Ultima8Engine.clrCruStasis(local_07);
       }
     }
     else if (AudioProcess.stopSFXCru((AudioProcess.stopSFXCru(&global[0x001e]) == 11), &global[0x001e]) == 12) {
       if (!(global[0x0016])) {
+        Intrinsic0072("ore-sepr");
         local_07 = ((local_07 + "Locate the Ore Separator^on level 6.") + "^^Place FusionPac on conveyor.^^Exit area quickly.");
+        Ultima8Engine.clrCruStasis(local_07);
       }
       else {
         local_07 = ((local_07 + "Quickly locate nearest transit station.") + "^FusionPac will detonate shortly.");
+        Ultima8Engine.clrCruStasis(local_07);
       }
     }
     else if (AudioProcess.stopSFXCru((AudioProcess.stopSFXCru(&global[0x001e]) == 13), &global[0x001e]) == 14) {
       if (!(global[0x0017])) {
+        Intrinsic0072("mfhcan");
         local_07 = ((local_07 + "Locate the MFH canister in the north sector.") + "^Disarm nerve gas^canister before it^contaminates O2^regeneration system.");
+        Ultima8Engine.clrCruStasis(local_07);
       }
       else {
         local_07 = ((local_07 + "Locate nearest transit station and enter the next available tram.") + "^Tram has been programmed to return to rebel meeting area.");
+        Ultima8Engine.clrCruStasis(local_07);
       }
     }
     else if (AudioProcess.stopSFXCru((AudioProcess.stopSFXCru(&global[0x001e]) == 15), &global[0x001e]) == 16) {
       if (!(global[0x0018])) {
+        Intrinsic0072("transmva");
         local_07 = ((local_07 + "Locate the^Lunar Defence^Battery on^level 4.") + "^^Destroy WEC troop transport before it lands at Lunar Base.");
+        Ultima8Engine.clrCruStasis(local_07);
       }
       else {
         local_07 = ((local_07 + "Locate transit station on level 4.") + "^Tram has been programmed to return to rebel camp.");
+        Ultima8Engine.clrCruStasis(local_07);
       }
     }
     else if (AudioProcess.stopSFXCru((AudioProcess.stopSFXCru(&global[0x001e]) == 17), &global[0x001e]) == 18) {
       if (!(global[0x0019])) {
+        Intrinsic0072("ccoremva");
         local_07 = ((local_07 + "Locate the Central Computer Core on level 1.") + "^^Disarm self-destruction system before Lunar Base is destroyed.");
+        Ultima8Engine.clrCruStasis(local_07);
       }
       else {
         local_07 = ((local_07 + "Locate transit station on 4.") + "^Tram has been programmed to take you to LMC Headquarters.");
+        Ultima8Engine.clrCruStasis(local_07);
       }
     }
     else if (AudioProcess.stopSFXCru((AudioProcess.stopSFXCru((AudioProcess.stopSFXCru((AudioProcess.stopSFXCru(&global[0x001e]) == 19), &global[0x001e]) == 20), &global[0x001e]) == 21), &global[0x001e]) == 22) {
       if (!(global[0x001a])) {
+        Intrinsic0072("reactmva");
         local_07 = ((local_07 + "Locate the Fusion Reactor on level 4.") + "^Destroy objective with any means available.");
+        Ultima8Engine.clrCruStasis(local_07);
       }
       else {
         local_07 = ((local_07 + "Locate transit station on level 5.") + "^Tram has been programmed to return to Rebel Headquarters.");
+        Ultima8Engine.clrCruStasis(local_07);
       }
     }
     else if (AudioProcess.stopSFXCru(&global[0x001e]) == 25) {
       local_07 = "^REBEL CAMP^__________^^Replenish supplies.^^Talk to officer in charge for next mission.";
+      Ultima8Engine.clrCruStasis(local_07);
     }
     else {
       local_07 = ((local_07 + "Locate Chuck Denning a destroy his bald head.") + "^^Head can only be destroyed by securing DetPacs to his ears.");
+      Ultima8Engine.clrCruStasis(local_07);
     }
   }
   else if (global[0x0001] == 2) {
     local_07 = "DataLink Message:^_________________^Silencer, get to^level 5 and destroy^the Plasma Turbine.^We can then^teleport off this^ship before it ^explodes.^^DENNING OUT:";
+    Ultima8Engine.clrCruStasis(local_07);
   }
   if (global[0x0001] == 3) {
     local_07 = "DataLink Message:^_________________^Silencer, I put^a grenade launcher^in a locker to your^west. Look out,^there are a bunch^of Thermatrons in^that sector.^^DENNING OUT:";
+    Ultima8Engine.clrCruStasis(local_07);
   }
   if (global[0x0001] == 4) {
     local_07 = "DataLink Message:^_________________^Silencer, I hid^a blue keycard in^safe in the next^room. You'll need^it if you want to^get to the Plasma^Trubine.^^DENNING OUT:";
+    Ultima8Engine.clrCruStasis(local_07);
   }
   if (global[0x0001] == 5) {
     local_07 = "DataLink Message:^_________________^Hold it! If you've^got a VIR Imager^use it now!^They have a^50,000 volt^welcome mat^waiting for you.^^DENNING OUT:";
+    Ultima8Engine.clrCruStasis(local_07);
   }
   if (global[0x0001] == 6) {
     local_07 = "DataLink Message:^_________________^If you are trapped^you'll need to^shoot out the^three generators^to your north.^^DENNING OUT:";
+    Ultima8Engine.clrCruStasis(local_07);
   }
   if (global[0x0001] == 7) {
     local_07 = "DataLink Message:^_________________^If they have ^sealed the blast^doors, enter 121^into the keypad.^Wait, scratch that.^Enter 122.^^DENNING OUT:";
+    Ultima8Engine.clrCruStasis(local_07);
   }
   if (global[0x0001] == 8) {
     local_07 = "DataLink Message:^_________________^Get out of there^fast! There's a^telepad a few rooms^south of you.^That will get you^safely to the moon.^^DENNING OUT:";
+    Ultima8Engine.clrCruStasis(local_07);
   }
   if (local_03) {
     suspend;
     suspend;
   }
   while (condition) {
+    Actor.doAnim(0, local_09);
   }
   spawn FREE.slot_3b(pid, 2, 0x00000000);
   suspend;
+  PaletteFaderProcess.fadeFromBlack();
+  Item.getPoint(0);
   return;
 }

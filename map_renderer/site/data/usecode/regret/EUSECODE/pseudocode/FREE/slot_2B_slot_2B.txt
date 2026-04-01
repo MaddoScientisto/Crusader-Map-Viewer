@@ -18,7 +18,8 @@ function free_slot_2b() /* entry=2591 class_id=0x0a1d slot=0x2b */
       spawn FREE.slot_3b(pid, 30, 0x00000000);
       suspend;
     }
-    if (local_04 == 1) {
+    switch (local_04) {
+    case 1:
       spawn FREE.slot_21(pid, 0x016d, 0x00000000);
       suspend;
       spawn FREE.slot_21(pid, 0x016e, 0x00000000);
@@ -35,8 +36,8 @@ function free_slot_2b() /* entry=2591 class_id=0x0a1d slot=0x2b */
       suspend;
       spawn FREE.slot_3b(pid, 0x0e10, 0x00000000);
       suspend;
-    }
-    else if (local_04 == 2) {
+      break;
+    case 2:
       spawn FREE.slot_21(pid, 0x0170, 0x00000000);
       suspend;
       spawn FREE.slot_21(pid, 0x016f, 0x00000000);
@@ -51,68 +52,75 @@ function free_slot_2b() /* entry=2591 class_id=0x0a1d slot=0x2b */
       suspend;
       spawn FREE.slot_3b(pid, 0x0e10, 0x00000000);
       suspend;
-    }
-    else if (local_04 == 3) {
+      break;
+    case 3:
       spawn FREE.slot_21(pid, 0x0171, 0x00000000);
       suspend;
       spawn FREE.slot_21(pid, 0x0185, 0x00000000);
       suspend;
       spawn FREE.slot_3b(pid, 0x0e10, 0x00000000);
       suspend;
-    }
-    else if (local_04 == 4) {
+      break;
+    case 4:
       spawn FREE.slot_21(pid, 0x0172, 0x00000000);
       suspend;
       spawn FREE.slot_21(pid, 0x016f, 0x00000000);
       suspend;
       spawn FREE.slot_3b(pid, 0x0e10, 0x00000000);
       suspend;
-    }
-    else if (local_04 == 5) {
+      break;
+    case 5:
       spawn FREE.slot_21(pid, 0x0173, 0x00000000);
       suspend;
       spawn FREE.slot_21(pid, 0x0185, 0x00000000);
       suspend;
       spawn FREE.slot_3b(pid, 0x0e10, 0x00000000);
       suspend;
-    }
-    else if (local_04 == 6) {
+      break;
+    case 6:
       spawn FREE.slot_21(pid, 0x0174, 0x00000000);
       suspend;
       spawn FREE.slot_21(pid, 0x016f, 0x00000000);
       suspend;
       spawn FREE.slot_3b(pid, 0x0e10, 0x00000000);
       suspend;
-    }
-    else if (local_04 == 7) {
+      break;
+    case 7:
       spawn FREE.slot_21(pid, 0x0175, 0x00000000);
       suspend;
       spawn FREE.slot_21(pid, 0x0185, 0x00000000);
       suspend;
       spawn FREE.slot_3b(pid, 0x0e10, 0x00000000);
       suspend;
-    }
-    else if (local_04 == 8) {
+      break;
+    case 8:
       spawn FREE.slot_21(pid, 0x0176, 0x00000000);
       suspend;
       spawn FREE.slot_3b(pid, 0x0708, 0x00000000);
       suspend;
-    }
-    else if (local_04 == 9) {
+      break;
+    case 9:
       spawn FREE.slot_21(pid, 0x0177, 0x00000000);
       suspend;
+      break;
     }
     if ((Actor.isDead(&global[0x001e]) == 1) || (global[0x0019] == 1)) {
       return;
     }
     local_04 = (1 + local_04);
   }
+  Ultima8Engine.setAvatarInStasis(1);
+  setUnkFlagA4();
   spawn FREE.slot_24(pid, 0x00000000);
   suspend;
+  PaletteFaderProcess.jumpToAllGrey();
   spawn FREE.slot_3b(pid, 90, 0x00000000);
   suspend;
+  MusicProcess.stopMusic();
+  PaletteFaderProcess.jumpToAllBlack();
   spawn FREE.slot_3b(pid, 10, 0x00000000);
   suspend;
+  Intrinsic006D(0, "10c");
   suspend;
   return;
 }

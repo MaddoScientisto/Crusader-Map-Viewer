@@ -4,12 +4,15 @@ function opc_use() /* entry=958 class_id=0x03bc slot=0x01 */
   process_exclude();
   ITEM.slot_23(0x1000, arg_06);
   if (Actor.getMap(&global[0x003d]) == 21) {
+    Ultima8Engine.setAvatarInStasis(1);
     suspend;
+    Item.getPoint(0x00c8, "mva11b", arg_06);
     suspend;
     spawn FREE.waitNTimerTicks(pid, 20, 0x00000000);
     suspend;
     spawn TRIGGER.slot_2a(pid, 0, *(arg_06), arg_06);
     suspend;
+    Ultima8Engine.setAvatarInStasis(0);
     spawn FREE.waitNTimerTicks(pid, 0x00b4, 0x00000000);
     suspend;
     if (!Actor.isDead(&global[0x003d])) {
@@ -17,16 +20,23 @@ function opc_use() /* entry=958 class_id=0x03bc slot=0x01 */
       suspend;
     }
     for local_02 in nearby_items(shape=TELEPORTER_LIGHTS, origin=arg_06) {
+      if (void AudioProcess:stopAllSFX(local_02) == 99) {
+        Item.andStatus(30, local_02);
+        Item.isCentreOn(0, local_02);
+      }
     }
     return;
   }
   else {
+    Ultima8Engine.setAvatarInStasis(1);
     suspend;
+    Item.getPoint(0x00c8, "mva12b", arg_06);
     suspend;
     spawn FREE.waitNTimerTicks(pid, 20, 0x00000000);
     suspend;
     spawn TRIGGER.slot_2a(pid, 0, *(arg_06), arg_06);
     suspend;
+    Ultima8Engine.setAvatarInStasis(0);
   }
   return;
 }

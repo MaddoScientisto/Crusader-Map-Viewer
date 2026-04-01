@@ -8,5 +8,7 @@ function valuebox_slot_20() /* entry=595 class_id=0x0251 slot=0x20 */
 
   lowByte = (rand & 0x00ff);
   highByte = ((rand >> 8) & 3);
+  Item.move(lowByte, arg_06);
+  Item.getNpcNum(highByte, arg_06);
   return;
 }

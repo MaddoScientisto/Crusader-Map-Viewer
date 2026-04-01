@@ -18,36 +18,66 @@ function telepad_slot_20() /* entry=477 class_id=0x01db slot=0x20 */
     return;
   }
   else {
+    Ultima8Engine.setAvatarInStasis(1);
+    Actor.setImmortal(&global[0x003c]);
     spawn NPC.slot_24(pid, &global[0x003c]);
     suspend;
     if (mapNum != 69) {
       if (Actor.getMap(&global[0x003c]) != mapNum) {
         suspend;
+        MusicProcess.musicStop();
         if (mapNum == 40) {
+          Ultima8Engine.clrAlertActive();
           spawn FREE.slot_23(pid, 0x00000000);
           suspend;
           spawn FREE.slot_25(pid, 0x00000000);
           suspend;
           spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
           suspend;
-          if (Actor.getMap(&global[0x003c]) == 1) {
+          switch (Actor.getMap(&global[0x003c])) {
+          case 1:
+            PaletteFaderProcess.setPalToAllBlack();
+            AudioProcess.stopSFX(arg_06);
+            setSomeMovieGlobal();
+            playFlic0A9(pid, 0, 0, "R01", arg_06);
             suspend;
+            clearSomeMovieGlobal();
+            break;
+          case 13:
+            PaletteFaderProcess.setPalToAllBlack();
+            AudioProcess.stopSFX(arg_06);
+            setSomeMovieGlobal();
+            playFlic0A9(pid, 0, 0, "B01", arg_06);
+            suspend;
+            clearSomeMovieGlobal();
+            break;
+          case 5:
+            PaletteFaderProcess.setPalToAllBlack();
+            AudioProcess.stopSFX(arg_06);
+            setSomeMovieGlobal();
+            playFlic0A9(pid, 0, 0, "wec", arg_06);
+            suspend;
+            playFlic0A9(pid, 0, 0, "1d", arg_06);
+            suspend;
+            clearSomeMovieGlobal();
+            break;
           }
-          else if (Actor.getMap(&global[0x003c]) == 13) {
-            suspend;
-          }
-          else if (Actor.getMap(&global[0x003c]) == 5) {
-            suspend;
-            suspend;
-          }
+          createMapJumpProcess(40);
           return;
         }
         if (mapNum == 41) {
+          Ultima8Engine.clrAlertActive();
           spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
           suspend;
+          PaletteFaderProcess.setPalToAllBlack();
+          setSomeMovieGlobal();
+          playFlic(pid, 0x0096, 0x00c8, "14a", arg_06);
           suspend;
+          clearSomeMovieGlobal();
           spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
           suspend;
+          CameraProcess.somethingAboutCameraUpdate();
+          createMapJumpProcess(41);
           return;
         }
         if (mapNum) {
@@ -63,22 +93,42 @@ function telepad_slot_20() /* entry=477 class_id=0x01db slot=0x20 */
     suspend;
     if (eggNum == 69) {
       y = Item.getY(&global[0x003c]);
+      Item.setFrame(8, &global[0x003c]);
+      Actor.setImmortal(&global[0x003c]);
+      Ultima8Engine.setAvatarInStasis(1);
+      PaletteFaderProcess.setPalToAllGrey();
+      AudioProcess.playSFXCru(108, arg_06);
+      Item.create(0, 0x0562, item);
       for floor in nearby_items(shape=TELEPAD_RED, origin=global[0x003c]) {
         newx = Item.getX(floor);
         newy = Item.getY(floor);
         newz = Item.getZ(floor);
       }
       for floor in nearby_items(shape=0x04ee, origin=global[0x003c]) {
+        Item.destroy(floor);
       }
+      Item.popToCoords(newz, (newy + 16), (newx + 16), item);
+      Item.touch(item);
       spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
       suspend;
+      PaletteFaderProcess.stopFadesAndResetToGamePal();
+      AudioProcess.playSFXCru(52, arg_06);
       counter = 0;
       while (counter <= 40) {
+        Item.setFrame(counter, item);
         spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
         suspend;
+        if (counter == 10) {
+          AudioProcess.playSFXCru(98, item);
+        }
         counter = (1 + counter);
       }
+      Actor.setDead(&global[0x003c]);
       return;
+    }
+    else {
+      Actor.clrImmortal(&global[0x003c]);
+      Ultima8Engine.setAvatarInStasis(0);
     }
   }
   return;

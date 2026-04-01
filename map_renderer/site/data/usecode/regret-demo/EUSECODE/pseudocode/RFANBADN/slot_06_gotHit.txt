@@ -8,9 +8,15 @@ function rfanbadn_gotHit() /* entry=981 class_id=0x03d3 slot=0x06 */
   else {
     FREE.slot_34(arg_12, arg_10);
     if (retval && (Item.getFrame(arg_06) > 0)) {
+      Item.explode(0, 1, arg_06);
+      Item.isOn(0, arg_06);
       local_06 = IntrinsicReturn0(arg_06);
+      Item.andStatus(6, arg_06);
       for local_02 in nearby_items(shape=PLACEHOLDER_CUBE_0337, origin=arg_06) {
         local_04 = IntrinsicReturn0(local_02);
+        if (local_04 == local_06) {
+          Item.destroy(local_02);
+        }
       }
     }
   }

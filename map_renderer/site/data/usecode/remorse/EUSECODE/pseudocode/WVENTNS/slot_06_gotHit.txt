@@ -14,6 +14,9 @@ function wventns_gotHit() /* entry=1001 class_id=0x03e7 slot=0x06 */
   if (retval) {
     if (fram < 1) {
       for windsurf in nearby_items(shape=WIND_AREA, origin=arg_06) {
+        if (Item.getQLo(arg_06) == Item.getQLo(windsurf)) {
+          Item.destroy(windsurf);
+        }
       }
     }
   }

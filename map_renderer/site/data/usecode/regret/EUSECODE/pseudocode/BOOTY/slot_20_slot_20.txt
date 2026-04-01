@@ -14,24 +14,218 @@ function booty_slot_20() /* entry=2564 class_id=0x0a02 slot=0x20 */
     local_06 = 40;
   }
   if ((Item.getShape(arg_06) == booty_shape_0308) || (Item.getShape(arg_06) == booty_shape_05d5)) {
+    if (UCMachine.rndRange(100, 0) < local_06) {
+      Item.create(0, RP_32_CLIP, local_02);
+      Item.popToContainer(arg_10, local_02);
+    }
+    if ((UCMachine.rndRange(100, 0) < local_06) && (global[0x000f] > 1)) {
+      Item.create(0, SG_A1_CLIP, local_02);
+      Item.popToContainer(arg_10, local_02);
+    }
+    if (Actor.getHp((UCMachine.rndRange(100, 0) < 20), &global[0x001e]) < 100) {
+      Item.create(0, MEDICAL_KIT, local_02);
+      Item.popToContainer(arg_10, local_02);
+    }
+    if (Actor.getMana((UCMachine.rndRange(100, 0) < 20), &global[0x001e]) < 0x09c4) {
+      Item.create(0, ENERGY_CUBE, local_02);
+      Item.popToContainer(arg_10, local_02);
+    }
+    if (UCMachine.rndRange(100, 0) < 20) {
+      Item.create(0, SPIDER_BOMB, local_02);
+      Item.popToContainer(arg_10, local_02);
+    }
+    else if (UCMachine.rndRange(100, 0) < 20) {
+      Item.create(0, SPIDER_MINE, local_02);
+      Item.popToContainer(arg_10, local_02);
+    }
+    else if (UCMachine.rndRange(100, 0) < 20) {
+      Item.create(0, DET_PAC, local_02);
+      Item.popToContainer(arg_10, local_02);
+    }
+    else if (UCMachine.rndRange(100, 0) < 20) {
+      Item.create(0, LAND_MINE, local_02);
+      Item.popToContainer(arg_10, local_02);
+    }
   }
   else if (((Item.getShape(arg_06) == booty_shape_0371) || (Item.getShape(arg_06) == booty_shape_04d1)) || (Item.getShape(arg_06) == booty_shape_0631)) {
+    if (UCMachine.rndRange(100, 1) < local_06) {
+      Item.create(0, RP_32_CLIP, local_02);
+      Item.popToContainer(arg_10, local_02);
+    }
+    if (UCMachine.rndRange(100, 1) < local_06) {
+      Item.create(0, SG_A1_CLIP, local_02);
+      Item.popToContainer(arg_10, local_02);
+    }
+    if ((UCMachine.rndRange(100, 1) < 10) && (global[0x000f] > 4)) {
+      Item.create(0, BK_16_CLIP, local_02);
+      Item.popToContainer(arg_10, local_02);
+    }
+    if (Actor.getHp((UCMachine.rndRange(100, 0) < 20), &global[0x001e]) < 50) {
+      Item.create(0, MEDICAL_KIT, local_02);
+      Item.popToContainer(arg_10, local_02);
+    }
+    if (Actor.getMana((UCMachine.rndRange(100, 0) < 40), &global[0x001e]) < 0x09c4) {
+      Item.create(0, ENERGY_CUBE, local_02);
+      Item.popToContainer(arg_10, local_02);
+    }
+    if (UCMachine.rndRange(100, 0) < 15) {
+      Item.create(0, SPIDER_BOMB, local_02);
+      Item.popToContainer(arg_10, local_02);
+    }
+    else if (UCMachine.rndRange(100, 0) < 15) {
+      Item.create(0, SPIDER_MINE, local_02);
+      Item.popToContainer(arg_10, local_02);
+    }
+    else if (UCMachine.rndRange(100, 0) < 5) {
+      Item.create(0, DISRUPTER, local_02);
+      Item.popToContainer(arg_10, local_02);
+    }
+    else if (UCMachine.rndRange(100, 0) < 15) {
+      Item.create(0, DET_PAC, local_02);
+      Item.popToContainer(arg_10, local_02);
+    }
+    else if (UCMachine.rndRange(100, 0) < 10) {
+      Item.create(0, MINE_DET, local_02);
+      Item.popToContainer(arg_10, local_02);
+    }
   }
   else if (Item.getShape(arg_06) == booty_shape_0528) {
+    Item.create(0, MEDICAL_KIT, local_02);
+    Item.popToContainer(arg_10, local_02);
+    Item.create(0, GL_303_CLIP, local_02);
+    Item.popToContainer(arg_10, local_02);
+    Item.create(0, ENERGY_CUBE, local_02);
+    Item.popToContainer(arg_10, local_02);
   }
   else if ((Item.getShape(arg_06) == booty_shape_01b4) || (Item.getShape(arg_06) == booty_shape_062e)) {
+    if (UCMachine.rndRange(100, 1) < 50) {
+      Item.create(0, RP_32_CLIP, local_02);
+      Item.popToContainer(arg_10, local_02);
+    }
+    else if (UCMachine.rndRange(100, 1) < 50) {
+      Item.create(0, SG_A1_CLIP, local_02);
+      Item.popToContainer(arg_10, local_02);
+    }
+    if (UCMachine.rndRange(100, 1) < local_06) {
+      Item.create(0, ENERGY_CUBE, local_02);
+      Item.popToContainer(arg_10, local_02);
+    }
+    if (UCMachine.rndRange(100, 1) < 10) {
+      Item.create(0, AR_7_CLIP, local_02);
+      Item.popToContainer(arg_10, local_02);
+    }
+    else if (UCMachine.rndRange(100, 1) < 10) {
+      Item.create(0, GL_303_CLIP, local_02);
+      Item.popToContainer(arg_10, local_02);
+    }
+    if ((UCMachine.rndRange(100, 1) < 20) && (global[0x000f] > 7)) {
+      Item.create(0, LNR_81_CLIP, local_02);
+      Item.popToContainer(arg_10, local_02);
+    }
+    if (UCMachine.rndRange(100, 1) < 15) {
+      Item.create(0, BK_16_CLIP, local_02);
+      Item.popToContainer(arg_10, local_02);
+    }
+    if (UCMachine.rndRange(100, 0) < 15) {
+      Item.create(0, SPIDER_BOMB, local_02);
+      Item.popToContainer(arg_10, local_02);
+    }
+    else if (UCMachine.rndRange(100, 0) < 10) {
+      Item.create(0, SPIDER_MINE, local_02);
+      Item.popToContainer(arg_10, local_02);
+    }
+    else if (UCMachine.rndRange(100, 0) < 5) {
+      Item.create(0, DISRUPTER, local_02);
+      Item.popToContainer(arg_10, local_02);
+    }
+    else if (UCMachine.rndRange(100, 0) < 15) {
+      Item.create(0, DET_PAC, local_02);
+      Item.popToContainer(arg_10, local_02);
+    }
+    else if (UCMachine.rndRange(100, 0) < 10) {
+      Item.create(0, MINE_DET, local_02);
+      Item.popToContainer(arg_10, local_02);
+    }
+    else if (UCMachine.rndRange(100, 0) < 10) {
+      Item.create(0, PORTABLE_BETTY, local_02);
+      Item.popToContainer(arg_10, local_02);
+    }
+    if (Actor.getHp((UCMachine.rndRange(100, 0) < 20), &global[0x001e]) < 100) {
+      Item.create(0, MEDICAL_KIT, local_02);
+      Item.popToContainer(arg_10, local_02);
+    }
+    if (Actor.getMana((UCMachine.rndRange(100, 0) < 20), &global[0x001e]) < 0x09c4) {
+      Item.create(0, ENERGY_CUBE, local_02);
+      Item.popToContainer(arg_10, local_02);
+    }
   }
   else if ((Item.getShape(arg_06) == booty_shape_057a) || (Item.getShape(arg_06) == booty_shape_0606)) {
+    if (UCMachine.rndRange(100, 1) < 50) {
+      Item.create(0, RP_32_CLIP, local_02);
+      Item.popToContainer(arg_10, local_02);
+    }
+    else if (UCMachine.rndRange(100, 1) < 50) {
+      Item.create(0, SG_A1_CLIP, local_02);
+      Item.popToContainer(arg_10, local_02);
+    }
+    if (UCMachine.rndRange(100, 1) < local_06) {
+      Item.create(0, RP_32_CLIP, local_02);
+      Item.popToContainer(arg_10, local_02);
+    }
+    if (UCMachine.rndRange(100, 1) < local_06) {
+      Item.create(0, ENERGY_CUBE, local_02);
+      Item.popToContainer(arg_10, local_02);
+    }
+    if (UCMachine.rndRange(100, 1) < local_06) {
+      Item.create(0, AR_7_CLIP, local_02);
+      Item.popToContainer(arg_10, local_02);
+    }
+    else if (UCMachine.rndRange(100, 1) < local_06) {
+      Item.create(0, GL_303_CLIP, local_02);
+      Item.popToContainer(arg_10, local_02);
+    }
+    if (UCMachine.rndRange(100, 1) < 15) {
+      Item.create(0, LNR_81_CLIP, local_02);
+      Item.popToContainer(arg_10, local_02);
+    }
+    if (UCMachine.rndRange(100, 1) < 15) {
+      Item.create(0, BK_16_CLIP, local_02);
+      Item.popToContainer(arg_10, local_02);
+    }
     if (UCMachine.rndRange(100, 0) < 10) {
+      Item.create(0, MINE_DET, local_02);
+      Item.popToContainer(arg_10, local_02);
     }
     else if (UCMachine.rndRange(100, 0) < 25) {
+      Item.create(0, SPIDER_MINE, local_02);
+      Item.popToContainer(arg_10, local_02);
     }
     else if (UCMachine.rndRange(100, 0) < 10) {
+      Item.create(0, DET_PAC, local_02);
+      Item.popToContainer(arg_10, local_02);
     }
     else if (UCMachine.rndRange(100, 0) < 10) {
+      Item.create(0, PORTABLE_BETTY, local_02);
+      Item.popToContainer(arg_10, local_02);
+    }
+    else {
+      Item.create(0, SPIDER_BOMB, local_02);
+      Item.popToContainer(arg_10, local_02);
+    }
+    if (Actor.getHp((UCMachine.rndRange(100, 0) < 20), &global[0x001e]) < 100) {
+      Item.create(0, MEDICAL_KIT, local_02);
+      Item.popToContainer(arg_10, local_02);
+    }
+    if (Actor.getMana((UCMachine.rndRange(100, 0) < 20), &global[0x001e]) < 0x09c4) {
+      Item.create(0, ENERGY_CUBE, local_02);
+      Item.popToContainer(arg_10, local_02);
     }
   }
   else if (Item.getShape(arg_06) == booty_shape_02df) {
+    Item.create(0, ENERGY_CUBE, local_02);
+    Item.popToContainer(arg_10, local_02);
+    Item.create(0, MEDICAL_KIT, local_02);
+    Item.popToContainer(arg_10, local_02);
     return;
   }
   else if (((((((((Item.getShape(arg_06) == 0x045d) || (Item.getShape(arg_06) == 0x0338)) || (Item.getShape(arg_06) == 0x02cb)) || (Item.getShape(arg_06) == 0x04e6)) || (Item.getShape(arg_06) == 0x0385)) || (Item.getShape(arg_06) == 0x0383)) || (Item.getShape(arg_06) == 0x030c)) || (Item.getShape(arg_06) == 0x0319)) || (Item.getShape(arg_06) == 0x05e2)) {
@@ -39,8 +233,12 @@ function booty_slot_20() /* entry=2564 class_id=0x0a02 slot=0x20 */
     return;
   }
   else if (Actor.getHp((UCMachine.rndRange(100, 0) < 40), &global[0x001e]) < 100) {
+    Item.create(0, MEDICAL_KIT, local_02);
+    Item.popToContainer(arg_10, local_02);
   }
   else if (Actor.getMana((UCMachine.rndRange(100, 0) < 20), &global[0x001e]) < 0x09c4) {
+    Item.create(0, ENERGY_CUBE, local_02);
+    Item.popToContainer(arg_10, local_02);
   }
   while (condition) {
     local_09 = 1;

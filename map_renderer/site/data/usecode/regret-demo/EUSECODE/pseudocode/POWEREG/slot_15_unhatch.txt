@@ -2,5 +2,8 @@ function powereg_unhatch() /* entry=2331 class_id=0x0919 slot=0x15 */
 {
   set_info(0x0239, *(arg_06));
   process_exclude();
+  if (World.getControlledNPCNum() == 1) {
+    Item.isOn(0, arg_06);
+  }
   return;
 }

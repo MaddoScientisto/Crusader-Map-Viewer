@@ -19,10 +19,16 @@ function landmine_gotHit() /* entry=924 class_id=0x039a slot=0x06 */
       if (hType == 4) {
         return;
       }
+      else {
+        Item.explode(1, 1, arg_06);
+      }
       return;
     }
     else {
       item = ref;
+      if (SpriteProcess.createSprite(*(arg_06), item)) {
+        Item.explode(1, 2, arg_06);
+      }
     }
   }
   return;

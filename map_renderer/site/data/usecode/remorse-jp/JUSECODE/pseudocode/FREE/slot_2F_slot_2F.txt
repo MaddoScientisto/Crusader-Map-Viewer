@@ -17,6 +17,11 @@ function free_slot_2f() /* entry=2575 class_id=0x0a0d slot=0x2f */
     b = Item.getMapArray(phold);
     b = (((a & 0x00e0) * 8) + b);
     if ((b != 0) && (b == addType)) {
+      Item.create(c, b, item);
+      Item.fallProbably_03E(Item.unequip(phold), item);
+      Item.pop(Item.spawnUsecodeEvent0x13(phold), item);
+      Item.popToCoords(Item.getZ(phold), Item.getY(phold), Item.getX(phold), item);
+      Item.destroy(phold);
       return;
     }
   }

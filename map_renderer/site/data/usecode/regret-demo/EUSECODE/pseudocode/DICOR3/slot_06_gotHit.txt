@@ -10,7 +10,10 @@ function dicor3_gotHit() /* entry=171 class_id=0x00a9 slot=0x06 */
     local_02 = Item.getFrame(arg_06);
     spawn ITEM.slot_2a(pid, 0, 0, arg_06);
     suspend;
+    Item.create(local_02, 0x01fc, local_04);
+    Item.popToCoords(Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06), local_04);
     if (!(global[0x0005])) {
+      Item.andStatus(20, 50, 20);
       suspend;
     }
     for local_06 in nearby_items(family=6, origin=arg_06) {
@@ -22,6 +25,7 @@ function dicor3_gotHit() /* entry=171 class_id=0x00a9 slot=0x06 */
         spawn NPC.slot_2d(3, local_06);
       }
     }
+    Item.destroy(arg_06);
   }
   return;
 }

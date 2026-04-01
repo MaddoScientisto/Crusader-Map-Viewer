@@ -2,5 +2,8 @@ function miss6_cachein() /* entry=2324 class_id=0x0912 slot=0x04 */
 {
   set_info(0x0213, *(arg_06));
   process_exclude();
+  Item.create(0, FUSION_PAC, local_02);
+  Item.popToCoords(0, 0, 0, local_02);
+  MainActor.addItemCru(0, local_02);
   return;
 }

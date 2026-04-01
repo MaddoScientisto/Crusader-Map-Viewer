@@ -2,5 +2,7 @@ function ewallew_avatarStoleSomething() /* entry=1383 class_id=0x0565 slot=0x13 
 {
   set_info(0x022e, *(arg_06));
   process_exclude();
+  Item.andStatus(80, arg_06);
+  Item.playSfxCru(0x0114, arg_06);
   return;
 }

@@ -25,6 +25,8 @@ function switch_slot_22() /* entry=2586 class_id=0x0a18 slot=0x22 */
     return;
   }
   else if (local_01) {
+    Item.playSfxCru(50, arg_06);
+    Item.isOn(4, arg_06);
     spawn FREE.slot_21(pid, 0x0183, 0x00000000);
     suspend;
     spawn FREE.slot_3b(pid, 1, 0x00000000);
@@ -34,6 +36,7 @@ function switch_slot_22() /* entry=2586 class_id=0x0a18 slot=0x22 */
     return;
   }
   else {
+    Item.playSfxCru(49, arg_06);
     spawn FREE.slot_21(pid, 0x0181, 0x00000000);
     suspend;
     spawn FREE.slot_21(pid, 0x018f, 0x00000000);

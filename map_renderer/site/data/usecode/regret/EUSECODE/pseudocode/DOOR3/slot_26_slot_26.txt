@@ -3,53 +3,95 @@ function door3_slot_26() /* entry=2568 class_id=0x0a06 slot=0x26 */
   set_info(0x0207, *(arg_06));
   if (Item.getFrame(arg_06) == 0) {
     if (Item.legal_create(Item.getZ(arg_06), Item.getY(arg_06), (Item.getX(arg_06) + 112), 0, 4, local_04)) {
+      Item.destroy(local_04);
+      Item.setQLo(Item.getQLo(arg_06), arg_06);
+      Item.playSfxCru(0x013e, arg_06);
+      Item.push(arg_06);
+      Item.setShape(0x04dd, arg_06);
+      Item.setFrame(6, arg_06);
+      Item.popToCoords(Item.getZ(arg_06), Item.getY(arg_06), (Item.getX(arg_06) + 112), arg_06);
       local_02 = 0;
       while (local_02 <= 6) {
+        Item.setFrame((6 - local_02), arg_06);
         spawn FREE.slot_3b(pid, 5, 0x00000000);
         suspend;
         local_02 = (1 + local_02);
       }
+      Item.playSfxCru(0x013f, arg_06);
+      process_result = 1;
       return;
     }
     return;
   }
   else if (Item.getFrame(arg_06) == 1) {
     if (Item.legal_create(Item.getZ(arg_06), (Item.getY(arg_06) + 112), Item.getX(arg_06), 0, 0x0084, local_04)) {
+      Item.destroy(local_04);
+      Item.setQLo(Item.getQLo(arg_06), arg_06);
+      Item.playSfxCru(0x013e, arg_06);
+      Item.push(arg_06);
+      Item.setShape(0x037e, arg_06);
+      Item.setFrame(6, arg_06);
+      Item.popToCoords(Item.getZ(arg_06), (Item.getY(arg_06) + 112), Item.getX(arg_06), arg_06);
       local_02 = 0;
       while (local_02 <= 6) {
+        Item.setFrame((6 - local_02), arg_06);
         spawn FREE.slot_3b(pid, 5, 0x00000000);
         suspend;
         local_02 = (1 + local_02);
       }
+      Item.playSfxCru(0x013f, arg_06);
+      process_result = 1;
       return;
     }
     return;
   }
   else if (Item.getFrame(arg_06) == 2) {
     if (Item.legal_create(Item.getZ(arg_06), Item.getY(arg_06), (Item.getX(arg_06) + 0x0080), 0, 0x0120, local_04)) {
+      Item.destroy(local_04);
+      Item.setQLo(Item.getQLo(arg_06), arg_06);
+      Item.playSfxCru(0x013e, arg_06);
+      Item.push(arg_06);
+      Item.setShape(0x0363, arg_06);
+      Item.setFrame(6, arg_06);
+      Item.popToCoords(Item.getZ(arg_06), Item.getY(arg_06), (Item.getX(arg_06) + 0x0080), arg_06);
       local_02 = 0;
       while (local_02 <= 6) {
+        Item.setFrame((6 - local_02), arg_06);
         spawn FREE.slot_3b(pid, 5, 0x00000000);
         suspend;
         local_02 = (1 + local_02);
       }
+      Item.playSfxCru(0x013f, arg_06);
+      process_result = 1;
       return;
     }
     return;
   }
   else if (Item.getFrame(arg_06) == 3) {
     if (Item.legal_create(Item.getZ(arg_06), (Item.getY(arg_06) + 0x0080), Item.getX(arg_06), 0, 0x032a, local_04)) {
+      Item.destroy(local_04);
+      Item.setQLo(Item.getQLo(arg_06), arg_06);
+      Item.playSfxCru(0x013e, arg_06);
+      Item.push(arg_06);
+      Item.setShape(0x037a, arg_06);
+      Item.setFrame(6, arg_06);
+      Item.popToCoords(Item.getZ(arg_06), (Item.getY(arg_06) + 0x0080), Item.getX(arg_06), arg_06);
       local_02 = 0;
       while (local_02 <= 6) {
+        Item.setFrame((6 - local_02), arg_06);
         spawn FREE.slot_3b(pid, 5, 0x00000000);
         suspend;
         local_02 = (1 + local_02);
       }
+      Item.playSfxCru(0x013f, arg_06);
+      process_result = 1;
       return;
     }
     return;
   }
   else {
+    Item.playSfxCru(0x01a7, arg_06);
+    process_result = 0;
     return;
   }
   return;

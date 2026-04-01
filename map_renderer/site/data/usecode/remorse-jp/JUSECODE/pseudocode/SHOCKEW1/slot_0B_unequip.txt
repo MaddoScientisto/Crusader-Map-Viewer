@@ -2,9 +2,13 @@ function shockew1_unequip() /* entry=1116 class_id=0x045a slot=0x0b */
 {
   set_info(0x0212, *(arg_06));
   process_exclude();
+  if (arg_10) {
+    Item.pop(arg_10, arg_06);
+  }
   spawn SHOCKER.slot_20(arg_06);
   FREE.slot_20(pid, 30);
   spawn FREE.slot_32((retval + 30), 0x00000000);
   suspend;
+  Item.destroy(arg_06);
   return;
 }

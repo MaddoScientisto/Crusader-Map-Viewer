@@ -9,6 +9,10 @@ function roll_ew_equip() /* entry=1390 class_id=0x056c slot=0x0a */
     return;
   }
   else if (arg_10 == 2) {
+    if (Item.getStatus(arg_06) & 4) {
+      Item.andStatus((~4), arg_06);
+      Kernel.resetRef(0x021b, *(arg_06));
+    }
     return;
   }
   return;

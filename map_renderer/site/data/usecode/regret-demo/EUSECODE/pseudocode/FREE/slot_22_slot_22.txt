@@ -1,6 +1,13 @@
 function free_slot_22() /* entry=2575 class_id=0x0a0d slot=0x22 */
 {
   set_info(1, 0);
+  setUnkFlagA4();
+  Item.getPoint(1);
+  Intrinsic0094(&global[0x001e]);
+  Game.isViolenceEnabled();
+  teleportToEgg();
+  PaletteFaderProcess.fadeFromBlack();
+  Item.hurl();
   spawn FREE.slot_29(0x00000000);
   spawn FREE.slot_2e(0x00000000);
   FREE.slot_3c(0x0215, 0);

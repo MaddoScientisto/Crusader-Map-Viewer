@@ -1,21 +1,29 @@
 function elevat_slot_23() /* entry=2570 class_id=0x0a08 slot=0x23 */
 {
   set_info(0x0001, *(arg_06));
+  Item.playSfxCru(0x00ef, arg_06);
+  Item.orStatus(0x1000, arg_06);
+  Item.setFrame(1, arg_06);
   local_06 = Item.getZ(arg_06);
   local_08 = Item.getQHi(arg_06);
   local_10 = ((Item.getQHi(arg_06) - local_06) / 2);
+  AudioProcess.playSFXCru(0x00ed, arg_06);
   local_05 = 1;
   while (local_05 <= local_10) {
     while (condition) {
       if (Item.getShape(local_02) != 0x04fe) {
+        Item.push(local_02);
         local_14 = (1 + local_14);
       }
     }
     local_12 = 1;
     while (local_12 <= local_14) {
       local_02 = Item.getEtherealTop();
+      Item.popToCoords((Item.getZ(local_02) + 2), Item.getY(local_02), Item.getX(local_02), local_02);
       local_12 = (1 + local_12);
     }
+    Item.push(arg_06);
+    Item.popToCoords((Item.getZ(arg_06) + 2), Item.getY(arg_06), Item.getX(arg_06), arg_06);
     local_14 = 0;
     spawn FREE.slot_3b(pid, 1, 0x00000000);
     suspend;
@@ -23,13 +31,21 @@ function elevat_slot_23() /* entry=2570 class_id=0x0a08 slot=0x23 */
   }
   if ((local_08 - local_06) & 1) {
     while (condition) {
+      Item.push(local_02);
       local_14 = (1 + local_14);
     }
     local_12 = 1;
     while (local_12 <= local_14) {
       local_02 = Item.getEtherealTop();
+      Item.popToCoords((Item.getZ(local_02) + 1), Item.getY(local_02), Item.getX(local_02), local_02);
       local_12 = (1 + local_12);
     }
+    Item.push(arg_06);
+    Item.popToCoords((Item.getZ(arg_06) + 1), Item.getY(arg_06), Item.getX(arg_06), arg_06);
   }
+  Item.setFrame(0, arg_06);
+  Item.andStatus((~0x1000), arg_06);
+  AudioProcess.stopSFXCru(0x00ed, arg_06);
+  Item.playSfxCru(0x00ee, arg_06);
   return;
 }

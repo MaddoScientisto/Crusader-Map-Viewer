@@ -6,38 +6,50 @@ function bro_boot_equip() /* entry=792 class_id=0x0316 slot=0x0a */
     return;
   }
   else {
+    Ultima8Engine.setAvatarInStasis(1);
     FREE.slot_33(0x021b, *(arg_06));
     while (Item.getFrame(arg_06) != 9) {
+      Item.setFrame((Item.getFrame(arg_06) + 1), arg_06);
       spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
       suspend;
     }
     spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
     suspend;
-    if (global[0x0020] == 2) {
+    switch (global[0x0020]) {
+    case 2:
+      playFlic(pid, 0x0096, 0x00c8, "2d", arg_06);
       suspend;
-    }
-    else if (global[0x0020] == 3) {
+      break;
+    case 3:
+      playFlic(pid, 0x0096, 0x00c8, "3a", arg_06);
       suspend;
-    }
-    else if (global[0x0020] == 4) {
+      break;
+    case 4:
+      playFlic(pid, 0x0096, 0x00c8, "4d", arg_06);
       suspend;
-    }
-    else if (global[0x0020] == 5) {
+      break;
+    case 5:
+      playFlic(pid, 0x0096, 0x00c8, "5d", arg_06);
       suspend;
-    }
-    else if (global[0x0020] == 9) {
+      break;
+    case 9:
+      playFlic(pid, 0x0096, 0x00c8, "9b", arg_06);
       suspend;
-    }
-    else if (global[0x0020] == 10) {
+      break;
+    case 10:
+      playFlic(pid, 0x0096, 0x00c8, "10b", arg_06);
       suspend;
+      break;
     }
     local_02 = 0;
     while (local_02 <= 9) {
+      Item.setFrame((9 - local_02), arg_06);
       spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
       suspend;
       local_02 = (1 + local_02);
     }
     spawn BRO_BOOT.enterFastArea(arg_06);
+    Ultima8Engine.setAvatarInStasis(0);
   }
   return;
 }

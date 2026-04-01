@@ -5,37 +5,48 @@ function npc_equip() /* entry=2579 class_id=0x0a11 slot=0x0a */
   if (Actor.isDead(arg_06)) {
     return;
   }
-  else if (arg_10 == 1) {
-    return;
-  }
-  else if (arg_10 == 2) {
-    return;
-  }
-  else if (arg_10 == 3) {
-    return;
-  }
-  else if (arg_10 == 10) {
-    spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
-    suspend;
-    local_02 = Item.setQuality();
-    local_04 = Item.use();
-    local_06 = Item.getX(arg_06);
-    local_08 = Item.getY(arg_06);
-    spawn NPC.slot_29(pid, local_08, local_06, local_04, local_02, arg_06);
-    suspend;
-    spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
-    suspend;
-    return;
-  }
-  else if (arg_10 == 30) {
-    local_10 = Actor.getLastAnimSet(1, arg_06);
-    local_12 = Actor.getLastAnimSet(2, arg_06);
-    local_14 = Actor.getLastAnimSet(0, arg_06);
-    return;
-  }
-  else if (arg_10 == 31) {
-    suspend;
-    return;
+  else {
+    switch (arg_10) {
+    case 1:
+      CameraProcess.getCameraZ(0, arg_06);
+      Intrinsic0D3(112, arg_06);
+      return;
+    case 2:
+      CameraProcess.getCameraZ(0, arg_06);
+      Intrinsic0D3(113, arg_06);
+      return;
+    case 3:
+      CameraProcess.getCameraZ(0, arg_06);
+      Intrinsic0D3(114, arg_06);
+      return;
+    case 10:
+      Actor.clrInCombat(1, arg_06);
+      spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+      suspend;
+      Intrinsic0D3(112, arg_06);
+      local_02 = Item.setQuality();
+      local_04 = Item.use();
+      local_06 = Item.getX(arg_06);
+      local_08 = Item.getY(arg_06);
+      spawn NPC.slot_29(pid, local_08, local_06, local_04, local_02, arg_06);
+      suspend;
+      spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+      suspend;
+      Actor.setActivity(*(arg_06));
+      return;
+    case 30:
+      local_10 = Actor.getLastAnimSet(1, arg_06);
+      local_12 = Actor.getLastAnimSet(2, arg_06);
+      local_14 = Actor.getLastAnimSet(0, arg_06);
+      Actor.setDead(local_12, 1, arg_06);
+      Actor.setDead(local_10, 2, arg_06);
+      return;
+    case 31:
+      Item.getItemFamily(arg_06);
+      suspend;
+      Item.destroy(arg_06);
+      return;
+    }
   }
   return;
 }

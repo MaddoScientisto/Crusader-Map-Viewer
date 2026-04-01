@@ -7,9 +7,11 @@ function valve_use() /* entry=50 class_id=0x0030 slot=0x01 */
 
   set_info(0x0207, *(arg_06));
   process_exclude();
+  AudioProcess.playSFXCru(114, arg_06);
   if (Item.getFrame(arg_06) < 4) {
     counter = 0;
     while (counter <= 4) {
+      Item.getPoint(counter, arg_06);
       spawn FREE.slot_32(pid, 5, 0x00000000);
       suspend;
       counter = (1 + counter);
@@ -18,6 +20,7 @@ function valve_use() /* entry=50 class_id=0x0030 slot=0x01 */
     suspend;
     counter = 0;
     while (counter <= 4) {
+      Item.getPoint(counter, arg_06);
       spawn FREE.slot_32(pid, 5, 0x00000000);
       suspend;
       counter = (1 + counter);
@@ -26,6 +29,7 @@ function valve_use() /* entry=50 class_id=0x0030 slot=0x01 */
   else {
     counter = 0;
     while (counter <= 4) {
+      Item.getPoint((4 - counter), arg_06);
       spawn FREE.slot_32(pid, 5, 0x00000000);
       suspend;
       counter = (1 + counter);
@@ -34,6 +38,7 @@ function valve_use() /* entry=50 class_id=0x0030 slot=0x01 */
     suspend;
     counter = 0;
     while (counter <= 4) {
+      Item.getPoint((4 - counter), arg_06);
       spawn FREE.slot_32(pid, 5, 0x00000000);
       suspend;
       counter = (1 + counter);

@@ -6,10 +6,10 @@ function blaser1_slot_20() /* entry=1093 class_id=0x0443 slot=0x20 */
   local_13 = 0;
   for local_09 in nearby_items(shape=0x0443, origin=arg_10) {
     if ((Item.getQLo(local_09) == local_21) && ((Item.getStatus(local_09) & 0x1000) == 0)) {
-      /* create_list */
-      /* append_list */
-      local_07 = local_09;
+      local_07 = (local_07 + [local_09]);
       local_19 = Item.getQHi(local_09);
+      Item.setQHi((local_19 & (1 + 2)), local_09);
+      Item.orStatus(0x1000, local_09);
       local_13 = (1 + local_13);
     }
   }
@@ -22,16 +22,15 @@ function blaser1_slot_20() /* entry=1093 class_id=0x0443 slot=0x20 */
       while (true) {
         foreach_list local_09 -> block_056a;
         if (local_19 & 31) {
-          /* create_list */
           /* remove_matching_inline */
-          local_07 = local_09;
+          local_07 = [local_09];
+          Item.destroy(local_09);
         }
         else if (Item.getStatus(local_09) & (0x1000 == 0)) {
-          /* create_list */
           /* remove_matching_inline */
-          local_07 = local_09;
+          local_07 = [local_09];
         }
-        else if ((Item.inFastArea(local_09) != 1) && (Item.getShape(local_09) == 0x0476)) {
+        else if ((Item.inFastArea(local_09) == 1) && (Item.getShape(local_09) != 0x0476)) {
           local_11 = (1 + local_11);
           local_19 = Item.getQHi(local_09);
           local_17 = Item.getFrame(local_09);
@@ -46,46 +45,55 @@ function blaser1_slot_20() /* entry=1093 class_id=0x0443 slot=0x20 */
               }
             }
             local_17 = ((local_17 + 1) & 1);
+            Item.setFrame(local_17, local_09);
+            Item.setQHi(local_19, local_09);
           }
           local_01 = Item.getZ(local_09);
           local_15 = ((local_19 & 2) + local_17);
           if ((local_19 & 1) == 0) {
-            if (local_15 == 0) {
+            switch (local_15) {
+            case 0:
               local_03 = (Item.getY(local_09) - 4);
               local_05 = (Item.getX(local_09) + 4);
-            }
-            else if (local_15 == 1) {
+              break;
+            case 1:
               local_03 = (Item.getY(local_09) + 4);
               local_05 = (Item.getX(local_09) + 4);
-            }
-            else if (local_15 == 2) {
+              break;
+            case 2:
               local_03 = (Item.getY(local_09) + 4);
               local_05 = (Item.getX(local_09) - 4);
-            }
-            else if (local_15 == 3) {
+              break;
+            case 3:
               local_03 = (Item.getY(local_09) - 4);
               local_05 = (Item.getX(local_09) - 4);
+              break;
             }
           }
-          else if (local_15 == 0) {
-            local_03 = (Item.getY(local_09) + 4);
-            local_05 = (Item.getX(local_09) - 4);
-          }
-          else if (local_15 == 1) {
-            local_03 = (Item.getY(local_09) - 4);
-            local_05 = (Item.getX(local_09) - 4);
-          }
-          else if (local_15 == 2) {
-            local_03 = (Item.getY(local_09) - 4);
-            local_05 = (Item.getX(local_09) + 4);
-          }
-          else if (local_15 == 3) {
-            local_03 = (Item.getY(local_09) + 4);
-            local_05 = (Item.getX(local_09) + 4);
+          else {
+            switch (local_15) {
+            case 0:
+              local_03 = (Item.getY(local_09) + 4);
+              local_05 = (Item.getX(local_09) - 4);
+              break;
+            case 1:
+              local_03 = (Item.getY(local_09) - 4);
+              local_05 = (Item.getX(local_09) - 4);
+              break;
+            case 2:
+              local_03 = (Item.getY(local_09) - 4);
+              local_05 = (Item.getX(local_09) + 4);
+              break;
+            case 3:
+              local_03 = (Item.getY(local_09) + 4);
+              local_05 = (Item.getX(local_09) + 4);
+              break;
+            }
           }
           if (legalMoveToPoint(0, 0, local_05, local_09) == 0) {
             local_19 = Item.getQHi(local_09);
             if ((local_19 & 8) == 0) {
+              Item.setQHi((local_19 | (4 | 8)), local_09);
             }
             else {
               local_19 = (local_19 & (~8));
@@ -95,11 +103,13 @@ function blaser1_slot_20() /* entry=1093 class_id=0x0443 slot=0x20 */
               else {
                 local_19 = (local_19 | 1);
               }
+              Item.setQHi(local_19, local_09);
             }
           }
           else {
             local_19 = Item.getQHi(local_09);
             local_19 = (local_19 & (~8));
+            Item.setQHi(local_19, local_09);
           }
         }
       }
@@ -108,6 +118,7 @@ function blaser1_slot_20() /* entry=1093 class_id=0x0443 slot=0x20 */
       if (local_11 == 0) {
         while (true) {
           foreach_list local_09 -> block_05a3;
+          Item.andStatus((~0x1000), local_09);
         }
         return;
       }

@@ -7,14 +7,21 @@ function holo_equip() /* entry=1455 class_id=0x05ad slot=0x0a */
   }
   else if (arg_10 == 0) {
     while (condition) {
+      Item.destroy(local_02);
     }
     spawn FREE.slot_3b(pid, 5, 0x00000000);
     suspend;
+    Item.isOn(0, arg_06);
+    Item.playSfxCru(0x00a1, arg_06);
     return;
   }
   else if (arg_10 == 1) {
+    Item.isOn(1, arg_06);
     spawn FREE.slot_3b(pid, 5, 0x00000000);
     suspend;
+    Item.create(0, 0x02ad, local_02);
+    Item.popToCoords((Item.getZ(arg_06) + 32), (Item.getY(arg_06) - 48), (Item.getX(arg_06) - 32), local_02);
+    Item.playSfxCru(0x0099, arg_06);
     return;
   }
   return;

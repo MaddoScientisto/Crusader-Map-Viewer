@@ -7,10 +7,21 @@ function door2_slot_36() /* entry=2569 class_id=0x0a07 slot=0x36 */
   local_04 = 7;
   local_02 = 1;
   while (local_02 <= local_04) {
+    Item.isCentreOn(local_02, arg_06);
     spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
     suspend;
     local_02 = (1 + local_02);
   }
+  Item.isCentreOn(0, arg_06);
+  Item.setShape(0x0238, arg_06);
+  AudioProcess.playSFXCru(82, arg_06);
   local_06 = Item.getFootpad(arg_06);
+  if (CameraProcess.somethingAboutCameraUpdate(Item.getZ(arg_06), Item.getY(arg_06), (Item.getX(arg_06) - 0x00d0), 1, 0x0238, local_10) == 1) {
+    Item.andStatus(local_06, local_10);
+  }
+  if (CameraProcess.somethingAboutCameraUpdate((Item.getZ(arg_06) + 80), Item.getY(arg_06), Item.getX(arg_06), 0, 0x03c7, local_08) == 1) {
+    Item.andStatus(local_06, local_08);
+  }
+  process_result = 1;
   return;
 }

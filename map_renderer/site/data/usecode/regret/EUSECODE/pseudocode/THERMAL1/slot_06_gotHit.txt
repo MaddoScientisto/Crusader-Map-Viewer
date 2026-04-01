@@ -14,6 +14,10 @@ function thermal1_gotHit() /* entry=1259 class_id=0x04e9 slot=0x06 */
       if (!process_result) {
         FREE.slot_20(1);
         if (retval) {
+          Item.playSfxCru(38, arg_06);
+        }
+        else {
+          Item.playSfxCru(39, arg_06);
         }
         return;
       }
@@ -21,9 +25,11 @@ function thermal1_gotHit() /* entry=1259 class_id=0x04e9 slot=0x06 */
         spawn ITEM.slot_2a(pid, 0, 2, arg_06);
         suspend;
         while (condition) {
+          Item.setFrame(1, local_02);
           spawn ITEM.slot_2a(pid, 0, 1, local_02);
           suspend;
         }
+        Item.setFrame(1, arg_06);
         spawn TRIGGER.slot_20(pid, (0 + 0x0080), *(arg_06), arg_06);
         suspend;
         spawn FREE.slot_2c(pid, 0x00000000);

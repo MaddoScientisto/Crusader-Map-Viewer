@@ -15,6 +15,7 @@ function reb_coup_equip() /* entry=847 class_id=0x034d slot=0x0a */
     ITEM.slot_23(0x1000, arg_06);
     counter = Item.getFrame(arg_06);
     while (counter <= 9) {
+      Item.getPoint(counter, arg_06);
       spawn FREE.slot_32(pid, 10, 0x00000000);
       suspend;
       counter = (1 + counter);
@@ -24,6 +25,7 @@ function reb_coup_equip() /* entry=847 class_id=0x034d slot=0x0a */
   else {
     counter = 0;
     while (counter <= 9) {
+      Item.getPoint((9 - counter), arg_06);
       spawn FREE.slot_32(pid, 10, 0x00000000);
       suspend;
       counter = (1 + counter);

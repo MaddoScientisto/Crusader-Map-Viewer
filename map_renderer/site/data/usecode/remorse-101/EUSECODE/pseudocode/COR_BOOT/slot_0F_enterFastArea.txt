@@ -1,54 +1,49 @@
 function cor_boot_enterFastArea() /* entry=866 class_id=0x0360 slot=0x0f */
 {
-  entry:
-    set_info(0x021b, *(arg_06));
-    process_exclude();
-    if ((global[0x0020] != 2) || (global[0x0020] == 8)) || (global[0x0020] == 12) goto block_02bc;
-
-  block_026c_selector_00:
+  set_info(0x021b, *(arg_06));
+  process_exclude();
+  if (((global[0x0020] == 2) || (global[0x0020] == 8)) || (global[0x0020] == 12)) {
     for local_02 in nearby_items(shape=SPANEL, origin=arg_06) {
       if (Item.getQLo(local_02) == Item.getQLo(arg_06)) {
         ITEM.slot_24(0x1000, local_02);
       }
     }
-
-  block_02ad:
-    goto block_030c;
-
-  block_02bc_selector_00:
+    Item.setFrame(0, arg_06);
+  }
+  else {
     for local_02 in nearby_items(shape=SPANEL, origin=arg_06) {
       if (Item.getQLo(local_02) == Item.getQLo(arg_06)) {
         ITEM.slot_23(0x1000, local_02);
       }
     }
-
-  block_02fd:
-    goto block_03c6;
-
-  block_030c:
-    while (true) {
-      suspend;
-      FREE.slot_20(pid, 120);
-      spawn FREE.waitNTimerTicks((retval + 0x00dc), 0x00000000);
-      suspend;
-      local_04 = 0;
-      while (local_04 <= 5) {
-        spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
-        suspend;
-        local_04 = (1 + local_04);
-      }
-      FREE.slot_20(pid, 120);
-      spawn FREE.waitNTimerTicks((retval + 120), 0x00000000);
-      suspend;
-      local_04 = 0;
-      while (local_04 <= 5) {
-        spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
-        suspend;
-        local_04 = (1 + local_04);
-      }
-    }
-
-  block_03c6:
+    Item.setFrame(10, arg_06);
     return;
+  }
+
+  while (true) {
+    suspend;
+    FREE.slot_20(pid, 120);
+    spawn FREE.waitNTimerTicks((retval + 0x00dc), 0x00000000);
+    suspend;
+    local_04 = 0;
+    while (local_04 <= 5) {
+      Item.setFrame(local_04, arg_06);
+      spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+      suspend;
+      local_04 = (1 + local_04);
+    }
+    FREE.slot_20(pid, 120);
+    spawn FREE.waitNTimerTicks((retval + 120), 0x00000000);
+    suspend;
+    local_04 = 0;
+    while (local_04 <= 5) {
+      Item.setFrame((5 - local_04), arg_06);
+      spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+      suspend;
+      local_04 = (1 + local_04);
+    }
+  }
+
+  return;
 
 }

@@ -11,11 +11,17 @@ function moveflor_slot_21() /* entry=166 class_id=0x00a4 slot=0x21 */
     while (condition) {
       if (Intrinsic0061(*(arg_06), local_13)) {
         if (local_13 != *(arg_06)) {
+          Item.push(local_13);
           local_07 = (1 + local_07);
         }
       }
     }
+    Item.push(arg_06);
     if (local_01) {
+      Item.popToCoords(Item.getZ(arg_06), Item.getY(arg_06), (Item.getX(arg_06) - 2), arg_06);
+    }
+    else {
+      Item.popToCoords(Item.getZ(arg_06), (Item.getY(arg_06) - 2), Item.getX(arg_06), arg_06);
     }
     local_03 = 1;
     while (local_03 <= local_07) {
@@ -29,8 +35,15 @@ function moveflor_slot_21() /* entry=166 class_id=0x00a4 slot=0x21 */
         local_16 = (Item.getY(local_13) - 2);
       }
       local_14 = Item.getZ(local_13);
+      if (!Item.getQHi(0, 1, local_18, local_13)) {
+        Item.popToCoords(Item.getZ(local_13), Item.getY(local_13), Item.getX(local_13), local_13);
+      }
+      if (!Intrinsic0061(*(arg_06), local_13)) {
+        Kernel.resetRef(local_13);
+      }
       local_03 = (1 + local_03);
     }
+    Egg.getEggId(0x00a3, arg_06);
     spawn FREE.slot_3b(pid, 10, 0x00000000);
     suspend;
     local_05 = (1 + local_05);
@@ -38,14 +51,20 @@ function moveflor_slot_21() /* entry=166 class_id=0x00a4 slot=0x21 */
   local_07 = 0;
   while (condition) {
     if (local_13 != *(arg_06)) {
+      Item.push(local_13);
       local_07 = (1 + local_07);
     }
   }
+  Item.push(arg_06);
+  Item.popToCoords((Item.getZ(arg_06) + 2), Item.getY(arg_06), Item.getX(arg_06), arg_06);
   local_03 = 1;
   while (local_03 <= local_07) {
     local_13 = Item.getEtherealTop();
+    Item.popToCoords((Item.getZ(local_13) + 2), Item.getY(local_13), Item.getX(local_13), local_13);
+    Kernel.resetRef(local_13);
     local_03 = (1 + local_03);
   }
+  Item.setQHi(0, arg_06);
   ITEM.slot_25(0x0100, arg_06);
   ITEM.slot_25(4, arg_06);
   return;

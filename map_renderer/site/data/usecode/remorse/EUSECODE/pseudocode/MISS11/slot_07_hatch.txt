@@ -5,12 +5,14 @@ function miss11_hatch() /* entry=2329 class_id=0x0917 slot=0x07 */
   if (Egg.getEggId(arg_06) == 1) {
     spawn FREE.slot_26(pid, "11f", 0x00000000);
     suspend;
+    Item.destroy(arg_06);
     return;
   }
   else if (Egg.getEggId(arg_06) == 2) {
     if (global[0x002a]) {
       spawn FREE.slot_26(pid, "11g", 0x00000000);
       suspend;
+      Item.destroy(arg_06);
     }
     return;
   }

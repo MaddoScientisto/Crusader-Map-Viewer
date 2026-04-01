@@ -3,18 +3,22 @@ function trigger_slot_2b() /* entry=2591 class_id=0x0a1d slot=0x2b */
   set_info(0x021b, 0);
   local_14 = arg_10;
   local_04 = (arg_16 & 3);
-  if (local_04 == 0) {
+  switch (local_04) {
+  case 0:
     for local_16 in nearby_items(family=6, origin=local_14) {
       if (Item.andStatus(Item.getShape(local_16))) {
         if (Intrinsic000D(local_16) == arg_18) {
           local_06 = (arg_12 / 16);
           local_08 = (arg_12 & 15);
           if (local_06 == 0) {
+            Item.andStatus(1, local_16);
             suspend;
             spawn FREE.slot_3b(pid, 2, 0x00000000);
             suspend;
+            Item.andStatus(Item.hurl(local_16), local_16);
           }
           else {
+            Item.andStatus(1, local_16);
             suspend;
             spawn FREE.slot_3b(pid, 2, 0x00000000);
             suspend;
@@ -30,85 +34,101 @@ function trigger_slot_2b() /* entry=2591 class_id=0x0a1d slot=0x2b */
               suspend;
               local_18 = (1 + local_18);
             }
+            Item.andStatus(Item.hurl(local_16), local_16);
           }
         }
       }
     }
     return;
-  }
-  else if (local_04 == 1) {
+  case 1:
+    for local_16 in nearby_items(family=6, origin=local_14) {
+      if (Item.andStatus(Item.getShape(local_16))) {
+        if (Intrinsic000D(local_16) == arg_18) {
+          Item.getNpcNum(arg_12, local_16);
+        }
+      }
+    }
+    return;
+  case 2:
     for local_16 in nearby_items(family=6, origin=local_14) {
       if (Item.andStatus(Item.getShape(local_16))) {
       }
     }
     return;
-  }
-  else if (local_04 == 2) {
-    for local_16 in nearby_items(family=6, origin=local_14) {
-      if (Item.andStatus(Item.getShape(local_16))) {
-      }
-    }
-    return;
-  }
-  else if (local_04 == 3) {
+  case 3:
     local_02 = (arg_12 & 7);
     local_06 = (arg_12 / 8);
-    if (local_02 == 0) {
+    switch (local_02) {
+    case 0:
       for local_16 in nearby_items(family=6, origin=local_14) {
         if (Item.andStatus(Item.getShape(local_16))) {
           if (Intrinsic000D(local_16) == arg_18) {
             if (local_06 == 1) {
+              Item.andStatus(9, local_16);
             }
             else if (local_06 == 2) {
+              Item.andStatus(10, local_16);
             }
             else if (local_06 == 3) {
+              Item.andStatus(11, local_16);
             }
             else if (local_06 == 4) {
+              Item.andStatus(13, local_16);
+            }
+            else {
+              Item.andStatus(5, local_16);
             }
           }
         }
       }
-    }
-    else if (local_02 == 1) {
+      break;
+    case 1:
       for local_16 in nearby_items(family=6, origin=local_14) {
         if (Item.andStatus(Item.getShape(local_16))) {
           if (Intrinsic000D(local_16) == arg_18) {
+            Intrinsic0055(local_06, local_16);
             spawn FREE.slot_3b(pid, 1, 0x00000000);
             suspend;
+            Item.andStatus(112, local_16);
           }
         }
       }
-    }
-    else if (local_02 == 2) {
+      break;
+    case 2:
       for local_16 in nearby_items(family=6, origin=local_14) {
         if (Item.andStatus(Item.getShape(local_16))) {
           if (Intrinsic000D(local_16) == arg_18) {
+            Game.isReleaseBuild(local_06, local_16);
             spawn FREE.slot_3b(pid, 1, 0x00000000);
             suspend;
+            Item.andStatus(113, local_16);
           }
         }
       }
-    }
-    else if (local_02 == 3) {
+      break;
+    case 3:
       for local_16 in nearby_items(family=6, origin=local_14) {
         if (Item.andStatus(Item.getShape(local_16))) {
           if (Intrinsic000D(local_16) == arg_18) {
+            MainActor.setMana(local_06, local_16);
             spawn FREE.slot_3b(pid, 1, 0x00000000);
             suspend;
+            Item.andStatus(114, local_16);
           }
         }
       }
-    }
-    else if (local_02 == 4) {
+      break;
+    case 4:
       for local_16 in nearby_items(family=6, origin=local_14) {
         if (Item.andStatus(Item.getShape(local_16))) {
           if (Intrinsic000D(local_16) == arg_18) {
             local_20 = local_06;
+            Item.andStatus(local_20, local_16);
           }
         }
       }
-    }
-    else if (local_02 == 5) {
+      break;
+    case 5:
       for local_16 in nearby_items(family=6, origin=local_14) {
         if (Item.andStatus(Item.getShape(local_16))) {
           if (Intrinsic000D(local_16) == arg_18) {
@@ -116,6 +136,7 @@ function trigger_slot_2b() /* entry=2591 class_id=0x0a1d slot=0x2b */
           }
         }
       }
+      break;
     }
     return;
   }

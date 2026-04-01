@@ -9,6 +9,8 @@ function r2d2_gotHit() /* entry=441 class_id=0x01b7 slot=0x06 */
     return;
   }
   else if (Item.getStatus(arg_06) & 0x1000) {
+    Item.playSfxCru(0x0091, arg_06);
+    SpriteProcess.createSprite(Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06), 5, 9, 0, 0x04f1);
     return;
   }
   else {
@@ -17,6 +19,10 @@ function r2d2_gotHit() /* entry=441 class_id=0x01b7 slot=0x06 */
     if (!process_result) {
       FREE.slot_20(1);
       if (retval) {
+        Item.playSfxCru(65, arg_06);
+      }
+      else {
+        Item.playSfxCru(66, arg_06);
       }
       return;
     }
@@ -24,6 +30,8 @@ function r2d2_gotHit() /* entry=441 class_id=0x01b7 slot=0x06 */
       FREE.slot_34(arg_12, arg_10);
       local_02 = retval;
       FREE.slot_3c(0x021b, *(arg_06));
+      Item.isOn(16, arg_06);
+      Intrinsic0036(arg_06);
       spawn ITEM.slot_2a(pid, 0, 0, arg_06);
       suspend;
       spawn TRIGGER.slot_20(pid, 1, *(arg_06), arg_06);

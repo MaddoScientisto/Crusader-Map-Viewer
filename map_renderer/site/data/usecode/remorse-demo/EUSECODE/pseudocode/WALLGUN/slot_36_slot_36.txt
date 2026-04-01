@@ -76,6 +76,8 @@ function wallgun_slot_36() /* entry=2588 class_id=0x0a1a slot=0x36 */
         f = (f + inc);
       }
     }
+    Item.getQHi(115, arg_06);
+    Item.legal_create(f, arg_06);
     spawn FREE.waitNTimerTicks(pid, delay, 0x00000000);
     suspend;
   }

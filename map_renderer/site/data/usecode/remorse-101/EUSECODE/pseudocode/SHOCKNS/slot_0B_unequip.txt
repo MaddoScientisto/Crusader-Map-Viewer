@@ -2,6 +2,9 @@ function shockns_unequip() /* entry=459 class_id=0x01c9 slot=0x0b */
 {
   set_info(0x0212, *(arg_06));
   process_exclude();
+  if (arg_10) {
+    Item.setQHi(arg_10, arg_06);
+  }
   spawn SHOCKER.slot_20(arg_06);
   return;
 }

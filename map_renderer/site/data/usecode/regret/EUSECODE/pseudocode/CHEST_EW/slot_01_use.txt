@@ -8,28 +8,34 @@ function chest_ew_use() /* entry=1362 class_id=0x0550 slot=0x01 */
   else if (Item.getFrame(arg_06) == 1) {
     FREE.slot_36(Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06), 6, 0x054b, *(arg_06));
     if (retval) {
+      Item.playSfxCru(0x00b3, arg_06);
       local_06 = 6;
       while (local_06 <= 10) {
+        Item.setFrame(local_06, arg_06);
         spawn FREE.slot_3b(pid, 10, 0x00000000);
         suspend;
         local_06 = (1 + local_06);
       }
     }
     else {
+      Item.playSfxCru(0x01a7, arg_06);
       return;
     }
   }
   else {
     FREE.slot_36(Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06), 1, 0x054b, *(arg_06));
     if (retval) {
+      Item.playSfxCru(0x00b3, arg_06);
       local_06 = 1;
       while (local_06 <= 5) {
+        Item.setFrame(local_06, arg_06);
         spawn FREE.slot_3b(pid, 10, 0x00000000);
         suspend;
         local_06 = (1 + local_06);
       }
     }
     else {
+      Item.playSfxCru(42, arg_06);
       return;
     }
   }
@@ -41,7 +47,13 @@ function chest_ew_use() /* entry=1362 class_id=0x0550 slot=0x01 */
       local_04 = retval;
       if ((((Item.getItemFamily(local_04) == 10) || (Item.getItemFamily(local_04) == 11)) || (Item.getItemFamily(local_04) == 12)) || (Item.getItemFamily(local_04) == 13)) {
         if (!MainActor.addItemCru(1, local_04)) {
+          Item.playSfxCru(0x01a7, arg_06);
+          Item.push(local_04);
           if (Actor.getMap(&global[0x001e]) == 25) {
+            Item.popToCoords(Item.getZ(local_04), Item.getY(local_04), Item.getX(local_04), local_04);
+          }
+          else {
+            Item.popToCoords(Item.getX(Item.getY(Item.getZ(&global[0x001e]), &global[0x001e]), &global[0x001e]), local_04);
           }
         }
       }

@@ -3,23 +3,29 @@ function fade_equip() /* entry=1278 class_id=0x04fc slot=0x0a */
   set_info(0x0211, *(arg_06));
   process_exclude();
   local_27 = Item.getQLo(arg_06);
-  if (arg_10 == 1) {
+  switch (arg_10) {
+  case 1:
     spawn FREE.slot_44(0x00000000);
     spawn FREE.slot_3b(pid, 0x03e8, 0x00000000);
     suspend;
     spawn FADE.slot_20(0x00000000);
     return;
-  }
-  else if (arg_10 == 3) {
+  case 3:
+    Intrinsic0072("virusmva");
+    Intrinsic0072(1, "3g");
     spawn FREE.slot_3b(pid, 60, 0x00000000);
     suspend;
     spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
     suspend;
     return;
-  }
-  else if (arg_10 == 5) {
+  case 5:
+    Intrinsic0072("pinfomva");
+    Intrinsic0072(0, "4G");
+    Actor.clrImmortal();
+    Item.shoot(AudioProcess.stopSFXCru(&global[0x001e]), 0, Item.getY(arg_06), Item.getX(arg_06));
     spawn FREE.slot_3b(pid, 5, 0x00000000);
     suspend;
+    Item.overlaps();
     spawn FREE.slot_44(0x00000000);
     spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
     suspend;
@@ -27,18 +33,21 @@ function fade_equip() /* entry=1278 class_id=0x04fc slot=0x0a */
     suspend;
     spawn FREE.slot_3b(pid, 2, 0x00000000);
     suspend;
+    Item.shoot(Item.getX(Item.getY(AudioProcess.stopSFXCru(&global[0x001e]), 0, &global[0x001e]), &global[0x001e]));
     spawn FREE.slot_3b(pid, 5, 0x00000000);
     suspend;
+    Item.overlaps();
     return;
-  }
-  else if (arg_10 == 8) {
+  case 8:
     spawn FREE.slot_21(pid, 0x017a, 0x00000000);
     suspend;
+    Intrinsic0072("anim07");
+    Intrinsic0072(1, "8e");
     spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
     suspend;
     return;
-  }
-  else if (arg_10 == 0x00d2) {
+  case 0x00d2:
+    Item.getPoint(1);
     if (Item.fall(&global[0x001e])) {
       suspend;
     }
@@ -80,11 +89,18 @@ function fade_equip() /* entry=1278 class_id=0x04fc slot=0x0a */
     }
     spawn FREE.slot_3b(pid, 60, 0x00000000);
     suspend;
+    Intrinsic0072(0, "5e");
+    Intrinsic0072(1, "5f");
+    Item.shoot(Item.getX(Item.getY(Item.getZ(AudioProcess.stopSFXCru(&global[0x001e]), &global[0x001e]), &global[0x001e]), &global[0x001e]));
+    Item.getPoint(0);
     for local_02 in nearby_items(shape=TELEPORTER_LIGHTS, origin=arg_06) {
+      if (Item.getQLo(local_02) == 1) {
+        Item.isOn(0, local_02);
+      }
     }
+    Item.destroy(arg_06);
     return;
-  }
-  else if (arg_10 == 0x00d3) {
+  case 0x00d3:
     spawn FREE.slot_3b(pid, 0x00c8, 0x00000000);
     suspend;
     for local_02 in selector_0x42(arg0=0x04d9, arg1=0x03ac, arg2=(32 * 32), origin=arg_06) {
@@ -137,9 +153,11 @@ function fade_equip() /* entry=1278 class_id=0x04fc slot=0x0a */
     spawn TRIGGER.slot_20(pid, (0 + 0x0080), *(arg_06), arg_06);
     suspend;
     spawn FREE.slot_44(0x00000000);
+    Item.destroy(arg_06);
     return;
-  }
-  else if (arg_10 == 0x00de) {
+  case 0x00de:
+    PaletteFaderProcess.fadeFromBlack();
+    Item.getPoint(1);
     if (Item.fall(&global[0x001e])) {
       suspend;
     }
@@ -166,9 +184,15 @@ function fade_equip() /* entry=1278 class_id=0x04fc slot=0x0a */
     suspend;
     spawn FREE.slot_21(pid, 0x01e6, 0x00000000);
     suspend;
+    Ultima8Engine.setAvatarInStasis(7);
     for local_25 in nearby_items(shape=0x05b1, origin=arg_06) {
+      Intrinsic0055(10, local_25);
+      Game.isReleaseBuild(10, local_25);
+      MainActor.setMana(10, local_25);
+      Camera.getX(10, local_25);
     }
     suspend;
+    Item.getPoint(0);
     return;
   }
   return;

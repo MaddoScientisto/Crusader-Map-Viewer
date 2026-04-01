@@ -77,6 +77,8 @@ function wallgun_slot_33() /* entry=2588 class_id=0x0a1a slot=0x33 */
         f = (f - inc);
       }
     }
+    Item.getQHi(115, arg_06);
+    Item.legal_create(f, arg_06);
     WALLGUN.slot_2e(target, arg_06);
     if (retval) {
       spawn WALLGUN.slot_46(pid, target, arg_06);

@@ -4,39 +4,57 @@ function keypadns_use() /* entry=1101 class_id=0x044b slot=0x01 */
   process_exclude();
   if ((Actor.getMap(&global[0x001e]) == 26) && (Item.getQLo(arg_06) == 0)) {
     local_06 = "Cheaters Menu^_____________^^Select a mission^number (1-10)^and Col. Shepherd^will assign it to you.";
+    ComputerGump.readComputer(local_06);
     local_02 = KeypadGump.showKeypad(0);
     if (local_02 > 10) {
       local_02 = 10;
     }
+    IntrinsicReturn0((("Wow! Mission " + UCMachine.numToStr(local_02)) + " sounds fun. Good luck!"), arg_06);
     spawn FREE.slot_3b(pid, 120, 0x00000000);
     suspend;
     FREE.slot_3c(0x0200, *(arg_06));
     spawn FREE.slot_3b(pid, 30, 0x00000000);
     suspend;
-    if (global[0x000f] == 4) {
-    }
-    else if (global[0x000f] == 5) {
-    }
-    else if (global[0x000f] == 6) {
-    }
-    else if (global[0x000f] == 7) {
+    MusicProcess.pauseMusic();
+    switch (global[0x000f]) {
+    case 4:
+      Intrinsic006D(0, "4b");
+      break;
+    case 5:
+      Intrinsic006D(0, "5a");
+      break;
+    case 6:
+      Intrinsic006D(0, "6b");
+      break;
+    case 7:
       if (global[0x0016]) {
+        Intrinsic006D(0, "7a");
       }
+      else {
+        Intrinsic006D(0, "7b");
+      }
+      break;
+    case 8:
+      Intrinsic006D(0, "8a");
+      break;
+    case 9:
+      Intrinsic006D(0, "9a");
+      break;
+    case 10:
+      Intrinsic006D(0, "10a");
+      break;
     }
-    else if (global[0x000f] == 8) {
-    }
-    else if (global[0x000f] == 9) {
-    }
-    else if (global[0x000f] == 10) {
-    }
+    MusicProcess.unpauseMusic();
     return;
   }
   else if ((Actor.getMap(((Actor.getMap(&global[0x001e]) == 25) && (Item.getQLo(arg_06) == 1)), &global[0x001e]) == 26) && (Item.getQLo(arg_06) == 1)) {
     local_06 = "VIDEO PLAYER^_____________^^Mission video 0-72^Mission MVAs 73-89^Game Flicks  90-102";
+    ComputerGump.readComputer(local_06);
     local_02 = KeypadGump.showKeypad(0);
     if (local_02 == 0) {
       return;
     }
+    MusicProcess.pauseMusic();
     if (local_02 > 102) {
       return;
     }

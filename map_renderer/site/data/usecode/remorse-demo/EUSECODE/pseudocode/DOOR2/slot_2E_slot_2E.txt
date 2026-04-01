@@ -9,11 +9,16 @@ function door2_slot_2e() /* entry=2569 class_id=0x0a07 slot=0x2e */
   spawn DOOR.slot_22(pid, arg_06);
   suspend;
   maxFrame = 11;
+  AudioProcess.playSFXCru(78, arg_06);
   counter = 1;
   while (counter <= maxFrame) {
+    Item.legal_create(counter, arg_06);
     spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
     suspend;
     counter = (1 + counter);
   }
+  Item.setShape(0x0394, arg_06);
+  Item.legal_create(0, arg_06);
+  process_result = 1;
   return;
 }

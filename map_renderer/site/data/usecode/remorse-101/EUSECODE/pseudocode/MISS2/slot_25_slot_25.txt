@@ -9,20 +9,31 @@ function miss2_slot_25() /* entry=2320 class_id=0x090e slot=0x25 */
   else {
     local_11 = -2;
   }
+  AudioProcess.playSFXCru(61, &global[0x003d]);
   spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
   suspend;
+  AudioProcess.playSFXCru(17, &global[0x003d]);
   while (local_09) {
     while (condition) {
       local_04 = Item.getX(local_02);
       local_06 = Item.getY(local_02);
       local_07 = Item.getZ(local_02);
+      push(local_02);
+      getTargetNPCNumMaybe((local_07 + local_11), local_06, local_04, local_02);
       local_13 = (1 + local_13);
       if ((local_09 <= 16) && (Item.getShape(local_02) == wallgun_shape_04c8)) {
         if (arg_06 == 1) {
           if (Item.getFrame(local_02) != 12) {
             if (!Item.getFrame(local_02)) {
+              Item.isCentreOn(15, local_02);
+            }
+            else {
+              Item.isCentreOn((Item.getFrame(local_02) - 1), local_02);
             }
           }
+        }
+        else if (Item.getFrame(local_02) != 8) {
+          Item.isCentreOn((Item.getFrame(local_02) + 1), local_02);
         }
       }
       if (local_13 == 5) {
@@ -33,8 +44,10 @@ function miss2_slot_25() /* entry=2320 class_id=0x090e slot=0x25 */
       }
     }
   }
+  AudioProcess.playSFXCru(19, &global[0x003d]);
   spawn FREE.waitNTimerTicks(pid, 15, 0x00000000);
   suspend;
+  AudioProcess.playSFXCru(24, &global[0x003d]);
   spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
   suspend;
   return;

@@ -7,6 +7,7 @@ function blood_gotHit() /* entry=1210 class_id=0x04b8 slot=0x06 */
     if (((Item.getFrame(arg_06) == 9) || (Item.getFrame(arg_06) == 19)) || (Item.getFrame(arg_06) == 29)) {
       spawn FREE.waitNTimerTicks(pid, 15, 0x00000000);
       suspend;
+      Item.destroy(arg_06);
     }
   }
   return;

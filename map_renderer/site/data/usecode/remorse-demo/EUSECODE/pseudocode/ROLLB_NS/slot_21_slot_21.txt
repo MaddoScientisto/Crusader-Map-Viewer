@@ -24,6 +24,8 @@ function rollb_ns_slot_21() /* entry=1416 class_id=0x0586 slot=0x21 */
   wp = Item.getX(arg_06);
   local_17 = Item.getY(arg_06);
   local_15 = Item.getZ(arg_06);
+  Item.orStatus(0x1000, arg_06);
+  AudioProcess.playAmbientSFXCru(0x00a3, arg_06);
   if (a & 32) {
     if (a < 0x0080) {
       while (1) {
@@ -34,12 +36,14 @@ function rollb_ns_slot_21() /* entry=1416 class_id=0x0586 slot=0x21 */
         total = 0;
         while (condition) {
           total = (1 + total);
+          push(cargo);
         }
         local_17 = (local_17 + 8);
         if (Item.andStatus(0, 0, wp, arg_06) == 0) {
           counter = 1;
           while (counter <= total) {
             cargo = Item.getEtherealTop();
+            Item.popToCoords(Item.getZ(cargo), Item.getY(cargo), Item.getX(cargo), cargo);
             counter = (1 + counter);
           }
           spawn ROLLB_NS.slot_20(pid, arg_06);
@@ -49,8 +53,10 @@ function rollb_ns_slot_21() /* entry=1416 class_id=0x0586 slot=0x21 */
         counter = 1;
         while (counter <= total) {
           cargo = Item.getEtherealTop();
+          Item.popToCoords(Item.getZ(cargo), (Item.getY(cargo) + 8), Item.getX(cargo), cargo);
           counter = (1 + counter);
         }
+        Item.legal_create(f, arg_06);
         spawn FREE.waitNTimerTicks(pid, time, 0x00000000);
         suspend;
       }
@@ -64,12 +70,14 @@ function rollb_ns_slot_21() /* entry=1416 class_id=0x0586 slot=0x21 */
         total = 0;
         while (condition) {
           total = (1 + total);
+          push(cargo);
         }
         local_17 = (local_17 - 8);
         if (Item.andStatus(0, 0, wp, arg_06) == 0) {
           counter = 1;
           while (counter <= total) {
             cargo = Item.getEtherealTop();
+            Item.popToCoords(Item.getZ(cargo), Item.getY(cargo), Item.getX(cargo), cargo);
             counter = (1 + counter);
           }
           spawn ROLLB_NS.slot_20(pid, arg_06);
@@ -79,8 +87,10 @@ function rollb_ns_slot_21() /* entry=1416 class_id=0x0586 slot=0x21 */
         counter = 1;
         while (counter <= total) {
           cargo = Item.getEtherealTop();
+          Item.popToCoords(Item.getZ(cargo), (Item.getY(cargo) - 8), Item.getX(cargo), cargo);
           counter = (1 + counter);
         }
+        Item.legal_create(f, arg_06);
         spawn FREE.waitNTimerTicks(pid, time, 0x00000000);
         suspend;
       }
@@ -113,12 +123,14 @@ function rollb_ns_slot_21() /* entry=1416 class_id=0x0586 slot=0x21 */
           zCheck = (zMax - local_15);
         }
         else if (zCheck > 12) {
+          CameraProcess.moveTo(arg_06);
           spawn FREE.waitNTimerTicks(pid, 6, 0x00000000);
           suspend;
           spawn ROLLB_NS.slot_20(pid, arg_06);
           suspend;
           return;
         }
+        Item.legal_create(f, arg_06);
         spawn FREE.waitNTimerTicks(pid, time, 0x00000000);
         suspend;
       }
@@ -147,12 +159,14 @@ function rollb_ns_slot_21() /* entry=1416 class_id=0x0586 slot=0x21 */
           zCheck = (zMax - local_15);
         }
         else if (zCheck > 12) {
+          CameraProcess.moveTo(arg_06);
           spawn FREE.waitNTimerTicks(pid, 6, 0x00000000);
           suspend;
           spawn ROLLB_NS.slot_20(pid, arg_06);
           suspend;
           return;
         }
+        Item.legal_create(f, arg_06);
         spawn FREE.waitNTimerTicks(pid, time, 0x00000000);
         suspend;
       }

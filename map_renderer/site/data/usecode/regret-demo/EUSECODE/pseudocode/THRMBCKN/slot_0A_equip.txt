@@ -3,19 +3,27 @@ function thrmbckn_equip() /* entry=1384 class_id=0x0566 slot=0x0a */
   set_info(0x0211, *(arg_06));
   process_exclude();
   if (arg_10) {
+    Item.isOn(1, arg_06);
+    Item.playSfxCru(4, arg_06);
     while (Intrinsic0035(4, arg_06)) {
       spawn FREE.slot_3b(pid, 2, 0x00000000);
       suspend;
     }
+    Item.playSfxCru(4, arg_06);
     while (Intrinsic0035(4, arg_06)) {
       spawn FREE.slot_3b(pid, 2, 0x00000000);
       suspend;
     }
+    Item.playSfxCru(4, arg_06);
     while (Intrinsic0035(4, arg_06)) {
       spawn FREE.slot_3b(pid, 2, 0x00000000);
       suspend;
     }
+    Item.andStatus(4, arg_06);
+    Item.isOn(0, arg_06);
     while (condition) {
+      Item.playSfxCru(0x0114, arg_06);
+      Item.destroy(local_02);
     }
     while (condition) {
       if (Intrinsic000D(local_04) == Item.isCrusTypeNPC(arg_06)) {
@@ -26,10 +34,16 @@ function thrmbckn_equip() /* entry=1384 class_id=0x0566 slot=0x0a */
         else {
           local_06 = 5;
         }
+        Game.isReleaseBuild(local_08, local_04);
+        MainActor.setMana(local_08, local_04);
+        Item.andStatus(114, local_04);
         spawn FREE.slot_3b(pid, 40, 0x00000000);
         suspend;
+        MainActor.setMana(local_06, local_04);
         spawn FREE.slot_3b(pid, 2, 0x00000000);
         suspend;
+        Item.andStatus(114, local_04);
+        Item.setQLo(0, arg_06);
         return;
       }
     }

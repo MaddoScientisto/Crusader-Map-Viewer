@@ -5,55 +5,50 @@ function ree_boot_enterFastArea() /* entry=1245 class_id=0x04db slot=0x0f */
     item, /* [BP-02h] type=0x24 */
     counter; /* [BP-04h] type=0x69 */
 
-  entry:
-    set_info(0x021b, *(arg_06));
-    process_exclude();
-    if (((((((global[0x001f] != 3) || (global[0x001f] == 6)) || (global[0x001f] == 7)) || (global[0x001f] == 8)) || (global[0x001f] == 9)) || (global[0x001f] == 11)) || (global[0x001f] == 12)) || (global[0x001f] == 13) goto block_04da;
-
-  block_0478_selector_00:
+  set_info(0x021b, *(arg_06));
+  process_exclude();
+  if ((((((((global[0x001f] == 3) || (global[0x001f] == 6)) || (global[0x001f] == 7)) || (global[0x001f] == 8)) || (global[0x001f] == 9)) || (global[0x001f] == 11)) || (global[0x001f] == 12)) || (global[0x001f] == 13)) {
     for item in nearby_items(shape=SPANEL, origin=arg_06) {
       if (Item.andStatus(item) == Item.andStatus(arg_06)) {
         ITEM.slot_24(0x1000, item);
       }
     }
-
-  block_04c8:
-    goto block_053f;
-
-  block_04da_selector_00:
+    Item.getPoint(0, arg_06);
+  }
+  else {
     for item in nearby_items(shape=SPANEL, origin=arg_06) {
       if (Item.andStatus(item) == Item.andStatus(arg_06)) {
         ITEM.slot_23(0x1000, item);
       }
     }
-
-  block_052a:
-    goto block_0653;
-
-  block_053f:
-    while (true) {
-      suspend;
-      FREE.slot_20(pid, 120);
-      spawn FREE.slot_32((retval + 0x00dc), 0x00000000);
-      suspend;
-      counter = 0;
-      while (counter <= 4) {
-        spawn FREE.slot_32(pid, 10, 0x00000000);
-        suspend;
-        counter = (1 + counter);
-      }
-      FREE.slot_20(pid, 120);
-      spawn FREE.slot_32((retval + 120), 0x00000000);
-      suspend;
-      counter = 0;
-      while (counter <= 4) {
-        spawn FREE.slot_32(pid, 10, 0x00000000);
-        suspend;
-        counter = (1 + counter);
-      }
-    }
-
-  block_0653:
+    Item.getPoint(12, arg_06);
     return;
+  }
+
+  while (true) {
+    suspend;
+    FREE.slot_20(pid, 120);
+    spawn FREE.slot_32((retval + 0x00dc), 0x00000000);
+    suspend;
+    counter = 0;
+    while (counter <= 4) {
+      Item.getPoint(counter, arg_06);
+      spawn FREE.slot_32(pid, 10, 0x00000000);
+      suspend;
+      counter = (1 + counter);
+    }
+    FREE.slot_20(pid, 120);
+    spawn FREE.slot_32((retval + 120), 0x00000000);
+    suspend;
+    counter = 0;
+    while (counter <= 4) {
+      Item.getPoint((4 - counter), arg_06);
+      spawn FREE.slot_32(pid, 10, 0x00000000);
+      suspend;
+      counter = (1 + counter);
+    }
+  }
+
+  return;
 
 }

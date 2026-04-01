@@ -6,5 +6,10 @@ function mdoor_n_enterFastArea() /* entry=171 class_id=0x00a9 slot=0x0f */
 
   set_info(0x021b, *(arg_06));
   process_exclude();
+  if (Actor.addHp(arg_06) == 0x00ff) {
+    Item.create(0, 0x00d0, item);
+    Item.popToCoords((Item.getZ(arg_06) + 88), Item.getY(arg_06), Item.getX(arg_06), item);
+    Item.destroy(arg_06);
+  }
   return;
 }

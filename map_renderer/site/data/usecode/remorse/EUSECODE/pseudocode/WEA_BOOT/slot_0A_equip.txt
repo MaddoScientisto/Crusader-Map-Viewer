@@ -7,21 +7,29 @@ function wea_boot_equip() /* entry=1117 class_id=0x045b slot=0x0a */
 
   set_info(0x0211, *(arg_06));
   process_exclude();
+  Ultima8Engine.setAvatarInStasis(1);
   FREE.slot_33(0x021b, *(arg_06));
   while (Item.getFrame(arg_06) != 5) {
+    Item.setFrame((Item.getFrame(arg_06) + 1), arg_06);
     spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
     suspend;
   }
   spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
   suspend;
   if ((global[0x001f] != 0) && (global[0x001f] < 15)) {
+    Intrinsic134(global[0x001f]);
+  }
+  else {
+    Intrinsic134(0);
   }
   counter = 0;
   while (counter <= 4) {
+    Item.setFrame((4 - counter), arg_06);
     spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
     suspend;
     counter = (1 + counter);
   }
   spawn WEA_BOOT.enterFastArea(arg_06);
+  Ultima8Engine.setAvatarInStasis(0);
   return;
 }

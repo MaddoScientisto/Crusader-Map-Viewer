@@ -1,11 +1,13 @@
 function miss1egg_slot_23() /* entry=2319 class_id=0x090d slot=0x23 */
 {
   set_info(0x0001, *(arg_06));
+  Ultima8Engine.setAvatarInStasis(1);
   spawn MISS1EGG.slot_25(arg_06);
   for local_02 in nearby_items(shape=0x04e0, origin=global[0x003d]) {
     local_06 = local_02;
   }
   if (!local_06) {
+    Ultima8Engine.setAvatarInStasis(0);
     return;
   }
   else {
@@ -20,12 +22,23 @@ function miss1egg_slot_23() /* entry=2319 class_id=0x090d slot=0x23 */
     spawn NPC.slot_22(pid, 5, 4, local_06);
     suspend;
     suspend;
+    playFlic(pid, 0x0096, 0x00c8, "1b", arg_06);
     suspend;
+    Ultima8Engine.setAvatarInStasis(1);
     spawn FREE.slot_3b(0x00000000);
+    Item.legal_create(0, 0x0111, local_02);
+    Item.andStatus(1, local_02);
+    getTargetNPCNumMaybe(0, 0, 0, local_02);
+    Item.spawnUsecodeEvent0x13(1, local_02);
     for local_08 in nearby_items(shape=npcdeath_shape_02fd, origin=global[0x003d]) {
+      Actor.clrInCombat(3, local_08);
+      Actor.setDefaultActivity0(3, local_08);
+      Actor.setDefaultActivity1(5, local_08);
+      Item.isOn(3, local_08);
     }
     spawn MISS1EGG.slot_24(pid, local_06, arg_06);
     suspend;
+    Ultima8Engine.setAvatarInStasis(0);
   }
   return;
 }

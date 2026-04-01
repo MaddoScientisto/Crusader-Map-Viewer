@@ -5,7 +5,10 @@ function reb_egg_slot_20() /* entry=2313 class_id=0x0907 slot=0x20 */
     local_10 = (Item.getX(local_02) + 48);
     local_12 = (Item.getY(local_02) + 48);
     while (condition) {
+      push(local_04);
+      getTargetNPCNumMaybe(Item.getZ(local_02), local_12, local_10, local_04);
       local_10 = (local_10 - 4);
+      Actor.getDefaultActivity1((~16), local_04);
       local_06 = (1 + local_06);
     }
     return;

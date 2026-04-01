@@ -1,14 +1,21 @@
 function reb_pad_slot_21() /* entry=1087 class_id=0x043d slot=0x21 */
 {
   set_info(1, 0);
+  Item.orStatus(0x1000, arg_06);
   for local_02 in nearby_items(family=10, origin=global[0x003d]) {
+    Item.andStatus(1, local_02);
     spawn FREE.slot_31(pid, local_02, 0x00000000);
     suspend;
     local_06 = process_result;
+    push(local_06);
+    Actor.attack(global[0x003d], local_06);
     local_08 = (1 + local_08);
   }
   for local_04 in nearby_items(shape=0x0476, origin=global[0x003d]) {
+    push(local_04);
+    Actor.SetNPCDataField0x63_0E6(global[0x003d], local_04);
     local_10 = (1 + local_10);
   }
+  Actor.getDefaultActivity1((~0x1000), arg_06);
   return;
 }

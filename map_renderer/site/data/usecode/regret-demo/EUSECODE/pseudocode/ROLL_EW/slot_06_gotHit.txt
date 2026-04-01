@@ -12,6 +12,10 @@ function roll_ew_gotHit() /* entry=1390 class_id=0x056c slot=0x06 */
     if (!process_result) {
       FREE.slot_20(1);
       if (retval) {
+        Item.playSfxCru(38, arg_06);
+      }
+      else {
+        Item.playSfxCru(39, arg_06);
       }
       return;
     }

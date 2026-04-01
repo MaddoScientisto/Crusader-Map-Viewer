@@ -11,12 +11,22 @@ function lazerew_slot_20() /* entry=414 class_id=0x019c slot=0x20 */
     while (true) {
       suspend;
       if (local_02 == 1) {
+        Item.playSfxCru(71, arg_06);
+        SpriteProcess.createSprite((Item.getZ(arg_06) + 14), (Item.getY(arg_06) + 9), (Item.getX(arg_06) + 17), 6, 11, 9, 0x040c);
       }
       else if (local_02 == 2) {
+        Item.playSfxCru(83, arg_06);
+        SpriteProcess.createSprite((Item.getZ(arg_06) + 14), (Item.getY(arg_06) + 9), (Item.getX(arg_06) + 17), 6, 8, 6, 0x040c);
       }
       else if (local_02 == 3) {
+        Item.playSfxCru(100, arg_06);
+        SpriteProcess.createSprite((Item.getZ(arg_06) + 1), (Item.getY(arg_06) - 19), (Item.getX(arg_06) + 1), 6, 2, 0, 0x040c);
         spawn FREE.slot_3b(pid, 100, 0x00000000);
         suspend;
+      }
+      else {
+        Item.playSfxCru(44, arg_06);
+        SpriteProcess.createSprite((Item.getZ(arg_06) + 2), (Item.getY(arg_06) - 17), (Item.getX(arg_06) + 9), 6, 2, 0, 0x040c);
       }
       spawn FREE.slot_3b(pid, ((5 - World.gameDifficulty()) * 20), 0x00000000);
       suspend;

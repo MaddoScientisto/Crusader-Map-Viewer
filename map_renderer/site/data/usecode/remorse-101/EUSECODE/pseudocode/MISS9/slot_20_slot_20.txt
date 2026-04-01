@@ -1,6 +1,7 @@
 function miss9_slot_20() /* entry=2327 class_id=0x0915 slot=0x20 */
 {
   set_info(0x0001, *(arg_06));
+  Ultima8Engine.setAvatarInStasis(1);
   while (Actor.isBusy(&global[0x003d])) {
     spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
     suspend;
@@ -19,6 +20,9 @@ function miss9_slot_20() /* entry=2327 class_id=0x0915 slot=0x20 */
   }
   if (local_02) {
     for local_08 in nearby_items(shape=15, origin=arg_06) {
+      if (void AudioProcess:stopAllSFX(local_08)) {
+        Item.destroy(local_08);
+      }
     }
     FREE.slot_29(*(arg_06), global[0x003d]);
     while ((retval > 2) && (local_10 != 6)) {
@@ -27,12 +31,16 @@ function miss9_slot_20() /* entry=2327 class_id=0x0915 slot=0x20 */
       local_10 = (1 + local_10);
     }
     suspend;
+    Item.setShape(0x0471, local_06);
+    Item.isCentreOn(0, local_06);
+    Item.touch(local_06);
     spawn FREE.waitNTimerTicks(pid, 120, 0x00000000);
     suspend;
     spawn FREE.slot_3d(pid, Item.getY(local_02), Item.getX(local_02), 0x00000000);
     suspend;
     spawn FREE.waitNTimerTicks(pid, 100, 0x00000000);
     suspend;
+    playFlic(pid, 0x0096, 0x00fa, "9e", arg_06);
     suspend;
     spawn FREE.waitNTimerTicks(pid, 100, 0x00000000);
     suspend;
@@ -40,12 +48,20 @@ function miss9_slot_20() /* entry=2327 class_id=0x0915 slot=0x20 */
     suspend;
     spawn FREE.waitNTimerTicks(pid, 120, 0x00000000);
     suspend;
+    Item.setShape(0x037a, local_06);
+    Item.isCentreOn(0, local_06);
+    Item.touch(local_06);
     spawn FREE.waitNTimerTicks(pid, 100, 0x00000000);
     suspend;
+    Ultima8Engine.setAvatarInStasis(0);
     for local_08 in nearby_items(shape=TELEPORTER_LIGHTS, origin=arg_06) {
+      if (void AudioProcess:stopAllSFX(local_08) == 0x00ff) {
+        Item.andStatus(30, local_08);
+      }
     }
     spawn FREE.slot_26(pid, "9f", 0x00000000);
     suspend;
+    Item.destroy(arg_06);
   }
   return;
 }

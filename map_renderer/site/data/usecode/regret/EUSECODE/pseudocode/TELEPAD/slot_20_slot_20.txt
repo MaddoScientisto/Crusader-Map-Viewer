@@ -5,6 +5,10 @@ function telepad_slot_20() /* entry=477 class_id=0x01db slot=0x20 */
     return;
   }
   else {
+    Ultima8Engine.setUnkCrusaderFlag();
+    Ultima8Engine.setAvatarInStasis(1);
+    Ultima8Engine.setCruStasis();
+    Actor.setImmortal(&global[0x001e]);
     spawn FREE.slot_3b(pid, 0, 0x00000000);
     suspend;
     FREE.slot_3c(0x0215, 0);
@@ -19,24 +23,36 @@ function telepad_slot_20() /* entry=477 class_id=0x01db slot=0x20 */
     spawn NPC.slot_24(pid, &global[0x001e]);
     suspend;
     if (Actor.getMap(&global[0x001e]) != arg_10) {
+      setUnkFlagA4();
       suspend;
       FREE.slot_22();
       if (arg_10 == 3) {
         spawn FREE.slot_3b(pid, 120, 0x00000000);
         suspend;
+        PaletteFaderProcess.jumpToAllBlack();
+        AudioProcess.stopSFXCru(arg_06);
+        Intrinsic006D("anim03");
+        Intrinsic006D(0, "1i");
+        Intrinsic0085(3);
         return;
       }
       if (arg_10) {
         suspend;
       }
+      PaletteFaderProcess.jumpToAllBlack();
       FREE.slot_23();
+      Item.setFrame(8, &global[0x001e]);
       suspend;
+      clearUnkFlagA4();
     }
     else {
       suspend;
     }
+    clearUnkFlagA4();
     spawn NPC.slot_23(pid, &global[0x001e]);
     suspend;
+    Actor.clrImmortal(&global[0x001e]);
+    Ultima8Engine.setAvatarInStasis(0);
   }
   return;
 }

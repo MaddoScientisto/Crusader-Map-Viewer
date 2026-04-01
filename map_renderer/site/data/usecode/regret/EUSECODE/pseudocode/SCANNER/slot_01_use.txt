@@ -3,24 +3,31 @@ function scanner_use() /* entry=1327 class_id=0x052d slot=0x01 */
   set_info(0x0207, *(arg_06));
   process_exclude();
   set_info(0x00f0, 0);
+  Ultima8Engine.setCruStasis();
+  Intrinsic006B();
   if (Actor.getMana(&global[0x001e]) < 0x0258) {
     spawn FREE.slot_21(pid, 0x01a7, 0x00000000);
     suspend;
     spawn FREE.slot_3b(pid, 20, 0x00000000);
     suspend;
+    Ultima8Engine.clrCruStasis();
     return;
   }
   else {
+    MainActor.setMana((Actor.getMana(&global[0x001e]) - 0x0258), &global[0x001e]);
+    Intrinsic003F();
     for local_02 in nearby_items(family=6, origin=global[0x001e]) {
-      if ((Actor.isDead(local_02) != 0) && (local_02 == World.getControlledNPCNum())) {
+      if ((Actor.isDead(local_02) == 0) && (local_02 != World.getControlledNPCNum())) {
         NPC.slot_2a(local_02);
         if (retval) {
           spawn SCANNER.slot_20(local_02, arg_06);
         }
       }
     }
+    Item.playSfxCru(0x0236, &global[0x001e]);
     spawn FREE.slot_3b(pid, 60, 0x00000000);
     suspend;
+    Ultima8Engine.clrCruStasis();
   }
   return;
 }

@@ -11,9 +11,11 @@ function shocker_slot_20() /* entry=2581 class_id=0x0a13 slot=0x20 */
 
   set_info(0x020a, *(arg_06));
   set_info(0x0205, *(arg_06));
+  Item.legal_create(6, arg_06);
   if (Item.getQHi(arg_06) == 0) {
     FREE.slot_20(29);
     randNum = (retval + 1);
+    Item.pop(randNum, arg_06);
   }
   var = Item.getQHi(arg_06);
   if (var == 31) {
@@ -38,16 +40,24 @@ function shocker_slot_20() /* entry=2581 class_id=0x0a13 slot=0x20 */
     }
     FREE.slot_20(1);
     if (retval) {
+      AudioProcess.playSFXCru(5, arg_06);
+    }
+    else {
+      AudioProcess.playSFXCru(20, arg_06);
     }
     counter = 0;
     while (counter <= 5) {
+      Item.legal_create(counter, arg_06);
       FREE.slot_20(pid, 5, 5);
       spawn FREE.waitNTimerTicks(retval, 0x00000000);
       suspend;
       counter = (1 + counter);
     }
     if (duration > 1) {
+      Item.legal_create(6, arg_06);
       FREE.slot_33(0x020c, *(arg_06));
+      Item.setQLo(5, arg_06);
+      Item.setQLo(20, arg_06);
       spawn FREE.waitNTimerTicks(pid, duration, 0x00000000);
       suspend;
     }

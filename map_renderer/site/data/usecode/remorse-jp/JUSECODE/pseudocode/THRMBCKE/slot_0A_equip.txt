@@ -11,19 +11,27 @@ function thrmbcke_equip() /* entry=1385 class_id=0x0567 slot=0x0a */
   set_info(0x0211, *(arg_06));
   process_exclude();
   if (var) {
+    Item.getPoint(1, arg_06);
+    AudioProcess.playSFXCru(4, arg_06);
     while (Container.destroyContents(4, arg_06)) {
       spawn FREE.slot_32(pid, 2, 0x00000000);
       suspend;
     }
+    AudioProcess.playSFXCru(4, arg_06);
     while (Container.destroyContents(4, arg_06)) {
       spawn FREE.slot_32(pid, 2, 0x00000000);
       suspend;
     }
+    AudioProcess.playSFXCru(4, arg_06);
     while (Container.destroyContents(4, arg_06)) {
       spawn FREE.slot_32(pid, 2, 0x00000000);
       suspend;
     }
+    Item.setQLo(4, arg_06);
+    Item.getPoint(0, arg_06);
     for ewall in selector_0x42(arg0=0x0564, arg1=0x0565, arg2=(6 * 32), origin=arg_06) {
+      AudioProcess.playSFXCru(61, arg_06);
+      Item.destroy(ewall);
     }
     while (condition) {
       if (Actor.GetNPCDataField0x63_00B(therma) == Item.andStatus(arg_06)) {
@@ -34,10 +42,16 @@ function thrmbcke_equip() /* entry=1385 class_id=0x0567 slot=0x0a */
         else {
           a = 5;
         }
+        Intrinsic056(b, therma);
+        Item.getSurfaceWeight(b, therma);
+        Item.andStatus(114, therma);
         spawn FREE.slot_32(pid, 40, 0x00000000);
         suspend;
+        Item.getSurfaceWeight(a, therma);
         spawn FREE.slot_32(pid, 2, 0x00000000);
         suspend;
+        Item.andStatus(114, therma);
+        Item.fallProbably_03E(0, arg_06);
         return;
       }
     }

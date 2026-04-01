@@ -11,20 +11,35 @@ function door3_slot_24() /* entry=2570 class_id=0x0a08 slot=0x24 */
   set_info(0x0207, *(arg_06));
   spawn DOOR.slot_22(pid, arg_06);
   suspend;
-  /* create_list */
-  doorList = 0x030d;
-  /* create_list */
-  doorList2 = 0x030e;
+  doorList = [0x030d, 0x00d8, 0x00d6, 0x00e1, 0x00a4];
+  doorList2 = [0x030e, 0x0173, 0x0172, 0x0171, 0x0170];
   counter = 0;
-  FREE.slot_3a(0x00a4, 0x00e1, 0x00d6, 0x00d8, 0x0170, 0x0171, 0x0172, 0x0173, doorList);
+  FREE.slot_3a(doorList);
   maxFrame = retval;
+  AudioProcess.playSFXCru(82, arg_06);
+  push(arg_06);
+  Item.setShape(list_element(size=0x2), arg_06);
+  Actor.isBusy(arg_06);
+  Item.create(doorList, 1, list_element(size=0x2), door2);
+  Item.popToCoords(0, Item.getZ(arg_06), Item.getY(arg_06), (Item.getX(arg_06) - (16 * 3)), door2);
   spawn FREE.waitNTimerTicks(doorList2, 1, pid, 5, 0x00000000);
   suspend;
   counter = 2;
   while (counter <= (maxFrame - 1)) {
+    push(arg_06);
+    Item.setShape(list_element(size=0x2), arg_06);
+    Actor.isBusy(arg_06);
+    push(door2);
+    Item.setShape(list_element(size=0x2), door2);
+    Item.popToCoords(counter, Item.getZ(door2), Item.getY(door2), (Item.getX(door2) - 16), door2);
     spawn FREE.waitNTimerTicks(doorList2, counter, doorList, pid, 5, 0x00000000);
     suspend;
     counter = (1 + counter);
   }
+  Item.setShape(list_element(size=0x2), arg_06);
+  Item.setShape(list_element(size=0x2), door2);
+  Item.touch(arg_06);
+  Item.touch(door2);
+  process_result = 1;
   return;
 }

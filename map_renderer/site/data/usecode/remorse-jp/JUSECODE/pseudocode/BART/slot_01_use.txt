@@ -8,6 +8,7 @@ function bart_use() /* entry=503 class_id=0x01f5 slot=0x01 */
   process_exclude();
   FREE.slot_33(0x021b, *(arg_06));
   while (Item.getFrame(arg_06) > 1) {
+    Item.setFrame((Item.getFrame(arg_06) - 1), arg_06);
     spawn FREE.slot_32(pid, 10, 0x00000000);
     suspend;
   }

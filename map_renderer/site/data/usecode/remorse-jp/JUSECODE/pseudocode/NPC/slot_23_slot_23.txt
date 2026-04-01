@@ -7,6 +7,10 @@ function npc_slot_23() /* entry=2581 class_id=0x0a13 slot=0x23 */
     padDir; /* [BP-06h] type=0x69 */
 
   set_info(0x020a, *(arg_06));
+  if (Actor.getMap((*(arg_06) != 1), &global[0x003c]) == 40) {
+    Ultima8Engine.setAvatarInStasis(1);
+    CameraProcess.getCameraX(&global[0x003c]);
+  }
   for item in selector_0x42(arg0=0x01db, arg1=0x043d, arg2=(5 * 32), origin=arg_06) {
     pad = item;
   }
@@ -20,8 +24,11 @@ function npc_slot_23() /* entry=2581 class_id=0x0a13 slot=0x23 */
       padDir = 1;
     }
   }
+  Item.getPoint(8, arg_06);
   spawn FREE.slot_32(pid, 60, 0x00000000);
   suspend;
+  AudioProcess.playSFXCru(48, &global[0x003c]);
+  Actor.getInCombat(Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06), 1, 37, 0, 0x0317);
   if (!padDir) {
     suspend;
   }
@@ -31,6 +38,12 @@ function npc_slot_23() /* entry=2581 class_id=0x0a13 slot=0x23 */
   if (Container.destroyContents(48, &global[0x003c])) {
     spawn FREE.slot_32(pid, 2, 0x00000000);
     suspend;
+  }
+  if (*(arg_06) == 1) {
+    AudioProcess.stopSFX();
+    Actor.setEquip();
+    Actor.getHp(&global[0x003c]);
+    Ultima8Engine.setAvatarInStasis(0);
   }
   return;
 }

@@ -3,21 +3,23 @@ function mtaregg_slot_20() /* entry=2309 class_id=0x0903 slot=0x20 */
   set_info(0x00f0, arg_10);
   local_02 = arg_10;
   local_04 = arg_14;
-  if (arg_12 == 0) {
+  switch (arg_12) {
+  case 0:
     local_07 = -2;
     local_09 = 0;
-  }
-  else if (arg_12 == 8) {
+    break;
+  case 8:
     local_07 = 2;
     local_09 = 0;
-  }
-  else if (arg_12 == 4) {
+    break;
+  case 4:
     local_07 = 0;
     local_09 = 2;
-  }
-  else if (arg_12 == 12) {
+    break;
+  case 12:
     local_07 = 0;
     local_09 = -2;
+    break;
   }
   suspend;
   while (true) {

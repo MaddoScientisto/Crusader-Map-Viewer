@@ -27,7 +27,18 @@ function steambox_slot_21() /* entry=1282 class_id=0x0500 slot=0x21 */
     spawn FREE.slot_32(pid, 0x00c8, 0x00000000);
     suspend;
   }
+  Item.setQLo(30, arg_06);
+  AudioProcess.playSFXCru(36, arg_06);
+  if (direction == 0) {
+    Item.create(0, 0x04fb, steam2);
+  }
+  else if (direction == 1) {
+    Item.create(0, 0x0512, steam2);
+  }
+  Item.fallProbably_03E(Item.andStatus(arg_06), steam2);
   ITEM.slot_23(0x1000, steam2);
+  Item.popToCoords(Item.getZ(steam), Item.getY(steam), Item.getX(steam), steam2);
+  Item.destroy(steam);
   if (Egg.getEggXRange()) {
     while ((Item.getFrame(steam2) != 29) && (Item.isOnScreen(steam2) == 1)) {
       spawn FREE.slot_32(pid, 2, 0x00000000);
@@ -38,6 +49,8 @@ function steambox_slot_21() /* entry=1282 class_id=0x0500 slot=0x21 */
     spawn FREE.slot_32(pid, 0x00c8, 0x00000000);
     suspend;
   }
+  Item.setShape(0x03a9, steam2);
+  Item.getPoint(direction, steam2);
   ITEM.slot_24(0x1000, steam2);
   return;
 }

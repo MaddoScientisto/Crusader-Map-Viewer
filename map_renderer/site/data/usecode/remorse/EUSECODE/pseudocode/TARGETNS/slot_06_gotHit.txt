@@ -11,13 +11,14 @@ function targetns_gotHit() /* entry=500 class_id=0x01f2 slot=0x06 */
   item = ref;
   FREE.slot_2b(vel, ref);
   if (retval) {
-    if (Item.getFrame(arg_06) == 0) {
+    switch (Item.getFrame(arg_06)) {
+    case 0:
+      Item.setFrame(2, arg_06);
       return;
-    }
-    else if (Item.getFrame(arg_06) == 1) {
+    case 1:
+      Item.setFrame(3, arg_06);
       return;
-    }
-    else if (Item.getFrame(arg_06) == 2) {
+    case 2:
       spawn ITEM.slot_28(pid, 1, 1, arg_06);
       suspend;
       return;

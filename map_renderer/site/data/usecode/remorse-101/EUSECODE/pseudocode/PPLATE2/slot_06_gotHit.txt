@@ -16,30 +16,38 @@ function pplate2_gotHit() /* entry=411 class_id=0x0199 slot=0x06 */
       if ((Intrinsic056(arg_06) == 0) || (Item.getSurfaceWeight(*(arg_06), local_04) == 0)) {
         return;
       }
-      else if (Item.getMapArray(arg_06) != 0) {
-        spawn TRIGGER.slot_2a(pid, 0, *(arg_06), arg_06);
-        suspend;
-        while (1) {
-          if (Intrinsic056(arg_06) != 0) {
-            spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
-            suspend;
-          }
-          else {
-            spawn TRIGGER.slot_2a(pid, 1, *(arg_06), arg_06);
-            suspend;
-            return;
-          }
-        }
-        return;
-      }
       else {
-        while (1) {
-          if (Intrinsic056(arg_06) != 0) {
-            spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
-            suspend;
+        Item.isCentreOn((local_02 + 1), arg_06);
+        if (Item.getMapArray(arg_06) != 0) {
+          AudioProcess.playSFXCru(0x00aa, arg_06);
+          spawn TRIGGER.slot_2a(pid, 0, *(arg_06), arg_06);
+          suspend;
+          while (1) {
+            if (Intrinsic056(arg_06) != 0) {
+              spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+              suspend;
+            }
+            else {
+              Item.isCentreOn(local_02, arg_06);
+              AudioProcess.playSFXCru(0x00ab, arg_06);
+              spawn TRIGGER.slot_2a(pid, 1, *(arg_06), arg_06);
+              suspend;
+              return;
+            }
           }
-          else {
-            return;
+          return;
+        }
+        else {
+          while (1) {
+            if (Intrinsic056(arg_06) != 0) {
+              spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+              suspend;
+            }
+            else {
+              AudioProcess.playSFXCru(0x00ab, arg_06);
+              Item.isCentreOn(local_02, arg_06);
+              return;
+            }
           }
         }
       }

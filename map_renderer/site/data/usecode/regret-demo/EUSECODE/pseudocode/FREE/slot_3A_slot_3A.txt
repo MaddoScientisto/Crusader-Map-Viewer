@@ -3,13 +3,26 @@ function free_slot_3a() /* entry=2575 class_id=0x0a0d slot=0x3a */
   set_info(1, 0);
   local_02 = arg_06;
   if (local_02) {
+    Actor.getMap(12, local_02);
     local_10 = Item.getFrame(local_02);
     local_08 = Item.getShape(local_02);
     local_06 = (local_08 & 0x00ff);
     local_08 = (local_08 & 0x0700);
     local_08 = (local_08 / 8);
     local_08 = (local_08 + local_10);
+    Item.create(0, 0x0476, local_04);
+    Item.setQLo(Item.getCY(local_02), local_04);
+    Item.setQHi(Item.isOn(local_02), local_04);
+    Item.setNpcNum(local_08, local_04);
+    Item.hurl(local_06, local_04);
+    Item.isOn(0, local_04);
+    Item.orStatus(16, local_02);
     suspend;
+    Item.popToCoords(Item.getZ(local_02), Item.getY(local_02), Item.getX(local_02), local_04);
+    Item.orStatus(16, local_04);
+    Actor.isDead((~0x1000), local_04);
+    Item.destroy(local_02);
+    process_result = local_04;
     return;
   }
   return;

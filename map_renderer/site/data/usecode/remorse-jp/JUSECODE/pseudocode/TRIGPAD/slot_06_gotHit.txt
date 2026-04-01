@@ -22,6 +22,7 @@ function trigpad_gotHit() /* entry=1231 class_id=0x04cd slot=0x06 */
         return;
       }
       else {
+        Item.getPoint(1, arg_06);
         spawn FREE.slot_32(pid, 1, 0x00000000);
         suspend;
         spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
@@ -32,6 +33,7 @@ function trigpad_gotHit() /* entry=1231 class_id=0x04cd slot=0x06 */
             suspend;
           }
           else {
+            Item.getPoint(0, arg_06);
             spawn TRIGGER.slot_20(pid, 1, *(arg_06), arg_06);
             suspend;
             spawn FREE.slot_32(pid, 2, 0x00000000);

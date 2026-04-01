@@ -13,6 +13,7 @@ function steambox_slot_20() /* entry=1282 class_id=0x0500 slot=0x20 */
       spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
       suspend;
       if (Item.getFrame(steam) == 12) {
+        AudioProcess.playAmbientSFXCru(30, arg_06);
         ITEM.slot_23(4, steam);
         spawn STEAM.slot_20(steam);
       }
@@ -24,13 +25,25 @@ function steambox_slot_20() /* entry=1282 class_id=0x0500 slot=0x20 */
   }
   if (direction == 0) {
     if (getAnimationsDisabled()) {
+      Item.create(0, 0x04fa, steam2);
+    }
+    else {
+      Item.create(10, 0x04fa, steam2);
     }
   }
   else if (direction == 1) {
     if (getAnimationsDisabled()) {
+      Item.create(0, 0x0511, steam2);
+    }
+    else {
+      Item.create(10, 0x0511, steam2);
     }
   }
+  Item.setQLo(Item.getQLo(arg_06), steam2);
+  Item.popToCoords(Item.getZ(steam), Item.getY(steam), Item.getX(steam), steam2);
   ITEM.slot_23(4, steam2);
+  AudioProcess.playAmbientSFXCru(30, steam2);
   spawn STEAM.slot_20(steam2);
+  Item.destroy(steam);
   return;
 }

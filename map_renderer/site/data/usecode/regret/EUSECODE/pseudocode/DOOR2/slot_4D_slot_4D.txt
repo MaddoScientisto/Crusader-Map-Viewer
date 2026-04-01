@@ -12,26 +12,41 @@ function door2_slot_4d() /* entry=2567 class_id=0x0a05 slot=0x4d */
       local_18 = Item.getX(local_02);
       local_20 = Item.getY(local_02);
       local_26 = Item.getZ(local_02);
+      Item.destroy(local_02);
     }
     else {
       local_22 = Item.getX(local_02);
       local_24 = Item.getY(local_02);
       local_28 = Item.getZ(local_02);
+      Item.destroy(local_02);
     }
   }
   local_30 = Item.getQLo(arg_06);
+  Item.destroy(local_06);
   if (Item.legal_create((local_16 - 80), local_14, local_12, local_10, 0x03ad, local_04) == 1) {
+    Item.playSfxCru(0x0146, local_04);
+    Item.setQLo(local_30, local_04);
     spawn FREE.slot_3b(pid, 5, 0x00000000);
     suspend;
     local_08 = 1;
     while (local_08 <= local_10) {
+      Item.setFrame((local_10 - local_08), local_04);
       spawn FREE.slot_3b(pid, 5, 0x00000000);
       suspend;
       local_08 = (1 + local_08);
     }
+    Item.playSfxCru(0x0147, local_02);
+    process_result = 1;
     return;
   }
   else {
+    Item.create(0, 0x0238, local_02);
+    Item.popToCoords(local_26, local_20, local_18, local_02);
+    Item.create(1, 0x0238, local_02);
+    Item.popToCoords(local_28, local_24, local_22, local_02);
+    Item.create(0, 0x03c7, local_02);
+    Item.popToCoords(local_16, local_14, local_12, local_02);
+    process_result = 0;
     return;
   }
   return;

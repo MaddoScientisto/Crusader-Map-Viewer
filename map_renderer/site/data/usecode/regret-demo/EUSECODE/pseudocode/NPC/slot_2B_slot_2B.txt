@@ -8,16 +8,17 @@ function npc_slot_2b() /* entry=2580 class_id=0x0a12 slot=0x2b */
   else {
     local_02 = (local_02 + 8);
   }
-  /* create_list */
   /* in_list */
-  if (0x01b4) {
+  if ([0x01b4, 0x0308]) {
     if (!Actor.setCombatTactic(arg_06)) {
       suspend;
+      CameraProcess.getCameraY(11, arg_06);
     }
     return;
   }
   else if (!Actor.setCombatTactic(arg_06)) {
     suspend;
+    CameraProcess.getCameraY(7, arg_06);
   }
   return;
 }

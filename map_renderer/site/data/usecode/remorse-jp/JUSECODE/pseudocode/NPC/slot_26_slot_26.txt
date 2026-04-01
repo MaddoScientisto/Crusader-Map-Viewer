@@ -18,6 +18,9 @@ function npc_slot_26() /* entry=2581 class_id=0x0a13 slot=0x26 */
   set_info(0x020a, *(arg_06));
   a = GetQOfAvatarInventoryItem0x4ed_0EB(arg_06);
   b = Actor.setDefaultActivity1(arg_06);
+  if (!Item.setQAndCombine(arg_06)) {
+    Item.andStatus(1, arg_06);
+  }
   c = GetQOfAvatarInventoryItem0x4ed_0EB(arg_06);
   d = Actor.setDefaultActivity1(arg_06);
   if (!Item.setQAndCombine(arg_06)) {
@@ -36,5 +39,8 @@ function npc_slot_26() /* entry=2581 class_id=0x0a13 slot=0x26 */
   }
   g = GetQOfAvatarInventoryItem0x4ed_0EB(arg_06);
   h = Actor.setDefaultActivity1(arg_06);
+  if (!Item.setQAndCombine(arg_06)) {
+    Item.andStatus(GetQOfAvatarInventoryItem0x4ed_0EB(arg_06), arg_06);
+  }
   return;
 }

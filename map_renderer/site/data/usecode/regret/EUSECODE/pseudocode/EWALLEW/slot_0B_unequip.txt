@@ -2,5 +2,7 @@ function ewallew_unequip() /* entry=1383 class_id=0x0565 slot=0x0b */
 {
   set_info(0x0212, *(arg_06));
   process_exclude();
+  Item.playSfxCru(26, arg_06);
+  AudioProcess.playSFXCru(80, arg_06);
   return;
 }

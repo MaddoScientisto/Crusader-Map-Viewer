@@ -2,8 +2,12 @@ function conveyor_slot_20() /* entry=2594 class_id=0x0a20 slot=0x20 */
 {
   set_info(0x0205, *(arg_06));
   set_info(0x0205, *(arg_06));
+  Item.playSfxCru(111, arg_06);
   local_02 = 0;
   local_02 = Item.getFrame(arg_06);
+  if (Intrinsic0035(115, arg_06) == 0) {
+    AudioProcess.playSFXCru(115, arg_06);
+  }
   suspend;
   local_03 = 0;
   while (true) {
@@ -35,20 +39,33 @@ function conveyor_slot_20() /* entry=2594 class_id=0x0a20 slot=0x20 */
     }
     while (condition) {
       local_09 = Item.getShape(local_05);
-      if ((local_09 == 0x0476) && (local_09 == 0x04d0)) {
+      if ((local_09 != 0x0476) && (local_09 != 0x04d0)) {
         local_06 = Item.isOn(*(arg_06), local_05);
+        Item.push(local_05);
         local_14 = (Item.getX(local_05) + arg_10);
         local_12 = (Item.getY(local_05) + arg_12);
         local_10 = Item.getZ(local_05);
+        if (!Item.legal_move(0, 1, local_14, local_05)) {
+          Item.popToCoords(Item.getZ(local_05), Item.getY(local_05), Item.getX(local_05), local_05);
+        }
         local_07 = Item.isOn(*(arg_06), local_05);
         local_03 = 1;
+        if ((local_06 == 1) && (local_07 == 0)) {
+          Item.fall(local_05);
+        }
       }
     }
     spawn FREE.slot_3b(pid, 2, 0x00000000);
     suspend;
     if (!local_03) {
+      AudioProcess.stopSFXCru(115, arg_06);
+      Item.playSfxCru(116, arg_06);
       return;
     }
+    else if (Intrinsic0035(115, arg_06) == 0) {
+      AudioProcess.playSFXCru(115, arg_06);
+    }
+    Item.setFrame(local_02, arg_06);
   }
   return;
 }

@@ -16,13 +16,17 @@ function reb_pad_slot_20() /* entry=1087 class_id=0x043d slot=0x20 */
   spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
   suspend;
   suspend;
+  CameraProcess.somethingAboutCameraUpdate();
   if (mapNum == 29) {
     return;
   }
   else {
+    Item.setFrame(8, &global[0x003c]);
     suspend;
     spawn NPC.slot_23(pid, &global[0x003c]);
     suspend;
+    Ultima8Engine.clrUnkCrusaderFlag();
+    Ultima8Engine.setAvatarInStasis(0);
   }
   return;
 }

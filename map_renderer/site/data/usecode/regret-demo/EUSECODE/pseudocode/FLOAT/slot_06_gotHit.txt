@@ -11,6 +11,8 @@ function float_gotHit() /* entry=1409 class_id=0x057f slot=0x06 */
     else {
       for local_02 in nearby_items(shape=0x01f5, origin=arg_06) {
         if ((Item.getX(local_02) == Item.getX(arg_06)) && (Item.getY(local_02) == Item.getY(arg_06))) {
+          Item.destroy(local_02);
+          Item.explode(1, 1, arg_06);
           return;
         }
       }
@@ -25,6 +27,8 @@ function float_gotHit() /* entry=1409 class_id=0x057f slot=0x06 */
     else {
       for local_02 in nearby_items(shape=0x01f5, origin=arg_06) {
         if ((Item.getX(local_02) == Item.getX(arg_06)) && (Item.getY(local_02) == Item.getY(arg_06))) {
+          Item.destroy(local_02);
+          Item.explode(1, 1, arg_06);
           return;
         }
       }

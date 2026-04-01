@@ -23,6 +23,10 @@ function gldiv_ns_gotHit() /* entry=1348 class_id=0x0542 slot=0x06 */
     if (!process_result) {
       FREE.slot_20(1);
       if (retval) {
+        AudioProcess.playSFXCru(38, arg_06);
+      }
+      else {
+        AudioProcess.playSFXCru(39, arg_06);
       }
       return;
     }
@@ -30,12 +34,25 @@ function gldiv_ns_gotHit() /* entry=1348 class_id=0x0542 slot=0x06 */
       spawn DOOR.slot_22(pid, door);
       suspend;
       if (!Item.getFrame(arg_06)) {
+        AudioProcess.playSFXCru(3, arg_06);
         counter = 1;
         while (counter <= 2) {
+          Item.legal_create(counter, arg_06);
           spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
           suspend;
           counter = (1 + counter);
         }
+        if (Item.isOn((Item.getZ(arg_06) + 1), (Item.getY(arg_06) + 96), (Item.getX(arg_06) + 32), 0x027a)) {
+          Item.create(0, 0x027a, item);
+          Item.popToCoords((Item.getZ(arg_06) + 1), (Item.getY(arg_06) + 96), (Item.getX(arg_06) + 32), item);
+        }
+        if (Item.isOn((Item.getZ(arg_06) + 1), (Item.getY(arg_06) - 16), Item.getX(arg_06), 0x0349)) {
+          Item.create(0, 0x0349, item);
+          Item.popToCoords((Item.getZ(arg_06) + 1), (Item.getY(arg_06) - 16), Item.getX(arg_06), item);
+        }
+        Item.setShape(0x02f2, arg_06);
+        Item.legal_create(0, arg_06);
+        Item.getFootpad();
       }
     }
   }

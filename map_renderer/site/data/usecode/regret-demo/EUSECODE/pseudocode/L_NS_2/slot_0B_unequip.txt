@@ -2,5 +2,8 @@ function l_ns_2_unequip() /* entry=461 class_id=0x01cb slot=0x0b */
 {
   set_info(0x0212, *(arg_06));
   process_exclude();
+  if (!Item.getFrame(arg_06)) {
+    AudioProcess.playSFXCru(0x00a9, arg_06);
+  }
   return;
 }

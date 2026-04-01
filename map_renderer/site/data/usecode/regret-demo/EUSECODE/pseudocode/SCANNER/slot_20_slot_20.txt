@@ -2,5 +2,8 @@ function scanner_slot_20() /* entry=1327 class_id=0x052d slot=0x20 */
 {
   set_info(0x00f0, 0);
   local_02 = arg_10;
+  Item.playSfxCru(93, local_02);
+  SpriteProcess.createSprite(Item.getZ(local_02), Item.getY(local_02), Item.getX(local_02), 5, 11, 0, 0x0508);
+  Item.andStatus(12, local_02);
   return;
 }

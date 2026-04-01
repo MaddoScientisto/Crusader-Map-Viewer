@@ -29,14 +29,17 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
   set_info(0x0211, *(arg_06));
   process_exclude();
   link = Actor.setImmortal(arg_06);
-  if (event == 0) {
+  switch (event) {
+  case 0:
+    Item.getRangeIfVisible(Actor.getMap(&global[0x003c]), 0, Item.getY(arg_06), Item.getX(arg_06));
     return;
-  }
-  else if (event == 1) {
+  case 1:
     while (Actor.doAnim(&global[0x003c])) {
       spawn FREE.slot_32(pid, 2, 0x00000000);
       suspend;
     }
+    Ultima8Engine.setAvatarInStasis(1);
+    CameraProcess.getCameraX(&global[0x003c]);
     cx = CameraProcess.getCameraY();
     cy = Item.setMapArray();
     ex = Item.getX(arg_06);
@@ -49,13 +52,15 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
     suspend;
     spawn TRIGGER.slot_20(pid, (1 + 0x0080), *(arg_06), arg_06);
     suspend;
+    Actor.getHp(&global[0x003c]);
+    Ultima8Engine.setAvatarInStasis(0);
     return;
-  }
-  else if (event == 2) {
+  case 2:
     while (Actor.doAnim(&global[0x003c])) {
       spawn FREE.slot_32(pid, 2, 0x00000000);
       suspend;
     }
+    Ultima8Engine.setAvatarInStasis(1);
     spawn FREE.slot_3d(pid, Item.getY(arg_06), Item.getX(arg_06), 0x00000000);
     suspend;
     spawn FREE.slot_32(pid, 60, 0x00000000);
@@ -63,24 +68,23 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
     spawn TRIGGER.slot_20(pid, (0 + 0x0080), *(arg_06), arg_06);
     suspend;
     return;
-  }
-  else if (event == 3) {
+  case 3:
     spawn FREE.slot_3e(pid, 0x00000000);
     suspend;
     spawn TRIGGER.slot_20(pid, (1 + 0x0080), *(arg_06), arg_06);
     suspend;
+    Ultima8Engine.setAvatarInStasis(0);
     return;
-  }
-  else if (event == 5) {
+  case 5:
+    Item.explode(0, 0, arg_06);
     return;
-  }
-  else if (event == 6) {
+  case 6:
+    Item.explode(0, 1, arg_06);
     return;
-  }
-  else if (event == 7) {
+  case 7:
+    Item.explode(0, 2, arg_06);
     return;
-  }
-  else if (event == 8) {
+  case 8:
     counter = Actor.clrInCombat(arg_06);
     if (counter == 0) {
       spawn TRIGGER.slot_20(pid, (0 + 0x0080), *(arg_06), arg_06);
@@ -88,18 +92,22 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
     }
     else {
       counter2 = Actor.setImmortal(arg_06);
+      Item.fallProbably_03E(counter, arg_06);
       spawn TRIGGER.slot_20(pid, (0 + 0x0080), *(arg_06), arg_06);
       suspend;
+      Item.fallProbably_03E(counter2, arg_06);
     }
     return;
-  }
-  else if (event == 9) {
+  case 9:
     counter = Actor.setImmortal(arg_06);
     for item in nearby_items(family=1, origin=arg_06) {
+      if (((counter == Actor.setImmortal(item)) && (Item.getMapArray(item) == 0)) && (*(arg_06) != item)) {
+        Item.getNpcNum(Actor.clrInCombat(arg_06), item);
+        Game.isViolenceEnabled(Intrinsic08A(arg_06), item);
+      }
     }
     return;
-  }
-  else if (event == 10) {
+  case 10:
     for item in nearby_items(shape=NUMBERS, origin=arg_06) {
       if (Actor.setImmortal(arg_06) == Actor.setImmortal(item)) {
         if (Item.getFrame(item) == 0) {
@@ -118,38 +126,46 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
       wp = Item.getX(dest);
       local_11 = Item.getY(dest);
       local_09 = Item.getZ(dest);
+      Item.create(0, GRENADE, item);
+      Item.popToCoords((Item.getZ(source) + 60), Item.getY(source), Item.getX(source), item);
+      Item.enterFastArea(1, 64, wp, item);
     }
     return;
-  }
-  else if (event == 15) {
+  case 15:
+    Item.getRangeIfVisible(Actor.getMap(&global[0x003c]), 0, Item.getY(arg_06), Item.getX(arg_06));
+    AudioProcess.playSFXCru(*(arg_06));
     return;
-  }
-  else if (event == 16) {
+  case 16:
+    Item.getRangeIfVisible(Item.getX(Item.getY(Actor.getMap(&global[0x003c]), 0, &global[0x003c]), &global[0x003c]));
+    AudioProcess.playSFXCru(global[0x003c]);
     return;
-  }
-  else if (event == 22) {
+  case 22:
     cx = CameraProcess.getCameraY();
     cy = Item.setMapArray();
+    AudioProcess.playSFXCru(54, arg_06);
+    Item.getRangeIfVisible(Actor.getMap(&global[0x003c]), 0, Item.getY(arg_06), Item.getX(arg_06));
     while (Container.destroyContents(54, arg_06)) {
       spawn FREE.slot_32(pid, 2, 0x00000000);
       suspend;
     }
+    Item.getRangeIfVisible(Actor.getMap(&global[0x003c]), 0, cy, cx);
     return;
-  }
-  else if (event == 40) {
+  case 40:
     if (!Item.getItemFamily(&global[0x003c])) {
+      Ultima8Engine.setAvatarInStasis(1);
       while (Actor.doAnim(&global[0x003c])) {
         spawn FREE.slot_32(pid, 2, 0x00000000);
         suspend;
       }
       suspend;
+      Item.destroy(arg_06);
     }
     return;
-  }
-  else if (event == 41) {
+  case 41:
     if (Item.getItemFamily((global[0x0029] == 1), &global[0x003c]) == 1) {
       return;
     }
+    Ultima8Engine.setAvatarInStasis(1);
     spawn FREE.slot_32(pid, 60, 0x00000000);
     suspend;
     spawn NPC.slot_22(pid, 3, 0, &global[0x003c]);
@@ -170,7 +186,9 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
     }
     spawn FREE.slot_32(pid, 30, 0x00000000);
     suspend;
+    playFlic(pid, 0x0096, 0x00fa, "10e", arg_06);
     suspend;
+    Ultima8Engine.setAvatarInStasis(0);
     spawn FREE.slot_32(pid, 120, 0x00000000);
     suspend;
     while (1) {
@@ -185,8 +203,7 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
       suspend;
     }
     return;
-  }
-  else if (event == 45) {
+  case 45:
     time = Intrinsic08A(arg_06);
     while (1) {
       counter = 0;
@@ -200,6 +217,7 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
         }
       }
       if (counter <= 4) {
+        Item.pop((Actor.clrInCombat(arg_06) - 1), arg_06);
         spawn TRIGGER.slot_20(pid, (0 + 0x0080), *(arg_06), arg_06);
         suspend;
         spawn FREE.slot_32(pid, time, 0x00000000);
@@ -215,8 +233,7 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
       }
     }
     return;
-  }
-  else if (event == 46) {
+  case 46:
     time = Intrinsic08A(arg_06);
     while (1) {
       counter = 0;
@@ -230,6 +247,7 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
         }
       }
       if (counter <= 4) {
+        Item.pop((Actor.clrInCombat(arg_06) - 1), arg_06);
         spawn TRIGGER.slot_20(pid, (0 + 0x0080), *(arg_06), arg_06);
         suspend;
         spawn FREE.slot_32(pid, time, 0x00000000);
@@ -245,14 +263,14 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
       }
     }
     return;
-  }
-  else if (event == 47) {
+  case 47:
     time = Intrinsic08A(arg_06);
     counter2 = Actor.clrInCombat(arg_06);
     while (1) {
       if (Actor.clrInCombat(arg_06) == 1) {
         counter = 1;
         while (counter <= counter2) {
+          Item.fallProbably_03E(counter, arg_06);
           spawn TRIGGER.slot_20(pid, (0 + 0x0080), *(arg_06), arg_06);
           suspend;
           spawn FREE.slot_32(pid, (time * 3), 0x00000000);
@@ -263,10 +281,12 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
           suspend;
           counter = (1 + counter);
         }
+        Item.pop(counter2, arg_06);
       }
       else if (Actor.clrInCombat(arg_06) > 1) {
         counter = 1;
         while (counter <= counter2) {
+          Item.fallProbably_03E(counter, arg_06);
           spawn TRIGGER.slot_20(pid, (0 + 0x0080), *(arg_06), arg_06);
           suspend;
           spawn FREE.slot_32(pid, time, 0x00000000);
@@ -279,6 +299,7 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
       else {
         counter = 1;
         while (counter <= counter2) {
+          Item.fallProbably_03E(counter, arg_06);
           spawn TRIGGER.slot_20(pid, (0 + 0x0080), *(arg_06), arg_06);
           suspend;
           spawn FREE.slot_32(pid, time, 0x00000000);
@@ -289,12 +310,12 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
       }
     }
     return;
-  }
-  else if (event == 48) {
+  case 48:
     time = Intrinsic08A(arg_06);
     counter2 = Actor.clrInCombat(arg_06);
     counter = 1;
     while (counter <= counter2) {
+      Item.fallProbably_03E(counter, arg_06);
       spawn TRIGGER.slot_20(pid, (0 + 0x0080), *(arg_06), arg_06);
       suspend;
       spawn FREE.slot_32(pid, time, 0x00000000);
@@ -303,21 +324,23 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
     }
     counter = 1;
     while (counter <= counter2) {
+      Item.fallProbably_03E((counter2 - counter), arg_06);
       spawn TRIGGER.slot_20(pid, (1 + 0x0080), *(arg_06), arg_06);
       suspend;
       spawn FREE.slot_32(pid, time, 0x00000000);
       suspend;
       counter = (1 + counter);
     }
+    Item.fallProbably_03E(link, arg_06);
     return;
-  }
-  else if (event == 49) {
+  case 49:
     time = Intrinsic08A(arg_06);
     counter2 = Actor.clrInCombat(arg_06);
     while (1) {
       if (Actor.clrInCombat(arg_06)) {
         counter = 1;
         while (counter <= counter2) {
+          Item.fallProbably_03E(counter, arg_06);
           spawn TRIGGER.slot_20(pid, (0 + 0x0080), *(arg_06), arg_06);
           suspend;
           spawn FREE.slot_32(pid, time, 0x00000000);
@@ -330,6 +353,7 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
       else {
         counter = 1;
         while (counter <= counter2) {
+          Item.fallProbably_03E(counter, arg_06);
           spawn TRIGGER.slot_20(pid, (0 + 0x0080), *(arg_06), arg_06);
           suspend;
           spawn FREE.slot_32(pid, time, 0x00000000);
@@ -340,8 +364,7 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
       }
     }
     return;
-  }
-  else if (event == 50) {
+  case 50:
     while (condition) {
       if (Actor.setImmortal(door) == 100) {
         spawn DOOR.slot_20(pid, door);
@@ -349,8 +372,7 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
       }
     }
     return;
-  }
-  else if (event == 51) {
+  case 51:
     for item in nearby_items(shape=GRATE_FLOOR_GRAY, origin=arg_06) {
       dir = Actor.clrInCombat(item);
       floor = item;
@@ -362,11 +384,18 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
       post2 = item;
     }
     if (post1 && post2) {
+      AudioProcess.playSFXCru(0x00f4, &global[0x003c]);
       spawn FREE.slot_32(pid, 60, 0x00000000);
       suspend;
+      Item.setQLo(0x00f3, &global[0x003c]);
       if (dir) {
+        Item.getPoint(0, post1);
+        Item.getPoint(0, post2);
         counter = 1;
         while (counter <= 4) {
+          Item.getPoint(counter, post1);
+          Item.getPoint(counter, post2);
+          Item.getQHi(0x0093, post1);
           spawn FREE.slot_32(pid, 30, 0x00000000);
           suspend;
           counter = (1 + counter);
@@ -375,6 +404,9 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
       else {
         counter = 0;
         while (counter <= 3) {
+          Item.getPoint((7 - counter), post1);
+          Item.getPoint((7 - counter), post2);
+          Item.getQHi(0x0093, post1);
           spawn FREE.slot_32(pid, 30, 0x00000000);
           suspend;
           counter = (1 + counter);
@@ -382,6 +414,9 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
       }
       spawn FREE.slot_32(pid, 30, 0x00000000);
       suspend;
+      Item.getPoint(0, post1);
+      Item.getPoint(0, post2);
+      Item.getQHi(0x0093, post1);
     }
     spawn FREE.slot_32(pid, 60, 0x00000000);
     suspend;
@@ -395,14 +430,17 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
     spawn TRIGGER.slot_20(pid, 1, *(arg_06), arg_06);
     suspend;
     return;
-  }
-  else if (event == 52) {
+  case 52:
     time = Intrinsic08A(arg_06);
     counter2 = Actor.clrInCombat(arg_06);
     while (1) {
       for n in nearby_items(family=6, origin=arg_06) {
         if (Actor.isNPC(n)) {
           if (Actor.GetNPCDataField0x63_00B(n) == Actor.setImmortal(arg_06)) {
+            if (!Item.getItemFamily(n)) {
+              AudioProcess.playSFXCru(0x0099, n);
+              Item.getQuality(5, n);
+            }
           }
         }
         spawn FREE.slot_32(pid, time, 0x00000000);
@@ -411,26 +449,32 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
       return;
     }
     return;
-  }
-  else if (event == 53) {
+  case 53:
     for n in nearby_items(shape=wallgun_shape_04c8, origin=arg_06) {
       spawn FREE.slot_32(pid, 1, 0x00000000);
       suspend;
+      Item.create(4, wallgun_shape_04c8, item);
+      Item.pop(44, item);
+      Game.isViolenceEnabled(4, item);
+      Item.popToCoords(Item.getZ(n), Item.getY(n), Item.getX(n), item);
+      Item.destroy(n);
     }
     return;
-  }
-  else if (event == 54) {
+  case 54:
     for n in nearby_items(shape=wallgun_shape_04c8, origin=arg_06) {
+      Item.pop(100, n);
+      Game.isViolenceEnabled(6, n);
+      Item.hurl(n);
     }
     return;
-  }
-  else if (event == 55) {
+  case 55:
     if (!(global[0x0038])) {
       return;
     }
     time = Intrinsic08A(arg_06);
     while (1) {
       counter = 0;
+      Item.pop((Actor.clrInCombat(arg_06) - 1), arg_06);
       spawn TRIGGER.slot_20(pid, (0 + 0x0080), *(arg_06), arg_06);
       suspend;
       spawn FREE.slot_32(pid, time, 0x00000000);
@@ -444,16 +488,14 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
       }
     }
     return;
-  }
-  else if (event == 75) {
+  case 75:
     for item in nearby_items(family=6, origin=arg_06) {
       if (Actor.setImmortal(item) == Actor.setImmortal(arg_06)) {
         suspend;
       }
     }
     return;
-  }
-  else if (event == 85) {
+  case 85:
     time = (PaletteFaderProcess.setPalToAllBlack(arg_06) * 5);
     while (1) {
       counter = 0;
@@ -467,6 +509,7 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
         }
       }
       if (counter <= 4) {
+        Item.pop((Actor.clrInCombat(arg_06) - 1), arg_06);
         spawn TRIGGER.slot_20(pid, (0 + 0x0080), *(arg_06), arg_06);
         suspend;
         spawn FREE.slot_32(pid, time, 0x00000000);
@@ -482,38 +525,44 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
       }
     }
     return;
-  }
-  else if (event == 88) {
+  case 88:
+    Ultima8Engine.setAvatarInStasis(1);
+    MusicProcess.musicStop();
+    setSomeMovieGlobal();
     spawn FREE.slot_32(pid, 10, 0x00000000);
     suspend;
+    playFlic092();
+    clearSomeMovieGlobal(pid, 0, 0, "o01", arg_06);
     suspend;
+    Game.playCredits();
+    Kernel.getCurrentKeyDown();
     return;
-  }
-  else if (event == 97) {
+  case 97:
+    Item.getRangeIfVisible(Actor.getMap(&global[0x003c]), 0, Item.getY(arg_06), Item.getX(arg_06));
     while (!MainActor.teleportToEgg()) {
       spawn FREE.slot_32(pid, 2, 0x00000000);
       suspend;
     }
+    Item.getRangeIfVisible(Item.getX(Item.getY(Actor.getMap(&global[0x003c]), 0, &global[0x003c]), &global[0x003c]));
     return;
-  }
-  else if (event == 98) {
+  case 98:
     for item in nearby_items(shape=EVENT_CONTROLLER, origin=arg_06) {
+      Item.pop(1, item);
     }
     return;
-  }
-  else if (event == 99) {
+  case 99:
     for item in nearby_items(shape=EVENT_CONTROLLER, origin=arg_06) {
+      Item.pop(0, item);
     }
     return;
-  }
-  else if (event == 100) {
+  case 100:
     spawn FREE.slot_32(pid, 60, 0x00000000);
     suspend;
     suspend;
     return;
-  }
-  else if (event == 0x00c8) {
+  case 0x00c8:
     if (global[0x0022] == 0) {
+      Actor.create(0x0096, 0x00c8, "mva3b", arg_06);
       suspend;
       spawn FREE.slot_32(pid, 20, 0x00000000);
       suspend;
@@ -521,38 +570,42 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
       suspend;
     }
     return;
-  }
-  else if (event == 0x00c9) {
+  case 0x00c9:
     qHi = Actor.clrInCombat(arg_06);
     if (qHi < 4) {
       qHi = (1 + qHi);
+      Item.pop(qHi, arg_06);
     }
     else {
       spawn TRIGGER.slot_20(pid, (1 + 0x0080), *(arg_06), arg_06);
       suspend;
     }
     return;
-  }
-  else if (event == 0x00d4) {
+  case 0x00d4:
     spawn FREE.slot_32(pid, 60, 0x00000000);
     suspend;
+    playFlic(pid, 0x0096, 0x00c8, "13d", arg_06);
     suspend;
+    Ultima8Engine.setAvatarInStasis(1);
+    resetVargasHealthTo500();
     return;
-  }
-  else if (event == 0x00d5) {
+  case 0x00d5:
     spawn FREE.slot_32(pid, 60, 0x00000000);
     suspend;
+    playFlic(pid, 0x0096, 0x00c8, "13e", arg_06);
     suspend;
     return;
-  }
-  else if (event == 0x00e6) {
+  case 0x00e6:
     qHi = Actor.clrInCombat(arg_06);
     if (qHi < 2) {
       qHi = (1 + qHi);
+      Item.pop(qHi, arg_06);
+    }
+    else {
+      Item.andStatus();
     }
     return;
-  }
-  else if (event == 0x00fa) {
+  case 0x00fa:
     spawn FLICTEST.slot_20(pid, flicMan);
     suspend;
     return;

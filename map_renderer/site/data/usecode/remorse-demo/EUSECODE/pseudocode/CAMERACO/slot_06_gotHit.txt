@@ -10,6 +10,7 @@ function cameraco_gotHit() /* entry=440 class_id=0x01b6 slot=0x06 */
   FREE.slot_2b(vel, ref);
   if (retval && (Item.getFrame(arg_06) != 5)) {
     FREE.slot_33(0x021b, *(arg_06));
+    Item.setFrame(5, arg_06);
     spawn TRIGGER.slot_20(pid, 1, *(arg_06), arg_06);
     suspend;
     spawn ITEM.slot_28(pid, 0, 0, arg_06);

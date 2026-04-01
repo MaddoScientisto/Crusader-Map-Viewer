@@ -20,13 +20,23 @@ function rechagns_gotHit() /* entry=312 class_id=0x0136 slot=0x06 */
       suspend;
       FREE.slot_33(0x0254, global[0x003c]);
       for item in nearby_items(shape=0x0136, origin=arg_06) {
+        if (Item.getFrame(item) < 2) {
+          Item.getPoint((Item.getFrame(item) + 4), item);
+        }
+        else if (Item.getFrame(item) < 4) {
+          Item.getPoint((Item.getFrame(item) + 2), item);
+        }
       }
       for item in nearby_items(shape=0x0138, origin=arg_06) {
+        Item.getPoint(1, item);
       }
       for item in nearby_items(shape=0x0139, origin=arg_06) {
+        Item.getPoint(1, item);
       }
       for item in nearby_items(shape=0x0137, origin=arg_06) {
+        Item.getPoint(1, item);
       }
+      AudioProcess.playSFXCru(93, arg_06);
     }
   }
   return;

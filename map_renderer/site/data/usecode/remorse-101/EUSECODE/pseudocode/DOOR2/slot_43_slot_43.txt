@@ -3,11 +3,18 @@ function door2_slot_43() /* entry=2569 class_id=0x0a07 slot=0x43 */
   set_info(0x0207, *(arg_06));
   spawn DOOR.slot_22(pid, arg_06);
   suspend;
+  AudioProcess.playSFXCru(90, arg_06);
   local_02 = 1;
   while (local_02 <= 6) {
+    Item.isCentreOn(local_02, arg_06);
     spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
     suspend;
     local_02 = (1 + local_02);
   }
+  push(arg_06);
+  Item.isCentreOn(0, arg_06);
+  Item.setShape(0x03be, arg_06);
+  Item.pop(arg_06);
+  process_result = 1;
   return;
 }

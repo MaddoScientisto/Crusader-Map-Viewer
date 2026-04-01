@@ -5,28 +5,57 @@ function item_slot_2a() /* entry=2577 class_id=0x0a0f slot=0x2a */
     return;
   }
   else {
+    Actor.clrInCombat(arg_06);
+    AudioProcess.stopSFXCru(arg_06);
     local_05 = 0;
     local_07 = Item.getX(arg_06);
     local_09 = Item.getY(arg_06);
-    if (arg_10 == 1) {
+    switch (arg_10) {
+    case 1:
       if (UCMachine.rndRange(2, 0) == 1) {
+        Item.playSfxCru(0x00c1, arg_06);
+        SpriteProcess.createSprite(Item.getZ(arg_06), Item.isOn(arg_06), Item.getCX(arg_06), 1, 39, 0, 0x0326);
       }
       else if (UCMachine.rndRange(2, 0) == 2) {
+        Item.playSfxCru(0x00c0, arg_06);
+        SpriteProcess.createSprite(Item.getZ(arg_06), Item.isOn(arg_06), Item.getCX(arg_06), 1, 39, 0, 0x0320);
       }
-    }
-    else if (arg_10 == 2) {
+      else {
+        Item.playSfxCru(0x00c0, arg_06);
+        SpriteProcess.createSprite(Item.getZ(arg_06), Item.isOn(arg_06), Item.getCX(arg_06), 1, 39, 0, 0x0321);
+      }
+      break;
+    case 2:
       if (UCMachine.rndRange(2, 0) == 1) {
+        Item.playSfxCru(62, arg_06);
+        SpriteProcess.createSprite(Item.getZ(arg_06), Item.isOn(arg_06), Item.getCX(arg_06), 1, 39, 0, 0x0324);
       }
       else if (UCMachine.rndRange(2, 0) == 2) {
+        Item.playSfxCru(62, arg_06);
+        SpriteProcess.createSprite(Item.getZ(arg_06), Item.isOn(arg_06), Item.getCX(arg_06), 1, 39, 0, 0x0323);
       }
-    }
-    else if (arg_10 == 0) {
+      else {
+        Item.playSfxCru(62, arg_06);
+        SpriteProcess.createSprite(Item.getZ(arg_06), Item.isOn(arg_06), Item.getCX(arg_06), 1, 39, 0, 0x0325);
+      }
+      break;
+    case 0:
       if (UCMachine.rndRange(1, 0) == 1) {
+        Item.playSfxCru(0x00be, arg_06);
+        SpriteProcess.createSprite(Item.getZ(arg_06), Item.isOn(arg_06), Item.getCX(arg_06), 1, 39, 0, 0x031c);
       }
+      else {
+        Item.playSfxCru(0x00bf, arg_06);
+        SpriteProcess.createSprite(Item.getZ(arg_06), Item.isOn(arg_06), Item.getCX(arg_06), 1, 39, 0, 0x031f);
+      }
+      break;
     }
     local_04 = *(arg_06);
     set_info(0x020a, 0);
     if (arg_12) {
+      if (local_04 != 0x4000) {
+        Item.destroy(local_04);
+      }
     }
   }
   return;

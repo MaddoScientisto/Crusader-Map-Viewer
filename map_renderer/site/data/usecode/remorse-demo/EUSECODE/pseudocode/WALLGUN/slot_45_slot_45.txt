@@ -44,19 +44,25 @@ function wallgun_slot_45() /* entry=2588 class_id=0x0a1a slot=0x45 */
       }
     }
     else if ((Item.getShape(arg_06) == wallgun_shape_0113) || (Item.getShape(arg_06) == wallgun_shape_0108)) {
+      Item.legal_create(new, arg_06);
       spawn WALLGUN.slot_47(dir, arg_06);
       spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
       suspend;
+      Item.legal_create((Item.getFrame(arg_06) + 1), arg_06);
       spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
       suspend;
+      Item.legal_create(new, arg_06);
       spawn WALLGUN.slot_47(dir, arg_06);
       spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
       suspend;
+      Item.legal_create((Item.getFrame(arg_06) + 1), arg_06);
       spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
       suspend;
+      Item.legal_create(new, arg_06);
       spawn WALLGUN.slot_47(dir, arg_06);
       spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
       suspend;
+      Item.legal_create((Item.getFrame(arg_06) + 1), arg_06);
       spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
       suspend;
     }
@@ -64,31 +70,41 @@ function wallgun_slot_45() /* entry=2588 class_id=0x0a1a slot=0x45 */
       spawn WALLGUN.slot_47(dir, arg_06);
     }
     else if ((Item.getShape(arg_06) == wallgun_shape_0373) || (Item.getShape(arg_06) == wallgun_shape_02f0)) {
+      Item.legal_create(new, arg_06);
       spawn WALLGUN.slot_47(dir, arg_06);
       spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
       suspend;
+      Item.legal_create((Item.getFrame(arg_06) + 1), arg_06);
     }
     else if ((Item.getShape(arg_06) == wallgun_shape_04c8) || (Item.getShape(arg_06) == wallgun_shape_01cd)) {
+      Item.legal_create(new, arg_06);
       spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
       suspend;
+      Item.legal_create((Item.getFrame(arg_06) + 1), arg_06);
       spawn WALLGUN.slot_47(dir, arg_06);
       spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
       suspend;
+      Item.legal_create(new, arg_06);
       spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
       suspend;
+      Item.legal_create((Item.getFrame(arg_06) + 1), arg_06);
       spawn WALLGUN.slot_47(dir, arg_06);
       spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
       suspend;
+      Item.legal_create(new, arg_06);
       spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
       suspend;
+      Item.legal_create((Item.getFrame(arg_06) + 1), arg_06);
       spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
       suspend;
     }
     else if ((Item.getShape(arg_06) == wallgun_shape_03a1) || (Item.getShape(arg_06) == wallgun_shape_0399)) {
+      Item.legal_create((Item.getFrame(arg_06) + 9), arg_06);
       spawn WALLGUN.slot_47(dir, arg_06);
       spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
       suspend;
     }
+    Item.legal_create(old, arg_06);
     spawn WALLGUN.slot_30(pid, arg_06);
     suspend;
   }

@@ -1,6 +1,10 @@
 function npc_slot_23() /* entry=2577 class_id=0x0a0f slot=0x23 */
 {
   set_info(0x020a, *(arg_06));
+  if (*(arg_06) == 1) {
+    Ultima8Engine.setAvatarInStasis(1);
+    Actor.setImmortal(&global[0x001e]);
+  }
   for local_02 in nearby_items(shape=DISRUPTER, origin=arg_06) {
     if (Item.getFrame(local_02) == 1) {
       local_09 = 1;
@@ -20,22 +24,36 @@ function npc_slot_23() /* entry=2577 class_id=0x0a0f slot=0x23 */
       local_08 = 1;
     }
   }
+  Item.setFrame(8, arg_06);
   spawn FREE.slot_3b(pid, 60, 0x00000000);
   suspend;
+  Item.playSfxCru(48, &global[0x001e]);
+  SpriteProcess.createSprite(Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06), 1, 37, 0, 0x0317);
   if (!local_08) {
     suspend;
   }
   else {
     suspend;
   }
+  if (*(arg_06) == 1) {
+    Ultima8Engine.clrCruStasis();
+    Intrinsic006B();
+    Actor.clrImmortal(&global[0x001e]);
+    Ultima8Engine.setAvatarInStasis(0);
+  }
   if (local_09) {
+    SpriteProcess.createSprite(Item.getZ(local_06), Item.getY(local_06), Item.getX(local_06), 5, 9, 0, 0x04f1);
+    Item.playSfxCru(13, local_06);
     spawn FREE.slot_3b(pid, 20, 0x00000000);
     suspend;
+    Item.playSfxCru(13, local_06);
     spawn FREE.slot_3b(pid, 20, 0x00000000);
     suspend;
+    Item.playSfxCru(13, local_06);
     spawn FREE.slot_3b(pid, 20, 0x00000000);
     suspend;
     while (!Actor.isDead(arg_06)) {
+      Intrinsic0055(20, Actor.getHp(arg_06), 8, 0, arg_06);
       spawn FREE.slot_3b(pid, 2, 0x00000000);
       suspend;
     }

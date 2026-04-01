@@ -2,5 +2,8 @@ function mine_ir_enterFastArea() /* entry=42 class_id=0x0028 slot=0x0f */
 {
   set_info(0x021b, *(arg_06));
   process_exclude();
+  Item.create(0, 0x053d, local_02);
+  Item.popToCoords(Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06), local_02);
+  Item.destroy(arg_06);
   return;
 }

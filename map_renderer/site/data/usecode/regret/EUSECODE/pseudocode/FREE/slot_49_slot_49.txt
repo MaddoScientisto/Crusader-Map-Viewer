@@ -3,9 +3,14 @@ function free_slot_49() /* entry=2591 class_id=0x0a1d slot=0x49 */
   set_info(1, 0);
   while (condition) {
     if (!MainActor.addItemCru(1, local_02)) {
+      AudioProcess.playAmbientSFX(0x01a7);
+      Item.push(local_02);
+      Item.popToCoords(UCMachine.rndRange(Item.getX(UCMachine.rndRange((Item.getY(Item.getZ(&global[0x001e]), &global[0x001e]) + 16), 8, -8), &global[0x001e]), 8, -8), local_02);
+      Item.fall(local_02);
       spawn FREE.slot_3b(pid, 10, 0x00000000);
       suspend;
     }
   }
+  process_result = 1;
   return;
 }

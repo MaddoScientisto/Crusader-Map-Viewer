@@ -8,6 +8,7 @@ function elite_calledFromAnim() /* entry=1235 class_id=0x04d1 slot=0x0e */
   process_exclude();
   n = *(arg_06);
   set_info(1, 0);
+  Kernel.resetRef(12, n);
   spawn NPCDEATH.slot_20(Actor.GetNPCDataField0x63_00B(arg_06), *(arg_06), arg_06);
   return;
 }

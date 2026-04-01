@@ -11,10 +11,12 @@ function lift_gotHit() /* entry=309 class_id=0x0133 slot=0x06 */
     return;
   }
   else if (Camera.getY(arg_06) == 1) {
+    Item.getPoint(1);
     if (Item.legal_move(&global[0x001e])) {
       spawn FREE.slot_3b(pid, 2, 0x00000000);
       suspend;
     }
+    Item.shoot(Item.getX(Item.getY(AudioProcess.stopSFXCru(&global[0x001e]), 0, &global[0x001e]), &global[0x001e]));
     suspend;
     suspend;
     suspend;
@@ -25,6 +27,7 @@ function lift_gotHit() /* entry=309 class_id=0x0133 slot=0x06 */
     return;
   }
   else if (Camera.getY(arg_06) == 10) {
+    Item.getPoint(1);
     if (Item.legal_move(&global[0x001e])) {
       spawn FREE.slot_3b(pid, 2, 0x00000000);
       suspend;

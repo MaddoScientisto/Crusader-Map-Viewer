@@ -7,25 +7,27 @@ function npctrig_equip() /* entry=869 class_id=0x0363 slot=0x0a */
   }
   else {
     ITEM.slot_23(0x1000, arg_06);
-    if (arg_10 == 1) {
+    switch (arg_10) {
+    case 1:
       spawn NPCTRIG.slot_20(pid, 0x02fd, arg_06);
       suspend;
-    }
-    else if (arg_10 == 2) {
+      break;
+    case 2:
       spawn NPCTRIG.slot_20(pid, 0x0384, arg_06);
       suspend;
-    }
-    else if (arg_10 == 3) {
+      break;
+    case 3:
       spawn NPCTRIG.slot_20(pid, 0x0371, arg_06);
       suspend;
-    }
-    else if (arg_10 == 4) {
+      break;
+    case 4:
       spawn NPCTRIG.slot_20(pid, 0x04d1, arg_06);
       suspend;
-    }
-    else if (arg_10 == 5) {
+      break;
+    case 5:
       spawn NPCTRIG.slot_20(pid, 0x01b4, arg_06);
       suspend;
+      break;
     }
     ITEM.slot_24(0x1000, arg_06);
   }

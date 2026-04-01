@@ -32,6 +32,10 @@ function wallgun_slot_48() /* entry=2588 class_id=0x0a1a slot=0x48 */
   if (!process_result) {
     FREE.slot_20(1);
     if (retval) {
+      AudioProcess.playSFXCru(38, arg_06);
+    }
+    else {
+      AudioProcess.playSFXCru(39, arg_06);
     }
     WALLGUN.slot_20(arg_06);
     turn = retval;
@@ -51,6 +55,7 @@ function wallgun_slot_48() /* entry=2588 class_id=0x0a1a slot=0x48 */
       WALLGUN.slot_21(arg_06);
       WALLGUN.slot_23((retval + 1), arg_06);
     }
+    process_result = 0;
     return;
   }
   return;

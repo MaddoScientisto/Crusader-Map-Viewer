@@ -10,86 +10,89 @@ function cameraco_enterFastArea() /* entry=440 class_id=0x01b6 slot=0x0f */
   block_0108:
     goto block_0372;
 
-  block_010b:
-    while (!Item.isOnScreen(arg_06)) {
-      spawn FREE.slot_3b(pid, local_02, 0x00000000);
-      suspend;
-    }
+  while (!Item.isOnScreen(arg_06)) {
+    spawn FREE.slot_3b(pid, local_02, 0x00000000);
+    suspend;
+  }
 
   block_0132:
     local_12 = 0;
     local_14 = 1;
 
-  block_013a:
-    while (true) {
-      suspend;
-      local_18 = 0;
-      while (!Item.isOnScreen(arg_06)) {
-        spawn FREE.slot_3b(pid, local_02, 0x00000000);
-        suspend;
-      }
+  while (true) {
+    suspend;
+    local_18 = 0;
+    while (!Item.isOnScreen(arg_06)) {
       spawn FREE.slot_3b(pid, local_02, 0x00000000);
       suspend;
-      if (World.getControlledNPCNum() != 0) {
-        local_16 = World.getControlledNPCNum();
-      }
-      else {
-        local_16 = 1;
-      }
-      local_20 = Item.getClosestDirectionInRange(15, 0, 16, Item.getY(local_16), Item.getX(local_16), Item.getY(arg_06), Item.getX(arg_06));
-      local_08 = Item.getFrame(arg_06);
-      if (((local_20 / 2) - 1) == local_08) {
-        local_18 = Item.touch(local_16, arg_06);
-        if (local_18) {
-          local_12 = 1;
-          local_06 = (1 + local_06);
-          if ((local_06 > local_04) && (!(Item.getStatus(arg_06) & 4))) {
-            spawn FREE.slot_3b(pid, local_02, 0x00000000);
-            suspend;
-            spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
-            suspend;
-            ITEM.slot_24(4, arg_06);
-          }
-        }
-        else {
-          local_12 = 0;
-          if ((local_08 + local_14) < 0) {
-            local_14 = 1;
-            spawn FREE.slot_3b(pid, 30, 0x00000000);
-            suspend;
-          }
-          else if ((local_08 + local_14) > 4) {
-            local_14 = -1;
-            spawn FREE.slot_3b(pid, 30, 0x00000000);
-            suspend;
-          }
-        }
-      }
-      else if (local_06 && local_12) {
-        if (((local_20 / 2) - 1) > local_08) {
-          local_14 = 1;
-        }
-        else {
-          local_14 = -1;
+    }
+    spawn FREE.slot_3b(pid, local_02, 0x00000000);
+    suspend;
+    if (World.getControlledNPCNum() != 0) {
+      local_16 = World.getControlledNPCNum();
+    }
+    else {
+      local_16 = 1;
+    }
+    local_20 = Item.getClosestDirectionInRange(15, 0, 16, Item.getY(local_16), Item.getX(local_16), Item.getY(arg_06), Item.getX(arg_06));
+    local_08 = Item.getFrame(arg_06);
+    if (((local_20 / 2) - 1) == local_08) {
+      local_18 = Item.touch(local_16, arg_06);
+      if (local_18) {
+        local_12 = 1;
+        local_06 = (1 + local_06);
+        if ((local_06 > local_04) && (!(Item.getStatus(arg_06) & 4))) {
+          Item.playSfxCru(0x00e6, arg_06);
+          spawn FREE.slot_3b(pid, local_02, 0x00000000);
+          suspend;
+          spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
+          suspend;
+          ITEM.slot_24(4, arg_06);
         }
       }
       else {
-        local_06 = 0;
         local_12 = 0;
-      }
-      if ((local_08 + local_14) < 0) {
-        local_14 = 1;
-        spawn FREE.slot_3b(pid, 30, 0x00000000);
-        suspend;
-      }
-      else if ((local_08 + local_14) > 4) {
-        local_14 = -1;
-        spawn FREE.slot_3b(pid, 30, 0x00000000);
-        suspend;
+        if ((local_08 + local_14) < 0) {
+          local_14 = 1;
+          spawn FREE.slot_3b(pid, 30, 0x00000000);
+          suspend;
+        }
+        else if ((local_08 + local_14) > 4) {
+          local_14 = -1;
+          spawn FREE.slot_3b(pid, 30, 0x00000000);
+          suspend;
+        }
+        Item.setFrame((local_08 + local_14), arg_06);
+        Egg.getEggId(0x0222, arg_06);
       }
     }
+    else if (local_06 && local_12) {
+      if (((local_20 / 2) - 1) > local_08) {
+        local_14 = 1;
+      }
+      else {
+        local_14 = -1;
+      }
+    }
+    else {
+      local_06 = 0;
+      local_12 = 0;
+      MainActor.addItemCru((~4), arg_06);
+    }
+    if ((local_08 + local_14) < 0) {
+      local_14 = 1;
+      spawn FREE.slot_3b(pid, 30, 0x00000000);
+      suspend;
+    }
+    else if ((local_08 + local_14) > 4) {
+      local_14 = -1;
+      spawn FREE.slot_3b(pid, 30, 0x00000000);
+      suspend;
+    }
+    Item.setFrame((local_08 + local_14), arg_06);
+    Egg.getEggId(0x0222, arg_06);
+  }
 
-  block_0372:
-    return;
+  return;
 
 }

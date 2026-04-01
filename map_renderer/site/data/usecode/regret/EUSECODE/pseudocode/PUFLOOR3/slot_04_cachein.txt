@@ -2,5 +2,8 @@ function pufloor3_cachein() /* entry=1488 class_id=0x05ce slot=0x04 */
 {
   set_info(0x0213, *(arg_06));
   process_exclude();
+  if (!Item.getFrame(arg_06)) {
+    Item.setFrame(5, arg_06);
+  }
   return;
 }

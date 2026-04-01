@@ -5,124 +5,212 @@ function reb_egg_hatch() /* entry=2313 class_id=0x0907 slot=0x07 */
   if (global[0x0001] == 0) {
     return;
   }
-  else if (global[0x0020] == 9) {
-    suspend;
-    suspend;
-  }
-  if (global[0x0020] < 13) {
-    suspend;
-  }
-  set_info(1, 0);
-  for local_02 in nearby_items(shape=BAR_PATRONS_1, origin=arg_06) {
-  }
-  for local_02 in nearby_items(shape=BAR_STOOL, origin=arg_06) {
-  }
-  if ((global[0x0020] > 3) && (global[0x0020] < 13)) {
-    if (UCMachine.rndRange(9, 0) > 5) {
-      suspend;
-    }
-  }
-  if ((global[0x0020] == 2) || (global[0x0020] == 5)) {
-    for local_02 in nearby_items(shape=0x044f, origin=arg_06) {
-    }
-    for local_02 in nearby_items(shape=NUMBERS, origin=arg_06) {
-    }
-    local_09 = 1;
-  }
-  else if ((global[0x0020] == 10) || (global[0x0020] == 11)) {
-    for local_02 in nearby_items(shape=0x044f, origin=arg_06) {
-    }
-    for local_02 in nearby_items(shape=NUMBERS, origin=arg_06) {
-      suspend;
-    }
-    local_09 = 1;
-  }
-  else if ((global[0x0020] == 12) || (global[0x0020] == 13)) {
-    for local_02 in nearby_items(shape=0x044f, origin=arg_06) {
-    }
-  }
-  else if (global[0x0020] == 14) {
-    for local_02 in nearby_items(shape=NUMBERS, origin=arg_06) {
-      suspend;
-    }
-    local_09 = 1;
-  }
-  suspend;
-  spawn FREE.waitNTimerTicks(pid, 120, 0x00000000);
-  suspend;
-  spawn NPC.slot_23(pid, &global[0x003d]);
-  suspend;
-  spawn REB_EGG.slot_20(pid, arg_06);
-  suspend;
-  while (condition) {
-  }
-  if (!local_09) {
-    for local_02 in selector_0x42(arg0=0x044f, arg1=0x0442, arg2=(50 * 32), origin=arg_06) {
-    }
-    return;
-  }
   else {
-    suspend;
-    suspend;
-    if (global[0x0020] == 2) {
+    Actor.setEquip();
+    Item.setMapArray();
+    if (global[0x0020] == 9) {
+      Intrinsic08A();
+      Item.getUnkEggType(pid, 0, 0, "wec", arg_06);
       suspend;
+      playFlic(pid, 0x0096, 0x00c8, "8i", arg_06);
       suspend;
-      for local_02 in nearby_items(shape=0x044f, origin=arg_06) {
-      }
-      suspend;
-      return;
+      Item.setIsBroken();
     }
-    else if (global[0x0020] == 5) {
-      if (global[0x0024]) {
+    if (global[0x0020] < 13) {
+      Intrinsic08A();
+      playFlic(pid, 0, 0, "H01", arg_06);
+      suspend;
+      Item.setIsBroken();
+    }
+    set_info(1, 0);
+    for local_02 in nearby_items(shape=BAR_PATRONS_1, origin=arg_06) {
+      Item.destroy(local_02);
+    }
+    for local_02 in nearby_items(shape=BAR_STOOL, origin=arg_06) {
+      if (PaletteFaderProcess.fadeToBlack(local_02) == 1) {
+        Item.destroy(local_02);
+      }
+    }
+    if ((global[0x0020] > 3) && (global[0x0020] < 13)) {
+      if (UCMachine.rndRange(9, 0) > 5) {
+        Item.legal_create(0, 0x034d, local_02);
+        Item.andStatus(10, local_02);
+        getTargetNPCNumMaybe(16, 0x442f, 0x41ef, local_02);
         suspend;
       }
       else {
-        suspend;
+        Item.legal_create(UCMachine.rndRange(3, 0), 0x0315, local_02);
+        getTargetNPCNumMaybe(16, 0x441f, 0x418f, local_02);
+        Item.legal_create(UCMachine.rndRange(3, 0), 0x0315, local_02);
+        getTargetNPCNumMaybe(16, 0x441f, 0x41ef, local_02);
       }
-      suspend;
+    }
+    else {
+      Item.legal_create(UCMachine.rndRange(3, 0), 0x0315, local_02);
+      getTargetNPCNumMaybe(16, 0x441f, 0x418f, local_02);
+      Item.legal_create(UCMachine.rndRange(3, 0), 0x0315, local_02);
+      getTargetNPCNumMaybe(16, 0x441f, 0x41ef, local_02);
+    }
+    if ((global[0x0020] == 2) || (global[0x0020] == 5)) {
       for local_02 in nearby_items(shape=0x044f, origin=arg_06) {
+        Item.isCentreOn(10, local_02);
       }
-      spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
-      suspend;
-      suspend;
-      return;
+      for local_02 in nearby_items(shape=NUMBERS, origin=arg_06) {
+        playFlicsomething(3, 0x03c4, local_06);
+        getTargetNPCNumMaybe(Item.getZ(local_02), Item.getY(local_02), Item.getX(local_02), local_06);
+      }
+      local_09 = 1;
     }
     else if ((global[0x0020] == 10) || (global[0x0020] == 11)) {
-      if (global[0x0020] == 10) {
+      for local_02 in nearby_items(shape=0x044f, origin=arg_06) {
+        push(local_02);
+        Item.setShape(0x0442, local_02);
+        Item.isCentreOn(6, local_02);
+        getTargetNPCNumMaybe(72, 0x4428, 0x3c38, local_02);
+      }
+      for local_02 in nearby_items(shape=NUMBERS, origin=arg_06) {
+        playFlicsomething(0, 0x03ac, local_06);
+        getTargetNPCNumMaybe(Item.getZ(local_02), Item.getY(local_02), Item.getX(local_02), local_06);
         suspend;
       }
-      else {
-        suspend;
+      local_09 = 1;
+    }
+    else if ((global[0x0020] == 12) || (global[0x0020] == 13)) {
+      for local_02 in nearby_items(shape=0x044f, origin=arg_06) {
+        push(local_02);
+        Item.setShape(0x0442, local_02);
+        Item.isCentreOn(0, local_02);
+        getTargetNPCNumMaybe(72, 0x4428, 0x3c38, local_02);
       }
-      spawn FREE.waitNTimerTicks(pid, 120, 0x00000000);
-      suspend;
-      suspend;
-      for local_02 in nearby_items(shape=0x0442, origin=arg_06) {
-      }
-      spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
-      suspend;
-      suspend;
-      return;
     }
     else if (global[0x0020] == 14) {
-      suspend;
-      spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
-      suspend;
-      suspend;
-      suspend;
-      suspend;
-      suspend;
-      suspend;
-      spawn NPC.slot_22(pid, 4, 12, local_06);
-      suspend;
-      suspend;
-      spawn NPC.slot_24(pid, local_06);
-      suspend;
-      spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
-      suspend;
-      for local_02 in nearby_items(shape=0x043d, origin=arg_06) {
+      for local_02 in nearby_items(shape=NUMBERS, origin=arg_06) {
+        playFlicsomething(6, 0x0524, local_06);
+        getTargetNPCNumMaybe(Item.getZ(local_02), Item.getY(local_02), Item.getX(local_02), local_06);
+        suspend;
+      }
+      local_09 = 1;
+    }
+    Item.isCentreOn(8, &global[0x003d]);
+    suspend;
+    spawn FREE.waitNTimerTicks(pid, 120, 0x00000000);
+    suspend;
+    spawn NPC.slot_23(pid, &global[0x003d]);
+    suspend;
+    spawn REB_EGG.slot_20(pid, arg_06);
+    suspend;
+    while (condition) {
+    }
+    if (!local_09) {
+      Ultima8Engine.setAvatarInStasis(0);
+      void MusicProcess:playMusic(16);
+      for local_02 in selector_0x42(arg0=0x044f, arg1=0x0442, arg2=(50 * 32), origin=arg_06) {
+        Item.isCentreOn(0, local_02);
       }
       return;
+    }
+    else {
+      suspend;
+      suspend;
+      if (global[0x0020] == 2) {
+        playFlic(pid, 0x0096, 0x00c8, "2b", arg_06);
+        suspend;
+        Ultima8Engine.setAvatarInStasis(1);
+        suspend;
+        Actor.setDead(0, 0, 0, 0, local_06);
+        Actor.setDead(40, 16, 0x427c, 0x427c, &global[0x003d]);
+        mouseSomethingResume05F();
+        for local_02 in nearby_items(shape=0x044f, origin=arg_06) {
+          Item.isCentreOn(0, local_02);
+        }
+        void MusicProcess:playMusic(16);
+        mouseSomethingResume05F();
+        suspend;
+        Ultima8Engine.setAvatarInStasis(0);
+        return;
+      }
+      else if (global[0x0020] == 5) {
+        if (global[0x0024]) {
+          playFlic(pid, 0x0096, 0x00c8, "5a", arg_06);
+          suspend;
+        }
+        else {
+          playFlic(pid, 0x0096, 0x00c8, "5b", arg_06);
+          suspend;
+        }
+        Ultima8Engine.setAvatarInStasis(1);
+        suspend;
+        Actor.setDead(0, 0, 0, 0, local_06);
+        Actor.setDead(40, 16, 0x427c, 0x427c, &global[0x003d]);
+        mouseSomethingResume05F();
+        for local_02 in nearby_items(shape=0x044f, origin=arg_06) {
+          Item.isCentreOn(0, local_02);
+        }
+        void MusicProcess:playMusic(16);
+        mouseSomethingResume05F();
+        spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+        suspend;
+        suspend;
+        Ultima8Engine.setAvatarInStasis(0);
+        return;
+      }
+      else if ((global[0x0020] == 10) || (global[0x0020] == 11)) {
+        if (global[0x0020] == 10) {
+          playFlic(pid, 0x0096, 0x00c8, "10a", arg_06);
+          suspend;
+        }
+        else {
+          playFlic(pid, 0x0096, 0x00c8, "11a", arg_06);
+          suspend;
+        }
+        Ultima8Engine.setAvatarInStasis(1);
+        spawn FREE.waitNTimerTicks(pid, 120, 0x00000000);
+        suspend;
+        suspend;
+        Item.getItemFamily(local_06);
+        Item.destroy(local_06);
+        Actor.setDead(40, 16, 0x427c, 0x427c, &global[0x003d]);
+        mouseSomethingResume05F();
+        for local_02 in nearby_items(shape=0x0442, origin=arg_06) {
+          Item.isCentreOn(0, local_02);
+        }
+        void MusicProcess:playMusic(16);
+        mouseSomethingResume05F();
+        spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+        suspend;
+        suspend;
+        Ultima8Engine.setAvatarInStasis(0);
+        return;
+      }
+      else if (global[0x0020] == 14) {
+        playFlic(pid, 0x0096, 0x00c8, "14B", arg_06);
+        suspend;
+        Ultima8Engine.setAvatarInStasis(1);
+        spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+        suspend;
+        suspend;
+        suspend;
+        suspend;
+        suspend;
+        suspend;
+        spawn NPC.slot_22(pid, 4, 12, local_06);
+        suspend;
+        suspend;
+        spawn NPC.slot_24(pid, local_06);
+        suspend;
+        Item.getItemFamily(local_06);
+        Item.destroy(local_06);
+        void MusicProcess:playMusic(16);
+        mouseSomethingResume05F();
+        spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+        suspend;
+        for local_02 in nearby_items(shape=0x043d, origin=arg_06) {
+          Item.isCentreOn(1, local_02);
+          Item.andStatus(15, local_02);
+        }
+        Ultima8Engine.setAvatarInStasis(0);
+        return;
+      }
     }
   }
   return;

@@ -8,7 +8,9 @@ function free_slot_3c() /* entry=2574 class_id=0x0a0c slot=0x3c */
   set_info(1, 0);
   FREE.slot_33(0x022b, 0);
   ref = 1;
+  Ultima8Engine.clrAlertActive();
   if (Ultima8Engine.getAvatarInStasis() == 1) {
+    Ultima8Engine.clrAlertActive();
     return;
   }
   else {
@@ -21,6 +23,7 @@ function free_slot_3c() /* entry=2574 class_id=0x0a0c slot=0x3c */
         spawn FREE.slot_21(pid, 14, 0x00000000);
         suspend;
       }
+      Ultima8Engine.clrAlertActive();
       return;
     }
     else if (rndVoice > 60) {
@@ -35,6 +38,7 @@ function free_slot_3c() /* entry=2574 class_id=0x0a0c slot=0x3c */
         spawn FREE.slot_21(pid, 0x00b6, 0x00000000);
         suspend;
       }
+      Ultima8Engine.clrAlertActive();
       return;
     }
     else {
@@ -49,6 +53,7 @@ function free_slot_3c() /* entry=2574 class_id=0x0a0c slot=0x3c */
         spawn FREE.slot_21(pid, 0x00b6, 0x00000000);
         suspend;
       }
+      Ultima8Engine.clrAlertActive();
     }
   }
   return;

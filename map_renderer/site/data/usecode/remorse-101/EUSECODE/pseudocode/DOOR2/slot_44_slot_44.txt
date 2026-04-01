@@ -3,15 +3,19 @@ function door2_slot_44() /* entry=2569 class_id=0x0a07 slot=0x44 */
   set_info(0x0207, *(arg_06));
   FREE.slot_2d(Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06), 6, 0x03ba, *(arg_06));
   if (!retval) {
+    process_result = 0;
     return;
   }
   else {
+    AudioProcess.playSFXCru(105, arg_06);
     local_02 = 0;
     while (local_02 <= 6) {
+      Item.isCentreOn((6 - local_02), arg_06);
       spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
       suspend;
       local_02 = (1 + local_02);
     }
+    process_result = 1;
     return;
   }
   return;

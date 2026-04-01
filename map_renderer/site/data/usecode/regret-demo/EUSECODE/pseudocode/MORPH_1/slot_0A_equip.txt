@@ -2,25 +2,36 @@ function morph_1_equip() /* entry=1539 class_id=0x0601 slot=0x0a */
 {
   set_info(0x0211, *(arg_06));
   process_exclude();
+  Item.playSfxCru(0x0114, arg_06);
   local_02 = 1;
   while (local_02 <= 16) {
+    Item.isOn(local_02, arg_06);
     spawn FREE.slot_3b(pid, 5, 0x00000000);
     suspend;
     local_02 = (1 + local_02);
   }
+  Item.getUnkEggType(80, 0x0319, local_04);
+  Item.popToCoords(Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06), local_04);
   suspend;
   ITEM.slot_24(2, local_04);
-  if (arg_10 == 1) {
-    return;
+  Intrinsic0055(1, local_04);
+  Game.isReleaseBuild(1, local_04);
+  MainActor.setMana(1, local_04);
+  CameraProcess.getCameraY(1, local_04);
+  switch (arg_10) {
+  case 1:
+    CameraProcess.getCameraY(5, local_04);
+    break;
+  case 2:
+    CameraProcess.getCameraY(9, local_04);
+    break;
+  case 3:
+    CameraProcess.getCameraY(10, local_04);
+    break;
+  case 4:
+    CameraProcess.getCameraY(11, local_04);
+    break;
   }
-  else if (arg_10 == 2) {
-    return;
-  }
-  else if (arg_10 == 3) {
-    return;
-  }
-  else if (arg_10 == 4) {
-    return;
-  }
+  Item.destroy(arg_06);
   return;
 }

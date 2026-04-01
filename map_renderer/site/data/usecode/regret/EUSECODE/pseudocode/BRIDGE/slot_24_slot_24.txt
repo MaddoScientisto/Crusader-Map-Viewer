@@ -21,9 +21,7 @@ function bridge_slot_24() /* entry=2590 class_id=0x0a1c slot=0x24 */
       for local_02 in selector_0x42(arg0=0x0336, arg1=0x0290, arg2=(70 * 32), origin=arg_06) {
         local_08 = Item.getQLo(local_02);
         if (local_08 == local_10) {
-          /* create_list */
-          /* append_list */
-          local_04 = local_02;
+          local_04 = (local_04 + [local_02]);
           local_10 = (1 + local_10);
         }
       }
@@ -36,6 +34,9 @@ function bridge_slot_24() /* entry=2590 class_id=0x0a1c slot=0x24 */
       foreach_list local_02 -> block_04fc;
       if (Intrinsic00AD(local_02) == 1) {
         BRIDGE.slot_21(0x03a6, local_02);
+        AudioProcess.playSFXCru(0x0098, local_02);
+        Item.setFrame(0, local_02);
+        Item.touch(local_02);
         spawn FREE.slot_3b(pid, 15, 0x00000000);
         suspend;
       }
@@ -44,6 +45,9 @@ function bridge_slot_24() /* entry=2590 class_id=0x0a1c slot=0x24 */
       foreach_list local_02 -> block_0542;
       if (Intrinsic00AD(local_02) == 1) {
         BRIDGE.slot_21(0x03a6, local_02);
+        AudioProcess.playSFXCru(0x0098, local_02);
+        Item.setFrame(0, local_02);
+        Item.touch(local_02);
       }
     }
   }

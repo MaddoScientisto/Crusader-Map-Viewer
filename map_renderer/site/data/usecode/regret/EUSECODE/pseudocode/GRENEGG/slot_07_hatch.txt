@@ -16,6 +16,9 @@ function grenegg_hatch() /* entry=2315 class_id=0x0909 slot=0x07 */
     local_13 = Item.getX(local_06);
     local_11 = Item.getY(local_06);
     local_09 = Item.getZ(local_06);
+    Item.create(0, GRENADE, local_02);
+    Item.popToCoords((Item.getZ(local_04) + 60), Item.getY(local_04), Item.getX(local_04), local_02);
+    Item.shoot(1, 64, local_13, local_02);
   }
   return;
 }

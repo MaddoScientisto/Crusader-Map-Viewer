@@ -6,11 +6,39 @@ function rebel_hatch() /* entry=2329 class_id=0x0917 slot=0x07 */
     if (PaletteFaderProcess.jumpToAllBlack() == 0) {
       return;
     }
+    teleportToEgg();
+    Actor.clrImmortal();
+    Item.isCentreOn(Item.getNpcNum(&global[0x001e]), &global[0x001e]);
+    MainActor.hasKeycard(Item.isOn(&global[0x001e]), &global[0x001e]);
     while (condition) {
       local_09 = 1;
       local_08 = local_02;
     }
+    if (local_09) {
+      Item.getDirFromTo16(local_08);
+    }
+    if (global[0x000f] == 4) {
+      Actor.setActivity();
+      Intrinsic0072("anim14");
+      Item.getQHi();
+    }
+    Item.getQuality();
     set_info(1, 0);
+    if ((global[0x000f] == 4) || (global[0x000f] == 6)) {
+      Item.create(0x00cd, 0x0277, local_11);
+      Item.popToCoords(0, 0x42af, 0x3fdf, local_11);
+    }
+    if (global[0x000f] == 6) {
+      Item.create(0x00a5, 0x0462, local_17);
+      Item.popToCoords(0, 0x403f, 0x3e8f, local_17);
+    }
+    if (((global[0x000f] == 6) || (global[0x000f] == 7)) || (global[0x000f] == 8)) {
+      Item.create(0x0096, 0x035d, local_13);
+      Item.popToCoords(0, 0x3eff, 0x3ecf, local_13);
+    }
+    Item.create(24, 0x0463, local_15);
+    Item.popToCoords(0, 0x3eaf, 0x3ecf, local_15);
+    MusicProcess.stopMusic(Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06), &global[0x001e]);
     suspend;
     spawn FREE.slot_3b(pid, 120, 0x00000000);
     suspend;
@@ -28,10 +56,15 @@ function rebel_hatch() /* entry=2329 class_id=0x0917 slot=0x07 */
       spawn DOOR.slot_21(pid, 2, local_06);
       suspend;
     }
+    clearUnkFlagA4();
+    Item.getPoint(0);
+    Item.unequip();
+    Item.destroy(arg_06);
     return;
   }
   else if (Item.callEvent11(arg_06) == 2) {
     if (global[0x0006]) {
+      clearUnkFlagA4();
       for local_06 in nearby_items(family=1, origin=arg_06) {
         spawn DOOR.slot_21(1, local_06);
       }

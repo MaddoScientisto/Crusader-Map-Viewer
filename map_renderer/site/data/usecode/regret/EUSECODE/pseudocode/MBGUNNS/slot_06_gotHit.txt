@@ -8,6 +8,8 @@ function mbgunns_gotHit() /* entry=1524 class_id=0x05f2 slot=0x06 */
     return;
   }
   else if (local_04 > 99) {
+    Item.playSfxCru(0x0091, arg_06);
+    SpriteProcess.createSprite(Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06), 5, 9, 0, 0x04f1);
     spawn FREE.slot_3b(pid, 10, 0x00000000);
     suspend;
     return;
@@ -20,6 +22,10 @@ function mbgunns_gotHit() /* entry=1524 class_id=0x05f2 slot=0x06 */
       if (!process_result) {
         FREE.slot_20(1);
         if (retval) {
+          Item.playSfxCru(38, arg_06);
+        }
+        else {
+          Item.playSfxCru(39, arg_06);
         }
         return;
       }
@@ -28,6 +34,7 @@ function mbgunns_gotHit() /* entry=1524 class_id=0x05f2 slot=0x06 */
         FREE.slot_3c(0x0205, *(arg_06));
         spawn ITEM.slot_2a(pid, 0, 0, arg_06);
         suspend;
+        Item.setFrame(10, arg_06);
       }
     }
   }

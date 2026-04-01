@@ -13,16 +13,19 @@ function door2_slot_2a() /* entry=2569 class_id=0x0a07 slot=0x2a */
   else {
     spawn DOOR.slot_22(pid, arg_06);
     suspend;
-    /* create_list */
-    doorList = 0x00cb;
-    FREE.slot_3a(123, 0x00c3, 0x00c4, 0x00c5, 0x00c6, 0x00c7, doorList);
+    doorList = [0x00cb, 0x00c7, 0x00c6, 0x00c5, 0x00c4, 0x00c3, 123];
+    FREE.slot_3a(doorList);
     maxFrame = retval;
+    AudioProcess.playSFXCru(81, arg_06);
     counter = 2;
     while (counter <= maxFrame) {
+      Item.setShape(list_element(size=0x2), arg_06);
+      Item.move(counter, Item.getZ(arg_06), (Item.getY(arg_06) - 16), Item.getX(arg_06), arg_06);
       spawn FREE.waitNTimerTicks(doorList, pid, 3, 0x00000000);
       suspend;
       counter = (1 + counter);
     }
+    process_result = 1;
     return;
   }
   return;

@@ -11,8 +11,17 @@ function elens16_enterFastArea() /* entry=8 class_id=0x0006 slot=0x0f */
     local_04 = Item.getX(arg_06);
     local_06 = (Item.getY(arg_06) + 64);
     local_08 = Item.getZ(arg_06);
+    Item.create(0, Zappy_Surface_SW_044D, local_02);
+    Item.setQLo(local_10, local_02);
+    Item.popToCoords(local_08, local_06, (local_04 - 0x00c0), local_02);
     suspend;
+    Item.create(0, Zappy_Surface_SW_044D, local_02);
+    Item.setQLo(local_10, local_02);
+    Item.popToCoords(local_08, local_06, (local_04 - 96), local_02);
     suspend;
+    Item.create(0, Zappy_Surface_SW_044D, local_02);
+    Item.setQLo(local_10, local_02);
+    Item.popToCoords(local_08, local_06, local_04, local_02);
     suspend;
   }
   return;

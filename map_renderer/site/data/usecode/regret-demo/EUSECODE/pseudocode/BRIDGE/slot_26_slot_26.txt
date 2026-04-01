@@ -42,9 +42,7 @@ function bridge_slot_26() /* entry=2565 class_id=0x0a03 slot=0x26 */
               return;
             }
           }
-          /* create_list */
-          /* append_list */
-          local_06 = local_04;
+          local_06 = (local_06 + [local_04]);
           local_12 = (1 + local_12);
         }
       }
@@ -79,9 +77,11 @@ function bridge_slot_26() /* entry=2565 class_id=0x0a03 slot=0x26 */
             }
             else {
               local_14 = Item.getFrame(local_04);
+              Item.setFrame(local_12, local_04);
               local_12 = local_14;
             }
           }
+          Item.setFrame(local_12, local_29);
           while (true) {
             foreach_list local_04 -> block_0b6a;
             local_10 = Item.getFrame(local_04);
@@ -95,12 +95,17 @@ function bridge_slot_26() /* entry=2565 class_id=0x0a03 slot=0x26 */
             }
             else if (local_10 == 2) {
               BRIDGE.slot_21(0x0336, local_04);
+              Item.andStatus(0x0098, local_04);
+              Item.setFrame(1, local_04);
               while (condition) {
+                Kernel.resetRef(local_29);
               }
               spawn FREE.slot_3b(pid, local_20, 0x00000000);
               suspend;
               if (Item.getFrame(local_04) == 1) {
                 BRIDGE.slot_21(0x03a6, local_04);
+                AudioProcess.playSFXCru(0x0098, local_04);
+                Item.setFrame(2, local_04);
               }
             }
           }
@@ -111,6 +116,9 @@ function bridge_slot_26() /* entry=2565 class_id=0x0a03 slot=0x26 */
     }
     while (true) {
       foreach_list local_04 -> block_0bab;
+      if (udioProcess.playSFXCru(local_04) == 1) {
+        Item.setFrame(0, local_04);
+      }
     }
     while (1) {
       while (true) {
@@ -123,6 +131,7 @@ function bridge_slot_26() /* entry=2565 class_id=0x0a03 slot=0x26 */
           return;
         }
         if (local_18 == 1) {
+          Item.setFrame(1, local_04);
           while (condition) {
             local_02 = local_29;
             FREE.slot_20(pid, 8);
@@ -131,15 +140,21 @@ function bridge_slot_26() /* entry=2565 class_id=0x0a03 slot=0x26 */
           }
           spawn FREE.slot_3b(pid, local_20, 0x00000000);
           suspend;
+          Item.setFrame(0, local_04);
         }
         else if (local_18 == 2) {
           BRIDGE.slot_21(0x0336, local_04);
+          Item.andStatus(0x0098, local_04);
+          Item.setFrame(1, local_04);
           while (condition) {
+            Kernel.resetRef(local_29);
           }
           spawn FREE.slot_3b(pid, local_20, 0x00000000);
           suspend;
           if (Item.getFrame(local_04) == 1) {
             BRIDGE.slot_21(0x03a6, local_04);
+            AudioProcess.playSFXCru(0x0098, local_04);
+            Item.setFrame(0, local_04);
           }
         }
         else {

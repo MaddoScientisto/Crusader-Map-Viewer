@@ -6,12 +6,14 @@ function datalink_use() /* entry=1238 class_id=0x04d4 slot=0x01 */
 
   set_info(0x0207, *(arg_06));
   process_exclude();
+  mouseSomethingOffMaybe05D();
   textFile = "MISSION OBJECTIVES:^*";
   if (Actor.getMap(&global[0x003c]) > 30) {
     return;
   }
   else if (Actor.getMap((Actor.getMap(&global[0x003c]) == 1), &global[0x003c]) == 2) {
     if (!(global[0x0020])) {
+      playFlicsomething(0x0096, 0x00fa, "mva1", arg_06);
       suspend;
     }
     if (!(global[0x002f])) {
@@ -37,6 +39,7 @@ function datalink_use() /* entry=1238 class_id=0x04d4 slot=0x01 */
   }
   else if (Actor.getMap((Actor.getMap(&global[0x003c]) == 5), &global[0x003c]) == 6) {
     if (!(global[0x0022])) {
+      playFlicsomething(0x0096, 0x00fa, "mva3a", arg_06);
       suspend;
     }
     if (!(global[0x0031])) {
@@ -51,6 +54,7 @@ function datalink_use() /* entry=1238 class_id=0x04d4 slot=0x01 */
   }
   else if (Actor.getMap((Actor.getMap(&global[0x003c]) == 7), &global[0x003c]) == 8) {
     if (!(global[0x0023])) {
+      playFlicsomething(0x0096, 0x00fa, "mva4", arg_06);
       suspend;
     }
     if (!(global[0x0032])) {
@@ -65,6 +69,7 @@ function datalink_use() /* entry=1238 class_id=0x04d4 slot=0x01 */
   }
   else if (Actor.getMap((Actor.getMap(&global[0x003c]) == 9), &global[0x003c]) == 10) {
     if (!(global[0x0024])) {
+      playFlicsomething(0x0096, 0x00fa, "mva5a", arg_06);
       suspend;
     }
     if (!(global[0x0033])) {
@@ -79,6 +84,7 @@ function datalink_use() /* entry=1238 class_id=0x04d4 slot=0x01 */
   }
   else if (Actor.getMap((Actor.getMap(&global[0x003c]) == 11), &global[0x003c]) == 12) {
     if (!(global[0x0025])) {
+      playFlicsomething(0x0096, 0x00fa, "mva6", arg_06);
       suspend;
     }
     if (!(global[0x0034])) {
@@ -93,6 +99,7 @@ function datalink_use() /* entry=1238 class_id=0x04d4 slot=0x01 */
   }
   else if (Actor.getMap((Actor.getMap(&global[0x003c]) == 13), &global[0x003c]) == 14) {
     if (!(global[0x0026])) {
+      playFlicsomething(0x0096, 0x00fa, "mva7", arg_06);
       suspend;
     }
     if (!(global[0x0026])) {
@@ -104,6 +111,7 @@ function datalink_use() /* entry=1238 class_id=0x04d4 slot=0x01 */
   }
   else if (Actor.getMap((Actor.getMap(&global[0x003c]) == 15), &global[0x003c]) == 16) {
     if (!(global[0x0027])) {
+      playFlicsomething(0x0096, 0x00fa, "mva8", arg_06);
       suspend;
     }
     if (!(global[0x0027])) {
@@ -115,6 +123,7 @@ function datalink_use() /* entry=1238 class_id=0x04d4 slot=0x01 */
   }
   else if (Actor.getMap((Actor.getMap(&global[0x003c]) == 17), &global[0x003c]) == 18) {
     if (!(global[0x0028])) {
+      playFlicsomething(0x0096, 0x00fa, "mva9", arg_06);
       suspend;
     }
     if (!(global[0x0028])) {
@@ -126,6 +135,7 @@ function datalink_use() /* entry=1238 class_id=0x04d4 slot=0x01 */
   }
   else if (Actor.getMap((Actor.getMap(&global[0x003c]) == 19), &global[0x003c]) == 20) {
     if (!(global[0x0029])) {
+      playFlicsomething(0x0096, 0x00fa, "mva10", arg_06);
       suspend;
     }
     if (!(global[0x0029])) {
@@ -137,6 +147,7 @@ function datalink_use() /* entry=1238 class_id=0x04d4 slot=0x01 */
   }
   else if (Actor.getMap((Actor.getMap(&global[0x003c]) == 21), &global[0x003c]) == 22) {
     if (!(global[0x002a])) {
+      playFlicsomething(0x00fa, "mva11a", arg_06);
       suspend;
     }
     if (!(global[0x0035])) {
@@ -151,6 +162,7 @@ function datalink_use() /* entry=1238 class_id=0x04d4 slot=0x01 */
   }
   else if (Actor.getMap((Actor.getMap(&global[0x003c]) == 23), &global[0x003c]) == 24) {
     if (!(global[0x002b])) {
+      playFlicsomething(0x00fa, "mva12a", arg_06);
       suspend;
     }
     if (!(global[0x002b])) {
@@ -162,6 +174,7 @@ function datalink_use() /* entry=1238 class_id=0x04d4 slot=0x01 */
   }
   else if (Actor.getMap((Actor.getMap(&global[0x003c]) == 25), &global[0x003c]) == 26) {
     if (!(global[0x002c])) {
+      playFlicsomething(0x0096, 0x00fa, "mva13", arg_06);
       suspend;
     }
     if (!(global[0x002c])) {
@@ -172,6 +185,7 @@ function datalink_use() /* entry=1238 class_id=0x04d4 slot=0x01 */
     }
   }
   else if (Actor.getMap((Actor.getMap(&global[0x003c]) == 27), &global[0x003c]) == 28) {
+    playFlicsomething(0x0096, 0x00fa, "mva14", arg_06);
     suspend;
     if (!(global[0x002d])) {
       textFile = (textFile + "^)Locate shuttle to Vigilance Platform.^)Await troop transfer.^)Lead hit squad to Vigilance Platform.");
@@ -183,11 +197,13 @@ function datalink_use() /* entry=1238 class_id=0x04d4 slot=0x01 */
   else if (Actor.getMap((Actor.getMap(&global[0x003c]) == 29), &global[0x003c]) == 30) {
     if (!(global[0x0038])) {
       if (!(global[0x0038])) {
+        playFlicsomething(0x00fa, "mva15a", arg_06);
         suspend;
       }
       textFile = (textFile + "^)Locate and deactivate SATARG system, then destroy weapon control system.");
     }
     if ((global[0x0038] == 1) && (global[0x002e] == 0)) {
+      playFlicsomething(0x00fa, "mva15c", arg_06);
       suspend;
       textFile = (textFile + "^)Locate and destroy Lithium Power Core with BlastPac.");
     }
@@ -196,9 +212,11 @@ function datalink_use() /* entry=1238 class_id=0x04d4 slot=0x01 */
     }
   }
   else {
+    mouseSomethingResume05F();
     return;
   }
   spawn TEXTFILE.slot_20(pid, textFile, arg_06);
   suspend;
+  mouseSomethingResume05F();
   return;
 }

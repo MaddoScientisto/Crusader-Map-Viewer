@@ -9,6 +9,8 @@ function rfanns_equip() /* entry=191 class_id=0x00bd slot=0x0a */
     ITEM.slot_24(0x1000, arg_06);
     local_02 = Item.getFrame(arg_06);
     local_02 = (1 + local_02);
+    Item.setShape(0x03d3, arg_06);
+    Item.setFrame(local_02, arg_06);
     local_06 = 1;
     spawn FREE.slot_3b(pid, local_06, 0x00000000);
     suspend;
@@ -18,6 +20,7 @@ function rfanns_equip() /* entry=191 class_id=0x00bd slot=0x0a */
       if (local_02 > 5) {
         local_02 = 1;
       }
+      Item.setFrame(local_02, arg_06);
       local_06 = (local_06 + 1);
       spawn FREE.slot_3b(pid, local_06, 0x00000000);
       suspend;
@@ -32,6 +35,10 @@ function rfanns_equip() /* entry=191 class_id=0x00bd slot=0x0a */
       local_04 = (1 + local_04);
     }
     ITEM.slot_25(0x1000, arg_06);
+    Item.create(Item.getFrame(arg_06), 0x03d3, local_08);
+    Item.setQLo(Item.getQLo(arg_06), local_08);
+    Item.popToCoords(Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06), local_08);
+    Item.destroy(arg_06);
   }
   return;
 }

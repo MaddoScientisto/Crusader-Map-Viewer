@@ -3,13 +3,19 @@ function eleew8_equip() /* entry=296 class_id=0x0126 slot=0x0a */
   set_info(0x0211, *(arg_06));
   process_exclude();
   if (arg_10) {
+    Actor.doAnim(0, arg_06);
     spawn ELEEW8.enterFastArea(pid, arg_06);
     suspend;
     return;
   }
   else {
     for local_02 in nearby_items(shape=0x044e, origin=arg_06) {
+      if (Item.getQLo(arg_06) == Item.getQLo(local_02)) {
+        Item.destroy(local_02);
+      }
     }
+    Actor.doAnim(1, arg_06);
+    Item.playSfxCru(0x00b1, arg_06);
     ITEM.slot_25(0x1000, arg_06);
   }
   return;

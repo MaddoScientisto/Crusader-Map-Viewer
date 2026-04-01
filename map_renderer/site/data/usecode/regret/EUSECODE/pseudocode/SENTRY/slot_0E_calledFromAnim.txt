@@ -6,6 +6,7 @@ function sentry_calledFromAnim() /* entry=463 class_id=0x01cd slot=0x0e */
   local_04 = Actor.getDir(local_02);
   local_06 = Actor.getLastAnimSet(local_02);
   if ((local_06 == 13) || (local_06 == 8)) {
+    Item.playSfxCru(71, arg_06);
     WALLGUN.slot_40(0, 6, local_04, local_04, arg_06);
     WALLGUN.slot_3f(retval, local_04, arg_06);
     WALLGUN.slot_3e(retval, local_04, arg_06);
@@ -21,6 +22,9 @@ function sentry_calledFromAnim() /* entry=463 class_id=0x01cd slot=0x0e */
         }
       }
     }
+    Item.create(0, 0x03a5, local_10);
+    Item.popToCoords(Item.getZ(local_02), Item.getY(local_02), Item.getX(local_02), local_10);
+    Actor.setDead(local_02);
     spawn ITEM.slot_2a(pid, 1, 2, local_02);
     suspend;
   }

@@ -9,30 +9,28 @@ function special_slot_20() /* entry=1228 class_id=0x04ca slot=0x20 */
     q; /* [BP-06h] type=0x69 */
 
   set_info(0x021b, *(arg_06));
-  if (cmd == 3) {
+  switch (cmd) {
+  case 3:
     a = Actor.getDir(&global[0x003c]);
-    if ((a > 4) || (a < 12)) {
+    if ((a <= 4) || (a >= 12)) {
       spawn TRIGGER.slot_20(pid, phase, *(arg_06), arg_06);
       suspend;
     }
     return;
-  }
-  else if (cmd == 4) {
+  case 4:
     a = Actor.getDir(&global[0x003c]);
     if ((a > 4) && (a < 12)) {
       spawn TRIGGER.slot_20(pid, phase, *(arg_06), arg_06);
       suspend;
     }
     return;
-  }
-  else if (cmd == 5) {
+  case 5:
     if (Actor.setActivity(&global[0x003c]) == 1) {
       spawn TRIGGER.slot_20(pid, phase, *(arg_06), arg_06);
       suspend;
     }
     return;
-  }
-  else if (cmd == 6) {
+  case 6:
     if (Actor.setActivity(&global[0x003c]) == 0) {
       spawn FREE.slot_32(pid, 10, 0x00000000);
       suspend;
@@ -42,8 +40,7 @@ function special_slot_20() /* entry=1228 class_id=0x04ca slot=0x20 */
       }
     }
     return;
-  }
-  else if (cmd == 7) {
+  case 7:
     a = 0;
     for npc in nearby_items(family=6, origin=global[0x003c]) {
       if (npc < 0x0100) {
@@ -57,8 +54,7 @@ function special_slot_20() /* entry=1228 class_id=0x04ca slot=0x20 */
     spawn FREE.slot_32(pid, (Item.getNPCNum(arg_06) * 9), 0x00000000);
     suspend;
     return;
-  }
-  else if (cmd == 8) {
+  case 8:
     a = 0;
     for npc in nearby_items(family=6, origin=global[0x003c]) {
       if (npc < 0x0100) {
@@ -72,12 +68,13 @@ function special_slot_20() /* entry=1228 class_id=0x04ca slot=0x20 */
     spawn FREE.slot_32(pid, (Item.getNPCNum(arg_06) * 9), 0x00000000);
     suspend;
     return;
-  }
-  else if (cmd == 9) {
+  case 9:
     q = Item.andStatus(arg_06);
     FREE.slot_20(q, 3);
+    Item.fallProbably_03E(retval, arg_06);
     spawn TRIGGER.slot_20(pid, phase, *(arg_06), arg_06);
     suspend;
+    Item.fallProbably_03E(q, arg_06);
     return;
   }
   return;

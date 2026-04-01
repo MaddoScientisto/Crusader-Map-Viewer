@@ -1,6 +1,7 @@
 function timer_slot_20() /* entry=1227 class_id=0x04c9 slot=0x20 */
 {
   set_info(1, 0);
+  Item.orStatus(0x1000, arg_06);
   local_04 = ((Item.getMapArray(arg_06) * 0x0100) + Item.getQHi(arg_06));
   if (local_04 == 0) {
     return;
@@ -8,29 +9,31 @@ function timer_slot_20() /* entry=1227 class_id=0x04c9 slot=0x20 */
   else {
     local_02 = Item.getQ(arg_06);
     local_08 = (local_02 / 32);
-    if (local_08 == 0) {
+    switch (local_08) {
+    case 0:
       local_06 = 0;
-    }
-    else if (local_08 == 1) {
+      break;
+    case 1:
       local_06 = 10;
-    }
-    else if (local_08 == 2) {
+      break;
+    case 2:
       local_06 = 25;
-    }
-    else if (local_08 == 3) {
+      break;
+    case 3:
       local_06 = 40;
-    }
-    else if (local_08 == 4) {
+      break;
+    case 4:
       local_06 = 50;
-    }
-    else if (local_08 == 5) {
+      break;
+    case 5:
       local_06 = 60;
-    }
-    else if (local_08 == 6) {
+      break;
+    case 6:
       local_06 = 75;
-    }
-    else if (local_08 == 7) {
+      break;
+    case 7:
       local_06 = 90;
+      break;
     }
     local_12 = local_04;
     local_16 = local_06;
@@ -71,6 +74,7 @@ function timer_slot_20() /* entry=1227 class_id=0x04c9 slot=0x20 */
         }
       }
       if ((local_02 & 1) == 0) {
+        Item.andStatus((~0x1000), arg_06);
         return;
       }
     }

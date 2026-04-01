@@ -2,6 +2,7 @@ function windsurf_equip() /* entry=825 class_id=0x0337 slot=0x0a */
 {
   set_info(0x0211, *(arg_06));
   process_exclude();
+  Item.setQHi(arg_10, arg_06);
   FREE.slot_33(0x020c, *(arg_06));
   if (arg_10 == 0x00ff) {
     return;

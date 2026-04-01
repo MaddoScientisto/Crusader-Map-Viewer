@@ -10,6 +10,7 @@ function miss10_hatch() /* entry=2328 class_id=0x0916 slot=0x07 */
     if (global[0x0029] == 1) {
       spawn FREE.slot_26(pid, "10g", 0x00000000);
       suspend;
+      Item.destroy(arg_06);
     }
   }
   return;

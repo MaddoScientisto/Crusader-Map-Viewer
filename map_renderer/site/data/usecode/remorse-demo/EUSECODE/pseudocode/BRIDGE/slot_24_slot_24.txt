@@ -31,9 +31,7 @@ function bridge_slot_24() /* entry=2565 class_id=0x0a03 slot=0x24 */
       for item in selector_0x42(arg0=0x0336, arg1=0x0290, arg2=(70 * 32), origin=arg_06) {
         x = legalMoveToPoint(item);
         if (x == y) {
-          /* create_list */
-          /* append_list */
-          bridgeitems = item;
+          bridgeitems = (bridgeitems + [item]);
           y = (1 + y);
         }
       }
@@ -46,6 +44,9 @@ function bridge_slot_24() /* entry=2565 class_id=0x0a03 slot=0x24 */
       foreach_list item -> block_0750;
       if (Intrinsic02F(item) == 1) {
         BRIDGE.slot_21(0x03a6, item);
+        AudioProcess.playAmbientSFXCru(0x0098, item);
+        Item.setFrame(0, item);
+        Item.touch(item);
         spawn FREE.waitNTimerTicks(pid, 15, 0x00000000);
         suspend;
       }
@@ -54,6 +55,9 @@ function bridge_slot_24() /* entry=2565 class_id=0x0a03 slot=0x24 */
       foreach_list item -> block_07ab;
       if (Intrinsic02F(item) == 1) {
         BRIDGE.slot_21(0x03a6, item);
+        AudioProcess.playAmbientSFXCru(0x0098, item);
+        Item.setFrame(0, item);
+        Item.touch(item);
       }
     }
   }

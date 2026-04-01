@@ -42,14 +42,22 @@ function spider_slot_20() /* entry=2582 class_id=0x0a14 slot=0x20 */
         return;
       }
       else {
+        Item.create(0, 0x0445, spider);
+        Item.popToCoords((Item.getZ(arg_06) + 1), (Item.getY(arg_06) - 8), (Item.getX(arg_06) - 8), spider);
+        AudioProcess.playSFXCru(99, arg_06);
         count = 0;
         while (count <= 5) {
+          Item.legal_create(count, spider);
           spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
           suspend;
           count = (1 + count);
         }
+        Item.setShape(0x0392, spider);
+        Item.orStatus(0x0080, spider);
+        Item.legal_create(0, spider);
         count = 1;
         while (count <= 9) {
+          Item.legal_create(count, spider);
           spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
           suspend;
           count = (1 + count);

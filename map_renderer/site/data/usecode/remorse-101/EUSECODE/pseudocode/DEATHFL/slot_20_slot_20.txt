@@ -18,45 +18,88 @@ function deathfl_slot_20() /* entry=2567 class_id=0x0a05 slot=0x20 */
       local_08 = arg_10;
       local_12 = Actor.maybeFire(local_08);
       if (Item.getShape(local_02) == 1) {
+        mouseSomethingOffMaybe05D(&global[0x003d]);
+        playFlicsomething(0, 0x0580, local_10);
+        getTargetNPCNumMaybe((Item.getX((Item.getY((Item.getZ(&global[0x003d]) + 1), &global[0x003d]) + 80), &global[0x003d]) + 65), local_10);
+        AudioProcess.playSFXCru(0x0094, local_10);
+        CameraProcess.moveTo(0);
+        mouseSomethingResume05F();
+        Actor.setDead(Actor.getMap(&global[0x003d]), 0, 0, 0, &global[0x003d]);
         suspend;
+        Item.destroy(local_10);
+        mouseSomethingResume05F();
         return;
       }
       else if (Item.getShape(local_02) == npcdeath_shape_02fd) {
+        playFlicsomething(0, 0x052c, local_10);
+        mouseSomethingOffMaybe05D(local_08);
         while (condition) {
+          Item.destroy(local_04);
         }
+        getTargetNPCNumMaybe((Item.getZ(local_08) + 1), (Item.getY(local_08) + 80), (Item.getX(local_08) + 65), local_10);
+        AudioProcess.playSFXCru(0x0094, local_10);
+        Item.destroy(local_08);
         suspend;
+        Item.destroy(local_10);
+        mouseSomethingResume05F();
         return;
       }
       else if (Item.getShape(local_02) == npcdeath_shape_0371) {
+        playFlicsomething(0, 0x057a, local_10);
+        mouseSomethingOffMaybe05D(local_08);
         while (condition) {
+          Item.destroy(local_04);
         }
+        getTargetNPCNumMaybe((Item.getZ(local_08) + 1), (Item.getY(local_08) + 80), (Item.getX(local_08) + 65), local_10);
+        AudioProcess.playSFXCru(0x0094, local_10);
+        Item.destroy(local_08);
         suspend;
+        Item.destroy(local_10);
+        mouseSomethingResume05F();
         return;
       }
       else if (Item.getShape(local_02) == npcdeath_shape_04d1) {
+        playFlicsomething(0, 0x057f, local_10);
+        mouseSomethingOffMaybe05D(local_08);
         while (condition) {
+          Item.destroy(local_04);
         }
+        getTargetNPCNumMaybe((Item.getZ(local_08) + 1), (Item.getY(local_08) + 80), (Item.getX(local_08) + 65), local_10);
+        AudioProcess.playSFXCru(0x0094, local_10);
+        Item.destroy(local_08);
         suspend;
+        Item.destroy(local_10);
+        mouseSomethingResume05F();
         return;
       }
       else if ((((Item.getShape(local_02) == 0x0580) || (Item.getShape(local_02) == 0x057a)) || (Item.getShape(local_02) == 0x057f)) || (Item.getShape(local_02) == 0x052c)) {
         return;
       }
       else {
+        mouseSomethingOffMaybe05D(local_08);
         while (condition) {
+          Item.destroy(local_04);
         }
+        Item.legal_create(0, 0x0539, local_04);
+        getTargetNPCNumMaybe(Item.getZ(local_02), Item.getY(local_02), Item.getX(local_02), local_04);
+        Item.destroy(local_02);
+        AudioProcess.playSFXCru(0x0094, local_04);
         local_06 = 0;
         while (local_06 <= 7) {
+          Item.isCentreOn(local_06, local_04);
           spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
           suspend;
           local_06 = (1 + local_06);
         }
+        Item.destroy(local_04);
       }
     }
     else if (Item.setQLo(local_02) == 6) {
       while (condition) {
+        Item.destroy(local_04);
       }
     }
+    Actor.create(local_18, local_16, local_14, local_02);
     if ((local_14 > 4) || (local_16 > 4)) {
       local_20 = 0x054c;
     }
@@ -65,13 +108,22 @@ function deathfl_slot_20() /* entry=2567 class_id=0x0a05 slot=0x20 */
     }
     local_18 = Item.getZ(arg_06);
     if (CameraProcess.somethingAboutCameraUpdate(local_18, Item.getY(local_02), Item.getX(local_02), 0, local_20, local_04)) {
+      Item.destroy(local_02);
+      AudioProcess.playSFXCru(0x0094, local_04);
       local_06 = 0;
       while (local_06 <= 7) {
+        Item.isCentreOn(local_06, local_04);
         spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
         suspend;
         local_06 = (1 + local_06);
       }
+      Item.destroy(local_04);
     }
+    else {
+      Item.destroy(local_02);
+      AudioProcess.playSFXCru(0x0094, arg_06);
+    }
+    mouseSomethingResume05F();
   }
   return;
 }

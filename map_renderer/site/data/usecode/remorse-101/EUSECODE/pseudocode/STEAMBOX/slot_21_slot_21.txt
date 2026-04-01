@@ -20,7 +20,18 @@ function steambox_slot_21() /* entry=1282 class_id=0x0500 slot=0x21 */
     spawn FREE.waitNTimerTicks(pid, 0x00c8, 0x00000000);
     suspend;
   }
+  AudioProcess.stopSFXCru(30, arg_06);
+  AudioProcess.playSFXCru(36, arg_06);
+  if (arg_12 == 0) {
+    Item.legal_create(0, 0x04fb, local_04);
+  }
+  else if (arg_12 == 1) {
+    Item.legal_create(0, 0x0512, local_04);
+  }
+  Item.andStatus(Actor.getDefaultActivity2(arg_06), local_04);
   ITEM.slot_23(0x1000, local_04);
+  getTargetNPCNumMaybe(Item.getZ(arg_10), Item.getY(arg_10), Item.getX(arg_10), local_04);
+  Item.destroy(arg_10);
   if (PaletteFaderProcess.fadeToColor()) {
     while ((Item.getFrame(local_04) != 29) && (Item.isOnScreen(local_04) == 1)) {
       spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
@@ -31,6 +42,8 @@ function steambox_slot_21() /* entry=1282 class_id=0x0500 slot=0x21 */
     spawn FREE.waitNTimerTicks(pid, 0x00c8, 0x00000000);
     suspend;
   }
+  Item.setShape(0x03a9, local_04);
+  Item.isCentreOn(arg_12, local_04);
   ITEM.slot_24(0x1000, local_04);
   return;
 }

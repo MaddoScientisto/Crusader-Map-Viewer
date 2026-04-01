@@ -18,7 +18,13 @@ function hover_slot_23() /* entry=2575 class_id=0x0a0d slot=0x23 */
           local_10 = (local_20 - Item.getY(local_06));
           local_12 = (local_21 - Item.getZ(local_06));
           while (condition) {
+            if (Item.getShape(local_02) != NUMBERS) {
+              push(local_02);
+              getTargetNPCNumMaybe((Item.getZ(local_02) + local_12), (Item.getY(local_02) + local_10), (Item.getX(local_02) + local_08), local_02);
+            }
           }
+          push(local_06);
+          getTargetNPCNumMaybe(local_21, local_20, local_18, local_06);
           return;
         }
       }

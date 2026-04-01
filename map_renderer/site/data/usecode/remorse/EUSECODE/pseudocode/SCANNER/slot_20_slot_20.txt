@@ -7,5 +7,8 @@ function scanner_slot_20() /* entry=1327 class_id=0x052d slot=0x20 */
 
   set_info(0x00f0, 0);
   n = ref;
+  AudioProcess.playSFXCru(93, n);
+  SpriteProcess.createSprite(Item.getZ(n), Item.getY(n), Item.getX(n), 5, 11, 0, 0x0508);
+  Actor.setActivity(12, n);
   return;
 }

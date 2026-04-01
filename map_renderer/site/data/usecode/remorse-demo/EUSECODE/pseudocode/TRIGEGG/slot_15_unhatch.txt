@@ -11,7 +11,9 @@ function trigegg_unhatch() /* entry=2306 class_id=0x0900 slot=0x15 */
   id = CameraProcess.setCenterOn(arg_06);
   item = *(arg_06);
   qlo = Item.getQLo(item);
+  Item.fallProbably_03E(id, item);
   spawn TRIGGER.slot_20(pid, (1 + 0x0080), item, arg_06);
   suspend;
+  Item.fallProbably_03E(qlo, item);
   return;
 }

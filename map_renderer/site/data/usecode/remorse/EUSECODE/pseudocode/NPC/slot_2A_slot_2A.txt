@@ -15,6 +15,7 @@ function npc_slot_2a() /* entry=2579 class_id=0x0a11 slot=0x2a */
   }
   else {
     ITEM.slot_23(4, n);
+    AudioProcess.playSFXCru(phrase, n);
     while (AudioProcess.isSFXPlayingForObject(phrase, n)) {
       spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
       suspend;

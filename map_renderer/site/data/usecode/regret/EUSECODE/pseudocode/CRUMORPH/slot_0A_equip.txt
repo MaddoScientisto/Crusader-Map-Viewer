@@ -11,10 +11,17 @@ function crumorph_equip() /* entry=794 class_id=0x0318 slot=0x0a */
             return;
           }
           local_04 = Actor.getCurrentActivityNo(local_02);
+          Actor.clrInCombat(local_02);
+          Actor.setDefaultActivity0(1, local_02);
+          Actor.setDefaultActivity1(1, local_02);
+          Actor.setDefaultActivity2(1, local_02);
+          Actor.setActivity(112, local_02);
+          Actor.clrInCombat(local_02);
           spawn FREE.slot_3b(pid, 3, 0x00000000);
           suspend;
           spawn NPC.slot_28(pid, local_02);
           suspend;
+          World.setControlledNPCNum(local_02);
           while (World.getControlledNPCNum() > 1) {
             spawn FREE.slot_3b(pid, 2, 0x00000000);
             suspend;

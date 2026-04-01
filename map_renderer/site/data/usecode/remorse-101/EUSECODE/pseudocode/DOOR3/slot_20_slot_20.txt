@@ -3,20 +3,37 @@ function door3_slot_20() /* entry=2570 class_id=0x0a08 slot=0x20 */
   set_info(0x0207, *(arg_06));
   spawn DOOR.slot_22(pid, arg_06);
   suspend;
-  /* create_list */
-  local_02 = 0x036a;
-  /* create_list */
-  local_04 = 0x036b;
+  local_02 = [0x036a, 0x035d, 0x035c, 0x0358];
+  local_04 = [0x036b, 0x035b, 0x035a, 0x0359];
   local_06 = 0;
-  FREE.slot_3a(0x0358, 0x035c, 0x035d, 0x0359, 0x035a, 0x035b, local_02);
+  FREE.slot_3a(local_02);
   local_10 = retval;
+  AudioProcess.playSFXCru(82, arg_06);
+  push(arg_06);
+  Item.setShape(list_element(size=0x2), arg_06);
+  Item.pop(arg_06);
+  Item.legal_create(local_02, 1, list_element(size=0x2), local_08);
+  getTargetNPCNumMaybe(0, Item.getZ(arg_06), Item.getY(arg_06), (Item.getX(arg_06) - (16 * 3)), local_08);
   spawn FREE.waitNTimerTicks(local_04, 1, pid, 5, 0x00000000);
   suspend;
   local_06 = 2;
   while (local_06 <= (local_10 - 1)) {
+    push(arg_06);
+    Item.setShape(list_element(size=0x2), arg_06);
+    Item.pop(arg_06);
+    push(local_08);
+    Item.setShape(list_element(size=0x2), local_08);
+    getTargetNPCNumMaybe(local_06, Item.getZ(local_08), Item.getY(local_08), (Item.getX(local_08) - 16), local_08);
     spawn FREE.waitNTimerTicks(local_04, local_06, local_02, pid, 5, 0x00000000);
     suspend;
     local_06 = (1 + local_06);
   }
+  push(arg_06);
+  Item.setShape(list_element(size=0x2), arg_06);
+  Item.pop(arg_06);
+  push(local_08);
+  Item.setShape(list_element(size=0x2), local_08);
+  getTargetNPCNumMaybe(local_10, Item.getZ(local_08), Item.getY(local_08), (Item.getX(local_08) - 16), local_08);
+  process_result = 1;
   return;
 }

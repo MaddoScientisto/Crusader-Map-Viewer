@@ -110,95 +110,99 @@ function textfile_slot_23() /* entry=2585 class_id=0x0a17 slot=0x23 */
   else if (((((arg_12 == 23) || (arg_12 == 24)) || (arg_12 == 26)) || (arg_12 == 28)) || (arg_12 == 29)) {
     local_02 = "Mission 2 Generic Message 0-9^";
   }
-  else if (arg_12 == 30) {
-    local_02 = (("Attention Plant Workers:^There has been a change in security procedures. The security passcode has been changed to " + Item.isOn(arg_14)) + ".^*End of Message <");
-  }
-  else if (arg_12 == 31) {
-    local_02 = "Thermatron Assembly Line:^_____________^Now interfacing with remote droid *.*.*.^<Thermatron> VTK944^^Unit is now *-ONLINE-.";
-  }
-  else if (arg_12 == 32) {
-    local_02 = "Thermatron Manufacturing Plant:^_____________";
-  }
-  else if (arg_12 == 33) {
-    local_02 = "Refinery Operations:^____________^Remote viewing facility.^*Restricted Access*^Granted";
-  }
-  else if (arg_12 == 34) {
-    local_02 = "Security Cartel:^________________^Remote viewing facility.^*Production Line^*<DEACTIVATED>";
-  }
-  else if (arg_12 == 35) {
-    local_02 = "Security Cartel:^________________^*Auxiliary Production Line^*<ACTIVE>^Shut down requires Security Card Clearance";
-  }
-  else if (arg_12 == 36) {
-    local_02 = "Thermatron Auxiliary Production Line:^________";
-  }
-  else if (arg_12 == 37) {
-    local_02 = "Security Cartel:^________________^*Laser Field^*<DEACTIVATED>";
-  }
-  else if (arg_12 == 38) {
-    local_02 = "Security Cartel:^________________^Remote viewing facility.^*Laser Field^*<ACTIVE>^Security card clearance required to de-activate";
-  }
-  else if (arg_12 == 39) {
-    local_02 = (("Thermatron Assembly Line Vault:^____To access the Thermatron design plans, use the new security code " + Item.isOn(arg_14)) + "^Memorize the code and delete this message immediately! <");
-  }
-  else if (arg_12 == 40) {
-    local_02 = "Security Cartel:^________________^*Laser Field^*<DEACTIVATED>";
-  }
-  else if (arg_12 == 41) {
-    local_02 = "Remote Security Op:^_____________^Now interfacing with remote droid *.*.*.^<Thermatron> ATK656^^Unit is now *-ONLINE-.";
-  }
-  else if (arg_12 == 42) {
-    local_02 = "^Security Control:^_______________^^*Laser Field^*<ACTIVATED>";
-  }
-  else if (arg_12 == 43) {
-    local_02 = "Security Cartel HQD^___________________^*^Accessing system:*.*.*.*^^Thresher Cannon: *ACTIVE";
-  }
-  else if (arg_12 == 44) {
-    local_02 = "Security Cartel HQD^___________________^*^Accessing system:*.*.*.*^^SORC Monitoring station security field:^^*<DEACTIVATED>";
-  }
-  else if (arg_12 == 45) {
-    local_02 = ((("Security Station 5:^^The passcode to the Sector Y15 blast door has been changed to: " + Item.isOn(arg_14)) + "*.*.*.") + "^^Spies are everywhere so be alert!");
-  }
-  else if (arg_12 == 46) {
-    local_02 = "^* WEC Email^^To: Prof. Coulson^^From: Sev Dorren,^Security Chief^^Professor, I have installed a force-field at the entrance to the SORC station as you instructed. If there is anything further required please let me know. ^PS: The only way to access the force-field is through the central computer, so I am sure it will be quite safe from any saboteurs. .^*End of Message <";
-  }
-  else if (arg_12 == 47) {
-    local_02 = (("^*Private Journal:^Sev Dorren^^Note to remind myself about the SORC station. I have changed the force field access code to: " + Item.isOn(arg_14)) + "^*End of Message <");
-  }
-  else if (arg_12 == 48) {
-    local_02 = ("Security code to Level 4 express elevator is: " + Item.isOn(arg_14));
-  }
-  else if (arg_12 == 49) {
-    local_02 = ("Code to Security Station forcebridge is: " + Item.isOn(arg_14));
-  }
-  else if (arg_12 == 50) {
-    if (arg_10 && arg_14) {
-      local_02 = (("Matt - Since you're new, and most likely unfamiliar with all of these new numbers, I thought I'd give you this one for free. It's " + Item.isOn(arg_14)) + ". J.J.");
-    }
-    else {
-      local_02 = "WEC SECURITY SYSTEM:^^Remote Camera: ACTIVE*";
-    }
-  }
-  else if (arg_12 == 52) {
-    local_02 = "Dr. Watson:^Since we no longer produce the 37x18 Chip at the Snell Memorial Science Center, you can expect to receive the remaining chips for meltdown this afternoon. See that no chips find their way out of your facility.^L. Probst^End of Message <";
-  }
-  else if (arg_12 == 53) {
-    local_02 = "Ms. Ashcraft - *It has come to my attention that you have had problems with your platform elevator. Just put an Out of Order sign on it, and I'll send a maintenance worker out to fix it A.S.A.P. Larson ";
-  }
-  else if (arg_12 == 54) {
-    local_02 = "WEC SECURITY SYSTEM:^^Remote Camera: ACTIVE*^M.E.L.F. Station";
-  }
-  else if (arg_12 == 56) {
-    local_02 = "WEC SECURITY SYSTEM:^^Remote Camera: *ACTIVE^Teleporter Room^Level Four";
-  }
-  else if (arg_12 == 57) {
-    local_02 = "WEC SECURITY SYSTEM:^^Remote Camera: ACTIVE*^Security System^*ACTIVE";
-  }
-  else if (arg_12 == 58) {
-    if (arg_10 && arg_14) {
-      local_02 = ((("Dear Dr. Soose:^A new keypad for your very own safe I have now put in its very own place With its very own numbers^ And its very own code (" + Item.isOn(arg_14)) + ") ") + "Now you can store your very own load!");
-    }
-    else {
-      local_02 = "WEC SECURITY SYSTEM:^Remote Camera: ACTIVE*^Security System^*ACTIVE^Forcefield Deactivated";
+  else {
+    switch (arg_12) {
+    case 30:
+      local_02 = (("Attention Plant Workers:^There has been a change in security procedures. The security passcode has been changed to " + Item.isOn(arg_14)) + ".^*End of Message <");
+      break;
+    case 31:
+      local_02 = "Thermatron Assembly Line:^_____________^Now interfacing with remote droid *.*.*.^<Thermatron> VTK944^^Unit is now *-ONLINE-.";
+      break;
+    case 32:
+      local_02 = "Thermatron Manufacturing Plant:^_____________";
+      break;
+    case 33:
+      local_02 = "Refinery Operations:^____________^Remote viewing facility.^*Restricted Access*^Granted";
+      break;
+    case 34:
+      local_02 = "Security Cartel:^________________^Remote viewing facility.^*Production Line^*<DEACTIVATED>";
+      break;
+    case 35:
+      local_02 = "Security Cartel:^________________^*Auxiliary Production Line^*<ACTIVE>^Shut down requires Security Card Clearance";
+      break;
+    case 36:
+      local_02 = "Thermatron Auxiliary Production Line:^________";
+      break;
+    case 37:
+      local_02 = "Security Cartel:^________________^*Laser Field^*<DEACTIVATED>";
+      break;
+    case 38:
+      local_02 = "Security Cartel:^________________^Remote viewing facility.^*Laser Field^*<ACTIVE>^Security card clearance required to de-activate";
+      break;
+    case 39:
+      local_02 = (("Thermatron Assembly Line Vault:^____To access the Thermatron design plans, use the new security code " + Item.isOn(arg_14)) + "^Memorize the code and delete this message immediately! <");
+      break;
+    case 40:
+      local_02 = "Security Cartel:^________________^*Laser Field^*<DEACTIVATED>";
+      break;
+    case 41:
+      local_02 = "Remote Security Op:^_____________^Now interfacing with remote droid *.*.*.^<Thermatron> ATK656^^Unit is now *-ONLINE-.";
+      break;
+    case 42:
+      local_02 = "^Security Control:^_______________^^*Laser Field^*<ACTIVATED>";
+      break;
+    case 43:
+      local_02 = "Security Cartel HQD^___________________^*^Accessing system:*.*.*.*^^Thresher Cannon: *ACTIVE";
+      break;
+    case 44:
+      local_02 = "Security Cartel HQD^___________________^*^Accessing system:*.*.*.*^^SORC Monitoring station security field:^^*<DEACTIVATED>";
+      break;
+    case 45:
+      local_02 = ((("Security Station 5:^^The passcode to the Sector Y15 blast door has been changed to: " + Item.isOn(arg_14)) + "*.*.*.") + "^^Spies are everywhere so be alert!");
+      break;
+    case 46:
+      local_02 = "^* WEC Email^^To: Prof. Coulson^^From: Sev Dorren,^Security Chief^^Professor, I have installed a force-field at the entrance to the SORC station as you instructed. If there is anything further required please let me know. ^PS: The only way to access the force-field is through the central computer, so I am sure it will be quite safe from any saboteurs. .^*End of Message <";
+      break;
+    case 47:
+      local_02 = (("^*Private Journal:^Sev Dorren^^Note to remind myself about the SORC station. I have changed the force field access code to: " + Item.isOn(arg_14)) + "^*End of Message <");
+      break;
+    case 48:
+      local_02 = ("Security code to Level 4 express elevator is: " + Item.isOn(arg_14));
+      break;
+    case 49:
+      local_02 = ("Code to Security Station forcebridge is: " + Item.isOn(arg_14));
+      break;
+    case 50:
+      if (arg_10 && arg_14) {
+        local_02 = (("Matt - Since you're new, and most likely unfamiliar with all of these new numbers, I thought I'd give you this one for free. It's " + Item.isOn(arg_14)) + ". J.J.");
+      }
+      else {
+        local_02 = "WEC SECURITY SYSTEM:^^Remote Camera: ACTIVE*";
+      }
+      break;
+    case 52:
+      local_02 = "Dr. Watson:^Since we no longer produce the 37x18 Chip at the Snell Memorial Science Center, you can expect to receive the remaining chips for meltdown this afternoon. See that no chips find their way out of your facility.^L. Probst^End of Message <";
+      break;
+    case 53:
+      local_02 = "Ms. Ashcraft - *It has come to my attention that you have had problems with your platform elevator. Just put an Out of Order sign on it, and I'll send a maintenance worker out to fix it A.S.A.P. Larson ";
+      break;
+    case 54:
+      local_02 = "WEC SECURITY SYSTEM:^^Remote Camera: ACTIVE*^M.E.L.F. Station";
+      break;
+    case 56:
+      local_02 = "WEC SECURITY SYSTEM:^^Remote Camera: *ACTIVE^Teleporter Room^Level Four";
+      break;
+    case 57:
+      local_02 = "WEC SECURITY SYSTEM:^^Remote Camera: ACTIVE*^Security System^*ACTIVE";
+      break;
+    case 58:
+      if (arg_10 && arg_14) {
+        local_02 = ((("Dear Dr. Soose:^A new keypad for your very own safe I have now put in its very own place With its very own numbers^ And its very own code (" + Item.isOn(arg_14)) + ") ") + "Now you can store your very own load!");
+      }
+      else {
+        local_02 = "WEC SECURITY SYSTEM:^Remote Camera: ACTIVE*^Security System^*ACTIVE^Forcefield Deactivated";
+      }
+      break;
     }
   }
   return;

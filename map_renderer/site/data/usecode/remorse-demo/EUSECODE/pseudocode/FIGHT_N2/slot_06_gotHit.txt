@@ -22,6 +22,10 @@ function fight_n2_gotHit() /* entry=323 class_id=0x0141 slot=0x06 */
       if (!process_result) {
         FREE.slot_20(1);
         if (retval) {
+          AudioProcess.playSFXCru(38, arg_06);
+        }
+        else {
+          AudioProcess.playSFXCru(39, arg_06);
         }
         return;
       }
@@ -30,6 +34,12 @@ function fight_n2_gotHit() /* entry=323 class_id=0x0141 slot=0x06 */
           ITEM.slot_23(0x1000, item);
           if (!Item.getFrame(item)) {
             if ((Item.getShape(item) == 0x017f) || (Item.getShape(item) == 0x0141)) {
+              Item.explode(0, 2, item);
+              Item.legal_create(1, item);
+            }
+            else {
+              Item.explode(0, 1, item);
+              Item.legal_create(1, item);
             }
           }
         }

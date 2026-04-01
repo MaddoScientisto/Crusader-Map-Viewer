@@ -8,6 +8,12 @@ function wallgun_slot_27() /* entry=2591 class_id=0x0a1d slot=0x27 */
   else {
     WALLGUN.slot_29(arg_06);
     if (retval) {
+      if (Item.getFrame(arg_06) > 15) {
+        Item.getPoint(UCMachine.rndRange(15, 0), arg_06);
+      }
+    }
+    else if (Item.getFrame(arg_06) > 8) {
+      Item.getPoint(UCMachine.rndRange(7, 0), arg_06);
     }
     if (getTargetNPCNumMaybe() != 0) {
       spawn WALLGUN.slot_28(pid, Item.setQuality(arg_06), getTargetNPCNumMaybe(), arg_06);

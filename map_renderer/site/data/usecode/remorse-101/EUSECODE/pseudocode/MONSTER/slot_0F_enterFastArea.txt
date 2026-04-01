@@ -5,6 +5,7 @@ function monster_enterFastArea() /* entry=1234 class_id=0x04d0 slot=0x0f */
   if (Item.getFrame(arg_06) == 0) {
     local_02 = Item.getMapArray(arg_06);
     if (local_02 & 8) {
+      MainActor.getMaxEnergy((local_02 & 0x00f7), arg_06);
       spawn MONSTER.equip(pid, 0, arg_06);
       suspend;
     }

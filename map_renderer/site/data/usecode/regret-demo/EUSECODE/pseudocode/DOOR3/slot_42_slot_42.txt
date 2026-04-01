@@ -8,20 +8,33 @@ function door3_slot_42() /* entry=2570 class_id=0x0a08 slot=0x42 */
       }
     }
     if (!local_06) {
+      Ultima8Engine.clrUnkCrusaderFlag("MISSING DOOR EDGE", arg_06);
       suspend;
       return;
     }
+    else {
+      Item.push(local_06);
+    }
     FREE.slot_36(Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06), 8, 0x02f1, *(arg_06));
     if (retval) {
+      Item.pop(local_06);
+      Item.destroy(local_06);
+      Item.playSfxCru(0x012e, arg_06);
       local_02 = 0;
       while (local_02 <= 8) {
+        Actor.doAnim((8 - local_02), arg_06);
         spawn FREE.slot_3b(pid, 5, 0x00000000);
         suspend;
         local_02 = (1 + local_02);
       }
+      Item.playSfxCru(0x012f, arg_06);
+      process_result = 1;
       return;
     }
     else {
+      Item.pop(local_06);
+      Item.playSfxCru(0x01a7, arg_06);
+      process_result = 0;
       return;
     }
   }

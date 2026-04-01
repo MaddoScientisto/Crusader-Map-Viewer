@@ -18,6 +18,9 @@ function door_slot_22() /* entry=2568 class_id=0x0a06 slot=0x22 */
   if (count) {
     while (condition) {
       roofQuality = Item.andStatus(roof);
+      if ((roofQuality == doorQuality) || (roofQuality == doorParam)) {
+        Item.destroy(roof);
+      }
     }
   }
   return;

@@ -3,8 +3,10 @@ function free_slot_2f() /* entry=2575 class_id=0x0a0d slot=0x2f */
   /* param_pid_chg */
   set_info(1, global[0x001e]);
   local_02 = arg_06;
+  Actor.getLastAnimSet(0x0097);
   spawn FREE.slot_3b(pid, 60, 0x00000000);
   suspend;
+  Item.getPoint(1);
   FREE.slot_4a();
   while (Intrinsic00B5(&global[0x001e])) {
     spawn FREE.slot_3b(pid, 2, 0x00000000);
@@ -16,6 +18,8 @@ function free_slot_2f() /* entry=2575 class_id=0x0a0d slot=0x2f */
       suspend;
     }
     suspend;
+    Intrinsic0072(1, local_02);
   }
+  Item.getPoint(0);
   return;
 }

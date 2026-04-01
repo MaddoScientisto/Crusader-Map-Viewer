@@ -22,10 +22,15 @@ function tramflor_gotHit() /* entry=1498 class_id=0x05d8 slot=0x06 */
         if (Actor.isNPC(local_04)) {
           if (local_04 != 1) {
             local_08 = local_04;
+            Intrinsic0131(local_08);
+            Item.destroy(local_08);
           }
         }
         else {
           local_10 = Item.getShape(local_04);
+          if (((((local_10 != 0x0194) && (local_10 != 0x04d0)) && (local_10 != 17)) && (local_10 != 0x04b1)) && (local_10 != 0x0476)) {
+            Item.destroy(local_04);
+          }
         }
       }
     }
@@ -52,43 +57,66 @@ function tramflor_gotHit() /* entry=1498 class_id=0x05d8 slot=0x06 */
       }
       spawn DOOR.slot_21(pid, 2, local_02);
       suspend;
+      Actor.setActivity();
       suspend;
       spawn FREE.slot_3b(pid, 120, 0x00000000);
       suspend;
-      if (local_06 == 0x00ff) {
+      PaletteFaderProcess.fadeFromBlack();
+      Actor.clrImmortal();
+      if (global[0x000f] == 3) {
+        Intrinsic0072("anim05");
+      }
+      switch (local_06) {
+      case 0x00ff:
         if (AudioProcess.stopSFXCru(&global[0x001e]) == 6) {
+          Intrinsic0072(0, "3h");
           local_12 = 25;
         }
         else if (AudioProcess.stopSFXCru(&global[0x001e]) == 8) {
+          Intrinsic0072(0, "4h");
           local_12 = 25;
         }
         else if (AudioProcess.stopSFXCru(&global[0x001e]) == 10) {
+          Intrinsic0072(0, "5g");
           local_12 = 25;
         }
         else if (AudioProcess.stopSFXCru(&global[0x001e]) == 11) {
           if (global[0x0016] == 1) {
+            Intrinsic0072("anim11");
+            Intrinsic0072(0, "6i");
+          }
+          else {
+            Intrinsic0072(0, "6j");
           }
           local_12 = 25;
         }
         else if (AudioProcess.stopSFXCru(&global[0x001e]) == 14) {
+          Intrinsic0072(0, "7g");
           local_12 = 25;
         }
         else if (AudioProcess.stopSFXCru(&global[0x001e]) == 16) {
+          Intrinsic0072(0, "8f");
+          Intrinsic0072(0, "9a");
           local_12 = 17;
         }
         else if (AudioProcess.stopSFXCru(&global[0x001e]) == 18) {
+          Intrinsic0072(0, "10b");
+          Intrinsic0072(0, "10a");
           local_12 = 19;
         }
         else {
           local_12 = 25;
         }
+        Item.getNpcNum(&global[0x001e]);
+        Item.setQuality(local_12);
         return;
-      }
-      else if (local_06 == 0x00fe) {
+      case 0x00fe:
+        Intrinsic0072("anim13");
+        Intrinsic0072(0, "10f");
         suspend;
         return;
-      }
-      else if (local_06 == 0x00fd) {
+      case 0x00fd:
+        Item.setQuality(((global[0x000f] * 2) - 1));
         return;
       }
     }

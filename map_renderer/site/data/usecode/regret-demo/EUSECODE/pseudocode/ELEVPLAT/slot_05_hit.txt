@@ -6,6 +6,10 @@ function elevplat_hit() /* entry=305 class_id=0x012f slot=0x05 */
     local_02 = arg_10;
     if (local_02 < 0x0100) {
       if (!Ultima8Engine.getUnkCrusaderFlag(local_02)) {
+        if (Item.getZ(local_02) < Item.getZ(arg_06)) {
+          MusicProcess.playMusic(8, UCMachine.rndRange(Actor.getHp(local_02), 16, 0), 0, local_02);
+          Item.playSfxCru(0x0143, arg_06);
+        }
       }
     }
   }

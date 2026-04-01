@@ -3,5 +3,8 @@ function staticns_gotHit() /* entry=598 class_id=0x0254 slot=0x06 */
   set_info(0x020c, *(arg_06));
   process_exclude();
   FREE.slot_2c(arg_12, arg_10);
+  if (retval) {
+    Item.explode(1, 1, arg_06);
+  }
   return;
 }

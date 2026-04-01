@@ -18,6 +18,7 @@ function cruztrig_gotHit() /* entry=871 class_id=0x0365 slot=0x06 */
       return;
     }
     else {
+      Item.legal_create(1, arg_06);
       spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
       suspend;
       spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
@@ -28,6 +29,7 @@ function cruztrig_gotHit() /* entry=871 class_id=0x0365 slot=0x06 */
           suspend;
         }
         else {
+          Item.legal_create(0, arg_06);
           spawn TRIGGER.slot_20(pid, 1, *(arg_06), arg_06);
           suspend;
           spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);

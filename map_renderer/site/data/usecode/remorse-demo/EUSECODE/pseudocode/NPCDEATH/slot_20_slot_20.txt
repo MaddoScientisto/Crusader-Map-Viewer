@@ -49,12 +49,25 @@ function npcdeath_slot_20() /* entry=2594 class_id=0x0a20 slot=0x20 */
           if (param == 0) {
           }
           else if ((((param == 1) || (param == 2)) || (param == 3)) || (param == 4)) {
+            Item.create((param - 1), 0x0111, keyCard);
             if (hits) {
+              Item.fallProbably_03E(hits, keyCard);
             }
+            else {
+              Item.fallProbably_03E(link, keyCard);
+            }
+            Item.pop(0, deathBox);
             t = Item.getShape(arg_06);
             if ((((((t == 0x0576) || (t == 0x0596)) || (t == 0x058f)) || (t == 0x04d9)) || (t == 0x03ac)) || (t == 0x059c)) {
               if (t == 0x04d9) {
+                Item.popToCoords(0x0088, 0x34cf, 0x713f, keyCard);
               }
+              else {
+                Item.popToCoords(Item.getZ(n), Item.getY(n), Item.getX(n), keyCard);
+              }
+            }
+            else {
+              Item.popToContainer(*(arg_06), keyCard);
             }
             NpcContents = 1;
           }
@@ -68,364 +81,410 @@ function npcdeath_slot_20() /* entry=2594 class_id=0x0a20 slot=0x20 */
     nz = Item.getZ(n);
     dir = (Actor.setActivity(n) / 2);
     if ((Item.getShape(n) == 0x058f) || (Item.getShape(n) == 0x059c)) {
+      Item.setQHi(n);
       return;
     }
-    else if (Item.getShape(n) == npcdeath_shape_02fd) {
-      newType = 0x0339;
-      if (dir == 4) {
-        newDir = 2;
-        flipIt = 1;
-      }
-      else if (dir == 5) {
-        newDir = 1;
-        flipIt = 1;
-      }
-      else if (dir == 6) {
-        newDir = 0;
-        flipIt = 1;
-      }
-      else if (dir == 7) {
-        newDir = 4;
-      }
-      else {
+    else {
+      switch (Item.getShape(n)) {
+      case 0x02fd:
+        newType = 0x0339;
+        if (dir == 4) {
+          newDir = 2;
+          flipIt = 1;
+        }
+        else if (dir == 5) {
+          newDir = 1;
+          flipIt = 1;
+        }
+        else if (dir == 6) {
+          newDir = 0;
+          flipIt = 1;
+        }
+        else if (dir == 7) {
+          newDir = 4;
+        }
+        else {
+          newDir = dir;
+        }
+        if (Item.andStatus(n) == 20) {
+          newDir = (newDir + 10);
+        }
+        spillBlood = 1;
+        break;
+      case 0x0384:
+        newType = 0x04bf;
+        if (dir == 4) {
+          newDir = 2;
+          flipIt = 1;
+        }
+        else if (dir == 5) {
+          newDir = 1;
+          flipIt = 1;
+        }
+        else if (dir == 6) {
+          newDir = 0;
+          flipIt = 1;
+        }
+        else if (dir == 7) {
+          newDir = 4;
+        }
+        else {
+          newDir = dir;
+        }
+        if (Item.andStatus(n) == 18) {
+          newDir = (newDir + 10);
+        }
+        spillBlood = 1;
+        break;
+      case 0x0371:
+        newType = 0x04be;
+        if (dir == 4) {
+          newDir = 2;
+          flipIt = 1;
+        }
+        else if (dir == 5) {
+          newDir = 1;
+          flipIt = 1;
+        }
+        else if (dir == 6) {
+          newDir = 0;
+          flipIt = 1;
+        }
+        else if (dir == 7) {
+          newDir = 4;
+        }
+        else {
+          newDir = dir;
+        }
+        if (Item.andStatus(n) == 18) {
+          newDir = (newDir + 10);
+        }
+        spillBlood = 1;
+        break;
+      case 0x04d1:
+        newType = 0x04d2;
         newDir = dir;
-      }
-      if (Item.andStatus(n) == 20) {
-        newDir = (newDir + 10);
-      }
-      spillBlood = 1;
-    }
-    else if (Item.getShape(n) == npcdeath_shape_0384) {
-      newType = 0x04bf;
-      if (dir == 4) {
-        newDir = 2;
-        flipIt = 1;
-      }
-      else if (dir == 5) {
-        newDir = 1;
-        flipIt = 1;
-      }
-      else if (dir == 6) {
-        newDir = 0;
-        flipIt = 1;
-      }
-      else if (dir == 7) {
-        newDir = 4;
-      }
-      else {
+        spillBlood = 1;
+        break;
+      case 0x0528:
+        newType = 0x054d;
         newDir = dir;
-      }
-      if (Item.andStatus(n) == 18) {
-        newDir = (newDir + 10);
-      }
-      spillBlood = 1;
-    }
-    else if (Item.getShape(n) == npcdeath_shape_0371) {
-      newType = 0x04be;
-      if (dir == 4) {
-        newDir = 2;
-        flipIt = 1;
-      }
-      else if (dir == 5) {
-        newDir = 1;
-        flipIt = 1;
-      }
-      else if (dir == 6) {
-        newDir = 0;
-        flipIt = 1;
-      }
-      else if (dir == 7) {
-        newDir = 4;
-      }
-      else {
+        spillBlood = 1;
+        break;
+      case 0x0338:
+        newType = 0x04c5;
         newDir = dir;
-      }
-      if (Item.andStatus(n) == 18) {
-        newDir = (newDir + 10);
-      }
-      spillBlood = 1;
-    }
-    else if (Item.getShape(n) == npcdeath_shape_04d1) {
-      newType = 0x04d2;
-      newDir = dir;
-      spillBlood = 1;
-    }
-    else if (Item.getShape(n) == npcdeath_shape_0528) {
-      newType = 0x054d;
-      newDir = dir;
-      spillBlood = 1;
-    }
-    else if (Item.getShape(n) == MECH_1) {
-      newType = 0x04c5;
-      newDir = dir;
-      if (Item.andStatus(n) == 18) {
-        newDir = (dir + 10);
-      }
-      spillOil = 1;
-    }
-    else if (Item.getShape(n) == npcdeath_shape_01b4) {
-      newType = 0x055d;
-      if (dir == 4) {
-        newDir = 2;
-        flipIt = 1;
-      }
-      else if (dir == 5) {
-        newDir = 1;
-        flipIt = 1;
-      }
-      else if (dir == 6) {
-        newDir = 0;
-        flipIt = 1;
-      }
-      else if (dir == 7) {
-        newDir = 4;
-      }
-      else {
+        if (Item.andStatus(n) == 18) {
+          newDir = (dir + 10);
+        }
+        spillOil = 1;
+        break;
+      case 0x01b4:
+        newType = 0x055d;
+        if (dir == 4) {
+          newDir = 2;
+          flipIt = 1;
+        }
+        else if (dir == 5) {
+          newDir = 1;
+          flipIt = 1;
+        }
+        else if (dir == 6) {
+          newDir = 0;
+          flipIt = 1;
+        }
+        else if (dir == 7) {
+          newDir = 4;
+        }
+        else {
+          newDir = dir;
+        }
+        if (Item.andStatus(n) == 18) {
+          newDir = (newDir + 10);
+        }
+        spillBlood = 1;
+        break;
+      case 0x02df:
+        newType = 0x04ba;
         newDir = dir;
-      }
-      if (Item.andStatus(n) == 18) {
-        newDir = (newDir + 10);
-      }
-      spillBlood = 1;
-    }
-    else if (Item.getShape(n) == npcdeath_shape_02df) {
-      newType = 0x04ba;
-      newDir = dir;
-      if (Item.andStatus(n) == 20) {
-        newDir = (dir + 10);
-      }
-      spillBlood = 1;
-    }
-    else if (Item.getShape(n) == 0x0383) {
-      newType = 0x04c1;
-      if (dir == 4) {
-        newDir = 2;
-        flipIt = 1;
-      }
-      else if (dir == 5) {
-        newDir = 1;
-        flipIt = 1;
-      }
-      else if (dir == 6) {
-        newDir = 0;
-        flipIt = 1;
-      }
-      else if (dir == 7) {
-        newDir = 4;
-      }
-      else {
-        newDir = dir;
-      }
-      if (Item.andStatus(n) == 20) {
-        newDir = (newDir + 10);
-      }
-    }
-    else if (Item.getShape(n) == 0x0385) {
-      spawn ITEM.slot_2a(pid, n);
-      suspend;
-      return;
-    }
-    else if (Item.getShape(n) == 0x02cb) {
-      while (condition) {
-        spawn ITEM.slot_28(pid, 1, 0, goods);
+        if (Item.andStatus(n) == 20) {
+          newDir = (dir + 10);
+        }
+        spillBlood = 1;
+        break;
+      case 0x0383:
+        newType = 0x04c1;
+        if (dir == 4) {
+          newDir = 2;
+          flipIt = 1;
+        }
+        else if (dir == 5) {
+          newDir = 1;
+          flipIt = 1;
+        }
+        else if (dir == 6) {
+          newDir = 0;
+          flipIt = 1;
+        }
+        else if (dir == 7) {
+          newDir = 4;
+        }
+        else {
+          newDir = dir;
+        }
+        if (Item.andStatus(n) == 20) {
+          newDir = (newDir + 10);
+        }
+        break;
+      case 0x0385:
+        spawn ITEM.slot_2a(pid, n);
         suspend;
-      }
-      spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
-      suspend;
-      spawn ITEM.slot_2a(pid, n);
-      suspend;
-      return;
-    }
-    else if (Item.getShape(n) == 0x04e6) {
-      if (dir == 4) {
-        newDir = 2;
-        flipIt = 1;
-      }
-      else if (dir == 5) {
-        newDir = 1;
-        flipIt = 1;
-      }
-      else if (dir == 6) {
-        newDir = 0;
-        flipIt = 1;
-      }
-      else if (dir == 7) {
-        newDir = 4;
-      }
-      else {
-        newDir = dir;
-      }
-      spawn ITEM.slot_2a(pid, n);
-      suspend;
-      if (flipIt) {
-        ITEM.slot_23(32, deadGuy);
-      }
-      return;
-    }
-    else if (Item.getShape(n) == 0x0576) {
-      while (condition) {
-      }
-      return;
-    }
-    else if (Item.getShape(n) == 0x0596) {
-      if (dir == 4) {
-        newDir = 2;
-        flipIt = 1;
-      }
-      else if (dir == 5) {
-        newDir = 1;
-        flipIt = 1;
-      }
-      else if (dir == 6) {
-        newDir = 0;
-        flipIt = 1;
-      }
-      else if (dir == 7) {
-        newDir = 4;
-      }
-      else {
-        newDir = dir;
-      }
-      if (Item.andStatus(n) == 20) {
-        newDir = (newDir + 10);
-      }
-      while (condition) {
-      }
-      if (flipIt) {
-        ITEM.slot_23(32, deadGuy);
-      }
-      return;
-    }
-    else if (Item.getShape(n) == npcdeath_shape_0319) {
-      newType = 0x04e4;
-      if (dir == 4) {
-        newDir = 2;
-        flipIt = 1;
-      }
-      else if (dir == 5) {
-        newDir = 1;
-        flipIt = 1;
-      }
-      else if (dir == 6) {
-        newDir = 0;
-        flipIt = 1;
-      }
-      else if (dir == 7) {
-        newDir = 4;
-      }
-      else {
-        newDir = dir;
-      }
-      spillBlood = 1;
-    }
-    else if (Item.getShape(n) == NPC_TECH) {
-      newType = 0x04b9;
-      if (dir == 4) {
-        newDir = 2;
-        flipIt = 1;
-      }
-      else if (dir == 5) {
-        newDir = 1;
-        flipIt = 1;
-      }
-      else if (dir == 6) {
-        newDir = 0;
-        flipIt = 1;
-      }
-      else if (dir == 7) {
-        newDir = 4;
-      }
-      else {
-        newDir = dir;
-      }
-      spillBlood = 1;
-    }
-    else if (Item.getShape(n) == 0x02f5) {
-      newType = 0x04bb;
-      if (dir == 4) {
-        newDir = 2;
-        flipIt = 1;
-      }
-      else if (dir == 5) {
-        newDir = 1;
-        flipIt = 1;
-      }
-      else if (dir == 6) {
-        newDir = 0;
-        flipIt = 1;
-      }
-      else if (dir == 7) {
-        newDir = 4;
-      }
-      else {
-        newDir = dir;
-      }
-      spillBlood = 1;
-    }
-    else if (Item.getShape(n) == 0x0344) {
-      newType = 0x04bd;
-      newDir = dir;
-      spillBlood = 1;
-    }
-    else if (Item.getShape(n) == 0x02f7) {
-      newType = 0x04bc;
-      newDir = dir;
-      spillBlood = 1;
-    }
-    else if (Item.getShape(n) == 0x045d) {
-      return;
-    }
-    else if (Item.getShape(n) == npcdeath_shape_03ac) {
-      newType = 0x04c0;
-      newDir = dir;
-    }
-    else if (Item.getShape(n) == 0x04d9) {
-      if (Item.andStatus(&global[0x003c])) {
+        Item.setQHi(n);
+        Item.explode(1, 2, n);
         return;
+      case 0x02cb:
+        while (condition) {
+          spawn ITEM.slot_28(pid, 1, 0, goods);
+          suspend;
+        }
+        spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
+        suspend;
+        spawn ITEM.slot_2a(pid, n);
+        suspend;
+        Item.explode(1, 1, n);
+        return;
+      case 0x04e6:
+        if (dir == 4) {
+          newDir = 2;
+          flipIt = 1;
+        }
+        else if (dir == 5) {
+          newDir = 1;
+          flipIt = 1;
+        }
+        else if (dir == 6) {
+          newDir = 0;
+          flipIt = 1;
+        }
+        else if (dir == 7) {
+          newDir = 4;
+        }
+        else {
+          newDir = dir;
+        }
+        Item.explode(0, 2, n);
+        spawn ITEM.slot_2a(pid, n);
+        suspend;
+        Item.setQHi(n);
+        Item.create(newDir, 0x04c3, deadGuy);
+        Item.orStatus(0x0080, deadGuy);
+        if (flipIt) {
+          ITEM.slot_23(32, deadGuy);
+        }
+        Item.popToCoords(Item.getZ(n), Item.getY(n), Item.getX(n), deadGuy);
+        Item.destroy(n);
+        return;
+      case 0x0576:
+        while (condition) {
+          Item.destroy(goods);
+        }
+        Item.create(dir, 0x04e1, deadGuy);
+        Item.popToCoords(Item.getZ(n), Item.getY(n), Item.getX(n), deadGuy);
+        Item.destroy(n);
+        return;
+      case 0x0596:
+        if (dir == 4) {
+          newDir = 2;
+          flipIt = 1;
+        }
+        else if (dir == 5) {
+          newDir = 1;
+          flipIt = 1;
+        }
+        else if (dir == 6) {
+          newDir = 0;
+          flipIt = 1;
+        }
+        else if (dir == 7) {
+          newDir = 4;
+        }
+        else {
+          newDir = dir;
+        }
+        if (Item.andStatus(n) == 20) {
+          newDir = (newDir + 10);
+        }
+        while (condition) {
+          Item.destroy(goods);
+        }
+        Item.create(newDir, 0x0599, deadGuy);
+        if (flipIt) {
+          ITEM.slot_23(32, deadGuy);
+        }
+        Item.popToCoords(Item.getZ(n), Item.getY(n), Item.getX(n), deadGuy);
+        Item.destroy(n);
+        return;
+      case 0x0319:
+        newType = 0x04e4;
+        if (dir == 4) {
+          newDir = 2;
+          flipIt = 1;
+        }
+        else if (dir == 5) {
+          newDir = 1;
+          flipIt = 1;
+        }
+        else if (dir == 6) {
+          newDir = 0;
+          flipIt = 1;
+        }
+        else if (dir == 7) {
+          newDir = 4;
+        }
+        else {
+          newDir = dir;
+        }
+        spillBlood = 1;
+        break;
+      case 0x02f6:
+        newType = 0x04b9;
+        if (dir == 4) {
+          newDir = 2;
+          flipIt = 1;
+        }
+        else if (dir == 5) {
+          newDir = 1;
+          flipIt = 1;
+        }
+        else if (dir == 6) {
+          newDir = 0;
+          flipIt = 1;
+        }
+        else if (dir == 7) {
+          newDir = 4;
+        }
+        else {
+          newDir = dir;
+        }
+        spillBlood = 1;
+        break;
+      case 0x02f5:
+        newType = 0x04bb;
+        if (dir == 4) {
+          newDir = 2;
+          flipIt = 1;
+        }
+        else if (dir == 5) {
+          newDir = 1;
+          flipIt = 1;
+        }
+        else if (dir == 6) {
+          newDir = 0;
+          flipIt = 1;
+        }
+        else if (dir == 7) {
+          newDir = 4;
+        }
+        else {
+          newDir = dir;
+        }
+        spillBlood = 1;
+        break;
+      case 0x0344:
+        newType = 0x04bd;
+        newDir = dir;
+        spillBlood = 1;
+        break;
+      case 0x02f7:
+        newType = 0x04bc;
+        newDir = dir;
+        spillBlood = 1;
+        break;
+      case 0x045d:
+        Item.setQHi(n);
+        Item.explode(1, 0, n);
+        return;
+      case 0x03ac:
+        newType = 0x04c0;
+        newDir = dir;
+        break;
+      case 0x04d9:
+        if (Item.andStatus(&global[0x003c])) {
+          return;
+        }
+        playFlic(pid, 0x0096, 0x00fa, "10f", arg_06);
+        suspend;
+        Item.create(0, 0x04da, deadGuy);
+        Item.popToCoords(Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06), deadGuy);
+        Item.isInNPC(Actor.getMap(&global[0x003c]), 0, Item.getY(arg_06), Item.getX(arg_06), arg_06);
+        spawn FREE.waitNTimerTicks(pid, 0x012c, 0x00000000);
+        suspend;
+        break;
       }
-      suspend;
-      spawn FREE.waitNTimerTicks(pid, 0x012c, 0x00000000);
-      suspend;
     }
+    Item.create(newDir, newType, deadGuy);
     NPCDEATH.slot_21(deadGuy, n);
+    Item.destroy(n);
     if (Item.isOn(nz, ny, nx, newType)) {
+      Item.popToCoords(nz, ny, nx, deadGuy);
     }
     else if (Item.isOn(nz, ny, (nx - 16), newType)) {
+      Item.popToCoords(nz, ny, (nx - 16), deadGuy);
     }
     else if (Item.isOn(nz, (ny - 16), nx, newType)) {
+      Item.popToCoords(nz, (ny - 16), nx, deadGuy);
     }
     else if (Item.isOn(nz, (ny + 16), nx, newType)) {
+      Item.popToCoords(nz, (ny + 16), nx, deadGuy);
     }
     else if (Item.isOn(nz, ny, (nx + 16), newType)) {
+      Item.popToCoords(nz, ny, (nx + 16), deadGuy);
     }
     else if (Item.isOn(nz, ny, (nx - 32), newType)) {
+      Item.popToCoords(nz, ny, (nx - 32), deadGuy);
     }
     else if (Item.isOn(nz, (ny - 32), nx, newType)) {
+      Item.popToCoords(nz, (ny - 32), nx, deadGuy);
     }
     else if (Item.isOn(nz, (ny + 32), nx, newType)) {
+      Item.popToCoords(nz, (ny + 32), nx, deadGuy);
     }
     else if (Item.isOn(nz, ny, (nx + 32), newType)) {
+      Item.popToCoords(nz, ny, (nx + 32), deadGuy);
+    }
+    else {
+      Item.popToCoords(nz, ny, nx, deadGuy);
     }
     if (flipIt) {
       ITEM.slot_23(32, deadGuy);
     }
     NPCDEATH.slot_22(deadGuy, arg_06);
+    Item.destroy(n);
+    Item.getFootpad();
     if (Item.getNPCNum()) {
       if (spillBlood) {
         NPC.slot_20(arg_06);
         if (retval) {
           FREE.slot_20(100);
           if (retval > 50) {
+            Item.create(0, 0x04b8, item);
+            Item.orStatus(0x0080, item);
+            Item.popToCoords(nz, ny, nx, item);
             counter = 0;
             while (counter <= 9) {
+              Item.legal_create(counter, item);
               spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
               suspend;
               counter = (1 + counter);
             }
           }
           else {
+            Item.create(10, 0x04b8, item);
+            Item.orStatus(0x0080, item);
+            Item.popToCoords(nz, ny, nx, item);
             counter = 10;
             while (counter <= 19) {
+              Item.legal_create(counter, item);
               spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
               suspend;
               counter = (1 + counter);
@@ -437,8 +496,12 @@ function npcdeath_slot_20() /* entry=2594 class_id=0x0a20 slot=0x20 */
     if (spillOil) {
       NPC.slot_20(arg_06);
       if (retval) {
+        Item.create(20, 0x04b8, item);
+        Item.orStatus(0x0080, item);
+        Item.popToCoords(nz, ny, nx, item);
         counter = 20;
         while (counter <= 29) {
+          Item.legal_create(counter, item);
           spawn FREE.waitNTimerTicks(pid, 15, 0x00000000);
           suspend;
           counter = (1 + counter);

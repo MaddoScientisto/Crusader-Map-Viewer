@@ -4,9 +4,14 @@ function mine_spi_gotHit() /* entry=103 class_id=0x0065 slot=0x06 */
   process_exclude();
   FREE.slot_35(arg_12, arg_10);
   if (retval) {
+    Item.playSfxCru(0x0091, arg_06);
+    SpriteProcess.createSprite(Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06), 5, 9, 0, 0x04f1);
     spawn FREE.slot_3b(pid, 10, 0x00000000);
     suspend;
     return;
+  }
+  else if ((arg_10 < 0x00ff) && (arg_10 != 1)) {
+    Item.explode(1, 1, arg_06);
   }
   return;
 }

@@ -10,7 +10,10 @@ function holo_gotHit() /* entry=1455 class_id=0x05ad slot=0x06 */
     if (retval) {
       spawn ITEM.slot_2a(pid, 0, 1, arg_06);
       suspend;
+      Item.setFrame(2, arg_06);
       while (condition) {
+        Item.destroy(local_02);
+        Item.playSfxCru(68, arg_06);
       }
     }
   }

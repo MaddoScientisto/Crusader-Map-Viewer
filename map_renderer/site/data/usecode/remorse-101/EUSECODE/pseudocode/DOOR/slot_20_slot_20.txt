@@ -4,9 +4,11 @@ function door_slot_20() /* entry=2568 class_id=0x0a06 slot=0x20 */
   spawn DOOR.slot_21(pid, 0, arg_06);
   suspend;
   if (process_result) {
+    process_result = 1;
     return;
   }
   else {
+    process_result = 0;
     return;
   }
   spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);

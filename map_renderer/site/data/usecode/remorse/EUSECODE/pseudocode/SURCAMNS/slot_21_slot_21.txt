@@ -16,13 +16,22 @@ function surcamns_slot_21() /* entry=1224 class_id=0x04c6 slot=0x21 */
 
   set_info(0x021b, 0);
   trueRef = *(arg_06);
+  Ultima8Engine.setAvatarInStasis(1);
+  Ultima8Engine.setCruStasis();
+  if (Item.create(0, 0x0471, screen)) {
+    Item.popToCoords((Item.getZ(arg_06) + 48), Item.getY(arg_06), (Item.getX(arg_06) + 20), screen);
+  }
   spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
   suspend;
   for cameraEgg in nearby_items(shape=EVENT_CONTROLLER, origin=arg_06) {
     if (Item.getQLo(cameraEgg) == Item.getQLo(arg_06)) {
       if (Item.getQLo(arg_06) == 0x00fe) {
+        PaletteFaderProcess.setPalToAllBlack();
+        mouseSomethingOffMaybe05D();
+        CameraProcess.moveTo(Actor.getMap(&global[0x003c]), Item.getZ(cameraEgg), Item.getY(cameraEgg), Item.getX(cameraEgg));
         spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
         suspend;
+        void PaletteFaderProcess:setScreenGreyscale();
         spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
         suspend;
         for npc in nearby_items(shape=MECH_1, origin=cameraEgg) {
@@ -38,12 +47,19 @@ function surcamns_slot_21() /* entry=1224 class_id=0x04c6 slot=0x21 */
           z1 = Item.getZ(&global[0x003c]);
           spawn NPC.slot_28(pid, therma);
           suspend;
+          mouseSomethingOffMaybe05D();
+          Intrinsic056(therma);
           while (getTargetNPCNumMaybe() != 1) {
             spawn FREE.waitNTimerTicks(pid, 3, 0x00000000);
             suspend;
           }
+          PaletteFaderProcess.setPalToAllBlack();
+          mouseSomethingOffMaybe05D();
+          CameraProcess.moveTo(Actor.getMap(&global[0x003c]), z1, y1, x1);
           spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
           suspend;
+          mouseSomethingResume05F();
+          PaletteFaderProcess.stopFadesAndResetToGamePal();
         }
         else {
           x1 = Item.getX(&global[0x003c]);
@@ -53,26 +69,38 @@ function surcamns_slot_21() /* entry=1224 class_id=0x04c6 slot=0x21 */
             spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
             suspend;
           }
+          PaletteFaderProcess.setPalToAllBlack();
+          CameraProcess.moveTo(Actor.getMap(&global[0x003c]), z1, y1, x1);
           spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
           suspend;
+          mouseSomethingResume05F();
+          PaletteFaderProcess.stopFadesAndResetToGamePal();
         }
       }
       else if (Item.getQLo(arg_06) == 0x00fd) {
         spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
         suspend;
+        playFlic(pid, 0x0096, 0x00c8, "3j", arg_06);
         suspend;
       }
       else if (Item.getQLo(arg_06) > 0x00f9) {
+        PaletteFaderProcess.setPalToAllBlack();
+        mouseSomethingOffMaybe05D();
+        CameraProcess.moveTo(Actor.getMap(&global[0x003c]), Item.getZ(cameraEgg), Item.getY(cameraEgg), Item.getX(cameraEgg));
         spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
         suspend;
         spawn SURCAMNS.slot_22(cameraEgg, arg_06);
       }
       else {
+        PaletteFaderProcess.setPalToAllBlack();
+        mouseSomethingOffMaybe05D();
         x = Item.getX(cameraEgg);
         y = Item.getY(cameraEgg);
         z = Item.getZ(cameraEgg);
+        CameraProcess.moveTo(Actor.getMap(&global[0x003c]), z, y, x);
         spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
         suspend;
+        void PaletteFaderProcess:setScreenGreyscale();
         spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
         suspend;
         if (Item.getMapArray(cameraEgg) != 0) {
@@ -85,12 +113,22 @@ function surcamns_slot_21() /* entry=1224 class_id=0x04c6 slot=0x21 */
           spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
           suspend;
         }
+        PaletteFaderProcess.setPalToAllBlack();
+        CameraProcess.moveTo(Item.getX(Item.getY(Item.getZ(Actor.getMap(&global[0x003c]), &global[0x003c]), &global[0x003c]), &global[0x003c]));
         spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
         suspend;
+        mouseSomethingResume05F();
+        PaletteFaderProcess.stopFadesAndResetToGamePal();
       }
     }
   }
   spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
   suspend;
+  if (screen) {
+    Item.destroy(screen);
+  }
+  Ultima8Engine.setAvatarInStasis(0);
+  Ultima8Engine.clrCruStasis();
+  Intrinsic0D3();
   return;
 }

@@ -18,6 +18,7 @@ function elydesk_enterFastArea() /* entry=1105 class_id=0x044f slot=0x0f */
       if (!Item.getFrame(arg_06)) {
         local_02 = 0;
         while (local_02 <= 5) {
+          Item.isCentreOn(local_02, arg_06);
           spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
           suspend;
           local_02 = (1 + local_02);
@@ -27,6 +28,7 @@ function elydesk_enterFastArea() /* entry=1105 class_id=0x044f slot=0x0f */
       if (retval > 50) {
         local_02 = 0;
         while (local_02 <= 5) {
+          Item.isCentreOn((5 - local_02), arg_06);
           spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
           suspend;
           local_02 = (1 + local_02);
@@ -35,6 +37,7 @@ function elydesk_enterFastArea() /* entry=1105 class_id=0x044f slot=0x0f */
       else {
         local_02 = 6;
         while (local_02 <= 9) {
+          Item.isCentreOn(local_02, arg_06);
           spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
           suspend;
           local_02 = (1 + local_02);
@@ -44,6 +47,7 @@ function elydesk_enterFastArea() /* entry=1105 class_id=0x044f slot=0x0f */
         suspend;
         local_02 = 0;
         while (local_02 <= 3) {
+          Item.isCentreOn((9 - local_02), arg_06);
           spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
           suspend;
           local_02 = (1 + local_02);

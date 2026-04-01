@@ -11,19 +11,26 @@ function bbetty_slot_20() /* entry=2563 class_id=0x0a01 slot=0x20 */
   if (Item.getShape(arg_06) != bbetty_shape_02c9) {
     counter = 0;
     while (counter <= 4) {
+      Item.setFrame(counter, arg_06);
       total = 0;
       while (condition) {
+        push(item);
         total = (1 + total);
       }
+      push(arg_06);
+      Item.popToCoords((Item.getZ(arg_06) + 1), Item.getY(arg_06), Item.getX(arg_06), arg_06);
       counter2 = 1;
       while (counter2 <= total) {
         item = Item.getEtherealTop();
+        Item.popToCoords((Item.getZ(item) + 1), Item.getY(item), Item.getX(item), item);
         counter2 = (1 + counter2);
       }
       spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
       suspend;
       counter = (1 + counter);
     }
+    Item.setShape(0x02c9, arg_06);
+    Item.touch(arg_06);
   }
   spawn BBETTY.slot_21(arg_06);
   return;

@@ -3,6 +3,8 @@ function datapick_use() /* entry=1557 class_id=0x0613 slot=0x01 */
   set_info(0x0207, *(arg_06));
   process_exclude();
   set_info(0x00f0, 0);
+  MusicProcess.unpauseMusic();
+  Item.playSfxCru(0x01fe, &global[0x001e]);
   spawn FREE.slot_3b(pid, 60, 0x00000000);
   suspend;
   while (condition) {
@@ -10,6 +12,10 @@ function datapick_use() /* entry=1557 class_id=0x0613 slot=0x01 */
     suspend;
   }
   if (!local_04) {
+    Item.create(0, DATA_PICK, local_02);
+    Item.popToCoords(0, 0, 0, local_02);
+    Intrinsic003F(0, local_02);
+    Item.getQHi();
     spawn FREE.slot_21(pid, 0x01a7, 0x00000000);
     suspend;
     return;

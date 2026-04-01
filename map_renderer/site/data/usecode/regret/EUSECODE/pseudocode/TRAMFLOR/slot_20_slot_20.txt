@@ -26,6 +26,7 @@ function tramflor_slot_20() /* entry=1498 class_id=0x05d8 slot=0x20 */
   suspend;
   suspend;
   for local_02 in nearby_items(shape=0x05d8, origin=global[0x001e]) {
+    Item.move(Item.getZ(local_02), (Item.getY(local_02) - 96), (Item.getX(local_02) - 96), &global[0x001e]);
     suspend;
   }
   suspend;
@@ -40,5 +41,6 @@ function tramflor_slot_20() /* entry=1498 class_id=0x05d8 slot=0x20 */
   suspend;
   suspend;
   suspend;
+  Actor.clrImmortal(&global[0x001e]);
   return;
 }

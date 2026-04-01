@@ -76,140 +76,142 @@ function textfil1_slot_20() /* entry=2590 class_id=0x0a1c slot=0x20 */
   }
   else {
     textFile = "Bad command or file name...^Message is out of range.";
-    if (msgNum == 80) {
+    switch (msgNum) {
+    case 80:
       textFile = "Phase One of Three of Laser Beam deactivation initiated";
-    }
-    else if (msgNum == 81) {
+      break;
+    case 81:
       textFile = "Alarm Deactivated. Security system will now reset.";
-    }
-    else if (msgNum == 82) {
+      break;
+    case 82:
       textFile = "All system alarms are currently inactive.";
-    }
-    else if (msgNum == 83) {
+      break;
+    case 83:
       textFile = "Retrieving remote location security access.^* * * ^Access cleared.";
-    }
-    else if (msgNum == 84) {
+      break;
+    case 84:
       textFile = "Security camera for level 4 firing range now activated.";
-    }
-    else if (msgNum == 85) {
+      break;
+    case 85:
       textFile = "Security camera for level 2 information and briefing center now activated";
-    }
-    else if (msgNum == 86) {
+      break;
+    case 86:
       textFile = "Level 1 Security Access now activated";
-    }
-    else if (msgNum == 87) {
+      break;
+    case 87:
       textFile = "Phase Two of Three of Laser Beam deactivation initiated";
-    }
-    else if (msgNum == 88) {
+      break;
+    case 88:
       textFile = "Phase Three of Three of Laser Beam deactivation initiated";
-    }
-    else if (msgNum == 89) {
+      break;
+    case 89:
       textFile = "Storage Facility Security now deactivated";
-    }
-    else if (msgNum == 90) {
+      break;
+    case 90:
       if (linkNum && passcode) {
         textFile = ((((("Senator Spector: I had Maintenance install a new security keypad in the secret entrance to the Detention Hall. The passcode is " + Actor.isDead(passcode)) + ".") + "Please keep this to yourself. ") + "^Richard") + "^*End of Message <");
       }
       else {
         textFile = "The WEC T305i is currently off-line, and will not be back on-line until 0300 hours. WECTS^";
       }
-    }
-    else if (msgNum == 91) {
+      break;
+    case 91:
       if (linkNum && passcode) {
         textFile = (("Tony, I think that the WECTS changed all passcodes in this building. AGAIN. I think yours is now " + Actor.isDead(passcode)) + ". Jassica");
       }
       else {
         textFile = "WEC SECURITY SYSTEM:^Remote Camera: ACTIVE** Schmooze Room";
       }
-    }
-    else if (msgNum == 92) {
+      break;
+    case 92:
       if (linkNum && passcode) {
         textFile = ((("Hey, John. Since you're doing security again tonight, you'll need to know today's passcode. It's " + Actor.isDead(passcode)) + ". I don't think it'll change until sometime ") + "tomorrow or the next day. Ted");
       }
       else {
         textFile = "WEC SECURITY SYSTEM:^^Remote Camera: ACTIVE*^*WEC Detention Hall";
       }
-    }
-    else if (msgNum == 93) {
+      break;
+    case 93:
       textFile = "WEC SECURITY SYSTEM:^^Remote Camera: ACTIVE*^Office of Senator B. Pete";
-    }
-    else if (msgNum == 94) {
+      break;
+    case 94:
       if (linkNum && passcode) {
         textFile = (("To all Departmental Supervisors: I am requiring individual meetings with each of you today. The passcode to my office is " + Actor.isDead(passcode)) + ".^*End of Message <");
       }
       else {
         textFile = "To all Departmental Supervisors: According to new WEC Policy #7461, We are now requiring that all teleporters be deactivated during the new 16 hour work schedule. We believe that this will increase productivity, as we will be able to prohibit extraneous teleporting between the hours of 6:00am and 10:00pm. D.";
       }
-    }
-    else if (msgNum == 95) {
+      break;
+    case 95:
       if (linkNum && passcode) {
         textFile = "*Security Shield *DEACTIVATED";
       }
       else {
         textFile = "To all Supervisors: Please keep in mind that no employees are to leave the building between the hours of 6:00am and 10:00pm Thank you. L.P.";
       }
-    }
-    else if (msgNum == 96) {
+      break;
+    case 96:
       if (linkNum && passcode) {
         textFile = "*Security Shield *DEACTIVATED Please re-activate immediately";
       }
       else {
         textFile = "Maire -^We've got to quit playing that experimental music over the system. It's only causing more troubles in my sector. Do you know if there's anything that can be done? Laura B.";
       }
-    }
-    else if (msgNum == 97) {
+      break;
+    case 97:
       if (linkNum && passcode) {
         textFile = "*Security Shield *DEACTIVATED";
       }
       else {
         textFile = "Laura - No, we can't stop that music. Draygan has made it a mandatory treatment to go along with those new glass barriers. I guess it's just some more of that mind control stuff he likes so much. Maire";
       }
-    }
-    else if (msgNum == 98) {
+      break;
+    case 98:
       textFile = "OSI Writer, Ver 121.c^*The Tale of Rancid ^Rancid the swamprat was a big pain and especially fond of his wonderful drain. But rats of this sort should not boast quite like that, for just entering the sewer was a swampcat! With a growl and a hiss, the cat made his leap - and Rancid the swamprat ran back to his keep. A huffing and puffing, the swampcat did blow, but Rancid the swamprat knew where to go! ";
-    }
-    else if (msgNum == 99) {
+      break;
+    case 99:
       textFile = "So up to the gutter, a few feet away, he ran and he ran, as the cat made his play, 'Forget this chasing, it's just not for me, a gun's more my style, and much easier you see,' And as he pulled the trigger, there was a huge flash, that smoked and caught fire, and singed that cats' ass! 'Ha Ha, Ha ha,' laughed swamprat, 'You are so fun! 'Cause not every cat can shoot a capgun!'*^hmmm...this is pretty bad. Maybe I won't send it to everyone...";
-    }
-    else if (msgNum == 100) {
+      break;
+    case 100:
       if (linkNum && passcode) {
         textFile = ((("DECLAN! The passcode hasn't changed! It's STILL " + Actor.isDead(passcode)) + ". ^Now QUIT bugging me!") + "^ Alec");
       }
       else {
         textFile = "WEC SECURITY SYSTEM:^^Remote Camera: ACTIVE*^Cloning Studio #1A";
       }
-    }
-    else if (msgNum == 101) {
+      break;
+    case 101:
       textFile = "WEC SECURITY SYSTEM:^^Remote Camera: ACTIVE*^Incubation Room #1A";
-    }
-    else if (msgNum == 102) {
+      break;
+    case 102:
       if (linkNum && passcode) {
         textFile = ((("Okay, Declan, it seems you keep relying on me to supply you with the passcode for Cloning Studio #1A. It is " + Actor.isDead(passcode)) + ". Please don't forget it again. ") + " ^Alec");
       }
       else {
         textFile = "WEC SECURITY SYSTEM:^^Remote Camera: ACTIVE*^Hatching Chamber";
       }
-    }
-    else if (msgNum == 103) {
+      break;
+    case 103:
       textFile = "WEC SECURITY SYSTEM:^Remote Camera: ACTIVE*^Incubation Room #2A";
-    }
-    else if (msgNum == 104) {
+      break;
+    case 104:
       textFile = "Dr. Rosillos,^I have good news about my latest endeavor. I now have several pods in the hatching chamber, and I believe they will soon reach their final term and be ready for testing within days.^^You should come see them. ^Gregor";
-    }
-    else if (msgNum == 105) {
+      break;
+    case 105:
       textFile = "Guardsman on duty: ^Keep watch over the hatching chambers and Dr. Hoffman. Nothing is to happen to any of the new prototype Enforcers, or to Dr. Hoffman. Monitor him frequently.^Cptn. Quince";
-    }
-    else if (msgNum == 106) {
+      break;
+    case 106:
       textFile = "Troopers: ^It is imperative that we maintain security in this area. My new experiment is in a delicate stage of development and simply cannot be disturbed. ^Thank you, ^Dr. Gregor Hoffman";
-    }
-    else if (msgNum == 107) {
+      break;
+    case 107:
       textFile = "Dr. Seiler - ^Greetings! I think our new weapon will prove to be fatal to those nasty rebels. I now have the equivalent to a small army nearing completion, and hope to unleash them very soon. I think they're my greatest creation yet. Isn't it fascinating what one can do with just a few tiny human cells? ^Gregor";
-    }
-    else if (msgNum == 108) {
+      break;
+    case 108:
       textFile = "Guardsman on Duty: ^We are currently under alert due to suspected rebel activity in the area. Under no circumstance is there to be rebel infiltration of this installation.^Cpt. Ayers";
-    }
-    else if (msgNum == 109) {
+      break;
+    case 109:
       textFile = "WEC SECURITY SYSTEM:^^Remote Camera: ACTIVE*^Hatching Chamber";
+      break;
     }
   }
   if (strcmp(textFile, "") == 0) {

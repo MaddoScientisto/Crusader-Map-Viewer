@@ -3,8 +3,13 @@ function miss7_hatch() /* entry=2325 class_id=0x0913 slot=0x07 */
   set_info(0x0210, *(arg_06));
   process_exclude();
   if (Egg.getEggId(arg_06) == 1) {
+    Ultima8Engine.setUnkCrusaderFlag();
+    PaletteFaderProcess.jumpToAllBlack();
+    setUnkFlagA4();
     spawn FREE.slot_3b(pid, 2, 0x00000000);
     suspend;
+    Intrinsic003F();
+    clearUnkFlagA4();
     spawn FREE.slot_3b(pid, 1, 0x00000000);
     suspend;
     suspend;
@@ -25,6 +30,9 @@ function miss7_hatch() /* entry=2325 class_id=0x0913 slot=0x07 */
       suspend;
     }
     FREE.slot_23();
+    Ultima8Engine.setAvatarInStasis(0);
+    Ultima8Engine.clrUnkCrusaderFlag();
+    Item.destroy(arg_06);
   }
   return;
 }

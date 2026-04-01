@@ -1,16 +1,27 @@
 function door2_slot_29() /* entry=2569 class_id=0x0a07 slot=0x29 */
 {
   set_info(0x0207, *(arg_06));
+  Item.push(arg_06);
   if (Item.legal_create(Item.getZ(arg_06), (Item.getY(arg_06) + 0x0080), Item.getX(arg_06), 3, 0x0571, local_04)) {
+    Item.setQLo(Item.getQLo(arg_06), local_04);
+    Item.playSfxCru(31, arg_06);
     local_02 = 0;
     while (local_02 <= 7) {
+      Actor.doAnim((7 - local_02), local_04);
       spawn FREE.slot_3b(pid, 10, 0x00000000);
       suspend;
       local_02 = (1 + local_02);
     }
+    Item.playSfxCru(0x011c, arg_06);
+    Item.pop(arg_06);
+    Item.destroy(arg_06);
+    process_result = 1;
     return;
   }
   else {
+    Item.pop(arg_06);
+    Item.playSfxCru(0x01a7, arg_06);
+    process_result = 0;
     return;
   }
   return;

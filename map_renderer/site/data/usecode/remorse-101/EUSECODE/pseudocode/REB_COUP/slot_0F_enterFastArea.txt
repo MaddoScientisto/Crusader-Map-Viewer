@@ -4,28 +4,28 @@ function reb_coup_enterFastArea() /* entry=847 class_id=0x034d slot=0x0f */
     set_info(0x021b, *(arg_06));
     process_exclude();
 
-  block_00df:
-    while (true) {
+  while (true) {
+    suspend;
+    spawn FREE.waitNTimerTicks(UCMachine.rndRange(pid, 60, 30), 0x00000000);
+    suspend;
+    local_02 = 0;
+    while (local_02 <= 4) {
+      Item.isCentreOn(local_02, arg_06);
+      spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
       suspend;
-      spawn FREE.waitNTimerTicks(UCMachine.rndRange(pid, 60, 30), 0x00000000);
-      suspend;
-      local_02 = 0;
-      while (local_02 <= 4) {
-        spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
-        suspend;
-        local_02 = (1 + local_02);
-      }
-      spawn FREE.waitNTimerTicks(UCMachine.rndRange(pid, 60, 30), 0x00000000);
-      suspend;
-      local_02 = 0;
-      while (local_02 <= 4) {
-        spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
-        suspend;
-        local_02 = (1 + local_02);
-      }
+      local_02 = (1 + local_02);
     }
+    spawn FREE.waitNTimerTicks(UCMachine.rndRange(pid, 60, 30), 0x00000000);
+    suspend;
+    local_02 = 0;
+    while (local_02 <= 4) {
+      Item.isCentreOn((4 - local_02), arg_06);
+      spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+      suspend;
+      local_02 = (1 + local_02);
+    }
+  }
 
-  block_0194:
-    return;
+  return;
 
 }

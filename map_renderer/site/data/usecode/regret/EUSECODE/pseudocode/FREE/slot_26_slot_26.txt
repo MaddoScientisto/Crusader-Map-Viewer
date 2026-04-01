@@ -15,7 +15,15 @@ function free_slot_26() /* entry=2591 class_id=0x0a1d slot=0x26 */
         return;
       }
       else if (Actor.getMana(&global[0x001e]) > 0x012c) {
+        MainActor.setMana((Actor.getMana(&global[0x001e]) - 0x012c), &global[0x001e]);
       }
+      else {
+        MainActor.setMana(Actor.getMana(&global[0x001e]), &global[0x001e]);
+        Item.playSfxCru(20, &global[0x001e]);
+      }
+      SpriteProcess.createSprite(Item.getX(Item.getY(Item.getZ(&global[0x001e]), &global[0x001e]), &global[0x001e]), 5, 4, 0, 0x03d5);
+      Item.playSfxCru(5, &global[0x001e]);
+      Intrinsic009F();
       spawn FREE.slot_3b(pid, 60, 0x00000000);
       suspend;
     }

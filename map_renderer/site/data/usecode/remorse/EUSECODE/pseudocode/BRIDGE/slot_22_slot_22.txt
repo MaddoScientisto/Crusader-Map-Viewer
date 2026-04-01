@@ -11,9 +11,12 @@ function bridge_slot_22() /* entry=2565 class_id=0x0a03 slot=0x22 */
     if (Item.getFrame(item) == 0) {
       x = Item.getQLo(item);
       if (x == start) {
+        AudioProcess.playSFXCru(0x0099, arg_06);
+        process_result = 1;
         return;
       }
     }
   }
+  process_result = 0;
   return;
 }

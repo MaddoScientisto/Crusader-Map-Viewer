@@ -13,11 +13,17 @@ function blaser_slot_21() /* entry=2564 class_id=0x0a02 slot=0x21 */
   if (Actor.isNPC(n)) {
     f = Item.getFrame(arg_06);
     if (f == 1) {
+      Item.receiveHit(UCMachine.rndRange(4, 6, 2), 8, *(arg_06), n);
       h = Item.getQHi(arg_06);
+      Item.setQHi((h | 8), arg_06);
       return;
     }
     else if (f == 2) {
+      Item.receiveHit(UCMachine.rndRange(4, 6, 2), 8, *(arg_06), n);
+      Item.andStatus((~0x1000), arg_06);
       h = Item.getQHi(arg_06);
+      Item.setQHi((h | 8), arg_06);
+      Item.explode(0, 0, arg_06);
       return;
     }
     else {

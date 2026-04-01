@@ -3,78 +3,85 @@ function landmine_use() /* entry=924 class_id=0x039a slot=0x01 */
   set_info(0x0207, *(arg_06));
   process_exclude();
   local_03 = *(arg_06);
+  MusicProcess.unpauseMusic();
   if (AudioProcess.stopSFXCru(&global[0x001e]) == 25) {
+    Item.create(0, LAND_MINE, local_05);
+    Item.popToCoords(0, 0, 0, local_05);
+    Item.andStatus(0, local_05);
     return;
   }
   else {
     set_info(0x00f0, 0);
+    Item.getPoint(1);
     while (Item.legal_move(&global[0x001e])) {
       spawn FREE.slot_3b(pid, 2, 0x00000000);
       suspend;
     }
-    if (Actor.getDefaultActivity2(&global[0x001e]) == 0) {
+    switch (Actor.getDefaultActivity2(&global[0x001e])) {
+    case 0:
       local_07 = -1;
       local_09 = -3;
-    }
-    else if (Actor.getDefaultActivity2(&global[0x001e]) == 1) {
+      break;
+    case 1:
       local_07 = 0;
       local_09 = -3;
-    }
-    else if (Actor.getDefaultActivity2(&global[0x001e]) == 2) {
+      break;
+    case 2:
       local_07 = 2;
       local_09 = -3;
-    }
-    else if (Actor.getDefaultActivity2(&global[0x001e]) == 3) {
+      break;
+    case 3:
       local_07 = 2;
       local_09 = -2;
-    }
-    else if (Actor.getDefaultActivity2(&global[0x001e]) == 4) {
+      break;
+    case 4:
       local_07 = 2;
       local_09 = -1;
-    }
-    else if (Actor.getDefaultActivity2(&global[0x001e]) == 5) {
+      break;
+    case 5:
       local_07 = 2;
       local_09 = 0;
-    }
-    else if (Actor.getDefaultActivity2(&global[0x001e]) == 6) {
+      break;
+    case 6:
       local_07 = 2;
       local_09 = 2;
-    }
-    else if (Actor.getDefaultActivity2(&global[0x001e]) == 7) {
+      break;
+    case 7:
       local_07 = 0;
       local_09 = 2;
-    }
-    else if (Actor.getDefaultActivity2(&global[0x001e]) == 8) {
+      break;
+    case 8:
       local_07 = -1;
       local_09 = 2;
-    }
-    else if (Actor.getDefaultActivity2(&global[0x001e]) == 9) {
+      break;
+    case 9:
       local_07 = -2;
       local_09 = 2;
-    }
-    else if (Actor.getDefaultActivity2(&global[0x001e]) == 10) {
+      break;
+    case 10:
       local_07 = -3;
       local_09 = 2;
-    }
-    else if (Actor.getDefaultActivity2(&global[0x001e]) == 11) {
+      break;
+    case 11:
       local_07 = -3;
       local_09 = 1;
-    }
-    else if (Actor.getDefaultActivity2(&global[0x001e]) == 12) {
+      break;
+    case 12:
       local_07 = -3;
       local_09 = 0;
-    }
-    else if (Actor.getDefaultActivity2(&global[0x001e]) == 13) {
+      break;
+    case 13:
       local_07 = -3;
       local_09 = -1;
-    }
-    else if (Actor.getDefaultActivity2(&global[0x001e]) == 14) {
+      break;
+    case 14:
       local_07 = -3;
       local_09 = -2;
-    }
-    else if (Actor.getDefaultActivity2(&global[0x001e]) == 15) {
+      break;
+    case 15:
       local_07 = -3;
       local_09 = -3;
+      break;
     }
     if (Item.fall(&global[0x001e])) {
       local_01 = 1;
@@ -87,11 +94,20 @@ function landmine_use() /* entry=924 class_id=0x039a slot=0x01 */
     local_14 = (Item.getY(&global[0x001e]) + (local_09 * 16));
     local_12 = Item.getZ(&global[0x001e]);
     if (Kernel.getNumProcesses(local_16, 0, 0x039a, local_11)) {
+      Kernel.resetRef(local_11);
+      Item.playSfxCru(0x0113, local_11);
+    }
+    else {
+      Item.create(0, LAND_MINE, local_05);
+      Item.popToCoords(0, 0, 0, local_05);
+      Item.andStatus(0, local_05);
+      Item.playSfxCru(0x01a7, &global[0x001e]);
     }
     if (!local_01) {
       suspend;
       suspend;
     }
+    Item.getPoint(0);
   }
   return;
 }

@@ -8,14 +8,18 @@ function miss1egg_slot_20() /* entry=2319 class_id=0x090d slot=0x20 */
     counter; /* [BP-08h] type=0x69 */
 
   set_info(0x00f0, *(arg_06));
+  Ultima8Engine.setAvatarInStasis(1);
   while (Actor.isBusy(&global[0x003c])) {
     spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
     suspend;
   }
   suspend;
   for eTrigger in nearby_items(shape=EVENT_CONTROLLER, origin=global[0x003c]) {
+    CameraProcess.moveTo(Actor.getMap(&global[0x003c]), 0, Item.getY(eTrigger), Item.getX(eTrigger));
+    CameraProcess.setCenterOn(eTrigger);
   }
   for item in selector_0x42(arg0=0x032a, arg1=0x0329, arg2=(100 * 32), origin=global[0x003c]) {
+    Item.destroy(item);
   }
   spawn NPC.slot_22(pid, 5, 8, &global[0x003c]);
   suspend;
@@ -26,7 +30,10 @@ function miss1egg_slot_20() /* entry=2319 class_id=0x090d slot=0x20 */
   spawn NPC.slot_22(pid, 2, 12, &global[0x003c]);
   suspend;
   suspend;
+  Item.create(0, BLAST_PAC, pac);
+  Item.popToCoords(16, 0x4c3f, 0x4a1f, pac);
   while (condition) {
+    Item.destroy(item);
   }
   suspend;
   suspend;
@@ -34,6 +41,7 @@ function miss1egg_slot_20() /* entry=2319 class_id=0x090d slot=0x20 */
   suspend;
   counter = 1;
   while (counter <= 5) {
+    AudioProcess.playSFXCru(51, arg_06);
     spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
     suspend;
     counter = (1 + counter);
@@ -43,8 +51,10 @@ function miss1egg_slot_20() /* entry=2319 class_id=0x090d slot=0x20 */
   spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
   suspend;
   for item in nearby_items(shape=REACTOR, origin=global[0x003c]) {
+    AudioProcess.stopSFXCru(0x00a4, arg_06);
     spawn ITEM.slot_28(pid, 0, 2, item);
     suspend;
+    Item.setFrame(1, item);
   }
   for item in nearby_items(shape=REACTOR_CELL, origin=global[0x003c]) {
     spawn ITEM.slot_28(pid, 1, 0, item);
@@ -54,6 +64,7 @@ function miss1egg_slot_20() /* entry=2319 class_id=0x090d slot=0x20 */
   }
   spawn FREE.slot_3b(0x00000000);
   for item in nearby_items(shape=NUMBERS, origin=global[0x003c]) {
+    Item.explode(1, 0, item);
     spawn FREE.waitNTimerTicks(UCMachine.rndRange(pid, 20, 10), 0x00000000);
     suspend;
   }
@@ -62,6 +73,7 @@ function miss1egg_slot_20() /* entry=2319 class_id=0x090d slot=0x20 */
   for item in nearby_items(shape=ELECTRODE, origin=global[0x003c]) {
     spawn ITEM.slot_28(pid, 0, 0, item);
     suspend;
+    Item.setFrame(1, item);
     spawn FREE.waitNTimerTicks(UCMachine.rndRange(pid, 10, 5), 0x00000000);
     suspend;
   }
@@ -69,5 +81,6 @@ function miss1egg_slot_20() /* entry=2319 class_id=0x090d slot=0x20 */
   suspend;
   spawn FREE.slot_26(pid, "1c", 0x00000000);
   suspend;
+  Item.destroy(arg_06);
   return;
 }

@@ -11,6 +11,7 @@ function pplate2_equip() /* entry=411 class_id=0x0199 slot=0x0a */
   if (ff & 1) {
     spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
     suspend;
+    Item.legal_create((ff - 1), arg_06);
     spawn TRIGGER.slot_20(pid, 1, *(arg_06), arg_06);
     suspend;
     return;
@@ -18,6 +19,7 @@ function pplate2_equip() /* entry=411 class_id=0x0199 slot=0x0a */
   else {
     spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
     suspend;
+    Item.legal_create((ff + 1), arg_06);
     spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
     suspend;
   }

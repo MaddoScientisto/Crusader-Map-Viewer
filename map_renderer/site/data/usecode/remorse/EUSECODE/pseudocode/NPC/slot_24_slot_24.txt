@@ -8,6 +8,10 @@ function npc_slot_24() /* entry=2579 class_id=0x0a11 slot=0x24 */
 
   set_info(0x020a, *(arg_06));
   if (global[0x003c] == *(arg_06)) {
+    Ultima8Engine.setUnkCrusaderFlag();
+    Actor.setImmortal(&global[0x003c]);
+    Ultima8Engine.setAvatarInStasis(1);
+    Ultima8Engine.setCruStasis();
     while (Actor.isBusy(&global[0x003c])) {
       spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
       suspend;
@@ -20,11 +24,14 @@ function npc_slot_24() /* entry=2579 class_id=0x0a11 slot=0x24 */
     pad = item;
   }
   if (pad) {
+    Actor.teleport(Actor.getMap(arg_06), Item.getZ(pad), (Item.getY(pad) - 16), (Item.getX(pad) - 16), arg_06);
     if (Item.getFrame(pad) == 1) {
       suspend;
       suspend;
       spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
       suspend;
+      SpriteProcess.createSprite(Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06), 1, 37, 0, 0x0317);
+      AudioProcess.playSFXCru(52, &global[0x003c]);
       suspend;
     }
     else {
@@ -32,8 +39,11 @@ function npc_slot_24() /* entry=2579 class_id=0x0a11 slot=0x24 */
       suspend;
       spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
       suspend;
+      SpriteProcess.createSprite(Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06), 1, 37, 0, 0x0317);
+      AudioProcess.playSFXCru(52, &global[0x003c]);
       suspend;
     }
+    Item.setFrame(8, arg_06);
     if (AudioProcess.isSFXPlayingForObject(52, &global[0x003c])) {
       spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
       suspend;

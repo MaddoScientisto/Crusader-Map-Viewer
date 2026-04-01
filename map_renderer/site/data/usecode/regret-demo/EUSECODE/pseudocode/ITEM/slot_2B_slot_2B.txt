@@ -10,6 +10,7 @@ function item_slot_2b() /* entry=2577 class_id=0x0a0f slot=0x2b */
     if !Actor.isInCombat(local_02, arg_06) goto block_0b2c;
 
   block_0ac0:
+    Actor.getNPCDataField0x4(local_08, local_06, local_04, local_02);
     if local_08 <= 1 goto block_0add;
 
   block_0ad6:
@@ -18,7 +19,7 @@ function item_slot_2b() /* entry=2577 class_id=0x0a0f slot=0x2b */
 
   block_0add:
     local_12 = Item.getShape(local_02);
-    if (((((((local_12 != 95) || (local_12 == 0x0096)) || (local_12 == 0x0132)) || (local_12 == 0x04cd)) || (local_12 == 0x0366)) || (local_12 == 0x0365)) || (local_12 == 0x0290)) || (local_12 == 0x0336) goto block_0b28;
+    if !((((((((local_12 == 95) || (local_12 == 0x0096)) || (local_12 == 0x0132)) || (local_12 == 0x04cd)) || (local_12 == 0x0366)) || (local_12 == 0x0365)) || (local_12 == 0x0290)) || (local_12 == 0x0336)) goto block_0b28;
 
   block_0b21:
     local_10 = 1;
@@ -30,19 +31,15 @@ function item_slot_2b() /* entry=2577 class_id=0x0a0f slot=0x2b */
   block_0b2c:
     goto block_0aaf;
 
-  block_0b30:
-    if (local_10 != 1) || (local_09 == 0) goto block_0b4a;
-
-  block_0b40:
-    goto block_0b51;
-
-  block_0b47:
-    goto block_0b51;
-
-  block_0b4a:
-    goto block_0b51;
-
-  block_0b51:
+  if ((local_10 == 1) || (local_09 == 0)) {
+    process_result = 0;
     return;
+  }
+  else {
+    process_result = 1;
+    return;
+  }
+
+  return;
 
 }

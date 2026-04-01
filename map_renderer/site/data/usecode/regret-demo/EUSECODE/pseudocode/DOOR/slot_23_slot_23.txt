@@ -13,8 +13,13 @@ function door_slot_23() /* entry=2568 class_id=0x0a06 slot=0x23 */
   spawn ITEM.slot_29(pid, 0x00fa, arg_12, arg_10, arg_06);
   suspend;
   if (!process_result) {
+    Item.setNpcNum((Ultima8Engine.setUnkCrusaderFlag(arg_06) + local_10), arg_06);
     FREE.slot_20(10);
     if (retval > 5) {
+      Item.playSfxCru(38, arg_06);
+    }
+    else {
+      Item.playSfxCru(39, arg_06);
     }
     return;
   }
@@ -22,6 +27,7 @@ function door_slot_23() /* entry=2568 class_id=0x0a06 slot=0x23 */
     return;
   }
   else {
+    Item.orStatus(4, arg_06);
     for local_02 in nearby_items(shape=0x04f8, origin=arg_06) {
       if (Item.getQLo(local_02) == Item.getQLo(arg_06)) {
         if (Item.getMapArray(local_02) != 0) {
@@ -39,128 +45,180 @@ function door_slot_23() /* entry=2568 class_id=0x0a06 slot=0x23 */
     if (World.getAlertActive() == 0) {
       spawn FREE.slot_44(0x00000000);
     }
-    if (Item.getShape(arg_06) == door_shape_03ba) {
+    switch (Item.getShape(arg_06)) {
+    case 0x03ba:
       spawn ITEM.slot_2a(pid, 0, 2, arg_06);
       suspend;
       spawn FREE.slot_3b(pid, 1, 0x00000000);
       suspend;
+      Item.push(arg_06);
+      Item.setShape(0x0241, arg_06);
+      Actor.doAnim(2, arg_06);
+      Item.popToCoords(Item.getZ(arg_06), Item.getY(arg_06), (Item.getX(arg_06) - 0x0080), arg_06);
       spawn DOOR.slot_22(pid, arg_06);
       suspend;
       return;
-    }
-    else if (Item.getShape(arg_06) == door_shape_03b9) {
+    case 0x03b9:
       spawn ITEM.slot_2a(pid, 0, 2, arg_06);
       suspend;
       spawn FREE.slot_3b(pid, 1, 0x00000000);
       suspend;
+      Item.push(arg_06);
+      Item.setShape(0x0240, arg_06);
+      Actor.doAnim(2, arg_06);
+      Item.popToCoords(Item.getZ(arg_06), (Item.getY(arg_06) - 0x0080), Item.getX(arg_06), arg_06);
       spawn DOOR.slot_22(pid, arg_06);
       suspend;
       return;
-    }
-    else if (Item.getShape(arg_06) == door_shape_02d8) {
+    case 0x02d8:
       spawn ITEM.slot_2a(pid, 0, 2, arg_06);
       suspend;
       spawn FREE.slot_3b(pid, 1, 0x00000000);
       suspend;
+      Item.push(arg_06);
+      Item.setShape(0x00d9, arg_06);
+      Actor.doAnim(2, arg_06);
+      Item.pop(arg_06);
+      Item.create(3, 0x00d9, local_04);
+      Item.popToCoords(Item.getZ(arg_06), Item.getY(arg_06), (Item.getX(arg_06) - 0x00c0), local_04);
       spawn DOOR.slot_22(pid, arg_06);
       suspend;
       return;
-    }
-    else if (Item.getShape(arg_06) == door_shape_004b) {
+    case 75:
       spawn ITEM.slot_2a(pid, 0, 2, arg_06);
       suspend;
       spawn FREE.slot_3b(pid, 1, 0x00000000);
       suspend;
+      Item.push(arg_06);
+      Item.setShape(0x00db, arg_06);
+      Actor.doAnim(2, arg_06);
+      Item.pop(arg_06);
+      Item.create(3, 0x00db, local_04);
+      Item.popToCoords(Item.getZ(arg_06), (Item.getY(arg_06) - 0x00c0), Item.getX(arg_06), local_04);
       spawn DOOR.slot_22(pid, arg_06);
       suspend;
       return;
-    }
-    else if (Item.getShape(arg_06) == door_shape_0064) {
+    case 100:
       spawn ITEM.slot_2a(pid, 0, 2, arg_06);
       suspend;
       spawn FREE.slot_3b(pid, 1, 0x00000000);
       suspend;
+      Item.push(arg_06);
+      Item.setShape(0x061f, arg_06);
+      Actor.doAnim(0, arg_06);
+      Item.popToCoords(Item.getZ(arg_06), Item.getY(arg_06), (Item.getX(arg_06) - 112), arg_06);
       spawn DOOR.slot_22(pid, arg_06);
       suspend;
       return;
-    }
-    else if (Item.getShape(arg_06) == door_shape_053b) {
+    case 0x053b:
       spawn ITEM.slot_2a(pid, 0, 2, arg_06);
       suspend;
       spawn FREE.slot_3b(pid, 1, 0x00000000);
       suspend;
+      Item.push(arg_06);
+      Item.setShape(0x0620, arg_06);
+      Actor.doAnim(0, arg_06);
+      Item.popToCoords(Item.getZ(arg_06), (Item.getY(arg_06) - 112), Item.getX(arg_06), arg_06);
       spawn DOOR.slot_22(pid, arg_06);
       suspend;
       return;
-    }
-    else if (Item.getShape(arg_06) == NPCTRIG) {
+    case 0x0363:
       spawn ITEM.slot_2a(pid, 0, 2, arg_06);
       suspend;
       spawn FREE.slot_3b(pid, 1, 0x00000000);
       suspend;
+      Item.push(arg_06);
+      Item.setShape(0x0621, arg_06);
+      Actor.doAnim(0, arg_06);
+      Item.popToCoords(Item.getZ(arg_06), Item.getY(arg_06), (Item.getX(arg_06) - 112), arg_06);
       spawn DOOR.slot_22(pid, arg_06);
       suspend;
       return;
-    }
-    else if (Item.getShape(arg_06) == door_shape_037a) {
+    case 0x037a:
       spawn ITEM.slot_2a(pid, 0, 2, arg_06);
       suspend;
       spawn FREE.slot_3b(pid, 1, 0x00000000);
       suspend;
+      Item.push(arg_06);
+      Item.setShape(0x0622, arg_06);
+      Actor.doAnim(0, arg_06);
+      Item.popToCoords(Item.getZ(arg_06), (Item.getY(arg_06) - 112), Item.getX(arg_06), arg_06);
       spawn DOOR.slot_22(pid, arg_06);
       suspend;
       return;
-    }
-    else if (Item.getShape(arg_06) == door_shape_0574) {
+    case 0x0574:
       spawn ITEM.slot_2a(pid, 0, 2, arg_06);
       suspend;
       spawn FREE.slot_3b(pid, 1, 0x00000000);
       suspend;
+      Item.push(arg_06);
+      Item.setShape(0x0621, arg_06);
+      Actor.doAnim(1, arg_06);
+      Item.popToCoords(Item.getZ(arg_06), Item.getY(arg_06), (Item.getX(arg_06) - 98), arg_06);
       spawn DOOR.slot_22(pid, arg_06);
       suspend;
       return;
-    }
-    else if (Item.getShape(arg_06) == door_shape_056f) {
+    case 0x056f:
       spawn ITEM.slot_2a(pid, 0, 2, arg_06);
       suspend;
       spawn FREE.slot_3b(pid, 1, 0x00000000);
       suspend;
+      Item.push(arg_06);
+      Item.setShape(0x0622, arg_06);
+      Actor.doAnim(1, arg_06);
+      Item.popToCoords(Item.getZ(arg_06), (Item.getY(arg_06) - 98), Item.getX(arg_06), arg_06);
       spawn DOOR.slot_22(pid, arg_06);
       suspend;
       return;
-    }
-    else if (Item.getShape(arg_06) == door_shape_0573) {
+    case 0x0573:
       spawn ITEM.slot_2a(pid, 0, 2, arg_06);
       suspend;
       spawn FREE.slot_3b(pid, 1, 0x00000000);
       suspend;
+      Item.push(arg_06);
+      Item.setShape(0x0621, arg_06);
+      Actor.doAnim(2, arg_06);
+      Item.popToCoords(Item.getZ(arg_06), Item.getY(arg_06), (Item.getX(arg_06) - 98), arg_06);
       spawn DOOR.slot_22(pid, arg_06);
       suspend;
       return;
-    }
-    else if (Item.getShape(arg_06) == door_shape_0571) {
+    case 0x0571:
       spawn ITEM.slot_2a(pid, 0, 2, arg_06);
       suspend;
       spawn FREE.slot_3b(pid, 1, 0x00000000);
       suspend;
+      Item.push(arg_06);
+      Item.setShape(0x0622, arg_06);
+      Actor.doAnim(2, arg_06);
+      Item.popToCoords(Item.getZ(arg_06), (Item.getY(arg_06) - 98), Item.getX(arg_06), arg_06);
       spawn DOOR.slot_22(pid, arg_06);
       suspend;
       return;
-    }
-    else if (Item.getShape(arg_06) == door_shape_006c) {
+    case 108:
       spawn ITEM.slot_2a(pid, 0, 2, arg_06);
       suspend;
       spawn FREE.slot_3b(pid, 1, 0x00000000);
       suspend;
+      Item.push(arg_06);
+      Item.setShape(0x0400, arg_06);
+      Actor.doAnim(1, arg_06);
+      Item.pop(arg_06);
+      Item.create(1, 0x0401, local_04);
+      Item.popToCoords(Item.getZ(arg_06), Item.getY(arg_06), (Item.getX(arg_06) - 0x00b0), arg_06);
       spawn DOOR.slot_22(pid, arg_06);
       suspend;
       return;
-    }
-    else if (Item.getShape(arg_06) == door_shape_0033) {
+    case 51:
       spawn ITEM.slot_2a(pid, 0, 2, arg_06);
       suspend;
       spawn FREE.slot_3b(pid, 1, 0x00000000);
       suspend;
+      Item.push(arg_06);
+      Item.setShape(0x009c, arg_06);
+      Actor.doAnim(1, arg_06);
+      Item.pop(arg_06);
+      Item.create(1, 0x00ad, local_04);
+      Item.popToCoords(Item.getZ(arg_06), (Item.getY(arg_06) - 0x00b0), Item.getX(arg_06), arg_06);
       spawn DOOR.slot_22(pid, arg_06);
       suspend;
       return;

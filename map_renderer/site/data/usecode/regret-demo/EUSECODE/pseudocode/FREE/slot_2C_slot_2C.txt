@@ -21,7 +21,8 @@ function free_slot_2c() /* entry=2575 class_id=0x0a0d slot=0x2c */
         spawn FREE.slot_3b(pid, 30, 0x00000000);
         suspend;
       }
-      if (local_04 == 1) {
+      switch (local_04) {
+      case 1:
         spawn FREE.slot_21(pid, 0x0196, 0x00000000);
         suspend;
         spawn FREE.slot_21(pid, 0x0197, 0x00000000);
@@ -30,58 +31,67 @@ function free_slot_2c() /* entry=2575 class_id=0x0a0d slot=0x2c */
         suspend;
         spawn FREE.slot_3b(pid, 0x0fa0, 0x00000000);
         suspend;
-      }
-      else if (local_04 == 2) {
+        break;
+      case 2:
         spawn FREE.slot_21(pid, 0x0198, 0x00000000);
         suspend;
         spawn FREE.slot_21(pid, 0x016f, 0x00000000);
         suspend;
         spawn FREE.slot_3b(pid, 0x0fa0, 0x00000000);
         suspend;
-      }
-      else if (local_04 == 3) {
+        break;
+      case 3:
         spawn FREE.slot_21(pid, 0x0199, 0x00000000);
         suspend;
         spawn FREE.slot_21(pid, 0x016f, 0x00000000);
         suspend;
         spawn FREE.slot_3b(pid, 0x0fa0, 0x00000000);
         suspend;
-      }
-      else if (local_04 == 4) {
+        break;
+      case 4:
         spawn FREE.slot_21(pid, 0x019a, 0x00000000);
         suspend;
         spawn FREE.slot_21(pid, 0x0185, 0x00000000);
         suspend;
         spawn FREE.slot_3b(pid, 0x0fa0, 0x00000000);
         suspend;
-      }
-      else if (local_04 == 5) {
+        break;
+      case 5:
         spawn FREE.slot_21(pid, 0x019b, 0x00000000);
         suspend;
         spawn FREE.slot_3b(pid, 0x0fa0, 0x00000000);
         suspend;
-      }
-      else if (local_04 == 6) {
+        break;
+      case 6:
         spawn FREE.slot_21(pid, 0x019c, 0x00000000);
         suspend;
         spawn FREE.slot_3b(pid, 0x03e8, 0x00000000);
         suspend;
-      }
-      else if (local_04 == 7) {
+        break;
+      case 7:
         spawn FREE.slot_21(pid, 0x0177, 0x00000000);
         suspend;
+        break;
       }
       if ((Ultima8Engine.getUnkCrusaderFlag(&global[0x001e]) == 1) || (PaletteFaderProcess.jumpToAllBlack() == 1)) {
         return;
       }
       local_04 = (1 + local_04);
     }
+    Item.getPoint(1);
+    Actor.setActivity();
+    Actor.getLastAnimSet(108);
     spawn FREE.slot_3b(pid, 20, 0x00000000);
     suspend;
+    Actor.getLastAnimSet(98);
+    Item.hurl(&global[0x001e]);
     spawn FREE.slot_3b(pid, 0x012c, 0x00000000);
     suspend;
+    Actor.clrImmortal();
+    PaletteFaderProcess.fadeFromBlack();
     spawn FREE.slot_3b(pid, 10, 0x00000000);
     suspend;
+    Intrinsic0072(0, "10c");
     suspend;
     return;
   }

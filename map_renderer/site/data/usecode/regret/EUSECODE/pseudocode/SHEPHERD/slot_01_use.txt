@@ -2,28 +2,36 @@ function shepherd_use() /* entry=1125 class_id=0x0463 slot=0x01 */
 {
   set_info(0x0207, *(arg_06));
   process_exclude();
-  if (global[0x000f] == 4) {
-    return;
-  }
-  else if (global[0x000f] == 5) {
-    return;
-  }
-  else if (global[0x000f] == 6) {
-    return;
-  }
-  else if (global[0x000f] == 7) {
+  MusicProcess.pauseMusic();
+  switch (global[0x000f]) {
+  case 4:
+    Intrinsic006D(1, "4b");
+    break;
+  case 5:
+    Intrinsic006D(1, "5a");
+    break;
+  case 6:
+    Intrinsic006D(1, "6c");
+    break;
+  case 7:
     if (global[0x0016]) {
+      Intrinsic006D(1, "7a");
     }
-    return;
+    else {
+      Intrinsic006D(1, "7b");
+    }
+    break;
+  case 8:
+    Intrinsic006D(1, "8a");
+    break;
+  case 9:
+    Intrinsic006D(1, "9a");
+    break;
+  case 10:
+    Intrinsic006D(1, "10a");
+    break;
   }
-  else if (global[0x000f] == 8) {
-    return;
-  }
-  else if (global[0x000f] == 9) {
-    return;
-  }
-  else if (global[0x000f] == 10) {
-    return;
-  }
+  MusicProcess.unpauseMusic();
+  Ultima8Engine.clrUnkCrusaderFlag();
   return;
 }

@@ -10,17 +10,22 @@ function door2_slot_25() /* entry=2569 class_id=0x0a07 slot=0x25 */
   maxFrame = 8;
   FREE.slot_2d((Item.getZ(arg_06) - (8 * 10)), Item.getY(arg_06), Item.getX(arg_06), maxFrame, 0x02d6, *(arg_06));
   if (retval) {
+    AudioProcess.playSFXCru(107, arg_06);
     spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
     suspend;
   }
   else {
+    process_result = 0;
     return;
   }
   counter = (maxFrame - 1);
   while (counter > 0) {
+    Item.setFrame(counter, arg_06);
     spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
     suspend;
     counter = (counter - 1);
   }
+  Item.setFrame(0, arg_06);
+  process_result = 1;
   return;
 }

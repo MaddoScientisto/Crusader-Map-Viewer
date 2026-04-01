@@ -9,6 +9,7 @@ function elevator_gotHit() /* entry=402 class_id=0x0190 slot=0x06 */
       spawn ITEM.slot_2a(pid, 0, 2, local_02);
       suspend;
       while (!Ultima8Engine.getUnkCrusaderFlag(local_02)) {
+        MusicProcess.playMusic(8, Actor.getHp(local_02), 8, 0, local_02);
       }
     }
   }
@@ -16,10 +17,14 @@ function elevator_gotHit() /* entry=402 class_id=0x0190 slot=0x06 */
     return;
   }
   else if (Item.getQLo(arg_06) < 100) {
+    Ultima8Engine.clrUnkCrusaderFlag("Quality is less than 100!", arg_06);
     suspend;
     return;
   }
   else {
+    setUnkFlagA4();
+    Item.getPoint(1);
+    Game.isViolenceEnabled();
     FREE.slot_3c(0x0220, 0);
     while (Item.legal_move(&global[0x001e])) {
       spawn FREE.slot_3b(pid, 2, 0x00000000);
@@ -39,10 +44,15 @@ function elevator_gotHit() /* entry=402 class_id=0x0190 slot=0x06 */
         if (Actor.isNPC(local_04)) {
           if (local_04 != 1) {
             local_10 = local_04;
+            Item.explode(0, 2, local_10);
           }
         }
         else {
           local_12 = Item.getShape(local_04);
+          if (((((local_12 != 0x0194) && (local_12 != 0x04d0)) && (local_12 != 17)) && (local_12 != 0x04b1)) && (local_12 != 0x0476)) {
+            Actor.destroyContents(local_04);
+            Item.destroy(local_04);
+          }
         }
       }
     }
@@ -59,50 +69,57 @@ function elevator_gotHit() /* entry=402 class_id=0x0190 slot=0x06 */
       spawn ELEVATOR.slot_20(pid, AudioProcess.stopSFXCru(local_06, &global[0x001e]), local_08, arg_06);
       suspend;
     }
-    else if (local_06 == 0x00c8) {
-      spawn ELEVATOR.slot_20(pid, 18, 24, local_08, arg_06);
-      suspend;
-    }
-    else if (local_06 == 0x00c9) {
-      spawn ELEVATOR.slot_20(pid, 0x00c9, 5, local_08, arg_06);
-      suspend;
-    }
-    else if (local_06 == 0x00ca) {
-      spawn ELEVATOR.slot_20(pid, 0x00ca, 10, local_08, arg_06);
-      suspend;
-    }
-    else if (local_06 == 0x00cb) {
-      spawn ELEVATOR.slot_20(pid, 0x00cb, 10, local_08, arg_06);
-      suspend;
-    }
-    else if (local_06 == 0x00cc) {
-      spawn ELEVATOR.slot_20(pid, 0x00cc, 2, local_08, arg_06);
-      suspend;
-    }
-    else if (local_06 == 0x00cd) {
-      spawn ELEVATOR.slot_20(pid, 0x00cd, 8, local_08, arg_06);
-      suspend;
-    }
-    else if (local_06 == 0x00ce) {
-      spawn ELEVATOR.slot_20(pid, 0x00ce, 6, local_08, arg_06);
-      suspend;
-    }
-    else if (local_06 == 0x00cf) {
-      spawn ELEVATOR.slot_20(pid, 0x00cf, 16, local_08, arg_06);
-      suspend;
-    }
-    else if (local_06 == 0x00d0) {
-      spawn ELEVATOR.slot_20(pid, 0x00d0, 18, local_08, arg_06);
-      suspend;
-    }
-    else if (local_06 == 0x00d1) {
-      spawn ELEVATOR.slot_20(pid, 99, 14, local_08, arg_06);
-      suspend;
+    else {
+      switch (local_06) {
+      case 0x00c8:
+        spawn ELEVATOR.slot_20(pid, 18, 24, local_08, arg_06);
+        suspend;
+        break;
+      case 0x00c9:
+        spawn ELEVATOR.slot_20(pid, 0x00c9, 5, local_08, arg_06);
+        suspend;
+        break;
+      case 0x00ca:
+        spawn ELEVATOR.slot_20(pid, 0x00ca, 10, local_08, arg_06);
+        suspend;
+        break;
+      case 0x00cb:
+        spawn ELEVATOR.slot_20(pid, 0x00cb, 10, local_08, arg_06);
+        suspend;
+        break;
+      case 0x00cc:
+        spawn ELEVATOR.slot_20(pid, 0x00cc, 2, local_08, arg_06);
+        suspend;
+        break;
+      case 0x00cd:
+        spawn ELEVATOR.slot_20(pid, 0x00cd, 8, local_08, arg_06);
+        suspend;
+        break;
+      case 0x00ce:
+        spawn ELEVATOR.slot_20(pid, 0x00ce, 6, local_08, arg_06);
+        suspend;
+        break;
+      case 0x00cf:
+        spawn ELEVATOR.slot_20(pid, 0x00cf, 16, local_08, arg_06);
+        suspend;
+        break;
+      case 0x00d0:
+        spawn ELEVATOR.slot_20(pid, 0x00d0, 18, local_08, arg_06);
+        suspend;
+        break;
+      case 0x00d1:
+        spawn ELEVATOR.slot_20(pid, 99, 14, local_08, arg_06);
+        suspend;
+        break;
+      }
     }
     while (Item.legal_move(&global[0x001e])) {
       spawn FREE.slot_3b(pid, 5, 0x00000000);
       suspend;
     }
+    clearUnkFlagA4();
+    Item.getPoint(0);
+    Item.unequip();
     FREE.slot_3c(0x0220, 0);
   }
   return;

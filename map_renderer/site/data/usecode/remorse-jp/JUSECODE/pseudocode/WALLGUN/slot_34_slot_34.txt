@@ -57,9 +57,11 @@ function wallgun_slot_34() /* entry=2591 class_id=0x0a1d slot=0x34 */
     else if (isTurret == 1) {
       f = left;
     }
-    else if ((f == 4) && (f == right)) {
+    else if ((f != 4) && (f != right)) {
       f = (f + inc);
     }
+    Item.getQHi(115, arg_06);
+    Item.getPoint(f, arg_06);
     spawn FREE.slot_32(pid, delay, 0x00000000);
     suspend;
     return;

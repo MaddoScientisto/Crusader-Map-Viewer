@@ -7,6 +7,7 @@ function miss4_slot_20() /* entry=2322 class_id=0x0910 slot=0x20 */
   spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
   suspend;
   for local_02 in selector_0x42(arg0=0x032a, arg1=0x0329, arg2=(32 * 32), origin=global[0x003d]) {
+    Item.destroy(local_02);
   }
   return;
 }

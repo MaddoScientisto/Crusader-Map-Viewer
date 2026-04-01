@@ -20,16 +20,20 @@ function blastpac_slot_20() /* entry=925 class_id=0x039b slot=0x20 */
   while (counter <= 5) {
     spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
     suspend;
+    AudioProcess.playSFXCru(51, pac);
     counter = (1 + counter);
   }
   spawn ITEM.slot_28(pid, 1, 2, pac);
   suspend;
-  if (Actor.getMap(&global[0x003c]) == 1) {
+  switch (Actor.getMap(&global[0x003c])) {
+  case 1:
     spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
     suspend;
     for item in nearby_items(shape=REACTOR, origin=global[0x003c]) {
+      AudioProcess.stopSFXCru(0x00a4, arg_06);
       spawn ITEM.slot_28(pid, 0, 2, item);
       suspend;
+      Item.setFrame(1, item);
       therm = item;
     }
     for item in nearby_items(shape=REACTOR_CELL, origin=therm) {
@@ -43,11 +47,13 @@ function blastpac_slot_20() /* entry=925 class_id=0x039b slot=0x20 */
       return;
     }
     for item in nearby_items(shape=NUMBERS, origin=therm) {
+      Item.explode(1, 0, item);
       spawn FREE.waitNTimerTicks(UCMachine.rndRange(pid, 20, 10), 0x00000000);
       suspend;
     }
     counter = 0;
     while (counter <= 2) {
+      AudioProcess.playSFXCru(22, thermTop);
       while (AudioProcess.isSFXPlayingForObject(22, thermTop)) {
         spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
         suspend;
@@ -59,6 +65,7 @@ function blastpac_slot_20() /* entry=925 class_id=0x039b slot=0x20 */
     for item in nearby_items(shape=ELECTRODE, origin=therm) {
       spawn ITEM.slot_28(pid, 0, 0, item);
       suspend;
+      Item.setFrame(1, item);
       spawn FREE.waitNTimerTicks(UCMachine.rndRange(pid, 10, 5), 0x00000000);
       suspend;
     }
@@ -67,13 +74,16 @@ function blastpac_slot_20() /* entry=925 class_id=0x039b slot=0x20 */
     spawn FREE.slot_26(pid, "1c", 0x00000000);
     suspend;
     for item in selector_0x42(arg0=0x032a, arg1=0x0329, arg2=(50 * 32), origin=global[0x003c]) {
+      Item.destroy(item);
     }
     return;
-  }
-  else if (Actor.getMap(&global[0x003c]) == 7) {
+  case 7:
     spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
     suspend;
     for item in nearby_items(shape=COMM_CONSOLE, origin=global[0x003c]) {
+      AudioProcess.stopSFXCru(0x0092, arg_06);
+      Item.explode(0, 2, item);
+      Item.setFrame(1, item);
       radar = item;
     }
     for item in nearby_items(shape=RADAR_DISH, origin=radar) {
@@ -82,10 +92,14 @@ function blastpac_slot_20() /* entry=925 class_id=0x039b slot=0x20 */
       x = Item.getX(item);
       y = Item.getY(item);
       z = Item.getZ(item);
+      Item.explode(1, 1, item);
+      Item.create(0, 0x0484, item);
+      Item.popToCoords(z, y, x, item);
     }
     for item in selector_0x42(arg0=0x01a5, arg1=0x01a4, arg2=(50 * 32), origin=radar) {
       spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
       suspend;
+      Item.explode(1, 0, item);
     }
     spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
     suspend;
@@ -93,11 +107,13 @@ function blastpac_slot_20() /* entry=925 class_id=0x039b slot=0x20 */
       return;
     }
     for item in nearby_items(shape=NUMBERS, origin=radar) {
+      Item.explode(1, 0, item);
       spawn FREE.waitNTimerTicks(UCMachine.rndRange(pid, 20, 10), 0x00000000);
       suspend;
     }
     counter = 0;
     while (counter <= 2) {
+      AudioProcess.playSFXCru(0x0096, radar);
       while (AudioProcess.isSFXPlayingForObject(0x0096, radar)) {
         spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
         suspend;
@@ -109,17 +125,20 @@ function blastpac_slot_20() /* entry=925 class_id=0x039b slot=0x20 */
     spawn FREE.slot_26(pid, "4g", 0x00000000);
     suspend;
     for item in selector_0x42(arg0=0x032a, arg1=0x0329, arg2=(50 * 32), origin=radar) {
+      Item.destroy(item);
     }
     return;
-  }
-  else if (Actor.getMap(&global[0x003c]) == 29) {
+  case 29:
     spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
     suspend;
     for item in nearby_items(shape=LIGHT_TUBE, origin=global[0x003c]) {
+      AudioProcess.stopSFXCru(0x00a4, arg_06);
       spawn ITEM.slot_28(pid, 0, 2, item);
       suspend;
+      Item.setFrame(6, item);
     }
     for item in nearby_items(shape=TUBE_PLATFORM, origin=global[0x003c]) {
+      Item.setFrame(1, item);
     }
     spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
     suspend;
@@ -129,17 +148,20 @@ function blastpac_slot_20() /* entry=925 class_id=0x039b slot=0x20 */
     else {
       for item in nearby_items(shape=NUMBERS, origin=global[0x003c]) {
         if (Item.getQLo(item) == 0) {
+          Item.explode(1, 0, item);
           spawn FREE.waitNTimerTicks(UCMachine.rndRange(pid, 30, 20), 0x00000000);
           suspend;
         }
       }
       for item in nearby_items(shape=0x03b0, origin=global[0x003c]) {
+        Item.destroy(item);
         spawn FREE.waitNTimerTicks(pid, 20, 0x00000000);
         suspend;
       }
       spawn FREE.slot_22(0x00000000);
       return;
     }
+    break;
   }
   return;
 }

@@ -17,17 +17,19 @@ function mtaregg_hatch() /* entry=2309 class_id=0x0903 slot=0x07 */
     loValue = Actor.SetNPCDataField0x63_0E6(item);
     if (id == loValue) {
       hiValue = Actor.getLastAnimSet(item);
-      if (hiValue == 1) {
+      switch (hiValue) {
+      case 1:
         spawn MTAREGG.slot_20(74, 0, item, arg_06);
-      }
-      else if (hiValue == 2) {
+        break;
+      case 2:
         spawn MTAREGG.slot_20(74, 4, item, arg_06);
-      }
-      else if (hiValue == 3) {
+        break;
+      case 3:
         spawn MTAREGG.slot_20(74, 8, item, arg_06);
-      }
-      else if (hiValue == 4) {
+        break;
+      case 4:
         spawn MTAREGG.slot_20(74, 12, item, arg_06);
+        break;
       }
     }
   }

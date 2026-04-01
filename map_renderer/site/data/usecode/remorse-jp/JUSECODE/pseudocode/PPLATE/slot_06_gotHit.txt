@@ -17,6 +17,8 @@ function pplate_gotHit() /* entry=410 class_id=0x0198 slot=0x06 */
     if ((Actor.getLastAnimSet(arg_06) == 0) || (Item.legal_create(*(arg_06), item) == 0)) {
       return;
     }
+    Item.getPoint(1, arg_06);
+    AudioProcess.playSFXCru(0x00aa, arg_06);
     spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
     suspend;
     while (1) {
@@ -25,11 +27,16 @@ function pplate_gotHit() /* entry=410 class_id=0x0198 slot=0x06 */
         suspend;
       }
       else {
+        Item.getPoint(0, arg_06);
+        AudioProcess.playSFXCru(0x00ab, arg_06);
         spawn TRIGGER.slot_20(pid, 1, *(arg_06), arg_06);
         suspend;
         return;
       }
     }
+  }
+  if (!Item.getFrame(arg_06)) {
+    Item.getPoint(1, arg_06);
   }
   return;
 }

@@ -5,10 +5,10 @@ function door2_slot_29() /* entry=2569 class_id=0x0a07 slot=0x29 */
     return;
   }
   else {
-    /* create_list */
-    local_02 = 0x00c2;
-    FREE.slot_3a(5, 0x00be, 0x00bf, 0x00c0, 0x00c1, 0x00ca, local_02);
+    local_02 = [0x00c2, 0x00ca, 0x00c1, 0x00c0, 0x00bf, 0x00be, 5];
+    FREE.slot_3a(local_02);
     local_06 = retval;
+    AudioProcess.playSFXCru(81, arg_06);
     local_04 = (local_06 - 1);
     while (local_04 != 0) {
       FREE.slot_2d(Item.getZ(arg_06), Item.getY(arg_06), (Item.getX(arg_06) + 16), Item.getFrame(arg_06), local_02, local_04, list_element(size=0x2), *(arg_06));
@@ -17,17 +17,23 @@ function door2_slot_29() /* entry=2569 class_id=0x0a07 slot=0x29 */
         suspend;
       }
       else {
+        AudioProcess.stopSFXCru(81, arg_06);
         local_04 = (1 + local_04);
         local_04 = (1 + local_04);
         while (local_04 < (local_06 + 1)) {
+          push(arg_06);
+          Item.setShape(list_element(size=0x2), arg_06);
+          getTargetNPCNumMaybe(local_04, Item.getZ(arg_06), Item.getY(arg_06), (Item.getX(arg_06) - 16), arg_06);
           spawn FREE.waitNTimerTicks(local_02, pid, 5, 0x00000000);
           suspend;
           local_04 = (1 + local_04);
         }
+        process_result = 0;
         return;
       }
       local_04 = (local_04 - 1);
     }
+    process_result = 1;
     return;
   }
   return;

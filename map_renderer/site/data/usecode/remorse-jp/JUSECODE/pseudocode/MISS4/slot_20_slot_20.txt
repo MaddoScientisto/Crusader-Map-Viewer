@@ -11,6 +11,7 @@ function miss4_slot_20() /* entry=2322 class_id=0x0910 slot=0x20 */
   spawn FREE.slot_32(pid, 60, 0x00000000);
   suspend;
   for item in selector_0x42(arg0=0x032a, arg1=0x0329, arg2=(32 * 32), origin=global[0x003c]) {
+    Item.destroy(item);
   }
   return;
 }

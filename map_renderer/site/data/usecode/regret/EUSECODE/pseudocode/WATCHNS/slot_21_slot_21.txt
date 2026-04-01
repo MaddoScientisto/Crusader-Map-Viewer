@@ -2,6 +2,8 @@ function watchns_slot_21() /* entry=1224 class_id=0x04c6 slot=0x21 */
 {
   local_04 = *(arg_06);
   set_info(0x021b, 0);
+  Ultima8Engine.setAvatarInStasis(1);
+  Item.playSfxCru(94, arg_06);
   spawn FREE.slot_3b(pid, 60, 0x00000000);
   suspend;
   local_06 = Camera.getX();
@@ -10,15 +12,20 @@ function watchns_slot_21() /* entry=1224 class_id=0x04c6 slot=0x21 */
   for local_02 in nearby_items(shape=0x0361, origin=arg_06) {
     if (Item.getQLo(local_02) == Item.getQLo(arg_06)) {
       if (Item.getQLo(arg_06) > 0x00f9) {
+        PaletteFaderProcess.jumpToAllBlack();
         spawn WATCHNS.slot_22(pid, local_02, arg_06);
         suspend;
       }
       else {
+        PaletteFaderProcess.jumpToAllBlack();
         local_12 = Item.getX(local_02);
         local_14 = Item.getY(local_02);
         local_16 = Item.getZ(local_02);
+        Intrinsic0137();
+        CameraProcess.moveTo(Actor.getMap(&global[0x001e]), local_16, local_14, local_12);
         spawn FREE.slot_3b(pid, 10, 0x00000000);
         suspend;
+        PaletteFaderProcess.jumpToGreyScale();
         spawn FREE.slot_3b(pid, 60, 0x00000000);
         suspend;
         if (Item.getMapArray(local_02) != 0) {
@@ -31,10 +38,17 @@ function watchns_slot_21() /* entry=1224 class_id=0x04c6 slot=0x21 */
           spawn FREE.slot_3b(pid, 2, 0x00000000);
           suspend;
         }
+        PaletteFaderProcess.jumpToAllBlack();
       }
     }
   }
+  CameraProcess.moveTo(Actor.getMap(&global[0x001e]), local_10, local_08, local_06);
   spawn FREE.slot_3b(pid, 10, 0x00000000);
   suspend;
+  PaletteFaderProcess.jumpToNormalPalette();
+  Intrinsic009F();
+  Intrinsic006B();
+  Ultima8Engine.clrCruStasis();
+  Ultima8Engine.setAvatarInStasis(0);
   return;
 }

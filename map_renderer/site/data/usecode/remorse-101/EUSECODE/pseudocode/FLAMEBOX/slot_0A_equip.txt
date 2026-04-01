@@ -21,10 +21,18 @@ function flamebox_equip() /* entry=1029 class_id=0x0403 slot=0x0a */
     for local_02 in selector_0x42(arg0=0x0438, arg1=0x0439, arg2=(32 * 32), origin=arg_06) {
       if (PaletteFaderProcess.stopFadesAndResetToGamePal(local_02) == PaletteFaderProcess.stopFadesAndResetToGamePal(arg_06)) {
         if (Item.getShape(local_02) == 0x0439) {
+          Item.legal_create(0, 0x043a, local_04);
+          getTargetNPCNumMaybe(Item.getZ(local_02), Item.getY(local_02), Item.getX(local_02), local_04);
+          AudioProcess.playSFXCru(117, local_04);
           spawn FLAMEBOX.slot_20(0, local_04, arg_06);
+          Item.destroy(local_02);
         }
         else if (Item.getShape(local_02) == 0x0438) {
+          Item.legal_create(0, 0x0518, local_04);
+          getTargetNPCNumMaybe(Item.getZ(local_02), Item.getY(local_02), Item.getX(local_02), local_04);
+          AudioProcess.playSFXCru(117, local_04);
           spawn FLAMEBOX.slot_20(1, local_04, arg_06);
+          Item.destroy(local_02);
         }
       }
     }

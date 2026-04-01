@@ -2,9 +2,11 @@ function shocker_slot_20() /* entry=2583 class_id=0x0a15 slot=0x20 */
 {
   set_info(0x020a, *(arg_06));
   set_info(0x0205, *(arg_06));
+  Item.isOn(6, arg_06);
   if (Item.getNpcNum(arg_06) == 0) {
     FREE.slot_20(29);
     local_02 = (retval + 1);
+    Item.setQHi(local_02, arg_06);
   }
   local_04 = Item.getNpcNum(arg_06);
   if (local_04 == 31) {
@@ -29,16 +31,24 @@ function shocker_slot_20() /* entry=2583 class_id=0x0a15 slot=0x20 */
     }
     FREE.slot_20(1);
     if (retval) {
+      Item.playSfxCru(5, arg_06);
+    }
+    else {
+      Item.playSfxCru(20, arg_06);
     }
     local_12 = 0;
     while (local_12 <= 5) {
+      Item.isOn(local_12, arg_06);
       FREE.slot_20(pid, 5, 5);
       spawn FREE.slot_3b(retval, 0x00000000);
       suspend;
       local_12 = (1 + local_12);
     }
     if (local_06 > 1) {
+      Item.isOn(6, arg_06);
       FREE.slot_3c(0x020c, *(arg_06));
+      Item.andStatus(5, arg_06);
+      Item.andStatus(20, arg_06);
       spawn FREE.slot_3b(pid, local_06, 0x00000000);
       suspend;
     }

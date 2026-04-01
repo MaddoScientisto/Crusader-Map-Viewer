@@ -18,8 +18,14 @@ function mbarrel_hit() /* entry=479 class_id=0x01dd slot=0x05 */
     r1 = retval;
     FREE.slot_20(3);
     r2 = retval;
+    Item.explode(0, 1, arg_06);
     spawn ITEM.slot_2a(pid, arg_06);
     suspend;
+    Item.create(r2, 0x0261, item2);
+    Item.orStatus(0x0080, item2);
+    Item.fallProbably_03E(Item.getQHi(arg_06), item2);
+    Item.popToCoords(Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06), item2);
+    Item.destroy(arg_06);
   }
   return;
 }

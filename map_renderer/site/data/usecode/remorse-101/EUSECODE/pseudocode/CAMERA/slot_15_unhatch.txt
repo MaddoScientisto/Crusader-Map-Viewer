@@ -3,6 +3,8 @@ function camera_unhatch() /* entry=2311 class_id=0x0905 slot=0x15 */
   set_info(0x0239, *(arg_06));
   process_exclude();
   if ((Item.fallProbably_03E(arg_06) & 127) == 5) {
+    Egg.getEggId(Item.getX(Item.getY(Actor.getMap(&global[0x003d]), 0, &global[0x003d]), &global[0x003d]));
+    CameraProcess.moveTo(global[0x003d]);
     return;
   }
   return;

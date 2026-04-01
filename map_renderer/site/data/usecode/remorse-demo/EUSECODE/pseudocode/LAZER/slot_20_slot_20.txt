@@ -30,6 +30,9 @@ function lazer_slot_20() /* entry=2577 class_id=0x0a0f slot=0x20 */
               dir = (dir - 8);
             }
             NPC.slot_2b(monster);
+            if (!retval) {
+              Actor.getSomeFlagProbablyCrouch(UCMachine.rndRange(8, 5, 4, 2), *(arg_06), monster);
+            }
           }
           else {
             spawn NPC.slot_2c(pid, *(arg_06), monster);

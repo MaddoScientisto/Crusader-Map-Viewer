@@ -6,6 +6,8 @@ function wallgun2_slot_21() /* entry=2594 class_id=0x0a20 slot=0x21 */
     return;
   }
   else if (Item.getNpcNum(arg_06) > 99) {
+    Item.playSfxCru(0x0091, arg_06);
+    SpriteProcess.createSprite(Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06), 5, 9, 0, 0x04f1);
     return;
   }
   else {
@@ -21,10 +23,19 @@ function wallgun2_slot_21() /* entry=2594 class_id=0x0a20 slot=0x21 */
         if (Item.getFrame(arg_06) != 27) {
           spawn ITEM.slot_2a(pid, 0, 0, arg_06);
           suspend;
+          Item.isOn(27, arg_06);
           if (Item.getShape(arg_06) == 0x0108) {
+            Item.create(0, 0x02a1, local_02);
+            Item.popToCoords((Item.getZ(arg_06) + 32), (Item.getY(arg_06) + 16), Item.getX(arg_06), local_02);
+            Item.create(0, 0x029c, local_04);
+            Item.popToCoords((Item.getZ(arg_06) + 16), (Item.getY(arg_06) + 16), Item.getX(arg_06), local_04);
             suspend;
           }
           else {
+            Item.create(1, 0x02a1, local_02);
+            Item.popToCoords((Item.getZ(arg_06) + 32), Item.getY(arg_06), (Item.getX(arg_06) + 16), local_02);
+            Item.create(1, 0x029c, local_04);
+            Item.popToCoords((Item.getZ(arg_06) + 16), Item.getY(arg_06), (Item.getX(arg_06) + 16), local_04);
             suspend;
           }
         }
@@ -33,7 +44,14 @@ function wallgun2_slot_21() /* entry=2594 class_id=0x0a20 slot=0x21 */
         if (Item.getFrame(arg_06) != 27) {
           spawn ITEM.slot_2a(pid, 0, 0, arg_06);
           suspend;
+          Item.isOn(27, arg_06);
           if (Item.getShape(arg_06) == 0x02f0) {
+            Item.create(2, 0x02a1, local_02);
+            Item.popToCoords((Item.getZ(arg_06) + 32), (Item.getY(arg_06) + 16), Item.getX(arg_06), local_02);
+          }
+          else {
+            Item.create(3, 0x02a1, local_02);
+            Item.popToCoords((Item.getZ(arg_06) + 32), Item.getY(arg_06), (Item.getX(arg_06) + 16), local_02);
           }
         }
       }
@@ -41,10 +59,15 @@ function wallgun2_slot_21() /* entry=2594 class_id=0x0a20 slot=0x21 */
         if (Item.getFrame(arg_06) != 9) {
           spawn ITEM.slot_2a(pid, 0, 0, arg_06);
           suspend;
+          Item.isOn(9, arg_06);
           if ((Item.getShape(arg_06) == 0x01ba) || (Item.getShape(arg_06) == 0x025f)) {
+            Item.create(0, 0x0229, local_02);
+            Item.popToCoords((Item.getZ(arg_06) + 16), (Item.getY(arg_06) + 16), Item.getX(arg_06), local_02);
             suspend;
           }
           else {
+            Item.create(1, 0x0229, local_02);
+            Item.popToCoords((Item.getZ(arg_06) + 16), Item.getY(arg_06), (Item.getX(arg_06) + 16), local_02);
             suspend;
           }
         }
@@ -54,45 +77,64 @@ function wallgun2_slot_21() /* entry=2594 class_id=0x0a20 slot=0x21 */
           spawn ITEM.slot_2a(pid, 0, 0, arg_06);
           suspend;
           FREE.slot_20(1);
+          Item.isOn((retval + 18), arg_06);
         }
       }
-      else if (Item.getShape(arg_06) == 0x04c8) {
-        if (Item.getFrame(arg_06) < 52) {
-          spawn ITEM.slot_2a(pid, 0, 1, arg_06);
-          suspend;
-          for local_02 in nearby_items(shape=0x02ef, origin=arg_06) {
+      else {
+        switch (Item.getShape(arg_06)) {
+        case 0x04c8:
+          if (Item.getFrame(arg_06) < 52) {
+            spawn ITEM.slot_2a(pid, 0, 1, arg_06);
+            suspend;
+            for local_02 in nearby_items(shape=0x02ef, origin=arg_06) {
+              Item.isOn(1, local_02);
+            }
+            local_02 = *(arg_06);
+            set_info(1, 0);
+            FREE.slot_20(2);
+            Item.create(retval, 0x03a5, local_04);
+            Item.popToCoords(Item.getZ(local_02), Item.getY(local_02), Item.getX(local_02), local_04);
+            Item.destroy(local_02);
           }
-          local_02 = *(arg_06);
-          set_info(1, 0);
-          FREE.slot_20(2);
+          break;
+        case 0x01cd:
+          if (Item.getFrame(arg_06) < 52) {
+            spawn ITEM.slot_2a(pid, 0, 1, arg_06);
+            suspend;
+            local_02 = *(arg_06);
+            set_info(1, 0);
+            FREE.slot_20(3);
+            Item.create(retval, 0x056a, local_04);
+            Item.popToCoords(Item.getZ(local_02), Item.getY(local_02), Item.getX(local_02), local_04);
+            Item.explode(1, 1, local_02);
+          }
+          break;
+        case 0x05e6:
+          if (Item.getFrame(arg_06) < 52) {
+            spawn ITEM.slot_2a(pid, 0, 1, arg_06);
+            suspend;
+            local_02 = *(arg_06);
+            set_info(1, 0);
+            Item.create(0, 0x00d7, local_04);
+            Item.popToCoords(Item.getZ(local_02), Item.getY(local_02), Item.getX(local_02), local_04);
+            Item.explode(1, 1, local_02);
+          }
+          break;
+        case 0x05ba:
+          if (Item.getFrame(arg_06) < 52) {
+            spawn ITEM.slot_2a(pid, 0, 1, arg_06);
+            suspend;
+            local_02 = *(arg_06);
+            set_info(1, 0);
+            FREE.slot_20(1);
+            Item.create(retval, 0x02d2, local_04);
+            Item.popToCoords(Item.getZ(local_02), Item.getY(local_02), Item.getX(local_02), local_04);
+            Item.explode(1, 1, local_02);
+          }
+          break;
         }
       }
-      else if (Item.getShape(arg_06) == 0x01cd) {
-        if (Item.getFrame(arg_06) < 52) {
-          spawn ITEM.slot_2a(pid, 0, 1, arg_06);
-          suspend;
-          local_02 = *(arg_06);
-          set_info(1, 0);
-          FREE.slot_20(3);
-        }
-      }
-      else if (Item.getShape(arg_06) == 0x05e6) {
-        if (Item.getFrame(arg_06) < 52) {
-          spawn ITEM.slot_2a(pid, 0, 1, arg_06);
-          suspend;
-          local_02 = *(arg_06);
-          set_info(1, 0);
-        }
-      }
-      else if (Item.getShape(arg_06) == 0x05ba) {
-        if (Item.getFrame(arg_06) < 52) {
-          spawn ITEM.slot_2a(pid, 0, 1, arg_06);
-          suspend;
-          local_02 = *(arg_06);
-          set_info(1, 0);
-          FREE.slot_20(1);
-        }
-      }
+      Actor.setDead(arg_06);
     }
   }
   return;

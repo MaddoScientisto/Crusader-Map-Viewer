@@ -9,8 +9,18 @@ function d_scien_gotHit() /* entry=1215 class_id=0x04bd slot=0x06 */
   else {
     while (condition) {
       if (Item.getShape(local_02) == 0x0111) {
+        Item.push(local_02);
+        Item.popToCoords(Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06), local_02);
+      }
+      else {
+        Item.destroy(local_02);
       }
     }
+    if (Item.getFrame(arg_06) > 9) {
+      Item.setFrame(UCMachine.rndRange(5, 0), arg_06);
+    }
+    Item.setShape(0x04e1, arg_06);
+    Intrinsic003F();
   }
   return;
 }

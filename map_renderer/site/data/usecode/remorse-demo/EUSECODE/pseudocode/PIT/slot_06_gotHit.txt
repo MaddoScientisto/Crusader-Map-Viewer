@@ -17,14 +17,24 @@ function pit_gotHit() /* entry=870 class_id=0x0364 slot=0x06 */
   else if (Actor.isNPC(item)) {
     n = ref;
     if (n == 1) {
+      Ultima8Engine.setAvatarInStasis(1);
+      Actor.setDead(n);
+      Item.andStatus(0x00f0, n);
+      Item.legal_create(8, n);
       spawn FREE.slot_21(pid, 98, 0x00000000);
       suspend;
       return;
     }
     else {
+      AudioProcess.playSFXCru(98, arg_06);
+      Actor.setDead(n);
+      Item.isInNPC(0, 0, 10, 10, n);
       return;
     }
     return;
+  }
+  else {
+    Item.destroy(item);
   }
   return;
 }

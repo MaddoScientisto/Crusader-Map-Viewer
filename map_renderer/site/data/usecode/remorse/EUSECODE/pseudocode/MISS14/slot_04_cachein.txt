@@ -6,5 +6,10 @@ function miss14_cachein() /* entry=2332 class_id=0x091a slot=0x04 */
 
   set_info(0x0213, *(arg_06));
   process_exclude();
+  if (Egg.getEggId(arg_06) == 1) {
+    Item.create(0, BLAST_PAC, item);
+    Item.popToCoords(0, 0, 0, item);
+    MainActor.addItemCru(0, item);
+  }
   return;
 }

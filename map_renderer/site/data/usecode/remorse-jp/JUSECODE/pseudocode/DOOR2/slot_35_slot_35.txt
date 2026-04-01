@@ -31,26 +31,40 @@ function door2_slot_35() /* entry=2569 class_id=0x0a07 slot=0x35 */
       x1 = Item.getX(item);
       y1 = Item.getY(item);
       z1 = Item.getZ(item);
+      Item.destroy(item);
     }
     else {
       x2 = Item.getX(item);
       y2 = Item.getY(item);
       z2 = Item.getZ(item);
+      Item.destroy(item);
     }
   }
   link = Item.andStatus(arg_06);
+  Item.destroy(prisDoor);
   if (Item.legal_create((coz - 80), coy, cox, 7, 0x01ee, item2) == 1) {
+    AudioProcess.playSFXCru(106, arg_06);
+    Item.fallProbably_03E(link, item2);
     spawn FREE.slot_32(pid, 5, 0x00000000);
     suspend;
     counter = 1;
     while (counter <= maxFrame) {
+      Item.getPoint((maxFrame - counter), item2);
       spawn FREE.slot_32(pid, 5, 0x00000000);
       suspend;
       counter = (1 + counter);
     }
+    process_result = 1;
     return;
   }
   else {
+    Item.create(0, 0x0090, item);
+    Item.popToCoords(z1, y1, x1, item);
+    Item.create(1, 0x0090, item);
+    Item.popToCoords(z2, y2, x2, item);
+    Item.create(0, 0x01ed, item);
+    Item.popToCoords(coz, coy, cox, item);
+    process_result = 0;
     return;
   }
   return;

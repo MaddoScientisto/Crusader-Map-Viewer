@@ -12,6 +12,11 @@ function flormine_gotHit() /* entry=673 class_id=0x029f slot=0x06 */
       if (local_02 == 4) {
         return;
       }
+      else {
+        Item.explode(0, 1, arg_06);
+        Actor.setImmortal(arg_06);
+        Item.isCentreOn(UCMachine.rndRange(4, 2), arg_06);
+      }
       return;
     }
     else {
@@ -19,6 +24,11 @@ function flormine_gotHit() /* entry=673 class_id=0x029f slot=0x06 */
       if (PaletteFaderProcess.fadeToBlackWithParam(*(arg_06), local_04)) {
         if (((arg_10 < 0x00ff) && (arg_10 != Actor.getLastAnimSet())) && (Item.isOnScreen(arg_06) == 0)) {
           return;
+        }
+        else {
+          Item.explode(0, 1, arg_06);
+          Actor.setImmortal(arg_06);
+          Item.isCentreOn(UCMachine.rndRange(4, 2), arg_06);
         }
       }
     }

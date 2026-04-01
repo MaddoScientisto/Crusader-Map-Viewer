@@ -2,13 +2,22 @@ function surcamew_slot_21() /* entry=1248 class_id=0x04de slot=0x21 */
 {
   set_info(0x021b, 0);
   local_06 = *(arg_06);
+  Ultima8Engine.setAvatarInStasis(1);
+  Item.andStatus();
+  if (Item.legal_create(0, 0x0470, local_02)) {
+    getTargetNPCNumMaybe((Item.getZ(arg_06) + 52), (Item.getY(arg_06) + 20), Item.getX(arg_06), local_02);
+  }
   spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
   suspend;
   for local_04 in nearby_items(shape=EVENT_CONTROLLER, origin=arg_06) {
     if (Actor.getDefaultActivity2(local_04) == Actor.getDefaultActivity2(arg_06)) {
       if (Actor.getDefaultActivity2(arg_06) == 0x00fe) {
+        Item.setMapArray();
+        CruHealer.create_0F6();
+        Egg.getEggId(Actor.getMap(&global[0x003d]), Item.getZ(local_04), Item.getY(local_04), Item.getX(local_04));
         spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
         suspend;
+        MusicProcess.musicStop();
         spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
         suspend;
         for local_08 in nearby_items(shape=MECH_1, origin=local_04) {
@@ -21,6 +30,9 @@ function surcamew_slot_21() /* entry=1248 class_id=0x04de slot=0x21 */
         if (local_10) {
           spawn NPC.slot_28(pid, local_10);
           suspend;
+          CruHealer.create_0F6();
+          clearSomeMovieGlobal();
+          Actor.setActivity(local_10);
           return;
         }
         else {
@@ -31,26 +43,39 @@ function surcamew_slot_21() /* entry=1248 class_id=0x04de slot=0x21 */
             spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
             suspend;
           }
+          Item.setMapArray();
+          CruHealer.create_0F6();
+          Egg.getEggId(Actor.getMap(&global[0x003d]), local_15, local_14, local_12);
           spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
           suspend;
+          Item.hurl();
+          clearSomeMovieGlobal();
         }
       }
       else if (Actor.getDefaultActivity2(arg_06) == 0x00fd) {
         spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
         suspend;
+        playFlic(pid, 0x0096, 0x00c8, "3j", arg_06);
         suspend;
       }
       else if (Actor.getDefaultActivity2(arg_06) > 0x00f9) {
+        Item.setMapArray();
+        CruHealer.create_0F6();
+        Egg.getEggId(Actor.getMap(&global[0x003d]), Item.getZ(local_04), Item.getY(local_04), Item.getX(local_04));
         spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
         suspend;
         spawn SURCAMEW.slot_22(local_04, arg_06);
       }
       else {
+        Item.setMapArray();
         local_17 = Item.getX(local_04);
         local_19 = Item.getY(local_04);
         local_20 = Item.getZ(local_04);
+        CruHealer.create_0F6();
+        Egg.getEggId(Actor.getMap(&global[0x003d]), local_20, local_19, local_17);
         spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
         suspend;
+        MusicProcess.musicStop();
         spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
         suspend;
         if (Item.getMapArray(local_04) != 0) {
@@ -63,12 +88,22 @@ function surcamew_slot_21() /* entry=1248 class_id=0x04de slot=0x21 */
           spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
           suspend;
         }
+        Item.setMapArray();
+        Item.hurl();
+        Egg.getEggId(Item.getX(Item.getY(Item.getZ(Actor.getMap(&global[0x003d]), &global[0x003d]), &global[0x003d]), &global[0x003d]));
         spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
         suspend;
+        clearSomeMovieGlobal();
       }
     }
   }
   spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
   suspend;
+  if (local_02) {
+    Item.destroy(local_02);
+  }
+  Ultima8Engine.setAvatarInStasis(0);
+  Ultima8Engine.getUnkCrusaderFlag();
+  createMapJumpProcess();
   return;
 }

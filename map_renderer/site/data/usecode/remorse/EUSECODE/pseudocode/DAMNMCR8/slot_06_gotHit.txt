@@ -14,6 +14,10 @@ function damnmcr8_gotHit() /* entry=1442 class_id=0x05a0 slot=0x06 */
     if (!process_result) {
       FREE.slot_20(1);
       if (retval) {
+        AudioProcess.playSFXCru(38, arg_06);
+      }
+      else {
+        AudioProcess.playSFXCru(39, arg_06);
       }
       return;
     }

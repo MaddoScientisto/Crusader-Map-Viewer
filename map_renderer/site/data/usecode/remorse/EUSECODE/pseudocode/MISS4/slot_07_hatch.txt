@@ -5,6 +5,7 @@ function miss4_hatch() /* entry=2322 class_id=0x0910 slot=0x07 */
   if (Egg.getEggId(arg_06) == 1) {
     spawn MISS4.slot_20(pid, arg_06);
     suspend;
+    Item.destroy(arg_06);
     return;
   }
   return;

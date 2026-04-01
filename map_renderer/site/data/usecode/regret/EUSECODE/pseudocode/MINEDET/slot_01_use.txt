@@ -4,16 +4,30 @@ function minedet_use() /* entry=1566 class_id=0x061c slot=0x01 */
   process_exclude();
   set_info(1, global[0x001e]);
   if (Actor.getMap((global[0x0008] == 1), &global[0x001e]) == 25) {
+    Item.create(0, MINE_DET, local_02);
+    Item.popToCoords(0, 0, 0, local_02);
+    MainActor.addItemCru(0, local_02);
     return;
   }
   else {
     while (condition) {
       FREE.slot_3c(12, local_02);
+      Item.explode(1, 0, local_02);
       local_05 = 1;
     }
     while (condition) {
+      Item.create(UCMachine.rndRange(2, 0), 88, local_04);
+      Item.popToCoords((Item.getZ(local_02) + 1), Item.getY(local_02), Item.getX(local_02), local_04);
+      Item.explode(1, 0, local_02);
       local_05 = 1;
     }
+    if (!local_05) {
+      Item.playSfxCru(0x01a7, &global[0x001e]);
+      Item.create(0, MINE_DET, local_02);
+      Item.popToCoords(0, 0, 0, local_02);
+      MainActor.addItemCru(0, local_02);
+    }
+    Ultima8Engine.clrCruStasis();
   }
   return;
 }

@@ -8,18 +8,28 @@ function re_floor_gotHit() /* entry=314 class_id=0x0138 slot=0x06 */
       return;
     }
     else {
+      Item.setQLo(1, arg_06);
+      Ultima8Engine.setAvatarInStasis(1);
       suspend;
       suspend;
       suspend;
       while (condition) {
+        if (!Item.getFrame(local_02)) {
+          Item.setFrame(1, local_02);
+        }
       }
       spawn FREE.slot_3b(pid, 60, 0x00000000);
       suspend;
+      Intrinsic00FE();
+      Ultima8Engine.setAvatarInStasis(0);
       while (Kernel.getNumProcesses(0x0254, global[0x001e])) {
         spawn FREE.slot_3b(pid, 2, 0x00000000);
         suspend;
       }
       while (condition) {
+        if (Item.getFrame(local_02) == 1) {
+          Item.setFrame(0, local_02);
+        }
       }
     }
   }

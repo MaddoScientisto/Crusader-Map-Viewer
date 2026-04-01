@@ -8,28 +8,34 @@ function chest_ns_use() /* entry=1361 class_id=0x054f slot=0x01 */
   else if (Item.getFrame(arg_06) == 1) {
     FREE.slot_2d(Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06), 5, 0x054a, *(arg_06));
     if (retval) {
+      AudioProcess.playSFXCru(0x00b3, arg_06);
       local_06 = 5;
       while (local_06 <= 9) {
+        Item.setFrame(local_06, arg_06);
         spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
         suspend;
         local_06 = (1 + local_06);
       }
     }
     else {
+      AudioProcess.playSFXCru(0x00b0, arg_06);
       return;
     }
   }
   else {
     FREE.slot_2d(Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06), 0, 0x054a, *(arg_06));
     if (retval) {
+      AudioProcess.playSFXCru(0x00b3, arg_06);
       local_06 = 0;
       while (local_06 <= 4) {
+        Item.setFrame(local_06, arg_06);
         spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
         suspend;
         local_06 = (1 + local_06);
       }
     }
     else {
+      AudioProcess.playSFXCru(42, arg_06);
       return;
     }
   }
@@ -43,8 +49,14 @@ function chest_ns_use() /* entry=1361 class_id=0x054f slot=0x01 */
       local_04 = retval;
       if ((((Item.setQLo(local_04) == 10) || (Item.setQLo(local_04) == 11)) || (Item.setQLo(local_04) == 12)) || (Item.setQLo(local_04) == 13)) {
         if (!MainActor.addItemCru(1, local_04)) {
+          AudioProcess.playSFXCru(0x00b0, arg_06);
+          push(local_04);
           if (Actor.getMap(&global[0x003d]) == 40) {
+            getTargetNPCNumMaybe(Item.getZ(arg_06), local_10, local_08, local_04);
             local_08 = (local_08 - 32);
+          }
+          else {
+            getTargetNPCNumMaybe(Item.getX(Item.getY(Item.getZ(&global[0x003d]), &global[0x003d]), &global[0x003d]), local_04);
           }
         }
       }

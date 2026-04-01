@@ -18,13 +18,23 @@ function sicboxns_gotHit() /* entry=738 class_id=0x02e0 slot=0x06 */
     else {
       FREE.slot_33(0x0254, global[0x003c]);
       for item in nearby_items(shape=DOOR_CORNER_LOWER_RIGHT, origin=arg_06) {
+        if ((Item.getFrame(item) == 0) || (Item.getFrame(item) == 1)) {
+          Item.getPoint((Item.getFrame(item) + 4), item);
+        }
+        else if ((Item.getFrame(item) == 2) || (Item.getFrame(item) == 3)) {
+          Item.getPoint((Item.getFrame(item) + 2), item);
+        }
       }
       for item in nearby_items(shape=0x02e1, origin=arg_06) {
+        Item.getPoint(1, item);
       }
       for item in nearby_items(shape=HEALTH_STATION_TOP, origin=arg_06) {
+        Item.getPoint(2, item);
       }
       for item in nearby_items(shape=HEALTH_STATION_BACK, origin=arg_06) {
+        Item.getPoint(2, item);
       }
+      Item.explode(0, 2, arg_06);
     }
   }
   return;

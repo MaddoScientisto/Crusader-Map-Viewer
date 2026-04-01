@@ -24,6 +24,9 @@ function grenegg_hatch() /* entry=2315 class_id=0x0909 slot=0x07 */
     wp = Item.getX(dest);
     local_11 = Item.getY(dest);
     local_09 = Item.getZ(dest);
+    Item.create(0, GRENADE, item);
+    Item.popToCoords((Item.getZ(source) + 60), Item.getY(source), Item.getX(source), item);
+    Intrinsic08A(1, 64, wp, item);
   }
   return;
 }

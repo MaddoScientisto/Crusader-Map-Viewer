@@ -4,11 +4,12 @@ function bridge_slot_21() /* entry=2565 class_id=0x0a03 slot=0x21 */
   if ((local_02 == 0x0413) || (local_02 == 0x0290)) {
     if (arg_08 == 0x03a6) {
       arg_08 = 0x0413;
-      return;
     }
     else {
       arg_08 = 0x0290;
     }
   }
+  Item.setShape(arg_08, arg_06);
+  Intrinsic0036(arg_06);
   return;
 }

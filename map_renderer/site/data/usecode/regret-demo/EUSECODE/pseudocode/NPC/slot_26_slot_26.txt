@@ -3,6 +3,9 @@ function npc_slot_26() /* entry=2580 class_id=0x0a12 slot=0x26 */
   set_info(0x020a, *(arg_06));
   local_02 = Item.hurl(arg_06);
   local_04 = Actor.setDefaultActivity2(arg_06);
+  if (!Actor.setCombatTactic(arg_06)) {
+    CameraProcess.getCameraY(1, arg_06);
+  }
   local_06 = Item.hurl(arg_06);
   local_08 = Actor.setDefaultActivity2(arg_06);
   if (!Actor.setCombatTactic(arg_06)) {
@@ -21,5 +24,8 @@ function npc_slot_26() /* entry=2580 class_id=0x0a12 slot=0x26 */
   }
   local_16 = Item.hurl(arg_06);
   local_18 = Actor.setDefaultActivity2(arg_06);
+  if (!Actor.setCombatTactic(arg_06)) {
+    CameraProcess.getCameraY(Item.hurl(arg_06), arg_06);
+  }
   return;
 }

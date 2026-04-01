@@ -3,6 +3,7 @@ function door3_slot_40() /* entry=2570 class_id=0x0a08 slot=0x40 */
   set_info(0x0207, *(arg_06));
   if (Item.getFrame(arg_06) == 1) {
     if (Item.legal_create(Item.getZ(arg_06), Item.getY(arg_06), (Item.getX(arg_06) + 0x0080), 0, 0x0233, local_04)) {
+      Item.destroy(local_04);
       for local_04 in nearby_items(shape=0x046c, origin=arg_06) {
         if ((Item.getFrame(local_04) == 1) && (Item.getQLo(local_04) == Item.getQLo(arg_06))) {
           local_06 = local_04;
@@ -11,15 +12,25 @@ function door3_slot_40() /* entry=2570 class_id=0x0a08 slot=0x40 */
       if (!local_06) {
         return;
       }
+      Item.playSfxCru(0x014e, arg_06);
+      Item.push(local_06);
+      Actor.doAnim(6, local_06);
+      Item.setShape(0x046b, local_06);
+      Item.popToCoords(Item.getZ(arg_06), Item.getY(arg_06), (Item.getX(arg_06) + 0x0080), local_06);
       local_02 = 0;
       while (local_02 <= 9) {
+        Actor.doAnim((9 - local_02), arg_06);
         spawn FREE.slot_3b(pid, 5, 0x00000000);
         suspend;
         local_02 = (1 + local_02);
       }
+      Item.playSfxCru(0x014f, arg_06);
+      process_result = 1;
       return;
     }
     else {
+      Item.playSfxCru(0x01a7, arg_06);
+      process_result = 0;
       return;
     }
   }

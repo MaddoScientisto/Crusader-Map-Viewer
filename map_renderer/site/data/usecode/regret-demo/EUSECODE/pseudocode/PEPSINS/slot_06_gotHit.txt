@@ -6,6 +6,8 @@ function pepsins_gotHit() /* entry=156 class_id=0x009a slot=0x06 */
   if (retval) {
     spawn ITEM.slot_2a(pid, 0, 1, arg_06);
     suspend;
+    Item.setShape(0x03a0, arg_06);
+    Item.isOn(0, arg_06);
   }
   return;
 }

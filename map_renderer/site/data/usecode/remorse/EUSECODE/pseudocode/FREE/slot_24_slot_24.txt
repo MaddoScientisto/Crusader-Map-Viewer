@@ -16,11 +16,20 @@ function free_slot_24() /* entry=2574 class_id=0x0a0c slot=0x24 */
         return;
       }
       else {
+        playSFX(51);
         arg_06 = (arg_06 - 1);
         if (arg_06 == 0) {
+          Ultima8Engine.setAvatarInStasis(1);
+          Actor.setDead(&global[0x003c]);
+          PaletteFaderProcess.setPalToAllBlack();
+          MusicProcess.musicStop();
           spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
           suspend;
+          setSomeMovieGlobal();
+          playFlic0A9(pid, 0, 0, "b01", &global[0x003c]);
           suspend;
+          clearSomeMovieGlobal();
+          Game.playCredits();
           return;
         }
       }

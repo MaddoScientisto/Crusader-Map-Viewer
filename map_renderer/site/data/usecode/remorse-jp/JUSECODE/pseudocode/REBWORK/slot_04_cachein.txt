@@ -4,7 +4,11 @@ function rebwork_cachein() /* entry=1351 class_id=0x0545 slot=0x04 */
   process_exclude();
   if (global[0x001f] > 3) {
     if (UCMachine.rndRange(10, 1) > 5) {
+      Item.getPoint(1, arg_06);
       return;
+    }
+    else {
+      Item.getPoint(0, arg_06);
     }
   }
   return;

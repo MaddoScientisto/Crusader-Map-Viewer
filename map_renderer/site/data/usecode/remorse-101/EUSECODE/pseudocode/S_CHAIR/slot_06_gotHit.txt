@@ -20,6 +20,8 @@ function s_chair_gotHit() /* entry=484 class_id=0x01e2 slot=0x06 */
           if (local_02 == 8) {
             local_02 = 0;
           }
+          AudioProcess.playSFXCru(0x00bb, arg_06);
+          Item.isCentreOn(local_02, arg_06);
           spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
           suspend;
           local_06 = (1 + local_06);
@@ -33,6 +35,8 @@ function s_chair_gotHit() /* entry=484 class_id=0x01e2 slot=0x06 */
           if (local_02 == -1) {
             local_02 = 7;
           }
+          AudioProcess.playSFXCru(0x00bb, arg_06);
+          Item.isCentreOn(local_02, arg_06);
           spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
           suspend;
           local_06 = (1 + local_06);

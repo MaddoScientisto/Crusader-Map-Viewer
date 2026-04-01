@@ -12,6 +12,9 @@ function steam_slot_23() /* entry=2585 class_id=0x0a17 slot=0x23 */
       suspend;
       if (arg_10 < 0x00ff) {
         NPC.slot_2a(local_02);
+        if (!retval) {
+          MusicProcess.playMusic(UCMachine.rndRange(12, 50, 16, 0), 0, local_02);
+        }
         spawn STEAM.slot_22(arg_06);
         return;
       }

@@ -12,7 +12,8 @@ function textfile_slot_23() /* entry=2584 class_id=0x0a16 slot=0x23 */
     TEXTFIL1.slot_20(arg_14, arg_12, arg_10, arg_06);
     return;
   }
-  if (arg_12 == 0) {
+  switch (arg_12) {
+  case 0:
     local_04 = UCMachine.rndRange(11, 1);
     if (local_04 == 1) {
       local_02 = "Due to recent rebel^activity, the T-300^lines have failed.^^Do NOT attempt to  ^access the LMC     ^network at this    ^time.             ^^<END OF MESSAGE>    ";
@@ -47,298 +48,299 @@ function textfile_slot_23() /* entry=2584 class_id=0x0a16 slot=0x23 */
     else {
       local_02 = "The LMC network is ^experiencing slight^difficulties.  ** ^^Please stand by ... ";
     }
-  }
-  else if (arg_12 == 1) {
+    break;
+  case 1:
     local_02 = "LMC SECURITY SYSTEM^Accessing Database^^Security door ***  ^now opening...      ";
-  }
-  else if (arg_12 == 2) {
+    break;
+  case 2:
     local_02 = "LMC SECURITY SYSTEM^Accessing Database^^Force field ***    ^deactivated.        ";
-  }
-  else if (arg_12 == 3) {
+    break;
+  case 3:
     local_02 = "LMC SECURITY SYSTEM^Accessing Database^^Electric bridge ** ^extended.          ";
-  }
-  else if (arg_12 == 4) {
+    break;
+  case 4:
     local_02 = "LMC SECURITY SYSTEM^Accessing Network ^^Security systems   ^activated.         ";
-  }
-  else if (arg_12 == 5) {
+    break;
+  case 5:
     local_02 = "LMC SECURITY SYSTEM^Accessing Network ^^Security systems **^deactivated.       ";
-  }
-  else if (arg_12 == 6) {
+    break;
+  case 6:
     local_02 = "LMC SECURITY SYSTEM^Accessing Network ^^All alarm systems^have been **^deactivated.";
-  }
-  else if (arg_12 == 7) {
+    break;
+  case 7:
     local_02 = "LMC SECURITY SYSTEM^Accessing Network ^^Entry is *<GRANTED>";
-  }
-  else if (arg_12 == 8) {
+    break;
+  case 8:
     local_02 = "LMC SECURITY SYSTEM^Accessing Network ^^Security systems **^All alarm systems  ^have been **       ^deactivated.       ";
-  }
-  else if (arg_12 == 9) {
+    break;
+  case 9:
     if (arg_10 && arg_14) {
       local_02 = (("LMC SECURITY SYSTEM Due to security threats, passcodes will be changed on a daily basis. The current passcode is: " + UCMachine.numToStr(arg_14)) + " . ");
     }
-  }
-  else if (arg_12 == 10) {
+    break;
+  case 10:
     local_02 = "LMC SECURITY SYSTEM^Powering elevator  ^platform *.*.*.*  ^^Platform is: ***   ^ACTIVE*            ";
-  }
-  else if (arg_12 == 11) {
+    break;
+  case 11:
     local_02 = "LMC SECURITY OPS^______________^^Central Computer   ^      Core        ^^^Restricted Area...^Authorized Personnel^    -ONLY-";
-  }
-  else if (arg_12 == 12) {
+    break;
+  case 12:
     local_02 = "Laser barrier RT-5^^Decoupling power   ^source *.*.*.*    ^FIELD DEACTIVATED  ";
-  }
-  else if (arg_12 == 13) {
+    break;
+  case 13:
     spawn TRIGGER.slot_20(1, *(arg_06), arg_06);
     local_02 = "LMC SECURITY SYSTEM^Laser barrier RT-5*^^FIELD ACTIVATED   ";
-  }
-  else if (arg_12 == 14) {
+    break;
+  case 14:
     local_02 = "Security Operations^__________________^^Now interfacing    ^with remote droid.^^Roaming Susan      ^VTK753B       *** ^^Unit is now *      ^ * - ONLINE -*.    ";
-  }
-  else if (arg_12 == 15) {
+    break;
+  case 15:
     local_02 = "LMC Security System^Override Forcefield^Z-01 operation. * ^^Terminating power  ^supply *.*.*.*    ^^Z-01 is now        ^*** - OFFLINE -.^";
-  }
-  else if (arg_12 == 16) {
+    break;
+  case 16:
     local_02 = "Accessing .*.*.*.*:^Security Terminal* ^*.*.*.*            ^Rerouted and now   ^* - OPERATIONAL -. ";
-  }
-  else if (arg_12 == 17) {
+    break;
+  case 17:
     local_02 = "Blast Door 6A:     ^Activating controls^^*.*.*.*           ^Override in effect.";
-  }
-  else if (arg_12 == 18) {
+    break;
+  case 18:
     if (arg_10 && arg_14) {
       local_02 = ((((("Di-Cor Freighter   ^Endymion ***       ^Security OPS ***  ^^------------------^^The passcode for   ^access to Level 4  ^has been changed   ^per new security   ^regulations.      ^^The code is now:   ^" + UCMachine.numToStr(arg_14)) + "^Passcodes will be ^") + "changed on a daily ^") + "basis.      ***    ^") + "Captain J. Banks   ");
     }
     else {
       local_02 = "LMC SECURITY SYSTEM^Remote Camera: *** ^ACTIVE*            ";
     }
-  }
-  else if (arg_12 == 19) {
+    break;
+  case 19:
     local_02 = "Security Force     ^Field *.*.*.*     ^^Decoupling Power   ^conduits *.*.*.*  ^^Field -DEACTIVATED-";
-  }
-  else if (arg_12 == 20) {
+    break;
+  case 20:
     if (arg_10 && arg_14) {
       local_02 = "LMC SECURITY SYSTEM^Accessing PG103 **^^Thresher Cannon    ^shields are now    ^deactivated.      ^^Contact Security   ^for re-activation. ";
     }
     else {
       local_02 = "LMC SECURITY SYSTEM^Remote Camera: ** ^^ACTIVE*            ^Thermatron ID      ^#1184MFH *.* ONLINE";
     }
-  }
-  else if (arg_12 == 21) {
+    break;
+  case 21:
     local_02 = "Jay, I've reset the^passcode for the   ^safe to 183. Don't ^let Norma know that^I did it, okay?    ^She'll be mad.    ^^Sullivan           ";
-  }
-  else if (arg_12 == 22) {
+    break;
+  case 22:
     local_02 = "Euri,  **          ^I've installed a   ^new experimental   ^barrier in that    ^telepad room. Maybe^that will keep     ^those workers from ^from clowning      ^around all day.   ^^Mischa             ^Oh, by the way, the^code is 216.";
-  }
-  else if (arg_12 == 23) {
+    break;
+  case 23:
     local_02 = "LMC SECURITY SYSTEM^Remote Camera: ** ^^ACTIVE *           ^Vetron ID #0268YMJ*^ONLINE*            ";
-  }
-  else if (arg_12 == 24) {
+    break;
+  case 24:
     if (arg_10 && arg_14) {
       local_02 = "LMC SECURITY SYSTEM^Level 3 Mining Open^";
     }
     else {
       local_02 = "LMC SECURITY SYSTEM^Security Shield  *^^DEACTIVATED        ^Level 4 Elevator  *^Now Open           ";
     }
-  }
-  else if (arg_12 == 25) {
+    break;
+  case 25:
     if (arg_10 && arg_14) {
       local_02 = "LMC SECURITY SYSTEM^Access Granted     ^Level 3 Mining Open ";
     }
     else {
       local_02 = "LMC SECURITY SYSTEM^Laser Barrier ***  ^DEACTIVATED.        ";
     }
-  }
-  else if (arg_12 == 26) {
+    break;
+  case 26:
     if (arg_10 && arg_14) {
       local_02 = "LMC SECURITY SYSTEM^Level 3 Mining Open ";
     }
     else {
       local_02 = "LMC SECURITY SYSTEM^Barrier Walls ***  ^DEACTIVATED.        ";
     }
-  }
-  else if (arg_12 == 27) {
+    break;
+  case 27:
     if (arg_10 && arg_14) {
       local_02 = "LMC SECURITY SYSTEM^Level 3 Mining Open";
     }
     else {
       local_02 = "LMC SECURITY SYSTEM^Jorg, I told you   ^passcode was 201!   ";
     }
-  }
-  else if (arg_12 == 28) {
+    break;
+  case 28:
     if (arg_10 && arg_14) {
       local_02 = "Attention:  ***    ^Due to possible    ^rebel infiltration,^all passcodes have ^been changed.     ^^To use keypad,     ^enter 201.  **     ^Thank you, and have^a nice day.        ";
     }
     else {
       local_02 = "LMC SECURITY SYSTEM:^Security Door is now open.";
     }
-  }
-  else if (arg_12 == 29) {
+    break;
+  case 29:
     if (arg_10 && arg_14) {
       local_02 = "";
     }
     else {
       local_02 = "LMC SECURITY SYSTEM^Thresher Cannon ** ^DEACTIVATED        ";
     }
-  }
-  else if (arg_12 == 30) {
+    break;
+  case 30:
     if (arg_10 && arg_14) {
       local_02 = "";
     }
     else {
       local_02 = "LMC SECURITY SYSTEM^^Remote Camera:    ^ACTIVE *           ";
     }
-  }
-  else if (arg_12 == 31) {
+    break;
+  case 31:
     if (arg_10 && arg_14) {
       local_02 = "";
     }
     else {
       local_02 = "Mr. Plese,         ^Your telepad now   ^has a new passcode.^It is 162.  **YMJ  ";
     }
-  }
-  else if (arg_12 == 32) {
+    break;
+  case 32:
     if (arg_10 && arg_14) {
       local_02 = ((("LMC SECURITY SYSTEM^Accessing PG *.*.* ^" + UCMachine.numToStr(arg_14)) + "^Laser Barriers are^") + "DEACTIVATED.  ***  ");
     }
     else {
       local_02 = "LMC SECURITY SYSTEM^Barrier Walls *.*. ^DEACTIVATED       ^^Laser Barrier *.*. ^DEACTIVATED        ";
     }
-  }
-  else if (arg_12 == 33) {
+    break;
+  case 33:
     if (arg_10 && arg_14) {
       local_02 = "LMC SECURITY SYSTEM^One Moment *.*.*.* ^Loading Radix Data ^*.*.*.*            ^Shields are now    ^INACTIVE           ";
     }
     else {
       local_02 = "LMC SECURITY SYSTEM^Remote Camera: ** ^^ACTIVE             ^Access to LB 5461  ^GRANTED            ";
     }
-  }
-  else if (arg_12 == 34) {
+    break;
+  case 34:
     if (arg_10 && arg_14) {
       local_02 = (((("LMC SECURITY SYSTEM^^Accessing MSD     ^Security panel    ^^" + UCMachine.numToStr(arg_14)) + "^*.*.*.*           ^") + "LMC Security Door  ^") + "*.*.*.* NOW OPEN   ");
     }
     else {
       local_02 = "LMC RADIX LAB     ^^Barrier Wall  *.*. ^DEACTIVATED.       ";
     }
-  }
-  else if (arg_12 == 35) {
+    break;
+  case 35:
     if (arg_10 && arg_14) {
       local_02 = (("Sullivan,          ^she didn't get mad.^Meet me over in the^kitchenette.       ^The new telepad    ^code is  *.*.*.    ^" + UCMachine.numToStr(arg_14)) + "^^Jay              ");
     }
     else {
       local_02 = "LMC SECURITY SYSTEM^One Moment *.*.*.* ^Loading Radix Data ^*.*.*.*            ^Shields are now    ^INACTIVE           ";
     }
-  }
-  else if (arg_12 == 36) {
+    break;
+  case 36:
     if (arg_10 && arg_14) {
       local_02 = (("LMC SECURITY SYSTEM^Attention:  ***    ^Due to increased   ^rebel activities,  ^all telepad        ^passcodes have been^changed.          ^^The code is now    ^" + UCMachine.numToStr(arg_14)) + ".                  ");
     }
     else {
       local_02 = "Hey Ev,            ^I've been wondering^if that floor safe ^still has the same ^passcode?          ^107 doesn't seem to^work. Will you fix ^it? JG             ";
     }
-  }
-  else if (arg_12 == 37) {
+    break;
+  case 37:
     if (arg_10 && arg_14) {
       local_02 = "LMC SECURITY SYSTEM^Telepad is now     ^ACTIVE.            ";
     }
     else {
       local_02 = "LMC SECURITY SYSTEM^*Laser Barrier *.*.^DEACTIVATED.       ";
     }
-  }
-  else if (arg_12 == 38) {
+    break;
+  case 38:
     if (arg_10 && arg_14) {
       local_02 = (((("LMC SECURITY SYSTEM^Attention:         ^Due to possible    ^rebel infiltration,^all passcodes have ^been changed. To  ^^use keypad, enter  ^" + UCMachine.numToStr(arg_14)) + ".                  ^") + "Thank you, and have^") + "a nice day.        ");
     }
     else {
       local_02 = "Security door is   ^now OPEN.          ";
     }
-  }
-  else if (arg_12 == 39) {
+    break;
+  case 39:
     if (arg_10 && arg_14) {
       local_02 = ((((("LMC SECURITY SYSTEM^^Accessing MSD     ^Security panel    ^^" + UCMachine.numToStr(arg_14)) + "^*.*.*.*           ^") + "Access granted.    ^") + "Electric Bridge now^") + "extended.          ");
     }
     else {
       local_02 = "LMC SECURITY SYSTEM^^Accessing MSD     ^Security panel    ^^*.*.*.*           ^LMC Security Door  ^*.*.*.* NOW OPEN   ";
     }
-  }
-  else if (arg_12 == 40) {
+    break;
+  case 40:
     local_02 = "LMC Security       ^Database System:  ^^Downgrading of the ^security status...^^<<Shields removed  ^from all cameras in^the room>>         ";
-  }
-  else if (arg_12 == 41) {
+    break;
+  case 41:
     local_02 = "LMC SECURITY SYSTEM^Accessing laser    ^barrier protection ^system *.*.*.*    ^^<<Access GRANTED>>*";
-  }
-  else if (arg_12 == 42) {
+    break;
+  case 42:
     local_02 = (("LMC Security:      ^Accessing Passcode ^DataBase: *.*.*.* ^^Level 1            ^North Elevator:    ^Current passcode^is " + UCMachine.numToStr(arg_14)) + ".");
-  }
-  else if (arg_12 == 43) {
+    break;
+  case 43:
     local_02 = "ServoMech access   ^station:  *.*.*.* ^^Accessing CAMETRON ^1029B .*.*.*       ^<<Access granted>>*";
-  }
-  else if (arg_12 == 44) {
+    break;
+  case 44:
     local_02 = "ServoMech access   ^station:  *.*.*.* ^^Accessing CAMETRON ^1029B .*.*.*       ^<<Access denied>>* ";
-  }
-  else if (arg_12 == 45) {
+    break;
+  case 45:
     local_02 = "LMC Security:      ^Accessing Passcode ^DataBase: *.*.*.* ^^Level 2            ^North Elevator:    ^<<Access GRANTED>>*";
-  }
-  else if (arg_12 == 46) {
+    break;
+  case 46:
     local_02 = "LMC Security:      ^Accessing Passcode ^DataBase: *.*.*.* ^^Level 1            ^Lobby Area:        ^<<Access GRANTED>>*";
-  }
-  else if (arg_12 == 47) {
+    break;
+  case 47:
     local_02 = "LMC Security:      ^Accessing Passcode ^DataBase: *.*.*.* ^^Level 2            ^South Elevator:    ^<<Access GRANTED>>*";
-  }
-  else if (arg_12 == 48) {
+    break;
+  case 48:
     local_02 = "Kyle, you left the ^safe unlocked last ^night again.      ^^You do remember    ^where Leach        ^transferred Sean? ^^Keep it locked     ^unless you like    ^mining Di-Cor ... *^Luke.              ";
-  }
-  else if (arg_12 == 49) {
+    break;
+  case 49:
     local_02 = "LMC Security:      ^Accessing Passcode ^DataBase: *.*.*.* ^^Now accessing the  ^weapons control    ^system *.*.*.*    ^^Transferring the   ^control to remote  ^unit.              ";
-  }
-  else if (arg_12 == 50) {
+    break;
+  case 50:
     if (arg_10 && arg_14) {
       local_02 = ((("Jorgi,             ^I've rescaled the  ^globs and will also^update a keyframer ^with all of the new^numbers tomorrow. ^^I've stored the    ^keycard in the     ^watch room safe.   ^The number is:     ^" + UCMachine.numToStr(arg_14)) + "^.                 ^") + "B.K.               ");
     }
     else {
       local_02 = "LMC SECURITY SYSTEM^Remote Camera: *.*.^<<ACTIVE>>*        ";
     }
-  }
-  else if (arg_12 == 51) {
+    break;
+  case 51:
     local_02 = "LMC SECURITY SYSTEM^__________________^^Telepad powering up^Telepad rerouting  ^coordinates *.*.*. ^Telepad is now     ^- ONLINE -         ";
-  }
-  else if (arg_12 == 52) {
+    break;
+  case 52:
     local_02 = "SECURITY OPERATIONS^__________________^^Now interfacing    ^with remote droid.*^Thresher Cannon    ^MKA538C. Unit is   ^     *.*.*.*       ^- ONLINE -         ";
-  }
-  else if (arg_12 == 53) {
+    break;
+  case 53:
     if (arg_10 && arg_14) {
       local_02 = (("I've sealed off the^telepad to the     ^armory just in case^any rebels decide  ^to break in and    ^steal the XP-5.  ^^  Tony, since you  ^can't remember     ^anything, the new  ^passcode is: " + UCMachine.numToStr(arg_14)) + "^^ -Kayla");
     }
     else {
       local_02 = "LMC SECURITY SYSTEM^Remote Camera:     ^<<ACTIVE>> *       ";
     }
-  }
-  else if (arg_12 == 54) {
+    break;
+  case 54:
     local_02 = "LMC SECURITY SYSTEM^All alarm systems  ^are now ***^<DEACTIVATED>.     ";
-  }
-  else if (arg_12 == 55) {
+    break;
+  case 55:
     local_02 = "LMC SECURITY SYSTEM^Forcefield ZTA-01:*^Terminating power  ^supply *.*.*.*     ^ZTA-01 is now *... ^- OFFLINE - .      ";
-  }
-  else if (arg_12 == 56) {
+    break;
+  case 56:
     if (arg_10 && arg_14) {
       local_02 = ((("Tony, I forgot the ^security code for  ^the elevator to    ^level 2. I hacked  ^into the registry  ^file and made a new^one. The number is:^" + UCMachine.numToStr(arg_14)) + "^ Hopefully, it    ^") + "works ...          ");
     }
     else {
       local_02 = "LMC SECURITY SYSTEM^Remote Camera:  ***^<ACTIVE>*          ";
     }
-  }
-  else if (arg_12 == 57) {
+    break;
+  case 57:
     local_02 = "LMC SECURITY SYSTEM^Laser barrier      ^STS-17 *.*.*.*     ^Security delay     ^is now active ...  ^<FIELD DEACTIVATED>";
-  }
-  else if (arg_12 == 58) {
+    break;
+  case 58:
     if (arg_10 && arg_14) {
       local_02 = "LMC MAINTENANCE:   ^Accessing security ^door for 45th east ^maintenance tunnel ^<OPEN>             ";
     }
-  }
-  else if (arg_12 == 59) {
+    break;
+  case 59:
     if (arg_10 && arg_14) {
       local_02 = (("Matilda, I've got  ^to go see the      ^dentist, but I'll  ^be back later.    ^^Director Leach has ^issued a new       ^directive to change^all passcodes, so  ^here's the new one^^" + UCMachine.numToStr(arg_14)) + "^Love, Walt        ");
     }
     else {
       local_02 = "LMC SECURITY SYSTEM^Remote Camera:     ^<ACTIVE> *         ";
     }
+    break;
   }
   return;
 }

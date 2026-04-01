@@ -2,5 +2,13 @@ function flormine_equip() /* entry=673 class_id=0x029f slot=0x0a */
 {
   set_info(0x0211, *(arg_06));
   process_exclude();
+  if (arg_10 == 1) {
+    Item.explode(0, 1, arg_06);
+    Item.setBroken(arg_06);
+    Item.push(arg_06);
+    Item.setShape(88, arg_06);
+    Item.setFrame(UCMachine.rndRange(2, 0), arg_06);
+    Item.popToCoords((Item.getZ(arg_06) + 1), Item.getY(arg_06), Item.getX(arg_06), arg_06);
+  }
   return;
 }

@@ -17,6 +17,10 @@ function rollb_ew_gotHit() /* entry=1421 class_id=0x058b slot=0x06 */
     if (!process_result) {
       FREE.slot_20(1);
       if (retval) {
+        AudioProcess.playSFXCru(38, arg_06);
+      }
+      else {
+        AudioProcess.playSFXCru(39, arg_06);
       }
       return;
     }

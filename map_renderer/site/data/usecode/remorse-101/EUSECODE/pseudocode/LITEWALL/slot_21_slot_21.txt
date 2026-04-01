@@ -14,10 +14,8 @@ function litewall_slot_21() /* entry=2578 class_id=0x0a10 slot=0x21 */
     local_23 = 49;
     if (((Item.andStatus(local_02) == 3) || (Item.andStatus(local_02) == 48)) || (Item.andStatus(local_02) == 49)) {
       while (condition) {
-        /* create_list */
-        /* append_list */
-        local_08 = local_04;
-        FREE.slot_29(local_08, local_02, local_04);
+        local_08 = (local_08 + [local_04]);
+        FREE.slot_29(local_02, local_04);
         if (retval < local_15) {
           FREE.slot_29(local_02, local_04);
           local_15 = retval;
@@ -29,6 +27,7 @@ function litewall_slot_21() /* entry=2578 class_id=0x0a10 slot=0x21 */
           foreach_list local_04 -> block_02f1;
           spawn LITEWALL.slot_20(local_04, arg_06);
         }
+        AudioProcess.playSFXCru(67, arg_06);
         spawn NPC.slot_2d(pid, Item.andStatus(local_06, local_02), local_06, local_02);
         suspend;
       }

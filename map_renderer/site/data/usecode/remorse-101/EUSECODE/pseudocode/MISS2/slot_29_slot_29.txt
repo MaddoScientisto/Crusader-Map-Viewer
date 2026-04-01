@@ -4,6 +4,7 @@ function miss2_slot_29() /* entry=2320 class_id=0x090e slot=0x29 */
   local_02 = 0;
   local_06 = *(arg_06);
   set_info(1, 0);
+  Ultima8Engine.setAvatarInStasis(1);
   while (Actor.isBusy(&global[0x003d])) {
     spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
     suspend;
@@ -12,6 +13,9 @@ function miss2_slot_29() /* entry=2320 class_id=0x090e slot=0x29 */
     suspend;
   }
   for local_04 in nearby_items(shape=npcdeath_shape_03ac, origin=global[0x003d]) {
+    playFlicsomething(0, 0x03ac, local_08);
+    getTargetNPCNumMaybe(Item.getZ(local_04), Item.getY(local_04), Item.getX(local_04), local_08);
+    Item.destroy(local_04);
   }
   if (local_08) {
     spawn NPC.slot_22(pid, 3, 0, &global[0x003d]);
@@ -22,13 +26,17 @@ function miss2_slot_29() /* entry=2320 class_id=0x090e slot=0x29 */
     suspend;
     spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
     suspend;
+    AudioProcess.playSFXCru(50, arg_06);
     spawn FREE.waitNTimerTicks(pid, 100, 0x00000000);
     suspend;
     for local_04 in selector_0x42(arg0=0x0329, arg1=0x032a, arg2=(30 * 32), origin=global[0x003d]) {
+      Item.destroy(local_04);
     }
     spawn FREE.waitNTimerTicks(pid, 100, 0x00000000);
     suspend;
+    playFlic(pid, 0x0096, 0x00fa, "2j", arg_06);
     suspend;
+    Ultima8Engine.setAvatarInStasis(1);
     spawn MISS2.slot_21(local_08, 0x00000000);
     spawn NPC.slot_22(pid, 2, 2, &global[0x003d]);
     suspend;
@@ -43,6 +51,9 @@ function miss2_slot_29() /* entry=2320 class_id=0x090e slot=0x29 */
     suspend;
     spawn NPC.slot_24(pid, local_08);
     suspend;
+    Actor.setDead(Actor.getMap(&global[0x003d]), 0, 0, 0, local_08);
+    Item.destroy(local_08);
   }
+  Ultima8Engine.setAvatarInStasis(0);
   return;
 }

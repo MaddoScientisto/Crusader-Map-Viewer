@@ -10,12 +10,15 @@ function safe_ew_equip() /* entry=533 class_id=0x0213 slot=0x0a */
   set_info(0x0211, *(arg_06));
   process_exclude();
   if (var) {
+    AudioProcess.playSFXCru(76, arg_06);
     counter = 0;
     while (counter <= 16) {
+      Item.getPoint(counter, arg_06);
       spawn FREE.slot_32(pid, 10, 0x00000000);
       suspend;
       counter = (1 + counter);
     }
+    Item.setQLo(76, arg_06);
     spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
     suspend;
     for item in nearby_items(shape=0x0476, origin=arg_06) {
@@ -23,6 +26,11 @@ function safe_ew_equip() /* entry=533 class_id=0x0213 slot=0x0a */
         FREE.slot_2e(item);
         item2 = retval;
         if ((((Egg.getEggId(item2) == 10) || (Egg.getEggId(item2) == 11)) || (Egg.getEggId(item2) == 12)) || (Egg.getEggId(item2) == 13)) {
+          if (!Item.setQuality(1, item2)) {
+            AudioProcess.playSFXCru(0x00b0, arg_06);
+            push(item2);
+            Item.popToCoords(Item.getX(Item.getY(Item.getZ(&global[0x003c]), &global[0x003c]), &global[0x003c]), item2);
+          }
         }
         else {
           spawn FREE.slot_31(pid, item2, 0x00000000);
@@ -32,23 +40,29 @@ function safe_ew_equip() /* entry=533 class_id=0x0213 slot=0x0a */
     }
     spawn TRIGGER.slot_20(pid, 1, *(arg_06), arg_06);
     suspend;
+    AudioProcess.playSFXCru(76, arg_06);
     counter = 0;
     while (counter <= 16) {
+      Item.getPoint((16 - counter), arg_06);
       spawn FREE.slot_32(pid, 10, 0x00000000);
       suspend;
       counter = (1 + counter);
     }
+    Item.setQLo(76, arg_06);
     return;
   }
   else {
     spawn TRIGGER.slot_20(pid, 1, *(arg_06), arg_06);
     suspend;
+    AudioProcess.playSFXCru(76, arg_06);
     counter = 0;
     while (counter <= 16) {
+      Item.getPoint((16 - counter), arg_06);
       spawn FREE.slot_32(pid, 10, 0x00000000);
       suspend;
       counter = (1 + counter);
     }
+    Item.setQLo(76, arg_06);
   }
   return;
 }

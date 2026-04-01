@@ -9,6 +9,10 @@ function rollb_ew_equip() /* entry=1421 class_id=0x058b slot=0x0a */
     return;
   }
   else if (arg_10 == 2) {
+    if (Item.getStatus(arg_06) & 0x1000) {
+      Item.andStatus((~0x1000), arg_06);
+      Item.andStatus(0x021b, *(arg_06));
+    }
     return;
   }
   return;

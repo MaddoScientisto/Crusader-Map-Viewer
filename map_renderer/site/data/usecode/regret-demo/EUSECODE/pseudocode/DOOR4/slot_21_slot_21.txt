@@ -2,18 +2,33 @@ function door4_slot_21() /* entry=2571 class_id=0x0a09 slot=0x21 */
 {
   set_info(0x0207, *(arg_06));
   while (condition) {
+    Item.destroy(local_04);
   }
   FREE.slot_36(Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06), 4, 0x05f9, *(arg_06));
   if (!retval) {
+    Item.create(0, 0x0242, local_04);
+    Item.popToCoords(Item.getZ(arg_06), Item.getY(arg_06), (Item.getX(arg_06) - 0x00c0), local_04);
+    Item.create(0, 0x04b5, local_04);
+    Item.popToCoords(Item.getZ(arg_06), Item.getY(arg_06), (Item.getX(arg_06) - 32), local_04);
+    Item.create(0, 0x0243, local_04);
+    Item.popToCoords((Item.getZ(arg_06) + 80), Item.getY(arg_06), (Item.getX(arg_06) - 64), local_04);
+    Item.create(0, 0x05f7, local_04);
+    Item.popToCoords((Item.getZ(arg_06) + 72), Item.getY(arg_06), (Item.getX(arg_06) - 32), local_04);
+    Item.create(0, 0x05f8, local_04);
+    Item.popToCoords(Item.getZ(arg_06), Item.getY(arg_06), (Item.getX(arg_06) - 0x00a0), local_04);
+    process_result = 0;
     return;
   }
   else {
+    Item.playSfxCru(107, arg_06);
     local_02 = 0;
     while (local_02 <= 4) {
+      Actor.doAnim((4 - local_02), arg_06);
       spawn FREE.slot_3b(pid, 5, 0x00000000);
       suspend;
       local_02 = (1 + local_02);
     }
+    process_result = 1;
     return;
   }
   return;

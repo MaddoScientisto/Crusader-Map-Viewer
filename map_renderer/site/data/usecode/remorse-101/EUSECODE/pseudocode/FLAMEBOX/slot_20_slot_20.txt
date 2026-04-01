@@ -11,13 +11,25 @@ function flamebox_slot_20() /* entry=1029 class_id=0x0403 slot=0x20 */
   spawn FLAME.slot_20(arg_10);
   if (arg_12 == 0) {
     if (PaletteFaderProcess.fadeToColor()) {
+      Item.legal_create(0, 0x043b, local_04);
+    }
+    else {
+      Item.legal_create(10, 0x043b, local_04);
     }
   }
   else if (arg_12 == 1) {
     if (PaletteFaderProcess.fadeToColor()) {
+      Item.legal_create(0, 0x050a, local_04);
+    }
+    else {
+      Item.legal_create(10, 0x050a, local_04);
     }
   }
+  Item.andStatus(PaletteFaderProcess.stopFadesAndResetToGamePal(arg_06), local_04);
+  getTargetNPCNumMaybe(Item.getZ(arg_10), Item.getY(arg_10), Item.getX(arg_10), local_04);
   ITEM.slot_23(4, local_04);
+  AudioProcess.playAmbientSFXCru(0x0086, local_04);
   spawn FLAME.slot_20(local_04);
+  Item.destroy(arg_10);
   return;
 }

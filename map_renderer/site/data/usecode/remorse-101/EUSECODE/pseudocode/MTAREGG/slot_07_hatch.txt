@@ -10,17 +10,19 @@ function mtaregg_hatch() /* entry=2309 class_id=0x0903 slot=0x07 */
     local_08 = void AudioProcess:stopAllSFX(local_02);
     if (local_04 == local_08) {
       local_06 = Item.andStatus(local_02);
-      if (local_06 == 1) {
+      switch (local_06) {
+      case 1:
         spawn MTAREGG.slot_20(74, 0, local_02, arg_06);
-      }
-      else if (local_06 == 2) {
+        break;
+      case 2:
         spawn MTAREGG.slot_20(74, 4, local_02, arg_06);
-      }
-      else if (local_06 == 3) {
+        break;
+      case 3:
         spawn MTAREGG.slot_20(74, 8, local_02, arg_06);
-      }
-      else if (local_06 == 4) {
+        break;
+      case 4:
         spawn MTAREGG.slot_20(74, 12, local_02, arg_06);
+        break;
       }
     }
   }

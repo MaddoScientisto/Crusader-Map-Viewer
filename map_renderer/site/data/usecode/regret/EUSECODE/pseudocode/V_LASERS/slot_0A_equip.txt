@@ -7,27 +7,48 @@ function v_lasers_equip() /* entry=1052 class_id=0x041a slot=0x0a */
     return;
   }
   else {
+    Item.playSfxCru(24, arg_06);
     while (condition) {
       if (Actor.isNPC(local_02)) {
         FREE.slot_20(8, 20, 8);
+        Intrinsic0055(retval, *(arg_06), local_02);
       }
     }
+    Item.push(arg_06);
+    Item.setShape(0x0419, arg_06);
+    Item.pop(arg_06);
     spawn FREE.slot_3b(pid, 10, 0x00000000);
     suspend;
+    Item.push(arg_06);
+    Item.setShape(0x0418, arg_06);
+    Item.pop(arg_06);
     spawn FREE.slot_3b(pid, 10, 0x00000000);
     suspend;
+    Item.push(arg_06);
+    Item.setShape(0x0417, arg_06);
+    Item.pop(arg_06);
     spawn FREE.slot_3b(pid, 10, 0x00000000);
     suspend;
+    Item.push(arg_06);
+    Item.setShape(0x0416, arg_06);
+    Item.pop(arg_06);
     spawn FREE.slot_3b(pid, 10, 0x00000000);
     suspend;
+    Item.push(arg_06);
+    Item.setShape(0x0415, arg_06);
+    Item.pop(arg_06);
     spawn FREE.slot_3b(pid, 10, 0x00000000);
     suspend;
+    Item.push(arg_06);
+    Item.setShape(0x058a, arg_06);
+    Item.pop(arg_06);
     spawn FREE.slot_3b(pid, 10, 0x00000000);
     suspend;
     for local_02 in nearby_items(family=6, origin=arg_06) {
       if (Actor.isNPC(local_02)) {
         if (Item.overlaps(*(arg_06), local_02)) {
           FREE.slot_20(8, Actor.getHp(local_02), 8);
+          Intrinsic0055(retval, *(arg_06), local_02);
         }
       }
     }

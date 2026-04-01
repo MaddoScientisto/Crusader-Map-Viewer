@@ -2,5 +2,7 @@ function etwallns_unequip() /* entry=1382 class_id=0x0564 slot=0x0b */
 {
   set_info(0x0212, *(arg_06));
   process_exclude();
+  AudioProcess.playSFXCru(68, arg_06);
+  AudioProcess.playAmbientSFXCru(80, arg_06);
   return;
 }

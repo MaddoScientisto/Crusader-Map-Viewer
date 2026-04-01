@@ -13,13 +13,21 @@ function npc_slot_27() /* entry=2579 class_id=0x0a11 slot=0x27 */
     local_04 = Item.getQLo(arg_06);
     local_06 = PaletteFaderProcess.setPalToAllGrey(arg_06);
     local_08 = Actor.setActivity(arg_06);
-    if (local_02 == 112) {
-    }
-    else if (local_02 == 113) {
-    }
-    else if (local_02 == 114) {
+    switch (local_02) {
+    case 112:
+      Intrinsic0D3(1, arg_06);
+      break;
+    case 113:
+      Intrinsic0D3(3, arg_06);
+      break;
+    case 114:
+      Intrinsic0D3(5, arg_06);
+      break;
     }
     return;
+  }
+  else {
+    Intrinsic0D3(arg_10, arg_06);
   }
   return;
 }

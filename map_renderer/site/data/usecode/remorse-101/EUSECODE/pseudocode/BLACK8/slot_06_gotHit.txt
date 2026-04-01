@@ -12,6 +12,7 @@ function black8_gotHit() /* entry=5 class_id=0x0003 slot=0x06 */
       return;
     }
     else if (arg_10 > 0x00ff) {
+      Item.destroy(local_02);
       return;
     }
     else if (arg_10 == 1) {
@@ -19,6 +20,9 @@ function black8_gotHit() /* entry=5 class_id=0x0003 slot=0x06 */
     }
     else {
       local_04 = arg_10;
+      Item.getItemFamily(local_04);
+      Item.andStatus(local_04);
+      Item.destroy(local_04);
     }
   }
   return;

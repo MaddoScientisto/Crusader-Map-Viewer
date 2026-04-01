@@ -31,6 +31,7 @@ function elevator_slot_20() /* entry=544 class_id=0x021e slot=0x20 */
     suspend;
     suspend;
   }
+  Item.getNPCNum(Item.getZ(arg_06), (Item.getY(arg_06) - 16), (Item.getX(arg_06) - 16), &global[0x003c]);
   spawn FREE.slot_32(pid, 2, 0x00000000);
   suspend;
   spawn DOOR.slot_21(pid, 2, door);
@@ -44,23 +45,38 @@ function elevator_slot_20() /* entry=544 class_id=0x021e slot=0x20 */
   if (post1 && post2) {
     spawn FREE.slot_32(pid, 30, 0x00000000);
     suspend;
+    PaletteFaderProcess.fadeToBlack(&global[0x003c]);
+    AudioProcess.playSFXCru(0x00f4, &global[0x003c]);
+    Item.getPoint(4, post1);
+    Item.getPoint(4, post2);
+    AudioProcess.playSFXCru(0x0093, arg_06);
     while (Container.destroyContents(0x00f4, &global[0x003c])) {
       spawn FREE.slot_32(pid, 2, 0x00000000);
       suspend;
     }
+    AudioProcess.playSFXCru(0x00f5, &global[0x003c]);
     if (dir) {
       counter = 5;
       while (counter <= 7) {
+        Item.getPoint(counter, post1);
+        Item.getPoint(counter, post2);
+        Item.getQHi(0x0093, arg_06);
         spawn FREE.slot_32(pid, 30, 0x00000000);
         suspend;
         counter = (1 + counter);
       }
+      Item.getPoint(0, post1);
+      Item.getPoint(0, post2);
+      Item.getQHi(0x0093, arg_06);
       spawn FREE.slot_32(pid, 30, 0x00000000);
       suspend;
     }
     else {
       counter = 1;
       while (counter <= 4) {
+        Item.getPoint((4 - counter), post1);
+        Item.getPoint((4 - counter), post2);
+        Item.getQHi(0x0093, arg_06);
         spawn FREE.slot_32(pid, 30, 0x00000000);
         suspend;
         counter = (1 + counter);
@@ -72,8 +88,12 @@ function elevator_slot_20() /* entry=544 class_id=0x021e slot=0x20 */
   suspend;
   spawn FREE.slot_3c(pid, 0x00000000);
   suspend;
+  if (Actor.getMap(mapNum, &global[0x003c])) {
+    MainActor.teleportToEgg();
+  }
   suspend;
   for item in nearby_items(shape=GRATE_FLOOR_GRAY, origin=global[0x003c]) {
+    Item.getNPCNum(Item.getZ(item), (Item.getY(item) - 16), (Item.getX(item) - 16), &global[0x003c]);
     suspend;
     FREE.slot_33(12, item);
   }
@@ -90,13 +110,21 @@ function elevator_slot_20() /* entry=544 class_id=0x021e slot=0x20 */
     post2 = item;
   }
   if (post1 && post2) {
+    PaletteFaderProcess.fadeToBlack(&global[0x003c]);
+    AudioProcess.playSFXCru(0x00f2, &global[0x003c]);
     while (Container.destroyContents(0x00f2, &global[0x003c])) {
       spawn FREE.slot_32(pid, 2, 0x00000000);
       suspend;
     }
+    AudioProcess.playSFXCru(0x00f1, &global[0x003c]);
     if (dir) {
+      Item.getPoint(0, post1);
+      Item.getPoint(0, post2);
       counter = 1;
       while (counter <= 4) {
+        Item.getPoint(counter, post1);
+        Item.getPoint(counter, post2);
+        Item.getQHi(0x0093, post1);
         spawn FREE.slot_32(pid, 30, 0x00000000);
         suspend;
         counter = (1 + counter);
@@ -105,6 +133,9 @@ function elevator_slot_20() /* entry=544 class_id=0x021e slot=0x20 */
     else {
       counter = 0;
       while (counter <= 3) {
+        Item.getPoint((7 - counter), post1);
+        Item.getPoint((7 - counter), post2);
+        Item.getQHi(0x0093, post1);
         spawn FREE.slot_32(pid, 30, 0x00000000);
         suspend;
         counter = (1 + counter);
@@ -112,6 +143,9 @@ function elevator_slot_20() /* entry=544 class_id=0x021e slot=0x20 */
     }
     spawn FREE.slot_32(pid, 30, 0x00000000);
     suspend;
+    Item.getPoint(0, post1);
+    Item.getPoint(0, post2);
+    Item.getQHi(0x0093, post1);
   }
   spawn FREE.slot_32(pid, 120, 0x00000000);
   suspend;
@@ -123,5 +157,6 @@ function elevator_slot_20() /* entry=544 class_id=0x021e slot=0x20 */
   suspend;
   suspend;
   suspend;
+  Actor.getHp(&global[0x003c]);
   return;
 }

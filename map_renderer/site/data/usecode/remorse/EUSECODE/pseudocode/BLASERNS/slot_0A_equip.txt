@@ -9,10 +9,12 @@ function blaserns_equip() /* entry=709 class_id=0x02c3 slot=0x0a */
   process_exclude();
   if (var == 1) {
     h = Item.getQHi(arg_06);
+    Item.setQHi((h | 4), arg_06);
     return;
   }
   else if (var == 31) {
     h = Item.getQHi(arg_06);
+    Item.setQHi((h | 8), arg_06);
     return;
   }
   return;

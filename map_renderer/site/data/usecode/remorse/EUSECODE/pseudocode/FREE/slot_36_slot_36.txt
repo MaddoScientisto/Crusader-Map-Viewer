@@ -6,9 +6,7 @@ function free_slot_36() /* entry=2574 class_id=0x0a0c slot=0x36 */
     temp; /* [BP-02h] type=0x7a */
 
   temp = list;
-  /* create_list */
-  list = line;
-  /* append_list */
-  list = temp;
+  list = [line];
+  list = (list + temp);
   return;
 }

@@ -12,10 +12,18 @@ function free_slot_2d() /* entry=2574 class_id=0x0a0c slot=0x2d */
 
   ref = r;
   if (Item.getNPCNum(t) == Egg.getEggId(ref)) {
+    push(ref);
+    Item.touch(ref);
     if (Item.legal_create(z, y, x, f, t, item)) {
+      Item.destroy(item);
+      Item.setShape(t, ref);
+      Item.legal_create(f, ref);
+      Item.popToCoords(z, y, x, ref);
+      Item.touch(ref);
       return;
     }
     else {
+      Actor.isBusy(ref);
       return;
     }
     return;

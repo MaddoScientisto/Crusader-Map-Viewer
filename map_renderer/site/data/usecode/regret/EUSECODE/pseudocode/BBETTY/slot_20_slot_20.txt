@@ -4,20 +4,30 @@ function bbetty_slot_20() /* entry=2563 class_id=0x0a01 slot=0x20 */
   if (Item.getShape(arg_06) != bbetty_shape_02c9) {
     local_04 = 0;
     while (local_04 <= 4) {
+      Item.setFrame(local_04, arg_06);
       local_08 = 0;
       while (condition) {
+        Item.push(local_02);
         local_08 = (1 + local_08);
       }
+      Item.push(arg_06);
+      Item.popToCoords((Item.getZ(arg_06) + 1), Item.getY(arg_06), Item.getX(arg_06), arg_06);
       local_06 = 1;
       while (local_06 <= local_08) {
         local_02 = Item.getEtherealTop();
+        Item.popToCoords((Item.getZ(local_02) + 1), Item.getY(local_02), Item.getX(local_02), local_02);
         local_06 = (1 + local_06);
       }
       spawn FREE.slot_3b(pid, 5, 0x00000000);
       suspend;
       local_04 = (1 + local_04);
     }
+    Item.create(0, bbetty_shape_02c9, local_10);
+    Item.popToCoords(Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06), local_10);
+    Item.setQLo(Item.getQLo(arg_06), local_10);
+    Item.setQHi(Item.getQHi(arg_06), local_10);
     spawn BBETTY.slot_21(local_10);
+    Item.destroy(arg_06);
     return;
   }
   else {

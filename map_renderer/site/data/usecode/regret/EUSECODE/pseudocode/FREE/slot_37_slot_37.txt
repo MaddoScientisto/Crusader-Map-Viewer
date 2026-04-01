@@ -8,6 +8,11 @@ function free_slot_37() /* entry=2591 class_id=0x0a1d slot=0x37 */
     local_08 = Item.getMapArray(local_02);
     local_08 = (((local_06 & 0x00e0) * 8) + local_08);
     if (local_08 != 0) {
+      Item.create(local_10, local_08, local_04);
+      Item.setQLo(Item.getQLo(local_02), local_04);
+      Item.setQHi(Item.getQHi(local_02), local_04);
+      Item.popToCoords(Item.getZ(local_02), Item.getY(local_02), Item.getX(local_02), local_04);
+      Item.destroy(local_02);
       return;
     }
   }

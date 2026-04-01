@@ -3,8 +3,15 @@ function miss3_hatch() /* entry=2321 class_id=0x090f slot=0x07 */
   set_info(0x0210, *(arg_06));
   process_exclude();
   if (Item.callEvent11(arg_06) == 1) {
+    Item.getPoint(1);
+    setUnkFlagA4();
+    Actor.clrImmortal();
     spawn FREE.slot_3b(pid, 1, 0x00000000);
     suspend;
+    Actor.setActivity();
+    Intrinsic0072(0, "3a");
+    Item.getQuality();
+    Item.getQHi();
     spawn FREE.slot_3b(pid, 1, 0x00000000);
     suspend;
     suspend;
@@ -23,6 +30,9 @@ function miss3_hatch() /* entry=2321 class_id=0x090f slot=0x07 */
       suspend;
     }
     FREE.slot_23();
+    Item.getPoint(0);
+    clearUnkFlagA4();
+    Item.destroy(arg_06);
   }
   return;
 }

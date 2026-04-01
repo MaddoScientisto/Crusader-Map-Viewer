@@ -11,6 +11,9 @@ function door_slot_22() /* entry=2566 class_id=0x0a04 slot=0x22 */
     while (condition) {
       local_10 = Item.getQLo(local_02);
       if ((local_10 == local_08) || (local_10 == local_06)) {
+        if (local_10 != 0) {
+          Item.destroy(local_02);
+        }
       }
     }
   }

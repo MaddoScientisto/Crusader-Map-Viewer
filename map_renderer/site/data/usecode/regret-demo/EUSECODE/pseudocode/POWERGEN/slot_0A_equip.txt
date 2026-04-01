@@ -3,8 +3,11 @@ function powergen_equip() /* entry=654 class_id=0x028c slot=0x0a */
   set_info(0x0211, *(arg_06));
   process_exclude();
   if (arg_10 == 0x00ff) {
+    SpriteProcess.createSprite(Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06), 5, 19, 10, 0x060a);
+    Item.playSfxCru(0x0114, arg_06);
     spawn FREE.slot_3b(pid, 10, 0x00000000);
     suspend;
+    Item.setQHi((Item.getNpcNum(arg_06) - 100), arg_06);
   }
   return;
 }

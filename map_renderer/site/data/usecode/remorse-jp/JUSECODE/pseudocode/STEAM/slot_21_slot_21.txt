@@ -17,9 +17,13 @@ function steam_slot_21() /* entry=2586 class_id=0x0a18 slot=0x21 */
       suspend;
       if (ref < 0x00ff) {
         if (ref == getTargetNPCNumMaybe()) {
+          Actor.getSomeFlagProbablyCrouch(8, UCMachine.rndRange(((Game.getDifficultyLevel() + 1) * 20), 16, 0), *(arg_06), n);
         }
         else {
           NPC.slot_2b(n);
+          if (!retval) {
+            Actor.getSomeFlagProbablyCrouch(8, UCMachine.rndRange(Actor.setActivity(n), 16, 0), *(arg_06), n);
+          }
         }
         spawn STEAM.slot_20(arg_06);
         return;

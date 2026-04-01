@@ -5,10 +5,22 @@ function npctrig_slot_20() /* entry=869 class_id=0x0363 slot=0x20 */
     local_06 = local_04;
   }
   if (local_06) {
+    playFlicsomething(8, arg_10, local_02);
+    Actor.clrInCombat(0, local_02);
+    Actor.setDefaultActivity0(0, local_02);
+    Actor.setDefaultActivity1(0, local_02);
+    getTargetNPCNumMaybe(Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06), local_02);
     spawn NPC.slot_23(pid, local_02);
     suspend;
+    Actor.clrInCombat(5, local_02);
+    Actor.setDefaultActivity0(5, local_02);
+    Actor.setDefaultActivity1(5, local_02);
     if (Actor.getLastAnimSet() != 0) {
+      Actor.GetNPCDataField0x4_0DD(Actor.getLastAnimSet(), local_02);
       return;
+    }
+    else {
+      Actor.GetNPCDataField0x4_0DD(global[0x003d], local_02);
     }
   }
   return;

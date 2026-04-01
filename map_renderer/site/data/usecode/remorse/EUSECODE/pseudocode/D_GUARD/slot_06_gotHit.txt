@@ -15,8 +15,18 @@ function d_guard_gotHit() /* entry=827 class_id=0x0339 slot=0x06 */
   else {
     while (condition) {
       if (Item.getShape(goods) == 0x0111) {
+        push(goods);
+        Item.popToCoords(Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06), goods);
+      }
+      else {
+        Item.destroy(goods);
       }
     }
+    if (Item.getFrame(arg_06)) {
+      Item.setFrame(UCMachine.rndRange(5, 0), arg_06);
+    }
+    Item.setShape(0x04e1, arg_06);
+    CameraProcess.somethingAboutCameraUpdate();
   }
   return;
 }

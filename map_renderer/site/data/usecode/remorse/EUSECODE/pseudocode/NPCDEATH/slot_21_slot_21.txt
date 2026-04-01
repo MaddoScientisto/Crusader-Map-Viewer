@@ -7,7 +7,13 @@ function npcdeath_slot_21() /* entry=2590 class_id=0x0a1c slot=0x21 */
 
   while (condition) {
     if (Item.getItemFamily(goods) == 10) {
+      Item.destroy(goods);
+    }
+    else {
+      push(goods);
+      Item.popToContainer(item, goods);
     }
   }
+  Container.destroyContents(arg_06);
   return;
 }

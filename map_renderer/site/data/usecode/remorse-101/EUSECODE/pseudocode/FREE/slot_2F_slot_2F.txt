@@ -8,6 +8,11 @@ function free_slot_2f() /* entry=2574 class_id=0x0a0c slot=0x2f */
     local_08 = Item.getMapArray(local_02);
     local_08 = (((local_06 & 0x00e0) * 8) + local_08);
     if ((local_08 != 0) && (local_08 == arg_08)) {
+      Item.legal_create(local_10, local_08, local_04);
+      Item.andStatus(Egg.getEggXRange(local_02), local_04);
+      Item.setQHi(Actor.setDead(local_02), local_04);
+      getTargetNPCNumMaybe(Item.getZ(local_02), Item.getY(local_02), Item.getX(local_02), local_04);
+      Item.destroy(local_02);
       return;
     }
   }

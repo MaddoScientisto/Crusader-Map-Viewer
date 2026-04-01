@@ -11,6 +11,7 @@ function duck_ew_equip() /* entry=412 class_id=0x019a slot=0x0a */
     }
     local_02 = 0;
     while (local_02 <= 4) {
+      Item.setFrame((4 - local_02), arg_06);
       spawn FREE.slot_3b(pid, 10, 0x00000000);
       suspend;
       local_02 = (1 + local_02);
@@ -22,6 +23,7 @@ function duck_ew_equip() /* entry=412 class_id=0x019a slot=0x0a */
   else if (Item.getFrame(arg_06) == 0) {
     local_02 = 0;
     while (local_02 <= 4) {
+      Item.setFrame(local_02, arg_06);
       spawn FREE.slot_3b(pid, 10, 0x00000000);
       suspend;
       local_02 = (1 + local_02);

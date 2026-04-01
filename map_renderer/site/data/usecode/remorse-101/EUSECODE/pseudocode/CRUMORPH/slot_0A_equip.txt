@@ -11,10 +11,17 @@ function crumorph_equip() /* entry=794 class_id=0x0318 slot=0x0a */
             return;
           }
           local_04 = Item.getQHi(local_02);
+          GetNPCDataField0x2_050(local_02);
+          Actor.clrInCombat(1, local_02);
+          Actor.setDefaultActivity0(1, local_02);
+          Actor.setDefaultActivity1(1, local_02);
+          Actor.setDefaultActivity2(112, local_02);
+          GetNPCDataField0x2_050(local_02);
           spawn FREE.waitNTimerTicks(pid, 3, 0x00000000);
           suspend;
           spawn NPC.slot_28(pid, local_02);
           suspend;
+          Actor.setActivity(local_02);
           while (Actor.getLastAnimSet() > 1) {
             spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
             suspend;

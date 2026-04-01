@@ -16,6 +16,9 @@ function elevator_gotHit() /* entry=544 class_id=0x021e slot=0x06 */
     return;
   }
   else {
+    Ultima8Engine.setCruStasis();
+    Ultima8Engine.setAvatarInStasis(1);
+    Actor.setDead();
     FREE.slot_33(0x0220, 0);
     while (Actor.doAnim(&global[0x003c])) {
       spawn FREE.slot_32(pid, 2, 0x00000000);
@@ -32,10 +35,15 @@ function elevator_gotHit() /* entry=544 class_id=0x021e slot=0x06 */
         if (Actor.isNPC(item)) {
           if (item != 1) {
             n = item;
+            Ultima8Engine.clrUnkCrusaderFlag(n);
+            Item.destroy(n);
           }
         }
         else {
           nT = Item.getShape(item);
+          if (((((((((((((((((((((((((nT != 0x0194) && (nT != 0x04d0)) && (nT != 17)) && (nT != 0x04b1)) && (nT != 0x0476)) && (nT != 0x01c6)) && (nT != 0x018d)) && (nT != 0x0193)) && (nT != 0x01c7)) && (nT != 0x028a)) && (nT != 0x018c)) && (nT != 0x0192)) && (nT != 0x0288)) && (nT != 0x028b)) && (nT != 0x018b)) && (nT != 0x0191)) && (nT != 0x028c)) && (nT != 0x028d)) && (nT != 0x018a)) && (nT != 0x0190)) && (nT != 0x0287)) && (nT != 0x028e)) && (nT != 0x0187)) && (nT != 0x0189)) && (nT != 0x0289)) {
+            Item.destroy(item);
+          }
         }
       }
     }
@@ -49,22 +57,29 @@ function elevator_gotHit() /* entry=544 class_id=0x021e slot=0x06 */
       spawn ELEVATOR.slot_20(pid, Actor.getMap(lowQuality, &global[0x003c]), direction, arg_06);
       suspend;
     }
-    else if (lowQuality == 16) {
-      spawn ELEVATOR.slot_20(Actor.getMap(pid, 4, &global[0x003c]), direction, arg_06);
-      suspend;
-    }
-    else if (lowQuality == 17) {
-      spawn ELEVATOR.slot_20(pid, 17, 10, direction, arg_06);
-      suspend;
-    }
-    else if (lowQuality == 18) {
-      spawn ELEVATOR.slot_20(pid, 18, 24, direction, arg_06);
-      suspend;
+    else {
+      switch (lowQuality) {
+      case 16:
+        spawn ELEVATOR.slot_20(Actor.getMap(pid, 4, &global[0x003c]), direction, arg_06);
+        suspend;
+        break;
+      case 17:
+        spawn ELEVATOR.slot_20(pid, 17, 10, direction, arg_06);
+        suspend;
+        break;
+      case 18:
+        spawn ELEVATOR.slot_20(pid, 18, 24, direction, arg_06);
+        suspend;
+        break;
+      }
     }
     while (Actor.doAnim(&global[0x003c])) {
       spawn FREE.slot_32(pid, 5, 0x00000000);
       suspend;
     }
+    Ultima8Engine.clrCruStasis();
+    Ultima8Engine.setAvatarInStasis(0);
+    AudioProcess.stopSFX();
     FREE.slot_33(0x0220, 0);
   }
   return;

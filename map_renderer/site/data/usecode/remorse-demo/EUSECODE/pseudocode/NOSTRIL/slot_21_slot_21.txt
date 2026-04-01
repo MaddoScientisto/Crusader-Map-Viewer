@@ -9,6 +9,9 @@ function nostril_slot_21() /* entry=1088 class_id=0x043e slot=0x21 */
   set_info(1, *(arg_06));
   spawn FREE.waitNTimerTicks(UCMachine.rndRange(pid, 15, 0), 0x00000000);
   suspend;
+  Item.create(0, 0x0515, fire);
+  Item.popToCoords(Item.getZ(arg_06), (Item.getY(arg_06) - 8), (Item.getX(arg_06) - 8), fire);
+  AudioProcess.playSFXCru(117, fire);
   if (Egg.getEggXRange()) {
     while (Item.getFrame(fire) != 10) {
       spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
@@ -19,8 +22,16 @@ function nostril_slot_21() /* entry=1088 class_id=0x043e slot=0x21 */
     spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
     suspend;
   }
+  Item.create(0, 0x0516, fire2);
+  Item.popToCoords(Item.getZ(arg_06), (Item.getY(arg_06) - 8), (Item.getX(arg_06) - 8), fire2);
+  AudioProcess.playAmbientSFXCru(0x0086, fire2);
+  Item.destroy(fire);
   if (Egg.getEggXRange()) {
+    Item.legal_create(UCMachine.rndRange(3, 0), fire2);
     return;
+  }
+  else {
+    Item.legal_create(UCMachine.rndRange(10, 6), fire2);
   }
   return;
 }

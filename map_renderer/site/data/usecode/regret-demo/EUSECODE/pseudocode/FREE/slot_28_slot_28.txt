@@ -12,8 +12,16 @@ function free_slot_28() /* entry=2575 class_id=0x0a0d slot=0x28 */
         return;
       }
       else if (!Ultima8Engine.getUnkCrusaderFlag(&global[0x001e])) {
+        Item.getPoint(1);
+        Item.hurl(&global[0x001e]);
+        Actor.clrImmortal();
+        PaletteFaderProcess.fadeFromBlack();
         spawn FREE.slot_3b(pid, 10, 0x00000000);
         suspend;
+        Actor.setActivity();
+        Intrinsic0072("anim11");
+        Intrinsic0072(0, "10c");
+        Item.getQuality();
         suspend;
         return;
       }

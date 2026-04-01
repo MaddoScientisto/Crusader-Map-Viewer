@@ -18,12 +18,22 @@ function lazerns_slot_20() /* entry=413 class_id=0x019b slot=0x20 */
     while (true) {
       suspend;
       if (fram == 1) {
+        AudioProcess.playSFXCru(2, arg_06);
+        Item.getDirFromItem((Item.getZ(arg_06) + 17), (Item.getY(arg_06) + 23), (Item.getX(arg_06) + 15), 6, 11, 9, 0x040c);
       }
       else if (fram == 2) {
+        AudioProcess.playSFXCru(83, arg_06);
+        Item.getDirFromItem((Item.getZ(arg_06) + 17), (Item.getY(arg_06) + 23), (Item.getX(arg_06) + 15), 6, 8, 6, 0x040c);
       }
       else if (fram == 3) {
+        AudioProcess.playSFXCru(100, arg_06);
+        Item.getDirFromItem((Item.getZ(arg_06) + 3), (Item.getY(arg_06) + 1), (Item.getX(arg_06) - 19), 6, 5, 3, 0x040c);
         spawn FREE.waitNTimerTicks(pid, 100, 0x00000000);
         suspend;
+      }
+      else {
+        AudioProcess.playSFXCru(44, arg_06);
+        Item.getDirFromItem(Item.getZ(arg_06), (Item.getY(arg_06) + 3), (Item.getX(arg_06) - 24), 6, 5, 3, 0x040c);
       }
       spawn FREE.waitNTimerTicks(pid, ((5 - Game.getDifficultyLevel()) * 20), 0x00000000);
       suspend;

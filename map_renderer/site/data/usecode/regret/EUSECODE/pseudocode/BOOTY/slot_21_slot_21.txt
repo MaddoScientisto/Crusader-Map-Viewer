@@ -2,7 +2,13 @@ function booty_slot_21() /* entry=2564 class_id=0x0a02 slot=0x21 */
 {
   while (condition) {
     if (Item.getItemFamily(local_02) == 10) {
+      Item.destroy(local_02);
+    }
+    else {
+      Item.push(local_02);
+      Item.popToContainer(arg_10, local_02);
     }
   }
+  Actor.destroyContents(arg_06);
   return;
 }

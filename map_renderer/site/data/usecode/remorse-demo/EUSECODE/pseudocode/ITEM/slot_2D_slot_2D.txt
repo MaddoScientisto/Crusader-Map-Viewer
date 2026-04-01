@@ -26,6 +26,7 @@ function item_slot_2d() /* entry=2591 class_id=0x0a1d slot=0x2d */
             for npc in nearby_items(family=6, origin=monster1) {
               if (Actor.isNPC(npc)) {
                 if ((Item.getZ(npc) > (Item.getZ(arg_06) - 10)) && (Item.getZ(npc) < (Item.getZ(arg_06) + 10))) {
+                  process_result = 0;
                   return;
                 }
               }
@@ -35,7 +36,12 @@ function item_slot_2d() /* entry=2591 class_id=0x0a1d slot=0x2d */
               newNpc = ref;
               a = (Item.setQuality(monster1) & 15);
               if ((a == 2) || (a == 4)) {
+                CameraProcess.getCameraX(newNpc);
+                AudioProcess.playSFXCru(48, arg_06);
+                Item.getDirFromItem(Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06), 1, 37, 0, 0x0317);
                 suspend;
+                Item.setIsBroken(newNpc);
+                Actor.setActivity(112, newNpc);
                 while (Container.destroyContents(48, arg_06)) {
                   spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
                   suspend;
@@ -47,11 +53,15 @@ function item_slot_2d() /* entry=2591 class_id=0x0a1d slot=0x2d */
             ref = Item.getNPCNum(monster2, arg_06);
             if (ref) {
               newNpc = ref;
+              Actor.setActivity(112, newNpc);
             }
           }
           if ((var == 0) || (var == 2)) {
+            Item.fallProbably_03E(0, monster2);
+            Item.fallProbably_03E(0, monster1);
             spawn ITEM.slot_2e(monster2, monster1, arg_06);
           }
+          process_result = newNpc;
           return;
         }
       }

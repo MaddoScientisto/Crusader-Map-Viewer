@@ -11,6 +11,7 @@ function timer_slot_20() /* entry=1227 class_id=0x04c9 slot=0x20 */
     l3; /* [BP-20h] type=0x64 */
 
   set_info(1, 0);
+  Item.orStatus(0x1000, arg_06);
   time = ((Item.getMapArray(arg_06) * 0x0100) + Item.getNPCNum(arg_06));
   if (time == 0) {
     return;
@@ -18,29 +19,31 @@ function timer_slot_20() /* entry=1227 class_id=0x04c9 slot=0x20 */
   else {
     cmd = Item.getNPCNum(arg_06);
     a = (cmd / 32);
-    if (a == 0) {
+    switch (a) {
+    case 0:
       phase2 = 0;
-    }
-    else if (a == 1) {
+      break;
+    case 1:
       phase2 = 10;
-    }
-    else if (a == 2) {
+      break;
+    case 2:
       phase2 = 25;
-    }
-    else if (a == 3) {
+      break;
+    case 3:
       phase2 = 40;
-    }
-    else if (a == 4) {
+      break;
+    case 4:
       phase2 = 50;
-    }
-    else if (a == 5) {
+      break;
+    case 5:
       phase2 = 60;
-    }
-    else if (a == 6) {
+      break;
+    case 6:
       phase2 = 75;
-    }
-    else if (a == 7) {
+      break;
+    case 7:
       phase2 = 90;
+      break;
     }
     l1 = time;
     l2 = phase2;
@@ -81,6 +84,7 @@ function timer_slot_20() /* entry=1227 class_id=0x04c9 slot=0x20 */
         }
       }
       if ((cmd & 1) == 0) {
+        Actor.getDir((~0x1000), arg_06);
         return;
       }
     }

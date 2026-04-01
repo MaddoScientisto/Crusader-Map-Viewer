@@ -12,9 +12,13 @@ function steam_slot_21() /* entry=2583 class_id=0x0a15 slot=0x21 */
       suspend;
       if (arg_10 < 0x00ff) {
         if (arg_10 == Actor.getLastAnimSet()) {
+          Item.receiveHit(8, UCMachine.rndRange(((Game.getDifficultyLevel() + 1) * 20), 16, 0), *(arg_06), local_02);
         }
         else {
           NPC.slot_2b(local_02);
+          if (!retval) {
+            Item.receiveHit(8, UCMachine.rndRange(Ultima8Engine.clrCruStasis(local_02), 16, 0), *(arg_06), local_02);
+          }
         }
         spawn STEAM.slot_20(arg_06);
         return;

@@ -9,6 +9,10 @@ function roll_ns_equip() /* entry=840 class_id=0x0346 slot=0x0a */
     return;
   }
   else if (arg_10 == 2) {
+    if (Item.getStatus(arg_06) & 4) {
+      UCMachine.numToStr((~4), arg_06);
+      Actor.getMap(0x021b, *(arg_06));
+    }
     return;
   }
   return;

@@ -14,12 +14,17 @@ function chest_ew_gotHit() /* entry=1362 class_id=0x0550 slot=0x06 */
       if (!process_result) {
         FREE.slot_20(1);
         if (retval) {
+          AudioProcess.playSFXCru(38, arg_06);
+        }
+        else {
+          AudioProcess.playSFXCru(39, arg_06);
         }
         return;
       }
       else {
         spawn ITEM.slot_28(pid, 0, 0, arg_06);
         suspend;
+        Item.setFrame((local_02 + 2), arg_06);
         ITEM.slot_23(0x1000, arg_06);
       }
     }

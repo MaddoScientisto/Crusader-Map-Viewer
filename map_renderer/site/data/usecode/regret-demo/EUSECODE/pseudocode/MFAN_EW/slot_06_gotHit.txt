@@ -5,6 +5,8 @@ function mfan_ew_gotHit() /* entry=514 class_id=0x0200 slot=0x06 */
   FREE.slot_35(arg_12, arg_10);
   if (retval) {
     FREE.slot_20(1);
+    Item.isOn(retval, arg_06);
+    Item.setShape(0x032c, arg_06);
     spawn ITEM.slot_2a(pid, 0, 1, arg_06);
     suspend;
   }

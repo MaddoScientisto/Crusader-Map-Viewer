@@ -10,11 +10,14 @@ function fallingc_gotHit() /* entry=97 class_id=0x005f slot=0x06 */
   process_exclude();
   while (condition) {
     if (Item.getShape(item) == 95) {
+      CameraProcess.moveTo(item);
     }
     else if ((Egg.getEggId(item) == 6) && (Actor.isNPC(item) == 0)) {
+      Item.setQHi(item);
       spawn ITEM.slot_28(pid, 1, 0, item);
       suspend;
     }
   }
+  CameraProcess.moveTo(arg_06);
   return;
 }

@@ -6,12 +6,15 @@ function cameraco_gotHit() /* entry=440 class_id=0x01b6 slot=0x06 */
     return;
   }
   else if (Item.getStatus(arg_06) & 0x1000) {
+    Item.playSfxCru(0x0091, arg_06);
+    SpriteProcess.createSprite(Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06), 5, 9, 0, 0x04f1);
     return;
   }
   else {
     FREE.slot_34(arg_12, arg_10);
     if (retval && (Item.getFrame(arg_06) != 5)) {
       FREE.slot_3c(0x021b, *(arg_06));
+      Item.setFrame(5, arg_06);
       spawn TRIGGER.slot_20(pid, 1, *(arg_06), arg_06);
       suspend;
       spawn ITEM.slot_2a(pid, 0, 0, arg_06);

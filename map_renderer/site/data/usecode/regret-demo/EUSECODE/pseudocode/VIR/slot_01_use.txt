@@ -7,9 +7,12 @@ function vir_use() /* entry=1263 class_id=0x04ed slot=0x01 */
     return;
   }
   else if (global[0x0009]) {
+    Item.isOn(0, arg_06);
+    PaletteFaderProcess.fadeFromBlack();
     return;
   }
   else {
+    Item.isOn(1, arg_06);
     spawn VIR.slot_20(arg_06);
   }
   return;

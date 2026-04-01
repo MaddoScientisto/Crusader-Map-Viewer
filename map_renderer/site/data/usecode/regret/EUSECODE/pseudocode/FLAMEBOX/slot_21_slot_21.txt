@@ -17,12 +17,19 @@ function flamebox_slot_21() /* entry=1029 class_id=0x0403 slot=0x21 */
     }
   }
   if (arg_12 == 0) {
+    Item.create(0, 0x043c, local_04);
     local_06 = 0x0439;
   }
   else if (arg_12 == 1) {
+    Item.create(0, 0x04cb, local_04);
     local_06 = 0x0438;
   }
+  Item.setQLo(Item.getQLo(arg_06), local_04);
   ITEM.slot_24(0x1000, local_04);
+  Item.popToCoords(Item.getZ(arg_10), Item.getY(arg_10), Item.getX(arg_10), local_04);
+  Item.playSfxCru(0x0081, local_04);
+  AudioProcess.stopSFXCru(0x0086, arg_10);
+  Item.destroy(arg_10);
   if (Intrinsic006A()) {
     while ((Item.getFrame(local_04) != 4) && (Item.isOnScreen(local_04) == 1)) {
       spawn FREE.slot_3b(pid, 2, 0x00000000);
@@ -33,6 +40,8 @@ function flamebox_slot_21() /* entry=1029 class_id=0x0403 slot=0x21 */
     spawn FREE.slot_3b(pid, 0x00c8, 0x00000000);
     suspend;
   }
+  Item.setShape(local_06, local_04);
+  Item.setFrame(0, local_04);
   ITEM.slot_25(0x1000, local_04);
   return;
 }

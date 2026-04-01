@@ -2,13 +2,20 @@ function r_shield_use() /* entry=403 class_id=0x0191 slot=0x01 */
 {
   set_info(0x0207, *(arg_06));
   process_exclude();
+  Item.create(0, RADIATION_SHIELD, local_02);
+  Item.popToCoords(0, 0, 0, local_02);
+  Item.andStatus(0, local_02);
   if (AudioProcess.stopSFXCru(&global[0x001e]) == 25) {
+    Item.unequip();
     return;
   }
   else if (global[0x000d]) {
+    Item.isOn(0, arg_06);
+    PaletteFaderProcess.fadeFromBlack();
   }
   else {
     spawn FREE.slot_27(0x00000000);
   }
+  Item.unequip();
   return;
 }

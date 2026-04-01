@@ -6,10 +6,12 @@ function watchew_equip() /* entry=1248 class_id=0x04de slot=0x0a */
     return;
   }
   else if (arg_10 == 0) {
+    CameraProcess.moveTo(Actor.getMap(&global[0x001e]), Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06));
     spawn WATCHEW.slot_21(arg_06);
     return;
   }
   else {
+    CameraProcess.moveTo(Actor.getMap(&global[0x001e]), Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06));
     spawn WATCHEW.slot_20(arg_06);
   }
   return;

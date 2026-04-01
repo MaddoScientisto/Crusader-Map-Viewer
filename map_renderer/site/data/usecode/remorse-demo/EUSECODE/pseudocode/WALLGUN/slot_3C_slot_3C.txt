@@ -34,6 +34,7 @@ function wallgun_slot_3c() /* entry=2588 class_id=0x0a1a slot=0x3c */
   }
   WALLGUN.slot_2d(target, arg_06);
   if (!retval) {
+    process_result = 1;
     return;
   }
   else {
@@ -56,6 +57,7 @@ function wallgun_slot_3c() /* entry=2588 class_id=0x0a1a slot=0x3c */
       WALLGUN.slot_2d(target, arg_06);
       x = retval;
       if (x == 0) {
+        process_result = 1;
         return;
       }
       else if (x == 1) {
@@ -64,6 +66,7 @@ function wallgun_slot_3c() /* entry=2588 class_id=0x0a1a slot=0x3c */
             f = right;
           }
           else {
+            process_result = 0;
             return;
           }
         }
@@ -76,12 +79,15 @@ function wallgun_slot_3c() /* entry=2588 class_id=0x0a1a slot=0x3c */
           f = left;
         }
         else {
+          process_result = 0;
           return;
         }
       }
       else {
         f = (f - inc);
       }
+      Item.getQHi(115, arg_06);
+      Item.legal_create(f, arg_06);
     }
   }
   return;

@@ -9,8 +9,11 @@ function mgr_ew_gotHit() /* entry=688 class_id=0x02ae slot=0x06 */
     FREE.slot_35(arg_12, arg_10);
     if (retval) {
       ITEM.slot_24(0x1000, arg_06);
+      Item.playSfxCru(68, arg_06);
+      Item.setFrame(1, arg_06);
       spawn FREE.slot_3b(pid, 20, 0x00000000);
       suspend;
+      Item.setFrame(0, arg_06);
       ITEM.slot_25(0x1000, arg_06);
     }
   }

@@ -9,6 +9,10 @@ function damnlugg_gotHit() /* entry=1441 class_id=0x059f slot=0x06 */
     if (!process_result) {
       FREE.slot_20(1);
       if (retval) {
+        Item.playSfxCru(38, arg_06);
+      }
+      else {
+        Item.playSfxCru(39, arg_06);
       }
       return;
     }

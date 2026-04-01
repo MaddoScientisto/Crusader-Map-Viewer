@@ -33,19 +33,25 @@ function wallgun_slot_45() /* entry=2593 class_id=0x0a1f slot=0x45 */
       }
     }
     else if ((Item.getShape(arg_06) == 0x0113) || (Item.getShape(arg_06) == 0x0108)) {
+      Item.isOn(local_11, arg_06);
       spawn WALLGUN.slot_47(local_01, arg_06);
       spawn FREE.slot_3b(pid, 5, 0x00000000);
       suspend;
+      Item.isOn((Item.getFrame(arg_06) + 1), arg_06);
       spawn FREE.slot_3b(pid, 5, 0x00000000);
       suspend;
+      Item.isOn(local_11, arg_06);
       spawn WALLGUN.slot_47(local_01, arg_06);
       spawn FREE.slot_3b(pid, 5, 0x00000000);
       suspend;
+      Item.isOn((Item.getFrame(arg_06) + 1), arg_06);
       spawn FREE.slot_3b(pid, 5, 0x00000000);
       suspend;
+      Item.isOn(local_11, arg_06);
       spawn WALLGUN.slot_47(local_01, arg_06);
       spawn FREE.slot_3b(pid, 5, 0x00000000);
       suspend;
+      Item.isOn((Item.getFrame(arg_06) + 1), arg_06);
       spawn FREE.slot_3b(pid, 5, 0x00000000);
       suspend;
     }
@@ -53,26 +59,34 @@ function wallgun_slot_45() /* entry=2593 class_id=0x0a1f slot=0x45 */
       spawn WALLGUN.slot_47(local_01, arg_06);
     }
     else if ((Item.getShape(arg_06) == 0x0373) || (Item.getShape(arg_06) == 0x02f0)) {
+      Item.isOn(local_11, arg_06);
       spawn WALLGUN.slot_47(local_01, arg_06);
       spawn FREE.slot_3b(pid, 5, 0x00000000);
       suspend;
+      Item.isOn((Item.getFrame(arg_06) + 1), arg_06);
     }
     else if ((((Item.getShape(arg_06) == 0x04c8) || (Item.getShape(arg_06) == 0x01cd)) || (Item.getShape(arg_06) == 0x05e6)) || (Item.getShape(arg_06) == 0x05ba)) {
+      Item.isOn(local_11, arg_06);
       spawn FREE.slot_3b(pid, 5, 0x00000000);
       suspend;
+      Item.isOn((Item.getFrame(arg_06) + 1), arg_06);
       spawn WALLGUN.slot_47(local_01, arg_06);
       spawn FREE.slot_3b(pid, 5, 0x00000000);
       suspend;
+      Item.isOn(local_11, arg_06);
       spawn FREE.slot_3b(pid, 5, 0x00000000);
       suspend;
+      Item.isOn((Item.getFrame(arg_06) + 1), arg_06);
       spawn FREE.slot_3b(pid, 5, 0x00000000);
       suspend;
     }
     else if ((Item.getShape(arg_06) == 0x03a1) || (Item.getShape(arg_06) == 0x0399)) {
+      Item.isOn((Item.getFrame(arg_06) + 9), arg_06);
       spawn WALLGUN.slot_47(local_01, arg_06);
       spawn FREE.slot_3b(pid, 5, 0x00000000);
       suspend;
     }
+    Item.isOn(local_09, arg_06);
     spawn WALLGUN.slot_30(pid, arg_06);
     suspend;
   }

@@ -10,15 +10,24 @@ function pit_gotHit() /* entry=870 class_id=0x0364 slot=0x06 */
   else if (Actor.isNPC(local_02)) {
     local_04 = arg_10;
     if (local_04 == World.getControlledNPCNum()) {
+      Actor.getMap(0x00f0, local_04);
+      Actor.setImmortal(local_04);
       if (Item.getShape(local_04) == 1) {
+        Item.getPoint(1);
         while (!Actor.setCombatTactic(local_04)) {
+          MusicProcess.playMusic(8, Actor.getHp(local_04), 8, 0, local_04);
         }
+        Item.getNpcNum(local_04);
+        Item.isOn(8, local_04);
         spawn FREE.slot_21(pid, 98, 0x00000000);
         suspend;
       }
       else {
         while (!Actor.setCombatTactic(local_04)) {
+          MusicProcess.playMusic(8, Actor.getHp(local_04), 8, 0, local_04);
         }
+        Item.getNpcNum(local_04);
+        Item.explode(1, 2, local_04);
         spawn FREE.slot_3b(pid, 2, 0x00000000);
         suspend;
       }
@@ -26,9 +35,16 @@ function pit_gotHit() /* entry=870 class_id=0x0364 slot=0x06 */
     }
     else {
       while (!Actor.setCombatTactic(local_04)) {
+        MusicProcess.playMusic(8, Actor.getHp(local_04), 8, 0, local_04);
       }
+      Item.getNpcNum(local_04);
       NPC.slot_2a(local_04);
       if (!retval) {
+        Item.getCY(0, 0, 10, 10, local_04);
+        Item.playSfxCru(98, arg_06);
+      }
+      else {
+        Item.explode(1, 2, arg_06);
       }
       return;
     }
@@ -39,5 +55,6 @@ function pit_gotHit() /* entry=870 class_id=0x0364 slot=0x06 */
     suspend;
     spawn FREE.slot_2d(0x00c8, 0x00000000);
   }
+  Item.destroy(local_02);
   return;
 }

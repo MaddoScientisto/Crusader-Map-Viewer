@@ -9,6 +9,10 @@ function mdoor_n_avatarStoleSomething() /* entry=171 class_id=0x00a9 slot=0x13 *
 
   set_info(0x022e, *(arg_06));
   process_exclude();
+  Item.create(3, 0x0493, item);
+  Item.create(3, 0x04cf, item2);
+  Item.popToCoords(Item.getZ(arg_06), Item.getY(arg_06), (Item.getX(arg_06) - 96), item);
+  Item.popToCoords((Item.getZ(arg_06) + 1), Item.getY(arg_06), Item.getX(arg_06), item2);
   door = *(arg_06);
   spawn DOOR.slot_22(pid, door);
   suspend;

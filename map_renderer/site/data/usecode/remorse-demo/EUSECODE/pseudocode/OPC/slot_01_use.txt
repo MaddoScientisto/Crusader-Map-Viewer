@@ -8,12 +8,15 @@ function opc_use() /* entry=958 class_id=0x03bc slot=0x01 */
   process_exclude();
   ITEM.slot_23(0x1000, arg_06);
   if (Actor.getMap(&global[0x003c]) == 21) {
+    Ultima8Engine.setAvatarInStasis(1);
     suspend;
+    Actor.setDead(0x00c8, "mva11b", arg_06);
     suspend;
     spawn FREE.waitNTimerTicks(pid, 20, 0x00000000);
     suspend;
     spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
     suspend;
+    Ultima8Engine.setAvatarInStasis(0);
     spawn FREE.waitNTimerTicks(pid, 0x00b4, 0x00000000);
     suspend;
     if (!Item.getItemFamily(&global[0x003c])) {
@@ -21,18 +24,29 @@ function opc_use() /* entry=958 class_id=0x03bc slot=0x01 */
       suspend;
     }
     for item in nearby_items(shape=TELEPORTER_LIGHTS, origin=arg_06) {
+      if (Item.getQLo(item) == 99) {
+        Item.fallProbably_03E(30, item);
+        Item.legal_create(0, item);
+      }
     }
     return;
   }
   else {
+    Ultima8Engine.setAvatarInStasis(1);
     suspend;
+    Actor.setDead(0x00c8, "mva12b", arg_06);
     suspend;
     spawn FREE.waitNTimerTicks(pid, 20, 0x00000000);
     suspend;
     spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
     suspend;
     for item in nearby_items(shape=TELEPORTER_LIGHTS, origin=arg_06) {
+      if (Item.getQLo(item) == 2) {
+        Item.fallProbably_03E(30, item);
+        Item.legal_create(0, item);
+      }
     }
+    Ultima8Engine.setAvatarInStasis(0);
   }
   return;
 }

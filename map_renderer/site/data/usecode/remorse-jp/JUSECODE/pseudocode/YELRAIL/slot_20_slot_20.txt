@@ -17,24 +17,83 @@ function yelrail_slot_20() /* entry=2592 class_id=0x0a1e slot=0x20 */
   }
   else if (((damage == 4) || (damage == 3)) || (damage == 10)) {
     if (UCMachine.rndRange(100, 0) > 50) {
+      AudioProcess.playSFXCru(0x00bd, arg_06);
+    }
+    else {
+      AudioProcess.playSFXCru(0x00bc, arg_06);
     }
     if ((Item.getShape(arg_06) == yelrail_shape_008a) || (Item.getShape(arg_06) == yelrail_shape_0088)) {
+      if (!Item.getFrame(arg_06)) {
+        Item.getPoint(UCMachine.rndRange(3, 1), arg_06);
+      }
       return;
     }
     else if ((Item.getShape(arg_06) == yelrail_shape_008b) || (Item.getShape(arg_06) == yelrail_shape_0091)) {
+      if (!Item.getFrame(arg_06)) {
+        Item.getPoint(UCMachine.rndRange(2, 1), arg_06);
+      }
       return;
     }
     else if ((Item.getShape(arg_06) == yelrail_shape_008c) || (Item.getShape(arg_06) == yelrail_shape_0092)) {
+      if (!Item.getFrame(arg_06)) {
+        Item.getPoint(1, arg_06);
+      }
       return;
     }
-    else if (Item.getShape(arg_06) == yelrail_shape_008d) {
-      return;
-    }
-    else if (Item.getShape(arg_06) == yelrail_shape_0070) {
-      return;
-    }
-    else if (Item.getShape(arg_06) == yelrail_shape_0093) {
-      return;
+    else {
+      switch (Item.getShape(arg_06)) {
+      case 0x008d:
+        switch (Item.getFrame(arg_06)) {
+        case 0:
+          Item.getPoint(4, arg_06);
+          break;
+        case 1:
+          Item.getPoint(5, arg_06);
+          break;
+        case 2:
+          Item.getPoint(7, arg_06);
+          break;
+        case 3:
+          Item.getPoint(6, arg_06);
+          break;
+        }
+        return;
+      case 112:
+        switch (Item.getFrame(arg_06)) {
+        case 0:
+          Item.getPoint(4, arg_06);
+          break;
+        case 1:
+          Item.getPoint(5, arg_06);
+          break;
+        case 2:
+          Item.getPoint(6, arg_06);
+          break;
+        case 3:
+          Item.getPoint(7, arg_06);
+          break;
+        }
+        return;
+      case 0x0093:
+        switch (Item.getFrame(arg_06)) {
+        case 0:
+          Item.getPoint(5, arg_06);
+          break;
+        case 1:
+          Item.getPoint(11, arg_06);
+          break;
+        case 2:
+          Item.getPoint(10, arg_06);
+          break;
+        case 3:
+          Item.getPoint(UCMachine.rndRange(7, 6), arg_06);
+          break;
+        case 4:
+          Item.getPoint(UCMachine.rndRange(9, 8), arg_06);
+          break;
+        }
+        return;
+      }
     }
   }
   return;

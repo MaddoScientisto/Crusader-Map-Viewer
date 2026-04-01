@@ -6,6 +6,7 @@ function panelns_use() /* entry=163 class_id=0x00a1 slot=0x01 */
     return;
   }
   else if (Item.getMapArray(arg_06) != 0) {
+    AudioProcess.playSFXCru(0x00ac, arg_06);
     spawn TRIGGER.slot_2a(pid, 0, *(arg_06), arg_06);
     suspend;
     return;

@@ -4,78 +4,86 @@ function detpac_use() /* entry=1377 class_id=0x055f slot=0x01 */
   process_exclude();
   local_03 = *(arg_06);
   if (IntrinsicReturn0(arg_06)) {
+    Game.isViolenceEnabled();
+    MusicProcess.unpauseMusic();
     if (AudioProcess.stopSFXCru(&global[0x001e]) == 25) {
+      Item.create(0, DET_PAC, local_05);
+      Item.popToCoords(0, 0, 0, local_05);
+      Intrinsic003F(0, local_05);
       return;
     }
     set_info(0x00f0, 0);
     local_07 = 0;
+    Item.getPoint(1);
     while (Item.legal_move(&global[0x001e])) {
       spawn FREE.slot_3b(pid, 2, 0x00000000);
       suspend;
     }
-    if (Actor.getDir(&global[0x001e]) == 0) {
+    switch (Actor.getDir(&global[0x001e])) {
+    case 0:
       local_09 = -1;
       local_11 = -3;
-    }
-    else if (Actor.getDir(&global[0x001e]) == 1) {
+      break;
+    case 1:
       local_09 = 0;
       local_11 = -3;
-    }
-    else if (Actor.getDir(&global[0x001e]) == 2) {
+      break;
+    case 2:
       local_09 = 1;
       local_11 = -3;
-    }
-    else if (Actor.getDir(&global[0x001e]) == 3) {
+      break;
+    case 3:
       local_09 = 2;
       local_11 = -2;
-    }
-    else if (Actor.getDir(&global[0x001e]) == 4) {
+      break;
+    case 4:
       local_09 = 2;
       local_11 = -1;
-    }
-    else if (Actor.getDir(&global[0x001e]) == 5) {
+      break;
+    case 5:
       local_09 = 2;
       local_11 = 0;
-    }
-    else if (Actor.getDir(&global[0x001e]) == 6) {
+      break;
+    case 6:
       local_09 = 2;
       local_11 = 2;
-    }
-    else if (Actor.getDir(&global[0x001e]) == 7) {
+      break;
+    case 7:
       local_09 = 0;
       local_11 = 2;
-    }
-    else if (Actor.getDir(&global[0x001e]) == 8) {
+      break;
+    case 8:
       local_09 = -1;
       local_11 = 2;
-    }
-    else if (Actor.getDir(&global[0x001e]) == 9) {
+      break;
+    case 9:
       local_09 = -2;
       local_11 = 2;
-    }
-    else if (Actor.getDir(&global[0x001e]) == 10) {
+      break;
+    case 10:
       local_09 = -3;
       local_11 = 2;
-    }
-    else if (Actor.getDir(&global[0x001e]) == 11) {
+      break;
+    case 11:
       local_09 = -3;
       local_11 = 1;
-    }
-    else if (Actor.getDir(&global[0x001e]) == 12) {
+      break;
+    case 12:
       local_09 = -3;
       local_11 = 0;
-    }
-    else if (Actor.getDir(&global[0x001e]) == 13) {
+      break;
+    case 13:
       local_09 = -3;
       local_11 = -1;
-    }
-    else if (Actor.getDir(&global[0x001e]) == 14) {
+      break;
+    case 14:
       local_09 = -3;
       local_11 = -2;
-    }
-    else if (Actor.getDir(&global[0x001e]) == 15) {
+      break;
+    case 15:
       local_09 = -3;
       local_11 = -3;
+      break;
     }
     if (Item.fall(&global[0x001e])) {
       local_01 = 1;
@@ -88,12 +96,25 @@ function detpac_use() /* entry=1377 class_id=0x055f slot=0x01 */
     local_16 = (Item.getY(&global[0x001e]) + (local_11 * 16));
     local_14 = Item.getZ(&global[0x001e]);
     if (Kernel.getNumProcesses(local_18, 0, 0x055f, local_13)) {
+      Kernel.resetRef(local_13);
+      Item.playSfxCru(0x0113, local_13);
+    }
+    else {
+      Item.create(0, DET_PAC, local_05);
+      Item.popToCoords(0, 0, 0, local_05);
+      Intrinsic003F(0, local_05);
+      Item.playSfxCru(0x01a7, &global[0x001e]);
     }
     if (!local_01) {
       suspend;
       suspend;
     }
+    Item.unequip();
+    Item.getPoint(0);
     return;
+  }
+  else if (AudioProcess.stopSFXCru(&global[0x001e]) != 25) {
+    Item.explode(1, 2, arg_06);
   }
   return;
 }

@@ -19,10 +19,17 @@ function switch_slot_21() /* entry=2584 class_id=0x0a16 slot=0x21 */
     spawn FREE.slot_21(pid, 0x0090, 0x00000000);
     suspend;
     if (UCMachine.rndRange(100, 0) > 50) {
+      AudioProcess.playSFXCru(0x00d5, arg_06);
+    }
+    else {
+      AudioProcess.playSFXCru(0x00e5, arg_06);
     }
     return;
   }
   else if (okay) {
+    AudioProcess.playSFXCru(50, arg_06);
+    Item.legal_create(4, arg_06);
+    AudioProcess.playSFXCru(122, arg_06);
     spawn FREE.waitNTimerTicks(pid, 1, 0x00000000);
     suspend;
     spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
@@ -30,10 +37,13 @@ function switch_slot_21() /* entry=2584 class_id=0x0a16 slot=0x21 */
     return;
   }
   else {
+    AudioProcess.playSFXCru(49, arg_06);
+    AudioProcess.playSFXCru(0x0090, arg_06);
     while (Container.destroyContents(0x0090, arg_06)) {
       spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
       suspend;
     }
+    AudioProcess.playSFXCru(12, arg_06);
     spawn FREE.waitNTimerTicks(pid, 1, 0x00000000);
     suspend;
     spawn TRIGGER.slot_20(pid, 1, *(arg_06), arg_06);

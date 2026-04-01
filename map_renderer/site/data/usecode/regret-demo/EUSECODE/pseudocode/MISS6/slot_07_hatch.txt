@@ -3,6 +3,11 @@ function miss6_hatch() /* entry=2324 class_id=0x0912 slot=0x07 */
   set_info(0x0210, *(arg_06));
   process_exclude();
   if (Item.callEvent11(arg_06) == 1) {
+    setUnkFlagA4();
+    Actor.clrImmortal();
+    Actor.setActivity();
+    Item.getQHi();
+    Item.getQuality();
     spawn FREE.slot_3b(pid, 1, 0x00000000);
     suspend;
     suspend;
@@ -23,14 +28,21 @@ function miss6_hatch() /* entry=2324 class_id=0x0912 slot=0x07 */
       suspend;
     }
     FREE.slot_23();
+    Item.getPoint(0);
+    clearUnkFlagA4();
+    Item.destroy(arg_06);
   }
   if (Item.callEvent11(arg_06) == 22) {
+    Item.getPoint(1);
     for local_06 in nearby_items(shape=0x01ab, origin=arg_06) {
       if (Item.getCY(local_06) == 22) {
         spawn DOOR.slot_21(pid, 1, local_06);
         suspend;
       }
     }
+    Item.create(0, GL_303, local_02);
+    Item.popToCoords(0, 0, 0, local_02);
+    Item.andStatus(0, local_02);
     if (Item.fall(&global[0x001e])) {
       suspend;
     }
@@ -55,6 +67,7 @@ function miss6_hatch() /* entry=2324 class_id=0x0912 slot=0x07 */
       if (Item.getCY(local_02) == 22) {
         local_04 = 2;
         while (local_04 <= 29) {
+          Item.isOn(local_04, local_02);
           spawn FREE.slot_3b(pid, 10, 0x00000000);
           suspend;
           local_04 = (1 + local_04);
@@ -68,8 +81,14 @@ function miss6_hatch() /* entry=2324 class_id=0x0912 slot=0x07 */
     suspend;
     suspend;
     for local_02 in nearby_items(shape=0x0361, origin=arg_06) {
+      if (Item.getCY(local_02) == 22) {
+        Item.shoot(AudioProcess.stopSFXCru(&global[0x001e]), 0, Item.getY(local_02), Item.getX(local_02));
+      }
     }
     for local_02 in nearby_items(shape=0x041c, origin=arg_06) {
+      if (Item.getFrame(local_02) == 30) {
+        Item.isOn(61, local_02);
+      }
     }
     spawn FREE.slot_21(pid, 0x0084, 0x00000000);
     suspend;
@@ -83,16 +102,21 @@ function miss6_hatch() /* entry=2324 class_id=0x0912 slot=0x07 */
       local_04 = (1 + local_04);
     }
     for local_02 in nearby_items(shape=0x041c, origin=arg_06) {
+      Item.playSfxCru(0x0201, arg_06);
       if (Item.getCY(local_02) == 22) {
         local_04 = 31;
         while (local_04 <= 60) {
+          Item.isOn(local_04, local_02);
           spawn FREE.slot_3b(pid, 10, 0x00000000);
           suspend;
           local_04 = (1 + local_04);
           local_04 = (1 + local_04);
         }
+        Item.isOn(1, local_02);
       }
     }
+    Item.getPoint(0);
+    Item.destroy(arg_06);
   }
   return;
 }

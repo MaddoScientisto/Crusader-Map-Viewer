@@ -18,6 +18,7 @@ function bouncbox_gotHit() /* entry=1265 class_id=0x04ef slot=0x06 */
   dir = Item.getQHi(arg_06);
   item = ref;
   if (ref == 0x4000) {
+    AudioProcess.playSFXCru(0x00b2, arg_06);
     FREE.slot_2c(vel, ref);
     FREE.slot_2c((retval == 4), vel, ref);
     if (retval == 3) {
@@ -28,6 +29,7 @@ function bouncbox_gotHit() /* entry=1265 class_id=0x04ef slot=0x06 */
       if (dir > 31) {
         dir = (dir - 16);
       }
+      Item.pop(dir, arg_06);
     }
     if (Item.getStatus(arg_06) & 4) {
       dir = 0x00ff;
@@ -63,8 +65,15 @@ function bouncbox_gotHit() /* entry=1265 class_id=0x04ef slot=0x06 */
   else if (Item.getShape(item) == 0x02c3) {
     qHi = Item.getQHi(item);
     qLo = legalMoveToPoint(item);
+    Item.destroy(item);
     if (Item.create(0, 0x02c4, item2)) {
+      Item.fallProbably_03E(qLo, item2);
       if (qHi) {
+        Item.pop(2, item2);
+        Item.popToCoords((Item.getZ(arg_06) + 6), (Item.getY(arg_06) - 8), (Item.getX(arg_06) - 16), item2);
+      }
+      else {
+        Item.popToCoords((Item.getZ(arg_06) + 6), (Item.getY(arg_06) - 8), (Item.getX(arg_06) + 32), item2);
       }
     }
     return;
@@ -72,8 +81,15 @@ function bouncbox_gotHit() /* entry=1265 class_id=0x04ef slot=0x06 */
   else if (Item.getShape(item) == 0x02c4) {
     qHi = Item.getQHi(item);
     qLo = legalMoveToPoint(item);
+    Item.destroy(item);
     if (Item.create(0, 0x02c3, item2)) {
+      Item.fallProbably_03E(qLo, item2);
       if (qHi) {
+        Item.pop(2, item2);
+        Item.popToCoords((Item.getZ(arg_06) + 6), (Item.getY(arg_06) + 32), (Item.getX(arg_06) - 8), item2);
+      }
+      else {
+        Item.popToCoords((Item.getZ(arg_06) + 6), (Item.getY(arg_06) - 16), (Item.getX(arg_06) - 8), item2);
       }
     }
     return;

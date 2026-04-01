@@ -1,10 +1,14 @@
 function wallgun_slot_28() /* entry=2593 class_id=0x0a1f slot=0x28 */
 {
   set_info(0x020a, *(arg_06));
+  Item.setNpcNum(arg_12, arg_06);
   if (arg_12 > 99) {
     arg_12 = (arg_12 - 100);
   }
   local_02 = Item.getNpcNum(arg_06);
+  if (local_02 == 0) {
+    Item.setQHi(33, arg_06);
+  }
   if (((local_02 == 99) || (local_02 == 0x00c7)) || (arg_12 == 6)) {
     return;
   }

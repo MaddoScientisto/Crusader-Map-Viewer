@@ -2,17 +2,21 @@ function conv_el_equip() /* entry=661 class_id=0x0293 slot=0x0a */
 {
   set_info(0x0211, *(arg_06));
   process_exclude();
-  if (arg_10 == 0) {
+  switch (arg_10) {
+  case 0:
+    Item.setQHi(0x00ff, arg_06);
     FREE.slot_3c(0x0205, *(arg_06));
+    AudioProcess.stopSFXCru(115, arg_06);
+    Item.playSfxCru(116, arg_06);
     return;
-  }
-  else if (arg_10 == 1) {
+  case 1:
     FREE.slot_3c(0x0205, *(arg_06));
+    Item.setQHi(0, arg_06);
     spawn CONVEYOR.slot_20(-3, 0, arg_06);
     return;
-  }
-  else if (arg_10 == 2) {
+  case 2:
     FREE.slot_3c(0x0205, *(arg_06));
+    Item.setQHi(1, arg_06);
     spawn CONVEYOR.slot_20(3, 0, arg_06);
     return;
   }

@@ -8,11 +8,18 @@ function door2_slot_43() /* entry=2569 class_id=0x0a07 slot=0x43 */
   set_info(0x0207, *(arg_06));
   spawn DOOR.slot_22(pid, arg_06);
   suspend;
+  AudioProcess.playSFXCru(90, arg_06);
   counter = 1;
   while (counter <= 6) {
+    Item.legal_create(counter, arg_06);
     spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
     suspend;
     counter = (1 + counter);
   }
+  push(arg_06);
+  Item.legal_create(0, arg_06);
+  Item.setShape(0x03be, arg_06);
+  Actor.isBusy(arg_06);
+  process_result = 1;
   return;
 }

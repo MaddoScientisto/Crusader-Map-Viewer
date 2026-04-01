@@ -16,6 +16,10 @@ function fight_ns_gotHit() /* entry=385 class_id=0x017f slot=0x06 */
       if (!process_result) {
         FREE.slot_20(1);
         if (retval) {
+          AudioProcess.playSFXCru(38, arg_06);
+        }
+        else {
+          AudioProcess.playSFXCru(39, arg_06);
         }
         return;
       }
@@ -26,10 +30,12 @@ function fight_ns_gotHit() /* entry=385 class_id=0x017f slot=0x06 */
             if ((Item.getShape(local_02) == 0x017f) || (Item.getShape(local_02) == 0x0141)) {
               spawn ITEM.slot_28(pid, 0, 2, local_02);
               suspend;
+              Item.isCentreOn(1, local_02);
             }
             else {
               spawn ITEM.slot_28(pid, 0, 1, local_02);
               suspend;
+              Item.isCentreOn(1, local_02);
             }
           }
         }

@@ -16,30 +16,38 @@ function steplew_gotHit() /* entry=1486 class_id=0x05cc slot=0x06 */
       if ((Item.getSurfaceWeight(arg_06) == 0) || (Item.isCentreOn(*(arg_06), local_04) == 0)) {
         return;
       }
-      else if (Item.getMapArray(arg_06) != 0) {
-        spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
-        suspend;
-        while (1) {
-          if (Item.getSurfaceWeight(arg_06) != 0) {
-            spawn FREE.slot_3b(pid, 2, 0x00000000);
-            suspend;
-          }
-          else {
-            spawn TRIGGER.slot_20(pid, 1, *(arg_06), arg_06);
-            suspend;
-            return;
-          }
-        }
-        return;
-      }
       else {
-        while (1) {
-          if (Item.getSurfaceWeight(arg_06) != 0) {
-            spawn FREE.slot_3b(pid, 2, 0x00000000);
-            suspend;
+        Item.setFrame((local_02 + 1), arg_06);
+        if (Item.getMapArray(arg_06) != 0) {
+          Item.playSfxCru(0x00aa, arg_06);
+          spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
+          suspend;
+          while (1) {
+            if (Item.getSurfaceWeight(arg_06) != 0) {
+              spawn FREE.slot_3b(pid, 2, 0x00000000);
+              suspend;
+            }
+            else {
+              Item.setFrame(local_02, arg_06);
+              Item.playSfxCru(0x00ab, arg_06);
+              spawn TRIGGER.slot_20(pid, 1, *(arg_06), arg_06);
+              suspend;
+              return;
+            }
           }
-          else {
-            return;
+          return;
+        }
+        else {
+          while (1) {
+            if (Item.getSurfaceWeight(arg_06) != 0) {
+              spawn FREE.slot_3b(pid, 2, 0x00000000);
+              suspend;
+            }
+            else {
+              Item.playSfxCru(0x00ab, arg_06);
+              Item.setFrame(local_02, arg_06);
+              return;
+            }
           }
         }
       }

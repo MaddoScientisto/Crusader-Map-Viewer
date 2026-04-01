@@ -3,80 +3,88 @@ function disrupt_use() /* entry=1560 class_id=0x0616 slot=0x01 */
   set_info(0x0207, *(arg_06));
   process_exclude();
   set_info(0x00f0, 0);
+  Ultima8Engine.setCruStasis();
+  Intrinsic006B();
   if (Actor.getMap(&global[0x001e]) == 25) {
+    Item.create(0, DISRUPTER, local_02);
+    Item.popToCoords(0, 0, 0, local_02);
+    MainActor.addItemCru(0, local_02);
     return;
   }
   else {
     local_05 = *(arg_06);
     set_info(0x00f0, 0);
     local_13 = Actor.getLastAnimSet(&global[0x001e]);
+    Ultima8Engine.setAvatarInStasis(1);
     while (Actor.isBusy(&global[0x001e])) {
       spawn FREE.slot_3b(pid, 2, 0x00000000);
       suspend;
     }
-    if (Actor.getDir(&global[0x001e]) == 0) {
+    switch (Actor.getDir(&global[0x001e])) {
+    case 0:
       local_15 = -1;
       local_17 = -3;
-    }
-    else if (Actor.getDir(&global[0x001e]) == 1) {
+      break;
+    case 1:
       local_15 = 0;
       local_17 = -3;
-    }
-    else if (Actor.getDir(&global[0x001e]) == 2) {
+      break;
+    case 2:
       local_15 = 1;
       local_17 = -3;
-    }
-    else if (Actor.getDir(&global[0x001e]) == 3) {
+      break;
+    case 3:
       local_15 = 2;
       local_17 = -2;
-    }
-    else if (Actor.getDir(&global[0x001e]) == 4) {
+      break;
+    case 4:
       local_15 = 2;
       local_17 = -1;
-    }
-    else if (Actor.getDir(&global[0x001e]) == 5) {
+      break;
+    case 5:
       local_15 = 2;
       local_17 = 0;
-    }
-    else if (Actor.getDir(&global[0x001e]) == 6) {
+      break;
+    case 6:
       local_15 = 2;
       local_17 = 2;
-    }
-    else if (Actor.getDir(&global[0x001e]) == 7) {
+      break;
+    case 7:
       local_15 = 0;
       local_17 = 2;
-    }
-    else if (Actor.getDir(&global[0x001e]) == 8) {
+      break;
+    case 8:
       local_15 = -1;
       local_17 = 2;
-    }
-    else if (Actor.getDir(&global[0x001e]) == 9) {
+      break;
+    case 9:
       local_15 = -2;
       local_17 = 2;
-    }
-    else if (Actor.getDir(&global[0x001e]) == 10) {
+      break;
+    case 10:
       local_15 = -3;
       local_17 = 2;
-    }
-    else if (Actor.getDir(&global[0x001e]) == 11) {
+      break;
+    case 11:
       local_15 = -3;
       local_17 = 1;
-    }
-    else if (Actor.getDir(&global[0x001e]) == 12) {
+      break;
+    case 12:
       local_15 = -3;
       local_17 = 0;
-    }
-    else if (Actor.getDir(&global[0x001e]) == 13) {
+      break;
+    case 13:
       local_15 = -3;
       local_17 = -1;
-    }
-    else if (Actor.getDir(&global[0x001e]) == 14) {
+      break;
+    case 14:
       local_15 = -3;
       local_17 = -2;
-    }
-    else if (Actor.getDir(&global[0x001e]) == 15) {
+      break;
+    case 15:
       local_15 = -3;
       local_17 = -3;
+      break;
     }
     if (Intrinsic0061(&global[0x001e])) {
       local_03 = 1;
@@ -89,27 +97,39 @@ function disrupt_use() /* entry=1560 class_id=0x0616 slot=0x01 */
     local_20 = (Item.getY(&global[0x001e]) + (local_17 * 16));
     local_18 = Item.getZ(&global[0x001e]);
     if (!Item.legal_create(local_22, 0, 0x0616, local_02)) {
+      Item.create(0, DISRUPTER, local_02);
+      Item.popToCoords(0, 0, 0, local_02);
+      MainActor.addItemCru(0, local_02);
       spawn FREE.slot_21(pid, 0x01a7, 0x00000000);
       suspend;
     }
     else {
+      Item.fall(local_02);
+      Item.playSfxCru(0x0113, local_02);
       local_23 = 0;
       while (condition) {
         local_23 = 1;
       }
       if (!local_23) {
+        SpriteProcess.createSprite(Item.getZ(local_02), Item.getY(local_02), Item.getX(local_02), 5, 19, 10, 0x04f1);
         spawn FREE.slot_21(pid, 0x01aa, 0x00000000);
         suspend;
+        Item.playSfxCru(14, local_02);
       }
       else {
+        SpriteProcess.createSprite(Item.getZ(local_02), Item.getY(local_02), Item.getX(local_02), 5, 9, 0, 0x04f1);
         spawn FREE.slot_21(pid, 0x01a9, 0x00000000);
         suspend;
+        Item.playSfxCru(13, local_02);
+        Item.setFrame(1, local_02);
       }
     }
     if (!local_03) {
       suspend;
       suspend;
     }
+    Ultima8Engine.clrCruStasis();
+    Ultima8Engine.setAvatarInStasis(0);
   }
   return;
 }

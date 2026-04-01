@@ -38,6 +38,9 @@ function miss1egg_slot_22() /* entry=2319 class_id=0x090d slot=0x22 */
         if ((Actor.setActivity(rubberSuit) == 0) || (Item.setQAndCombine(rubberSuit) == 0)) {
           spawn FREE.slot_3b(0x00000000);
         }
+        if ((Actor.setActivity(rubberSuit) == 0) || (Item.setQAndCombine(rubberSuit) == 0)) {
+          PaletteFaderProcess.setPalToAllGrey(7, rubberSuit);
+        }
       }
     }
   }

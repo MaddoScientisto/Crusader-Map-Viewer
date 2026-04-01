@@ -12,5 +12,8 @@ function telepad_release() /* entry=477 class_id=0x01db slot=0x09 */
       onPad = 1;
     }
   }
+  if (!onPad) {
+    Ultima8Engine.clrUnkCrusaderFlag();
+  }
   return;
 }

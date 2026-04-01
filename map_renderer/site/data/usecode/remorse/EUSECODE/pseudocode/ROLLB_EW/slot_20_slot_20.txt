@@ -19,12 +19,12 @@ function rollb_ew_slot_20() /* entry=1421 class_id=0x058b slot=0x20 */
   h = Item.getQHi(arg_06);
   if (h & 32) {
     while (condition) {
-      /* create_list */
-      /* append_list */
-      riderList = item2;
+      riderList = (riderList + [item2]);
     }
   }
   if (h & 64) {
+    Item.andStatus((~0x1000), arg_06);
+    Item.explode(0, 1, arg_06);
     item2 = *(arg_06);
   }
   else {
@@ -40,8 +40,14 @@ function rollb_ew_slot_20() /* entry=1421 class_id=0x058b slot=0x20 */
     y = Item.getY(arg_06);
     z = Item.getZ(arg_06);
     qLo = Item.getQLo(arg_06);
+    Item.explode(0, 1, arg_06);
     spawn ITEM.slot_2a(pid, arg_06);
     suspend;
+    Item.create(r1, 0x022b, item);
+    Item.setQLo(qLo, item);
+    Item.popToCoords(z, y, x, item);
+    Item.fallProbably_03E(item);
+    Item.destroy(arg_06);
   }
   set_info(1, 0);
   return;

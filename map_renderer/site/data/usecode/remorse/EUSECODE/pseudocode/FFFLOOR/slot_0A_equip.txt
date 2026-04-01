@@ -8,38 +8,52 @@ function fffloor_equip() /* entry=311 class_id=0x0135 slot=0x0a */
 
   set_info(0x0211, *(arg_06));
   process_exclude();
-  if (var == 0) {
+  switch (var) {
+  case 0:
     for egg in nearby_items(shape=17, origin=arg_06) {
+      if (Item.getUnkEggType(egg) == 2) {
+        Egg.setEggXRange(0, egg);
+      }
     }
     spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
     suspend;
+    Item.orStatus(0x1000, arg_06);
     return;
-  }
-  else if (var == 1) {
+  case 1:
     for egg in nearby_items(shape=17, origin=arg_06) {
+      if (Item.getUnkEggType(egg) == 2) {
+        Egg.setEggXRange(0, egg);
+      }
     }
+    Item.andStatus((~0x1000), arg_06);
     return;
-  }
-  else if (var == 29) {
+  case 29:
     spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
     suspend;
     for fffloor in nearby_items(shape=0x0135, origin=arg_06) {
+      Item.setFrame(1, fffloor);
     }
     return;
-  }
-  else if (var == 30) {
+  case 30:
     spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
     suspend;
     for egg in nearby_items(shape=17, origin=arg_06) {
+      if (Item.getUnkEggType(egg) == 2) {
+        Egg.setEggXRange(1, egg);
+      }
     }
     spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
     suspend;
     for fffloor in nearby_items(shape=0x0135, origin=arg_06) {
+      Item.setFrame(0, fffloor);
+      Item.touch(fffloor);
     }
     return;
-  }
-  else if (var == 31) {
+  case 31:
     for egg in nearby_items(shape=17, origin=arg_06) {
+      if (Item.getUnkEggType(egg) == 2) {
+        Egg.setEggXRange(1, egg);
+      }
     }
     return;
   }

@@ -19,6 +19,7 @@ function black16_gotHit() /* entry=17 class_id=0x000f slot=0x06 */
       return;
     }
     else if (ref > 0x00ff) {
+      Item.destroy(item);
       return;
     }
     else if (ref == 1) {
@@ -26,6 +27,9 @@ function black16_gotHit() /* entry=17 class_id=0x000f slot=0x06 */
     }
     else {
       n = ref;
+      Item.setQHi(n);
+      Actor.isDead(n);
+      Item.destroy(n);
     }
   }
   return;

@@ -14,6 +14,8 @@ function wallgun_slot_49() /* entry=2588 class_id=0x0a1a slot=0x49 */
     return;
   }
   else if (Item.getQHi(arg_06) > 99) {
+    AudioProcess.playSFXCru(0x0091, arg_06);
+    Item.getDirFromItem(Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06), 5, 10, 0, 0x04f1);
     return;
   }
   else {
@@ -29,10 +31,19 @@ function wallgun_slot_49() /* entry=2588 class_id=0x0a1a slot=0x49 */
         if (Item.getFrame(arg_06) != 27) {
           spawn ITEM.slot_28(pid, 0, 0, arg_06);
           suspend;
+          Item.legal_create(27, arg_06);
           if (Item.getShape(arg_06) == wallgun_shape_0108) {
+            Item.create(0, 0x02a1, gun);
+            Item.popToCoords((Item.getZ(arg_06) + 32), (Item.getY(arg_06) + 16), Item.getX(arg_06), gun);
+            Item.create(0, 0x029c, gun2);
+            Item.popToCoords((Item.getZ(arg_06) + 16), (Item.getY(arg_06) + 16), Item.getX(arg_06), gun2);
             suspend;
           }
           else {
+            Item.create(1, 0x02a1, gun);
+            Item.popToCoords((Item.getZ(arg_06) + 32), Item.getY(arg_06), (Item.getX(arg_06) + 16), gun);
+            Item.create(1, 0x029c, gun2);
+            Item.popToCoords((Item.getZ(arg_06) + 16), Item.getY(arg_06), (Item.getX(arg_06) + 16), gun2);
             suspend;
           }
         }
@@ -41,7 +52,14 @@ function wallgun_slot_49() /* entry=2588 class_id=0x0a1a slot=0x49 */
         if (Item.getFrame(arg_06) != 27) {
           spawn ITEM.slot_28(pid, 0, 0, arg_06);
           suspend;
+          Item.legal_create(27, arg_06);
           if (Item.getShape(arg_06) == wallgun_shape_02f0) {
+            Item.create(2, 0x02a1, gun);
+            Item.popToCoords((Item.getZ(arg_06) + 32), (Item.getY(arg_06) + 16), Item.getX(arg_06), gun);
+          }
+          else {
+            Item.create(3, 0x02a1, gun);
+            Item.popToCoords((Item.getZ(arg_06) + 32), Item.getY(arg_06), (Item.getX(arg_06) + 16), gun);
           }
         }
       }
@@ -49,10 +67,15 @@ function wallgun_slot_49() /* entry=2588 class_id=0x0a1a slot=0x49 */
         if (Item.getFrame(arg_06) != 9) {
           spawn ITEM.slot_28(pid, 0, 0, arg_06);
           suspend;
+          Item.legal_create(9, arg_06);
           if ((Item.getShape(arg_06) == wallgun_shape_01ba) || (Item.getShape(arg_06) == wallgun_shape_025f)) {
+            Item.create(0, 0x0229, gun);
+            Item.popToCoords((Item.getZ(arg_06) + 16), (Item.getY(arg_06) + 16), Item.getX(arg_06), gun);
             suspend;
           }
           else {
+            Item.create(1, 0x0229, gun);
+            Item.popToCoords((Item.getZ(arg_06) + 16), Item.getY(arg_06), (Item.getX(arg_06) + 16), gun);
             suspend;
           }
         }
@@ -62,6 +85,7 @@ function wallgun_slot_49() /* entry=2588 class_id=0x0a1a slot=0x49 */
           spawn ITEM.slot_28(pid, 0, 0, arg_06);
           suspend;
           FREE.slot_20(1);
+          Item.legal_create((retval + 18), arg_06);
         }
       }
       else if (Item.getShape(arg_06) == wallgun_shape_04c8) {
@@ -69,10 +93,14 @@ function wallgun_slot_49() /* entry=2588 class_id=0x0a1a slot=0x49 */
           spawn ITEM.slot_28(pid, 0, 1, arg_06);
           suspend;
           for gun in nearby_items(shape=TURRET_BASE, origin=arg_06) {
+            Item.legal_create(1, gun);
           }
           gun = *(arg_06);
           set_info(1, 0);
           FREE.slot_20(2);
+          Item.create(retval, 0x03a5, gun2);
+          Item.popToCoords(Item.getZ(gun), Item.getY(gun), Item.getX(gun), gun2);
+          Item.destroy(gun);
         }
       }
       else if ((Item.getShape(arg_06) == wallgun_shape_04c8) || (Item.getShape(arg_06) == wallgun_shape_01cd)) {
@@ -82,8 +110,12 @@ function wallgun_slot_49() /* entry=2588 class_id=0x0a1a slot=0x49 */
           gun = *(arg_06);
           set_info(1, 0);
           FREE.slot_20(3);
+          Item.create(retval, 0x056a, gun2);
+          Item.popToCoords(Item.getZ(gun), Item.getY(gun), Item.getX(gun), gun2);
+          Item.explode(1, 1, gun);
         }
       }
+      Item.setIsBroken(arg_06);
     }
   }
   return;

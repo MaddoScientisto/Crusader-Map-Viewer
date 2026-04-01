@@ -18,14 +18,24 @@ function duck_ns_slot_20() /* entry=408 class_id=0x0196 slot=0x20 */
         local_04 = (local_04 - 100);
       }
       if (local_04 == 0) {
+        Item.playSfxCru(0x0089, arg_06);
+        Intrinsic0033(32, 0x0089, arg_06);
       }
       else if (local_04 == 1) {
+        Item.playSfxCru(71, arg_06);
       }
       else if (local_04 == 2) {
+        Item.playSfxCru(83, arg_06);
       }
       else if (local_04 == 3) {
+        Item.playSfxCru(100, arg_06);
+        SpriteProcess.createSprite((Item.getZ(arg_06) + 3), (Item.getY(arg_06) + 14), (Item.getX(arg_06) - 32), 6, 5, 3, 0x040c);
         spawn FREE.slot_3b(pid, 100, 0x00000000);
         suspend;
+      }
+      else {
+        Item.playSfxCru(44, arg_06);
+        SpriteProcess.createSprite(Item.getZ(arg_06), (Item.getY(arg_06) + 8), (Item.getX(arg_06) - 36), 6, 5, 3, 0x040c);
       }
       spawn FREE.slot_3b(pid, ((5 - World.gameDifficulty()) * 20), 0x00000000);
       suspend;

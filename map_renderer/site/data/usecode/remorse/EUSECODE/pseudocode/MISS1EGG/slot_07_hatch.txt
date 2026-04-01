@@ -9,31 +9,34 @@ function miss1egg_hatch() /* entry=2319 class_id=0x090d slot=0x07 */
 
   set_info(0x0210, *(arg_06));
   process_exclude();
-  if (Egg.getEggId(arg_06) == 1) {
+  switch (Egg.getEggId(arg_06)) {
+  case 1:
     spawn MISS1EGG.slot_21(arg_06);
     spawn NPC.slot_23(pid, &global[0x003c]);
     suspend;
+    Ultima8Engine.setAvatarInStasis(0);
+    Item.destroy(arg_06);
     return;
-  }
-  else if (Egg.getEggId(arg_06) == 2) {
+  case 2:
     if (!(global[0x003b])) {
       for buster in nearby_items(shape=NPC_TECH, origin=arg_06) {
         ITEM.slot_23(4, buster);
         spawn MISS1EGG.slot_22(buster, arg_06);
       }
     }
+    Item.destroy(arg_06);
     return;
-  }
-  else if (Egg.getEggId(arg_06) == 3) {
+  case 3:
     FREE.slot_41();
     spawn MISS1EGG.slot_23(pid, arg_06);
     suspend;
+    Item.destroy(arg_06);
     return;
-  }
-  else if (Egg.getEggId(arg_06) == 7) {
+  case 7:
     FREE.slot_41();
     spawn MISS1EGG.slot_20(pid, arg_06);
     suspend;
+    Item.destroy(arg_06);
     return;
   }
   return;

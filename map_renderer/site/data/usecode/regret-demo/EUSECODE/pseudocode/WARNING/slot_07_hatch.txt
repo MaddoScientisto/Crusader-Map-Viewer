@@ -7,7 +7,6 @@ function warning_hatch() /* entry=2333 class_id=0x091b slot=0x07 */
     suspend;
     spawn FREE.slot_21(pid, 0x0180, 0x00000000);
     suspend;
-    return;
   }
   else {
     spawn FREE.slot_21(pid, 0x017f, 0x00000000);
@@ -15,5 +14,6 @@ function warning_hatch() /* entry=2333 class_id=0x091b slot=0x07 */
     spawn FREE.slot_21(pid, 0x0180, 0x00000000);
     suspend;
   }
+  Item.destroy(arg_06);
   return;
 }

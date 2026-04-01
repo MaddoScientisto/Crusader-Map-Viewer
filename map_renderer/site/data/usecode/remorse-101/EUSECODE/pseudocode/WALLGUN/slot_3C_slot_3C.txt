@@ -23,6 +23,7 @@ function wallgun_slot_3c() /* entry=2588 class_id=0x0a1a slot=0x3c */
   }
   WALLGUN.slot_2d(arg_10, arg_06);
   if (!retval) {
+    process_result = 1;
     return;
   }
   else {
@@ -45,6 +46,7 @@ function wallgun_slot_3c() /* entry=2588 class_id=0x0a1a slot=0x3c */
       WALLGUN.slot_2d(arg_10, arg_06);
       local_02 = retval;
       if (local_02 == 0) {
+        process_result = 1;
         return;
       }
       else if (local_02 == 1) {
@@ -53,6 +55,7 @@ function wallgun_slot_3c() /* entry=2588 class_id=0x0a1a slot=0x3c */
             local_10 = local_06;
           }
           else {
+            process_result = 0;
             return;
           }
         }
@@ -65,12 +68,15 @@ function wallgun_slot_3c() /* entry=2588 class_id=0x0a1a slot=0x3c */
           local_10 = local_04;
         }
         else {
+          process_result = 0;
           return;
         }
       }
       else {
         local_10 = (local_10 - local_08);
       }
+      Item.getRangeIfVisible(115, arg_06);
+      Item.isCentreOn(local_10, arg_06);
     }
   }
   return;

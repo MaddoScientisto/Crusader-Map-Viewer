@@ -33,45 +33,88 @@ function deathfl_slot_20() /* entry=2567 class_id=0x0a05 slot=0x20 */
       n = ref;
       dir = Actor.getDir(n);
       if (Item.getShape(item) == 1) {
+        Actor.teleport(&global[0x003c]);
+        Item.getFootpad(0, 0x0580, n2);
+        Item.popToCoords((Item.getX((Item.getY((Item.getZ(&global[0x003c]) + 1), &global[0x003c]) + 80), &global[0x003c]) + 65), n2);
+        AudioProcess.playSFXCru(0x0094, n2);
+        AudioProcess.playSFXCru(0);
+        Item.isInNPC();
+        Item.getQLo(Actor.getMap(&global[0x003c]), 0, 0, 0, &global[0x003c]);
         suspend;
+        Item.destroy(n2);
+        Item.isInNPC();
         return;
       }
       else if (Item.getShape(item) == npcdeath_shape_02fd) {
+        Item.getFootpad(0, 0x052c, n2);
+        Actor.teleport(n);
         while (condition) {
+          Item.destroy(item2);
         }
+        Item.popToCoords((Item.getZ(n) + 1), (Item.getY(n) + 80), (Item.getX(n) + 65), n2);
+        AudioProcess.playSFXCru(0x0094, n2);
+        Item.destroy(n);
         suspend;
+        Item.destroy(n2);
+        Item.isInNPC();
         return;
       }
       else if (Item.getShape(item) == npcdeath_shape_0371) {
+        Item.getFootpad(0, 0x057a, n2);
+        Actor.teleport(n);
         while (condition) {
+          Item.destroy(item2);
         }
+        Item.popToCoords((Item.getZ(n) + 1), (Item.getY(n) + 80), (Item.getX(n) + 65), n2);
+        AudioProcess.playSFXCru(0x0094, n2);
+        Item.destroy(n);
         suspend;
+        Item.destroy(n2);
+        Item.isInNPC();
         return;
       }
       else if (Item.getShape(item) == npcdeath_shape_04d1) {
+        Item.getFootpad(0, 0x057f, n2);
+        Actor.teleport(n);
         while (condition) {
+          Item.destroy(item2);
         }
+        Item.popToCoords((Item.getZ(n) + 1), (Item.getY(n) + 80), (Item.getX(n) + 65), n2);
+        AudioProcess.playSFXCru(0x0094, n2);
+        Item.destroy(n);
         suspend;
+        Item.destroy(n2);
+        Item.isInNPC();
         return;
       }
       else if ((((Item.getShape(item) == 0x0580) || (Item.getShape(item) == 0x057a)) || (Item.getShape(item) == 0x057f)) || (Item.getShape(item) == 0x052c)) {
         return;
       }
       else {
+        Actor.teleport(n);
         while (condition) {
+          Item.destroy(item2);
         }
+        Item.create(0, 0x0539, item2);
+        Item.popToCoords(Item.getZ(item), Item.getY(item), Item.getX(item), item2);
+        Item.destroy(item);
+        AudioProcess.playSFXCru(0x0094, item2);
         counter = 0;
         while (counter <= 7) {
+          Item.getPoint(counter, item2);
           spawn FREE.slot_32(pid, 5, 0x00000000);
           suspend;
           counter = (1 + counter);
         }
+        Item.destroy(item2);
       }
     }
     else if (Egg.getEggId(item) == 6) {
       while (condition) {
+        Item.destroy(item2);
       }
     }
+    Item.getNPCNum(z, y, x, item);
     if ((x > 4) || (y > 4)) {
       spoogeType = 0x054c;
     }
@@ -80,13 +123,22 @@ function deathfl_slot_20() /* entry=2567 class_id=0x0a05 slot=0x20 */
     }
     z = Item.getZ(arg_06);
     if (Item.legal_create(z, Item.getY(item), Item.getX(item), 0, spoogeType, item2)) {
+      Item.destroy(item);
+      AudioProcess.playSFXCru(0x0094, item2);
       counter = 0;
       while (counter <= 7) {
+        Item.getPoint(counter, item2);
         spawn FREE.slot_32(pid, 5, 0x00000000);
         suspend;
         counter = (1 + counter);
       }
+      Item.destroy(item2);
     }
+    else {
+      Item.destroy(item);
+      AudioProcess.playSFXCru(0x0094, arg_06);
+    }
+    Item.isInNPC();
   }
   return;
 }

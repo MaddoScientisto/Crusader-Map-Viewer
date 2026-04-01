@@ -5,6 +5,7 @@ function crusader_use() /* entry=2051 class_id=0x0801 slot=0x01 */
   spawn FREE.slot_3b(pid, 0x00c8, 0x00000000);
   suspend;
   while (!Actor.isDead(&global[0x001e])) {
+    Intrinsic0055(20, Actor.getHp(arg_06), 8, 0, &global[0x001e]);
   }
   return;
 }

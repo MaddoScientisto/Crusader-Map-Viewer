@@ -72,9 +72,17 @@ function free_slot_22() /* entry=2575 class_id=0x0a0d slot=0x22 */
         return;
       }
       else if (!Item.getItemFamily(&global[0x003c])) {
+        Ultima8Engine.setAvatarInStasis(1);
+        Actor.NPCGetField0x59Flag1_0AB(&global[0x003c]);
+        MusicProcess.musicStop();
+        setSomeMovieGlobal();
         spawn FREE.slot_32(pid, 10, 0x00000000);
         suspend;
+        playFlic092();
+        playFlic0A9(pid, 0, 0, "o02", &global[0x003c]);
         suspend;
+        Game.playCredits();
+        Kernel.getCurrentKeyDown();
         return;
       }
     }

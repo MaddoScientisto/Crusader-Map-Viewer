@@ -2,6 +2,7 @@ function radarbas_enterFastArea() /* entry=899 class_id=0x0381 slot=0x0f */
 {
   set_info(0x021b, *(arg_06));
   process_exclude();
+  AudioProcess.playSFXCru(0x00a8, arg_06);
   if ((Item.getNpcNum(arg_06) & 32) == 0) {
     if ((Item.getStatus(arg_06) & 0x1000) == 0) {
       spawn HOVER.slot_21(*(arg_06), arg_06);

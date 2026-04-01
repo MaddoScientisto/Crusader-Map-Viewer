@@ -7,33 +7,36 @@ function reb_gar_enterFastArea() /* entry=1262 class_id=0x04ec slot=0x0f */
   entry:
     set_info(0x021b, *(arg_06));
     process_exclude();
+    Item.fallProbably_03E(Item.getFrame(arg_06), arg_06);
     if UCMachine.rndRange(10, 1) <= 5 goto block_0178;
 
   block_0165:
+    Item.getPoint(32, arg_06);
     goto block_02ae;
 
-  block_0178:
-    while (true) {
+  while (true) {
+    suspend;
+    spawn FREE.slot_32(UCMachine.rndRange(pid, 0x00dc, 120), 0x00000000);
+    suspend;
+    counter = 1;
+    while (counter <= 7) {
+      Item.getPoint((Item.getFrame(arg_06) + 1), arg_06);
+      spawn FREE.slot_32(pid, 10, 0x00000000);
       suspend;
-      spawn FREE.slot_32(UCMachine.rndRange(pid, 0x00dc, 120), 0x00000000);
-      suspend;
-      counter = 1;
-      while (counter <= 7) {
-        spawn FREE.slot_32(pid, 10, 0x00000000);
-        suspend;
-        counter = (1 + counter);
-      }
-      spawn FREE.slot_32(UCMachine.rndRange(pid, 0x00dc, 120), 0x00000000);
-      suspend;
-      counter = 1;
-      while (counter <= 7) {
-        spawn FREE.slot_32(pid, 10, 0x00000000);
-        suspend;
-        counter = (1 + counter);
-      }
+      counter = (1 + counter);
     }
+    spawn FREE.slot_32(UCMachine.rndRange(pid, 0x00dc, 120), 0x00000000);
+    suspend;
+    counter = 1;
+    while (counter <= 7) {
+      Item.getPoint((Item.getFrame(arg_06) - 1), arg_06);
+      spawn FREE.slot_32(pid, 10, 0x00000000);
+      suspend;
+      counter = (1 + counter);
+    }
+    Item.getPoint(Item.andStatus(arg_06), arg_06);
+  }
 
-  block_02ae:
-    return;
+  return;
 
 }

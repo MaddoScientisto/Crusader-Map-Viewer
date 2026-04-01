@@ -25,54 +25,60 @@ function bbetty_slot_21() /* entry=2563 class_id=0x0a01 slot=0x21 */
         dir = 0;
       }
     }
-    if (dir == 0) {
+    switch (dir) {
+    case 0:
       x = 0;
       y = -1;
       xx = -16;
       yy = -48;
-    }
-    else if (dir == 1) {
+      break;
+    case 1:
       x = 1;
       y = -1;
       xx = 16;
       yy = -48;
-    }
-    else if (dir == 2) {
+      break;
+    case 2:
       x = 1;
       y = 0;
       xx = 16;
       yy = -16;
-    }
-    else if (dir == 3) {
+      break;
+    case 3:
       x = 1;
       y = 1;
       xx = 16;
       yy = 16;
-    }
-    else if (dir == 4) {
+      break;
+    case 4:
       x = 0;
       y = 1;
       xx = -16;
       yy = 16;
-    }
-    else if (dir == 5) {
+      break;
+    case 5:
       x = -1;
       y = 1;
       xx = -48;
       yy = 16;
-    }
-    else if (dir == 6) {
+      break;
+    case 6:
       x = -1;
       y = 0;
       xx = -48;
       yy = -16;
-    }
-    else if (dir == 7) {
+      break;
+    case 7:
       x = -1;
       y = -1;
       xx = -48;
       yy = -48;
+      break;
     }
+    Item.create(0, 0x029e, item3);
+    Item.orStatus(0x0080, item3);
+    Item.popToCoords((Item.getZ(arg_06) + 8), (Item.getY(arg_06) + yy), (Item.getX(arg_06) + xx), arg_06);
+    AudioProcess.playSFXCru(63, arg_06);
     FREE.slot_20(8, 30, 15);
     spawn FREE.slot_32(pid, ((5 - Game.getDifficultyLevel()) * 20), 0x00000000);
     suspend;

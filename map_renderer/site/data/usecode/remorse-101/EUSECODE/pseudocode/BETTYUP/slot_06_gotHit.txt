@@ -7,5 +7,10 @@ function bettyup_gotHit() /* entry=715 class_id=0x02c9 slot=0x06 */
   if (!process_result) {
     return;
   }
+  else {
+    Item.legal_create(2, 0x029f, local_02);
+    getTargetNPCNumMaybe(Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06), local_02);
+    Item.explode(1, 1, arg_06);
+  }
   return;
 }

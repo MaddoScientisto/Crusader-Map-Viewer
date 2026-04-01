@@ -1,6 +1,12 @@
 function spider_slot_21() /* entry=2581 class_id=0x0a13 slot=0x21 */
 {
   set_info(0x00f0, *(arg_06));
+  Item.push(arg_06);
+  Item.setShape(101, arg_06);
+  Item.setFrame(0, arg_06);
+  Item.orStatus(0x0080, arg_06);
+  Item.pop(arg_06);
+  AudioProcess.playSFXCru(91, arg_06);
   local_02 = World.getControlledNPCNum();
   while (local_06 < 0x01f4) {
     while (!Intrinsic0036(local_02, arg_06)) {
@@ -41,12 +47,16 @@ function spider_slot_21() /* entry=2581 class_id=0x0a13 slot=0x21 */
       local_08 = -1;
       local_10 = -1;
     }
+    Item.getPoint(local_17, arg_06);
     local_17 = (local_17 + (local_08 * 8));
     local_15 = (local_15 + (local_10 * 8));
     if (!Item.legal_move(0, 1, local_17, arg_06)) {
       local_13 = (local_13 + 1);
       if (!Item.legal_move(0, 1, local_17, arg_06)) {
         local_13 = (local_13 + 1);
+        if (!Item.legal_move(0, 1, local_17, arg_06)) {
+          Item.explode(1, 2, arg_06);
+        }
       }
     }
     local_12 = (1 + local_12);
@@ -60,10 +70,15 @@ function spider_slot_21() /* entry=2581 class_id=0x0a13 slot=0x21 */
         local_20 = 1;
       }
       local_12 = 0;
+      Item.fall(arg_06);
+      if (local_20) {
+        Item.playSfxCru(0x015b, arg_06);
+      }
     }
     local_06 = (1 + local_06);
     spawn FREE.slot_3b(pid, 5, 0x00000000);
     suspend;
   }
+  Item.explode(1, 1, arg_06);
   return;
 }

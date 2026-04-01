@@ -15,6 +15,7 @@ function g_pool_gotHit() /* entry=351 class_id=0x015d slot=0x06 */
     while (1) {
       if (Item.getSurfaceWeight(*(arg_06), &global[0x003d])) {
         FREE.slot_20(8, 20);
+        Item.receiveHit(Actor.maybeFire((retval + 10), &global[0x003d]), 0, &global[0x003d]);
         spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
         suspend;
       }

@@ -12,21 +12,29 @@ function elevat_slot_23() /* entry=2571 class_id=0x0a09 slot=0x23 */
     total; /* [BP-14h] type=0x69 */
 
   set_info(0x0001, *(arg_06));
+  AudioProcess.playSFXCru(17, arg_06);
+  Item.orStatus(0x1000, arg_06);
+  Item.legal_create(1, arg_06);
   height = Item.getZ(arg_06);
   maxLimit = Actor.clrInCombat(arg_06);
   maxLimitCount = ((Actor.clrInCombat(arg_06) - height) / 2);
+  AudioProcess.playAmbientSFXCru(18, arg_06);
   counter = 1;
   while (counter <= maxLimitCount) {
     while (condition) {
       if (Item.getShape(cargoUp) != BRO_BOOT) {
+        push(cargoUp);
         total = (1 + total);
       }
     }
     counter2 = 1;
     while (counter2 <= total) {
       cargoUp = Item.getEtherealTop();
+      Item.popToCoords((Item.getZ(cargoUp) + 2), Item.getY(cargoUp), Item.getX(cargoUp), cargoUp);
       counter2 = (1 + counter2);
     }
+    push(arg_06);
+    Item.popToCoords((Item.getZ(arg_06) + 2), Item.getY(arg_06), Item.getX(arg_06), arg_06);
     total = 0;
     spawn FREE.waitNTimerTicks(pid, 1, 0x00000000);
     suspend;
@@ -34,13 +42,21 @@ function elevat_slot_23() /* entry=2571 class_id=0x0a09 slot=0x23 */
   }
   if ((maxLimit - height) & 1) {
     while (condition) {
+      push(cargoUp);
       total = (1 + total);
     }
     counter2 = 1;
     while (counter2 <= total) {
       cargoUp = Item.getEtherealTop();
+      Item.popToCoords((Item.getZ(cargoUp) + 1), Item.getY(cargoUp), Item.getX(cargoUp), cargoUp);
       counter2 = (1 + counter2);
     }
+    push(arg_06);
+    Item.popToCoords((Item.getZ(arg_06) + 1), Item.getY(arg_06), Item.getX(arg_06), arg_06);
   }
+  Item.legal_create(0, arg_06);
+  Ultima8Engine.getUnkCrusaderFlag((~0x1000), arg_06);
+  Item.setQLo(18, arg_06);
+  AudioProcess.playSFXCru(19, arg_06);
   return;
 }

@@ -12,6 +12,7 @@ function bbox_gotHit() /* entry=1319 class_id=0x0525 slot=0x06 */
     if (!Item.getFrame(arg_06)) {
       spawn ITEM.slot_28(pid, 0, 0, arg_06);
       suspend;
+      Item.legal_create(UCMachine.rndRange(3, 1), arg_06);
       return;
     }
     else {
@@ -20,6 +21,10 @@ function bbox_gotHit() /* entry=1319 class_id=0x0525 slot=0x06 */
       if (!process_result) {
         FREE.slot_20(1);
         if (retval) {
+          AudioProcess.playSFXCru(38, arg_06);
+        }
+        else {
+          AudioProcess.playSFXCru(39, arg_06);
         }
         return;
       }

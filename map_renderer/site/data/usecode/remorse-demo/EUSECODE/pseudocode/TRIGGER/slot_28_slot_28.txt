@@ -23,21 +23,25 @@ function trigger_slot_28() /* entry=2586 class_id=0x0a18 slot=0x28 */
   newLink = baseLink;
   aitem = ref;
   cmd = (mapNum & 3);
-  if (cmd == 0) {
+  switch (cmd) {
+  case 0:
+    for item in nearby_items(shape=searchtype, origin=aitem) {
+      Item.pop(qHi, item);
+    }
+    break;
+  case 1:
+    for item in nearby_items(shape=searchtype, origin=aitem) {
+      Item.fallProbably_03E(qHi, item);
+    }
+    break;
+  case 2:
     for item in nearby_items(shape=searchtype, origin=aitem) {
     }
-  }
-  else if (cmd == 1) {
-    for item in nearby_items(shape=searchtype, origin=aitem) {
-    }
-  }
-  else if (cmd == 2) {
-    for item in nearby_items(shape=searchtype, origin=aitem) {
-    }
-  }
-  else if (cmd == 3) {
+    break;
+  case 3:
     scmd = (qHi & 7);
-    if (scmd == 0) {
+    switch (scmd) {
+    case 0:
       d = (qHi / 8);
       for item in nearby_items(shape=0x0476, origin=aitem) {
         a = Item.getNPCNum(item);
@@ -46,12 +50,14 @@ function trigger_slot_28() /* entry=2586 class_id=0x0a18 slot=0x28 */
         b = (((a & 0x00e0) * 8) + b);
         FREE.slot_30(d, c, b, item);
       }
-    }
-    else if (scmd == 1) {
+      break;
+    case 1:
       d = (qHi / 8);
       for item in nearby_items(shape=searchtype, origin=aitem) {
+        Item.andStatus(12, item);
         if (d == 31) {
           suspend;
+          Item.destroy(item);
         }
         else {
           c = Item.getFrame(item);
@@ -60,30 +66,39 @@ function trigger_slot_28() /* entry=2586 class_id=0x0a18 slot=0x28 */
           b = (b & 0x0700);
           b = (b / 8);
           b = (b + c);
+          Item.move(b, item);
+          Item.getNpcNum(a, item);
+          push(item);
+          Item.legal_create(0, item);
           suspend;
+          Item.setShape(0x0476, item);
+          Item.orStatus(16, item);
+          Item.andStatus((~0x1000), item);
+          Actor.isBusy(item);
         }
       }
-    }
-    else if (scmd == 2) {
+      break;
+    case 2:
       a = (qHi / 8);
       for item in nearby_items(shape=searchtype, origin=aitem) {
+        Item.legal_create(a, item);
       }
-    }
-    else if (scmd == 3) {
+      break;
+    case 3:
       for item in nearby_items(shape=searchtype, origin=aitem) {
         a = (qHi / 8);
         spawn TRIGGER.slot_22(a, item, arg_06);
       }
-    }
-    else if (scmd == 4) {
+      break;
+    case 4:
       a = (qHi / 8);
       newLink = (newLink + a);
-    }
-    else if (scmd == 5) {
+      break;
+    case 5:
       a = (qHi / 8);
       newLink = (newLink - a);
-    }
-    else if (scmd == 6) {
+      break;
+    case 6:
       d = (qHi / 8);
       for item in nearby_items(shape=0x0476, origin=aitem) {
         a = Item.getNPCNum(item);
@@ -92,11 +107,18 @@ function trigger_slot_28() /* entry=2586 class_id=0x0a18 slot=0x28 */
         b = (((a & 0x00e0) * 8) + b);
         if (b != 0) {
           if (Item.create(c, b, item2) == 1) {
+            Item.setQ(Item.getQ(item), item2);
+            push(item2);
+            Item.touch(item2);
+            Item.popToCoords(Item.getZ(item), Item.getY(item), Item.getX(item), item2);
             suspend;
           }
         }
       }
+      break;
     }
+    break;
   }
+  process_result = newLink;
   return;
 }

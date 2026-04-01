@@ -11,6 +11,9 @@ function eleew4_enterFastArea() /* entry=425 class_id=0x01a7 slot=0x0f */
     local_08 = Item.getZ(arg_06);
     local_10 = Item.getQLo(arg_06);
     ITEM.slot_24(0x1000, arg_06);
+    Item.create(0, 0x044e, local_02);
+    Item.setQLo(local_10, local_02);
+    Item.popToCoords(local_08, local_06, local_04, local_02);
     suspend;
   }
   return;

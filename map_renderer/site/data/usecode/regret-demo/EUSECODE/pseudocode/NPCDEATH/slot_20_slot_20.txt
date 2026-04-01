@@ -23,13 +23,22 @@ function npcdeath_slot_20() /* entry=2581 class_id=0x0a13 slot=0x20 */
           if (local_07 == 0) {
           }
           else if ((((local_07 == 1) || (local_07 == 2)) || (local_07 == 3)) || (local_07 == 4)) {
+            Item.create((local_07 - 1), 0x0111, local_11);
             if (local_09) {
+              Item.setQLo(local_09, local_11);
             }
+            else {
+              Item.setQLo(arg_12, local_11);
+            }
+            Item.setQHi(0, local_05);
             local_13 = Item.getShape(arg_06);
-            /* create_list */
             /* in_list */
-            NPC.slot_2a(local_13, 0x0576, 0x0278, 0x05ef, 0x0596, 0x058f, 0x059c, 0x0656, arg_06);
+            NPC.slot_2a(local_13, [0x0656, 0x059c, 0x058f, 0x0596, 0x05ef, 0x0278, 0x0576], arg_06);
             if (retval == 1) {
+              Item.popToCoords(Item.getZ(local_02), Item.getY(local_02), Item.getX(local_02), local_11);
+            }
+            else {
+              Item.popToContainer(*(arg_06), local_11);
             }
             local_03 = 1;
           }
@@ -43,7 +52,11 @@ function npcdeath_slot_20() /* entry=2581 class_id=0x0a13 slot=0x20 */
     local_29 = Item.getZ(local_02);
     local_31 = (Actor.getDefaultActivity2(local_02) / 2);
     NPC.slot_2a(local_02);
+    if (retval) {
+      Actor.destroyContents(local_02);
+    }
     if ((Item.getShape(local_02) == 0x058f) || (Item.getShape(local_02) == 0x05d6)) {
+      Actor.destroyContents(local_02);
       return;
     }
     else if (Item.getShape(local_02) == booty_shape_0308) {
@@ -88,9 +101,13 @@ function npcdeath_slot_20() /* entry=2581 class_id=0x0a13 slot=0x20 */
       else {
         local_33 = local_31;
       }
+      Actor.destroyContents(local_02);
+      Item.create(local_33, local_36, local_17);
       if (local_34) {
         ITEM.slot_24(32, local_17);
       }
+      Item.popToCoords(Item.getZ(local_02), Item.getY(local_02), Item.getX(local_02), local_17);
+      Item.destroy(local_02);
       return;
     }
     else if (Item.getShape(local_02) == booty_shape_05d5) {
@@ -315,11 +332,16 @@ function npcdeath_slot_20() /* entry=2581 class_id=0x0a13 slot=0x20 */
       else {
         local_33 = local_31;
       }
+      Item.explode(0, 2, local_02);
       spawn ITEM.slot_2c(pid, local_02);
       suspend;
+      Actor.destroyContents(local_02);
+      Item.create(local_33, 0x0640, local_17);
       if (local_34) {
         ITEM.slot_24(32, local_17);
       }
+      Item.popToCoords(Item.getZ(local_02), Item.getY(local_02), Item.getX(local_02), local_17);
+      Item.destroy(local_02);
       return;
     }
     else if (Item.getShape(local_02) == 0x0385) {
@@ -342,11 +364,16 @@ function npcdeath_slot_20() /* entry=2581 class_id=0x0a13 slot=0x20 */
       else {
         local_33 = local_31;
       }
+      Item.explode(0, 2, local_02);
       spawn ITEM.slot_2c(pid, local_02);
       suspend;
+      Actor.destroyContents(local_02);
+      Item.create(local_33, 0x0220, local_17);
       if (local_34) {
         ITEM.slot_24(32, local_17);
       }
+      Item.popToCoords(Item.getZ(local_02), Item.getY(local_02), Item.getX(local_02), local_17);
+      Item.destroy(local_02);
       return;
     }
     else if (Item.getShape(local_02) == 0x02cb) {
@@ -358,6 +385,7 @@ function npcdeath_slot_20() /* entry=2581 class_id=0x0a13 slot=0x20 */
       suspend;
       spawn ITEM.slot_2c(pid, local_02);
       suspend;
+      Item.explode(1, 1, local_02);
       return;
     }
     else if (Item.getShape(local_02) == 0x04e6) {
@@ -379,11 +407,16 @@ function npcdeath_slot_20() /* entry=2581 class_id=0x0a13 slot=0x20 */
       else {
         local_33 = local_31;
       }
+      Item.explode(0, 2, local_02);
       spawn ITEM.slot_2c(pid, local_02);
       suspend;
+      Actor.destroyContents(local_02);
+      Item.create(local_33, 0x04c3, local_17);
       if (local_34) {
         ITEM.slot_24(32, local_17);
       }
+      Item.popToCoords(Item.getZ(local_02), Item.getY(local_02), Item.getX(local_02), local_17);
+      Item.destroy(local_02);
       return;
     }
     else if (Item.getShape(local_02) == 0x030c) {
@@ -405,11 +438,16 @@ function npcdeath_slot_20() /* entry=2581 class_id=0x0a13 slot=0x20 */
       else {
         local_33 = local_31;
       }
+      Item.explode(0, 2, local_02);
       spawn ITEM.slot_2c(pid, local_02);
       suspend;
+      Actor.destroyContents(local_02);
+      Item.create(local_33, 0x065a, local_17);
       if (local_34) {
         ITEM.slot_24(32, local_17);
       }
+      Item.popToCoords(Item.getZ(local_02), Item.getY(local_02), Item.getX(local_02), local_17);
+      Item.destroy(local_02);
       return;
     }
     else if (Item.getShape(local_02) == 0x0319) {
@@ -431,16 +469,25 @@ function npcdeath_slot_20() /* entry=2581 class_id=0x0a13 slot=0x20 */
       else {
         local_33 = local_31;
       }
+      Item.explode(0, 2, local_02);
       spawn ITEM.slot_2c(pid, local_02);
       suspend;
+      Actor.destroyContents(local_02);
+      Item.create(local_33, 0x04e4, local_17);
       if (local_34) {
         ITEM.slot_24(32, local_17);
       }
+      Item.popToCoords(Item.getZ(local_02), Item.getY(local_02), Item.getX(local_02), local_17);
+      Item.destroy(local_02);
       return;
     }
     else if (Item.getShape(local_02) == 0x0576) {
       while (condition) {
+        Item.destroy(local_19);
       }
+      Item.create(local_31, 0x04e1, local_17);
+      Item.popToCoords(Item.getZ(local_02), Item.getY(local_02), Item.getX(local_02), local_17);
+      Item.destroy(local_02);
       return;
     }
     else if (Item.getShape(local_02) == 0x0596) {
@@ -466,10 +513,14 @@ function npcdeath_slot_20() /* entry=2581 class_id=0x0a13 slot=0x20 */
         local_33 = (local_33 + 10);
       }
       while (condition) {
+        Item.destroy(local_19);
       }
+      Item.create(local_33, 0x0599, local_17);
       if (local_34) {
         ITEM.slot_24(32, local_17);
       }
+      Item.popToCoords(Item.getZ(local_02), Item.getY(local_02), Item.getX(local_02), local_17);
+      Item.destroy(local_02);
       return;
     }
     else if (Item.getShape(local_02) == 0x0278) {
@@ -492,10 +543,14 @@ function npcdeath_slot_20() /* entry=2581 class_id=0x0a13 slot=0x20 */
         local_33 = local_31;
       }
       while (condition) {
+        Item.destroy(local_19);
       }
+      Item.create(local_33, 0x062a, local_17);
       if (local_34) {
         ITEM.slot_24(32, local_17);
       }
+      Item.popToCoords(Item.getZ(local_02), Item.getY(local_02), Item.getX(local_02), local_17);
+      Item.destroy(local_02);
       return;
     }
     else if (Item.getShape(local_02) == 0x0656) {
@@ -518,10 +573,14 @@ function npcdeath_slot_20() /* entry=2581 class_id=0x0a13 slot=0x20 */
         local_33 = local_31;
       }
       while (condition) {
+        Item.destroy(local_19);
       }
+      Item.create(local_33, 0x0659, local_17);
       if (local_34) {
         ITEM.slot_24(32, local_17);
       }
+      Item.popToCoords(Item.getZ(local_02), Item.getY(local_02), Item.getX(local_02), local_17);
+      Item.destroy(local_02);
       return;
     }
     else if (Item.getShape(local_02) == 0x062d) {
@@ -544,10 +603,14 @@ function npcdeath_slot_20() /* entry=2581 class_id=0x0a13 slot=0x20 */
         local_33 = local_31;
       }
       while (condition) {
+        Item.destroy(local_19);
       }
+      Item.create(local_33, 0x0657, local_17);
       if (local_34) {
         ITEM.slot_24(32, local_17);
       }
+      Item.popToCoords(Item.getZ(local_02), Item.getY(local_02), Item.getX(local_02), local_17);
+      Item.destroy(local_02);
       return;
     }
     else if (Item.getShape(local_02) == 0x05ef) {
@@ -570,10 +633,14 @@ function npcdeath_slot_20() /* entry=2581 class_id=0x0a13 slot=0x20 */
         local_33 = local_31;
       }
       while (condition) {
+        Item.destroy(local_19);
       }
+      Item.create(local_33, 0x05fe, local_17);
       if (local_34) {
         ITEM.slot_24(32, local_17);
       }
+      Item.popToCoords(Item.getZ(local_02), Item.getY(local_02), Item.getX(local_02), local_17);
+      Item.destroy(local_02);
       return;
     }
     else if (Item.getShape(local_02) == 0x02f6) {
@@ -672,69 +739,89 @@ function npcdeath_slot_20() /* entry=2581 class_id=0x0a13 slot=0x20 */
     else if ((Item.getShape(local_02) == 0x0597) || (Item.getShape(local_02) == 0x0595)) {
       return;
     }
-    else if (Item.getShape(local_02) == 0x02f7) {
-      local_36 = 0x04bc;
-      local_33 = local_31;
-      local_22 = 1;
-    }
-    else if (Item.getShape(local_02) == 0x045d) {
-      return;
-    }
-    else if (Item.getShape(local_02) == 0x05b1) {
-      if (Item.getNpcNum(local_02) == 20) {
-        local_36 = 0x060e;
-      }
-      else if (Item.getNpcNum(local_02) == 21) {
-        local_36 = 0x065c;
-      }
-      else if (Item.getNpcNum(local_02) == 22) {
-        local_36 = 0x063f;
-      }
-      else {
-        local_36 = 0x060d;
-      }
-      if (local_31 == 4) {
-        local_33 = 2;
-        local_34 = 1;
-      }
-      else if (local_31 == 5) {
-        local_33 = 1;
-        local_34 = 1;
-      }
-      else if (local_31 == 6) {
-        local_33 = 0;
-        local_34 = 1;
-      }
-      else if (local_31 == 7) {
-        local_33 = 4;
-      }
-      else {
+    else {
+      switch (Item.getShape(local_02)) {
+      case 0x02f7:
+        local_36 = 0x04bc;
         local_33 = local_31;
+        local_22 = 1;
+        break;
+      case 0x045d:
+        Actor.destroyContents(local_02);
+        Item.explode(1, 0, local_02);
+        return;
+      case 0x05b1:
+        if (Item.getNpcNum(local_02) == 20) {
+          local_36 = 0x060e;
+        }
+        else if (Item.getNpcNum(local_02) == 21) {
+          local_36 = 0x065c;
+        }
+        else if (Item.getNpcNum(local_02) == 22) {
+          local_36 = 0x063f;
+        }
+        else {
+          local_36 = 0x060d;
+        }
+        if (local_31 == 4) {
+          local_33 = 2;
+          local_34 = 1;
+        }
+        else if (local_31 == 5) {
+          local_33 = 1;
+          local_34 = 1;
+        }
+        else if (local_31 == 6) {
+          local_33 = 0;
+          local_34 = 1;
+        }
+        else if (local_31 == 7) {
+          local_33 = 4;
+        }
+        else {
+          local_33 = local_31;
+        }
+        break;
       }
     }
+    Item.create(local_33, local_36, local_17);
     BOOTY.slot_21(local_17, local_02);
+    Item.destroy(local_02);
     if (IntrinsicReturn0(local_29, local_28, local_26, local_36)) {
+      Item.popToCoords(local_29, local_28, local_26, local_17);
     }
     else if (IntrinsicReturn0(local_29, local_28, (local_26 - 16), local_36)) {
+      Item.popToCoords(local_29, local_28, (local_26 - 16), local_17);
     }
     else if (IntrinsicReturn0(local_29, (local_28 - 16), local_26, local_36)) {
+      Item.popToCoords(local_29, (local_28 - 16), local_26, local_17);
     }
     else if (IntrinsicReturn0(local_29, (local_28 + 16), local_26, local_36)) {
+      Item.popToCoords(local_29, (local_28 + 16), local_26, local_17);
     }
     else if (IntrinsicReturn0(local_29, local_28, (local_26 + 16), local_36)) {
+      Item.popToCoords(local_29, local_28, (local_26 + 16), local_17);
     }
     else if (IntrinsicReturn0(local_29, local_28, (local_26 - 32), local_36)) {
+      Item.popToCoords(local_29, local_28, (local_26 - 32), local_17);
     }
     else if (IntrinsicReturn0(local_29, (local_28 - 32), local_26, local_36)) {
+      Item.popToCoords(local_29, (local_28 - 32), local_26, local_17);
     }
     else if (IntrinsicReturn0(local_29, (local_28 + 32), local_26, local_36)) {
+      Item.popToCoords(local_29, (local_28 + 32), local_26, local_17);
     }
     else if (IntrinsicReturn0(local_29, local_28, (local_26 + 32), local_36)) {
+      Item.popToCoords(local_29, local_28, (local_26 + 32), local_17);
+    }
+    else {
+      Item.popToCoords(local_29, local_28, local_26, local_17);
     }
     if (local_34) {
       ITEM.slot_24(32, local_17);
     }
     BOOTY.slot_20(local_17, arg_06);
+    Item.getQHi();
     if (Actor.turnToward()) {
       if (local_22) {
         NPC.slot_20(arg_06);
@@ -742,8 +829,12 @@ function npcdeath_slot_20() /* entry=2581 class_id=0x0a13 slot=0x20 */
           FREE.slot_20(100);
           if (retval > 50) {
             if (IntrinsicReturn0(local_29, local_28, local_26, 0x04b8)) {
+              Item.create(0, 0x04b8, local_15);
+              Item.orStatus(0x0080, local_15);
+              Item.popToCoords(local_29, local_28, local_26, local_15);
               local_21 = 0;
               while (local_21 <= 9) {
+                Item.isOn(local_21, local_15);
                 spawn FREE.slot_3b(pid, 10, 0x00000000);
                 suspend;
                 local_21 = (1 + local_21);
@@ -751,8 +842,12 @@ function npcdeath_slot_20() /* entry=2581 class_id=0x0a13 slot=0x20 */
             }
           }
           else if (IntrinsicReturn0(local_29, local_28, local_26, 0x04b8)) {
+            Item.create(10, 0x04b8, local_15);
+            Item.orStatus(0x0080, local_15);
+            Item.popToCoords(local_29, local_28, local_26, local_15);
             local_21 = 10;
             while (local_21 <= 19) {
+              Item.isOn(local_21, local_15);
               spawn FREE.slot_3b(pid, 10, 0x00000000);
               suspend;
               local_21 = (1 + local_21);
@@ -765,8 +860,12 @@ function npcdeath_slot_20() /* entry=2581 class_id=0x0a13 slot=0x20 */
       NPC.slot_20(arg_06);
       if (retval) {
         if (IntrinsicReturn0(local_29, local_28, local_26, 0x04b8)) {
+          Item.create(20, 0x04b8, local_15);
+          Item.orStatus(0x0080, local_15);
+          Item.popToCoords(local_29, local_28, local_26, local_15);
           local_21 = 20;
           while (local_21 <= 29) {
+            Item.isOn(local_21, local_15);
             spawn FREE.slot_3b(pid, 15, 0x00000000);
             suspend;
             local_21 = (1 + local_21);

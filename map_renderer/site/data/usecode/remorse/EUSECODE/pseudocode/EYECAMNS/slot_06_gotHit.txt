@@ -7,6 +7,7 @@ function eyecamns_gotHit() /* entry=609 class_id=0x025f slot=0x06 */
 
   set_info(0x020c, *(arg_06));
   process_exclude();
+  Item.andStatus((~0x1000), arg_06);
   spawn WALLGUN.slot_49(vel, ref, arg_06);
   return;
 }

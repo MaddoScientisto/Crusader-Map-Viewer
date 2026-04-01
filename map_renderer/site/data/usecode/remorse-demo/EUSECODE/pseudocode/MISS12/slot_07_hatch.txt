@@ -15,8 +15,11 @@ function miss12_hatch() /* entry=2330 class_id=0x0918 slot=0x07 */
       suspend;
       item = *(arg_06);
       qlo = Item.getQHi(item);
+      Item.fallProbably_03E(id, item);
       spawn TRIGGER.slot_20(pid, (0 + 0x0080), item, arg_06);
       suspend;
+      Item.fallProbably_03E(qlo, item);
+      Item.destroy(arg_06);
     }
   }
   return;

@@ -57,9 +57,11 @@ function wallgun_slot_35() /* entry=2588 class_id=0x0a1a slot=0x35 */
     else if (isTurret == 1) {
       f = right;
     }
-    else if ((f == 4) && (f == left)) {
+    else if ((f != 4) && (f != left)) {
       f = (f - inc);
     }
+    AudioProcess.playSFXCru(115, arg_06);
+    Item.setFrame(f, arg_06);
     spawn FREE.waitNTimerTicks(pid, delay, 0x00000000);
     suspend;
     return;

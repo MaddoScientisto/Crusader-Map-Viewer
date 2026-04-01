@@ -2,7 +2,11 @@ function datalink_use() /* entry=1238 class_id=0x04d4 slot=0x01 */
 {
   set_info(0x0207, *(arg_06));
   process_exclude();
+  Intrinsic006B();
+  Intrinsic0137();
+  MusicProcess.pauseMusic();
   set_info(1, 0);
+  Ultima8Engine.setAvatarInStasis(1);
   local_05 = Actor.getDir(&global[0x001e]);
   while (Actor.isBusy(&global[0x001e])) {
     spawn FREE.slot_3b(pid, 5, 0x00000000);
@@ -22,99 +26,134 @@ function datalink_use() /* entry=1238 class_id=0x04d4 slot=0x01 */
     if (Actor.getMap((Actor.getMap(&global[0x001e]) == 1), &global[0x001e]) == 2) {
       if (!(global[0x0011])) {
         local_07 = ((local_07 + "Locate and make contact with any possible operatives.") + "^Secure transport back to Earth and make contact with General Maxis.");
+        ComputerGump.readComputer(local_07);
       }
       else if (!(global[0x0010])) {
+        Intrinsic006D("fretumva");
         local_07 = (local_07 + "Destroy Plasma Turbine on level 5.");
+        ComputerGump.readComputer(local_07);
       }
       else {
         local_07 = ((local_07 + "Locate telepad on level 5 to transport ") + "to the LMC Lunar Mining Base.");
+        ComputerGump.readComputer(local_07);
       }
     }
     else if (Actor.getMap((Actor.getMap(&global[0x001e]) == 3), &global[0x001e]) == 4) {
       local_07 = (local_07 + "Locate elevator on level 4 to rendezvous with the rebels' colonel.");
+      ComputerGump.readComputer(local_07);
     }
     else if (Actor.getMap((Actor.getMap(&global[0x001e]) == 5), &global[0x001e]) == 6) {
       if (!(global[0x0013])) {
+        Intrinsic006D("atgsmva");
         local_07 = ((local_07 + "Locate Tubeway Guidance Terminal on level 3.") + "^^Insert Trojan Horse program into TGT system.");
+        ComputerGump.readComputer(local_07);
       }
       else {
         local_07 = ((local_07 + "Locate transit station and take next available tram.") + "^Take the tram to rebels' rendezvous point.");
+        ComputerGump.readComputer(local_07);
       }
     }
     else if (Actor.getMap((Actor.getMap(&global[0x001e]) == 7), &global[0x001e]) == 8) {
       if (!(global[0x0014])) {
+        Intrinsic006D("anatsmva");
         local_07 = ((local_07 + "Locate Network Access Terminal^on level 2.") + "^^Download rebel prisoner files from LMC security system.");
+        ComputerGump.readComputer(local_07);
       }
       else {
         local_07 = ((local_07 + "Locate closest transit station.") + "^Tram has been programmed to return to the rebel meeting area.");
+        ComputerGump.readComputer(local_07);
       }
     }
     else if (Actor.getMap((Actor.getMap(&global[0x001e]) == 9), &global[0x001e]) == 10) {
       if (!(global[0x0015])) {
+        Intrinsic006D("prisnmva");
         local_07 = (local_07 + "Locate rebel prisoners^on level 4^and liberate them.");
+        ComputerGump.readComputer(local_07);
       }
       else {
         local_07 = ((local_07 + "Locate transit station on level 4.") + "^Tram has been programmed to return to rebel meeting area.");
+        ComputerGump.readComputer(local_07);
       }
     }
     else if (Actor.getMap((Actor.getMap(&global[0x001e]) == 11), &global[0x001e]) == 12) {
       if (!(global[0x0016])) {
+        Intrinsic006D("ore-sepr");
         local_07 = ((local_07 + "Locate the Ore Separator^on level 6.") + "^^Place FusionPac on conveyor.^^Exit area quickly.");
+        ComputerGump.readComputer(local_07);
       }
       else {
         local_07 = ((local_07 + "Quickly locate nearest transit station.") + "^FusionPac will detonate shortly.");
+        ComputerGump.readComputer(local_07);
       }
     }
     else if (Actor.getMap((Actor.getMap(&global[0x001e]) == 13), &global[0x001e]) == 14) {
       if (!(global[0x0017])) {
+        Intrinsic006D("mfhcan");
         local_07 = ((local_07 + "Locate the MFH canister in the north sector.") + "^Disarm nerve gas^canister before it^contaminates O2^regeneration system.");
+        ComputerGump.readComputer(local_07);
       }
       else {
         local_07 = ((local_07 + "Locate nearest transit station and enter the next available tram.") + "^Tram has been programmed to return to rebel meeting area.");
+        ComputerGump.readComputer(local_07);
       }
     }
     else if (Actor.getMap((Actor.getMap(&global[0x001e]) == 15), &global[0x001e]) == 16) {
       if (!(global[0x0018])) {
+        Intrinsic006D("transmva");
         local_07 = ((local_07 + "Locate the^Lunar Defence^Battery on^level 4.") + "^^Destroy WEC troop transport before it lands at Lunar Base.");
+        ComputerGump.readComputer(local_07);
       }
       else {
         local_07 = ((local_07 + "Locate transit station on level 4.") + "^Tram has been programmed to return to rebel camp.");
+        ComputerGump.readComputer(local_07);
       }
     }
     else if (Actor.getMap((Actor.getMap(&global[0x001e]) == 17), &global[0x001e]) == 18) {
       if (!(global[0x0019])) {
+        Intrinsic006D("ccoremva");
         local_07 = ((local_07 + "Locate the Central Computer Core on level 1.") + "^^Disarm self-destruction system before Lunar Base is destroyed.");
+        ComputerGump.readComputer(local_07);
       }
       else {
         local_07 = ((local_07 + "Locate transit station on 4.") + "^Tram has been programmed to take you to LMC Headquarters.");
+        ComputerGump.readComputer(local_07);
       }
     }
     else if (Actor.getMap((Actor.getMap((Actor.getMap((Actor.getMap(&global[0x001e]) == 19), &global[0x001e]) == 20), &global[0x001e]) == 21), &global[0x001e]) == 22) {
       if (!(global[0x001a])) {
+        Intrinsic006D("reactmva");
         local_07 = ((local_07 + "Locate the Fusion Reactor on level 4.") + "^Destroy objective with any means available.");
+        ComputerGump.readComputer(local_07);
       }
       else {
         local_07 = ((local_07 + "Locate transit station on level 5.") + "^Tram has been programmed to return to Rebel Headquarters.");
+        ComputerGump.readComputer(local_07);
       }
     }
     else if (Actor.getMap(&global[0x001e]) == 25) {
       local_07 = "^REBEL CAMP^__________^^Replenish supplies.^^Talk to officer in charge for next mission.";
+      ComputerGump.readComputer(local_07);
     }
     else {
       local_07 = ((local_07 + "Locate Chuck Denning a destroy his bald head.") + "^^Head can only be destroyed by securing DetPacs to his ears.");
+      ComputerGump.readComputer(local_07);
     }
   }
   else {
     spawn FLICTEST.slot_20(pid, global[0x0001], local_02);
     suspend;
   }
+  MusicProcess.unpauseMusic();
   if (local_03) {
     suspend;
     suspend;
   }
   while (condition) {
+    Item.setFrame(0, local_09);
   }
   spawn FREE.slot_3b(pid, 2, 0x00000000);
   suspend;
+  Intrinsic00B6();
+  Ultima8Engine.setAvatarInStasis(0);
   return;
 }

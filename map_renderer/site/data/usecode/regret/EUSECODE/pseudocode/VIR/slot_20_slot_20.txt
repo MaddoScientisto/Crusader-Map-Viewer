@@ -1,16 +1,16 @@
 function vir_slot_20() /* entry=1263 class_id=0x04ed slot=0x20 */
 {
-  entry:
-    set_info(0x0223, 0);
-    if Actor.getMana(&global[0x001e]) >= 0x00c8 goto block_017e;
-
-  block_0156:
+  set_info(0x0223, 0);
+  Intrinsic006B();
+  if (Actor.getMana(&global[0x001e]) < 0x00c8) {
+    Item.setFrame(0, arg_06);
     spawn FREE.slot_21(pid, 0x01a7, 0x00000000);
     suspend;
-    goto block_04a8;
-
-  block_017b:
-    goto block_018a;
+    return;
+  }
+  else {
+    Item.playSfxCru(0x01f7, &global[0x001e]);
+  }
 
   block_018a:
     local_02 = Kernel.getNumProcesses(0x0223, global[0x001e]);
@@ -19,47 +19,80 @@ function vir_slot_20() /* entry=1263 class_id=0x04ed slot=0x20 */
   block_01a2:
     goto block_04a8;
 
-  block_01a5:
-    while (true) {
-      suspend;
-      while (condition) {
-      }
-      while (condition) {
-      }
-      while (condition) {
-        spawn FREE.slot_3b(pid, 2, 0x00000000);
-        suspend;
-      }
-      spawn FREE.slot_3b(pid, 60, 0x00000000);
-      suspend;
-      if (Actor.getMana(&global[0x001e]) < 0x00c9) {
-        while (condition) {
-        }
-      }
-      if (!(global[0x0009])) {
-        while (condition) {
-          if (Item.getShape(local_04) == 40) {
-            spawn FREE.slot_3b(pid, 2, 0x00000000);
-            suspend;
-          }
-        }
-        while (condition) {
-          ITEM.slot_26(4, local_04);
-          if (retval == 1) {
-            return;
-          }
-        }
-        while (condition) {
-          ITEM.slot_26(4, local_04);
-          if (retval == 1) {
-            return;
-          }
-        }
-        return;
+  while (true) {
+    suspend;
+    while (condition) {
+      if (Item.getFrame(local_04) == 2) {
+        Item.setFrame(0, local_04);
+        Item.touch(local_04);
       }
     }
+    while (condition) {
+      if (Item.getFrame(local_04) == 2) {
+        Item.setFrame(0, local_04);
+        Item.touch(local_04);
+      }
+    }
+    while (condition) {
+      Item.setShape(40, local_04);
+      Item.touch(local_04);
+      Item.playSfxCru(5, local_04);
+      SpriteProcess.createSprite(Item.getZ(local_04), Item.getY(local_04), Item.getX(local_04), 5, 19, 10, 0x04f1);
+      spawn FREE.slot_3b(pid, 2, 0x00000000);
+      suspend;
+      SpriteProcess.createSprite(Item.getZ(local_04), Item.getY(local_04), Item.getX(local_04), 5, 19, 10, 0x04f1);
+    }
+    if (!Intrinsic0035(0x01fd, &global[0x001e])) {
+      AudioProcess.playSFXCru(0x01fd, &global[0x001e]);
+    }
+    spawn FREE.slot_3b(pid, 60, 0x00000000);
+    suspend;
+    if (Actor.getMana(&global[0x001e]) < 0x00c9) {
+      while (condition) {
+        Item.setFrame(0, local_04);
+      }
+      Intrinsic00B6();
+    }
+    else {
+      MainActor.setMana((Actor.getMana(&global[0x001e]) - 0x00c8), &global[0x001e]);
+      Intrinsic00B6();
+    }
+    if (!(global[0x0009])) {
+      while (condition) {
+        if (Item.getShape(local_04) == 40) {
+          Item.setShape(0x053d, local_04);
+          Item.touch(local_04);
+          spawn FREE.slot_3b(pid, 2, 0x00000000);
+          suspend;
+        }
+      }
+      while (condition) {
+        ITEM.slot_26(4, local_04);
+        if (retval == 1) {
+          return;
+        }
+        if (Item.getFrame(local_04) == 0) {
+          Item.setFrame(2, local_04);
+          Item.touch(local_04);
+        }
+      }
+      while (condition) {
+        ITEM.slot_26(4, local_04);
+        if (retval == 1) {
+          return;
+        }
+        if (Item.getFrame(local_04) == 0) {
+          Item.setFrame(2, local_04);
+          Item.touch(local_04);
+        }
+      }
+      AudioProcess.stopSFXCru(0x01fd, &global[0x001e]);
+      Item.playSfxCru(0x01fc, &global[0x001e]);
+      Intrinsic003F();
+      return;
+    }
+  }
 
-  block_04a8:
-    return;
+  return;
 
 }

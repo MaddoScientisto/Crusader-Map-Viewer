@@ -6,7 +6,15 @@ function bbox_gotHit() /* entry=1319 class_id=0x0525 slot=0x06 */
   if (retval) {
     if (!Item.getFrame(arg_06)) {
       if (UCMachine.rndRange(1, 0) == 1) {
+        Item.playSfxCru(0x00be, arg_06);
+        SpriteProcess.createSprite(Item.getZ(arg_06), Item.getCY(arg_06), Item.getCX(arg_06), 1, 39, 0, 0x031c);
       }
+      else {
+        Item.playSfxCru(0x00bf, arg_06);
+        SpriteProcess.createSprite(Item.getZ(arg_06), Item.getCY(arg_06), Item.getCX(arg_06), 1, 39, 0, 0x031f);
+      }
+      Item.setFrame(UCMachine.rndRange(3, 1), arg_06);
+      Item.setNpcNum(0, arg_06);
       return;
     }
     else {
@@ -15,6 +23,10 @@ function bbox_gotHit() /* entry=1319 class_id=0x0525 slot=0x06 */
       if (!process_result) {
         FREE.slot_20(1);
         if (retval) {
+          Item.playSfxCru(38, arg_06);
+        }
+        else {
+          Item.playSfxCru(39, arg_06);
         }
         return;
       }

@@ -14,9 +14,15 @@ function gtelepad_gotHit() /* entry=271 class_id=0x010d slot=0x06 */
   if (retval) {
     return;
   }
-  else if (Ultima8Engine.setUnkCrusaderFlag() == 1) {
+  else if (Actor.isNPC(item) == 0) {
+    Item.destroy(item);
+  }
+  if (Ultima8Engine.setUnkCrusaderFlag() == 1) {
     while (condition) {
       if (npc < 0x0100) {
+        if (npc != 1) {
+          Actor.getSomeFlagProbablyCrouch(8, UCMachine.rndRange(Actor.setActivity(npc), 16, 0), 0, npc);
+        }
       }
     }
     return;

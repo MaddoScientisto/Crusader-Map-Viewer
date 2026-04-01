@@ -13,5 +13,10 @@ function bettyup_gotHit() /* entry=715 class_id=0x02c9 slot=0x06 */
   if (!process_result) {
     return;
   }
+  else {
+    Item.create(2, 0x029f, item);
+    Item.popToCoords(Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06), item);
+    Item.explode(1, 1, arg_06);
+  }
   return;
 }

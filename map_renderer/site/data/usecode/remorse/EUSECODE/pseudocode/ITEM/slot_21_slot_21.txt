@@ -10,6 +10,8 @@ function item_slot_21() /* entry=2592 class_id=0x0a1e slot=0x21 */
   if (targetRef) {
     if (Item.getItemFamily(targetItem) == 6) {
       while (condition) {
+        push(item);
+        Item.popToContainer(targetRef, item);
       }
     }
   }

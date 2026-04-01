@@ -72,6 +72,8 @@ function wallgun_slot_38() /* entry=2588 class_id=0x0a1a slot=0x38 */
     }
     panRight = 1;
     panLeft = 1;
+    Item.getQHi(115, arg_06);
+    Item.legal_create(f, arg_06);
     spawn FREE.waitNTimerTicks(pid, delay, 0x00000000);
     suspend;
     WALLGUN.slot_2e(target, arg_06);

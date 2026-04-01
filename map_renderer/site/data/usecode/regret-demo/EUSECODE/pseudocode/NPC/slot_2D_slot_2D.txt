@@ -12,10 +12,21 @@ function npc_slot_2d() /* entry=2580 class_id=0x0a12 slot=0x2d */
       if (*(arg_06) == World.getControlledNPCNum()) {
         if (*(arg_06) == 1) {
           if (global[0x000d]) {
+            Item.playSfxCru(20, &global[0x001e]);
+            SpriteProcess.createSprite(Item.getX(Item.getY(Item.getZ(&global[0x001e]), &global[0x001e]), &global[0x001e]), 5, 5, 0, 0x0352);
             spawn FREE.slot_3b(pid, 120, 0x00000000);
             suspend;
           }
+          else {
+            MusicProcess.playMusic(8, 5, 8, 0, arg_06);
+            SpriteProcess.createSprite(Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06), 5, 5, 0, 0x0609);
+          }
         }
+      }
+      else {
+        MusicProcess.playMusic(8, 1, 8, 0, arg_06);
+        CameraProcess.getCameraY(114, arg_06);
+        SpriteProcess.createSprite(Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06), 5, 5, 0, 0x0609);
       }
       spawn FREE.slot_3b(pid, 25, 0x00000000);
       suspend;

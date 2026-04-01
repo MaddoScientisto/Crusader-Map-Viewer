@@ -23,12 +23,18 @@ function door_slot_23() /* entry=2568 class_id=0x0a06 slot=0x23 */
   spawn ITEM.slot_27(pid, 0x00c8, vel, ref, arg_06);
   suspend;
   if (!process_result) {
+    Item.move((Item.andStatus(arg_06) + (damagePoints / 2)), arg_06);
     FREE.slot_20(10);
     if (retval > 5) {
+      AudioProcess.playSFXCru(38, arg_06);
+    }
+    else {
+      AudioProcess.playSFXCru(39, arg_06);
     }
     return;
   }
   else {
+    Item.orStatus(4, arg_06);
     for deathBox in nearby_items(shape=0x04f8, origin=arg_06) {
       if (Item.setNpcNum(deathBox) == Item.setNpcNum(arg_06)) {
         if (Item.getMapArray(deathBox) != 0) {
@@ -46,50 +52,102 @@ function door_slot_23() /* entry=2568 class_id=0x0a06 slot=0x23 */
     if (World.getAlertActive() == 0) {
       spawn FREE.slot_3b(0x00000000);
     }
-    if (Item.getShape(arg_06) == door_shape_007b) {
+    switch (Item.getShape(arg_06)) {
+    case 123:
       if (Item.getFrame(arg_06)) {
+        Item.create(1, 0x02f1, item);
+        Item.create(1, 0x04ce, item2);
       }
+      else {
+        Item.create(0, 0x02f1, item);
+        Item.create(0, 0x04ce, item2);
+      }
+      Item.popToCoords(Item.getZ(arg_06), (Item.getY(arg_06) - 96), Item.getX(arg_06), item);
+      Item.popToCoords((Item.getZ(arg_06) + 1), Item.getY(arg_06), Item.getX(arg_06), item2);
       spawn DOOR.slot_22(pid, arg_06);
       suspend;
-    }
-    else if (Item.getShape(arg_06) == 0x03ff) {
+      break;
+    case 0x03ff:
+      Item.create(2, 0x02f1, item);
+      Item.create(2, 0x04ce, item2);
+      Item.popToCoords(Item.getZ(arg_06), (Item.getY(arg_06) - 96), Item.getX(arg_06), item);
+      Item.popToCoords((Item.getZ(arg_06) + 1), Item.getY(arg_06), Item.getX(arg_06), item2);
       spawn DOOR.slot_22(pid, arg_06);
       suspend;
-    }
-    else if (Item.getShape(arg_06) == door_shape_0046) {
+      break;
+    case 70:
+      Item.create(3, 0x02f1, item);
+      Item.create(3, 0x04ce, item2);
+      Item.popToCoords(Item.getZ(arg_06), (Item.getY(arg_06) - 96), Item.getX(arg_06), item);
+      Item.popToCoords((Item.getZ(arg_06) + 1), Item.getY(arg_06), Item.getX(arg_06), item2);
       spawn DOOR.slot_22(pid, arg_06);
       suspend;
-    }
-    else if (Item.getShape(arg_06) == door_shape_030b) {
+      break;
+    case 0x030b:
+      Item.create(4, 0x02f1, item);
+      Item.create(4, 0x04ce, item2);
+      Item.popToCoords(Item.getZ(arg_06), (Item.getY(arg_06) - 96), Item.getX(arg_06), item);
+      Item.popToCoords((Item.getZ(arg_06) + 1), Item.getY(arg_06), Item.getX(arg_06), item2);
       spawn DOOR.slot_22(pid, arg_06);
       suspend;
-    }
-    else if (Item.getShape(arg_06) == door_shape_0099) {
+      break;
+    case 0x0099:
+      Item.create(5, 0x02f1, item);
+      Item.create(5, 0x04ce, item2);
+      Item.popToCoords(Item.getZ(arg_06), (Item.getY(arg_06) - 96), Item.getX(arg_06), item);
+      Item.popToCoords((Item.getZ(arg_06) + 1), Item.getY(arg_06), Item.getX(arg_06), item2);
       spawn DOOR.slot_22(pid, arg_06);
       suspend;
-    }
-    else if (Item.getShape(arg_06) == door_shape_0005) {
+      break;
+    case 5:
       if (Item.getFrame(arg_06)) {
+        Item.create(1, 0x0493, item);
+        Item.create(1, 0x04cf, item2);
       }
+      else {
+        Item.create(0, 0x0493, item);
+        Item.create(0, 0x04cf, item2);
+      }
+      Item.popToCoords(Item.getZ(arg_06), Item.getY(arg_06), (Item.getX(arg_06) - 96), item);
+      Item.popToCoords((Item.getZ(arg_06) + 1), Item.getY(arg_06), Item.getX(arg_06), item2);
       spawn DOOR.slot_22(pid, arg_06);
       suspend;
-    }
-    else if (Item.getShape(arg_06) == 0x03f8) {
+      break;
+    case 0x03f8:
+      Item.create(2, 0x0493, item);
+      Item.create(2, 0x04cf, item2);
+      Item.popToCoords(Item.getZ(arg_06), Item.getY(arg_06), (Item.getX(arg_06) - 96), item);
+      Item.popToCoords((Item.getZ(arg_06) + 1), Item.getY(arg_06), Item.getX(arg_06), item2);
       spawn DOOR.slot_22(pid, arg_06);
       suspend;
-    }
-    else if (Item.getShape(arg_06) == door_shape_00a9) {
+      break;
+    case 0x00a9:
+      Item.create(3, 0x0493, item);
+      Item.create(3, 0x04cf, item2);
+      Item.popToCoords(Item.getZ(arg_06), Item.getY(arg_06), (Item.getX(arg_06) - 96), item);
+      Item.popToCoords((Item.getZ(arg_06) + 1), Item.getY(arg_06), Item.getX(arg_06), item2);
       spawn DOOR.slot_22(pid, arg_06);
       suspend;
-    }
-    else if (Item.getShape(arg_06) == door_shape_030a) {
+      break;
+    case 0x030a:
+      Item.create(4, 0x0493, item);
+      Item.create(4, 0x04cf, item2);
+      Item.popToCoords(Item.getZ(arg_06), Item.getY(arg_06), (Item.getX(arg_06) - 96), item);
+      Item.popToCoords((Item.getZ(arg_06) + 1), Item.getY(arg_06), Item.getX(arg_06), item2);
       spawn DOOR.slot_22(pid, arg_06);
       suspend;
-    }
-    else if (Item.getShape(arg_06) == door_shape_0095) {
+      break;
+    case 0x0095:
+      Item.create(5, 0x0493, item);
+      Item.create(5, 0x04cf, item2);
+      Item.popToCoords(Item.getZ(arg_06), Item.getY(arg_06), (Item.getX(arg_06) - 96), item);
+      Item.popToCoords((Item.getZ(arg_06) + 1), Item.getY(arg_06), Item.getX(arg_06), item2);
       spawn DOOR.slot_22(pid, arg_06);
       suspend;
+      break;
     }
+    Item.explode(1, 1, arg_06);
+    Game.isViolenceEnabled((~4), arg_06);
   }
   return;
 }

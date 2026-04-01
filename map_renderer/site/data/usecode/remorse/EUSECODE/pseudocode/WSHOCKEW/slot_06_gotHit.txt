@@ -47,6 +47,7 @@ function wshockew_gotHit() /* entry=1104 class_id=0x044e slot=0x06 */
         z = e;
         if (Item.create(0, 0x045a, shocker)) {
           c = 1;
+          Item.popToCoords(z, y, x, shocker);
           shockCount = (1 + shockCount);
         }
         FREE.slot_20(pid, 30);

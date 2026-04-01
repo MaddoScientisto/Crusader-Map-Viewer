@@ -2,5 +2,8 @@ function radarbas_leaveFastArea() /* entry=899 class_id=0x0381 slot=0x10 */
 {
   set_info(0x021c, *(arg_06));
   process_exclude();
+  if ((Item.getNpcNum(arg_06) & 64) == 0) {
+    Item.hurl((~0x1000), arg_06);
+  }
   return;
 }

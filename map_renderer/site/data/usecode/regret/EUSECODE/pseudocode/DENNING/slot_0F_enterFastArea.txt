@@ -8,26 +8,26 @@ function denning_enterFastArea() /* entry=633 class_id=0x0277 slot=0x0f */
   block_0133:
     goto block_01c5;
 
-  block_0136:
-    while (true) {
+  while (true) {
+    suspend;
+    local_02 = 0x00cd;
+    while (local_02 <= 0x00d2) {
+      Item.setFrame(local_02, arg_06);
+      spawn FREE.slot_3b(pid, 10, 0x00000000);
       suspend;
-      local_02 = 0x00cd;
-      while (local_02 <= 0x00d2) {
-        spawn FREE.slot_3b(pid, 10, 0x00000000);
-        suspend;
-        local_02 = (1 + local_02);
-      }
-      local_02 = 0;
-      while (local_02 <= 5) {
-        spawn FREE.slot_3b(pid, 10, 0x00000000);
-        suspend;
-        local_02 = (1 + local_02);
-      }
-      spawn FREE.slot_3b(pid, 20, 0x00000000);
-      suspend;
+      local_02 = (1 + local_02);
     }
+    local_02 = 0;
+    while (local_02 <= 5) {
+      Item.setFrame((0x00d2 - local_02), arg_06);
+      spawn FREE.slot_3b(pid, 10, 0x00000000);
+      suspend;
+      local_02 = (1 + local_02);
+    }
+    spawn FREE.slot_3b(pid, 20, 0x00000000);
+    suspend;
+  }
 
-  block_01c5:
-    return;
+  return;
 
 }

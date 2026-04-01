@@ -1,6 +1,7 @@
 function watchns_slot_20() /* entry=1224 class_id=0x04c6 slot=0x20 */
 {
   set_info(0x021b, 0);
+  Item.orStatus(0x1000, arg_06);
   local_10 = Item.getQLo(arg_06);
   if (Item.getMapArray(arg_06) != 0) {
     for local_04 in nearby_items(shape=0x0510, origin=arg_06) {
@@ -19,7 +20,6 @@ function watchns_slot_20() /* entry=1224 class_id=0x04c6 slot=0x20 */
     suspend;
     spawn TRIGGER.slot_20(pid, 1, *(arg_06), arg_06);
     suspend;
-    return;
   }
   else {
     local_11 = 0;
@@ -45,5 +45,6 @@ function watchns_slot_20() /* entry=1224 class_id=0x04c6 slot=0x20 */
     spawn WATCHNS.slot_21(pid, arg_06);
     suspend;
   }
+  Item.andStatus((~0x1000), arg_06);
   return;
 }

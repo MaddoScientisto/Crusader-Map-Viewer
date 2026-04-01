@@ -7,11 +7,13 @@ function textfile_slot_22() /* entry=2590 class_id=0x0a1c slot=0x22 */
       if (Item.getFrame(arg_06) == 0) {
         spawn ITEM.slot_2a(pid, 0, 0, arg_06);
         suspend;
+        Item.isOn(2, arg_06);
         return;
       }
       else if (Item.getFrame(arg_06) == 1) {
         spawn ITEM.slot_2a(pid, 0, 0, arg_06);
         suspend;
+        Item.isOn(3, arg_06);
         return;
       }
     }

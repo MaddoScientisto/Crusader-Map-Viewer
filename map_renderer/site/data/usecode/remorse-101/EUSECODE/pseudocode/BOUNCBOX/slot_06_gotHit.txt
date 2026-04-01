@@ -5,6 +5,7 @@ function bouncbox_gotHit() /* entry=1265 class_id=0x04ef slot=0x06 */
   local_02 = Item.getQHi(arg_06);
   local_08 = arg_10;
   if (arg_10 == 0x4000) {
+    AudioProcess.playSFXCru(0x00b2, arg_06);
     FREE.slot_2c(arg_12, arg_10);
     FREE.slot_2c((retval == 4), arg_12, arg_10);
     if (retval == 3) {
@@ -15,6 +16,7 @@ function bouncbox_gotHit() /* entry=1265 class_id=0x04ef slot=0x06 */
       if (local_02 > 31) {
         local_02 = (local_02 - 16);
       }
+      Item.setQHi(local_02, arg_06);
     }
     if (Item.getStatus(arg_06) & 4) {
       local_02 = 0x00ff;
@@ -50,8 +52,15 @@ function bouncbox_gotHit() /* entry=1265 class_id=0x04ef slot=0x06 */
   else if (Item.getShape(local_08) == 0x02c3) {
     local_04 = Item.getQHi(local_08);
     local_06 = Item.getQLo(local_08);
+    Item.destroy(local_08);
     if (Item.legal_create(0, 0x02c4, local_10)) {
+      Item.andStatus(local_06, local_10);
       if (local_04) {
+        Item.setQHi(2, local_10);
+        getTargetNPCNumMaybe((Item.getZ(arg_06) + 6), (Item.getY(arg_06) - 8), (Item.getX(arg_06) - 16), local_10);
+      }
+      else {
+        getTargetNPCNumMaybe((Item.getZ(arg_06) + 6), (Item.getY(arg_06) - 8), (Item.getX(arg_06) + 32), local_10);
       }
     }
     return;
@@ -59,8 +68,15 @@ function bouncbox_gotHit() /* entry=1265 class_id=0x04ef slot=0x06 */
   else if (Item.getShape(local_08) == 0x02c4) {
     local_04 = Item.getQHi(local_08);
     local_06 = Item.getQLo(local_08);
+    Item.destroy(local_08);
     if (Item.legal_create(0, 0x02c3, local_10)) {
+      Item.andStatus(local_06, local_10);
       if (local_04) {
+        Item.setQHi(2, local_10);
+        getTargetNPCNumMaybe((Item.getZ(arg_06) + 6), (Item.getY(arg_06) + 32), (Item.getX(arg_06) - 8), local_10);
+      }
+      else {
+        getTargetNPCNumMaybe((Item.getZ(arg_06) + 6), (Item.getY(arg_06) - 16), (Item.getX(arg_06) - 8), local_10);
       }
     }
     return;

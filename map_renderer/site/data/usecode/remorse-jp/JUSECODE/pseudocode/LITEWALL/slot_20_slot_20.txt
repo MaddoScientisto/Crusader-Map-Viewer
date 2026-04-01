@@ -12,26 +12,30 @@ function litewall_slot_20() /* entry=2580 class_id=0x0a12 slot=0x20 */
   set_info(1, r);
   wall = r;
   counter = 0;
-  if (Item.getShape(wall) == 0x045e) {
+  switch (Item.getShape(wall)) {
+  case 0x045e:
     realType = 0x045e;
     tempType = 0x0462;
-  }
-  else if (Item.getShape(wall) == 0x045f) {
+    break;
+  case 0x045f:
     realType = 0x045f;
     tempType = 0x0463;
-  }
-  else if (Item.getShape(wall) == 0x0460) {
+    break;
+  case 0x0460:
     realType = 0x0460;
     tempType = 0x0464;
-  }
-  else if (Item.getShape(wall) == 0x0461) {
+    break;
+  case 0x0461:
     realType = 0x0461;
     tempType = 0x0465;
+    break;
   }
+  Item.setShape(tempType, wall);
   while (counter < 4) {
     spawn FREE.slot_32(pid, 2, 0x00000000);
     suspend;
     counter = (1 + counter);
+    Item.getPoint(counter, wall);
   }
   spawn FREE.slot_32(pid, 3, 0x00000000);
   suspend;
@@ -39,6 +43,9 @@ function litewall_slot_20() /* entry=2580 class_id=0x0a12 slot=0x20 */
     spawn FREE.slot_32(pid, 2, 0x00000000);
     suspend;
     counter = (counter - 1);
+    Item.getPoint(counter, wall);
   }
+  Item.setShape(realType, wall);
+  Item.touch(wall);
   return;
 }

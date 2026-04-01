@@ -1,10 +1,15 @@
 function switch_slot_20() /* entry=2586 class_id=0x0a18 slot=0x20 */
 {
   set_info(0x0207, *(arg_06));
+  Item.playSfxCru(0x00e6, arg_06);
   local_02 = 0;
   while (local_02 <= 11) {
+    Item.isOn(local_02, arg_06);
     spawn FREE.slot_3b(pid, 10, 0x00000000);
     suspend;
+    if (local_02 == 5) {
+      Item.playSfxCru(0x0099, arg_06);
+    }
     local_02 = (1 + local_02);
   }
   return;

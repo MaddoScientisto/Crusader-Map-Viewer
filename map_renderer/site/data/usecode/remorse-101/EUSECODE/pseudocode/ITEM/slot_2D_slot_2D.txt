@@ -14,6 +14,7 @@ function item_slot_2d() /* entry=2592 class_id=0x0a1e slot=0x2d */
             for local_12 in nearby_items(family=6, origin=local_02) {
               if (Actor.isNPC(local_12)) {
                 if ((Item.getZ(local_12) > (Item.getZ(arg_06) - 10)) && (Item.getZ(local_12) < (Item.getZ(arg_06) + 10))) {
+                  process_result = 0;
                   return;
                 }
               }
@@ -23,7 +24,12 @@ function item_slot_2d() /* entry=2592 class_id=0x0a1e slot=0x2d */
               local_10 = local_14;
               local_08 = (Item.setQuality(local_02) & 15);
               if ((local_08 == 2) || (local_08 == 4)) {
+                Item.getQuality(local_10);
+                AudioProcess.playSFXCru(48, arg_06);
+                Item.getQHi(Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06), 1, 37, 0, 0x0317);
                 suspend;
+                Item.getFootpadData(local_10);
+                Actor.isDead(112, local_10);
                 while (AudioProcess.isSFXPlayingForObject(48, arg_06)) {
                   spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
                   suspend;
@@ -35,11 +41,15 @@ function item_slot_2d() /* entry=2592 class_id=0x0a1e slot=0x2d */
             local_14 = Item.isOn(local_04, arg_06);
             if (local_14) {
               local_10 = local_14;
+              Actor.isDead(112, local_10);
             }
           }
           if ((arg_12 == 0) || (arg_12 == 2)) {
+            Item.andStatus(0, local_04);
+            Item.andStatus(0, local_02);
             spawn ITEM.slot_2e(local_04, local_02, arg_06);
           }
+          process_result = local_10;
           return;
         }
       }

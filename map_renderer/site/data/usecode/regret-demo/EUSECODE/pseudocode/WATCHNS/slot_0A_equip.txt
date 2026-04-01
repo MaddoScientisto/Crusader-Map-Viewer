@@ -6,10 +6,12 @@ function watchns_equip() /* entry=1224 class_id=0x04c6 slot=0x0a */
     return;
   }
   else if (arg_10 == 0) {
+    Item.shoot(AudioProcess.stopSFXCru(&global[0x001e]), Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06));
     spawn WATCHNS.slot_21(arg_06);
     return;
   }
   else {
+    Item.shoot(AudioProcess.stopSFXCru(&global[0x001e]), Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06));
     spawn WATCHNS.slot_20(arg_06);
   }
   return;

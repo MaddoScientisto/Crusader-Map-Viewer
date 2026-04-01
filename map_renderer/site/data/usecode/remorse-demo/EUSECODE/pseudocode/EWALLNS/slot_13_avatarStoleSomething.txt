@@ -2,5 +2,7 @@ function ewallns_avatarStoleSomething() /* entry=812 class_id=0x032a slot=0x13 *
 {
   set_info(0x022e, *(arg_06));
   process_exclude();
+  Item.setQLo(80, arg_06);
+  AudioProcess.playSFXCru(61, arg_06);
   return;
 }

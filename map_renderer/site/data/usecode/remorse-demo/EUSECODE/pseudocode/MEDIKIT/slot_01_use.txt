@@ -16,9 +16,13 @@ function medikit_use() /* entry=851 class_id=0x0351 slot=0x01 */
     suspend;
   }
   else {
+    Item.create(0, MEDICAL_KIT, item);
+    Item.popToCoords(0, 0, 0, item);
+    Actor.getLastAnimSet(0, item);
     spawn FREE.slot_21(pid, 0x00b0, 0x00000000);
     suspend;
   }
+  Item.getFootpad();
   spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
   suspend;
   return;

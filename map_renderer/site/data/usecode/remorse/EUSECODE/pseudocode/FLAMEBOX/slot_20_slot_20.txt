@@ -18,13 +18,25 @@ function flamebox_slot_20() /* entry=1029 class_id=0x0403 slot=0x20 */
   spawn FLAME.slot_20(flame);
   if (direction == 0) {
     if (getAnimationsDisabled()) {
+      Item.create(0, 0x043b, flame2);
+    }
+    else {
+      Item.create(10, 0x043b, flame2);
     }
   }
   else if (direction == 1) {
     if (getAnimationsDisabled()) {
+      Item.create(0, 0x050a, flame2);
+    }
+    else {
+      Item.create(10, 0x050a, flame2);
     }
   }
+  Item.setQLo(Item.getQLo(arg_06), flame2);
+  Item.popToCoords(Item.getZ(flame), Item.getY(flame), Item.getX(flame), flame2);
   ITEM.slot_23(4, flame2);
+  AudioProcess.playAmbientSFXCru(0x0086, flame2);
   spawn FLAME.slot_20(flame2);
+  Item.destroy(flame);
   return;
 }

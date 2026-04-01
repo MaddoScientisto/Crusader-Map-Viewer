@@ -9,22 +9,30 @@ function door2_slot_40() /* entry=2569 class_id=0x0a07 slot=0x40 */
   if (Item.getShape(arg_06) == door2_shape_043f) {
     FREE.slot_2d(Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06), 4, 0x03f8, *(arg_06));
     if (!retval) {
+      process_result = 0;
       return;
     }
   }
   else {
     for item in nearby_items(shape=0x0401, origin=arg_06) {
+      Item.destroy(item);
     }
     FREE.slot_2d(Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06), 4, 108, *(arg_06));
     if (!retval) {
+      Item.create(0, 0x0401, item);
+      Item.popToCoords(Item.getZ(arg_06), Item.getY(arg_06), (Item.getX(arg_06) - 0x00b0), item);
+      process_result = 0;
       return;
     }
   }
+  AudioProcess.playSFXCru(104, arg_06);
   counter = 0;
   while (counter <= 4) {
+    Item.getPoint((4 - counter), arg_06);
     spawn FREE.slot_32(pid, 5, 0x00000000);
     suspend;
     counter = (1 + counter);
   }
+  process_result = 1;
   return;
 }

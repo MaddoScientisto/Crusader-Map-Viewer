@@ -23,86 +23,89 @@ function camerans_enterFastArea() /* entry=442 class_id=0x01b8 slot=0x0f */
   block_0120:
     goto block_04a7;
 
-  block_0126:
-    while (!Item.isOnScreen(arg_06)) {
-      spawn FREE.slot_32(pid, delay, 0x00000000);
-      suspend;
-    }
+  while (!Item.isOnScreen(arg_06)) {
+    spawn FREE.slot_32(pid, delay, 0x00000000);
+    suspend;
+  }
 
   block_0162:
     sawCrusader = 0;
     movement = 1;
 
-  block_0170:
-    while (true) {
-      suspend;
-      range = 0;
-      while (!Item.isOnScreen(arg_06)) {
-        spawn FREE.slot_32(pid, delay, 0x00000000);
-        suspend;
-      }
+  while (true) {
+    suspend;
+    range = 0;
+    while (!Item.isOnScreen(arg_06)) {
       spawn FREE.slot_32(pid, delay, 0x00000000);
       suspend;
-      if (getTargetNPCNumMaybe() != 0) {
-        target = getTargetNPCNumMaybe();
-      }
-      else {
-        target = 1;
-      }
-      dir = getClosestDirectionInRange(13, 3, 16, Item.getY(target), Item.getX(target), Item.getY(arg_06), Item.getX(arg_06));
-      fram = Item.getFrame(arg_06);
-      if ((12 - dir) == fram) {
-        range = Item.IsOn(target, arg_06);
-        if (range) {
-          sawCrusader = 1;
-          trackedEnough = (1 + trackedEnough);
-          if ((trackedEnough > iSeeYou) && (!(Item.getStatus(arg_06) & 0x1000))) {
-            spawn FREE.slot_32(pid, delay, 0x00000000);
-            suspend;
-            spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
-            suspend;
-            ITEM.slot_23(0x1000, arg_06);
-          }
-        }
-        else {
-          sawCrusader = 0;
-          if ((fram + movement) < 0) {
-            movement = 1;
-            spawn FREE.slot_32(pid, 30, 0x00000000);
-            suspend;
-          }
-          else if ((fram + movement) > 8) {
-            movement = -1;
-            spawn FREE.slot_32(pid, 30, 0x00000000);
-            suspend;
-          }
-        }
-      }
-      else if (trackedEnough && sawCrusader) {
-        if ((12 - dir) > fram) {
-          movement = 1;
-        }
-        else {
-          movement = -1;
+    }
+    spawn FREE.slot_32(pid, delay, 0x00000000);
+    suspend;
+    if (getTargetNPCNumMaybe() != 0) {
+      target = getTargetNPCNumMaybe();
+    }
+    else {
+      target = 1;
+    }
+    dir = getClosestDirectionInRange(13, 3, 16, Item.getY(target), Item.getX(target), Item.getY(arg_06), Item.getX(arg_06));
+    fram = Item.getFrame(arg_06);
+    if ((12 - dir) == fram) {
+      range = Item.IsOn(target, arg_06);
+      if (range) {
+        sawCrusader = 1;
+        trackedEnough = (1 + trackedEnough);
+        if ((trackedEnough > iSeeYou) && (!(Item.getStatus(arg_06) & 0x1000))) {
+          AudioProcess.playSFXCru(0x00e6, arg_06);
+          spawn FREE.slot_32(pid, delay, 0x00000000);
+          suspend;
+          spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
+          suspend;
+          ITEM.slot_23(0x1000, arg_06);
         }
       }
       else {
-        trackedEnough = 0;
         sawCrusader = 0;
-      }
-      if ((fram + movement) < 0) {
-        movement = 1;
-        spawn FREE.slot_32(pid, 30, 0x00000000);
-        suspend;
-      }
-      else if ((fram + movement) > 8) {
-        movement = -1;
-        spawn FREE.slot_32(pid, 30, 0x00000000);
-        suspend;
+        if ((fram + movement) < 0) {
+          movement = 1;
+          spawn FREE.slot_32(pid, 30, 0x00000000);
+          suspend;
+        }
+        else if ((fram + movement) > 8) {
+          movement = -1;
+          spawn FREE.slot_32(pid, 30, 0x00000000);
+          suspend;
+        }
+        Item.setFrame((fram + movement), arg_06);
+        Item.getQHi(0x00b5, arg_06);
       }
     }
+    else if (trackedEnough && sawCrusader) {
+      if ((12 - dir) > fram) {
+        movement = 1;
+      }
+      else {
+        movement = -1;
+      }
+    }
+    else {
+      trackedEnough = 0;
+      sawCrusader = 0;
+      Item.getDirFromTo16((~0x1000), arg_06);
+    }
+    if ((fram + movement) < 0) {
+      movement = 1;
+      spawn FREE.slot_32(pid, 30, 0x00000000);
+      suspend;
+    }
+    else if ((fram + movement) > 8) {
+      movement = -1;
+      spawn FREE.slot_32(pid, 30, 0x00000000);
+      suspend;
+    }
+    Item.setFrame((fram + movement), arg_06);
+    Item.getQHi(0x00b5, arg_06);
+  }
 
-  block_04a7:
-    return;
+  return;
 
 }

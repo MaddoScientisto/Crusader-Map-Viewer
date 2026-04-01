@@ -23,6 +23,7 @@ function vardesk_enterFastArea() /* entry=1092 class_id=0x0442 slot=0x0f */
       if (!Item.getFrame(arg_06)) {
         counter = 0;
         while (counter <= 4) {
+          Item.getPoint(counter, arg_06);
           spawn FREE.slot_32(pid, 10, 0x00000000);
           suspend;
           counter = (1 + counter);
@@ -32,6 +33,7 @@ function vardesk_enterFastArea() /* entry=1092 class_id=0x0442 slot=0x0f */
       if (retval > 50) {
         counter = 0;
         while (counter <= 4) {
+          Item.getPoint((4 - counter), arg_06);
           spawn FREE.slot_32(pid, 10, 0x00000000);
           suspend;
           counter = (1 + counter);
@@ -42,8 +44,10 @@ function vardesk_enterFastArea() /* entry=1092 class_id=0x0442 slot=0x0f */
         ran = (retval + 3);
         counter = 0;
         while (counter <= ran) {
+          Item.getPoint(5, arg_06);
           spawn FREE.slot_32(pid, 10, 0x00000000);
           suspend;
+          Item.getPoint(4, arg_06);
           spawn FREE.slot_32(pid, 10, 0x00000000);
           suspend;
           counter = (1 + counter);

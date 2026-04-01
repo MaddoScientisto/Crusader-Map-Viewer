@@ -15,10 +15,21 @@ function door2_slot_36() /* entry=2569 class_id=0x0a07 slot=0x36 */
   maxFrame = 7;
   counter = 1;
   while (counter <= maxFrame) {
+    Item.legal_create(counter, arg_06);
     spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
     suspend;
     counter = (1 + counter);
   }
+  Item.legal_create(0, arg_06);
+  Item.setShape(0x0238, arg_06);
+  AudioProcess.playSFXCru(82, arg_06);
   link = Item.setNpcNum(arg_06);
+  if (Item.legal_create(Item.getZ(arg_06), Item.getY(arg_06), (Item.getX(arg_06) - 0x00d0), 1, 0x0238, item2) == 1) {
+    Item.fallProbably_03E(link, item2);
+  }
+  if (Item.legal_create((Item.getZ(arg_06) + 80), Item.getY(arg_06), Item.getX(arg_06), 0, 0x03c7, item) == 1) {
+    Item.fallProbably_03E(link, item);
+  }
+  process_result = 1;
   return;
 }

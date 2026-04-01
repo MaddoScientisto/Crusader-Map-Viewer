@@ -11,11 +11,19 @@ function melf_use() /* entry=957 class_id=0x03bb slot=0x01 */
   }
   else {
     suspend;
+    Actor.create(0x0096, 0x00c8, "mva5b", arg_06);
     suspend;
+    playFlic(pid, 0x0096, 0x00c8, "5g", arg_06);
     suspend;
     spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
     suspend;
+    Item.pop(1, arg_06);
     while (condition) {
+      if (Item.unequip(item) == 34) {
+        Item.setQLo(80, arg_06);
+        AudioProcess.playSFXCru(61, arg_06);
+        Item.destroy(item);
+      }
     }
   }
   return;

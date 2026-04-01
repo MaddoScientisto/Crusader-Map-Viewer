@@ -14,7 +14,10 @@ function reb_egg_slot_20() /* entry=2313 class_id=0x0907 slot=0x20 */
     x = (Item.getX(chest) + 48);
     y = (Item.getY(chest) + 48);
     while (condition) {
+      push(phold);
+      Item.popToCoords(Item.getZ(chest), y, x, phold);
       x = (x - 4);
+      Item.getQHi((~16), phold);
       counter = (1 + counter);
     }
     return;

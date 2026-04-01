@@ -10,9 +10,15 @@ function stelepad_gotHit() /* entry=241 class_id=0x00ef slot=0x06 */
   else if ((Item.getShape(local_02) == DET_PAC) || (Item.getShape(local_02) == LAND_MINE)) {
     return;
   }
-  else if (Ultima8Engine.getUnkCrusaderFlag() == 1) {
+  else if (Actor.isNPC(local_02) == 0) {
+    Item.destroy(local_02);
+  }
+  if (Ultima8Engine.getUnkCrusaderFlag() == 1) {
     while (condition) {
       if (local_04 < 0x0100) {
+        if (local_04 != 1) {
+          Intrinsic0055(8, UCMachine.rndRange(Actor.getHp(local_04), 16, 0), 0, local_04);
+        }
       }
     }
     return;

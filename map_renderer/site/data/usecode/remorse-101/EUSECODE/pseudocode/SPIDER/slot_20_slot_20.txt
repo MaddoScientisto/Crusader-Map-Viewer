@@ -33,14 +33,22 @@ function spider_slot_20() /* entry=2582 class_id=0x0a14 slot=0x20 */
         return;
       }
       else {
+        Item.legal_create(0, 0x0445, local_02);
+        getTargetNPCNumMaybe((Item.getZ(arg_06) + 1), (Item.getY(arg_06) - 8), (Item.getX(arg_06) - 8), local_02);
+        AudioProcess.playSFXCru(99, arg_06);
         local_11 = 0;
         while (local_11 <= 5) {
+          Item.isCentreOn(local_11, local_02);
           spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
           suspend;
           local_11 = (1 + local_11);
         }
+        Item.setShape(0x0392, local_02);
+        Item.orStatus(0x0080, local_02);
+        Item.isCentreOn(0, local_02);
         local_11 = 1;
         while (local_11 <= 9) {
+          Item.isCentreOn(local_11, local_02);
           spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
           suspend;
           local_11 = (1 + local_11);

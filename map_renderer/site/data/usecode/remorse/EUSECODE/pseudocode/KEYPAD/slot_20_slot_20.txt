@@ -23,15 +23,19 @@ function keypad_slot_20() /* entry=2576 class_id=0x0a0e slot=0x20 */
     }
   }
   if ((Item.getStatus(arg_06) & 0x1000) == 0) {
+    Item.orStatus(0x1000, arg_06);
     keycode = KeypadGump.showKeypad(boxPasscode);
     if (keycode == -1) {
+      Item.andStatus((~0x1000), arg_06);
       return;
     }
     else if (keycode == boxPasscode) {
       spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
       suspend;
+      AudioProcess.playSFXCru(122, arg_06);
       spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
       suspend;
+      Item.orStatus(4, arg_06);
     }
     else {
       spawn TRIGGER.slot_20(pid, 1, *(arg_06), arg_06);
@@ -42,6 +46,7 @@ function keypad_slot_20() /* entry=2576 class_id=0x0a0e slot=0x20 */
         spawn FREE.slot_3b(0x00000000);
       }
     }
+    Item.andStatus((~0x1000), arg_06);
   }
   return;
 }

@@ -2,8 +2,10 @@ function slideflr_avatarStoleSomething() /* entry=1239 class_id=0x04d5 slot=0x13
 {
   set_info(0x022e, *(arg_06));
   process_exclude();
+  AudioProcess.playSFXCru(81, arg_06);
   if (Item.getFrame(arg_06) != 9) {
     while (Item.getFrame(arg_06) != 9) {
+      Item.getPoint((Item.getFrame(arg_06) + 1), arg_06);
       spawn FREE.slot_32(pid, 4, 0x00000000);
       suspend;
     }

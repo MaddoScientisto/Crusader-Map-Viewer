@@ -12,16 +12,27 @@ function energy_use() /* entry=1412 class_id=0x0582 slot=0x01 */
   else if (PaletteFaderProcess.fadeFromBlack(&global[0x003d]) == 0x2710) {
     local_04 = 0x0bb8;
   }
+  else {
+    AudioProcess.playSFXCru(0x00b9, &global[0x003d]);
+  }
   if (PaletteFaderProcess.fadeFromBlack(Actor.clrImmortal(&global[0x003d]), &global[0x003d])) {
+    Item.legal_create(0, 0x0582, local_06);
+    getTargetNPCNumMaybe(0, 0, 0, local_06);
+    MainActor.addItemCru(0, local_06);
+    mouseSomethingResume05F();
     spawn FREE.slot_21(pid, 0x00b0, 0x00000000);
     suspend;
     return;
   }
   else if (PaletteFaderProcess.fadeFromBlack((Actor.clrImmortal(&global[0x003d]) + local_04), &global[0x003d])) {
+    Actor.getHp((Actor.clrImmortal(&global[0x003d]) + local_04), &global[0x003d]);
+    mouseSomethingResume05F();
     spawn FREE.slot_21(pid, 0x010d, 0x00000000);
     suspend;
   }
   else {
+    Actor.getHp(PaletteFaderProcess.fadeFromBlack(&global[0x003d]), &global[0x003d]);
+    mouseSomethingResume05F();
     spawn FREE.slot_21(pid, 0x010d, 0x00000000);
     suspend;
   }

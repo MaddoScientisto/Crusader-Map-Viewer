@@ -99,6 +99,9 @@ function trigger_slot_20() /* entry=2586 class_id=0x0a18 slot=0x20 */
         suspend;
         baseLink = process_result;
       }
+      if (mapNum & 16) {
+        Item.setQLo(0, aitem);
+      }
     }
   }
   newphase = (phase & 1);
@@ -117,9 +120,7 @@ function trigger_slot_20() /* entry=2586 class_id=0x0a18 slot=0x20 */
             newLink = process_result;
           }
           else {
-            /* create_list */
-            /* append_list */
-            lowPriorityTriggers = item;
+            lowPriorityTriggers = (lowPriorityTriggers + [item]);
           }
         }
       }
@@ -129,9 +130,8 @@ function trigger_slot_20() /* entry=2586 class_id=0x0a18 slot=0x20 */
       spawn TRIGGER.slot_21(pid, item, arg_06);
       suspend;
       newLink = process_result;
-      /* create_list */
       /* remove_matching_inline */
-      lowPriorityTriggers = item;
+      lowPriorityTriggers = [item];
     }
     if (newLink == baseLink) {
       return;

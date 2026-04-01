@@ -7,6 +7,10 @@ function nostril_slot_20() /* entry=1088 class_id=0x043e slot=0x20 */
     fire2; /* [BP-04h] type=0x24 */
 
   set_info(1, *(arg_06));
+  Item.create(11, 0x0515, fire2);
+  Item.popToCoords(Item.getZ(arg_06), (Item.getY(arg_06) - 8), (Item.getX(arg_06) - 8), fire2);
+  AudioProcess.playSFXCru(0x0081, fire2);
+  Item.destroy(fire);
   if (getAnimationsDisabled()) {
     while (Item.getFrame(fire2) != 21) {
       spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
@@ -17,6 +21,7 @@ function nostril_slot_20() /* entry=1088 class_id=0x043e slot=0x20 */
     spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
     suspend;
   }
+  Item.destroy(fire2);
   ITEM.slot_24(0x1000, arg_06);
   return;
 }

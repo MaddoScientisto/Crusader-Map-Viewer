@@ -6,12 +6,12 @@ function rollb_ew_slot_20() /* entry=1421 class_id=0x058b slot=0x20 */
   local_12 = Item.getNpcNum(arg_06);
   if (local_12 & 32) {
     while (condition) {
-      /* create_list */
-      /* append_list */
-      local_06 = local_04;
+      local_06 = (local_06 + [local_04]);
     }
   }
   if (local_12 & 64) {
+    Item.hurl((~0x1000), arg_06);
+    Item.explode(0, 1, arg_06);
     local_04 = *(arg_06);
   }
   else {
@@ -27,8 +27,14 @@ function rollb_ew_slot_20() /* entry=1421 class_id=0x058b slot=0x20 */
     local_16 = Item.getY(arg_06);
     local_17 = Item.getZ(arg_06);
     local_19 = IntrinsicReturn0(arg_06);
+    Item.explode(0, 1, arg_06);
     spawn ITEM.slot_2c(pid, arg_06);
     suspend;
+    Item.create(local_08, 0x022b, local_02);
+    Item.setQLo(local_19, local_02);
+    Item.popToCoords(local_17, local_16, local_14, local_02);
+    Kernel.resetRef(local_02);
+    Item.destroy(arg_06);
   }
   set_info(1, 0);
   return;

@@ -8,6 +8,14 @@ function mine_ir_gotHit() /* entry=42 class_id=0x0028 slot=0x06 */
     if (local_02 == 4) {
       return;
     }
+    else {
+      Item.explode(0, 1, arg_06);
+      Item.setBroken(arg_06);
+      Item.push(arg_06);
+      Item.setShape(88, arg_06);
+      Item.setFrame(UCMachine.rndRange(2, 0), arg_06);
+      Item.popToCoords((Item.getZ(arg_06) + 1), Item.getY(arg_06), Item.getX(arg_06), arg_06);
+    }
     return;
   }
   else {
@@ -15,6 +23,14 @@ function mine_ir_gotHit() /* entry=42 class_id=0x0028 slot=0x06 */
     if (Item.isOn(*(arg_06), local_04)) {
       if (((arg_10 < 0x00ff) && (arg_10 != World.getControlledNPCNum())) && (Item.isOnScreen(arg_06) == 0)) {
         return;
+      }
+      else {
+        Item.explode(0, 1, arg_06);
+        Item.setBroken(arg_06);
+        Item.push(arg_06);
+        Item.setShape(88, arg_06);
+        Item.setFrame(UCMachine.rndRange(2, 0), arg_06);
+        Item.popToCoords((Item.getZ(arg_06) + 1), Item.getY(arg_06), Item.getX(arg_06), arg_06);
       }
     }
   }

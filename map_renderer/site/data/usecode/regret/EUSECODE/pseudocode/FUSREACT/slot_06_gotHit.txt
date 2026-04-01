@@ -10,7 +10,11 @@ function fusreact_gotHit() /* entry=446 class_id=0x01bc slot=0x06 */
     if (retval) {
       spawn ITEM.slot_2a(pid, 0, 1, arg_06);
       suspend;
+      Item.setFrame(6, arg_06);
       for local_02 in nearby_items(shape=0x01c1, origin=arg_06) {
+        Item.destroy(local_02);
+        Item.create(1, 0x01c1, local_04);
+        Item.popToCoords((Item.getZ(arg_06) - 24), (Item.getY(arg_06) + 32), (Item.getX(arg_06) + 32), local_04);
       }
     }
   }

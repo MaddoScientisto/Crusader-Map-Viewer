@@ -12,9 +12,13 @@ function medikit_use() /* entry=851 class_id=0x0351 slot=0x01 */
     suspend;
   }
   else {
+    Item.create(0, MEDICAL_KIT, local_02);
+    Item.popToCoords(0, 0, 0, local_02);
+    MainActor.addItemCru(0, local_02);
     spawn FREE.slot_21(pid, 0x01a7, 0x00000000);
     suspend;
   }
+  Intrinsic003F();
   spawn FREE.slot_3b(pid, 30, 0x00000000);
   suspend;
   return;

@@ -25,12 +25,19 @@ function flamebox_slot_21() /* entry=1029 class_id=0x0403 slot=0x21 */
     }
   }
   if (direction == 0) {
+    Item.create(0, 0x043c, flame2);
     newType = 0x0439;
   }
   else if (direction == 1) {
+    Item.create(0, 0x04cb, flame2);
     newType = 0x0438;
   }
+  Item.setQLo(Item.getQLo(arg_06), flame2);
   ITEM.slot_23(0x1000, flame2);
+  Item.popToCoords(Item.getZ(flame), Item.getY(flame), Item.getX(flame), flame2);
+  AudioProcess.playSFXCru(0x0081, flame2);
+  AudioProcess.stopSFXCru(0x0086, flame);
+  Item.destroy(flame);
   if (getAnimationsDisabled()) {
     while ((Item.getFrame(flame2) != 4) && (Item.isOnScreen(flame2) == 1)) {
       spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
@@ -41,6 +48,8 @@ function flamebox_slot_21() /* entry=1029 class_id=0x0403 slot=0x21 */
     spawn FREE.waitNTimerTicks(pid, 0x00c8, 0x00000000);
     suspend;
   }
+  Item.setShape(newType, flame2);
+  Item.setFrame(0, flame2);
   ITEM.slot_24(0x1000, flame2);
   return;
 }

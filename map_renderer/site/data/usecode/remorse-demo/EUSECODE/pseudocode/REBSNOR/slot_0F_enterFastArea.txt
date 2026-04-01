@@ -8,12 +8,14 @@ function rebsnor_enterFastArea() /* entry=1350 class_id=0x0544 slot=0x0f */
   process_exclude();
   if (global[0x001f] > 3) {
     if (UCMachine.rndRange(10, 1) > 5) {
+      Item.legal_create(6, arg_06);
       return;
     }
     else {
       while (1) {
         counter = 0;
         while (counter <= 5) {
+          Item.legal_create(counter, arg_06);
           spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
           suspend;
           counter = (1 + counter);
@@ -22,6 +24,7 @@ function rebsnor_enterFastArea() /* entry=1350 class_id=0x0544 slot=0x0f */
         suspend;
         counter = 0;
         while (counter <= 5) {
+          Item.legal_create((5 - counter), arg_06);
           spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
           suspend;
           counter = (1 + counter);

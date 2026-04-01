@@ -7,6 +7,7 @@ function ssbox_ew_gotHit() /* entry=693 class_id=0x02b3 slot=0x06 */
     if (!Item.getFrame(arg_06)) {
       spawn ITEM.slot_2a(pid, 0, 0, arg_06);
       suspend;
+      Item.isOn(UCMachine.rndRange(2, 1), arg_06);
       return;
     }
     else {
@@ -15,6 +16,10 @@ function ssbox_ew_gotHit() /* entry=693 class_id=0x02b3 slot=0x06 */
       if (!process_result) {
         FREE.slot_20(1);
         if (retval) {
+          Item.playSfxCru(38, arg_06);
+        }
+        else {
+          Item.playSfxCru(39, arg_06);
         }
         return;
       }

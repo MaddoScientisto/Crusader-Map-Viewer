@@ -24,6 +24,10 @@ function wallgun2_slot_20() /* entry=2594 class_id=0x0a20 slot=0x20 */
   if (!process_result) {
     FREE.slot_20(1);
     if (retval) {
+      Item.playSfxCru(38, arg_06);
+    }
+    else {
+      Item.playSfxCru(39, arg_06);
     }
     WALLGUN.slot_20(arg_06);
     local_04 = retval;
@@ -43,6 +47,7 @@ function wallgun2_slot_20() /* entry=2594 class_id=0x0a20 slot=0x20 */
       WALLGUN.slot_21(arg_06);
       WALLGUN.slot_23((retval + 1), arg_06);
     }
+    process_result = 0;
     return;
   }
   return;

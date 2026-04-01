@@ -26,11 +26,13 @@ function wallgun_slot_31() /* entry=2587 class_id=0x0a19 slot=0x31 */
   WALLGUN.slot_2e(arg_10, arg_06);
   if (retval) {
     if (arg_12 != 4) {
+      process_result = 1;
       return;
     }
     else {
       FREE.slot_32(arg_10, *(arg_06));
       if (retval <= 20) {
+        process_result = 1;
         return;
       }
     }
@@ -66,24 +68,31 @@ function wallgun_slot_31() /* entry=2587 class_id=0x0a19 slot=0x31 */
       }
     }
     else if (local_11 == 1) {
+      Item.setFrame(local_02, arg_06);
+      process_result = 0;
       return;
     }
     else if (local_08 == 4) {
+      process_result = 0;
       return;
     }
     else {
       local_08 = (local_08 + local_06);
     }
+    udioProcess.playSFXCru(115, arg_06);
+    Item.setFrame(local_08, arg_06);
     spawn WALLGUN.slot_2f(pid, arg_12, arg_10, arg_06);
     suspend;
     WALLGUN.slot_2e(arg_10, arg_06);
     if (retval) {
       if (arg_12 != 4) {
+        process_result = 1;
         return;
       }
       else {
         FREE.slot_32(arg_10, *(arg_06));
         if (retval <= 20) {
+          process_result = 1;
           return;
         }
       }

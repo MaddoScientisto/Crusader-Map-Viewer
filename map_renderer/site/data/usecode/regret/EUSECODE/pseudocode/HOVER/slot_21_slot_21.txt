@@ -2,12 +2,14 @@ function hover_slot_21() /* entry=2573 class_id=0x0a0b slot=0x21 */
 {
   set_info(1, 0);
   local_19 = arg_10;
+  Item.orStatus(0x1000, local_19);
   local_02 = Item.getQHi(local_19);
   local_10 = local_02;
   local_04 = (local_02 & 15);
   local_06 = local_04;
   while (1) {
     if ((Item.getStatus(local_19) & 0x1000) == 0) {
+      Item.setQHi(local_10, local_19);
       spawn HOVER.slot_23(pid, 1, arg_10, arg_06);
       suspend;
       return;
@@ -27,20 +29,25 @@ function hover_slot_21() /* entry=2573 class_id=0x0a0b slot=0x21 */
       }
       if (local_14 == -1) {
         if (local_06 == local_04) {
+          Item.andStatus((~0x1000), local_19);
+          Item.setQHi(local_10, local_19);
           return;
         }
         local_06 = local_04;
         local_02 = (local_02 & 0x00f0);
+        Item.setQHi((local_02 | local_06), local_19);
       }
       spawn HOVER.slot_20(pid, local_17, local_16, local_14, arg_10, arg_06);
       suspend;
       if (process_result == 1) {
+        Item.setQHi(local_10, local_19);
         return;
       }
       else {
         spawn HOVER.slot_24(pid, local_06, arg_10, arg_06);
         suspend;
         if ((Item.getStatus(local_19) & 0x1000) == 0) {
+          Item.setQHi(local_10, local_19);
           spawn HOVER.slot_23(pid, 1, arg_10, arg_06);
           suspend;
           return;
@@ -63,6 +70,7 @@ function hover_slot_21() /* entry=2573 class_id=0x0a0b slot=0x21 */
           local_10 = local_02;
         }
         local_02 = (local_02 & 0x00f0);
+        Item.setQHi((local_02 | local_06), local_19);
       }
     }
   }

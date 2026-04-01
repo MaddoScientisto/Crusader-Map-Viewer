@@ -12,9 +12,13 @@ function medikit_use() /* entry=851 class_id=0x0351 slot=0x01 */
     suspend;
   }
   else {
+    Item.legal_create(0, 0x0351, local_02);
+    getTargetNPCNumMaybe(0, 0, 0, local_02);
+    Item.spawnUsecodeEvent0x13(0, local_02);
     spawn FREE.slot_21(pid, 0x00b0, 0x00000000);
     suspend;
   }
+  mouseSomethingResume05F();
   spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
   suspend;
   return;

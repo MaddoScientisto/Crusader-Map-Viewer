@@ -8,6 +8,9 @@ function changer_hatch() /* entry=2314 class_id=0x0908 slot=0x07 */
     while (condition) {
       local_06 = Item.getQLo(local_02);
       if (local_06 == local_08) {
+        if (local_06 != 0) {
+          Item.destroy(local_02);
+        }
       }
     }
   }

@@ -10,6 +10,8 @@ function rollb_ns_slot_21() /* entry=1416 class_id=0x0586 slot=0x21 */
   local_19 = Item.getX(arg_06);
   local_17 = Item.getY(arg_06);
   local_15 = Item.getZ(arg_06);
+  Item.orStatus(0x1000, arg_06);
+  AudioProcess.playSFXCru(0x00a3, arg_06);
   if (local_06 & 32) {
     if (local_06 < 0x0080) {
       while (1) {
@@ -20,12 +22,14 @@ function rollb_ns_slot_21() /* entry=1416 class_id=0x0586 slot=0x21 */
         local_08 = 0;
         while (condition) {
           local_08 = (1 + local_08);
+          Item.push(local_21);
         }
         local_17 = (local_17 + 8);
         if (Item.legal_move(0, 0, local_19, arg_06) == 0) {
           local_10 = 1;
           while (local_10 <= local_08) {
             local_21 = Item.getEtherealTop();
+            Item.popToCoords(Item.getZ(local_21), Item.getY(local_21), Item.getX(local_21), local_21);
             local_10 = (1 + local_10);
           }
           spawn ROLLB_NS.slot_20(pid, arg_06);
@@ -35,8 +39,10 @@ function rollb_ns_slot_21() /* entry=1416 class_id=0x0586 slot=0x21 */
         local_10 = 1;
         while (local_10 <= local_08) {
           local_21 = Item.getEtherealTop();
+          Item.popToCoords(Item.getZ(local_21), (Item.getY(local_21) + 8), Item.getX(local_21), local_21);
           local_10 = (1 + local_10);
         }
+        Item.setFrame(local_04, arg_06);
         spawn FREE.slot_3b(pid, local_02, 0x00000000);
         suspend;
       }
@@ -50,12 +56,14 @@ function rollb_ns_slot_21() /* entry=1416 class_id=0x0586 slot=0x21 */
         local_08 = 0;
         while (condition) {
           local_08 = (1 + local_08);
+          Item.push(local_21);
         }
         local_17 = (local_17 - 8);
         if (Item.legal_move(0, 0, local_19, arg_06) == 0) {
           local_10 = 1;
           while (local_10 <= local_08) {
             local_21 = Item.getEtherealTop();
+            Item.popToCoords(Item.getZ(local_21), Item.getY(local_21), Item.getX(local_21), local_21);
             local_10 = (1 + local_10);
           }
           spawn ROLLB_NS.slot_20(pid, arg_06);
@@ -65,8 +73,10 @@ function rollb_ns_slot_21() /* entry=1416 class_id=0x0586 slot=0x21 */
         local_10 = 1;
         while (local_10 <= local_08) {
           local_21 = Item.getEtherealTop();
+          Item.popToCoords(Item.getZ(local_21), (Item.getY(local_21) - 8), Item.getX(local_21), local_21);
           local_10 = (1 + local_10);
         }
+        Item.setFrame(local_04, arg_06);
         spawn FREE.slot_3b(pid, local_02, 0x00000000);
         suspend;
       }
@@ -99,12 +109,14 @@ function rollb_ns_slot_21() /* entry=1416 class_id=0x0586 slot=0x21 */
           local_23 = (local_24 - local_15);
         }
         else if (local_23 > 12) {
+          Item.fall(arg_06);
           spawn FREE.slot_3b(pid, 6, 0x00000000);
           suspend;
           spawn ROLLB_NS.slot_20(pid, arg_06);
           suspend;
           return;
         }
+        Item.setFrame(local_04, arg_06);
         spawn FREE.slot_3b(pid, local_02, 0x00000000);
         suspend;
       }
@@ -133,12 +145,14 @@ function rollb_ns_slot_21() /* entry=1416 class_id=0x0586 slot=0x21 */
           local_23 = (local_24 - local_15);
         }
         else if (local_23 > 12) {
+          Item.fall(arg_06);
           spawn FREE.slot_3b(pid, 6, 0x00000000);
           suspend;
           spawn ROLLB_NS.slot_20(pid, arg_06);
           suspend;
           return;
         }
+        Item.setFrame(local_04, arg_06);
         spawn FREE.slot_3b(pid, local_02, 0x00000000);
         suspend;
       }

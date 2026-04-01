@@ -68,6 +68,7 @@ function item_slot_27() /* entry=2574 class_id=0x0a0c slot=0x27 */
     if (local_30 >= local_24) {
       if (local_36 > (local_34 - 2)) {
         if (local_36 < (local_34 + 2)) {
+          process_result = 1;
           return;
         }
       }
@@ -75,6 +76,7 @@ function item_slot_27() /* entry=2574 class_id=0x0a0c slot=0x27 */
       local_03 = local_09;
       local_01 = local_10;
       if (!Item.legal_move(0, 1, local_05, arg_06)) {
+        process_result = 0;
         return;
       }
     }
@@ -85,6 +87,7 @@ function item_slot_27() /* entry=2574 class_id=0x0a0c slot=0x27 */
         local_03 = local_09;
         local_01 = local_10;
         if (!Item.legal_move(0, 1, local_05, arg_06)) {
+          process_result = 0;
           return;
         }
         local_07 = (local_07 + local_28);
@@ -103,6 +106,7 @@ function item_slot_27() /* entry=2574 class_id=0x0a0c slot=0x27 */
         local_03 = local_09;
         local_01 = local_10;
         if (!Item.legal_move(0, 1, local_05, arg_06)) {
+          process_result = 0;
           return;
         }
         local_09 = (local_09 + local_28);

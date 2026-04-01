@@ -14,17 +14,26 @@ function bubble_enterFastArea() /* entry=472 class_id=0x01d6 slot=0x0f */
     if (Item.isOnScreen(arg_06)) {
       local_02 = 0;
       while (local_02 <= 11) {
+        Item.setFrame(local_02, arg_06);
         spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
         suspend;
+        if (local_02 == 5) {
+          AudioProcess.playSFXCru(113, arg_06);
+        }
         local_02 = (1 + local_02);
       }
+      Item.setFrame(24, arg_06);
       FREE.slot_20(pid, 120);
       spawn FREE.waitNTimerTicks((retval + 120), 0x00000000);
       suspend;
       local_02 = 12;
       while (local_02 <= 24) {
+        Item.setFrame(local_02, arg_06);
         spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
         suspend;
+        if (local_02 == 17) {
+          AudioProcess.playSFXCru(119, arg_06);
+        }
         local_02 = (1 + local_02);
       }
     }

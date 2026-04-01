@@ -16,9 +16,15 @@ function rfanbadn_gotHit() /* entry=981 class_id=0x03d3 slot=0x06 */
   else {
     FREE.slot_2b(vel, ref);
     if (retval && (Item.getFrame(arg_06) > 0)) {
+      Item.explode(0, 1, arg_06);
+      Item.setFrame(0, arg_06);
       fart2 = Item.getQLo(arg_06);
+      AudioProcess.stopSFXCru(6, arg_06);
       for item in nearby_items(shape=WIND_AREA, origin=arg_06) {
         fart = Item.getQLo(item);
+        if (fart == fart2) {
+          Item.destroy(item);
+        }
       }
     }
   }

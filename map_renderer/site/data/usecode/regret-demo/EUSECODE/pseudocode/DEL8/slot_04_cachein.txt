@@ -2,5 +2,8 @@ function del8_cachein() /* entry=304 class_id=0x012e slot=0x04 */
 {
   set_info(0x0213, *(arg_06));
   process_exclude();
+  if (!Item.getFrame(arg_06)) {
+    Actor.doAnim(1, arg_06);
+  }
   return;
 }

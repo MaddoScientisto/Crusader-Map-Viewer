@@ -15,6 +15,7 @@ function miss5_slot_20() /* entry=2323 class_id=0x0911 slot=0x20 */
   set_info(0x0001, *(arg_06));
   egg = *(arg_06);
   set_info(1, 0);
+  Ultima8Engine.setAvatarInStasis(1);
   while (Actor.doAnim(&global[0x003c])) {
     spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
     suspend;
@@ -27,6 +28,7 @@ function miss5_slot_20() /* entry=2323 class_id=0x0911 slot=0x20 */
     }
   }
   if (door) {
+    Item.destroy(egg);
     if (Actor.getLastAnimSet(&global[0x003c]) == 3) {
       counter = 2;
     }
@@ -52,11 +54,18 @@ function miss5_slot_20() /* entry=2323 class_id=0x0911 slot=0x20 */
       post2 = item;
     }
     if (post1 && post2) {
+      AudioProcess.playSFXCru(0x00f4, arg_06);
       spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
       suspend;
+      AudioProcess.playSFXCru(0x00f1, &global[0x003c]);
       if (dir) {
+        Item.legal_create(0, post1);
+        Item.legal_create(0, post2);
         counter = 1;
         while (counter <= 4) {
+          Item.legal_create(counter, post1);
+          Item.legal_create(counter, post2);
+          Item.getQHi(0x0093, post1);
           spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
           suspend;
           counter = (1 + counter);
@@ -65,6 +74,9 @@ function miss5_slot_20() /* entry=2323 class_id=0x0911 slot=0x20 */
       else {
         counter = 0;
         while (counter <= 3) {
+          Item.legal_create((7 - counter), post1);
+          Item.legal_create((7 - counter), post2);
+          Item.getQHi(0x0093, post1);
           spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
           suspend;
           counter = (1 + counter);
@@ -72,6 +84,9 @@ function miss5_slot_20() /* entry=2323 class_id=0x0911 slot=0x20 */
       }
       spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
       suspend;
+      Item.legal_create(0, post1);
+      Item.legal_create(0, post2);
+      Item.getQHi(0x0093, post1);
     }
     spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
     suspend;
@@ -84,7 +99,12 @@ function miss5_slot_20() /* entry=2323 class_id=0x0911 slot=0x20 */
     suspend;
     suspend;
     suspend;
+    playFlic(pid, 0x0096, 0x00fa, "5f", arg_06);
     suspend;
+    Item.create(0, 0x0111, item);
+    Item.fallProbably_03E(3, item);
+    Item.popToCoords(0, 0, 0, item);
+    Actor.getLastAnimSet(1, item);
     suspend;
     spawn NPC.slot_21(pid, 2, willmar);
     suspend;
@@ -100,11 +120,18 @@ function miss5_slot_20() /* entry=2323 class_id=0x0911 slot=0x20 */
     spawn DOOR.slot_21(pid, 2, door);
     suspend;
     if (post1 && post2) {
+      AudioProcess.playSFXCru(0x00f4, arg_06);
       spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
       suspend;
+      AudioProcess.playSFXCru(0x00f5, arg_06);
       if (!dir) {
+        Item.legal_create(0, post1);
+        Item.legal_create(0, post2);
         counter = 1;
         while (counter <= 4) {
+          Item.legal_create(counter, post1);
+          Item.legal_create(counter, post2);
+          Item.getQHi(0x0093, post1);
           spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
           suspend;
           counter = (1 + counter);
@@ -113,6 +140,9 @@ function miss5_slot_20() /* entry=2323 class_id=0x0911 slot=0x20 */
       else {
         counter = 0;
         while (counter <= 3) {
+          Item.legal_create((7 - counter), post1);
+          Item.legal_create((7 - counter), post2);
+          Item.getQHi(0x0093, post1);
           spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
           suspend;
           counter = (1 + counter);
@@ -120,7 +150,13 @@ function miss5_slot_20() /* entry=2323 class_id=0x0911 slot=0x20 */
       }
       spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
       suspend;
+      Item.legal_create(0, post1);
+      Item.legal_create(0, post2);
+      Item.getQHi(0x0093, post1);
     }
+    Actor.setDead(willmar);
+    Item.destroy(willmar);
   }
+  Ultima8Engine.setAvatarInStasis(0);
   return;
 }

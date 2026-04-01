@@ -6,6 +6,8 @@ function wallgun_slot_49() /* entry=2588 class_id=0x0a1a slot=0x49 */
     return;
   }
   else if (Item.getQ(arg_06) > 99) {
+    AudioProcess.playSFXCru(0x0091, arg_06);
+    Item.getQHi(Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06), 5, 10, 0, 0x04f1);
     return;
   }
   else {
@@ -21,10 +23,19 @@ function wallgun_slot_49() /* entry=2588 class_id=0x0a1a slot=0x49 */
         if (Item.getFrame(arg_06) != 27) {
           spawn ITEM.slot_28(pid, 0, 0, arg_06);
           suspend;
+          Item.isCentreOn(27, arg_06);
           if (Item.getShape(arg_06) == wallgun_shape_0108) {
+            Item.legal_create(0, 0x02a1, local_02);
+            getTargetNPCNumMaybe((Item.getZ(arg_06) + 32), (Item.getY(arg_06) + 16), Item.getX(arg_06), local_02);
+            Item.legal_create(0, 0x029c, local_04);
+            getTargetNPCNumMaybe((Item.getZ(arg_06) + 16), (Item.getY(arg_06) + 16), Item.getX(arg_06), local_04);
             suspend;
           }
           else {
+            Item.legal_create(1, 0x02a1, local_02);
+            getTargetNPCNumMaybe((Item.getZ(arg_06) + 32), Item.getY(arg_06), (Item.getX(arg_06) + 16), local_02);
+            Item.legal_create(1, 0x029c, local_04);
+            getTargetNPCNumMaybe((Item.getZ(arg_06) + 16), Item.getY(arg_06), (Item.getX(arg_06) + 16), local_04);
             suspend;
           }
         }
@@ -33,7 +44,14 @@ function wallgun_slot_49() /* entry=2588 class_id=0x0a1a slot=0x49 */
         if (Item.getFrame(arg_06) != 27) {
           spawn ITEM.slot_28(pid, 0, 0, arg_06);
           suspend;
+          Item.isCentreOn(27, arg_06);
           if (Item.getShape(arg_06) == wallgun_shape_02f0) {
+            Item.legal_create(2, 0x02a1, local_02);
+            getTargetNPCNumMaybe((Item.getZ(arg_06) + 32), (Item.getY(arg_06) + 16), Item.getX(arg_06), local_02);
+          }
+          else {
+            Item.legal_create(OOB_FLOOR_BLACK_0003, 0x02a1, local_02);
+            getTargetNPCNumMaybe((Item.getZ(arg_06) + 32), Item.getY(arg_06), (Item.getX(arg_06) + 16), local_02);
           }
         }
       }
@@ -41,10 +59,15 @@ function wallgun_slot_49() /* entry=2588 class_id=0x0a1a slot=0x49 */
         if (Item.getFrame(arg_06) != 9) {
           spawn ITEM.slot_28(pid, 0, 0, arg_06);
           suspend;
+          Item.isCentreOn(9, arg_06);
           if ((Item.getShape(arg_06) == wallgun_shape_01ba) || (Item.getShape(arg_06) == wallgun_shape_025f)) {
+            Item.legal_create(0, 0x0229, local_02);
+            getTargetNPCNumMaybe((Item.getZ(arg_06) + 16), (Item.getY(arg_06) + 16), Item.getX(arg_06), local_02);
             suspend;
           }
           else {
+            Item.legal_create(1, 0x0229, local_02);
+            getTargetNPCNumMaybe((Item.getZ(arg_06) + 16), Item.getY(arg_06), (Item.getX(arg_06) + 16), local_02);
             suspend;
           }
         }
@@ -54,6 +77,7 @@ function wallgun_slot_49() /* entry=2588 class_id=0x0a1a slot=0x49 */
           spawn ITEM.slot_28(pid, 0, 0, arg_06);
           suspend;
           FREE.slot_20(1);
+          Item.isCentreOn((retval + 18), arg_06);
         }
       }
       else if (Item.getShape(arg_06) == wallgun_shape_04c8) {
@@ -61,10 +85,14 @@ function wallgun_slot_49() /* entry=2588 class_id=0x0a1a slot=0x49 */
           spawn ITEM.slot_28(pid, 0, 1, arg_06);
           suspend;
           for local_02 in nearby_items(shape=TURRET_BASE, origin=arg_06) {
+            Item.isCentreOn(1, local_02);
           }
           local_02 = *(arg_06);
           set_info(1, 0);
           FREE.slot_20(2);
+          Item.legal_create(retval, 0x03a5, local_04);
+          getTargetNPCNumMaybe(Item.getZ(local_02), Item.getY(local_02), Item.getX(local_02), local_04);
+          Item.destroy(local_02);
         }
       }
       else if ((Item.getShape(arg_06) == wallgun_shape_04c8) || (Item.getShape(arg_06) == wallgun_shape_01cd)) {
@@ -74,8 +102,12 @@ function wallgun_slot_49() /* entry=2588 class_id=0x0a1a slot=0x49 */
           local_02 = *(arg_06);
           set_info(1, 0);
           FREE.slot_20(3);
+          Item.legal_create(retval, 0x056a, local_04);
+          getTargetNPCNumMaybe(Item.getZ(local_02), Item.getY(local_02), Item.getX(local_02), local_04);
+          Item.explode(1, 1, local_02);
         }
       }
+      Item.andStatus(arg_06);
     }
   }
   return;

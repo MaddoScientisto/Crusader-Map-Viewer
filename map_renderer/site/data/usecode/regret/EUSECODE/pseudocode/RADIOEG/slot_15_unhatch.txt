@@ -2,5 +2,8 @@ function radioeg_unhatch() /* entry=2332 class_id=0x091a slot=0x15 */
 {
   set_info(0x0239, *(arg_06));
   process_exclude();
+  if (World.getControlledNPCNum() == 1) {
+    Item.setFrame(0, arg_06);
+  }
   return;
 }

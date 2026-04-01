@@ -1,10 +1,14 @@
 function elevat_slot_24() /* entry=2570 class_id=0x0a08 slot=0x24 */
 {
   set_info(0x0001, *(arg_06));
+  Item.playSfxCru(0x00ef, arg_06);
+  Item.orStatus(0x1000, arg_06);
+  Item.setFrame(1, arg_06);
   local_05 = Item.getZ(arg_06);
   ELEVAT.slot_21(arg_06);
   local_07 = retval;
   local_09 = ((local_05 - local_07) / 2);
+  AudioProcess.playSFXCru(0x00ed, arg_06);
   local_02 = 1;
   while (local_02 <= local_09) {
     local_16 = Item.getX(arg_06);
@@ -16,13 +20,17 @@ function elevat_slot_24() /* entry=2570 class_id=0x0a08 slot=0x24 */
         if (local_11 < 0x0100) {
           if (Item.isCompletelyOn(*(arg_06), local_11)) {
             local_24 = (1 + local_24);
+            Item.push(local_11);
           }
           else {
+            Item.move(Item.getZ(local_11), (Item.getY(arg_06) - 12), (Item.getX(arg_06) - 12), local_11);
             local_24 = (1 + local_24);
+            Item.push(local_11);
           }
         }
         else {
           local_24 = (1 + local_24);
+          Item.push(local_11);
         }
       }
     }
@@ -30,6 +38,7 @@ function elevat_slot_24() /* entry=2570 class_id=0x0a08 slot=0x24 */
       local_04 = 1;
       while (local_04 <= local_24) {
         local_11 = Item.getEtherealTop();
+        Item.popToCoords((Item.getZ(local_11) - 2), Item.getY(local_11), Item.getX(local_11), local_11);
         local_04 = (1 + local_04);
       }
       spawn FREE.slot_3b(pid, 1, 0x00000000);
@@ -39,10 +48,14 @@ function elevat_slot_24() /* entry=2570 class_id=0x0a08 slot=0x24 */
       local_04 = 1;
       while (local_04 <= local_24) {
         local_11 = Item.getEtherealTop();
+        Item.popToCoords((Item.getZ(arg_06) + 8), Item.getY(local_11), Item.getX(local_11), local_11);
         local_04 = (1 + local_04);
       }
+      Item.setFrame(0, arg_06);
       spawn FREE.slot_3b(pid, 60, 0x00000000);
       suspend;
+      AudioProcess.stopSFXCru(0x00ed, arg_06);
+      Item.playSfxCru(0x00ee, arg_06);
       spawn ELEVAT.slot_23(pid, arg_06);
       suspend;
       return;
@@ -53,14 +66,22 @@ function elevat_slot_24() /* entry=2570 class_id=0x0a08 slot=0x24 */
   if ((local_05 - local_07) & 1) {
     while (condition) {
       if (Item.isCentreOn(*(arg_06), local_11)) {
+        Item.push(local_11);
         local_24 = (1 + local_24);
       }
     }
     local_04 = 1;
     while (local_04 <= local_24) {
       local_11 = Item.getEtherealTop();
+      Item.popToCoords((Item.getZ(local_11) - 1), Item.getY(local_11), Item.getX(local_11), local_11);
       local_04 = (1 + local_04);
     }
+    Item.push(arg_06);
+    Item.popToCoords((Item.getZ(arg_06) - 1), Item.getY(arg_06), Item.getX(arg_06), arg_06);
   }
+  Item.setFrame(0, arg_06);
+  Item.andStatus((~0x1000), arg_06);
+  AudioProcess.stopSFXCru(0x00ed, arg_06);
+  Item.playSfxCru(0x00ee, arg_06);
   return;
 }

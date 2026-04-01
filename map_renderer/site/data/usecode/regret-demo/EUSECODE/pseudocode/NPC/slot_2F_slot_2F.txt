@@ -10,16 +10,21 @@ function npc_slot_2f() /* entry=2580 class_id=0x0a12 slot=0x2f */
     }
     local_02 = Item.getNpcNum(arg_06);
     spawn NPC.slot_30(arg_06);
+    MusicProcess.playMusic(UCMachine.rndRange(7, 20, 10), 8, arg_10, arg_06);
     return;
   }
   else if (*(arg_06) != World.getControlledNPCNum()) {
     NPC.slot_2a(arg_06);
     if ((retval == 0) && (Item.isOnScreen(arg_06) == 1)) {
+      SpriteProcess.createSprite(Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06), 6, 4, 0, 0x062b);
       local_04 = UCMachine.rndRange(1, 0);
       if (local_04 == 0) {
+        Item.playSfxCru(5, arg_06);
       }
       else if (local_04 == 1) {
+        Item.playSfxCru(20, arg_06);
       }
+      MusicProcess.playMusic(UCMachine.rndRange(7, 25, 15), arg_12, arg_10, arg_06);
       spawn FREE.slot_3b(pid, 20, 0x00000000);
       suspend;
     }

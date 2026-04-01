@@ -10,11 +10,12 @@ function bridge_slot_21() /* entry=2565 class_id=0x0a03 slot=0x21 */
   if ((x == 0x0413) || (x == 0x0290)) {
     if (newtype == 0x03a6) {
       newtype = 0x0413;
-      return;
     }
     else {
       newtype = 0x0290;
     }
   }
+  Item.setShape(newtype, item);
+  Item.touch(item);
   return;
 }

@@ -30,10 +30,8 @@ function litewall_slot_21() /* entry=2580 class_id=0x0a12 slot=0x21 */
     aSet3 = 49;
     if (((playSFX(stepper) == 3) || (playSFX(stepper) == 48)) || (playSFX(stepper) == 49)) {
       while (condition) {
-        /* create_list */
-        /* append_list */
-        wallList = item;
-        FREE.slot_29(wallList, stepper, item);
+        wallList = (wallList + [item]);
+        FREE.slot_29(stepper, item);
         if (retval < dist) {
           FREE.slot_29(stepper, item);
           dist = retval;
@@ -45,6 +43,7 @@ function litewall_slot_21() /* entry=2580 class_id=0x0a12 slot=0x21 */
           foreach_list item -> block_0412;
           spawn LITEWALL.slot_20(item, arg_06);
         }
+        AudioProcess.playSFXCru(67, arg_06);
         spawn NPC.slot_2d(pid, Item.use(wall, stepper), wall, stepper);
         suspend;
       }

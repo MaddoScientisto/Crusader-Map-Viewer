@@ -9,6 +9,10 @@ function mcrate_gotHit() /* entry=1076 class_id=0x0432 slot=0x06 */
     if (!process_result) {
       FREE.slot_20(1);
       if (retval) {
+        AudioProcess.playSFXCru(38, arg_06);
+      }
+      else {
+        AudioProcess.playSFXCru(39, arg_06);
       }
       return;
     }
@@ -20,11 +24,15 @@ function mcrate_gotHit() /* entry=1076 class_id=0x0432 slot=0x06 */
       if (Item.getFrame(arg_06) == 0) {
         spawn ITEM.slot_28(pid, 1, 0, arg_06);
         suspend;
+        Item.legal_create(UCMachine.rndRange(1, 0), 0x05a0, local_07);
+        getTargetNPCNumMaybe(local_05, local_04, local_02, local_07);
         return;
       }
       else if (Item.getFrame(arg_06) == 1) {
         spawn ITEM.slot_28(pid, 1, 1, arg_06);
         suspend;
+        Item.legal_create(UCMachine.rndRange(3, 2), 0x05a0, local_07);
+        getTargetNPCNumMaybe(local_05, local_04, local_02, local_07);
         return;
       }
     }

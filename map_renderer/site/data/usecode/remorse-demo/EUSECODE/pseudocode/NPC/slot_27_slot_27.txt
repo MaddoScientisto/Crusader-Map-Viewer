@@ -13,13 +13,21 @@ function npc_slot_27() /* entry=2579 class_id=0x0a11 slot=0x27 */
     local_04 = Actor.getDefaultActivity0(arg_06);
     local_06 = Actor.getDefaultActivity1(arg_06);
     local_08 = Actor.getDefaultActivity2(arg_06);
-    if (local_02 == 112) {
-    }
-    else if (local_02 == 113) {
-    }
-    else if (local_02 == 114) {
+    switch (local_02) {
+    case 112:
+      Actor.setActivity(1, arg_06);
+      break;
+    case 113:
+      Actor.setActivity(3, arg_06);
+      break;
+    case 114:
+      Actor.setActivity(5, arg_06);
+      break;
     }
     return;
+  }
+  else {
+    Actor.setActivity(arg_10, arg_06);
   }
   return;
 }

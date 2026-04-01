@@ -10,6 +10,8 @@ function roll_ew_slot_21() /* entry=1390 class_id=0x056c slot=0x21 */
   local_19 = Item.getX(arg_06);
   local_17 = Item.getY(arg_06);
   local_15 = Item.getZ(arg_06);
+  Item.orStatus(4, arg_06);
+  AudioProcess.playSFXCru(0x00a3, arg_06);
   local_23 = 0;
   local_24 = local_15;
   if (local_06 < 0x0080) {
@@ -35,12 +37,14 @@ function roll_ew_slot_21() /* entry=1390 class_id=0x056c slot=0x21 */
         local_23 = (local_24 - local_15);
       }
       else if (local_23 > 12) {
+        Item.fall(arg_06);
         spawn FREE.slot_3b(pid, 6, 0x00000000);
         suspend;
         spawn ROLL_EW.slot_20(pid, arg_06);
         suspend;
         return;
       }
+      Item.setFrame(local_04, arg_06);
       spawn FREE.slot_3b(pid, local_02, 0x00000000);
       suspend;
     }
@@ -69,12 +73,14 @@ function roll_ew_slot_21() /* entry=1390 class_id=0x056c slot=0x21 */
         local_23 = (local_24 - local_15);
       }
       else if (local_23 > 12) {
+        Item.fall(arg_06);
         spawn FREE.slot_3b(pid, 6, 0x00000000);
         suspend;
         spawn ROLL_EW.slot_20(pid, arg_06);
         suspend;
         return;
       }
+      Item.setFrame(local_04, arg_06);
       spawn FREE.slot_3b(pid, local_02, 0x00000000);
       suspend;
     }

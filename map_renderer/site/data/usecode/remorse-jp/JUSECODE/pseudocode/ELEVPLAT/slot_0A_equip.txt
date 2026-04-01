@@ -13,18 +13,36 @@ function elevplat_equip() /* entry=305 class_id=0x012f slot=0x0a */
     if (arg_10 == 0x00ff) {
       local_04 = Actor.clrInCombat(arg_06);
       if ((local_04 == 88) || ((local_02 + 1) <= local_04)) {
+        Item.pop(22, arg_06);
       }
       else if (local_04 < 88) {
+        Item.pop((local_04 + 22), arg_06);
       }
     }
     else if (arg_10) {
+      if (local_02 < arg_10) {
+        Game.isViolenceEnabled(local_02, arg_06);
+        Item.pop(arg_10, arg_06);
+      }
+      else if (local_02 > arg_10) {
+        Game.isViolenceEnabled(arg_10, arg_06);
+        Item.pop(local_02, arg_06);
+      }
+      else if (local_02 == arg_10) {
+      }
+    }
+    else {
+      Game.isViolenceEnabled(1, arg_06);
+      Item.pop(88, arg_06);
     }
     spawn ELEVAT.slot_20(pid, arg_06);
     suspend;
     if (global[0x0000] == 1) {
       while (condition) {
+        Item.getSurfaceWeight(5, local_06);
         spawn FREE.slot_32(pid, 2, 0x00000000);
         suspend;
+        Item.getQuality(114, local_06);
       }
     }
   }

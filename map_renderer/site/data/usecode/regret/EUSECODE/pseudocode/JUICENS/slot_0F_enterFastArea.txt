@@ -2,5 +2,8 @@ function juicens_enterFastArea() /* entry=1466 class_id=0x05b8 slot=0x0f */
 {
   set_info(0x021b, *(arg_06));
   process_exclude();
+  if (Item.getFrame(arg_06)) {
+    AudioProcess.playSFXCru(0x0098, arg_06);
+  }
   return;
 }

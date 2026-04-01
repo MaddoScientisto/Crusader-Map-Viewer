@@ -12,10 +12,18 @@ function free_slot_2d() /* entry=2574 class_id=0x0a0c slot=0x2d */
 
   ref = r;
   if (Item.getFamilyOfType(t) == Item.getItemFamily(ref)) {
+    push(ref);
+    Item.touch(ref);
     if (Item.legal_create(z, y, x, f, t, item)) {
+      Item.destroy(item);
+      Item.setShape(t, ref);
+      Item.setFrame(f, ref);
+      Item.popToCoords(z, y, x, ref);
+      Item.touch(ref);
       return;
     }
     else {
+      Item.pop(ref);
       return;
     }
     return;

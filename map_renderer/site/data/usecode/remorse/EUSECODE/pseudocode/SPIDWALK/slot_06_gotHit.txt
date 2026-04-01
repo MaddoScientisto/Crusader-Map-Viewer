@@ -8,5 +8,8 @@ function spidwalk_gotHit() /* entry=915 class_id=0x0391 slot=0x06 */
   set_info(0x020c, *(arg_06));
   process_exclude();
   FREE.slot_2c(vel, ref);
+  if (retval) {
+    Item.explode(1, 0, arg_06);
+  }
   return;
 }

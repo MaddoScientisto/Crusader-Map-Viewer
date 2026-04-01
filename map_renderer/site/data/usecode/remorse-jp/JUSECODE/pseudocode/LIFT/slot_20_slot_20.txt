@@ -19,6 +19,7 @@ function lift_slot_20() /* entry=309 class_id=0x0133 slot=0x20 */
     while (condition) {
       cargoType = Item.getShape(cargo);
       if (cargo != *(arg_06)) {
+        push(cargo);
         total = (1 + total);
       }
     }
@@ -26,15 +27,18 @@ function lift_slot_20() /* entry=309 class_id=0x0133 slot=0x20 */
       counter = 1;
       while (counter <= total) {
         cargo = Item.getEtherealTop();
+        Item.popToCoords((Item.getZ(cargo) - 2), Item.getY(cargo), Item.getX(cargo), cargo);
         counter = (1 + counter);
       }
       spawn FREE.slot_32(pid, 2, 0x00000000);
       suspend;
     }
     else {
+      Item.touch(arg_06);
       counter = 1;
       while (counter <= total) {
         cargo = Item.getEtherealTop();
+        Item.popToCoords(Item.getZ(cargo), Item.getY(cargo), Item.getX(cargo), cargo);
         counter = (1 + counter);
       }
       return;

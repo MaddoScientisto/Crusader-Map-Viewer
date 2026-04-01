@@ -4,17 +4,22 @@ function door2_slot_27() /* entry=2569 class_id=0x0a07 slot=0x27 */
   local_06 = 8;
   FREE.slot_2d((Item.getZ(arg_06) - (8 * 10)), Item.getY(arg_06), Item.getX(arg_06), local_06, 0x02d5, *(arg_06));
   if (retval) {
+    AudioProcess.playSFXCru(107, arg_06);
     spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
     suspend;
   }
   else {
+    process_result = 0;
     return;
   }
   local_02 = (local_06 - 1);
   while (local_02 > 0) {
+    Item.isCentreOn(local_02, arg_06);
     spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
     suspend;
     local_02 = (local_02 - 1);
   }
+  Item.isCentreOn(0, arg_06);
+  process_result = 1;
   return;
 }

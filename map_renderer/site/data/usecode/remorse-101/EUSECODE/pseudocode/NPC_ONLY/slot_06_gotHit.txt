@@ -14,23 +14,26 @@ function npc_only_gotHit() /* entry=872 class_id=0x0366 slot=0x06 */
         if ((Intrinsic056(arg_06) == 0) || (Item.getNPCNum(*(arg_06), local_02) == 0)) {
           return;
         }
-        else {
-          spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
-          suspend;
-          spawn TRIGGER.slot_2a(pid, 0, *(arg_06), arg_06);
-          suspend;
-          while (1) {
-            if ((Intrinsic056(arg_06) != 0) && (Actor.isNPC(local_02) == 1)) {
-              spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
-              suspend;
-            }
-            else {
-              spawn TRIGGER.slot_2a(pid, 1, *(arg_06), arg_06);
-              suspend;
-              spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
-              suspend;
-              return;
-            }
+        else if (local_06 == 0x00fe) {
+          Actor.setCombatTactic(0x00c8, local_02);
+        }
+        Item.isCentreOn(1, arg_06);
+        spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+        suspend;
+        spawn TRIGGER.slot_2a(pid, 0, *(arg_06), arg_06);
+        suspend;
+        while (1) {
+          if ((Intrinsic056(arg_06) != 0) && (Actor.isNPC(local_02) == 1)) {
+            spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+            suspend;
+          }
+          else {
+            Item.isCentreOn(0, arg_06);
+            spawn TRIGGER.slot_2a(pid, 1, *(arg_06), arg_06);
+            suspend;
+            spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+            suspend;
+            return;
           }
         }
       }

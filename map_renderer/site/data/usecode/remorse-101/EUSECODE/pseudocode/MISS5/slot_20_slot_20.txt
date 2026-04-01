@@ -3,6 +3,7 @@ function miss5_slot_20() /* entry=2323 class_id=0x0911 slot=0x20 */
   set_info(0x0001, *(arg_06));
   local_08 = *(arg_06);
   set_info(1, 0);
+  Ultima8Engine.setAvatarInStasis(1);
   while (Actor.isBusy(&global[0x003d])) {
     spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
     suspend;
@@ -15,6 +16,7 @@ function miss5_slot_20() /* entry=2323 class_id=0x0911 slot=0x20 */
     }
   }
   if (local_06) {
+    Item.destroy(local_08);
     if (Item.setQAndCombine(&global[0x003d]) == 3) {
       local_02 = 2;
     }
@@ -40,11 +42,18 @@ function miss5_slot_20() /* entry=2323 class_id=0x0911 slot=0x20 */
       local_14 = local_04;
     }
     if (local_12 && local_14) {
+      AudioProcess.playSFXCru(0x00f4, arg_06);
       spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
       suspend;
+      AudioProcess.playSFXCru(0x00f1, &global[0x003d]);
       if (local_18) {
+        Item.isCentreOn(0, local_12);
+        Item.isCentreOn(0, local_14);
         local_02 = 1;
         while (local_02 <= 4) {
+          Item.isCentreOn(local_02, local_12);
+          Item.isCentreOn(local_02, local_14);
+          Item.getRangeIfVisible(0x0093, local_12);
           spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
           suspend;
           local_02 = (1 + local_02);
@@ -53,6 +62,9 @@ function miss5_slot_20() /* entry=2323 class_id=0x0911 slot=0x20 */
       else {
         local_02 = 0;
         while (local_02 <= 3) {
+          Item.isCentreOn((7 - local_02), local_12);
+          Item.isCentreOn((7 - local_02), local_14);
+          Item.getRangeIfVisible(0x0093, local_12);
           spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
           suspend;
           local_02 = (1 + local_02);
@@ -60,6 +72,9 @@ function miss5_slot_20() /* entry=2323 class_id=0x0911 slot=0x20 */
       }
       spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
       suspend;
+      Item.isCentreOn(0, local_12);
+      Item.isCentreOn(0, local_14);
+      Item.getRangeIfVisible(0x0093, local_12);
     }
     spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
     suspend;
@@ -72,7 +87,12 @@ function miss5_slot_20() /* entry=2323 class_id=0x0911 slot=0x20 */
     suspend;
     suspend;
     suspend;
+    playFlic(pid, 0x0096, 0x00fa, "5f", arg_06);
     suspend;
+    Item.legal_create(0, 0x0111, local_04);
+    Item.andStatus(3, local_04);
+    getTargetNPCNumMaybe(0, 0, 0, local_04);
+    Item.spawnUsecodeEvent0x13(1, local_04);
     suspend;
     spawn NPC.slot_21(pid, 2, local_10);
     suspend;
@@ -88,11 +108,18 @@ function miss5_slot_20() /* entry=2323 class_id=0x0911 slot=0x20 */
     spawn DOOR.slot_21(pid, 2, local_06);
     suspend;
     if (local_12 && local_14) {
+      AudioProcess.playSFXCru(0x00f4, arg_06);
       spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
       suspend;
+      AudioProcess.playSFXCru(0x00f5, arg_06);
       if (!local_18) {
+        Item.isCentreOn(0, local_12);
+        Item.isCentreOn(0, local_14);
         local_02 = 1;
         while (local_02 <= 4) {
+          Item.isCentreOn(local_02, local_12);
+          Item.isCentreOn(local_02, local_14);
+          Item.getRangeIfVisible(0x0093, local_12);
           spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
           suspend;
           local_02 = (1 + local_02);
@@ -101,6 +128,9 @@ function miss5_slot_20() /* entry=2323 class_id=0x0911 slot=0x20 */
       else {
         local_02 = 0;
         while (local_02 <= 3) {
+          Item.isCentreOn((7 - local_02), local_12);
+          Item.isCentreOn((7 - local_02), local_14);
+          Item.getRangeIfVisible(0x0093, local_12);
           spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
           suspend;
           local_02 = (1 + local_02);
@@ -108,7 +138,13 @@ function miss5_slot_20() /* entry=2323 class_id=0x0911 slot=0x20 */
       }
       spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
       suspend;
+      Item.isCentreOn(0, local_12);
+      Item.isCentreOn(0, local_14);
+      Item.getRangeIfVisible(0x0093, local_12);
     }
+    Item.use(local_10);
+    Item.destroy(local_10);
   }
+  Ultima8Engine.setAvatarInStasis(0);
   return;
 }

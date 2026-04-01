@@ -11,6 +11,7 @@ function satarg_use() /* entry=1355 class_id=0x0549 slot=0x01 */
     return;
   }
   else {
+    Ultima8Engine.setAvatarInStasis(1);
     while (Actor.doAnim(&global[0x003c])) {
       spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
       suspend;
@@ -18,16 +19,21 @@ function satarg_use() /* entry=1355 class_id=0x0549 slot=0x01 */
     suspend;
     spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
     suspend;
+    AudioProcess.playSFXCru(0x0093, arg_06);
     spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
     suspend;
+    Actor.setDead(0x00c8, "mva15b", arg_06);
     suspend;
     spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
     suspend;
     spawn ITEM.slot_28(pid, 0, 1, arg_06);
     suspend;
+    Item.legal_create(1, arg_06);
     spawn FREE.slot_3b(0x00000000);
+    Ultima8Engine.setAvatarInStasis(0);
     for item in nearby_items(shape=NUMBERS, origin=arg_06) {
       if (Item.getQLo(item) == 0) {
+        Item.explode(0, 0, item);
         spawn FREE.waitNTimerTicks(UCMachine.rndRange(pid, 30, 20), 0x00000000);
         suspend;
       }
@@ -35,12 +41,18 @@ function satarg_use() /* entry=1355 class_id=0x0549 slot=0x01 */
     for item in nearby_items(shape=0x03c1, origin=arg_06) {
       spawn ITEM.slot_28(pid, 0, 1, item);
       suspend;
+      if (Item.getFrame(item) < 2) {
+        Item.legal_create(UCMachine.rndRange(4, 2), item);
+      }
       spawn FREE.waitNTimerTicks(UCMachine.rndRange(pid, 40, 20), 0x00000000);
       suspend;
     }
     for item in nearby_items(shape=0x03bf, origin=arg_06) {
       spawn ITEM.slot_28(pid, 0, 1, item);
       suspend;
+      if (Item.getFrame(item) < 4) {
+        Item.legal_create((Item.getFrame(item) + 4), item);
+      }
       spawn FREE.waitNTimerTicks(UCMachine.rndRange(pid, 50, 30), 0x00000000);
       suspend;
     }
@@ -61,6 +73,10 @@ function satarg_use() /* entry=1355 class_id=0x0549 slot=0x01 */
     spawn FREE.waitNTimerTicks(pid, 0x00c8, 0x00000000);
     suspend;
     for item in nearby_items(shape=TELEPORTER_LIGHTS, origin=arg_06) {
+      if (Item.getQLo(item) == 0x00ff) {
+        Item.legal_create(0, item);
+        Item.fallProbably_03E(23, item);
+      }
     }
   }
   return;

@@ -3,6 +3,9 @@ function npc_slot_26() /* entry=2577 class_id=0x0a0f slot=0x26 */
   set_info(0x020a, *(arg_06));
   local_02 = Actor.getNPCDataField0x4(arg_06);
   local_04 = Actor.getCurrentActivityNo(arg_06);
+  if (!Actor.isDead(arg_06)) {
+    Actor.setActivity(1, arg_06);
+  }
   local_06 = Actor.getNPCDataField0x4(arg_06);
   local_08 = Actor.getCurrentActivityNo(arg_06);
   if (!Actor.isDead(arg_06)) {
@@ -21,5 +24,8 @@ function npc_slot_26() /* entry=2577 class_id=0x0a0f slot=0x26 */
   }
   local_16 = Actor.getNPCDataField0x4(arg_06);
   local_18 = Actor.getCurrentActivityNo(arg_06);
+  if (!Actor.isDead(arg_06)) {
+    Actor.setActivity(Actor.getNPCDataField0x4(arg_06), arg_06);
+  }
   return;
 }

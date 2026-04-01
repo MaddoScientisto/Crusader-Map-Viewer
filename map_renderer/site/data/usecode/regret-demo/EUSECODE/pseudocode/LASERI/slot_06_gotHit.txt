@@ -15,14 +15,21 @@ function laseri_gotHit() /* entry=471 class_id=0x01d5 slot=0x06 */
     if (!Item.getFrame(arg_06)) {
       while (condition) {
         local_10 = Item.getCY(local_02);
+        if ((local_10 == local_08) || (local_10 == 0)) {
+          Item.destroy(local_02);
+        }
       }
       while (condition) {
         local_10 = Item.getCY(local_02);
+        if ((local_10 == local_08) || (local_10 == 0)) {
+          Item.destroy(local_02);
+        }
       }
       spawn FREE.slot_3b(pid, 2, 0x00000000);
       suspend;
       spawn ITEM.slot_2a(pid, 0, 0, arg_06);
       suspend;
+      Item.isOn(1, arg_06);
     }
   }
   return;

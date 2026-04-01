@@ -23,6 +23,12 @@ function wallgun_slot_4b() /* entry=2591 class_id=0x0a1d slot=0x4b */
   y1 = retval;
   WALLGUN.slot_40(dir, arg_06);
   z1 = retval;
+  if (ammo == 1) {
+    AudioProcess.playSFXCru(44, arg_06);
+  }
+  if (ammo == 5) {
+    AudioProcess.playSFXCru(83, arg_06);
+  }
   WALLGUN.slot_29(arg_06);
   if (retval) {
     WALLGUN.slot_41(dir, arg_06);

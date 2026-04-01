@@ -24,6 +24,7 @@ function rfanbade_equip() /* entry=976 class_id=0x03ce slot=0x0a */
       if (fram > 5) {
         fram = 1;
       }
+      Item.legal_create(fram, arg_06);
       counter2 = (counter2 + 2);
       spawn FREE.waitNTimerTicks(pid, (30 - counter2), 0x00000000);
       suspend;
@@ -36,7 +37,14 @@ function rfanbade_equip() /* entry=976 class_id=0x03ce slot=0x0a */
       }
       counter = (1 + counter);
     }
+    if (fram > 4) {
+      Item.legal_create(0, arg_06);
+    }
     ITEM.slot_24(0x1000, arg_06);
+    Item.create(0, 94, item);
+    Item.fallProbably_03E(Item.getQLo(arg_06), item);
+    Item.popToCoords(Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06), item);
+    Item.destroy(arg_06);
   }
   return;
 }

@@ -47,9 +47,11 @@ function wallgun_slot_35() /* entry=2593 class_id=0x0a1f slot=0x35 */
     else if (local_10 == 1) {
       local_08 = local_04;
     }
-    else if ((local_08 == 4) && (local_08 == local_02)) {
+    else if ((local_08 != 4) && (local_08 != local_02)) {
       local_08 = (local_08 - local_06);
     }
+    Egg.getEggId(115, arg_06);
+    Item.isOn(local_08, arg_06);
     spawn FREE.slot_3b(pid, local_12, 0x00000000);
     suspend;
     return;

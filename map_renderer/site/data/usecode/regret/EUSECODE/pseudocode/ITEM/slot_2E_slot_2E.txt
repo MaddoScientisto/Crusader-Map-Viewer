@@ -4,9 +4,11 @@ function item_slot_2e() /* entry=2574 class_id=0x0a0c slot=0x2e */
   while (condition) {
     if (local_02 < 0x00ff) {
       if ((local_02 > 1) && (Actor.isDead(local_02) == 0)) {
+        process_result = local_02;
         return;
       }
     }
   }
+  process_result = 1;
   return;
 }

@@ -2,38 +2,52 @@ function fffloor_equip() /* entry=311 class_id=0x0135 slot=0x0a */
 {
   set_info(0x0211, *(arg_06));
   process_exclude();
-  if (arg_10 == 0) {
+  switch (arg_10) {
+  case 0:
     for local_02 in nearby_items(shape=17, origin=arg_06) {
+      if (Actor.isDead(local_02) == 2) {
+        Item.hurl(0, local_02);
+      }
     }
     spawn FREE.slot_3b(pid, 10, 0x00000000);
     suspend;
+    Item.orStatus(0x1000, arg_06);
     return;
-  }
-  else if (arg_10 == 1) {
+  case 1:
     for local_02 in nearby_items(shape=17, origin=arg_06) {
+      if (Actor.isDead(local_02) == 2) {
+        Item.hurl(0, local_02);
+      }
     }
+    Item.getQHi((~0x1000), arg_06);
     return;
-  }
-  else if (arg_10 == 29) {
+  case 29:
     spawn FREE.slot_3b(pid, 10, 0x00000000);
     suspend;
     for local_04 in nearby_items(shape=0x0135, origin=arg_06) {
+      Item.isOn(1, local_04);
     }
     return;
-  }
-  else if (arg_10 == 30) {
+  case 30:
     spawn FREE.slot_3b(pid, 10, 0x00000000);
     suspend;
     for local_02 in nearby_items(shape=17, origin=arg_06) {
+      if (Actor.isDead(local_02) == 2) {
+        Item.hurl(1, local_02);
+      }
     }
     spawn FREE.slot_3b(pid, 5, 0x00000000);
     suspend;
     for local_04 in nearby_items(shape=0x0135, origin=arg_06) {
+      Item.isOn(0, local_04);
+      Intrinsic0036(local_04);
     }
     return;
-  }
-  else if (arg_10 == 31) {
+  case 31:
     for local_02 in nearby_items(shape=17, origin=arg_06) {
+      if (Actor.isDead(local_02) == 2) {
+        Item.hurl(1, local_02);
+      }
     }
     return;
   }

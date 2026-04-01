@@ -11,10 +11,12 @@ function lift_gotHit() /* entry=309 class_id=0x0133 slot=0x06 */
     return;
   }
   else if (Item.getQuality(arg_06) == 1) {
+    Ultima8Engine.setAvatarInStasis(1);
     if (Actor.isBusy(&global[0x001e])) {
       spawn FREE.slot_3b(pid, 2, 0x00000000);
       suspend;
     }
+    CameraProcess.moveTo(Item.getX(Item.getY(Actor.getMap(&global[0x001e]), 0, &global[0x001e]), &global[0x001e]));
     suspend;
     suspend;
     suspend;
@@ -25,6 +27,7 @@ function lift_gotHit() /* entry=309 class_id=0x0133 slot=0x06 */
     return;
   }
   else if (Item.getQuality(arg_06) == 10) {
+    Ultima8Engine.setAvatarInStasis(1);
     if (Actor.isBusy(&global[0x001e])) {
       spawn FREE.slot_3b(pid, 2, 0x00000000);
       suspend;

@@ -2,7 +2,13 @@ function npcdeath_slot_21() /* entry=2590 class_id=0x0a1c slot=0x21 */
 {
   while (condition) {
     if (Item.setQLo(local_02) == 10) {
+      Item.destroy(local_02);
+    }
+    else {
+      push(local_02);
+      Actor.SetNPCDataField0x63_0E6(arg_10, local_02);
     }
   }
+  Item.getItemFamily(arg_06);
   return;
 }

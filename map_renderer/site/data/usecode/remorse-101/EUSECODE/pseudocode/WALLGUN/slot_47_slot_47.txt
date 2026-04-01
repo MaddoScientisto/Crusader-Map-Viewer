@@ -12,6 +12,12 @@ function wallgun_slot_47() /* entry=2588 class_id=0x0a1a slot=0x47 */
   local_06 = retval;
   WALLGUN.slot_40(arg_10, arg_06);
   local_09 = retval;
+  if (local_12 == 1) {
+    AudioProcess.playSFXCru(44, arg_06);
+  }
+  if (local_12 == 5) {
+    AudioProcess.playSFXCru(83, arg_06);
+  }
   WALLGUN.slot_29(arg_06);
   if (retval) {
     WALLGUN.slot_41(arg_10, arg_06);

@@ -2,5 +2,10 @@ function miss14_cachein() /* entry=2332 class_id=0x091a slot=0x04 */
 {
   set_info(0x0213, *(arg_06));
   process_exclude();
+  if (Item.fallProbably_03E(arg_06) == 1) {
+    Item.legal_create(0, 0x039b, local_02);
+    getTargetNPCNumMaybe(0, 0, 0, local_02);
+    Item.spawnUsecodeEvent0x13(0, local_02);
+  }
   return;
 }

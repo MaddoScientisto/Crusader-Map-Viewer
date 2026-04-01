@@ -8,6 +8,8 @@ function radiogen_gotHit() /* entry=1454 class_id=0x05ac slot=0x06 */
     return;
   }
   else if (Item.getNpcNum(arg_06)) {
+    Item.playSfxCru(0x0091, arg_06);
+    SpriteProcess.createSprite(Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06), 5, 9, 0, 0x060a);
     spawn FREE.slot_3b(pid, 30, 0x00000000);
     suspend;
     return;
@@ -18,14 +20,26 @@ function radiogen_gotHit() /* entry=1454 class_id=0x05ac slot=0x06 */
     if (!process_result) {
       FREE.slot_20(1);
       if (retval) {
+        Item.playSfxCru(38, arg_06);
+      }
+      else {
+        Item.playSfxCru(39, arg_06);
       }
       return;
     }
     else if (!(global[0x0005])) {
+      Item.andStatus(63, 20, 20);
+    }
+    Item.isOn(1, arg_06);
+    Item.andStatus(0x0110, arg_06);
+    Item.playSfxCru(0x00a1, arg_06);
+    Item.explode(0, 2, arg_06);
+    if (!(global[0x0005])) {
       suspend;
     }
     for local_04 in nearby_items(shape=17, origin=arg_06) {
       if (Item.callEvent11(local_04) == Item.getCY(arg_06)) {
+        Item.destroy(local_04);
       }
     }
     if (Item.getMapArray(arg_06) != 0) {

@@ -13,6 +13,7 @@ function basegun_calledFromAnim() /* entry=1226 class_id=0x04c8 slot=0x0e */
   dir = Actor.getDir(n);
   b = Actor.getLastAnimSet(n);
   if ((b == 13) || (b == 8)) {
+    AudioProcess.playSFXCru(83, arg_06);
     WALLGUN.slot_40(0, 5, dir, dir, arg_06);
     WALLGUN.slot_3f(retval, dir, arg_06);
     WALLGUN.slot_3e(retval, dir, arg_06);
@@ -23,6 +24,9 @@ function basegun_calledFromAnim() /* entry=1226 class_id=0x04c8 slot=0x0e */
   }
   else {
     set_info(0x00f0, 0);
+    Item.create(0, 0x03a5, item);
+    Item.popToCoords(Item.getZ(n), Item.getY(n), Item.getX(n), item);
+    Actor.setDead(n);
     spawn ITEM.slot_28(pid, 1, 2, n);
     suspend;
   }

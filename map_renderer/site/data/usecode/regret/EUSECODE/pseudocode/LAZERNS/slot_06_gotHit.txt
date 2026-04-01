@@ -11,6 +11,8 @@ function lazerns_gotHit() /* entry=413 class_id=0x019b slot=0x06 */
     FREE.slot_35(arg_12, arg_10);
     if (retval) {
       if (local_02 > 99) {
+        Item.playSfxCru(0x0091, arg_06);
+        SpriteProcess.createSprite(Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06), 5, 9, 0, 0x04f1);
         return;
       }
       else {
@@ -18,6 +20,7 @@ function lazerns_gotHit() /* entry=413 class_id=0x019b slot=0x06 */
         FREE.slot_3c(0x0205, *(arg_06));
         spawn ITEM.slot_2a(pid, 0, 0, arg_06);
         suspend;
+        Item.setFrame((local_04 + 4), arg_06);
       }
     }
   }

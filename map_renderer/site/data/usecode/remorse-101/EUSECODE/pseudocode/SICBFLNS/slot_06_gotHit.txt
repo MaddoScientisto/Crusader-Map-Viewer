@@ -8,26 +8,49 @@ function sicbflns_gotHit() /* entry=739 class_id=0x02e1 slot=0x06 */
       return;
     }
     else {
+      Ultima8Engine.setAvatarInStasis(1);
       while (Actor.isBusy(&global[0x003d])) {
         spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
         suspend;
       }
+      Item.setNpcNum(Item.getZ(arg_06), (Item.getY(arg_06) - 32), (Item.getX(arg_06) - 16), &global[0x003d]);
       suspend;
+      BatteryChargerProcess.create(1, arg_06);
       for local_02 in nearby_items(shape=DOOR_CORNER_LOWER_RIGHT, origin=arg_06) {
+        if (Item.getFrame(local_02) < 2) {
+          Item.isCentreOn((Item.getFrame(local_02) + 2), local_02);
+        }
       }
       for local_02 in nearby_items(shape=HEALTH_STATION_BACK, origin=arg_06) {
+        if (Item.getFrame(local_02) < 1) {
+          Item.isCentreOn((Item.getFrame(local_02) + 1), local_02);
+        }
       }
       for local_02 in nearby_items(shape=HEALTH_STATION_TOP, origin=arg_06) {
+        if (Item.getFrame(local_02) < 1) {
+          Item.isCentreOn((Item.getFrame(local_02) + 1), local_02);
+        }
       }
+      Kernel.getNumProcesses();
+      Ultima8Engine.setAvatarInStasis(0);
       while (Item.cast(0x0254, global[0x003d])) {
         spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
         suspend;
       }
       for local_02 in nearby_items(shape=DOOR_CORNER_LOWER_RIGHT, origin=arg_06) {
+        if ((Item.getFrame(local_02) == 2) || (Item.getFrame(local_02) == 3)) {
+          Item.isCentreOn((Item.getFrame(local_02) - 2), local_02);
+        }
       }
       for local_02 in nearby_items(shape=HEALTH_STATION_TOP, origin=arg_06) {
+        if (Item.getFrame(local_02) == 1) {
+          Item.isCentreOn(0, local_02);
+        }
       }
       for local_02 in nearby_items(shape=HEALTH_STATION_BACK, origin=arg_06) {
+        if (Item.getFrame(local_02) == 1) {
+          Item.isCentreOn(0, local_02);
+        }
       }
     }
   }

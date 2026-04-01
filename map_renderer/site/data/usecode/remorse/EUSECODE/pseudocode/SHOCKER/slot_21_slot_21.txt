@@ -8,28 +8,26 @@ function shocker_slot_21() /* entry=2581 class_id=0x0a13 slot=0x21 */
     set_info(0x0205, *(arg_06));
     set_info(0x020c, *(arg_06));
 
-  block_0366:
-    while (true) {
-      suspend;
-      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
-      suspend;
-      for monster in nearby_items(family=6, origin=arg_06) {
-        if (Actor.isNPC(monster) == 1) {
-          if (!Actor.isDead(monster)) {
-            if ((Item.overlaps(monster, arg_06) == 1) && (Item.getFrame(arg_06) < 6)) {
-              FREE.slot_20(pid, 8);
-              spawn NPC.slot_2d(retval, *(arg_06), monster);
-              suspend;
-              spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
-              suspend;
-              return;
-            }
+  while (true) {
+    suspend;
+    spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+    suspend;
+    for monster in nearby_items(family=6, origin=arg_06) {
+      if (Actor.isNPC(monster) == 1) {
+        if (!Actor.isDead(monster)) {
+          if ((Item.overlaps(monster, arg_06) == 1) && (Item.getFrame(arg_06) < 6)) {
+            FREE.slot_20(pid, 8);
+            spawn NPC.slot_2d(retval, *(arg_06), monster);
+            suspend;
+            spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+            suspend;
+            return;
           }
         }
       }
     }
+  }
 
-  block_0466:
-    return;
+  return;
 
 }

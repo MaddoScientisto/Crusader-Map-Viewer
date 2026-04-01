@@ -3,15 +3,27 @@ function camera_hatch() /* entry=2311 class_id=0x0905 slot=0x07 */
   set_info(0x0210, *(arg_06));
   process_exclude();
   if ((Item.fallProbably_03E(arg_06) & 127) == 1) {
+    Egg.getEggId(Actor.getMap(&global[0x003d]), 0, (Item.getY(arg_06) - 0x00c8), (Item.getX(arg_06) - 0x00c8));
   }
   else if ((Item.fallProbably_03E(arg_06) & 127) == 2) {
+    Egg.getEggId(Actor.getMap(&global[0x003d]), 0, Item.getY(arg_06), (Item.getX(arg_06) + 0x00c8));
   }
   else if ((Item.fallProbably_03E(arg_06) & 127) == 3) {
+    Egg.getEggId(Actor.getMap(&global[0x003d]), 0, (Item.getY(arg_06) + 0x00c8), (Item.getX(arg_06) + 0x00c8));
   }
   else if ((Item.fallProbably_03E(arg_06) & 127) == 4) {
+    Egg.getEggId(Actor.getMap(&global[0x003d]), 0, (Item.getY(arg_06) - 0x00c8), Item.getX(arg_06));
   }
   else if ((Item.fallProbably_03E(arg_06) & 127) == 5) {
+    Egg.getEggId(Actor.getMap(&global[0x003d]), 0, Item.getY(arg_06), Item.getX(arg_06));
+    CameraProcess.moveTo(*(arg_06));
     return;
+  }
+  else {
+    Egg.getEggId(Actor.getMap(&global[0x003d]), 0, Item.getY(arg_06), Item.getX(arg_06));
+  }
+  if (!(Item.fallProbably_03E(arg_06) & 0x0080)) {
+    Item.destroy(arg_06);
   }
   return;
 }

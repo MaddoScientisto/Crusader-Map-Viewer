@@ -3,30 +3,34 @@ function steam_slot_20() /* entry=2585 class_id=0x0a17 slot=0x20 */
   entry:
     set_info(0x0001, *(arg_06));
 
-  block_0102:
-    while (true) {
-      suspend;
-      spawn FREE.slot_3b(pid, 60, 0x00000000);
-      suspend;
-      local_03 = 0;
-      for local_02 in nearby_items(family=6, origin=arg_06) {
-        if (Actor.isNPC(local_02)) {
-          if (Intrinsic00AD(*(arg_06), local_02)) {
-            local_05 = local_02;
-            if (local_05 != World.getControlledNPCNum()) {
-              NPC.slot_2a(local_05);
+  while (true) {
+    suspend;
+    spawn FREE.slot_3b(pid, 60, 0x00000000);
+    suspend;
+    local_03 = 0;
+    for local_02 in nearby_items(family=6, origin=arg_06) {
+      if (Actor.isNPC(local_02)) {
+        if (Intrinsic00AD(*(arg_06), local_02)) {
+          local_05 = local_02;
+          if (local_05 != World.getControlledNPCNum()) {
+            NPC.slot_2a(local_05);
+            if (!retval) {
+              MusicProcess.playMusic(8, UCMachine.rndRange(Actor.getHp(local_05), 16, 0), 0, local_05);
             }
-            local_03 = 1;
           }
+          else {
+            MusicProcess.playMusic(UCMachine.rndRange(UCMachine.rndRange(8, 20, 10), 16, 0), 0, local_05);
+          }
+          local_03 = 1;
         }
       }
-      if (!local_03) {
-        ITEM.slot_25(4, arg_06);
-        return;
-      }
     }
+    if (!local_03) {
+      ITEM.slot_25(4, arg_06);
+      return;
+    }
+  }
 
-  block_01d7:
-    return;
+  return;
 
 }

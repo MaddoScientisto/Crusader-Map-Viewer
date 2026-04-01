@@ -31,22 +31,20 @@ function floor1_enterFastArea() /* entry=2308 class_id=0x0902 slot=0x0f */
   block_0154:
     onTime = 5;
 
-  block_015b_selector_00:
-    for item in selector_0x42(arg0=0x0135, arg1=0x01c8, arg2=(35 * 32), origin=arg_06) {
-      foundFloor = 1;
-      tempNumber = Item.getQLo(item);
-      if ((tempNumber > 0) && (tempNumber < 0x00fa)) {
-        if (highNumber < tempNumber) {
-          highNumber = tempNumber;
-        }
-        if (lowNumber > tempNumber) {
-          lowNumber = tempNumber;
-        }
-        /* create_list */
-        /* append_list */
-        floorItems = item;
+  for item in selector_0x42(arg0=0x0135, arg1=0x01c8, arg2=(35 * 32), origin=arg_06) {
+    foundFloor = 1;
+    tempNumber = Item.getQLo(item);
+    if ((tempNumber > 0) && (tempNumber < 0x00fa)) {
+      if (highNumber < tempNumber) {
+        highNumber = tempNumber;
       }
+      if (lowNumber > tempNumber) {
+        lowNumber = tempNumber;
+      }
+      Item.setFrame(1, item);
+      floorItems = (floorItems + [item]);
     }
+  }
 
   block_01f9:
     if foundFloor goto block_020a;
@@ -78,17 +76,20 @@ function floor1_enterFastArea() /* entry=2308 class_id=0x0902 slot=0x0f */
     if Item.getQLo(item) != counter goto block_02f9;
 
   block_026b:
+    Item.setFrame(0, item);
     if AudioProcess.isSFXPlayingForObject(112, arg_06) goto block_029a;
 
-  block_02a8:
-    while (condition) {
-      if (Actor.isNPC(item2) == 1) {
-        n = item2;
-        FREE.slot_20(pid, 8);
-        spawn NPC.slot_2d(retval, *(arg_06), n);
-        suspend;
-      }
+  block_028d:
+    AudioProcess.playAmbientSFXCru(112, item);
+
+  while (condition) {
+    if (Actor.isNPC(item2) == 1) {
+      n = item2;
+      FREE.slot_20(pid, 8);
+      spawn NPC.slot_2d(retval, *(arg_06), n);
+      suspend;
     }
+  }
 
   block_02f9:
     goto block_0234;
@@ -103,16 +104,18 @@ function floor1_enterFastArea() /* entry=2308 class_id=0x0902 slot=0x0f */
     spawn FREE.waitNTimerTicks(pid, onTime, 0x00000000);
     suspend;
 
-  block_0336:
-    while (Egg.getEggXRange(arg_06) > 0) {
-      spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
-      suspend;
-    }
+  while (Egg.getEggXRange(arg_06) > 0) {
+    spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
+    suspend;
+  }
 
-  block_037d:
-    while (true) {
-      foreach_list item -> block_03b2;
+  while (true) {
+    foreach_list item -> block_03b2;
+    if (Item.getQLo(item) == counter) {
+      Item.setFrame(1, item);
+      Item.touch(item);
     }
+  }
 
   block_03b2:
     spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
@@ -123,28 +126,28 @@ function floor1_enterFastArea() /* entry=2308 class_id=0x0902 slot=0x0f */
   block_03e5:
     if wantToStop != 1 goto block_0495;
 
-  block_03f9:
-    while (true) {
-      foreach_list item -> block_0429;
-    }
+  while (true) {
+    foreach_list item -> block_0429;
+    AudioProcess.stopSFXCru(112, item);
+    Item.setFrame(1, item);
+    Item.touch(item);
+  }
 
-  block_0429:
-    while (wantToStop == 1) {
-      spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
-      suspend;
-      wantToStop = 0;
-      while (true) {
-        foreach_list item -> block_0492;
-        if (Item.getStatus(item) & 0x1000) {
-          wantToStop = 1;
-        }
+  while (wantToStop == 1) {
+    spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
+    suspend;
+    wantToStop = 0;
+    while (true) {
+      foreach_list item -> block_0492;
+      if (Item.getStatus(item) & 0x1000) {
+        wantToStop = 1;
       }
     }
+  }
 
   block_0495:
     goto block_020a;
 
-  block_0498:
-    return;
+  return;
 
 }

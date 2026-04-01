@@ -38,6 +38,9 @@ function miss1egg_slot_22() /* entry=2319 class_id=0x090d slot=0x22 */
         if ((Actor.getInCombat(rubberSuit) == 0) || (Actor.isDead(rubberSuit) == 0)) {
           spawn FREE.slot_3b(0x00000000);
         }
+        if ((Actor.getInCombat(rubberSuit) == 0) || (Actor.isDead(rubberSuit) == 0)) {
+          Actor.setActivity(7, rubberSuit);
+        }
       }
     }
   }

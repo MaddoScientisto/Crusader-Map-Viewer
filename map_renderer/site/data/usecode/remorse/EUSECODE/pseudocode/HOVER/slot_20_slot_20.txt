@@ -55,6 +55,7 @@ function hover_slot_20() /* entry=2575 class_id=0x0a0d slot=0x20 */
     zacc = 0;
     while (1) {
       if ((Item.getStatus(hover) & 0x1000) == 0) {
+        process_result = 0;
         return;
       }
       dx = (tx - sx);
@@ -64,6 +65,7 @@ function hover_slot_20() /* entry=2575 class_id=0x0a0d slot=0x20 */
       ddy = 0;
       ddz = 0;
       if ((dx < 4) && (dx > -4)) {
+        process_result = 0;
         return;
       }
       ddx = 4;
@@ -100,10 +102,12 @@ function hover_slot_20() /* entry=2575 class_id=0x0a0d slot=0x20 */
             }
             else {
               total = (1 + total);
+              push(n);
             }
           }
           else {
             total = (1 + total);
+            push(cargo);
           }
         }
       }
@@ -114,9 +118,12 @@ function hover_slot_20() /* entry=2575 class_id=0x0a0d slot=0x20 */
       local_03 = sy;
       local_01 = sz;
       if (Item.inFastArea(hover) == 0) {
+        push(hover);
+        Item.popToCoords(sz, sy, sx, hover);
         counter = 1;
         while (counter <= total) {
           cargo = Item.getEtherealTop();
+          Item.popToCoords((Item.getZ(cargo) + ddz), (Item.getY(cargo) + ddy), (Item.getX(cargo) + ddx), cargo);
           counter = (1 + counter);
         }
       }
@@ -124,6 +131,7 @@ function hover_slot_20() /* entry=2575 class_id=0x0a0d slot=0x20 */
         counter = 1;
         while (counter <= total) {
           cargo = Item.getEtherealTop();
+          Item.popToCoords((Item.getZ(cargo) + ddz), (Item.getY(cargo) + ddy), (Item.getX(cargo) + ddx), cargo);
           counter = (1 + counter);
         }
       }
@@ -131,9 +139,12 @@ function hover_slot_20() /* entry=2575 class_id=0x0a0d slot=0x20 */
         counter = 1;
         while (counter <= total) {
           cargo = Item.getEtherealTop();
+          Item.popToCoords(Item.getZ(cargo), Item.getY(cargo), Item.getX(cargo), cargo);
           counter = (1 + counter);
         }
         if (Item.getQHi(hover) & 16) {
+          Item.andStatus((~0x1000), hover);
+          process_result = 1;
           return;
         }
         sx = (sx - ddx);
@@ -159,6 +170,7 @@ function hover_slot_20() /* entry=2575 class_id=0x0a0d slot=0x20 */
     zacc = 0;
     while (1) {
       if ((Item.getStatus(hover) & 0x1000) == 0) {
+        process_result = 0;
         return;
       }
       dx = (tx - sx);
@@ -168,6 +180,7 @@ function hover_slot_20() /* entry=2575 class_id=0x0a0d slot=0x20 */
       ddy = 0;
       ddz = 0;
       if ((dy < 4) && (dy > -4)) {
+        process_result = 0;
         return;
       }
       if (dx) {
@@ -204,10 +217,12 @@ function hover_slot_20() /* entry=2575 class_id=0x0a0d slot=0x20 */
             }
             else {
               total = (1 + total);
+              push(n);
             }
           }
           else {
             total = (1 + total);
+            push(cargo);
           }
         }
       }
@@ -218,9 +233,12 @@ function hover_slot_20() /* entry=2575 class_id=0x0a0d slot=0x20 */
       local_03 = sy;
       local_01 = sz;
       if (Item.inFastArea(hover) == 0) {
+        push(hover);
+        Item.popToCoords(sz, sy, sx, hover);
         counter = 1;
         while (counter <= total) {
           cargo = Item.getEtherealTop();
+          Item.popToCoords((Item.getZ(cargo) + ddz), (Item.getY(cargo) + ddy), (Item.getX(cargo) + ddx), cargo);
           counter = (1 + counter);
         }
       }
@@ -228,6 +246,7 @@ function hover_slot_20() /* entry=2575 class_id=0x0a0d slot=0x20 */
         counter = 1;
         while (counter <= total) {
           cargo = Item.getEtherealTop();
+          Item.popToCoords((Item.getZ(cargo) + ddz), (Item.getY(cargo) + ddy), (Item.getX(cargo) + ddx), cargo);
           counter = (1 + counter);
         }
       }
@@ -235,9 +254,12 @@ function hover_slot_20() /* entry=2575 class_id=0x0a0d slot=0x20 */
         counter = 1;
         while (counter <= total) {
           cargo = Item.getEtherealTop();
+          Item.popToCoords(Item.getZ(cargo), Item.getY(cargo), Item.getX(cargo), cargo);
           counter = (1 + counter);
         }
         if (Item.getQHi(hover) & 16) {
+          Item.andStatus((~0x1000), hover);
+          process_result = 1;
           return;
         }
         sx = (sx - ddx);
@@ -263,6 +285,7 @@ function hover_slot_20() /* entry=2575 class_id=0x0a0d slot=0x20 */
     yacc = 0;
     while (1) {
       if ((Item.getStatus(hover) & 0x1000) == 0) {
+        process_result = 0;
         return;
       }
       else {
@@ -273,6 +296,7 @@ function hover_slot_20() /* entry=2575 class_id=0x0a0d slot=0x20 */
         ddy = 0;
         ddz = 0;
         if ((dz < 4) && (dz > -4)) {
+          process_result = 0;
           return;
         }
         else if (dx) {
@@ -309,10 +333,12 @@ function hover_slot_20() /* entry=2575 class_id=0x0a0d slot=0x20 */
               }
               else {
                 total = (1 + total);
+                push(n);
               }
             }
             else {
               total = (1 + total);
+              push(cargo);
             }
           }
         }
@@ -323,9 +349,12 @@ function hover_slot_20() /* entry=2575 class_id=0x0a0d slot=0x20 */
         local_03 = sy;
         local_01 = sz;
         if (Item.inFastArea(hover) == 0) {
+          push(hover);
+          Item.popToCoords(sz, sy, sx, hover);
           counter = 1;
           while (counter <= total) {
             cargo = Item.getEtherealTop();
+            Item.popToCoords((Item.getZ(cargo) + ddz), (Item.getY(cargo) + ddy), (Item.getX(cargo) + ddx), cargo);
             counter = (1 + counter);
           }
         }
@@ -333,6 +362,7 @@ function hover_slot_20() /* entry=2575 class_id=0x0a0d slot=0x20 */
           counter = 1;
           while (counter <= total) {
             cargo = Item.getEtherealTop();
+            Item.popToCoords((Item.getZ(cargo) + ddz), (Item.getY(cargo) + ddy), (Item.getX(cargo) + ddx), cargo);
             counter = (1 + counter);
           }
         }
@@ -340,9 +370,12 @@ function hover_slot_20() /* entry=2575 class_id=0x0a0d slot=0x20 */
           counter = 1;
           while (counter <= total) {
             cargo = Item.getEtherealTop();
+            Item.popToCoords(Item.getZ(cargo), Item.getY(cargo), Item.getX(cargo), cargo);
             counter = (1 + counter);
           }
           if (Item.getQHi(hover) & 16) {
+            Item.andStatus((~0x1000), hover);
+            process_result = 1;
             return;
           }
           sx = (sx - ddx);

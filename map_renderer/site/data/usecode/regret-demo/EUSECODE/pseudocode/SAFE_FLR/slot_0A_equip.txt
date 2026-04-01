@@ -8,12 +8,15 @@ function safe_flr_equip() /* entry=1094 class_id=0x0444 slot=0x0a */
       return;
     }
     ITEM.slot_24(0x1000, arg_06);
+    Item.playSfxCru(76, arg_06);
     local_06 = 0;
     while (local_06 <= 5) {
+      Item.isOn(local_06, arg_06);
       spawn FREE.slot_3b(pid, 5, 0x00000000);
       suspend;
       local_06 = (1 + local_06);
     }
+    Item.andStatus(76, arg_06);
     spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
     suspend;
     for local_02 in nearby_items(shape=0x0476, origin=arg_06) {
@@ -21,6 +24,11 @@ function safe_flr_equip() /* entry=1094 class_id=0x0444 slot=0x0a */
         FREE.slot_37(local_02);
         local_04 = retval;
         if ((((Item.getItemFamily(local_04) == 10) || (Item.getItemFamily(local_04) == 11)) || (Item.getItemFamily(local_04) == 12)) || (Item.getItemFamily(local_04) == 13)) {
+          if (!Item.andStatus(1, local_04)) {
+            Item.playSfxCru(0x01a7, arg_06);
+            Item.push(local_04);
+            Item.popToCoords(Item.getX(Item.getY(Item.getZ(&global[0x001e]), &global[0x001e]), &global[0x001e]), local_04);
+          }
         }
         else {
           spawn FREE.slot_3a(pid, local_04, 0x00000000);
@@ -30,22 +38,28 @@ function safe_flr_equip() /* entry=1094 class_id=0x0444 slot=0x0a */
     }
     spawn TRIGGER.slot_20(pid, 1, *(arg_06), arg_06);
     suspend;
+    Item.playSfxCru(76, arg_06);
     local_06 = 0;
     while (local_06 <= 5) {
+      Item.isOn((5 - local_06), arg_06);
       spawn FREE.slot_3b(pid, 5, 0x00000000);
       suspend;
       local_06 = (1 + local_06);
     }
+    Item.andStatus(76, arg_06);
   }
   else {
     spawn TRIGGER.slot_20(pid, 1, *(arg_06), arg_06);
     suspend;
+    Item.playSfxCru(76, arg_06);
     local_06 = 0;
     while (local_06 <= 5) {
+      Item.isOn((5 - local_06), arg_06);
       spawn FREE.slot_3b(pid, 5, 0x00000000);
       suspend;
       local_06 = (1 + local_06);
     }
+    Item.andStatus(76, arg_06);
   }
   ITEM.slot_25(0x1000, arg_06);
   return;

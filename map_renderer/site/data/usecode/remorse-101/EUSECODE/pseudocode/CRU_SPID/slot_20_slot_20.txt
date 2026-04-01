@@ -2,51 +2,63 @@ function cru_spid_slot_20() /* entry=1378 class_id=0x0560 slot=0x20 */
 {
   set_info(0x00f0, *(arg_06));
   local_15 = arg_10;
+  Item.legal_create(0, 0x0584, local_17);
+  Item.orStatus(0x0080, local_17);
+  getTargetNPCNumMaybe(Item.getZ(local_15), Item.getY(local_15), Item.getX(local_15), local_17);
+  AudioProcess.playAmbientSFXCru(91, local_17);
   set_info(0x00f0, local_17);
+  Item.destroy(local_15);
   while (local_02 < 0x01f4) {
-    if (Actor.maybeFire((Actor.maybeFire(&global[0x003d]) == 0), &global[0x003d]) == 1) {
+    switch (Actor.maybeFire((Actor.maybeFire(&global[0x003d])) {
+    case 0), &global[0x003d]) == 1:
       local_04 = 0;
       local_06 = -1;
-    }
-    else if (Actor.maybeFire((Actor.maybeFire(&global[0x003d]) == 2), &global[0x003d]) == 3) {
+      break;
+    case 2), &global[0x003d]) == 3:
       local_04 = 1;
       local_06 = -1;
-    }
-    else if (Actor.maybeFire((Actor.maybeFire(&global[0x003d]) == 4), &global[0x003d]) == 5) {
+      break;
+    case 4), &global[0x003d]) == 5:
       local_04 = 1;
       local_06 = 0;
-    }
-    else if (Actor.maybeFire((Actor.maybeFire(&global[0x003d]) == 6), &global[0x003d]) == 7) {
+      break;
+    case 6), &global[0x003d]) == 7:
       local_04 = 1;
       local_06 = 1;
-    }
-    else if (Actor.maybeFire((Actor.maybeFire(&global[0x003d]) == 8), &global[0x003d]) == 9) {
+      break;
+    case 8), &global[0x003d]) == 9:
       local_04 = 0;
       local_06 = 1;
-    }
-    else if (Actor.maybeFire((Actor.maybeFire(&global[0x003d]) == 10), &global[0x003d]) == 11) {
+      break;
+    case 10), &global[0x003d]) == 11:
       local_04 = -1;
       local_06 = 1;
-    }
-    else if (Actor.maybeFire((Actor.maybeFire(&global[0x003d]) == 12), &global[0x003d]) == 13) {
+      break;
+    case 12), &global[0x003d]) == 13:
       local_04 = -1;
       local_06 = 0;
-    }
-    else if (Actor.maybeFire((Actor.maybeFire(&global[0x003d]) == 14), &global[0x003d]) == 15) {
+      break;
+    case 14), &global[0x003d]) == 15:
       local_04 = -1;
       local_06 = -1;
+      break;
     }
+    Item.legal_create(local_13, local_17);
     local_13 = (local_13 + (local_04 * 8));
     local_11 = (local_11 + (local_06 * 8));
     if (!legalMoveToPoint(0, 1, local_13, local_17)) {
       local_09 = (local_09 + 1);
       if (!legalMoveToPoint(0, 1, local_13, local_17)) {
+        if (!legalMoveToPoint(0, 1, local_13, local_17)) {
+          Item.explode(1, 2, local_17);
+        }
       }
     }
     local_08 = (1 + local_08);
     if ((local_08 == 20) && (local_09 > 4)) {
       local_09 = (local_09 - 4);
       if (legalMoveToPoint(0, 1, local_13, local_17)) {
+        Container.destroyContents(local_17);
         spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
         suspend;
       }
@@ -56,5 +68,6 @@ function cru_spid_slot_20() /* entry=1378 class_id=0x0560 slot=0x20 */
     spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
     suspend;
   }
+  Item.explode(1, 1, local_17);
   return;
 }

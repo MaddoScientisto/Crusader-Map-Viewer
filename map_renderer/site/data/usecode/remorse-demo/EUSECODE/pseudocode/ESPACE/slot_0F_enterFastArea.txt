@@ -11,6 +11,8 @@ function espace_enterFastArea() /* entry=824 class_id=0x0336 slot=0x0f */
     return;
   }
   else {
+    Item.setShape(0x03a6, arg_06);
+    Item.legal_create(0, arg_06);
     x = Actor.setImmortal(arg_06);
     if (x == 0) {
       return;

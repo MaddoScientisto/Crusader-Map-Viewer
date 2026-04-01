@@ -2,6 +2,9 @@ function npc_slot_24() /* entry=2579 class_id=0x0a11 slot=0x24 */
 {
   set_info(0x020a, *(arg_06));
   if (global[0x003d] == *(arg_06)) {
+    Item.getQuality(&global[0x003d]);
+    Ultima8Engine.setAvatarInStasis(1);
+    Item.andStatus();
     while (Actor.isBusy(&global[0x003d])) {
       spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
       suspend;
@@ -11,18 +14,24 @@ function npc_slot_24() /* entry=2579 class_id=0x0a11 slot=0x24 */
     local_04 = local_02;
   }
   if (local_04) {
+    Actor.setDead(Actor.getMap(arg_06), Item.getZ(local_04), (Item.getY(local_04) - 16), (Item.getX(local_04) - 16), arg_06);
     if (Item.getFrame(local_04) == 1) {
       suspend;
       spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
       suspend;
+      Item.getQHi(Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06), 1, 37, 0, 0x0317);
+      AudioProcess.playSFXCru(52, &global[0x003d]);
       suspend;
     }
     else {
       suspend;
       spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
       suspend;
+      Item.getQHi(Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06), 1, 37, 0, 0x0317);
+      AudioProcess.playSFXCru(52, &global[0x003d]);
       suspend;
     }
+    Item.isCentreOn(8, arg_06);
     if (AudioProcess.isSFXPlayingForObject(52, &global[0x003d])) {
       spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
       suspend;

@@ -7,11 +7,9 @@ function free_slot_39() /* entry=2574 class_id=0x0a0c slot=0x39 */
 
   while (true) {
     foreach_slist line -> block_15e8;
-    /* create_list */
     /* remove_matching_indirect */
-    list = line;
+    list = [line];
   }
-  /* append_list */
-  list = lines;
+  list = (list + lines);
   return;
 }

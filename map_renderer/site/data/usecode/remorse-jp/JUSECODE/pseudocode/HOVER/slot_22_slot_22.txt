@@ -13,26 +13,36 @@ function hover_slot_22() /* entry=2576 class_id=0x0a0e slot=0x22 */
     return;
   }
   else if (var == 0x00fe) {
+    Item.isOn((~0x1000), arg_06);
     return;
   }
   else if (var == 0x00fd) {
+    Item.isOn((~0x1000), arg_06);
     spawn FREE.slot_32(pid, 20, 0x00000000);
     suspend;
     a = Item.hurl(arg_06);
+    Item.pop((a | 16), arg_06);
+    Item.orStatus(0x1000, arg_06);
     spawn HOVER.slot_20(pid, 0, Item.getY(arg_06), Item.getX(arg_06), *(arg_06), arg_06);
     suspend;
+    Item.pop(a, arg_06);
+    Item.isOn((~0x1000), arg_06);
     return;
   }
   else if (var == 0x00fc) {
+    Item.isOn((~0x1000), arg_06);
     spawn FREE.slot_32(pid, 20, 0x00000000);
     suspend;
     spawn HOVER.slot_23(pid, 0, *(arg_06), arg_06);
     suspend;
     return;
   }
-  else if ((Item.getStatus(arg_06) & 0x1000) == 0) {
-    spawn HOVER.slot_21(pid, *(arg_06), arg_06);
-    suspend;
+  else {
+    Item.pop(var, arg_06);
+    if ((Item.getStatus(arg_06) & 0x1000) == 0) {
+      spawn HOVER.slot_21(pid, *(arg_06), arg_06);
+      suspend;
+    }
   }
   return;
 }

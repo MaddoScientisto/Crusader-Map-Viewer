@@ -4,6 +4,12 @@ function alarmbox_equip() /* entry=1145 class_id=0x0477 slot=0x0a */
   process_exclude();
   if (arg_10) {
     if (!World.getAlertActive()) {
+      if (Item.getFrame(arg_06) == 0) {
+        Item.setFrame(2, arg_06);
+      }
+      else if (Item.getFrame(arg_06) == 1) {
+        Item.setFrame(3, arg_06);
+      }
       spawn FREE.slot_3b(0x00000000);
     }
     local_02 = Item.getStatus(arg_06);
@@ -11,11 +17,18 @@ function alarmbox_equip() /* entry=1145 class_id=0x0477 slot=0x0a */
       if (Item.getMapArray(arg_06) != 0) {
         spawn TRIGGER.slot_2a(pid, 0, *(arg_06), arg_06);
         suspend;
+        Item.orStatus(4, arg_06);
       }
     }
     return;
   }
   else if (World.getAlertActive()) {
+    if (Item.getFrame(arg_06) == 2) {
+      Item.setFrame(0, arg_06);
+    }
+    else if (Item.getFrame(arg_06) == 3) {
+      Item.setFrame(1, arg_06);
+    }
     spawn FREE.slot_3c(0x00000000);
     if (Item.getMapArray(arg_06) != 0) {
       spawn TRIGGER.slot_2a(pid, 1, *(arg_06), arg_06);

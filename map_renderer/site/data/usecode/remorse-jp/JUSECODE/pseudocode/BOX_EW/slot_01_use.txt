@@ -7,24 +7,28 @@ function box_ew_use() /* entry=130 class_id=0x0080 slot=0x01 */
   set_info(0x0207, *(arg_06));
   process_exclude();
   if (Item.getFrame(arg_06)) {
+    AudioProcess.playSFXCru(0x00a7, arg_06);
     while (Container.destroyContents(0x00a7, arg_06)) {
       spawn FREE.slot_32(pid, 2, 0x00000000);
       suspend;
     }
     counter = 0;
     while (counter <= 5) {
+      Item.setFrame((5 - counter), arg_06);
       spawn FREE.slot_32(pid, 5, 0x00000000);
       suspend;
       counter = (1 + counter);
     }
   }
   else {
+    AudioProcess.playSFXCru(0x00a5, arg_06);
     while (Container.destroyContents(0x00a5, arg_06)) {
       spawn FREE.slot_32(pid, 2, 0x00000000);
       suspend;
     }
     counter = 0;
     while (counter <= 5) {
+      Item.setFrame(counter, arg_06);
       spawn FREE.slot_32(pid, 5, 0x00000000);
       suspend;
       counter = (1 + counter);

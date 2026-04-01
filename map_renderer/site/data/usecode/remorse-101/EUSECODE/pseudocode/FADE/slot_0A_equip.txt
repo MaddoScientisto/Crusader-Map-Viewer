@@ -3,35 +3,40 @@ function fade_equip() /* entry=1278 class_id=0x04fc slot=0x0a */
   set_info(0x0211, *(arg_06));
   process_exclude();
   ITEM.slot_23(0x1000, arg_06);
-  if (arg_10 == 0) {
-  }
-  else if (arg_10 == 1) {
+  switch (arg_10) {
+  case 0:
+    clearSomeMovieGlobal();
+    break;
+  case 1:
     suspend;
-  }
-  else if (arg_10 == 2) {
+    break;
+  case 2:
     suspend;
-  }
-  else if (arg_10 == 3) {
-  }
-  else if (arg_10 == 4) {
-  }
-  else if (arg_10 == 5) {
+    break;
+  case 3:
+    MusicProcess.musicStop();
+    break;
+  case 4:
+    Item.setMapArray();
+    break;
+  case 5:
     suspend;
-  }
-  else if (arg_10 == 6) {
+    break;
+  case 6:
     suspend;
-  }
-  else if (arg_10 == 7) {
+    break;
+  case 7:
     suspend;
-  }
-  else if (arg_10 == 8) {
+    break;
+  case 8:
     suspend;
-  }
-  else if (arg_10 == 9) {
+    break;
+  case 9:
     spawn FADE.slot_20(arg_06);
     ITEM.slot_24(0x1000, arg_06);
-  }
-  else if (arg_10 == 10) {
+    break;
+  case 10:
+    break;
   }
   ITEM.slot_24(0x1000, arg_06);
   return;

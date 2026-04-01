@@ -15,15 +15,19 @@ function door2_slot_46() /* entry=2569 class_id=0x0a07 slot=0x46 */
   }
   FREE.slot_2d(Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06), newFrame, 0x046a, *(arg_06));
   if (!retval) {
+    process_result = 0;
     return;
   }
   else {
+    AudioProcess.playSFXCru(107, arg_06);
     counter = 0;
     while (counter <= 11) {
+      Item.getPoint((newFrame - counter), arg_06);
       spawn FREE.slot_32(pid, 5, 0x00000000);
       suspend;
       counter = (1 + counter);
     }
+    process_result = 1;
     return;
   }
   return;

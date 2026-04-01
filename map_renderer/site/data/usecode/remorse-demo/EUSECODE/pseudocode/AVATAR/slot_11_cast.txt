@@ -10,49 +10,51 @@ function avatar_cast() /* entry=2051 class_id=0x0801 slot=0x11 */
   spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
   suspend;
   n = Actor.getMap(&global[0x003c]);
-  if (Actor.getMap(arg_06) == 1) {
+  switch (Actor.getMap(arg_06)) {
+  case 1:
+    void MusicProcess:playMusic(1);
     return;
-  }
-  else if (Actor.getMap(arg_06) == 3) {
+  case 3:
+    void MusicProcess:playMusic(2);
     return;
-  }
-  else if (Actor.getMap(arg_06) == 5) {
+  case 5:
+    void MusicProcess:playMusic(3);
     return;
-  }
-  else if (Actor.getMap(arg_06) == 7) {
+  case 7:
+    void MusicProcess:playMusic(4);
     return;
-  }
-  else if (Actor.getMap(arg_06) == 9) {
+  case 9:
+    void MusicProcess:playMusic(5);
     return;
-  }
-  else if (Actor.getMap(arg_06) == 11) {
+  case 11:
+    void MusicProcess:playMusic(6);
     return;
-  }
-  else if (Actor.getMap(arg_06) == 13) {
+  case 13:
+    void MusicProcess:playMusic(7);
     return;
-  }
-  else if (Actor.getMap(arg_06) == 15) {
+  case 15:
+    void MusicProcess:playMusic(8);
     return;
-  }
-  else if (Actor.getMap(arg_06) == 17) {
+  case 17:
+    void MusicProcess:playMusic(9);
     return;
-  }
-  else if (Actor.getMap(arg_06) == 19) {
+  case 19:
+    void MusicProcess:playMusic(10);
     return;
-  }
-  else if (Actor.getMap(arg_06) == 21) {
+  case 21:
+    void MusicProcess:playMusic(11);
     return;
-  }
-  else if (Actor.getMap(arg_06) == 23) {
+  case 23:
+    void MusicProcess:playMusic(12);
     return;
-  }
-  else if (Actor.getMap(arg_06) == 25) {
+  case 25:
+    void MusicProcess:playMusic(13);
     return;
-  }
-  else if (Actor.getMap(arg_06) == 27) {
+  case 27:
+    void MusicProcess:playMusic(14);
     return;
-  }
-  else if (Actor.getMap(arg_06) == 29) {
+  case 29:
+    void MusicProcess:playMusic(15);
     return;
   }
   return;

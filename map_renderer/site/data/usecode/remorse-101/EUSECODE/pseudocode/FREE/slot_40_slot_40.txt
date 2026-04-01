@@ -1,6 +1,11 @@
 function free_slot_40() /* entry=2574 class_id=0x0a0c slot=0x40 */
 {
   while (condition) {
+    if (!Item.spawnUsecodeEvent0x13(1, local_02)) {
+      Egg.setEggXRange(0x00b0);
+      push(local_02);
+      getTargetNPCNumMaybe(Item.getX((Item.getY(Item.getZ(&global[0x003d]), &global[0x003d]) + 16), &global[0x003d]), local_02);
+    }
   }
   return;
 }

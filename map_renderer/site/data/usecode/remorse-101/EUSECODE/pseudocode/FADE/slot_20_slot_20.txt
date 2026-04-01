@@ -18,9 +18,11 @@ function fade_slot_20() /* entry=1278 class_id=0x04fc slot=0x20 */
       local_02 = (1 + local_02);
     }
     if (!Actor.isDead(&global[0x003d])) {
+      Item.receiveHit(Ultima8Engine.clrCruStasis(8, &global[0x003d]), 14, 0, &global[0x003d]);
       spawn FREE.waitNTimerTicks(pid, 0x00c8, 0x00000000);
       suspend;
     }
+    Item.andStatus(&global[0x003d]);
   }
   return;
 }

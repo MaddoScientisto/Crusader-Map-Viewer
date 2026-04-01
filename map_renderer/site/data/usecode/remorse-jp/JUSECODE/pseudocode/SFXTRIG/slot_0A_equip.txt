@@ -7,6 +7,7 @@ function sfxtrig_equip() /* entry=1252 class_id=0x04e2 slot=0x0a */
   }
   else {
     ITEM.slot_23(0x1000, arg_06);
+    AudioProcess.playSFXCru(arg_10, arg_06);
     while (Container.destroyContents(arg_10, arg_06)) {
       spawn FREE.slot_32(pid, 2, 0x00000000);
       suspend;

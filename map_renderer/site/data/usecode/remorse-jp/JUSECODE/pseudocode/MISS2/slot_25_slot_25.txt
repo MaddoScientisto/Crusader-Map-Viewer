@@ -19,20 +19,31 @@ function miss2_slot_25() /* entry=2320 class_id=0x090e slot=0x25 */
   else {
     inc = -2;
   }
+  AudioProcess.playSFXCru(61, &global[0x003c]);
   spawn FREE.slot_32(pid, 30, 0x00000000);
   suspend;
+  AudioProcess.playSFXCru(17, &global[0x003c]);
   while (counter) {
     while (condition) {
       x = Item.getX(item);
       y = Item.getY(item);
       z = Item.getZ(item);
+      push(item);
+      Item.popToCoords((z + inc), y, x, item);
       itemNum = (1 + itemNum);
       if ((counter <= 16) && (Item.getShape(item) == wallgun_shape_04c8)) {
         if (up == 1) {
           if (Item.getFrame(item) != 12) {
             if (!Item.getFrame(item)) {
+              Item.getPoint(15, item);
+            }
+            else {
+              Item.getPoint((Item.getFrame(item) - 1), item);
             }
           }
+        }
+        else if (Item.getFrame(item) != 8) {
+          Item.getPoint((Item.getFrame(item) + 1), item);
         }
       }
       if (itemNum == 5) {
@@ -43,8 +54,10 @@ function miss2_slot_25() /* entry=2320 class_id=0x090e slot=0x25 */
       }
     }
   }
+  AudioProcess.playSFXCru(19, &global[0x003c]);
   spawn FREE.slot_32(pid, 15, 0x00000000);
   suspend;
+  AudioProcess.playSFXCru(24, &global[0x003c]);
   spawn FREE.slot_32(pid, 60, 0x00000000);
   suspend;
   return;

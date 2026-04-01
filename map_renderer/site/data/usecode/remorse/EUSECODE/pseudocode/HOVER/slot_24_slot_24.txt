@@ -29,7 +29,13 @@ function hover_slot_24() /* entry=2575 class_id=0x0a0d slot=0x24 */
         dy = (y - Item.getY(hover));
         dz = (z - Item.getZ(hover));
         while (condition) {
+          if (Item.getShape(cargo) != NUMBERS) {
+            push(cargo);
+            Item.popToCoords((Item.getZ(cargo) + dz), (Item.getY(cargo) + dy), (Item.getX(cargo) + dx), cargo);
+          }
         }
+        push(hover);
+        Item.popToCoords(z, y, x, hover);
         return;
       }
     }

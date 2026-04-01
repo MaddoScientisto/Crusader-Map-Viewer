@@ -97,6 +97,7 @@ function spider_slot_22() /* entry=2585 class_id=0x0a17 slot=0x22 */
     if (c >= oabs) {
       if (zcur > (ztarg - 2)) {
         if (zcur < (ztarg + 2)) {
+          process_result = 1;
           return;
         }
       }
@@ -104,6 +105,7 @@ function spider_slot_22() /* entry=2585 class_id=0x0a17 slot=0x22 */
       local_03 = y;
       local_01 = z;
       if (!Item.andStatus(0, 1, currentP, arg_06)) {
+        process_result = 0;
         return;
       }
     }
@@ -114,6 +116,7 @@ function spider_slot_22() /* entry=2585 class_id=0x0a17 slot=0x22 */
         local_03 = y;
         local_01 = z;
         if (!Item.andStatus(0, 1, currentP, arg_06)) {
+          process_result = 0;
           return;
         }
         x = (x + ovel);
@@ -132,6 +135,7 @@ function spider_slot_22() /* entry=2585 class_id=0x0a17 slot=0x22 */
         local_03 = y;
         local_01 = z;
         if (!Item.andStatus(0, 1, currentP, arg_06)) {
+          process_result = 0;
           return;
         }
         y = (y + ovel);

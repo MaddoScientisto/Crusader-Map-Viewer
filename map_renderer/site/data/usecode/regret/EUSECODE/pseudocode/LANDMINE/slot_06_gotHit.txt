@@ -12,10 +12,16 @@ function landmine_gotHit() /* entry=924 class_id=0x039a slot=0x06 */
       if (local_02 == 4) {
         return;
       }
+      else {
+        Item.explode(1, 1, arg_06);
+      }
       return;
     }
     else {
       local_04 = arg_10;
+      if (Item.isOn(*(arg_06), local_04)) {
+        Item.explode(1, 2, arg_06);
+      }
     }
   }
   return;

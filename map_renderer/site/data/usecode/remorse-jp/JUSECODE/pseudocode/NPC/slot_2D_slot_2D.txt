@@ -16,10 +16,14 @@ function npc_slot_2d() /* entry=2581 class_id=0x0a13 slot=0x2d */
     }
     aSet = Actor.setActivity(arg_06);
     spawn NPC.slot_2e(arg_06);
+    Actor.getSomeFlagProbablyCrouch(UCMachine.rndRange(7, 20, 10), 8, damageSource, arg_06);
     return;
   }
   else if (*(arg_06) != getTargetNPCNumMaybe()) {
     NPC.slot_2b(arg_06);
+    if ((retval == 0) && (Item.isOnScreen(arg_06) == 1)) {
+      Actor.getSomeFlagProbablyCrouch(UCMachine.rndRange(7, (20 - (Game.getDifficultyLevel() * 2)), 5), dir, damageSource, arg_06);
+    }
     spawn FREE.slot_32(pid, 2, 0x00000000);
     suspend;
     return;

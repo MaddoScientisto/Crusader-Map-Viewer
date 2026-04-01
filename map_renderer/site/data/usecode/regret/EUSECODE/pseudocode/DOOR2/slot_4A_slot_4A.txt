@@ -5,12 +5,24 @@ function door2_slot_4a() /* entry=2567 class_id=0x0a05 slot=0x4a */
   suspend;
   set_info(1, 0);
   local_04 = 7;
+  Item.playSfxCru(0x0148, arg_06);
   local_02 = 1;
   while (local_02 <= local_04) {
+    Item.setFrame(local_02, arg_06);
     spawn FREE.slot_3b(pid, 5, 0x00000000);
     suspend;
     local_02 = (1 + local_02);
   }
+  Item.setFrame(0, arg_06);
+  Item.setShape(0x0090, arg_06);
   local_06 = Item.getQLo(arg_06);
+  if (Item.legal_create(Item.getZ(arg_06), (Item.getY(arg_06) - 0x00d0), Item.getX(arg_06), 1, 0x0090, local_10) == 1) {
+    Item.setQLo(local_06, local_10);
+  }
+  if (Item.legal_create((Item.getZ(arg_06) + 80), Item.getY(arg_06), Item.getX(arg_06), 0, 0x01ed, local_08) == 1) {
+    Item.setQLo(local_06, local_08);
+  }
+  Item.playSfxCru(0x0149, arg_06);
+  process_result = 1;
   return;
 }

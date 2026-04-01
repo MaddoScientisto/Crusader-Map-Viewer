@@ -2,5 +2,7 @@ function flormine_cachein() /* entry=673 class_id=0x029f slot=0x04 */
 {
   set_info(0x0213, *(arg_06));
   process_exclude();
+  Item.push(arg_06);
+  Item.popToCoords((Item.getZ(arg_06) + 1), Item.getY(arg_06), Item.getX(arg_06), arg_06);
   return;
 }

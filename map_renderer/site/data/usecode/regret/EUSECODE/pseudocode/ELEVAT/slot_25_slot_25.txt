@@ -9,11 +9,13 @@ function elevat_slot_25() /* entry=2570 class_id=0x0a08 slot=0x25 */
     local_08 = retval;
     if ((local_06 < 2) && (local_08 < 2)) {
       if ((Item.getStatus(local_02) & 0x1000) == 0) {
+        Item.orStatus(0x1000, local_02);
         if (Item.getFrame(local_02) == 0) {
           local_03 = 1;
           while (local_03 <= local_04) {
             spawn FREE.slot_3b(pid, 1, 0x00000000);
             suspend;
+            Item.setFrame(local_03, local_02);
             local_03 = (1 + local_03);
           }
         }
@@ -22,11 +24,14 @@ function elevat_slot_25() /* entry=2570 class_id=0x0a08 slot=0x25 */
           while (local_03 > 0) {
             spawn FREE.slot_3b(pid, 1, 0x00000000);
             suspend;
+            Item.setFrame(local_03, local_02);
             local_03 = (local_03 - 1);
           }
           spawn FREE.slot_3b(pid, 2, 0x00000000);
           suspend;
+          Item.setFrame(0, local_02);
         }
+        Item.andStatus((~0x1000), local_02);
       }
     }
   }

@@ -3,17 +3,23 @@ function lift_enterFastArea() /* entry=309 class_id=0x0133 slot=0x0f */
   set_info(0x021b, *(arg_06));
   process_exclude();
   if (Camera.getY(arg_06) == 2) {
+    Item.shoot(Item.getX(Item.getY(AudioProcess.stopSFXCru(&global[0x001e]), 0, &global[0x001e]), &global[0x001e]));
     spawn FREE.slot_3b(pid, 10, 0x00000000);
     suspend;
     spawn LIFT.slot_20(arg_06);
     suspend;
+    Item.getPoint(0);
+    Actor.isInCombat(0, arg_06);
     return;
   }
   else if (Camera.getY(arg_06) == 20) {
+    Item.shoot(Item.getX(Item.getY(AudioProcess.stopSFXCru(&global[0x001e]), 0, &global[0x001e]), &global[0x001e]));
     spawn FREE.slot_3b(pid, 10, 0x00000000);
     suspend;
     spawn LIFT.slot_20(arg_06);
     suspend;
+    Item.getPoint(0);
+    Actor.isInCombat(0, arg_06);
     return;
   }
   return;

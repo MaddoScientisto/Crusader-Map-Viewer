@@ -12,26 +12,40 @@ function door2_slot_37() /* entry=2569 class_id=0x0a07 slot=0x37 */
       local_18 = Item.getX(local_02);
       local_20 = Item.getY(local_02);
       local_26 = Item.getZ(local_02);
+      Item.destroy(local_02);
     }
     else {
       local_22 = Item.getX(local_02);
       local_24 = Item.getY(local_02);
       local_28 = Item.getZ(local_02);
+      Item.destroy(local_02);
     }
   }
   local_30 = Item.getFootpad(arg_06);
+  Item.destroy(local_06);
   if (CameraProcess.somethingAboutCameraUpdate((local_16 - 80), local_14, local_12, local_10, 0x03ad, local_04) == 1) {
+    AudioProcess.playSFXCru(106, arg_06);
+    Item.andStatus(local_30, local_04);
     spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
     suspend;
     local_08 = 1;
     while (local_08 <= local_10) {
+      Item.isCentreOn((local_10 - local_08), local_04);
       spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
       suspend;
       local_08 = (1 + local_08);
     }
+    process_result = 1;
     return;
   }
   else {
+    Item.legal_create(0, 0x0238, local_02);
+    getTargetNPCNumMaybe(local_26, local_20, local_18, local_02);
+    Item.legal_create(1, 0x0238, local_02);
+    getTargetNPCNumMaybe(local_28, local_24, local_22, local_02);
+    Item.legal_create(0, 0x03c7, local_02);
+    getTargetNPCNumMaybe(local_16, local_14, local_12, local_02);
+    process_result = 0;
     return;
   }
   return;

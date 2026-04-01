@@ -2,5 +2,8 @@ function l_ew_8_enterFastArea() /* entry=468 class_id=0x01d2 slot=0x0f */
 {
   set_info(0x021b, *(arg_06));
   process_exclude();
+  if (!Item.getFrame(arg_06)) {
+    Item.setFrame(2, arg_06);
+  }
   return;
 }

@@ -14,11 +14,17 @@ function podboy_gotHit() /* entry=559 class_id=0x022d slot=0x06 */
   else {
     local_02 = 34;
   }
+  push(arg_06);
+  Item.setShape(0x058d, arg_06);
+  Item.isCentreOn(local_02, arg_06);
+  getTargetNPCNumMaybe((Item.getZ(arg_06) + 1), Item.getY(arg_06), Item.getX(arg_06), arg_06);
   spawn PODBOY.slot_20(*(arg_06), 0x00000000);
   spawn ITEM.slot_28(pid, 0, 1, arg_06);
   suspend;
+  AudioProcess.playSFXCru(3, arg_06);
   local_04 = 0;
   while (local_04 <= 10) {
+    Item.isCentreOn((local_02 + local_04), arg_06);
     spawn FREE.waitNTimerTicks(pid, (15 - local_04), 0x00000000);
     suspend;
     local_04 = (1 + local_04);

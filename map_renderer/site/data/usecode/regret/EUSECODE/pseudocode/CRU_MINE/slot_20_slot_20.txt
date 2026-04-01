@@ -1,7 +1,12 @@
 function cru_mine_slot_20() /* entry=288 class_id=0x011e slot=0x20 */
 {
   local_23 = arg_10;
+  Item.create(0, 101, local_25);
+  Item.orStatus(0x0080, local_25);
+  Item.popToCoords(Item.getZ(local_23), Item.getY(local_23), Item.getX(local_23), local_25);
+  AudioProcess.playSFXCru(91, local_25);
   set_info(0x00f0, local_25);
+  Item.destroy(local_23);
   while (!local_21) {
     local_02 = (1 + local_02);
     for local_19 in nearby_items(family=6, origin=local_25) {
@@ -14,6 +19,7 @@ function cru_mine_slot_20() /* entry=288 class_id=0x011e slot=0x20 */
       }
     }
     if (local_02 > 5) {
+      Item.fall(local_25);
       local_02 = 0;
     }
     spawn FREE.slot_3b(pid, 60, 0x00000000);
@@ -77,12 +83,16 @@ function cru_mine_slot_20() /* entry=288 class_id=0x011e slot=0x20 */
       local_04 = -1;
       local_06 = -1;
     }
+    Item.getPoint(local_17, local_25);
     local_17 = (local_17 + (local_04 * 8));
     local_15 = (local_15 + (local_06 * 8));
     if (!Item.legal_move(0, 1, local_17, local_25)) {
       local_13 = (local_13 + 1);
       if (!Item.legal_move(0, 1, local_17, local_25)) {
         local_13 = (local_13 + 1);
+        if (!Item.legal_move(0, 1, local_17, local_25)) {
+          Item.explode(1, 2, local_25);
+        }
       }
     }
     local_12 = (1 + local_12);
@@ -96,10 +106,15 @@ function cru_mine_slot_20() /* entry=288 class_id=0x011e slot=0x20 */
         local_28 = 1;
       }
       local_12 = 0;
+      if (local_28) {
+        Item.fall(local_25);
+        Item.playSfxCru(0x015b, local_25);
+      }
     }
     local_02 = (1 + local_02);
     spawn FREE.slot_3b(pid, 4, 0x00000000);
     suspend;
   }
+  Item.explode(1, 1, local_25);
   return;
 }

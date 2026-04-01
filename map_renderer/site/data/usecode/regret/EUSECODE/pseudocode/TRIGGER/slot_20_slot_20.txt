@@ -83,6 +83,9 @@ function trigger_slot_20() /* entry=2585 class_id=0x0a17 slot=0x20 */
         suspend;
         local_16 = process_result;
       }
+      if (local_10 & 16) {
+        Item.setQLo(0, local_14);
+      }
     }
   }
   local_22 = (arg_12 & 1);
@@ -101,9 +104,7 @@ function trigger_slot_20() /* entry=2585 class_id=0x0a17 slot=0x20 */
             local_18 = process_result;
           }
           else {
-            /* create_list */
-            /* append_list */
-            local_02 = local_12;
+            local_02 = (local_02 + [local_12]);
           }
         }
       }
@@ -113,9 +114,8 @@ function trigger_slot_20() /* entry=2585 class_id=0x0a17 slot=0x20 */
       spawn TRIGGER.slot_21(pid, local_12, arg_06);
       suspend;
       local_24 = process_result;
-      /* create_list */
       /* remove_matching_inline */
-      local_02 = local_12;
+      local_02 = [local_12];
       if (local_24 != local_16) {
         local_18 = local_24;
       }

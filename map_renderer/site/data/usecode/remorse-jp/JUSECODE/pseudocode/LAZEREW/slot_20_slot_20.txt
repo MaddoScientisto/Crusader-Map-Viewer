@@ -18,12 +18,22 @@ function lazerew_slot_20() /* entry=414 class_id=0x019c slot=0x20 */
     while (true) {
       suspend;
       if (fram == 1) {
+        AudioProcess.playSFXCru(2, arg_06);
+        Actor.getInCombat((Item.getZ(arg_06) + 14), (Item.getY(arg_06) + 9), (Item.getX(arg_06) + 17), 6, 11, 9, 0x040c);
       }
       else if (fram == 2) {
+        AudioProcess.playSFXCru(83, arg_06);
+        Actor.getInCombat((Item.getZ(arg_06) + 14), (Item.getY(arg_06) + 9), (Item.getX(arg_06) + 17), 6, 8, 6, 0x040c);
       }
       else if (fram == 3) {
+        AudioProcess.playSFXCru(100, arg_06);
+        Actor.getInCombat((Item.getZ(arg_06) + 1), (Item.getY(arg_06) - 19), (Item.getX(arg_06) + 1), 6, 2, 0, 0x040c);
         spawn FREE.slot_32(pid, 100, 0x00000000);
         suspend;
+      }
+      else {
+        AudioProcess.playSFXCru(44, arg_06);
+        Actor.getInCombat((Item.getZ(arg_06) + 2), (Item.getY(arg_06) - 17), (Item.getX(arg_06) + 9), 6, 2, 0, 0x040c);
       }
       spawn FREE.slot_32(pid, ((5 - Game.getDifficultyLevel()) * 20), 0x00000000);
       suspend;

@@ -3,12 +3,15 @@ function safe_ew_equip() /* entry=533 class_id=0x0213 slot=0x0a */
   set_info(0x0211, *(arg_06));
   process_exclude();
   if (arg_10) {
+    AudioProcess.playSFXCru(76, arg_06);
     local_06 = 0;
     while (local_06 <= 16) {
+      Item.isCentreOn(local_06, arg_06);
       spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
       suspend;
       local_06 = (1 + local_06);
     }
+    AudioProcess.stopSFXCru(76, arg_06);
     spawn TRIGGER.slot_2a(pid, 0, *(arg_06), arg_06);
     suspend;
     for local_02 in nearby_items(shape=0x0476, origin=arg_06) {
@@ -16,6 +19,11 @@ function safe_ew_equip() /* entry=533 class_id=0x0213 slot=0x0a */
         FREE.slot_2e(local_02);
         local_04 = retval;
         if ((((Item.setQLo(local_04) == 10) || (Item.setQLo(local_04) == 11)) || (Item.setQLo(local_04) == 12)) || (Item.setQLo(local_04) == 13)) {
+          if (!Item.spawnUsecodeEvent0x13(1, local_04)) {
+            AudioProcess.playSFXCru(0x00b0, arg_06);
+            push(local_04);
+            getTargetNPCNumMaybe(Item.getX(Item.getY(Item.getZ(&global[0x003d]), &global[0x003d]), &global[0x003d]), local_04);
+          }
         }
         else {
           spawn FREE.slot_31(pid, local_04, 0x00000000);
@@ -25,23 +33,29 @@ function safe_ew_equip() /* entry=533 class_id=0x0213 slot=0x0a */
     }
     spawn TRIGGER.slot_2a(pid, 1, *(arg_06), arg_06);
     suspend;
+    AudioProcess.playSFXCru(76, arg_06);
     local_06 = 0;
     while (local_06 <= 16) {
+      Item.isCentreOn((16 - local_06), arg_06);
       spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
       suspend;
       local_06 = (1 + local_06);
     }
+    AudioProcess.stopSFXCru(76, arg_06);
     return;
   }
   else {
     spawn TRIGGER.slot_2a(pid, 1, *(arg_06), arg_06);
     suspend;
+    AudioProcess.playSFXCru(76, arg_06);
     local_06 = 0;
     while (local_06 <= 16) {
+      Item.isCentreOn((16 - local_06), arg_06);
       spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
       suspend;
       local_06 = (1 + local_06);
     }
+    AudioProcess.stopSFXCru(76, arg_06);
   }
   return;
 }

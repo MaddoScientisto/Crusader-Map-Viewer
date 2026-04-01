@@ -20,6 +20,7 @@ function miss2_slot_28() /* entry=2320 class_id=0x090e slot=0x28 */
   counter = 0;
   egg = *(arg_06);
   set_info(1, 0);
+  Ultima8Engine.setAvatarInStasis(1);
   while (Actor.isBusy(&global[0x003c])) {
     spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
     suspend;
@@ -33,10 +34,17 @@ function miss2_slot_28() /* entry=2320 class_id=0x090e slot=0x28 */
       x = Item.getX(item);
       y = Item.getY(item);
       if ((((x > 0x522f) && (x < 0x53bf)) && (y < 0x448e)) && (y > 0x407f)) {
+        if (((Item.getShape(item) != 17) && (Item.getShape(item) != BRO_BOOT)) && (Item.getShape(item) != 0x0135)) {
+          push(item);
+          Item.popToCoords(96, 0x3fcf, 0x526f, item);
+        }
       }
     }
   }
   for item in nearby_items(shape=0x04d9, origin=global[0x003c]) {
+    Actor.create(6, 0x04d9, hoffman);
+    Item.popToCoords(Item.getZ(item), Item.getY(item), Item.getX(item), hoffman);
+    Item.destroy(item);
   }
   if (hoffman) {
     for item in nearby_items(shape=door_shape_0046, origin=global[0x003c]) {
@@ -65,7 +73,9 @@ function miss2_slot_28() /* entry=2320 class_id=0x090e slot=0x28 */
       counter = (1 + counter);
     }
     suspend;
+    playFlic(pid, 0x0096, 0x00fa, "2h", arg_06);
     suspend;
+    Ultima8Engine.setAvatarInStasis(1);
     spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
     suspend;
     suspend;
@@ -83,6 +93,9 @@ function miss2_slot_28() /* entry=2320 class_id=0x090e slot=0x28 */
     spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
     suspend;
     for item in nearby_items(shape=0x04d5, origin=global[0x003c]) {
+      if (Item.getQuality(item) == 1) {
+        CameraProcess.moveTo(Actor.getMap(&global[0x003c]), CameraProcess.getCameraZ(), (Item.getY(item) - 0x0160), (Item.getX(item) - 0x0160));
+      }
     }
     spawn FREE.waitNTimerTicks(pid, 45, 0x00000000);
     suspend;
@@ -108,14 +121,18 @@ function miss2_slot_28() /* entry=2320 class_id=0x090e slot=0x28 */
       if (!Item.getQLo(item)) {
         door = item;
       }
-      else if (Item.getQLo(item) == 1) {
-        door1 = item;
-      }
-      else if (Item.getQLo(item) == 2) {
-        door2 = item;
-      }
-      else if (Item.getQLo(item) == 3) {
-        door3 = item;
+      else {
+        switch (Item.getQLo(item)) {
+        case 1:
+          door1 = item;
+          break;
+        case 2:
+          door2 = item;
+          break;
+        case 3:
+          door3 = item;
+          break;
+        }
       }
     }
     if (((door && door1) && door2) && door3) {
@@ -128,10 +145,15 @@ function miss2_slot_28() /* entry=2320 class_id=0x090e slot=0x28 */
       spawn FREE.waitNTimerTicks(pid, 3, 0x00000000);
       suspend;
       for item in nearby_items(shape=PRISONER_2, origin=door) {
+        Item.create(2, 0x02e6, body);
+        Item.popToCoords(Item.getZ(item), (Item.getY(item) + 8), (Item.getX(item) + 48), body);
+        Item.explode(0, 1, item);
+        Item.destroy(item);
         spawn FREE.waitNTimerTicks(pid, 15, 0x00000000);
         suspend;
       }
       while (Item.getFrame(gun) != 4) {
+        Item.setFrame((Item.getFrame(gun) - 1), gun);
         spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
         suspend;
       }
@@ -142,6 +164,10 @@ function miss2_slot_28() /* entry=2320 class_id=0x090e slot=0x28 */
       spawn FREE.waitNTimerTicks(pid, 3, 0x00000000);
       suspend;
       for item in nearby_items(shape=PRISONER_1, origin=door1) {
+        Item.create(4, 0x02e6, body);
+        Item.popToCoords((Item.getZ(item) - 16), (Item.getY(item) - 16), (Item.getX(item) + 8), body);
+        Item.explode(0, 1, item);
+        Item.destroy(item);
         spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
         suspend;
       }
@@ -154,10 +180,15 @@ function miss2_slot_28() /* entry=2320 class_id=0x090e slot=0x28 */
       spawn FREE.waitNTimerTicks(pid, 6, 0x00000000);
       suspend;
       for item in nearby_items(shape=PRISONER_1, origin=door2) {
+        Item.create(4, 0x02d7, body);
+        Item.popToCoords(Item.getZ(item), (Item.getY(item) + 48), (Item.getX(item) + 16), body);
+        Item.explode(0, 1, item);
+        Item.destroy(item);
         spawn FREE.waitNTimerTicks(pid, 15, 0x00000000);
         suspend;
       }
       while (Item.getFrame(gun) != 4) {
+        Item.setFrame((Item.getFrame(gun) - 1), gun);
         spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
         suspend;
       }
@@ -168,6 +199,10 @@ function miss2_slot_28() /* entry=2320 class_id=0x090e slot=0x28 */
       spawn FREE.waitNTimerTicks(pid, 6, 0x00000000);
       suspend;
       for item in nearby_items(shape=PRISONER_3, origin=door3) {
+        Item.create(2, 0x02d7, body);
+        Item.popToCoords(Item.getZ(item), (Item.getY(item) + 70), (Item.getX(item) - 8), body);
+        Item.explode(0, 1, item);
+        Item.destroy(item);
         spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
         suspend;
       }
@@ -180,6 +215,7 @@ function miss2_slot_28() /* entry=2320 class_id=0x090e slot=0x28 */
     suspend;
     spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
     suspend;
+    CameraProcess.moveTo(Actor.getMap(&global[0x003c]), CameraProcess.getCameraZ(), Item.getY(hoffman), Item.getX(hoffman));
     suspend;
     suspend;
     suspend;
@@ -195,6 +231,9 @@ function miss2_slot_28() /* entry=2320 class_id=0x090e slot=0x28 */
         suspend;
       }
     }
+    Item.destroy(hoffman);
+    CameraProcess.setCenterOn(global[0x003c]);
   }
+  Ultima8Engine.setAvatarInStasis(0);
   return;
 }

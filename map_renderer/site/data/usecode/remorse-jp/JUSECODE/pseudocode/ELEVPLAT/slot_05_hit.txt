@@ -12,6 +12,9 @@ function elevplat_hit() /* entry=305 class_id=0x012f slot=0x05 */
     cargo = r;
     if (cargo < 0x0100) {
       if (!Item.getItemFamily(cargo)) {
+        if (Item.getZ(cargo) < Item.getZ(arg_06)) {
+          Actor.getSomeFlagProbablyCrouch(8, UCMachine.rndRange(Actor.setActivity(cargo), 16, 0), 0, cargo);
+        }
       }
     }
   }

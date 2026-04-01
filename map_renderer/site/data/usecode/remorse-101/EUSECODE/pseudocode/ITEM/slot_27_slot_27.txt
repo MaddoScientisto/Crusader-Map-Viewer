@@ -2,6 +2,7 @@ function item_slot_27() /* entry=2592 class_id=0x0a1e slot=0x27 */
 {
   set_info(1, *(arg_06));
   if (arg_10 != 0x4000) {
+    process_result = 0;
     return;
   }
   else {
@@ -9,9 +10,13 @@ function item_slot_27() /* entry=2592 class_id=0x0a1e slot=0x27 */
     local_04 = Item.setQuality(arg_06);
     local_06 = (local_04 + local_02);
     if (local_06 >= arg_14) {
+      Item.getQLo(0, arg_06);
+      process_result = 1;
       return;
     }
     else {
+      Item.getQLo(local_06, arg_06);
+      process_result = 0;
       return;
     }
   }

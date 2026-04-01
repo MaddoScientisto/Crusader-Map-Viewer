@@ -10,6 +10,8 @@ function roll_ew_slot_21() /* entry=1390 class_id=0x056c slot=0x21 */
   local_19 = Item.getX(arg_06);
   local_17 = Item.getY(arg_06);
   local_15 = Item.getZ(arg_06);
+  Item.orStatus(0x1000, arg_06);
+  AudioProcess.playAmbientSFXCru(0x00a3, arg_06);
   if (local_06 & 32) {
     if (local_06 < 0x0080) {
       while (1) {
@@ -20,12 +22,14 @@ function roll_ew_slot_21() /* entry=1390 class_id=0x056c slot=0x21 */
         local_08 = 0;
         while (condition) {
           local_08 = (1 + local_08);
+          push(local_21);
         }
         local_19 = (local_19 + 8);
         if (legalMoveToPoint(0, 0, local_19, arg_06) == 0) {
           local_10 = 1;
           while (local_10 <= local_08) {
             local_21 = Item.getEtherealTop();
+            getTargetNPCNumMaybe(Item.getZ(local_21), Item.getY(local_21), Item.getX(local_21), local_21);
             local_10 = (1 + local_10);
           }
           spawn ROLL_EW.slot_20(pid, arg_06);
@@ -35,8 +39,10 @@ function roll_ew_slot_21() /* entry=1390 class_id=0x056c slot=0x21 */
         local_10 = 1;
         while (local_10 <= local_08) {
           local_21 = Item.getEtherealTop();
+          getTargetNPCNumMaybe(Item.getZ(local_21), Item.getY(local_21), (Item.getX(local_21) + 8), local_21);
           local_10 = (1 + local_10);
         }
+        Item.isCentreOn(local_04, arg_06);
         spawn FREE.waitNTimerTicks(pid, local_02, 0x00000000);
         suspend;
       }
@@ -50,12 +56,14 @@ function roll_ew_slot_21() /* entry=1390 class_id=0x056c slot=0x21 */
         local_08 = 0;
         while (condition) {
           local_08 = (1 + local_08);
+          push(local_21);
         }
         local_19 = (local_19 - 8);
         if (legalMoveToPoint(0, 0, local_19, arg_06) == 0) {
           local_10 = 1;
           while (local_10 <= local_08) {
             local_21 = Item.getEtherealTop();
+            getTargetNPCNumMaybe(Item.getZ(local_21), Item.getY(local_21), Item.getX(local_21), local_21);
             local_10 = (1 + local_10);
           }
           spawn ROLL_EW.slot_20(pid, arg_06);
@@ -65,8 +73,10 @@ function roll_ew_slot_21() /* entry=1390 class_id=0x056c slot=0x21 */
         local_10 = 1;
         while (local_10 <= local_08) {
           local_21 = Item.getEtherealTop();
+          getTargetNPCNumMaybe(Item.getZ(local_21), Item.getY(local_21), (Item.getX(local_21) - 8), local_21);
           local_10 = (1 + local_10);
         }
+        Item.isCentreOn(local_04, arg_06);
         spawn FREE.waitNTimerTicks(pid, local_02, 0x00000000);
         suspend;
       }
@@ -99,12 +109,14 @@ function roll_ew_slot_21() /* entry=1390 class_id=0x056c slot=0x21 */
           local_23 = (local_24 - local_15);
         }
         else if (local_23 > 12) {
+          Container.destroyContents(arg_06);
           spawn FREE.waitNTimerTicks(pid, 6, 0x00000000);
           suspend;
           spawn ROLL_EW.slot_20(pid, arg_06);
           suspend;
           return;
         }
+        Item.isCentreOn(local_04, arg_06);
         spawn FREE.waitNTimerTicks(pid, local_02, 0x00000000);
         suspend;
       }
@@ -133,12 +145,14 @@ function roll_ew_slot_21() /* entry=1390 class_id=0x056c slot=0x21 */
           local_23 = (local_24 - local_15);
         }
         else if (local_23 > 12) {
+          Container.destroyContents(arg_06);
           spawn FREE.waitNTimerTicks(pid, 6, 0x00000000);
           suspend;
           spawn ROLL_EW.slot_20(pid, arg_06);
           suspend;
           return;
         }
+        Item.isCentreOn(local_04, arg_06);
         spawn FREE.waitNTimerTicks(pid, local_02, 0x00000000);
         suspend;
       }

@@ -10,8 +10,10 @@ function brokencw_gotHit() /* entry=211 class_id=0x00d1 slot=0x06 */
   process_exclude();
   while (condition) {
     if (Item.getShape(item) == 0x00d1) {
+      Item.setShape(95, item);
     }
     else if ((Item.getItemFamily(item) == 6) && (Actor.isNPC(item) == 0)) {
+      Container.destroyContents(item);
       spawn ITEM.slot_28(pid, 1, 0, item);
       suspend;
     }

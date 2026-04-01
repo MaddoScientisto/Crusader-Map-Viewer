@@ -4,27 +4,35 @@ function trigger_slot_24() /* entry=2585 class_id=0x0a17 slot=0x24 */
   local_18 = arg_18;
   local_16 = arg_10;
   local_04 = (arg_16 & 3);
-  if (local_04 == 0) {
+  switch (local_04) {
+  case 0:
+    for local_14 in nearby_items(family=1, origin=local_16) {
+      if (Item.getQLo(local_14) == arg_18) {
+        if (arg_10 != local_14) {
+          Item.setQHi(arg_12, local_14);
+        }
+      }
+    }
+    break;
+  case 1:
+    for local_14 in nearby_items(family=1, origin=local_16) {
+      if (Item.getQLo(local_14) == arg_18) {
+        if (arg_10 != local_14) {
+          Item.setQLo(arg_12, local_14);
+        }
+      }
+    }
+    break;
+  case 2:
     for local_14 in nearby_items(family=1, origin=local_16) {
       if (Item.getQLo(local_14) == arg_18) {
       }
     }
-  }
-  else if (local_04 == 1) {
-    for local_14 in nearby_items(family=1, origin=local_16) {
-      if (Item.getQLo(local_14) == arg_18) {
-      }
-    }
-  }
-  else if (local_04 == 2) {
-    for local_14 in nearby_items(family=1, origin=local_16) {
-      if (Item.getQLo(local_14) == arg_18) {
-      }
-    }
-  }
-  else if (local_04 == 3) {
+    break;
+  case 3:
     local_02 = (arg_12 & 7);
-    if (local_02 == 0) {
+    switch (local_02) {
+    case 0:
       local_12 = (arg_12 / 8);
       for local_14 in nearby_items(shape=0x0476, origin=local_16) {
         if (Item.getQLo(local_14) == arg_18) {
@@ -35,14 +43,16 @@ function trigger_slot_24() /* entry=2585 class_id=0x0a17 slot=0x24 */
           FREE.slot_39(local_12, local_10, local_08, local_14);
         }
       }
-    }
-    else if (local_02 == 1) {
+      break;
+    case 1:
       local_12 = (arg_12 / 8);
       for local_14 in nearby_items(family=1, origin=local_16) {
         if (Item.getQLo(local_14) == arg_18) {
           if (arg_10 != local_14) {
+            Kernel.resetRef(12, local_14);
             if (local_12 == 31) {
               suspend;
+              Item.destroy(local_14);
             }
             else {
               local_10 = Item.getFrame(local_14);
@@ -51,20 +61,31 @@ function trigger_slot_24() /* entry=2585 class_id=0x0a17 slot=0x24 */
               local_08 = (local_08 & 0x0700);
               local_08 = (local_08 / 8);
               local_08 = (local_08 + local_10);
+              Item.setNpcNum(local_08, local_14);
+              Item.setMapNum(local_06, local_14);
+              Item.push(local_14);
+              Item.setFrame(0, local_14);
               suspend;
+              Item.setShape(0x0476, local_14);
+              Item.orStatus(16, local_14);
+              Item.andStatus((~0x1000), local_14);
+              Item.pop(local_14);
             }
           }
         }
       }
-    }
-    else if (local_02 == 2) {
+      break;
+    case 2:
       local_06 = (arg_12 / 8);
       for local_14 in nearby_items(family=1, origin=local_16) {
         if (Item.getQLo(local_14) == arg_18) {
+          if (arg_10 != local_14) {
+            Item.setFrame(local_06, local_14);
+          }
         }
       }
-    }
-    else if (local_02 == 3) {
+      break;
+    case 3:
       if (global[0x0022] == 100) {
         local_20 = 32;
       }
@@ -79,16 +100,16 @@ function trigger_slot_24() /* entry=2585 class_id=0x0a17 slot=0x24 */
           }
         }
       }
-    }
-    else if (local_02 == 4) {
+      break;
+    case 4:
       local_06 = (arg_12 / 8);
       local_18 = (local_18 + local_06);
-    }
-    else if (local_02 == 5) {
+      break;
+    case 5:
       local_06 = (arg_12 / 8);
       local_18 = (local_18 - local_06);
-    }
-    else if (local_02 == 6) {
+      break;
+    case 6:
       local_12 = (arg_12 / 8);
       for local_14 in nearby_items(shape=0x0476, origin=local_16) {
         if (Item.getQLo(local_14) == arg_18) {
@@ -98,12 +119,19 @@ function trigger_slot_24() /* entry=2585 class_id=0x0a17 slot=0x24 */
           local_08 = (((local_06 & 0x00e0) * 8) + local_08);
           if (local_08 != 0) {
             if (Item.create(local_10, local_08, local_22) == 1) {
+              Item.setQ(Item.getQ(local_14), local_22);
+              Item.push(local_22);
+              Item.touch(local_22);
+              Item.popToCoords(Item.getZ(local_14), Item.getY(local_14), Item.getX(local_14), local_22);
               suspend;
             }
           }
         }
       }
+      break;
     }
+    break;
   }
+  process_result = local_18;
   return;
 }

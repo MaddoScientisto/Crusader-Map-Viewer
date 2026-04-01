@@ -8,28 +8,28 @@ function reb_coup_enterFastArea() /* entry=847 class_id=0x034d slot=0x0f */
     set_info(0x021b, *(arg_06));
     process_exclude();
 
-  block_00eb:
-    while (true) {
+  while (true) {
+    suspend;
+    spawn FREE.slot_32(UCMachine.rndRange(pid, 60, 30), 0x00000000);
+    suspend;
+    counter = 0;
+    while (counter <= 4) {
+      Item.getPoint(counter, arg_06);
+      spawn FREE.slot_32(pid, 10, 0x00000000);
       suspend;
-      spawn FREE.slot_32(UCMachine.rndRange(pid, 60, 30), 0x00000000);
-      suspend;
-      counter = 0;
-      while (counter <= 4) {
-        spawn FREE.slot_32(pid, 10, 0x00000000);
-        suspend;
-        counter = (1 + counter);
-      }
-      spawn FREE.slot_32(UCMachine.rndRange(pid, 60, 30), 0x00000000);
-      suspend;
-      counter = 0;
-      while (counter <= 4) {
-        spawn FREE.slot_32(pid, 10, 0x00000000);
-        suspend;
-        counter = (1 + counter);
-      }
+      counter = (1 + counter);
     }
+    spawn FREE.slot_32(UCMachine.rndRange(pid, 60, 30), 0x00000000);
+    suspend;
+    counter = 0;
+    while (counter <= 4) {
+      Item.getPoint((4 - counter), arg_06);
+      spawn FREE.slot_32(pid, 10, 0x00000000);
+      suspend;
+      counter = (1 + counter);
+    }
+  }
 
-  block_01fa:
-    return;
+  return;
 
 }

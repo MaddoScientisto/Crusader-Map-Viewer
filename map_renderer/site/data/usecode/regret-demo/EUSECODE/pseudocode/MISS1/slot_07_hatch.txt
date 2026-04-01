@@ -3,8 +3,29 @@ function miss1_hatch() /* entry=2319 class_id=0x090d slot=0x07 */
   set_info(0x0210, *(arg_06));
   process_exclude();
   if (Item.callEvent11(arg_06) == 1) {
+    Actor.clrImmortal();
     spawn FREE.slot_3b(pid, 1, 0x00000000);
     suspend;
+    Item.getPoint(1);
+    Game.isViolenceEnabled();
+    Item.create(0, RP_32, local_02);
+    Item.popToCoords(0, 0, 0, local_02);
+    Item.andStatus(0, local_02);
+    Item.create(0, SPIDER_BOMB, local_02);
+    Item.popToCoords(0, 0, 0, local_02);
+    Item.andStatus(0, local_02);
+    Item.create(0, SPIDER_BOMB, local_02);
+    Item.popToCoords(0, 0, 0, local_02);
+    Item.andStatus(0, local_02);
+    Item.create(0, SPIDER_BOMB, local_02);
+    Item.popToCoords(0, 0, 0, local_02);
+    Item.andStatus(0, local_02);
+    Item.create(0, DET_PAC, local_02);
+    Item.popToCoords(0, 0, 0, local_02);
+    Item.andStatus(0, local_02);
+    Item.create(0, DET_PAC, local_02);
+    Item.popToCoords(0, 0, 0, local_02);
+    Item.andStatus(0, local_02);
     if (World.gameDifficulty() == 1) {
       local_08 = 5;
     }
@@ -13,14 +34,35 @@ function miss1_hatch() /* entry=2319 class_id=0x090d slot=0x07 */
     }
     local_10 = 1;
     while (local_10 <= local_08) {
+      Item.create(0, MEDICAL_KIT, local_02);
+      Item.popToCoords(0, 0, 0, local_02);
+      Item.andStatus(0, local_02);
+      Item.create(0, ENERGY_CUBE, local_02);
+      Item.popToCoords(0, 0, 0, local_02);
+      Item.andStatus(0, local_02);
+      Item.create(0, RP_32_CLIP, local_02);
+      Item.popToCoords(0, 0, 0, local_02);
+      Item.andStatus(0, local_02);
+      Item.create(0, RP_32_CLIP, local_02);
+      Item.popToCoords(0, 0, 0, local_02);
+      Item.andStatus(0, local_02);
       local_10 = (1 + local_10);
     }
+    Item.create(0, CHEMICAL_BATTERY, local_02);
+    Item.popToCoords(0, 0, 0, local_02);
+    Item.andStatus(0, local_02);
+    Item.isCentreOn(0x0960, &global[0x001e]);
+    Item.create(0, IONIC_SHIELD, local_02);
+    Item.popToCoords(0, 0, 0, local_02);
+    Item.andStatus(0, local_02);
     suspend;
+    Item.getQHi();
     spawn FREE.slot_3b(pid, 1, 0x00000000);
     suspend;
     suspend;
     suspend;
     suspend;
+    AudioProcess.playSFXCru(0x0120, &global[0x001e]);
     spawn FREE.slot_3b(pid, 20, 0x00000000);
     suspend;
     for local_02 in nearby_items(shape=0x0156, origin=arg_06) {
@@ -37,12 +79,17 @@ function miss1_hatch() /* entry=2319 class_id=0x090d slot=0x07 */
       spawn DOOR.slot_21(pid, 2, local_12);
       suspend;
     }
+    Item.unequip();
+    MusicProcess.unpauseMusic();
+    Item.getPoint(0);
+    Item.destroy(arg_06);
   }
   if (Item.callEvent11(arg_06) == 37) {
     if (World.getControlledNPCNum() != 1) {
       return;
     }
     else {
+      Item.getPoint(1);
       suspend;
       suspend;
       suspend;
@@ -57,6 +104,7 @@ function miss1_hatch() /* entry=2319 class_id=0x090d slot=0x07 */
           suspend;
           spawn FREE.slot_3b(pid, 30, 0x00000000);
           suspend;
+          Item.shoot(AudioProcess.stopSFXCru(&global[0x001e]), Item.getZ(local_12), Item.getY(local_12), Item.getX(local_12));
           spawn FREE.slot_3b(pid, 30, 0x00000000);
           suspend;
         }
@@ -65,20 +113,30 @@ function miss1_hatch() /* entry=2319 class_id=0x090d slot=0x07 */
         local_04 = local_02;
       }
       if (local_04) {
+        Item.getUnkEggType(Item.getFrame(local_04), 0x0277, local_06);
+        Item.popToCoords(Item.getZ(local_04), Item.getY(local_04), Item.getX(local_04), local_06);
+        Item.destroy(local_04);
         suspend;
         local_14 = "You must be that^Silencer who blew^the Vigilance^Platform!^^My name is Denning.^I'm with the^Resistance too.^^This freighter is^heading to a^lunar mining base.^I've got friends^there who can help.^^Get to level 3 and^I'll contact you.^Make sure you check^your DataLink when^it starts beeping.^^See you there...";
+        Ultima8Engine.clrCruStasis(local_14);
         spawn FREE.slot_3b(pid, 30, 0x00000000);
         suspend;
         suspend;
         suspend;
         suspend;
         suspend;
+        Item.destroy(local_06);
       }
       local_16 = Item.callEvent11(arg_06);
       local_02 = *(arg_06);
       local_18 = Item.getCY(local_02);
+      Item.setQLo(local_16, local_02);
       spawn TRIGGER.slot_20(pid, (0 + 0x0080), local_02, arg_06);
       suspend;
+      Item.setQLo(local_18, local_02);
+      Item.shoot(AudioProcess.stopSFXCru(&global[0x001e]), 96, 0x70ca, 0x6d1a);
+      Item.getPoint(0);
+      Item.destroy(arg_06);
     }
   }
   return;

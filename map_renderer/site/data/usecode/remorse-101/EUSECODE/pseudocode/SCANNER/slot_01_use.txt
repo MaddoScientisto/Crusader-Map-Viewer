@@ -11,8 +11,10 @@ function scanner_use() /* entry=1327 class_id=0x052d slot=0x01 */
     return;
   }
   else {
+    Actor.getHp((Actor.clrImmortal(&global[0x003d]) - 0x07d0), &global[0x003d]);
+    mouseSomethingResume05F();
     for local_02 in nearby_items(family=6, origin=global[0x003d]) {
-      if ((Actor.isDead(local_02) != 0) && (local_02 == Actor.getLastAnimSet())) {
+      if ((Actor.isDead(local_02) == 0) && (local_02 != Actor.getLastAnimSet())) {
         NPC.slot_2b(local_02);
         if (retval) {
           spawn SCANNER.slot_20(local_02, arg_06);

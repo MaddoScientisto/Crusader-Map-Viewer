@@ -10,6 +10,8 @@ function mfan_ns_gotHit() /* entry=513 class_id=0x01ff slot=0x06 */
   FREE.slot_2c(vel, ref);
   if (retval) {
     FREE.slot_20(1);
+    Item.legal_create(retval, arg_06);
+    Item.setShape(0x032d, arg_06);
     spawn ITEM.slot_28(pid, 0, 1, arg_06);
     suspend;
   }

@@ -10,6 +10,7 @@ function surcamns_slot_20() /* entry=1224 class_id=0x04c6 slot=0x20 */
     code; /* [BP-11h] type=0x62 */
 
   set_info(0x021b, 0);
+  Item.orStatus(0x1000, arg_06);
   link = Item.getQLo(arg_06);
   if (Item.getMapArray(arg_06) != 0) {
     for monit in nearby_items(shape=0x037a, origin=arg_06) {
@@ -28,7 +29,6 @@ function surcamns_slot_20() /* entry=1224 class_id=0x04c6 slot=0x20 */
     suspend;
     spawn TRIGGER.slot_20(pid, 1, *(arg_06), arg_06);
     suspend;
-    return;
   }
   else {
     code = 0;
@@ -54,5 +54,6 @@ function surcamns_slot_20() /* entry=1224 class_id=0x04c6 slot=0x20 */
     spawn SURCAMNS.slot_21(pid, arg_06);
     suspend;
   }
+  Item.andStatus((~0x1000), arg_06);
   return;
 }

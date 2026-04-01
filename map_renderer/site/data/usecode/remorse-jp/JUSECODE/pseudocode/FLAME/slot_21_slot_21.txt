@@ -17,6 +17,9 @@ function flame_slot_21() /* entry=2573 class_id=0x0a0b slot=0x21 */
       suspend;
       if (ref < 0x00ff) {
         NPC.slot_2b(n);
+        if (!retval) {
+          Actor.getSomeFlagProbablyCrouch(UCMachine.rndRange(12, 50, 16, 0), 0, n);
+        }
         spawn FLAME.slot_20(arg_06);
         return;
       }

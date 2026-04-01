@@ -20,5 +20,8 @@ function alrmtrig_equip() /* entry=1411 class_id=0x0581 slot=0x0a */
     spawn TRIGGER.slot_20(pid, (1 + 0x0080), *(arg_06), arg_06);
     suspend;
   }
+  if (arg_10 == 1) {
+    Item.destroy(arg_06);
+  }
   return;
 }

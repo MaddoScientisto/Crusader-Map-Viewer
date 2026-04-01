@@ -2,6 +2,7 @@ function conveyor_leaveFastArea() /* entry=2567 class_id=0x0a05 slot=0x10 */
 {
   set_info(0x021c, *(arg_06));
   process_exclude();
+  Item.andStatus(115, arg_06);
   FREE.slot_3c(0x0205, *(arg_06));
   return;
 }

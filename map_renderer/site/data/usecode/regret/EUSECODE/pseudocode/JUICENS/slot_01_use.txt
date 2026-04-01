@@ -11,13 +11,16 @@ function juicens_use() /* entry=1466 class_id=0x05b8 slot=0x01 */
       local_04 = local_02;
     }
     if (!local_05) {
+      Item.playSfxCru(0x01a7, arg_06);
       spawn TRIGGER.slot_20(pid, 1, *(arg_06), arg_06);
       suspend;
       return;
     }
     else {
+      Intrinsic00B5(local_04);
       ITEM.slot_24(0x1000, arg_06);
       suspend;
+      Intrinsic003F();
       if (!Intrinsic0061(&global[0x001e])) {
         local_06 = 0;
       }
@@ -31,6 +34,7 @@ function juicens_use() /* entry=1466 class_id=0x05b8 slot=0x01 */
         spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
         suspend;
       }
+      AudioProcess.playSFXCru(0x0098, arg_06);
       while (Actor.isBusy(&global[0x001e])) {
         spawn FREE.slot_3b(pid, 2, 0x00000000);
         suspend;

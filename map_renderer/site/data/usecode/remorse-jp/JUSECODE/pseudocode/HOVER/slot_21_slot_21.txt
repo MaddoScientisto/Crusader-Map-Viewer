@@ -17,12 +17,14 @@ function hover_slot_21() /* entry=2576 class_id=0x0a0e slot=0x21 */
 
   set_info(1, 0);
   hover = ref;
+  Item.orStatus(0x1000, hover);
   h = Item.hurl(hover);
   oldqhi = h;
   firstEgg = (h & 15);
   targetEgg = firstEgg;
   while (1) {
     if ((Item.getStatus(hover) & 0x1000) == 0) {
+      Item.pop(oldqhi, hover);
       spawn HOVER.slot_23(pid, 1, ref, arg_06);
       suspend;
       return;
@@ -42,20 +44,25 @@ function hover_slot_21() /* entry=2576 class_id=0x0a0e slot=0x21 */
       }
       if (tx == -1) {
         if (targetEgg == firstEgg) {
+          Item.isOn((~0x1000), hover);
+          Item.pop(oldqhi, hover);
           return;
         }
         targetEgg = firstEgg;
         h = (h & 0x00f0);
+        Item.pop((h | targetEgg), hover);
       }
       spawn HOVER.slot_20(pid, tz, ty, tx, ref, arg_06);
       suspend;
       if (process_result == 1) {
+        Item.pop(oldqhi, hover);
         return;
       }
       else {
         spawn HOVER.slot_24(pid, targetEgg, ref, arg_06);
         suspend;
         if ((Item.getStatus(hover) & 0x1000) == 0) {
+          Item.pop(oldqhi, hover);
           spawn HOVER.slot_23(pid, 1, ref, arg_06);
           suspend;
           return;
@@ -78,6 +85,7 @@ function hover_slot_21() /* entry=2576 class_id=0x0a0e slot=0x21 */
           oldqhi = h;
         }
         h = (h & 0x00f0);
+        Item.pop((h | targetEgg), hover);
       }
     }
   }

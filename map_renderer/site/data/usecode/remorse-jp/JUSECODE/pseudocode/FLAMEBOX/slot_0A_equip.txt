@@ -28,10 +28,18 @@ function flamebox_equip() /* entry=1029 class_id=0x0403 slot=0x0a */
     for flame in selector_0x42(arg0=0x0438, arg1=0x0439, arg2=(32 * 32), origin=arg_06) {
       if (Item.getUnkEggType(flame) == Item.getUnkEggType(arg_06)) {
         if (Item.getShape(flame) == 0x0439) {
+          Item.create(0, 0x043a, flame2);
+          Item.popToCoords(Item.getZ(flame), Item.getY(flame), Item.getX(flame), flame2);
+          AudioProcess.playSFXCru(117, flame2);
           spawn FLAMEBOX.slot_20(0, flame2, arg_06);
+          Item.destroy(flame);
         }
         else if (Item.getShape(flame) == 0x0438) {
+          Item.create(0, 0x0518, flame2);
+          Item.popToCoords(Item.getZ(flame), Item.getY(flame), Item.getX(flame), flame2);
+          AudioProcess.playSFXCru(117, flame2);
           spawn FLAMEBOX.slot_20(1, flame2, arg_06);
+          Item.destroy(flame);
         }
       }
     }

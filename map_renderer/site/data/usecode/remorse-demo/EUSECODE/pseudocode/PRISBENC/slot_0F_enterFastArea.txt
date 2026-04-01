@@ -20,6 +20,7 @@ function prisbenc_enterFastArea() /* entry=743 class_id=0x02e5 slot=0x0f */
     if (Item.getFrame(arg_06) < 6) {
       counter = Item.getFrame(arg_06);
       while (counter <= 5) {
+        Item.legal_create(counter, arg_06);
         spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
         suspend;
         counter = (1 + counter);
@@ -29,6 +30,7 @@ function prisbenc_enterFastArea() /* entry=743 class_id=0x02e5 slot=0x0f */
       suspend;
       counter = 0;
       while (counter <= 5) {
+        Item.legal_create((5 - counter), arg_06);
         spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
         suspend;
         counter = (1 + counter);
@@ -37,6 +39,7 @@ function prisbenc_enterFastArea() /* entry=743 class_id=0x02e5 slot=0x0f */
     else {
       counter = Item.getFrame(arg_06);
       while (counter <= 12) {
+        Item.legal_create(counter, arg_06);
         spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
         suspend;
         counter = (1 + counter);
@@ -46,6 +49,7 @@ function prisbenc_enterFastArea() /* entry=743 class_id=0x02e5 slot=0x0f */
       suspend;
       counter = 0;
       while (counter <= 5) {
+        Item.legal_create((12 - counter), arg_06);
         spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
         suspend;
         counter = (1 + counter);

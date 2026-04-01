@@ -3,5 +3,6 @@ function npc_slot_29() /* entry=2581 class_id=0x0a13 slot=0x29 */
   set_info(0x021b, *(arg_06));
   spawn FREE.slot_32(pid, 10, 0x00000000);
   suspend;
+  Item.getRangeIfVisible(Actor.getMap(arg_06), 0, arg_16, arg_14);
   return;
 }

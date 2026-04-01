@@ -20,16 +20,28 @@ function lazer_slot_20() /* entry=2576 class_id=0x0a0e slot=0x20 */
             local_06 = (local_06 - 8);
           }
           NPC.slot_2a(local_04);
+          if (!retval) {
+            Intrinsic0055(UCMachine.rndRange(8, 5, 4, 2), *(arg_06), local_04);
+          }
           if (!Actor.isDead(local_04)) {
+            if (Item.isOnScreen(arg_06) == 1) {
+              SpriteProcess.createSprite(Item.getZ(local_04), Item.getY(local_04), Item.getX(local_04), 6, 9, 0, 0x062b);
+              Item.playSfxCru(5, arg_06);
+            }
             if (Actor.getCurrentActivityNo(local_04) == 5) {
+              Actor.setActivity(9, local_04);
             }
             else if (Actor.getCurrentActivityNo(local_04) == 10) {
+              Actor.setActivity(11, local_04);
             }
           }
         }
         else if (Item.isOnScreen(arg_06) == 1) {
+          Intrinsic0055(UCMachine.rndRange(7, 5, 10, 5), *(arg_06), local_04);
           spawn NPC.slot_2e(pid, *(arg_06), local_04);
           suspend;
+          SpriteProcess.createSprite(Item.getZ(local_04), Item.getY(local_04), Item.getX(local_04), 6, 9, 0, 0x062b);
+          Item.playSfxCru(5, arg_06);
         }
       }
     }

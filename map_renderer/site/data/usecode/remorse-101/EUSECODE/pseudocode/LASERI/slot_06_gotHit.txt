@@ -18,9 +18,13 @@ function laseri_gotHit() /* entry=471 class_id=0x01d5 slot=0x06 */
     }
     else if ((local_04 > 0) && (Item.getFrame(arg_06) == 0)) {
       while (condition) {
+        if (Egg.getEggXRange(local_02) == local_06) {
+          Item.destroy(local_02);
+        }
       }
       spawn ITEM.slot_28(pid, 0, 0, arg_06);
       suspend;
+      Item.isCentreOn(1, arg_06);
       if (Item.getMapArray(arg_06) != 0) {
         spawn TRIGGER.slot_2a(pid, 0, *(arg_06), arg_06);
         suspend;

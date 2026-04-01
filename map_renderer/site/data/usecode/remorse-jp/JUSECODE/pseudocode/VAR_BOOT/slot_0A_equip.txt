@@ -11,35 +11,46 @@ function var_boot_equip() /* entry=1118 class_id=0x045c slot=0x0a */
     return;
   }
   else {
+    Ultima8Engine.setAvatarInStasis(1);
     FREE.slot_33(0x021b, *(arg_06));
     while (Item.getFrame(arg_06) != 4) {
+      Item.getPoint((Item.getFrame(arg_06) + 1), arg_06);
       spawn FREE.slot_32(pid, 5, 0x00000000);
       suspend;
     }
     spawn FREE.slot_32(pid, 5, 0x00000000);
     suspend;
-    if (global[0x001f] == 3) {
+    switch (global[0x001f]) {
+    case 3:
+      playFlic(pid, 0x0096, 0x00c8, "3c", arg_06);
       suspend;
-    }
-    else if (global[0x001f] == 4) {
+      break;
+    case 4:
+      playFlic(pid, 0x0096, 0x00c8, "4b", arg_06);
       suspend;
-    }
-    else if (global[0x001f] == 6) {
+      break;
+    case 6:
+      playFlic(pid, 0x0096, 0x00c8, "6b", arg_06);
       suspend;
-    }
-    else if (global[0x001f] == 7) {
+      break;
+    case 7:
+      playFlic(pid, 0x0096, 0x00c8, "7b", arg_06);
       suspend;
-    }
-    else if (global[0x001f] == 9) {
+      break;
+    case 9:
+      playFlic(pid, 0x0096, 0x00c8, "9a", arg_06);
       suspend;
+      break;
     }
     counter = 0;
     while (counter <= 4) {
+      Item.getPoint((4 - counter), arg_06);
       spawn FREE.slot_32(pid, 10, 0x00000000);
       suspend;
       counter = (1 + counter);
     }
     spawn VAR_BOOT.enterFastArea(arg_06);
+    Ultima8Engine.setAvatarInStasis(0);
   }
   return;
 }

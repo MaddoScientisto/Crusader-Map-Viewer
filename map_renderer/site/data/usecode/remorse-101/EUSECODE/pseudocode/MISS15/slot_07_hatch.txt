@@ -2,11 +2,20 @@ function miss15_hatch() /* entry=2333 class_id=0x091b slot=0x07 */
 {
   set_info(0x0210, *(arg_06));
   process_exclude();
-  if (Item.fallProbably_03E(arg_06) == 1) {
+  switch (Item.fallProbably_03E(arg_06)) {
+  case 1:
+    Item.setMapArray();
+    Ultima8Engine.setAvatarInStasis(1);
     spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
     suspend;
+    Intrinsic08A();
+    playFlic(pid, 0x0096, 0x00fa, "15b", arg_06);
     suspend;
+    Item.setIsBroken();
     suspend;
+    Item.legal_create(0, 0x039b, local_02);
+    getTargetNPCNumMaybe(0, 0, 0, local_02);
+    Item.spawnUsecodeEvent0x13(0, local_02);
     suspend;
     for local_06 in nearby_items(shape=51, origin=arg_06) {
       spawn DOOR.slot_21(pid, 1, local_06);
@@ -19,28 +28,33 @@ function miss15_hatch() /* entry=2333 class_id=0x091b slot=0x07 */
     suspend;
     suspend;
     suspend;
+    Ultima8Engine.setAvatarInStasis(0);
+    Item.destroy(arg_06);
     return;
-  }
-  else if (Item.fallProbably_03E(arg_06) == 2) {
+  case 2:
     spawn FREE.slot_26(pid, "15c", 0x00000000);
     suspend;
+    Item.destroy(arg_06);
     return;
-  }
-  else if (Item.fallProbably_03E(arg_06) == 3) {
+  case 3:
+    Ultima8Engine.setAvatarInStasis(1);
     while (Actor.isBusy(&global[0x003d])) {
       spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
       suspend;
     }
     FREE.slot_41();
     suspend;
+    playFlic(pid, 0x0096, 0x00fa, "15e", arg_06);
     suspend;
     spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
     suspend;
+    Ultima8Engine.setAvatarInStasis(0);
     for local_08 in nearby_items(shape=npcdeath_shape_03ac, origin=arg_06) {
+      Actor.isDead(10, local_08);
     }
+    Item.destroy(arg_06);
     return;
-  }
-  else if (Item.fallProbably_03E(arg_06) == 4) {
+  case 4:
     return;
   }
   return;

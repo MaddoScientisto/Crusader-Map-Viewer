@@ -2,5 +2,8 @@ function telepad_enterFastArea() /* entry=477 class_id=0x01db slot=0x0f */
 {
   set_info(0x021b, *(arg_06));
   process_exclude();
+  if (Item.getFrame(arg_06) < 2) {
+    AudioProcess.playSFXCru(96, arg_06);
+  }
   return;
 }

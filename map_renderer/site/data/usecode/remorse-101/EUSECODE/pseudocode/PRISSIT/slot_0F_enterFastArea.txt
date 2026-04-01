@@ -16,6 +16,7 @@ function prissit_enterFastArea() /* entry=745 class_id=0x02e7 slot=0x0f */
     if (Item.getFrame(arg_06) < 6) {
       local_02 = Item.getFrame(arg_06);
       while (local_02 <= 5) {
+        Item.isCentreOn(local_02, arg_06);
         spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
         suspend;
         local_02 = (1 + local_02);
@@ -25,6 +26,7 @@ function prissit_enterFastArea() /* entry=745 class_id=0x02e7 slot=0x0f */
       suspend;
       local_02 = 0;
       while (local_02 <= 5) {
+        Item.isCentreOn((5 - local_02), arg_06);
         spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
         suspend;
         local_02 = (1 + local_02);
@@ -33,6 +35,7 @@ function prissit_enterFastArea() /* entry=745 class_id=0x02e7 slot=0x0f */
     else {
       local_02 = Item.getFrame(arg_06);
       while (local_02 <= 12) {
+        Item.isCentreOn(local_02, arg_06);
         spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
         suspend;
         local_02 = (1 + local_02);
@@ -42,6 +45,7 @@ function prissit_enterFastArea() /* entry=745 class_id=0x02e7 slot=0x0f */
       suspend;
       local_02 = 0;
       while (local_02 <= 5) {
+        Item.isCentreOn((12 - local_02), arg_06);
         spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
         suspend;
         local_02 = (1 + local_02);

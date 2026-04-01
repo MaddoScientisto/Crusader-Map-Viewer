@@ -13,11 +13,15 @@ function miss8_slot_20() /* entry=2326 class_id=0x0914 slot=0x20 */
 
   set_info(0x0001, *(arg_06));
   y = Item.getY(&global[0x003c]);
+  Ultima8Engine.setAvatarInStasis(1);
   while (Actor.isBusy(&global[0x003c])) {
     spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
     suspend;
   }
   for item in nearby_items(shape=0x04e0, origin=global[0x003c]) {
+    Actor.create(2, 0x04e0, willmar);
+    Item.popToCoords(Item.getZ(item), Item.getY(item), Item.getX(item), willmar);
+    Item.destroy(item);
   }
   if (willmar) {
     counter = 0;
@@ -28,15 +32,20 @@ function miss8_slot_20() /* entry=2326 class_id=0x0914 slot=0x20 */
     suspend;
     suspend;
     suspend;
+    playFlic(pid, 0x0096, 0x00fa, "8e", arg_06);
     suspend;
+    Ultima8Engine.setAvatarInStasis(1);
     spawn NPC.slot_22(pid, 4, 12, willmar);
     suspend;
     suspend;
     suspend;
     suspend;
+    AudioProcess.playSFXCru(0x0097, &global[0x003c]);
     spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
     suspend;
+    playFlic(pid, 0x0096, 0x00fa, "8f", arg_06);
     suspend;
+    Ultima8Engine.setAvatarInStasis(1);
     suspend;
     spawn NPC.slot_22(pid, 3, 12, willmar);
     suspend;
@@ -47,36 +56,63 @@ function miss8_slot_20() /* entry=2326 class_id=0x0914 slot=0x20 */
     suspend;
     spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
     suspend;
+    Item.create(0, 0x0317, telebeam);
+    Item.popToCoords(Item.getZ(willmar), Item.getY(willmar), Item.getX(willmar), telebeam);
+    AudioProcess.playSFXCru(52, telebeam);
     counter = 0;
     while (counter <= 37) {
+      Item.setFrame(counter, telebeam);
       spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
       suspend;
       counter = (1 + counter);
     }
+    AudioProcess.playSFXCru(0x00c2, willmar);
+    PaletteFaderProcess.setPalToAllGrey();
+    AudioProcess.playSFXCru(24, telebeam);
+    AudioProcess.playSFXCru(108, arg_06);
     spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
     suspend;
+    PaletteFaderProcess.stopFadesAndResetToGamePal();
     counter = 0;
     while (counter <= 37) {
+      Item.setFrame((37 - counter), telebeam);
       spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
       suspend;
       counter = (1 + counter);
     }
+    PaletteFaderProcess.setPalToAllGrey();
+    AudioProcess.playSFXCru(108, arg_06);
+    Item.create(0, 0x04ee, item);
+    Actor.teleport(0, 0, 0, 0, willmar);
+    Item.popToCoords(8, 0x0caa, 0x46a2, item);
+    Item.destroy(telebeam);
+    Item.touch(item);
     spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
     suspend;
+    PaletteFaderProcess.stopFadesAndResetToGamePal();
+    AudioProcess.playSFXCru(0x00c3, item);
     counter = 0;
     while (counter <= 40) {
+      Item.setFrame(counter, item);
       spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
       suspend;
       counter = (1 + counter);
     }
   }
   for item in nearby_items(shape=TELEPORTER_LIGHTS, origin=global[0x003c]) {
+    if (Item.getQLo(item) == 0x00ff) {
+      Item.setQuality(30, item);
+      Item.setFrame(1, item);
+    }
   }
+  playFlic(pid, 0x0096, 0x00fa, "8h", arg_06);
   suspend;
+  Ultima8Engine.setAvatarInStasis(0);
   for item in nearby_items(shape=NPC_SPAWNER_04D0, origin=arg_06) {
     if ((Item.getFrame(item) == 0) && (Item.getQLo(item) == 20)) {
       suspend;
     }
   }
+  Item.destroy(arg_06);
   return;
 }

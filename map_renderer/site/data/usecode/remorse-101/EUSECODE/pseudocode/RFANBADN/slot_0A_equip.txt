@@ -15,6 +15,7 @@ function rfanbadn_equip() /* entry=981 class_id=0x03d3 slot=0x0a */
       if (local_02 > 5) {
         local_02 = 1;
       }
+      Item.isCentreOn(local_02, arg_06);
       local_06 = (local_06 + 2);
       spawn FREE.waitNTimerTicks(pid, (30 - local_06), 0x00000000);
       suspend;
@@ -27,7 +28,14 @@ function rfanbadn_equip() /* entry=981 class_id=0x03d3 slot=0x0a */
       }
       local_04 = (1 + local_04);
     }
+    if (local_02 > 4) {
+      Item.isCentreOn(0, arg_06);
+    }
     ITEM.slot_24(0x1000, arg_06);
+    Item.legal_create(0, 0x00bd, local_08);
+    Item.andStatus(Actor.getDefaultActivity2(arg_06), local_08);
+    getTargetNPCNumMaybe(Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06), local_08);
+    Item.destroy(arg_06);
   }
   return;
 }

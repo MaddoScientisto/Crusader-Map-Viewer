@@ -18,7 +18,7 @@ function wallgun_slot_3d() /* entry=2591 class_id=0x0a1d slot=0x3d */
       cs = retval;
       FREE.slot_29(*(arg_06), target);
       dist = retval;
-      if ((((brain != 4) && (cs == 1)) && (dist <= 20)) || (((brain == 4) && (cs == 1)) && (dist <= 46))) {
+      if ((((brain == 4) && (cs == 1)) && (dist <= 20)) || (((brain != 4) && (cs == 1)) && (dist <= 46))) {
         spawn WALLGUN.slot_45(pid, brain, target, arg_06);
         suspend;
       }

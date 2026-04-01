@@ -60,9 +60,7 @@ function bridge_slot_26() /* entry=2565 class_id=0x0a03 slot=0x26 */
               return;
             }
           }
-          /* create_list */
-          /* append_list */
-          bridgeitems = item;
+          bridgeitems = (bridgeitems + [item]);
           y = (1 + y);
         }
       }
@@ -97,9 +95,11 @@ function bridge_slot_26() /* entry=2565 class_id=0x0a03 slot=0x26 */
             }
             else {
               z = Item.getFrame(item);
+              Item.setFrame(y, item);
               y = z;
             }
           }
+          Item.setFrame(y, item2);
           while (true) {
             foreach_list item -> block_10e1;
             x = Item.getFrame(item);
@@ -113,12 +113,17 @@ function bridge_slot_26() /* entry=2565 class_id=0x0a03 slot=0x26 */
             }
             else if (x == 2) {
               BRIDGE.slot_21(0x0336, item);
+              AudioProcess.stopSFXCru(0x0098, item);
+              Item.setFrame(1, item);
               while (condition) {
+                Item.fallProbably_03E(item2);
               }
               spawn FREE.waitNTimerTicks(pid, delay, 0x00000000);
               suspend;
               if (Item.getFrame(item) == 1) {
                 BRIDGE.slot_21(0x03a6, item);
+                AudioProcess.playAmbientSFXCru(0x0098, item);
+                Item.setFrame(2, item);
               }
             }
           }
@@ -129,6 +134,9 @@ function bridge_slot_26() /* entry=2565 class_id=0x0a03 slot=0x26 */
     }
     while (true) {
       foreach_list item -> block_113d;
+      if (Item.inFastArea(item) == 1) {
+        Item.setFrame(0, item);
+      }
     }
     while (1) {
       while (true) {
@@ -141,6 +149,7 @@ function bridge_slot_26() /* entry=2565 class_id=0x0a03 slot=0x26 */
           return;
         }
         if (cycletype == 1) {
+          Item.setFrame(1, item);
           while (condition) {
             n = item2;
             FREE.slot_20(pid, 8);
@@ -149,15 +158,21 @@ function bridge_slot_26() /* entry=2565 class_id=0x0a03 slot=0x26 */
           }
           spawn FREE.waitNTimerTicks(pid, delay, 0x00000000);
           suspend;
+          Item.setFrame(0, item);
         }
         else if (cycletype == 2) {
           BRIDGE.slot_21(0x0336, item);
+          AudioProcess.stopSFXCru(0x0098, item);
+          Item.setFrame(1, item);
           while (condition) {
+            Item.fallProbably_03E(item2);
           }
           spawn FREE.waitNTimerTicks(pid, delay, 0x00000000);
           suspend;
           if (Item.getFrame(item) == 1) {
             BRIDGE.slot_21(0x03a6, item);
+            AudioProcess.playAmbientSFXCru(0x0098, item);
+            Item.setFrame(0, item);
           }
         }
         else {

@@ -4,9 +4,11 @@ function item_slot_2c() /* entry=2592 class_id=0x0a1e slot=0x2c */
   while (condition) {
     if (local_02 < 0x00ff) {
       if ((local_02 > 1) && (IItem.getCY(local_02) == 0)) {
+        process_result = local_02;
         return;
       }
     }
   }
+  process_result = 1;
   return;
 }

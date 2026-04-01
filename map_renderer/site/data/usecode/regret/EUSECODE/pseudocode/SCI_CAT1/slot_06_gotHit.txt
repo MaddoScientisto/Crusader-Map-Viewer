@@ -9,6 +9,8 @@ function sci_cat1_gotHit() /* entry=1058 class_id=0x0420 slot=0x06 */
   else {
     spawn FREE.slot_3b(pid, 10, 0x00000000);
     suspend;
+    Item.setShape(0x0453, arg_06);
+    Item.touch(arg_06);
   }
   return;
 }

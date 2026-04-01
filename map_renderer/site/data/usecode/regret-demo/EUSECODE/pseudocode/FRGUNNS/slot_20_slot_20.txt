@@ -6,7 +6,7 @@ function frgunns_slot_20() /* entry=1526 class_id=0x05f4 slot=0x20 */
     local_04 = Item.isOn(arg_06);
     local_10 = Intrinsic006A(0x0205, *(arg_06));
     ITEM.slot_26(0x1000, arg_06);
-    if ((retval != 1) || (local_10 > 1)) || (local_02 == 10) goto block_012c;
+    if !(((retval == 1) || (local_10 > 1)) || (local_02 == 10)) goto block_012c;
 
   block_0129:
     goto block_031e;
@@ -18,46 +18,56 @@ function frgunns_slot_20() /* entry=1526 class_id=0x05f4 slot=0x20 */
   block_0140:
     local_04 = (local_04 - 100);
 
-  block_0147:
-    while (true) {
-      suspend;
-      local_08 = 0;
-      while (local_08 <= 8) {
-        spawn FREE.slot_3b(pid, 3, 0x00000000);
-        suspend;
-        local_08 = (1 + local_08);
-      }
-      if (local_04 == 0) {
-      }
-      else if (local_04 == 1) {
-      }
-      else if (local_04 == 2) {
-      }
-      else if (local_04 == 3) {
-      }
+  while (true) {
+    suspend;
+    Item.playSfxCru(84, arg_06);
+    local_08 = 0;
+    while (local_08 <= 8) {
+      Item.isOn(local_08, arg_06);
       spawn FREE.slot_3b(pid, 3, 0x00000000);
       suspend;
-      spawn FREE.slot_3b(pid, 3, 0x00000000);
-      suspend;
-      local_08 = 0;
-      while (local_08 <= 7) {
-        spawn FREE.slot_3b(pid, 3, 0x00000000);
-        suspend;
-        local_08 = (1 + local_08);
-      }
-      ITEM.slot_26(4, arg_06);
-      if (retval) {
-        ITEM.slot_25(4, arg_06);
-        ITEM.slot_25(0x1000, arg_06);
-        return;
-      }
-      else {
-        spawn FREE.slot_3b(pid, ((5 - World.gameDifficulty()) * 10), 0x00000000);
-        suspend;
-      }
+      local_08 = (1 + local_08);
     }
+    if (local_04 == 0) {
+      Item.playSfxCru(0x0089, arg_06);
+    }
+    else if (local_04 == 1) {
+      Item.playSfxCru(71, arg_06);
+    }
+    else if (local_04 == 2) {
+      Item.playSfxCru(83, arg_06);
+    }
+    else if (local_04 == 3) {
+      Item.playSfxCru(100, arg_06);
+    }
+    else {
+      Item.playSfxCru(44, arg_06);
+    }
+    spawn FREE.slot_3b(pid, 3, 0x00000000);
+    suspend;
+    Item.isOn(9, arg_06);
+    spawn FREE.slot_3b(pid, 3, 0x00000000);
+    suspend;
+    Item.playSfxCru(104, arg_06);
+    local_08 = 0;
+    while (local_08 <= 7) {
+      Item.isOn((7 - local_08), arg_06);
+      spawn FREE.slot_3b(pid, 3, 0x00000000);
+      suspend;
+      local_08 = (1 + local_08);
+    }
+    ITEM.slot_26(4, arg_06);
+    if (retval) {
+      ITEM.slot_25(4, arg_06);
+      ITEM.slot_25(0x1000, arg_06);
+      return;
+    }
+    else {
+      spawn FREE.slot_3b(pid, ((5 - World.gameDifficulty()) * 10), 0x00000000);
+      suspend;
+    }
+  }
 
-  block_031e:
-    return;
+  return;
 
 }

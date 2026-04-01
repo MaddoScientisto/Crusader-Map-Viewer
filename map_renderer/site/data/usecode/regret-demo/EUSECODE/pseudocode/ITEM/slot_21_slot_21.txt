@@ -5,12 +5,22 @@ function item_slot_21() /* entry=2577 class_id=0x0a0f slot=0x21 */
     local_04 = local_06;
   }
   if (!local_04) {
+    Item.playSfxCru(0x01a7, arg_06);
     spawn TRIGGER.slot_20(pid, 1, *(arg_06), arg_06);
     suspend;
     return;
   }
   else {
+    Item.getDirFromTo16(local_04);
+    Item.create(1, DATA_LINK, local_06);
+    Item.popToCoords(0, 0, 0, local_06);
+    Item.andStatus(0, local_06);
+    Item.isOn(1, local_06);
+    PaletteFaderProcess.fadeFromBlack();
     while (global[0x000a]) {
+      if (World.getControlledNPCNum() == 1) {
+        Item.playSfxCru(32, arg_06);
+      }
       spawn FREE.slot_3b(pid, 0x01f4, 0x00000000);
       suspend;
     }

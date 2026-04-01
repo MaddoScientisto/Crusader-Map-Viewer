@@ -23,30 +23,38 @@ function pplate2_gotHit() /* entry=411 class_id=0x0199 slot=0x06 */
       if ((Item.setFrame(arg_06) == 0) || (Actor.getLastAnimSet(*(arg_06), item) == 0)) {
         return;
       }
-      else if (Item.getMapArray(arg_06) != 0) {
-        spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
-        suspend;
-        while (1) {
-          if (Item.setFrame(arg_06) != 0) {
-            spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
-            suspend;
-          }
-          else {
-            spawn TRIGGER.slot_20(pid, 1, *(arg_06), arg_06);
-            suspend;
-            return;
-          }
-        }
-        return;
-      }
       else {
-        while (1) {
-          if (Item.setFrame(arg_06) != 0) {
-            spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
-            suspend;
+        Item.legal_create((f + 1), arg_06);
+        if (Item.getMapArray(arg_06) != 0) {
+          AudioProcess.playSFXCru(0x00aa, arg_06);
+          spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
+          suspend;
+          while (1) {
+            if (Item.setFrame(arg_06) != 0) {
+              spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+              suspend;
+            }
+            else {
+              Item.legal_create(f, arg_06);
+              AudioProcess.playSFXCru(0x00ab, arg_06);
+              spawn TRIGGER.slot_20(pid, 1, *(arg_06), arg_06);
+              suspend;
+              return;
+            }
           }
-          else {
-            return;
+          return;
+        }
+        else {
+          while (1) {
+            if (Item.setFrame(arg_06) != 0) {
+              spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+              suspend;
+            }
+            else {
+              AudioProcess.playSFXCru(0x00ab, arg_06);
+              Item.legal_create(f, arg_06);
+              return;
+            }
           }
         }
       }

@@ -5,6 +5,8 @@ function roll_ns_slot_20() /* entry=840 class_id=0x0346 slot=0x20 */
   suspend;
   local_10 = Item.getQHi(arg_06);
   if (local_10 & 64) {
+    Item.andStatus((~4), arg_06);
+    Item.explode(0, 1, arg_06);
     local_04 = *(arg_06);
     return;
   }
@@ -21,8 +23,14 @@ function roll_ns_slot_20() /* entry=840 class_id=0x0346 slot=0x20 */
     local_14 = Item.getY(arg_06);
     local_15 = Item.getZ(arg_06);
     local_17 = Item.getQLo(arg_06);
+    Item.explode(0, 1, arg_06);
     spawn ITEM.slot_2c(pid, arg_06);
     suspend;
+    Item.create(local_06, 0x0261, local_02);
+    Item.setQLo(local_17, local_02);
+    Item.popToCoords(local_15, local_14, local_12, local_02);
+    Item.fall(local_02);
+    Item.destroy(arg_06);
   }
   return;
 }

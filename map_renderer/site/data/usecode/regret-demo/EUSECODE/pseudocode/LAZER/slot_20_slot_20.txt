@@ -20,16 +20,28 @@ function lazer_slot_20() /* entry=2579 class_id=0x0a11 slot=0x20 */
             local_06 = (local_06 - 8);
           }
           NPC.slot_2a(local_04);
+          if (!retval) {
+            MusicProcess.playMusic(UCMachine.rndRange(8, 5, 4, 2), *(arg_06), local_04);
+          }
           if (!Actor.setCombatTactic(local_04)) {
+            if (Item.isOnScreen(arg_06) == 1) {
+              SpriteProcess.createSprite(Item.getZ(local_04), Item.getY(local_04), Item.getX(local_04), 6, 9, 0, 0x062b);
+              Item.playSfxCru(5, arg_06);
+            }
             if (Actor.setDefaultActivity2(local_04) == 5) {
+              CameraProcess.getCameraY(9, local_04);
             }
             else if (Actor.setDefaultActivity2(local_04) == 10) {
+              CameraProcess.getCameraY(11, local_04);
             }
           }
         }
         else if (Item.isOnScreen(arg_06) == 1) {
+          MusicProcess.playMusic(UCMachine.rndRange(7, 5, 10, 5), *(arg_06), local_04);
           spawn NPC.slot_2e(pid, *(arg_06), local_04);
           suspend;
+          SpriteProcess.createSprite(Item.getZ(local_04), Item.getY(local_04), Item.getX(local_04), 6, 9, 0, 0x062b);
+          Item.playSfxCru(5, arg_06);
         }
       }
     }

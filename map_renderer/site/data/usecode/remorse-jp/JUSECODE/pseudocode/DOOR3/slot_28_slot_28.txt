@@ -7,18 +7,25 @@ function door3_slot_28() /* entry=2570 class_id=0x0a08 slot=0x28 */
 
   set_info(0x0207, *(arg_06));
   if (Item.getFrame(arg_06) > 0) {
+    process_result = 0;
     return;
   }
   else {
     spawn DOOR.slot_22(pid, arg_06);
     suspend;
     maxFrame = 9;
+    AudioProcess.playSFXCru(78, arg_06);
     counter = 1;
     while (counter <= maxFrame) {
+      Item.getPoint(counter, arg_06);
       spawn FREE.slot_32(pid, 5, 0x00000000);
       suspend;
       counter = (1 + counter);
     }
+    Item.getPoint(0, arg_06);
+    Item.setShape(0x053e, arg_06);
+    Item.touch(arg_06);
+    process_result = 1;
     return;
   }
   return;

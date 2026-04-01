@@ -21,10 +21,12 @@ function upplate_gotHit() /* entry=1097 class_id=0x0447 slot=0x06 */
       return;
     }
     else if (Item.getMapArray(arg_06) != 0) {
+      Item.setFrame(1, arg_06);
       spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
       suspend;
       spawn FREE.waitNTimerTicks(pid, 20, 0x00000000);
       suspend;
+      Item.setFrame(0, arg_06);
       while (1) {
         if (Item.getSurfaceWeight(arg_06) != 0) {
           spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
@@ -39,8 +41,10 @@ function upplate_gotHit() /* entry=1097 class_id=0x0447 slot=0x06 */
       return;
     }
     else {
+      Item.setFrame(1, arg_06);
       spawn FREE.waitNTimerTicks(pid, 20, 0x00000000);
       suspend;
+      Item.setFrame(0, arg_06);
     }
   }
   return;

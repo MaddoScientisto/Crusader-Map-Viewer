@@ -1,6 +1,10 @@
 function nostril_slot_20() /* entry=1088 class_id=0x043e slot=0x20 */
 {
   set_info(1, *(arg_06));
+  Item.create(11, 0x0515, local_04);
+  Item.popToCoords(Item.getZ(arg_06), (Item.getY(arg_06) - 8), (Item.getX(arg_06) - 8), local_04);
+  Item.playSfxCru(0x0081, local_04);
+  Item.destroy(arg_10);
   spawn STEAM.slot_22(local_04);
   if (Intrinsic006D()) {
     while (Item.getFrame(local_04) != 21) {
@@ -12,6 +16,7 @@ function nostril_slot_20() /* entry=1088 class_id=0x043e slot=0x20 */
     spawn FREE.slot_3b(pid, 30, 0x00000000);
     suspend;
   }
+  Item.destroy(local_04);
   ITEM.slot_25(0x1000, arg_06);
   return;
 }

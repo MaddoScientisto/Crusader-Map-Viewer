@@ -2,6 +2,9 @@ function spider_slot_21() /* entry=2582 class_id=0x0a14 slot=0x21 */
 {
   set_info(1, arg_10);
   local_02 = arg_12;
+  AudioProcess.playAmbientSFXCru(91, arg_06);
+  Item.setShape(0x0391, arg_06);
+  Item.isCentreOn(0, arg_06);
   while ((arg_14 - 1) > 0) {
     local_04 = ((Item.getX(local_02) - Item.getX(arg_06)) >> 1);
     local_06 = ((Item.getY(local_02) - Item.getY(arg_06)) >> 1);
@@ -11,5 +14,6 @@ function spider_slot_21() /* entry=2582 class_id=0x0a14 slot=0x21 */
   }
   spawn SPIDER.slot_22(pid, (Game.getDifficultyLevel() + 5), Item.getZ(arg_06), Item.getY(local_02), Item.getX(local_02), arg_06);
   suspend;
+  Item.explode(1, 2, arg_06);
   return;
 }

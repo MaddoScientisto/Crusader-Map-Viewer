@@ -13,13 +13,21 @@ function npc_slot_27() /* entry=2580 class_id=0x0a12 slot=0x27 */
     local_04 = Item.hurl(arg_06);
     local_06 = Item.getNpcNum(arg_06);
     local_08 = Item.hurl(arg_06);
-    if (local_02 == 112) {
-    }
-    else if (local_02 == 113) {
-    }
-    else if (local_02 == 114) {
+    switch (local_02) {
+    case 112:
+      CameraProcess.getCameraY(1, arg_06);
+      break;
+    case 113:
+      CameraProcess.getCameraY(3, arg_06);
+      break;
+    case 114:
+      CameraProcess.getCameraY(5, arg_06);
+      break;
     }
     return;
+  }
+  else {
+    CameraProcess.getCameraY(arg_10, arg_06);
   }
   return;
 }

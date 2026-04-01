@@ -10,8 +10,12 @@ function podboy_slot_20() /* entry=559 class_id=0x022d slot=0x20 */
   set_info(1, 0);
   item = ref;
   fram = (UCMachine.rndRange(3, 0) * 8);
+  Item.create(fram, 0x058e, spooge);
+  Item.popToCoords((Item.getZ(item) - 1), (Item.getY(item) + 39), (Item.getX(item) + 69), spooge);
   counter = 0;
   while (counter <= 5) {
+    Item.setFrame(counter, spooge);
+    AudioProcess.playSFXCru(0x0094, spooge);
     while (AudioProcess.isSFXPlayingForObject(0x0094, spooge)) {
       spawn FREE.waitNTimerTicks(pid, 4, 0x00000000);
       suspend;

@@ -2,8 +2,13 @@ function denning_use() /* entry=633 class_id=0x0277 slot=0x01 */
 {
   set_info(0x0207, *(arg_06));
   process_exclude();
+  MusicProcess.pauseMusic();
   if (global[0x000f] == 4) {
-    return;
+    Intrinsic006D(1, "4a");
   }
+  else {
+    Intrinsic006D(1, "6b");
+  }
+  MusicProcess.unpauseMusic();
   return;
 }

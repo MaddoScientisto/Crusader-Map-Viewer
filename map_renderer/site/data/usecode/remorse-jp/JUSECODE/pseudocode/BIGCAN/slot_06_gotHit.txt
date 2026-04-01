@@ -14,18 +14,23 @@ function bigcan_gotHit() /* entry=789 class_id=0x0313 slot=0x06 */
   if (retval) {
     if (fram == 2) {
       FREE.slot_20(2);
+      Item.create(retval, 0x0269, lid);
       FREE.slot_20(4, 5, 4);
       FREE.slot_20(retval, 4);
+      Item.explode(0, 1, arg_06);
+      Item.destroy(arg_06);
       return;
     }
     else if (fram == 1) {
       spawn ITEM.slot_28(pid, 0, 1, arg_06);
       suspend;
+      Item.setFrame(2, arg_06);
       return;
     }
     else {
       spawn ITEM.slot_28(pid, 0, 0, arg_06);
       suspend;
+      Item.setFrame(1, arg_06);
     }
   }
   return;

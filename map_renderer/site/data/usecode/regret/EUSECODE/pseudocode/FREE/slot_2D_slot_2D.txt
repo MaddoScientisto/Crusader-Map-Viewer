@@ -16,14 +16,25 @@ function free_slot_2d() /* entry=2591 class_id=0x0a1d slot=0x2d */
         return;
       }
       else {
+        AudioProcess.playAmbientSFX(51);
         arg_06 = (arg_06 - 1);
         if (arg_06 == 0) {
+          Ultima8Engine.setAvatarInStasis(1);
+          setUnkFlagA4();
+          MusicProcess.stopMusic();
           spawn FREE.slot_24(pid, 0x00000000);
           suspend;
+          PaletteFaderProcess.jumpToAllGrey();
           spawn FREE.slot_3b(pid, 90, 0x00000000);
           suspend;
+          Actor.setDead(&global[0x001e]);
+          PaletteFaderProcess.jumpToAllBlack();
           spawn FREE.slot_3b(pid, 10, 0x00000000);
           suspend;
+          setUnkFlagA4();
+          Intrinsic006D("anim11");
+          Intrinsic006D(0, "10c");
+          clearUnkFlagA4();
           suspend;
           return;
         }

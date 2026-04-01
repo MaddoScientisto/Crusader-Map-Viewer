@@ -4,11 +4,18 @@ function door2_slot_26() /* entry=2569 class_id=0x0a07 slot=0x26 */
   spawn DOOR.slot_22(pid, arg_06);
   suspend;
   local_04 = 8;
+  AudioProcess.playSFXCru(78, arg_06);
   local_02 = 1;
   while (local_02 <= local_04) {
+    Item.isCentreOn(local_02, arg_06);
     spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
     suspend;
     local_02 = (1 + local_02);
   }
+  Item.isCentreOn(0, arg_06);
+  Item.setShape(0x02da, arg_06);
+  push(arg_06);
+  getTargetNPCNumMaybe((Item.getZ(arg_06) + (8 * 10)), Item.getY(arg_06), Item.getX(arg_06), arg_06);
+  process_result = 1;
   return;
 }

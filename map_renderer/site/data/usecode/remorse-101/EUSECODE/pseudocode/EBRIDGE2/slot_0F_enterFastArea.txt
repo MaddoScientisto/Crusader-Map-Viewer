@@ -2,6 +2,7 @@ function ebridge2_enterFastArea() /* entry=1045 class_id=0x0413 slot=0x0f */
 {
   set_info(0x021b, *(arg_06));
   process_exclude();
+  AudioProcess.playAmbientSFXCru(92, arg_06);
   local_02 = Item.getFootpad(arg_06);
   if (local_02 == 0) {
     return;

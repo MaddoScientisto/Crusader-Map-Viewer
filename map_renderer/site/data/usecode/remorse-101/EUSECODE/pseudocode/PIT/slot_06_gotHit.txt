@@ -10,14 +10,24 @@ function pit_gotHit() /* entry=870 class_id=0x0364 slot=0x06 */
   else if (Actor.isNPC(local_02)) {
     local_04 = arg_10;
     if (local_04 == 1) {
+      Ultima8Engine.setAvatarInStasis(1);
+      Actor.getEquip(local_04);
+      Item.move(0x00f0, local_04);
+      Item.isCentreOn(8, local_04);
       spawn FREE.slot_21(pid, 98, 0x00000000);
       suspend;
       return;
     }
     else {
+      AudioProcess.playSFXCru(98, arg_06);
+      Actor.getEquip(local_04);
+      Actor.setDead(0, 0, 10, 10, local_04);
       return;
     }
     return;
+  }
+  else {
+    Item.destroy(local_02);
   }
   return;
 }

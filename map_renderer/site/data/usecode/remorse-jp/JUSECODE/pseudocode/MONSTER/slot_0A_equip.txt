@@ -17,6 +17,7 @@ function monster_equip() /* entry=1234 class_id=0x04d0 slot=0x0a */
   else {
     monster1 = *(arg_06);
     set_info(0x021b, 0);
+    Actor.setDefaultActivity0(12, *(arg_06));
     if ((((var == 0) || (var == 1)) || (var == 2)) || (var == 3)) {
       spawn ITEM.slot_2d(pid, var, monster1, arg_06);
       suspend;
@@ -40,8 +41,11 @@ function monster_equip() /* entry=1234 class_id=0x04d0 slot=0x0a */
             suspend;
             newNpc = process_result;
             if (newNpc) {
+              Intrinsic056(3, newNpc);
+              Item.getSurfaceWeight(3, newNpc);
               spawn FREE.slot_32(pid, 2, 0x00000000);
               suspend;
+              Item.andStatus(114, newNpc);
             }
           }
         }

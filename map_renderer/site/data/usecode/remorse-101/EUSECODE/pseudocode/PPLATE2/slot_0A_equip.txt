@@ -6,6 +6,7 @@ function pplate2_equip() /* entry=411 class_id=0x0199 slot=0x0a */
   if (local_02 & 1) {
     spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
     suspend;
+    Item.isCentreOn((local_02 - 1), arg_06);
     spawn TRIGGER.slot_2a(pid, 1, *(arg_06), arg_06);
     suspend;
     return;
@@ -13,6 +14,7 @@ function pplate2_equip() /* entry=411 class_id=0x0199 slot=0x0a */
   else {
     spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
     suspend;
+    Item.isCentreOn((local_02 + 1), arg_06);
     spawn TRIGGER.slot_2a(pid, 0, *(arg_06), arg_06);
     suspend;
   }

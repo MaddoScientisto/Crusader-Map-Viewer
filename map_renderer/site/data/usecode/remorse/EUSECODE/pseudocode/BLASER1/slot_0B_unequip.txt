@@ -3,6 +3,7 @@ function blaser1_unequip() /* entry=1093 class_id=0x0443 slot=0x0b */
   set_info(0x0212, *(arg_06));
   process_exclude();
   if ((Item.getStatus(arg_06) & 0x1000) == 0) {
+    AudioProcess.playSFXCru(2, arg_06);
     spawn BLASER1.slot_20(*(arg_06), arg_06);
   }
   return;

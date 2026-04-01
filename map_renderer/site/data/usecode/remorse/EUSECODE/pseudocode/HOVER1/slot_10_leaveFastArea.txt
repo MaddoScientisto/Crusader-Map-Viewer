@@ -2,5 +2,8 @@ function hover1_leaveFastArea() /* entry=1266 class_id=0x04f0 slot=0x10 */
 {
   set_info(0x021c, *(arg_06));
   process_exclude();
+  if ((Item.getQHi(arg_06) & 64) == 0) {
+    Item.andStatus((~0x1000), arg_06);
+  }
   return;
 }

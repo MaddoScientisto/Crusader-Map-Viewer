@@ -1,11 +1,9 @@
 function door3_slot_25() /* entry=2570 class_id=0x0a08 slot=0x25 */
 {
   set_info(0x0207, *(arg_06));
-  /* create_list */
-  local_02 = 0x030d;
-  /* create_list */
-  local_04 = 0x030e;
-  FREE.slot_3a(0x00a4, 0x00e1, 0x00d6, 0x00d8, 0x0170, 0x0171, 0x0172, 0x0173, local_04);
+  local_02 = [0x030d, 0x00d8, 0x00d6, 0x00e1, 0x00a4];
+  local_04 = [0x030e, 0x0173, 0x0172, 0x0171, 0x0170];
+  FREE.slot_3a(local_04);
   local_19 = retval;
   for local_14 in nearby_items(shape=0x030e, origin=arg_06) {
     local_10 = local_14;
@@ -14,6 +12,8 @@ function door3_slot_25() /* entry=2570 class_id=0x0a08 slot=0x25 */
     local_12 = local_14;
   }
   if (local_10 && local_12) {
+    AudioProcess.playSFXCru(106, arg_06);
+    Item.setShape(0x030d, local_10);
     local_06 = 1;
     while (local_06 <= (local_19 - 1)) {
       FREE.slot_2d(Item.getZ(local_10), Item.getY(local_10), Item.getX(local_10), 0, local_04, (local_19 - local_06), list_element(size=0x2), local_10);
@@ -34,25 +34,56 @@ function door3_slot_25() /* entry=2570 class_id=0x0a08 slot=0x25 */
         }
       }
       if ((!local_15) && (!local_16)) {
+        Item.touch(local_10);
+        Item.touch(local_12);
         spawn FREE.waitNTimerTicks(pid, (5 + local_06), 0x00000000);
         suspend;
       }
       else {
         local_17 = 0;
+        AudioProcess.stopSFXCru(106, arg_06);
+        AudioProcess.playSFXCru(82, arg_06);
+        if (local_16) {
+          Item.setShape(list_element(size=0x2), local_10);
+        }
+        if ((local_15 == 1) && (local_16 == 0)) {
+          push(local_12);
+          Item.setShape(list_element(size=0x2), local_12);
+          getTargetNPCNumMaybe(((local_19 - local_06) + 1), Item.getZ(local_12), Item.getY(local_12), (Item.getX(local_12) - 16), local_12);
+        }
         local_08 = ((local_19 - local_06) + 1);
         while (local_08 <= (local_19 - 1)) {
+          Item.setShape(list_element(size=0x2), local_10);
+          Item.touch(local_10);
           if (!local_17) {
+            push(local_12);
+            Item.setShape(list_element(size=0x2), local_12);
+            getTargetNPCNumMaybe(local_08, Item.getZ(local_12), Item.getY(local_12), Item.getX(local_12), local_12);
             local_17 = 1;
+          }
+          else {
+            push(local_12);
+            Item.setShape(list_element(size=0x2), local_12);
+            getTargetNPCNumMaybe(local_08, Item.getZ(local_12), Item.getY(local_12), (Item.getX(local_12) - 16), local_12);
           }
           spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
           suspend;
           local_08 = (1 + local_08);
         }
+        Item.setShape(list_element(size=0x2), local_10);
+        Item.setShape(list_element(size=0x2), local_12);
+        Item.touch(local_10);
+        Item.touch(local_12);
+        process_result = 0;
         return;
       }
       local_06 = (1 + local_06);
     }
   }
   set_info(1, 0);
+  Item.destroy(local_12);
+  Item.setShape(0x0095, local_10);
+  Item.touch(local_10);
+  process_result = 1;
   return;
 }

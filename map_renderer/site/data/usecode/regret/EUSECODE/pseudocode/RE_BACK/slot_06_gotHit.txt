@@ -14,7 +14,9 @@ function re_back_gotHit() /* entry=347 class_id=0x0159 slot=0x06 */
       while (condition) {
         spawn ITEM.slot_2a(pid, 0, 0, local_02);
         suspend;
+        Item.setFrame(2, local_02);
       }
+      Item.playSfxCru(93, arg_06);
     }
   }
   return;

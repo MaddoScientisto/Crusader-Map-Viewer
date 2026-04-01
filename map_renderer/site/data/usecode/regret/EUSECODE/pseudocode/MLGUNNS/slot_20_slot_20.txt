@@ -14,38 +14,57 @@ function mlgunns_slot_20() /* entry=1567 class_id=0x061d slot=0x20 */
       if (local_04 > 99) {
         local_04 = (local_04 - 100);
       }
-      if (local_02 == 0) {
+      switch (local_02) {
+      case 0:
         local_08 = -32;
         local_10 = -80;
         local_12 = 0;
         local_14 = 3;
-      }
-      else if (local_02 == 1) {
+        break;
+      case 1:
         local_08 = 16;
         local_10 = -16;
         local_12 = 4;
         local_14 = 5;
-      }
-      else if (local_02 == 2) {
+        break;
+      case 2:
         local_08 = -32;
         local_10 = 16;
         local_12 = 8;
         local_14 = 7;
+        break;
       }
       if (local_04 == 0) {
+        Item.playSfxCru(100, arg_06);
+        Item.setFrame(local_14, arg_06);
       }
       else if (local_04 == 1) {
+        Item.playSfxCru(71, arg_06);
+        Item.setFrame(local_14, arg_06);
       }
       else if (local_04 == 2) {
+        Item.playSfxCru(83, arg_06);
+        Item.setFrame(local_14, arg_06);
       }
       else if (local_04 == 3) {
+        Item.playSfxCru(0x0089, arg_06);
+        Item.setFrame(local_14, arg_06);
       }
       else if (local_04 == 4) {
+        Item.playSfxCru(0x0165, arg_06);
+        Item.setFrame(local_14, arg_06);
       }
+      else {
+        Item.playSfxCru(44, arg_06);
+        Item.setFrame(local_14, arg_06);
+      }
+      Item.setFrame((local_14 + 1), arg_06);
       spawn FREE.slot_3b(pid, 5, 0x00000000);
       suspend;
+      Item.setFrame(local_14, arg_06);
       spawn FREE.slot_3b(pid, 5, 0x00000000);
       suspend;
+      Item.setFrame(local_02, arg_06);
       spawn FREE.slot_3b(pid, ((5 - World.gameDifficulty()) * 20), 0x00000000);
       suspend;
     }

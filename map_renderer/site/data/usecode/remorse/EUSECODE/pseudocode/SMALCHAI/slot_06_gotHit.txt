@@ -30,6 +30,8 @@ function smalchai_gotHit() /* entry=509 class_id=0x01fb slot=0x06 */
           if (fram == 8) {
             fram = 0;
           }
+          AudioProcess.playSFXCru(0x00bb, arg_06);
+          Item.setFrame(fram, arg_06);
           spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
           suspend;
           count = (1 + count);
@@ -43,6 +45,8 @@ function smalchai_gotHit() /* entry=509 class_id=0x01fb slot=0x06 */
           if (fram == -1) {
             fram = 7;
           }
+          AudioProcess.playSFXCru(0x00bb, arg_06);
+          Item.setFrame(fram, arg_06);
           spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
           suspend;
           count = (1 + count);

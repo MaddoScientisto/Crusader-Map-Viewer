@@ -21,10 +21,18 @@ function steambox_equip() /* entry=1282 class_id=0x0500 slot=0x0a */
     for local_02 in nearby_items(shape=0x03a9, origin=arg_06) {
       if (Item.isCrusTypeNPC(local_02) == Item.isCrusTypeNPC(arg_06)) {
         if (Item.getFrame(local_02) == 0) {
+          Item.create(0, 0x04f9, local_04);
+          Item.popToCoords(Item.getZ(local_02), Item.getY(local_02), Item.getX(local_02), local_04);
+          Item.playSfxCru(95, arg_06);
           spawn STEAMBOX.slot_20(0, local_04, arg_06);
+          Item.destroy(local_02);
         }
         else if (Item.getFrame(local_02) == 1) {
+          Item.create(0, 0x04fd, local_04);
+          Item.popToCoords(Item.getZ(local_02), Item.getY(local_02), Item.getX(local_02), local_04);
+          Item.playSfxCru(95, arg_06);
           spawn STEAMBOX.slot_20(1, local_04, arg_06);
+          Item.destroy(local_02);
         }
       }
     }

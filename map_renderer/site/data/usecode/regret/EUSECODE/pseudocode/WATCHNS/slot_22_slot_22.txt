@@ -1,38 +1,56 @@
 function watchns_slot_22() /* entry=1224 class_id=0x04c6 slot=0x22 */
 {
   set_info(0x020a, 0);
+  CameraProcess.moveTo(Actor.getMap(&global[0x001e]), Item.getZ(arg_10), Item.getY(arg_10), Item.getX(arg_10));
   spawn FREE.slot_3b(pid, 5, 0x00000000);
   suspend;
   while (condition) {
     if (Actor.getMap(&global[0x001e]) == 14) {
       if (Actor.isNPC(local_02)) {
+        World.setControlledNPCNum(local_02);
         local_03 = 1;
       }
       else {
+        Actor.createActor(Item.getFrame(local_02), Item.getShape(local_02), local_05);
+        Actor.clrInCombat(local_05);
+        Actor.setDefaultActivity0(1, local_05);
+        Actor.setDefaultActivity1(1, local_05);
+        Actor.setDefaultActivity2(1, local_05);
+        Actor.setActivity(112, local_05);
+        Actor.clrInCombat(local_05);
         ITEM.slot_24(2, local_05);
+        Item.popToCoords(Item.getZ(local_02), Item.getY(local_02), Item.getX(local_02), local_05);
         suspend;
+        Item.destroy(local_02);
+        World.setControlledNPCNum(local_05);
         local_03 = 1;
       }
     }
     else if (Actor.isNPC(local_02)) {
       if (Item.getQLo(arg_06) == Intrinsic000D(local_02)) {
         ITEM.slot_24(2, local_02);
+        World.setControlledNPCNum(local_02);
         local_03 = 1;
       }
     }
   }
+  Ultima8Engine.setAvatarInStasis(1);
+  Intrinsic0137();
+  CameraProcess.moveTo(Actor.getMap(&global[0x001e]), Item.getZ(arg_10), Item.getY(arg_10), Item.getX(arg_10));
   spawn FREE.slot_3b(pid, 10, 0x00000000);
   suspend;
+  PaletteFaderProcess.jumpToGreyScale();
   if (local_03) {
+    Intrinsic009F();
     while (World.getControlledNPCNum() != 1) {
       spawn FREE.slot_3b(pid, 5, 0x00000000);
       suspend;
     }
-    return;
   }
   else {
     spawn FREE.slot_3b(pid, 0x00c8, 0x00000000);
     suspend;
   }
+  PaletteFaderProcess.jumpToAllBlack();
   return;
 }

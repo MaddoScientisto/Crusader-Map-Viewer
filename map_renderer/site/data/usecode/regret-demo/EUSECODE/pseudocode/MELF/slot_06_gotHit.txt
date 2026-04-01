@@ -16,13 +16,20 @@ function melf_gotHit() /* entry=957 class_id=0x03bb slot=0x06 */
       if (!process_result) {
         FREE.slot_20(1);
         if (retval) {
+          Item.playSfxCru(38, arg_06);
+        }
+        else {
+          Item.playSfxCru(39, arg_06);
         }
         return;
       }
       else {
         spawn ITEM.slot_2a(pid, 0, 1, arg_06);
         suspend;
+        Item.isOn(1, arg_06);
         while (condition) {
+          Item.destroy(local_02);
+          Item.playSfxCru(68, arg_06);
         }
       }
     }

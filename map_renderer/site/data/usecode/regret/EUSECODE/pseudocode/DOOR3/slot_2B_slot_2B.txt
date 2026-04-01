@@ -2,15 +2,27 @@ function door3_slot_2b() /* entry=2568 class_id=0x0a06 slot=0x2b */
 {
   set_info(0x0207, *(arg_06));
   if (Item.legal_create(Item.getZ(arg_06), Item.getY(arg_06), (Item.getX(arg_06) + 0x0080), 0, 0x0120, local_04)) {
+    Item.destroy(local_04);
+    Item.playSfxCru(0x0142, arg_06);
+    Item.push(arg_06);
+    Item.setFrame(6, arg_06);
+    Item.setShape(100, arg_06);
+    Item.setQLo(Item.getQLo(arg_06), arg_06);
+    Item.popToCoords(Item.getZ(arg_06), Item.getY(arg_06), (Item.getX(arg_06) + 0x0080), arg_06);
     local_02 = 0;
     while (local_02 <= 6) {
+      Item.setFrame((6 - local_02), arg_06);
       spawn FREE.slot_3b(pid, 5, 0x00000000);
       suspend;
       local_02 = (1 + local_02);
     }
+    Item.playSfxCru(0x0143, arg_06);
+    process_result = 1;
     return;
   }
   else {
+    Item.playSfxCru(0x01a7, arg_06);
+    process_result = 0;
     return;
   }
   return;

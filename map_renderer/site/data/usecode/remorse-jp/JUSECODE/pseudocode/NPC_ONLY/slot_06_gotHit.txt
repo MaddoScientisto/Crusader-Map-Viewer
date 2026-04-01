@@ -22,23 +22,26 @@ function npc_only_gotHit() /* entry=872 class_id=0x0366 slot=0x06 */
         if ((Actor.getLastAnimSet(arg_06) == 0) || (Item.getQLo(*(arg_06), item) == 0)) {
           return;
         }
-        else {
-          spawn FREE.slot_32(pid, 2, 0x00000000);
-          suspend;
-          spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
-          suspend;
-          while (1) {
-            if ((Actor.getLastAnimSet(arg_06) != 0) && (Actor.isNPC(item) == 1)) {
-              spawn FREE.slot_32(pid, 2, 0x00000000);
-              suspend;
-            }
-            else {
-              spawn TRIGGER.slot_20(pid, 1, *(arg_06), arg_06);
-              suspend;
-              spawn FREE.slot_32(pid, 5, 0x00000000);
-              suspend;
-              return;
-            }
+        else if (link == 0x00fe) {
+          Item.getNPCNum(0x00c8, item);
+        }
+        Item.getPoint(1, arg_06);
+        spawn FREE.slot_32(pid, 2, 0x00000000);
+        suspend;
+        spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
+        suspend;
+        while (1) {
+          if ((Actor.getLastAnimSet(arg_06) != 0) && (Actor.isNPC(item) == 1)) {
+            spawn FREE.slot_32(pid, 2, 0x00000000);
+            suspend;
+          }
+          else {
+            Item.getPoint(0, arg_06);
+            spawn TRIGGER.slot_20(pid, 1, *(arg_06), arg_06);
+            suspend;
+            spawn FREE.slot_32(pid, 5, 0x00000000);
+            suspend;
+            return;
           }
         }
       }

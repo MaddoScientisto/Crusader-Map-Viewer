@@ -14,8 +14,11 @@ function mgr_ns_gotHit() /* entry=662 class_id=0x0294 slot=0x06 */
     FREE.slot_2c(vel, ref);
     if (retval) {
       ITEM.slot_23(0x1000, arg_06);
+      AudioProcess.playSFXCru(68, arg_06);
+      Item.legal_create(1, arg_06);
       spawn FREE.waitNTimerTicks(pid, 20, 0x00000000);
       suspend;
+      Item.legal_create(0, arg_06);
       ITEM.slot_24(0x1000, arg_06);
     }
   }

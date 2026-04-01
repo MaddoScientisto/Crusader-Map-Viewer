@@ -16,6 +16,8 @@ function smalltab_gotHit() /* entry=47 class_id=0x002d slot=0x06 */
       FREE.slot_20(retval, 10);
     }
     FREE.slot_20(1);
+    Item.setFrame(retval, arg_06);
+    Item.setShape(0x02ea, arg_06);
     spawn ITEM.slot_28(pid, 0, 0, arg_06);
     suspend;
   }

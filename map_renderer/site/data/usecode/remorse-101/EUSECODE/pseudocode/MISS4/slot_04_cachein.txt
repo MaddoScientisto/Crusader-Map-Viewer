@@ -4,5 +4,8 @@ function miss4_cachein() /* entry=2322 class_id=0x0910 slot=0x04 */
   process_exclude();
   spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
   suspend;
+  Item.legal_create(0, 0x039b, local_02);
+  getTargetNPCNumMaybe(0, 0, 0, local_02);
+  Item.spawnUsecodeEvent0x13(0, local_02);
   return;
 }

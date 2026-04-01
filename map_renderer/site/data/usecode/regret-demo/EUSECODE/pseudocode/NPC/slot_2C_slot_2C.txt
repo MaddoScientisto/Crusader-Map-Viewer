@@ -7,11 +7,14 @@ function npc_slot_2c() /* entry=2580 class_id=0x0a12 slot=0x2c */
   else {
     spawn ITEM.slot_2a(pid, 0, 0, arg_06);
     suspend;
+    Item.playSfxCru(93, arg_06);
     while (!Actor.setCombatTactic(arg_06)) {
+      CameraProcess.getCameraY(12, arg_06);
       spawn FREE.slot_3b(pid, 100, 0x00000000);
       suspend;
       spawn ITEM.slot_2a(pid, 0, 1, arg_06);
       suspend;
+      MusicProcess.playMusic(8, Actor.getHp(arg_06), 8, 0, arg_06);
     }
   }
   return;

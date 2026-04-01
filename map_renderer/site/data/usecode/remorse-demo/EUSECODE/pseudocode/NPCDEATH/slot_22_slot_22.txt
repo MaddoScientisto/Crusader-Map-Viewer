@@ -24,44 +24,182 @@ function npcdeath_slot_22() /* entry=2594 class_id=0x0a20 slot=0x22 */
     skill = 40;
   }
   if (((Item.getShape(arg_06) == npcdeath_shape_02fd) || (Item.getShape(arg_06) == npcdeath_shape_0319)) || (Item.getShape(arg_06) == npcdeath_shape_0384)) {
+    if (UCMachine.rndRange(100, 0) > 98) {
+      Item.create(0, SPIDER_BOMB, item);
+      Item.popToContainer(ref, item);
+    }
+    if (UCMachine.rndRange(100, 0) > 98) {
+      Item.create(0, DET_PAC, item);
+      Item.popToContainer(ref, item);
+    }
+    if (UCMachine.rndRange(100, 0) > (80 - skill)) {
+      Item.create(0, BA_41_CLIP, item);
+      Item.popToContainer(ref, item);
+    }
+    else if ((UCMachine.rndRange(100, 0) > (80 - skill)) && (global[0x001f] > 1)) {
+      Item.create(0, SG_A1_CLIP, item);
+      Item.popToContainer(ref, item);
+    }
     if (sLevel < 3) {
+      if (UCMachine.rndRange(100, 0) > 80) {
+        Item.create(0, MEDICAL_KIT, item);
+        Item.popToContainer(ref, item);
+      }
+    }
+    else if (UCMachine.rndRange(100, 0) > 98) {
+      Item.create(0, MEDICAL_KIT, item);
+      Item.popToContainer(ref, item);
     }
   }
   else if (Item.getShape(arg_06) == npcdeath_shape_0384) {
+    if ((UCMachine.rndRange(100, 1) > (90 - skill)) && (global[0x001f] > 2)) {
+      Item.create(0, AR_7_CLIP, item);
+      Item.popToContainer(ref, item);
+    }
+    else if ((UCMachine.rndRange(100, 1) > (80 - skill)) && (global[0x001f] > 2)) {
+      Item.create(0, RP_22_CLIP, item);
+      Item.popToContainer(ref, item);
+    }
     if (sLevel < 3) {
+      if (UCMachine.rndRange(100, 0) > 90) {
+        Item.create(0, MEDICAL_KIT, item);
+        Item.popToContainer(ref, item);
+      }
+    }
+    else if (UCMachine.rndRange(100, 0) > 98) {
+      Item.create(0, MEDICAL_KIT, item);
+      Item.popToContainer(ref, item);
     }
   }
   else if ((Item.getShape(arg_06) == npcdeath_shape_0371) || (Item.getShape(arg_06) == npcdeath_shape_04d1)) {
+    if (UCMachine.rndRange(100, 0) > 98) {
+      Item.create(0, SPIDER_BOMB, item);
+      Item.popToContainer(ref, item);
+    }
+    if (UCMachine.rndRange(100, 0) > 98) {
+      Item.create(0, DET_PAC, item);
+      Item.popToContainer(ref, item);
+    }
+    if (UCMachine.rndRange(100, 1) > (70 - skill)) {
+      Item.create(0, RP_22_CLIP, item);
+      Item.popToContainer(ref, item);
+    }
+    else if (UCMachine.rndRange(100, 1) > (70 - skill)) {
+      Item.create(0, SG_A1_CLIP, item);
+      Item.popToContainer(ref, item);
+    }
+    if (UCMachine.rndRange(100, 1) > (90 - skill)) {
+      Item.create(0, ENERGY_CUBE, item);
+      Item.popToContainer(ref, item);
+    }
     if (sLevel < 3) {
+      if (UCMachine.rndRange(100, 0) > 80) {
+        Item.create(0, MEDICAL_KIT, item);
+        Item.popToContainer(ref, item);
+      }
     }
     else if (UCMachine.rndRange(100, 0) > 98) {
+      Item.create(0, MEDICAL_KIT, item);
+      Item.popToContainer(ref, item);
     }
   }
   else if (Item.getShape(arg_06) == npcdeath_shape_04d1) {
+    if (UCMachine.rndRange(100, 0) < (70 - skill)) {
+      Item.create(0, RP_22_CLIP, item);
+      Item.popToContainer(ref, item);
+    }
   }
   else if (Item.getShape(arg_06) == npcdeath_shape_0528) {
+    if (UCMachine.rndRange(100, 0) > 75) {
+      Item.create(0, MEDICAL_KIT, item);
+      Item.popToContainer(ref, item);
+    }
     if (UCMachine.rndRange(100, 0) > 50) {
+      Item.create(0, AR_7_CLIP, item);
+      Item.popToContainer(ref, item);
+    }
+    else {
+      Item.create(0, GL_303_CLIP, item);
+      Item.popToContainer(ref, item);
     }
   }
   else if (Item.getShape(arg_06) == npcdeath_shape_01b4) {
+    if (UCMachine.rndRange(100, 0) > 98) {
+      Item.create(0, SPIDER_BOMB, item);
+      Item.popToContainer(ref, item);
+    }
+    if (UCMachine.rndRange(100, 0) > 98) {
+      Item.create(0, DET_PAC, item);
+      Item.popToContainer(ref, item);
+    }
+    if (UCMachine.rndRange(100, 1) > 90) {
+      Item.create(0, RP_22_CLIP, item);
+      Item.popToContainer(ref, item);
+    }
+    if (UCMachine.rndRange(100, 1) > 95) {
+      Item.create(0, GL_303_CLIP, item);
+      Item.popToContainer(ref, item);
+    }
+    else if (UCMachine.rndRange(100, 1) > (85 - skill)) {
+      Item.create(0, ENERGY_CUBE, item);
+      Item.popToContainer(ref, item);
+    }
+    if (UCMachine.rndRange(100, 1) > 95) {
+      Item.create(0, AR_7_CLIP, item);
+      Item.popToContainer(ref, item);
+    }
+    else if (UCMachine.rndRange(100, 1) > (80 - skill)) {
+      Item.create(0, SG_A1_CLIP, item);
+      Item.popToContainer(ref, item);
+    }
     if (sLevel < 3) {
+      if (UCMachine.rndRange(100, 0) > 80) {
+        Item.create(0, MEDICAL_KIT, item);
+        Item.popToContainer(ref, item);
+      }
+    }
+    else if (UCMachine.rndRange(100, 0) > 98) {
+      Item.create(0, MEDICAL_KIT, item);
+      Item.popToContainer(ref, item);
     }
   }
   else if (Item.getShape(arg_06) == npcdeath_shape_02df) {
+    Item.create(0, 0x04ed, item);
+    Item.getQHi(UCMachine.rndRange(100, 75), item);
+    Item.popToContainer(ref, item);
+    if (UCMachine.rndRange(100, 0) > 66) {
+      Item.create(0, MEDICAL_KIT, item);
+      Item.popToContainer(ref, item);
+    }
     return;
   }
   else if (((((((Item.getShape(arg_06) == 0x045d) || (Item.getShape(arg_06) == MECH_1)) || (Item.getShape(arg_06) == 0x02cb)) || (Item.getShape(arg_06) == 0x04e6)) || (Item.getShape(arg_06) == npcdeath_shape_03ac)) || (Item.getShape(arg_06) == 0x0385)) || (Item.getShape(arg_06) == 0x0383)) {
     ITEM.slot_23(0x1000, arg_06);
     return;
   }
-  else {
-    wimp = 1;
+  else if (Actor.setActivity((UCMachine.rndRange(100, 0) > (60 - skill)), &global[0x003c]) < 50) {
+    Item.create(0, MEDICAL_KIT, item);
+    Item.popToContainer(ref, item);
   }
+  wimp = 1;
   NPC.slot_2b(arg_06);
   if (!retval) {
     if ((GetQOfAvatarInventoryItem0x4ed_0EB() - global[0x001d]) < 0x1194) {
       if (wimp) {
+        Item.create(0, 0x04ed, item);
+        Item.getQHi(UCMachine.rndRange(10, 5), item);
+        Item.popToContainer(ref, item);
       }
+      else {
+        Item.create(0, 0x04ed, item);
+        Item.getQHi(UCMachine.rndRange(25, 15), item);
+        Item.popToContainer(ref, item);
+      }
+    }
+    else {
+      Item.create(0, 0x04ed, item);
+      Item.getQHi(UCMachine.rndRange(15, 5), item);
+      Item.popToContainer(ref, item);
     }
   }
   while (condition) {

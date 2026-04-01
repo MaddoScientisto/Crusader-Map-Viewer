@@ -13,7 +13,11 @@ function copy_ew_gotHit() /* entry=1077 class_id=0x0433 slot=0x06 */
       spawn ITEM.slot_28(pid, 0, 1, arg_06);
       suspend;
       FREE.slot_20(1);
+      Item.setFrame((retval + 2), arg_06);
       FREE.slot_20(local_04, 10);
+      if (retval) {
+        Item.setFrame(1, arg_06);
+      }
     }
   }
   return;

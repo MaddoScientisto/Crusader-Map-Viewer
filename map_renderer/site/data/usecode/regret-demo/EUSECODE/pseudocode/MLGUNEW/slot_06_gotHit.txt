@@ -10,6 +10,8 @@ function mlgunew_gotHit() /* entry=1568 class_id=0x061e slot=0x06 */
       return;
     }
     else if (local_04 > 99) {
+      Item.playSfxCru(0x0091, arg_06);
+      SpriteProcess.createSprite(Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06), 5, 9, 0, 0x04f1);
       return;
     }
     else {
@@ -18,6 +20,10 @@ function mlgunew_gotHit() /* entry=1568 class_id=0x061e slot=0x06 */
       if (!process_result) {
         FREE.slot_20(1);
         if (retval) {
+          Item.playSfxCru(38, arg_06);
+        }
+        else {
+          Item.playSfxCru(39, arg_06);
         }
         return;
       }
@@ -27,12 +33,15 @@ function mlgunew_gotHit() /* entry=1568 class_id=0x061e slot=0x06 */
         spawn ITEM.slot_2a(pid, 0, 0, arg_06);
         suspend;
         if (((local_02 == 0) || (local_02 == 3)) || (local_02 == 4)) {
+          Item.isOn(9, arg_06);
           return;
         }
         else if (((local_02 == 1) || (local_02 == 5)) || (local_02 == 6)) {
+          Item.isOn(10, arg_06);
           return;
         }
         else if (((local_02 == 2) || (local_02 == 7)) || (local_02 == 8)) {
+          Item.isOn(11, arg_06);
           return;
         }
       }

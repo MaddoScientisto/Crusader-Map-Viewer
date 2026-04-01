@@ -12,9 +12,15 @@ function telepad_gotHit() /* entry=477 class_id=0x01db slot=0x06 */
   if (retval) {
     return;
   }
-  else if (global[0x0001] == 1) {
+  else if (Actor.isNPC(local_02) == 0) {
+    Item.explode(1, 1, local_02);
+  }
+  if (global[0x0001] == 1) {
     while (condition) {
       if (local_10 < 0x0100) {
+        if (local_10 != 1) {
+          Item.receiveHit(8, UCMachine.rndRange(Ultima8Engine.clrCruStasis(local_10), 16, 0), 0, local_10);
+        }
       }
     }
     return;

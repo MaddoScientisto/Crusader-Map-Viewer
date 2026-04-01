@@ -24,31 +24,36 @@ function sswitche_use() /* entry=1113 class_id=0x0457 slot=0x01 */
   a = Item.getFrame(arg_06);
   if (Item.getMapArray(arg_06) != 0) {
     if (a == 2) {
+      AudioProcess.playSFXCru(0x00ae, arg_06);
       spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
       suspend;
     }
     else if (a < 2) {
       b = ((a + 1) & 1);
+      AudioProcess.playSFXCru(0x00ae, arg_06);
       spawn TRIGGER.slot_20(pid, a, *(arg_06), arg_06);
       suspend;
+      Item.getPoint(b, arg_06);
     }
   }
   else {
     qLo = Item.andStatus(arg_06);
     for sswitch in nearby_items(shape=0x0457, origin=arg_06) {
-      if (!(sswitch == *(arg_06))) {
+      if (sswitch != *(arg_06)) {
         if (Item.getMapArray(sswitch) == 0) {
-          if (Item.andStatus(sswitch) == 29) {
+          switch (Item.andStatus(sswitch)) {
+          case 29:
             switch1 = sswitch;
             a1 = Item.getFrame(switch1);
-          }
-          else if (Item.andStatus(sswitch) == 30) {
+            break;
+          case 30:
             switch2 = sswitch;
             b1 = Item.getFrame(switch2);
-          }
-          else if (Item.andStatus(sswitch) == 31) {
+            break;
+          case 31:
             switch3 = sswitch;
             c1 = Item.getFrame(switch3);
+            break;
           }
         }
       }
@@ -56,60 +61,92 @@ function sswitche_use() /* entry=1113 class_id=0x0457 slot=0x01 */
     }
     for sswitch2 in nearby_items(shape=0x0452, origin=arg_06) {
       if (Item.getMapArray(sswitch2) == 0) {
-        if (Item.andStatus(sswitch2) == 29) {
+        switch (Item.andStatus(sswitch2)) {
+        case 29:
           switch21 = sswitch2;
-        }
-        else if (Item.andStatus(sswitch2) == 30) {
+          break;
+        case 30:
           switch22 = sswitch2;
-        }
-        else if (Item.andStatus(sswitch2) == 31) {
+          break;
+        case 31:
           switch23 = sswitch2;
+          break;
         }
       }
     }
-    if (qLo == 29) {
+    switch (qLo) {
+    case 29:
       a1 = Item.getFrame(arg_06);
       switch1 = *(arg_06);
       if (switch2 && switch3) {
         if (a1) {
+          Item.getPoint(0, arg_06);
+          Item.getPoint(0, switch21);
           a1 = 0;
+          Item.getPoint(1, switch2);
+          Item.getPoint(1, switch22);
           b1 = 1;
         }
         else {
+          Item.getPoint(1, arg_06);
+          Item.getPoint(1, switch21);
           a1 = 1;
+          Item.getPoint(0, switch2);
+          Item.getPoint(0, switch22);
           b1 = 0;
         }
       }
-    }
-    else if (qLo == 30) {
+      break;
+    case 30:
       b1 = Item.getFrame(arg_06);
       switch2 = *(arg_06);
       if (switch1 && switch3) {
         if (b1) {
+          Item.getPoint(0, arg_06);
+          Item.getPoint(0, switch22);
           b1 = 0;
+          Item.getPoint(1, switch1);
+          Item.getPoint(1, switch21);
           a1 = 1;
+          Item.getPoint(1, switch3);
+          Item.getPoint(1, switch23);
           c1 = 1;
         }
         else {
+          Item.getPoint(1, arg_06);
+          Item.getPoint(1, switch22);
           b1 = 1;
+          Item.getPoint(0, switch1);
+          Item.getPoint(0, switch21);
           a1 = 0;
+          Item.getPoint(0, switch3);
+          Item.getPoint(0, switch23);
           c1 = 0;
         }
       }
-    }
-    else if (qLo == 31) {
+      break;
+    case 31:
       c1 = Item.getFrame(arg_06);
       switch3 = *(arg_06);
       if (switch1 && switch2) {
         if (c1) {
+          Item.getPoint(0, arg_06);
+          Item.getPoint(0, switch23);
           c1 = 0;
+          Item.getPoint(1, switch2);
+          Item.getPoint(1, switch22);
           b1 = 1;
         }
         else {
+          Item.getPoint(1, arg_06);
+          Item.getPoint(1, switch23);
           c1 = 1;
+          Item.getPoint(0, switch2);
+          Item.getPoint(0, switch22);
           b1 = 0;
         }
       }
+      break;
     }
     if (a1) {
       if (b1 || c1) {

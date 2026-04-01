@@ -15,6 +15,10 @@ function barrel_slot_20() /* entry=2562 class_id=0x0a00 slot=0x20 */
     if (!process_result) {
       FREE.slot_20(1);
       if (retval) {
+        Item.playSfxCru(38, arg_06);
+      }
+      else {
+        Item.playSfxCru(39, arg_06);
       }
       return;
     }
@@ -52,16 +56,20 @@ function barrel_slot_20() /* entry=2562 class_id=0x0a00 slot=0x20 */
         spawn ITEM.slot_2c(pid, arg_06);
         suspend;
         set_info(1, 0);
+        Item.explode(1, 2, local_02);
         spawn FREE.slot_3b(pid, 1, 0x00000000);
         suspend;
+        Item.legal_create(local_14, local_12, UCMachine.rndRange(local_10, 5, 2), 0x022b, local_04);
         return;
       }
       else {
         spawn ITEM.slot_2c(pid, arg_06);
         suspend;
         set_info(1, 0);
+        Item.explode(1, 2, local_02);
         spawn FREE.slot_3b(pid, 1, 0x00000000);
         suspend;
+        Item.legal_create(local_14, local_12, local_10, 0, 0x022b, local_04);
         return;
       }
       return;
@@ -70,16 +78,20 @@ function barrel_slot_20() /* entry=2562 class_id=0x0a00 slot=0x20 */
       spawn ITEM.slot_2c(pid, arg_06);
       suspend;
       set_info(1, 0);
+      Item.explode(1, 2, local_02);
       spawn FREE.slot_3b(pid, 1, 0x00000000);
       suspend;
+      Item.legal_create(local_14, local_12, local_10, 6, 0x022b, local_04);
       return;
     }
     else {
       spawn ITEM.slot_2c(pid, arg_06);
       suspend;
       set_info(1, 0);
+      Item.explode(1, 2, local_02);
       spawn FREE.slot_3b(pid, 1, 0x00000000);
       suspend;
+      Item.legal_create(local_14, local_12, local_10, 9, 0x022b, local_04);
       return;
     }
   }

@@ -2,6 +2,7 @@ function lazer_slot_21() /* entry=2576 class_id=0x0a0e slot=0x21 */
 {
   set_info(0x0205, *(arg_06));
   if (Item.getFrame(arg_06) != 1) {
+    Item.playSfxCru(0x00b0, arg_06);
     spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
     suspend;
   }

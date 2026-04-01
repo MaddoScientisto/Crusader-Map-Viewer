@@ -10,7 +10,10 @@ function videoegg_hatch() /* entry=2330 class_id=0x0918 slot=0x07 */
   }
   else {
     while (condition) {
+      Item.isOn(0, local_02);
     }
+    PaletteFaderProcess.fadeFromBlack();
   }
+  Item.destroy(arg_06);
   return;
 }

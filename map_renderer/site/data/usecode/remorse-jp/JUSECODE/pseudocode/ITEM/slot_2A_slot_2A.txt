@@ -15,14 +15,34 @@ function item_slot_2a() /* entry=2577 class_id=0x0a0f slot=0x2a */
   if (!process_result) {
     return;
   }
-  else if ((x == 1) || (x == 2)) {
-    spawn ITEM.slot_2b(burn);
-  }
-  else if ((x == 3) || (x == 4)) {
-    spawn ITEM.slot_2b(burn);
-  }
   else {
-    spawn ITEM.slot_2b(burn);
+    Game.isReleaseBuild(z, y, x, arg_06);
+    push(arg_06);
+    if ((x == 1) || (x == 2)) {
+      Item.create(UCMachine.rndRange(3, 0), 0x0513, burn);
+      Item.popToCoords(Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06), burn);
+      Item.create(0, 0x0456, burn);
+      Item.orStatus(0x0080, burn);
+      Item.popToCoords(((Item.getZ(arg_06) - UCMachine.rndRange(Item.getY(arg_06), 8, 0)) - UCMachine.rndRange(Item.getX(arg_06), 8, 0)), burn);
+      spawn ITEM.slot_2b(burn);
+    }
+    else if ((x == 3) || (x == 4)) {
+      Item.create(UCMachine.rndRange(3, 0), 0x0509, burn);
+      Item.popToCoords(Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06), burn);
+      Item.create(0, 0x044a, burn);
+      Item.orStatus(0x0080, burn);
+      Item.popToCoords(((Item.getZ(arg_06) - UCMachine.rndRange(Item.getY(arg_06), 24, 0)) - UCMachine.rndRange(Item.getX(arg_06), 24, 0)), burn);
+      spawn ITEM.slot_2b(burn);
+    }
+    else {
+      Item.create(UCMachine.rndRange(3, 0), 0x0448, burn);
+      Item.popToCoords(Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06), burn);
+      Item.create(0, 0x044a, burn);
+      Item.orStatus(0x0080, burn);
+      Item.popToCoords(((Item.getZ(arg_06) - UCMachine.rndRange(Item.getY(arg_06), 40, 0)) - UCMachine.rndRange(Item.getX(arg_06), 40, 0)), burn);
+      spawn ITEM.slot_2b(burn);
+    }
+    Item.popToCoords((Item.getZ(arg_06) + 1), Item.getY(arg_06), Item.getX(arg_06), arg_06);
   }
   return;
 }

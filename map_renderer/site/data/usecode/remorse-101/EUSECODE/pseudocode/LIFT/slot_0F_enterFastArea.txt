@@ -3,17 +3,23 @@ function lift_enterFastArea() /* entry=309 class_id=0x0133 slot=0x0f */
   set_info(0x021b, *(arg_06));
   process_exclude();
   if (PaletteFaderProcess.fadeToBlack(arg_06) == 2) {
+    Egg.getEggId(Item.getX(Item.getY(Actor.getMap(&global[0x003d]), 0, &global[0x003d]), &global[0x003d]));
     spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
     suspend;
     spawn LIFT.slot_20(arg_06);
     suspend;
+    Ultima8Engine.setAvatarInStasis(0);
+    getCurrentTimerTick(0, arg_06);
     return;
   }
   else if (PaletteFaderProcess.fadeToBlack(arg_06) == 20) {
+    Egg.getEggId(Item.getX(Item.getY(Actor.getMap(&global[0x003d]), 0, &global[0x003d]), &global[0x003d]));
     spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
     suspend;
     spawn LIFT.slot_20(arg_06);
     suspend;
+    Ultima8Engine.setAvatarInStasis(0);
+    getCurrentTimerTick(0, arg_06);
     return;
   }
   return;

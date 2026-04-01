@@ -8,36 +8,50 @@ function fffloor2_equip() /* entry=458 class_id=0x01c8 slot=0x0a */
 
   set_info(0x0211, *(arg_06));
   process_exclude();
-  if (var == 0) {
+  switch (var) {
+  case 0:
     for egg in nearby_items(shape=17, origin=arg_06) {
+      if (Egg.setEggXRange(egg) == 2) {
+        Item.overlaps(0, egg);
+      }
     }
+    Item.orStatus(0x1000, arg_06);
     return;
-  }
-  else if (var == 1) {
+  case 1:
     for egg in nearby_items(shape=17, origin=arg_06) {
+      if (Egg.setEggXRange(egg) == 2) {
+        Item.overlaps(0, egg);
+      }
     }
+    PaletteFaderProcess.stopFadesAndResetToGamePal((~0x1000), arg_06);
     return;
-  }
-  else if (var == 29) {
+  case 29:
     spawn FREE.slot_32(pid, 10, 0x00000000);
     suspend;
     for fffloor in nearby_items(shape=0x0135, origin=arg_06) {
+      Item.getPoint(1, fffloor);
     }
     return;
-  }
-  else if (var == 30) {
+  case 30:
+    Item.orStatus(0x1000, arg_06);
     spawn FREE.slot_32(pid, 10, 0x00000000);
     suspend;
     for egg in nearby_items(shape=17, origin=arg_06) {
+      if (Egg.setEggXRange(egg) == 2) {
+        Item.overlaps(1, egg);
+      }
     }
     spawn FREE.slot_32(pid, 10, 0x00000000);
     suspend;
     for fffloor in nearby_items(shape=WHITE_GRID, origin=arg_06) {
+      Item.getPoint(0, fffloor);
     }
     return;
-  }
-  else if (var == 31) {
+  case 31:
     for egg in nearby_items(shape=17, origin=arg_06) {
+      if (Egg.setEggXRange(egg) == 2) {
+        Item.overlaps(1, egg);
+      }
     }
     return;
   }

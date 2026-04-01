@@ -3,19 +3,27 @@ function thrmbckn_equip() /* entry=1384 class_id=0x0566 slot=0x0a */
   set_info(0x0211, *(arg_06));
   process_exclude();
   if (arg_10) {
+    Item.setFrame(1, arg_06);
+    Item.playSfxCru(4, arg_06);
     while (Intrinsic0035(4, arg_06)) {
       spawn FREE.slot_3b(pid, 2, 0x00000000);
       suspend;
     }
+    Item.playSfxCru(4, arg_06);
     while (Intrinsic0035(4, arg_06)) {
       spawn FREE.slot_3b(pid, 2, 0x00000000);
       suspend;
     }
+    Item.playSfxCru(4, arg_06);
     while (Intrinsic0035(4, arg_06)) {
       spawn FREE.slot_3b(pid, 2, 0x00000000);
       suspend;
     }
+    AudioProcess.stopSFXCru(4, arg_06);
+    Item.setFrame(0, arg_06);
     while (condition) {
+      Item.playSfxCru(0x0114, arg_06);
+      Item.destroy(local_02);
     }
     while (condition) {
       if (Intrinsic000D(local_04) == Item.getQLo(arg_06)) {
@@ -26,10 +34,16 @@ function thrmbckn_equip() /* entry=1384 class_id=0x0566 slot=0x0a */
         else {
           local_06 = 5;
         }
+        Actor.setDefaultActivity1(local_08, local_04);
+        Actor.setDefaultActivity2(local_08, local_04);
+        Actor.setActivity(114, local_04);
         spawn FREE.slot_3b(pid, 40, 0x00000000);
         suspend;
+        Actor.setDefaultActivity2(local_06, local_04);
         spawn FREE.slot_3b(pid, 2, 0x00000000);
         suspend;
+        Actor.setActivity(114, local_04);
+        Item.setQLo(0, arg_06);
         return;
       }
     }

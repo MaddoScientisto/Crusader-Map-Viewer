@@ -4,16 +4,21 @@ function securns_cast() /* entry=1021 class_id=0x03fb slot=0x11 */
   process_exclude();
   ITEM.slot_26(4, arg_06);
   if (retval) {
+    Item.playSfxCru(0x01a7, arg_06);
+    SpriteProcess.createSprite(Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06), 5, 19, 10, 0x04f1);
     spawn FREE.slot_3b(pid, 120, 0x00000000);
     suspend;
     return;
   }
   else {
+    Item.playSfxCru(93, arg_06);
     spawn FREE.slot_3b(pid, 60, 0x00000000);
     suspend;
     if (Item.getFrame(arg_06) < 2) {
+      Item.playSfxCru(0x011e, arg_06);
       local_02 = 1;
       while (local_02 <= 7) {
+        Item.isOn(local_02, arg_06);
         spawn FREE.slot_3b(pid, 10, 0x00000000);
         suspend;
         local_02 = (1 + local_02);
@@ -21,6 +26,7 @@ function securns_cast() /* entry=1021 class_id=0x03fb slot=0x11 */
     }
     spawn FREE.slot_3b(pid, 60, 0x00000000);
     suspend;
+    Item.playSfxCru(0x00ac, arg_06);
     spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
     suspend;
   }

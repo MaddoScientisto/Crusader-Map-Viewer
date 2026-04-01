@@ -5,6 +5,10 @@ function telepad_slot_20() /* entry=477 class_id=0x01db slot=0x20 */
     return;
   }
   else {
+    setUnkFlagA4();
+    Item.getPoint(1);
+    Game.isViolenceEnabled();
+    Intrinsic0094(&global[0x001e]);
     spawn FREE.slot_3b(pid, 0, 0x00000000);
     suspend;
     FREE.slot_3c(0x0215, 0);
@@ -19,24 +23,36 @@ function telepad_slot_20() /* entry=477 class_id=0x01db slot=0x20 */
     spawn NPC.slot_24(pid, &global[0x001e]);
     suspend;
     if (AudioProcess.stopSFXCru(&global[0x001e]) != arg_10) {
+      Actor.setActivity();
       suspend;
       FREE.slot_22();
       if (arg_10 == 3) {
         spawn FREE.slot_3b(pid, 120, 0x00000000);
         suspend;
+        Actor.clrImmortal();
+        AudioProcess.stopSFXCru(arg_06);
+        Intrinsic0072("anim03");
+        Intrinsic0072(0, "1i");
+        Item.setQuality(3);
         return;
       }
       if (arg_10) {
         suspend;
       }
+      Actor.clrImmortal();
       FREE.slot_23();
+      Item.isOn(8, &global[0x001e]);
       suspend;
+      Item.getQuality();
     }
     else {
       suspend;
     }
+    Item.getQuality();
     spawn NPC.slot_23(pid, &global[0x001e]);
     suspend;
+    Item.getNpcNum(&global[0x001e]);
+    Item.getPoint(0);
   }
   return;
 }

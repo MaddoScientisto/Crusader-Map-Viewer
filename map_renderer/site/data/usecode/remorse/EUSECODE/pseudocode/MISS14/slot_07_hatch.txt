@@ -6,7 +6,9 @@ function miss14_hatch() /* entry=2332 class_id=0x091a slot=0x07 */
 
   set_info(0x0210, *(arg_06));
   process_exclude();
-  if (Egg.getEggId(arg_06) == 1) {
+  switch (Egg.getEggId(arg_06)) {
+  case 1:
+    Ultima8Engine.setAvatarInStasis(1);
     while (Actor.isBusy(&global[0x003c])) {
       spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
       suspend;
@@ -24,18 +26,24 @@ function miss14_hatch() /* entry=2332 class_id=0x091a slot=0x07 */
       suspend;
       counter = (1 + counter);
     }
+    PaletteFaderProcess.setPalToAllBlack();
+    setSomeMovieGlobal();
+    playFlic(pid, 0x0096, 0x00fa, "S01", arg_06);
     suspend;
+    playFlic(pid, 0x0096, 0x00fa, "15A", arg_06);
     suspend;
+    Ultima8Engine.setAvatarInStasis(1);
+    createMapJumpProcess(29);
     return;
-  }
-  else if (Egg.getEggId(arg_06) == 2) {
+  case 2:
     spawn FREE.slot_26(pid, "14d", 0x00000000);
     suspend;
+    Item.destroy(arg_06);
     return;
-  }
-  else if (Egg.getEggId(arg_06) == 3) {
+  case 3:
     spawn FREE.slot_26(pid, "14e", 0x00000000);
     suspend;
+    Item.destroy(arg_06);
     return;
   }
   return;

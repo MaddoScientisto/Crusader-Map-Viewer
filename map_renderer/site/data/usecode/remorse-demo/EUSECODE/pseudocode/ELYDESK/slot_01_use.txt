@@ -7,45 +7,61 @@ function elydesk_use() /* entry=1105 class_id=0x044f slot=0x01 */
 
   set_info(0x0207, *(arg_06));
   process_exclude();
+  Ultima8Engine.setAvatarInStasis(1);
   FREE.slot_33(0x021b, *(arg_06));
   while (Item.getFrame(arg_06) < 5) {
+    Item.legal_create((Item.getFrame(arg_06) + 1), arg_06);
     spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
     suspend;
   }
   spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
   suspend;
-  if (global[0x001f] == 2) {
+  switch (global[0x001f]) {
+  case 2:
+    playFlic(pid, 0x0096, 0x00c8, "2f", arg_06);
     suspend;
-  }
-  else if (global[0x001f] == 3) {
+    break;
+  case 3:
+    playFlic(pid, 0x0096, 0x00c8, "3f", arg_06);
     suspend;
-  }
-  else if (global[0x001f] == 4) {
+    break;
+  case 4:
+    playFlic(pid, 0x0096, 0x00c8, "4e", arg_06);
     suspend;
-  }
-  else if (global[0x001f] == 5) {
+    break;
+  case 5:
+    playFlic(pid, 0x0096, 0x00c8, "5e", arg_06);
     suspend;
-  }
-  else if (global[0x001f] == 6) {
+    break;
+  case 6:
+    playFlic(pid, 0x0096, 0x00c8, "6e", arg_06);
     suspend;
-  }
-  else if (global[0x001f] == 7) {
+    break;
+  case 7:
+    playFlic(pid, 0x0096, 0x00c8, "7d", arg_06);
     suspend;
-  }
-  else if (global[0x001f] == 8) {
+    break;
+  case 8:
+    playFlic(pid, 0x0096, 0x00c8, "8d", arg_06);
     suspend;
-  }
-  else if (global[0x001f] == 9) {
+    break;
+  case 9:
+    playFlic(pid, 0x0096, 0x00c8, "9d", arg_06);
     suspend;
+    break;
   }
   for item in nearby_items(shape=0x043d, origin=arg_06) {
+    Item.fallProbably_03E(global[0x001f], item);
+    Item.legal_create(1, item);
   }
   counter = 0;
   while (counter <= 5) {
+    Item.legal_create((5 - counter), arg_06);
     spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
     suspend;
     counter = (1 + counter);
   }
   spawn ELYDESK.enterFastArea(arg_06);
+  Ultima8Engine.setAvatarInStasis(0);
   return;
 }

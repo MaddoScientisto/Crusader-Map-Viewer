@@ -3,6 +3,7 @@ function elevplat_enterFastArea() /* entry=305 class_id=0x012f slot=0x0f */
   set_info(0x021b, *(arg_06));
   process_exclude();
   if (Item.getQuality(arg_06) == 101) {
+    Item.setQuality(0, arg_06);
     suspend;
   }
   return;

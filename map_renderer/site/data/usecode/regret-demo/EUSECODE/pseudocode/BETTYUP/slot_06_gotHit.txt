@@ -7,5 +7,10 @@ function bettyup_gotHit() /* entry=715 class_id=0x02c9 slot=0x06 */
   if (!process_result) {
     return;
   }
+  else {
+    Item.create(UCMachine.rndRange(2, 0), 88, local_02);
+    Item.popToCoords((Item.getZ(arg_06) + 1), Item.getY(arg_06), Item.getX(arg_06), local_02);
+    Item.explode(1, 1, arg_06);
+  }
   return;
 }

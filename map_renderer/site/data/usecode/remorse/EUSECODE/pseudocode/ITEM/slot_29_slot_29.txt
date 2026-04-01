@@ -20,6 +20,7 @@ function item_slot_29() /* entry=2592 class_id=0x0a1e slot=0x29 */
     if !Item.isOn(item, arg_06) goto block_1051;
 
   block_0f93:
+    Item.getFootpadData(z, y, x, item);
     if z <= 1 goto block_0fbc;
 
   block_0faf:
@@ -28,7 +29,7 @@ function item_slot_29() /* entry=2592 class_id=0x0a1e slot=0x29 */
 
   block_0fbc:
     theType = Item.getShape(item);
-    if ((((((((theType != 95) || (theType == 0x0096)) || (theType == 0x0132)) || (theType == 0x04cd)) || (theType == 0x0366)) || (theType == 0x0365)) || (theType == 0x0290)) || (theType == 0x0336)) || (theType == 0x0150) goto block_104a;
+    if !(((((((((theType == 95) || (theType == 0x0096)) || (theType == 0x0132)) || (theType == 0x04cd)) || (theType == 0x0366)) || (theType == 0x0365)) || (theType == 0x0290)) || (theType == 0x0336)) || (theType == 0x0150)) goto block_104a;
 
   block_103d:
     failTest = 1;
@@ -40,19 +41,15 @@ function item_slot_29() /* entry=2592 class_id=0x0a1e slot=0x29 */
   block_1051:
     goto block_0f7f;
 
-  block_1055:
-    if (failTest != 1) || (onSomething == 0) goto block_1078;
-
-  block_106b:
-    goto block_1082;
-
-  block_1075:
-    goto block_1082;
-
-  block_1078:
-    goto block_1082;
-
-  block_1082:
+  if ((failTest == 1) || (onSomething == 0)) {
+    process_result = 0;
     return;
+  }
+  else {
+    process_result = 1;
+    return;
+  }
+
+  return;
 
 }

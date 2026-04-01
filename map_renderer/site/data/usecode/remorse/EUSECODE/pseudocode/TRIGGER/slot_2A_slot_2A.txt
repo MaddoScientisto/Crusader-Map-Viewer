@@ -22,16 +22,20 @@ function trigger_slot_2a() /* entry=2586 class_id=0x0a18 slot=0x2a */
   set_info(0x021b, 0);
   aitem = ref;
   cmd = (mapNum & 3);
-  if (cmd == 0) {
+  switch (cmd) {
+  case 0:
     for npc in nearby_items(shape=searchtype, origin=aitem) {
       a = (qHi / 16);
       b = (qHi & 15);
       if (a == 0) {
+        Actor.setActivity(1, npc);
         suspend;
         spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
         suspend;
+        Actor.setActivity(Actor.GetNPCDataField0x4_0DD(npc), npc);
       }
       else {
+        Actor.setActivity(1, npc);
         suspend;
         spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
         suspend;
@@ -47,60 +51,74 @@ function trigger_slot_2a() /* entry=2586 class_id=0x0a18 slot=0x2a */
           suspend;
           counter = (1 + counter);
         }
+        Actor.setActivity(Actor.GetNPCDataField0x4_0DD(npc), npc);
       }
     }
     return;
-  }
-  else if (cmd == 1) {
+  case 1:
+    for npc in nearby_items(shape=searchtype, origin=aitem) {
+      Actor.SetNPCDataField0x63_0E6(qHi, npc);
+    }
+    return;
+  case 2:
     for npc in nearby_items(shape=searchtype, origin=aitem) {
     }
     return;
-  }
-  else if (cmd == 2) {
-    for npc in nearby_items(shape=searchtype, origin=aitem) {
-    }
-    return;
-  }
-  else if (cmd == 3) {
+  case 3:
     scmd = (qHi & 7);
     a = (qHi / 8);
-    if (scmd == 0) {
+    switch (scmd) {
+    case 0:
       for npc in nearby_items(shape=searchtype, origin=aitem) {
         if (a == 1) {
+          Actor.setActivity(9, npc);
         }
         else if (a == 2) {
+          Actor.setActivity(10, npc);
         }
         else if (a == 3) {
+          Actor.setActivity(11, npc);
+        }
+        else {
+          Actor.setActivity(5, npc);
         }
       }
-    }
-    else if (scmd == 1) {
+      break;
+    case 1:
       for npc in nearby_items(shape=searchtype, origin=aitem) {
+        Actor.setDefaultActivity0(a, npc);
         spawn FREE.waitNTimerTicks(pid, 1, 0x00000000);
         suspend;
+        Actor.setActivity(112, npc);
       }
-    }
-    else if (scmd == 2) {
+      break;
+    case 2:
       for npc in nearby_items(shape=searchtype, origin=aitem) {
+        Actor.setDefaultActivity1(a, npc);
         spawn FREE.waitNTimerTicks(pid, 1, 0x00000000);
         suspend;
+        Actor.setActivity(113, npc);
       }
-    }
-    else if (scmd == 3) {
+      break;
+    case 3:
       for npc in nearby_items(shape=searchtype, origin=aitem) {
+        Actor.setDefaultActivity2(a, npc);
         spawn FREE.waitNTimerTicks(pid, 1, 0x00000000);
         suspend;
+        Actor.setActivity(114, npc);
       }
-    }
-    else if (scmd == 4) {
+      break;
+    case 4:
       for npc in nearby_items(shape=searchtype, origin=aitem) {
         k = a;
+        Actor.setActivity(k, npc);
       }
-    }
-    else if (scmd == 5) {
+      break;
+    case 5:
       for npc in nearby_items(shape=searchtype, origin=aitem) {
         spawn NPC.equip(a, npc);
       }
+      break;
     }
     return;
   }

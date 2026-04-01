@@ -3,6 +3,9 @@ function miss4_hatch() /* entry=2322 class_id=0x0910 slot=0x07 */
   set_info(0x0210, *(arg_06));
   process_exclude();
   if (Item.callEvent11(arg_06) == 1) {
+    setUnkFlagA4();
+    Actor.clrImmortal();
+    Item.getQuality();
     spawn FREE.slot_3b(pid, 1, 0x00000000);
     suspend;
     suspend;
@@ -23,6 +26,9 @@ function miss4_hatch() /* entry=2322 class_id=0x0910 slot=0x07 */
       suspend;
     }
     FREE.slot_23();
+    Item.getPoint(0);
+    clearUnkFlagA4();
+    Item.destroy(arg_06);
   }
   return;
 }

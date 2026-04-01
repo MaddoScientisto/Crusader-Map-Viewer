@@ -15,11 +15,9 @@ function door3_slot_23() /* entry=2570 class_id=0x0a08 slot=0x23 */
     maxFrame; /* [BP-19h] type=0x69 */
 
   set_info(0x0207, *(arg_06));
-  /* create_list */
-  doorList = 0x0368;
-  /* create_list */
-  doorList2 = 0x0369;
-  FREE.slot_3a(0x0352, 0x0354, 0x0355, 0x0353, 0x0356, 0x0357, doorList);
+  doorList = [0x0368, 0x0355, 0x0354, 0x0352];
+  doorList2 = [0x0369, 0x0357, 0x0356, 0x0353];
+  FREE.slot_3a(doorList);
   maxFrame = retval;
   for item in nearby_items(shape=0x0368, origin=arg_06) {
     door1 = item;
@@ -28,6 +26,7 @@ function door3_slot_23() /* entry=2570 class_id=0x0a08 slot=0x23 */
     door2 = item;
   }
   if (door1 && door2) {
+    AudioProcess.playSFXCru(106, arg_06);
     counter = 1;
     while (counter <= (maxFrame - 1)) {
       FREE.slot_2d(Item.getZ(door1), Item.getY(door1), Item.getX(door1), 0, doorList, (maxFrame - counter), list_element(size=0x2), door1);
@@ -48,25 +47,56 @@ function door3_slot_23() /* entry=2570 class_id=0x0a08 slot=0x23 */
         }
       }
       if ((!nonLegalDoor1) && (!nonLegalDoor2)) {
+        Item.touch(door1);
+        Item.touch(door2);
         spawn FREE.waitNTimerTicks(pid, (5 + counter), 0x00000000);
         suspend;
       }
       else {
         bool = 0;
+        AudioProcess.stopSFXCru(106, arg_06);
+        AudioProcess.playSFXCru(82, arg_06);
+        if (nonLegalDoor2) {
+          Item.setShape(list_element(size=0x2), door1);
+        }
+        if ((nonLegalDoor1 == 1) && (nonLegalDoor2 == 0)) {
+          push(door2);
+          Item.setShape(list_element(size=0x2), door2);
+          Item.popToCoords(((maxFrame - counter) + 1), Item.getZ(door2), (Item.getY(door2) - 16), Item.getX(door2), door2);
+        }
         counter2 = ((maxFrame - counter) + 1);
         while (counter2 <= (maxFrame - 1)) {
+          Item.setShape(list_element(size=0x2), door1);
+          Item.touch(door1);
           if (!bool) {
+            push(door2);
+            Item.setShape(list_element(size=0x2), door2);
+            Item.popToCoords(counter2, Item.getZ(door2), (Item.getY(door2) - 16), Item.getX(door2), door2);
             bool = 1;
+          }
+          else {
+            push(door2);
+            Item.setShape(list_element(size=0x2), door2);
+            Item.popToCoords(counter2, Item.getZ(door2), (Item.getY(door2) - 16), Item.getX(door2), door2);
           }
           spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
           suspend;
           counter2 = (1 + counter2);
         }
+        Item.setShape(list_element(size=0x2), door1);
+        Item.setShape(list_element(size=0x2), door2);
+        Item.touch(door1);
+        Item.touch(door2);
+        process_result = 0;
         return;
       }
       counter = (1 + counter);
     }
   }
   set_info(1, 0);
+  Item.destroy(door2);
+  Item.setShape(0x030b, door1);
+  Item.touch(door1);
+  process_result = 1;
   return;
 }

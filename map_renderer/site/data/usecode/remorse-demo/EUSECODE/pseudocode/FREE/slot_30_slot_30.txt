@@ -12,6 +12,11 @@ function free_slot_30() /* entry=2574 class_id=0x0a0c slot=0x30 */
   phold = ref;
   if (Item.getShape(phold) == 0x0476) {
     if (addType != 0) {
+      Item.create(fram, addType, item);
+      Item.fallProbably_03E(Item.getQHi(phold), item);
+      Item.pop(Item.unequip(phold), item);
+      Item.popToCoords(Item.getZ(phold), Item.getY(phold), Item.getX(phold), item);
+      Item.destroy(phold);
       return;
     }
   }

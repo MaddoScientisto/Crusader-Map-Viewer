@@ -17,11 +17,13 @@ function elevat_slot_25() /* entry=2571 class_id=0x0a09 slot=0x25 */
     checkY = retval;
     if ((checkX < 2) && (checkY < 2)) {
       if ((Item.getStatus(liftpit) & 0x1000) == 0) {
+        Item.orStatus(0x1000, liftpit);
         if (Item.getFrame(liftpit) == 0) {
           pitCounter = 1;
           while (pitCounter <= totFrames) {
             spawn FREE.slot_32(pid, 1, 0x00000000);
             suspend;
+            Item.getPoint(pitCounter, liftpit);
             pitCounter = (1 + pitCounter);
           }
         }
@@ -30,11 +32,14 @@ function elevat_slot_25() /* entry=2571 class_id=0x0a09 slot=0x25 */
           while (pitCounter > 0) {
             spawn FREE.slot_32(pid, 1, 0x00000000);
             suspend;
+            Item.getPoint(pitCounter, liftpit);
             pitCounter = (pitCounter - 1);
           }
           spawn FREE.slot_32(pid, 2, 0x00000000);
           suspend;
+          Item.getPoint(0, liftpit);
         }
+        Ultima8Engine.getUnkCrusaderFlag((~0x1000), liftpit);
       }
     }
   }

@@ -2,5 +2,7 @@ function l_ns_8_avatarStoleSomething() /* entry=464 class_id=0x01ce slot=0x13 */
 {
   set_info(0x022e, *(arg_06));
   process_exclude();
+  Item.playSfxCru(0x0114, arg_06);
+  Item.andStatus(0x00a9, arg_06);
   return;
 }

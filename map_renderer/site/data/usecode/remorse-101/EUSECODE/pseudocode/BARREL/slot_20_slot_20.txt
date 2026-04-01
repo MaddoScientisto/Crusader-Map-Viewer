@@ -15,6 +15,10 @@ function barrel_slot_20() /* entry=2562 class_id=0x0a00 slot=0x20 */
     if (!process_result) {
       FREE.slot_20(1);
       if (retval) {
+        AudioProcess.playSFXCru(38, arg_06);
+      }
+      else {
+        AudioProcess.playSFXCru(39, arg_06);
       }
       return;
     }
@@ -52,12 +56,22 @@ function barrel_slot_20() /* entry=2562 class_id=0x0a00 slot=0x20 */
         spawn ITEM.slot_2a(pid, arg_06);
         suspend;
         set_info(1, 0);
+        Item.explode(1, 2, local_02);
+        Item.legal_create(UCMachine.rndRange(5, 2), 0x022b, local_04);
+        Item.orStatus(0x0080, local_04);
+        Item.andStatus(local_08, local_04);
+        getTargetNPCNumMaybe(local_14, local_12, local_10, local_04);
         return;
       }
       else {
         spawn ITEM.slot_2a(pid, arg_06);
         suspend;
         set_info(1, 0);
+        Item.explode(1, 2, local_02);
+        Item.legal_create(0, 0x022b, local_04);
+        Item.orStatus(0x0080, local_04);
+        Item.andStatus(local_08, local_04);
+        getTargetNPCNumMaybe(local_14, local_12, local_10, local_04);
         return;
       }
       return;
@@ -66,12 +80,22 @@ function barrel_slot_20() /* entry=2562 class_id=0x0a00 slot=0x20 */
       spawn ITEM.slot_2a(pid, arg_06);
       suspend;
       set_info(1, 0);
+      Item.explode(1, 2, local_02);
+      Item.legal_create(UCMachine.rndRange(6, 6), 0x022b, local_04);
+      Item.orStatus(0x0080, local_04);
+      Item.andStatus(local_08, local_04);
+      getTargetNPCNumMaybe(local_14, local_12, local_10, local_04);
       return;
     }
     else {
       spawn ITEM.slot_2a(pid, arg_06);
       suspend;
       set_info(1, 0);
+      Item.explode(1, 2, local_02);
+      Item.legal_create(9, 0x022b, local_04);
+      Item.orStatus(0x0080, local_04);
+      Item.andStatus(local_08, local_04);
+      getTargetNPCNumMaybe(local_14, local_12, local_10, local_04);
       return;
     }
   }

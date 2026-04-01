@@ -5,66 +5,75 @@ function free_slot_3b() /* entry=2574 class_id=0x0a0c slot=0x3b */
   if (World.getAlertActive()) {
     return;
   }
-  else if (Actor.getMap((Actor.getMap((Actor.getMap((Actor.getMap((Actor.getMap((Actor.getMap(&global[0x003d]) == 1), &global[0x003d]) == 5), &global[0x003d]) == 9), &global[0x003d]) == 13), &global[0x003d]) == 23), &global[0x003d]) == 27) {
-    local_04 = 22;
-  }
-  else if (Actor.getMap((Actor.getMap((Actor.getMap(&global[0x003d]) == 3), &global[0x003d]) == 15), &global[0x003d]) == 25) {
-    local_04 = 0x0096;
-  }
-  else if (Actor.getMap((Actor.getMap((Actor.getMap((Actor.getMap(&global[0x003d]) == 7), &global[0x003d]) == 11), &global[0x003d]) == 17), &global[0x003d]) == 24) {
-    local_04 = 0x00a0;
-  }
-  else if (Actor.getMap((Actor.getMap((Actor.getMap(&global[0x003d]) == 10), &global[0x003d]) == 19), &global[0x003d]) == 21) {
-    local_04 = 0x0096;
-  }
-  else if (Actor.getMap(&global[0x003d]) == 29) {
-    local_04 = 0x00c4;
-  }
   else {
-    local_04 = 22;
-  }
-  local_02 = 0;
-  while (local_02 <= 2) {
-    spawn FREE.slot_21(pid, local_04, 0x00000000);
-    suspend;
-    local_02 = (1 + local_02);
-  }
-  spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
-  suspend;
-  if (UCMachine.rndRange((UCMachine.rndRange((UCMachine.rndRange((UCMachine.rndRange((UCMachine.rndRange(10, 0) == 0), 10, 0) == 1), 10, 0) == 2), 10, 0) == 3), 10, 0) == 4) {
-  }
-  else {
-    spawn FREE.slot_21(pid, 123, 0x00000000);
-    suspend;
-    spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
-    suspend;
-  }
-  for local_06 in nearby_items(shape=0x0561, origin=local_10) {
-    if (Item.inFastArea(local_06)) {
-      suspend;
+    Item.getNPCNum();
+    if (Actor.getMap((Actor.getMap((Actor.getMap((Actor.getMap((Actor.getMap((Actor.getMap(&global[0x003d]) == 1), &global[0x003d]) == 5), &global[0x003d]) == 9), &global[0x003d]) == 13), &global[0x003d]) == 23), &global[0x003d]) == 27) {
+      local_04 = 22;
     }
-  }
-  suspend;
-  while (true) {
-    suspend;
-    if (!World.getAlertActive()) {
-      return;
+    else if (Actor.getMap((Actor.getMap((Actor.getMap(&global[0x003d]) == 3), &global[0x003d]) == 15), &global[0x003d]) == 25) {
+      local_04 = 0x0096;
+    }
+    else if (Actor.getMap((Actor.getMap((Actor.getMap((Actor.getMap(&global[0x003d]) == 7), &global[0x003d]) == 11), &global[0x003d]) == 17), &global[0x003d]) == 24) {
+      local_04 = 0x00a0;
+    }
+    else if (Actor.getMap((Actor.getMap((Actor.getMap(&global[0x003d]) == 10), &global[0x003d]) == 19), &global[0x003d]) == 21) {
+      local_04 = 0x0096;
+    }
+    else if (Actor.getMap(&global[0x003d]) == 29) {
+      local_04 = 0x00c4;
     }
     else {
-      local_10 = 1;
-      spawn FREE.waitNTimerTicks(pid, (0x04b0 * (5 - Game.getDifficultyLevel())), 0x00000000);
+      local_04 = 22;
+    }
+    local_02 = 0;
+    while (local_02 <= 2) {
+      spawn FREE.slot_21(pid, local_04, 0x00000000);
       suspend;
-      local_02 = 0;
-      while (local_02 <= 2) {
-        spawn FREE.slot_21(pid, local_04, 0x00000000);
+      local_02 = (1 + local_02);
+    }
+    spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
+    suspend;
+    if (UCMachine.rndRange((UCMachine.rndRange((UCMachine.rndRange((UCMachine.rndRange((UCMachine.rndRange(10, 0) == 0), 10, 0) == 1), 10, 0) == 2), 10, 0) == 3), 10, 0) == 4) {
+      Egg.setEggXRange(123);
+    }
+    else {
+      spawn FREE.slot_21(pid, 123, 0x00000000);
+      suspend;
+      spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+      suspend;
+      Egg.setEggXRange(125);
+    }
+    for local_06 in nearby_items(shape=0x0561, origin=local_10) {
+      if (Item.inFastArea(local_06)) {
         suspend;
-        local_02 = (1 + local_02);
       }
-      if (UCMachine.rndRange(100, 0) > 50) {
+    }
+    suspend;
+    while (true) {
+      suspend;
+      if (!World.getAlertActive()) {
+        return;
       }
-      for local_06 in nearby_items(shape=0x0561, origin=local_10) {
-        if (Item.inFastArea(local_06)) {
+      else {
+        local_10 = 1;
+        spawn FREE.waitNTimerTicks(pid, (0x04b0 * (5 - Game.getDifficultyLevel())), 0x00000000);
+        suspend;
+        local_02 = 0;
+        while (local_02 <= 2) {
+          spawn FREE.slot_21(pid, local_04, 0x00000000);
           suspend;
+          local_02 = (1 + local_02);
+        }
+        if (UCMachine.rndRange(100, 0) > 50) {
+          Egg.setEggXRange(0x00d4);
+        }
+        else {
+          Egg.setEggXRange(0x00d0);
+        }
+        for local_06 in nearby_items(shape=0x0561, origin=local_10) {
+          if (Item.inFastArea(local_06)) {
+            suspend;
+          }
         }
       }
     }

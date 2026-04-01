@@ -44,9 +44,7 @@ function bridge_slot_25() /* entry=2565 class_id=0x0a03 slot=0x25 */
       for item in selector_0x42(arg0=0x03a6, arg1=0x0413, arg2=(70 * 32), origin=arg_06) {
         x = legalMoveToPoint(item);
         if (x == y) {
-          /* create_list */
-          /* append_list */
-          bridgeitems = item;
+          bridgeitems = (bridgeitems + [item]);
           y = (y - 1);
         }
       }
@@ -55,9 +53,7 @@ function bridge_slot_25() /* entry=2565 class_id=0x0a03 slot=0x25 */
           if (Item.getFrame(arg_06) == 1) {
             x = legalMoveToPoint(item);
             if (x == y) {
-              /* create_list */
-              /* append_list */
-              bridgeitems = item;
+              bridgeitems = (bridgeitems + [item]);
               y = (y - 1);
             }
           }
@@ -72,15 +68,22 @@ function bridge_slot_25() /* entry=2565 class_id=0x0a03 slot=0x25 */
       foreach_list item -> block_0b63;
       if (Intrinsic02F(item) == 1) {
         BRIDGE.slot_21(0x0336, item);
+        Item.setQLo(0x0098, item);
+        Item.setFrame(0, item);
         spawn FREE.slot_32(pid, 15, 0x00000000);
         suspend;
       }
       while (condition) {
         if ((Egg.getEggId(item2) == 6) && (Actor.isNPC(item2) == 0)) {
           for item3 in nearby_items(shape=0x04b8, origin=item2) {
+            Item.destroy(item3);
           }
+          Item.setQHi(item2);
           spawn ITEM.slot_28(pid, 1, 0, item2);
           suspend;
+        }
+        else {
+          CameraProcess.moveTo(item);
         }
       }
     }
@@ -88,13 +91,20 @@ function bridge_slot_25() /* entry=2565 class_id=0x0a03 slot=0x25 */
       foreach_list item -> block_0c5a;
       if (Intrinsic02F(item) == 1) {
         BRIDGE.slot_21(0x0336, item);
+        Item.setQLo(0x0098, item);
+        Item.setFrame(0, item);
       }
       while (condition) {
         if ((Egg.getEggId(item2) == 6) && (Actor.isNPC(item2) == 0)) {
           for item3 in nearby_items(shape=0x04b8, origin=item2) {
+            Item.destroy(item3);
           }
+          Item.setQHi(item2);
           spawn ITEM.slot_28(pid, 1, 0, item2);
           suspend;
+        }
+        else {
+          CameraProcess.moveTo(item);
         }
       }
     }

@@ -37,23 +37,38 @@ function elevator_slot_20() /* entry=402 class_id=0x0190 slot=0x20 */
   if (local_02 && local_04) {
     spawn FREE.slot_3b(pid, 30, 0x00000000);
     suspend;
+    AudioProcess.stopSFXCru(&global[0x001e]);
+    Item.playSfxCru(0x00f4, &global[0x001e]);
+    Item.setFrame(4, local_02);
+    Item.setFrame(4, local_04);
+    Item.playSfxCru(0x0093, arg_06);
     while (Intrinsic0035(0x00f4, &global[0x001e])) {
       spawn FREE.slot_3b(pid, 2, 0x00000000);
       suspend;
     }
+    Item.playSfxCru(0x00f5, &global[0x001e]);
     if (arg_10) {
       local_08 = 5;
       while (local_08 <= 7) {
+        Item.setFrame(local_08, local_02);
+        Item.setFrame(local_08, local_04);
+        udioProcess.playSFXCru(0x0093, arg_06);
         spawn FREE.slot_3b(pid, 30, 0x00000000);
         suspend;
         local_08 = (1 + local_08);
       }
+      Item.setFrame(0, local_02);
+      Item.setFrame(0, local_04);
+      udioProcess.playSFXCru(0x0093, arg_06);
       spawn FREE.slot_3b(pid, 30, 0x00000000);
       suspend;
     }
     else {
       local_08 = 1;
       while (local_08 <= 4) {
+        Item.setFrame((4 - local_08), local_02);
+        Item.setFrame((4 - local_08), local_04);
+        udioProcess.playSFXCru(0x0093, arg_06);
         spawn FREE.slot_3b(pid, 30, 0x00000000);
         suspend;
         local_08 = (1 + local_08);
@@ -67,44 +82,74 @@ function elevator_slot_20() /* entry=402 class_id=0x0190 slot=0x20 */
   suspend;
   if (Actor.getMap(arg_12, &global[0x001e])) {
     local_13 = 1;
+    MainActor.clrKeycards();
+    MusicProcess.stopMusic();
     FREE.slot_22();
     if (arg_12 == 5) {
       suspend;
       spawn FREE.slot_3b(pid, 120, 0x00000000);
       suspend;
+      PaletteFaderProcess.jumpToAllBlack();
+      AudioProcess.stopSFXCru(arg_06);
+      setUnkFlagA4();
+      Intrinsic006D(0, "2f");
+      clearUnkFlagA4();
+      Intrinsic0085(5);
       return;
     }
     if (arg_12 == 6) {
       spawn FREE.slot_3b(pid, 60, 0x00000000);
       suspend;
+      PaletteFaderProcess.jumpToAllBlack();
+      AudioProcess.stopSFXCru(arg_06);
+      setUnkFlagA4();
       spawn FLICTEST.slot_20(pid, 19, local_15);
       suspend;
+      clearUnkFlagA4();
     }
   }
   if ((arg_12 == 2) && (arg_14 == 0x0082)) {
     suspend;
     spawn FREE.slot_3b(pid, 120, 0x00000000);
     suspend;
+    PaletteFaderProcess.jumpToAllBlack();
+    AudioProcess.stopSFXCru(arg_06);
+    setUnkFlagA4();
+    Intrinsic006D("anim02");
+    clearUnkFlagA4();
   }
   if ((arg_12 == 16) && (arg_14 == 100)) {
     suspend;
     spawn FREE.slot_3b(pid, 120, 0x00000000);
     suspend;
+    PaletteFaderProcess.jumpToAllBlack();
+    AudioProcess.stopSFXCru(arg_06);
+    setUnkFlagA4();
+    Intrinsic006D(0, "8c");
+    clearUnkFlagA4();
     spawn FREE.slot_2a(0x00000000);
   }
   if ((arg_12 == 14) && (arg_14 == 0x00c7)) {
     suspend;
     spawn FREE.slot_3b(pid, 120, 0x00000000);
     suspend;
+    PaletteFaderProcess.jumpToAllBlack();
+    AudioProcess.stopSFXCru(arg_06);
+    MusicProcess.stopMusic();
   }
   suspend;
   if ((arg_12 == 14) && (arg_14 == 0x00c7)) {
+    setUnkFlagA4();
+    Intrinsic006D(1, "7e");
+    clearUnkFlagA4();
     suspend;
   }
   if (local_13) {
+    PaletteFaderProcess.jumpToAllBlack();
     FREE.slot_23();
   }
   for local_06 in nearby_items(shape=0x0190, origin=global[0x001e]) {
+    Item.move(Item.getZ(local_06), (Item.getY(local_06) - 16), (Item.getX(local_06) - 16), &global[0x001e]);
     suspend;
     FREE.slot_3c(12, local_06);
   }
@@ -121,13 +166,21 @@ function elevator_slot_20() /* entry=402 class_id=0x0190 slot=0x20 */
     local_04 = local_06;
   }
   if (local_02 && local_04) {
+    AudioProcess.stopSFXCru(&global[0x001e]);
+    Item.playSfxCru(0x00f2, &global[0x001e]);
     while (Intrinsic0035(0x00f2, &global[0x001e])) {
       spawn FREE.slot_3b(pid, 2, 0x00000000);
       suspend;
     }
+    Item.playSfxCru(0x00f1, &global[0x001e]);
     if (arg_10) {
+      Item.setFrame(0, local_02);
+      Item.setFrame(0, local_04);
       local_08 = 1;
       while (local_08 <= 4) {
+        Item.setFrame(local_08, local_02);
+        Item.setFrame(local_08, local_04);
+        udioProcess.playSFXCru(0x0093, local_02);
         spawn FREE.slot_3b(pid, 30, 0x00000000);
         suspend;
         local_08 = (1 + local_08);
@@ -136,6 +189,9 @@ function elevator_slot_20() /* entry=402 class_id=0x0190 slot=0x20 */
     else {
       local_08 = 0;
       while (local_08 <= 3) {
+        Item.setFrame((7 - local_08), local_02);
+        Item.setFrame((7 - local_08), local_04);
+        udioProcess.playSFXCru(0x0093, local_02);
         spawn FREE.slot_3b(pid, 30, 0x00000000);
         suspend;
         local_08 = (1 + local_08);
@@ -143,6 +199,9 @@ function elevator_slot_20() /* entry=402 class_id=0x0190 slot=0x20 */
     }
     spawn FREE.slot_3b(pid, 30, 0x00000000);
     suspend;
+    Item.setFrame(0, local_02);
+    Item.setFrame(0, local_04);
+    udioProcess.playSFXCru(0x0093, local_02);
   }
   spawn FREE.slot_3b(pid, 120, 0x00000000);
   suspend;
@@ -154,5 +213,6 @@ function elevator_slot_20() /* entry=402 class_id=0x0190 slot=0x20 */
   suspend;
   suspend;
   suspend;
+  Actor.clrImmortal(&global[0x001e]);
   return;
 }

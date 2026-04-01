@@ -2,6 +2,7 @@ function ebridge2_equip() /* entry=1045 class_id=0x0413 slot=0x0a */
 {
   set_info(0x0211, *(arg_06));
   process_exclude();
+  AudioProcess.playSFXCru(92, arg_06);
   spawn BRIDGE.slot_20(pid, arg_10, arg_06);
   suspend;
   return;

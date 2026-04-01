@@ -32,9 +32,7 @@ function bridge_slot_25() /* entry=2565 class_id=0x0a03 slot=0x25 */
       for local_02 in selector_0x42(arg0=0x03a6, arg1=0x0413, arg2=(70 * 32), origin=arg_06) {
         local_08 = Item.getQLo(local_02);
         if (local_08 == local_10) {
-          /* create_list */
-          /* append_list */
-          local_04 = local_02;
+          local_04 = (local_04 + [local_02]);
           local_10 = (local_10 - 1);
         }
       }
@@ -43,9 +41,7 @@ function bridge_slot_25() /* entry=2565 class_id=0x0a03 slot=0x25 */
           if (Item.getFrame(arg_06) == 1) {
             local_08 = Item.getQLo(local_02);
             if (local_08 == local_10) {
-              /* create_list */
-              /* append_list */
-              local_04 = local_02;
+              local_04 = (local_04 + [local_02]);
               local_10 = (local_10 - 1);
             }
           }
@@ -60,15 +56,22 @@ function bridge_slot_25() /* entry=2565 class_id=0x0a03 slot=0x25 */
       foreach_list local_02 -> block_07bc;
       if (udioProcess.playSFXCru(local_02) == 1) {
         BRIDGE.slot_21(0x0336, local_02);
+        Item.andStatus(0x0098, local_02);
+        Item.setFrame(0, local_02);
         spawn FREE.slot_3b(pid, 15, 0x00000000);
         suspend;
       }
       while (condition) {
         if ((Item.getItemFamily(local_14) == 6) && (Actor.isNPC(local_14) == 0)) {
           for local_16 in nearby_items(shape=0x04b8, origin=local_14) {
+            Item.destroy(local_16);
           }
+          Actor.destroyContents(local_14);
           spawn ITEM.slot_2a(pid, 1, 0, local_14);
           suspend;
+        }
+        else {
+          Kernel.resetRef(local_14);
         }
       }
     }
@@ -76,13 +79,20 @@ function bridge_slot_25() /* entry=2565 class_id=0x0a03 slot=0x25 */
       foreach_list local_02 -> block_087a;
       if (udioProcess.playSFXCru(local_02) == 1) {
         BRIDGE.slot_21(0x0336, local_02);
+        Item.andStatus(0x0098, local_02);
+        Item.setFrame(0, local_02);
       }
       while (condition) {
         if ((Item.getItemFamily(local_14) == 6) && (Actor.isNPC(local_14) == 0)) {
           for local_16 in nearby_items(shape=0x04b8, origin=local_14) {
+            Item.destroy(local_16);
           }
+          Actor.destroyContents(local_14);
           spawn ITEM.slot_2a(pid, 1, 0, local_14);
           suspend;
+        }
+        else {
+          Kernel.resetRef(local_02);
         }
       }
     }

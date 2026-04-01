@@ -5,7 +5,7 @@ function crazyew_gotHit() /* entry=1107 class_id=0x0451 slot=0x06 */
   if (arg_10 < 0x00ff) {
     local_02 = arg_10;
     NPC.slot_2a(local_02);
-    if ((retval != 1) && (Actor.setDefaultActivity2(local_02) == 12)) {
+    if ((retval == 1) && (Actor.setDefaultActivity2(local_02) != 12)) {
       spawn NPC.slot_2c(local_02);
     }
   }

@@ -13,13 +13,21 @@ function npc_slot_27() /* entry=2581 class_id=0x0a13 slot=0x27 */
     local_04 = Kernel.getNumProcesses(arg_06);
     local_06 = Item.getQHi(arg_06);
     local_08 = Item.isOn(arg_06);
-    if (local_02 == 112) {
-    }
-    else if (local_02 == 113) {
-    }
-    else if (local_02 == 114) {
+    switch (local_02) {
+    case 112:
+      Item.andStatus(1, arg_06);
+      break;
+    case 113:
+      Item.andStatus(3, arg_06);
+      break;
+    case 114:
+      Item.andStatus(5, arg_06);
+      break;
     }
     return;
+  }
+  else {
+    Item.andStatus(arg_10, arg_06);
   }
   return;
 }

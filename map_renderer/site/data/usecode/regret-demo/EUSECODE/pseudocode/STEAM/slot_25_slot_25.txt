@@ -12,9 +12,13 @@ function steam_slot_25() /* entry=2585 class_id=0x0a17 slot=0x25 */
       suspend;
       if (arg_10 < 0x00ff) {
         if (arg_10 == World.getControlledNPCNum()) {
+          MusicProcess.playMusic(18, UCMachine.rndRange(UCMachine.rndRange(0x00dc, 0x00c8), 16, 0), *(arg_06), local_02);
         }
         else {
           NPC.slot_2a(local_02);
+          if (!retval) {
+            MusicProcess.playMusic(18, UCMachine.rndRange(Actor.getHp(local_02), 16, 0), *(arg_06), local_02);
+          }
         }
         spawn STEAM.slot_24(arg_06);
         return;

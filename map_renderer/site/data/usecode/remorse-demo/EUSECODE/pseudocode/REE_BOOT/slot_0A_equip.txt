@@ -11,44 +11,58 @@ function ree_boot_equip() /* entry=1245 class_id=0x04db slot=0x0a */
     return;
   }
   else {
+    Ultima8Engine.setAvatarInStasis(1);
     FREE.slot_33(0x021b, *(arg_06));
     while (Item.getFrame(arg_06) != 11) {
+      Item.legal_create((Item.getFrame(arg_06) + 1), arg_06);
       spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
       suspend;
     }
     spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
     suspend;
-    if (global[0x001f] == 3) {
+    switch (global[0x001f]) {
+    case 3:
+      playFlic(pid, 0x0096, 0x00c8, "3d", arg_06);
       suspend;
-    }
-    else if (global[0x001f] == 6) {
+      break;
+    case 6:
+      playFlic(pid, 0x0096, 0x00c8, "6d", arg_06);
       suspend;
-    }
-    else if (global[0x001f] == 7) {
+      break;
+    case 7:
+      playFlic(pid, 0x0096, 0x00c8, "7c", arg_06);
       suspend;
-    }
-    else if (global[0x001f] == 8) {
+      break;
+    case 8:
+      playFlic(pid, 0x0096, 0x00c8, "8c", arg_06);
       suspend;
-    }
-    else if (global[0x001f] == 9) {
+      break;
+    case 9:
+      playFlic(pid, 0x0096, 0x00c8, "9c", arg_06);
       suspend;
-    }
-    else if (global[0x001f] == 11) {
+      break;
+    case 11:
+      playFlic(pid, 0x0096, 0x00c8, "11d", arg_06);
       suspend;
-    }
-    else if (global[0x001f] == 12) {
+      break;
+    case 12:
+      playFlic(pid, 0x0096, 0x00c8, "12c", arg_06);
       suspend;
-    }
-    else if (global[0x001f] == 13) {
+      break;
+    case 13:
+      playFlic(pid, 0x0096, 0x00c8, "13a", arg_06);
       suspend;
+      break;
     }
     counter = 0;
     while (counter <= 11) {
+      Item.legal_create((11 - counter), arg_06);
       spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
       suspend;
       counter = (1 + counter);
     }
     spawn REE_BOOT.enterFastArea(arg_06);
+    Ultima8Engine.setAvatarInStasis(0);
   }
   return;
 }

@@ -5,6 +5,7 @@ function fuspac_use() /* entry=926 class_id=0x039c slot=0x01 */
   local_04 = *(arg_06);
   set_info(0x00f0, 0);
   local_12 = Item.andStatus(&global[0x003d]);
+  Ultima8Engine.setAvatarInStasis(1);
   while (Actor.isBusy(&global[0x003d])) {
     spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
     suspend;
@@ -19,73 +20,79 @@ function fuspac_use() /* entry=926 class_id=0x039c slot=0x01 */
     }
     suspend;
   }
-  if (Actor.maybeFire(&global[0x003d]) == 0) {
+  switch (Actor.maybeFire(&global[0x003d])) {
+  case 0:
     local_14 = -1;
     local_16 = -3;
-  }
-  else if (Actor.maybeFire(&global[0x003d]) == 1) {
+    break;
+  case 1:
     local_14 = 0;
     local_16 = -3;
-  }
-  else if (Actor.maybeFire(&global[0x003d]) == 2) {
+    break;
+  case 2:
     local_14 = 1;
     local_16 = -3;
-  }
-  else if (Actor.maybeFire(&global[0x003d]) == 3) {
+    break;
+  case 3:
     local_14 = 2;
     local_16 = -2;
-  }
-  else if (Actor.maybeFire(&global[0x003d]) == 4) {
+    break;
+  case 4:
     local_14 = 2;
     local_16 = -1;
-  }
-  else if (Actor.maybeFire(&global[0x003d]) == 5) {
+    break;
+  case 5:
     local_14 = 2;
     local_16 = 0;
-  }
-  else if (Actor.maybeFire(&global[0x003d]) == 6) {
+    break;
+  case 6:
     local_14 = 2;
     local_16 = 2;
-  }
-  else if (Actor.maybeFire(&global[0x003d]) == 7) {
+    break;
+  case 7:
     local_14 = 0;
     local_16 = 2;
-  }
-  else if (Actor.maybeFire(&global[0x003d]) == 8) {
+    break;
+  case 8:
     local_14 = -1;
     local_16 = 2;
-  }
-  else if (Actor.maybeFire(&global[0x003d]) == 9) {
+    break;
+  case 9:
     local_14 = -2;
     local_16 = 2;
-  }
-  else if (Actor.maybeFire(&global[0x003d]) == 10) {
+    break;
+  case 10:
     local_14 = -3;
     local_16 = 2;
-  }
-  else if (Actor.maybeFire(&global[0x003d]) == 11) {
+    break;
+  case 11:
     local_14 = -3;
     local_16 = 1;
-  }
-  else if (Actor.maybeFire(&global[0x003d]) == 12) {
+    break;
+  case 12:
     local_14 = -3;
     local_16 = 0;
-  }
-  else if (Actor.maybeFire(&global[0x003d]) == 13) {
+    break;
+  case 13:
     local_14 = -3;
     local_16 = -1;
-  }
-  else if (Actor.maybeFire(&global[0x003d]) == 14) {
+    break;
+  case 14:
     local_14 = -3;
     local_16 = -2;
-  }
-  else if (Actor.maybeFire(&global[0x003d]) == 15) {
+    break;
+  case 15:
     local_14 = -3;
     local_16 = -3;
+    break;
   }
   if (!local_06) {
+    Item.legal_create(0, 0x039c, local_18);
+    getTargetNPCNumMaybe(0, 0, 0, local_18);
+    Item.spawnUsecodeEvent0x13(0, local_18);
     spawn FREE.slot_21(pid, 0x00b0, 0x00000000);
     suspend;
+    Ultima8Engine.setAvatarInStasis(0);
     return;
   }
   else if (Actor.getSomeFlagProbablyCrouch(&global[0x003d])) {
@@ -95,15 +102,23 @@ function fuspac_use() /* entry=926 class_id=0x039c slot=0x01 */
     local_01 = 0;
     suspend;
   }
+  Item.legal_create(0, 0x0540, local_18);
+  getTargetNPCNumMaybe((Item.getX((Item.getY(Item.getZ(&global[0x003d]), &global[0x003d]) + (local_16 * 16)), &global[0x003d]) + (local_14 * 16)), local_18);
   local_02 = 1;
+  AudioProcess.playSFXCru(0x00d1, arg_06);
   while (Actor.isBusy(&global[0x003d])) {
     spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
     suspend;
   }
   if (local_02) {
+    playFlic(pid, 0x0096, 0x00fa, "7E", arg_06);
     suspend;
     spawn FREE.slot_24(100, 0x00000000);
+    Ultima8Engine.setAvatarInStasis(0);
     for local_08 in selector_0x42(arg0=0x032a, arg1=0x0329, arg2=(50 * 32), origin=global[0x003d]) {
+      if (Egg.getEggXRange(local_08) == 10) {
+        Item.destroy(local_08);
+      }
     }
     while (condition) {
       if (Egg.getEggXRange(local_08) == 10) {
@@ -113,6 +128,10 @@ function fuspac_use() /* entry=926 class_id=0x039c slot=0x01 */
       }
     }
     while (condition) {
+      if (Egg.getEggXRange(local_08) == 0x00fb) {
+        Item.isCentreOn(0, local_08);
+        getCurrentTimerTick(30, local_08);
+      }
     }
     for local_08 in nearby_items(shape=NPC_SPAWNER_04D0, origin=arg_06) {
       if ((Item.getFrame(local_08) == 0) && (Egg.getEggXRange(local_08) == 47)) {

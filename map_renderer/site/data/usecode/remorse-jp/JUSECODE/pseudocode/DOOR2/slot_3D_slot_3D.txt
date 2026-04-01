@@ -8,13 +8,24 @@ function door2_slot_3d() /* entry=2569 class_id=0x0a07 slot=0x3d */
   set_info(0x0207, *(arg_06));
   spawn DOOR.slot_22(pid, arg_06);
   suspend;
+  AudioProcess.playSFXCru(84, arg_06);
   counter = 1;
   while (counter <= 4) {
+    Item.getPoint(counter, arg_06);
     spawn FREE.slot_32(pid, 5, 0x00000000);
     suspend;
     counter = (1 + counter);
   }
+  Item.getPoint(0, arg_06);
   if (Item.getShape(arg_06) == 0x03ff) {
+    Item.setShape(0x0440, arg_06);
   }
+  else {
+    Item.setShape(0x009c, arg_06);
+    Item.create(0, 0x00ad, item);
+    Item.popToCoords(Item.getZ(arg_06), (Item.getY(arg_06) - 0x00b0), Item.getX(arg_06), item);
+  }
+  Item.touch(arg_06);
+  process_result = 1;
   return;
 }

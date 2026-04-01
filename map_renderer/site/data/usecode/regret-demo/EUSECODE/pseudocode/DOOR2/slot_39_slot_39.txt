@@ -6,15 +6,20 @@ function door2_slot_39() /* entry=2569 class_id=0x0a07 slot=0x39 */
   local_06 = 4;
   FREE.slot_36(Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06), local_06, 0x0460, *(arg_06));
   if (retval) {
+    Item.playSfxCru(107, arg_06);
   }
   else {
+    process_result = 0;
     return;
   }
   local_02 = (local_06 - 1);
   while (local_02 > 0) {
+    Actor.doAnim(local_02, arg_06);
     spawn FREE.slot_3b(pid, 10, 0x00000000);
     suspend;
     local_02 = (local_02 - 1);
   }
+  Actor.doAnim(0, arg_06);
+  process_result = 1;
   return;
 }

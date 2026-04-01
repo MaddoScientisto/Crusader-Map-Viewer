@@ -12,10 +12,10 @@ function door2_slot_23() /* entry=2569 class_id=0x0a07 slot=0x23 */
     return;
   }
   else {
-    /* create_list */
-    doorList = 0x0107;
-    FREE.slot_3a(70, 85, 88, 101, 100, 99, 89, 0x0103, 0x0104, 0x0105, 0x0106, doorList);
+    doorList = [0x0107, 0x0106, 0x0105, 0x0104, 0x0103, [99, 89], [101, 100], [85, 88], 70, value, value, value];
+    FREE.slot_3a(doorList);
     maxFrame = retval;
+    AudioProcess.playSFXCru(110, arg_06);
     counter = (maxFrame - 1);
     while (counter != 0) {
       FREE.slot_2d((Item.getZ(arg_06) - 8), Item.getY(arg_06), Item.getX(arg_06), Item.getFrame(arg_06), doorList, counter, list_element(size=0x2), *(arg_06));
@@ -24,17 +24,24 @@ function door2_slot_23() /* entry=2569 class_id=0x0a07 slot=0x23 */
         suspend;
       }
       else {
+        Item.setQLo(110, arg_06);
+        AudioProcess.playSFXCru(77, arg_06);
         counter = (1 + counter);
         counter = (1 + counter);
         while (counter < (maxFrame + 1)) {
+          push(arg_06);
+          Item.setShape(list_element(size=0x2), arg_06);
+          Item.popToCoords((Item.getZ(arg_06) + 8), Item.getY(arg_06), Item.getX(arg_06), arg_06);
           spawn FREE.slot_32(doorList, counter, pid, 5, 0x00000000);
           suspend;
           counter = (1 + counter);
         }
+        process_result = 0;
         return;
       }
       counter = (counter - 1);
     }
+    process_result = 1;
     return;
   }
   return;

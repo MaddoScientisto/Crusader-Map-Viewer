@@ -5,7 +5,9 @@ function trigegg_unhatch() /* entry=2306 class_id=0x0900 slot=0x15 */
   local_04 = Item.callEvent11(arg_06);
   local_02 = *(arg_06);
   local_06 = Item.hurl(local_02);
+  Item.setQLo(local_04, local_02);
   spawn TRIGGER.slot_20(pid, (1 + 0x0080), local_02, arg_06);
   suspend;
+  Item.setQLo(local_06, local_02);
   return;
 }

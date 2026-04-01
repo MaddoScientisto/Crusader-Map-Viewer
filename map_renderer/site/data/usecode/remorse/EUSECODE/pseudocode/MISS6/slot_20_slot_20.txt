@@ -9,11 +9,15 @@ function miss6_slot_20() /* entry=2324 class_id=0x0912 slot=0x20 */
     doorX; /* [BP-10h] type=0x69 */
 
   set_info(0x0001, *(arg_06));
+  Ultima8Engine.setAvatarInStasis(1);
   while (Actor.isBusy(&global[0x003c])) {
     spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
     suspend;
   }
   for n in nearby_items(shape=0x04dc, origin=global[0x003c]) {
+    Actor.create(0, 0x04dc, snell);
+    Item.popToCoords(Item.getZ(n), Item.getY(n), Item.getX(n), snell);
+    Item.destroy(n);
   }
   if (snell) {
     suspend;
@@ -55,8 +59,11 @@ function miss6_slot_20() /* entry=2324 class_id=0x0912 slot=0x20 */
     spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
     suspend;
     suspend;
+    playFlic(pid, 0x0096, 0x00fa, "6g", arg_06);
     suspend;
+    playFlic(pid, 0x0096, 0x00fa, "6h", arg_06);
     suspend;
+    playFlic(pid, 0x0096, 0x00fa, "6i", arg_06);
     suspend;
     spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
     suspend;
@@ -71,7 +78,11 @@ function miss6_slot_20() /* entry=2324 class_id=0x0912 slot=0x20 */
     suspend;
     spawn NPC.slot_24(pid, snell);
     suspend;
+    Item.destroy(snell);
     suspend;
+    Actor.teleport(0, 0, 0, 0, snell);
   }
+  Ultima8Engine.setAvatarInStasis(0);
+  Item.destroy(arg_06);
   return;
 }

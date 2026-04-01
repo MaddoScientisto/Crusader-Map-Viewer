@@ -9,24 +9,83 @@ function yelrail_slot_20() /* entry=2595 class_id=0x0a21 slot=0x20 */
   }
   else if (((local_04 == 4) || (local_04 == 3)) || (local_04 == 10)) {
     if (UCMachine.rndRange(100, 0) > 50) {
+      Item.playSfxCru(0x00bd, arg_06);
+    }
+    else {
+      Item.playSfxCru(0x00bc, arg_06);
     }
     if ((Item.getShape(arg_06) == yelrail_shape_008a) || (Item.getShape(arg_06) == yelrail_shape_0088)) {
+      if (!Item.getFrame(arg_06)) {
+        UCMachine.numToStr(UCMachine.rndRange(3, 1), arg_06);
+      }
       return;
     }
     else if ((Item.getShape(arg_06) == yelrail_shape_008b) || (Item.getShape(arg_06) == yelrail_shape_0091)) {
+      if (!Item.getFrame(arg_06)) {
+        UCMachine.numToStr(UCMachine.rndRange(2, 1), arg_06);
+      }
       return;
     }
     else if ((Item.getShape(arg_06) == yelrail_shape_008c) || (Item.getShape(arg_06) == yelrail_shape_0092)) {
+      if (!Item.getFrame(arg_06)) {
+        UCMachine.numToStr(1, arg_06);
+      }
       return;
     }
-    else if (Item.getShape(arg_06) == yelrail_shape_008d) {
-      return;
-    }
-    else if (Item.getShape(arg_06) == yelrail_shape_0070) {
-      return;
-    }
-    else if (Item.getShape(arg_06) == yelrail_shape_0093) {
-      return;
+    else {
+      switch (Item.getShape(arg_06)) {
+      case 0x008d:
+        switch (Item.getFrame(arg_06)) {
+        case 0:
+          UCMachine.numToStr(4, arg_06);
+          break;
+        case 1:
+          UCMachine.numToStr(5, arg_06);
+          break;
+        case 2:
+          UCMachine.numToStr(7, arg_06);
+          break;
+        case 3:
+          UCMachine.numToStr(6, arg_06);
+          break;
+        }
+        return;
+      case 112:
+        switch (Item.getFrame(arg_06)) {
+        case 0:
+          UCMachine.numToStr(4, arg_06);
+          break;
+        case 1:
+          UCMachine.numToStr(5, arg_06);
+          break;
+        case 2:
+          UCMachine.numToStr(6, arg_06);
+          break;
+        case 3:
+          UCMachine.numToStr(7, arg_06);
+          break;
+        }
+        return;
+      case 0x0093:
+        switch (Item.getFrame(arg_06)) {
+        case 0:
+          UCMachine.numToStr(5, arg_06);
+          break;
+        case 1:
+          UCMachine.numToStr(11, arg_06);
+          break;
+        case 2:
+          UCMachine.numToStr(10, arg_06);
+          break;
+        case 3:
+          UCMachine.numToStr(UCMachine.rndRange(7, 6), arg_06);
+          break;
+        case 4:
+          UCMachine.numToStr(UCMachine.rndRange(9, 8), arg_06);
+          break;
+        }
+        return;
+      }
     }
   }
   return;

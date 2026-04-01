@@ -8,6 +8,8 @@ function med_flor_gotHit() /* entry=739 class_id=0x02e1 slot=0x06 */
       return;
     }
     else {
+      Item.setQLo(1, arg_06);
+      Ultima8Engine.setAvatarInStasis(1);
       while (Actor.isBusy(&global[0x001e])) {
         spawn FREE.slot_3b(pid, 2, 0x00000000);
         suspend;
@@ -15,7 +17,10 @@ function med_flor_gotHit() /* entry=739 class_id=0x02e1 slot=0x06 */
       suspend;
       suspend;
       while (condition) {
+        Item.setFrame(1, local_02);
       }
+      Intrinsic00C8();
+      Ultima8Engine.setAvatarInStasis(0);
       while (Kernel.getNumProcesses(0x0254, global[0x001e])) {
         spawn FREE.slot_3b(pid, 2, 0x00000000);
         suspend;
@@ -23,6 +28,7 @@ function med_flor_gotHit() /* entry=739 class_id=0x02e1 slot=0x06 */
       spawn FREE.slot_3b(pid, 60, 0x00000000);
       suspend;
       while (condition) {
+        Item.setFrame(0, local_02);
       }
     }
   }

@@ -2,6 +2,8 @@ function watchew_slot_21() /* entry=1248 class_id=0x04de slot=0x21 */
 {
   local_04 = *(arg_06);
   set_info(0x021b, 0);
+  Item.getPoint(1);
+  Item.playSfxCru(94, arg_06);
   spawn FREE.slot_3b(pid, 60, 0x00000000);
   suspend;
   local_06 = Item.enterFastArea();
@@ -10,15 +12,20 @@ function watchew_slot_21() /* entry=1248 class_id=0x04de slot=0x21 */
   for local_02 in nearby_items(shape=0x0361, origin=arg_06) {
     if (Item.hurl(local_02) == Item.hurl(arg_06)) {
       if (Item.hurl(arg_06) > 0x00f9) {
+        Actor.clrImmortal();
         spawn WATCHEW.slot_22(pid, local_02, arg_06);
         suspend;
       }
       else {
+        Actor.clrImmortal();
         local_12 = Item.getX(local_02);
         local_14 = Item.getY(local_02);
         local_16 = Item.getZ(local_02);
+        Item.isInNpc();
+        Item.shoot(AudioProcess.stopSFXCru(&global[0x001e]), local_16, local_14, local_12);
         spawn FREE.slot_3b(pid, 10, 0x00000000);
         suspend;
+        Item.setFrame();
         spawn FREE.slot_3b(pid, 60, 0x00000000);
         suspend;
         if (Item.getMapArray(local_02) != 0) {
@@ -31,10 +38,17 @@ function watchew_slot_21() /* entry=1248 class_id=0x04de slot=0x21 */
           spawn FREE.slot_3b(pid, 2, 0x00000000);
           suspend;
         }
+        Actor.clrImmortal();
       }
     }
   }
+  Item.shoot(AudioProcess.stopSFXCru(&global[0x001e]), local_10, local_08, local_06);
   spawn FREE.slot_3b(pid, 10, 0x00000000);
   suspend;
+  Item.overlaps();
+  Item.isOn();
+  MusicProcess.unpauseMusic();
+  Item.unequip();
+  Item.getPoint(0);
   return;
 }

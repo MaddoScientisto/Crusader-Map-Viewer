@@ -4,11 +4,14 @@ function fallingc_gotHit() /* entry=97 class_id=0x005f slot=0x06 */
   process_exclude();
   while (condition) {
     if (Item.getShape(local_02) == 95) {
+      Container.destroyContents(local_02);
     }
     else if ((Item.setQLo(local_02) == 6) && (Actor.isNPC(local_02) == 0)) {
+      Item.getItemFamily(local_02);
       spawn ITEM.slot_28(pid, 1, 0, local_02);
       suspend;
     }
   }
+  Container.destroyContents(arg_06);
   return;
 }

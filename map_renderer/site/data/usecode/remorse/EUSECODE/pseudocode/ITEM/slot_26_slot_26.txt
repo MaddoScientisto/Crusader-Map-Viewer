@@ -95,10 +95,12 @@ function item_slot_26() /* entry=2592 class_id=0x0a1e slot=0x26 */
           return;
         }
       }
+      Item.move(z, y, x, arg_06);
     }
     else {
       c = (c + vel);
       if (axis == 0) {
+        Item.move(z, y, x, arg_06);
         x = (x + ovel);
         v = 1;
         while (v <= vel) {
@@ -111,6 +113,7 @@ function item_slot_26() /* entry=2592 class_id=0x0a1e slot=0x26 */
         }
       }
       else {
+        Item.move(z, y, x, arg_06);
         y = (y + ovel);
         v = 1;
         while (v <= vel) {

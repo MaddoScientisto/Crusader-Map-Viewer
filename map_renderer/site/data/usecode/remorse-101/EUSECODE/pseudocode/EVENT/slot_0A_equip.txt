@@ -3,14 +3,17 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
   set_info(0x0211, *(arg_06));
   process_exclude();
   local_21 = Actor.setActivity(arg_06);
-  if (arg_10 == 0) {
+  switch (arg_10) {
+  case 0:
+    Egg.getEggId(Actor.getMap(&global[0x003d]), 0, Item.getY(arg_06), Item.getX(arg_06));
     return;
-  }
-  else if (arg_10 == 1) {
+  case 1:
     while (Actor.isBusy(&global[0x003d])) {
       spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
       suspend;
     }
+    Ultima8Engine.setAvatarInStasis(1);
+    Item.getQuality(&global[0x003d]);
     local_23 = Item.setQuality();
     local_25 = Item.use();
     local_27 = Item.getX(arg_06);
@@ -23,13 +26,15 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
     suspend;
     spawn TRIGGER.slot_2a(pid, (1 + 0x0080), *(arg_06), arg_06);
     suspend;
+    Ultima8Engine.clrUnkCrusaderFlag(&global[0x003d]);
+    Ultima8Engine.setAvatarInStasis(0);
     return;
-  }
-  else if (arg_10 == 2) {
+  case 2:
     while (Actor.isBusy(&global[0x003d])) {
       spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
       suspend;
     }
+    Ultima8Engine.setAvatarInStasis(1);
     spawn FREE.slot_3d(pid, Item.getY(arg_06), Item.getX(arg_06), 0x00000000);
     suspend;
     spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
@@ -37,24 +42,23 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
     spawn TRIGGER.slot_2a(pid, (0 + 0x0080), *(arg_06), arg_06);
     suspend;
     return;
-  }
-  else if (arg_10 == 3) {
+  case 3:
     spawn FREE.slot_3e(pid, 0x00000000);
     suspend;
     spawn TRIGGER.slot_2a(pid, (1 + 0x0080), *(arg_06), arg_06);
     suspend;
+    Ultima8Engine.setAvatarInStasis(0);
     return;
-  }
-  else if (arg_10 == 5) {
+  case 5:
+    Item.explode(0, 0, arg_06);
     return;
-  }
-  else if (arg_10 == 6) {
+  case 6:
+    Item.explode(0, 1, arg_06);
     return;
-  }
-  else if (arg_10 == 7) {
+  case 7:
+    Item.explode(0, 2, arg_06);
     return;
-  }
-  else if (arg_10 == 8) {
+  case 8:
     local_15 = Item.IsOn(arg_06);
     if (local_15 == 0) {
       spawn TRIGGER.slot_2a(pid, (0 + 0x0080), *(arg_06), arg_06);
@@ -62,18 +66,22 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
     }
     else {
       local_17 = Actor.setActivity(arg_06);
+      Item.andStatus(local_15, arg_06);
       spawn TRIGGER.slot_2a(pid, (0 + 0x0080), *(arg_06), arg_06);
       suspend;
+      Item.andStatus(local_17, arg_06);
     }
     return;
-  }
-  else if (arg_10 == 9) {
+  case 9:
     local_15 = Actor.setActivity(arg_06);
     for local_02 in nearby_items(family=1, origin=arg_06) {
+      if (((local_15 == Actor.setActivity(local_02)) && (Item.getMapArray(local_02) == 0)) && (*(arg_06) != local_02)) {
+        MainActor.getMaxEnergy(Item.IsOn(arg_06), local_02);
+        Item.getQLo(Actor.getMana(arg_06), local_02);
+      }
     }
     return;
-  }
-  else if (arg_10 == 10) {
+  case 10:
     for local_02 in nearby_items(shape=NUMBERS, origin=arg_06) {
       if (Actor.setActivity(arg_06) == Actor.setActivity(local_02)) {
         if (Item.getFrame(local_02) == 0) {
@@ -92,38 +100,46 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
       local_13 = Item.getX(local_06);
       local_11 = Item.getY(local_06);
       local_09 = Item.getZ(local_06);
+      Item.legal_create(0, 0x0343, local_02);
+      getTargetNPCNumMaybe((Item.getZ(local_04) + 60), Item.getY(local_04), Item.getX(local_04), local_02);
+      Actor.setMana(1, 64, local_13, local_02);
     }
     return;
-  }
-  else if (arg_10 == 15) {
+  case 15:
+    Egg.getEggId(Actor.getMap(&global[0x003d]), 0, Item.getY(arg_06), Item.getX(arg_06));
+    CameraProcess.moveTo(*(arg_06));
     return;
-  }
-  else if (arg_10 == 16) {
+  case 16:
+    Egg.getEggId(Item.getX(Item.getY(Actor.getMap(&global[0x003d]), 0, &global[0x003d]), &global[0x003d]));
+    CameraProcess.moveTo(global[0x003d]);
     return;
-  }
-  else if (arg_10 == 22) {
+  case 22:
     local_23 = Item.setQuality();
     local_25 = Item.use();
+    AudioProcess.playSFXCru(54, arg_06);
+    Egg.getEggId(Actor.getMap(&global[0x003d]), 0, Item.getY(arg_06), Item.getX(arg_06));
     while (AudioProcess.isSFXPlayingForObject(54, arg_06)) {
       spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
       suspend;
     }
+    Egg.getEggId(Actor.getMap(&global[0x003d]), 0, local_25, local_23);
     return;
-  }
-  else if (arg_10 == 40) {
+  case 40:
     if (!Actor.isDead(&global[0x003d])) {
+      Ultima8Engine.setAvatarInStasis(1);
       while (Actor.isBusy(&global[0x003d])) {
         spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
         suspend;
       }
       suspend;
+      Item.destroy(arg_06);
     }
     return;
-  }
-  else if (arg_10 == 41) {
+  case 41:
     if (Actor.isDead((global[0x002a] == 1), &global[0x003d]) == 1) {
       return;
     }
+    Ultima8Engine.setAvatarInStasis(1);
     spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
     suspend;
     spawn NPC.slot_22(pid, 3, 0, &global[0x003d]);
@@ -144,7 +160,9 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
     }
     spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
     suspend;
+    playFlic(pid, 0x0096, 0x00fa, "10e", arg_06);
     suspend;
+    Ultima8Engine.setAvatarInStasis(0);
     spawn FREE.waitNTimerTicks(pid, 120, 0x00000000);
     suspend;
     while (1) {
@@ -159,8 +177,7 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
       suspend;
     }
     return;
-  }
-  else if (arg_10 == 45) {
+  case 45:
     local_31 = Actor.getMana(arg_06);
     while (1) {
       local_15 = 0;
@@ -174,6 +191,7 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
         }
       }
       if (local_15 <= 4) {
+        Item.setQHi((Item.IsOn(arg_06) - 1), arg_06);
         spawn TRIGGER.slot_2a(pid, (0 + 0x0080), *(arg_06), arg_06);
         suspend;
         spawn FREE.waitNTimerTicks(pid, local_31, 0x00000000);
@@ -189,8 +207,7 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
       }
     }
     return;
-  }
-  else if (arg_10 == 46) {
+  case 46:
     local_31 = Actor.getMana(arg_06);
     while (1) {
       local_15 = 0;
@@ -204,6 +221,7 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
         }
       }
       if (local_15 <= 4) {
+        Item.setQHi((Item.IsOn(arg_06) - 1), arg_06);
         spawn TRIGGER.slot_2a(pid, (0 + 0x0080), *(arg_06), arg_06);
         suspend;
         spawn FREE.waitNTimerTicks(pid, local_31, 0x00000000);
@@ -219,14 +237,14 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
       }
     }
     return;
-  }
-  else if (arg_10 == 47) {
+  case 47:
     local_31 = Actor.getMana(arg_06);
     local_17 = Item.IsOn(arg_06);
     while (1) {
       if (Item.IsOn(arg_06) == 1) {
         local_15 = 1;
         while (local_15 <= local_17) {
+          Item.andStatus(local_15, arg_06);
           spawn TRIGGER.slot_2a(pid, (0 + 0x0080), *(arg_06), arg_06);
           suspend;
           spawn FREE.waitNTimerTicks(pid, (local_31 * 3), 0x00000000);
@@ -237,10 +255,12 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
           suspend;
           local_15 = (1 + local_15);
         }
+        Item.setQHi(local_17, arg_06);
       }
       else if (Item.IsOn(arg_06) > 1) {
         local_15 = 1;
         while (local_15 <= local_17) {
+          Item.andStatus(local_15, arg_06);
           spawn TRIGGER.slot_2a(pid, (0 + 0x0080), *(arg_06), arg_06);
           suspend;
           spawn FREE.waitNTimerTicks(pid, local_31, 0x00000000);
@@ -253,6 +273,7 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
       else {
         local_15 = 1;
         while (local_15 <= local_17) {
+          Item.andStatus(local_15, arg_06);
           spawn TRIGGER.slot_2a(pid, (0 + 0x0080), *(arg_06), arg_06);
           suspend;
           spawn FREE.waitNTimerTicks(pid, local_31, 0x00000000);
@@ -263,12 +284,12 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
       }
     }
     return;
-  }
-  else if (arg_10 == 48) {
+  case 48:
     local_31 = Actor.getMana(arg_06);
     local_17 = Item.IsOn(arg_06);
     local_15 = 1;
     while (local_15 <= local_17) {
+      Item.andStatus(local_15, arg_06);
       spawn TRIGGER.slot_2a(pid, (0 + 0x0080), *(arg_06), arg_06);
       suspend;
       spawn FREE.waitNTimerTicks(pid, local_31, 0x00000000);
@@ -277,21 +298,23 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
     }
     local_15 = 1;
     while (local_15 <= local_17) {
+      Item.andStatus((local_17 - local_15), arg_06);
       spawn TRIGGER.slot_2a(pid, (1 + 0x0080), *(arg_06), arg_06);
       suspend;
       spawn FREE.waitNTimerTicks(pid, local_31, 0x00000000);
       suspend;
       local_15 = (1 + local_15);
     }
+    Item.andStatus(local_21, arg_06);
     return;
-  }
-  else if (arg_10 == 49) {
+  case 49:
     local_31 = Actor.getMana(arg_06);
     local_17 = Item.IsOn(arg_06);
     while (1) {
       if (Item.IsOn(arg_06)) {
         local_15 = 1;
         while (local_15 <= local_17) {
+          Item.andStatus(local_15, arg_06);
           spawn TRIGGER.slot_2a(pid, (0 + 0x0080), *(arg_06), arg_06);
           suspend;
           spawn FREE.waitNTimerTicks(pid, local_31, 0x00000000);
@@ -304,6 +327,7 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
       else {
         local_15 = 1;
         while (local_15 <= local_17) {
+          Item.andStatus(local_15, arg_06);
           spawn TRIGGER.slot_2a(pid, (0 + 0x0080), *(arg_06), arg_06);
           suspend;
           spawn FREE.waitNTimerTicks(pid, local_31, 0x00000000);
@@ -314,8 +338,7 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
       }
     }
     return;
-  }
-  else if (arg_10 == 50) {
+  case 50:
     while (condition) {
       if (Actor.setActivity(local_08) == 100) {
         spawn DOOR.slot_20(pid, local_08);
@@ -323,8 +346,7 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
       }
     }
     return;
-  }
-  else if (arg_10 == 51) {
+  case 51:
     for local_02 in nearby_items(shape=GRATE_FLOOR_GRAY, origin=arg_06) {
       local_43 = Item.IsOn(local_02);
       local_41 = local_02;
@@ -336,11 +358,18 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
       local_39 = local_02;
     }
     if (local_37 && local_39) {
+      AudioProcess.playSFXCru(0x00f4, &global[0x003d]);
       spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
       suspend;
+      AudioProcess.stopSFXCru(0x00f3, &global[0x003d]);
       if (local_43) {
+        Item.isCentreOn(0, local_37);
+        Item.isCentreOn(0, local_39);
         local_15 = 1;
         while (local_15 <= 4) {
+          Item.isCentreOn(local_15, local_37);
+          Item.isCentreOn(local_15, local_39);
+          Item.getRangeIfVisible(0x0093, local_37);
           spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
           suspend;
           local_15 = (1 + local_15);
@@ -349,6 +378,9 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
       else {
         local_15 = 0;
         while (local_15 <= 3) {
+          Item.isCentreOn((7 - local_15), local_37);
+          Item.isCentreOn((7 - local_15), local_39);
+          Item.getRangeIfVisible(0x0093, local_37);
           spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
           suspend;
           local_15 = (1 + local_15);
@@ -356,6 +388,9 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
       }
       spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
       suspend;
+      Item.isCentreOn(0, local_37);
+      Item.isCentreOn(0, local_39);
+      Item.getRangeIfVisible(0x0093, local_37);
     }
     spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
     suspend;
@@ -369,14 +404,17 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
     spawn TRIGGER.slot_2a(pid, 1, *(arg_06), arg_06);
     suspend;
     return;
-  }
-  else if (arg_10 == 52) {
+  case 52:
     local_31 = Actor.getMana(arg_06);
     local_17 = Item.IsOn(arg_06);
     while (1) {
       for local_19 in nearby_items(family=6, origin=arg_06) {
         if (Actor.isNPC(local_19)) {
           if (Actor.GetNPCDataField0x63_00B(local_19) == Actor.setActivity(arg_06)) {
+            if (!Actor.isDead(local_19)) {
+              AudioProcess.playSFXCru(0x0099, local_19);
+              AudioProcess.stopSFX(5, local_19);
+            }
           }
         }
         spawn FREE.waitNTimerTicks(pid, local_31, 0x00000000);
@@ -385,26 +423,32 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
       return;
     }
     return;
-  }
-  else if (arg_10 == 53) {
+  case 53:
     for local_19 in nearby_items(shape=wallgun_shape_04c8, origin=arg_06) {
       spawn FREE.waitNTimerTicks(pid, 1, 0x00000000);
       suspend;
+      Item.legal_create(4, 0x04c8, local_02);
+      Item.setQHi(44, local_02);
+      Item.getQLo(4, local_02);
+      getTargetNPCNumMaybe(Item.getZ(local_19), Item.getY(local_19), Item.getX(local_19), local_02);
+      Item.destroy(local_19);
     }
     return;
-  }
-  else if (arg_10 == 54) {
+  case 54:
     for local_19 in nearby_items(shape=wallgun_shape_04c8, origin=arg_06) {
+      Item.setQHi(100, local_19);
+      Item.getQLo(6, local_19);
+      Actor.setImmortal(local_19);
     }
     return;
-  }
-  else if (arg_10 == 55) {
+  case 55:
     if (!(global[0x0039])) {
       return;
     }
     local_31 = Actor.getMana(arg_06);
     while (1) {
       local_15 = 0;
+      Item.setQHi((Item.IsOn(arg_06) - 1), arg_06);
       spawn TRIGGER.slot_2a(pid, (0 + 0x0080), *(arg_06), arg_06);
       suspend;
       spawn FREE.waitNTimerTicks(pid, local_31, 0x00000000);
@@ -418,16 +462,14 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
       }
     }
     return;
-  }
-  else if (arg_10 == 75) {
+  case 75:
     for local_02 in nearby_items(family=6, origin=arg_06) {
       if (Actor.setActivity(local_02) == Actor.setActivity(arg_06)) {
         suspend;
       }
     }
     return;
-  }
-  else if (arg_10 == 85) {
+  case 85:
     local_31 = (CameraProcess.getCameraY(arg_06) * 5);
     while (1) {
       local_15 = 0;
@@ -441,6 +483,7 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
         }
       }
       if (local_15 <= 4) {
+        Item.setQHi((Item.IsOn(arg_06) - 1), arg_06);
         spawn TRIGGER.slot_2a(pid, (0 + 0x0080), *(arg_06), arg_06);
         suspend;
         spawn FREE.waitNTimerTicks(pid, local_31, 0x00000000);
@@ -456,38 +499,44 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
       }
     }
     return;
-  }
-  else if (arg_10 == 88) {
+  case 88:
+    Ultima8Engine.setAvatarInStasis(1);
+    Item.setMapArray();
+    Item.getNpcNum();
     spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
     suspend;
+    Intrinsic08A();
+    Item.enterFastArea(pid, 0, 0, "o01", arg_06);
     suspend;
+    Item.setIsBroken();
+    Item.hurl();
     return;
-  }
-  else if (arg_10 == 97) {
+  case 97:
+    Egg.getEggId(Actor.getMap(&global[0x003d]), 0, Item.getY(arg_06), Item.getX(arg_06));
     while (!Item.getNPCNum()) {
       spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
       suspend;
     }
+    Egg.getEggId(Item.getX(Item.getY(Actor.getMap(&global[0x003d]), 0, &global[0x003d]), &global[0x003d]));
     return;
-  }
-  else if (arg_10 == 98) {
+  case 98:
     for local_02 in nearby_items(shape=EVENT_CONTROLLER, origin=arg_06) {
+      Item.setQHi(1, local_02);
     }
     return;
-  }
-  else if (arg_10 == 99) {
+  case 99:
     for local_02 in nearby_items(shape=EVENT_CONTROLLER, origin=arg_06) {
+      Item.setQHi(0, local_02);
     }
     return;
-  }
-  else if (arg_10 == 100) {
+  case 100:
     spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
     suspend;
     suspend;
     return;
-  }
-  else if (arg_10 == 0x00c8) {
+  case 0x00c8:
     if (global[0x0023] == 0) {
+      Item.getPoint(0x0096, 0x00c8, "mva3b", arg_06);
       suspend;
       spawn FREE.waitNTimerTicks(pid, 20, 0x00000000);
       suspend;
@@ -495,38 +544,42 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
       suspend;
     }
     return;
-  }
-  else if (arg_10 == 0x00c9) {
+  case 0x00c9:
     local_45 = Item.IsOn(arg_06);
     if (local_45 < 4) {
       local_45 = (1 + local_45);
+      Item.setQHi(local_45, arg_06);
     }
     else {
       spawn TRIGGER.slot_2a(pid, (1 + 0x0080), *(arg_06), arg_06);
       suspend;
     }
     return;
-  }
-  else if (arg_10 == 0x00d4) {
+  case 0x00d4:
     spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
     suspend;
+    playFlic(pid, 0x0096, 0x00c8, "13d", arg_06);
     suspend;
+    Ultima8Engine.setAvatarInStasis(1);
+    MusicProcess.musicStop();
     return;
-  }
-  else if (arg_10 == 0x00d5) {
+  case 0x00d5:
     spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
     suspend;
+    playFlic(pid, 0x0096, 0x00c8, "13e", arg_06);
     suspend;
     return;
-  }
-  else if (arg_10 == 0x00e6) {
+  case 0x00e6:
     local_45 = Item.IsOn(arg_06);
     if (local_45 < 2) {
       local_45 = (1 + local_45);
+      Item.setQHi(local_45, arg_06);
+    }
+    else {
+      setSomeMovieGlobal();
     }
     return;
-  }
-  else if (arg_10 == 0x00fa) {
+  case 0x00fa:
     spawn FLICTEST.slot_20(pid, local_47);
     suspend;
     return;

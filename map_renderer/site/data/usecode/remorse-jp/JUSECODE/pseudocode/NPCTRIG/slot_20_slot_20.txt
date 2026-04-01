@@ -12,10 +12,22 @@ function npctrig_slot_20() /* entry=869 class_id=0x0363 slot=0x20 */
     item2 = item;
   }
   if (item2) {
+    Item.getFootpad(8, typeNpc, n);
+    Actor.setActivity(0, n);
+    Intrinsic056(0, n);
+    Item.getSurfaceWeight(0, n);
+    Item.popToCoords(Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06), n);
     spawn NPC.slot_23(pid, n);
     suspend;
+    Actor.setActivity(5, n);
+    Intrinsic056(5, n);
+    Item.getSurfaceWeight(5, n);
     if (getTargetNPCNumMaybe() != 0) {
+      Item.hurl(getTargetNPCNumMaybe(), n);
       return;
+    }
+    else {
+      Item.hurl(global[0x003c], n);
     }
   }
   return;

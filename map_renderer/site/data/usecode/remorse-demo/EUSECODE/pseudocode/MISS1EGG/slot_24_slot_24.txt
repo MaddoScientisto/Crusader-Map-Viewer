@@ -17,7 +17,10 @@ function miss1egg_slot_24() /* entry=2319 class_id=0x090d slot=0x24 */
   }
   spawn NPC.slot_21(pid, 3, n);
   suspend;
+  Ultima8Engine.setAvatarInStasis(0);
   spawn NPC.slot_21(pid, 2, n);
   suspend;
+  Item.setQHi(n);
+  Item.destroy(n);
   return;
 }

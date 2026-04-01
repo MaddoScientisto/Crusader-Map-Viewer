@@ -9,21 +9,27 @@ function surcamew_slot_22() /* entry=1248 class_id=0x04de slot=0x22 */
   set_info(0x00f0, 0);
   for n in selector_0x42(arg0=0x04c8, arg1=0x01cd, arg2=(50 * 32), origin=eventTrigger) {
     if (Actor.isNPC(n)) {
+      Item.setFrame(n);
       foundGun = 1;
     }
   }
+  Item.getRangeIfVisible(Actor.getMap(&global[0x003c]), Item.getZ(eventTrigger), Item.getY(eventTrigger), Item.getX(eventTrigger));
   spawn FREE.slot_32(pid, 10, 0x00000000);
   suspend;
+  resetVargasHealthTo500();
   if (foundGun) {
     while (getTargetNPCNumMaybe() != 1) {
       spawn FREE.slot_32(pid, 5, 0x00000000);
       suspend;
     }
-    return;
   }
   else {
     spawn FREE.slot_32(pid, 0x00c8, 0x00000000);
     suspend;
   }
+  MusicProcess.musicStop();
+  Item.getRangeIfVisible(Item.getX(Item.getY(Item.getZ(Actor.getMap(&global[0x003c]), &global[0x003c]), &global[0x003c]), &global[0x003c]));
+  CameraProcess.somethingAboutCameraUpdate();
+  PaletteFaderProcess.fadeFromBlack();
   return;
 }

@@ -6,14 +6,34 @@ function item_slot_2a() /* entry=2592 class_id=0x0a1e slot=0x2a */
   if (!process_result) {
     return;
   }
-  else if ((local_05 == 1) || (local_05 == 2)) {
-    spawn ITEM.slot_2b(local_11);
-  }
-  else if ((local_05 == 3) || (local_05 == 4)) {
-    spawn ITEM.slot_2b(local_11);
-  }
   else {
-    spawn ITEM.slot_2b(local_11);
+    Item.setIsBroken(local_09, local_07, local_05, arg_06);
+    push(arg_06);
+    if ((local_05 == 1) || (local_05 == 2)) {
+      Item.legal_create(UCMachine.rndRange(3, 0), 0x0513, local_11);
+      getTargetNPCNumMaybe(Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06), local_11);
+      Item.legal_create(0, 0x0456, local_11);
+      Item.orStatus(0x0080, local_11);
+      getTargetNPCNumMaybe(((Item.getZ(arg_06) - UCMachine.rndRange(Item.getY(arg_06), 8, 0)) - UCMachine.rndRange(Item.getX(arg_06), 8, 0)), local_11);
+      spawn ITEM.slot_2b(local_11);
+    }
+    else if ((local_05 == 3) || (local_05 == 4)) {
+      Item.legal_create(UCMachine.rndRange(3, 0), 0x0509, local_11);
+      getTargetNPCNumMaybe(Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06), local_11);
+      Item.legal_create(0, 0x044a, local_11);
+      Item.orStatus(0x0080, local_11);
+      getTargetNPCNumMaybe(((Item.getZ(arg_06) - UCMachine.rndRange(Item.getY(arg_06), 24, 0)) - UCMachine.rndRange(Item.getX(arg_06), 24, 0)), local_11);
+      spawn ITEM.slot_2b(local_11);
+    }
+    else {
+      Item.legal_create(UCMachine.rndRange(3, 0), 0x0448, local_11);
+      getTargetNPCNumMaybe(Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06), local_11);
+      Item.legal_create(0, 0x044a, local_11);
+      Item.orStatus(0x0080, local_11);
+      getTargetNPCNumMaybe(((Item.getZ(arg_06) - UCMachine.rndRange(Item.getY(arg_06), 40, 0)) - UCMachine.rndRange(Item.getX(arg_06), 40, 0)), local_11);
+      spawn ITEM.slot_2b(local_11);
+    }
+    getTargetNPCNumMaybe((Item.getZ(arg_06) + 1), Item.getY(arg_06), Item.getX(arg_06), arg_06);
   }
   return;
 }

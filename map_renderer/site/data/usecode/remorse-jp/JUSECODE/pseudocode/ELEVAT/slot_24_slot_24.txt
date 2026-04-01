@@ -15,10 +15,14 @@ function elevat_slot_24() /* entry=2571 class_id=0x0a09 slot=0x24 */
     total2; /* [BP-24h] type=0x69 */
 
   set_info(0x0001, *(arg_06));
+  AudioProcess.playSFXCru(17, arg_06);
+  Item.orStatus(0x1000, arg_06);
+  Item.getPoint(1, arg_06);
   height = Item.getZ(arg_06);
   ELEVAT.slot_21(arg_06);
   minLimit = retval;
   minLimitCount = ((height - minLimit) / 2);
+  AudioProcess.playAmbientSFXCru(18, arg_06);
   counter = 1;
   while (counter <= minLimitCount) {
     wp = Item.getX(arg_06);
@@ -30,13 +34,17 @@ function elevat_slot_24() /* entry=2571 class_id=0x0a09 slot=0x24 */
         if (cargoDown < 0x0100) {
           if (Item.getQLo(*(arg_06), cargoDown)) {
             total2 = (1 + total2);
+            push(cargoDown);
           }
           else {
+            Item.getNPCNum(Item.getZ(cargoDown), (Item.getY(arg_06) - 12), (Item.getX(arg_06) - 12), cargoDown);
             total2 = (1 + total2);
+            push(cargoDown);
           }
         }
         else {
           total2 = (1 + total2);
+          push(cargoDown);
         }
       }
     }
@@ -44,6 +52,7 @@ function elevat_slot_24() /* entry=2571 class_id=0x0a09 slot=0x24 */
       counter2 = 1;
       while (counter2 <= total2) {
         cargoDown = Item.getEtherealTop();
+        Item.popToCoords((Item.getZ(cargoDown) - 2), Item.getY(cargoDown), Item.getX(cargoDown), cargoDown);
         counter2 = (1 + counter2);
       }
       spawn FREE.slot_32(pid, 1, 0x00000000);
@@ -53,10 +62,14 @@ function elevat_slot_24() /* entry=2571 class_id=0x0a09 slot=0x24 */
       counter2 = 1;
       while (counter2 <= total2) {
         cargoDown = Item.getEtherealTop();
+        Item.popToCoords((Item.getZ(arg_06) + 8), Item.getY(cargoDown), Item.getX(cargoDown), cargoDown);
         counter2 = (1 + counter2);
       }
+      Item.getPoint(0, arg_06);
       spawn FREE.slot_32(pid, 60, 0x00000000);
       suspend;
+      Item.setQLo(18, arg_06);
+      AudioProcess.playSFXCru(19, arg_06);
       spawn ELEVAT.slot_23(pid, arg_06);
       suspend;
       return;
@@ -67,14 +80,22 @@ function elevat_slot_24() /* entry=2571 class_id=0x0a09 slot=0x24 */
   if ((height - minLimit) & 1) {
     while (condition) {
       if (Item.legal_create(*(arg_06), cargoDown)) {
+        push(cargoDown);
         total2 = (1 + total2);
       }
     }
     counter2 = 1;
     while (counter2 <= total2) {
       cargoDown = Item.getEtherealTop();
+      Item.popToCoords((Item.getZ(cargoDown) - 1), Item.getY(cargoDown), Item.getX(cargoDown), cargoDown);
       counter2 = (1 + counter2);
     }
+    push(arg_06);
+    Item.popToCoords((Item.getZ(arg_06) - 1), Item.getY(arg_06), Item.getX(arg_06), arg_06);
   }
+  Item.getPoint(0, arg_06);
+  Ultima8Engine.getUnkCrusaderFlag((~0x1000), arg_06);
+  Item.setQLo(18, arg_06);
+  AudioProcess.playSFXCru(19, arg_06);
   return;
 }

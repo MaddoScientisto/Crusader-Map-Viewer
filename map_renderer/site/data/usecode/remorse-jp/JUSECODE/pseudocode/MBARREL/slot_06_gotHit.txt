@@ -18,6 +18,10 @@ function mbarrel_gotHit() /* entry=479 class_id=0x01dd slot=0x06 */
   if (!process_result) {
     FREE.slot_20(1);
     if (retval) {
+      AudioProcess.playSFXCru(38, arg_06);
+    }
+    else {
+      AudioProcess.playSFXCru(39, arg_06);
     }
     return;
   }
@@ -26,9 +30,14 @@ function mbarrel_gotHit() /* entry=479 class_id=0x01dd slot=0x06 */
     x = Item.getX(arg_06);
     y = Item.getY(arg_06);
     qLo = Item.unequip(arg_06);
+    Item.explode(0, 2, arg_06);
     spawn ITEM.slot_2a(pid, arg_06);
     suspend;
     FREE.slot_20(3);
+    Item.create(retval, 0x0261, item);
+    Item.fallProbably_03E(qLo, item);
+    Item.popToCoords(z, y, x, item);
+    Item.destroy(arg_06);
   }
   return;
 }

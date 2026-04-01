@@ -16,17 +16,18 @@ function wallgun_slot_24() /* entry=2588 class_id=0x0a1a slot=0x24 */
     spawn WALLGUN.slot_28(var, target, arg_06);
     return;
   }
-  else if (var == 90) {
-    spawn WALLGUN.slot_34(arg_06);
-    return;
-  }
-  else if (var == 91) {
-    spawn WALLGUN.slot_35(arg_06);
-    return;
-  }
-  else if (var == 92) {
-    spawn WALLGUN.slot_4a(target, arg_06);
-    return;
+  else {
+    switch (var) {
+    case 90:
+      spawn WALLGUN.slot_34(arg_06);
+      return;
+    case 91:
+      spawn WALLGUN.slot_35(arg_06);
+      return;
+    case 92:
+      spawn WALLGUN.slot_4a(target, arg_06);
+      return;
+    }
   }
   return;
 }

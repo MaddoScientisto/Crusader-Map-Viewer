@@ -17,10 +17,17 @@ function crumorph_equip() /* entry=794 class_id=0x0318 slot=0x0a */
             return;
           }
           lastAct = Actor.setDefaultActivity0(n);
+          Actor.setDefaultActivity1(n);
+          Actor.setDefaultActivity2(1, n);
+          Actor.setActivity(1, n);
+          Intrinsic056(1, n);
+          Item.getSurfaceWeight(112, n);
+          Actor.setDefaultActivity1(n);
           spawn FREE.waitNTimerTicks(pid, 3, 0x00000000);
           suspend;
           spawn NPC.slot_28(pid, n);
           suspend;
+          Item.isCentreOn(n);
           while (getTargetNPCNumMaybe() > 1) {
             spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
             suspend;

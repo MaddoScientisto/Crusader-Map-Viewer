@@ -4,21 +4,29 @@ function trigger_slot_27() /* entry=2586 class_id=0x0a18 slot=0x27 */
   local_18 = arg_18;
   local_16 = arg_10;
   local_04 = (arg_16 & 3);
-  if (local_04 == 0) {
+  switch (local_04) {
+  case 0:
+    for local_14 in nearby_items(shape=arg_20, origin=local_16) {
+      if (Actor.getDefaultActivity2(local_14) == arg_18) {
+        Item.setQHi(arg_12, local_14);
+      }
+    }
+    break;
+  case 1:
+    for local_14 in nearby_items(shape=arg_20, origin=local_16) {
+      if (Actor.getDefaultActivity2(local_14) == arg_18) {
+        Item.andStatus(arg_12, local_14);
+      }
+    }
+    break;
+  case 2:
     for local_14 in nearby_items(shape=arg_20, origin=local_16) {
     }
-  }
-  else if (local_04 == 1) {
-    for local_14 in nearby_items(shape=arg_20, origin=local_16) {
-    }
-  }
-  else if (local_04 == 2) {
-    for local_14 in nearby_items(shape=arg_20, origin=local_16) {
-    }
-  }
-  else if (local_04 == 3) {
+    break;
+  case 3:
     local_02 = (arg_12 & 7);
-    if (local_02 == 0) {
+    switch (local_02) {
+    case 0:
       local_12 = (arg_12 / 8);
       for local_14 in nearby_items(shape=0x0476, origin=local_16) {
         if (Actor.getDefaultActivity2(local_14) == arg_18) {
@@ -29,13 +37,15 @@ function trigger_slot_27() /* entry=2586 class_id=0x0a18 slot=0x27 */
           FREE.slot_30(local_12, local_10, local_08, local_14);
         }
       }
-    }
-    else if (local_02 == 1) {
+      break;
+    case 1:
       local_12 = (arg_12 / 8);
       for local_14 in nearby_items(shape=arg_20, origin=local_16) {
         if (Actor.getDefaultActivity2(local_14) == arg_18) {
+          Item.move(12, local_14);
           if (local_12 == 31) {
             suspend;
+            Item.destroy(local_14);
           }
           else {
             local_10 = Item.getFrame(local_14);
@@ -44,33 +54,44 @@ function trigger_slot_27() /* entry=2586 class_id=0x0a18 slot=0x27 */
             local_08 = (local_08 & 0x0700);
             local_08 = (local_08 / 8);
             local_08 = (local_08 + local_10);
+            Item.getQLo(local_08, local_14);
+            MainActor.getMaxEnergy(local_06, local_14);
+            push(local_14);
+            Item.isCentreOn(0, local_14);
             suspend;
+            Item.setShape(0x0476, local_14);
+            Item.orStatus(16, local_14);
+            Item.andStatus((~0x1000), local_14);
+            Item.pop(local_14);
           }
         }
       }
-    }
-    else if (local_02 == 2) {
+      break;
+    case 2:
       local_06 = (arg_12 / 8);
       for local_14 in nearby_items(shape=arg_20, origin=local_16) {
+        if (Actor.getDefaultActivity2(local_14) == arg_18) {
+          Item.isCentreOn(local_06, local_14);
+        }
       }
-    }
-    else if (local_02 == 3) {
+      break;
+    case 3:
       for local_14 in nearby_items(shape=arg_20, origin=local_16) {
         if (Actor.getDefaultActivity2(local_14) == arg_18) {
           local_06 = (arg_12 / 8);
           spawn TRIGGER.slot_23(local_06, local_14, arg_06);
         }
       }
-    }
-    else if (local_02 == 4) {
+      break;
+    case 4:
       local_06 = (arg_12 / 8);
       local_18 = (local_18 + local_06);
-    }
-    else if (local_02 == 5) {
+      break;
+    case 5:
       local_06 = (arg_12 / 8);
       local_18 = (local_18 - local_06);
-    }
-    else if (local_02 == 6) {
+      break;
+    case 6:
       local_12 = (arg_12 / 8);
       for local_14 in nearby_items(shape=0x0476, origin=local_16) {
         if (Actor.getDefaultActivity2(local_14) == arg_18) {
@@ -80,12 +101,19 @@ function trigger_slot_27() /* entry=2586 class_id=0x0a18 slot=0x27 */
           local_08 = (((local_06 & 0x00e0) * 8) + local_08);
           if (local_08 != 0) {
             if (Item.legal_create(local_10, local_08, local_20) == 1) {
+              BatteryChargerProcess.create(Item.popToContainer(local_14), local_20);
+              push(local_20);
+              Item.touch(local_20);
+              getTargetNPCNumMaybe(Item.getZ(local_14), Item.getY(local_14), Item.getX(local_14), local_20);
               suspend;
             }
           }
         }
       }
+      break;
     }
+    break;
   }
+  process_result = local_18;
   return;
 }

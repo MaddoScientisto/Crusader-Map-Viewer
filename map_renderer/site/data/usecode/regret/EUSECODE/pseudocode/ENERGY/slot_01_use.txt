@@ -12,16 +12,28 @@ function energy_use() /* entry=1412 class_id=0x0582 slot=0x01 */
   else if (MainActor.getMaxEnergy(&global[0x001e]) == 0x2710) {
     local_04 = 0x0bb8;
   }
+  else {
+    Item.playSfxCru(0x00b9, &global[0x001e]);
+  }
   if (MainActor.getMaxEnergy(Actor.getMana(&global[0x001e]), &global[0x001e])) {
+    Item.create(0, ENERGY_CUBE, local_06);
+    Item.popToCoords(0, 0, 0, local_06);
+    MainActor.addItemCru(0, local_06);
+    Intrinsic003F();
     spawn FREE.slot_21(pid, 0x01a7, 0x00000000);
     suspend;
+    Ultima8Engine.clrCruStasis();
     return;
   }
   else if (MainActor.getMaxEnergy((Actor.getMana(&global[0x001e]) + local_04), &global[0x001e])) {
+    MainActor.setMana((Actor.getMana(&global[0x001e]) + local_04), &global[0x001e]);
+    Intrinsic003F();
     spawn FREE.slot_21(pid, 0x010d, 0x00000000);
     suspend;
   }
   else {
+    MainActor.setMana(MainActor.getMaxEnergy(&global[0x001e]), &global[0x001e]);
+    Intrinsic003F();
     spawn FREE.slot_21(pid, 0x010d, 0x00000000);
     suspend;
   }

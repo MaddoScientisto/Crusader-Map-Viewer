@@ -22,11 +22,17 @@ function podboy_gotHit() /* entry=559 class_id=0x022d slot=0x06 */
   else {
     fram = 34;
   }
+  push(arg_06);
+  Item.setShape(0x058d, arg_06);
+  Item.legal_create(fram, arg_06);
+  Item.popToCoords((Item.getZ(arg_06) + 1), Item.getY(arg_06), Item.getX(arg_06), arg_06);
   spawn PODBOY.slot_20(*(arg_06), 0x00000000);
   spawn ITEM.slot_28(pid, 0, 1, arg_06);
   suspend;
+  AudioProcess.playSFXCru(3, arg_06);
   counter = 0;
   while (counter <= 10) {
+    Item.legal_create((fram + counter), arg_06);
     spawn FREE.waitNTimerTicks(pid, (15 - counter), 0x00000000);
     suspend;
     counter = (1 + counter);

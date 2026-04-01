@@ -15,6 +15,10 @@ function luggage_gotHit() /* entry=145 class_id=0x008f slot=0x06 */
     if (!process_result) {
       FREE.slot_20(1);
       if (retval) {
+        AudioProcess.playSFXCru(38, arg_06);
+      }
+      else {
+        AudioProcess.playSFXCru(39, arg_06);
       }
       return;
     }
@@ -22,11 +26,20 @@ function luggage_gotHit() /* entry=145 class_id=0x008f slot=0x06 */
       spawn ITEM.slot_28(pid, 0, 0, arg_06);
       suspend;
       if (Item.getFrame(arg_06) == 1) {
+        Item.create(UCMachine.rndRange(3, 2), 0x059f, item);
       }
       else if (Item.getFrame(arg_06) == 2) {
+        Item.create(UCMachine.rndRange(5, 4), 0x059f, item);
       }
       else if (Item.getFrame(arg_06) == 3) {
+        Item.create(UCMachine.rndRange(7, 6), 0x059f, item);
       }
+      else {
+        Item.create(UCMachine.rndRange(1, 0), 0x059f, item);
+      }
+      Item.popToCoords(Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06), item);
+      CameraProcess.moveTo(item);
+      Item.destroy(arg_06);
     }
   }
   return;

@@ -8,10 +8,14 @@ function wallgun_slot_28() /* entry=2588 class_id=0x0a1a slot=0x28 */
     delay; /* [BP-04h] type=0x69 */
 
   set_info(0x020a, *(arg_06));
+  Item.setNpcNum(brain, arg_06);
   if (brain > 99) {
     brain = (brain - 100);
   }
   h = Item.getQHi(arg_06);
+  if (h == 0) {
+    Item.setQHi(33, arg_06);
+  }
   if (((h == 99) || (h == 0x00c7)) || (brain == 6)) {
     return;
   }

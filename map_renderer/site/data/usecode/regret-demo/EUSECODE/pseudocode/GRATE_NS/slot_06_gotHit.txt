@@ -4,7 +4,7 @@ function grate_ns_gotHit() /* entry=1423 class_id=0x058d slot=0x06 */
   process_exclude();
   FREE.slot_35(arg_12, arg_10);
   local_02 = retval;
-  if (((local_02 == 4) && (local_02 == 3)) && (local_02 != 10)) {
+  if (((local_02 != 4) && (local_02 != 3)) && (local_02 != 10)) {
     return;
   }
   else {
@@ -18,9 +18,20 @@ function grate_ns_gotHit() /* entry=1423 class_id=0x058d slot=0x06 */
       local_10 = Item.getX(arg_06);
       local_12 = Item.getY(arg_06);
       local_14 = Item.getZ(arg_06);
+      Item.push(arg_06);
+      Item.setShape(28, arg_06);
+      Item.isOn(1, arg_06);
+      Item.pop(arg_06);
+      Item.explode(0, 2, arg_06);
+      Item.playSfxCru(0x00bd, arg_06);
+      Item.legal_create(local_14, local_12, (local_10 - 0x0090), 0, 28, local_06);
+      Item.legal_create((local_14 + 48), local_12, local_10, 0, 24, local_04);
       while (condition) {
         local_18 = Item.getCY(local_08);
         if (local_18 == local_16) {
+          if (local_18 != 0) {
+            Item.destroy(local_08);
+          }
         }
       }
     }

@@ -7,9 +7,13 @@ function npc_slot_25() /* entry=2579 class_id=0x0a11 slot=0x25 */
     e; /* [BP-02h] type=0x69 */
 
   set_info(0x020a, *(arg_06));
+  Actor.setActivity(1, arg_06);
   suspend;
   spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
   suspend;
   e = Actor.GetNPCDataField0x4_0DD(arg_06);
+  if (!Item.getItemFamily(arg_06)) {
+    Actor.setActivity(Actor.GetNPCDataField0x4_0DD(arg_06), arg_06);
+  }
   return;
 }

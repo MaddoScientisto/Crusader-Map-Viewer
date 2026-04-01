@@ -6,21 +6,22 @@ function d_tankns_gotHit() /* entry=1123 class_id=0x0461 slot=0x06 */
   if (!retval) {
     return;
   }
-  else {
-    for local_02 in nearby_items(family=6, origin=arg_06) {
-      NPC.slot_2a(local_02);
-      if (retval) {
-        spawn NPC.slot_2c(local_02);
-      }
-      else if (!Ultima8Engine.getUnkCrusaderFlag(local_02)) {
-        spawn NPC.slot_2d(6, local_02);
-      }
+  else if (!(global[0x0005])) {
+    Item.andStatus(20, 63, 20);
+  }
+  for local_02 in nearby_items(family=6, origin=arg_06) {
+    NPC.slot_2a(local_02);
+    if (retval) {
+      spawn NPC.slot_2c(local_02);
     }
-    if (!(global[0x0005])) {
-      suspend;
+    else if (!Ultima8Engine.getUnkCrusaderFlag(local_02)) {
+      spawn NPC.slot_2d(6, local_02);
     }
-    spawn FREE.slot_3b(pid, 10, 0x00000000);
+  }
+  if (!(global[0x0005])) {
     suspend;
   }
+  spawn FREE.slot_3b(pid, 10, 0x00000000);
+  suspend;
   return;
 }
