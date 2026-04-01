@@ -162,6 +162,136 @@ function testCommentPrefixedReturnLabelCountsAsReturn() {
   assert.doesNotMatch(text, /goto block_exit;/u);
 }
 
+function testCleanupOpsStayHiddenInPseudocode() {
+  const text = renderPseudo(
+    makeIr([
+      op(0, "push_pid", {}),
+      op(1, "push_string_immediate", { declared_length: 2, string: "1c" }),
+      op(2, "push_dword_immediate", { value_u32: 0 }),
+      op(3, "spawn", { target_class_id: 0, target_event_slot: 0x26, target_event_name_hint: null, target_class_name_hint: "FREE" }),
+      op(4, "free_stack_string", { value_u8: 2 }),
+      op(5, "push_global", { global_id: 0x003c, size: 2 }),
+      op(6, "pop_global", { global_id: 0x003c, size: 2 }),
+      op(7, "ret", {})
+    ])
+  );
+
+  assert.match(text, /spawn FREE\.slot_26\(pid, "1c", 0x00000000\);/u);
+  assert.doesNotMatch(text, /free_stack_string/u);
+  assert.doesNotMatch(text, /pop_global/u);
+}
+
+function testWidthShimOpsStayHiddenInAssignmentsAndDiscards() {
+  const text = renderPseudo(
+    makeIr(
+      [
+        op(0, "push_pid", {}),
+        op(1, "push_word_immediate", { value_u16: 2 }),
+        op(2, "push_dword_immediate", { value_u32: 0 }),
+        op(3, "spawn", { target_class_id: 0, target_event_slot: 0x21, target_event_name_hint: null, target_class_name_hint: "TRIGGER" }),
+        op(4, "push_process_result", {}),
+        op(5, "dword_to_word", {}),
+        op(6, "pop_local_word", { bp_offset: 0xfe }),
+        op(7, "push_word_immediate", { value_u16: 1 }),
+        op(8, "call_intrinsic", { intrinsic_ordinal: 0x0011, arg_bytes: 2, intrinsic_name_hint: "Item::getType(void)" }),
+        op(9, "word_to_dword", {}),
+        op(10, "pop_result", {}),
+        op(11, "ret", {})
+      ],
+      [
+        { bp_offset: 0xfe, bp_repr: "BP-02h", name: "baseLink", type_id: 0x69 }
+      ]
+    )
+  );
+
+  assert.match(text, /baseLink = process_result;/u);
+  assert.doesNotMatch(text, /dword_to_word/u);
+  assert.doesNotMatch(text, /word_to_dword/u);
+  assert.doesNotMatch(text, /pop_result/u);
+}
+
+function testUnaryAndConcatOpsRenderAsExpressions() {
+  const text = renderPseudo(
+    makeIr(
+      [
+        op(0, "push_local_string", { bp_offset: 0xfe }),
+        op(1, "push_string_immediate", { declared_length: 5, string: "tail" }),
+        op(2, "concat", {}),
+        op(3, "pop_local_word", { bp_offset: 0xfe }),
+        op(4, "push_local_word", { bp_offset: 0xfc }),
+        op(5, "bit_not", {}),
+        op(6, "pop_local_word", { bp_offset: 0xfc }),
+        op(7, "ret", {})
+      ],
+      [
+        { bp_offset: 0xfe, bp_repr: "BP-02h", name: "textFile", type_id: 0x73 },
+        { bp_offset: 0xfc, bp_repr: "BP-04h", name: "flags", type_id: 0x69 }
+      ]
+    )
+  );
+
+  assert.match(text, /textFile = \(textFile \+ "tail"\);/u);
+  assert.match(text, /flags = \(~flags\);/u);
+  assert.doesNotMatch(text, /concat/u);
+  assert.doesNotMatch(text, /bit_not/u);
+}
+
+function testUndecodedLoopSetupStaysHidden() {
+  const text = renderPseudo(
+    makeIr([
+      op(0, "loopscr", { value_u8: 0x24 }),
+      op(1, "loopscr", { value_u8: 0x3d }),
+      op(2, "loop", { current_var: 0xfe, string_bytes: 0, loop_type: 0 }),
+      op(3, "ret", {})
+    ])
+  );
+
+  assert.doesNotMatch(text, /loopscr/u);
+  assert.doesNotMatch(text, /\bloop\b/u);
+}
+
+function testShiftAndStringCompareOpsRenderAsExpressions() {
+  const text = renderPseudo(
+    makeIr(
+      [
+        op(0, "push_local_word", { bp_offset: 0xfe }),
+        op(1, "push_word_immediate", { value_u16: 8 }),
+        op(2, "rsh", {}),
+        op(3, "pop_local_word", { bp_offset: 0xfc }),
+        op(4, "ret", {})
+      ],
+      [
+        { bp_offset: 0xfe, bp_repr: "BP-02h", name: "rand", type_id: 0x69 },
+        { bp_offset: 0xfc, bp_repr: "BP-04h", name: "highByte", type_id: 0x69 }
+      ]
+    )
+  );
+
+  assert.match(text, /highByte = \(rand >> 0x0008\);/u);
+  assert.doesNotMatch(text, /\brsh\b/u);
+}
+
+function testStringCompareOpsRenderAsExpressions() {
+  const text = renderPseudo(
+    makeIr(
+      [
+        op(0, "push_local_string", { bp_offset: 0xfe }),
+        op(1, "push_string_immediate", { declared_length: 1, string: "" }),
+        op(2, "strcmp", {}),
+        op(3, "pop_local_word", { bp_offset: 0xfc }),
+        op(4, "ret", {})
+      ],
+      [
+        { bp_offset: 0xfe, bp_repr: "BP-02h", name: "textFile", type_id: 0x73 },
+        { bp_offset: 0xfc, bp_repr: "BP-04h", name: "matches", type_id: 0x69 }
+      ]
+    )
+  );
+
+  assert.match(text, /matches = \(strcmp\(textFile, ""\) == 0\);/u);
+  assert.doesNotMatch(text, /strcmp \*\//u);
+}
+
 function testRegionEndGotoCountsAsStructuredExit() {
   const structured = __testHooks.renderStructuredPseudocode([
     ["entry", ["if !condition goto block_exit;"]],
@@ -269,6 +399,12 @@ testAlarmhatStyleSelectorLoopStructuring();
 testLoopTailKeepsOuterExitLabels();
 testForeachLoopStructuring();
 testCommentPrefixedReturnLabelCountsAsReturn();
+testCleanupOpsStayHiddenInPseudocode();
+testWidthShimOpsStayHiddenInAssignmentsAndDiscards();
+testUnaryAndConcatOpsRenderAsExpressions();
+testUndecodedLoopSetupStaysHidden();
+testShiftAndStringCompareOpsRenderAsExpressions();
+testStringCompareOpsRenderAsExpressions();
 testRegionEndGotoCountsAsStructuredExit();
 testRealTriggerSlot20NoLongerFallsBackToBlocks();
 testRealBlastpacUseNoLongerFallsBackToBlocks();

@@ -7,7 +7,7 @@ import { CACHE_ROOT, CATALOG_ROOT } from "../config.js";
 import { GENERATED_INTRINSIC_HINT_TABLES } from "./usecode-intrinsic-hints.generated.js";
 
 const USECODE_CACHE_ROOT = path.join(CACHE_ROOT, "usecode");
-const USECODE_CACHE_SCHEMA_VERSION = 2;
+const USECODE_CACHE_SCHEMA_VERSION = 3;
 const DISASM_OPCODE_TABLE_PATH = path.resolve(CACHE_ROOT, "..", "..", "..", "crusader-disasm", "usecode_opcodes.txt");
 const USECODE_DECOMPILER_IMPL_PATH = fileURLToPath(import.meta.url);
 const USECODE_SHAPE_CATALOG_PATHS = [
@@ -763,6 +763,12 @@ function combineBinary(stack, operator, width = 2) {
   stack.push([`(${leftExpr} ${operator} ${rightExpr})`, width]);
 }
 
+function retagTopOfStack(stack, width) {
+  if (!stack.length) return;
+  const [expr] = stack.pop();
+  stack.push([expr, width]);
+}
+
 function genericLoopSelectorCall(name, argumentsList) {
   return `${name}(${argumentsList.map(([label, expr]) => `${label}=${expr}`).join(", ")})`;
 }
@@ -879,7 +885,10 @@ function formatTargetEventReference(operands) {
 function decompilePseudocodeBlocks(ir) {
   const [labelMap, blocks] = buildScriptBlocks(ir);
   const localNameMap = buildLocalNameMap(ir);
-  const skipMnemonics = new Set(["line_number", "symbol_info", "add_sp", "init"]);
+  const skipMnemonics = new Set(["line_number", "symbol_info", "add_sp", "init", "loopscr", "loop"]);
+  const discardTopMnemonics = new Set(["pop_temp", "pop_temp_dword", "pop_global", "free_stack_string", "free_stack_list", "free_stack_slist"]);
+  const discardLocalCleanupMnemonics = new Set(["free_local_string", "free_local_slist", "free_local_list"]);
+  const transparentConversionMnemonics = new Set(["copy_string", "ptr_to_string", "str_to_ptr"]);
   const renderedBlocks = [];
 
   for (const [label, ops] of blocks) {
@@ -925,6 +934,40 @@ function decompilePseudocodeBlocks(ir) {
       }
 
       if (skipMnemonics.has(op.mnemonic)) {
+        index += 1;
+        continue;
+      }
+
+      if (discardTopMnemonics.has(op.mnemonic)) {
+        if (stack.length) stack.pop();
+        index += 1;
+        continue;
+      }
+
+      if (discardLocalCleanupMnemonics.has(op.mnemonic)) {
+        index += 1;
+        continue;
+      }
+
+      if (op.mnemonic === "pop_result") {
+        pendingResult = null;
+        index += 1;
+        continue;
+      }
+
+      if (op.mnemonic === "word_to_dword") {
+        retagTopOfStack(stack, 4);
+        index += 1;
+        continue;
+      }
+
+      if (op.mnemonic === "dword_to_word") {
+        retagTopOfStack(stack, 2);
+        index += 1;
+        continue;
+      }
+
+      if (transparentConversionMnemonics.has(op.mnemonic)) {
         index += 1;
         continue;
       }
@@ -987,19 +1030,45 @@ function decompilePseudocodeBlocks(ir) {
         continue;
       }
 
-      if (["add", "add_dword", "sub", "sub_dword", "mul", "mul_dword", "div", "div_dword"].includes(op.mnemonic)) {
-        combineBinary(stack, { add: "+", add_dword: "+", sub: "-", sub_dword: "-", mul: "*", mul_dword: "*", div: "/", div_dword: "/" }[op.mnemonic], op.mnemonic.endsWith("dword") ? 4 : 2);
+      if (["add", "add_dword", "sub", "sub_dword", "mul", "mul_dword", "div", "div_dword", "mod", "mod_dword", "concat", "lsh", "rsh"].includes(op.mnemonic)) {
+        combineBinary(
+          stack,
+          {
+            add: "+",
+            add_dword: "+",
+            sub: "-",
+            sub_dword: "-",
+            mul: "*",
+            mul_dword: "*",
+            div: "/",
+            div_dword: "/",
+            mod: "%",
+            mod_dword: "%",
+            concat: "+",
+            lsh: "<<",
+            rsh: ">>"
+          }[op.mnemonic],
+          op.mnemonic.endsWith("dword") ? 4 : 2
+        );
         index += 1;
         continue;
       }
-      if (["bit_and", "bit_or", "and", "or", "cmp", "cmp_dword", "ne", "ne_dword", "lt", "lt_dword", "le", "le_dword", "gt", "gt_dword", "ge", "ge_dword"].includes(op.mnemonic)) {
+      if (op.mnemonic === "strcmp") {
+        const [leftExpr, rightExpr] = popStackBytes(stack, 4);
+        stack.push([`(strcmp(${leftExpr ?? 'lhs'}, ${rightExpr ?? 'rhs'}) == 0)`, 1]);
+        index += 1;
+        continue;
+      }
+      if (["bit_and", "bit_or", "and", "and_dword", "or", "or_dword", "cmp", "cmp_dword", "ne", "ne_dword", "lt", "lt_dword", "le", "le_dword", "gt", "gt_dword", "ge", "ge_dword"].includes(op.mnemonic)) {
         combineBinary(
           stack,
           {
             bit_and: "&",
             bit_or: "|",
             and: "&&",
+            and_dword: "&&",
             or: "||",
+            or_dword: "||",
             cmp: "==",
             cmp_dword: "==",
             ne: "!=",
@@ -1017,10 +1086,10 @@ function decompilePseudocodeBlocks(ir) {
         index += 1;
         continue;
       }
-      if (op.mnemonic === "not") {
+      if (["not", "not_dword", "bit_not"].includes(op.mnemonic)) {
         if (stack.length) {
           const [expr, width] = stack.pop();
-          stack.push([`(!${expr})`, width]);
+          stack.push([`${op.mnemonic === "bit_not" ? "~" : "!"}${expr}`.startsWith("~") ? `(~${expr})` : `(!${expr})`, width]);
         }
         index += 1;
         continue;
@@ -1028,11 +1097,6 @@ function decompilePseudocodeBlocks(ir) {
       if (op.mnemonic === "implies") {
         const expr = stack.length ? stack.pop()[0] : "retval";
         stack.push([`implies(${expr}, 0x${op.operands.arg0.toString(16)}, 0x${op.operands.arg1.toString(16)})`, 1]);
-        index += 1;
-        continue;
-      }
-      if (op.mnemonic === "pop_temp") {
-        if (stack.length) stack.pop();
         index += 1;
         continue;
       }
