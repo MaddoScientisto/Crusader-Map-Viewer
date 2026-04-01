@@ -2,8 +2,7 @@ function datalink_use() /* entry=1238 class_id=0x04d4 slot=0x01 */
 {
   set_info(0x0207, *(arg_06));
   process_exclude();
-  /* pop_global */
-  set_info(0, 1, 0);
+  set_info(1, 0);
   local_05 = Actor.getDir(&global[0x001e]);
   while (Actor.isBusy(&global[0x001e])) {
     spawn FREE.slot_3b(pid, 5, 0x00000000);
@@ -17,172 +16,92 @@ function datalink_use() /* entry=1238 class_id=0x04d4 slot=0x01 */
   spawn FREE.slot_21(pid, 0x00a7, 0x00000000);
   suspend;
   if (Actor.getMap(&global[0x001e]) != 25) {
-    /* free_local_string */
     local_07 = "MISSION OBJECTIVE:^------------------^^";
   }
   if (global[0x0001] == 0) {
     if (Actor.getMap((Actor.getMap(&global[0x001e]) == 1), &global[0x001e]) == 2) {
       if (!(global[0x0011])) {
-        /* concat */
-        /* concat */
-        /* free_local_string */
-        local_07 = "^Secure transport back to Earth and make contact with General Maxis.";
+        local_07 = ((local_07 + "Locate and make contact with any possible operatives.") + "^Secure transport back to Earth and make contact with General Maxis.");
       }
       else if (!(global[0x0010])) {
-        /* str_to_ptr */
-        /* free_stack_string */
-        /* concat */
-        /* free_local_string */
-        local_07 = "Destroy Plasma Turbine on level 5.";
+        local_07 = (local_07 + "Destroy Plasma Turbine on level 5.");
       }
       else {
-        /* concat */
-        /* concat */
-        /* free_local_string */
-        local_07 = "to the LMC Lunar Mining Base.";
+        local_07 = ((local_07 + "Locate telepad on level 5 to transport ") + "to the LMC Lunar Mining Base.");
       }
     }
     else if (Actor.getMap((Actor.getMap(&global[0x001e]) == 3), &global[0x001e]) == 4) {
-      /* concat */
-      /* free_local_string */
-      local_07 = "Locate elevator on level 4 to rendezvous with the rebels' colonel.";
+      local_07 = (local_07 + "Locate elevator on level 4 to rendezvous with the rebels' colonel.");
     }
     else if (Actor.getMap((Actor.getMap(&global[0x001e]) == 5), &global[0x001e]) == 6) {
       if (!(global[0x0013])) {
-        /* str_to_ptr */
-        /* free_stack_string */
-        /* concat */
-        /* concat */
-        /* free_local_string */
-        local_07 = "^^Insert Trojan Horse program into TGT system.";
+        local_07 = ((local_07 + "Locate Tubeway Guidance Terminal on level 3.") + "^^Insert Trojan Horse program into TGT system.");
       }
       else {
-        /* concat */
-        /* concat */
-        /* free_local_string */
-        local_07 = "^Take the tram to rebels' rendezvous point.";
+        local_07 = ((local_07 + "Locate transit station and take next available tram.") + "^Take the tram to rebels' rendezvous point.");
       }
     }
     else if (Actor.getMap((Actor.getMap(&global[0x001e]) == 7), &global[0x001e]) == 8) {
       if (!(global[0x0014])) {
-        /* str_to_ptr */
-        /* free_stack_string */
-        /* concat */
-        /* concat */
-        /* free_local_string */
-        local_07 = "^^Download rebel prisoner files from LMC security system.";
+        local_07 = ((local_07 + "Locate Network Access Terminal^on level 2.") + "^^Download rebel prisoner files from LMC security system.");
       }
       else {
-        /* concat */
-        /* concat */
-        /* free_local_string */
-        local_07 = "^Tram has been programmed to return to the rebel meeting area.";
+        local_07 = ((local_07 + "Locate closest transit station.") + "^Tram has been programmed to return to the rebel meeting area.");
       }
     }
     else if (Actor.getMap((Actor.getMap(&global[0x001e]) == 9), &global[0x001e]) == 10) {
       if (!(global[0x0015])) {
-        /* str_to_ptr */
-        /* free_stack_string */
-        /* concat */
-        /* free_local_string */
-        local_07 = "Locate rebel prisoners^on level 4^and liberate them.";
+        local_07 = (local_07 + "Locate rebel prisoners^on level 4^and liberate them.");
       }
       else {
-        /* concat */
-        /* concat */
-        /* free_local_string */
-        local_07 = "^Tram has been programmed to return to rebel meeting area.";
+        local_07 = ((local_07 + "Locate transit station on level 4.") + "^Tram has been programmed to return to rebel meeting area.");
       }
     }
     else if (Actor.getMap((Actor.getMap(&global[0x001e]) == 11), &global[0x001e]) == 12) {
       if (!(global[0x0016])) {
-        /* str_to_ptr */
-        /* free_stack_string */
-        /* concat */
-        /* concat */
-        /* free_local_string */
-        local_07 = "^^Place FusionPac on conveyor.^^Exit area quickly.";
+        local_07 = ((local_07 + "Locate the Ore Separator^on level 6.") + "^^Place FusionPac on conveyor.^^Exit area quickly.");
       }
       else {
-        /* concat */
-        /* concat */
-        /* free_local_string */
-        local_07 = "^FusionPac will detonate shortly.";
+        local_07 = ((local_07 + "Quickly locate nearest transit station.") + "^FusionPac will detonate shortly.");
       }
     }
     else if (Actor.getMap((Actor.getMap(&global[0x001e]) == 13), &global[0x001e]) == 14) {
       if (!(global[0x0017])) {
-        /* str_to_ptr */
-        /* free_stack_string */
-        /* concat */
-        /* concat */
-        /* free_local_string */
-        local_07 = "^Disarm nerve gas^canister before it^contaminates O2^regeneration system.";
+        local_07 = ((local_07 + "Locate the MFH canister in the north sector.") + "^Disarm nerve gas^canister before it^contaminates O2^regeneration system.");
       }
       else {
-        /* concat */
-        /* concat */
-        /* free_local_string */
-        local_07 = "^Tram has been programmed to return to rebel meeting area.";
+        local_07 = ((local_07 + "Locate nearest transit station and enter the next available tram.") + "^Tram has been programmed to return to rebel meeting area.");
       }
     }
     else if (Actor.getMap((Actor.getMap(&global[0x001e]) == 15), &global[0x001e]) == 16) {
       if (!(global[0x0018])) {
-        /* str_to_ptr */
-        /* free_stack_string */
-        /* concat */
-        /* concat */
-        /* free_local_string */
-        local_07 = "^^Destroy WEC troop transport before it lands at Lunar Base.";
+        local_07 = ((local_07 + "Locate the^Lunar Defence^Battery on^level 4.") + "^^Destroy WEC troop transport before it lands at Lunar Base.");
       }
       else {
-        /* concat */
-        /* concat */
-        /* free_local_string */
-        local_07 = "^Tram has been programmed to return to rebel camp.";
+        local_07 = ((local_07 + "Locate transit station on level 4.") + "^Tram has been programmed to return to rebel camp.");
       }
     }
     else if (Actor.getMap((Actor.getMap(&global[0x001e]) == 17), &global[0x001e]) == 18) {
       if (!(global[0x0019])) {
-        /* str_to_ptr */
-        /* free_stack_string */
-        /* concat */
-        /* concat */
-        /* free_local_string */
-        local_07 = "^^Disarm self-destruction system before Lunar Base is destroyed.";
+        local_07 = ((local_07 + "Locate the Central Computer Core on level 1.") + "^^Disarm self-destruction system before Lunar Base is destroyed.");
       }
       else {
-        /* concat */
-        /* concat */
-        /* free_local_string */
-        local_07 = "^Tram has been programmed to take you to LMC Headquarters.";
+        local_07 = ((local_07 + "Locate transit station on 4.") + "^Tram has been programmed to take you to LMC Headquarters.");
       }
     }
     else if (Actor.getMap((Actor.getMap((Actor.getMap((Actor.getMap(&global[0x001e]) == 19), &global[0x001e]) == 20), &global[0x001e]) == 21), &global[0x001e]) == 22) {
       if (!(global[0x001a])) {
-        /* str_to_ptr */
-        /* free_stack_string */
-        /* concat */
-        /* concat */
-        /* free_local_string */
-        local_07 = "^Destroy objective with any means available.";
+        local_07 = ((local_07 + "Locate the Fusion Reactor on level 4.") + "^Destroy objective with any means available.");
       }
       else {
-        /* concat */
-        /* concat */
-        /* free_local_string */
-        local_07 = "^Tram has been programmed to return to Rebel Headquarters.";
+        local_07 = ((local_07 + "Locate transit station on level 5.") + "^Tram has been programmed to return to Rebel Headquarters.");
       }
     }
     else if (Actor.getMap(&global[0x001e]) == 25) {
-      /* free_local_string */
       local_07 = "^REBEL CAMP^__________^^Replenish supplies.^^Talk to officer in charge for next mission.";
     }
     else {
-      /* concat */
-      /* concat */
-      /* free_local_string */
-      local_07 = "^^Head can only be destroyed by securing DetPacs to his ears.";
+      local_07 = ((local_07 + "Locate Chuck Denning a destroy his bald head.") + "^^Head can only be destroyed by securing DetPacs to his ears.");
     }
   }
   else {
@@ -193,15 +112,9 @@ function datalink_use() /* entry=1238 class_id=0x04d4 slot=0x01 */
     suspend;
     suspend;
   }
-  /* loopscr */
-  /* loopscr */
-  /* loopscr */
-  /* loopscr */
-  /* loop */
   while (condition) {
   }
   spawn FREE.slot_3b(pid, 2, 0x00000000);
   suspend;
-  /* free_local_string */
   return;
 }

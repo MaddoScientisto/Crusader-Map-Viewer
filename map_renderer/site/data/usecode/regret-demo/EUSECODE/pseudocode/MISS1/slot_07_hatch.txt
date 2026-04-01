@@ -5,7 +5,6 @@ function miss1_hatch() /* entry=2319 class_id=0x090d slot=0x07 */
   if (Item.callEvent11(arg_06) == 1) {
     spawn FREE.slot_3b(pid, 1, 0x00000000);
     suspend;
-    /* pop_global */
     if (World.gameDifficulty() == 1) {
       local_08 = 5;
     }
@@ -67,7 +66,6 @@ function miss1_hatch() /* entry=2319 class_id=0x090d slot=0x07 */
       }
       if (local_04) {
         suspend;
-        /* free_local_string */
         local_14 = "You must be that^Silencer who blew^the Vigilance^Platform!^^My name is Denning.^I'm with the^Resistance too.^^This freighter is^heading to a^lunar mining base.^I've got friends^there who can help.^^Get to level 3 and^I'll contact you.^Make sure you check^your DataLink when^it starts beeping.^^See you there...";
         spawn FREE.slot_3b(pid, 30, 0x00000000);
         suspend;
@@ -83,6 +81,5 @@ function miss1_hatch() /* entry=2319 class_id=0x090d slot=0x07 */
       suspend;
     }
   }
-  /* free_local_string */
   return;
 }

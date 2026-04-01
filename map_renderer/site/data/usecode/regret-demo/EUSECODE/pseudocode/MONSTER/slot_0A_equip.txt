@@ -26,11 +26,9 @@ function monster_equip() /* entry=1234 class_id=0x04d0 slot=0x0a */
         if (Item.getCY(local_08) == Item.getCY(local_02)) {
           spawn DOOR.slot_21(pid, 1, local_08);
           suspend;
-          /* dword_to_word */
           if (process_result) {
             spawn ITEM.slot_2f(pid, arg_10, local_02, arg_06);
             suspend;
-            /* dword_to_word */
             local_10 = process_result;
             if (local_10) {
               spawn FREE.slot_3b(pid, 2, 0x00000000);

@@ -5,7 +5,6 @@ function free_slot_22() /* entry=2575 class_id=0x0a0d slot=0x22 */
     return;
   }
   else {
-    /* pop_global */
     suspend;
     spawn FREE.slot_32(pid, 100, 0x00000000);
     suspend;
@@ -73,11 +72,8 @@ function free_slot_22() /* entry=2575 class_id=0x0a0d slot=0x22 */
         return;
       }
       else if (!Item.getItemFamily(&global[0x003c])) {
-        /* pop_global */
-        spawn FREE.slot_32(0, pid, 10, 0x00000000);
+        spawn FREE.slot_32(pid, 10, 0x00000000);
         suspend;
-        /* str_to_ptr */
-        /* free_stack_string */
         suspend;
         return;
       }

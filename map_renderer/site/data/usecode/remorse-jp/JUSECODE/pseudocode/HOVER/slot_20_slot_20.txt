@@ -44,26 +44,17 @@ function hover_slot_20() /* entry=2576 class_id=0x0a0e slot=0x20 */
   FREE.slot_3f((tz - sz));
   c = retval;
   if ((a > b) && (a > c)) {
-    /* word_to_dword */
     l1 = a;
-    /* word_to_dword */
     yfract = b;
-    /* word_to_dword */
     yfract = (yfract * 0x0fa0);
     yfract = (yfract / l1);
-    /* word_to_dword */
     yacc = 0;
-    /* word_to_dword */
     zfract = c;
-    /* word_to_dword */
     zfract = (zfract * 0x0fa0);
     zfract = (zfract / l1);
-    /* word_to_dword */
     zacc = 0;
     while (1) {
       if ((Item.getStatus(hover) & 0x1000) == 0) {
-        /* word_to_dword */
-        /* pop_result */
         return;
       }
       dx = (tx - sx);
@@ -73,8 +64,6 @@ function hover_slot_20() /* entry=2576 class_id=0x0a0e slot=0x20 */
       ddy = 0;
       ddz = 0;
       if ((dx < 4) && (dx > -4)) {
-        /* word_to_dword */
-        /* pop_result */
         return;
       }
       ddx = 4;
@@ -83,9 +72,7 @@ function hover_slot_20() /* entry=2576 class_id=0x0a0e slot=0x20 */
       }
       if (dy) {
         yacc = (yacc + yfract);
-        /* word_to_dword */
         if (yacc > 0x0fa0) {
-          /* word_to_dword */
           yacc = (yacc - 0x0fa0);
           ddy = 4;
           if (dy < 0) {
@@ -95,9 +82,7 @@ function hover_slot_20() /* entry=2576 class_id=0x0a0e slot=0x20 */
       }
       if (dz) {
         zacc = (zacc + zfract);
-        /* word_to_dword */
         if (zacc > 0x0fa0) {
-          /* word_to_dword */
           zacc = (zacc - 0x0fa0);
           ddz = 4;
           if (dz < 0) {
@@ -106,8 +91,6 @@ function hover_slot_20() /* entry=2576 class_id=0x0a0e slot=0x20 */
         }
       }
       total = 0;
-      /* loopscr */
-      /* loop */
       while (condition) {
         if (Item.getShape(cargo) != NUMBERS) {
           if (cargo < 0x00ff) {
@@ -151,9 +134,6 @@ function hover_slot_20() /* entry=2576 class_id=0x0a0e slot=0x20 */
           counter = (1 + counter);
         }
         if (Item.hurl(hover) & 16) {
-          /* bit_not */
-          /* word_to_dword */
-          /* pop_result */
           return;
         }
         sx = (sx - ddx);
@@ -168,26 +148,17 @@ function hover_slot_20() /* entry=2576 class_id=0x0a0e slot=0x20 */
     return;
   }
   else if ((b > a) && (b > c)) {
-    /* word_to_dword */
     l1 = b;
-    /* word_to_dword */
     xfract = a;
-    /* word_to_dword */
     xfract = (xfract * 0x0fa0);
     xfract = (xfract / l1);
-    /* word_to_dword */
     xacc = 0;
-    /* word_to_dword */
     zfract = c;
-    /* word_to_dword */
     zfract = (zfract * 0x0fa0);
     zfract = (zfract / l1);
-    /* word_to_dword */
     zacc = 0;
     while (1) {
       if ((Item.getStatus(hover) & 0x1000) == 0) {
-        /* word_to_dword */
-        /* pop_result */
         return;
       }
       dx = (tx - sx);
@@ -197,15 +168,11 @@ function hover_slot_20() /* entry=2576 class_id=0x0a0e slot=0x20 */
       ddy = 0;
       ddz = 0;
       if ((dy < 4) && (dy > -4)) {
-        /* word_to_dword */
-        /* pop_result */
         return;
       }
       if (dx) {
         xacc = (xacc + xfract);
-        /* word_to_dword */
         if (xacc > 0x0fa0) {
-          /* word_to_dword */
           xacc = (xacc - 0x0fa0);
           ddx = 4;
           if (dx < 0) {
@@ -219,9 +186,7 @@ function hover_slot_20() /* entry=2576 class_id=0x0a0e slot=0x20 */
       }
       if (dz) {
         zacc = (zacc + zfract);
-        /* word_to_dword */
         if (zacc > 0x0fa0) {
-          /* word_to_dword */
           zacc = (zacc - 0x0fa0);
           ddz = 4;
           if (dz < 0) {
@@ -230,8 +195,6 @@ function hover_slot_20() /* entry=2576 class_id=0x0a0e slot=0x20 */
         }
       }
       total = 0;
-      /* loopscr */
-      /* loop */
       while (condition) {
         if (Item.getShape(cargo) != NUMBERS) {
           if (cargo < 0x00ff) {
@@ -275,9 +238,6 @@ function hover_slot_20() /* entry=2576 class_id=0x0a0e slot=0x20 */
           counter = (1 + counter);
         }
         if (Item.hurl(hover) & 16) {
-          /* bit_not */
-          /* word_to_dword */
-          /* pop_result */
           return;
         }
         sx = (sx - ddx);
@@ -292,26 +252,17 @@ function hover_slot_20() /* entry=2576 class_id=0x0a0e slot=0x20 */
     return;
   }
   else {
-    /* word_to_dword */
     l1 = c;
-    /* word_to_dword */
     xfract = a;
-    /* word_to_dword */
     xfract = (xfract * 0x0fa0);
     xfract = (xfract / l1);
-    /* word_to_dword */
     xacc = 0;
-    /* word_to_dword */
     yfract = b;
-    /* word_to_dword */
     yfract = (yfract * 0x0fa0);
     yfract = (yfract / l1);
-    /* word_to_dword */
     yacc = 0;
     while (1) {
       if ((Item.getStatus(hover) & 0x1000) == 0) {
-        /* word_to_dword */
-        /* pop_result */
         return;
       }
       else {
@@ -322,15 +273,11 @@ function hover_slot_20() /* entry=2576 class_id=0x0a0e slot=0x20 */
         ddy = 0;
         ddz = 0;
         if ((dz < 4) && (dz > -4)) {
-          /* word_to_dword */
-          /* pop_result */
           return;
         }
         else if (dx) {
           xacc = (xacc + xfract);
-          /* word_to_dword */
           if (xacc > 0x0fa0) {
-            /* word_to_dword */
             xacc = (xacc - 0x0fa0);
             ddx = 4;
             if (dx < 0) {
@@ -340,9 +287,7 @@ function hover_slot_20() /* entry=2576 class_id=0x0a0e slot=0x20 */
         }
         if (dy) {
           yacc = (yacc + yfract);
-          /* word_to_dword */
           if (yacc > 0x0fa0) {
-            /* word_to_dword */
             yacc = (yacc - 0x0fa0);
             ddy = 4;
             if (dy < 0) {
@@ -355,8 +300,6 @@ function hover_slot_20() /* entry=2576 class_id=0x0a0e slot=0x20 */
           ddz = -4;
         }
         total = 0;
-        /* loopscr */
-        /* loop */
         while (condition) {
           if (Item.getShape(cargo) != NUMBERS) {
             if (cargo < 0x00ff) {
@@ -400,9 +343,6 @@ function hover_slot_20() /* entry=2576 class_id=0x0a0e slot=0x20 */
             counter = (1 + counter);
           }
           if (Item.hurl(hover) & 16) {
-            /* bit_not */
-            /* word_to_dword */
-            /* pop_result */
             return;
           }
           sx = (sx - ddx);

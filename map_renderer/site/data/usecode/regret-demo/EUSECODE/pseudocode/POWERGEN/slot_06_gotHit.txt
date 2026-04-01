@@ -15,7 +15,6 @@ function powergen_gotHit() /* entry=654 class_id=0x028c slot=0x06 */
   else {
     spawn ITEM.slot_29(pid, 0x00c8, arg_12, arg_10, arg_06);
     suspend;
-    /* dword_to_word */
     if (!process_result) {
       FREE.slot_20(1);
       if (retval) {
@@ -23,11 +22,6 @@ function powergen_gotHit() /* entry=654 class_id=0x028c slot=0x06 */
       return;
     }
     else {
-      /* loopscr */
-      /* loopscr */
-      /* loopscr */
-      /* loopscr */
-      /* loop */
       while (condition) {
       }
       if (!(global[0x0005])) {
@@ -35,9 +29,6 @@ function powergen_gotHit() /* entry=654 class_id=0x028c slot=0x06 */
       }
       for local_06 in nearby_items(shape=17, origin=arg_06) {
         if (Item.callEvent11(local_06) == Item.andStatus(arg_06)) {
-          if ((Item.getFrame(local_06) == 1) && (global[0x000c] > 0)) {
-            /* pop_global */
-          }
         }
       }
       if (Item.getMapArray(arg_06) != 0) {

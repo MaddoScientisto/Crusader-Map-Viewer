@@ -6,25 +6,13 @@ function reb_egg_hatch() /* entry=2313 class_id=0x0907 slot=0x07 */
     return;
   }
   else if (global[0x0020] == 9) {
-    /* str_to_ptr */
-    /* free_stack_string */
     suspend;
-    /* str_to_ptr */
-    /* free_stack_string */
     suspend;
   }
   if (global[0x0020] < 13) {
-    /* str_to_ptr */
-    /* free_stack_string */
     suspend;
   }
   set_info(1, 0);
-  if (global[0x0020] == 1) {
-    /* pop_global */
-  }
-  if (Actor.getMap(&global[0x003d]) == 41) {
-    /* pop_global */
-  }
   for local_02 in nearby_items(shape=BAR_PATRONS_1, origin=arg_06) {
   }
   for local_02 in nearby_items(shape=BAR_STOOL, origin=arg_06) {
@@ -66,13 +54,9 @@ function reb_egg_hatch() /* entry=2313 class_id=0x0907 slot=0x07 */
   suspend;
   spawn REB_EGG.slot_20(pid, arg_06);
   suspend;
-  /* loopscr */
-  /* loopscr */
-  /* loop */
   while (condition) {
   }
   if (!local_09) {
-    /* pop_global */
     for local_02 in selector_0x42(arg0=0x044f, arg1=0x0442, arg2=(50 * 32), origin=arg_06) {
     }
     return;
@@ -81,25 +65,18 @@ function reb_egg_hatch() /* entry=2313 class_id=0x0907 slot=0x07 */
     suspend;
     suspend;
     if (global[0x0020] == 2) {
-      /* str_to_ptr */
-      /* free_stack_string */
       suspend;
       suspend;
       for local_02 in nearby_items(shape=0x044f, origin=arg_06) {
       }
       suspend;
-      /* pop_global */
       return;
     }
     else if (global[0x0020] == 5) {
       if (global[0x0024]) {
-        /* str_to_ptr */
-        /* free_stack_string */
         suspend;
       }
       else {
-        /* str_to_ptr */
-        /* free_stack_string */
         suspend;
       }
       suspend;
@@ -108,18 +85,13 @@ function reb_egg_hatch() /* entry=2313 class_id=0x0907 slot=0x07 */
       spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
       suspend;
       suspend;
-      /* pop_global */
       return;
     }
     else if ((global[0x0020] == 10) || (global[0x0020] == 11)) {
       if (global[0x0020] == 10) {
-        /* str_to_ptr */
-        /* free_stack_string */
         suspend;
       }
       else {
-        /* str_to_ptr */
-        /* free_stack_string */
         suspend;
       }
       spawn FREE.waitNTimerTicks(pid, 120, 0x00000000);
@@ -130,12 +102,9 @@ function reb_egg_hatch() /* entry=2313 class_id=0x0907 slot=0x07 */
       spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
       suspend;
       suspend;
-      /* pop_global */
       return;
     }
     else if (global[0x0020] == 14) {
-      /* str_to_ptr */
-      /* free_stack_string */
       suspend;
       spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
       suspend;
@@ -153,7 +122,6 @@ function reb_egg_hatch() /* entry=2313 class_id=0x0907 slot=0x07 */
       suspend;
       for local_02 in nearby_items(shape=0x043d, origin=arg_06) {
       }
-      /* pop_global */
       return;
     }
   }

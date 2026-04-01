@@ -14,8 +14,6 @@ function item_slot_2d() /* entry=2592 class_id=0x0a1e slot=0x2d */
             for local_12 in nearby_items(family=6, origin=local_02) {
               if (Actor.isNPC(local_12)) {
                 if ((Item.getZ(local_12) > (Item.getZ(arg_06) - 10)) && (Item.getZ(local_12) < (Item.getZ(arg_06) + 10))) {
-                  /* word_to_dword */
-                  /* pop_result */
                   return;
                 }
               }
@@ -42,8 +40,6 @@ function item_slot_2d() /* entry=2592 class_id=0x0a1e slot=0x2d */
           if ((arg_12 == 0) || (arg_12 == 2)) {
             spawn ITEM.slot_2e(local_04, local_02, arg_06);
           }
-          /* word_to_dword */
-          /* pop_result */
           return;
         }
       }

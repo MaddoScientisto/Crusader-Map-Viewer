@@ -18,7 +18,6 @@ function trigger_slot_2a() /* entry=2586 class_id=0x0a18 slot=0x2a */
     local_08 = Item.getNPCNum(local_14);
   }
   local_18 = local_16;
-  /* pop_global */
   if (arg_12 < 0x0080) {
     local_20 = (((local_10 & 0x00e0) * 8) + local_08);
     if (local_10 == 0) {
@@ -53,20 +52,17 @@ function trigger_slot_2a() /* entry=2586 class_id=0x0a18 slot=0x2a */
           if (local_20 != 0) {
             spawn TRIGGER.slot_26(pid, local_20, local_16, local_10, local_08, local_06, arg_10, arg_06);
             suspend;
-            /* dword_to_word */
             local_16 = process_result;
           }
         }
         else if (local_20 == 0x07ff) {
           spawn TRIGGER.slot_25(pid, local_20, local_16, local_10, local_08, local_06, arg_10, arg_06);
           suspend;
-          /* dword_to_word */
           local_16 = process_result;
         }
         else if (local_20 != 0) {
           spawn TRIGGER.slot_24(pid, local_20, local_16, local_10, local_08, local_06, arg_10, arg_06);
           suspend;
-          /* dword_to_word */
           local_16 = process_result;
         }
       }
@@ -74,20 +70,17 @@ function trigger_slot_2a() /* entry=2586 class_id=0x0a18 slot=0x2a */
         if (local_20 != 0) {
           spawn TRIGGER.slot_29(pid, local_20, local_16, local_10, local_08, local_06, arg_10, arg_06);
           suspend;
-          /* dword_to_word */
           local_16 = process_result;
         }
       }
       else if (local_20 == 0x07ff) {
         spawn TRIGGER.slot_28(pid, local_20, local_16, local_10, local_08, local_06, arg_10, arg_06);
         suspend;
-        /* dword_to_word */
         local_16 = process_result;
       }
       else if (local_20 != 0) {
         spawn TRIGGER.slot_27(pid, local_20, local_16, local_10, local_08, local_06, arg_10, arg_06);
         suspend;
-        /* dword_to_word */
         local_16 = process_result;
       }
     }
@@ -105,13 +98,11 @@ function trigger_slot_2a() /* entry=2586 class_id=0x0a18 slot=0x2a */
           if (local_10 & 16) {
             spawn TRIGGER.slot_2b(pid, local_12, arg_06);
             suspend;
-            /* dword_to_word */
             local_18 = process_result;
           }
           else {
             /* create_list */
             /* append_list */
-            /* free_local_list */
             local_02 = local_12;
           }
         }
@@ -121,11 +112,9 @@ function trigger_slot_2a() /* entry=2586 class_id=0x0a18 slot=0x2a */
       foreach_list local_12 -> block_2afa;
       spawn TRIGGER.slot_2b(pid, local_12, arg_06);
       suspend;
-      /* dword_to_word */
       local_18 = process_result;
       /* create_list */
       /* remove_matching_inline */
-      /* free_local_list */
       local_02 = local_12;
     }
     if (local_18 == local_16) {
@@ -135,6 +124,5 @@ function trigger_slot_2a() /* entry=2586 class_id=0x0a18 slot=0x2a */
       local_16 = local_18;
     }
   }
-  /* free_local_list */
   return;
 }

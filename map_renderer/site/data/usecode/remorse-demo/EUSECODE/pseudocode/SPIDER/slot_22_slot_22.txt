@@ -44,8 +44,7 @@ function spider_slot_22() /* entry=2582 class_id=0x0a14 slot=0x22 */
   if (axis == 0) {
     FREE.slot_3f(((h / w) * w));
     q = retval;
-    /* mod */
-    FREE.slot_3f(h, w);
+    FREE.slot_3f((h % w));
     r = retval;
     if (w < 0) {
       ovel = (-1 * vel);
@@ -59,8 +58,7 @@ function spider_slot_22() /* entry=2582 class_id=0x0a14 slot=0x22 */
   else {
     FREE.slot_3f(((w / h) * h));
     q = retval;
-    /* mod */
-    FREE.slot_3f(w, h);
+    FREE.slot_3f((w % h));
     r = retval;
     if (h < 0) {
       ovel = (-1 * vel);
@@ -99,8 +97,6 @@ function spider_slot_22() /* entry=2582 class_id=0x0a14 slot=0x22 */
     if (c >= oabs) {
       if (zcur > (ztarg - 2)) {
         if (zcur < (ztarg + 2)) {
-          /* word_to_dword */
-          /* pop_result */
           return;
         }
       }
@@ -108,8 +104,6 @@ function spider_slot_22() /* entry=2582 class_id=0x0a14 slot=0x22 */
       local_03 = y;
       local_01 = z;
       if (!Item.andStatus(0, 1, currentP, arg_06)) {
-        /* word_to_dword */
-        /* pop_result */
         return;
       }
     }
@@ -120,8 +114,6 @@ function spider_slot_22() /* entry=2582 class_id=0x0a14 slot=0x22 */
         local_03 = y;
         local_01 = z;
         if (!Item.andStatus(0, 1, currentP, arg_06)) {
-          /* word_to_dword */
-          /* pop_result */
           return;
         }
         x = (x + ovel);
@@ -140,8 +132,6 @@ function spider_slot_22() /* entry=2582 class_id=0x0a14 slot=0x22 */
         local_03 = y;
         local_01 = z;
         if (!Item.andStatus(0, 1, currentP, arg_06)) {
-          /* word_to_dword */
-          /* pop_result */
           return;
         }
         y = (y + ovel);

@@ -21,10 +21,8 @@ function monitns_use() /* entry=260 class_id=0x0102 slot=0x01 */
           VALBOX.slot_20(valueBox);
           passcode = retval;
           TEXTFILE.slot_23(passcode, Actor.getLastAnimSet(valueBox), Actor.SetNPCDataField0x63_0E6(valueBox), arg_06);
-          /* free_local_string */
           textFile = retval;
           spawn TEXTFILE.slot_20(pid, textFile, arg_06);
-          /* free_stack_string */
           suspend;
         }
       }
@@ -41,17 +39,13 @@ function monitns_use() /* entry=260 class_id=0x0102 slot=0x01 */
         }
       }
       TEXTFILE.slot_23(passcode, Actor.getLastAnimSet(arg_06), Actor.SetNPCDataField0x63_0E6(arg_06), arg_06);
-      /* free_local_string */
       textFile = retval;
       if (boxCounter > 1) {
-        /* free_local_string */
         textFile = "There is more than one Value box in range with the same link";
       }
       spawn TEXTFILE.slot_20(pid, textFile, arg_06);
-      /* free_stack_string */
       suspend;
     }
   }
-  /* free_local_string */
   return;
 }

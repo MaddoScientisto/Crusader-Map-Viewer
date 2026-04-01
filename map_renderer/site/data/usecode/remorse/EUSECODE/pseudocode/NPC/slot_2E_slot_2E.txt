@@ -1,9 +1,7 @@
 function npc_slot_2e() /* entry=2579 class_id=0x0a11 slot=0x2e */
 {
   set_info(1, 0);
-  /* pop_global */
-  spawn FREE.waitNTimerTicks(1, pid, (90 - (Game.getDifficultyLevel() * 8)), 0x00000000);
+  spawn FREE.waitNTimerTicks(pid, (90 - (Game.getDifficultyLevel() * 8)), 0x00000000);
   suspend;
-  /* pop_global */
   return;
 }

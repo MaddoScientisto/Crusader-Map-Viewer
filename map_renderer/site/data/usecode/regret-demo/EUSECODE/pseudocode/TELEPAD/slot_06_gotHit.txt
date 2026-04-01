@@ -13,11 +13,6 @@ function telepad_gotHit() /* entry=477 class_id=0x01db slot=0x06 */
     return;
   }
   else if (PaletteFaderProcess.jumpToAllBlack() == 1) {
-    /* loopscr */
-    /* loopscr */
-    /* loopscr */
-    /* loopscr */
-    /* loop */
     while (condition) {
       if (local_10 < 0x0100) {
       }
@@ -31,46 +26,41 @@ function telepad_gotHit() /* entry=477 class_id=0x01db slot=0x06 */
     if (local_08 == 0x00ff) {
       return;
     }
+    else if ((local_08 > 0) && (local_08 < 100)) {
+      spawn TELEPAD.slot_20(AudioProcess.stopSFXCru(local_08, &global[0x001e]), arg_06);
+      return;
+    }
+    else if (local_08 == 109) {
+      spawn TELEPAD.slot_20(109, 20, arg_06);
+      return;
+    }
+    else if (local_08 == 110) {
+      spawn TELEPAD.slot_20(111, 21, arg_06);
+      return;
+    }
+    else if (local_08 == 111) {
+      spawn TELEPAD.slot_20(65, 20, arg_06);
+      return;
+    }
+    else if (local_08 == 112) {
+      spawn TELEPAD.slot_20(66, 20, arg_06);
+      return;
+    }
+    else if (local_08 == 113) {
+      spawn TELEPAD.slot_20(30, 3, arg_06);
+      return;
+    }
+    else if (local_08 == 114) {
+      spawn TELEPAD.slot_20(30, 22, arg_06);
+      return;
+    }
+    else if (local_08 == 115) {
+      spawn TELEPAD.slot_20(115, 20, arg_06);
+      return;
+    }
     else {
-      /* pop_global */
-      if ((local_08 > 0) && (local_08 < 100)) {
-        spawn TELEPAD.slot_20(AudioProcess.stopSFXCru(local_08, &global[0x001e]), arg_06);
-        return;
-      }
-      else if (local_08 == 109) {
-        spawn TELEPAD.slot_20(109, 20, arg_06);
-        return;
-      }
-      else if (local_08 == 110) {
-        spawn TELEPAD.slot_20(111, 21, arg_06);
-        return;
-      }
-      else if (local_08 == 111) {
-        spawn TELEPAD.slot_20(65, 20, arg_06);
-        return;
-      }
-      else if (local_08 == 112) {
-        spawn TELEPAD.slot_20(66, 20, arg_06);
-        return;
-      }
-      else if (local_08 == 113) {
-        spawn TELEPAD.slot_20(30, 3, arg_06);
-        return;
-      }
-      else if (local_08 == 114) {
-        spawn TELEPAD.slot_20(30, 22, arg_06);
-        return;
-      }
-      else if (local_08 == 115) {
-        spawn TELEPAD.slot_20(115, 20, arg_06);
-        return;
-      }
-      else {
-        /* str_to_ptr */
-        /* free_stack_string */
-        suspend;
-        return;
-      }
+      suspend;
+      return;
     }
   }
   return;

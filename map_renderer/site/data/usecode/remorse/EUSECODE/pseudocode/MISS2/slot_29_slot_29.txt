@@ -7,40 +7,20 @@ function miss2_slot_29() /* entry=2320 class_id=0x090e slot=0x29 */
     egg, /* [BP-06h] type=0x24 */
     vargas; /* [BP-08h] type=0x24 */
 
-  entry:
-    set_info(0x0001, *(arg_06));
-    counter = 0;
-    egg = *(arg_06);
-    set_info(1, 0);
-
-  block_1dbd:
-    while (Actor.isBusy(&global[0x003c])) {
-      spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
-      suspend;
-    }
-
-  block_1df3:
-    if !Actor.getSomeFlagProbablyCrouch(&global[0x003c]) goto block_1e33;
-
-  block_1e03:
+  set_info(0x0001, *(arg_06));
+  counter = 0;
+  egg = *(arg_06);
+  set_info(1, 0);
+  while (Actor.isBusy(&global[0x003c])) {
+    spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
     suspend;
-
-  block_1e33_selector_00:
-    /* loop_selector item in nearby_items(shape=npcdeath_shape_03ac, origin=global[0x003c]) */
-
-  block_1e51:
-    if !condition goto block_1e9f;
-
-  block_1e54:
-    goto block_1e9f;
-
-  block_1e9b:
-    goto block_1e51;
-
-  block_1e9f:
-    if !vargas goto block_217f;
-
-  block_1ea9:
+  }
+  if (Actor.getSomeFlagProbablyCrouch(&global[0x003c])) {
+    suspend;
+  }
+  for item in nearby_items(shape=npcdeath_shape_03ac, origin=global[0x003c]) {
+  }
+  if (vargas) {
     spawn NPC.slot_22(pid, 3, 0, &global[0x003c]);
     suspend;
     spawn NPC.slot_22(pid, 3, 14, &global[0x003c]);
@@ -51,16 +31,10 @@ function miss2_slot_29() /* entry=2320 class_id=0x090e slot=0x29 */
     suspend;
     spawn FREE.waitNTimerTicks(pid, 100, 0x00000000);
     suspend;
-
-  block_1ea9_selector_00:
     for item in selector_0x42(arg0=0x0329, arg1=0x032a, arg2=(30 * 32), origin=global[0x003c]) {
     }
-
-  block_1fda:
     spawn FREE.waitNTimerTicks(pid, 100, 0x00000000);
     suspend;
-    /* str_to_ptr */
-    /* free_stack_string */
     suspend;
     spawn MISS2.slot_21(vargas, 0x00000000);
     spawn NPC.slot_22(pid, 2, 2, &global[0x003c]);
@@ -76,8 +50,6 @@ function miss2_slot_29() /* entry=2320 class_id=0x090e slot=0x29 */
     suspend;
     spawn NPC.slot_24(pid, vargas);
     suspend;
-
-  block_217f:
-    return;
-
+  }
+  return;
 }

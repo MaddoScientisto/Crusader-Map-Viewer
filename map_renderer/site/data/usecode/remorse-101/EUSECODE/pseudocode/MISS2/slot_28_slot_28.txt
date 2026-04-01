@@ -1,54 +1,28 @@
 function miss2_slot_28() /* entry=2320 class_id=0x090e slot=0x28 */
 {
-  entry:
-    set_info(0x0001, *(arg_06));
-    local_02 = 0;
-    local_18 = *(arg_06);
-    set_info(1, 0);
-
-  block_082f:
-    while (Actor.isBusy(&global[0x003d])) {
-      spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
-      suspend;
-    }
-
-  block_0856:
-    if !Actor.getSomeFlagProbablyCrouch(&global[0x003d]) goto block_0884;
-
-  block_0863:
+  set_info(0x0001, *(arg_06));
+  local_02 = 0;
+  local_18 = *(arg_06);
+  set_info(1, 0);
+  while (Actor.isBusy(&global[0x003d])) {
+    spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
     suspend;
-
-  block_0884:
-    local_20 = 0;
-    /* loopscr */
-    /* loop */
-
-  block_0898:
-    while (condition) {
-      if ((Item.getZ(local_04) > 96) && (Item.getZ(local_04) < 0x0096)) {
-        local_22 = Item.getX(local_04);
-        local_24 = Item.getY(local_04);
-        if ((((local_22 > 0x522f) && (local_22 < 0x53bf)) && (local_24 < 0x448e)) && (local_24 > 0x407f)) {
-        }
+  }
+  if (Actor.getSomeFlagProbablyCrouch(&global[0x003d])) {
+    suspend;
+  }
+  local_20 = 0;
+  while (condition) {
+    if ((Item.getZ(local_04) > 96) && (Item.getZ(local_04) < 0x0096)) {
+      local_22 = Item.getX(local_04);
+      local_24 = Item.getY(local_04);
+      if ((((local_22 > 0x522f) && (local_22 < 0x53bf)) && (local_24 < 0x448e)) && (local_24 > 0x407f)) {
       }
     }
-
-  block_0933_selector_00:
-    /* loop_selector local_04 in nearby_items(shape=0x04d9, origin=global[0x003d]) */
-
-  block_094d:
-    if !condition goto block_098f;
-
-  block_0950:
-    goto block_098f;
-
-  block_098b:
-    goto block_094d;
-
-  block_098f:
-    if !local_20 goto block_138b;
-
-  block_0996_selector_00:
+  }
+  for local_04 in nearby_items(shape=0x04d9, origin=global[0x003d]) {
+  }
+  if (local_20) {
     for local_04 in nearby_items(shape=door_shape_0046, origin=global[0x003d]) {
       FREE.slot_29(local_04, global[0x003d]);
       while ((retval > 3) && (local_02 != 10)) {
@@ -60,38 +34,21 @@ function miss2_slot_28() /* entry=2320 class_id=0x090e slot=0x28 */
       spawn DOOR.slot_20(pid, local_10);
       suspend;
     }
-
-  block_0a34:
     spawn NPC.slot_22(pid, 3, 4, &global[0x003d]);
     suspend;
     spawn NPC.slot_22(Item.getDirFromTo16(pid, 3, Item.getY(local_20), Item.getX(Item.getY(Item.getX(local_20), &global[0x003d]), &global[0x003d])), &global[0x003d]);
     suspend;
     suspend;
-
-  block_0a34_selector_00:
-    /* loop_selector local_04 in nearby_items(shape=NUMBERS, origin=global[0x003d]) */
-
-  block_0ac8:
-    if !condition goto block_0ad6;
-
-  block_0acb:
-    local_26 = local_04;
-    goto block_0ad6;
-
-  block_0ad2:
-    goto block_0ac8;
-
-  block_0ad8:
+    for local_04 in nearby_items(shape=NUMBERS, origin=global[0x003d]) {
+      local_26 = local_04;
+    }
+    FREE.slot_29(local_26, global[0x003d]);
     while ((retval > 2) && (local_02 != 20)) {
       spawn NPC.slot_22(Item.getDirFromTo16(pid, 1, Item.getY(local_26), Item.getX(Item.getY(Item.getX(local_26), &global[0x003d]), &global[0x003d])), &global[0x003d]);
       suspend;
       local_02 = (1 + local_02);
     }
-
-  block_0b3e:
     suspend;
-    /* str_to_ptr */
-    /* free_stack_string */
     suspend;
     spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
     suspend;
@@ -100,25 +57,17 @@ function miss2_slot_28() /* entry=2320 class_id=0x090e slot=0x28 */
     suspend;
     suspend;
     suspend;
-
-  block_0b3e_selector_00:
     for local_04 in nearby_items(shape=SPANEL, origin=local_20) {
       if (Egg.getEggXRange(local_04) == 13) {
         suspend;
         suspend;
       }
     }
-
-  block_0c69:
     suspend;
     spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
     suspend;
-
-  block_0c69_selector_00:
     for local_04 in nearby_items(shape=0x04d5, origin=global[0x003d]) {
     }
-
-  block_0cfd:
     spawn FREE.waitNTimerTicks(pid, 45, 0x00000000);
     suspend;
     spawn MISS2.slot_20(pid, 1, 0x00000000);
@@ -126,28 +75,19 @@ function miss2_slot_28() /* entry=2320 class_id=0x090e slot=0x28 */
     spawn MISS2.slot_23(pid, 0x00000000);
     suspend;
     local_08 = 0;
-
-  block_0cfd_selector_00:
     for local_04 in nearby_items(shape=wallgun_shape_04c8, origin=global[0x003d]) {
       local_08 = local_04;
     }
-
-  block_0d67:
-    if !local_08 goto block_0d85;
-
-  block_0d6e:
-    spawn MISS2.slot_25(pid, 1, 0x00000000);
-    suspend;
-
-  block_0d85:
+    if (local_08) {
+      spawn MISS2.slot_25(pid, 1, 0x00000000);
+      suspend;
+    }
     spawn FREE.waitNTimerTicks(pid, 15, 0x00000000);
     suspend;
     local_10 = 0;
     local_12 = 0;
     local_14 = 0;
     local_16 = 0;
-
-  block_0d85_selector_00:
     for local_04 in nearby_items(shape=PRISON_BARS_DOOR, origin=local_08) {
       if (!Egg.getEggXRange(local_04)) {
         local_10 = local_04;
@@ -162,83 +102,60 @@ function miss2_slot_28() /* entry=2320 class_id=0x090e slot=0x28 */
         local_16 = local_04;
       }
     }
-
-  block_0e1f:
-    if !(((local_10 && local_12) && local_14) && local_16) goto block_11d2;
-
-  block_0e2f:
-    spawn MISS2.slot_26(pid, 0, 0x00000000);
-    suspend;
-    spawn DOOR.slot_20(pid, local_10);
-    suspend;
-    spawn MISS2.slot_27(pid, local_08, 0x00000000);
-    suspend;
-    spawn FREE.waitNTimerTicks(pid, 3, 0x00000000);
-    suspend;
-
-  block_0e2f_selector_00:
-    for local_04 in nearby_items(shape=PRISONER_2, origin=local_10) {
-      spawn FREE.waitNTimerTicks(pid, 15, 0x00000000);
+    if (((local_10 && local_12) && local_14) && local_16) {
+      spawn MISS2.slot_26(pid, 0, 0x00000000);
       suspend;
-    }
-
-  block_0f04:
-    while (Item.getFrame(local_08) != 4) {
-      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      spawn DOOR.slot_20(pid, local_10);
       suspend;
-    }
-
-  block_0f41:
-    spawn DOOR.slot_20(pid, local_12);
-    suspend;
-    spawn MISS2.slot_27(pid, local_08, 0x00000000);
-    suspend;
-    spawn FREE.waitNTimerTicks(pid, 3, 0x00000000);
-    suspend;
-
-  block_0f41_selector_00:
-    for local_04 in nearby_items(shape=PRISONER_1, origin=local_12) {
-      spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
+      spawn MISS2.slot_27(pid, local_08, 0x00000000);
       suspend;
-    }
-
-  block_1000:
-    spawn MISS2.slot_26(pid, 1, 0x00000000);
-    suspend;
-    spawn DOOR.slot_20(pid, local_14);
-    suspend;
-    spawn MISS2.slot_27(pid, local_08, 0x00000000);
-    suspend;
-    spawn FREE.waitNTimerTicks(pid, 6, 0x00000000);
-    suspend;
-
-  block_1000_selector_00:
-    for local_04 in nearby_items(shape=PRISONER_1, origin=local_14) {
-      spawn FREE.waitNTimerTicks(pid, 15, 0x00000000);
+      spawn FREE.waitNTimerTicks(pid, 3, 0x00000000);
       suspend;
-    }
-
-  block_10d7:
-    while (Item.getFrame(local_08) != 4) {
-      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      for local_04 in nearby_items(shape=PRISONER_2, origin=local_10) {
+        spawn FREE.waitNTimerTicks(pid, 15, 0x00000000);
+        suspend;
+      }
+      while (Item.getFrame(local_08) != 4) {
+        spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+        suspend;
+      }
+      spawn DOOR.slot_20(pid, local_12);
       suspend;
-    }
-
-  block_1114:
-    spawn DOOR.slot_20(pid, local_16);
-    suspend;
-    spawn MISS2.slot_27(pid, local_08, 0x00000000);
-    suspend;
-    spawn FREE.waitNTimerTicks(pid, 6, 0x00000000);
-    suspend;
-
-  block_1114_selector_00:
-    for local_04 in nearby_items(shape=PRISONER_3, origin=local_16) {
-      spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
+      spawn MISS2.slot_27(pid, local_08, 0x00000000);
       suspend;
+      spawn FREE.waitNTimerTicks(pid, 3, 0x00000000);
+      suspend;
+      for local_04 in nearby_items(shape=PRISONER_1, origin=local_12) {
+        spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
+        suspend;
+      }
+      spawn MISS2.slot_26(pid, 1, 0x00000000);
+      suspend;
+      spawn DOOR.slot_20(pid, local_14);
+      suspend;
+      spawn MISS2.slot_27(pid, local_08, 0x00000000);
+      suspend;
+      spawn FREE.waitNTimerTicks(pid, 6, 0x00000000);
+      suspend;
+      for local_04 in nearby_items(shape=PRISONER_1, origin=local_14) {
+        spawn FREE.waitNTimerTicks(pid, 15, 0x00000000);
+        suspend;
+      }
+      while (Item.getFrame(local_08) != 4) {
+        spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+        suspend;
+      }
+      spawn DOOR.slot_20(pid, local_16);
+      suspend;
+      spawn MISS2.slot_27(pid, local_08, 0x00000000);
+      suspend;
+      spawn FREE.waitNTimerTicks(pid, 6, 0x00000000);
+      suspend;
+      for local_04 in nearby_items(shape=PRISONER_3, origin=local_16) {
+        spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
+        suspend;
+      }
     }
-
-  block_11d2:
     spawn MISS2.slot_25(pid, 0, 0x00000000);
     suspend;
     spawn MISS2.slot_23(pid, 0x00000000);
@@ -257,15 +174,11 @@ function miss2_slot_28() /* entry=2320 class_id=0x090e slot=0x28 */
     suspend;
     suspend;
     suspend;
-
-  block_11d2_selector_00:
     for local_04 in nearby_items(shape=PANELNS, origin=local_20) {
       if (Egg.getEggXRange(local_04) == 13) {
         suspend;
       }
     }
-
-  block_138b:
-    return;
-
+  }
+  return;
 }

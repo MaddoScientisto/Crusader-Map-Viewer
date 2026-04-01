@@ -7,10 +7,8 @@ function surcamns_slot_20() /* entry=1224 class_id=0x04c6 slot=0x20 */
       if ((Actor.getDefaultActivity2(local_04) == local_10) || (local_10 == 0)) {
         if (Item.getQ(local_04)) {
           TEXTFILE.slot_21(Item.getQ(local_04), Actor.getDefaultActivity2(local_04), arg_06);
-          /* free_local_string */
           local_02 = retval;
           spawn TEXTFILE.slot_20(pid, local_02, arg_06);
-          /* free_stack_string */
           suspend;
         }
       }
@@ -35,22 +33,17 @@ function surcamns_slot_20() /* entry=1224 class_id=0x04c6 slot=0x20 */
       }
       if (local_11) {
         TEXTFILE.slot_23(local_08, Item.getQ(arg_06), Actor.getDefaultActivity2(arg_06), arg_06);
-        /* free_local_string */
         local_02 = retval;
       }
       else {
         TEXTFILE.slot_21(Item.getQ(arg_06), Actor.getDefaultActivity2(arg_06), arg_06);
-        /* free_local_string */
         local_02 = retval;
       }
       spawn TEXTFILE.slot_20(pid, local_02, arg_06);
-      /* free_stack_string */
       suspend;
     }
     spawn SURCAMNS.slot_21(pid, arg_06);
     suspend;
   }
-  /* bit_not */
-  /* free_local_string */
   return;
 }

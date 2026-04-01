@@ -42,8 +42,6 @@ function npcdeath_slot_20() /* entry=2590 class_id=0x0a1c slot=0x20 */
     local_29 = Item.getZ(local_02);
     local_31 = (Item.hurl(local_02) / 2);
     if ((Item.getShape(local_02) == 0x058f) || (Item.getShape(local_02) == 0x059c)) {
-      /* loopscr */
-      /* loop */
       while (condition) {
       }
       return;
@@ -74,7 +72,6 @@ function npcdeath_slot_20() /* entry=2590 class_id=0x0a1c slot=0x20 */
         ITEM.slot_23(32, local_17);
       }
       local_22 = 1;
-      /* pop_global */
     }
     else if (Item.getShape(local_02) == npcdeath_shape_0384) {
       if (local_31 == 4) {
@@ -102,7 +99,6 @@ function npcdeath_slot_20() /* entry=2590 class_id=0x0a1c slot=0x20 */
         ITEM.slot_23(32, local_17);
       }
       local_22 = 1;
-      /* pop_global */
     }
     else if (Item.getShape(local_02) == npcdeath_shape_0371) {
       if (local_31 == 4) {
@@ -130,19 +126,15 @@ function npcdeath_slot_20() /* entry=2590 class_id=0x0a1c slot=0x20 */
         ITEM.slot_23(32, local_17);
       }
       local_22 = 1;
-      /* pop_global */
     }
     else if (Item.getShape(local_02) == npcdeath_shape_04d1) {
       local_22 = 1;
-      /* pop_global */
     }
     else if (Item.getShape(local_02) == npcdeath_shape_0528) {
       local_22 = 1;
-      /* pop_global */
     }
     else if (Item.getShape(local_02) == MECH_1) {
       local_23 = 1;
-      /* pop_global */
     }
     else if (Item.getShape(local_02) == npcdeath_shape_01b4) {
       if (local_31 == 4) {
@@ -170,7 +162,6 @@ function npcdeath_slot_20() /* entry=2590 class_id=0x0a1c slot=0x20 */
         ITEM.slot_23(32, local_17);
       }
       local_22 = 1;
-      /* pop_global */
     }
     else if (Item.getShape(local_02) == npcdeath_shape_02df) {
       local_22 = 1;
@@ -200,12 +191,8 @@ function npcdeath_slot_20() /* entry=2590 class_id=0x0a1c slot=0x20 */
       if (local_34) {
         ITEM.slot_23(32, local_17);
       }
-      /* pop_global */
     }
     else if (Item.getShape(local_02) == 0x0385) {
-      /* pop_global */
-      /* loopscr */
-      /* loop */
       while (condition) {
       }
       spawn ITEM.slot_2a(pid, local_02);
@@ -213,8 +200,6 @@ function npcdeath_slot_20() /* entry=2590 class_id=0x0a1c slot=0x20 */
       return;
     }
     else if (Item.getShape(local_02) == 0x02cb) {
-      /* loopscr */
-      /* loop */
       while (condition) {
         spawn ITEM.slot_28(pid, 1, 0, local_19);
         suspend;
@@ -244,11 +229,8 @@ function npcdeath_slot_20() /* entry=2590 class_id=0x0a1c slot=0x20 */
       else {
         local_33 = local_31;
       }
-      /* pop_global */
       spawn ITEM.slot_2a(pid, local_02);
       suspend;
-      /* loopscr */
-      /* loop */
       while (condition) {
       }
       if (local_34) {
@@ -257,8 +239,6 @@ function npcdeath_slot_20() /* entry=2590 class_id=0x0a1c slot=0x20 */
       return;
     }
     else if (Item.getShape(local_02) == 0x0576) {
-      /* loopscr */
-      /* loop */
       while (condition) {
       }
       return;
@@ -285,8 +265,6 @@ function npcdeath_slot_20() /* entry=2590 class_id=0x0a1c slot=0x20 */
       if (Item.getCX(local_02) == 20) {
         local_33 = (local_33 + 10);
       }
-      /* loopscr */
-      /* loop */
       while (condition) {
       }
       if (local_34) {
@@ -317,7 +295,6 @@ function npcdeath_slot_20() /* entry=2590 class_id=0x0a1c slot=0x20 */
         ITEM.slot_23(32, local_17);
       }
       local_22 = 1;
-      /* pop_global */
     }
     else if (Item.getShape(local_02) == NPC_TECH) {
       if (local_31 == 4) {
@@ -382,8 +359,6 @@ function npcdeath_slot_20() /* entry=2590 class_id=0x0a1c slot=0x20 */
       if (Item.getCY(&global[0x003d])) {
         return;
       }
-      /* str_to_ptr */
-      /* free_stack_string */
       suspend;
       spawn FREE.waitNTimerTicks(pid, 0x012c, 0x00000000);
       suspend;

@@ -4,14 +4,11 @@ function door3_slot_22() /* entry=2570 class_id=0x0a08 slot=0x22 */
   spawn DOOR.slot_22(pid, arg_06);
   suspend;
   /* create_list */
-  /* free_local_list */
   local_02 = 0x0368;
   /* create_list */
-  /* free_local_list */
   local_04 = 0x0369;
   local_06 = 0;
   FREE.slot_3a(0x0352, 0x0354, 0x0355, 0x0353, 0x0356, 0x0357, local_04);
-  /* free_stack_list */
   local_10 = retval;
   spawn FREE.waitNTimerTicks(local_02, 1, pid, 5, 0x00000000);
   suspend;
@@ -21,7 +18,5 @@ function door3_slot_22() /* entry=2570 class_id=0x0a08 slot=0x22 */
     suspend;
     local_06 = (1 + local_06);
   }
-  /* word_to_dword */
-  /* pop_result */
   return;
 }

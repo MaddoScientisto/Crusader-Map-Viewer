@@ -3,9 +3,6 @@ function watchew_slot_22() /* entry=1248 class_id=0x04de slot=0x22 */
   set_info(0x020a, 0);
   spawn FREE.slot_3b(pid, 5, 0x00000000);
   suspend;
-  /* loopscr */
-  /* loopscr */
-  /* loop */
   while (condition) {
     if (AudioProcess.stopSFXCru(&global[0x001e]) == 14) {
       if (Actor.isNPC(local_02)) {
@@ -26,7 +23,6 @@ function watchew_slot_22() /* entry=1248 class_id=0x04de slot=0x22 */
   }
   spawn FREE.slot_3b(pid, 10, 0x00000000);
   suspend;
-  /* pop_global */
   if (local_03) {
     while (World.getControlledNPCNum() != 1) {
       spawn FREE.slot_3b(pid, 5, 0x00000000);

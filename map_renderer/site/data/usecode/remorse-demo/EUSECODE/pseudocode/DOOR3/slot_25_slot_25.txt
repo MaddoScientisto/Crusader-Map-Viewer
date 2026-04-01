@@ -16,13 +16,10 @@ function door3_slot_25() /* entry=2570 class_id=0x0a08 slot=0x25 */
 
   set_info(0x0207, *(arg_06));
   /* create_list */
-  /* free_local_list */
   doorList2 = 0x030d;
   /* create_list */
-  /* free_local_list */
   doorList = 0x030e;
   FREE.slot_3a(0x00a4, 0x00e1, 0x00d6, 0x00d8, 0x0170, 0x0171, 0x0172, 0x0173, doorList);
-  /* free_stack_list */
   maxFrame = retval;
   for item in nearby_items(shape=0x030e, origin=arg_06) {
     door1 = item;
@@ -65,15 +62,11 @@ function door3_slot_25() /* entry=2570 class_id=0x0a08 slot=0x25 */
           suspend;
           counter2 = (1 + counter2);
         }
-        /* word_to_dword */
-        /* pop_result */
         return;
       }
       counter = (1 + counter);
     }
   }
   set_info(1, 0);
-  /* word_to_dword */
-  /* pop_result */
   return;
 }

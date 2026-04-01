@@ -5,7 +5,6 @@ function miss1_hatch() /* entry=2319 class_id=0x090d slot=0x07 */
   if (Egg.getEggId(arg_06) == 1) {
     spawn FREE.slot_3b(pid, 1, 0x00000000);
     suspend;
-    /* pop_global */
     if (World.gameDifficulty() == 1) {
       local_08 = 5;
     }
@@ -67,8 +66,6 @@ function miss1_hatch() /* entry=2319 class_id=0x090d slot=0x07 */
       }
       if (local_04) {
         suspend;
-        /* str_to_ptr */
-        /* free_stack_string */
         spawn FREE.slot_3b(pid, 30, 0x00000000);
         suspend;
         suspend;

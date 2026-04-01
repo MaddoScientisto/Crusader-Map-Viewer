@@ -1,24 +1,16 @@
 function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
 {
-  entry:
-    set_info(0x0211, *(arg_06));
-    process_exclude();
-    local_29 = Item.getQLo(arg_06);
-    if arg_10 != 0 goto block_0119;
-
-  block_00f2:
-    goto block_218c;
-
-  block_0119:
-    if arg_10 != 1 goto block_01f7;
-
-  block_0121:
+  set_info(0x0211, *(arg_06));
+  process_exclude();
+  local_29 = Item.getQLo(arg_06);
+  if (arg_10 == 0) {
+    return;
+  }
+  else if (arg_10 == 1) {
     while (Actor.isBusy(&global[0x001e])) {
       spawn FREE.slot_3b(pid, 2, 0x00000000);
       suspend;
     }
-
-  block_0148:
     local_31 = Camera.getX();
     local_33 = Camera.getY();
     local_35 = Item.getX(arg_06);
@@ -31,91 +23,57 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
     suspend;
     spawn TRIGGER.slot_20(pid, (1 + 0x0080), *(arg_06), arg_06);
     suspend;
-    goto block_218c;
-
-  block_01f7:
-    if arg_10 != 2 goto block_028b;
-
-  block_01ff:
+    return;
+  }
+  else if (arg_10 == 2) {
     while (Actor.isBusy(&global[0x001e])) {
       spawn FREE.slot_3b(pid, 2, 0x00000000);
       suspend;
     }
-
-  block_0226:
     spawn FREE.slot_46(pid, Item.getY(arg_06), Item.getX(arg_06), 0x00000000);
     suspend;
     spawn FREE.slot_3b(pid, 60, 0x00000000);
     suspend;
     spawn TRIGGER.slot_20(pid, (0 + 0x0080), *(arg_06), arg_06);
     suspend;
-    goto block_218c;
-
-  block_028b:
-    if arg_10 != 3 goto block_02cd;
-
-  block_0293:
+    return;
+  }
+  else if (arg_10 == 3) {
     spawn FREE.slot_47(pid, 0x00000000);
     suspend;
     spawn TRIGGER.slot_20(pid, (1 + 0x0080), *(arg_06), arg_06);
     suspend;
-    goto block_218c;
-
-  block_02cd:
-    if arg_10 != 5 goto block_02e4;
-
-  block_02d5:
-    goto block_218c;
-
-  block_02e4:
-    if arg_10 != 6 goto block_02fb;
-
-  block_02ec:
-    goto block_218c;
-
-  block_02fb:
-    if arg_10 != 7 goto block_0312;
-
-  block_0303:
-    goto block_218c;
-
-  block_0312:
-    if arg_10 != 8 goto block_038a;
-
-  block_031a:
+    return;
+  }
+  else if (arg_10 == 5) {
+    return;
+  }
+  else if (arg_10 == 6) {
+    return;
+  }
+  else if (arg_10 == 7) {
+    return;
+  }
+  else if (arg_10 == 8) {
     local_15 = Item.getQHi(arg_06);
-    if local_15 != 0 goto block_034c;
-
-  block_032d:
-    spawn TRIGGER.slot_20(pid, (0 + 0x0080), *(arg_06), arg_06);
-    suspend;
-    goto block_0387;
-
-  block_034c:
-    local_17 = Item.getQLo(arg_06);
-    spawn TRIGGER.slot_20(pid, (0 + 0x0080), *(arg_06), arg_06);
-    suspend;
-
-  block_0387:
-    goto block_218c;
-
-  block_038a:
-    if arg_10 != 9 goto block_0406;
-
-  block_0392:
+    if (local_15 == 0) {
+      spawn TRIGGER.slot_20(pid, (0 + 0x0080), *(arg_06), arg_06);
+      suspend;
+    }
+    else {
+      local_17 = Item.getQLo(arg_06);
+      spawn TRIGGER.slot_20(pid, (0 + 0x0080), *(arg_06), arg_06);
+      suspend;
+    }
+    return;
+  }
+  else if (arg_10 == 9) {
     local_15 = Item.getQLo(arg_06);
-
-  block_0392_selector_00:
     for local_02 in nearby_items(family=1, origin=arg_06) {
     }
-
-  block_0401:
-    goto block_218c;
-
-  block_0406:
-    if arg_10 != 10 goto block_050f;
-
-  block_040e_selector_00:
+    return;
+  }
+  else if (arg_10 == 10) {
     for local_02 in nearby_items(shape=NUMBERS, origin=arg_06) {
       if (Item.getQLo(arg_06) == Item.getQLo(local_02)) {
         if (Item.getFrame(local_02) == 0) {
@@ -123,8 +81,6 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
         }
       }
     }
-
-  block_0456_selector_00:
     for local_02 in nearby_items(shape=NUMBERS, origin=arg_06) {
       if (Item.getQLo(arg_06) == Item.getQLo(local_02)) {
         if (Item.getFrame(local_02) == 1) {
@@ -132,69 +88,40 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
         }
       }
     }
-
-  block_04a0:
-    if !(local_04 && local_06) goto block_050c;
-
-  block_04aa:
-    local_13 = Item.getX(local_06);
-    local_11 = Item.getY(local_06);
-    local_09 = Item.getZ(local_06);
-
-  block_050c:
-    goto block_218c;
-
-  block_050f:
-    if arg_10 != 15 goto block_0548;
-
-  block_0517:
-    goto block_218c;
-
-  block_0548:
-    if arg_10 != 16 goto block_0583;
-
-  block_0550:
-    goto block_218c;
-
-  block_0583:
-    if arg_10 != 22 goto block_05c9;
-
-  block_058b_selector_00:
+    if (local_04 && local_06) {
+      local_13 = Item.getX(local_06);
+      local_11 = Item.getY(local_06);
+      local_09 = Item.getZ(local_06);
+    }
+    return;
+  }
+  else if (arg_10 == 15) {
+    return;
+  }
+  else if (arg_10 == 16) {
+    return;
+  }
+  else if (arg_10 == 22) {
     for local_02 in nearby_items(family=1, origin=arg_06) {
       if (Item.getQLo(local_02) == local_29) {
         ITEM.slot_25(0x1000, local_02);
       }
     }
-
-  block_05c4:
-    goto block_218c;
-
-  block_05c9:
-    if arg_10 != 23 goto block_0600;
-
-  block_05d1_selector_00:
+    return;
+  }
+  else if (arg_10 == 23) {
     for local_02 in nearby_items(family=1, origin=arg_06) {
       ITEM.slot_25(0x1000, local_02);
     }
-
-  block_05fb:
-    goto block_218c;
-
-  block_0600:
-    if arg_10 != 30 goto block_0627;
-
-  block_0608:
+    return;
+  }
+  else if (arg_10 == 30) {
     spawn TRIGGER.slot_20(pid, (1 + 0x0080), *(arg_06), arg_06);
     suspend;
-    goto block_218c;
-
-  block_0627:
-    if arg_10 != 45 goto block_0741;
-
-  block_062f:
+    return;
+  }
+  else if (arg_10 == 45) {
     local_39 = (Item.getNpcNum(arg_06) * 5);
-
-  block_063d:
     while (1) {
       local_15 = 0;
       FREE.slot_32((Item.getQHi(arg_06) == 0), *(arg_06), global[0x001e]);
@@ -221,17 +148,10 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
         suspend;
       }
     }
-
-  block_073e:
-    goto block_218c;
-
-  block_0741:
-    if arg_10 != 46 goto block_0865;
-
-  block_0749:
+    return;
+  }
+  else if (arg_10 == 46) {
     local_39 = (Item.getNpcNum(arg_06) * 5);
-
-  block_0757:
     while (1) {
       local_15 = 0;
       FREE.slot_32((Item.getQHi(arg_06) == 0), *(arg_06), global[0x001e]);
@@ -258,18 +178,11 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
         suspend;
       }
     }
-
-  block_0862:
-    goto block_218c;
-
-  block_0865:
-    if arg_10 != 47 goto block_0a0d;
-
-  block_086d:
+    return;
+  }
+  else if (arg_10 == 47) {
     local_39 = Item.getNpcNum(arg_06);
     local_17 = Item.getQHi(arg_06);
-
-  block_0883:
     while (1) {
       if (Item.getQHi(arg_06) == 1) {
         local_15 = 1;
@@ -309,19 +222,12 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
         return;
       }
     }
-
-  block_0a0a:
-    goto block_218c;
-
-  block_0a0d:
-    if arg_10 != 48 goto block_0ae4;
-
-  block_0a15:
+    return;
+  }
+  else if (arg_10 == 48) {
     local_39 = Item.getNpcNum(arg_06);
     local_17 = Item.getQHi(arg_06);
     local_15 = 0;
-
-  block_0a2f:
     while (local_15 <= local_17) {
       spawn TRIGGER.slot_20(pid, (0 + 0x0080), *(arg_06), arg_06);
       suspend;
@@ -329,11 +235,7 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
       suspend;
       local_15 = (1 + local_15);
     }
-
-  block_0a7e:
     local_15 = 0;
-
-  block_0a82:
     while (local_15 <= local_17) {
       spawn TRIGGER.slot_20(pid, (1 + 0x0080), *(arg_06), arg_06);
       suspend;
@@ -341,21 +243,11 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
       suspend;
       local_15 = (1 + local_15);
     }
-
-  block_0ad4:
-    goto block_218c;
-
-  block_0ae1:
-    goto block_218c;
-
-  block_0ae4:
-    if arg_10 != 49 goto block_0be1;
-
-  block_0aec:
+    return;
+  }
+  else if (arg_10 == 49) {
     local_39 = Item.getNpcNum(arg_06);
     local_17 = Item.getQHi(arg_06);
-
-  block_0b02:
     while (1) {
       if (Item.getQHi(arg_06)) {
         local_15 = 1;
@@ -381,105 +273,63 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
         return;
       }
     }
-
-  block_0bde:
-    goto block_218c;
-
-  block_0be1:
-    if arg_10 != 50 goto block_0c23;
-
-  block_0be9:
-    /* loopscr */
-    /* loop */
-
-  block_0bf8:
+    return;
+  }
+  else if (arg_10 == 50) {
     while (condition) {
       if (Item.getQLo(local_08) == 100) {
         spawn DOOR.slot_20(pid, local_08);
         suspend;
       }
     }
-
-  block_0c1e:
-    goto block_218c;
-
-  block_0c23:
-    if arg_10 != 51 goto block_0e2c;
-
-  block_0c2b_selector_00:
+    return;
+  }
+  else if (arg_10 == 51) {
     for local_02 in selector_0x42(arg0=0x01c4, arg1=0x0186, arg2=(30 * 32), origin=arg_06) {
       local_41 = local_02;
     }
-
-  block_0c4d_selector_00:
     for local_02 in selector_0x42(arg0=0x01c5, arg1=0x0184, arg2=(30 * 32), origin=arg_06) {
       local_43 = local_02;
     }
-
-  block_0c71:
-    if !(local_41 && local_43) goto block_0daa;
-
-  block_0c86:
-    while (Intrinsic0035(0x00f2, local_43)) {
-      spawn FREE.slot_3b(pid, 2, 0x00000000);
-      suspend;
-    }
-
-  block_0caf:
-    if !local_45 goto block_0d22;
-
-  block_0cbf:
-    local_15 = 1;
-
-  block_0cd7:
-    while (local_15 <= 4) {
+    if (local_41 && local_43) {
+      while (Intrinsic0035(0x00f2, local_43)) {
+        spawn FREE.slot_3b(pid, 2, 0x00000000);
+        suspend;
+      }
+      if (local_45) {
+        local_15 = 1;
+        while (local_15 <= 4) {
+          spawn FREE.slot_3b(pid, 30, 0x00000000);
+          suspend;
+          local_15 = (1 + local_15);
+        }
+      }
+      else {
+        local_15 = 0;
+        while (local_15 <= 3) {
+          spawn FREE.slot_3b(pid, 30, 0x00000000);
+          suspend;
+          local_15 = (1 + local_15);
+        }
+      }
       spawn FREE.slot_3b(pid, 30, 0x00000000);
       suspend;
-      local_15 = (1 + local_15);
     }
-
-  block_0d1f:
-    goto block_0d74;
-
-  block_0d22:
-    local_15 = 0;
-
-  block_0d26:
-    while (local_15 <= 3) {
-      spawn FREE.slot_3b(pid, 30, 0x00000000);
-      suspend;
-      local_15 = (1 + local_15);
-    }
-
-  block_0d74:
-    spawn FREE.slot_3b(pid, 30, 0x00000000);
-    suspend;
-
-  block_0daa:
     spawn FREE.slot_3b(pid, 120, 0x00000000);
     suspend;
     spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
     suspend;
-
-  block_0daa_selector_00:
     for local_02 in selector_0x42(arg0=0x018d, arg1=0x01c6, arg2=(30 * 32), origin=arg_06) {
       local_08 = local_02;
       spawn DOOR.slot_21(pid, 1, local_08);
       suspend;
     }
-
-  block_0e0f:
     spawn TRIGGER.slot_20(pid, 1, *(arg_06), arg_06);
     suspend;
-    goto block_218c;
-
-  block_0e2c:
-    if arg_10 != 52 goto block_0ef5;
-
-  block_0e34:
+    return;
+  }
+  else if (arg_10 == 52) {
     local_39 = (Item.getNpcNum(arg_06) * 5);
-
-  block_0e42:
     while (1) {
       for local_25 in nearby_items(family=6, origin=arg_06) {
         if (Actor.isNPC(local_25)) {
@@ -493,114 +343,60 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
       }
       return;
     }
-
-  block_0ef2:
-    goto block_218c;
-
-  block_0ef5:
-    if arg_10 != 53 goto block_0fbc;
-
-  block_0efd:
-    /* loopscr */
-    /* loopscr */
-    /* loop */
-
-  block_0f1a:
+    return;
+  }
+  else if (arg_10 == 53) {
     while (condition) {
       spawn FREE.slot_3b(pid, 1, 0x00000000);
       suspend;
       spawn TRIGGER.slot_20(pid, (0 + 0x0080), *(arg_06), local_02);
       suspend;
     }
-
-  block_0fb7:
-    goto block_218c;
-
-  block_0fbc:
-    if arg_10 != 54 goto block_1004;
-
-  block_0fc4_selector_00:
+    return;
+  }
+  else if (arg_10 == 54) {
     for local_25 in nearby_items(shape=0x04c8, origin=arg_06) {
     }
-
-  block_0fff:
-    goto block_218c;
-
-  block_1004:
-    if arg_10 != 60 goto block_109d;
-
-  block_100c_selector_00:
+    return;
+  }
+  else if (arg_10 == 60) {
     for local_25 in nearby_items(shape=0x04c8, origin=arg_06) {
       spawn FREE.slot_3b(pid, 1, 0x00000000);
       suspend;
     }
-
-  block_1098:
-    goto block_218c;
-
-  block_109d:
-    if arg_10 != 61 goto block_1136;
-
-  block_10a5_selector_00:
+    return;
+  }
+  else if (arg_10 == 61) {
     for local_25 in nearby_items(shape=0x01cd, origin=arg_06) {
       spawn FREE.slot_3b(pid, 1, 0x00000000);
       suspend;
     }
-
-  block_1131:
-    goto block_218c;
-
-  block_1136:
-    if arg_10 != 62 goto block_11cf;
-
-  block_113e_selector_00:
+    return;
+  }
+  else if (arg_10 == 62) {
     for local_25 in nearby_items(shape=0x01cd, origin=arg_06) {
       spawn FREE.slot_3b(pid, 1, 0x00000000);
       suspend;
     }
-
-  block_11ca:
-    goto block_218c;
-
-  block_11cf:
-    if arg_10 != 75 goto block_1227;
-
-  block_11d7_selector_00:
+    return;
+  }
+  else if (arg_10 == 75) {
     for local_02 in nearby_items(family=6, origin=arg_06) {
       if (Item.getQLo(local_02) == Item.getQLo(arg_06)) {
         suspend;
       }
     }
-
-  block_1222:
-    goto block_218c;
-
-  block_1227:
-    if arg_10 != 80 goto block_12e1;
-
-  block_122f:
-    /* loopscr */
-    /* loopscr */
-    /* loop */
-
-  block_124c:
+    return;
+  }
+  else if (arg_10 == 80) {
     while (condition) {
     }
-
-  block_125b_selector_00:
     for local_02 in nearby_items(shape=0x054e, origin=arg_06) {
     }
-
-  block_12dc:
-    goto block_218c;
-
-  block_12e1:
-    if arg_10 != 85 goto block_13fb;
-
-  block_12e9:
+    return;
+  }
+  else if (arg_10 == 85) {
     local_39 = (Item.getNpcNum(arg_06) * 5);
-
-  block_12f7:
     while (1) {
       local_15 = 0;
       FREE.slot_32((Item.getQHi(arg_06) == 0), *(arg_06), global[0x001e]);
@@ -627,120 +423,61 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
         suspend;
       }
     }
-
-  block_13f8:
-    goto block_218c;
-
-  block_13fb:
-    if arg_10 != 97 goto block_1473;
-
-  block_1427:
+    return;
+  }
+  else if (arg_10 == 97) {
     while (!Ultima8Engine.moveKeyDownRecently()) {
       spawn FREE.slot_3b(pid, 2, 0x00000000);
       suspend;
     }
-
-  block_144a:
-    goto block_218c;
-
-  block_1473:
-    if arg_10 != 98 goto block_14a9;
-
-  block_147b_selector_00:
+    return;
+  }
+  else if (arg_10 == 98) {
     for local_02 in nearby_items(shape=0x0361, origin=arg_06) {
     }
-
-  block_14a4:
-    goto block_218c;
-
-  block_14a9:
-    if arg_10 != 99 goto block_14df;
-
-  block_14b1_selector_00:
+    return;
+  }
+  else if (arg_10 == 99) {
     for local_02 in nearby_items(shape=0x0361, origin=arg_06) {
     }
-
-  block_14da:
-    goto block_218c;
-
-  block_14df:
-    if arg_10 != 100 goto block_1519;
-
-  block_14e7:
+    return;
+  }
+  else if (arg_10 == 100) {
     spawn FREE.slot_3b(pid, 60, 0x00000000);
     suspend;
     suspend;
-    goto block_218c;
-
-  block_1519:
-    if arg_10 != 120 goto block_15c6;
-
-  block_1521:
+    return;
+  }
+  else if (arg_10 == 120) {
     local_47 = World.gameDifficulty();
     local_49 = Item.getQLo(arg_06);
-    if local_47 != 1 goto block_1556;
-
-  block_153b:
-    spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
-    suspend;
-    goto block_15b6;
-
-  block_1556:
-    if local_47 != 2 goto block_1586;
-
-  block_155e:
-    spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
-    suspend;
-    goto block_15b6;
-
-  block_1586:
-    if local_47 < 3 goto block_15b6;
-
-  block_158e:
-    spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
-    suspend;
-    goto block_15b6;
-
-  block_15b6:
-    goto block_218c;
-
-  block_15c3:
-    goto block_218c;
-
-  block_15c6:
-    if arg_10 != 125 goto block_168c;
-
-  block_15ce:
+    if (local_47 == 1) {
+      spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
+      suspend;
+    }
+    else if (local_47 == 2) {
+      spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
+      suspend;
+    }
+    else if (local_47 >= 3) {
+      spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
+      suspend;
+    }
+    return;
+  }
+  else if (arg_10 == 125) {
     local_51 = World.gameDifficulty();
-    /* loopscr */
-    /* loopscr */
-    /* loop */
-
-  block_1601:
     while (condition) {
     }
-
-  block_1684:
-    goto block_218c;
-
-  block_1689:
-    goto block_218c;
-
-  block_168c:
-    if arg_10 != 0x0091 goto block_17b7;
-
-  block_1695:
+    return;
+  }
+  else if (arg_10 == 0x0091) {
     local_39 = (Item.getNpcNum(arg_06) * 5);
     local_21 = World.gameDifficulty();
-    if local_21 != 3 goto block_16b6;
-
-  block_16b2:
-    local_21 = 4;
-
-  block_16b6:
+    if (local_21 == 3) {
+      local_21 = 4;
+    }
     local_23 = ((Item.getQHi(arg_06) - 1) + local_21);
-
-  block_16c7:
     while (1) {
       local_15 = 0;
       FREE.slot_32((local_23 == 0), *(arg_06), global[0x001e]);
@@ -768,25 +505,15 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
         suspend;
       }
     }
-
-  block_17b4:
-    goto block_218c;
-
-  block_17b7:
-    if arg_10 != 0x0092 goto block_18ec;
-
-  block_17c0:
+    return;
+  }
+  else if (arg_10 == 0x0092) {
     local_39 = (Item.getNpcNum(arg_06) * 5);
     local_21 = World.gameDifficulty();
-    if local_21 != 3 goto block_17e1;
-
-  block_17dd:
-    local_21 = 4;
-
-  block_17e1:
+    if (local_21 == 3) {
+      local_21 = 4;
+    }
     local_23 = ((Item.getQHi(arg_06) - 1) + local_21);
-
-  block_17f2:
     while (1) {
       local_15 = 0;
       FREE.slot_32((local_23 == 0), *(arg_06), global[0x001e]);
@@ -814,20 +541,13 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
         suspend;
       }
     }
-
-  block_18e9:
-    goto block_218c;
-
-  block_18ec:
-    if arg_10 != 0x0094 goto block_19d5;
-
-  block_18f5:
+    return;
+  }
+  else if (arg_10 == 0x0094) {
     local_39 = Item.getNpcNum(arg_06);
     local_17 = (Item.getQHi(arg_06) + 1);
     local_19 = Item.getQLo(arg_06);
     local_15 = local_19;
-
-  block_191d:
     while (local_15 <= local_17) {
       spawn TRIGGER.slot_20(pid, (0 + 0x0080), *(arg_06), arg_06);
       suspend;
@@ -835,11 +555,7 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
       suspend;
       local_15 = (1 + local_15);
     }
-
-  block_196c:
     local_15 = local_19;
-
-  block_1970:
     while (local_15 <= local_17) {
       spawn TRIGGER.slot_20(pid, (1 + 0x0080), *(arg_06), arg_06);
       suspend;
@@ -847,21 +563,11 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
       suspend;
       local_15 = (1 + local_15);
     }
-
-  block_19c5:
-    goto block_218c;
-
-  block_19d2:
-    goto block_218c;
-
-  block_19d5:
-    if arg_10 != 0x0095 goto block_1ad3;
-
-  block_19de:
+    return;
+  }
+  else if (arg_10 == 0x0095) {
     local_39 = Item.getNpcNum(arg_06);
     local_17 = Item.getQHi(arg_06);
-
-  block_19f4:
     while (1) {
       if (Item.getQHi(arg_06)) {
         local_15 = 1;
@@ -887,21 +593,13 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
         return;
       }
     }
-
-  block_1ad0:
-    goto block_218c;
-
-  block_1ad3:
-    if arg_10 != 0x0096 goto block_1af7;
-
-  block_1adc:
+    return;
+  }
+  else if (arg_10 == 0x0096) {
     suspend;
-    goto block_218c;
-
-  block_1af7:
-    if arg_10 != 0x00c8 goto block_1f2e;
-
-  block_1b00_selector_00:
+    return;
+  }
+  else if (arg_10 == 0x00c8) {
     for local_02 in selector_0x42(arg0=0x028c, arg1=0x05ac, arg2=(32 * 32), origin=arg_06) {
       if (Item.getQLo(local_02) == Item.getQLo(arg_06)) {
         if (Item.getQHi(local_02) > 99) {
@@ -910,13 +608,6 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
         }
       }
     }
-
-  block_1bcd:
-    /* loopscr */
-    /* loopscr */
-    /* loop */
-
-  block_1c01:
     while (condition) {
       if (Item.getQLo(local_02) == Item.getQLo(arg_06)) {
         if (Item.getQHi(local_02) > 99) {
@@ -925,13 +616,6 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
         }
       }
     }
-
-  block_1cb7:
-    /* loopscr */
-    /* loopscr */
-    /* loop */
-
-  block_1ce2:
     while (condition) {
       if (Item.getQLo(local_02) == Item.getQLo(arg_06)) {
         if (Item.getQHi(local_02) > 99) {
@@ -940,13 +624,6 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
         }
       }
     }
-
-  block_1d6e:
-    /* loopscr */
-    /* loopscr */
-    /* loop */
-
-  block_1d8d:
     while (condition) {
       if (Item.getQLo(local_02) == Item.getQLo(arg_06)) {
         ITEM.slot_26(0x1000, local_02);
@@ -957,8 +634,6 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
         }
       }
     }
-
-  block_1e3c_selector_00:
     for local_02 in selector_0x42(arg0=0x019a, arg1=0x0196, arg2=(32 * 32), origin=arg_06) {
       if (Item.getQLo(local_02) == Item.getQLo(arg_06)) {
         if (Item.getQHi(local_02) > 99) {
@@ -967,45 +642,28 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
         }
       }
     }
-
-  block_1f29:
-    goto block_218c;
-
-  block_1f2e:
-    if arg_10 != 0x00c9 goto block_1f7d;
-
-  block_1f37:
+    return;
+  }
+  else if (arg_10 == 0x00c9) {
     local_53 = Item.getQHi(arg_06);
-    if local_53 >= 4 goto block_1f5e;
-
-  block_1f4a:
-    local_53 = (1 + local_53);
-    goto block_1f7a;
-
-  block_1f5e:
-    spawn TRIGGER.slot_20(pid, (1 + 0x0080), *(arg_06), arg_06);
-    suspend;
-
-  block_1f7a:
-    goto block_218c;
-
-  block_1f7d:
-    if arg_10 != 0x00ca goto block_1fcb;
-
-  block_1f86_selector_00:
+    if (local_53 < 4) {
+      local_53 = (1 + local_53);
+    }
+    else {
+      spawn TRIGGER.slot_20(pid, (1 + 0x0080), *(arg_06), arg_06);
+      suspend;
+    }
+    return;
+  }
+  else if (arg_10 == 0x00ca) {
     for local_02 in nearby_items(family=1, origin=arg_06) {
       if (Item.getQLo(local_02) == Item.getQLo(arg_06)) {
         ITEM.slot_25(0x1000, local_02);
       }
     }
-
-  block_1fc6:
-    goto block_218c;
-
-  block_1fcb:
-    if arg_10 != 0x00cf goto block_2081;
-
-  block_1fd4_selector_00:
+    return;
+  }
+  else if (arg_10 == 0x00cf) {
     for local_02 in nearby_items(family=6, origin=arg_06) {
       if (local_02 < 0x0100) {
         local_27 = local_02;
@@ -1021,40 +679,19 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
         }
       }
     }
-
-  block_207c:
-    goto block_218c;
-
-  block_2081:
-    if arg_10 != 0x00d2 goto block_218c;
-
-  block_208a_selector_00:
-    /* loop_selector local_02 in selector_0x42(arg0=0x05ba, arg1=0x05e6, arg2=(5 * 32), origin=arg_06) */
-
-  block_20a1:
-    if !condition goto block_2187;
-
-  block_20a4:
-    ITEM.slot_24(2, local_27);
-    spawn FREE.slot_3b(pid, 5, 0x00000000);
-    suspend;
-
-  block_2153:
-    while (World.getControlledNPCNum() != 1) {
-      spawn FREE.slot_3b(pid, 2, 0x00000000);
-      suspend;
-    }
-
-  block_2178:
-    goto block_2187;
-
-  block_2183:
-    goto block_20a1;
-
-  block_2187:
-    goto block_218c;
-
-  block_218c:
     return;
-
+  }
+  else if (arg_10 == 0x00d2) {
+    for local_02 in selector_0x42(arg0=0x05ba, arg1=0x05e6, arg2=(5 * 32), origin=arg_06) {
+      ITEM.slot_24(2, local_27);
+      spawn FREE.slot_3b(pid, 5, 0x00000000);
+      suspend;
+      while (World.getControlledNPCNum() != 1) {
+        spawn FREE.slot_3b(pid, 2, 0x00000000);
+        suspend;
+      }
+    }
+    return;
+  }
+  return;
 }

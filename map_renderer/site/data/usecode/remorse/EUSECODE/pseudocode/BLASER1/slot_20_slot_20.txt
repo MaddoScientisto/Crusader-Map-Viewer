@@ -23,7 +23,6 @@ function blaser1_slot_20() /* entry=1093 class_id=0x0443 slot=0x20 */
     if ((Item.getQLo(item) == link) && ((Item.getStatus(item) & 0x1000) == 0)) {
       /* create_list */
       /* append_list */
-      /* free_local_list */
       laserList = item;
       h = Item.getQHi(item);
       count = (1 + count);
@@ -40,13 +39,11 @@ function blaser1_slot_20() /* entry=1093 class_id=0x0443 slot=0x20 */
         if (h & 31) {
           /* create_list */
           /* remove_matching_inline */
-          /* free_local_list */
           laserList = item;
         }
         else if (Item.getStatus(item) & (0x1000 == 0)) {
           /* create_list */
           /* remove_matching_inline */
-          /* free_local_list */
           laserList = item;
         }
         else if ((Item.inFastArea(item) != 1) && (Item.getShape(item) == 0x0476)) {
@@ -54,12 +51,10 @@ function blaser1_slot_20() /* entry=1093 class_id=0x0443 slot=0x20 */
           h = Item.getQHi(item);
           f = Item.getFrame(item);
           if (h & 4) {
-            /* bit_not */
-            h = (h & 4);
+            h = (h & (~4));
             if (f == 1) {
               if (h & 2) {
-                /* bit_not */
-                h = (h & 2);
+                h = (h & (~2));
               }
               else {
                 h = (h | 2);
@@ -108,11 +103,9 @@ function blaser1_slot_20() /* entry=1093 class_id=0x0443 slot=0x20 */
             if ((h & 8) == 0) {
             }
             else {
-              /* bit_not */
-              h = (h & 8);
+              h = (h & (~8));
               if (h & 1) {
-                /* bit_not */
-                h = (h & 1);
+                h = (h & (~1));
               }
               else {
                 h = (h | 1);
@@ -121,8 +114,7 @@ function blaser1_slot_20() /* entry=1093 class_id=0x0443 slot=0x20 */
           }
           else {
             h = Item.getQHi(item);
-            /* bit_not */
-            h = (h & 8);
+            h = (h & (~8));
           }
         }
       }
@@ -131,12 +123,10 @@ function blaser1_slot_20() /* entry=1093 class_id=0x0443 slot=0x20 */
       if (inFastArea == 0) {
         while (true) {
           foreach_list item -> block_07c3;
-          /* bit_not */
         }
         return;
       }
     }
   }
-  /* free_local_list */
   return;
 }

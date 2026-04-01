@@ -6,7 +6,6 @@ function elevator_gotHit() /* entry=544 class_id=0x021e slot=0x06 */
     return;
   }
   else {
-    /* pop_global */
     FREE.slot_33(0x0220, 0);
     while (Actor.isBusy(&global[0x003d])) {
       spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
@@ -15,8 +14,6 @@ function elevator_gotHit() /* entry=544 class_id=0x021e slot=0x06 */
     local_02 = arg_10;
     local_04 = Item.getFootpad(arg_06);
     local_06 = Item.IsOn(arg_06);
-    /* loopscr */
-    /* loop */
     while (condition) {
       if (local_02 != *(arg_06)) {
         if (Actor.isNPC(local_02)) {
@@ -55,7 +52,6 @@ function elevator_gotHit() /* entry=544 class_id=0x021e slot=0x06 */
       spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
       suspend;
     }
-    /* pop_global */
     FREE.slot_33(0x0220, 0);
   }
   return;

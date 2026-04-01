@@ -44,20 +44,17 @@ function trigger_slot_21() /* entry=2589 class_id=0x0a1b slot=0x21 */
       if (searchtype != 0) {
         spawn TRIGGER.slot_25(pid, searchtype, baseLink, mapNum, npcNum, qHi, ref, arg_06);
         suspend;
-        /* dword_to_word */
         newLink = process_result;
       }
     }
     else if (searchtype == 0x07ff) {
       spawn TRIGGER.slot_24(pid, searchtype, baseLink, mapNum, npcNum, qHi, ref, arg_06);
       suspend;
-      /* dword_to_word */
       newLink = process_result;
     }
     else if (searchtype != 0) {
       spawn TRIGGER.slot_23(pid, searchtype, baseLink, mapNum, npcNum, qHi, ref, arg_06);
       suspend;
-      /* dword_to_word */
       newLink = process_result;
     }
   }
@@ -65,24 +62,19 @@ function trigger_slot_21() /* entry=2589 class_id=0x0a1b slot=0x21 */
     if (searchtype != 0) {
       spawn TRIGGER.slot_28(pid, searchtype, baseLink, mapNum, npcNum, qHi, ref, arg_06);
       suspend;
-      /* dword_to_word */
       newLink = process_result;
     }
   }
   else if (searchtype == 0x07ff) {
     spawn TRIGGER.slot_27(pid, searchtype, baseLink, mapNum, npcNum, qHi, ref, arg_06);
     suspend;
-    /* dword_to_word */
     newLink = process_result;
   }
   else if (searchtype != 0) {
     spawn TRIGGER.slot_26(pid, searchtype, baseLink, mapNum, npcNum, qHi, ref, arg_06);
     suspend;
-    /* dword_to_word */
     newLink = process_result;
   }
-  /* word_to_dword */
-  /* pop_result */
   return;
   return;
 }

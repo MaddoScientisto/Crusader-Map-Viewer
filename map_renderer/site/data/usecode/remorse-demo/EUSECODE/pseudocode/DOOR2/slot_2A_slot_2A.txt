@@ -14,10 +14,8 @@ function door2_slot_2a() /* entry=2569 class_id=0x0a07 slot=0x2a */
     spawn DOOR.slot_22(pid, arg_06);
     suspend;
     /* create_list */
-    /* free_local_list */
     doorList = 0x00cb;
     FREE.slot_3a(123, 0x00c3, 0x00c4, 0x00c5, 0x00c6, 0x00c7, doorList);
-    /* free_stack_list */
     maxFrame = retval;
     counter = 2;
     while (counter <= maxFrame) {
@@ -25,10 +23,7 @@ function door2_slot_2a() /* entry=2569 class_id=0x0a07 slot=0x2a */
       suspend;
       counter = (1 + counter);
     }
-    /* word_to_dword */
-    /* pop_result */
     return;
   }
-  /* free_local_list */
   return;
 }

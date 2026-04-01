@@ -2,7 +2,6 @@ function npc_slot_24() /* entry=2579 class_id=0x0a11 slot=0x24 */
 {
   set_info(0x020a, *(arg_06));
   if (global[0x003d] == *(arg_06)) {
-    /* pop_global */
     while (Actor.isBusy(&global[0x003d])) {
       spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
       suspend;

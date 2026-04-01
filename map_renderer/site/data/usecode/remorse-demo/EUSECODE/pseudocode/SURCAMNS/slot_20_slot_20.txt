@@ -16,10 +16,8 @@ function surcamns_slot_20() /* entry=1224 class_id=0x04c6 slot=0x20 */
       if ((Item.getQLo(monit) == link) || (link == 0)) {
         if (Item.getQHi(monit)) {
           TEXTFILE.slot_21(Item.getQHi(monit), Item.getQLo(monit), arg_06);
-          /* free_local_string */
           textFile = retval;
           spawn TEXTFILE.slot_20(pid, textFile, arg_06);
-          /* free_stack_string */
           suspend;
         }
       }
@@ -44,22 +42,17 @@ function surcamns_slot_20() /* entry=1224 class_id=0x04c6 slot=0x20 */
       }
       if (code) {
         TEXTFILE.slot_23(passcode, Item.getQHi(arg_06), Item.getQLo(arg_06), arg_06);
-        /* free_local_string */
         textFile = retval;
       }
       else {
         TEXTFILE.slot_21(Item.getQHi(arg_06), Item.getQLo(arg_06), arg_06);
-        /* free_local_string */
         textFile = retval;
       }
       spawn TEXTFILE.slot_20(pid, textFile, arg_06);
-      /* free_stack_string */
       suspend;
     }
     spawn SURCAMNS.slot_21(pid, arg_06);
     suspend;
   }
-  /* bit_not */
-  /* free_local_string */
   return;
 }

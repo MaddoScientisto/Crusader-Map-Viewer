@@ -27,7 +27,6 @@ function blastpac_slot_20() /* entry=925 class_id=0x039b slot=0x20 */
   if (Actor.getMap(&global[0x003c]) == 1) {
     spawn FREE.slot_32(pid, 10, 0x00000000);
     suspend;
-    /* pop_global */
     for item in nearby_items(shape=REACTOR, origin=global[0x003c]) {
       spawn ITEM.slot_28(pid, 0, 2, item);
       suspend;
@@ -66,15 +65,13 @@ function blastpac_slot_20() /* entry=925 class_id=0x039b slot=0x20 */
     spawn FREE.slot_32(pid, 0x00c8, 0x00000000);
     suspend;
     spawn FREE.slot_26(pid, "1c", 0x00000000);
-    /* free_stack_string */
     suspend;
     for item in selector_0x42(arg0=0x032a, arg1=0x0329, arg2=(50 * 32), origin=global[0x003c]) {
     }
     return;
   }
   else if (Actor.getMap(&global[0x003c]) == 7) {
-    /* pop_global */
-    spawn FREE.slot_32(1, pid, 10, 0x00000000);
+    spawn FREE.slot_32(pid, 10, 0x00000000);
     suspend;
     for item in nearby_items(shape=COMM_CONSOLE, origin=global[0x003c]) {
       radar = item;
@@ -110,7 +107,6 @@ function blastpac_slot_20() /* entry=925 class_id=0x039b slot=0x20 */
     spawn FREE.slot_32(pid, 0x00c8, 0x00000000);
     suspend;
     spawn FREE.slot_26(pid, "4g", 0x00000000);
-    /* free_stack_string */
     suspend;
     for item in selector_0x42(arg0=0x032a, arg1=0x0329, arg2=(50 * 32), origin=radar) {
     }
@@ -119,7 +115,6 @@ function blastpac_slot_20() /* entry=925 class_id=0x039b slot=0x20 */
   else if (Actor.getMap(&global[0x003c]) == 29) {
     spawn FREE.slot_32(pid, 10, 0x00000000);
     suspend;
-    /* pop_global */
     for item in nearby_items(shape=LIGHT_TUBE, origin=global[0x003c]) {
       spawn ITEM.slot_28(pid, 0, 2, item);
       suspend;

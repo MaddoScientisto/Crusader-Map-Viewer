@@ -7,7 +7,7 @@ import { CACHE_ROOT, CATALOG_ROOT } from "../config.js";
 import { GENERATED_INTRINSIC_HINT_TABLES } from "./usecode-intrinsic-hints.generated.js";
 
 const USECODE_CACHE_ROOT = path.join(CACHE_ROOT, "usecode");
-const USECODE_CACHE_SCHEMA_VERSION = 3;
+const USECODE_CACHE_SCHEMA_VERSION = 4;
 const DISASM_OPCODE_TABLE_PATH = path.resolve(CACHE_ROOT, "..", "..", "..", "crusader-disasm", "usecode_opcodes.txt");
 const USECODE_DECOMPILER_IMPL_PATH = fileURLToPath(import.meta.url);
 const USECODE_SHAPE_CATALOG_PATHS = [
@@ -756,6 +756,12 @@ function popStackBytes(stack, byteCount) {
   return parts.reverse();
 }
 
+function popSizedValue(stack, byteCount, fallback = "value") {
+  const parts = popStackBytes(stack, byteCount);
+  if (!parts.length) return fallback;
+  return parts.length === 1 ? parts[0] : `[${parts.join(", ")}]`;
+}
+
 function combineBinary(stack, operator, width = 2) {
   if (stack.length < 2) return;
   const [rightExpr] = stack.pop();
@@ -908,10 +914,30 @@ function decompilePseudocodeBlocks(ir) {
       }
     }
 
+    function flushPendingResultStatement() {
+      if (!pendingResult) return;
+      blockLines.push(`${pendingResult};`);
+      pendingResult = null;
+    }
+
     let index = 0;
     while (index < ops.length) {
       const op = ops[index];
       const pushed = pushExprFromOp(op, localNameMap);
+
+      if (
+        pendingResult &&
+        ![
+          "line_number",
+          "symbol_info",
+          "add_sp",
+          "push_retval_byte",
+          "push_retval_word",
+          "push_retval_dword"
+        ].includes(op.mnemonic)
+      ) {
+        flushPendingResultStatement();
+      }
 
       if (op.mnemonic === "loopscr") {
         const decodedLoop = tryDecodeLoopSelector(ops, index, localNameMap);
@@ -950,7 +976,8 @@ function decompilePseudocodeBlocks(ir) {
       }
 
       if (op.mnemonic === "pop_result") {
-        pendingResult = null;
+        const expr = stack.length ? stack.pop()[0] : "value";
+        blockLines.push(`process_result = ${expr};`);
         index += 1;
         continue;
       }
@@ -1026,6 +1053,22 @@ function decompilePseudocodeBlocks(ir) {
         blockLines.push(`spawn_inline ${formatTargetEventReference(op.operands)}(${stack.map(([expr]) => expr).join(", ")}) /* inline=0x${op.operands.inline_offset.toString(16).padStart(4, "0")} */;`);
         stack.length = 0;
         pendingResult = null;
+        index += 1;
+        continue;
+      }
+
+      if (op.mnemonic === "create_list") {
+        const elements = [];
+        for (let count = 0; count < op.operands.count; count += 1) {
+          elements.push(popSizedValue(stack, Math.max(1, op.operands.element_size)));
+        }
+        stack.push([`[${elements.join(", ")}]`, 2]);
+        index += 1;
+        continue;
+      }
+
+      if (op.mnemonic === "append_list") {
+        combineBinary(stack, "+", 2);
         index += 1;
         continue;
       }
@@ -1132,6 +1175,7 @@ function decompilePseudocodeBlocks(ir) {
         continue;
       }
       if (op.mnemonic === "ret") {
+        flushPendingResultStatement();
         blockLines.push("return;");
         stack.length = 0;
         break;
@@ -1146,6 +1190,7 @@ function decompilePseudocodeBlocks(ir) {
       blockLines.push(`/* ${op.mnemonic} */`);
       index += 1;
     }
+    flushPendingResultStatement();
     flushBlock();
   }
 
@@ -1184,12 +1229,28 @@ function stripOuterParens(expr) {
   return text;
 }
 
+function hasTopLevelLogicalOperator(expr) {
+  const text = stripOuterParens(expr);
+  let depth = 0;
+  for (let index = 0; index < text.length - 1; index += 1) {
+    const char = text[index];
+    if (char === "(") depth += 1;
+    else if (char === ")") depth -= 1;
+    if (depth === 0) {
+      const pair = text.slice(index, index + 2);
+      if (pair === "&&" || pair === "||") return true;
+    }
+  }
+  return false;
+}
+
 function invertConditionText(condition) {
   const expr = stripOuterParens(condition);
+  if (expr.startsWith("!")) return stripOuterParens(expr.slice(1));
+  if (hasTopLevelLogicalOperator(expr)) return `!(${expr})`;
   for (const [source, replacement] of [[" != ", " == "], [" == ", " != "], [" <= ", " > "], [" >= ", " < "], [" < ", " >= "], [" > ", " <= "]]) {
     if (expr.includes(source)) return expr.replace(source, replacement);
   }
-  if (expr.startsWith("!")) return stripOuterParens(expr.slice(1));
   return /^[A-Za-z_][A-Za-z0-9_:.]*(\(.*\))?$/u.test(expr) ? `!${expr}` : `!(${expr})`;
 }
 
@@ -1238,6 +1299,12 @@ function resolveLabelIndex(labelToIndex, label) {
 function parseSelectorCondition(condition) {
   const expr = stripOuterParens(condition);
   const match = /^(.+?)\s*!=\s*(.+)$/u.exec(expr);
+  return match ? [match[1].trim(), match[2].trim()] : null;
+}
+
+function parseEqualityCondition(condition) {
+  const expr = stripOuterParens(condition);
+  const match = /^(.+?)\s*==\s*(.+)$/u.exec(expr);
   return match ? [match[1].trim(), match[2].trim()] : null;
 }
 
@@ -1397,6 +1464,32 @@ function renderSelectorChain(blocks, labelToIndex, startIndex, endIndex, returnL
   }
 
   if (joinLabel == null) return null;
+
+  const switchBranches = [];
+  let canRenderSwitch = branches.length >= 3;
+  if (canRenderSwitch) {
+    for (const [condition, bodyLines] of branches) {
+      const parsed = parseEqualityCondition(condition);
+      if (!parsed || parsed[0] !== selectorExpr) {
+        canRenderSwitch = false;
+        break;
+      }
+      switchBranches.push([parsed[1], bodyLines]);
+    }
+  }
+
+  if (canRenderSwitch) {
+    const rendered = [`switch (${selectorExpr}) {`];
+    for (const [caseValue, bodyLines] of switchBranches) {
+      rendered.push(`case ${caseValue}:`);
+      rendered.push(...indentLines(bodyLines));
+      if (bodyLines.at(-1) !== "return;") {
+        rendered.push("  break;");
+      }
+    }
+    rendered.push("}");
+    return [rendered, resolveLabelIndex(labelToIndex, joinLabel)];
+  }
 
   const rendered = [];
   for (let index = 0; index < branches.length; index += 1) {
@@ -1761,6 +1854,13 @@ function renderPartiallyStructuredBlocks(blocks) {
   let index = 0;
   while (index < blocks.length) {
     const [label, statements] = blocks[index];
+    if (isReturnOnlyBlock(statements)) {
+      lines.push(...statements.map((statement) => `  ${statement}`));
+      lines.push("");
+      index += 1;
+      continue;
+    }
+
     if (isLoopSelectorOnlyBlock(statements)) {
       const loopSelector = parseLoopSelectorStatement(statements[0]);
       if (loopSelector && index + 1 < blocks.length) {
@@ -1775,10 +1875,9 @@ function renderPartiallyStructuredBlocks(blocks) {
               if (loopTailTerminal?.kind === "goto" && loopTailTerminal.target === nextLabel) {
                 const loopBody = renderStructuredRegion(blocks, labelToIndex, index + 2, targetIndex, returnLabels, new Set([nextLabel]));
                 if (loopBody) {
-                  lines.push(`  ${label}:`);
-                  lines.push(`    for ${loopSelector} {`);
-                  lines.push(...indentLines(loopBody[0], "      "));
-                  lines.push("    }");
+                  lines.push(`  for ${loopSelector} {`);
+                  lines.push(...indentLines(loopBody[0], "    "));
+                  lines.push("  }");
                   lines.push("");
                   index = targetIndex;
                   continue;
@@ -1796,10 +1895,47 @@ function renderPartiallyStructuredBlocks(blocks) {
       continue;
     }
 
+    const terminal = statements.length ? parseTerminalStatement(statements.at(-1)) : null;
+    if (terminal?.kind === "if") {
+      const targetIndex = resolveLabelIndex(labelToIndex, terminal.target ?? "");
+      if (targetIndex != null && targetIndex > index + 1) {
+        const trueTailIndex = lastNonemptyBlockIndex(blocks, index + 1, targetIndex);
+        if (trueTailIndex != null) {
+          const trueTailTerminal = parseTerminalStatement(blocks[trueTailIndex][1].at(-1));
+          if (trueTailTerminal?.kind === "goto") {
+            const joinLabel = trueTailTerminal.target ?? "";
+            const joinIndex = resolveLabelIndex(labelToIndex, joinLabel);
+            if (joinIndex != null && joinIndex > targetIndex && joinIndex <= blocks.length) {
+              const trueResult = renderStructuredRegion(blocks, labelToIndex, index + 1, targetIndex, returnLabels, new Set([joinLabel]));
+              const falseResult = renderStructuredRegion(blocks, labelToIndex, targetIndex, joinIndex, returnLabels, new Set([joinLabel]));
+              if (trueResult && falseResult) {
+                lines.push(...statements.slice(0, -1).map((statement) => `  ${statement}`));
+                lines.push(`  if (${invertConditionText(terminal.condition)}) {`);
+                lines.push(...indentLines(trueResult[0], "    "));
+                lines.push("  }");
+                if (falseResult[0].length) {
+                  if (falseResult[0][0].startsWith("if ")) {
+                    lines.push(`  else ${falseResult[0][0]}`);
+                    lines.push(...falseResult[0].slice(1).map((line) => (line ? `  ${line}` : "")));
+                  } else {
+                    lines.push("  else {");
+                    lines.push(...indentLines(falseResult[0], "    "));
+                    lines.push("  }");
+                  }
+                }
+                lines.push("");
+                index = joinIndex;
+                continue;
+              }
+            }
+          }
+        }
+      }
+    }
+
     const selectorChain = renderSelectorChain(blocks, labelToIndex, index, blocks.length, returnLabels);
     if (selectorChain) {
-      lines.push(`  ${label}:`);
-      for (const statement of selectorChain[0]) lines.push(statement ? `    ${statement}` : "");
+      for (const statement of selectorChain[0]) lines.push(statement ? `  ${statement}` : "");
       lines.push("");
       index = selectorChain[1];
       continue;
@@ -1807,8 +1943,7 @@ function renderPartiallyStructuredBlocks(blocks) {
 
     const loopConstruct = renderLoopConstruct(blocks, labelToIndex, index, blocks.length, returnLabels);
     if (loopConstruct) {
-      lines.push(`  ${label}:`);
-      lines.push(...loopConstruct[0].map((line) => (line ? `    ${line}` : "")));
+      lines.push(...loopConstruct[0].map((line) => (line ? `  ${line}` : "")));
       lines.push("");
       index = loopConstruct[1];
       continue;
@@ -1816,8 +1951,7 @@ function renderPartiallyStructuredBlocks(blocks) {
 
     const foreachLoopConstruct = renderForeachLoopConstruct(blocks, labelToIndex, index, blocks.length, returnLabels);
     if (foreachLoopConstruct) {
-      lines.push(`  ${label}:`);
-      lines.push(...foreachLoopConstruct[0].map((line) => (line ? `    ${line}` : "")));
+      lines.push(...foreachLoopConstruct[0].map((line) => (line ? `  ${line}` : "")));
       lines.push("");
       index = foreachLoopConstruct[1];
       continue;
@@ -1825,8 +1959,7 @@ function renderPartiallyStructuredBlocks(blocks) {
 
     const infiniteLoopConstruct = renderInfiniteLoopConstruct(blocks, labelToIndex, index, blocks.length, returnLabels);
     if (infiniteLoopConstruct) {
-      lines.push(`  ${label}:`);
-      lines.push(...infiniteLoopConstruct[0].map((line) => (line ? `    ${line}` : "")));
+      lines.push(...infiniteLoopConstruct[0].map((line) => (line ? `  ${line}` : "")));
       lines.push("");
       index = infiniteLoopConstruct[1];
       continue;

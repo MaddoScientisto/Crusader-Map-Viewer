@@ -3,63 +3,35 @@ function keypadns_use() /* entry=1101 class_id=0x044b slot=0x01 */
   set_info(0x0207, *(arg_06));
   process_exclude();
   if ((AudioProcess.stopSFXCru(&global[0x001e]) == 26) && (Item.getCY(arg_06) == 0)) {
-    /* free_local_string */
     local_06 = "Cheaters Menu^_____________^^Select a mission^number (1-10)^and Col. Shepherd^will assign it to you.";
     local_02 = Actor.getEquip(0);
     if (local_02 > 10) {
       local_02 = 10;
     }
-    /* pop_global */
-    if (local_02) {
-      /* pop_global */
-    }
-    /* concat */
-    /* concat */
-    /* str_to_ptr */
-    /* free_stack_string */
-    spawn FREE.slot_3b("Wow! Mission ", Actor.getDefaultActivity0(local_02), pid, 120, 0x00000000);
+    spawn FREE.slot_3b(pid, 120, 0x00000000);
     suspend;
     FREE.slot_3c(0x0200, *(arg_06));
     spawn FREE.slot_3b(pid, 30, 0x00000000);
     suspend;
     if (global[0x000f] == 4) {
-      /* str_to_ptr */
-      /* free_stack_string */
     }
     else if (global[0x000f] == 5) {
-      /* str_to_ptr */
-      /* free_stack_string */
     }
     else if (global[0x000f] == 6) {
-      /* str_to_ptr */
-      /* free_stack_string */
     }
     else if (global[0x000f] == 7) {
       if (global[0x0016]) {
-        /* str_to_ptr */
-        /* free_stack_string */
-      }
-      else {
-        /* str_to_ptr */
-        /* free_stack_string */
       }
     }
     else if (global[0x000f] == 8) {
-      /* str_to_ptr */
-      /* free_stack_string */
     }
     else if (global[0x000f] == 9) {
-      /* str_to_ptr */
-      /* free_stack_string */
     }
     else if (global[0x000f] == 10) {
-      /* str_to_ptr */
-      /* free_stack_string */
     }
     return;
   }
   else if ((AudioProcess.stopSFXCru(((AudioProcess.stopSFXCru(&global[0x001e]) == 25) && (Item.getCY(arg_06) == 1)), &global[0x001e]) == 26) && (Item.getCY(arg_06) == 1)) {
-    /* free_local_string */
     local_06 = "VIDEO PLAYER^_____________^^Mission video 0-72^Mission MVAs 73-89^Game Flicks  90-102";
     local_02 = Actor.getEquip(0);
     if (local_02 == 0) {
@@ -93,6 +65,5 @@ function keypadns_use() /* entry=1101 class_id=0x044b slot=0x01 */
     }
     return;
   }
-  /* free_local_string */
   return;
 }

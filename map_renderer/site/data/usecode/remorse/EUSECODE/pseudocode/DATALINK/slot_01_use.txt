@@ -6,313 +6,199 @@ function datalink_use() /* entry=1238 class_id=0x04d4 slot=0x01 */
 
   set_info(0x0207, *(arg_06));
   process_exclude();
-  /* free_local_string */
   textFile = "MISSION OBJECTIVES:^*";
   if (Actor.getMap(&global[0x003c]) > 30) {
     return;
   }
   else if (Actor.getMap((Actor.getMap(&global[0x003c]) == 1), &global[0x003c]) == 2) {
     if (!(global[0x0020])) {
-      /* str_to_ptr */
-      /* free_stack_string */
       suspend;
     }
     if (!(global[0x002f])) {
-      /* concat */
-      /* free_local_string */
-      textFile = "^)Gain keycard from rebel informant.";
+      textFile = (textFile + "^)Gain keycard from rebel informant.");
     }
     if (!(global[0x0020])) {
-      /* concat */
-      /* free_local_string */
-      textFile = "^)Locate Thermal Coupler on level four and destroy objective with BlastPac.";
+      textFile = (textFile + "^)Locate Thermal Coupler on level four and destroy objective with BlastPac.");
     }
     if (global[0x002f] && global[0x0020]) {
-      /* concat */
-      /* free_local_string */
-      textFile = "^)Locate telepad on fourth level and return to rebel base.";
+      textFile = (textFile + "^)Locate telepad on fourth level and return to rebel base.");
     }
   }
   else if (Actor.getMap((Actor.getMap(&global[0x003c]) == 3), &global[0x003c]) == 4) {
     if (!(global[0x0030])) {
-      /* concat */
-      /* free_local_string */
-      textFile = "^)PFC. Andrews to confirm coordinates before teleportation into prison area.";
+      textFile = (textFile + "^)PFC. Andrews to confirm coordinates before teleportation into prison area.");
     }
     if (!(global[0x0021])) {
-      /* concat */
-      /* concat */
-      /* concat */
-      /* free_local_string */
-      textFile = "in Dr. Hoffman's lab.";
+      textFile = (((textFile + "^)Locate and free rebel soldiers. ") + "^Prisoners rumored to be held for experimentation ") + "in Dr. Hoffman's lab.");
     }
     if (global[0x0030] && global[0x0021]) {
-      /* concat */
-      /* free_local_string */
-      textFile = "^)Locate telepad on prison level and return to rebel base.";
+      textFile = (textFile + "^)Locate telepad on prison level and return to rebel base.");
     }
   }
   else if (Actor.getMap((Actor.getMap(&global[0x003c]) == 5), &global[0x003c]) == 6) {
     if (!(global[0x0022])) {
-      /* str_to_ptr */
-      /* free_stack_string */
       suspend;
     }
     if (!(global[0x0031])) {
-      /* concat */
-      /* free_local_string */
-      textFile = "^)PFC. Cardova to confirm coordinates before teleportation into industrial complex.";
+      textFile = (textFile + "^)PFC. Cardova to confirm coordinates before teleportation into industrial complex.");
     }
     if (!(global[0x0022])) {
-      /* concat */
-      /* free_local_string */
-      textFile = "^)Locate PHIR computer and download latest prototypes' plans.";
+      textFile = (textFile + "^)Locate PHIR computer and download latest prototypes' plans.");
     }
     if (global[0x0031] && global[0x0022]) {
-      /* concat */
-      /* free_local_string */
-      textFile = "^)Locate telepad on level 1 and return to rebel base.";
+      textFile = (textFile + "^)Locate telepad on level 1 and return to rebel base.");
     }
   }
   else if (Actor.getMap((Actor.getMap(&global[0x003c]) == 7), &global[0x003c]) == 8) {
     if (!(global[0x0023])) {
-      /* str_to_ptr */
-      /* free_stack_string */
       suspend;
     }
     if (!(global[0x0032])) {
-      /* concat */
-      /* free_local_string */
-      textFile = "^)PFC. Andrews to bring down defense screens before objective can be reached.";
+      textFile = (textFile + "^)PFC. Andrews to bring down defense screens before objective can be reached.");
     }
     if (!(global[0x0023])) {
-      /* concat */
-      /* free_local_string */
-      textFile = "^)Locate SORC computer on level 3 and destroy it with a BlastPac.";
+      textFile = (textFile + "^)Locate SORC computer on level 3 and destroy it with a BlastPac.");
     }
     if (global[0x0032] && global[0x0023]) {
-      /* concat */
-      /* free_local_string */
-      textFile = "^)Locate telepad on level 4 and return to rebel base.";
+      textFile = (textFile + "^)Locate telepad on level 4 and return to rebel base.");
     }
   }
   else if (Actor.getMap((Actor.getMap(&global[0x003c]) == 9), &global[0x003c]) == 10) {
     if (!(global[0x0024])) {
-      /* str_to_ptr */
-      /* free_stack_string */
       suspend;
     }
     if (!(global[0x0033])) {
-      /* concat */
-      /* free_local_string */
-      textFile = "^)Gain keycard from rebel informant.";
+      textFile = (textFile + "^)Gain keycard from rebel informant.");
     }
     if (!(global[0x0024])) {
-      /* concat */
-      /* free_local_string */
-      textFile = "^)Locate MELF computer in Science Wing, level 5 and download Cypher chip plans.";
+      textFile = (textFile + "^)Locate MELF computer in Science Wing, level 5 and download Cypher chip plans.");
     }
     if (global[0x0033] && global[0x0024]) {
-      /* concat */
-      /* free_local_string */
-      textFile = "^)Locate telepad in Science Wing, level 4 and return to rebel base.";
+      textFile = (textFile + "^)Locate telepad in Science Wing, level 4 and return to rebel base.");
     }
   }
   else if (Actor.getMap((Actor.getMap(&global[0x003c]) == 11), &global[0x003c]) == 12) {
     if (!(global[0x0025])) {
-      /* str_to_ptr */
-      /* free_stack_string */
       suspend;
     }
     if (!(global[0x0034])) {
-      /* concat */
-      /* free_local_string */
-      textFile = "^)Sgt. Brooks to confirm teleportation coordinates into government complex.";
+      textFile = (textFile + "^)Sgt. Brooks to confirm teleportation coordinates into government complex.");
     }
     if (!(global[0x0025])) {
-      /* concat */
-      /* concat */
-      /* free_local_string */
-      textFile = "Transport the senator back to Central for questioning.";
+      textFile = ((textFile + "^)Locate office of Senator Everett Snell on level 2.") + "Transport the senator back to Central for questioning.");
     }
     if (global[0x0034] && global[0x0025]) {
-      /* concat */
-      /* free_local_string */
-      textFile = "^)Return to rebel base.";
+      textFile = (textFile + "^)Return to rebel base.");
     }
   }
   else if (Actor.getMap((Actor.getMap(&global[0x003c]) == 13), &global[0x003c]) == 14) {
     if (!(global[0x0026])) {
-      /* str_to_ptr */
-      /* free_stack_string */
       suspend;
     }
     if (!(global[0x0026])) {
-      /* concat */
-      /* concat */
-      /* free_local_string */
-      textFile = "Destroy objective with FusionPac.";
+      textFile = ((textFile + "^)Locate EEOD nerve gas containment unit on level 7.") + "Destroy objective with FusionPac.");
     }
     if (global[0x0026]) {
-      /* concat */
-      /* free_local_string */
-      textFile = "^)Locate teleporter on level 7 and return to rebel base.";
+      textFile = (textFile + "^)Locate teleporter on level 7 and return to rebel base.");
     }
   }
   else if (Actor.getMap((Actor.getMap(&global[0x003c]) == 15), &global[0x003c]) == 16) {
     if (!(global[0x0027])) {
-      /* str_to_ptr */
-      /* free_stack_string */
       suspend;
     }
     if (!(global[0x0027])) {
-      /* concat */
-      /* free_local_string */
-      textFile = "^)Liberate Professor Willmar from WEC prison.";
+      textFile = (textFile + "^)Liberate Professor Willmar from WEC prison.");
     }
     else {
-      /* concat */
-      /* free_local_string */
-      textFile = "^)Locate teleporter on level 3 and return to rebel base.";
+      textFile = (textFile + "^)Locate teleporter on level 3 and return to rebel base.");
     }
   }
   else if (Actor.getMap((Actor.getMap(&global[0x003c]) == 17), &global[0x003c]) == 18) {
     if (!(global[0x0028])) {
-      /* str_to_ptr */
-      /* free_stack_string */
       suspend;
     }
     if (!(global[0x0028])) {
-      /* concat */
-      /* free_local_string */
-      textFile = "^)Infiltrate governement complex and spy on congressional meeting.";
+      textFile = (textFile + "^)Infiltrate governement complex and spy on congressional meeting.");
     }
     if (global[0x0028]) {
-      /* concat */
-      /* free_local_string */
-      textFile = "^)Return to your original telepad for extraction back to rebel base.";
+      textFile = (textFile + "^)Return to your original telepad for extraction back to rebel base.");
     }
   }
   else if (Actor.getMap((Actor.getMap(&global[0x003c]) == 19), &global[0x003c]) == 20) {
     if (!(global[0x0029])) {
-      /* str_to_ptr */
-      /* free_stack_string */
       suspend;
     }
     if (!(global[0x0029])) {
-      /* concat */
-      /* free_local_string */
-      textFile = "^)Locate plans for new experimental weapon in Dr. Hoffman's lab.";
+      textFile = (textFile + "^)Locate plans for new experimental weapon in Dr. Hoffman's lab.");
     }
     if (global[0x0029]) {
-      /* concat */
-      /* concat */
-      /* free_local_string */
-      textFile = "^Locate telepad on level 3 to return to rebel base.";
+      textFile = ((textFile + "^)Destroy as many of the experimental Silencer prototypes as possible.") + "^Locate telepad on level 3 to return to rebel base.");
     }
   }
   else if (Actor.getMap((Actor.getMap(&global[0x003c]) == 21), &global[0x003c]) == 22) {
     if (!(global[0x002a])) {
-      /* str_to_ptr */
-      /* free_stack_string */
       suspend;
     }
     if (!(global[0x0035])) {
-      /* concat */
-      /* free_local_string */
-      textFile = "^)PFC. Cardova to bring down teleport defense screens.";
+      textFile = (textFile + "^)PFC. Cardova to bring down teleport defense screens.");
     }
     if (!(global[0x002a])) {
-      /* concat */
-      /* free_local_string */
-      textFile = "^)Locate OPTS computer and download plans to the Vigilance Platform.";
+      textFile = (textFile + "^)Locate OPTS computer and download plans to the Vigilance Platform.");
     }
     if (global[0x002a]) {
-      /* concat */
-      /* free_local_string */
-      textFile = "^)Locate teleporter on level 4 and return to rebel base.";
+      textFile = (textFile + "^)Locate teleporter on level 4 and return to rebel base.");
     }
   }
   else if (Actor.getMap((Actor.getMap(&global[0x003c]) == 23), &global[0x003c]) == 24) {
     if (!(global[0x002b])) {
-      /* str_to_ptr */
-      /* free_stack_string */
       suspend;
     }
     if (!(global[0x002b])) {
-      /* concat */
-      /* free_local_string */
-      textFile = "^)Locate OPC computer and upload new targeting coordinates. ";
+      textFile = (textFile + "^)Locate OPC computer and upload new targeting coordinates. ");
     }
     if (global[0x002b]) {
-      /* concat */
-      /* free_local_string */
-      textFile = "^)Locate teleporter on level 3 and return to rebel base.";
+      textFile = (textFile + "^)Locate teleporter on level 3 and return to rebel base.");
     }
   }
   else if (Actor.getMap((Actor.getMap(&global[0x003c]) == 25), &global[0x003c]) == 26) {
     if (!(global[0x002c])) {
-      /* str_to_ptr */
-      /* free_stack_string */
       suspend;
     }
     if (!(global[0x002c])) {
-      /* concat */
-      /* free_local_string */
-      textFile = "^)Rescue Col. Ely from WEC prison.";
+      textFile = (textFile + "^)Rescue Col. Ely from WEC prison.");
     }
     else {
-      /* concat */
-      /* free_local_string */
-      textFile = "^)Locate teleporter and return to rebel base.";
+      textFile = (textFile + "^)Locate teleporter and return to rebel base.");
     }
   }
   else if (Actor.getMap((Actor.getMap(&global[0x003c]) == 27), &global[0x003c]) == 28) {
-    /* str_to_ptr */
-    /* free_stack_string */
     suspend;
     if (!(global[0x002d])) {
-      /* concat */
-      /* free_local_string */
-      textFile = "^)Locate shuttle to Vigilance Platform.^)Await troop transfer.^)Lead hit squad to Vigilance Platform.";
+      textFile = (textFile + "^)Locate shuttle to Vigilance Platform.^)Await troop transfer.^)Lead hit squad to Vigilance Platform.");
     }
     else {
-      /* concat */
-      /* free_local_string */
-      textFile = "^)Take shuttle to Vigilance Platform.";
+      textFile = (textFile + "^)Take shuttle to Vigilance Platform.");
     }
   }
   else if (Actor.getMap((Actor.getMap(&global[0x003c]) == 29), &global[0x003c]) == 30) {
     if (!(global[0x0038])) {
       if (!(global[0x0038])) {
-        /* str_to_ptr */
-        /* free_stack_string */
         suspend;
       }
-      /* concat */
-      /* free_local_string */
-      textFile = "^)Locate and deactivate SATARG system, then destroy weapon control system.";
+      textFile = (textFile + "^)Locate and deactivate SATARG system, then destroy weapon control system.");
     }
     if ((global[0x0038] == 1) && (global[0x002e] == 0)) {
-      /* str_to_ptr */
-      /* free_stack_string */
       suspend;
-      /* concat */
-      /* free_local_string */
-      textFile = "^)Locate and destroy Lithium Power Core with BlastPac.";
+      textFile = (textFile + "^)Locate and destroy Lithium Power Core with BlastPac.");
     }
     if (global[0x002e]) {
-      /* concat */
-      /* free_local_string */
-      textFile = "^)Locate escape pod on level 10 and escape Vigilance Platform.";
+      textFile = (textFile + "^)Locate escape pod on level 10 and escape Vigilance Platform.");
     }
   }
   else {
     return;
   }
   spawn TEXTFILE.slot_20(pid, textFile, arg_06);
-  /* free_stack_string */
   suspend;
-  /* free_local_string */
   return;
 }

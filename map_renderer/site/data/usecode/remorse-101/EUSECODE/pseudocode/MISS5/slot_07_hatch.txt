@@ -3,8 +3,7 @@ function miss5_hatch() /* entry=2323 class_id=0x0911 slot=0x07 */
   set_info(0x0210, *(arg_06));
   process_exclude();
   if (Item.fallProbably_03E(arg_06) == 1) {
-    /* pop_global */
-    FREE.slot_41(1);
+    FREE.slot_41();
     spawn MISS5.slot_20(pid, arg_06);
     suspend;
     return;

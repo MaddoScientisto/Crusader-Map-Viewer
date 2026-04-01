@@ -13,10 +13,8 @@ function wallmew_use() /* entry=1080 class_id=0x0436 slot=0x01 */
           VALBOX.slot_20(local_04);
           local_06 = retval;
           TEXTFILE.slot_23(local_06, Item.getQHi(local_04), Item.getQLo(local_04), arg_06);
-          /* free_local_string */
           local_02 = retval;
           spawn TEXTFILE.slot_20(pid, local_02, arg_06);
-          /* free_stack_string */
           suspend;
         }
       }
@@ -33,17 +31,13 @@ function wallmew_use() /* entry=1080 class_id=0x0436 slot=0x01 */
         }
       }
       TEXTFILE.slot_23(local_06, Item.getQHi(arg_06), Item.getQLo(arg_06), arg_06);
-      /* free_local_string */
       local_02 = retval;
       if (local_10 > 1) {
-        /* free_local_string */
         local_02 = "There is more than one Value box in range with the same link";
       }
       spawn TEXTFILE.slot_20(pid, local_02, arg_06);
-      /* free_stack_string */
       suspend;
     }
   }
-  /* free_local_string */
   return;
 }

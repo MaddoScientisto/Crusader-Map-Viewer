@@ -4,15 +4,12 @@ function miss11_hatch() /* entry=2329 class_id=0x0917 slot=0x07 */
   process_exclude();
   if (Item.fallProbably_03E(arg_06) == 1) {
     spawn FREE.slot_26(pid, "11f", 0x00000000);
-    /* free_stack_string */
     suspend;
-    /* pop_global */
     return;
   }
   else if (Item.fallProbably_03E(arg_06) == 2) {
     if (global[0x002b]) {
       spawn FREE.slot_26(pid, "11g", 0x00000000);
-      /* free_stack_string */
       suspend;
     }
     return;

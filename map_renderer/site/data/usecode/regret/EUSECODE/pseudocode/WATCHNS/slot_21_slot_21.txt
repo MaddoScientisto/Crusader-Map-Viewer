@@ -19,8 +19,7 @@ function watchns_slot_21() /* entry=1224 class_id=0x04c6 slot=0x21 */
         local_16 = Item.getZ(local_02);
         spawn FREE.slot_3b(pid, 10, 0x00000000);
         suspend;
-        /* pop_global */
-        spawn FREE.slot_3b(1, pid, 60, 0x00000000);
+        spawn FREE.slot_3b(pid, 60, 0x00000000);
         suspend;
         if (Item.getMapArray(local_02) != 0) {
           spawn TRIGGER.slot_20(pid, 0, local_02, arg_06);
@@ -37,6 +36,5 @@ function watchns_slot_21() /* entry=1224 class_id=0x04c6 slot=0x21 */
   }
   spawn FREE.slot_3b(pid, 10, 0x00000000);
   suspend;
-  /* pop_global */
   return;
 }

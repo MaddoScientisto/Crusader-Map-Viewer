@@ -20,14 +20,11 @@ function miss1egg_slot_23() /* entry=2319 class_id=0x090d slot=0x23 */
     spawn NPC.slot_22(pid, 5, 4, local_06);
     suspend;
     suspend;
-    /* str_to_ptr */
-    /* free_stack_string */
     suspend;
     spawn FREE.slot_3b(0x00000000);
     for local_08 in nearby_items(shape=npcdeath_shape_02fd, origin=global[0x003d]) {
     }
-    /* pop_global */
-    spawn MISS1EGG.slot_24(1, pid, local_06, arg_06);
+    spawn MISS1EGG.slot_24(pid, local_06, arg_06);
     suspend;
   }
   return;

@@ -7,7 +7,6 @@ function valuebox_slot_20() /* entry=595 class_id=0x0251 slot=0x20 */
     highByte; /* [BP-04h] type=0x69 */
 
   lowByte = (rand & 0x00ff);
-  /* rsh */
-  highByte = (8 & 3);
+  highByte = ((rand >> 8) & 3);
   return;
 }

@@ -10,14 +10,12 @@ function bigswitc_equip() /* entry=1573 class_id=0x0623 slot=0x0a */
     suspend;
     local_02 = (1 + local_02);
   }
-  /* pop_global */
-  spawn FREE.slot_21(1, pid, 0x0178, 0x00000000);
+  spawn FREE.slot_21(pid, 0x0178, 0x00000000);
   suspend;
   spawn FREE.slot_21(pid, 0x017b, 0x00000000);
   suspend;
   spawn FREE.slot_3b(pid, 120, 0x00000000);
   suspend;
-  /* pop_global */
-  spawn ITEM.slot_21(65, &global[0x001e]);
+  spawn ITEM.slot_21(&global[0x001e]);
   return;
 }

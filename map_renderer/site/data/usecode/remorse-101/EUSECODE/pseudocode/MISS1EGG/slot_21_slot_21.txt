@@ -4,7 +4,6 @@ function miss1egg_slot_21() /* entry=2319 class_id=0x090d slot=0x21 */
   spawn FREE.waitNTimerTicks(pid, ((5 - Game.getDifficultyLevel()) * 100), 0x00000000);
   suspend;
   if (!(global[0x003c])) {
-    /* pop_global */
     for local_02 in nearby_items(shape=NPC_TECH, origin=global[0x003d]) {
       spawn MISS1EGG.slot_22(local_02, arg_06);
     }

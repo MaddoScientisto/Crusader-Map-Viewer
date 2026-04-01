@@ -5,21 +5,17 @@ function npc_slot_2a() /* entry=2579 class_id=0x0a11 slot=0x2a */
   if ((global[0x0009] == 1) || (Item.inFastArea(local_02) == 0)) {
     return;
   }
+  else if (Item.getStatus(local_02) & 4) {
+    return;
+  }
   else {
-    /* pop_global */
-    if (Item.getStatus(local_02) & 4) {
-      return;
-    }
-    else {
-      ITEM.slot_23(4, local_02);
-      while (AudioProcess.isSFXPlayingForObject(arg_10, local_02)) {
-        spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
-        suspend;
-      }
-      spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
+    ITEM.slot_23(4, local_02);
+    while (AudioProcess.isSFXPlayingForObject(arg_10, local_02)) {
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
       suspend;
-      /* pop_global */
     }
+    spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
+    suspend;
   }
   return;
 }

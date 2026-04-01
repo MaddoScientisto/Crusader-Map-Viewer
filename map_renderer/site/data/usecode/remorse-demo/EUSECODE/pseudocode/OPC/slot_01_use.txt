@@ -9,11 +9,8 @@ function opc_use() /* entry=958 class_id=0x03bc slot=0x01 */
   ITEM.slot_23(0x1000, arg_06);
   if (Actor.getMap(&global[0x003c]) == 21) {
     suspend;
-    /* str_to_ptr */
-    /* free_stack_string */
     suspend;
-    /* pop_global */
-    spawn FREE.waitNTimerTicks(1, pid, 20, 0x00000000);
+    spawn FREE.waitNTimerTicks(pid, 20, 0x00000000);
     suspend;
     spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
     suspend;
@@ -21,7 +18,6 @@ function opc_use() /* entry=958 class_id=0x03bc slot=0x01 */
     suspend;
     if (!Item.getItemFamily(&global[0x003c])) {
       spawn FREE.slot_26(pid, "11g", 0x00000000);
-      /* free_stack_string */
       suspend;
     }
     for item in nearby_items(shape=TELEPORTER_LIGHTS, origin=arg_06) {
@@ -30,11 +26,8 @@ function opc_use() /* entry=958 class_id=0x03bc slot=0x01 */
   }
   else {
     suspend;
-    /* str_to_ptr */
-    /* free_stack_string */
     suspend;
-    /* pop_global */
-    spawn FREE.waitNTimerTicks(1, pid, 20, 0x00000000);
+    spawn FREE.waitNTimerTicks(pid, 20, 0x00000000);
     suspend;
     spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
     suspend;

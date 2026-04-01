@@ -17,7 +17,6 @@ function miss1egg_hatch() /* entry=2319 class_id=0x090d slot=0x07 */
   }
   else if (Egg.getEggId(arg_06) == 2) {
     if (!(global[0x003b])) {
-      /* pop_global */
       for buster in nearby_items(shape=NPC_TECH, origin=arg_06) {
         ITEM.slot_23(4, buster);
         spawn MISS1EGG.slot_22(buster, arg_06);

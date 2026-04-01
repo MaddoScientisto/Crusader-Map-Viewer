@@ -22,7 +22,6 @@ function door_slot_23() /* entry=2568 class_id=0x0a06 slot=0x23 */
   }
   spawn ITEM.slot_27(pid, 0x00c8, vel, ref, arg_06);
   suspend;
-  /* dword_to_word */
   if (!process_result) {
     FREE.slot_20(10);
     if (retval > 5) {
@@ -91,7 +90,6 @@ function door_slot_23() /* entry=2568 class_id=0x0a06 slot=0x23 */
       spawn DOOR.slot_22(pid, arg_06);
       suspend;
     }
-    /* bit_not */
   }
   return;
 }

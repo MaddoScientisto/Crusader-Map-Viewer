@@ -8,39 +8,17 @@ function door_slot_22() /* entry=2568 class_id=0x0a06 slot=0x22 */
     doorQuality, /* [BP-08h] type=0x69 */
     roofQuality; /* [BP-10h] type=0x69 */
 
-  entry:
-    set_info(0x0001, *(arg_06));
-    count = 0;
-    /* loopscr */
-    /* loopscr */
-    /* loop */
-
-  block_1708:
-    if !condition goto block_171f;
-
-  block_170b:
+  set_info(0x0001, *(arg_06));
+  count = 0;
+  while (condition) {
     count = (1 + count);
-    goto block_171f;
-
-  block_171b:
-    goto block_1708;
-
-  block_171f:
-    doorQuality = Item.andStatus(arg_06);
-    doorParam = Actor.clrInCombat(arg_06);
-    if !count goto block_17ad;
-
-  block_1745:
-    /* loopscr */
-    /* loopscr */
-    /* loop */
-
-  block_1777:
+  }
+  doorQuality = Item.andStatus(arg_06);
+  doorParam = Actor.clrInCombat(arg_06);
+  if (count) {
     while (condition) {
       roofQuality = Item.andStatus(roof);
     }
-
-  block_17ad:
-    return;
-
+  }
+  return;
 }

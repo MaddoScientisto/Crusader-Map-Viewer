@@ -12,10 +12,8 @@ function door2_slot_21() /* entry=2569 class_id=0x0a07 slot=0x21 */
   }
   else {
     /* create_list */
-    /* free_local_list */
     doorList = 0x00d0;
     FREE.slot_3a(0x00a9, 0x00ab, 0x00ac, 0x00af, 0x00b2, 0x00b3, 0x00b4, 0x00b6, 0x00b7, 0x00b8, 0x00b9, doorList);
-    /* free_stack_list */
     maxFrame = retval;
     counter = (maxFrame - 1);
     while (counter != 0) {
@@ -31,20 +29,13 @@ function door2_slot_21() /* entry=2569 class_id=0x0a07 slot=0x21 */
           spawn FREE.waitNTimerTicks(doorList, counter, pid, 5, 0x00000000);
           suspend;
           counter = (1 + counter);
-          /* word_to_dword */
-          /* pop_result */
           return;
         }
-        /* word_to_dword */
-        /* pop_result */
         return;
       }
       counter = (counter - 1);
     }
-    /* word_to_dword */
-    /* pop_result */
     return;
   }
-  /* free_local_list */
   return;
 }

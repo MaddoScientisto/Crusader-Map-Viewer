@@ -3,11 +3,8 @@ function miss3_hatch() /* entry=2321 class_id=0x090f slot=0x07 */
   set_info(0x0210, *(arg_06));
   process_exclude();
   if (Egg.getEggId(arg_06) == 1) {
-    /* pop_global */
     spawn FREE.slot_3b(pid, 1, 0x00000000);
     suspend;
-    /* str_to_ptr */
-    /* free_stack_string */
     spawn FREE.slot_3b(pid, 1, 0x00000000);
     suspend;
     suspend;

@@ -94,7 +94,6 @@ function npcdeath_slot_20() /* entry=2594 class_id=0x0a20 slot=0x20 */
         newDir = (newDir + 10);
       }
       spillBlood = 1;
-      /* pop_global */
     }
     else if (Item.getShape(n) == npcdeath_shape_0384) {
       newType = 0x04bf;
@@ -120,7 +119,6 @@ function npcdeath_slot_20() /* entry=2594 class_id=0x0a20 slot=0x20 */
         newDir = (newDir + 10);
       }
       spillBlood = 1;
-      /* pop_global */
     }
     else if (Item.getShape(n) == npcdeath_shape_0371) {
       newType = 0x04be;
@@ -146,19 +144,16 @@ function npcdeath_slot_20() /* entry=2594 class_id=0x0a20 slot=0x20 */
         newDir = (newDir + 10);
       }
       spillBlood = 1;
-      /* pop_global */
     }
     else if (Item.getShape(n) == npcdeath_shape_04d1) {
       newType = 0x04d2;
       newDir = dir;
       spillBlood = 1;
-      /* pop_global */
     }
     else if (Item.getShape(n) == npcdeath_shape_0528) {
       newType = 0x054d;
       newDir = dir;
       spillBlood = 1;
-      /* pop_global */
     }
     else if (Item.getShape(n) == MECH_1) {
       newType = 0x04c5;
@@ -167,7 +162,6 @@ function npcdeath_slot_20() /* entry=2594 class_id=0x0a20 slot=0x20 */
         newDir = (dir + 10);
       }
       spillOil = 1;
-      /* pop_global */
     }
     else if (Item.getShape(n) == npcdeath_shape_01b4) {
       newType = 0x055d;
@@ -193,7 +187,6 @@ function npcdeath_slot_20() /* entry=2594 class_id=0x0a20 slot=0x20 */
         newDir = (newDir + 10);
       }
       spillBlood = 1;
-      /* pop_global */
     }
     else if (Item.getShape(n) == npcdeath_shape_02df) {
       newType = 0x04ba;
@@ -226,17 +219,13 @@ function npcdeath_slot_20() /* entry=2594 class_id=0x0a20 slot=0x20 */
       if (Item.andStatus(n) == 20) {
         newDir = (newDir + 10);
       }
-      /* pop_global */
     }
     else if (Item.getShape(n) == 0x0385) {
-      /* pop_global */
-      spawn ITEM.slot_2a((1 + global[0x001b]), pid, n);
+      spawn ITEM.slot_2a(pid, n);
       suspend;
       return;
     }
     else if (Item.getShape(n) == 0x02cb) {
-      /* loopscr */
-      /* loop */
       while (condition) {
         spawn ITEM.slot_28(pid, 1, 0, goods);
         suspend;
@@ -266,7 +255,6 @@ function npcdeath_slot_20() /* entry=2594 class_id=0x0a20 slot=0x20 */
       else {
         newDir = dir;
       }
-      /* pop_global */
       spawn ITEM.slot_2a(pid, n);
       suspend;
       if (flipIt) {
@@ -275,8 +263,6 @@ function npcdeath_slot_20() /* entry=2594 class_id=0x0a20 slot=0x20 */
       return;
     }
     else if (Item.getShape(n) == 0x0576) {
-      /* loopscr */
-      /* loop */
       while (condition) {
       }
       return;
@@ -303,8 +289,6 @@ function npcdeath_slot_20() /* entry=2594 class_id=0x0a20 slot=0x20 */
       if (Item.andStatus(n) == 20) {
         newDir = (newDir + 10);
       }
-      /* loopscr */
-      /* loop */
       while (condition) {
       }
       if (flipIt) {
@@ -333,7 +317,6 @@ function npcdeath_slot_20() /* entry=2594 class_id=0x0a20 slot=0x20 */
         newDir = dir;
       }
       spillBlood = 1;
-      /* pop_global */
     }
     else if (Item.getShape(n) == NPC_TECH) {
       newType = 0x04b9;
@@ -400,8 +383,6 @@ function npcdeath_slot_20() /* entry=2594 class_id=0x0a20 slot=0x20 */
       if (Item.andStatus(&global[0x003c])) {
         return;
       }
-      /* str_to_ptr */
-      /* free_stack_string */
       suspend;
       spawn FREE.waitNTimerTicks(pid, 0x012c, 0x00000000);
       suspend;

@@ -35,11 +35,9 @@ function monster_equip() /* entry=1234 class_id=0x04d0 slot=0x0a */
         if (Actor.SetNPCDataField0x63_0E6(door) == Actor.SetNPCDataField0x63_0E6(monster1)) {
           spawn DOOR.slot_21(pid, 1, door);
           suspend;
-          /* dword_to_word */
           if (process_result) {
             spawn ITEM.slot_2d(pid, var, monster1, arg_06);
             suspend;
-            /* dword_to_word */
             newNpc = process_result;
             if (newNpc) {
               spawn FREE.slot_32(pid, 2, 0x00000000);

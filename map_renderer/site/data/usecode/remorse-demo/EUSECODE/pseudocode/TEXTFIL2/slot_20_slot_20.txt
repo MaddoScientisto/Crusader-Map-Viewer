@@ -8,374 +8,247 @@ function textfil2_slot_20() /* entry=2592 class_id=0x0a1e slot=0x20 */
     textFile; /* [BP-02h] type=0x73 */
 
   if (msgNum == 110) {
-    /* free_local_string */
     textFile = "WARNING:^The laser field has been deactivated for thirty seconds. ^*End of Message <";
   }
   else if (msgNum == 111) {
     if (linkNum && passcode) {
-      /* concat */
-      /* concat */
-      /* concat */
-      /* free_local_string */
-      textFile = "^*End of Message <";
+      textFile = ((("ALERT:^Code to deactivate laser barrier in quadrant two:^ " + Actor.isDead(passcode)) + "^Priority Yellow alert issued. ") + "^*End of Message <");
     }
     else {
-      /* free_local_string */
       textFile = "Kimball Research Facility";
     }
   }
   else if (msgNum == 112) {
     if (linkNum && passcode) {
-      /* concat */
-      /* concat */
-      /* concat */
-      /* concat */
-      /* free_local_string */
-      textFile = "Priority RED alert issued. ";
+      textFile = (((("Code to deactivate Laser barrier in quadrant one: " + Actor.isDead(passcode)) + "*^WARNING, WARNING: ") + "^Access to facility unimpeded. ") + "Priority RED alert issued. ");
     }
     else {
-      /* free_local_string */
       textFile = "Kimball Research Facility";
     }
   }
   else if (msgNum == 113) {
     if (linkNum && passcode) {
-      /* concat */
-      /* free_local_string */
-      textFile = Actor.isDead(passcode);
+      textFile = ("The code to the force fields has been changed. The new code is:^ " + Actor.isDead(passcode));
     }
     else {
-      /* free_local_string */
       textFile = "Kimball Research Facility";
     }
   }
   else if (msgNum == 114) {
-    /* concat */
-    /* concat */
-    /* free_local_string */
-    textFile = ".^*End of Message <";
+    textFile = (("The access code to the computer storage room has been changed to: " + Actor.isDead(passcode)) + ".^*End of Message <");
   }
   else if (msgNum == 115) {
-    /* concat */
-    /* concat */
-    /* free_local_string */
-    textFile = ".^**Message <";
+    textFile = (("^** dleckl... code to security safe is: " + Actor.isDead(passcode)) + ".^**Message <");
   }
   else if (msgNum == 116) {
-    /* concat */
-    /* free_local_string */
-    textFile = Actor.isDead(passcode);
+    textFile = ("From: Marcus Watten, ^Chief of Security To: Bleys Ochoa We've had to restructure the whole system.  As of 0530 today, the new passcode to the security room is: " + Actor.isDead(passcode));
   }
   else if ((msgNum == 116) || (msgNum == 117)) {
     if (linkNum && passcode) {
-      /* concat */
-      /* concat */
-      /* concat */
-      /* free_local_string */
-      textFile = ".^^J.F.S";
+      textFile = ((("Dr. Tyrell, I have finished for the night and have locked up the lab. I changed the code to " + Actor.isDead(passcode)) + " keep the other employees from pilfering.") + ".^^J.F.S");
     }
     else {
-      /* free_local_string */
       textFile = "Kimball Research Facility^";
     }
   }
   else if (msgNum == 118) {
-    /* free_local_string */
     textFile = "Force field^blocking access^to telepad 5 ^has been deactivated. ";
   }
   else if (msgNum == 119) {
-    /* free_local_string */
     textFile = "Access to^restricted area^has been granted. ";
   }
   else {
-    /* free_local_string */
     textFile = "Bad command or file name...^File is out of range.";
     if (msgNum == 120) {
       if (linkNum && passcode) {
-        /* concat */
-        /* concat */
-        /* concat */
-        /* free_local_string */
-        textFile = ".^*End of Message <";
+        textFile = ((("To: All Employees^From: OWP Security^The OWP Research Facility is under a maximum security threat from rebel forces.Take note, the newest security code is " + Actor.isDead(passcode)) + ".^This message will be deleted in 24 hours <") + ".^*End of Message <");
       }
       else {
-        /* free_local_string */
         textFile = "The OWP Research Facility^";
       }
     }
     else if (msgNum == 121) {
-      /* free_local_string */
       textFile = "OWP Operations:^____________________^Now interfacing with remote service droid...*^Unit ZC90201^^Now *-ONLINE-.";
     }
     else if (msgNum == 122) {
-      /* free_local_string */
       textFile = "OWP Operations:^____________________^Now interfacing with remote service droid...*^Unit MXZ2391^^Now *-ONLINE-.";
     }
     else if ((msgNum == 123) || (msgNum == 124)) {
-      /* free_local_string */
       textFile = "The OWP Research Facility^";
     }
     else if (msgNum == 125) {
-      /* free_local_string */
       textFile = "Maximum Security Systems:^*Activated.";
     }
     else if ((((msgNum == 126) || (msgNum == 127)) || (msgNum == 0x0080)) || (msgNum == 0x0081)) {
       if (linkNum && passcode) {
-        /* concat */
-        /* concat */
-        /* concat */
-        /* free_local_string */
-        textFile = ".*End of Message <";
+        textFile = ((("To: All Employees^From: OWP Security^The OWP Research Facility is under a maximum security threat from rebel forces. Take note, the newest security code is " + Actor.isDead(passcode)) + ".^This message will be deleted in 24 hours ^<") + ".*End of Message <");
       }
       else {
-        /* free_local_string */
         textFile = "The OWP Research Facility^";
       }
     }
     else if (msgNum == 0x0082) {
-      /* free_local_string */
       textFile = "Draygan Correctional Institution^";
     }
     else if (msgNum == 0x0083) {
-      /* free_local_string */
       textFile = "Surveillance Central^";
     }
     else if (msgNum == 0x0084) {
-      /* free_local_string */
       textFile = "Maximum Security Surveillance Tower^Open Access";
     }
     else if (msgNum == 0x0085) {
-      /* free_local_string */
       textFile = "Enforcer Barracks^Open Access";
     }
     else if (msgNum == 0x0086) {
-      /* free_local_string */
       textFile = "Draygan Correctional Institution^Maximum Security Cell: 1^*Secure";
     }
     else if (msgNum == 0x0087) {
-      /* free_local_string */
       textFile = "Lift: *^ACTIVATED^";
     }
     else if (msgNum == 0x0088) {
-      /* free_local_string */
       textFile = "Force Wall De-activated^";
     }
     else if (msgNum == 0x0089) {
-      /* free_local_string */
       textFile = "Draygan Correctional Institution^Maximum Security Cell: 1^*Security deactivated";
     }
     else if (msgNum == 0x008a) {
-      /* free_local_string */
       textFile = "Receiving WEC transmision^Establishing vid-link**";
     }
     else if (msgNum == 0x008b) {
-      /* free_local_string */
       textFile = "Draygan Correctional Institution^";
     }
     else if (msgNum == 0x008c) {
-      /* free_local_string */
       textFile = "Door is now ajar.^ Have a nice day.^*End of Message <";
     }
     else if (msgNum == 0x008d) {
-      /* free_local_string */
       textFile = "Welcome to:^ The Asylum BBS^^      ///^      o o^  --m--U--m--^ |Your Sysop:|^ |   E---    |^  ----------- ^      / &^     ~   ~^";
     }
     else if (msgNum == 0x008e) {
-      /* free_local_string */
       textFile = "The power to the electric walls is now off.";
     }
     else if (msgNum == 0x008f) {
-      /* free_local_string */
       textFile = "Electric walls re-activated.";
     }
     else if (msgNum == 0x0090) {
-      /* concat */
-      /* concat */
-      /* free_local_string */
-      textFile = ".^*End of Message <";
+      textFile = (("ATTENTION ALL GUARDS:^The passcode to the office area has been changed to: " + Actor.isDead(passcode)) + ".^*End of Message <");
     }
     else if (msgNum == 0x0091) {
-      /* concat */
-      /* concat */
-      /* concat */
-      /* free_local_string */
-      textFile = "^*End of Message <";
+      textFile = ((("Professor T. Rooney:^I need to talk to you right away. Come to my office.^The code is:" + Actor.isDead(passcode)) + "^Signed:^Senator J.W. Gault III^") + "^*End of Message <");
     }
     else if (msgNum == 0x0092) {
-      /* concat */
-      /* concat */
-      /* free_local_string */
-      textFile = ".^*End of Message <";
+      textFile = (("NOTICE:^The impassable laser field has been activated. All guards needing to get through can use passcode: " + Actor.isDead(passcode)) + ".^*End of Message <");
     }
     else if (msgNum == 0x0093) {
-      /* free_local_string */
       textFile = "WARNING:^Computer Security Failure.^Alerting all guards and security systems.^^*End of Message <";
     }
     else if (msgNum == 0x0095) {
-      /* concat */
-      /* concat */
-      /* free_local_string */
-      textFile = ".^*End of Message <";
+      textFile = (("The New Extra-Special Super Secret passcode is now :" + Actor.isDead(passcode)) + ".^*End of Message <");
     }
     else if (msgNum == 0x0094) {
-      /* free_local_string */
       textFile = "Welcome to Hell.^Here comes the Cheese!";
     }
     else if (msgNum == 0x0096) {
-      /* concat */
-      /* concat */
-      /* concat */
-      /* free_local_string */
-      textFile = "disloyal workers from gaining weapons! ^<EOM>";
+      textFile = ((("From: Station Security:*^Due to a possible infiltrator, the passcode to the Enforcers' quarters has been changed to " + Actor.isDead(passcode)) + " to prevent ") + "disloyal workers from gaining weapons! ^<EOM>");
     }
     else if (msgNum == 0x0097) {
-      /* concat */
-      /* concat */
-      /* concat */
-      /* free_local_string */
-      textFile = "possible assassins from gaining access!";
+      textFile = ((("From: Station Security:*^Due to a possible saboteur, the passcode to the senators' conference room has been changed to " + Actor.isDead(passcode)) + " to prevent ") + "possible assassins from gaining access!");
     }
     else if (msgNum == 0x0098) {
-      /* free_local_string */
       textFile = "Security Cartel ^Droid Manual Overide:*^Networking to *<XHT1138>*Overide of servomech confirmed...^*^*Happy Hunting...";
     }
     else if (msgNum == 0x0099) {
-      /* free_local_string */
       textFile = "Security Cartel Network Base:^^Alpha Alarm Overide...Alarms triggered in this area were a result of a substandard networking interface.^Area is secured. No threats or breaches reported.*";
     }
     else if (msgNum == 0x009a) {
-      /* free_local_string */
       textFile = "Though there is no need for panic, everyone must head for the nearest life pod by which to evacuate the space station.^Obey WEC protocol. Congressmen and Senators first!";
     }
     else if (msgNum == 0x009b) {
-      /* free_local_string */
       textFile = "Security Cartel: ^Auxiliary Command Terminal.^Force field control system.^Field will remain intact, unless auxiliary code is *NOT re-entered via Primary Command terminal.";
     }
     else if (msgNum == 0x009c) {
-      /* free_local_string */
       textFile = "Command Terminal:^Due to Security Level Alpha ^the engineering defenses are now active.^*For safety, keep a 10 meter distance from blast area.";
     }
     else if (msgNum == 0x009d) {
-      /* free_local_string */
       textFile = "^Auxiliary Command Terminal.^*Netlink connected to barracks 1029-B.^*Accessing connecting passage...";
     }
     else if (msgNum == 0x009e) {
-      /* free_local_string */
       textFile = "^Auxiliary Command Terminal.^*Netlink connected to Engineering Nine.^*Passcode: 512-555-2788...^*Accessing connecting passage...";
     }
     else if (msgNum == 0x009f) {
-      /* free_local_string */
       textFile = "^Auxiliary Command Terminal:^Due to high levels of radioactive output, excessive durations within the containment room are not advisable.";
     }
     else if (msgNum == 0x00a0) {
-      /* free_local_string */
       textFile = "WEC SECURITY SYSTEM:^Alternate^Security^System^^Remote Vetron:*.*.*. ALL SYSTEMS ACTIVE";
     }
     else if (msgNum == 0x00a1) {
       if (linkNum && passcode) {
-        /* concat */
-        /* concat */
-        /* concat */
-        /* concat */
-        /* free_local_string */
-        textFile = "Remember, keep it to yourself!";
+        textFile = (((("The passcode for the North Entrance Incubation Room #3A is now " + Actor.isDead(passcode)) + ", because too ") + "many people were sharing passcodes. ") + "Remember, keep it to yourself!");
       }
       else {
-        /* free_local_string */
         textFile = "WEC SECURITY SYSTEM:^^Remote Camera: ACTIVE*^Incubation Room #3A";
       }
     }
     else if (msgNum == 0x00a2) {
       if (linkNum && passcode) {
-        /* concat */
-        /* concat */
-        /* concat */
-        /* concat */
-        /* free_local_string */
-        textFile = "Norma";
+        textFile = (((("Earl - The new passcode reader for the East Entrance to Incubation Room #3A isn't working well. I know it's " + Actor.isDead(passcode)) + ", but I can't get ") + "it to open all the time. Could you fix it? ") + "Norma");
       }
       else {
-        /* free_local_string */
         textFile = "WEC SECURITY SYSTEM:^^Remote Camera: ACTIVE*^Incubation Room #4A";
       }
     }
     else if (msgNum == 0x00a3) {
-      /* free_local_string */
       textFile = "WEC SECURITY SYSTEM:^^Remote Camera: ACTIVE*^BioWaste Reclamation Center";
     }
     else if (msgNum == 0x00a4) {
-      /* concat */
-      /* concat */
-      /* free_local_string */
-      textFile = ".";
+      textFile = (("^Doyle, this new breed of Silencer does not have any of the 'morality' problems of the previous generation. Soon the WEC will be able to crush the pitiful resistance! *^*Oh, due to a possible rebel invasion the passcode is changed to " + Actor.isDead(passcode)) + ".");
     }
     else if (msgNum == 0x00a5) {
-      /* free_local_string */
       textFile = "Audrey, Please come to my private chamber. I've got a new, larger specimen to show you. You will be most pleased! - Greggy";
     }
     else if (msgNum == 0x00a6) {
-      /* free_local_string */
       textFile = "Accessing Security Com 2341 ^*Please Wait ^Security Shields Down ^*Chrysalis Chambers Now Open ";
     }
     else if (msgNum == 0x00a7) {
-      /* free_local_string */
       textFile = "From: M. Galway^To: R. Renteria^You're not cool enough to to have Sonex panels. Return them immediately! Or else!";
     }
     else if (msgNum == 0x00aa) {
-      /* free_local_string */
       textFile = "From: DSNELL^______________^*You're Fired!^*^*^Turn in your badge and collect your things!";
     }
     else if (msgNum == 0x00ab) {
-      /* free_local_string */
       textFile = "Security Cartel:^______________^Due to a possible infiltrator in the refinery, Alpha level will remain in effect.All high clearance areas will only be accessible via the network. ^<End of Message>";
     }
     else if (msgNum == 0x00ac) {
-      /* concat */
-      /* concat */
-      /* concat */
-      /* free_local_string */
-      textFile = "^It would serve them right if the rebels got in here...";
+      textFile = ((("From: HSMITH^______________^I think some one at the head office has screwed up again.^" + Actor.isDead(passcode)) + " is still this week's passcode.") + "^It would serve them right if the rebels got in here...");
     }
     else if (msgNum == 0x00ad) {
-      /* free_local_string */
       textFile = "WEC Central Co*mma*@^#$%.*.*.*^^RESISTNET: *^Welcome, Rebel...^We have hidden some items for you in the safe.^Keep up the good work...^     The Designers";
     }
     else if (msgNum == 0x00ae) {
-      /* free_local_string */
       textFile = "Refinery Operations:^____________________^Now interfacing with remote service droid...*^<Roaming Susan>^^Unit is now *-ONLINE-.";
     }
     else if (msgNum == 0x00af) {
-      /* free_local_string */
       textFile = "Security Operations:^____________________^Lithium Power Core*^Level Nine";
     }
     else if (msgNum == 0x00b0) {
-      /* free_local_string */
       textFile = "SATELLITE TARGETING:^____________________<SATARG>*^^Weapons Operations^Level Seven";
     }
     else if (msgNum == 0x00b4) {
-      /* free_local_string */
       textFile = "Security Cartel:^________________^*Production Line^*<ACTIVATED>";
     }
     else if (msgNum == 0x00b6) {
-      /* free_local_string */
       textFile = "Security Cartel:^________________^*Production Line Force Barrier^*<DEACTIVATED>";
     }
     else if (msgNum == 0x00be) {
-      /* free_local_string */
       textFile = "NOTICE:^The impassable laser field has been activated. The laser fields must be reactivated after use.^*End of Message";
     }
     else if (msgNum == 0x00e2) {
-      /* free_local_string */
       textFile = "WEC SECURITY SYSTEM:^^Remote Camera: ACTIVE*";
     }
     else {
-      /* free_local_string */
       textFile = "Bad command or file name...^File is out of range.";
     }
   }
-  /* strcmp */
-  if ("") {
-    /* free_local_string */
+  if (strcmp(textFile, "") == 0) {
     textFile = "Bad command or file name...^File is out of range.";
   }
   return;

@@ -5,15 +5,13 @@ function door_slot_23() /* entry=2568 class_id=0x0a06 slot=0x23 */
   local_08 = retval;
   if (((local_08 == 3) || (local_08 == 4)) || (local_08 == 10)) {
     FREE.slot_34(arg_12, arg_10);
-    /* rsh */
-    local_10 = 2;
+    local_10 = (retval >> 2);
   }
   else {
     return;
   }
   spawn ITEM.slot_29(pid, 0x00fa, arg_12, arg_10, arg_06);
   suspend;
-  /* dword_to_word */
   if (!process_result) {
     FREE.slot_20(10);
     if (retval > 5) {

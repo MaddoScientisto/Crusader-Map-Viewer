@@ -42,15 +42,11 @@ function timer_slot_20() /* entry=1227 class_id=0x04c9 slot=0x20 */
     else if (a == 7) {
       phase2 = 90;
     }
-    /* word_to_dword */
     l1 = time;
-    /* word_to_dword */
     l2 = phase2;
     l1 = (l1 * l2);
-    /* word_to_dword */
     l3 = 100;
     l1 = (l1 / l3);
-    /* dword_to_word */
     phase2 = l1;
     time = (time - phase2);
     while (1) {
@@ -85,7 +81,6 @@ function timer_slot_20() /* entry=1227 class_id=0x04c9 slot=0x20 */
         }
       }
       if ((cmd & 1) == 0) {
-        /* bit_not */
         return;
       }
     }

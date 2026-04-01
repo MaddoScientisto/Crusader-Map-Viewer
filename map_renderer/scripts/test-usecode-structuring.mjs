@@ -205,6 +205,8 @@ function testWidthShimOpsStayHiddenInAssignmentsAndDiscards() {
   );
 
   assert.match(text, /baseLink = process_result;/u);
+  assert.match(text, /Item\.getType\(0x0001\);/u);
+  assert.match(text, /process_result = value;/u);
   assert.doesNotMatch(text, /dword_to_word/u);
   assert.doesNotMatch(text, /word_to_dword/u);
   assert.doesNotMatch(text, /pop_result/u);
@@ -292,6 +294,75 @@ function testStringCompareOpsRenderAsExpressions() {
   assert.doesNotMatch(text, /strcmp \*\//u);
 }
 
+function testCreateListAndAppendListRenderAsListExpressions() {
+  const text = renderPseudo(
+    makeIr(
+      [
+        op(0, "push_local_word", { bp_offset: 0xfc }),
+        op(1, "push_local_word", { bp_offset: 0xfa }),
+        op(2, "create_list", { element_size: 2, count: 1 }),
+        op(3, "append_list", {}),
+        op(4, "pop_local_word", { bp_offset: 0xfe }),
+        op(5, "ret", {})
+      ],
+      [
+        { bp_offset: 0xfe, bp_repr: "BP-02h", name: "list", type_id: 0x7a },
+        { bp_offset: 0xfc, bp_repr: "BP-04h", name: "existing", type_id: 0x7a },
+        { bp_offset: 0xfa, bp_repr: "BP-06h", name: "line", type_id: 0x73 }
+      ]
+    )
+  );
+
+  assert.match(text, /list = \(existing \+ \[line\]\);/u);
+  assert.doesNotMatch(text, /\/\* create_list \*\//u);
+  assert.doesNotMatch(text, /\/\* append_list \*\//u);
+}
+
+function testCompoundFalseBranchStaysNegated() {
+  const blocks = __testHooks.decompilePseudocodeBlocks(
+    makeIr(
+      [
+        op(0, "push_local_word", { bp_offset: 0xfe }),
+        op(1, "push_word_immediate", { value_u16: 1 }),
+        op(2, "cmp", {}),
+        op(3, "push_local_word", { bp_offset: 0xfe }),
+        op(4, "push_word_immediate", { value_u16: 2 }),
+        op(5, "cmp", {}),
+        op(6, "or", {}),
+        op(7, "jne", { target_offset: 10 }),
+        op(8, "ret", {}),
+        op(10, "ret", {})
+      ],
+      [
+        { bp_offset: 0xfe, bp_repr: "BP-02h", name: "mode", type_id: 0x69 }
+      ]
+    )
+  );
+
+  const entryLine = blocks[0][1].at(-1);
+  assert.match(entryLine, /if !\(\(mode == 0x0001\) \|\| \(mode == 0x0002\)\) goto /u);
+  assert.doesNotMatch(entryLine, /mode != 0x0001/u);
+}
+
+function testSelectorChainRendersAsSwitch() {
+  const structured = __testHooks.renderStructuredPseudocode([
+    ["entry", ["if selector != 1 goto block_0004;"]],
+    ["block_0002", ["foo();", "goto block_000a;"]],
+    ["block_0004", ["if selector != 2 goto block_0008;"]],
+    ["block_0006", ["bar();", "goto block_000a;"]],
+    ["block_0008", ["if selector != 3 goto block_000a;"]],
+    ["block_0009", ["baz();", "goto block_000a;"]],
+    ["block_000a", ["return;"]]
+  ]);
+
+  assert.ok(structured, "expected selector chain to structure as a switch");
+  const text = structured.join("\n");
+  assert.match(text, /switch \(selector\) \{/u);
+  assert.match(text, /case 1:/u);
+  assert.match(text, /case 2:/u);
+  assert.match(text, /case 3:/u);
+}
+
 function testRegionEndGotoCountsAsStructuredExit() {
   const structured = __testHooks.renderStructuredPseudocode([
     ["entry", ["if !condition goto block_exit;"]],
@@ -342,6 +413,68 @@ function testRealBlastpacUseNoLongerFallsBackToBlocks() {
   assert.match(text, /for item in nearby_items\(shape=0x053a, origin=global\[0x003c\]\) \{/iu);
   assert.doesNotMatch(text, /^\s*(?:entry|block_[0-9a-f]+):/imu);
   assert.doesNotMatch(text, /goto block_/iu);
+}
+
+function testRealRegretBridgeSlot22KeepsSideEffectsAndProcessResult() {
+  const usecodePath = path.resolve("STATIC_REGRET", "EUSECODE.FLX");
+  const buffer = fs.readFileSync(usecodePath);
+  const classRows = __testHooks.buildClassRows(buffer);
+  const classRow = classRows.find((row) => row.className === "BRIDGE");
+  assert.ok(classRow, "expected BRIDGE class in regret EUSECODE");
+
+  const eventRow = classRow.eventRows.find((row) => row.slot === 0x22);
+  assert.ok(eventRow, "expected BRIDGE slot 0x22 body");
+
+  const classNameMap = new Map(classRows.map((row) => [row.classId, row.className]));
+  const ir = __testHooks.buildIrForEvent(classRow, eventRow, "regret", classNameMap);
+  const text = __testHooks.renderPseudocode(ir, new Map());
+
+  assert.match(text, /local_04 = Item\.getQLo\(local_02\);/u);
+  assert.match(text, /Item\.playSfxCru\(0x0099, arg_06\);/u);
+  assert.match(text, /process_result = 1;/u);
+  assert.match(text, /process_result = 0;/u);
+}
+
+function testRealBroBootEquipRendersSwitch() {
+  const usecodePath = path.resolve("STATIC", "EUSECODE.FLX");
+  const buffer = fs.readFileSync(usecodePath);
+  const classRows = __testHooks.buildClassRows(buffer);
+  const classRow = classRows.find((row) => row.className === "BRO_BOOT");
+  assert.ok(classRow, "expected BRO_BOOT class in remorse EUSECODE");
+
+  const eventRow = classRow.eventRows.find((row) => row.slot === 0x0a);
+  assert.ok(eventRow, "expected BRO_BOOT slot 0x0a body");
+
+  const classNameMap = new Map(classRows.map((row) => [row.classId, row.className]));
+  const ir = __testHooks.buildIrForEvent(classRow, eventRow, "remorse", classNameMap);
+  const text = __testHooks.renderPseudocode(ir, new Map());
+
+  assert.match(text, /switch \(global\[0x001f\]\) \{/u);
+  assert.match(text, /case 2:/u);
+  assert.match(text, /case 10:/u);
+}
+
+function testRealBroBootEnterFastAreaNoLongerFallsBackToBlocks() {
+  const usecodePath = path.resolve("STATIC", "EUSECODE.FLX");
+  const buffer = fs.readFileSync(usecodePath);
+  const classRows = __testHooks.buildClassRows(buffer);
+  const classRow = classRows.find((row) => row.className === "BRO_BOOT");
+  assert.ok(classRow, "expected BRO_BOOT class in remorse EUSECODE");
+
+  const eventRow = classRow.eventRows.find((row) => row.slot === 0x0f);
+  assert.ok(eventRow, "expected BRO_BOOT slot 0x0f body");
+
+  const classNameMap = new Map(classRows.map((row) => [row.classId, row.className]));
+  const ir = __testHooks.buildIrForEvent(classRow, eventRow, "remorse", classNameMap);
+  const text = __testHooks.renderPseudocode(ir, new Map());
+
+  assert.match(text, /if \([\s\S]*global\[0x001f\] == 2[\s\S]*\|\|[\s\S]*global\[0x001f\] == 3/u);
+  assert.match(text, /Item\.setFrame\(0, arg_06\);/u);
+  assert.match(text, /Item\.setFrame\(10, arg_06\);/u);
+  assert.match(text, /while \(true\) \{/u);
+  assert.doesNotMatch(text, /^\s*(?:entry|block_[0-9a-f]+):/imu);
+  assert.doesNotMatch(text, /goto block_/iu);
+  assert.doesNotMatch(text, /global\[0x001f\] != 2/u);
 }
 
 function testGlobalAddressFeedsIntrinsicsAndLoopnextStaysHidden() {
@@ -405,9 +538,15 @@ testUnaryAndConcatOpsRenderAsExpressions();
 testUndecodedLoopSetupStaysHidden();
 testShiftAndStringCompareOpsRenderAsExpressions();
 testStringCompareOpsRenderAsExpressions();
+testCreateListAndAppendListRenderAsListExpressions();
+testCompoundFalseBranchStaysNegated();
+testSelectorChainRendersAsSwitch();
 testRegionEndGotoCountsAsStructuredExit();
 testRealTriggerSlot20NoLongerFallsBackToBlocks();
 testRealBlastpacUseNoLongerFallsBackToBlocks();
+testRealRegretBridgeSlot22KeepsSideEffectsAndProcessResult();
+testRealBroBootEquipRendersSwitch();
+testRealBroBootEnterFastAreaNoLongerFallsBackToBlocks();
 testImportedIntrinsicTablesResolveKnownOrdinals();
 testGlobalAddressFeedsIntrinsicsAndLoopnextStaysHidden();
 testNamedIntrinsic003cRendersAsItemFamily();

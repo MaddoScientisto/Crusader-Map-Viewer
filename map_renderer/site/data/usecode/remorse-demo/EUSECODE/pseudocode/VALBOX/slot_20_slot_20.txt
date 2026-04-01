@@ -7,8 +7,7 @@ function valbox_slot_20() /* entry=2587 class_id=0x0a19 slot=0x20 */
     keypadCode; /* [BP-06h] type=0x69 */
 
   lowByte = (Item.getNPCNum(arg_06) & 0x00ff);
-  /* lsh */
-  highByte = 8;
+  highByte = ((Item.getMapArray(arg_06) & 3) << 8);
   keypadCode = (lowByte + highByte);
   if (keypadCode > 0x03e7) {
     return;

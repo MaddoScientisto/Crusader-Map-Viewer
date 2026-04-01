@@ -16,13 +16,10 @@ function elevator_gotHit() /* entry=402 class_id=0x0190 slot=0x06 */
     return;
   }
   else if (Item.getQLo(arg_06) < 100) {
-    /* str_to_ptr */
-    /* free_stack_string */
     suspend;
     return;
   }
   else {
-    /* pop_global */
     FREE.slot_3c(0x0220, 0);
     while (Item.legal_move(&global[0x001e])) {
       spawn FREE.slot_3b(pid, 2, 0x00000000);
@@ -37,8 +34,6 @@ function elevator_gotHit() /* entry=402 class_id=0x0190 slot=0x06 */
     local_04 = arg_10;
     local_06 = Item.getQLo(arg_06);
     local_08 = Actor.setDefaultActivity1(arg_06);
-    /* loopscr */
-    /* loop */
     while (condition) {
       if (local_04 != *(arg_06)) {
         if (Actor.isNPC(local_04)) {

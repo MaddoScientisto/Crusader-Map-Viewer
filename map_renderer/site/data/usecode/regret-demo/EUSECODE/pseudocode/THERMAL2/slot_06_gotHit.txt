@@ -11,7 +11,6 @@ function thermal2_gotHit() /* entry=1258 class_id=0x04e8 slot=0x06 */
     else {
       spawn ITEM.slot_29(pid, 120, arg_12, arg_10, arg_06);
       suspend;
-      /* dword_to_word */
       if (!process_result) {
         FREE.slot_20(1);
         if (retval) {
@@ -21,9 +20,6 @@ function thermal2_gotHit() /* entry=1258 class_id=0x04e8 slot=0x06 */
       else {
         spawn ITEM.slot_2a(pid, 0, 2, arg_06);
         suspend;
-        /* loopscr */
-        /* loopscr */
-        /* loop */
         while (condition) {
           spawn ITEM.slot_2a(pid, 0, 1, local_02);
           suspend;

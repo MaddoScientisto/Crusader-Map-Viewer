@@ -5,9 +5,7 @@ function telepad_slot_20() /* entry=477 class_id=0x01db slot=0x20 */
     return;
   }
   else {
-    /* pop_global */
-    /* pop_global */
-    spawn FREE.slot_3b(0, 0, pid, 0, 0x00000000);
+    spawn FREE.slot_3b(pid, 0, 0x00000000);
     suspend;
     FREE.slot_3c(0x0215, 0);
     FREE.slot_3c(0x0228, 0);
@@ -26,10 +24,6 @@ function telepad_slot_20() /* entry=477 class_id=0x01db slot=0x20 */
       if (arg_10 == 3) {
         spawn FREE.slot_3b(pid, 120, 0x00000000);
         suspend;
-        /* str_to_ptr */
-        /* free_stack_string */
-        /* str_to_ptr */
-        /* free_stack_string */
         return;
       }
       if (arg_10) {

@@ -10,21 +10,17 @@ function npc_slot_2a() /* entry=2579 class_id=0x0a11 slot=0x2a */
   if ((global[0x0008] == 1) || (Intrinsic02F(n) == 0)) {
     return;
   }
+  else if (Item.getStatus(n) & 4) {
+    return;
+  }
   else {
-    /* pop_global */
-    if (Item.getStatus(n) & 4) {
-      return;
-    }
-    else {
-      ITEM.slot_23(4, n);
-      while (Container.destroyContents(phrase, n)) {
-        spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
-        suspend;
-      }
-      spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
+    ITEM.slot_23(4, n);
+    while (Container.destroyContents(phrase, n)) {
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
       suspend;
-      /* pop_global */
     }
+    spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
+    suspend;
   }
   return;
 }

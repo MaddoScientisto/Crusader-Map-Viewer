@@ -16,10 +16,8 @@ function surcamew_slot_20() /* entry=1248 class_id=0x04de slot=0x20 */
       if ((Item.andStatus(monit) == link) || (link == 0)) {
         if (Item.getNPCNum(monit)) {
           TEXTFILE.slot_21(Item.getNPCNum(monit), Item.andStatus(monit), arg_06);
-          /* free_local_string */
           textFile = retval;
           spawn TEXTFILE.slot_20(pid, textFile, arg_06);
-          /* free_stack_string */
           suspend;
         }
       }
@@ -44,22 +42,17 @@ function surcamew_slot_20() /* entry=1248 class_id=0x04de slot=0x20 */
       }
       if (code) {
         TEXTFILE.slot_23(passcode, Item.getNPCNum(arg_06), Item.andStatus(arg_06), arg_06);
-        /* free_local_string */
         textFile = retval;
       }
       else {
         TEXTFILE.slot_21(Item.getNPCNum(arg_06), Item.andStatus(arg_06), arg_06);
-        /* free_local_string */
         textFile = retval;
       }
       spawn TEXTFILE.slot_20(pid, textFile, arg_06);
-      /* free_stack_string */
       suspend;
     }
     spawn SURCAMEW.slot_21(pid, arg_06);
     suspend;
   }
-  /* bit_not */
-  /* free_local_string */
   return;
 }

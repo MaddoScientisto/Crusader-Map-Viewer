@@ -14,7 +14,6 @@ function blastpac_slot_20() /* entry=925 class_id=0x039b slot=0x20 */
   if (Actor.getMap(&global[0x003d]) == 1) {
     spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
     suspend;
-    /* pop_global */
     for local_02 in nearby_items(shape=REACTOR, origin=global[0x003d]) {
       spawn ITEM.slot_28(pid, 0, 2, local_02);
       suspend;
@@ -53,15 +52,13 @@ function blastpac_slot_20() /* entry=925 class_id=0x039b slot=0x20 */
     spawn FREE.waitNTimerTicks(pid, 0x00c8, 0x00000000);
     suspend;
     spawn FREE.slot_26(pid, "1c", 0x00000000);
-    /* free_stack_string */
     suspend;
     for local_02 in selector_0x42(arg0=0x032a, arg1=0x0329, arg2=(50 * 32), origin=global[0x003d]) {
     }
     return;
   }
   else if (Actor.getMap(&global[0x003d]) == 7) {
-    /* pop_global */
-    spawn FREE.waitNTimerTicks(1, pid, 10, 0x00000000);
+    spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
     suspend;
     for local_02 in nearby_items(shape=COMM_CONSOLE, origin=global[0x003d]) {
       local_10 = local_02;
@@ -97,7 +94,6 @@ function blastpac_slot_20() /* entry=925 class_id=0x039b slot=0x20 */
     spawn FREE.waitNTimerTicks(pid, 0x00c8, 0x00000000);
     suspend;
     spawn FREE.slot_26(pid, "4g", 0x00000000);
-    /* free_stack_string */
     suspend;
     for local_02 in selector_0x42(arg0=0x032a, arg1=0x0329, arg2=(50 * 32), origin=local_10) {
     }
@@ -106,7 +102,6 @@ function blastpac_slot_20() /* entry=925 class_id=0x039b slot=0x20 */
   else if (Actor.getMap(&global[0x003d]) == 29) {
     spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
     suspend;
-    /* pop_global */
     for local_02 in nearby_items(shape=LIGHT_TUBE, origin=global[0x003d]) {
       spawn ITEM.slot_28(pid, 0, 2, local_02);
       suspend;

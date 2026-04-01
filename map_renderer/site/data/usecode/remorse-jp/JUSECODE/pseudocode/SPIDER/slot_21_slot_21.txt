@@ -12,11 +12,9 @@ function spider_slot_21() /* entry=2585 class_id=0x0a17 slot=0x21 */
   set_info(1, spider);
   target = tar;
   while ((targetLoop - 1) > 0) {
-    /* rsh */
-    x = 1;
-    /* rsh */
-    y = 1;
-    spawn SPIDER.slot_22((Item.getX(target) - Item.getX(arg_06)), (Item.getY(target) - Item.getY(arg_06)), pid, (Game.getDifficultyLevel() + 5), Item.getZ(arg_06), (y + Item.getY(arg_06)), (x + Item.getX(arg_06)), arg_06);
+    x = ((Item.getX(target) - Item.getX(arg_06)) >> 1);
+    y = ((Item.getY(target) - Item.getY(arg_06)) >> 1);
+    spawn SPIDER.slot_22(pid, (Game.getDifficultyLevel() + 5), Item.getZ(arg_06), (y + Item.getY(arg_06)), (x + Item.getX(arg_06)), arg_06);
     suspend;
     targetLoop = (targetLoop - 1);
   }

@@ -34,7 +34,6 @@ function trigger_slot_20() /* entry=2586 class_id=0x0a18 slot=0x20 */
     npcNum = Item.getNPCNum(aitem);
   }
   newLink = baseLink;
-  /* pop_global */
   if (phase < 0x0080) {
     searchtype = (((mapNum & 0x00e0) * 8) + npcNum);
     if (mapNum == 0) {
@@ -69,20 +68,17 @@ function trigger_slot_20() /* entry=2586 class_id=0x0a18 slot=0x20 */
           if (searchtype != 0) {
             spawn TRIGGER.slot_25(pid, searchtype, baseLink, mapNum, npcNum, qHi, ref, arg_06);
             suspend;
-            /* dword_to_word */
             baseLink = process_result;
           }
         }
         else if (searchtype == 0x07ff) {
           spawn TRIGGER.slot_24(pid, searchtype, baseLink, mapNum, npcNum, qHi, ref, arg_06);
           suspend;
-          /* dword_to_word */
           baseLink = process_result;
         }
         else if (searchtype != 0) {
           spawn TRIGGER.slot_23(pid, searchtype, baseLink, mapNum, npcNum, qHi, ref, arg_06);
           suspend;
-          /* dword_to_word */
           baseLink = process_result;
         }
       }
@@ -90,20 +86,17 @@ function trigger_slot_20() /* entry=2586 class_id=0x0a18 slot=0x20 */
         if (searchtype != 0) {
           spawn TRIGGER.slot_28(pid, searchtype, baseLink, mapNum, npcNum, qHi, ref, arg_06);
           suspend;
-          /* dword_to_word */
           baseLink = process_result;
         }
       }
       else if (searchtype == 0x07ff) {
         spawn TRIGGER.slot_27(pid, searchtype, baseLink, mapNum, npcNum, qHi, ref, arg_06);
         suspend;
-        /* dword_to_word */
         baseLink = process_result;
       }
       else if (searchtype != 0) {
         spawn TRIGGER.slot_26(pid, searchtype, baseLink, mapNum, npcNum, qHi, ref, arg_06);
         suspend;
-        /* dword_to_word */
         baseLink = process_result;
       }
     }
@@ -121,13 +114,11 @@ function trigger_slot_20() /* entry=2586 class_id=0x0a18 slot=0x20 */
           if (mapNum & 16) {
             spawn TRIGGER.slot_21(pid, item, arg_06);
             suspend;
-            /* dword_to_word */
             newLink = process_result;
           }
           else {
             /* create_list */
             /* append_list */
-            /* free_local_list */
             lowPriorityTriggers = item;
           }
         }
@@ -137,11 +128,9 @@ function trigger_slot_20() /* entry=2586 class_id=0x0a18 slot=0x20 */
       foreach_list item -> block_05cc;
       spawn TRIGGER.slot_21(pid, item, arg_06);
       suspend;
-      /* dword_to_word */
       newLink = process_result;
       /* create_list */
       /* remove_matching_inline */
-      /* free_local_list */
       lowPriorityTriggers = item;
     }
     if (newLink == baseLink) {
@@ -151,6 +140,5 @@ function trigger_slot_20() /* entry=2586 class_id=0x0a18 slot=0x20 */
       baseLink = newLink;
     }
   }
-  /* free_local_list */
   return;
 }

@@ -5,20 +5,11 @@ function videoegg_hatch() /* entry=2330 class_id=0x0918 slot=0x07 */
   if (World.getControlledNPCNum() != 1) {
     return;
   }
+  else if (global[0x0001]) {
+    spawn ITEM.slot_21(&global[0x001e]);
+  }
   else {
-    /* pop_global */
-    if (global[0x0001]) {
-      spawn ITEM.slot_21(&global[0x001e]);
-    }
-    else {
-      /* loopscr */
-      /* loopscr */
-      /* loopscr */
-      /* loopscr */
-      /* loop */
-      while (condition) {
-      }
-      /* pop_global */
+    while (condition) {
     }
   }
   return;

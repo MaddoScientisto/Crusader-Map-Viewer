@@ -3,11 +3,8 @@ function miss15_hatch() /* entry=2333 class_id=0x091b slot=0x07 */
   set_info(0x0210, *(arg_06));
   process_exclude();
   if (Item.fallProbably_03E(arg_06) == 1) {
-    /* pop_global */
     spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
     suspend;
-    /* str_to_ptr */
-    /* free_stack_string */
     suspend;
     suspend;
     suspend;
@@ -22,12 +19,10 @@ function miss15_hatch() /* entry=2333 class_id=0x091b slot=0x07 */
     suspend;
     suspend;
     suspend;
-    /* pop_global */
     return;
   }
   else if (Item.fallProbably_03E(arg_06) == 2) {
     spawn FREE.slot_26(pid, "15c", 0x00000000);
-    /* free_stack_string */
     suspend;
     return;
   }
@@ -38,8 +33,6 @@ function miss15_hatch() /* entry=2333 class_id=0x091b slot=0x07 */
     }
     FREE.slot_41();
     suspend;
-    /* str_to_ptr */
-    /* free_stack_string */
     suspend;
     spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
     suspend;

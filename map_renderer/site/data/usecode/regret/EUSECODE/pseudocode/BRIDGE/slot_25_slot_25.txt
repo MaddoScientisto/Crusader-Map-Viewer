@@ -34,7 +34,6 @@ function bridge_slot_25() /* entry=2590 class_id=0x0a1c slot=0x25 */
         if (local_08 == local_10) {
           /* create_list */
           /* append_list */
-          /* free_local_list */
           local_04 = local_02;
           local_10 = (local_10 - 1);
         }
@@ -46,7 +45,6 @@ function bridge_slot_25() /* entry=2590 class_id=0x0a1c slot=0x25 */
             if (local_08 == local_10) {
               /* create_list */
               /* append_list */
-              /* free_local_list */
               local_04 = local_02;
               local_10 = (local_10 - 1);
             }
@@ -65,8 +63,6 @@ function bridge_slot_25() /* entry=2590 class_id=0x0a1c slot=0x25 */
         spawn FREE.slot_3b(pid, 15, 0x00000000);
         suspend;
       }
-      /* loopscr */
-      /* loop */
       while (condition) {
         if ((Item.getItemFamily(local_14) == 6) && (Actor.isNPC(local_14) == 0)) {
           for local_16 in nearby_items(shape=0x04b8, origin=local_14) {
@@ -81,8 +77,6 @@ function bridge_slot_25() /* entry=2590 class_id=0x0a1c slot=0x25 */
       if (Intrinsic00AD(local_02) == 1) {
         BRIDGE.slot_21(0x0336, local_02);
       }
-      /* loopscr */
-      /* loop */
       while (condition) {
         if ((Item.getItemFamily(local_14) == 6) && (Actor.isNPC(local_14) == 0)) {
           for local_16 in nearby_items(shape=0x04b8, origin=local_14) {
@@ -93,6 +87,5 @@ function bridge_slot_25() /* entry=2590 class_id=0x0a1c slot=0x25 */
       }
     }
   }
-  /* free_local_list */
   return;
 }

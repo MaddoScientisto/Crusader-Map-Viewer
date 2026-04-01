@@ -7,10 +7,8 @@ function watchew_slot_20() /* entry=1248 class_id=0x04de slot=0x20 */
       if ((Item.hurl(local_04) == local_10) || (local_10 == 0)) {
         if (Item.getNpcNum(local_04)) {
           TEXTFILE.slot_21(Item.getNpcNum(local_04), Item.hurl(local_04), arg_06);
-          /* free_local_string */
           local_02 = retval;
           spawn TEXTFILE.slot_20(pid, local_02, arg_06);
-          /* free_stack_string */
           suspend;
         }
       }
@@ -35,22 +33,17 @@ function watchew_slot_20() /* entry=1248 class_id=0x04de slot=0x20 */
       }
       if (local_11) {
         TEXTFILE.slot_23(local_08, Item.getNpcNum(arg_06), Item.hurl(arg_06), arg_06);
-        /* free_local_string */
         local_02 = retval;
       }
       else {
         TEXTFILE.slot_21(Item.getNpcNum(arg_06), Item.hurl(arg_06), arg_06);
-        /* free_local_string */
         local_02 = retval;
       }
       spawn TEXTFILE.slot_20(pid, local_02, arg_06);
-      /* free_stack_string */
       suspend;
     }
     spawn WATCHEW.slot_21(pid, arg_06);
     suspend;
   }
-  /* bit_not */
-  /* free_local_string */
   return;
 }

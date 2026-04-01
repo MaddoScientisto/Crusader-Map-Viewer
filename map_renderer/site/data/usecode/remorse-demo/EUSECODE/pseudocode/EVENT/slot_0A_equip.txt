@@ -159,9 +159,6 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
     spawn NPC.slot_22(pid, 3, 12, &global[0x003c]);
     suspend;
     suspend;
-    /* pop_global */
-    /* loopscr */
-    /* loop */
     while (condition) {
       if (Actor.setImmortal(door) == 5) {
         spawn DOOR.slot_20(pid, door);
@@ -173,8 +170,6 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
     }
     spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
     suspend;
-    /* str_to_ptr */
-    /* free_stack_string */
     suspend;
     spawn FREE.waitNTimerTicks(pid, 120, 0x00000000);
     suspend;
@@ -347,8 +342,6 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
     return;
   }
   else if (event == 50) {
-    /* loopscr */
-    /* loop */
     while (condition) {
       if (Actor.setImmortal(door) == 100) {
         spawn DOOR.slot_20(pid, door);
@@ -493,8 +486,6 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
   else if (event == 88) {
     spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
     suspend;
-    /* str_to_ptr */
-    /* free_stack_string */
     suspend;
     return;
   }
@@ -523,15 +514,11 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
   }
   else if (event == 0x00c8) {
     if (global[0x0022] == 0) {
-      /* str_to_ptr */
-      /* free_stack_string */
       suspend;
       spawn FREE.waitNTimerTicks(pid, 20, 0x00000000);
       suspend;
       spawn FREE.slot_26(pid, "3h", 0x00000000);
-      /* free_stack_string */
       suspend;
-      /* pop_global */
     }
     return;
   }
@@ -547,19 +534,14 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
     return;
   }
   else if (event == 0x00d4) {
-    /* pop_global */
-    spawn FREE.waitNTimerTicks(1, pid, 60, 0x00000000);
+    spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
     suspend;
-    /* str_to_ptr */
-    /* free_stack_string */
     suspend;
     return;
   }
   else if (event == 0x00d5) {
     spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
     suspend;
-    /* str_to_ptr */
-    /* free_stack_string */
     suspend;
     return;
   }

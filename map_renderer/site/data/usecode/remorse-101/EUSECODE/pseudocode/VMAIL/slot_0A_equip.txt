@@ -3,69 +3,36 @@ function vmail_equip() /* entry=873 class_id=0x0367 slot=0x0a */
   set_info(0x0211, *(arg_06));
   process_exclude();
   suspend;
-  /* concat */
-  /* concat */
-  /* concat */
-  /* concat */
-  /* concat */
-  /* concat */
-  /* concat */
-  /* concat */
-  /* concat */
-  /* concat */
-  /* concat */
-  /* concat */
-  /* concat */
-  /* concat */
-  /* concat */
-  /* concat */
-  /* concat */
-  /* free_local_string */
-  local_02 = Item.andStatus(global[0x001c]);
-  spawn FREE.waitNTimerTicks("KILL BOARD:^-----------^Guards: ", Item.andStatus(global[0x000c]), "^Soldiers: ", Item.andStatus(global[0x000e]), "^Storm troopers: ", Item.andStatus(global[0x0010]), "^Elite troopers: ", Item.andStatus(global[0x0012]), "^Enforcers: ", Item.andStatus(global[0x0014]), "^^Androids: ", Item.andStatus(global[0x0016]), "^Thermatrons: ", Item.andStatus(global[0x0018]), "^Vetrons: ", Item.andStatus(global[0x001a]), pid, 10, 0x00000000);
+  local_02 = ((((((((((((((((("KILL BOARD:^-----------^Guards: " + Item.andStatus(global[0x000c])) + "^Soldiers: ") + Item.andStatus(global[0x000e])) + "^Storm troopers: ") + Item.andStatus(global[0x0010])) + "^Elite troopers: ") + Item.andStatus(global[0x0012])) + "^Enforcers: ") + Item.andStatus(global[0x0014])) + "^^Androids: ") + Item.andStatus(global[0x0016])) + "^Thermatrons: ") + Item.andStatus(global[0x0018])) + "^Vetrons: ") + Item.andStatus(global[0x001a])) + "^Solartrons: ") + Item.andStatus(global[0x001c]));
+  spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
   suspend;
   if (global[0x0020] == 4) {
-    /* str_to_ptr */
-    /* free_stack_string */
     suspend;
     return;
   }
   else if (global[0x0020] == 6) {
-    /* str_to_ptr */
-    /* free_stack_string */
     suspend;
     return;
   }
   else if (global[0x0020] == 7) {
-    /* str_to_ptr */
-    /* free_stack_string */
     suspend;
     return;
   }
   else if (global[0x0020] == 8) {
-    /* str_to_ptr */
-    /* free_stack_string */
     suspend;
     return;
   }
   else if (global[0x0020] == 11) {
-    /* str_to_ptr */
-    /* free_stack_string */
     suspend;
     return;
   }
   else if (global[0x0020] == 12) {
-    /* str_to_ptr */
-    /* free_stack_string */
     suspend;
     return;
   }
   else if (global[0x0020] == 14) {
-    /* str_to_ptr */
-    /* free_stack_string */
     suspend;
     return;
   }
-  /* free_local_string */
   return;
 }

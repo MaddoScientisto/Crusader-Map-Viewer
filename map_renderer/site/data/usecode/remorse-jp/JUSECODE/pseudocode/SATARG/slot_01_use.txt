@@ -20,8 +20,6 @@ function satarg_use() /* entry=1355 class_id=0x0549 slot=0x01 */
     suspend;
     spawn FREE.slot_32(pid, 60, 0x00000000);
     suspend;
-    /* str_to_ptr */
-    /* free_stack_string */
     suspend;
     spawn FREE.slot_32(pid, 60, 0x00000000);
     suspend;
@@ -49,12 +47,10 @@ function satarg_use() /* entry=1355 class_id=0x0549 slot=0x01 */
     spawn FREE.slot_32(pid, 0x00c8, 0x00000000);
     suspend;
     spawn FREE.slot_26(pid, "15d", 0x00000000);
-    /* free_stack_string */
     suspend;
     spawn FREE.slot_32(pid, 0x00c8, 0x00000000);
     suspend;
-    /* pop_global */
-    spawn TRIGGER.slot_20(1, pid, 0, *(arg_06), arg_06);
+    spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
     suspend;
     spawn FREE.slot_32(pid, 0x00c8, 0x00000000);
     suspend;

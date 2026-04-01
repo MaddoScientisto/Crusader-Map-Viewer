@@ -13,10 +13,8 @@ function door2_slot_23() /* entry=2569 class_id=0x0a07 slot=0x23 */
   }
   else {
     /* create_list */
-    /* free_local_list */
     doorList = 0x0107;
     FREE.slot_3a(70, 85, 88, 101, 100, 99, 89, 0x0103, 0x0104, 0x0105, 0x0106, doorList);
-    /* free_stack_list */
     maxFrame = retval;
     counter = (maxFrame - 1);
     while (counter != 0) {
@@ -33,16 +31,11 @@ function door2_slot_23() /* entry=2569 class_id=0x0a07 slot=0x23 */
           suspend;
           counter = (1 + counter);
         }
-        /* word_to_dword */
-        /* pop_result */
         return;
       }
       counter = (counter - 1);
     }
-    /* word_to_dword */
-    /* pop_result */
     return;
   }
-  /* free_local_list */
   return;
 }

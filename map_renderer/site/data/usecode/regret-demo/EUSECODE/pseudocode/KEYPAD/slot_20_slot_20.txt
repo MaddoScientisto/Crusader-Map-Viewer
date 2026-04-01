@@ -15,7 +15,6 @@ function keypad_slot_20() /* entry=2578 class_id=0x0a10 slot=0x20 */
   if ((Item.getStatus(arg_06) & 0x1000) == 0) {
     local_12 = Actor.getEquip(local_10);
     if (local_12 == -1) {
-      /* bit_not */
       return;
     }
     else if (local_12 == local_10) {
@@ -33,7 +32,6 @@ function keypad_slot_20() /* entry=2578 class_id=0x0a10 slot=0x20 */
         spawn FREE.slot_44(0x00000000);
       }
     }
-    /* bit_not */
   }
   return;
 }

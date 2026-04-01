@@ -13,10 +13,8 @@ function watchns_use() /* entry=1224 class_id=0x04c6 slot=0x01 */
   else {
     ITEM.slot_26((World.getAlertActive() == 1), 4, arg_06);
     if (retval == 1) {
-      /* free_local_string */
       local_02 = "SECURITY OPS^_____________^^CODE RED IN PROGRESS.^UNABLE TO ACCESS CENTRAL SECURITY.";
       spawn TEXTFILE.slot_20(pid, local_02, arg_06);
-      /* free_stack_string */
       suspend;
       return;
     }
@@ -24,6 +22,5 @@ function watchns_use() /* entry=1224 class_id=0x04c6 slot=0x01 */
       spawn WATCHNS.slot_20(arg_06);
     }
   }
-  /* free_local_string */
   return;
 }

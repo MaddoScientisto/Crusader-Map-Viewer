@@ -62,7 +62,6 @@ function bridge_slot_26() /* entry=2565 class_id=0x0a03 slot=0x26 */
           }
           /* create_list */
           /* append_list */
-          /* free_local_list */
           bridgeitems = item;
           y = (1 + y);
         }
@@ -105,8 +104,6 @@ function bridge_slot_26() /* entry=2565 class_id=0x0a03 slot=0x26 */
             foreach_list item -> block_10e1;
             x = Item.getFrame(item);
             if (x == 1) {
-              /* loopscr */
-              /* loop */
               while (condition) {
                 n = item2;
                 FREE.slot_20(pid, 8);
@@ -116,8 +113,6 @@ function bridge_slot_26() /* entry=2565 class_id=0x0a03 slot=0x26 */
             }
             else if (x == 2) {
               BRIDGE.slot_21(0x0336, item);
-              /* loopscr */
-              /* loop */
               while (condition) {
               }
               spawn FREE.waitNTimerTicks(pid, delay, 0x00000000);
@@ -146,8 +141,6 @@ function bridge_slot_26() /* entry=2565 class_id=0x0a03 slot=0x26 */
           return;
         }
         if (cycletype == 1) {
-          /* loopscr */
-          /* loop */
           while (condition) {
             n = item2;
             FREE.slot_20(pid, 8);
@@ -159,8 +152,6 @@ function bridge_slot_26() /* entry=2565 class_id=0x0a03 slot=0x26 */
         }
         else if (cycletype == 2) {
           BRIDGE.slot_21(0x0336, item);
-          /* loopscr */
-          /* loop */
           while (condition) {
           }
           spawn FREE.waitNTimerTicks(pid, delay, 0x00000000);
@@ -175,6 +166,5 @@ function bridge_slot_26() /* entry=2565 class_id=0x0a03 slot=0x26 */
       }
     }
   }
-  /* free_local_list */
   return;
 }

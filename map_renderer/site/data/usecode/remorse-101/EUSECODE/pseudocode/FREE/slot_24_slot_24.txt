@@ -5,7 +5,6 @@ function free_slot_24() /* entry=2574 class_id=0x0a0c slot=0x24 */
     return;
   }
   else {
-    /* pop_global */
     suspend;
     spawn FREE.waitNTimerTicks(pid, arg_06, 0x00000000);
     suspend;
@@ -19,11 +18,8 @@ function free_slot_24() /* entry=2574 class_id=0x0a0c slot=0x24 */
       else {
         arg_06 = (arg_06 - 1);
         if (arg_06 == 0) {
-          /* pop_global */
           spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
           suspend;
-          /* str_to_ptr */
-          /* free_stack_string */
           suspend;
           return;
         }

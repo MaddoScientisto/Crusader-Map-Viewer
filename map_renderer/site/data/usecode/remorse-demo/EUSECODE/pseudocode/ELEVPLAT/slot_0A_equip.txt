@@ -6,10 +6,8 @@ function elevplat_equip() /* entry=305 class_id=0x012f slot=0x0a */
     return;
   }
   else {
-    /* pop_global */
     local_02 = Item.getZ(arg_06);
     if ((arg_10 >= 0x00a0) && (arg_10 < 0x00ff)) {
-      /* pop_global */
       arg_10 = (arg_10 - 0x00a0);
     }
     if (arg_10 == 0x00ff) {
@@ -24,11 +22,6 @@ function elevplat_equip() /* entry=305 class_id=0x012f slot=0x0a */
     spawn ELEVAT.slot_20(pid, arg_06);
     suspend;
     if (global[0x0000] == 1) {
-      /* loopscr */
-      /* loopscr */
-      /* loopscr */
-      /* loopscr */
-      /* loop */
       while (condition) {
         spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
         suspend;

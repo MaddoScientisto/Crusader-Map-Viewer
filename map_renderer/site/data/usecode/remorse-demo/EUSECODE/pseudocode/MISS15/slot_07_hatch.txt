@@ -12,8 +12,6 @@ function miss15_hatch() /* entry=2333 class_id=0x091b slot=0x07 */
   if (CameraProcess.setCenterOn(arg_06) == 1) {
     spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
     suspend;
-    /* str_to_ptr */
-    /* free_stack_string */
     suspend;
     suspend;
     suspend;
@@ -32,7 +30,6 @@ function miss15_hatch() /* entry=2333 class_id=0x091b slot=0x07 */
   }
   else if (CameraProcess.setCenterOn(arg_06) == 2) {
     spawn FREE.slot_26(pid, "15c", 0x00000000);
-    /* free_stack_string */
     suspend;
     return;
   }
@@ -43,8 +40,6 @@ function miss15_hatch() /* entry=2333 class_id=0x091b slot=0x07 */
     }
     FREE.slot_41();
     suspend;
-    /* str_to_ptr */
-    /* free_stack_string */
     suspend;
     spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
     suspend;

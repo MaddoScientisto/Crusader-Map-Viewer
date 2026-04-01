@@ -5,7 +5,6 @@ function free_slot_2d() /* entry=2575 class_id=0x0a0d slot=0x2d */
     return;
   }
   else {
-    /* pop_global */
     suspend;
     spawn FREE.slot_3b(pid, arg_06, 0x00000000);
     suspend;
@@ -23,13 +22,8 @@ function free_slot_2d() /* entry=2575 class_id=0x0a0d slot=0x2d */
           suspend;
           spawn FREE.slot_3b(pid, 90, 0x00000000);
           suspend;
-          /* pop_global */
           spawn FREE.slot_3b(pid, 10, 0x00000000);
           suspend;
-          /* str_to_ptr */
-          /* free_stack_string */
-          /* str_to_ptr */
-          /* free_stack_string */
           suspend;
           return;
         }

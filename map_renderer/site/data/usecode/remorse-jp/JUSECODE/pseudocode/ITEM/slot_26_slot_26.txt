@@ -43,8 +43,7 @@ function item_slot_26() /* entry=2577 class_id=0x0a0f slot=0x26 */
   if (axis == 0) {
     FREE.slot_3f(((h / w) * w));
     q = retval;
-    /* mod */
-    FREE.slot_3f(h, w);
+    FREE.slot_3f((h % w));
     r = retval;
     if (w < 0) {
       ovel = (-1 * vel);
@@ -58,8 +57,7 @@ function item_slot_26() /* entry=2577 class_id=0x0a0f slot=0x26 */
   else {
     FREE.slot_3f(((w / h) * h));
     q = retval;
-    /* mod */
-    FREE.slot_3f(w, h);
+    FREE.slot_3f((w % h));
     r = retval;
     if (h < 0) {
       ovel = (-1 * vel);
