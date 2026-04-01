@@ -2011,6 +2011,19 @@ export function createScenePresentationController(deps) {
     if (!isItemVisible(item)) {
       return false;
     }
+    const geometry = getBoundingGeometry(item);
+    const bounds = geometry?.bounds;
+    if (bounds) {
+      if (
+        point.x < bounds.left
+        || point.x >= bounds.right
+        || point.y < bounds.top
+        || point.y >= bounds.bottom
+      ) {
+        return false;
+      }
+      return pointInPolygon(point, geometry.hitPolygon);
+    }
     return pointInScreenRect(point, item);
   }
 

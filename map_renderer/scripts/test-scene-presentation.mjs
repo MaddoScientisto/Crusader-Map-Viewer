@@ -136,7 +136,6 @@ function testPointHitsItemUsesScreenRectBeforeCustomGeometry() {
     id: "item:egg",
     shapeDefId: "shape:17",
     egg: { type: "usecode-trigger" },
-    world: { x: 100, y: 100, z: 0 },
     npcNum: 0xe0,
     flags: { flipped: false },
     screen: { left: 10, top: 10, right: 26, bottom: 26, width: 16, height: 16 }
@@ -146,9 +145,58 @@ function testPointHitsItemUsesScreenRectBeforeCustomGeometry() {
   assert.equal(controller.pointHitsItem({ x: 40, y: 18 }, item), false);
 }
 
+function testPointHitsItemPrefersProjectedBoundaryGeometry() {
+  const item = {
+    id: "item:box",
+    shapeDefId: "shape:128",
+    spriteId: "sprite:128:0",
+    world: { x: 64, y: 64, z: 0 },
+    flags: { flipped: false },
+    screen: { left: 0, top: 0, right: 40, bottom: 40, width: 40, height: 40, anchorX: 20, anchorY: 40 }
+  };
+
+  const controller = createScenePresentationController(createBaseDeps({
+    current: undefined,
+    getShapeDefinition: () => ({ shape: 0x0080, dimensions: { x: 1, y: 1, z: 1 } }),
+    state: {
+      current: {
+        metadata: { bounds: { screenLeft: 0, screenTop: 0 } },
+        hiddenIds: new Set(),
+        scene: { items: [item] },
+        spriteIndex: new Map(),
+        atlasImages: new Map()
+      },
+      zoom: 1,
+      offsetX: 0,
+      offsetY: 0,
+      pinnedItemId: null,
+      hoverItemId: null,
+      eggPlacement: null,
+      highlightOverlay: {
+        itemId: null,
+        geometry: null,
+        fallbackItem: null,
+        alpha: 0,
+        targetAlpha: 0,
+        lastTimestamp: 0
+      }
+    }
+  }));
+
+  const geometry = controller.getBoundingGeometry(item);
+  const interiorPoint = {
+    x: geometry.hitPolygon.reduce((sum, point) => sum + point.x, 0) / geometry.hitPolygon.length,
+    y: geometry.hitPolygon.reduce((sum, point) => sum + point.y, 0) / geometry.hitPolygon.length
+  };
+
+  assert.equal(controller.pointHitsItem(interiorPoint, item), true);
+  assert.equal(controller.pointHitsItem({ x: 39, y: 39 }, item), false);
+}
+
 testControllerRequiresDiskFormatter();
 testBoundingGeometryHandlesMissingWorld();
 testFormattersHandleMissingWorld();
 testPointHitsItemUsesScreenRectBeforeCustomGeometry();
+testPointHitsItemPrefersProjectedBoundaryGeometry();
 
 console.log("scene presentation regression checks passed");
