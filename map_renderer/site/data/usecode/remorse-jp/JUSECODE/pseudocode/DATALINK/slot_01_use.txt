@@ -4,532 +4,315 @@ function datalink_use() /* entry=1238 class_id=0x04d4 slot=0x01 */
     referent, /* [BP+00h] type=0x69 */
     textFile; /* [BP-02h] type=0x73 */
 
-  entry:
-    set_info(0x0207, *(arg_06));
-    process_exclude();
-    /* free_local_string */
-    textFile = "C±F^*";
-    if Actor.getMap(&global[0x003c]) <= 30 goto block_0121;
-
-  block_011b:
-    goto block_1404;
-
-  block_0121:
-    if Actor.getMap((Actor.getMap(&global[0x003c]) != 1), &global[0x003c]) == 2 goto block_026b;
-
-  block_013f:
-    if global[0x0020] goto block_0179;
-
-  block_014a:
-    /* str_to_ptr */
-    /* free_stack_string */
-    suspend;
-
-  block_0179:
-    if global[0x002f] goto block_01ba;
-
-  block_0184:
-    /* concat */
-    /* free_local_string */
-    textFile = "^)½RÌXpC©çL[J[hðüè¹æ";
-
-  block_01ba:
-    if global[0x0020] goto block_0215;
-
-  block_01c5:
-    /* concat */
-    /* free_local_string */
-    textFile = "^)xSÉ éT[}Jv[ð©Â¯ÄuXgpbNÅjó¹æ";
-
-  block_0215:
-    if !(global[0x002f] && global[0x0020]) goto block_0268;
-
-  block_022a:
-    /* concat */
-    /* free_local_string */
-    textFile = "^)xSÉ éepbh©ç½RÌînÉßê";
-
-  block_0268:
-    goto block_13d8;
-
-  block_026b:
-    if Actor.getMap((Actor.getMap(&global[0x003c]) != 3), &global[0x003c]) == 4 goto block_03f1;
-
-  block_0289:
-    if global[0x0021] goto block_0294;
-
-  block_0294:
-    if global[0x0030] goto block_02fb;
-
-  block_029f:
-    /* concat */
-    /* free_local_string */
-    textFile = "^)dvAFAh[XAÄÖnæÉe|[e[V·éOÉÀWðmF¹æ";
-
-  block_02fb:
-    if global[0x0021] goto block_0393;
-
-  block_0306:
-    /* concat */
-    /* concat */
-    /* concat */
-    /* free_local_string */
-    textFile = "ÄÖ³êÄ¢éÆ¢¤?¾";
-
-  block_0393:
-    if !(global[0x0030] && global[0x0021]) goto block_03ee;
-
-  block_03a8:
-    /* concat */
-    /* free_local_string */
-    textFile = "^)ÄÖnæÌxÉ éepbh©ç½RÌînÉßê";
-
-  block_03ee:
-    goto block_13d8;
-
-  block_03f1:
-    if Actor.getMap((Actor.getMap(&global[0x003c]) != 5), &global[0x003c]) == 6 goto block_0567;
-
-  block_040f:
-    if global[0x0022] goto block_044a;
-
-  block_041a:
-    /* str_to_ptr */
-    /* free_stack_string */
-    suspend;
-
-  block_044a:
-    if global[0x0031] goto block_04b3;
-
-  block_0455:
-    /* concat */
-    /* free_local_string */
-    textFile = "^)dvAFJhoAYÆRri[gÉe|[e[V·éOÉÀWðmF¹æ";
-
-  block_04b3:
-    if global[0x0022] goto block_0511;
-
-  block_04be:
-    /* concat */
-    /* free_local_string */
-    textFile = "^)PHIR Rs[^ð©Â¯oµÅVÌìiÌÝv}ð_E[h¹æ";
-
-  block_0511:
-    if !(global[0x0031] && global[0x0022]) goto block_0564;
-
-  block_0526:
-    /* concat */
-    /* free_local_string */
-    textFile = "^)xPÉ éepbh©ç½RÌînÉßê";
-
-  block_0564:
-    goto block_13d8;
-
-  block_0567:
-    if Actor.getMap((Actor.getMap(&global[0x003c]) != 7), &global[0x003c]) == 8 goto block_06cd;
-
-  block_0585:
-    if global[0x0023] goto block_05bf;
-
-  block_0590:
-    /* str_to_ptr */
-    /* free_stack_string */
-    suspend;
-
-  block_05bf:
-    if global[0x0032] goto block_0618;
-
-  block_05ca:
-    /* concat */
-    /* free_local_string */
-    textFile = "^)dvAFAh[XAGªéÜÅÉhäXN[ð~ë¹";
-
-  block_0618:
-    if global[0x0023] goto block_0677;
-
-  block_0623:
-    /* concat */
-    /* free_local_string */
-    textFile = "^)xRÉ é SORC Rs[^ð©Â¯oµuXgpbNÅjó¹æ";
-
-  block_0677:
-    if !(global[0x0032] && global[0x0023]) goto block_06ca;
-
-  block_068c:
-    /* concat */
-    /* free_local_string */
-    textFile = "^)xSÉ éepbh©ç½RÌînÉßê";
-
-  block_06ca:
-    goto block_13d8;
-
-  block_06cd:
-    if Actor.getMap((Actor.getMap(&global[0x003c]) != 9), &global[0x003c]) == 10 goto block_0842;
-
-  block_06eb:
-    if global[0x0024] goto block_0726;
-
-  block_06f6:
-    /* str_to_ptr */
-    /* free_stack_string */
-    suspend;
-
-  block_0726:
-    if global[0x0033] goto block_0767;
-
-  block_0731:
-    /* concat */
-    /* free_local_string */
-    textFile = "^)½RÌXpC©çL[J[hðüè¹æ";
-
-  block_0767:
-    if global[0x0024] goto block_07de;
-
-  block_0772:
-    /* concat */
-    /* free_local_string */
-    textFile = "^)xTÌÈwEBOÉ é MELF Rs[^ð©Â¯ÄÃ`bvÌÝv}ð_E[h¹æ";
-
-  block_07de:
-    if !(global[0x0033] && global[0x0024]) goto block_083f;
-
-  block_07f3:
-    /* concat */
-    /* free_local_string */
-    textFile = "^)xSÌÈwEBOÉ éepbh©ç½RÌînÉßê";
-
-  block_083f:
-    goto block_13d8;
-
-  block_0842:
-    if Actor.getMap((Actor.getMap(&global[0x003c]) != 11), &global[0x003c]) == 12 goto block_09b5;
-
-  block_0860:
-    if global[0x0025] goto block_089a;
-
-  block_086b:
-    /* str_to_ptr */
-    /* free_stack_string */
-    suspend;
-
-  block_089a:
-    if global[0x0034] goto block_08f3;
-
-  block_08a5:
-    /* concat */
-    /* free_local_string */
-    textFile = "^)ubNXRA­{rÖÌe|[e[VÌÀWðmF¹æ";
-
-  block_08f3:
-    if global[0x0025] goto block_097b;
-
-  block_08fe:
-    /* concat */
-    /* concat */
-    /* free_local_string */
-    textFile = "cõðqâ·é©çZgÉ]·éÌ¾";
-
-  block_097b:
-    if !(global[0x0034] && global[0x0025]) goto block_09b2;
-
-  block_0990:
-    /* concat */
-    /* free_local_string */
-    textFile = "^)½RÌînÉßê";
-
-  block_09b2:
-    goto block_13d8;
-
-  block_09b5:
-    if Actor.getMap((Actor.getMap(&global[0x003c]) != 13), &global[0x003c]) == 14 goto block_0ad8;
-
-  block_09d3:
-    if global[0x0026] goto block_0a0d;
-
-  block_09de:
-    /* str_to_ptr */
-    /* free_stack_string */
-    suspend;
-
-  block_0a0d:
-    if global[0x0026] goto block_0a89;
-
-  block_0a18:
-    /* concat */
-    /* concat */
-    /* free_local_string */
-    textFile = "ÚWðt[WpbNÅjó·éÌ¾";
-
-  block_0a89:
-    if !(global[0x0026]) goto block_0ad5;
-
-  block_0a93:
-    /* concat */
-    /* free_local_string */
-    textFile = "^)xVÌe|[gu©ç½RÌînÉßéÌ¾";
-
-  block_0ad5:
-    goto block_13d8;
-
-  block_0ad8:
-    if Actor.getMap((Actor.getMap(&global[0x003c]) != 15), &global[0x003c]) == 16 goto block_0bbc;
-
-  block_0af6:
-    if global[0x0027] goto block_0b30;
-
-  block_0b01:
-    /* str_to_ptr */
-    /* free_stack_string */
-    suspend;
-
-  block_0b30:
-    if global[0x0027] goto block_0b77;
-
-  block_0b3b:
-    /* concat */
-    /* free_local_string */
-    textFile = "^)EB}[³öð WEC ÌÄÖº©çðú¹æ";
-    goto block_0bb9;
-
-  block_0b77:
-    /* concat */
-    /* free_local_string */
-    textFile = "^)xRÌe|[gu©ç½RÌînÉßéÌ¾";
-
-  block_0bb9:
-    goto block_13d8;
-
-  block_0bbc:
-    if Actor.getMap((Actor.getMap(&global[0x003c]) != 17), &global[0x003c]) == 18 goto block_0c97;
-
-  block_0bda:
-    if global[0x0028] goto block_0c14;
-
-  block_0be5:
-    /* str_to_ptr */
-    /* free_stack_string */
-    suspend;
-
-  block_0c14:
-    if global[0x0028] goto block_0c4d;
-
-  block_0c1f:
-    /* concat */
-    /* free_local_string */
-    textFile = "^)­{rÉNüµcïð®¹æ";
-
-  block_0c4d:
-    if !(global[0x0028]) goto block_0c94;
-
-  block_0c57:
-    /* concat */
-    /* free_local_string */
-    textFile = "^)ÅÌepbhÉßê ½RÌînÉñû·é";
-
-  block_0c94:
-    goto block_13d8;
-
-  block_0c97:
-    if Actor.getMap((Actor.getMap(&global[0x003c]) != 19), &global[0x003c]) == 20 goto block_0dc4;
-
-  block_0cb5:
-    if global[0x0029] goto block_0cf0;
-
-  block_0cc0:
-    /* str_to_ptr */
-    /* free_stack_string */
-    suspend;
-
-  block_0cf0:
-    if global[0x0029] goto block_0d41;
-
-  block_0cfb:
-    /* concat */
-    /* free_local_string */
-    textFile = "^)zt}mÌ¤ºÉ éVµ¢À±ºíÌÝv}ðT¹";
-
-  block_0d41:
-    if !(global[0x0029]) goto block_0dc1;
-
-  block_0d4b:
-    /* concat */
-    /* concat */
-    /* free_local_string */
-    textFile = "^xRÉ éepbh©ç½RÌînÉßéÌ¾";
-
-  block_0dc1:
-    goto block_13d8;
-
-  block_0dc4:
-    if Actor.getMap((Actor.getMap(&global[0x003c]) != 21), &global[0x003c]) == 22 goto block_0f2a;
-
-  block_0de2:
-    if global[0x002a] goto block_0e1e;
-
-  block_0ded:
-    /* str_to_ptr */
-    /* free_stack_string */
-    suspend;
-
-  block_0e1e:
-    if global[0x0035] goto block_0e73;
-
-  block_0e29:
-    /* concat */
-    /* free_local_string */
-    textFile = "^)dvAFJhoAe|[gÌhäXN[ð~ë·Ì¾";
-
-  block_0e73:
-    if global[0x002a] goto block_0edb;
-
-  block_0e7e:
-    /* concat */
-    /* free_local_string */
-    textFile = "^)OPTS Rs[^ð©Â¯oµxúpvbgtH[ÌÝv}ð_E[hµë";
-
-  block_0edb:
-    if !(global[0x002a]) goto block_0f27;
-
-  block_0ee5:
-    /* concat */
-    /* free_local_string */
-    textFile = "^)xSÌe|[gu©ç½RÌînÉßéÌ¾";
-
-  block_0f27:
-    goto block_13d8;
-
-  block_0f2a:
-    if Actor.getMap((Actor.getMap(&global[0x003c]) != 23), &global[0x003c]) == 24 goto block_102e;
-
-  block_0f48:
-    if global[0x002b] goto block_0f84;
-
-  block_0f53:
-    /* str_to_ptr */
-    /* free_stack_string */
-    suspend;
-
-  block_0f84:
-    if global[0x002b] goto block_0fdf;
-
-  block_0f8f:
-    /* concat */
-    /* free_local_string */
-    textFile = "^)OPC Rs[^ð©Â¯ÄVµ¢ÚWÌÀWðAbv[h·éÌ¾";
-
-  block_0fdf:
-    if !(global[0x002b]) goto block_102b;
-
-  block_0fe9:
-    /* concat */
-    /* free_local_string */
-    textFile = "^)xRÌe|[gu©ç½RÌînÉßéÌ¾";
-
-  block_102b:
-    goto block_13d8;
-
-  block_102e:
-    if Actor.getMap((Actor.getMap(&global[0x003c]) != 25), &global[0x003c]) == 26 goto block_1105;
-
-  block_104c:
-    if global[0x002c] goto block_1087;
-
-  block_1057:
-    /* str_to_ptr */
-    /* free_stack_string */
-    suspend;
-
-  block_1087:
-    if global[0x002c] goto block_10ca;
-
-  block_1092:
-    /* concat */
-    /* free_local_string */
-    textFile = "^)G[å²ð WEC ÌÄÖº©ç~o¹æ";
-    goto block_1102;
-
-  block_10ca:
-    /* concat */
-    /* free_local_string */
-    textFile = "^)e|[gu©ç½RÌînÉßéÌ¾";
-
-  block_1102:
-    goto block_13d8;
-
-  block_1105:
-    if Actor.getMap((Actor.getMap(&global[0x003c]) != 27), &global[0x003c]) == 28 goto block_1218;
-
-  block_1123:
-    /* str_to_ptr */
-    /* free_stack_string */
-    suspend;
-    if global[0x002d] goto block_11dd;
-
-  block_115e:
-    /* concat */
-    /* free_local_string */
-    textFile = "^)xúpvbgtH[ÖÌVgÉs¯^)RÌA@ðÒÂÌ¾^)Ë`[ðxúpvbgtH[ÉÄàµë";
-    goto block_1215;
-
-  block_11dd:
-    /* concat */
-    /* free_local_string */
-    textFile = "^)VgðxúpvbgtH[ÉòÎ¹";
-
-  block_1215:
-    goto block_13d8;
-
-  block_1218:
-    if Actor.getMap((Actor.getMap(&global[0x003c]) != 29), &global[0x003c]) == 30 goto block_13cb;
-
-  block_1236:
-    if global[0x0038] goto block_12d7;
-
-  block_1241:
-    if global[0x0038] goto block_127d;
-
-  block_124c:
-    /* str_to_ptr */
-    /* free_stack_string */
-    suspend;
-
-  block_127d:
-    /* concat */
-    /* free_local_string */
-    textFile = "^)SATARG VXeð©Â¯Äâ~³¹ë »ê©çºí§äVXeðjó·éÌ¾";
-
-  block_12d7:
-    if (global[0x0038] != 1) && (global[0x002e] == 0) goto block_136a;
-
-  block_12ef:
-    /* str_to_ptr */
-    /* free_stack_string */
-    suspend;
-    /* concat */
-    /* free_local_string */
-    textFile = "^)`EGlM[jð©Â¯ÄuXgpbNÅjó·éÌ¾";
-
-  block_136a:
-    if !(global[0x002e]) goto block_13c8;
-
-  block_1374:
-    /* concat */
-    /* free_local_string */
-    textFile = "^)x10É éEo|bhÉs«xúpvbgtH[©çEo·éÌ¾";
-
-  block_13c8:
-    goto block_13d8;
-
-  block_13cb:
-    goto block_1404;
-
-  block_13d8:
-    spawn TEXTFILE.slot_20(pid, textFile, arg_06);
-    /* free_stack_string */
-    suspend;
-
-  block_1404:
-    /* free_local_string */
+  set_info(0x0207, *(arg_06));
+  process_exclude();
+  /* free_local_string */
+  textFile = "C±F^*";
+  if (Actor.getMap(&global[0x003c]) > 30) {
     return;
-
+  }
+  else if (Actor.getMap((Actor.getMap(&global[0x003c]) == 1), &global[0x003c]) == 2) {
+    if (!(global[0x0020])) {
+      /* str_to_ptr */
+      /* free_stack_string */
+      suspend;
+    }
+    if (!(global[0x002f])) {
+      /* concat */
+      /* free_local_string */
+      textFile = "^)½RÌXpC©çL[J[hðüè¹æ";
+    }
+    if (!(global[0x0020])) {
+      /* concat */
+      /* free_local_string */
+      textFile = "^)xSÉ éT[}Jv[ð©Â¯ÄuXgpbNÅjó¹æ";
+    }
+    if (global[0x002f] && global[0x0020]) {
+      /* concat */
+      /* free_local_string */
+      textFile = "^)xSÉ éepbh©ç½RÌînÉßê";
+    }
+  }
+  else if (Actor.getMap((Actor.getMap(&global[0x003c]) == 3), &global[0x003c]) == 4) {
+    if (!(global[0x0030])) {
+      /* concat */
+      /* free_local_string */
+      textFile = "^)dvAFAh[XAÄÖnæÉe|[e[V·éOÉÀWðmF¹æ";
+    }
+    if (!(global[0x0021])) {
+      /* concat */
+      /* concat */
+      /* concat */
+      /* free_local_string */
+      textFile = "ÄÖ³êÄ¢éÆ¢¤?¾";
+    }
+    if (global[0x0030] && global[0x0021]) {
+      /* concat */
+      /* free_local_string */
+      textFile = "^)ÄÖnæÌxÉ éepbh©ç½RÌînÉßê";
+    }
+  }
+  else if (Actor.getMap((Actor.getMap(&global[0x003c]) == 5), &global[0x003c]) == 6) {
+    if (!(global[0x0022])) {
+      /* str_to_ptr */
+      /* free_stack_string */
+      suspend;
+    }
+    if (!(global[0x0031])) {
+      /* concat */
+      /* free_local_string */
+      textFile = "^)dvAFJhoAYÆRri[gÉe|[e[V·éOÉÀWðmF¹æ";
+    }
+    if (!(global[0x0022])) {
+      /* concat */
+      /* free_local_string */
+      textFile = "^)PHIR Rs[^ð©Â¯oµÅVÌìiÌÝv}ð_E[h¹æ";
+    }
+    if (global[0x0031] && global[0x0022]) {
+      /* concat */
+      /* free_local_string */
+      textFile = "^)xPÉ éepbh©ç½RÌînÉßê";
+    }
+  }
+  else if (Actor.getMap((Actor.getMap(&global[0x003c]) == 7), &global[0x003c]) == 8) {
+    if (!(global[0x0023])) {
+      /* str_to_ptr */
+      /* free_stack_string */
+      suspend;
+    }
+    if (!(global[0x0032])) {
+      /* concat */
+      /* free_local_string */
+      textFile = "^)dvAFAh[XAGªéÜÅÉhäXN[ð~ë¹";
+    }
+    if (!(global[0x0023])) {
+      /* concat */
+      /* free_local_string */
+      textFile = "^)xRÉ é SORC Rs[^ð©Â¯oµuXgpbNÅjó¹æ";
+    }
+    if (global[0x0032] && global[0x0023]) {
+      /* concat */
+      /* free_local_string */
+      textFile = "^)xSÉ éepbh©ç½RÌînÉßê";
+    }
+  }
+  else if (Actor.getMap((Actor.getMap(&global[0x003c]) == 9), &global[0x003c]) == 10) {
+    if (!(global[0x0024])) {
+      /* str_to_ptr */
+      /* free_stack_string */
+      suspend;
+    }
+    if (!(global[0x0033])) {
+      /* concat */
+      /* free_local_string */
+      textFile = "^)½RÌXpC©çL[J[hðüè¹æ";
+    }
+    if (!(global[0x0024])) {
+      /* concat */
+      /* free_local_string */
+      textFile = "^)xTÌÈwEBOÉ é MELF Rs[^ð©Â¯ÄÃ`bvÌÝv}ð_E[h¹æ";
+    }
+    if (global[0x0033] && global[0x0024]) {
+      /* concat */
+      /* free_local_string */
+      textFile = "^)xSÌÈwEBOÉ éepbh©ç½RÌînÉßê";
+    }
+  }
+  else if (Actor.getMap((Actor.getMap(&global[0x003c]) == 11), &global[0x003c]) == 12) {
+    if (!(global[0x0025])) {
+      /* str_to_ptr */
+      /* free_stack_string */
+      suspend;
+    }
+    if (!(global[0x0034])) {
+      /* concat */
+      /* free_local_string */
+      textFile = "^)ubNXRA­{rÖÌe|[e[VÌÀWðmF¹æ";
+    }
+    if (!(global[0x0025])) {
+      /* concat */
+      /* concat */
+      /* free_local_string */
+      textFile = "cõðqâ·é©çZgÉ]·éÌ¾";
+    }
+    if (global[0x0034] && global[0x0025]) {
+      /* concat */
+      /* free_local_string */
+      textFile = "^)½RÌînÉßê";
+    }
+  }
+  else if (Actor.getMap((Actor.getMap(&global[0x003c]) == 13), &global[0x003c]) == 14) {
+    if (!(global[0x0026])) {
+      /* str_to_ptr */
+      /* free_stack_string */
+      suspend;
+    }
+    if (!(global[0x0026])) {
+      /* concat */
+      /* concat */
+      /* free_local_string */
+      textFile = "ÚWðt[WpbNÅjó·éÌ¾";
+    }
+    if (global[0x0026]) {
+      /* concat */
+      /* free_local_string */
+      textFile = "^)xVÌe|[gu©ç½RÌînÉßéÌ¾";
+    }
+  }
+  else if (Actor.getMap((Actor.getMap(&global[0x003c]) == 15), &global[0x003c]) == 16) {
+    if (!(global[0x0027])) {
+      /* str_to_ptr */
+      /* free_stack_string */
+      suspend;
+    }
+    if (!(global[0x0027])) {
+      /* concat */
+      /* free_local_string */
+      textFile = "^)EB}[³öð WEC ÌÄÖº©çðú¹æ";
+    }
+    else {
+      /* concat */
+      /* free_local_string */
+      textFile = "^)xRÌe|[gu©ç½RÌînÉßéÌ¾";
+    }
+  }
+  else if (Actor.getMap((Actor.getMap(&global[0x003c]) == 17), &global[0x003c]) == 18) {
+    if (!(global[0x0028])) {
+      /* str_to_ptr */
+      /* free_stack_string */
+      suspend;
+    }
+    if (!(global[0x0028])) {
+      /* concat */
+      /* free_local_string */
+      textFile = "^)­{rÉNüµcïð®¹æ";
+    }
+    if (global[0x0028]) {
+      /* concat */
+      /* free_local_string */
+      textFile = "^)ÅÌepbhÉßê ½RÌînÉñû·é";
+    }
+  }
+  else if (Actor.getMap((Actor.getMap(&global[0x003c]) == 19), &global[0x003c]) == 20) {
+    if (!(global[0x0029])) {
+      /* str_to_ptr */
+      /* free_stack_string */
+      suspend;
+    }
+    if (!(global[0x0029])) {
+      /* concat */
+      /* free_local_string */
+      textFile = "^)zt}mÌ¤ºÉ éVµ¢À±ºíÌÝv}ðT¹";
+    }
+    if (global[0x0029]) {
+      /* concat */
+      /* concat */
+      /* free_local_string */
+      textFile = "^xRÉ éepbh©ç½RÌînÉßéÌ¾";
+    }
+  }
+  else if (Actor.getMap((Actor.getMap(&global[0x003c]) == 21), &global[0x003c]) == 22) {
+    if (!(global[0x002a])) {
+      /* str_to_ptr */
+      /* free_stack_string */
+      suspend;
+    }
+    if (!(global[0x0035])) {
+      /* concat */
+      /* free_local_string */
+      textFile = "^)dvAFJhoAe|[gÌhäXN[ð~ë·Ì¾";
+    }
+    if (!(global[0x002a])) {
+      /* concat */
+      /* free_local_string */
+      textFile = "^)OPTS Rs[^ð©Â¯oµxúpvbgtH[ÌÝv}ð_E[hµë";
+    }
+    if (global[0x002a]) {
+      /* concat */
+      /* free_local_string */
+      textFile = "^)xSÌe|[gu©ç½RÌînÉßéÌ¾";
+    }
+  }
+  else if (Actor.getMap((Actor.getMap(&global[0x003c]) == 23), &global[0x003c]) == 24) {
+    if (!(global[0x002b])) {
+      /* str_to_ptr */
+      /* free_stack_string */
+      suspend;
+    }
+    if (!(global[0x002b])) {
+      /* concat */
+      /* free_local_string */
+      textFile = "^)OPC Rs[^ð©Â¯ÄVµ¢ÚWÌÀWðAbv[h·éÌ¾";
+    }
+    if (global[0x002b]) {
+      /* concat */
+      /* free_local_string */
+      textFile = "^)xRÌe|[gu©ç½RÌînÉßéÌ¾";
+    }
+  }
+  else if (Actor.getMap((Actor.getMap(&global[0x003c]) == 25), &global[0x003c]) == 26) {
+    if (!(global[0x002c])) {
+      /* str_to_ptr */
+      /* free_stack_string */
+      suspend;
+    }
+    if (!(global[0x002c])) {
+      /* concat */
+      /* free_local_string */
+      textFile = "^)G[å²ð WEC ÌÄÖº©ç~o¹æ";
+    }
+    else {
+      /* concat */
+      /* free_local_string */
+      textFile = "^)e|[gu©ç½RÌînÉßéÌ¾";
+    }
+  }
+  else if (Actor.getMap((Actor.getMap(&global[0x003c]) == 27), &global[0x003c]) == 28) {
+    /* str_to_ptr */
+    /* free_stack_string */
+    suspend;
+    if (!(global[0x002d])) {
+      /* concat */
+      /* free_local_string */
+      textFile = "^)xúpvbgtH[ÖÌVgÉs¯^)RÌA@ðÒÂÌ¾^)Ë`[ðxúpvbgtH[ÉÄàµë";
+    }
+    else {
+      /* concat */
+      /* free_local_string */
+      textFile = "^)VgðxúpvbgtH[ÉòÎ¹";
+    }
+  }
+  else if (Actor.getMap((Actor.getMap(&global[0x003c]) == 29), &global[0x003c]) == 30) {
+    if (!(global[0x0038])) {
+      if (!(global[0x0038])) {
+        /* str_to_ptr */
+        /* free_stack_string */
+        suspend;
+      }
+      /* concat */
+      /* free_local_string */
+      textFile = "^)SATARG VXeð©Â¯Äâ~³¹ë »ê©çºí§äVXeðjó·éÌ¾";
+    }
+    if ((global[0x0038] == 1) && (global[0x002e] == 0)) {
+      /* str_to_ptr */
+      /* free_stack_string */
+      suspend;
+      /* concat */
+      /* free_local_string */
+      textFile = "^)`EGlM[jð©Â¯ÄuXgpbNÅjó·éÌ¾";
+    }
+    if (global[0x002e]) {
+      /* concat */
+      /* free_local_string */
+      textFile = "^)x10É éEo|bhÉs«xúpvbgtH[©çEo·éÌ¾";
+    }
+  }
+  else {
+    return;
+  }
+  spawn TEXTFILE.slot_20(pid, textFile, arg_06);
+  /* free_stack_string */
+  suspend;
+  /* free_local_string */
+  return;
 }

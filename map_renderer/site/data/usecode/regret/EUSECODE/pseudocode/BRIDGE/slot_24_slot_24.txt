@@ -1,79 +1,38 @@
 function bridge_slot_24() /* entry=2590 class_id=0x0a1c slot=0x24 */
 {
-  entry:
-    set_info(0x021b, *(arg_06));
-    local_06 = 0;
-
-  entry_selector_00:
-    /* loop_selector local_02 in selector_0x42(arg0=0x0336, arg1=0x0290, arg2=(70 * 32), origin=arg_06) */
-
-  block_03e3:
-    if !condition goto block_040b;
-
-  block_03e6:
+  set_info(0x021b, *(arg_06));
+  local_06 = 0;
+  for local_02 in selector_0x42(arg0=0x0336, arg1=0x0290, arg2=(70 * 32), origin=arg_06) {
     local_08 = Item.getQLo(local_02);
-    if local_08 != arg_10 goto block_0407;
-
-  block_03f9:
-    local_06 = Item.getQHi(local_02);
-    goto block_040b;
-
-  block_0407:
-    goto block_03e3;
-
-  block_040b:
-    if local_06 != 0 goto block_0418;
-
-  block_0415:
-    goto block_0542;
-
-  block_0418:
-    if local_06 >= arg_10 goto block_0423;
-
-  block_0420:
-    goto block_0542;
-
-  block_0423:
+    if (local_08 == arg_10) {
+      local_06 = Item.getQHi(local_02);
+    }
+  }
+  if (local_06 == 0) {
+    return;
+  }
+  else if (local_06 < arg_10) {
+    return;
+  }
+  else {
     local_10 = arg_10;
-
-  block_0427:
-    if local_10 > local_06 goto block_049f;
-
-  block_042f:
-    local_12 = local_10;
-
-  block_042f_selector_00:
-    /* loop_selector local_02 in selector_0x42(arg0=0x0336, arg1=0x0290, arg2=(70 * 32), origin=arg_06) */
-
-  block_044a:
-    if !condition goto block_047b;
-
-  block_044d:
-    local_08 = Item.getQLo(local_02);
-    if local_08 != local_10 goto block_0477;
-
-  block_0460:
-    /* create_list */
-    /* append_list */
-    /* free_local_list */
-    local_04 = local_02;
-    local_10 = (1 + local_10);
-    goto block_047b;
-
-  block_0477:
-    goto block_044a;
-
-  block_047b:
-    if local_12 != local_10 goto block_049c;
-
-  block_0485:
-    spawn FREE.slot_3b(pid, 10, 0x00000000);
-    suspend;
-
-  block_049c:
-    goto block_0427;
-
-  block_04a5:
+    while (local_10 <= local_06) {
+      local_12 = local_10;
+      for local_02 in selector_0x42(arg0=0x0336, arg1=0x0290, arg2=(70 * 32), origin=arg_06) {
+        local_08 = Item.getQLo(local_02);
+        if (local_08 == local_10) {
+          /* create_list */
+          /* append_list */
+          /* free_local_list */
+          local_04 = local_02;
+          local_10 = (1 + local_10);
+        }
+      }
+      if (local_12 == local_10) {
+        spawn FREE.slot_3b(pid, 10, 0x00000000);
+        suspend;
+      }
+    }
     while (true) {
       foreach_list local_02 -> block_04fc;
       if (Intrinsic00AD(local_02) == 1) {
@@ -82,17 +41,13 @@ function bridge_slot_24() /* entry=2590 class_id=0x0a1c slot=0x24 */
         suspend;
       }
     }
-
-  block_0502:
     while (true) {
       foreach_list local_02 -> block_0542;
       if (Intrinsic00AD(local_02) == 1) {
         BRIDGE.slot_21(0x03a6, local_02);
       }
     }
-
-  block_0542:
-    /* free_local_list */
-    return;
-
+  }
+  /* free_local_list */
+  return;
 }

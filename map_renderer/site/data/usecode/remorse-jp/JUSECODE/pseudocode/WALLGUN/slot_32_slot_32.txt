@@ -12,140 +12,76 @@ function wallgun_slot_32() /* entry=2591 class_id=0x0a1d slot=0x32 */
     isTurret, /* [BP-11h] type=0x62 */
     delay; /* [BP-13h] type=0x69 */
 
-  entry:
-    set_info(0x0001, *(arg_06));
-    panRight = 1;
-    panLeft = 1;
-    WALLGUN.slot_29(arg_06);
-    isTurret = retval;
-    if isTurret != 1 goto block_16c5;
-
-  block_16ad:
+  set_info(0x0001, *(arg_06));
+  panRight = 1;
+  panLeft = 1;
+  WALLGUN.slot_29(arg_06);
+  isTurret = retval;
+  if (isTurret == 1) {
     inc = 1;
     left = 0;
     right = 15;
-    goto block_1702;
-
-  block_16c5:
+  }
+  else {
     WALLGUN.slot_2b(arg_06);
-    if !retval goto block_16ed;
-
-  block_16d5:
-    inc = 1;
-    left = 0;
-    right = 8;
-    goto block_1702;
-
-  block_16ed:
-    inc = -1;
-    left = 8;
-    right = 0;
-
-  block_1702:
-    WALLGUN.slot_20(arg_06);
-    delay = (retval * 5);
-
-  block_1714:
-    if !(1) goto block_18f9;
-
-  block_171c:
+    if (retval) {
+      inc = 1;
+      left = 0;
+      right = 8;
+    }
+    else {
+      inc = -1;
+      left = 8;
+      right = 0;
+    }
+  }
+  WALLGUN.slot_20(arg_06);
+  delay = (retval * 5);
+  while (1) {
     spawn WALLGUN.slot_26(pid, arg_06);
     suspend;
     f = Item.getFrame(arg_06);
-    if isTurret != 1 goto block_178e;
-
-  block_1754:
-    if f <= 19 goto block_178b;
-
-  block_175f:
-    spawn FREE.slot_32(pid, 10, 0x00000000);
-    suspend;
-    goto block_1714;
-
-  block_178b:
-    goto block_17c8;
-
-  block_178e:
-    if f <= 8 goto block_17c8;
-
-  block_1799:
-    spawn FREE.slot_32(pid, 10, 0x00000000);
-    suspend;
-    goto block_1714;
-
-  block_17c5:
-    goto block_17c8;
-
-  block_17c8:
-    if !panRight goto block_17fe;
-
-  block_17d0:
-    if f != right goto block_17f1;
-
-  block_17e1:
-    panRight = 0;
-    goto block_1714;
-
-  block_17ee:
-    goto block_17fb;
-
-  block_17f1:
-    f = (f + inc);
-
-  block_17fb:
-    goto block_1881;
-
-  block_17fe:
-    if (panLeft != 1) && (isTurret == 0) goto block_1840;
-
-  block_1812:
-    if f != left goto block_1833;
-
-  block_1823:
-    panLeft = 0;
-    goto block_1714;
-
-  block_1830:
-    goto block_183d;
-
-  block_1833:
-    f = (f - inc);
-
-  block_183d:
-    goto block_1881;
-
-  block_1840:
-    if isTurret != 1 goto block_185b;
-
-  block_1851:
-    f = left;
-    goto block_1873;
-
-  block_185b:
-    if f == 4 goto block_1873;
-
-  block_1866:
-    f = (f + inc);
-    goto block_1873;
-
-  block_1873:
+    if (isTurret == 1) {
+      if (f > 19) {
+        spawn FREE.slot_32(pid, 10, 0x00000000);
+        suspend;
+      }
+    }
+    else if (f > 8) {
+      spawn FREE.slot_32(pid, 10, 0x00000000);
+      suspend;
+    }
+    if (panRight) {
+      if (f == right) {
+        panRight = 0;
+      }
+      else {
+        f = (f + inc);
+      }
+    }
+    else if ((panLeft == 1) && (isTurret == 0)) {
+      if (f == left) {
+        panLeft = 0;
+      }
+      else {
+        f = (f - inc);
+      }
+    }
+    else if (isTurret == 1) {
+      f = left;
+    }
+    else if (f != 4) {
+      f = (f + inc);
+    }
     panRight = 1;
     panLeft = 1;
-
-  block_1881:
     spawn FREE.slot_32(pid, delay, 0x00000000);
     suspend;
     WALLGUN.slot_2e(target, arg_06);
-    if !retval goto block_18f6;
-
-  block_18d3:
-    spawn WALLGUN.slot_46(pid, target, arg_06);
-    suspend;
-
-  block_18f6:
-    goto block_1714;
-
-  block_18f9:
-    return;
-
+    if (retval) {
+      spawn WALLGUN.slot_46(pid, target, arg_06);
+      suspend;
+    }
+  }
+  return;
 }

@@ -57,8 +57,10 @@ function scigunns_slot_20() /* entry=1470 class_id=0x05bc slot=0x20 */
         ITEM.slot_25(0x1000, arg_06);
         return;
       }
-      spawn FREE.slot_3b(pid, ((5 - World.gameDifficulty()) * 10), 0x00000000);
-      suspend;
+      else {
+        spawn FREE.slot_3b(pid, ((5 - World.gameDifficulty()) * 10), 0x00000000);
+        suspend;
+      }
     }
 
   block_03a2:

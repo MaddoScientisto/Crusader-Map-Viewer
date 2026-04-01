@@ -1,13 +1,14 @@
 function pu_gun_calledFromAnim() /* entry=1468 class_id=0x05ba slot=0x0e */
 {
-  entry:
-    set_info(0x021a, *(arg_06));
-    process_exclude();
-    local_02 = *(arg_06);
-    local_05 = Item.getNpcNum(local_02);
-    if local_05 != 8 goto block_0490;
-
-  block_020b:
+  set_info(0x021a, *(arg_06));
+  process_exclude();
+  local_02 = *(arg_06);
+  local_05 = Item.getNpcNum(local_02);
+  if (local_05 == 8) {
+    local_19 = Item.getFrame(arg_06);
+    local_21 = Actor.getDefaultActivity2(local_02);
+    spawn FREE.slot_3b(pid, 5, 0x00000000);
+    suspend;
     if (local_21 == 0) {
       local_07 = 0;
       local_09 = -64;
@@ -104,57 +105,35 @@ function pu_gun_calledFromAnim() /* entry=1468 class_id=0x05ba slot=0x0e */
       local_11 = -22;
       local_13 = -66;
     }
-
-  block_03ff:
     ITEM.slot_26(4, arg_06);
-    if !retval goto block_0428;
-
-  block_040e:
-    local_15 = 46;
-    local_17 = 48;
-    local_03 = 0;
-    ITEM.slot_25(4, arg_06);
-    goto block_043f;
-
-  block_0428:
-    local_15 = 48;
-    local_17 = 46;
-    local_03 = 1;
-    ITEM.slot_24(4, arg_06);
-
-  block_043f:
+    if (retval) {
+      local_15 = 46;
+      local_17 = 48;
+      local_03 = 0;
+      ITEM.slot_25(4, arg_06);
+    }
+    else {
+      local_15 = 48;
+      local_17 = 46;
+      local_03 = 1;
+      ITEM.slot_24(4, arg_06);
+    }
     spawn FREE.slot_3b(pid, 5, 0x00000000);
     suspend;
-    goto block_0541;
-
-  block_0490:
+    return;
+  }
+  else {
     set_info(0x00f0, 0);
-
-  block_0490_selector_00:
-    /* loop_selector local_23 in nearby_items(shape=0x04e7, origin=local_02) */
-
-  block_04ac:
-    if !condition goto block_04f1;
-
-  block_04af:
-    if Intrinsic000D(local_02) != Item.andStatus(local_23) goto block_04ed;
-
-  block_04c5:
-    if Item.getMapArray(local_23) == 0 goto block_04ed;
-
-  block_04d4:
-    spawn TRIGGER.slot_20(pid, 0, local_23, local_23);
-    suspend;
-    goto block_04f1;
-
-  block_04ed:
-    goto block_04ac;
-
-  block_04f1:
+    for local_23 in nearby_items(shape=0x04e7, origin=local_02) {
+      if (Intrinsic000D(local_02) == Item.andStatus(local_23)) {
+        if (Item.getMapArray(local_23) != 0) {
+          spawn TRIGGER.slot_20(pid, 0, local_23, local_23);
+          suspend;
+        }
+      }
+    }
     spawn ITEM.slot_2a(pid, 1, 2, local_02);
     suspend;
-
-  block_0541:
-    return;
-
+  }
+  return;
 }

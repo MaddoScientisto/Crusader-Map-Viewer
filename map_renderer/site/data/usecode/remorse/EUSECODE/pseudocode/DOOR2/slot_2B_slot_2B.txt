@@ -6,14 +6,11 @@ function door2_slot_2b() /* entry=2569 class_id=0x0a07 slot=0x2b */
     counter, /* [BP-04h] type=0x69 */
     maxFrame; /* [BP-06h] type=0x69 */
 
-  entry:
-    set_info(0x021b, 0);
-    if !(Item.getStatus(arg_06) & 4) goto block_12a4;
-
-  block_129e:
-    goto block_1437;
-
-  block_12a4:
+  set_info(0x021b, 0);
+  if (Item.getStatus(arg_06) & 4) {
+    return;
+  }
+  else {
     /* create_list */
     /* free_local_list */
     doorList = 0x00cb;
@@ -21,46 +18,30 @@ function door2_slot_2b() /* entry=2569 class_id=0x0a07 slot=0x2b */
     /* free_stack_list */
     maxFrame = retval;
     counter = (maxFrame - 1);
-
-  block_12f7:
-    if counter == 0 goto block_142d;
-
-  block_12ff:
-    FREE.slot_2d(Item.getZ(arg_06), (Item.getY(arg_06) + 16), Item.getX(arg_06), Item.getFrame(arg_06), doorList, counter, list_element(size=0x2), *(arg_06));
-    if !retval goto block_1368;
-
-  block_133f:
-    spawn FREE.waitNTimerTicks(pid, 3, 0x00000000);
-    suspend;
-    goto block_141d;
-
-  block_1368:
-    counter = (1 + counter);
-    counter = (1 + counter);
-
-  block_1389:
-    while (counter < (maxFrame + 1)) {
-      spawn FREE.waitNTimerTicks(doorList, pid, 5, 0x00000000);
-      suspend;
-      counter = (1 + counter);
+    while (counter != 0) {
+      FREE.slot_2d(Item.getZ(arg_06), (Item.getY(arg_06) + 16), Item.getX(arg_06), Item.getFrame(arg_06), doorList, counter, list_element(size=0x2), *(arg_06));
+      if (retval) {
+        spawn FREE.waitNTimerTicks(pid, 3, 0x00000000);
+        suspend;
+      }
+      else {
+        counter = (1 + counter);
+        counter = (1 + counter);
+        while (counter < (maxFrame + 1)) {
+          spawn FREE.waitNTimerTicks(doorList, pid, 5, 0x00000000);
+          suspend;
+          counter = (1 + counter);
+        }
+        /* word_to_dword */
+        /* pop_result */
+        return;
+      }
+      counter = (counter - 1);
     }
-
-  block_1413:
     /* word_to_dword */
     /* pop_result */
-    goto block_1437;
-
-  block_141d:
-    counter = (counter - 1);
-    goto block_12f7;
-
-  block_142d:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_1437;
-
-  block_1437:
-    /* free_local_list */
     return;
-
+  }
+  /* free_local_list */
+  return;
 }

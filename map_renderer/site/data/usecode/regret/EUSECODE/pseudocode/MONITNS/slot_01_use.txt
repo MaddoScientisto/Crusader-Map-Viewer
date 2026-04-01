@@ -3,6 +3,7 @@ function monitns_use() /* entry=260 class_id=0x0102 slot=0x01 */
   set_info(0x0207, *(arg_06));
   process_exclude();
   if (Item.getFrame(arg_06) > 1) {
+    return;
   }
   else {
     ITEM.slot_26((World.getAlertActive() == 1), 4, arg_06);
@@ -12,6 +13,7 @@ function monitns_use() /* entry=260 class_id=0x0102 slot=0x01 */
       spawn TEXTFILE.slot_20(pid, local_02, arg_06);
       /* free_stack_string */
       suspend;
+      return;
     }
     else {
       local_08 = Item.getQLo(arg_06);
@@ -30,6 +32,7 @@ function monitns_use() /* entry=260 class_id=0x0102 slot=0x01 */
         }
         spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
         suspend;
+        return;
       }
       else {
         for local_04 in nearby_items(shape=0x0251, origin=arg_06) {

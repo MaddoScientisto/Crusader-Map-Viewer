@@ -14,111 +14,91 @@ function blaser_slot_20() /* entry=2564 class_id=0x0a02 slot=0x20 */
     x, /* [BP-21h] type=0x69 */
     y; /* [BP-23h] type=0x69 */
 
-  entry:
-    set_info(1, 0);
-    item = ref;
-    link = legalMoveToPoint(item);
-    count = 0;
-
-  entry_selector_00:
-    for item in selector_0x42(arg0=0x02c3, arg1=0x02c4, arg2=(50 * 32), origin=ref) {
-      if ((legalMoveToPoint(item) == link) && ((Item.getStatus(item) & 0x1000) == 0)) {
-        /* create_list */
-        /* append_list */
-        /* free_local_list */
-        laserList = item;
-        count = (1 + count);
-      }
+  set_info(1, 0);
+  item = ref;
+  link = legalMoveToPoint(item);
+  count = 0;
+  for item in selector_0x42(arg0=0x02c3, arg1=0x02c4, arg2=(50 * 32), origin=ref) {
+    if ((legalMoveToPoint(item) == link) && ((Item.getStatus(item) & 0x1000) == 0)) {
+      /* create_list */
+      /* append_list */
+      /* free_local_list */
+      laserList = item;
+      count = (1 + count);
     }
-
-  block_0185:
-    if count != 0 goto block_0198;
-
-  block_0192:
-    goto block_0485;
-
-  block_0198:
-    if !(1) goto block_0485;
-
-  block_01a0:
-    inFastArea = 0;
-
-  block_01b0:
-    while (true) {
-      foreach_list item -> block_0428;
-      h = Item.getQHi(item);
-      if (h & 8) {
-        /* create_list */
-        /* remove_matching_inline */
-        /* free_local_list */
-        laserList = item;
-      }
-      else if (Item.getStatus(item) & (0x1000 == 0)) {
-        /* create_list */
-        /* remove_matching_inline */
-        /* free_local_list */
-        laserList = item;
-      }
-      else if ((Intrinsic02F(item) != 1) && (Item.getShape(item) == 0x0476)) {
-        inFastArea = (1 + inFastArea);
-        if (h & 1) {
+  }
+  if (count == 0) {
+    return;
+  }
+  else {
+    while (1) {
+      inFastArea = 0;
+      while (true) {
+        foreach_list item -> block_0428;
+        h = Item.getQHi(item);
+        if (h & 8) {
+          /* create_list */
+          /* remove_matching_inline */
+          /* free_local_list */
+          laserList = item;
+        }
+        else if (Item.getStatus(item) & (0x1000 == 0)) {
+          /* create_list */
+          /* remove_matching_inline */
+          /* free_local_list */
+          laserList = item;
+        }
+        else if ((Intrinsic02F(item) != 1) && (Item.getShape(item) == 0x0476)) {
+          inFastArea = (1 + inFastArea);
+          if (h & 1) {
+            if (h & 2) {
+              h = (h & 4);
+            }
+            else {
+              h = ((h & 4) | 2);
+            }
+          }
+          dir = -1;
           if (h & 2) {
-            h = (h & 4);
+            dir = 1;
+          }
+          x = Item.getX(item);
+          y = Item.getY(item);
+          if (Item.getShape(item) == 0x02c4) {
+            wp = (x + (dir * 16));
+            local_03 = y;
           }
           else {
-            h = ((h & 4) | 2);
+            wp = x;
+            local_03 = (y + (dir * 16));
           }
-        }
-        dir = -1;
-        if (h & 2) {
-          dir = 1;
-        }
-        x = Item.getX(item);
-        y = Item.getY(item);
-        if (Item.getShape(item) == 0x02c4) {
-          wp = (x + (dir * 16));
-          local_03 = y;
-        }
-        else {
-          wp = x;
-          local_03 = (y + (dir * 16));
-        }
-        local_01 = Item.getZ(item);
-        if (Item.andStatus(0, 0, wp, item) == 0) {
-          h = Item.getQHi(item);
-        }
-        else if (h & 4) {
-          if (Item.getShape(item) == 0x02c4) {
-            if (Item.receiveHit(wp, 0x02c3, arg_06) == 1) {
+          local_01 = Item.getZ(item);
+          if (Item.andStatus(0, 0, wp, item) == 0) {
+            h = Item.getQHi(item);
+          }
+          else if (h & 4) {
+            if (Item.getShape(item) == 0x02c4) {
+              if (Item.receiveHit(wp, 0x02c3, arg_06) == 1) {
+                /* bit_not */
+              }
+            }
+            else if (Item.receiveHit(wp, 0x02c4, arg_06) == 1) {
               /* bit_not */
             }
           }
-          else if (Item.receiveHit(wp, 0x02c4, arg_06) == 1) {
-            /* bit_not */
-          }
         }
       }
+      spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+      suspend;
+      if (inFastArea == 0) {
+        while (true) {
+          foreach_list item -> block_047c;
+          /* bit_not */
+        }
+        return;
+      }
     }
-
-  block_0428:
-    spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
-    suspend;
-    if inFastArea != 0 goto block_0482;
-
-  block_0462:
-    while (true) {
-      foreach_list item -> block_047c;
-      /* bit_not */
-    }
-
-  block_047c:
-    goto block_0485;
-
-  block_0482:
-    goto block_0198;
-
-  block_0485:
-    /* free_local_list */
-    return;
-
+  }
+  /* free_local_list */
+  return;
 }

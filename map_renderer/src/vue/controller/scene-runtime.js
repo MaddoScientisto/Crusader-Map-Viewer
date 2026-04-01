@@ -4,6 +4,284 @@ import {
   updateViewerHistory
 } from "../../shared/viewer-history.js";
 import { getReferenceDataPath } from "../../shared/runtime-adapter.js";
+import { getNpcSpawnerInfo } from "../../public/npc-spawner-data.js";
+import { buildEggMetadataFromDefinition } from "../../public/egg-utils.js";
+import { unpackCompactMapSourceItems, unpackCompactSceneItems } from "../../shared/compact-scene-codec.js";
+
+const FLAG_INVISIBLE = 0x0010;
+const FLAG_FLIPPED = 0x0020;
+const DTABLE_NPC_SHAPES = new Set([0x04d0]);
+const MONSTER_EGG_PREVIEW_SHAPE = 0x024f;
+const ITEM_PREVIEW_SPAWNER_SHAPE = 0x0476;
+const OBSERVER_PREVIEW_FRAME = 0x0f;
+const CATALOG_SEMITRANSPARENCY_OPACITY = 0.5;
+
+function toHex(value, width = 4) {
+  return `0x${value.toString(16).padStart(width, "0")}`;
+}
+
+function sceneLabel(kind) {
+  switch (kind) {
+    case "helper":
+      return "Helper Geometry";
+    case "egg":
+      return "Egg Trigger";
+    case "roof":
+      return "Roof Shape";
+    case "terrain":
+      return "Terrain Shape";
+    case "editor":
+      return "Editor Object";
+    default:
+      return "Map Shape";
+  }
+}
+
+function deriveSceneKind(definition, flags) {
+  if ((flags & FLAG_INVISIBLE) || definition?.traits?.occluding || definition?.traits?.invitem) {
+    return "helper";
+  }
+  if ([3, 4, 7, 8].includes(definition?.family)) {
+    return "egg";
+  }
+  if (definition?.traits?.roof) {
+    return "roof";
+  }
+  if (definition?.traits?.land) {
+    return "terrain";
+  }
+  if (definition?.traits?.editor) {
+    return "editor";
+  }
+  return definition?.kind ?? "base";
+}
+
+function deriveSceneNotes(definition, flags) {
+  const notes = [];
+  if (flags & FLAG_INVISIBLE) {
+    notes.push("invisible-flagged");
+  }
+  if (definition?.traits?.occluding) {
+    notes.push("occluding-geometry");
+  }
+  if (definition?.traits?.invitem) {
+    notes.push("invitem-family");
+  }
+  if ([3, 4, 7, 8].includes(definition?.family)) {
+    notes.push("egg-family");
+  }
+  if (definition?.traits?.roof) {
+    notes.push("roof-flagged");
+  }
+  if (definition?.traits?.translucent) {
+    notes.push("translucent");
+  }
+  if (definition?.traits?.editor) {
+    notes.push("editor-record");
+  }
+  if (definition?.traits?.oob) {
+    notes.push("oob-surface");
+  }
+  return notes;
+}
+
+function derivePresentationOpacity(definition) {
+  if (definition?.catalogEntry?.semitransparency === true && definition?.traits?.translucent !== true) {
+    return CATALOG_SEMITRANSPARENCY_OPACITY;
+  }
+  return 1;
+}
+
+function buildScreenRect(world, sprite, flags, bounds) {
+  const sxBot = Math.trunc(world.x / 4 - world.y / 4) - (bounds?.screenLeft ?? 0);
+  const syBot = Math.trunc(world.x / 8 + world.y / 8 - world.z) - (bounds?.screenTop ?? 0);
+  const left = (flags & FLAG_FLIPPED) ? sxBot + sprite.xoff - sprite.width : sxBot - sprite.xoff;
+  const top = syBot - sprite.yoff;
+  const right = left + sprite.width;
+  const bottom = top + sprite.height;
+  return {
+    left,
+    top,
+    right,
+    bottom,
+    width: sprite.width,
+    height: sprite.height,
+    anchorX: Math.trunc(left + sprite.width / 2),
+    anchorY: bottom
+  };
+}
+
+function buildSpriteFrameIndex(sprites) {
+  const spriteIndex = new Map();
+  const spriteFramesByShape = new Map();
+  for (const sprite of sprites ?? []) {
+    spriteIndex.set(sprite.id, sprite);
+    const frames = spriteFramesByShape.get(sprite.shape) ?? [];
+    frames.push(sprite.frame);
+    spriteFramesByShape.set(sprite.shape, frames);
+  }
+  for (const frames of spriteFramesByShape.values()) {
+    frames.sort((left, right) => left - right);
+  }
+  return { spriteIndex, spriteFramesByShape };
+}
+
+function choosePreviewFrame(shape, preferredFrame, spriteFramesByShape) {
+  const frames = spriteFramesByShape.get(shape) ?? [];
+  if (!frames.length) {
+    return null;
+  }
+  if (frames.includes(preferredFrame)) {
+    return preferredFrame;
+  }
+  return frames[frames.length - 1] ?? null;
+}
+
+function buildNpcPreview(item, definition, gameId, spriteFramesByShape) {
+  if (!Number.isInteger(item?.npcNum) || item.npcNum <= 0) {
+    return null;
+  }
+  const canUsePreview = DTABLE_NPC_SHAPES.has(definition?.shape)
+    || (definition?.shape === MONSTER_EGG_PREVIEW_SHAPE && item.frame === 0 && item.egg?.type === "monster-spawn");
+  if (!canUsePreview) {
+    return null;
+  }
+
+  const row = getNpcSpawnerInfo(gameId, item.npcNum);
+  if (!row || !Number.isInteger(row.shape) || row.shape < 0) {
+    return null;
+  }
+
+  const preferredFrame = row.name?.trim().toLowerCase() === "observer" ? OBSERVER_PREVIEW_FRAME : 0;
+  const frame = choosePreviewFrame(row.shape, preferredFrame, spriteFramesByShape);
+  if (!Number.isInteger(frame)) {
+    return null;
+  }
+
+  return {
+    index: row.index,
+    name: row.name,
+    shape: row.shape,
+    shapeHex: toHex(row.shape),
+    frame,
+    shapeDefId: `shape:${row.shape}`,
+    spriteId: `sprite:${row.shape}:${frame}`
+  };
+}
+
+function buildItemPreview(item, definition, shapeDefinitionIndex, spriteFramesByShape) {
+  if (definition?.shape !== ITEM_PREVIEW_SPAWNER_SHAPE || !Number.isInteger(item?.npcNum) || !Number.isInteger(item?.mapNum)) {
+    return null;
+  }
+
+  const shape = (item.mapNum & 0xffff) + ((item.npcNum & 0x00e0) * 8);
+  if (!shapeDefinitionIndex.has(`shape:${shape}`)) {
+    return null;
+  }
+
+  const rawFrame = item.npcNum & 0x0f;
+  const frame = choosePreviewFrame(shape, rawFrame, spriteFramesByShape);
+  if (!Number.isInteger(frame)) {
+    return null;
+  }
+
+  return {
+    shape,
+    shapeHex: toHex(shape),
+    frame,
+    rawFrame,
+    shapeDefId: `shape:${shape}`,
+    spriteId: `sprite:${shape}:${frame}`
+  };
+}
+
+function materializeMapSource(mapSource) {
+  if (!mapSource || Array.isArray(mapSource.items) || !mapSource.itemEncoding) {
+    return mapSource;
+  }
+  const { itemEncoding, ...mapSourceWithoutEncoding } = mapSource;
+  return {
+    ...mapSourceWithoutEncoding,
+    items: unpackCompactMapSourceItems(itemEncoding)
+  };
+}
+
+function materializeCompactSceneItems(selected, scene, shapeDefinitions, sprites) {
+  if (Array.isArray(scene?.items)) {
+    return scene.items;
+  }
+  if (!scene?.itemEncoding) {
+    return [];
+  }
+
+  const rawItems = unpackCompactSceneItems(scene.itemEncoding);
+  const shapeDefinitionIndex = new Map((shapeDefinitions ?? []).map((definition) => [definition.id, definition]));
+  const { spriteIndex, spriteFramesByShape } = buildSpriteFrameIndex(sprites ?? []);
+
+  return rawItems.map((rawItem, index) => {
+    const shapeDefId = `shape:${rawItem.shape}`;
+    const spriteId = `sprite:${rawItem.shape}:${rawItem.frame}`;
+    const definition = shapeDefinitionIndex.get(shapeDefId);
+    const sprite = spriteIndex.get(spriteId);
+    if (!definition) {
+      throw new Error(`Scene payload is missing shape definition ${shapeDefId}`);
+    }
+    if (!sprite) {
+      throw new Error(`Scene payload is missing sprite ${spriteId}`);
+    }
+
+    const kind = deriveSceneKind(definition, rawItem.flags);
+    const world = {
+      x: rawItem.x,
+      y: rawItem.y,
+      z: rawItem.z
+    };
+    const item = {
+      id: `item:${index}:${rawItem.source}:${rawItem.shape}:${rawItem.frame}:${rawItem.x}:${rawItem.y}:${rawItem.z}`,
+      mapSourceIndex: Number.isInteger(rawItem.mapSourceIndex) ? rawItem.mapSourceIndex : null,
+      drawOrder: index,
+      kind,
+      label: sceneLabel(kind),
+      source: rawItem.source,
+      world,
+      mapNum: rawItem.mapNum,
+      npcNum: rawItem.npcNum,
+      nextItem: rawItem.nextItem,
+      quality: rawItem.quality,
+      frame: rawItem.frame,
+      screen: buildScreenRect(world, sprite, rawItem.flags, scene?.metadata?.bounds),
+      flags: {
+        raw: rawItem.flags,
+        hex: toHex(rawItem.flags),
+        invisible: Boolean(rawItem.flags & FLAG_INVISIBLE),
+        flipped: Boolean(rawItem.flags & FLAG_FLIPPED)
+      },
+      presentation: {
+        opacity: derivePresentationOpacity(definition),
+        visibilityDefault: true
+      },
+      notes: deriveSceneNotes(definition, rawItem.flags),
+      frameSize: {
+        width: sprite.width,
+        height: sprite.height,
+        xoff: sprite.xoff,
+        yoff: sprite.yoff
+      },
+      egg: null,
+      npcPreview: null,
+      itemPreview: null,
+      shapeDefId,
+      spriteId
+    };
+
+    item.egg = [3, 4, 7, 8].includes(definition?.family)
+      ? buildEggMetadataFromDefinition(item, definition)
+      : null;
+    item.npcPreview = buildNpcPreview(item, definition, selected?.game ?? null, spriteFramesByShape);
+    item.itemPreview = buildItemPreview(item, definition, shapeDefinitionIndex, spriteFramesByShape);
+    return item;
+  });
+}
 
 export function createSceneRuntimeController(deps) {
   const USECODE_STATE_EVENT = "crusader-map-renderer:scene-changed";
@@ -629,9 +907,12 @@ export function createSceneRuntimeController(deps) {
   }
 
   async function materializeScene(selected, scene) {
+    const { itemEncoding, ...sceneWithoutItemEncoding } = scene ?? {};
     if (Array.isArray(scene?.shapeDefinitions) && Array.isArray(scene?.sprites) && Array.isArray(scene?.atlases)) {
       return {
-        ...scene,
+        ...sceneWithoutItemEncoding,
+        items: materializeCompactSceneItems(selected, scene, scene.shapeDefinitions, scene.sprites),
+        mapSource: materializeMapSource(scene.mapSource),
         metadata: scene.metadata?.gameLabel
           ? scene.metadata
           : {
@@ -666,11 +947,15 @@ export function createSceneRuntimeController(deps) {
       throw new Error(`Scene reference data is missing atlases for ${missingIds.slice(0, 5).join(", ")}`);
     }
 
+    const items = materializeCompactSceneItems(selected, scene, shapeDefinitions, sprites);
+
     return {
-      ...scene,
+      ...sceneWithoutItemEncoding,
       atlases,
       sprites,
       shapeDefinitions,
+      items,
+      mapSource: materializeMapSource(scene.mapSource),
       metadata: {
         ...scene.metadata,
         gameLabel: scene.metadata?.gameLabel ?? getSelectedGameLabel(selected)

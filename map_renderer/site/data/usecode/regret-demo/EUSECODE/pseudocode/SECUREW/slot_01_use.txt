@@ -5,6 +5,7 @@ function securew_use() /* entry=1087 class_id=0x043d slot=0x01 */
   if (!Item.getFrame(arg_06)) {
     spawn FREE.slot_21(pid, 0x0181, 0x00000000);
     suspend;
+    return;
   }
   else if (Item.getFrame(arg_06) == 1) {
     local_04 = 1;
@@ -36,6 +37,7 @@ function securew_use() /* entry=1087 class_id=0x043d slot=0x01 */
     spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
     suspend;
     ITEM.slot_24(4, arg_06);
+    return;
   }
   else {
     spawn TEXTFILE.slot_20(pid, "OUT OF ORDER", arg_06);

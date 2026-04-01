@@ -15,117 +15,73 @@ function hover_slot_21() /* entry=2575 class_id=0x0a0d slot=0x21 */
     hover, /* [BP-19h] type=0x24 */
     item; /* [BP-21h] type=0x24 */
 
-  entry:
-    set_info(1, 0);
-    hover = ref;
-    h = Item.getQHi(hover);
-    oldqhi = h;
-    firstEgg = (h & 15);
-    targetEgg = firstEgg;
-
-  block_0f73:
-    if !(1) goto block_1256;
-
-  block_0f7b:
-    if (Item.getStatus(hover) & 0x1000) != 0 goto block_0fc9;
-
-  block_0f91:
-    spawn HOVER.slot_23(pid, 1, ref, arg_06);
-    suspend;
-    goto block_1256;
-
-  block_0fc9:
-    link = Item.getQLo(hover);
-    tx = -1;
-
-  block_0fc9_selector_00:
-    /* loop_selector item in nearby_items(shape=NUMBERS, origin=ref) */
-
-  block_0ffa:
-    if !condition goto block_106c;
-
-  block_0ffd:
-    if Item.getFrame(item) != targetEgg goto block_1068;
-
-  block_100f:
-    if (link != 0) || (link == Item.getQLo(item)) goto block_1068;
-
-  block_102a:
-    tx = Item.getX(item);
-    ty = Item.getY(item);
-    tz = Item.getZ(item);
-    time = Item.getQHi(item);
-    goto block_106c;
-
-  block_1068:
-    goto block_0ffa;
-
-  block_106c:
-    if tx != -1 goto block_10ce;
-
-  block_1079:
-    if targetEgg != firstEgg goto block_10a6;
-
-  block_1084:
-    /* bit_not */
-    goto block_1256;
-
-  block_10a6:
-    targetEgg = firstEgg;
-    h = (h & 0x00f0);
-    goto block_0f73;
-
-  block_10ce:
-    spawn HOVER.slot_20(pid, tz, ty, tx, ref, arg_06);
-    suspend;
-    /* dword_to_word */
-    if process_result != 1 goto block_1112;
-
-  block_10ff:
-    goto block_1256;
-
-  block_1112:
-    spawn HOVER.slot_24(pid, targetEgg, ref, arg_06);
-    suspend;
-    if (Item.getStatus(hover) & 0x1000) != 0 goto block_1185;
-
-  block_114d:
-    spawn HOVER.slot_23(pid, 1, ref, arg_06);
-    suspend;
-    goto block_1256;
-
-  block_1185:
-    if !(h & 0x0080) goto block_11ba;
-
-  block_1191:
-    spawn TRIGGER.slot_20(pid, (0 + 0x0080), item, arg_06);
-    suspend;
-
-  block_11ba:
-    if time == 0 goto block_11ee;
-
-  block_11c5:
-    spawn FREE.waitNTimerTicks(pid, (time * 10), 0x00000000);
-    suspend;
-
-  block_11ee:
-    h = Item.getQHi(hover);
-    if (h & 15) != targetEgg goto block_1220;
-
-  block_1210:
-    targetEgg = ((targetEgg + 1) & 15);
-    goto block_1238;
-
-  block_1220:
-    firstEgg = (h & 15);
-    targetEgg = firstEgg;
-    oldqhi = h;
-
-  block_1238:
-    h = (h & 0x00f0);
-    goto block_0f73;
-
-  block_1256:
-    return;
-
+  set_info(1, 0);
+  hover = ref;
+  h = Item.getQHi(hover);
+  oldqhi = h;
+  firstEgg = (h & 15);
+  targetEgg = firstEgg;
+  while (1) {
+    if ((Item.getStatus(hover) & 0x1000) == 0) {
+      spawn HOVER.slot_23(pid, 1, ref, arg_06);
+      suspend;
+      return;
+    }
+    else {
+      link = Item.getQLo(hover);
+      tx = -1;
+      for item in nearby_items(shape=NUMBERS, origin=ref) {
+        if (Item.getFrame(item) == targetEgg) {
+          if ((link == 0) || (link == Item.getQLo(item))) {
+            tx = Item.getX(item);
+            ty = Item.getY(item);
+            tz = Item.getZ(item);
+            time = Item.getQHi(item);
+          }
+        }
+      }
+      if (tx == -1) {
+        if (targetEgg == firstEgg) {
+          /* bit_not */
+          return;
+        }
+        targetEgg = firstEgg;
+        h = (h & 0x00f0);
+      }
+      spawn HOVER.slot_20(pid, tz, ty, tx, ref, arg_06);
+      suspend;
+      /* dword_to_word */
+      if (process_result == 1) {
+        return;
+      }
+      else {
+        spawn HOVER.slot_24(pid, targetEgg, ref, arg_06);
+        suspend;
+        if ((Item.getStatus(hover) & 0x1000) == 0) {
+          spawn HOVER.slot_23(pid, 1, ref, arg_06);
+          suspend;
+          return;
+        }
+        else if (h & 0x0080) {
+          spawn TRIGGER.slot_20(pid, (0 + 0x0080), item, arg_06);
+          suspend;
+        }
+        if (time != 0) {
+          spawn FREE.waitNTimerTicks(pid, (time * 10), 0x00000000);
+          suspend;
+        }
+        h = Item.getQHi(hover);
+        if ((h & 15) == targetEgg) {
+          targetEgg = ((targetEgg + 1) & 15);
+        }
+        else {
+          firstEgg = (h & 15);
+          targetEgg = firstEgg;
+          oldqhi = h;
+        }
+        h = (h & 0x00f0);
+      }
+    }
+  }
+  return;
 }

@@ -3,6 +3,7 @@ function monitew_use() /* entry=359 class_id=0x0165 slot=0x01 */
   set_info(0x0207, *(arg_06));
   process_exclude();
   if (Item.getFrame(arg_06) > 1) {
+    return;
   }
   else {
     local_08 = void AudioProcess:stopAllSFX(arg_06);
@@ -21,6 +22,7 @@ function monitew_use() /* entry=359 class_id=0x0165 slot=0x01 */
       }
       spawn TRIGGER.slot_2a(pid, 0, *(arg_06), arg_06);
       suspend;
+      return;
     }
     else {
       for local_04 in nearby_items(shape=PLACEHOLDER_KEY_CUBE, origin=arg_06) {

@@ -32,29 +32,33 @@ function spider_slot_22() /* entry=2581 class_id=0x0a13 slot=0x22 */
         ITEM.slot_25(0x1000, arg_06);
         return;
       }
-      local_11 = 0;
-      while (local_11 <= 5) {
-        spawn FREE.slot_3b(pid, 5, 0x00000000);
-        suspend;
-        local_11 = (1 + local_11);
+      else {
+        local_11 = 0;
+        while (local_11 <= 5) {
+          spawn FREE.slot_3b(pid, 5, 0x00000000);
+          suspend;
+          local_11 = (1 + local_11);
+        }
+        local_11 = 1;
+        while (local_11 <= 4) {
+          spawn FREE.slot_3b(pid, 5, 0x00000000);
+          suspend;
+          local_11 = (1 + local_11);
+        }
+        while (Intrinsic0036(local_04, arg_06) == 0) {
+          spawn FREE.slot_3b(pid, 60, 0x00000000);
+          suspend;
+        }
+        spawn SPIDER.slot_23(local_13, local_04, local_02, local_02);
+        if (arg_10 < 99) {
+          ITEM.slot_25(0x1000, arg_06);
+          return;
+        }
+        else {
+          spawn FREE.slot_3b(pid, 0x01f4, 0x00000000);
+          suspend;
+        }
       }
-      local_11 = 1;
-      while (local_11 <= 4) {
-        spawn FREE.slot_3b(pid, 5, 0x00000000);
-        suspend;
-        local_11 = (1 + local_11);
-      }
-      while (Intrinsic0036(local_04, arg_06) == 0) {
-        spawn FREE.slot_3b(pid, 60, 0x00000000);
-        suspend;
-      }
-      spawn SPIDER.slot_23(local_13, local_04, local_02, local_02);
-      if (arg_10 < 99) {
-        ITEM.slot_25(0x1000, arg_06);
-        return;
-      }
-      spawn FREE.slot_3b(pid, 0x01f4, 0x00000000);
-      suspend;
     }
   }
   return;

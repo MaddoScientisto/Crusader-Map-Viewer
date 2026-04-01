@@ -134,23 +134,17 @@ function floor1_enterFastArea() /* entry=2308 class_id=0x0902 slot=0x0f */
     }
 
   block_0429:
-    if wantToStop != 1 goto block_0495;
-
-  block_0437:
-    spawn FREE.slot_32(pid, 60, 0x00000000);
-    suspend;
-    wantToStop = 0;
-
-  block_046d:
-    while (true) {
-      foreach_list item -> block_0492;
-      if (Item.getStatus(item) & 0x1000) {
-        wantToStop = 1;
+    while (wantToStop == 1) {
+      spawn FREE.slot_32(pid, 60, 0x00000000);
+      suspend;
+      wantToStop = 0;
+      while (true) {
+        foreach_list item -> block_0492;
+        if (Item.getStatus(item) & 0x1000) {
+          wantToStop = 1;
+        }
       }
     }
-
-  block_0492:
-    goto block_0429;
 
   block_0495:
     goto block_020a;

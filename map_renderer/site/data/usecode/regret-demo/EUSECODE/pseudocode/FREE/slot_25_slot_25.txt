@@ -12,10 +12,10 @@ function free_slot_25() /* entry=2575 class_id=0x0a0d slot=0x25 */
       if (Intrinsic006A(0x0215, 0) > 1) {
         return;
       }
-      if ((Ultima8Engine.getUnkCrusaderFlag(&global[0x001e]) == 1) || (global[0x000b] == 0)) {
+      else if ((Ultima8Engine.getUnkCrusaderFlag(&global[0x001e]) == 1) || (global[0x000b] == 0)) {
         return;
       }
-      if (global[0x000d]) {
+      else if (global[0x000d]) {
         spawn FREE.slot_3b(pid, 120, 0x00000000);
         suspend;
       }

@@ -12,131 +12,64 @@ function bridge_slot_25() /* entry=2565 class_id=0x0a03 slot=0x25 */
     item2, /* [BP-14h] type=0x24 */
     item3; /* [BP-16h] type=0x24 */
 
-  entry:
-    set_info(0x021b, *(arg_06));
-    bridgemax = 0;
-
-  entry_selector_00:
-    /* loop_selector item in selector_0x42(arg0=0x03a6, arg1=0x0413, arg2=(70 * 32), origin=arg_06) */
-
-  block_0843:
-    if !condition goto block_0877;
-
-  block_0846:
+  set_info(0x021b, *(arg_06));
+  bridgemax = 0;
+  for item in selector_0x42(arg0=0x03a6, arg1=0x0413, arg2=(70 * 32), origin=arg_06) {
     x = legalMoveToPoint(item);
-    if x != start goto block_0873;
-
-  block_085f:
-    bridgemax = Item.getQHi(item);
-    goto block_0877;
-
-  block_0873:
-    goto block_0843;
-
-  block_0877:
-    if bridgemax != 0 goto block_08fd;
-
-  block_0884_selector_00:
-    /* loop_selector item in selector_0x42(arg0=0x0336, arg1=0x0290, arg2=(70 * 32), origin=arg_06) */
-
-  block_08a4:
-    if !condition goto block_08ea;
-
-  block_08a7:
-    if Item.getFrame(arg_06) != 1 goto block_08e6;
-
-  block_08b9:
-    x = legalMoveToPoint(item);
-    if x != start goto block_08e6;
-
-  block_08d2:
-    bridgemax = Item.getQHi(item);
-    goto block_08ea;
-
-  block_08e6:
-    goto block_08a4;
-
-  block_08ea:
-    if bridgemax != 0 goto block_08fd;
-
-  block_08f7:
-    goto block_0c5a;
-
-  block_08fd:
-    if bridgemax >= start goto block_090e;
-
-  block_0908:
-    goto block_0c5a;
-
-  block_090e:
+    if (x == start) {
+      bridgemax = Item.getQHi(item);
+    }
+  }
+  if (bridgemax == 0) {
+    for item in selector_0x42(arg0=0x0336, arg1=0x0290, arg2=(70 * 32), origin=arg_06) {
+      if (Item.getFrame(arg_06) == 1) {
+        x = legalMoveToPoint(item);
+        if (x == start) {
+          bridgemax = Item.getQHi(item);
+        }
+      }
+    }
+    if (bridgemax == 0) {
+      return;
+    }
+  }
+  else if (bridgemax < start) {
+    return;
+  }
+  else {
     y = bridgemax;
     start = (start - 1);
-
-  block_091f:
-    if y == start goto block_0a46;
-
-  block_092a:
-    z = y;
-
-  block_092a_selector_00:
-    /* loop_selector item in selector_0x42(arg0=0x03a6, arg1=0x0413, arg2=(70 * 32), origin=arg_06) */
-
-  block_0951:
-    if !condition goto block_0991;
-
-  block_0954:
-    x = legalMoveToPoint(item);
-    if x != y goto block_098d;
-
-  block_096d:
-    /* create_list */
-    /* append_list */
-    /* free_local_list */
-    bridgeitems = item;
-    y = (y - 1);
-    goto block_0991;
-
-  block_098d:
-    goto block_0951;
-
-  block_0991:
-    if z != y goto block_0a43;
-
-  block_099e_selector_00:
-    /* loop_selector item in selector_0x42(arg0=0x0336, arg1=0x0290, arg2=(70 * 32), origin=arg_06) */
-
-  block_09be:
-    if !condition goto block_0a10;
-
-  block_09c1:
-    if Item.getFrame(arg_06) != 1 goto block_0a0c;
-
-  block_09d3:
-    x = legalMoveToPoint(item);
-    if x != y goto block_0a0c;
-
-  block_09ec:
-    /* create_list */
-    /* append_list */
-    /* free_local_list */
-    bridgeitems = item;
-    y = (y - 1);
-    goto block_0a10;
-
-  block_0a0c:
-    goto block_09be;
-
-  block_0a10:
-    if z != y goto block_0a43;
-
-  block_0a1d:
-    spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
-    suspend;
-
-  block_0a43:
-    goto block_091f;
-
-  block_0a4f:
+    while (y != start) {
+      z = y;
+      for item in selector_0x42(arg0=0x03a6, arg1=0x0413, arg2=(70 * 32), origin=arg_06) {
+        x = legalMoveToPoint(item);
+        if (x == y) {
+          /* create_list */
+          /* append_list */
+          /* free_local_list */
+          bridgeitems = item;
+          y = (y - 1);
+        }
+      }
+      if (z == y) {
+        for item in selector_0x42(arg0=0x0336, arg1=0x0290, arg2=(70 * 32), origin=arg_06) {
+          if (Item.getFrame(arg_06) == 1) {
+            x = legalMoveToPoint(item);
+            if (x == y) {
+              /* create_list */
+              /* append_list */
+              /* free_local_list */
+              bridgeitems = item;
+              y = (y - 1);
+            }
+          }
+        }
+        if (z == y) {
+          spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+          suspend;
+        }
+      }
+    }
     while (true) {
       foreach_list item -> block_0b63;
       if (Intrinsic02F(item) == 1) {
@@ -155,8 +88,6 @@ function bridge_slot_25() /* entry=2565 class_id=0x0a03 slot=0x25 */
         }
       }
     }
-
-  block_0b6c:
     while (true) {
       foreach_list item -> block_0c5a;
       if (Intrinsic02F(item) == 1) {
@@ -173,9 +104,7 @@ function bridge_slot_25() /* entry=2565 class_id=0x0a03 slot=0x25 */
         }
       }
     }
-
-  block_0c5a:
-    /* free_local_list */
-    return;
-
+  }
+  /* free_local_list */
+  return;
 }

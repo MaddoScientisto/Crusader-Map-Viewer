@@ -12,10 +12,10 @@ function free_slot_26() /* entry=2575 class_id=0x0a0d slot=0x26 */
       if (Intrinsic006A(0x0228, 0) > 1) {
         return;
       }
-      if (AudioProcess.stopSFXCru(((Ultima8Engine.getUnkCrusaderFlag(&global[0x001e]) == 1) || (global[0x000c] == 0)), &global[0x001e]) < 3) {
+      else if (AudioProcess.stopSFXCru(((Ultima8Engine.getUnkCrusaderFlag(&global[0x001e]) == 1) || (global[0x000c] == 0)), &global[0x001e]) < 3) {
         return;
       }
-      if (Actor.getMana(&global[0x001e]) > 0x012c) {
+      else if (Actor.getMana(&global[0x001e]) > 0x012c) {
       }
       spawn FREE.slot_3b(pid, 60, 0x00000000);
       suspend;

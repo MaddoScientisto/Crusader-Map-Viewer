@@ -1,66 +1,42 @@
 function watchns_slot_21() /* entry=1224 class_id=0x04c6 slot=0x21 */
 {
-  entry:
-    local_04 = *(arg_06);
-    set_info(0x021b, 0);
-    spawn FREE.slot_3b(pid, 60, 0x00000000);
-    suspend;
-    local_06 = Camera.getX();
-    local_08 = Camera.getY();
-    local_10 = Camera.getZ();
-
-  entry_selector_00:
-    /* loop_selector local_02 in nearby_items(shape=0x0361, origin=arg_06) */
-
-  block_0487:
-    if !condition goto block_05ac;
-
-  block_048a:
-    if Item.getQLo(local_02) != Item.getQLo(arg_06) goto block_05a8;
-
-  block_04a0:
-    if Item.getQLo(arg_06) <= 0x00f9 goto block_04cb;
-
-  block_04b0:
-    spawn WATCHNS.slot_22(pid, local_02, arg_06);
-    suspend;
-    goto block_05a5;
-
-  block_04cb:
-    local_12 = Item.getX(local_02);
-    local_14 = Item.getY(local_02);
-    local_16 = Item.getZ(local_02);
-    spawn FREE.slot_3b(pid, 10, 0x00000000);
-    suspend;
-    /* pop_global */
-    spawn FREE.slot_3b(1, pid, 60, 0x00000000);
-    suspend;
-    if Item.getMapArray(local_02) == 0 goto block_0567;
-
-  block_0551:
-    spawn TRIGGER.slot_20(pid, 0, local_02, arg_06);
-    suspend;
-
-  block_0567:
-    spawn FREE.slot_3b(pid, 120, 0x00000000);
-    suspend;
-
-  block_057e:
-    while (!Ultima8Engine.moveKeyDownRecently()) {
-      spawn FREE.slot_3b(pid, 2, 0x00000000);
-      suspend;
+  local_04 = *(arg_06);
+  set_info(0x021b, 0);
+  spawn FREE.slot_3b(pid, 60, 0x00000000);
+  suspend;
+  local_06 = Camera.getX();
+  local_08 = Camera.getY();
+  local_10 = Camera.getZ();
+  for local_02 in nearby_items(shape=0x0361, origin=arg_06) {
+    if (Item.getQLo(local_02) == Item.getQLo(arg_06)) {
+      if (Item.getQLo(arg_06) > 0x00f9) {
+        spawn WATCHNS.slot_22(pid, local_02, arg_06);
+        suspend;
+      }
+      else {
+        local_12 = Item.getX(local_02);
+        local_14 = Item.getY(local_02);
+        local_16 = Item.getZ(local_02);
+        spawn FREE.slot_3b(pid, 10, 0x00000000);
+        suspend;
+        /* pop_global */
+        spawn FREE.slot_3b(1, pid, 60, 0x00000000);
+        suspend;
+        if (Item.getMapArray(local_02) != 0) {
+          spawn TRIGGER.slot_20(pid, 0, local_02, arg_06);
+          suspend;
+        }
+        spawn FREE.slot_3b(pid, 120, 0x00000000);
+        suspend;
+        while (!Ultima8Engine.moveKeyDownRecently()) {
+          spawn FREE.slot_3b(pid, 2, 0x00000000);
+          suspend;
+        }
+      }
     }
-
-  block_05a5:
-    goto block_05ac;
-
-  block_05a8:
-    goto block_0487;
-
-  block_05ac:
-    spawn FREE.slot_3b(pid, 10, 0x00000000);
-    suspend;
-    /* pop_global */
-    return;
-
+  }
+  spawn FREE.slot_3b(pid, 10, 0x00000000);
+  suspend;
+  /* pop_global */
+  return;
 }

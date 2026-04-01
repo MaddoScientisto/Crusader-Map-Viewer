@@ -16,21 +16,23 @@ function free_slot_2d() /* entry=2591 class_id=0x0a1d slot=0x2d */
       if (!(global[0x0002])) {
         return;
       }
-      arg_06 = (arg_06 - 1);
-      if (arg_06 == 0) {
-        spawn FREE.slot_24(pid, 0x00000000);
-        suspend;
-        spawn FREE.slot_3b(pid, 90, 0x00000000);
-        suspend;
-        /* pop_global */
-        spawn FREE.slot_3b(pid, 10, 0x00000000);
-        suspend;
-        /* str_to_ptr */
-        /* free_stack_string */
-        /* str_to_ptr */
-        /* free_stack_string */
-        suspend;
-        return;
+      else {
+        arg_06 = (arg_06 - 1);
+        if (arg_06 == 0) {
+          spawn FREE.slot_24(pid, 0x00000000);
+          suspend;
+          spawn FREE.slot_3b(pid, 90, 0x00000000);
+          suspend;
+          /* pop_global */
+          spawn FREE.slot_3b(pid, 10, 0x00000000);
+          suspend;
+          /* str_to_ptr */
+          /* free_stack_string */
+          /* str_to_ptr */
+          /* free_stack_string */
+          suspend;
+          return;
+        }
       }
     }
   }

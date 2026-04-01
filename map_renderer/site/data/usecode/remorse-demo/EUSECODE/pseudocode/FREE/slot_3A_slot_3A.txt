@@ -5,19 +5,10 @@ function free_slot_3a() /* entry=2574 class_id=0x0a0c slot=0x3a */
     member, /* [BP-02h] type=0x69 */
     count; /* [BP-04h] type=0x69 */
 
-  entry:
-    count = 0;
-
-  block_163f:
-    while (true) {
-      foreach_list member -> block_1654;
-      count = (1 + count);
-    }
-
-  block_1654:
-    goto block_165d;
-
-  block_165d:
-    return;
-
+  count = 0;
+  while (true) {
+    foreach_list member -> block_1654;
+    count = (1 + count);
+  }
+  return;
 }

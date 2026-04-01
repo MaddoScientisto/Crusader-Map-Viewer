@@ -119,23 +119,17 @@ function floor1_enterFastArea() /* entry=2308 class_id=0x0902 slot=0x0f */
     }
 
   block_031b:
-    if local_16 != 1 goto block_0363;
-
-  block_0323:
-    spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
-    suspend;
-    local_16 = 0;
-
-  block_0344:
-    while (true) {
-      foreach_list local_04 -> block_0360;
-      if (Item.getStatus(local_04) & 0x1000) {
-        local_16 = 1;
+    while (local_16 == 1) {
+      spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
+      suspend;
+      local_16 = 0;
+      while (true) {
+        foreach_list local_04 -> block_0360;
+        if (Item.getStatus(local_04) & 0x1000) {
+          local_16 = 1;
+        }
       }
     }
-
-  block_0360:
-    goto block_031b;
 
   block_0363:
     goto block_019b;

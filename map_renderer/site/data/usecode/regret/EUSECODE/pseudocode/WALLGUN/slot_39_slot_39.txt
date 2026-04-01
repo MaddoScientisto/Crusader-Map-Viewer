@@ -1,131 +1,72 @@
 function wallgun_slot_39() /* entry=2587 class_id=0x0a19 slot=0x39 */
 {
-  entry:
-    set_info(0x0001, *(arg_06));
-    local_09 = 1;
-    local_10 = 1;
-    WALLGUN.slot_29(arg_06);
-    local_11 = retval;
-    if local_11 != 1 goto block_18cf;
-
-  block_18c0:
+  set_info(0x0001, *(arg_06));
+  local_09 = 1;
+  local_10 = 1;
+  WALLGUN.slot_29(arg_06);
+  local_11 = retval;
+  if (local_11 == 1) {
     local_06 = 1;
     local_02 = 0;
     local_04 = 8;
-    goto block_18f7;
-
-  block_18cf:
+  }
+  else {
     WALLGUN.slot_2b(arg_06);
-    if !retval goto block_18eb;
-
-  block_18dc:
-    local_06 = 1;
-    local_02 = 0;
-    local_04 = 8;
-    goto block_18f7;
-
-  block_18eb:
-    local_06 = -1;
-    local_02 = 8;
-    local_04 = 0;
-
-  block_18f7:
-    WALLGUN.slot_20(arg_06);
-    local_13 = (retval * 5);
-
-  block_1906:
-    if !(1) goto block_1a25;
-
-  block_190b:
+    if (retval) {
+      local_06 = 1;
+      local_02 = 0;
+      local_04 = 8;
+    }
+    else {
+      local_06 = -1;
+      local_02 = 8;
+      local_04 = 0;
+    }
+  }
+  WALLGUN.slot_20(arg_06);
+  local_13 = (retval * 5);
+  while (1) {
     spawn WALLGUN.slot_26(pid, arg_06);
     suspend;
     local_08 = Item.getFrame(arg_06);
-    if local_11 != 1 goto block_1953;
-
-  block_192e:
-    if local_08 <= 19 goto block_1950;
-
-  block_1936:
-    spawn FREE.slot_3b(pid, 10, 0x00000000);
-    suspend;
-    goto block_1906;
-
-  block_1950:
-    goto block_1978;
-
-  block_1953:
-    if local_08 <= 8 goto block_1978;
-
-  block_195b:
-    spawn FREE.slot_3b(pid, 10, 0x00000000);
-    suspend;
-    goto block_1906;
-
-  block_1975:
-    goto block_1978;
-
-  block_1978:
-    if !local_09 goto block_1999;
-
-  block_197d:
-    if local_08 != local_04 goto block_198f;
-
-  block_1985:
-    local_09 = 0;
-    goto block_1906;
-
-  block_198c:
-    goto block_1996;
-
-  block_198f:
-    local_08 = (local_08 + local_06);
-
-  block_1996:
-    goto block_19d4;
-
-  block_1999:
-    if local_10 != 1 goto block_19bd;
-
-  block_19a1:
-    if local_08 != local_02 goto block_19b3;
-
-  block_19a9:
-    local_10 = 0;
-    goto block_1906;
-
-  block_19b0:
-    goto block_19ba;
-
-  block_19b3:
-    local_08 = (local_08 - local_06);
-
-  block_19ba:
-    goto block_19d4;
-
-  block_19bd:
-    if local_08 == 4 goto block_19cc;
-
-  block_19c5:
-    local_08 = (local_08 + local_06);
-
-  block_19cc:
+    if (local_11 == 1) {
+      if (local_08 > 19) {
+        spawn FREE.slot_3b(pid, 10, 0x00000000);
+        suspend;
+      }
+    }
+    else if (local_08 > 8) {
+      spawn FREE.slot_3b(pid, 10, 0x00000000);
+      suspend;
+    }
+    if (local_09) {
+      if (local_08 == local_04) {
+        local_09 = 0;
+      }
+      else {
+        local_08 = (local_08 + local_06);
+      }
+    }
+    else if (local_10 == 1) {
+      if (local_08 == local_02) {
+        local_10 = 0;
+      }
+      else {
+        local_08 = (local_08 - local_06);
+      }
+    }
+    else if (local_08 != 4) {
+      local_08 = (local_08 + local_06);
+    }
     local_09 = 1;
     local_10 = 1;
-
-  block_19d4:
     spawn FREE.slot_3b(pid, local_13, 0x00000000);
     suspend;
     WALLGUN.slot_2e(arg_10, arg_06);
-    if !retval goto block_1a22;
-
-  block_1a0e:
-    spawn WALLGUN.slot_46(pid, arg_10, arg_06);
-    suspend;
-
-  block_1a22:
-    goto block_1906;
-
-  block_1a25:
-    return;
-
+    if (retval) {
+      spawn WALLGUN.slot_46(pid, arg_10, arg_06);
+      suspend;
+    }
+  }
+  return;
 }

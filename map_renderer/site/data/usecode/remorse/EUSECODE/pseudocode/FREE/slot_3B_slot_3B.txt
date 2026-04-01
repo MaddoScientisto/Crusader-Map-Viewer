@@ -58,20 +58,22 @@ function free_slot_3b() /* entry=2574 class_id=0x0a0c slot=0x3b */
     if (!World.getAlertActive()) {
       return;
     }
-    ref = 1;
-    spawn FREE.waitNTimerTicks(pid, (0x04b0 * (5 - Game.getDifficultyLevel())), 0x00000000);
-    suspend;
-    counter = 0;
-    while (counter <= 2) {
-      spawn FREE.slot_21(pid, alarm, 0x00000000);
+    else {
+      ref = 1;
+      spawn FREE.waitNTimerTicks(pid, (0x04b0 * (5 - Game.getDifficultyLevel())), 0x00000000);
       suspend;
-      counter = (1 + counter);
-    }
-    if (UCMachine.rndRange(100, 0) > 50) {
-    }
-    for item in nearby_items(shape=0x0561, origin=ref) {
-      if (Item.inFastArea(item)) {
+      counter = 0;
+      while (counter <= 2) {
+        spawn FREE.slot_21(pid, alarm, 0x00000000);
         suspend;
+        counter = (1 + counter);
+      }
+      if (UCMachine.rndRange(100, 0) > 50) {
+      }
+      for item in nearby_items(shape=0x0561, origin=ref) {
+        if (Item.inFastArea(item)) {
+          suspend;
+        }
       }
     }
   }

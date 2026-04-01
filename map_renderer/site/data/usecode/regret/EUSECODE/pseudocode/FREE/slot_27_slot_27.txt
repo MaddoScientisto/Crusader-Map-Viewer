@@ -24,25 +24,27 @@ function free_slot_27() /* entry=2591 class_id=0x0a1d slot=0x27 */
     if (Kernel.getNumProcesses(0x0229, 0) > 1) {
       return;
     }
-    local_04 = Actor.getMana(&global[0x001e]);
-    if (((Actor.isDead(&global[0x001e]) == 1) || (global[0x000d] == 0)) || (local_04 < 100)) {
-      /* loopscr */
-      /* loopscr */
-      /* loopscr */
-      /* loopscr */
-      /* loop */
-      while (condition) {
-      }
-      /* pop_global */
-      return;
-    }
-    if (local_04 > 75) {
-    }
     else {
-      /* pop_global */
+      local_04 = Actor.getMana(&global[0x001e]);
+      if (((Actor.isDead(&global[0x001e]) == 1) || (global[0x000d] == 0)) || (local_04 < 100)) {
+        /* loopscr */
+        /* loopscr */
+        /* loopscr */
+        /* loopscr */
+        /* loop */
+        while (condition) {
+        }
+        /* pop_global */
+        return;
+      }
+      else if (local_04 > 75) {
+      }
+      else {
+        /* pop_global */
+      }
+      spawn FREE.slot_3b(pid, 60, 0x00000000);
+      suspend;
     }
-    spawn FREE.slot_3b(pid, 60, 0x00000000);
-    suspend;
   }
   return;
 }

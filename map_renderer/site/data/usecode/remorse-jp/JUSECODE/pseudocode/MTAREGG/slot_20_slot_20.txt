@@ -35,14 +35,16 @@ function mtaregg_slot_20() /* entry=2309 class_id=0x0903 slot=0x20 */
     if (num == 0) {
       return;
     }
-    num = (num - 1);
-    wp = Item.getX(me);
-    local_12 = Item.getY(me);
-    local_10 = Item.getZ(me);
-    wp = (wp + dp);
-    local_12 = (local_12 + local_07);
-    if (Item.andStatus(0, 1, wp, me) == 0) {
-      return;
+    else {
+      num = (num - 1);
+      wp = Item.getX(me);
+      local_12 = Item.getY(me);
+      local_10 = Item.getZ(me);
+      wp = (wp + dp);
+      local_12 = (local_12 + local_07);
+      if (Item.andStatus(0, 1, wp, me) == 0) {
+        return;
+      }
     }
   }
   return;

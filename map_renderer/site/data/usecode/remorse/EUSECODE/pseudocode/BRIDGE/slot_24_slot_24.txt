@@ -10,80 +10,39 @@ function bridge_slot_24() /* entry=2565 class_id=0x0a03 slot=0x24 */
     y, /* [BP-10h] type=0x69 */
     z; /* [BP-12h] type=0x69 */
 
-  entry:
-    set_info(0x021b, *(arg_06));
-    bridgemax = 0;
-
-  entry_selector_00:
-    /* loop_selector item in selector_0x42(arg0=0x0336, arg1=0x0290, arg2=(70 * 32), origin=arg_06) */
-
-  block_05c8:
-    if !condition goto block_05fc;
-
-  block_05cb:
+  set_info(0x021b, *(arg_06));
+  bridgemax = 0;
+  for item in selector_0x42(arg0=0x0336, arg1=0x0290, arg2=(70 * 32), origin=arg_06) {
     x = Item.getQLo(item);
-    if x != start goto block_05f8;
-
-  block_05e4:
-    bridgemax = Item.getQHi(item);
-    goto block_05fc;
-
-  block_05f8:
-    goto block_05c8;
-
-  block_05fc:
-    if bridgemax != 0 goto block_060f;
-
-  block_0609:
-    goto block_07ab;
-
-  block_060f:
-    if bridgemax >= start goto block_0620;
-
-  block_061a:
-    goto block_07ab;
-
-  block_0620:
+    if (x == start) {
+      bridgemax = Item.getQHi(item);
+    }
+  }
+  if (bridgemax == 0) {
+    return;
+  }
+  else if (bridgemax < start) {
+    return;
+  }
+  else {
     y = start;
-
-  block_0627:
-    if y > bridgemax goto block_06cf;
-
-  block_0632:
-    z = y;
-
-  block_0632_selector_00:
-    /* loop_selector item in selector_0x42(arg0=0x0336, arg1=0x0290, arg2=(70 * 32), origin=arg_06) */
-
-  block_0659:
-    if !condition goto block_0699;
-
-  block_065c:
-    x = Item.getQLo(item);
-    if x != y goto block_0695;
-
-  block_0675:
-    /* create_list */
-    /* append_list */
-    /* free_local_list */
-    bridgeitems = item;
-    y = (1 + y);
-    goto block_0699;
-
-  block_0695:
-    goto block_0659;
-
-  block_0699:
-    if z != y goto block_06cc;
-
-  block_06a6:
-    spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
-    suspend;
-
-  block_06cc:
-    goto block_0627;
-
-  block_06d8:
+    while (y <= bridgemax) {
+      z = y;
+      for item in selector_0x42(arg0=0x0336, arg1=0x0290, arg2=(70 * 32), origin=arg_06) {
+        x = Item.getQLo(item);
+        if (x == y) {
+          /* create_list */
+          /* append_list */
+          /* free_local_list */
+          bridgeitems = item;
+          y = (1 + y);
+        }
+      }
+      if (z == y) {
+        spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+        suspend;
+      }
+    }
     while (true) {
       foreach_list item -> block_0750;
       if (Item.inFastArea(item) == 1) {
@@ -92,17 +51,13 @@ function bridge_slot_24() /* entry=2565 class_id=0x0a03 slot=0x24 */
         suspend;
       }
     }
-
-  block_0759:
     while (true) {
       foreach_list item -> block_07ab;
       if (Item.inFastArea(item) == 1) {
         BRIDGE.slot_21(0x03a6, item);
       }
     }
-
-  block_07ab:
-    /* free_local_list */
-    return;
-
+  }
+  /* free_local_list */
+  return;
 }

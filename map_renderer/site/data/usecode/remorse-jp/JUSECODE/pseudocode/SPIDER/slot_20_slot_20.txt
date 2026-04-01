@@ -41,27 +41,29 @@ function spider_slot_20() /* entry=2585 class_id=0x0a17 slot=0x20 */
         ITEM.slot_24(0x1000, arg_06);
         return;
       }
-      count = 0;
-      while (count <= 5) {
-        spawn FREE.slot_32(pid, 5, 0x00000000);
+      else {
+        count = 0;
+        while (count <= 5) {
+          spawn FREE.slot_32(pid, 5, 0x00000000);
+          suspend;
+          count = (1 + count);
+        }
+        count = 1;
+        while (count <= 9) {
+          spawn FREE.slot_32(pid, 5, 0x00000000);
+          suspend;
+          count = (1 + count);
+        }
+        while (Item.IsOn(target, arg_06) == 0) {
+          spawn FREE.slot_32(pid, 60, 0x00000000);
+          suspend;
+        }
+        spawn SPIDER.slot_21(pid, targetLoop, target, spider, spider);
         suspend;
-        count = (1 + count);
-      }
-      count = 1;
-      while (count <= 9) {
-        spawn FREE.slot_32(pid, 5, 0x00000000);
-        suspend;
-        count = (1 + count);
-      }
-      while (Item.IsOn(target, arg_06) == 0) {
-        spawn FREE.slot_32(pid, 60, 0x00000000);
-        suspend;
-      }
-      spawn SPIDER.slot_21(pid, targetLoop, target, spider, spider);
-      suspend;
-      if (spiderType < 99) {
-        ITEM.slot_24(0x1000, arg_06);
-        return;
+        if (spiderType < 99) {
+          ITEM.slot_24(0x1000, arg_06);
+          return;
+        }
       }
     }
   }

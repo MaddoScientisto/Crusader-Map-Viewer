@@ -14,156 +14,85 @@ function surcamns_slot_21() /* entry=1224 class_id=0x04c6 slot=0x21 */
     y, /* [BP-19h] type=0x69 */
     z; /* [BP-20h] type=0x62 */
 
-  entry:
-    set_info(0x021b, 0);
-    trueRef = *(arg_06);
-    if !Item.create(0, 0x0471, screen) goto block_0534;
-
-  block_0534:
-    spawn FREE.slot_32(pid, 30, 0x00000000);
-    suspend;
-
-  block_0534_selector_00:
-    /* loop_selector cameraEgg in nearby_items(shape=EVENT_CONTROLLER, origin=arg_06) */
-
-  block_0579:
-    if !condition goto block_0b05;
-
-  block_057c:
-    if Item.andStatus(cameraEgg) != Item.andStatus(arg_06) goto block_0b01;
-
-  block_0598:
-    if Item.andStatus(arg_06) != 0x00fe goto block_085d;
-
-  block_05ab:
-    spawn FREE.slot_32(pid, 10, 0x00000000);
-    suspend;
-    spawn FREE.slot_32(pid, 10, 0x00000000);
-    suspend;
-
-  block_05ab_selector_00:
-    /* loop_selector npc in nearby_items(shape=MECH_1, origin=cameraEgg) */
-
-  block_0656:
-    if !condition goto block_0695;
-
-  block_0659:
-    if !Actor.isNPC(npc) goto block_0691;
-
-  block_0668:
-    if Actor.GetNPCDataField0x63_00B(npc) != Item.andStatus(arg_06) goto block_0691;
-
-  block_0684:
-    therma = npc;
-    goto block_0695;
-
-  block_0691:
-    goto block_0656;
-
-  block_0695:
-    if !therma goto block_079b;
-
-  block_069f:
-    x1 = Item.getX(&global[0x003c]);
-    y1 = Item.getY(&global[0x003c]);
-    z1 = Item.getZ(&global[0x003c]);
-    spawn NPC.slot_28(pid, therma);
-    suspend;
-
-  block_06fd:
-    while (getTargetNPCNumMaybe() != 1) {
-      spawn FREE.slot_32(pid, 3, 0x00000000);
-      suspend;
+  set_info(0x021b, 0);
+  trueRef = *(arg_06);
+  spawn FREE.slot_32(pid, 30, 0x00000000);
+  suspend;
+  for cameraEgg in nearby_items(shape=EVENT_CONTROLLER, origin=arg_06) {
+    if (Item.andStatus(cameraEgg) == Item.andStatus(arg_06)) {
+      if (Item.andStatus(arg_06) == 0x00fe) {
+        spawn FREE.slot_32(pid, 10, 0x00000000);
+        suspend;
+        spawn FREE.slot_32(pid, 10, 0x00000000);
+        suspend;
+        for npc in nearby_items(shape=MECH_1, origin=cameraEgg) {
+          if (Actor.isNPC(npc)) {
+            if (Actor.GetNPCDataField0x63_00B(npc) == Item.andStatus(arg_06)) {
+              therma = npc;
+            }
+          }
+        }
+        if (therma) {
+          x1 = Item.getX(&global[0x003c]);
+          y1 = Item.getY(&global[0x003c]);
+          z1 = Item.getZ(&global[0x003c]);
+          spawn NPC.slot_28(pid, therma);
+          suspend;
+          while (getTargetNPCNumMaybe() != 1) {
+            spawn FREE.slot_32(pid, 3, 0x00000000);
+            suspend;
+          }
+          spawn FREE.slot_32(pid, 10, 0x00000000);
+          suspend;
+        }
+        else {
+          x1 = Item.getX(&global[0x003c]);
+          y1 = Item.getY(&global[0x003c]);
+          z1 = Item.getZ(&global[0x003c]);
+          while (!MainActor.teleportToEgg()) {
+            spawn FREE.slot_32(pid, 2, 0x00000000);
+            suspend;
+          }
+          spawn FREE.slot_32(pid, 10, 0x00000000);
+          suspend;
+        }
+      }
+      else if (Item.andStatus(arg_06) == 0x00fd) {
+        spawn FREE.slot_32(pid, 60, 0x00000000);
+        suspend;
+        /* str_to_ptr */
+        /* free_stack_string */
+        suspend;
+      }
+      else if (Item.andStatus(arg_06) > 0x00f9) {
+        spawn FREE.slot_32(pid, 10, 0x00000000);
+        suspend;
+        spawn SURCAMNS.slot_22(cameraEgg, arg_06);
+      }
+      else {
+        x = Item.getX(cameraEgg);
+        y = Item.getY(cameraEgg);
+        z = Item.getZ(cameraEgg);
+        spawn FREE.slot_32(pid, 10, 0x00000000);
+        suspend;
+        spawn FREE.slot_32(pid, 60, 0x00000000);
+        suspend;
+        if (Item.getMapArray(cameraEgg) != 0) {
+          spawn TRIGGER.slot_20(pid, 0, cameraEgg, arg_06);
+          suspend;
+        }
+        spawn FREE.slot_32(pid, 120, 0x00000000);
+        suspend;
+        while (!MainActor.teleportToEgg()) {
+          spawn FREE.slot_32(pid, 2, 0x00000000);
+          suspend;
+        }
+        spawn FREE.slot_32(pid, 10, 0x00000000);
+        suspend;
+      }
     }
-
-  block_0737:
-    spawn FREE.slot_32(pid, 10, 0x00000000);
-    suspend;
-    goto block_0b05;
-
-  block_0798:
-    goto block_085a;
-
-  block_079b:
-    x1 = Item.getX(&global[0x003c]);
-    y1 = Item.getY(&global[0x003c]);
-    z1 = Item.getZ(&global[0x003c]);
-
-  block_07c8:
-    while (!MainActor.teleportToEgg()) {
-      spawn FREE.slot_32(pid, 2, 0x00000000);
-      suspend;
-    }
-
-  block_0800:
-    spawn FREE.slot_32(pid, 10, 0x00000000);
-    suspend;
-    goto block_0b05;
-
-  block_085a:
-    goto block_0b01;
-
-  block_085d:
-    if Item.andStatus(arg_06) != 0x00fd goto block_08c6;
-
-  block_0870:
-    spawn FREE.slot_32(pid, 60, 0x00000000);
-    suspend;
-    /* str_to_ptr */
-    /* free_stack_string */
-    suspend;
-    goto block_0b01;
-
-  block_08c6:
-    if Item.andStatus(arg_06) <= 0x00f9 goto block_0956;
-
-  block_08d9:
-    spawn FREE.slot_32(pid, 10, 0x00000000);
-    suspend;
-    spawn SURCAMNS.slot_22(cameraEgg, arg_06);
-    goto block_0b05;
-
-  block_0953:
-    goto block_0b01;
-
-  block_0956:
-    x = Item.getX(cameraEgg);
-    y = Item.getY(cameraEgg);
-    z = Item.getZ(cameraEgg);
-    spawn FREE.slot_32(pid, 10, 0x00000000);
-    suspend;
-    spawn FREE.slot_32(pid, 60, 0x00000000);
-    suspend;
-    if Item.getMapArray(cameraEgg) == 0 goto block_0a31;
-
-  block_0a0c:
-    spawn TRIGGER.slot_20(pid, 0, cameraEgg, arg_06);
-    suspend;
-
-  block_0a31:
-    spawn FREE.slot_32(pid, 120, 0x00000000);
-    suspend;
-
-  block_0a57:
-    while (!MainActor.teleportToEgg()) {
-      spawn FREE.slot_32(pid, 2, 0x00000000);
-      suspend;
-    }
-
-  block_0a8f:
-    spawn FREE.slot_32(pid, 10, 0x00000000);
-    suspend;
-    goto block_0b05;
-
-  block_0b01:
-    goto block_0579;
-
-  block_0b05:
-    spawn FREE.slot_32(pid, 30, 0x00000000);
-    suspend;
-    if !screen goto block_0b40;
-
-  block_0b40:
-    return;
-
+  }
+  spawn FREE.slot_32(pid, 30, 0x00000000);
+  suspend;
+  return;
 }

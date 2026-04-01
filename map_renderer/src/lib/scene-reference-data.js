@@ -1,4 +1,5 @@
 import { GAMES } from "../config.js";
+import { packCompactMapSourceItems, packCompactSceneItems } from "../shared/compact-scene-codec.js";
 
 function getGameEntry(gameId) {
   return GAMES.find((game) => game.id === gameId) ?? null;
@@ -88,9 +89,24 @@ export function buildCompactScenePayload(scene, referenceId) {
     }
   }
 
+  const itemEncoding = Array.isArray(scene?.items)
+    ? packCompactSceneItems(scene.items)
+    : null;
+  const mapSource = sceneWithoutShapeDefinitions?.mapSource && typeof sceneWithoutShapeDefinitions.mapSource === "object"
+    ? { ...sceneWithoutShapeDefinitions.mapSource }
+    : sceneWithoutShapeDefinitions?.mapSource;
+
+  if (mapSource && Array.isArray(mapSource.items)) {
+    mapSource.itemEncoding = packCompactMapSourceItems(mapSource.items);
+    delete mapSource.items;
+  }
+
   return {
     ...sceneWithoutShapeDefinitions,
     metadata,
+    mapSource,
+    itemEncoding,
+    items: Array.isArray(scene?.items) ? undefined : sceneWithoutShapeDefinitions.items,
     references: {
       referenceId,
       atlasIds,

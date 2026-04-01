@@ -24,7 +24,7 @@ function wallgun_slot_45() /* entry=2588 class_id=0x0a1a slot=0x45 */
     if (retval == 0) {
       return;
     }
-    if (local_03 > 20) {
+    else if (local_03 > 20) {
       if (arg_12 == 4) {
         return;
       }
@@ -32,7 +32,7 @@ function wallgun_slot_45() /* entry=2588 class_id=0x0a1a slot=0x45 */
         return;
       }
     }
-    if ((Item.getShape(arg_06) == wallgun_shape_0113) || (Item.getShape(arg_06) == wallgun_shape_0108)) {
+    else if ((Item.getShape(arg_06) == wallgun_shape_0113) || (Item.getShape(arg_06) == wallgun_shape_0108)) {
       spawn WALLGUN.slot_47(local_01, arg_06);
       spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
       suspend;

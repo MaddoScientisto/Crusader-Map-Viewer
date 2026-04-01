@@ -18,263 +18,163 @@ function bridge_slot_26() /* entry=2565 class_id=0x0a03 slot=0x26 */
     wp, /* [BP-27h] type=0x24 */
     item2; /* [BP-29h] type=0x24 */
 
-  entry:
-    set_info(0x021b, *(arg_06));
-    cycletype = 0;
-    delay = 1;
-    bridgemax = end;
-    if bridgemax != 0 goto block_0d66;
-
-  block_0cff_selector_00:
-    /* loop_selector item in selector_0x42(arg0=0x03a6, arg1=0x0413, arg2=(70 * 32), origin=arg_06) */
-
-  block_0d1f:
-    if !condition goto block_0d53;
-
-  block_0d22:
-    x = legalMoveToPoint(item);
-    if x != start goto block_0d4f;
-
-  block_0d3b:
-    bridgemax = Item.getQHi(item);
-    goto block_0d53;
-
-  block_0d4f:
-    goto block_0d1f;
-
-  block_0d53:
-    if bridgemax != 0 goto block_0d66;
-
-  block_0d60:
-    goto block_12f6;
-
-  block_0d66:
-    if bridgemax >= start goto block_0d77;
-
-  block_0d71:
-    goto block_12f6;
-
-  block_0d77:
+  set_info(0x021b, *(arg_06));
+  cycletype = 0;
+  delay = 1;
+  bridgemax = end;
+  if (bridgemax == 0) {
+    for item in selector_0x42(arg0=0x03a6, arg1=0x0413, arg2=(70 * 32), origin=arg_06) {
+      x = legalMoveToPoint(item);
+      if (x == start) {
+        bridgemax = Item.getQHi(item);
+      }
+    }
+    if (bridgemax == 0) {
+      return;
+    }
+  }
+  else if (bridgemax < start) {
+    return;
+  }
+  else {
     y = start;
     retry = 100;
-
-  block_0d85:
-    if y > bridgemax goto block_0ee8;
-
-  block_0d90:
-    z = y;
-
-  block_0d90_selector_00:
-    /* loop_selector item in selector_0x42(arg0=0x03a6, arg1=0x0413, arg2=(70 * 32), origin=arg_06) */
-
-  block_0db7:
-    if !condition goto block_0e74;
-
-  block_0dba:
-    x = legalMoveToPoint(item);
-    if x != y goto block_0e70;
-
-  block_0dd3:
-    if x != (start + 1) goto block_0e50;
-
-  block_0de1:
-    a = Item.getQHi(item);
-    if a >= 0 goto block_0e05;
-
-  block_0dfa:
-    a = (a + 0x0100);
-
-  block_0e05:
-    a = (a & 127);
-    cycletype = (a & 7);
-    delay = (a / 8);
-    if delay != 0 goto block_0e35;
-
-  block_0e2e:
-    delay = 1;
-
-  block_0e35:
-    delay = (delay * 5);
-    if cycletype != 0 goto block_0e50;
-
-  block_0e4a:
-    goto block_12f6;
-
-  block_0e50:
-    /* create_list */
-    /* append_list */
-    /* free_local_list */
-    bridgeitems = item;
-    y = (1 + y);
-    goto block_0e74;
-
-  block_0e70:
-    goto block_0db7;
-
-  block_0e74:
-    if z != y goto block_0ee5;
-
-  block_0e81:
-    if retry != 0 goto block_0eb5;
-
-  block_0e8c:
-    spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
-    suspend;
-    goto block_0ee5;
-
-  block_0eb5:
-    retry = (retry - 1);
-    spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
-    suspend;
-
-  block_0ee5:
-    goto block_0d85;
-
-  block_0ee8:
-    if cycletype != 3 goto block_110a;
-
-  block_0ef3:
-    if !(1) goto block_110a;
-
-  block_0efb:
-    x = 0;
-
-  block_0f0b:
-    while (true) {
-      foreach_list item -> block_0f32;
-      if (Intrinsic02F(item) == 0) {
-        x = (1 + x);
+    while (y <= bridgemax) {
+      z = y;
+      for item in selector_0x42(arg0=0x03a6, arg1=0x0413, arg2=(70 * 32), origin=arg_06) {
+        x = legalMoveToPoint(item);
+        if (x == y) {
+          if (x == (start + 1)) {
+            a = Item.getQHi(item);
+            if (a < 0) {
+              a = (a + 0x0100);
+            }
+            a = (a & 127);
+            cycletype = (a & 7);
+            delay = (a / 8);
+            if (delay == 0) {
+              delay = 1;
+            }
+            delay = (delay * 5);
+            if (cycletype == 0) {
+              return;
+            }
+          }
+          /* create_list */
+          /* append_list */
+          /* free_local_list */
+          bridgeitems = item;
+          y = (1 + y);
+        }
       }
-    }
-
-  block_0f32:
-    if x != 0 goto block_10e1;
-
-  block_0f46:
-    while (true) {
-      foreach_list item -> block_0f9d;
-      if (x == 0) {
-        y = Item.getFrame(item);
-        item2 = item;
-        x = 1;
-      }
-      else {
-        z = Item.getFrame(item);
-        y = z;
-      }
-    }
-
-  block_0fb3:
-    while (true) {
-      foreach_list item -> block_10e1;
-      x = Item.getFrame(item);
-      if (x == 1) {
-        /* loopscr */
-        /* loop */
-        while (condition) {
-          n = item2;
-          FREE.slot_20(pid, 8);
-          spawn NPC.slot_2d(retval, item, n);
+      if (z == y) {
+        if (retry == 0) {
+          spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
+          suspend;
+        }
+        else {
+          retry = (retry - 1);
+          spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
           suspend;
         }
       }
-      else if (x == 2) {
-        BRIDGE.slot_21(0x0336, item);
-        /* loopscr */
-        /* loop */
-        while (condition) {
+    }
+    if (cycletype == 3) {
+      while (1) {
+        x = 0;
+        while (true) {
+          foreach_list item -> block_0f32;
+          if (Intrinsic02F(item) == 0) {
+            x = (1 + x);
+          }
+        }
+        if (x == 0) {
+          while (true) {
+            foreach_list item -> block_0f9d;
+            if (x == 0) {
+              y = Item.getFrame(item);
+              item2 = item;
+              x = 1;
+            }
+            else {
+              z = Item.getFrame(item);
+              y = z;
+            }
+          }
+          while (true) {
+            foreach_list item -> block_10e1;
+            x = Item.getFrame(item);
+            if (x == 1) {
+              /* loopscr */
+              /* loop */
+              while (condition) {
+                n = item2;
+                FREE.slot_20(pid, 8);
+                spawn NPC.slot_2d(retval, item, n);
+                suspend;
+              }
+            }
+            else if (x == 2) {
+              BRIDGE.slot_21(0x0336, item);
+              /* loopscr */
+              /* loop */
+              while (condition) {
+              }
+              spawn FREE.waitNTimerTicks(pid, delay, 0x00000000);
+              suspend;
+              if (Item.getFrame(item) == 1) {
+                BRIDGE.slot_21(0x03a6, item);
+              }
+            }
+          }
         }
         spawn FREE.waitNTimerTicks(pid, delay, 0x00000000);
         suspend;
-        if (Item.getFrame(item) == 1) {
-          BRIDGE.slot_21(0x03a6, item);
-        }
       }
     }
-
-  block_10e1:
-    spawn FREE.waitNTimerTicks(pid, delay, 0x00000000);
-    suspend;
-    goto block_0ef3;
-
-  block_1113:
     while (true) {
       foreach_list item -> block_113d;
     }
-
-  block_113d:
-    if !(1) goto block_12f6;
-
-  block_114e:
-    foreach_list item -> block_12f3;
-
-  block_1153:
-    if Intrinsic02F(item) != 0 goto block_116b;
-
-  block_1165:
-    goto block_12f6;
-
-  block_116b:
-    x = Item.getShape(item);
-    if (x != 0x0336) || (x == 0x0290) goto block_1192;
-
-  block_118c:
-    goto block_12f6;
-
-  block_1192:
-    if cycletype != 1 goto block_122b;
-
-  block_119d:
-    /* loopscr */
-    /* loop */
-
-  block_11b8:
-    while (condition) {
-      n = item2;
-      FREE.slot_20(pid, 8);
-      spawn NPC.slot_2d(retval, item, n);
-      suspend;
+    while (1) {
+      while (true) {
+        foreach_list item -> block_12f3;
+        if (Intrinsic02F(item) == 0) {
+          return;
+        }
+        x = Item.getShape(item);
+        if ((x == 0x0336) || (x == 0x0290)) {
+          return;
+        }
+        if (cycletype == 1) {
+          /* loopscr */
+          /* loop */
+          while (condition) {
+            n = item2;
+            FREE.slot_20(pid, 8);
+            spawn NPC.slot_2d(retval, item, n);
+            suspend;
+          }
+          spawn FREE.waitNTimerTicks(pid, delay, 0x00000000);
+          suspend;
+        }
+        else if (cycletype == 2) {
+          BRIDGE.slot_21(0x0336, item);
+          /* loopscr */
+          /* loop */
+          while (condition) {
+          }
+          spawn FREE.waitNTimerTicks(pid, delay, 0x00000000);
+          suspend;
+          if (Item.getFrame(item) == 1) {
+            BRIDGE.slot_21(0x03a6, item);
+          }
+        }
+        else {
+          return;
+        }
+      }
     }
-
-  block_11f3:
-    spawn FREE.waitNTimerTicks(pid, delay, 0x00000000);
-    suspend;
-    goto block_12ed;
-
-  block_122b:
-    if cycletype != 2 goto block_12e7;
-
-  block_1236:
-    BRIDGE.slot_21(0x0336, item);
-    /* loopscr */
-    /* loop */
-
-  block_126e:
-    while (condition) {
-    }
-
-  block_1280:
-    spawn FREE.waitNTimerTicks(pid, delay, 0x00000000);
-    suspend;
-    if Item.getFrame(item) != 1 goto block_12e4;
-
-  block_12ba:
-    BRIDGE.slot_21(0x03a6, item);
-
-  block_12e4:
-    goto block_12ed;
-
-  block_12e7:
-    goto block_12f6;
-
-  block_12ed:
-    goto block_114e;
-
-  block_12f3:
-    goto block_113d;
-
-  block_12f6:
-    /* free_local_list */
-    return;
-
+  }
+  /* free_local_list */
+  return;
 }

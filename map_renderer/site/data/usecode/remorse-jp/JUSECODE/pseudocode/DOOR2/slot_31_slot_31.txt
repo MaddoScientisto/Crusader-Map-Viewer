@@ -14,97 +14,57 @@ function door2_slot_31() /* entry=2569 class_id=0x0a07 slot=0x31 */
     bool, /* [BP-17h] type=0x62 */
     maxFrame; /* [BP-19h] type=0x69 */
 
-  entry:
-    set_info(0x0207, *(arg_06));
-    /* create_list */
-    /* free_local_list */
-    doorList = 0x0189;
-    /* create_list */
-    /* free_local_list */
-    doorList2 = 0x0187;
-    FREE.slot_3a(0x0193, 0x0192, 0x0191, 0x0190, 0x018d, 0x018c, 0x018b, 0x018a, doorList);
-    /* free_stack_list */
-    maxFrame = retval;
-
-  entry_selector_00:
-    for item in nearby_items(shape=ELEVATOR_DOOR_SEGMENT, origin=arg_06) {
-      door1 = item;
-    }
-
-  block_1b6f_selector_00:
-    for item in nearby_items(shape=WALL_EDGE, origin=arg_06) {
-      door2 = item;
-    }
-
-  block_1b9d:
-    if !(door1 && door2) goto block_1e43;
-
-  block_1bb0:
+  set_info(0x0207, *(arg_06));
+  /* create_list */
+  /* free_local_list */
+  doorList = 0x0189;
+  /* create_list */
+  /* free_local_list */
+  doorList2 = 0x0187;
+  FREE.slot_3a(0x0193, 0x0192, 0x0191, 0x0190, 0x018d, 0x018c, 0x018b, 0x018a, doorList);
+  /* free_stack_list */
+  maxFrame = retval;
+  for item in nearby_items(shape=ELEVATOR_DOOR_SEGMENT, origin=arg_06) {
+    door1 = item;
+  }
+  for item in nearby_items(shape=WALL_EDGE, origin=arg_06) {
+    door2 = item;
+  }
+  if (door1 && door2) {
     counter = 1;
-
-  block_1bc4:
-    if counter > (maxFrame - 1) goto block_1e43;
-
-  block_1bd5:
-    FREE.slot_2d(Item.getZ(door1), Item.getY(door1), Item.getX(door1), 0, doorList, (maxFrame - counter), list_element(size=0x2), door1);
-    if retval goto block_1c17;
-
-  block_1c10:
-    nonLegalDoor1 = 1;
-
-  block_1c17:
-    FREE.slot_2d(Item.getZ(door2), Item.getY(door2), (Item.getX(door2) + 16), 0, doorList2, (maxFrame - counter), list_element(size=0x2), door2);
-    if retval goto block_1c5c;
-
-  block_1c55:
-    nonLegalDoor2 = 1;
-
-  block_1c5c:
-    if !((!nonLegalDoor1) && (!nonLegalDoor2)) goto block_1cab;
-
-  block_1c6c:
-    spawn FREE.slot_32(pid, 5, 0x00000000);
-    suspend;
-    goto block_1e36;
-
-  block_1cab:
-    spawn FREE.slot_32(pid, 30, 0x00000000);
-    suspend;
-    if !nonLegalDoor1 goto block_1d25;
-
-  block_1d25:
-    if !nonLegalDoor2 goto block_1d45;
-
-  block_1d45:
-    counter2 = ((maxFrame - counter) + 1);
-
-  block_1d52:
-    while (counter2 <= maxFrame) {
-      if (!bool) {
-        bool = 1;
+    while (counter <= (maxFrame - 1)) {
+      FREE.slot_2d(Item.getZ(door1), Item.getY(door1), Item.getX(door1), 0, doorList, (maxFrame - counter), list_element(size=0x2), door1);
+      if (!retval) {
+        nonLegalDoor1 = 1;
       }
-      spawn FREE.slot_32(pid, 10, 0x00000000);
-      suspend;
-      counter2 = (1 + counter2);
+      FREE.slot_2d(Item.getZ(door2), Item.getY(door2), (Item.getX(door2) + 16), 0, doorList2, (maxFrame - counter), list_element(size=0x2), door2);
+      if (!retval) {
+        nonLegalDoor2 = 1;
+      }
+      if ((!nonLegalDoor1) && (!nonLegalDoor2)) {
+        spawn FREE.slot_32(pid, 5, 0x00000000);
+        suspend;
+      }
+      else {
+        spawn FREE.slot_32(pid, 30, 0x00000000);
+        suspend;
+        counter2 = ((maxFrame - counter) + 1);
+        while (counter2 <= maxFrame) {
+          if (!bool) {
+            bool = 1;
+          }
+          spawn FREE.slot_32(pid, 10, 0x00000000);
+          suspend;
+          counter2 = (1 + counter2);
+        }
+        /* word_to_dword */
+        /* pop_result */
+        return;
+      }
+      counter = (1 + counter);
     }
-
-  block_1e2c:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_1e4d;
-
-  block_1e36:
-    counter = (1 + counter);
-    goto block_1bc4;
-
-  block_1e43:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_1e4d;
-
-  block_1e4d:
-    /* free_local_list */
-    /* free_local_list */
-    return;
-
+  }
+  /* word_to_dword */
+  /* pop_result */
+  return;
 }

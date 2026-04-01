@@ -1,19 +1,9 @@
 function free_slot_3e() /* entry=2575 class_id=0x0a0d slot=0x3e */
 {
-  entry:
-    local_04 = 0;
-
-  block_1909:
-    while (true) {
-      foreach_slist local_02 -> block_1918;
-      local_04 = (1 + local_04);
-    }
-
-  block_1918:
-    goto block_191e;
-
-  block_191e:
-    /* free_local_string */
-    return;
-
+  local_04 = 0;
+  while (true) {
+    foreach_slist local_02 -> block_1918;
+    local_04 = (1 + local_04);
+  }
+  return;
 }

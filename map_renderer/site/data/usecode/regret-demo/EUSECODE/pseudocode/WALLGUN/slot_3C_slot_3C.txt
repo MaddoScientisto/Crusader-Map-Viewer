@@ -1,136 +1,85 @@
 function wallgun_slot_3c() /* entry=2593 class_id=0x0a1f slot=0x3c */
 {
-  entry:
-    set_info(0x0001, *(arg_06));
-    WALLGUN.slot_29(arg_06);
-    local_12 = retval;
-    if local_12 != 1 goto block_1dd0;
-
-  block_1dc1:
+  set_info(0x0001, *(arg_06));
+  WALLGUN.slot_29(arg_06);
+  local_12 = retval;
+  if (local_12 == 1) {
     local_08 = -1;
     local_04 = 0;
     local_06 = 15;
-    goto block_1df8;
-
-  block_1dd0:
+  }
+  else {
     WALLGUN.slot_2b(arg_06);
-    if !retval goto block_1dec;
-
-  block_1ddd:
-    local_08 = -1;
-    local_04 = 0;
-    local_06 = 8;
-    goto block_1df8;
-
-  block_1dec:
-    local_08 = 1;
-    local_04 = 8;
-    local_06 = 0;
-
-  block_1df8:
-    WALLGUN.slot_2d(arg_10, arg_06);
-    if retval goto block_1e0f;
-
-  block_1e08:
+    if (retval) {
+      local_08 = -1;
+      local_04 = 0;
+      local_06 = 8;
+    }
+    else {
+      local_08 = 1;
+      local_04 = 8;
+      local_06 = 0;
+    }
+  }
+  WALLGUN.slot_2d(arg_10, arg_06);
+  if (!retval) {
     /* word_to_dword */
     /* pop_result */
-    goto block_1f26;
-
-  block_1e0f:
-    if !(1) goto block_1f26;
-
-  block_1e14:
-    spawn WALLGUN.slot_26(pid, arg_06);
-    suspend;
-    spawn WALLGUN.slot_2f(pid, arg_12, arg_10, arg_06);
-    suspend;
-    local_10 = Item.getFrame(arg_06);
-    if local_12 != 1 goto block_1e72;
-
-  block_1e4d:
-    if local_10 <= 19 goto block_1e6f;
-
-  block_1e55:
-    spawn FREE.slot_3b(pid, 10, 0x00000000);
-    suspend;
-    goto block_1e0f;
-
-  block_1e6f:
-    goto block_1e97;
-
-  block_1e72:
-    if local_10 <= 8 goto block_1e97;
-
-  block_1e7a:
-    spawn FREE.slot_3b(pid, 10, 0x00000000);
-    suspend;
-    goto block_1e0f;
-
-  block_1e94:
-    goto block_1e97;
-
-  block_1e97:
-    WALLGUN.slot_2d(arg_10, arg_06);
-    local_02 = retval;
-    if local_02 != 0 goto block_1eb4;
-
-  block_1ead:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_1f26;
-
-  block_1eb4:
-    if local_02 != 1 goto block_1ee7;
-
-  block_1ebc:
-    if local_10 != local_04 goto block_1edd;
-
-  block_1ec4:
-    if local_12 != 1 goto block_1ed3;
-
-  block_1ecc:
-    local_10 = local_06;
-    goto block_1eda;
-
-  block_1ed3:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_1f26;
-
-  block_1eda:
-    goto block_1ee4;
-
-  block_1edd:
-    local_10 = (local_10 + local_08);
-
-  block_1ee4:
-    goto block_1f0f;
-
-  block_1ee7:
-    if local_10 != local_06 goto block_1f08;
-
-  block_1eef:
-    if local_12 != 1 goto block_1efe;
-
-  block_1ef7:
-    local_10 = local_04;
-    goto block_1f05;
-
-  block_1efe:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_1f26;
-
-  block_1f05:
-    goto block_1f0f;
-
-  block_1f08:
-    local_10 = (local_10 - local_08);
-
-  block_1f0f:
-    goto block_1e0f;
-
-  block_1f26:
     return;
-
+  }
+  else {
+    while (1) {
+      spawn WALLGUN.slot_26(pid, arg_06);
+      suspend;
+      spawn WALLGUN.slot_2f(pid, arg_12, arg_10, arg_06);
+      suspend;
+      local_10 = Item.getFrame(arg_06);
+      if (local_12 == 1) {
+        if (local_10 > 19) {
+          spawn FREE.slot_3b(pid, 10, 0x00000000);
+          suspend;
+        }
+      }
+      else if (local_10 > 8) {
+        spawn FREE.slot_3b(pid, 10, 0x00000000);
+        suspend;
+      }
+      WALLGUN.slot_2d(arg_10, arg_06);
+      local_02 = retval;
+      if (local_02 == 0) {
+        /* word_to_dword */
+        /* pop_result */
+        return;
+      }
+      else if (local_02 == 1) {
+        if (local_10 == local_04) {
+          if (local_12 == 1) {
+            local_10 = local_06;
+          }
+          else {
+            /* word_to_dword */
+            /* pop_result */
+            return;
+          }
+        }
+        else {
+          local_10 = (local_10 + local_08);
+        }
+      }
+      else if (local_10 == local_06) {
+        if (local_12 == 1) {
+          local_10 = local_04;
+        }
+        else {
+          /* word_to_dword */
+          /* pop_result */
+          return;
+        }
+      }
+      else {
+        local_10 = (local_10 - local_08);
+      }
+    }
+  }
+  return;
 }

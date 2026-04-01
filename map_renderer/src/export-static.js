@@ -50,12 +50,16 @@ function ensureDir(dirPath) {
 
 function writeJson(filePath, value) {
   ensureDir(path.dirname(filePath));
-  fs.writeFileSync(filePath, `${JSON.stringify(value, null, 2)}\n`, "utf8");
+  fs.writeFileSync(filePath, JSON.stringify(value), "utf8");
 }
 
 function copyFile(sourcePath, targetPath) {
   ensureDir(path.dirname(targetPath));
   fs.copyFileSync(sourcePath, targetPath);
+}
+
+function copyJson(sourcePath, targetPath) {
+  writeJson(targetPath, JSON.parse(fs.readFileSync(sourcePath, "utf8")));
 }
 
 function prepareOutputRoot(outputDir) {
@@ -84,7 +88,7 @@ function copyShapeNameTables(games, outputDir) {
     if (!tablePath || !fs.existsSync(tablePath)) {
       continue;
     }
-    copyFile(tablePath, path.join(outputDir, "data", "tables", `${game.id}-dtable_get_name_dump.json`));
+    copyJson(tablePath, path.join(outputDir, "data", "tables", `${game.id}-dtable_get_name_dump.json`));
   }
 }
 
@@ -139,7 +143,7 @@ function copyReferenceDataFiles(builds, referenceIds, outputDir) {
 
   for (const referenceId of [...new Set(referenceIds)].sort()) {
     const payload = builds.ensureReferenceData(referenceId);
-    copyFile(builds.getReferenceDataFilePath(referenceId), path.join(outputDir, "data", "reference-data", `${referenceId}.json`));
+    copyJson(builds.getReferenceDataFilePath(referenceId), path.join(outputDir, "data", "reference-data", `${referenceId}.json`));
     for (const atlas of payload.atlasFiles ?? []) {
       copyFile(atlas.filePath, path.join(outputDir, "data", "reference-atlases", referenceId, atlas.fileName));
     }
@@ -172,8 +176,8 @@ async function main() {
   prepareOutputRoot(args.outputDir);
   copyCatalogCsvs(games, args.outputDir);
   copyShapeNameTables(games, args.outputDir);
-  copyFile(missionMapData.outputFile, path.join(args.outputDir, "data", "mission-map-data.json"));
-  copyFile(npcSpawnerData.outputFile, path.join(args.outputDir, "data", "npc-spawner-data.json"));
+  copyJson(missionMapData.outputFile, path.join(args.outputDir, "data", "mission-map-data.json"));
+  copyJson(npcSpawnerData.outputFile, path.join(args.outputDir, "data", "npc-spawner-data.json"));
 
   const exportedMaps = [];
   const exportedUsecode = [];

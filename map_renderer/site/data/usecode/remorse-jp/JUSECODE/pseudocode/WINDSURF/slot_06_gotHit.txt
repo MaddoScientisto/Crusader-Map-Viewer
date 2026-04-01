@@ -12,67 +12,43 @@ function windsurf_gotHit() /* entry=825 class_id=0x0337 slot=0x06 */
     wp, /* [BP-15h] type=0x24 */
     param; /* [BP-17h] type=0x69 */
 
-  entry:
-    set_info(0x020c, *(arg_06));
-    process_exclude();
-    FREE.slot_2c(vel, ref);
-    if !retval goto block_0255;
-
-  block_024f:
-    goto block_0626;
-
-  block_0255:
-    if Item.getMapArray(arg_06) != 0 goto block_05ff;
-
-  block_026a:
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  FREE.slot_2c(vel, ref);
+  if (retval) {
+    return;
+  }
+  else if (Item.getMapArray(arg_06) == 0) {
     item = ref;
-    if !Item.isOn(0, item) goto block_0288;
-
-  block_0282:
-    goto block_0626;
-
-  block_0288:
-    if Item.getShape(item) != 0x01d9 goto block_02a1;
-
-  block_029b:
-    goto block_0626;
-
-  block_02a1:
-    if Item.isOn(ref, arg_06) != 0 goto block_02bb;
-
-  block_02b5:
-    goto block_0626;
-
-  block_02bb:
-    if Item.getNPCNum(arg_06) != 0x00ff goto block_02d4;
-
-  block_02ce:
-    goto block_0626;
-
-  block_02d4:
-    if Item.getZ(arg_06) != 0x00fe goto block_02ed;
-
-  block_02e7:
-    goto block_0626;
-
-  block_02ed:
-    if Item.getFootpadData(arg_06) != 0x00ff goto block_0324;
-
-  block_0300:
-    if Actor.isNPC(item) goto block_031e;
-
-  block_031e:
-    goto block_0626;
-
-  block_0324:
+    if (Item.isOn(0, item)) {
+      return;
+    }
+    if (Item.getShape(item) == 0x01d9) {
+      return;
+    }
+    if (Item.isOn(ref, arg_06) == 0) {
+      return;
+    }
+    if (Item.getNPCNum(arg_06) == 0x00ff) {
+      return;
+    }
+    if (Item.getZ(arg_06) == 0x00fe) {
+      return;
+    }
+    if (Item.getFootpadData(arg_06) == 0x00ff) {
+      return;
+    }
+    xoff = 0;
+    yoff = 0;
+    param = Item.getNPCNum(arg_06);
+    dir = (param & 15);
+    speed = ((param / 16) & 15);
     if (speed == 0) {
       speed = 3;
     }
     else if (speed == 15) {
       speed = (3 + (Game.getDifficultyLevel() * 2));
     }
-
-  block_038a:
     if (dir == 0) {
       yoff = -1;
     }
@@ -133,44 +109,27 @@ function windsurf_gotHit() /* entry=825 class_id=0x0337 slot=0x06 */
       xoff = -1;
       yoff = -2;
     }
-
-  block_04fe:
     xoff = (xoff * speed);
     yoff = (yoff * speed);
     spawn FREE.slot_32(pid, 2, 0x00000000);
     suspend;
-
-  block_0538:
-    if !(1) goto block_05c4;
-
-  block_0540:
-    wp = (Item.getX(item) + xoff);
-    local_13 = (Item.getY(item) + yoff);
-    local_11 = Item.getZ(item);
-    spawn FREE.slot_32(pid, 5, 0x00000000);
-    suspend;
-    if Item.isOn(ref, arg_06) != 0 goto block_05c1;
-
-  block_05bb:
-    goto block_05c4;
-
-  block_05c1:
-    goto block_0538;
-
-  block_05c4:
-    if Item.getZ(item) <= 1 goto block_05fc;
-
-  block_05d6:
-    suspend;
-
-  block_05fc:
-    goto block_0626;
-
-  block_05ff:
+    while (1) {
+      wp = (Item.getX(item) + xoff);
+      local_13 = (Item.getY(item) + yoff);
+      local_11 = Item.getZ(item);
+      spawn FREE.slot_32(pid, 5, 0x00000000);
+      suspend;
+      if (Item.isOn(ref, arg_06) == 0) {
+      }
+    }
+    if (Item.getZ(item) > 1) {
+      suspend;
+    }
+    return;
+  }
+  else {
     spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
     suspend;
-
-  block_0626:
-    return;
-
+  }
+  return;
 }

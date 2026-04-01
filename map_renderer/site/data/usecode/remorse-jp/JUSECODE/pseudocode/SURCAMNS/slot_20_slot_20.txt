@@ -9,12 +9,9 @@ function surcamns_slot_20() /* entry=1224 class_id=0x04c6 slot=0x20 */
     link, /* [BP-10h] type=0x69 */
     code; /* [BP-11h] type=0x62 */
 
-  entry:
-    set_info(0x021b, 0);
-    link = Item.andStatus(arg_06);
-    if Item.getMapArray(arg_06) == 0 goto block_0356;
-
-  block_024d_selector_00:
+  set_info(0x021b, 0);
+  link = Item.andStatus(arg_06);
+  if (Item.getMapArray(arg_06) != 0) {
     for monit in nearby_items(shape=0x037a, origin=arg_06) {
       if ((Item.andStatus(monit) == link) || (link == 0)) {
         if (Item.getNPCNum(monit)) {
@@ -27,64 +24,42 @@ function surcamns_slot_20() /* entry=1224 class_id=0x04c6 slot=0x20 */
         }
       }
     }
-
-  block_02e4:
     spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
     suspend;
     spawn SURCAMNS.slot_21(pid, arg_06);
     suspend;
     spawn TRIGGER.slot_20(pid, 1, *(arg_06), arg_06);
     suspend;
-    goto block_045b;
-
-  block_0356:
+    return;
+  }
+  else {
     code = 0;
-    if !Item.getNPCNum(arg_06) goto block_043c;
-
-  block_036c_selector_00:
-    /* loop_selector valueBox in nearby_items(shape=PLACEHOLDER_KEY_CUBE, origin=arg_06) */
-
-  block_038a:
-    if !condition goto block_03c2;
-
-  block_038d:
-    if Item.andStatus(valueBox) != link goto block_03be;
-
-  block_039f:
-    VALBOX.slot_20(valueBox);
-    passcode = retval;
-    code = (1 + code);
-    goto block_03c2;
-
-  block_03be:
-    goto block_038a;
-
-  block_03c2:
-    if !code goto block_03f4;
-
-  block_03cc:
-    TEXTFILE.slot_23(passcode, Item.getNPCNum(arg_06), Item.andStatus(arg_06), arg_06);
-    /* free_local_string */
-    textFile = retval;
-    goto block_0417;
-
-  block_03f4:
-    TEXTFILE.slot_21(Item.getNPCNum(arg_06), Item.andStatus(arg_06), arg_06);
-    /* free_local_string */
-    textFile = retval;
-
-  block_0417:
-    spawn TEXTFILE.slot_20(pid, textFile, arg_06);
-    /* free_stack_string */
-    suspend;
-
-  block_043c:
+    if (Item.getNPCNum(arg_06)) {
+      for valueBox in nearby_items(shape=PLACEHOLDER_KEY_CUBE, origin=arg_06) {
+        if (Item.andStatus(valueBox) == link) {
+          VALBOX.slot_20(valueBox);
+          passcode = retval;
+          code = (1 + code);
+        }
+      }
+      if (code) {
+        TEXTFILE.slot_23(passcode, Item.getNPCNum(arg_06), Item.andStatus(arg_06), arg_06);
+        /* free_local_string */
+        textFile = retval;
+      }
+      else {
+        TEXTFILE.slot_21(Item.getNPCNum(arg_06), Item.andStatus(arg_06), arg_06);
+        /* free_local_string */
+        textFile = retval;
+      }
+      spawn TEXTFILE.slot_20(pid, textFile, arg_06);
+      /* free_stack_string */
+      suspend;
+    }
     spawn SURCAMNS.slot_21(pid, arg_06);
     suspend;
-
-  block_045b:
-    /* bit_not */
-    /* free_local_string */
-    return;
-
+  }
+  /* bit_not */
+  /* free_local_string */
+  return;
 }

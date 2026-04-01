@@ -7,62 +7,31 @@ function bridge_slot_23() /* entry=2565 class_id=0x0a03 slot=0x23 */
     x, /* [BP-04h] type=0x69 */
     end; /* [BP-06h] type=0x69 */
 
-  entry:
-    set_info(0x021b, *(arg_06));
-    end = 0;
-
-  entry_selector_00:
-    /* loop_selector item in selector_0x42(arg0=0x03a6, arg1=0x0413, arg2=(70 * 32), origin=arg_06) */
-
-  block_03ac:
-    if !condition goto block_03f2;
-
-  block_03af:
+  set_info(0x021b, *(arg_06));
+  end = 0;
+  for item in selector_0x42(arg0=0x03a6, arg1=0x0413, arg2=(70 * 32), origin=arg_06) {
     x = Item.getQLo(item);
-    if x != start goto block_03ee;
-
-  block_03c8:
-    x = Item.getQHi(item);
-    if x == 0 goto block_03ee;
-
-  block_03e1:
-    end = x;
-    goto block_03f2;
-
-  block_03ee:
-    goto block_03ac;
-
-  block_03f2:
-    if end != 0 goto block_0479;
-
-  block_03ff_selector_00:
-    /* loop_selector item in selector_0x42(arg0=0x0336, arg1=0x0290, arg2=(70 * 32), origin=arg_06) */
-
-  block_041f:
-    if !condition goto block_0477;
-
-  block_0422:
-    if Item.getFrame(item) != 1 goto block_0473;
-
-  block_0434:
-    x = Item.getQLo(item);
-    if x != start goto block_0473;
-
-  block_044d:
-    x = Item.getQHi(item);
-    if x == 0 goto block_0473;
-
-  block_0466:
-    end = x;
-    goto block_0477;
-
-  block_0473:
-    goto block_041f;
-
-  block_0479:
-    if end == 0 goto block_054a;
-
-  block_0484_selector_00:
+    if (x == start) {
+      x = Item.getQHi(item);
+      if (x != 0) {
+        end = x;
+      }
+    }
+  }
+  if (end == 0) {
+    for item in selector_0x42(arg0=0x0336, arg1=0x0290, arg2=(70 * 32), origin=arg_06) {
+      if (Item.getFrame(item) == 1) {
+        x = Item.getQLo(item);
+        if (x == start) {
+          x = Item.getQHi(item);
+          if (x != 0) {
+            end = x;
+          }
+        }
+      }
+    }
+  }
+  if (end != 0) {
     for item in selector_0x42(arg0=0x03a6, arg1=0x0413, arg2=(70 * 32), origin=arg_06) {
       x = Item.getQLo(item);
       if (x == end) {
@@ -71,8 +40,6 @@ function bridge_slot_23() /* entry=2565 class_id=0x0a03 slot=0x23 */
         return;
       }
     }
-
-  block_04dc_selector_00:
     for item in selector_0x42(arg0=0x0336, arg1=0x0290, arg2=(70 * 32), origin=arg_06) {
       if (Item.getFrame(arg_06) == 1) {
         x = Item.getQLo(item);
@@ -83,13 +50,8 @@ function bridge_slot_23() /* entry=2565 class_id=0x0a03 slot=0x23 */
         }
       }
     }
-
-  block_054a:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0554;
-
-  block_0554:
-    return;
-
+  }
+  /* word_to_dword */
+  /* pop_result */
+  return;
 }

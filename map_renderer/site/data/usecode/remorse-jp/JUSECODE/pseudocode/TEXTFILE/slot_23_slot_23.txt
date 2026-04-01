@@ -8,447 +8,295 @@ function textfile_slot_23() /* entry=2593 class_id=0x0a1f slot=0x23 */
     textFile, /* [BP-02h] type=0x73 */
     rnge; /* [BP-04h] type=0x69 */
 
-  entry:
-    if msgNum < 110 goto block_02eb;
-
-  block_02d1:
+  if (msgNum >= 110) {
     TEXTFIL2.slot_20(passcode, msgNum, linkNum, arg_06);
-    goto block_2252;
-
-  block_02e8:
-    goto block_0313;
-
-  block_02eb:
-    if msgNum < 60 goto block_0313;
-
-  block_02f9:
+    return;
+  }
+  else if (msgNum >= 60) {
     TEXTFIL1.slot_20(passcode, msgNum, linkNum, arg_06);
-    goto block_2252;
-
-  block_0310:
-    goto block_0313;
-
-  block_0313:
-    if msgNum != 0 goto block_087f;
-
-  block_031b:
+    return;
+  }
+  if (msgNum == 0) {
     rnge = UCMachine.rndRange(11, 1);
-    if rnge != 1 goto block_03c0;
-
-  block_0333:
-    /* free_local_string */
-    textFile = "ÅßÌ½RÌ®ÉæèT-300 ñüÍÕf³êÜµ½B*^µÎç­ WEC lbg[NÉANZXµÈ¢Å­¾³¢B^bZ[WI¹c";
-    goto block_087c;
-
-  block_03c0:
-    if rnge != 2 goto block_0439;
-
-  block_03c8:
-    /* free_local_string */
-    textFile = "Rs[^Q[?tgEFAðWEC Ì{ÝÅgp·é±ÆÍµÖÅ·B*¼¿ÉÆ±ÉßèÈ³¢I***";
-    goto block_087c;
-
-  block_0439:
-    if rnge != 3 goto block_04a9;
-
-  block_0441:
-    /* free_local_string */
-    textFile = "]ÆõÍSõZLeBobWðíÉñ¦·é±ÆB*]íÈ¢êÍ¼¿Éª³êÜ·B*^";
-    goto block_087c;
-
-  block_04a9:
-    if rnge != 4 goto block_0547;
-
-  block_04b1:
-    /* free_local_string */
-    textFile = " È½Ì¯»ª½RÌXpC©àµêÜ¹ñBWEC ÌÝõð³ÂÅg¤Òª¢êÎA·®ÉñµÄ­¾³¢B½zÌñ§ààx¥íêÜ·B*";
-    goto block_087c;
-
-  block_0547:
-    if rnge != 5 goto block_05d2;
-
-  block_054f:
-    /* free_local_string */
-    textFile = "[Ì³ÂANZXÍ WEC xõKè 1701-D Éá½µÜ·B¼¿ÉÅñèÌxõõÉ©ñµÄX¶w±ðó¯Ä­¾³¢B*";
-    goto block_087c;
-
-  block_05d2:
-    if rnge != 6 goto block_0637;
-
-  block_05da:
-    /* free_local_string */
-    textFile = "WEC lbg[NÉAyxÌ*á^Qª*¶^Ä¢*B^»ÌÜÜ¨Ò$#@**%^#@!*)(*%$#^";
-    goto block_087c;
-
-  block_0637:
-    if rnge != 7 goto block_06da;
-
-  block_063f:
-    /* free_local_string */
-    textFile = "³o^ÌúË?ouð·é±ÆÍAWEC ÉæèµdÉÖ~³êÄ¢Ü·B{úÉo^·é±ÆBWEC ÍÆ°Ìæ¤É È½ð©çÁÄ¢Ü·B";
-    goto block_087c;
-
-  block_06da:
-    if rnge != 8 goto block_071f;
-
-  block_06e2:
-    /* free_local_string */
-    textFile = "WEC T-300/SYS ÍfBXNÌæªs«µÄ¢Ü·B^";
-    goto block_087c;
-
-  block_071f:
-    if rnge != 9 goto block_07a7;
-
-  block_0727:
-    /* free_local_string */
-    textFile = "WEC ÌLæïcªA¾ú13:30EGbW[1501ÅJÃ³êÜ·B±êÍK{ÌïcÅ·Bx·ÍSõQÁ·éæ¤ÉB";
-    goto block_087c;
-
-  block_07a7:
-    if rnge != 10 goto block_0823;
-
-  block_07af:
-    /* free_local_string */
-    textFile = "WEC KèÏõïÉúÌÎ±ñðñoµÄ­¾³¢B]íÈ¢êÍA¼¿Éª³êéêª èÜ·B ";
-    goto block_087c;
-
-  block_0823:
-    /* free_local_string */
-    textFile = "WEC lbg[NÉyxÌáQª¶¶Ä¢Ü·B»ÌÜÜÒ@µÄ­¾³¢*.*.*.^";
-
-  block_087c:
-    goto block_2249;
-
-  block_087f:
-    if msgNum != 1 goto block_08a8;
-
-  block_0887:
+    if (rnge == 1) {
+      /* free_local_string */
+      textFile = "ÅßÌ½RÌ®ÉæèT-300 ñüÍÕf³êÜµ½B*^µÎç­ WEC lbg[NÉANZXµÈ¢Å­¾³¢B^bZ[WI¹c";
+    }
+    else if (rnge == 2) {
+      /* free_local_string */
+      textFile = "Rs[^Q[?tgEFAðWEC Ì{ÝÅgp·é±ÆÍµÖÅ·B*¼¿ÉÆ±ÉßèÈ³¢I***";
+    }
+    else if (rnge == 3) {
+      /* free_local_string */
+      textFile = "]ÆõÍSõZLeBobWðíÉñ¦·é±ÆB*]íÈ¢êÍ¼¿Éª³êÜ·B*^";
+    }
+    else if (rnge == 4) {
+      /* free_local_string */
+      textFile = " È½Ì¯»ª½RÌXpC©àµêÜ¹ñBWEC ÌÝõð³ÂÅg¤Òª¢êÎA·®ÉñµÄ­¾³¢B½zÌñ§ààx¥íêÜ·B*";
+    }
+    else if (rnge == 5) {
+      /* free_local_string */
+      textFile = "[Ì³ÂANZXÍ WEC xõKè 1701-D Éá½µÜ·B¼¿ÉÅñèÌxõõÉ©ñµÄX¶w±ðó¯Ä­¾³¢B*";
+    }
+    else if (rnge == 6) {
+      /* free_local_string */
+      textFile = "WEC lbg[NÉAyxÌ*á^Qª*¶^Ä¢*B^»ÌÜÜ¨Ò$#@**%^#@!*)(*%$#^";
+    }
+    else if (rnge == 7) {
+      /* free_local_string */
+      textFile = "³o^ÌúË?ouð·é±ÆÍAWEC ÉæèµdÉÖ~³êÄ¢Ü·B{úÉo^·é±ÆBWEC ÍÆ°Ìæ¤É È½ð©çÁÄ¢Ü·B";
+    }
+    else if (rnge == 8) {
+      /* free_local_string */
+      textFile = "WEC T-300/SYS ÍfBXNÌæªs«µÄ¢Ü·B^";
+    }
+    else if (rnge == 9) {
+      /* free_local_string */
+      textFile = "WEC ÌLæïcªA¾ú13:30EGbW[1501ÅJÃ³êÜ·B±êÍK{ÌïcÅ·Bx·ÍSõQÁ·éæ¤ÉB";
+    }
+    else if (rnge == 10) {
+      /* free_local_string */
+      textFile = "WEC KèÏõïÉúÌÎ±ñðñoµÄ­¾³¢B]íÈ¢êÍA¼¿Éª³êéêª èÜ·B ";
+    }
+    else {
+      /* free_local_string */
+      textFile = "WEC lbg[NÉyxÌáQª¶¶Ä¢Ü·B»ÌÜÜÒ@µÄ­¾³¢*.*.*.^";
+    }
+  }
+  else if (msgNum == 1) {
     /* free_local_string */
     textFile = "hAªJ«Üµ½B^";
-    goto block_2249;
-
-  block_08a8:
-    if msgNum != 2 goto block_08e1;
-
-  block_08b0:
+  }
+  else if (msgNum == 2) {
     /* free_local_string */
     textFile = "tH[XtB[hªâ~µÜµ½B^";
-    goto block_2249;
-
-  block_08e1:
-    if msgNum != 3 goto block_0922;
-
-  block_08e9:
+  }
+  else if (msgNum == 3) {
     /* free_local_string */
     textFile = "GNgjbNubWª·³êÜµ½B^";
-    goto block_2249;
-
-  block_0922:
-    if msgNum != 4 goto block_0955;
-
-  block_092a:
+  }
+  else if (msgNum == 4) {
     /* free_local_string */
     textFile = "xõVXeªÒ®µÜµ½B^";
-    goto block_2249;
-
-  block_0955:
-    if msgNum != 5 goto block_0988;
-
-  block_095d:
+  }
+  else if (msgNum == 5) {
     /* free_local_string */
     textFile = "xõVXeªâ~µÜµ½B^";
-    goto block_2249;
-
-  block_0988:
-    if (((msgNum != 6) || (msgNum == 7)) || (msgNum == 8)) || (msgNum == 9) goto block_09d3;
-
-  block_09a2:
+  }
+  else if ((((msgNum == 6) || (msgNum == 7)) || (msgNum == 8)) || (msgNum == 9)) {
     /* free_local_string */
     textFile = "xñVXeSÌªâ~µÄ¢Ü·B^";
-    goto block_2249;
-
-  block_09d3:
-    if msgNum != 10 goto block_0ab9;
-
-  block_09db:
+  }
+  else if (msgNum == 10) {
     /* concat */
     /* concat */
     /* concat */
     /* concat */
     /* free_local_string */
     textFile = "XpCªÇ±É¢é©í©èÜ¹ñB";
-    goto block_2249;
-
-  block_0ab9:
-    if msgNum != 11 goto block_0b28;
-
-  block_0ac1:
+  }
+  else if (msgNum == 11) {
     /* free_local_string */
     textFile = "xõJe{^___________________^*^VXeÉANZXÅ·:*.*.*.*^^AËC: *ì®";
-    goto block_2249;
-
-  block_0b28:
-    if msgNum != 12 goto block_0bdc;
-
-  block_0b30:
+  }
+  else if (msgNum == 12) {
     /* free_local_string */
     textFile = "»BÌSìÆõÉ®^æQí{C[ZpºÌT[}Jv[ææÅÄÑÎÐª­¶µÜµ½B]ÆõÍSõAÂ³ê½ææàÅÌÝi·éæ¤ÉµÄ­¾³¢B";
-    goto block_2249;
-
-  block_0bdc:
-    if msgNum != 13 goto block_0c76;
-
-  block_0be4:
+  }
+  else if (msgNum == 13) {
     /* free_local_string */
     textFile = "»BÌSìÆõÉ®^æRíZpvgÅAÄÑxTªLQvgjE¯ÊÌÉõ³êÜµ½B^iüÊuÉÓµÄ­¾³¢B^";
-    goto block_2249;
-
-  block_0c76:
-    if msgNum != 14 goto block_0cf0;
-
-  block_0c7e:
+  }
+  else if (msgNum == 14) {
     /* free_local_string */
     textFile = "xõJe:^________________^[gÄu^*T[}Jv[®Íu^^Ä{Ý: ^*<ì®Jn>";
-    goto block_2249;
-
-  block_0cf0:
-    if msgNum != 15 goto block_0d7c;
-
-  block_0cf8:
+  }
+  else if (msgNum == 15) {
     /* free_local_string */
     textFile = "»Bì:^____________________^[gìÆhChÆÚ±c*^T[}g ZC90201^^jbg Ú± *-IC-.";
-    goto block_2249;
-
-  block_0d7c:
-    if msgNum != 16 goto block_0dfa;
-
-  block_0d84:
+  }
+  else if (msgNum == 16) {
     /* free_local_string */
     textFile = "xõJe: ^^[gxñpl^[U[hc <TZ81664>^*^GAÙíÈµ:*^xúÔ¨ððµÜµ½B";
-    goto block_2249;
-
-  block_0dfa:
-    if msgNum != 17 goto block_0e57;
-
-  block_0e02:
+  }
+  else if (msgNum == 17) {
     /* free_local_string */
     textFile = "xõJe:^__________________^[gì^ÄÝõ: ^*<ì®Jn>";
-    goto block_2249;
-
-  block_0e57:
-    if msgNum != 18 goto block_0f8f;
-
-  block_0e5f:
+  }
+  else if (msgNum == 18) {
     /* concat */
     /* concat */
     /* free_local_string */
     textFile = " ª¡TÌR[h¾B";
-    goto block_2249;
-
-  block_0f8f:
-    if msgNum != 19 goto block_1073;
-
-  block_0f97:
+  }
+  else if (msgNum == 19) {
     /* concat */
     /* concat */
     /* concat */
     /* free_local_string */
     textFile = "^±êªÅã¾BtBo[gI^";
-    goto block_2249;
-
-  block_1073:
-    if msgNum != 20 goto block_10cb;
-
-  block_107b:
+  }
+  else if (msgNum == 20) {
     /* free_local_string */
     textFile = "x:^^¶æ: Sõ^L[J[hðíÉgÑ·éæ¤ÉµÄ­¾³¢B^";
-    goto block_2249;
-
-  block_10cb:
-    if msgNum != 21 goto block_1140;
-
-  block_10d3:
+  }
+  else if (msgNum == 21) {
     /* free_local_string */
     textFile = "xõJe: ^ìZ^[^[U[hc T*Z*1*6*^^GAÙíÈµ:*^xúÔ¨ððµÜµ½B";
-    goto block_2249;
-
-  block_1140:
-    if msgNum != 22 goto block_1202;
-
-  block_1148:
+  }
+  else if (msgNum == 22) {
     /* free_local_string */
     textFile = "xõJe: ^ìZ^[*^[U[hc T*Z*1*6*^^ZLeBObhàÌ@?sSÉæèA]pbhÍ®ì¢½µÜ¹ñB ¼EBOÌ?õ]pbhðgpµÄ­¾³¢B";
-    goto block_2249;
-
-  block_1202:
-    if msgNum != 25 goto block_124c;
-
-  block_120a:
+  }
+  else if (msgNum == 25) {
     /* free_local_string */
     textFile = "Êßs?[U[tB[hÌæPiKªâ~µÜµ½B";
-    goto block_2249;
-
-  block_124c:
-    if msgNum != 27 goto block_12de;
-
-  block_1254:
+  }
+  else if (msgNum == 27) {
     /* concat */
     /* concat */
     /* free_local_string */
     textFile = " ÉÏX³êÜµ½B^*bZ[WI¹ <";
-    goto block_2249;
-
-  block_12de:
-    if ((((msgNum != 23) || (msgNum == 24)) || (msgNum == 26)) || (msgNum == 28)) || (msgNum == 29) goto block_1326;
-
-  block_12fe:
+  }
+  else if (((((msgNum == 23) || (msgNum == 24)) || (msgNum == 26)) || (msgNum == 28)) || (msgNum == 29)) {
     /* free_local_string */
     textFile = "C± 2 êÊbZ[W 0-9^";
-    goto block_2249;
-
-  block_1326:
-    if (msgNum == 30) {
-      /* concat */
-      /* concat */
-      /* free_local_string */
-      textFile = " ÉÏX³êÜµ½B^*bZ[WI¹ <";
-    }
-    else if (msgNum == 31) {
-      /* free_local_string */
-      textFile = "T[}gg§C:^_____________^[ghChÉÚ± *.*.*.^<T[}g> VTK944^^jbg Ú± *-IC-.";
-    }
-    else if (msgNum == 32) {
-      /* free_local_string */
-      textFile = "T[}g»¢Hê:^_____________";
-    }
-    else if (msgNum == 33) {
-      /* free_local_string */
-      textFile = "»Bì:^____________^[gÄu^*ÀèANZX*^Â";
-    }
-    else if (msgNum == 34) {
-      /* free_local_string */
-      textFile = "xõJe:^________________^[gÄu^*»¢C^*<â~>";
-    }
-    else if (msgNum == 35) {
-      /* free_local_string */
-      textFile = "xõJe:^________________^*?õ»¢C^*<ì®>^^]â~ÉÍZLeBJ[hÉæéðªKvÅ·B";
-    }
-    else if (msgNum == 36) {
-      /* free_local_string */
-      textFile = "T[}g?õ»¢C:^________";
-    }
-    else if (msgNum == 37) {
-      /* free_local_string */
-      textFile = "xõJe:^________________^*[U[tB[h^*<â~>";
-    }
-    else if (msgNum == 38) {
-      /* free_local_string */
-      textFile = "xõJe:^________________^[gÄu.^*[U[tB[h^*<ì®>^â~ÉÍZLeBJ[hÉæéðªKvÅ·B";
-    }
-    else if (msgNum == 39) {
-      /* concat */
-      /* concat */
-      /* free_local_string */
-      textFile = "^R[hðT¦½çA±ÌbZ[Wð¼¿ÉíµÄ­¾³¢B<";
-    }
-    else if (msgNum == 40) {
-      /* free_local_string */
-      textFile = "xõJe:^________________^*[U[tB[h^*<â~>";
-    }
-    else if (msgNum == 41) {
-      /* free_local_string */
-      textFile = "[gxõì:^_____________^[gìhChÉÚ± *.*.*.^<T[}g> ATK656^^jbg Ú± *-IC-.";
-    }
-    else if (msgNum == 42) {
-      /* free_local_string */
-      textFile = "^xõJe:^_______________^^*[U[tB[h^*<ì®>";
-    }
-    else if (msgNum == 43) {
-      /* free_local_string */
-      textFile = "xõJe{^___________________^*^ANZX:*.*.*.*^^AËC: *ì®";
-    }
-    else if (msgNum == 44) {
-      /* free_local_string */
-      textFile = "xõJe{^___________________^*^VXeÉANZX:*.*.*.*^^SORC ÄºZLeBtB[h:^^*<â~>";
-    }
-    else if (msgNum == 45) {
-      /* concat */
-      /* concat */
-      /* concat */
-      /* free_local_string */
-      textFile = "^^XpCªÇ±É¢é©í©èÜ¹ñBxú·éæ¤ÉB";
-    }
-    else if (msgNum == 46) {
-      /* free_local_string */
-      textFile = "^* WEC dq[^^¶æ: N[?³ö^^·ol: Zu hA^xõåC^^³öAw¦Ç¨èASORC xõºÌüûÉtH[XtB[hðÝuµÜµ½BàµA¼Éà²v]ª êÎÇ¤¼¨mç¹­¾³¢B^ÇL: tH[XtB[hÉANZX·éÉÍRs[^ðg¤µ© èÜ¹ñB¢©Èéë¯ªqàÀSð¨Ñâ©·±ÆÍÈ¢Åµå¤B.^*bZ[WI¹<";
-    }
-    else if (msgNum == 47) {
-      /* concat */
-      /* concat */
-      /* free_local_string */
-      textFile = "^*bZ[WI¹ <";
-    }
-    else if (msgNum == 48) {
-      /* concat */
-      /* free_local_string */
-      textFile = Item.andStatus(passcode);
-    }
-    else if (msgNum == 49) {
-      /* concat */
-      /* free_local_string */
-      textFile = Item.andStatus(passcode);
-    }
-    else if (msgNum == 50) {
-      if (linkNum && passcode) {
-        /* concat */
-        /* concat */
-        /* free_local_string */
-        textFile = "^iDiDæè";
-      }
-      else {
-        /* free_local_string */
-        textFile = "WEC xõVXe:^^[gJ: ì®*";
-      }
-    }
-    else if (msgNum == 52) {
-      /* free_local_string */
-      textFile = "g?m:^XlLOÈwZ^[ÅÍà¤37~18`bvð¶YµÈ¢©çA¡úÌßãAg_EpÉcèÌ`bvðó¯æêéÆvÁÄ¢Ä­ê½Ü¦B`bvªNÌ{Ý©çOÉÐÆÂ½èÆà¬o·é±ÆÌÈ¢æ¤ÉµÄ­êæB^kDvuXg^bZ[WI¹<";
-    }
-    else if (msgNum == 53) {
-      /* free_local_string */
-      textFile = "AbVNtg³ñA* È½Ìvbgz[Gx[^[ÉâèªN±Á½ÌÉCÃ«Üµ½B®õõðÅ«é¾¯­éÌÅAÌáÌÅÂð©¯ÄÆ¢Ä­¾³¢B[?";
-    }
-    else if (msgNum == 54) {
-      /* free_local_string */
-      textFile = "WEC xõVXe:^^[gJ: ì®*^M.E.L.F.Xe[V";
-    }
-    else if (msgNum == 56) {
-      /* free_local_string */
-      textFile = "WEC xõVXe:^^[gJ: *Ò®^]º^xS";
-    }
-    else if (msgNum == 57) {
-      /* free_local_string */
-      textFile = "WEC xõVXe:^^[gJ: ì®*^xõVXe^*ì®";
-    }
-    else if (msgNum == 58) {
-      if (linkNum && passcode) {
-        /* concat */
-        /* concat */
-        /* concat */
-        /* free_local_string */
-        textFile = "³ é§Ìó¨ð¨üê­¾³¢B";
-      }
-      else {
-        /* free_local_string */
-        textFile = "WEC xõVXe:^[gJ: ì®*^xõVXe^*ì®^tH[XtB[hâ~";
-      }
-    }
-
-  block_2249:
-    goto block_2252;
-
-  block_2252:
+  }
+  else if (msgNum == 30) {
+    /* concat */
+    /* concat */
     /* free_local_string */
-    return;
-
+    textFile = " ÉÏX³êÜµ½B^*bZ[WI¹ <";
+  }
+  else if (msgNum == 31) {
+    /* free_local_string */
+    textFile = "T[}gg§C:^_____________^[ghChÉÚ± *.*.*.^<T[}g> VTK944^^jbg Ú± *-IC-.";
+  }
+  else if (msgNum == 32) {
+    /* free_local_string */
+    textFile = "T[}g»¢Hê:^_____________";
+  }
+  else if (msgNum == 33) {
+    /* free_local_string */
+    textFile = "»Bì:^____________^[gÄu^*ÀèANZX*^Â";
+  }
+  else if (msgNum == 34) {
+    /* free_local_string */
+    textFile = "xõJe:^________________^[gÄu^*»¢C^*<â~>";
+  }
+  else if (msgNum == 35) {
+    /* free_local_string */
+    textFile = "xõJe:^________________^*?õ»¢C^*<ì®>^^]â~ÉÍZLeBJ[hÉæéðªKvÅ·B";
+  }
+  else if (msgNum == 36) {
+    /* free_local_string */
+    textFile = "T[}g?õ»¢C:^________";
+  }
+  else if (msgNum == 37) {
+    /* free_local_string */
+    textFile = "xõJe:^________________^*[U[tB[h^*<â~>";
+  }
+  else if (msgNum == 38) {
+    /* free_local_string */
+    textFile = "xõJe:^________________^[gÄu.^*[U[tB[h^*<ì®>^â~ÉÍZLeBJ[hÉæéðªKvÅ·B";
+  }
+  else if (msgNum == 39) {
+    /* concat */
+    /* concat */
+    /* free_local_string */
+    textFile = "^R[hðT¦½çA±ÌbZ[Wð¼¿ÉíµÄ­¾³¢B<";
+  }
+  else if (msgNum == 40) {
+    /* free_local_string */
+    textFile = "xõJe:^________________^*[U[tB[h^*<â~>";
+  }
+  else if (msgNum == 41) {
+    /* free_local_string */
+    textFile = "[gxõì:^_____________^[gìhChÉÚ± *.*.*.^<T[}g> ATK656^^jbg Ú± *-IC-.";
+  }
+  else if (msgNum == 42) {
+    /* free_local_string */
+    textFile = "^xõJe:^_______________^^*[U[tB[h^*<ì®>";
+  }
+  else if (msgNum == 43) {
+    /* free_local_string */
+    textFile = "xõJe{^___________________^*^ANZX:*.*.*.*^^AËC: *ì®";
+  }
+  else if (msgNum == 44) {
+    /* free_local_string */
+    textFile = "xõJe{^___________________^*^VXeÉANZX:*.*.*.*^^SORC ÄºZLeBtB[h:^^*<â~>";
+  }
+  else if (msgNum == 45) {
+    /* concat */
+    /* concat */
+    /* concat */
+    /* free_local_string */
+    textFile = "^^XpCªÇ±É¢é©í©èÜ¹ñBxú·éæ¤ÉB";
+  }
+  else if (msgNum == 46) {
+    /* free_local_string */
+    textFile = "^* WEC dq[^^¶æ: N[?³ö^^·ol: Zu hA^xõåC^^³öAw¦Ç¨èASORC xõºÌüûÉtH[XtB[hðÝuµÜµ½BàµA¼Éà²v]ª êÎÇ¤¼¨mç¹­¾³¢B^ÇL: tH[XtB[hÉANZX·éÉÍRs[^ðg¤µ© èÜ¹ñB¢©Èéë¯ªqàÀSð¨Ñâ©·±ÆÍÈ¢Åµå¤B.^*bZ[WI¹<";
+  }
+  else if (msgNum == 47) {
+    /* concat */
+    /* concat */
+    /* free_local_string */
+    textFile = "^*bZ[WI¹ <";
+  }
+  else if (msgNum == 48) {
+    /* concat */
+    /* free_local_string */
+    textFile = Item.andStatus(passcode);
+  }
+  else if (msgNum == 49) {
+    /* concat */
+    /* free_local_string */
+    textFile = Item.andStatus(passcode);
+  }
+  else if (msgNum == 50) {
+    if (linkNum && passcode) {
+      /* concat */
+      /* concat */
+      /* free_local_string */
+      textFile = "^iDiDæè";
+    }
+    else {
+      /* free_local_string */
+      textFile = "WEC xõVXe:^^[gJ: ì®*";
+    }
+  }
+  else if (msgNum == 52) {
+    /* free_local_string */
+    textFile = "g?m:^XlLOÈwZ^[ÅÍà¤37~18`bvð¶YµÈ¢©çA¡úÌßãAg_EpÉcèÌ`bvðó¯æêéÆvÁÄ¢Ä­ê½Ü¦B`bvªNÌ{Ý©çOÉÐÆÂ½èÆà¬o·é±ÆÌÈ¢æ¤ÉµÄ­êæB^kDvuXg^bZ[WI¹<";
+  }
+  else if (msgNum == 53) {
+    /* free_local_string */
+    textFile = "AbVNtg³ñA* È½Ìvbgz[Gx[^[ÉâèªN±Á½ÌÉCÃ«Üµ½B®õõðÅ«é¾¯­éÌÅAÌáÌÅÂð©¯ÄÆ¢Ä­¾³¢B[?";
+  }
+  else if (msgNum == 54) {
+    /* free_local_string */
+    textFile = "WEC xõVXe:^^[gJ: ì®*^M.E.L.F.Xe[V";
+  }
+  else if (msgNum == 56) {
+    /* free_local_string */
+    textFile = "WEC xõVXe:^^[gJ: *Ò®^]º^xS";
+  }
+  else if (msgNum == 57) {
+    /* free_local_string */
+    textFile = "WEC xõVXe:^^[gJ: ì®*^xõVXe^*ì®";
+  }
+  else if (msgNum == 58) {
+    if (linkNum && passcode) {
+      /* concat */
+      /* concat */
+      /* concat */
+      /* free_local_string */
+      textFile = "³ é§Ìó¨ð¨üê­¾³¢B";
+    }
+    else {
+      /* free_local_string */
+      textFile = "WEC xõVXe:^[gJ: ì®*^xõVXe^*ì®^tH[XtB[hâ~";
+    }
+  }
+  return;
 }

@@ -10,107 +10,59 @@ function wallgun_slot_35() /* entry=2591 class_id=0x0a1d slot=0x35 */
     isTurret, /* [BP-10h] type=0x62 */
     delay; /* [BP-12h] type=0x69 */
 
-  entry:
-    set_info(0x0001, *(arg_06));
-    panLeft = 1;
-    WALLGUN.slot_29(arg_06);
-    isTurret = retval;
-    if isTurret != 1 goto block_1f0b;
-
-  block_1ef3:
+  set_info(0x0001, *(arg_06));
+  panLeft = 1;
+  WALLGUN.slot_29(arg_06);
+  isTurret = retval;
+  if (isTurret == 1) {
     inc = 1;
     left = 0;
     right = 15;
-    goto block_1f48;
-
-  block_1f0b:
+  }
+  else {
     WALLGUN.slot_2b(arg_06);
-    if !retval goto block_1f33;
-
-  block_1f1b:
-    inc = 1;
-    left = 0;
-    right = 8;
-    goto block_1f48;
-
-  block_1f33:
-    inc = -1;
-    left = 8;
-    right = 0;
-
-  block_1f48:
-    WALLGUN.slot_20(arg_06);
-    delay = (retval * 5);
-
-  block_1f5a:
-    if !(1) goto block_20ad;
-
-  block_1f62:
+    if (retval) {
+      inc = 1;
+      left = 0;
+      right = 8;
+    }
+    else {
+      inc = -1;
+      left = 8;
+      right = 0;
+    }
+  }
+  WALLGUN.slot_20(arg_06);
+  delay = (retval * 5);
+  while (1) {
     f = Item.getFrame(arg_06);
-    if isTurret != 1 goto block_1fb5;
-
-  block_1f7b:
-    if f <= 19 goto block_1fb2;
-
-  block_1f86:
-    spawn FREE.slot_32(pid, 10, 0x00000000);
-    suspend;
-    goto block_1f5a;
-
-  block_1fb2:
-    goto block_1fef;
-
-  block_1fb5:
-    if f <= 8 goto block_1fef;
-
-  block_1fc0:
-    spawn FREE.slot_32(pid, 10, 0x00000000);
-    suspend;
-    goto block_1f5a;
-
-  block_1fec:
-    goto block_1fef;
-
-  block_1fef:
-    if panLeft != 1 goto block_2028;
-
-  block_1ffa:
-    if f != left goto block_201b;
-
-  block_200b:
-    panLeft = 0;
-    goto block_1f5a;
-
-  block_2018:
-    goto block_2025;
-
-  block_201b:
-    f = (f - inc);
-
-  block_2025:
-    goto block_2064;
-
-  block_2028:
-    if isTurret != 1 goto block_2043;
-
-  block_2039:
-    f = right;
-    goto block_2064;
-
-  block_2043:
-    if ((f == 4) && (f == left)) {
+    if (isTurret == 1) {
+      if (f > 19) {
+        spawn FREE.slot_32(pid, 10, 0x00000000);
+        suspend;
+      }
+    }
+    else if (f > 8) {
+      spawn FREE.slot_32(pid, 10, 0x00000000);
+      suspend;
+    }
+    if (panLeft == 1) {
+      if (f == left) {
+        panLeft = 0;
+      }
+      else {
+        f = (f - inc);
+      }
+    }
+    else if (isTurret == 1) {
+      f = right;
+    }
+    else if ((f == 4) && (f == left)) {
       f = (f - inc);
     }
-
-  block_2064:
     spawn FREE.slot_32(pid, delay, 0x00000000);
     suspend;
-    goto block_20ad;
-
-  block_20aa:
-    goto block_1f5a;
-
-  block_20ad:
     return;
-
+  }
+  return;
 }

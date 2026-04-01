@@ -1,19 +1,9 @@
 function free_slot_35() /* entry=2574 class_id=0x0a0c slot=0x35 */
 {
-  entry:
-    local_04 = 0;
-
-  block_0c53:
-    while (true) {
-      foreach_slist local_02 -> block_0c62;
-      local_04 = (1 + local_04);
-    }
-
-  block_0c62:
-    goto block_0c68;
-
-  block_0c68:
-    /* free_local_string */
-    return;
-
+  local_04 = 0;
+  while (true) {
+    foreach_slist local_02 -> block_0c62;
+    local_04 = (1 + local_04);
+  }
+  return;
 }

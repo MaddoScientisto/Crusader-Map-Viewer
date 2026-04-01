@@ -72,7 +72,7 @@ function free_slot_22() /* entry=2574 class_id=0x0a0c slot=0x22 */
       if (!(global[0x0007])) {
         return;
       }
-      if (!Actor.isDead(&global[0x003d])) {
+      else if (!Actor.isDead(&global[0x003d])) {
         /* pop_global */
         spawn FREE.waitNTimerTicks(0, pid, 10, 0x00000000);
         suspend;

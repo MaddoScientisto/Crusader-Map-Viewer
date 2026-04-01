@@ -7,14 +7,11 @@ function door2_slot_23() /* entry=2569 class_id=0x0a07 slot=0x23 */
     counter2, /* [BP-06h] type=0x69 */
     maxFrame; /* [BP-08h] type=0x69 */
 
-  entry:
-    set_info(0x021b, 0);
-    if !(Item.getStatus(arg_06) & 4) goto block_0704;
-
-  block_06fe:
-    goto block_08ad;
-
-  block_0704:
+  set_info(0x021b, 0);
+  if (Item.getStatus(arg_06) & 4) {
+    return;
+  }
+  else {
     /* create_list */
     /* free_local_list */
     doorList = 0x0107;
@@ -22,46 +19,30 @@ function door2_slot_23() /* entry=2569 class_id=0x0a07 slot=0x23 */
     /* free_stack_list */
     maxFrame = retval;
     counter = (maxFrame - 1);
-
-  block_0760:
-    if counter == 0 goto block_08a3;
-
-  block_0768:
-    FREE.slot_2d((Item.getZ(arg_06) - 8), Item.getY(arg_06), Item.getX(arg_06), Item.getFrame(arg_06), doorList, counter, list_element(size=0x2), *(arg_06));
-    if !retval goto block_07d1;
-
-  block_07a8:
-    spawn FREE.slot_32(pid, 2, 0x00000000);
-    suspend;
-    goto block_0893;
-
-  block_07d1:
-    counter = (1 + counter);
-    counter = (1 + counter);
-
-  block_07ff:
-    while (counter < (maxFrame + 1)) {
-      spawn FREE.slot_32(doorList, counter, pid, 5, 0x00000000);
-      suspend;
-      counter = (1 + counter);
+    while (counter != 0) {
+      FREE.slot_2d((Item.getZ(arg_06) - 8), Item.getY(arg_06), Item.getX(arg_06), Item.getFrame(arg_06), doorList, counter, list_element(size=0x2), *(arg_06));
+      if (retval) {
+        spawn FREE.slot_32(pid, 2, 0x00000000);
+        suspend;
+      }
+      else {
+        counter = (1 + counter);
+        counter = (1 + counter);
+        while (counter < (maxFrame + 1)) {
+          spawn FREE.slot_32(doorList, counter, pid, 5, 0x00000000);
+          suspend;
+          counter = (1 + counter);
+        }
+        /* word_to_dword */
+        /* pop_result */
+        return;
+      }
+      counter = (counter - 1);
     }
-
-  block_0889:
     /* word_to_dword */
     /* pop_result */
-    goto block_08ad;
-
-  block_0893:
-    counter = (counter - 1);
-    goto block_0760;
-
-  block_08a3:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_08ad;
-
-  block_08ad:
-    /* free_local_list */
     return;
-
+  }
+  /* free_local_list */
+  return;
 }

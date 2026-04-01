@@ -314,104 +314,106 @@ function hover_slot_20() /* entry=2575 class_id=0x0a0d slot=0x20 */
         /* pop_result */
         return;
       }
-      dx = (tx - sx);
-      dy = (ty - sy);
-      dz = (tz - sz);
-      ddx = 0;
-      ddy = 0;
-      ddz = 0;
-      if ((dz < 4) && (dz > -4)) {
-        /* word_to_dword */
-        /* pop_result */
-        return;
-      }
-      if (dx) {
-        xacc = (xacc + xfract);
-        /* word_to_dword */
-        if (xacc > 0x0fa0) {
+      else {
+        dx = (tx - sx);
+        dy = (ty - sy);
+        dz = (tz - sz);
+        ddx = 0;
+        ddy = 0;
+        ddz = 0;
+        if ((dz < 4) && (dz > -4)) {
           /* word_to_dword */
-          xacc = (xacc - 0x0fa0);
-          ddx = 4;
-          if (dx < 0) {
-            ddx = -4;
+          /* pop_result */
+          return;
+        }
+        else if (dx) {
+          xacc = (xacc + xfract);
+          /* word_to_dword */
+          if (xacc > 0x0fa0) {
+            /* word_to_dword */
+            xacc = (xacc - 0x0fa0);
+            ddx = 4;
+            if (dx < 0) {
+              ddx = -4;
+            }
           }
         }
-      }
-      if (dy) {
-        yacc = (yacc + yfract);
-        /* word_to_dword */
-        if (yacc > 0x0fa0) {
+        if (dy) {
+          yacc = (yacc + yfract);
           /* word_to_dword */
-          yacc = (yacc - 0x0fa0);
-          ddy = 4;
-          if (dy < 0) {
-            ddy = -4;
+          if (yacc > 0x0fa0) {
+            /* word_to_dword */
+            yacc = (yacc - 0x0fa0);
+            ddy = 4;
+            if (dy < 0) {
+              ddy = -4;
+            }
           }
         }
-      }
-      ddz = 4;
-      if (dz < 0) {
-        ddz = -4;
-      }
-      total = 0;
-      /* loopscr */
-      /* loop */
-      while (condition) {
-        if (Item.getShape(cargo) != NUMBERS) {
-          if (cargo < 0x00ff) {
-            n = cargo;
-            if (Actor.isDead(n)) {
-              suspend;
+        ddz = 4;
+        if (dz < 0) {
+          ddz = -4;
+        }
+        total = 0;
+        /* loopscr */
+        /* loop */
+        while (condition) {
+          if (Item.getShape(cargo) != NUMBERS) {
+            if (cargo < 0x00ff) {
+              n = cargo;
+              if (Actor.isDead(n)) {
+                suspend;
+              }
+              else {
+                total = (1 + total);
+              }
             }
             else {
               total = (1 + total);
             }
           }
-          else {
-            total = (1 + total);
+        }
+        sx = (sx + ddx);
+        sy = (sy + ddy);
+        sz = (sz + ddz);
+        wp = sx;
+        local_03 = sy;
+        local_01 = sz;
+        if (Item.inFastArea(hover) == 0) {
+          counter = 1;
+          while (counter <= total) {
+            cargo = Item.getEtherealTop();
+            counter = (1 + counter);
           }
         }
-      }
-      sx = (sx + ddx);
-      sy = (sy + ddy);
-      sz = (sz + ddz);
-      wp = sx;
-      local_03 = sy;
-      local_01 = sz;
-      if (Item.inFastArea(hover) == 0) {
-        counter = 1;
-        while (counter <= total) {
-          cargo = Item.getEtherealTop();
-          counter = (1 + counter);
+        else if (legalMoveToPoint(0, 1, wp, hover)) {
+          counter = 1;
+          while (counter <= total) {
+            cargo = Item.getEtherealTop();
+            counter = (1 + counter);
+          }
         }
-      }
-      else if (legalMoveToPoint(0, 1, wp, hover)) {
-        counter = 1;
-        while (counter <= total) {
-          cargo = Item.getEtherealTop();
-          counter = (1 + counter);
+        else {
+          counter = 1;
+          while (counter <= total) {
+            cargo = Item.getEtherealTop();
+            counter = (1 + counter);
+          }
+          if (Item.getQHi(hover) & 16) {
+            /* bit_not */
+            /* word_to_dword */
+            /* pop_result */
+            return;
+          }
+          sx = (sx - ddx);
+          sy = (sy - ddy);
+          sz = (sz - ddz);
+          spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+          suspend;
         }
-      }
-      else {
-        counter = 1;
-        while (counter <= total) {
-          cargo = Item.getEtherealTop();
-          counter = (1 + counter);
-        }
-        if (Item.getQHi(hover) & 16) {
-          /* bit_not */
-          /* word_to_dword */
-          /* pop_result */
-          return;
-        }
-        sx = (sx - ddx);
-        sy = (sy - ddy);
-        sz = (sz - ddz);
-        spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+        spawn FREE.waitNTimerTicks(pid, 1, 0x00000000);
         suspend;
       }
-      spawn FREE.waitNTimerTicks(pid, 1, 0x00000000);
-      suspend;
     }
   }
   return;

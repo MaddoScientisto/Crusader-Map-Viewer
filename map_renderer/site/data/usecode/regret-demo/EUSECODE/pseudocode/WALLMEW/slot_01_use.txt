@@ -3,6 +3,7 @@ function wallmew_use() /* entry=1080 class_id=0x0436 slot=0x01 */
   set_info(0x0207, *(arg_06));
   process_exclude();
   if (Item.getFrame(arg_06) > 1) {
+    return;
   }
   else {
     local_08 = Item.hurl(arg_06);
@@ -21,6 +22,7 @@ function wallmew_use() /* entry=1080 class_id=0x0436 slot=0x01 */
       }
       spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
       suspend;
+      return;
     }
     else {
       for local_04 in nearby_items(shape=0x0251, origin=arg_06) {

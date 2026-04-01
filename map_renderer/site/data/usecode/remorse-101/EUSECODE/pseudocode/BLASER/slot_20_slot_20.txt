@@ -1,110 +1,90 @@
 function blaser_slot_20() /* entry=2564 class_id=0x0a02 slot=0x20 */
 {
-  entry:
-    set_info(1, 0);
-    local_09 = arg_10;
-    local_19 = Item.getQLo(local_09);
-    local_15 = 0;
-
-  entry_selector_00:
-    for local_09 in selector_0x42(arg0=0x02c3, arg1=0x02c4, arg2=(50 * 32), origin=arg_10) {
-      if ((Item.getQLo(local_09) == local_19) && ((Item.getStatus(local_09) & 0x1000) == 0)) {
-        /* create_list */
-        /* append_list */
-        /* free_local_list */
-        local_07 = local_09;
-        local_15 = (1 + local_15);
-      }
+  set_info(1, 0);
+  local_09 = arg_10;
+  local_19 = Item.getQLo(local_09);
+  local_15 = 0;
+  for local_09 in selector_0x42(arg0=0x02c3, arg1=0x02c4, arg2=(50 * 32), origin=arg_10) {
+    if ((Item.getQLo(local_09) == local_19) && ((Item.getStatus(local_09) & 0x1000) == 0)) {
+      /* create_list */
+      /* append_list */
+      /* free_local_list */
+      local_07 = local_09;
+      local_15 = (1 + local_15);
     }
-
-  block_0155:
-    if local_15 != 0 goto block_0162;
-
-  block_015f:
-    goto block_039b;
-
-  block_0162:
-    if !(1) goto block_039b;
-
-  block_0167:
-    local_11 = 0;
-
-  block_0171:
-    while (true) {
-      foreach_list local_09 -> block_035c;
-      local_17 = Item.getQHi(local_09);
-      if (local_17 & 8) {
-        /* create_list */
-        /* remove_matching_inline */
-        /* free_local_list */
-        local_07 = local_09;
-      }
-      else if (Item.getStatus(local_09) & (0x1000 == 0)) {
-        /* create_list */
-        /* remove_matching_inline */
-        /* free_local_list */
-        local_07 = local_09;
-      }
-      else if ((Item.inFastArea(local_09) != 1) && (Item.getShape(local_09) == 0x0476)) {
-        local_11 = (1 + local_11);
-        if (local_17 & 1) {
+  }
+  if (local_15 == 0) {
+    return;
+  }
+  else {
+    while (1) {
+      local_11 = 0;
+      while (true) {
+        foreach_list local_09 -> block_035c;
+        local_17 = Item.getQHi(local_09);
+        if (local_17 & 8) {
+          /* create_list */
+          /* remove_matching_inline */
+          /* free_local_list */
+          local_07 = local_09;
+        }
+        else if (Item.getStatus(local_09) & (0x1000 == 0)) {
+          /* create_list */
+          /* remove_matching_inline */
+          /* free_local_list */
+          local_07 = local_09;
+        }
+        else if ((Item.inFastArea(local_09) != 1) && (Item.getShape(local_09) == 0x0476)) {
+          local_11 = (1 + local_11);
+          if (local_17 & 1) {
+            if (local_17 & 2) {
+              local_17 = (local_17 & 4);
+            }
+            else {
+              local_17 = ((local_17 & 4) | 2);
+            }
+          }
+          local_13 = -1;
           if (local_17 & 2) {
-            local_17 = (local_17 & 4);
+            local_13 = 1;
+          }
+          local_21 = Item.getX(local_09);
+          local_23 = Item.getY(local_09);
+          if (Item.getShape(local_09) == 0x02c4) {
+            local_05 = (local_21 + (local_13 * 16));
+            local_03 = local_23;
           }
           else {
-            local_17 = ((local_17 & 4) | 2);
+            local_05 = local_21;
+            local_03 = (local_23 + (local_13 * 16));
           }
-        }
-        local_13 = -1;
-        if (local_17 & 2) {
-          local_13 = 1;
-        }
-        local_21 = Item.getX(local_09);
-        local_23 = Item.getY(local_09);
-        if (Item.getShape(local_09) == 0x02c4) {
-          local_05 = (local_21 + (local_13 * 16));
-          local_03 = local_23;
-        }
-        else {
-          local_05 = local_21;
-          local_03 = (local_23 + (local_13 * 16));
-        }
-        local_01 = Item.getZ(local_09);
-        if (legalMoveToPoint(0, 0, local_05, local_09) == 0) {
-          local_17 = Item.getQHi(local_09);
-        }
-        else if (local_17 & 4) {
-          if (Item.getShape(local_09) == 0x02c4) {
-            if (Intrinsic02F(local_05, 0x02c3, arg_06) == 1) {
+          local_01 = Item.getZ(local_09);
+          if (legalMoveToPoint(0, 0, local_05, local_09) == 0) {
+            local_17 = Item.getQHi(local_09);
+          }
+          else if (local_17 & 4) {
+            if (Item.getShape(local_09) == 0x02c4) {
+              if (Intrinsic02F(local_05, 0x02c3, arg_06) == 1) {
+                /* bit_not */
+              }
+            }
+            else if (Intrinsic02F(local_05, 0x02c4, arg_06) == 1) {
               /* bit_not */
             }
           }
-          else if (Intrinsic02F(local_05, 0x02c4, arg_06) == 1) {
-            /* bit_not */
-          }
         }
       }
+      spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+      suspend;
+      if (local_11 == 0) {
+        while (true) {
+          foreach_list local_09 -> block_0395;
+          /* bit_not */
+        }
+        return;
+      }
     }
-
-  block_035c:
-    spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
-    suspend;
-    if local_11 != 0 goto block_0398;
-
-  block_0381:
-    while (true) {
-      foreach_list local_09 -> block_0395;
-      /* bit_not */
-    }
-
-  block_0395:
-    goto block_039b;
-
-  block_0398:
-    goto block_0162;
-
-  block_039b:
-    /* free_local_list */
-    return;
-
+  }
+  /* free_local_list */
+  return;
 }

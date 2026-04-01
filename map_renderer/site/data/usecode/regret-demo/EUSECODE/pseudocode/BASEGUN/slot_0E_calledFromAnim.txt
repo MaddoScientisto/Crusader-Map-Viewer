@@ -1,14 +1,11 @@
 function basegun_calledFromAnim() /* entry=1226 class_id=0x04c8 slot=0x0e */
 {
-  entry:
-    set_info(0x021a, *(arg_06));
-    process_exclude();
-    local_02 = *(arg_06);
-    local_04 = Actor.getDir(local_02);
-    local_06 = Actor.getLastAnimSet(local_02);
-    if (local_06 != 13) || (local_06 == 8) goto block_0296;
-
-  block_021c:
+  set_info(0x021a, *(arg_06));
+  process_exclude();
+  local_02 = *(arg_06);
+  local_04 = Actor.getDir(local_02);
+  local_06 = Actor.getLastAnimSet(local_02);
+  if ((local_06 == 13) || (local_06 == 8)) {
     WALLGUN.slot_40(0, 3, local_04, local_04, arg_06);
     WALLGUN.slot_3f(retval, local_04, arg_06);
     WALLGUN.slot_3e(retval, local_04, arg_06);
@@ -16,36 +13,20 @@ function basegun_calledFromAnim() /* entry=1226 class_id=0x04c8 slot=0x0e */
     WALLGUN.slot_42(retval, local_04, arg_06);
     WALLGUN.slot_41(retval, local_04, arg_06);
     suspend;
-    goto block_0347;
-
-  block_0296:
+    return;
+  }
+  else {
     set_info(0x00f0, 0);
-
-  block_0296_selector_00:
-    /* loop_selector local_08 in nearby_items(shape=0x04e7, origin=local_02) */
-
-  block_02b2:
-    if !condition goto block_02f7;
-
-  block_02b5:
-    if Intrinsic000D(local_02) != Item.getQLo(local_08) goto block_02f3;
-
-  block_02cb:
-    if Item.getMapArray(local_08) == 0 goto block_02f3;
-
-  block_02da:
-    spawn TRIGGER.slot_20(pid, 0, local_08, local_08);
-    suspend;
-    goto block_02f7;
-
-  block_02f3:
-    goto block_02b2;
-
-  block_02f7:
+    for local_08 in nearby_items(shape=0x04e7, origin=local_02) {
+      if (Intrinsic000D(local_02) == Item.getQLo(local_08)) {
+        if (Item.getMapArray(local_08) != 0) {
+          spawn TRIGGER.slot_20(pid, 0, local_08, local_08);
+          suspend;
+        }
+      }
+    }
     spawn ITEM.slot_2a(pid, 1, 2, local_02);
     suspend;
-
-  block_0347:
-    return;
-
+  }
+  return;
 }

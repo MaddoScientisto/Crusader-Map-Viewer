@@ -16,14 +16,11 @@ function litewall_slot_21() /* entry=2580 class_id=0x0a12 slot=0x21 */
     aSet2, /* [BP-21h] type=0x69 */
     aSet3; /* [BP-23h] type=0x69 */
 
-  entry:
-    set_info(0x0001, *(arg_06));
-    if !(global[0x0005]) goto block_02ed;
-
-  block_02ea:
-    goto block_044d;
-
-  block_02ed:
+  set_info(0x0001, *(arg_06));
+  if (global[0x0005]) {
+    return;
+  }
+  else {
     stepper = r;
     wall = 0;
     dist = 21;
@@ -31,45 +28,33 @@ function litewall_slot_21() /* entry=2580 class_id=0x0a12 slot=0x21 */
     aSet1 = 3;
     aSet2 = 48;
     aSet3 = 49;
-    if ((playSFX(stepper) != 3) || (playSFX(stepper) == 48)) || (playSFX(stepper) == 49) goto block_044d;
-
-  block_035a:
-    /* loopscr */
-    /* loopscr */
-    /* loop */
-
-  block_0383:
-    while (condition) {
-      /* create_list */
-      /* append_list */
-      /* free_local_list */
-      wallList = item;
-      FREE.slot_29(wallList, stepper, item);
-      if (retval < dist) {
-        FREE.slot_29(stepper, item);
-        dist = retval;
-        wall = item;
+    if (((playSFX(stepper) == 3) || (playSFX(stepper) == 48)) || (playSFX(stepper) == 49)) {
+      /* loopscr */
+      /* loopscr */
+      /* loop */
+      while (condition) {
+        /* create_list */
+        /* append_list */
+        /* free_local_list */
+        wallList = item;
+        FREE.slot_29(wallList, stepper, item);
+        if (retval < dist) {
+          FREE.slot_29(stepper, item);
+          dist = retval;
+          wall = item;
+        }
+      }
+      if ((wall != 0) && (dist <= 2)) {
+        /* pop_global */
+        while (true) {
+          foreach_list item -> block_0412;
+          spawn LITEWALL.slot_20(item, arg_06);
+        }
+        spawn NPC.slot_2d(pid, Item.use(wall, stepper), wall, stepper);
+        suspend;
       }
     }
-
-  block_03cd:
-    if (wall == 0) && (dist <= 2) goto block_044d;
-
-  block_03e3:
-    /* pop_global */
-
-  block_03f5:
-    while (true) {
-      foreach_list item -> block_0412;
-      spawn LITEWALL.slot_20(item, arg_06);
-    }
-
-  block_0412:
-    spawn NPC.slot_2d(pid, Item.use(wall, stepper), wall, stepper);
-    suspend;
-
-  block_044d:
-    /* free_local_list */
-    return;
-
+  }
+  /* free_local_list */
+  return;
 }

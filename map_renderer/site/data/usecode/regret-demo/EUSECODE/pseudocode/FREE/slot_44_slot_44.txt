@@ -50,34 +50,36 @@ function free_slot_44() /* entry=2575 class_id=0x0a0d slot=0x44 */
     if (!World.getAlertActive()) {
       return;
     }
-    local_10 = 1;
-    spawn FREE.slot_3b(pid, local_13, 0x00000000);
-    suspend;
-    local_02 = 0;
-    while (local_02 <= 2) {
-      spawn FREE.slot_21(pid, local_04, 0x00000000);
-      suspend;
-      local_02 = (1 + local_02);
-    }
-    if (UCMachine.rndRange((UCMachine.rndRange((UCMachine.rndRange((UCMachine.rndRange((UCMachine.rndRange(10, 0) == 0), 10, 0) == 1), 10, 0) == 2), 10, 0) == 4), 10, 0) == 5) {
-      spawn FREE.slot_21(pid, 0x0182, 0x00000000);
-      suspend;
-    }
-    else if (UCMachine.rndRange((UCMachine.rndRange(10, 0) == 6), 10, 0) == 7) {
-      spawn FREE.slot_21(pid, 0x0184, 0x00000000);
-      suspend;
-      spawn FREE.slot_21(pid, 0x018c, 0x00000000);
-      suspend;
-    }
     else {
-      spawn FREE.slot_21(pid, 0x0184, 0x00000000);
+      local_10 = 1;
+      spawn FREE.slot_3b(pid, local_13, 0x00000000);
       suspend;
-    }
-    for local_06 in nearby_items(shape=0x0561, origin=local_10) {
-      if (udioProcess.playSFXCru(local_06)) {
+      local_02 = 0;
+      while (local_02 <= 2) {
+        spawn FREE.slot_21(pid, local_04, 0x00000000);
         suspend;
-        spawn FREE.slot_3b(pid, 120, 0x00000000);
+        local_02 = (1 + local_02);
+      }
+      if (UCMachine.rndRange((UCMachine.rndRange((UCMachine.rndRange((UCMachine.rndRange((UCMachine.rndRange(10, 0) == 0), 10, 0) == 1), 10, 0) == 2), 10, 0) == 4), 10, 0) == 5) {
+        spawn FREE.slot_21(pid, 0x0182, 0x00000000);
         suspend;
+      }
+      else if (UCMachine.rndRange((UCMachine.rndRange(10, 0) == 6), 10, 0) == 7) {
+        spawn FREE.slot_21(pid, 0x0184, 0x00000000);
+        suspend;
+        spawn FREE.slot_21(pid, 0x018c, 0x00000000);
+        suspend;
+      }
+      else {
+        spawn FREE.slot_21(pid, 0x0184, 0x00000000);
+        suspend;
+      }
+      for local_06 in nearby_items(shape=0x0561, origin=local_10) {
+        if (udioProcess.playSFXCru(local_06)) {
+          suspend;
+          spawn FREE.slot_3b(pid, 120, 0x00000000);
+          suspend;
+        }
       }
     }
   }

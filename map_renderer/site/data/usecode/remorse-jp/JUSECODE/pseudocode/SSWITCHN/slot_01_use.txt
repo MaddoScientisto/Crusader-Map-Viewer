@@ -116,7 +116,7 @@ function sswitchn_use() /* entry=1108 class_id=0x0452 slot=0x01 */
         return;
       }
       else {
-        for timer in nearby_items(shape=0x04c9, origin=arg_06) {
+        for timer in nearby_items(shape=TIMER, origin=arg_06) {
           if (Item.andStatus(timer) == 29) {
             suspend;
           }
@@ -128,7 +128,7 @@ function sswitchn_use() /* entry=1108 class_id=0x0452 slot=0x01 */
         return;
       }
       else {
-        for timer in nearby_items(shape=0x04c9, origin=arg_06) {
+        for timer in nearby_items(shape=TIMER, origin=arg_06) {
           if (Item.andStatus(timer) == 30) {
             suspend;
           }
@@ -136,7 +136,7 @@ function sswitchn_use() /* entry=1108 class_id=0x0452 slot=0x01 */
       }
     }
     else if (c1) {
-      for timer in nearby_items(shape=0x04c9, origin=arg_06) {
+      for timer in nearby_items(shape=TIMER, origin=arg_06) {
         if (Item.andStatus(timer) == 31) {
           suspend;
         }

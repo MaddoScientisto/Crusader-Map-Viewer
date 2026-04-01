@@ -1,444 +1,292 @@
 function textfile_slot_23() /* entry=2585 class_id=0x0a17 slot=0x23 */
 {
-  entry:
-    if arg_12 < 110 goto block_0208;
-
-  block_01f1:
+  if (arg_12 >= 110) {
     TEXTFIL2.slot_20(arg_14, arg_12, arg_10, arg_06);
-    goto block_2223;
-
-  block_0205:
-    goto block_0227;
-
-  block_0208:
-    if arg_12 < 60 goto block_0227;
-
-  block_0210:
+    return;
+  }
+  else if (arg_12 >= 60) {
     TEXTFIL1.slot_20(arg_14, arg_12, arg_10, arg_06);
-    goto block_2223;
-
-  block_0224:
-    goto block_0227;
-
-  block_0227:
-    if arg_12 != 0 goto block_0839;
-
-  block_022f:
+    return;
+  }
+  if (arg_12 == 0) {
     local_04 = UCMachine.rndRange(11, 1);
-    if local_04 != 1 goto block_02d4;
-
-  block_0244:
-    /* free_local_string */
-    local_02 = "Due to recent rebel activity, the T-300 lines have failed. *^Do NOT attempt to access the WEC network at this time.^END OF MESSAGE...";
-    goto block_0836;
-
-  block_02d4:
-    if local_04 != 2 goto block_0367;
-
-  block_02dc:
-    /* free_local_string */
-    local_02 = "The use of WEC equipment for playing computerized entertainment software is strictly prohibited!* Return to work IMMEDIATELY!***";
-    goto block_0836;
-
-  block_0367:
-    if local_04 != 3 goto block_03e8;
-
-  block_036f:
-    /* free_local_string */
-    local_02 = "All workers must display their badges at ALL TIMES!* Failure to comply will result in immediate termination!*^";
-    goto block_0836;
-
-  block_03e8:
-    if local_04 != 4 goto block_048a;
-
-  block_03f0:
-    /* free_local_string */
-    local_02 = "Report all unauthorized use of WEC equipment immediately! Remember, your co-workers could be rebel sympathizers! Collect big cash rewards too!*";
-    goto block_0836;
-
-  block_048a:
-    if local_04 != 5 goto block_055a;
-
-  block_0492:
-    /* free_local_string */
-    local_02 = "Unauthorized access of this terminal constitutes a violation of WEC security code 1701-D. Please report yourself to the nearest WEC security officer for correctional measures IMMEDIATELY.*^";
-    goto block_0836;
-
-  block_055a:
-    if local_04 != 6 goto block_05c5;
-
-  block_0562:
-    /* free_local_string */
-    local_02 = "The WEC network is exp*erien^*cing*^ slight dif^*ficulties.^Please st$#@**%^#@!*)(*^%$#^";
-    goto block_0836;
-
-  block_05c5:
-    if local_04 != 7 goto block_0687;
-
-  block_05cd:
-    /* free_local_string */
-    local_02 = "The carrying of unregistered radiation detection devices is strictly prohibited by the WEC. Register yours today. Remember, the WEC is just like family, and we care about you!";
-    goto block_0836;
-
-  block_0687:
-    if local_04 != 8 goto block_06ba;
-
-  block_068f:
-    /* free_local_string */
-    local_02 = "WEC T-300/SYS out of disk space^";
-    goto block_0836;
-
-  block_06ba:
-    if local_04 != 9 goto block_0743;
-
-  block_06c2:
-    /* free_local_string */
-    local_02 = "Consortium-wide meeting tomorrow at 1330. WedgeRoom 1501. This is a mandatory meeting! All Branch Leaders must attend!";
-    goto block_0836;
-
-  block_0743:
-    if local_04 != 10 goto block_07e3;
-
-  block_074b:
-    /* free_local_string */
-    local_02 = "The WEC Regulatory Commission requires reports of your daily activities. Failure to submit these reports may result in immediate termination.";
-    goto block_0836;
-
-  block_07e3:
-    /* free_local_string */
-    local_02 = "The WEC network is experiencing slight difficulties.^Please stand by*.*.*.^";
-
-  block_0836:
-    goto block_221d;
-
-  block_0839:
-    if arg_12 != 1 goto block_0864;
-
-  block_0841:
+    if (local_04 == 1) {
+      /* free_local_string */
+      local_02 = "Due to recent rebel activity, the T-300 lines have failed. *^Do NOT attempt to access the WEC network at this time.^END OF MESSAGE...";
+    }
+    else if (local_04 == 2) {
+      /* free_local_string */
+      local_02 = "The use of WEC equipment for playing computerized entertainment software is strictly prohibited!* Return to work IMMEDIATELY!***";
+    }
+    else if (local_04 == 3) {
+      /* free_local_string */
+      local_02 = "All workers must display their badges at ALL TIMES!* Failure to comply will result in immediate termination!*^";
+    }
+    else if (local_04 == 4) {
+      /* free_local_string */
+      local_02 = "Report all unauthorized use of WEC equipment immediately! Remember, your co-workers could be rebel sympathizers! Collect big cash rewards too!*";
+    }
+    else if (local_04 == 5) {
+      /* free_local_string */
+      local_02 = "Unauthorized access of this terminal constitutes a violation of WEC security code 1701-D. Please report yourself to the nearest WEC security officer for correctional measures IMMEDIATELY.*^";
+    }
+    else if (local_04 == 6) {
+      /* free_local_string */
+      local_02 = "The WEC network is exp*erien^*cing*^ slight dif^*ficulties.^Please st$#@**%^#@!*)(*^%$#^";
+    }
+    else if (local_04 == 7) {
+      /* free_local_string */
+      local_02 = "The carrying of unregistered radiation detection devices is strictly prohibited by the WEC. Register yours today. Remember, the WEC is just like family, and we care about you!";
+    }
+    else if (local_04 == 8) {
+      /* free_local_string */
+      local_02 = "WEC T-300/SYS out of disk space^";
+    }
+    else if (local_04 == 9) {
+      /* free_local_string */
+      local_02 = "Consortium-wide meeting tomorrow at 1330. WedgeRoom 1501. This is a mandatory meeting! All Branch Leaders must attend!";
+    }
+    else if (local_04 == 10) {
+      /* free_local_string */
+      local_02 = "The WEC Regulatory Commission requires reports of your daily activities. Failure to submit these reports may result in immediate termination.";
+    }
+    else {
+      /* free_local_string */
+      local_02 = "The WEC network is experiencing slight difficulties.^Please stand by*.*.*.^";
+    }
+  }
+  else if (arg_12 == 1) {
     /* free_local_string */
     local_02 = "Doors have been opened.^";
-    goto block_221d;
-
-  block_0864:
-    if arg_12 != 2 goto block_0890;
-
-  block_086c:
+  }
+  else if (arg_12 == 2) {
     /* free_local_string */
     local_02 = "Force field deactivated.^";
-    goto block_221d;
-
-  block_0890:
-    if arg_12 != 3 goto block_08bf;
-
-  block_0898:
+  }
+  else if (arg_12 == 3) {
     /* free_local_string */
     local_02 = "Electronic bridge extended.^";
-    goto block_221d;
-
-  block_08bf:
-    if arg_12 != 4 goto block_08ee;
-
-  block_08c7:
+  }
+  else if (arg_12 == 4) {
     /* free_local_string */
     local_02 = "Security systems activated.^";
-    goto block_221d;
-
-  block_08ee:
-    if arg_12 != 5 goto block_0920;
-
-  block_08f6:
+  }
+  else if (arg_12 == 5) {
     /* free_local_string */
     local_02 = "Security systems de-activated.^";
-    goto block_221d;
-
-  block_0920:
-    if (((arg_12 != 6) || (arg_12 == 7)) || (arg_12 == 8)) || (arg_12 == 9) goto block_096f;
-
-  block_093a:
+  }
+  else if ((((arg_12 == 6) || (arg_12 == 7)) || (arg_12 == 8)) || (arg_12 == 9)) {
     /* free_local_string */
     local_02 = "All alarm systems have been de-activated.^";
-    goto block_221d;
-
-  block_096f:
-    if arg_12 != 10 goto block_0a2d;
-
-  block_0977:
+  }
+  else if (arg_12 == 10) {
     /* concat */
     /* concat */
     /* free_local_string */
     local_02 = "^Remember, delete this message! Spies are everywhere!";
-    goto block_221d;
-
-  block_0a2d:
-    if arg_12 != 11 goto block_0a9c;
-
-  block_0a35:
+  }
+  else if (arg_12 == 11) {
     /* free_local_string */
     local_02 = "Security Cartel HQD^___________________^*^Accessing system:*.*.*.*^^Thresher Cannon: *ACTIVE";
-    goto block_221d;
-
-  block_0a9c:
-    if arg_12 != 12 goto block_0b56;
-
-  block_0aa4:
+  }
+  else if (arg_12 == 12) {
     /* free_local_string */
     local_02 = "To all Refinery Ops^2nd Class Tech Stokes has once again started a fire in the thermalcoupler area.^We ask again that all employees smoke only in the authorized areas.";
-    goto block_221d;
-
-  block_0b56:
-    if arg_12 != 13 goto block_0bf8;
-
-  block_0b5e:
+  }
+  else if (arg_12 == 13) {
     /* free_local_string */
     local_02 = "To all Refinery Ops^3rd Class Tech Brandt has contaminated the fifth level with dangerous^plutonium isotopes again. Be careful where you step.^";
-    goto block_221d;
-
-  block_0bf8:
-    if arg_12 != 14 goto block_0c83;
-
-  block_0c00:
+  }
+  else if (arg_12 == 14) {
     /* free_local_string */
     local_02 = "Security Cartel:^________________^Remote viewing facility.^*Thermal Coupler power system.^^Watch Station: ^*<NOW ACTIVE>";
-    goto block_221d;
-
-  block_0c83:
-    if arg_12 != 15 goto block_0d18;
-
-  block_0c8b:
+  }
+  else if (arg_12 == 15) {
     /* free_local_string */
     local_02 = "Refinery Operations:^____________________^Now interfacing with remote service droid...*^Thermatron ZC90201^^Unit is now *-ONLINE-.";
-    goto block_221d;
-
-  block_0d18:
-    if arg_12 != 16 goto block_0d8d;
-
-  block_0d20:
+  }
+  else if (arg_12 == 16) {
     /* free_local_string */
     local_02 = "Security Cartel: ^^Remote alarm panel^User ID <TZ81664>^*^Area is secured:*^Stand down from alert.";
-    goto block_221d;
-
-  block_0d8d:
-    if arg_12 != 17 goto block_0df3;
-
-  block_0d95:
+  }
+  else if (arg_12 == 17) {
     /* free_local_string */
     local_02 = "Security Cartel:^__________________^Remote Operations^Watch Station: ^*<NOW ACTIVE>";
-    goto block_221d;
-
-  block_0df3:
-    if arg_12 != 18 goto block_0f27;
-
-  block_0dfb:
+  }
+  else if (arg_12 == 18) {
     /* concat */
     /* concat */
     /* free_local_string */
     local_02 = " is this week's passcode.";
-    goto block_221d;
-
-  block_0f27:
-    if arg_12 != 19 goto block_0ffe;
-
-  block_0f2f:
+  }
+  else if (arg_12 == 19) {
     /* concat */
     /* concat */
     /* concat */
     /* free_local_string */
     local_02 = "^This is the last time, Philbert!^";
-    goto block_221d;
-
-  block_0ffe:
-    if arg_12 != 20 goto block_1069;
-
-  block_1006:
+  }
+  else if (arg_12 == 20) {
     /* free_local_string */
     local_02 = "NOTICE:^^To: All Personnel^Please remember to keep your keycards with you at all times.^";
-    goto block_221d;
-
-  block_1069:
-    if arg_12 != 21 goto block_10db;
-
-  block_1071:
+  }
+  else if (arg_12 == 21) {
     /* free_local_string */
     local_02 = "Security Cartel: ^Operations Center.^User ID T*Z*1*6*^^Area is secured:*^Stand down from Alert.";
-    goto block_221d;
-
-  block_10db:
-    if arg_12 != 22 goto block_119f;
-
-  block_10e3:
+  }
+  else if (arg_12 == 22) {
     /* free_local_string */
     local_02 = "Security Cartel: ^Operations Center.*^User ID T*Z*1*6*^^Due to malfunctions within the security grid, the telepad is inoperative. Please use the backup telepad in the west wing.";
-    goto block_221d;
-
-  block_119f:
-    if arg_12 != 25 goto block_11f0;
-
-  block_11a7:
+  }
+  else if (arg_12 == 25) {
     /* free_local_string */
     local_02 = "Phase one of the impassable laser field has been de-activated.";
-    goto block_221d;
-
-  block_11f0:
-    if arg_12 != 27 goto block_1273;
-
-  block_11f8:
+  }
+  else if (arg_12 == 27) {
     /* concat */
     /* concat */
     /* free_local_string */
     local_02 = ".^*End of Message <";
-    goto block_221d;
-
-  block_1273:
-    if ((((arg_12 != 23) || (arg_12 == 24)) || (arg_12 == 26)) || (arg_12 == 28)) || (arg_12 == 29) goto block_12bc;
-
-  block_1293:
+  }
+  else if (((((arg_12 == 23) || (arg_12 == 24)) || (arg_12 == 26)) || (arg_12 == 28)) || (arg_12 == 29)) {
     /* free_local_string */
     local_02 = "Mission 2 Generic Message 0-9^";
-    goto block_221d;
-
-  block_12bc:
-    if (arg_12 == 30) {
-      /* concat */
-      /* concat */
-      /* free_local_string */
-      local_02 = ".^*End of Message <";
-    }
-    else if (arg_12 == 31) {
-      /* free_local_string */
-      local_02 = "Thermatron Assembly Line:^_____________^Now interfacing with remote droid *.*.*.^<Thermatron> VTK944^^Unit is now *-ONLINE-.";
-    }
-    else if (arg_12 == 32) {
-      /* free_local_string */
-      local_02 = "Thermatron Manufacturing Plant:^_____________";
-    }
-    else if (arg_12 == 33) {
-      /* free_local_string */
-      local_02 = "Refinery Operations:^____________^Remote viewing facility.^*Restricted Access*^Granted";
-    }
-    else if (arg_12 == 34) {
-      /* free_local_string */
-      local_02 = "Security Cartel:^________________^Remote viewing facility.^*Production Line^*<DEACTIVATED>";
-    }
-    else if (arg_12 == 35) {
-      /* free_local_string */
-      local_02 = "Security Cartel:^________________^*Auxiliary Production Line^*<ACTIVE>^Shut down requires Security Card Clearance";
-    }
-    else if (arg_12 == 36) {
-      /* free_local_string */
-      local_02 = "Thermatron Auxiliary Production Line:^________";
-    }
-    else if (arg_12 == 37) {
-      /* free_local_string */
-      local_02 = "Security Cartel:^________________^*Laser Field^*<DEACTIVATED>";
-    }
-    else if (arg_12 == 38) {
-      /* free_local_string */
-      local_02 = "Security Cartel:^________________^Remote viewing facility.^*Laser Field^*<ACTIVE>^Security card clearance required to de-activate";
-    }
-    else if (arg_12 == 39) {
-      /* concat */
-      /* concat */
-      /* free_local_string */
-      local_02 = "^Memorize the code and delete this message immediately! <";
-    }
-    else if (arg_12 == 40) {
-      /* free_local_string */
-      local_02 = "Security Cartel:^________________^*Laser Field^*<DEACTIVATED>";
-    }
-    else if (arg_12 == 41) {
-      /* free_local_string */
-      local_02 = "Remote Security Op:^_____________^Now interfacing with remote droid *.*.*.^<Thermatron> ATK656^^Unit is now *-ONLINE-.";
-    }
-    else if (arg_12 == 42) {
-      /* free_local_string */
-      local_02 = "^Security Control:^_______________^^*Laser Field^*<ACTIVATED>";
-    }
-    else if (arg_12 == 43) {
-      /* free_local_string */
-      local_02 = "Security Cartel HQD^___________________^*^Accessing system:*.*.*.*^^Thresher Cannon: *ACTIVE";
-    }
-    else if (arg_12 == 44) {
-      /* free_local_string */
-      local_02 = "Security Cartel HQD^___________________^*^Accessing system:*.*.*.*^^SORC Monitoring station security field:^^*<DEACTIVATED>";
-    }
-    else if (arg_12 == 45) {
-      /* concat */
-      /* concat */
-      /* concat */
-      /* free_local_string */
-      local_02 = "^^Spies are everywhere so be alert!";
-    }
-    else if (arg_12 == 46) {
-      /* free_local_string */
-      local_02 = "^* WEC Email^^To: Prof. Coulson^^From: Sev Dorren,^Security Chief^^Professor, I have installed a force-field at the entrance to the SORC station as you instructed. If there is anything further required please let me know. ^PS: The only way to access the force-field is through the central computer, so I am sure it will be quite safe from any saboteurs. .^*End of Message <";
-    }
-    else if (arg_12 == 47) {
-      /* concat */
-      /* concat */
-      /* free_local_string */
-      local_02 = "^*End of Message <";
-    }
-    else if (arg_12 == 48) {
-      /* concat */
-      /* free_local_string */
-      local_02 = Item.isOn(arg_14);
-    }
-    else if (arg_12 == 49) {
-      /* concat */
-      /* free_local_string */
-      local_02 = Item.isOn(arg_14);
-    }
-    else if (arg_12 == 50) {
-      if (arg_10 && arg_14) {
-        /* concat */
-        /* concat */
-        /* free_local_string */
-        local_02 = ". J.J.";
-      }
-      else {
-        /* free_local_string */
-        local_02 = "WEC SECURITY SYSTEM:^^Remote Camera: ACTIVE*";
-      }
-    }
-    else if (arg_12 == 52) {
-      /* free_local_string */
-      local_02 = "Dr. Watson:^Since we no longer produce the 37x18 Chip at the Snell Memorial Science Center, you can expect to receive the remaining chips for meltdown this afternoon. See that no chips find their way out of your facility.^L. Probst^End of Message <";
-    }
-    else if (arg_12 == 53) {
-      /* free_local_string */
-      local_02 = "Ms. Ashcraft - *It has come to my attention that you have had problems with your platform elevator. Just put an Out of Order sign on it, and I'll send a maintenance worker out to fix it A.S.A.P. Larson ";
-    }
-    else if (arg_12 == 54) {
-      /* free_local_string */
-      local_02 = "WEC SECURITY SYSTEM:^^Remote Camera: ACTIVE*^M.E.L.F. Station";
-    }
-    else if (arg_12 == 56) {
-      /* free_local_string */
-      local_02 = "WEC SECURITY SYSTEM:^^Remote Camera: *ACTIVE^Teleporter Room^Level Four";
-    }
-    else if (arg_12 == 57) {
-      /* free_local_string */
-      local_02 = "WEC SECURITY SYSTEM:^^Remote Camera: ACTIVE*^Security System^*ACTIVE";
-    }
-    else if (arg_12 == 58) {
-      if (arg_10 && arg_14) {
-        /* concat */
-        /* concat */
-        /* concat */
-        /* free_local_string */
-        local_02 = "Now you can store your very own load!";
-      }
-      else {
-        /* free_local_string */
-        local_02 = "WEC SECURITY SYSTEM:^Remote Camera: ACTIVE*^Security System^*ACTIVE^Forcefield Deactivated";
-      }
-    }
-
-  block_221d:
-    goto block_2223;
-
-  block_2223:
+  }
+  else if (arg_12 == 30) {
+    /* concat */
+    /* concat */
     /* free_local_string */
-    return;
-
+    local_02 = ".^*End of Message <";
+  }
+  else if (arg_12 == 31) {
+    /* free_local_string */
+    local_02 = "Thermatron Assembly Line:^_____________^Now interfacing with remote droid *.*.*.^<Thermatron> VTK944^^Unit is now *-ONLINE-.";
+  }
+  else if (arg_12 == 32) {
+    /* free_local_string */
+    local_02 = "Thermatron Manufacturing Plant:^_____________";
+  }
+  else if (arg_12 == 33) {
+    /* free_local_string */
+    local_02 = "Refinery Operations:^____________^Remote viewing facility.^*Restricted Access*^Granted";
+  }
+  else if (arg_12 == 34) {
+    /* free_local_string */
+    local_02 = "Security Cartel:^________________^Remote viewing facility.^*Production Line^*<DEACTIVATED>";
+  }
+  else if (arg_12 == 35) {
+    /* free_local_string */
+    local_02 = "Security Cartel:^________________^*Auxiliary Production Line^*<ACTIVE>^Shut down requires Security Card Clearance";
+  }
+  else if (arg_12 == 36) {
+    /* free_local_string */
+    local_02 = "Thermatron Auxiliary Production Line:^________";
+  }
+  else if (arg_12 == 37) {
+    /* free_local_string */
+    local_02 = "Security Cartel:^________________^*Laser Field^*<DEACTIVATED>";
+  }
+  else if (arg_12 == 38) {
+    /* free_local_string */
+    local_02 = "Security Cartel:^________________^Remote viewing facility.^*Laser Field^*<ACTIVE>^Security card clearance required to de-activate";
+  }
+  else if (arg_12 == 39) {
+    /* concat */
+    /* concat */
+    /* free_local_string */
+    local_02 = "^Memorize the code and delete this message immediately! <";
+  }
+  else if (arg_12 == 40) {
+    /* free_local_string */
+    local_02 = "Security Cartel:^________________^*Laser Field^*<DEACTIVATED>";
+  }
+  else if (arg_12 == 41) {
+    /* free_local_string */
+    local_02 = "Remote Security Op:^_____________^Now interfacing with remote droid *.*.*.^<Thermatron> ATK656^^Unit is now *-ONLINE-.";
+  }
+  else if (arg_12 == 42) {
+    /* free_local_string */
+    local_02 = "^Security Control:^_______________^^*Laser Field^*<ACTIVATED>";
+  }
+  else if (arg_12 == 43) {
+    /* free_local_string */
+    local_02 = "Security Cartel HQD^___________________^*^Accessing system:*.*.*.*^^Thresher Cannon: *ACTIVE";
+  }
+  else if (arg_12 == 44) {
+    /* free_local_string */
+    local_02 = "Security Cartel HQD^___________________^*^Accessing system:*.*.*.*^^SORC Monitoring station security field:^^*<DEACTIVATED>";
+  }
+  else if (arg_12 == 45) {
+    /* concat */
+    /* concat */
+    /* concat */
+    /* free_local_string */
+    local_02 = "^^Spies are everywhere so be alert!";
+  }
+  else if (arg_12 == 46) {
+    /* free_local_string */
+    local_02 = "^* WEC Email^^To: Prof. Coulson^^From: Sev Dorren,^Security Chief^^Professor, I have installed a force-field at the entrance to the SORC station as you instructed. If there is anything further required please let me know. ^PS: The only way to access the force-field is through the central computer, so I am sure it will be quite safe from any saboteurs. .^*End of Message <";
+  }
+  else if (arg_12 == 47) {
+    /* concat */
+    /* concat */
+    /* free_local_string */
+    local_02 = "^*End of Message <";
+  }
+  else if (arg_12 == 48) {
+    /* concat */
+    /* free_local_string */
+    local_02 = Item.isOn(arg_14);
+  }
+  else if (arg_12 == 49) {
+    /* concat */
+    /* free_local_string */
+    local_02 = Item.isOn(arg_14);
+  }
+  else if (arg_12 == 50) {
+    if (arg_10 && arg_14) {
+      /* concat */
+      /* concat */
+      /* free_local_string */
+      local_02 = ". J.J.";
+    }
+    else {
+      /* free_local_string */
+      local_02 = "WEC SECURITY SYSTEM:^^Remote Camera: ACTIVE*";
+    }
+  }
+  else if (arg_12 == 52) {
+    /* free_local_string */
+    local_02 = "Dr. Watson:^Since we no longer produce the 37x18 Chip at the Snell Memorial Science Center, you can expect to receive the remaining chips for meltdown this afternoon. See that no chips find their way out of your facility.^L. Probst^End of Message <";
+  }
+  else if (arg_12 == 53) {
+    /* free_local_string */
+    local_02 = "Ms. Ashcraft - *It has come to my attention that you have had problems with your platform elevator. Just put an Out of Order sign on it, and I'll send a maintenance worker out to fix it A.S.A.P. Larson ";
+  }
+  else if (arg_12 == 54) {
+    /* free_local_string */
+    local_02 = "WEC SECURITY SYSTEM:^^Remote Camera: ACTIVE*^M.E.L.F. Station";
+  }
+  else if (arg_12 == 56) {
+    /* free_local_string */
+    local_02 = "WEC SECURITY SYSTEM:^^Remote Camera: *ACTIVE^Teleporter Room^Level Four";
+  }
+  else if (arg_12 == 57) {
+    /* free_local_string */
+    local_02 = "WEC SECURITY SYSTEM:^^Remote Camera: ACTIVE*^Security System^*ACTIVE";
+  }
+  else if (arg_12 == 58) {
+    if (arg_10 && arg_14) {
+      /* concat */
+      /* concat */
+      /* concat */
+      /* free_local_string */
+      local_02 = "Now you can store your very own load!";
+    }
+    else {
+      /* free_local_string */
+      local_02 = "WEC SECURITY SYSTEM:^Remote Camera: ACTIVE*^Security System^*ACTIVE^Forcefield Deactivated";
+    }
+  }
+  return;
 }

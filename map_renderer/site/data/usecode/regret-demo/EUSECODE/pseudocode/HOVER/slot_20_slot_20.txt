@@ -282,104 +282,106 @@ function hover_slot_20() /* entry=2576 class_id=0x0a0e slot=0x20 */
         /* pop_result */
         return;
       }
-      local_17 = (arg_12 - local_27);
-      local_19 = (arg_14 - local_29);
-      local_21 = (arg_16 - local_30);
-      local_11 = 0;
-      local_13 = 0;
-      local_15 = 0;
-      if ((local_21 < 4) && (local_21 > -4)) {
-        /* word_to_dword */
-        /* pop_result */
-        return;
-      }
-      if (local_17) {
-        local_40 = (local_40 + local_52);
-        /* word_to_dword */
-        if (local_40 > 0x0fa0) {
+      else {
+        local_17 = (arg_12 - local_27);
+        local_19 = (arg_14 - local_29);
+        local_21 = (arg_16 - local_30);
+        local_11 = 0;
+        local_13 = 0;
+        local_15 = 0;
+        if ((local_21 < 4) && (local_21 > -4)) {
           /* word_to_dword */
-          local_40 = (local_40 - 0x0fa0);
-          local_11 = 4;
-          if (local_17 < 0) {
-            local_11 = -4;
+          /* pop_result */
+          return;
+        }
+        else if (local_17) {
+          local_40 = (local_40 + local_52);
+          /* word_to_dword */
+          if (local_40 > 0x0fa0) {
+            /* word_to_dword */
+            local_40 = (local_40 - 0x0fa0);
+            local_11 = 4;
+            if (local_17 < 0) {
+              local_11 = -4;
+            }
           }
         }
-      }
-      if (local_19) {
-        local_44 = (local_44 + local_56);
-        /* word_to_dword */
-        if (local_44 > 0x0fa0) {
+        if (local_19) {
+          local_44 = (local_44 + local_56);
           /* word_to_dword */
-          local_44 = (local_44 - 0x0fa0);
-          local_13 = 4;
-          if (local_19 < 0) {
-            local_13 = -4;
+          if (local_44 > 0x0fa0) {
+            /* word_to_dword */
+            local_44 = (local_44 - 0x0fa0);
+            local_13 = 4;
+            if (local_19 < 0) {
+              local_13 = -4;
+            }
           }
         }
-      }
-      local_15 = 4;
-      if (local_21 < 0) {
-        local_15 = -4;
-      }
-      local_07 = 0;
-      /* loopscr */
-      /* loop */
-      while (condition) {
-        if (Item.getShape(local_23) != NUMBERS) {
-          if (local_23 < 0x00ff) {
-            local_66 = local_23;
-            if (Item.getQHi(local_66)) {
-              suspend;
+        local_15 = 4;
+        if (local_21 < 0) {
+          local_15 = -4;
+        }
+        local_07 = 0;
+        /* loopscr */
+        /* loop */
+        while (condition) {
+          if (Item.getShape(local_23) != NUMBERS) {
+            if (local_23 < 0x00ff) {
+              local_66 = local_23;
+              if (Item.getQHi(local_66)) {
+                suspend;
+              }
+              else {
+                local_07 = (1 + local_07);
+              }
             }
             else {
               local_07 = (1 + local_07);
             }
           }
-          else {
-            local_07 = (1 + local_07);
+        }
+        local_27 = (local_27 + local_11);
+        local_29 = (local_29 + local_13);
+        local_30 = (local_30 + local_15);
+        local_05 = local_27;
+        local_03 = local_29;
+        local_01 = local_30;
+        if (udioProcess.playSFXCru(local_25) == 0) {
+          local_09 = 1;
+          while (local_09 <= local_07) {
+            local_23 = Item.getEtherealTop();
+            local_09 = (1 + local_09);
           }
         }
-      }
-      local_27 = (local_27 + local_11);
-      local_29 = (local_29 + local_13);
-      local_30 = (local_30 + local_15);
-      local_05 = local_27;
-      local_03 = local_29;
-      local_01 = local_30;
-      if (udioProcess.playSFXCru(local_25) == 0) {
-        local_09 = 1;
-        while (local_09 <= local_07) {
-          local_23 = Item.getEtherealTop();
-          local_09 = (1 + local_09);
+        else if (Item.getQHi(0, 1, local_05, local_25)) {
+          local_09 = 1;
+          while (local_09 <= local_07) {
+            local_23 = Item.getEtherealTop();
+            local_09 = (1 + local_09);
+          }
         }
-      }
-      else if (Item.getQHi(0, 1, local_05, local_25)) {
-        local_09 = 1;
-        while (local_09 <= local_07) {
-          local_23 = Item.getEtherealTop();
-          local_09 = (1 + local_09);
+        else {
+          local_09 = 1;
+          while (local_09 <= local_07) {
+            local_23 = Item.getEtherealTop();
+            local_09 = (1 + local_09);
+          }
+          if (Item.hurl(local_25) & 16) {
+            /* bit_not */
+            /* word_to_dword */
+            /* pop_result */
+            return;
+          }
+          local_27 = (local_27 - local_11);
+          local_29 = (local_29 - local_13);
+          local_30 = (local_30 - local_15);
+          spawn FREE.slot_3b(pid, 10, 0x00000000);
+          suspend;
         }
-      }
-      else {
-        local_09 = 1;
-        while (local_09 <= local_07) {
-          local_23 = Item.getEtherealTop();
-          local_09 = (1 + local_09);
-        }
-        if (Item.hurl(local_25) & 16) {
-          /* bit_not */
-          /* word_to_dword */
-          /* pop_result */
-          return;
-        }
-        local_27 = (local_27 - local_11);
-        local_29 = (local_29 - local_13);
-        local_30 = (local_30 - local_15);
-        spawn FREE.slot_3b(pid, 10, 0x00000000);
+        spawn FREE.slot_3b(pid, 1, 0x00000000);
         suspend;
       }
-      spawn FREE.slot_3b(pid, 1, 0x00000000);
-      suspend;
     }
   }
   return;

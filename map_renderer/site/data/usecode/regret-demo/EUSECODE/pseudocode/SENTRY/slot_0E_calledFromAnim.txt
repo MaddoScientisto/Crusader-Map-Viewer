@@ -1,47 +1,28 @@
 function sentry_calledFromAnim() /* entry=463 class_id=0x01cd slot=0x0e */
 {
-  entry:
-    set_info(0x021a, *(arg_06));
-    process_exclude();
-    local_02 = *(arg_06);
-    local_04 = Actor.getDefaultActivity2(local_02);
-    local_06 = Item.andStatus(local_02);
-    if (local_06 != 13) || (local_06 == 8) goto block_025d;
-
-  block_021c:
+  set_info(0x021a, *(arg_06));
+  process_exclude();
+  local_02 = *(arg_06);
+  local_04 = Actor.getDefaultActivity2(local_02);
+  local_06 = Item.andStatus(local_02);
+  if ((local_06 == 13) || (local_06 == 8)) {
     WALLGUN.slot_40(0, 6, local_04, local_04, arg_06);
     WALLGUN.slot_3f(retval, local_04, arg_06);
     WALLGUN.slot_3e(retval, local_04, arg_06);
-    goto block_030e;
-
-  block_025d:
+    return;
+  }
+  else {
     set_info(0x00f0, 0);
-
-  block_025d_selector_00:
-    /* loop_selector local_08 in nearby_items(shape=0x04e7, origin=local_02) */
-
-  block_0279:
-    if !condition goto block_02be;
-
-  block_027c:
-    if Intrinsic000D(local_02) != IntrinsicReturn0(local_08) goto block_02ba;
-
-  block_0292:
-    if Item.getMapArray(local_08) == 0 goto block_02ba;
-
-  block_02a1:
-    spawn TRIGGER.slot_20(pid, 0, local_08, local_08);
-    suspend;
-    goto block_02be;
-
-  block_02ba:
-    goto block_0279;
-
-  block_02be:
+    for local_08 in nearby_items(shape=0x04e7, origin=local_02) {
+      if (Intrinsic000D(local_02) == IntrinsicReturn0(local_08)) {
+        if (Item.getMapArray(local_08) != 0) {
+          spawn TRIGGER.slot_20(pid, 0, local_08, local_08);
+          suspend;
+        }
+      }
+    }
     spawn ITEM.slot_2a(pid, 1, 2, local_02);
     suspend;
-
-  block_030e:
-    return;
-
+  }
+  return;
 }

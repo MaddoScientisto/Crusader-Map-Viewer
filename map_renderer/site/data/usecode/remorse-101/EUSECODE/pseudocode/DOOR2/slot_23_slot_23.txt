@@ -1,13 +1,10 @@
 function door2_slot_23() /* entry=2569 class_id=0x0a07 slot=0x23 */
 {
-  entry:
-    set_info(0x021b, 0);
-    if !(Item.getStatus(arg_06) & 4) goto block_0515;
-
-  block_0512:
-    goto block_065b;
-
-  block_0515:
+  set_info(0x021b, 0);
+  if (Item.getStatus(arg_06) & 4) {
+    return;
+  }
+  else {
     /* create_list */
     /* free_local_list */
     local_02 = 0x0107;
@@ -15,46 +12,30 @@ function door2_slot_23() /* entry=2569 class_id=0x0a07 slot=0x23 */
     /* free_stack_list */
     local_08 = retval;
     local_04 = (local_08 - 1);
-
-  block_0559:
-    if local_04 == 0 goto block_0654;
-
-  block_0561:
-    FREE.slot_2d((Item.getZ(arg_06) - 8), Item.getY(arg_06), Item.getX(arg_06), Item.getFrame(arg_06), local_02, local_04, list_element(size=0x2), *(arg_06));
-    if !retval goto block_05b8;
-
-  block_059e:
-    spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
-    suspend;
-    goto block_064a;
-
-  block_05b8:
-    local_04 = (1 + local_04);
-    local_04 = (1 + local_04);
-
-  block_05da:
-    while (local_04 < (local_08 + 1)) {
-      spawn FREE.waitNTimerTicks(local_02, local_04, pid, 5, 0x00000000);
-      suspend;
-      local_04 = (1 + local_04);
+    while (local_04 != 0) {
+      FREE.slot_2d((Item.getZ(arg_06) - 8), Item.getY(arg_06), Item.getX(arg_06), Item.getFrame(arg_06), local_02, local_04, list_element(size=0x2), *(arg_06));
+      if (retval) {
+        spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+        suspend;
+      }
+      else {
+        local_04 = (1 + local_04);
+        local_04 = (1 + local_04);
+        while (local_04 < (local_08 + 1)) {
+          spawn FREE.waitNTimerTicks(local_02, local_04, pid, 5, 0x00000000);
+          suspend;
+          local_04 = (1 + local_04);
+        }
+        /* word_to_dword */
+        /* pop_result */
+        return;
+      }
+      local_04 = (local_04 - 1);
     }
-
-  block_0643:
     /* word_to_dword */
     /* pop_result */
-    goto block_065b;
-
-  block_064a:
-    local_04 = (local_04 - 1);
-    goto block_0559;
-
-  block_0654:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_065b;
-
-  block_065b:
-    /* free_local_list */
     return;
-
+  }
+  /* free_local_list */
+  return;
 }

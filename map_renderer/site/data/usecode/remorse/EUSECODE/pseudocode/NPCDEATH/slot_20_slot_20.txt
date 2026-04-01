@@ -26,86 +26,51 @@ function npcdeath_slot_20() /* entry=2590 class_id=0x0a1c slot=0x20 */
     flipIt, /* [BP-34h] type=0x62 */
     newType; /* [BP-36h] type=0x69 */
 
-  entry:
-    set_info(0x0205, 0);
-    if Actor.isDead(arg_06) goto block_0116;
-
-  block_0110:
-    goto block_132f;
-
-  block_0116:
+  set_info(0x0205, 0);
+  if (!Actor.isDead(arg_06)) {
+    return;
+  }
+  else {
     while (Actor.NPCGetField0x59Flag1_0AB(arg_06)) {
       spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
       suspend;
     }
-
-  block_014e:
     n = ref;
     NpcContents = 0;
-
-  block_014e_selector_00:
-    /* loop_selector deathBox in nearby_items(shape=DEATHBOX, origin=n) */
-
-  block_0178:
-    if !condition goto block_034f;
-
-  block_017b:
-    if link != Item.getQLo(deathBox) goto block_034b;
-
-  block_0190:
-    if Item.getMapArray(deathBox) == 0 goto block_01d0;
-
-  block_01a2:
-    spawn TRIGGER.slot_20(pid, 0, deathBox, deathBox);
-    suspend;
-    goto block_034f;
-
-  block_01cd:
-    goto block_034b;
-
-  block_01d0:
-    param = Item.getQHi(deathBox);
-    hits = Item.getNPCNum(deathBox);
-    if param != 0 goto block_01f7;
-
-  block_01f4:
-    goto block_031c;
-
-  block_01f7:
-    if ((((param == 1) || (param == 2)) || (param == 3)) || (param == 4)) {
-      if (hits) {
-      }
-      t = Item.getShape(arg_06);
-      if ((((((t == 0x0576) || (t == 0x0596)) || (t == 0x058f)) || (t == 0x04d9)) || (t == 0x03ac)) || (t == 0x059c)) {
-        if (t == 0x04d9) {
+    for deathBox in nearby_items(shape=DEATHBOX, origin=n) {
+      if (link == Item.getQLo(deathBox)) {
+        if (Item.getMapArray(deathBox) != 0) {
+          spawn TRIGGER.slot_20(pid, 0, deathBox, deathBox);
+          suspend;
+        }
+        else {
+          param = Item.getQHi(deathBox);
+          hits = Item.getNPCNum(deathBox);
+          if (param == 0) {
+          }
+          else if ((((param == 1) || (param == 2)) || (param == 3)) || (param == 4)) {
+            if (hits) {
+            }
+            t = Item.getShape(arg_06);
+            if ((((((t == 0x0576) || (t == 0x0596)) || (t == 0x058f)) || (t == 0x04d9)) || (t == 0x03ac)) || (t == 0x059c)) {
+              if (t == 0x04d9) {
+              }
+            }
+            NpcContents = 1;
+          }
+          spawn TRIGGER.slot_20(pid, (0x0080 + 0), deathBox, deathBox);
+          suspend;
         }
       }
-      NpcContents = 1;
     }
-
-  block_031c:
-    spawn TRIGGER.slot_20(pid, (0x0080 + 0), deathBox, deathBox);
-    suspend;
-    goto block_034f;
-
-  block_034b:
-    goto block_0178;
-
-  block_034f:
     nx = Item.getX(n);
     ny = Item.getY(n);
     nz = Item.getZ(n);
     dir = (Actor.getDir(n) / 2);
-    if (Item.getShape(n) != 0x058f) || (Item.getShape(n) == 0x059c) goto block_03be;
-
-  block_03aa:
-    goto block_132f;
-
-  block_03bb:
-    goto block_0f51;
-
-  block_03be:
-    if (Item.getShape(n) == npcdeath_shape_02fd) {
+    if ((Item.getShape(n) == 0x058f) || (Item.getShape(n) == 0x059c)) {
+      return;
+    }
+    else if (Item.getShape(n) == npcdeath_shape_02fd) {
       newType = 0x0339;
       if (dir == 4) {
         newDir = 2;
@@ -441,124 +406,64 @@ function npcdeath_slot_20() /* entry=2590 class_id=0x0a1c slot=0x20 */
       spawn FREE.waitNTimerTicks(pid, 0x012c, 0x00000000);
       suspend;
     }
-
-  block_0f51:
     NPCDEATH.slot_21(deadGuy, n);
-    if !Intrinsic0BB(nz, ny, nx, newType) goto block_0fa2;
-
-  block_0f8e:
-    goto block_112b;
-
-  block_0fa2:
-    if !Intrinsic0BB(nz, ny, (nx - 16), newType) goto block_0fd1;
-
-  block_0fba:
-    goto block_112b;
-
-  block_0fd1:
-    if !Intrinsic0BB(nz, (ny - 16), nx, newType) goto block_1000;
-
-  block_0fe9:
-    goto block_112b;
-
-  block_1000:
-    if !Intrinsic0BB(nz, (ny + 16), nx, newType) goto block_102f;
-
-  block_1018:
-    goto block_112b;
-
-  block_102f:
-    if !Intrinsic0BB(nz, ny, (nx + 16), newType) goto block_105e;
-
-  block_1047:
-    goto block_112b;
-
-  block_105e:
-    if !Intrinsic0BB(nz, ny, (nx - 32), newType) goto block_108d;
-
-  block_1076:
-    goto block_112b;
-
-  block_108d:
-    if !Intrinsic0BB(nz, (ny - 32), nx, newType) goto block_10bc;
-
-  block_10a5:
-    goto block_112b;
-
-  block_10bc:
-    if !Intrinsic0BB(nz, (ny + 32), nx, newType) goto block_10eb;
-
-  block_10d4:
-    goto block_112b;
-
-  block_10eb:
-    if !Intrinsic0BB(nz, ny, (nx + 32), newType) goto block_111a;
-
-  block_1103:
-    goto block_112b;
-
-  block_112b:
-    if !flipIt goto block_1141;
-
-  block_1133:
-    ITEM.slot_23(32, deadGuy);
-
-  block_1141:
+    if (Intrinsic0BB(nz, ny, nx, newType)) {
+    }
+    else if (Intrinsic0BB(nz, ny, (nx - 16), newType)) {
+    }
+    else if (Intrinsic0BB(nz, (ny - 16), nx, newType)) {
+    }
+    else if (Intrinsic0BB(nz, (ny + 16), nx, newType)) {
+    }
+    else if (Intrinsic0BB(nz, ny, (nx + 16), newType)) {
+    }
+    else if (Intrinsic0BB(nz, ny, (nx - 32), newType)) {
+    }
+    else if (Intrinsic0BB(nz, (ny - 32), nx, newType)) {
+    }
+    else if (Intrinsic0BB(nz, (ny + 32), nx, newType)) {
+    }
+    else if (Intrinsic0BB(nz, ny, (nx + 32), newType)) {
+    }
+    if (flipIt) {
+      ITEM.slot_23(32, deadGuy);
+    }
     NPCDEATH.slot_22(deadGuy, arg_06);
-    if !Game.isViolenceEnabled() goto block_1299;
-
-  block_116c:
-    if !spillBlood goto block_1299;
-
-  block_1174:
-    NPC.slot_20(arg_06);
-    if !retval goto block_1299;
-
-  block_1184:
-    FREE.slot_20(100);
-    if retval <= 50 goto block_121b;
-
-  block_119a:
-    counter = 0;
-
-  block_11d0:
-    while (counter <= 9) {
-      spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
-      suspend;
-      counter = (1 + counter);
+    if (Game.isViolenceEnabled()) {
+      if (spillBlood) {
+        NPC.slot_20(arg_06);
+        if (retval) {
+          FREE.slot_20(100);
+          if (retval > 50) {
+            counter = 0;
+            while (counter <= 9) {
+              spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+              suspend;
+              counter = (1 + counter);
+            }
+          }
+          else {
+            counter = 10;
+            while (counter <= 19) {
+              spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+              suspend;
+              counter = (1 + counter);
+            }
+          }
+        }
+      }
     }
-
-  block_1218:
-    goto block_1299;
-
-  block_121b:
-    counter = 10;
-
-  block_1251:
-    while (counter <= 19) {
-      spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
-      suspend;
-      counter = (1 + counter);
+    if (spillOil) {
+      NPC.slot_20(arg_06);
+      if (retval) {
+        counter = 20;
+        while (counter <= 29) {
+          spawn FREE.waitNTimerTicks(pid, 15, 0x00000000);
+          suspend;
+          counter = (1 + counter);
+        }
+      }
     }
-
-  block_1299:
-    if !spillOil goto block_132f;
-
-  block_12a1:
-    NPC.slot_20(arg_06);
-    if !retval goto block_132f;
-
-  block_12b1:
-    counter = 20;
-
-  block_12e7:
-    while (counter <= 29) {
-      spawn FREE.waitNTimerTicks(pid, 15, 0x00000000);
-      suspend;
-      counter = (1 + counter);
-    }
-
-  block_132f:
-    return;
-
+  }
+  return;
 }

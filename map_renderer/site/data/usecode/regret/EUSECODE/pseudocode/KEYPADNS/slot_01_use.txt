@@ -1,27 +1,27 @@
 function keypadns_use() /* entry=1101 class_id=0x044b slot=0x01 */
 {
-  entry:
-    set_info(0x0207, *(arg_06));
-    process_exclude();
-    if (Actor.getMap(&global[0x001e]) != 26) && (Item.getQLo(arg_06) == 0) goto block_03a3;
-
-  block_018e:
+  set_info(0x0207, *(arg_06));
+  process_exclude();
+  if ((Actor.getMap(&global[0x001e]) == 26) && (Item.getQLo(arg_06) == 0)) {
     /* free_local_string */
     local_06 = "Cheaters Menu^_____________^^Select a mission^number (1-10)^and Col. Shepherd^will assign it to you.";
     local_02 = KeypadGump.showKeypad(0);
-    if local_02 <= 10 goto block_0219;
-
-  block_0215:
-    local_02 = 10;
-
-  block_0219:
+    if (local_02 > 10) {
+      local_02 = 10;
+    }
     /* pop_global */
-    if !local_02 goto block_022a;
-
-  block_0224:
-    /* pop_global */
-
-  block_022a:
+    if (local_02) {
+      /* pop_global */
+    }
+    /* concat */
+    /* concat */
+    /* str_to_ptr */
+    /* free_stack_string */
+    spawn FREE.slot_3b("Wow! Mission ", UCMachine.numToStr(local_02), pid, 120, 0x00000000);
+    suspend;
+    FREE.slot_3c(0x0200, *(arg_06));
+    spawn FREE.slot_3b(pid, 30, 0x00000000);
+    suspend;
     if (global[0x000f] == 4) {
       /* str_to_ptr */
       /* free_stack_string */
@@ -56,69 +56,43 @@ function keypadns_use() /* entry=1101 class_id=0x044b slot=0x01 */
       /* str_to_ptr */
       /* free_stack_string */
     }
-
-  block_039c:
-    goto block_051a;
-
-  block_03a3:
-    if (Actor.getMap(((Actor.getMap(&global[0x001e]) != 25) && (Item.getQLo(arg_06) == 1)), &global[0x001e]) == 26) && (Item.getQLo(arg_06) == 1) goto block_048c;
-
-  block_03db:
+    return;
+  }
+  else if ((Actor.getMap(((Actor.getMap(&global[0x001e]) == 25) && (Item.getQLo(arg_06) == 1)), &global[0x001e]) == 26) && (Item.getQLo(arg_06) == 1)) {
     /* free_local_string */
     local_06 = "VIDEO PLAYER^_____________^^Mission video 0-72^Mission MVAs 73-89^Game Flicks  90-102";
     local_02 = KeypadGump.showKeypad(0);
-    if local_02 != 0 goto block_0456;
-
-  block_0453:
-    goto block_051a;
-
-  block_0456:
-    if local_02 <= 102 goto block_0468;
-
-  block_0462:
-    goto block_051a;
-
-  block_0465:
-    goto block_047c;
-
-  block_0468:
-    spawn FLICTEST.slot_20(pid, local_02, local_04);
-    suspend;
-
-  block_047c:
-    goto block_051a;
-
-  block_048c:
-    if Item.getMapArray(arg_06) == 0 goto block_051a;
-
-  block_049b:
-    local_07 = (Item.getStatus(arg_06) & 4);
-    if local_07 != 0 goto block_04ff;
-
-  block_04b1:
-    if !World.getAlertActive() goto block_04ec;
-
-  block_04b9:
-    spawn FREE.slot_21(pid, 0x0184, 0x00000000);
-    suspend;
-    spawn FREE.slot_21(pid, 0x0181, 0x00000000);
-    suspend;
-    goto block_051a;
-
-  block_04ec:
-    spawn KEYPAD.slot_20(pid, arg_06);
-    suspend;
-    goto block_0517;
-
-  block_04ff:
-    spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
-    suspend;
-
-  block_0517:
-    goto block_051a;
-
-  block_051a:
-    /* free_local_string */
+    if (local_02 == 0) {
+      return;
+    }
+    if (local_02 > 102) {
+      return;
+    }
+    else {
+      spawn FLICTEST.slot_20(pid, local_02, local_04);
+      suspend;
+    }
     return;
-
+  }
+  else if (Item.getMapArray(arg_06) != 0) {
+    local_07 = (Item.getStatus(arg_06) & 4);
+    if (local_07 == 0) {
+      if (World.getAlertActive()) {
+        spawn FREE.slot_21(pid, 0x0184, 0x00000000);
+        suspend;
+        spawn FREE.slot_21(pid, 0x0181, 0x00000000);
+        suspend;
+        return;
+      }
+      spawn KEYPAD.slot_20(pid, arg_06);
+      suspend;
+    }
+    else {
+      spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
+      suspend;
+    }
+    return;
+  }
+  /* free_local_string */
+  return;
 }

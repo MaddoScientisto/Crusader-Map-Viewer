@@ -1,13 +1,10 @@
 function litewall_slot_21() /* entry=2578 class_id=0x0a10 slot=0x21 */
 {
-  entry:
-    set_info(0x0001, *(arg_06));
-    if !(global[0x0006]) goto block_021d;
-
-  block_021a:
-    goto block_031a;
-
-  block_021d:
+  set_info(0x0001, *(arg_06));
+  if (global[0x0006]) {
+    return;
+  }
+  else {
     local_02 = arg_10;
     local_06 = 0;
     local_15 = 21;
@@ -15,45 +12,33 @@ function litewall_slot_21() /* entry=2578 class_id=0x0a10 slot=0x21 */
     local_19 = 3;
     local_21 = 48;
     local_23 = 49;
-    if ((Item.andStatus(local_02) != 3) || (Item.andStatus(local_02) == 48)) || (Item.andStatus(local_02) == 49) goto block_031a;
-
-  block_0269:
-    /* loopscr */
-    /* loopscr */
-    /* loop */
-
-  block_0286:
-    while (condition) {
-      /* create_list */
-      /* append_list */
-      /* free_local_list */
-      local_08 = local_04;
-      FREE.slot_29(local_08, local_02, local_04);
-      if (retval < local_15) {
-        FREE.slot_29(local_02, local_04);
-        local_15 = retval;
-        local_06 = local_04;
+    if (((Item.andStatus(local_02) == 3) || (Item.andStatus(local_02) == 48)) || (Item.andStatus(local_02) == 49)) {
+      /* loopscr */
+      /* loopscr */
+      /* loop */
+      while (condition) {
+        /* create_list */
+        /* append_list */
+        /* free_local_list */
+        local_08 = local_04;
+        FREE.slot_29(local_08, local_02, local_04);
+        if (retval < local_15) {
+          FREE.slot_29(local_02, local_04);
+          local_15 = retval;
+          local_06 = local_04;
+        }
+      }
+      if ((local_06 != 0) && (local_15 <= 2)) {
+        /* pop_global */
+        while (true) {
+          foreach_list local_04 -> block_02f1;
+          spawn LITEWALL.slot_20(local_04, arg_06);
+        }
+        spawn NPC.slot_2d(pid, Item.andStatus(local_06, local_02), local_06, local_02);
+        suspend;
       }
     }
-
-  block_02be:
-    if (local_06 == 0) && (local_15 <= 2) goto block_031a;
-
-  block_02ce:
-    /* pop_global */
-
-  block_02da:
-    while (true) {
-      foreach_list local_04 -> block_02f1;
-      spawn LITEWALL.slot_20(local_04, arg_06);
-    }
-
-  block_02f1:
-    spawn NPC.slot_2d(pid, Item.andStatus(local_06, local_02), local_06, local_02);
-    suspend;
-
-  block_031a:
-    /* free_local_list */
-    return;
-
+  }
+  /* free_local_list */
+  return;
 }

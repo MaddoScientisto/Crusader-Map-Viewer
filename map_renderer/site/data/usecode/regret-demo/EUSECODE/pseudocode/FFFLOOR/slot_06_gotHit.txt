@@ -11,11 +11,13 @@ function fffloor_gotHit() /* entry=311 class_id=0x0135 slot=0x06 */
       if (Item.getFrame(arg_06) == 1) {
         return;
       }
-      FREE.slot_20(pid, 8);
-      spawn NPC.slot_2f(retval, *(arg_06), local_02);
-      suspend;
-      spawn FREE.slot_3b(pid, 2, 0x00000000);
-      suspend;
+      else {
+        FREE.slot_20(pid, 8);
+        spawn NPC.slot_2f(retval, *(arg_06), local_02);
+        suspend;
+        spawn FREE.slot_3b(pid, 2, 0x00000000);
+        suspend;
+      }
     }
   }
   return;

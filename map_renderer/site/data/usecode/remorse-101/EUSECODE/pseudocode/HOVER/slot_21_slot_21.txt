@@ -1,116 +1,72 @@
 function hover_slot_21() /* entry=2575 class_id=0x0a0d slot=0x21 */
 {
-  entry:
-    set_info(1, 0);
-    local_19 = arg_10;
-    local_02 = Ultima8Engine.clrAlertActive(local_19);
-    local_10 = local_02;
-    local_04 = (local_02 & 15);
-    local_06 = local_04;
-
-  block_0acf:
-    if !(1) goto block_0cda;
-
-  block_0ad4:
-    if (Item.getStatus(local_19) & 0x1000) != 0 goto block_0b0a;
-
-  block_0ae7:
-    spawn HOVER.slot_23(pid, 1, arg_10, arg_06);
-    suspend;
-    goto block_0cda;
-
-  block_0b0a:
-    local_12 = Egg.getEggXRange(local_19);
-    local_14 = -1;
-
-  block_0b0a_selector_00:
-    /* loop_selector local_21 in nearby_items(shape=NUMBERS, origin=arg_10) */
-
-  block_0b2f:
-    if !condition goto block_0b89;
-
-  block_0b32:
-    if Item.getFrame(local_21) != local_06 goto block_0b85;
-
-  block_0b41:
-    if (local_12 != 0) || (local_12 == Egg.getEggXRange(local_21)) goto block_0b85;
-
-  block_0b56:
-    local_14 = Item.getX(local_21);
-    local_16 = Item.getY(local_21);
-    local_17 = Item.getZ(local_21);
-    local_08 = Ultima8Engine.clrAlertActive(local_21);
-    goto block_0b89;
-
-  block_0b85:
-    goto block_0b2f;
-
-  block_0b89:
-    if local_14 != -1 goto block_0bd0;
-
-  block_0b93:
-    if local_06 != local_04 goto block_0bb4;
-
-  block_0b9b:
-    /* bit_not */
-    goto block_0cda;
-
-  block_0bb4:
-    local_06 = local_04;
-    local_02 = (local_02 & 0x00f0);
-    goto block_0acf;
-
-  block_0bd0:
-    spawn HOVER.slot_20(pid, local_17, local_16, local_14, arg_10, arg_06);
-    suspend;
-    /* dword_to_word */
-    if process_result != 1 goto block_0bff;
-
-  block_0bf2:
-    goto block_0cda;
-
-  block_0bff:
-    spawn HOVER.slot_24(pid, local_06, arg_10, arg_06);
-    suspend;
-    if (Item.getStatus(local_19) & 0x1000) != 0 goto block_0c4b;
-
-  block_0c28:
-    spawn HOVER.slot_23(pid, 1, arg_10, arg_06);
-    suspend;
-    goto block_0cda;
-
-  block_0c4b:
-    if !(local_02 & 0x0080) goto block_0c6e;
-
-  block_0c54:
-    spawn TRIGGER.slot_2a(pid, (0 + 0x0080), local_21, arg_06);
-    suspend;
-
-  block_0c6e:
-    if local_08 == 0 goto block_0c90;
-
-  block_0c76:
-    spawn FREE.waitNTimerTicks(pid, (local_08 * 10), 0x00000000);
-    suspend;
-
-  block_0c90:
-    local_02 = Ultima8Engine.clrAlertActive(local_19);
-    if (local_02 & 15) != local_06 goto block_0cb3;
-
-  block_0ca6:
-    local_06 = ((local_06 + 1) & 15);
-    goto block_0cc2;
-
-  block_0cb3:
-    local_04 = (local_02 & 15);
-    local_06 = local_04;
-    local_10 = local_02;
-
-  block_0cc2:
-    local_02 = (local_02 & 0x00f0);
-    goto block_0acf;
-
-  block_0cda:
-    return;
-
+  set_info(1, 0);
+  local_19 = arg_10;
+  local_02 = Ultima8Engine.clrAlertActive(local_19);
+  local_10 = local_02;
+  local_04 = (local_02 & 15);
+  local_06 = local_04;
+  while (1) {
+    if ((Item.getStatus(local_19) & 0x1000) == 0) {
+      spawn HOVER.slot_23(pid, 1, arg_10, arg_06);
+      suspend;
+      return;
+    }
+    else {
+      local_12 = Egg.getEggXRange(local_19);
+      local_14 = -1;
+      for local_21 in nearby_items(shape=NUMBERS, origin=arg_10) {
+        if (Item.getFrame(local_21) == local_06) {
+          if ((local_12 == 0) || (local_12 == Egg.getEggXRange(local_21))) {
+            local_14 = Item.getX(local_21);
+            local_16 = Item.getY(local_21);
+            local_17 = Item.getZ(local_21);
+            local_08 = Ultima8Engine.clrAlertActive(local_21);
+          }
+        }
+      }
+      if (local_14 == -1) {
+        if (local_06 == local_04) {
+          /* bit_not */
+          return;
+        }
+        local_06 = local_04;
+        local_02 = (local_02 & 0x00f0);
+      }
+      spawn HOVER.slot_20(pid, local_17, local_16, local_14, arg_10, arg_06);
+      suspend;
+      /* dword_to_word */
+      if (process_result == 1) {
+        return;
+      }
+      else {
+        spawn HOVER.slot_24(pid, local_06, arg_10, arg_06);
+        suspend;
+        if ((Item.getStatus(local_19) & 0x1000) == 0) {
+          spawn HOVER.slot_23(pid, 1, arg_10, arg_06);
+          suspend;
+          return;
+        }
+        else if (local_02 & 0x0080) {
+          spawn TRIGGER.slot_2a(pid, (0 + 0x0080), local_21, arg_06);
+          suspend;
+        }
+        if (local_08 != 0) {
+          spawn FREE.waitNTimerTicks(pid, (local_08 * 10), 0x00000000);
+          suspend;
+        }
+        local_02 = Ultima8Engine.clrAlertActive(local_19);
+        if ((local_02 & 15) == local_06) {
+          local_06 = ((local_06 + 1) & 15);
+        }
+        else {
+          local_04 = (local_02 & 15);
+          local_06 = local_04;
+          local_10 = local_02;
+        }
+        local_02 = (local_02 & 0x00f0);
+      }
+    }
+  }
+  return;
 }

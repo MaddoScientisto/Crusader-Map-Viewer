@@ -14,111 +14,66 @@ function door3_slot_23() /* entry=2570 class_id=0x0a08 slot=0x23 */
     bool, /* [BP-17h] type=0x62 */
     maxFrame; /* [BP-19h] type=0x69 */
 
-  entry:
-    set_info(0x0207, *(arg_06));
-    /* create_list */
-    /* free_local_list */
-    doorList = 0x0368;
-    /* create_list */
-    /* free_local_list */
-    doorList2 = 0x0369;
-    FREE.slot_3a(0x0352, 0x0354, 0x0355, 0x0353, 0x0356, 0x0357, doorList);
-    /* free_stack_list */
-    maxFrame = retval;
-
-  entry_selector_00:
-    for item in nearby_items(shape=0x0368, origin=arg_06) {
-      door1 = item;
-    }
-
-  block_0c27_selector_00:
-    for item in nearby_items(shape=0x0369, origin=arg_06) {
-      door2 = item;
-    }
-
-  block_0c55:
-    if !(door1 && door2) goto block_0fc4;
-
-  block_0c68:
+  set_info(0x0207, *(arg_06));
+  /* create_list */
+  /* free_local_list */
+  doorList = 0x0368;
+  /* create_list */
+  /* free_local_list */
+  doorList2 = 0x0369;
+  FREE.slot_3a(0x0352, 0x0354, 0x0355, 0x0353, 0x0356, 0x0357, doorList);
+  /* free_stack_list */
+  maxFrame = retval;
+  for item in nearby_items(shape=0x0368, origin=arg_06) {
+    door1 = item;
+  }
+  for item in nearby_items(shape=0x0369, origin=arg_06) {
+    door2 = item;
+  }
+  if (door1 && door2) {
     counter = 1;
-
-  block_0c7c:
-    if counter > (maxFrame - 1) goto block_0fc4;
-
-  block_0c8d:
-    FREE.slot_2d(Item.getZ(door1), Item.getY(door1), Item.getX(door1), 0, doorList, (maxFrame - counter), list_element(size=0x2), door1);
-    if retval goto block_0ccf;
-
-  block_0cc8:
-    nonLegalDoor1 = 1;
-
-  block_0ccf:
-    if !((!bool) && (!nonLegalDoor1)) goto block_0d2e;
-
-  block_0cdf:
-    FREE.slot_2d(Item.getZ(door2), (Item.getY(door2) + 16), Item.getX(door2), 0, doorList2, (maxFrame - counter), list_element(size=0x2), door2);
-    if retval goto block_0d24;
-
-  block_0d1d:
-    nonLegalDoor2 = 1;
-
-  block_0d24:
-    bool = 1;
-    goto block_0d73;
-
-  block_0d2e:
-    FREE.slot_2d(Item.getZ(door2), (Item.getY(door2) + 16), Item.getX(door2), 0, doorList2, (maxFrame - counter), list_element(size=0x2), door2);
-    if retval goto block_0d73;
-
-  block_0d6c:
-    nonLegalDoor2 = 1;
-
-  block_0d73:
-    if !((!nonLegalDoor1) && (!nonLegalDoor2)) goto block_0dc5;
-
-  block_0d83:
-    spawn FREE.slot_32(pid, (5 + counter), 0x00000000);
-    suspend;
-    goto block_0fb7;
-
-  block_0dc5:
-    bool = 0;
-    if !nonLegalDoor2 goto block_0e06;
-
-  block_0e06:
-    if (nonLegalDoor1 != 1) && (nonLegalDoor2 == 0) goto block_0e66;
-
-  block_0e66:
-    counter2 = ((maxFrame - counter) + 1);
-
-  block_0e73:
-    while (counter2 <= (maxFrame - 1)) {
-      if (!bool) {
+    while (counter <= (maxFrame - 1)) {
+      FREE.slot_2d(Item.getZ(door1), Item.getY(door1), Item.getX(door1), 0, doorList, (maxFrame - counter), list_element(size=0x2), door1);
+      if (!retval) {
+        nonLegalDoor1 = 1;
+      }
+      if ((!bool) && (!nonLegalDoor1)) {
+        FREE.slot_2d(Item.getZ(door2), (Item.getY(door2) + 16), Item.getX(door2), 0, doorList2, (maxFrame - counter), list_element(size=0x2), door2);
+        if (!retval) {
+          nonLegalDoor2 = 1;
+        }
         bool = 1;
       }
-      spawn FREE.slot_32(pid, 10, 0x00000000);
-      suspend;
-      counter2 = (1 + counter2);
+      else {
+        FREE.slot_2d(Item.getZ(door2), (Item.getY(door2) + 16), Item.getX(door2), 0, doorList2, (maxFrame - counter), list_element(size=0x2), door2);
+        if (!retval) {
+          nonLegalDoor2 = 1;
+        }
+      }
+      if ((!nonLegalDoor1) && (!nonLegalDoor2)) {
+        spawn FREE.slot_32(pid, (5 + counter), 0x00000000);
+        suspend;
+      }
+      else {
+        bool = 0;
+        counter2 = ((maxFrame - counter) + 1);
+        while (counter2 <= (maxFrame - 1)) {
+          if (!bool) {
+            bool = 1;
+          }
+          spawn FREE.slot_32(pid, 10, 0x00000000);
+          suspend;
+          counter2 = (1 + counter2);
+        }
+        /* word_to_dword */
+        /* pop_result */
+        return;
+      }
+      counter = (1 + counter);
     }
-
-  block_0f73:
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ffa;
-
-  block_0fb7:
-    counter = (1 + counter);
-    goto block_0c7c;
-
-  block_0fc4:
-    set_info(1, 0);
-    /* word_to_dword */
-    /* pop_result */
-    goto block_0ffa;
-
-  block_0ffa:
-    /* free_local_list */
-    /* free_local_list */
-    return;
-
+  }
+  set_info(1, 0);
+  /* word_to_dword */
+  /* pop_result */
+  return;
 }

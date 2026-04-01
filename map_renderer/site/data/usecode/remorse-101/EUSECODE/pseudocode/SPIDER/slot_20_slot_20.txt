@@ -32,27 +32,29 @@ function spider_slot_20() /* entry=2582 class_id=0x0a14 slot=0x20 */
         ITEM.slot_24(0x1000, arg_06);
         return;
       }
-      local_11 = 0;
-      while (local_11 <= 5) {
-        spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      else {
+        local_11 = 0;
+        while (local_11 <= 5) {
+          spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+          suspend;
+          local_11 = (1 + local_11);
+        }
+        local_11 = 1;
+        while (local_11 <= 9) {
+          spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+          suspend;
+          local_11 = (1 + local_11);
+        }
+        while (CameraProcess.setCenterOn(local_04, arg_06) == 0) {
+          spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
+          suspend;
+        }
+        spawn SPIDER.slot_21(pid, local_13, local_04, local_02, local_02);
         suspend;
-        local_11 = (1 + local_11);
-      }
-      local_11 = 1;
-      while (local_11 <= 9) {
-        spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
-        suspend;
-        local_11 = (1 + local_11);
-      }
-      while (CameraProcess.setCenterOn(local_04, arg_06) == 0) {
-        spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
-        suspend;
-      }
-      spawn SPIDER.slot_21(pid, local_13, local_04, local_02, local_02);
-      suspend;
-      if (arg_10 < 99) {
-        ITEM.slot_24(0x1000, arg_06);
-        return;
+        if (arg_10 < 99) {
+          ITEM.slot_24(0x1000, arg_06);
+          return;
+        }
       }
     }
   }

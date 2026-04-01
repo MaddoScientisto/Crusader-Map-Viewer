@@ -12,7 +12,7 @@ function free_slot_28() /* entry=2575 class_id=0x0a0d slot=0x28 */
       if (!(global[0x0002])) {
         return;
       }
-      if (!Ultima8Engine.getUnkCrusaderFlag(&global[0x001e])) {
+      else if (!Ultima8Engine.getUnkCrusaderFlag(&global[0x001e])) {
         /* pop_global */
         spawn FREE.slot_3b(0, pid, 10, 0x00000000);
         suspend;

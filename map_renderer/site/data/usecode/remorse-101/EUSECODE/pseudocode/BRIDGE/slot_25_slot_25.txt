@@ -1,130 +1,63 @@
 function bridge_slot_25() /* entry=2565 class_id=0x0a03 slot=0x25 */
 {
-  entry:
-    set_info(0x021b, *(arg_06));
-    local_06 = 0;
-
-  entry_selector_00:
-    /* loop_selector local_02 in selector_0x42(arg0=0x03a6, arg1=0x0413, arg2=(70 * 32), origin=arg_06) */
-
-  block_056b:
-    if !condition goto block_0593;
-
-  block_056e:
+  set_info(0x021b, *(arg_06));
+  local_06 = 0;
+  for local_02 in selector_0x42(arg0=0x03a6, arg1=0x0413, arg2=(70 * 32), origin=arg_06) {
     local_08 = Item.getQLo(local_02);
-    if local_08 != arg_10 goto block_058f;
-
-  block_0581:
-    local_06 = Item.getQHi(local_02);
-    goto block_0593;
-
-  block_058f:
-    goto block_056b;
-
-  block_0593:
-    if local_06 != 0 goto block_05f8;
-
-  block_059d_selector_00:
-    /* loop_selector local_02 in selector_0x42(arg0=0x0336, arg1=0x0290, arg2=(70 * 32), origin=arg_06) */
-
-  block_05b4:
-    if !condition goto block_05eb;
-
-  block_05b7:
-    if Item.getFrame(arg_06) != 1 goto block_05e7;
-
-  block_05c6:
-    local_08 = Item.getQLo(local_02);
-    if local_08 != arg_10 goto block_05e7;
-
-  block_05d9:
-    local_06 = Item.getQHi(local_02);
-    goto block_05eb;
-
-  block_05e7:
-    goto block_05b4;
-
-  block_05eb:
-    if local_06 != 0 goto block_05f8;
-
-  block_05f5:
-    goto block_087a;
-
-  block_05f8:
-    if local_06 >= arg_10 goto block_0603;
-
-  block_0600:
-    goto block_087a;
-
-  block_0603:
+    if (local_08 == arg_10) {
+      local_06 = Item.getQHi(local_02);
+    }
+  }
+  if (local_06 == 0) {
+    for local_02 in selector_0x42(arg0=0x0336, arg1=0x0290, arg2=(70 * 32), origin=arg_06) {
+      if (Item.getFrame(arg_06) == 1) {
+        local_08 = Item.getQLo(local_02);
+        if (local_08 == arg_10) {
+          local_06 = Item.getQHi(local_02);
+        }
+      }
+    }
+    if (local_06 == 0) {
+      return;
+    }
+  }
+  else if (local_06 < arg_10) {
+    return;
+  }
+  else {
     local_10 = local_06;
     arg_10 = (arg_10 - 1);
-
-  block_060e:
-    if local_10 == arg_10 goto block_06e7;
-
-  block_0616:
-    local_12 = local_10;
-
-  block_0616_selector_00:
-    /* loop_selector local_02 in selector_0x42(arg0=0x03a6, arg1=0x0413, arg2=(70 * 32), origin=arg_06) */
-
-  block_0631:
-    if !condition goto block_0662;
-
-  block_0634:
-    local_08 = Item.getQLo(local_02);
-    if local_08 != local_10 goto block_065e;
-
-  block_0647:
-    /* create_list */
-    /* append_list */
-    /* free_local_list */
-    local_04 = local_02;
-    local_10 = (local_10 - 1);
-    goto block_0662;
-
-  block_065e:
-    goto block_0631;
-
-  block_0662:
-    if local_12 != local_10 goto block_06e4;
-
-  block_066c_selector_00:
-    /* loop_selector local_02 in selector_0x42(arg0=0x0336, arg1=0x0290, arg2=(70 * 32), origin=arg_06) */
-
-  block_0683:
-    if !condition goto block_06c3;
-
-  block_0686:
-    if Item.getFrame(arg_06) != 1 goto block_06bf;
-
-  block_0695:
-    local_08 = Item.getQLo(local_02);
-    if local_08 != local_10 goto block_06bf;
-
-  block_06a8:
-    /* create_list */
-    /* append_list */
-    /* free_local_list */
-    local_04 = local_02;
-    local_10 = (local_10 - 1);
-    goto block_06c3;
-
-  block_06bf:
-    goto block_0683;
-
-  block_06c3:
-    if local_12 != local_10 goto block_06e4;
-
-  block_06cd:
-    spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
-    suspend;
-
-  block_06e4:
-    goto block_060e;
-
-  block_06ed:
+    while (local_10 != arg_10) {
+      local_12 = local_10;
+      for local_02 in selector_0x42(arg0=0x03a6, arg1=0x0413, arg2=(70 * 32), origin=arg_06) {
+        local_08 = Item.getQLo(local_02);
+        if (local_08 == local_10) {
+          /* create_list */
+          /* append_list */
+          /* free_local_list */
+          local_04 = local_02;
+          local_10 = (local_10 - 1);
+        }
+      }
+      if (local_12 == local_10) {
+        for local_02 in selector_0x42(arg0=0x0336, arg1=0x0290, arg2=(70 * 32), origin=arg_06) {
+          if (Item.getFrame(arg_06) == 1) {
+            local_08 = Item.getQLo(local_02);
+            if (local_08 == local_10) {
+              /* create_list */
+              /* append_list */
+              /* free_local_list */
+              local_04 = local_02;
+              local_10 = (local_10 - 1);
+            }
+          }
+        }
+        if (local_12 == local_10) {
+          spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+          suspend;
+        }
+      }
+    }
     while (true) {
       foreach_list local_02 -> block_07bc;
       if (Item.inFastArea(local_02) == 1) {
@@ -143,8 +76,6 @@ function bridge_slot_25() /* entry=2565 class_id=0x0a03 slot=0x25 */
         }
       }
     }
-
-  block_07c2:
     while (true) {
       foreach_list local_02 -> block_087a;
       if (Item.inFastArea(local_02) == 1) {
@@ -161,9 +92,7 @@ function bridge_slot_25() /* entry=2565 class_id=0x0a03 slot=0x25 */
         }
       }
     }
-
-  block_087a:
-    /* free_local_list */
-    return;
-
+  }
+  /* free_local_list */
+  return;
 }

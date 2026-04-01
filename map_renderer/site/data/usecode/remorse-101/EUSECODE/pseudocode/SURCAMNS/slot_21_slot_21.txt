@@ -1,155 +1,84 @@
 function surcamns_slot_21() /* entry=1224 class_id=0x04c6 slot=0x21 */
 {
-  entry:
-    set_info(0x021b, 0);
-    local_06 = *(arg_06);
-    if !Item.legal_create(0, 0x0471, local_02) goto block_03ba;
-
-  block_03ba:
-    spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
-    suspend;
-
-  block_03ba_selector_00:
-    /* loop_selector local_04 in nearby_items(shape=EVENT_CONTROLLER, origin=arg_06) */
-
-  block_03ea:
-    if !condition goto block_07d2;
-
-  block_03ed:
-    if Actor.getDefaultActivity2(local_04) != Actor.getDefaultActivity2(arg_06) goto block_07ce;
-
-  block_0403:
-    if Actor.getDefaultActivity2(arg_06) != 0x00fe goto block_05f3;
-
-  block_0413:
-    spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
-    suspend;
-    spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
-    suspend;
-
-  block_0413_selector_00:
-    /* loop_selector local_13 in nearby_items(shape=MECH_1, origin=local_04) */
-
-  block_048e:
-    if !condition goto block_04be;
-
-  block_0491:
-    if !Actor.isNPC(local_13) goto block_04ba;
-
-  block_049d:
-    if Actor.GetNPCDataField0x63_00B(local_13) != Actor.getDefaultActivity2(arg_06) goto block_04ba;
-
-  block_04b3:
-    local_15 = local_13;
-    goto block_04be;
-
-  block_04ba:
-    goto block_048e;
-
-  block_04be:
-    if !local_15 goto block_056d;
-
-  block_04c5:
-    local_08 = Item.getX(&global[0x003d]);
-    local_10 = Item.getY(&global[0x003d]);
-    local_11 = Item.getZ(&global[0x003d]);
-    spawn NPC.slot_28(pid, local_15);
-    suspend;
-
-  block_0505:
-    while (Actor.getLastAnimSet() != 1) {
-      spawn FREE.waitNTimerTicks(pid, 3, 0x00000000);
-      suspend;
+  set_info(0x021b, 0);
+  local_06 = *(arg_06);
+  spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
+  suspend;
+  for local_04 in nearby_items(shape=EVENT_CONTROLLER, origin=arg_06) {
+    if (Actor.getDefaultActivity2(local_04) == Actor.getDefaultActivity2(arg_06)) {
+      if (Actor.getDefaultActivity2(arg_06) == 0x00fe) {
+        spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+        suspend;
+        spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+        suspend;
+        for local_13 in nearby_items(shape=MECH_1, origin=local_04) {
+          if (Actor.isNPC(local_13)) {
+            if (Actor.GetNPCDataField0x63_00B(local_13) == Actor.getDefaultActivity2(arg_06)) {
+              local_15 = local_13;
+            }
+          }
+        }
+        if (local_15) {
+          local_08 = Item.getX(&global[0x003d]);
+          local_10 = Item.getY(&global[0x003d]);
+          local_11 = Item.getZ(&global[0x003d]);
+          spawn NPC.slot_28(pid, local_15);
+          suspend;
+          while (Actor.getLastAnimSet() != 1) {
+            spawn FREE.waitNTimerTicks(pid, 3, 0x00000000);
+            suspend;
+          }
+          spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+          suspend;
+        }
+        else {
+          local_08 = Item.getX(&global[0x003d]);
+          local_10 = Item.getY(&global[0x003d]);
+          local_11 = Item.getZ(&global[0x003d]);
+          while (!Item.getNPCNum()) {
+            spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+            suspend;
+          }
+          spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+          suspend;
+        }
+      }
+      else if (Actor.getDefaultActivity2(arg_06) == 0x00fd) {
+        spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
+        suspend;
+        /* str_to_ptr */
+        /* free_stack_string */
+        suspend;
+      }
+      else if (Actor.getDefaultActivity2(arg_06) > 0x00f9) {
+        spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+        suspend;
+        spawn SURCAMNS.slot_22(local_04, arg_06);
+      }
+      else {
+        local_17 = Item.getX(local_04);
+        local_19 = Item.getY(local_04);
+        local_20 = Item.getZ(local_04);
+        spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+        suspend;
+        spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
+        suspend;
+        if (Item.getMapArray(local_04) != 0) {
+          spawn TRIGGER.slot_2a(pid, 0, local_04, arg_06);
+          suspend;
+        }
+        spawn FREE.waitNTimerTicks(pid, 120, 0x00000000);
+        suspend;
+        while (!Item.getNPCNum()) {
+          spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+          suspend;
+        }
+        spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+        suspend;
+      }
     }
-
-  block_052a:
-    spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
-    suspend;
-    goto block_07d2;
-
-  block_056a:
-    goto block_05f0;
-
-  block_056d:
-    local_08 = Item.getX(&global[0x003d]);
-    local_10 = Item.getY(&global[0x003d]);
-    local_11 = Item.getZ(&global[0x003d]);
-
-  block_0591:
-    while (!Item.getNPCNum()) {
-      spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
-      suspend;
-    }
-
-  block_05b4:
-    spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
-    suspend;
-    goto block_07d2;
-
-  block_05f0:
-    goto block_07ce;
-
-  block_05f3:
-    if Actor.getDefaultActivity2(arg_06) != 0x00fd goto block_063b;
-
-  block_0603:
-    spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
-    suspend;
-    /* str_to_ptr */
-    /* free_stack_string */
-    suspend;
-    goto block_07ce;
-
-  block_063b:
-    if Actor.getDefaultActivity2(arg_06) <= 0x00f9 goto block_06aa;
-
-  block_064b:
-    spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
-    suspend;
-    spawn SURCAMNS.slot_22(local_04, arg_06);
-    goto block_07d2;
-
-  block_06a7:
-    goto block_07ce;
-
-  block_06aa:
-    local_17 = Item.getX(local_04);
-    local_19 = Item.getY(local_04);
-    local_20 = Item.getZ(local_04);
-    spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
-    suspend;
-    spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
-    suspend;
-    if Item.getMapArray(local_04) == 0 goto block_0740;
-
-  block_072a:
-    spawn TRIGGER.slot_2a(pid, 0, local_04, arg_06);
-    suspend;
-
-  block_0740:
-    spawn FREE.waitNTimerTicks(pid, 120, 0x00000000);
-    suspend;
-
-  block_0757:
-    while (!Item.getNPCNum()) {
-      spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
-      suspend;
-    }
-
-  block_077a:
-    spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
-    suspend;
-    goto block_07d2;
-
-  block_07ce:
-    goto block_03ea;
-
-  block_07d2:
-    spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
-    suspend;
-    if !local_02 goto block_07f8;
-
-  block_07f8:
-    return;
-
+  }
+  spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
+  suspend;
+  return;
 }
