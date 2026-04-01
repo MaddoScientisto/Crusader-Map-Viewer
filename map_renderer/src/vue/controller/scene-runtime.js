@@ -1,3 +1,9 @@
+import {
+  getHistorySelection,
+  readViewerHistoryState,
+  updateViewerHistory
+} from "../../shared/viewer-history.js";
+
 export function createSceneRuntimeController(deps) {
   const USECODE_STATE_EVENT = "crusader-map-renderer:scene-changed";
   const {
@@ -117,6 +123,8 @@ export function createSceneRuntimeController(deps) {
   } = deps;
 
   let autoBuildTimer = null;
+  let historyRestoreInProgress = false;
+  let historyInitialized = false;
   const VIEWER_PREFERENCES_STORAGE_KEY = "crusader-map-renderer:viewer-preferences";
   const persistedCheckboxes = [
     ["includeEditor", includeEditorCheckbox],
@@ -218,6 +226,22 @@ export function createSceneRuntimeController(deps) {
     const leftVersion = getVersionForGameId(left.game);
     const rightVersion = getVersionForGameId(right.game);
     return Boolean(leftVersion && rightVersion && leftVersion.gameId === rightVersion.gameId);
+  }
+
+  function syncSelectionHistory(selected) {
+    if (!selected) {
+      return;
+    }
+    updateViewerHistory(
+      {
+        game: selected.game,
+        mapId: selected.mapId
+      },
+      {
+        replace: historyRestoreInProgress || !historyInitialized
+      }
+    );
+    historyInitialized = true;
   }
 
   function snapshotViewport(selected = state.current?.selected ?? null) {
@@ -625,6 +649,7 @@ export function createSceneRuntimeController(deps) {
     }
     rememberViewport(selected);
     writeViewerPreferences();
+    syncSelectionHistory(selected);
     window.dispatchEvent(new CustomEvent(USECODE_STATE_EVENT, { detail: { game: selected.game, mapId: selected.mapId } }));
   }
 
@@ -750,6 +775,30 @@ export function createSceneRuntimeController(deps) {
         setStatus(error instanceof Error ? error.message : String(error));
       });
     }, 100);
+  }
+
+  async function restoreHistorySelection() {
+    const historySelection = getHistorySelection(readViewerHistoryState());
+    if (!historySelection) {
+      return;
+    }
+
+    historyRestoreInProgress = true;
+    try {
+      rememberViewport();
+      const selectedVersion = syncVersionSelection(historySelection);
+      writeViewerPreferences();
+      if (!selectedVersion) {
+        return;
+      }
+      const selected = getSelectedMap();
+      if (!selected || currentSelectionMatches(selected)) {
+        return;
+      }
+      await startBuild(selected);
+    } finally {
+      historyRestoreInProgress = false;
+    }
   }
 
   async function loadCatalog() {
@@ -917,6 +966,11 @@ export function createSceneRuntimeController(deps) {
         return;
       }
       scheduleAutoBuild();
+    });
+    window.addEventListener("popstate", () => {
+      restoreHistorySelection().catch((error) => {
+        setStatus(error instanceof Error ? error.message : String(error));
+      });
     });
     mapPrevButton.addEventListener("click", () => stepSelectedMap(-1, () => {
       writeViewerPreferences();
@@ -1248,6 +1302,13 @@ export function createSceneRuntimeController(deps) {
     await loadNpcSpawnerData(state.siteConfig);
     applySiteConfig(setReloadState);
     await loadCatalog();
+    const historySelection = getHistorySelection(readViewerHistoryState());
+    if (historySelection) {
+      syncVersionSelection(historySelection);
+      writeViewerPreferences();
+      scheduleAutoBuild();
+      return;
+    }
     if (restoreSelectedMap(viewerPreferences)) {
       scheduleAutoBuild();
       return;

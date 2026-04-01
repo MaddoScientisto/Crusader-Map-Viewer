@@ -1,8 +1,8 @@
 <template>
   <main class="workspace">
     <div class="viewport-tabs">
-      <button :class="['tab', { active: activeTab==='map' }]" @click="activeTab='map'">MAP</button>
-      <button :class="['tab', { active: activeTab==='usecode' }]" @click="activeTab='usecode'">USECODE</button>
+      <button :class="['tab', { active: activeTab==='map' }]" @click="setActiveTab('map')">MAP</button>
+      <button :class="['tab', { active: activeTab==='usecode' }]" @click="setActiveTab('usecode')">USECODE</button>
     </div>
     <div class="workspace-body">
       <div v-show="activeTab==='map'" id="viewport" class="viewport">
@@ -24,12 +24,49 @@
 import TooltipOverlay from "./TooltipOverlay.vue";
 import { nextTick, onMounted, onUnmounted, ref, watch } from "vue";
 import UsecodeViewer from "./UsecodeViewer.vue";
+import { sanitizeUsecodeTarget } from "../../shared/usecode-browser.js";
+import { readViewerHistoryState, updateViewerHistory } from "../../shared/viewer-history.js";
 
 const OPEN_USECODE_TARGET_EVENT = "crusader-map-renderer:open-usecode-target";
-const activeTab = ref("map");
+const activeTab = ref(readViewerHistoryState().tab || "map");
+const lastUsecodeTarget = ref(readViewerHistoryState().usecodeTarget);
+let restoringHistory = false;
 
-function handleOpenUsecodeTarget() {
-  activeTab.value = "usecode";
+function setActiveTab(nextTab, options = {}) {
+  const pushHistory = options.pushHistory !== false;
+  if (nextTab === "usecode" && options.usecodeTarget) {
+    lastUsecodeTarget.value = sanitizeUsecodeTarget(options.usecodeTarget);
+  }
+  activeTab.value = nextTab;
+  if (!pushHistory || restoringHistory) {
+    return;
+  }
+  updateViewerHistory({
+    tab: nextTab,
+    usecodeTarget: nextTab === "usecode" ? lastUsecodeTarget.value : lastUsecodeTarget.value
+  });
+}
+
+function handleOpenUsecodeTarget(event) {
+  const target = sanitizeUsecodeTarget(event.detail);
+  if (target) {
+    lastUsecodeTarget.value = target;
+  }
+  setActiveTab("usecode", { pushHistory: !restoringHistory, usecodeTarget: target });
+}
+
+function restoreHistoryState() {
+  const historyState = readViewerHistoryState();
+  restoringHistory = true;
+  try {
+    lastUsecodeTarget.value = historyState.usecodeTarget || lastUsecodeTarget.value;
+    activeTab.value = historyState.tab || "map";
+    if (activeTab.value === "usecode" && lastUsecodeTarget.value) {
+      window.dispatchEvent(new CustomEvent(OPEN_USECODE_TARGET_EVENT, { detail: lastUsecodeTarget.value }));
+    }
+  } finally {
+    restoringHistory = false;
+  }
 }
 
 watch(activeTab, async (nextTab) => {
@@ -42,10 +79,13 @@ watch(activeTab, async (nextTab) => {
 
 onMounted(() => {
   window.addEventListener(OPEN_USECODE_TARGET_EVENT, handleOpenUsecodeTarget);
+  window.addEventListener("popstate", restoreHistoryState);
+  restoreHistoryState();
 });
 
 onUnmounted(() => {
   window.removeEventListener(OPEN_USECODE_TARGET_EVENT, handleOpenUsecodeTarget);
+  window.removeEventListener("popstate", restoreHistoryState);
 });
 </script>
 

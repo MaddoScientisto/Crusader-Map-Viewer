@@ -527,9 +527,19 @@ select:disabled,
   inset: 16px 16px 16px auto;
   width: min(420px, calc(100% - 32px));
   max-width: min(420px, calc(100% - 32px));
+  overflow: visible;
+  padding: 16px;
+}
+
+.overlay-tooltip-scroll {
+  min-width: 0;
+}
+
+.overlay-tooltip.is-pinned .overlay-tooltip-scroll {
+  max-height: calc(100vh - 64px);
   overflow-y: auto;
   overscroll-behavior: contain;
-  padding: 16px;
+  padding-right: 4px;
 }
 
 .overlay-tooltip[hidden] {
@@ -639,6 +649,102 @@ select:disabled,
   font-weight: 800;
   letter-spacing: 0.08em;
   text-transform: uppercase;
+}
+
+.tooltip-usecode-action {
+  display: inline-flex;
+}
+
+.tooltip-usecode-popover {
+  position: fixed;
+  z-index: 40;
+  max-height: min(420px, 60vh);
+  padding: 12px;
+  border-radius: 14px;
+  background: rgba(12, 16, 24, 0.96);
+  border: 1px solid rgba(138, 202, 221, 0.24);
+  box-shadow: 0 20px 44px rgba(0, 0, 0, 0.32);
+  backdrop-filter: blur(16px);
+}
+
+.tooltip-usecode-popover-header {
+  display: grid;
+  gap: 3px;
+  margin-bottom: 10px;
+}
+
+.tooltip-usecode-popover-title {
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(228, 240, 255, 0.95);
+}
+
+.tooltip-usecode-popover-path {
+  font-size: 0.68rem;
+  color: rgba(164, 186, 214, 0.8);
+  overflow-wrap: anywhere;
+}
+
+.tooltip-usecode-popover-empty {
+  padding: 14px 12px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.04);
+  color: rgba(214, 224, 240, 0.84);
+  font-size: 0.78rem;
+}
+
+.tooltip-usecode-preview {
+  margin: 0;
+  max-height: min(330px, 48vh);
+  overflow: auto;
+  padding: 12px;
+  border-radius: 10px;
+  background: rgba(4, 8, 14, 0.76);
+  color: #dce7f7;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  font-family: "Cascadia Code", "Consolas", monospace;
+  font-size: 0.75rem;
+  line-height: 1.45;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.overlay-tooltip.is-hover .tooltip-usecode-button {
+  opacity: 0.92;
+}
+
+.usecode-token-comment {
+  color: #7f93ad;
+}
+
+.usecode-token-keyword {
+  color: #ffbe78;
+}
+
+.usecode-token-namespace {
+  color: #7ed0ff;
+}
+
+.usecode-token-member {
+  color: #b9d2ff;
+}
+
+.usecode-token-call {
+  color: #91f3c3;
+}
+
+.usecode-token-variable {
+  color: #f2d98a;
+}
+
+.usecode-token-number {
+  color: #ff9e96;
+}
+
+.usecode-token-string {
+  color: #d7f58d;
 }
 
 .tooltip-state {

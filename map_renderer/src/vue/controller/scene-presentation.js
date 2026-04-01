@@ -670,7 +670,7 @@ export function createScenePresentationController(deps) {
       showCatalogEditor,
       showTeleportEggEditor,
       showPinnedActions,
-      usecodeTarget: isPinnedTooltip ? usecodeTarget : null,
+      usecodeTarget,
       warpCommand: isPinnedTooltip ? warpCommand : "",
       catalogEntry,
       eyeIconSvg: eyeIconSvg(hidden),

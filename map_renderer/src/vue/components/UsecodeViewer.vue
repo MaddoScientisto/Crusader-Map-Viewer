@@ -31,14 +31,21 @@
     <div class="usecode-right">
       <div v-if="fileLoading" class="muted">Loading...</div>
       <div v-else-if="!fileContent" class="muted">Choose a script from the tree to view it.</div>
-      <pre v-else class="usecode-text">{{ fileContent }}</pre>
+      <pre v-else class="usecode-text" v-html="highlightedFileContent"></pre>
     </div>
   </div>
 </template>
 
 <script setup>
 import { computed, defineComponent, h, onMounted, onUnmounted, reactive, ref, toRefs } from "vue";
-import { getUsecodeFilePath, getUsecodeIndexPath } from "../../shared/runtime-adapter.js";
+import {
+  describeUsecodeTarget,
+  formatTargetSlot,
+  highlightUsecodeText,
+  loadUsecodeIndex,
+  loadUsecodeText,
+  resolveUsecodeTargetFile
+} from "../../shared/usecode-browser.js";
 import { state } from "../controller/state.js";
 
 const USECODE_STATE_EVENT = "crusader-map-renderer:scene-changed";
@@ -54,43 +61,6 @@ function normalizeSearchValue(value) {
 
 function countFiles(nodes) {
   return nodes.reduce((total, node) => total + (node.kind === "file" ? 1 : countFiles(node.children)), 0);
-}
-
-function normalizeEventNameHint(value) {
-  return String(value ?? "").trim().toLowerCase();
-}
-
-function normalizeSlotValue(value) {
-  if (Number.isInteger(value)) {
-    return value;
-  }
-  const text = String(value ?? "").trim();
-  if (!text) {
-    return null;
-  }
-  if (/^0x[0-9a-f]+$/i.test(text)) {
-    return Number.parseInt(text.slice(2), 16);
-  }
-  if (/^[0-9]+$/i.test(text)) {
-    return Number.parseInt(text, 10);
-  }
-  return null;
-}
-
-function formatTargetSlot(slot) {
-  const slotValue = normalizeSlotValue(slot);
-  if (slotValue === null) {
-    return "unknown slot";
-  }
-  return `slot 0x${slotValue.toString(16).padStart(2, "0")}`;
-}
-
-function describeUsecodeTarget(target) {
-  if (!target) {
-    return "selected usecode target";
-  }
-  const eventLabel = target.eventNameHint || formatTargetSlot(target.slot);
-  return `${target.className}.${eventLabel}`;
 }
 
 function createFolderNode(name, path, depth) {
@@ -162,10 +132,6 @@ function buildSourceTree(sources) {
     children: buildTreeNodes(source.files ?? []),
     fileCount: (source.files ?? []).length
   }));
-}
-
-function flattenSourceFiles(sources) {
-  return sources.flatMap((source) => Array.isArray(source.files) ? source.files : []);
 }
 
 function filterNodes(nodes, searchValue) {
@@ -277,11 +243,9 @@ function getUsecodeList() {
   if (!state.current) return;
   data.loading = true;
   const selected = state.current.selected;
-  fetch(getUsecodeIndexPath(state.siteConfig, selected.game))
-    .then((r) => r.json())
-    .then((json) => {
-      const sourceEntries = json.sources || [];
-      data.sourceFiles = flattenSourceFiles(sourceEntries);
+  loadUsecodeIndex(state.siteConfig, selected.game)
+    .then(({ sources: sourceEntries, sourceFiles }) => {
+      data.sourceFiles = sourceFiles;
       data.sources = buildSourceTree(sourceEntries);
       if (activeFilePath.value) {
         const hasActiveFile = sourceEntries.some((source) => (source.files || []).some((file) => file.path === activeFilePath.value));
@@ -316,54 +280,27 @@ function refreshFromControllerState() {
   data.fileContent = "";
 }
 
-function findUsecodeFile(target) {
-  if (!target?.className) {
-    return null;
-  }
-
-  const className = String(target.className).trim().toUpperCase();
-  const classFiles = data.sourceFiles.filter((file) => String(file.className ?? "").trim().toUpperCase() === className);
-  if (!classFiles.length) {
-    return null;
-  }
-
-  const slotValue = normalizeSlotValue(target.slot);
-  if (slotValue !== null) {
-    const slotMatch = classFiles.find((file) => normalizeSlotValue(file.slot) === slotValue);
-    if (slotMatch) {
-      return slotMatch;
-    }
-  }
-
-  const eventCandidates = [target.eventNameHint, ...(target.fallbackEventNameHints ?? [])]
-    .map((name) => normalizeEventNameHint(name))
-    .filter(Boolean);
-  for (const eventName of eventCandidates) {
-    const eventMatch = classFiles.find((file) => normalizeEventNameHint(file.eventNameHint) === eventName);
-    if (eventMatch) {
-      return eventMatch;
-    }
-  }
-
-  return classFiles[0] ?? null;
-}
-
 function openUsecodeTarget(target) {
   pendingOpenTarget = target;
   if (data.loading || !state.current?.selected?.game) {
     return;
   }
 
-  const file = findUsecodeFile(target);
-  if (!file) {
-    activeFilePath.value = "";
-    data.fileContent = `No usecode file matched ${describeUsecodeTarget(target)} in this build.`;
-    return;
-  }
-
-  searchQuery.value = [target.className, target.eventNameHint || formatTargetSlot(target.slot)].filter(Boolean).join(" ");
-  pendingOpenTarget = null;
-  loadFile(file);
+  resolveUsecodeTargetFile(state.siteConfig, state.current.selected.game, target)
+    .then((file) => {
+      if (!file) {
+        activeFilePath.value = "";
+        data.fileContent = `No usecode file matched ${describeUsecodeTarget(target)} in this build.`;
+        return;
+      }
+      searchQuery.value = [target.className, target.eventNameHint || formatTargetSlot(target.slot)].filter(Boolean).join(" ");
+      pendingOpenTarget = null;
+      loadFile(file);
+    })
+    .catch((error) => {
+      activeFilePath.value = "";
+      data.fileContent = `Error resolving ${describeUsecodeTarget(target)}: ${error.message}`;
+    });
 }
 
 function handleOpenUsecodeTarget(event) {
@@ -374,11 +311,7 @@ function loadFile(file) {
   if (!state.current) return;
   activeFilePath.value = file.path;
   data.fileLoading = true;
-  fetch(getUsecodeFilePath(state.siteConfig, state.current.selected.game, file.path))
-    .then((r) => {
-      if (!r.ok) throw new Error(r.statusText);
-      return r.text();
-    })
+  loadUsecodeText(state.siteConfig, state.current.selected.game, file.path)
     .then((text) => {
       data.fileContent = text;
     })
@@ -400,6 +333,7 @@ onUnmounted(() => {
 });
 
 const { sources, loading, fileContent, fileLoading } = toRefs(data);
+const highlightedFileContent = computed(() => highlightUsecodeText(fileContent.value));
 </script>
 
 <style scoped>
@@ -455,6 +389,38 @@ const { sources, loading, fileContent, fileLoading } = toRefs(data);
   font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
   font-size: 12px;
   line-height: 1.5;
+}
+
+.usecode-text :deep(.usecode-token-comment) {
+  color: #7d8f99;
+}
+
+.usecode-text :deep(.usecode-token-keyword) {
+  color: #ffd166;
+}
+
+.usecode-text :deep(.usecode-token-namespace) {
+  color: #6fd1ff;
+}
+
+.usecode-text :deep(.usecode-token-member) {
+  color: #b8d4e3;
+}
+
+.usecode-text :deep(.usecode-token-call) {
+  color: #b8f18f;
+}
+
+.usecode-text :deep(.usecode-token-variable) {
+  color: #f7a072;
+}
+
+.usecode-text :deep(.usecode-token-number) {
+  color: #f28482;
+}
+
+.usecode-text :deep(.usecode-token-string) {
+  color: #cdb4db;
 }
 
 .source-list,
