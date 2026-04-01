@@ -741,6 +741,18 @@ function serializeSprite(sprite, placement) {
   };
 }
 
+function serializeReferenceSpriteCoverage(sprite, sourceGameId) {
+  return {
+    id: sprite.id,
+    shape: sprite.shape,
+    frame: sprite.frame,
+    width: sprite.width,
+    height: sprite.height,
+    translucent: sprite.translucent === true,
+    sourceGameId
+  };
+}
+
 function analyzeMapScene(gameConfig, mapId, assets, catalogInfo, dtableInfo, hooks = {}) {
   const fixedDatPath = resolveGameAssetPath(gameConfig, "FIXED.DAT");
   hooks.progress?.("loading-map", `Loading FIXED.DAT map ${mapId}`);
@@ -1096,7 +1108,22 @@ export class BuildManager {
     return value;
   }
 
-  buildReferenceData(referenceId, hooks = {}) {
+  collectReferenceCoverage(gameConfig, mapId, hooks = {}) {
+    const catalogInfo = getShapeCatalog(gameConfig.id);
+    const dtableInfo = getShapeNameTable(gameConfig.id);
+    const assets = this.getAssets(gameConfig);
+    const analysis = analyzeMapScene(gameConfig, mapId, assets, catalogInfo, dtableInfo, hooks);
+
+    return {
+      referenceId: this.getReferenceId(gameConfig.id),
+      gameId: gameConfig.id,
+      mapId,
+      shapeDefinitions: analysis.shapeDefinitions,
+      sprites: analysis.sprites.map((sprite) => serializeReferenceSpriteCoverage(sprite, gameConfig.id))
+    };
+  }
+
+  buildReferenceData(referenceId, hooks = {}, coverageEntries = null) {
     const groupGames = this.listReferenceGames(referenceId);
     if (!groupGames.length) {
       throw new Error(`No detected games for reference group ${referenceId}`);
@@ -1107,47 +1134,61 @@ export class BuildManager {
     ensureDir(referenceCacheRoot);
 
     const shapeDefinitions = new Map();
-    const sprites = new Map();
+    const spriteCoverage = new Map();
     const sourceGameIds = [];
     const representativeAssets = this.getAssets(getGameConfig(groupGames[0].id));
 
-    for (const game of groupGames) {
-      const gameConfig = getGameConfig(game.id);
-      if (!gameConfig) {
-        continue;
-      }
-      sourceGameIds.push(game.id);
-      const catalogInfo = getShapeCatalog(gameConfig.id);
-      const dtableInfo = getShapeNameTable(gameConfig.id);
-      const assets = this.getAssets(gameConfig);
-
-      for (const map of game.maps) {
-        hooks.progress?.("global-reference", `Scanning ${game.id} map ${map.id} for ${referenceId} atlas coverage`);
-        const analysis = analyzeMapScene(gameConfig, map.id, assets, catalogInfo, dtableInfo);
-        for (const definition of analysis.shapeDefinitions) {
-          shapeDefinitions.set(definition.id, definition);
+    const mergedCoverage = coverageEntries ?? (() => {
+      const entries = [];
+      for (const game of groupGames) {
+        const gameConfig = getGameConfig(game.id);
+        if (!gameConfig) {
+          continue;
         }
-        for (const sprite of analysis.sprites) {
-          sprites.set(sprite.id, sprite);
+        for (const map of game.maps) {
+          hooks.progress?.("global-reference", `Scanning ${game.id} map ${map.id} for ${referenceId} atlas coverage`);
+          entries.push(this.collectReferenceCoverage(gameConfig, map.id));
+        }
+      }
+      return entries;
+    })();
+
+    for (const entry of mergedCoverage) {
+      if (!sourceGameIds.includes(entry.gameId)) {
+        sourceGameIds.push(entry.gameId);
+      }
+      for (const definition of entry.shapeDefinitions ?? []) {
+        shapeDefinitions.set(definition.id, definition);
+      }
+      for (const sprite of entry.sprites ?? []) {
+        if (!spriteCoverage.has(sprite.id)) {
+          spriteCoverage.set(sprite.id, sprite);
         }
       }
     }
 
-    hooks.progress?.("packing-atlases", `Packing ${sprites.size} shared sprites for ${referenceId}`);
+    hooks.progress?.("packing-atlases", `Packing ${spriteCoverage.size} shared sprites for ${referenceId}`);
     const packed = packSprites(
-      [...sprites.values()].map((sprite) => ({
+      [...spriteCoverage.values()].map((sprite) => ({
         id: sprite.id,
         width: sprite.width,
         height: sprite.height
       }))
     );
 
+    const materializedSprites = new Map();
+    for (const sprite of spriteCoverage.values()) {
+      const spriteGameConfig = getGameConfig(sprite.sourceGameId) ?? getGameConfig(groupGames[0].id);
+      const spriteAssets = this.getAssets(spriteGameConfig);
+      ensureSpriteEntry(materializedSprites, spriteAssets.shapeArchive, spriteAssets.shapeInfos, null, sprite.shape, sprite.frame);
+    }
+
     const atlasFiles = [];
     for (const atlas of packed.atlases) {
       hooks.progress?.("writing-atlases", `Encoding shared ${referenceId} ${atlas.id} (${atlas.width}x${atlas.height})`);
       const buffer = rgbaBuffer(atlas.width, atlas.height, [0, 0, 0, 0]);
       for (const placed of atlas.sprites) {
-        const sprite = sprites.get(placed.id);
+        const sprite = materializedSprites.get(placed.id);
         blitFrame(buffer, atlas.width, atlas.height, placed.x, placed.y, sprite.frameData, sprite.pixels, representativeAssets.palette, false, {
           translucent: sprite.translucent,
           xformBlendMap: representativeAssets.xformPalette?.primaryBlendMap ?? null,
@@ -1167,7 +1208,7 @@ export class BuildManager {
       });
     }
 
-    const serializedSprites = [...sprites.values()]
+    const serializedSprites = [...materializedSprites.values()]
       .map((sprite) => serializeSprite(sprite, packed.placements.get(sprite.id)))
       .map((sprite) => ({ ...sprite, referenceId }))
       .sort((left, right) => left.shape - right.shape || left.frame - right.frame);

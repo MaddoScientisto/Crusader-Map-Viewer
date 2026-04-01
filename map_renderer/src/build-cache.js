@@ -62,6 +62,25 @@ function buildReferenceTasks(games) {
   }));
 }
 
+function buildReferenceCoverageTasks(games) {
+  return groupGamesByReference(games)
+    .flatMap(({ referenceId, sceneGameIds }) => sceneGameIds.flatMap((gameId) => {
+      const gameConfig = getGameConfig(gameId);
+      const catalog = detectCatalog();
+      const game = catalog.games.find((entry) => entry.id === gameId);
+      if (!gameConfig || !game) {
+        return [];
+      }
+      return game.maps.map((map) => ({
+        kind: "reference-coverage",
+        referenceId,
+        gameId,
+        mapId: map.id
+      }));
+    }))
+    .sort((left, right) => left.referenceId.localeCompare(right.referenceId) || left.gameId.localeCompare(right.gameId) || left.mapId - right.mapId);
+}
+
 function buildGameTasks(games, mapId) {
   return games
     .map((game) => ({
@@ -98,7 +117,13 @@ function writeLine(message) {
 }
 
 function makeTaskLabel(task) {
-  return task.kind === "reference" ? `shared ${task.referenceId}` : task.gameId;
+  if (task.kind === "reference") {
+    return `shared ${task.referenceId}`;
+  }
+  if (task.kind === "reference-coverage") {
+    return `shared ${task.referenceId} ${task.gameId} map ${task.mapId}`;
+  }
+  return task.gameId;
 }
 
 function emitLog(message) {
@@ -157,6 +182,23 @@ async function warmReferenceTask(task, reporter) {
   );
 }
 
+async function warmReferenceCoverageTask(task, reporter) {
+  const { builds } = getBuildContext();
+  const gameConfig = getGameConfig(task.gameId);
+  if (!gameConfig) {
+    throw new Error(`Missing detected game config for ${task.gameId}`);
+  }
+
+  reporter.log(`warming shared ${task.referenceId} coverage ${task.gameId} map ${task.mapId}`);
+  const coverage = builds.collectReferenceCoverage(gameConfig, task.mapId, {
+    progress: (phase, message) => reporter.progress("", phase, message)
+  });
+  reporter.log(
+    `ready shared ${task.referenceId} coverage ${task.gameId} map ${task.mapId} shapes=${coverage.shapeDefinitions.length} sprites=${coverage.sprites.length}`
+  );
+  return coverage;
+}
+
 async function warmGameTask(task, reporter) {
   const { catalog, builds } = getBuildContext();
   const game = catalog.games.find((entry) => entry.id === task.gameId);
@@ -196,12 +238,13 @@ async function warmGameTask(task, reporter) {
 async function runTask(task) {
   const reporter = createReporter(task);
   if (task.kind === "reference") {
-    await warmReferenceTask(task, reporter);
-    return;
+    return warmReferenceTask(task, reporter);
+  }
+  if (task.kind === "reference-coverage") {
+    return warmReferenceCoverageTask(task, reporter);
   }
   if (task.kind === "game") {
-    await warmGameTask(task, reporter);
-    return;
+    return warmGameTask(task, reporter);
   }
   throw new Error(`Unknown task kind: ${task.kind}`);
 }
@@ -213,6 +256,7 @@ async function runThreadedTasks(tasks, threadCount) {
 
   const queue = [...tasks];
   const workers = [];
+  const results = [];
 
   for (let index = 0; index < threadCount; index += 1) {
     workers.push(new Promise((resolve, reject) => {
@@ -226,9 +270,14 @@ async function runThreadedTasks(tasks, threadCount) {
         const worker = new Worker(new URL(import.meta.url), {
           workerData: task
         });
+        let taskResult;
         worker.on("message", (event) => {
           if (event?.type === "log" && typeof event.message === "string") {
             writeLine(event.message);
+            return;
+          }
+          if (event?.type === "result") {
+            taskResult = event.result;
           }
         });
         worker.once("error", reject);
@@ -237,6 +286,7 @@ async function runThreadedTasks(tasks, threadCount) {
             reject(new Error(`Worker for ${makeTaskLabel(task)} exited with code ${code}`));
             return;
           }
+          results.push({ task, result: taskResult });
           runNext();
         });
       };
@@ -246,6 +296,7 @@ async function runThreadedTasks(tasks, threadCount) {
   }
 
   await Promise.all(workers);
+  return results;
 }
 
 async function mainThread() {
@@ -266,13 +317,28 @@ async function mainThread() {
   writeNpcSpawnerData(undefined, gameConfigs);
 
   const referenceTasks = buildReferenceTasks(games);
+  const referenceCoverageTasks = buildReferenceCoverageTasks(games);
   const gameTasks = buildGameTasks(games, args.mapId);
-  const threadCount = resolveThreadCount(args.threads, Math.max(referenceTasks.length, gameTasks.length));
+  const threadCount = resolveThreadCount(args.threads, Math.max(referenceCoverageTasks.length, gameTasks.length, referenceTasks.length));
   writeLine(`threads=${threadCount}`);
 
   if (threadCount <= 1) {
+    const coverageByReference = new Map();
+    for (const task of referenceCoverageTasks) {
+      const coverage = await runTask(task);
+      if (!coverageByReference.has(task.referenceId)) {
+        coverageByReference.set(task.referenceId, []);
+      }
+      coverageByReference.get(task.referenceId).push(coverage);
+    }
     for (const task of referenceTasks) {
-      await runTask(task);
+      const { builds } = getBuildContext();
+      const reporter = createReporter(task);
+      reporter.log(`merging shared ${task.referenceId} reference data`);
+      const referenceData = builds.buildReferenceData(task.referenceId, {
+        progress: (phase, message) => reporter.progress("", phase, message)
+      }, coverageByReference.get(task.referenceId) ?? []);
+      reporter.log(`ready shared ${task.referenceId} sprites=${referenceData.spriteCount} atlases=${referenceData.atlasCount} definitions=${referenceData.shapeDefinitionCount}`);
     }
     for (const task of gameTasks) {
       await runTask(task);
@@ -280,15 +346,40 @@ async function mainThread() {
     return;
   }
 
-  await runThreadedTasks(referenceTasks, Math.min(threadCount, referenceTasks.length));
+  const coverageResults = await runThreadedTasks(referenceCoverageTasks, Math.min(threadCount, referenceCoverageTasks.length));
+  const coverageByReference = new Map();
+  for (const entry of coverageResults) {
+    if (!entry?.result || !entry.task?.referenceId) {
+      continue;
+    }
+    if (!coverageByReference.has(entry.task.referenceId)) {
+      coverageByReference.set(entry.task.referenceId, []);
+    }
+    coverageByReference.get(entry.task.referenceId).push(entry.result);
+  }
+  for (const task of referenceTasks) {
+    const { builds } = getBuildContext();
+    const reporter = createReporter(task);
+    reporter.log(`merging shared ${task.referenceId} reference data`);
+    const referenceData = builds.buildReferenceData(task.referenceId, {
+      progress: (phase, message) => reporter.progress("", phase, message)
+    }, coverageByReference.get(task.referenceId) ?? []);
+    reporter.log(`ready shared ${task.referenceId} sprites=${referenceData.spriteCount} atlases=${referenceData.atlasCount} definitions=${referenceData.shapeDefinitionCount}`);
+  }
   await runThreadedTasks(gameTasks, Math.min(threadCount, gameTasks.length));
 }
 
 if (!isMainThread) {
-  runTask(workerData).catch((error) => {
-    emitLog(error instanceof Error ? error.message : String(error));
-    process.exitCode = 1;
-  });
+  runTask(workerData)
+    .then((result) => {
+      if (typeof result !== "undefined") {
+        parentPort?.postMessage({ type: "result", result });
+      }
+    })
+    .catch((error) => {
+      emitLog(error instanceof Error ? error.message : String(error));
+      process.exitCode = 1;
+    });
 } else {
   mainThread().catch((error) => {
     console.error(error instanceof Error ? error.message : String(error));
