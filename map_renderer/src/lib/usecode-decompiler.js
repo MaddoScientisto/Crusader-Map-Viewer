@@ -1561,6 +1561,11 @@ function renderStructuredRegion(blocks, labelToIndex, startIndex, endIndex, retu
       }
       const targetIndex = resolveLabelIndex(labelToIndex, terminal.target);
       if (targetIndex == null) return null;
+      if (targetIndex === endIndex) {
+        const result = [lines, false];
+        renderCache.set(regionKey, result);
+        return result;
+      }
       if (targetIndex === index + 1) {
         index += 1;
         continue;

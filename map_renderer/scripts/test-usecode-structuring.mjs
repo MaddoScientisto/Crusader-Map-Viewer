@@ -162,6 +162,20 @@ function testCommentPrefixedReturnLabelCountsAsReturn() {
   assert.doesNotMatch(text, /goto block_exit;/u);
 }
 
+function testRegionEndGotoCountsAsStructuredExit() {
+  const structured = __testHooks.renderStructuredPseudocode([
+    ["entry", ["if !condition goto block_exit;"]],
+    ["block_body", ["step();", "goto block_exit;"]],
+    ["block_tail", ["goto entry;"]],
+    ["block_exit", ["return;"]]
+  ]);
+
+  assert.ok(structured, "expected region-end goto to count as a structured exit");
+  const text = structured.join("\n");
+  assert.match(text, /while \(condition\) \{/u);
+  assert.doesNotMatch(text, /goto block_exit;/u);
+}
+
 function testRealTriggerSlot20NoLongerFallsBackToBlocks() {
   const usecodePath = path.resolve("STATIC", "EUSECODE.FLX");
   const buffer = fs.readFileSync(usecodePath);
@@ -177,6 +191,25 @@ function testRealTriggerSlot20NoLongerFallsBackToBlocks() {
   const text = __testHooks.renderPseudocode(ir, new Map());
 
   assert.match(text, /for item in nearby_items\(shape=0x04b1, origin=aitem\) \{/u);
+  assert.doesNotMatch(text, /^\s*(?:entry|block_[0-9a-f]+):/imu);
+  assert.doesNotMatch(text, /goto block_/iu);
+}
+
+function testRealBlastpacUseNoLongerFallsBackToBlocks() {
+  const usecodePath = path.resolve("STATIC", "EUSECODE.FLX");
+  const buffer = fs.readFileSync(usecodePath);
+  const classRows = __testHooks.buildClassRows(buffer);
+  const classRow = classRows.find((row) => row.className === "BLASTPAC");
+  assert.ok(classRow, "expected BLASTPAC class in remorse EUSECODE");
+
+  const eventRow = classRow.eventRows.find((row) => row.slot === 0x01);
+  assert.ok(eventRow, "expected BLASTPAC slot 0x01 body");
+
+  const classNameMap = new Map(classRows.map((row) => [row.classId, row.className]));
+  const ir = __testHooks.buildIrForEvent(classRow, eventRow, "remorse", classNameMap);
+  const text = __testHooks.renderPseudocode(ir, new Map());
+
+  assert.match(text, /for item in nearby_items\(shape=0x053a, origin=global\[0x003c\]\) \{/iu);
   assert.doesNotMatch(text, /^\s*(?:entry|block_[0-9a-f]+):/imu);
   assert.doesNotMatch(text, /goto block_/iu);
 }
@@ -236,7 +269,9 @@ testAlarmhatStyleSelectorLoopStructuring();
 testLoopTailKeepsOuterExitLabels();
 testForeachLoopStructuring();
 testCommentPrefixedReturnLabelCountsAsReturn();
+testRegionEndGotoCountsAsStructuredExit();
 testRealTriggerSlot20NoLongerFallsBackToBlocks();
+testRealBlastpacUseNoLongerFallsBackToBlocks();
 testImportedIntrinsicTablesResolveKnownOrdinals();
 testGlobalAddressFeedsIntrinsicsAndLoopnextStaysHidden();
 testNamedIntrinsic003cRendersAsItemFamily();
