@@ -15,6 +15,7 @@ function createDefaultState() {
     showCatalogEditor: false,
     showTeleportEggEditor: false,
     showPinnedActions: false,
+    usecodeTarget: null,
     warpCommand: "",
     catalogEntry: null,
     eyeIconSvg: "",
@@ -22,6 +23,7 @@ function createDefaultState() {
     onToggleHidden: null,
     onSaveCatalog: null,
     onEditEgg: null,
+    onOpenUsecode: null,
     onCopyWarpCommand: null,
     onSaveMonsterSpawner: null
   };

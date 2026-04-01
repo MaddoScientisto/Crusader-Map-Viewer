@@ -5,7 +5,11 @@ const MONSTER_SPAWNER_SHAPE = 0x04d0;
 const MONSTER_SPAWNER_PAIR_MAX_DISTANCE = 512;
 const BOX_EW_SHAPE = 0x0080;
 const FASTSKIL_SHAPE = 0x0120;
+const PANELNS_SHAPE = 0x00a1;
+const CARD_NS_SHAPE = 0x031d;
 const NUMBERS_SHAPE = 0x033a;
+const NPC_ONLY_SHAPE = 0x0366;
+const SPANEL_SHAPE = 0x03aa;
 const TRIGPAD_SHAPE = 0x04cd;
 const SKILLBOX_SHAPE = 0x04e3;
 const CMD_LINK_SHAPE = 0x04b1;
@@ -215,6 +219,19 @@ export function createSceneMetadataHelpers(dependencies) {
     return `0x${(value & 0xffff).toString(16).padStart(4, "0")}`;
   }
 
+  function createUsecodeViewTarget(className, slot, eventNameHint, note, fallbackEventNameHints = []) {
+    const eventLabel = eventNameHint || `slot_${slot.toString(16).padStart(2, "0")}`;
+    return {
+      className,
+      slot,
+      eventNameHint,
+      fallbackEventNameHints,
+      label: `${className}.${eventLabel}`,
+      title: `Open ${className}.${eventLabel} in the USECODE viewer`,
+      note
+    };
+  }
+
   function getQualityLowByte(item) {
     return Number.isInteger(item?.quality) ? (item.quality & 0xff) : null;
   }
@@ -399,6 +416,12 @@ export function createSceneMetadataHelpers(dependencies) {
     if (definition.shape === FASTSKIL_SHAPE) {
       return "FASTSKIL fast-area trigger gate; enterFastArea waits briefly, uses difficulty to choose trigger lane or remap QLo, and frame 2 exposes explicit diff1/diff2/diff3+ link lanes.";
     }
+    if (definition.shape === PANELNS_SHAPE) {
+      return "PANELNS switch/panel controller; its use() lane forwards the local QLo key through nearby trigger helpers rather than acting as a plain decorative panel.";
+    }
+    if (definition.shape === CARD_NS_SHAPE) {
+      return "CARD_NS keyed switch controller; the thin use() wrapper immediately hands off into the downstream SWITCH/TRIGGER chain keyed by local QLo.";
+    }
     if (definition.shape === NUMBERS_SHAPE) {
       return "Tiny readout/number helper family; glyph-sized markers that cluster beside nearby 0x0501/0x0502/0x0503/0x0505/0x0507 display pieces rather than the trigger-link helper network.";
     }
@@ -410,6 +433,12 @@ export function createSceneMetadataHelpers(dependencies) {
     }
     if (definition.shape === EVENT_SHAPE) {
       return "EVENT controller; a generic scripted event multiplexer that reuses QLo as a local link id and can drive triggers, doors, camera, audio, and nearby helper shapes.";
+    }
+    if (definition.shape === NPC_ONLY_SHAPE) {
+      return "NPC_ONLY trigger helper; its active gotHit() body is the recovered lane that reacts to scripted hit routing rather than direct player use.";
+    }
+    if (definition.shape === SPANEL_SHAPE) {
+      return "SPANEL switch controller; its use() body participates in the same local QLo trigger-helper network as PANELNS and CARD_NS.";
     }
     if (definition.shape === TRIGPAD_SHAPE) {
       return "TRIGPAD occupancy/surface-gated trigger pad; gotHit waits briefly, dispatches trigger lanes 0 then 1, and can prod nearby elevator helpers. Broader scene sweeps did not justify a generic cmd-link arrow rule.";
@@ -466,6 +495,51 @@ export function createSceneMetadataHelpers(dependencies) {
       return "Egg-family placement; map, npc, and quality fields are interpreted by egg-family rules rather than one global schema.";
     }
     return "";
+  }
+
+  function getUsecodeViewTarget(item, definition = null) {
+    if (!definition) {
+      return null;
+    }
+
+    if (definition.shape === BOX_EW_SHAPE) {
+      return createUsecodeViewTarget("BOX_EW", 0x01, "use", "Frame-0 BOX_EW switches dispatch their local link through BOX_EW.use before forwarding into TRIGGER.slot_20.");
+    }
+    if (definition.shape === FASTSKIL_SHAPE) {
+      return createUsecodeViewTarget("FASTSKIL", 0x0f, "enterFastArea", "FASTSKIL gates difficulty routing in enterFastArea, including the verified QLo/+1/+2 remap lane.");
+    }
+    if (definition.shape === PANELNS_SHAPE) {
+      return createUsecodeViewTarget("PANELNS", 0x01, "use", "PANELNS.use is the recovered panel-switch wrapper that passes the local QLo key into the trigger chain.");
+    }
+    if (definition.shape === CARD_NS_SHAPE) {
+      return createUsecodeViewTarget("CARD_NS", 0x01, "use", "CARD_NS.use is the verified thin wrapper into the same SWITCH/TRIGGER path; Regret also has a cast body if the use wrapper is absent.", ["cast"]);
+    }
+    if (definition.shape === EVENT_SHAPE) {
+      return createUsecodeViewTarget("EVENT", 0x0a, "equip", "EVENT.equip is the big multiplexer body used by recovered local event controllers.");
+    }
+    if (definition.shape === NPC_ONLY_SHAPE) {
+      return createUsecodeViewTarget("NPC_ONLY", 0x06, "gotHit", "NPC_ONLY.gotHit is the recovered active body for hit-driven helper triggers.");
+    }
+    if (definition.shape === SPANEL_SHAPE) {
+      return createUsecodeViewTarget("SPANEL", 0x01, "use", "SPANEL.use participates in the same nearby cmd-helper routing as PANELNS and CARD_NS.");
+    }
+    if (definition.shape === TRIGPAD_SHAPE) {
+      return createUsecodeViewTarget("TRIGPAD", 0x06, "gotHit", "TRIGPAD.gotHit contains the occupancy-gated pad logic plus the recovered trigger-lane dispatches.");
+    }
+    if (definition.shape === CMD_LINK_SHAPE) {
+      return createUsecodeViewTarget("TRIGGER", 0x20, null, "TRIGGER.slot_20 is the shared high-slot fan-out lane that nearby controller objects keep spawning on matched link ids.");
+    }
+    if (definition.shape === SKILLBOX_SHAPE) {
+      return createUsecodeViewTarget("SKILLBOX", 0x0a, "equip", "SKILLBOX.equip is the verified skill-gated controller body for the recovered difficulty switch family.");
+    }
+    if (definition.shape === ALARMHAT_SHAPE) {
+      return createUsecodeViewTarget("ALARMHAT", 0x0a, "equip", "ALARMHAT.equip is the verified local alarm scan that walks nearby 0x04D0 helpers.");
+    }
+    if (definition.shape === ALRMTRIG_SHAPE) {
+      return createUsecodeViewTarget("ALRMTRIG", 0x0a, "equip", "ALRMTRIG.equip is the recovered alert relay that selects TRIGGER lanes from map-array and world-alert state.");
+    }
+
+    return null;
   }
 
   function renderSpecialEditorRows(item, definition = null) {
@@ -646,6 +720,11 @@ export function createSceneMetadataHelpers(dependencies) {
       rows.push(`<dt>Role hint</dt><dd>${escapeHtml(roleHint)}</dd>`);
     }
 
+    const usecodeTarget = getUsecodeViewTarget(item, definition);
+    if (usecodeTarget) {
+      rows.push(`<dt>USECODE</dt><dd>${escapeHtml(`${usecodeTarget.label}: ${usecodeTarget.note}`)}</dd>`);
+    }
+
     const specialRows = renderSpecialEditorRows(item, definition);
     if (specialRows) {
       rows.push(specialRows);
@@ -689,6 +768,7 @@ export function createSceneMetadataHelpers(dependencies) {
     renderMonsterSpawnerActivationRows,
     renderMonsterSpawnerEditor,
     renderNpcMetadataRows,
-    renderObjectMetadataRows
+    renderObjectMetadataRows,
+    getUsecodeViewTarget
   };
 }

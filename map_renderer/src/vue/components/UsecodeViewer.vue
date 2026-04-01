@@ -42,9 +42,11 @@ import { getUsecodeFilePath, getUsecodeIndexPath } from "../../shared/runtime-ad
 import { state } from "../controller/state.js";
 
 const USECODE_STATE_EVENT = "crusader-map-renderer:scene-changed";
-const data = reactive({ sources: [], loading: false, fileContent: "", fileLoading: false });
+const OPEN_USECODE_TARGET_EVENT = "crusader-map-renderer:open-usecode-target";
+const data = reactive({ sources: [], sourceFiles: [], loading: false, fileContent: "", fileLoading: false });
 const searchQuery = ref("");
 const activeFilePath = ref("");
+let pendingOpenTarget = null;
 
 function normalizeSearchValue(value) {
   return String(value ?? "").trim().toLowerCase();
@@ -52,6 +54,43 @@ function normalizeSearchValue(value) {
 
 function countFiles(nodes) {
   return nodes.reduce((total, node) => total + (node.kind === "file" ? 1 : countFiles(node.children)), 0);
+}
+
+function normalizeEventNameHint(value) {
+  return String(value ?? "").trim().toLowerCase();
+}
+
+function normalizeSlotValue(value) {
+  if (Number.isInteger(value)) {
+    return value;
+  }
+  const text = String(value ?? "").trim();
+  if (!text) {
+    return null;
+  }
+  if (/^0x[0-9a-f]+$/i.test(text)) {
+    return Number.parseInt(text.slice(2), 16);
+  }
+  if (/^[0-9]+$/i.test(text)) {
+    return Number.parseInt(text, 10);
+  }
+  return null;
+}
+
+function formatTargetSlot(slot) {
+  const slotValue = normalizeSlotValue(slot);
+  if (slotValue === null) {
+    return "unknown slot";
+  }
+  return `slot 0x${slotValue.toString(16).padStart(2, "0")}`;
+}
+
+function describeUsecodeTarget(target) {
+  if (!target) {
+    return "selected usecode target";
+  }
+  const eventLabel = target.eventNameHint || formatTargetSlot(target.slot);
+  return `${target.className}.${eventLabel}`;
 }
 
 function createFolderNode(name, path, depth) {
@@ -123,6 +162,10 @@ function buildSourceTree(sources) {
     children: buildTreeNodes(source.files ?? []),
     fileCount: (source.files ?? []).length
   }));
+}
+
+function flattenSourceFiles(sources) {
+  return sources.flatMap((source) => Array.isArray(source.files) ? source.files : []);
 }
 
 function filterNodes(nodes, searchValue) {
@@ -237,9 +280,11 @@ function getUsecodeList() {
   fetch(getUsecodeIndexPath(state.siteConfig, selected.game))
     .then((r) => r.json())
     .then((json) => {
-      data.sources = buildSourceTree(json.sources || []);
+      const sourceEntries = json.sources || [];
+      data.sourceFiles = flattenSourceFiles(sourceEntries);
+      data.sources = buildSourceTree(sourceEntries);
       if (activeFilePath.value) {
-        const hasActiveFile = (json.sources || []).some((source) => (source.files || []).some((file) => file.path === activeFilePath.value));
+        const hasActiveFile = sourceEntries.some((source) => (source.files || []).some((file) => file.path === activeFilePath.value));
         if (!hasActiveFile) {
           activeFilePath.value = "";
           data.fileContent = "";
@@ -248,9 +293,13 @@ function getUsecodeList() {
       if (!data.sources.length) {
         data.fileContent = "";
       }
+      if (pendingOpenTarget) {
+        openUsecodeTarget(pendingOpenTarget);
+      }
     })
     .catch(() => {
       data.sources = [];
+      data.sourceFiles = [];
       activeFilePath.value = "";
       data.fileContent = "";
     })
@@ -263,7 +312,62 @@ function refreshFromControllerState() {
     return;
   }
   data.sources = [];
+  data.sourceFiles = [];
   data.fileContent = "";
+}
+
+function findUsecodeFile(target) {
+  if (!target?.className) {
+    return null;
+  }
+
+  const className = String(target.className).trim().toUpperCase();
+  const classFiles = data.sourceFiles.filter((file) => String(file.className ?? "").trim().toUpperCase() === className);
+  if (!classFiles.length) {
+    return null;
+  }
+
+  const slotValue = normalizeSlotValue(target.slot);
+  if (slotValue !== null) {
+    const slotMatch = classFiles.find((file) => normalizeSlotValue(file.slot) === slotValue);
+    if (slotMatch) {
+      return slotMatch;
+    }
+  }
+
+  const eventCandidates = [target.eventNameHint, ...(target.fallbackEventNameHints ?? [])]
+    .map((name) => normalizeEventNameHint(name))
+    .filter(Boolean);
+  for (const eventName of eventCandidates) {
+    const eventMatch = classFiles.find((file) => normalizeEventNameHint(file.eventNameHint) === eventName);
+    if (eventMatch) {
+      return eventMatch;
+    }
+  }
+
+  return classFiles[0] ?? null;
+}
+
+function openUsecodeTarget(target) {
+  pendingOpenTarget = target;
+  if (data.loading || !state.current?.selected?.game) {
+    return;
+  }
+
+  const file = findUsecodeFile(target);
+  if (!file) {
+    activeFilePath.value = "";
+    data.fileContent = `No usecode file matched ${describeUsecodeTarget(target)} in this build.`;
+    return;
+  }
+
+  searchQuery.value = [target.className, target.eventNameHint || formatTargetSlot(target.slot)].filter(Boolean).join(" ");
+  pendingOpenTarget = null;
+  loadFile(file);
+}
+
+function handleOpenUsecodeTarget(event) {
+  openUsecodeTarget(event.detail ?? null);
 }
 
 function loadFile(file) {
@@ -286,11 +390,13 @@ function loadFile(file) {
 
 onMounted(() => {
   window.addEventListener(USECODE_STATE_EVENT, refreshFromControllerState);
+  window.addEventListener(OPEN_USECODE_TARGET_EVENT, handleOpenUsecodeTarget);
   refreshFromControllerState();
 });
 
 onUnmounted(() => {
   window.removeEventListener(USECODE_STATE_EVENT, refreshFromControllerState);
+  window.removeEventListener(OPEN_USECODE_TARGET_EVENT, handleOpenUsecodeTarget);
 });
 
 const { sources, loading, fileContent, fileLoading } = toRefs(data);

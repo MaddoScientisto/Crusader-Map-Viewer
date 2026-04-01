@@ -1,4 +1,5 @@
 export function createScenePresentationController(deps) {
+  const OPEN_USECODE_TARGET_EVENT = "crusader-map-renderer:open-usecode-target";
   const {
     state,
     context,
@@ -48,6 +49,7 @@ export function createScenePresentationController(deps) {
     renderMonsterSpawnerEditor,
     renderNpcMetadataRows,
     renderObjectMetadataRows,
+    getUsecodeViewTarget,
     buildWarpCommand,
     canEditCatalog,
     escapeHtml,
@@ -623,6 +625,7 @@ export function createScenePresentationController(deps) {
     const spawnerRows = renderMonsterSpawnerActivationRows(item, display.definition);
     const objectRows = renderObjectMetadataRows(item, display.definition);
     const monsterSpawnerEditor = renderMonsterSpawnerEditor(item, display.definition);
+    const usecodeTarget = getUsecodeViewTarget(item, display.definition);
     const catalogEntry = display.definition?.catalogEntry ?? null;
     const showCatalogEditor = canEditCatalog() && isPinnedTooltip && display.definition;
     const showTeleportEggEditor = isPinnedTooltip && isEggItem(item) && ["teleporter", "teleport-destination"].includes(item.egg?.type);
@@ -667,6 +670,7 @@ export function createScenePresentationController(deps) {
       showCatalogEditor,
       showTeleportEggEditor,
       showPinnedActions,
+      usecodeTarget: isPinnedTooltip ? usecodeTarget : null,
       warpCommand: isPinnedTooltip ? warpCommand : "",
       catalogEntry,
       eyeIconSvg: eyeIconSvg(hidden),
@@ -694,6 +698,19 @@ export function createScenePresentationController(deps) {
           },
           onValidate: ({ itemId, teleportId }) => duplicateTeleportWarning(state.current?.eggs ?? [], normalizeTeleportId(teleportId), itemId || null)
         });
+      },
+      onOpenUsecode: () => {
+        if (!usecodeTarget) {
+          return;
+        }
+        window.dispatchEvent(new CustomEvent(OPEN_USECODE_TARGET_EVENT, {
+          detail: {
+            ...usecodeTarget,
+            itemId: item.id,
+            itemLabel: item.label,
+            displayName: display.displayName
+          }
+        }));
       },
       onCopyWarpCommand: async () => {
         if (!warpCommand) {

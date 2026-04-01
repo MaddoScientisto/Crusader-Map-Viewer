@@ -373,7 +373,8 @@ const {
   renderMonsterSpawnerActivationRows,
   renderMonsterSpawnerEditor,
   renderNpcMetadataRows,
-  renderObjectMetadataRows
+  renderObjectMetadataRows,
+  getUsecodeViewTarget
 } = createSceneMetadataHelpers({
   state,
   escapeHtml,
@@ -433,6 +434,7 @@ const presentation = createScenePresentationController({
   renderMonsterSpawnerEditor,
   renderNpcMetadataRows,
   renderObjectMetadataRows,
+  getUsecodeViewTarget,
   buildWarpCommand,
   canEditCatalog,
   escapeHtml,

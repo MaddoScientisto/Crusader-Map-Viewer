@@ -22,10 +22,15 @@
 
 <script setup>
 import TooltipOverlay from "./TooltipOverlay.vue";
-import { nextTick, ref, watch } from "vue";
+import { nextTick, onMounted, onUnmounted, ref, watch } from "vue";
 import UsecodeViewer from "./UsecodeViewer.vue";
 
+const OPEN_USECODE_TARGET_EVENT = "crusader-map-renderer:open-usecode-target";
 const activeTab = ref("map");
+
+function handleOpenUsecodeTarget() {
+  activeTab.value = "usecode";
+}
 
 watch(activeTab, async (nextTab) => {
   if (nextTab !== "map") {
@@ -33,6 +38,14 @@ watch(activeTab, async (nextTab) => {
   }
   await nextTick();
   window.dispatchEvent(new Event("resize"));
+});
+
+onMounted(() => {
+  window.addEventListener(OPEN_USECODE_TARGET_EVENT, handleOpenUsecodeTarget);
+});
+
+onUnmounted(() => {
+  window.removeEventListener(OPEN_USECODE_TARGET_EVENT, handleOpenUsecodeTarget);
 });
 </script>
 
