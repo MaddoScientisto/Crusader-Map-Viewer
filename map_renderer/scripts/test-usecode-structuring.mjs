@@ -1,4 +1,6 @@
 import assert from "node:assert/strict";
+import fs from "node:fs";
+import path from "node:path";
 
 import { __testHooks } from "../src/lib/usecode-decompiler.js";
 
@@ -115,6 +117,70 @@ function testAlarmhatStyleSelectorLoopStructuring() {
   assert.doesNotMatch(text, /goto block_0233;/u);
 }
 
+function testLoopTailKeepsOuterExitLabels() {
+  const structured = __testHooks.renderStructuredPseudocode([
+    ["entry", ["if !(1) goto block_exit;"]],
+    ["block_body", ["work();"]],
+    ["block_cmp", ["if newLink != baseLink goto block_update;"]],
+    ["block_break", ["goto block_exit;"]],
+    ["block_update", ["baseLink = newLink;", "goto entry;"]],
+    ["block_exit", ["return;"]]
+  ]);
+
+  assert.ok(structured, "expected loop tail to remain structured");
+  const text = structured.join("\n");
+  assert.match(text, /while \(1\) \{/u);
+  assert.match(text, /baseLink = newLink;/u);
+  assert.doesNotMatch(text, /block_update:/u);
+  assert.doesNotMatch(text, /goto entry;/u);
+}
+
+function testForeachLoopStructuring() {
+  const structured = __testHooks.renderStructuredPseudocode([
+    ["entry", ["foreach_list item -> block_exit;"]],
+    ["block_body", ["spawn TRIGGER.slot_21(pid, item, arg_06);", "suspend;", "goto entry;"]],
+    ["block_exit", ["return;"]]
+  ]);
+
+  assert.ok(structured, "expected foreach loop to structure");
+  const text = structured.join("\n");
+  assert.match(text, /while \(true\) \{/u);
+  assert.match(text, /foreach_list item -> block_exit;/u);
+  assert.doesNotMatch(text, /goto entry;/u);
+}
+
+function testCommentPrefixedReturnLabelCountsAsReturn() {
+  const structured = __testHooks.renderStructuredPseudocode([
+    ["entry", ["if ready goto block_work;"]],
+    ["block_cleanup", ["goto block_exit;"]],
+    ["block_work", ["work();"]],
+    ["block_exit", ["/* free_local_list */", "return;"]]
+  ]);
+
+  assert.ok(structured, "expected cleanup+return label to structure as a return exit");
+  const text = structured.join("\n");
+  assert.doesNotMatch(text, /goto block_exit;/u);
+}
+
+function testRealTriggerSlot20NoLongerFallsBackToBlocks() {
+  const usecodePath = path.resolve("STATIC", "EUSECODE.FLX");
+  const buffer = fs.readFileSync(usecodePath);
+  const classRows = __testHooks.buildClassRows(buffer);
+  const classRow = classRows.find((row) => row.className === "TRIGGER");
+  assert.ok(classRow, "expected TRIGGER class in remorse EUSECODE");
+
+  const eventRow = classRow.eventRows.find((row) => row.slot === 0x20);
+  assert.ok(eventRow, "expected TRIGGER slot 0x20 body");
+
+  const classNameMap = new Map(classRows.map((row) => [row.classId, row.className]));
+  const ir = __testHooks.buildIrForEvent(classRow, eventRow, "remorse", classNameMap);
+  const text = __testHooks.renderPseudocode(ir, new Map());
+
+  assert.match(text, /for item in nearby_items\(shape=0x04b1, origin=aitem\) \{/u);
+  assert.doesNotMatch(text, /^\s*(?:entry|block_[0-9a-f]+):/imu);
+  assert.doesNotMatch(text, /goto block_/iu);
+}
+
 function testGlobalAddressFeedsIntrinsicsAndLoopnextStaysHidden() {
   const text = renderPseudo(
     makeIr([
@@ -167,6 +233,10 @@ function testTerminalTrailingBytesDoNotEmitStopBanner() {
 testSelectorLadderUsesEqualityCompareAndFalseBranch();
 testCountedLoopRendersWithContinueCondition();
 testAlarmhatStyleSelectorLoopStructuring();
+testLoopTailKeepsOuterExitLabels();
+testForeachLoopStructuring();
+testCommentPrefixedReturnLabelCountsAsReturn();
+testRealTriggerSlot20NoLongerFallsBackToBlocks();
 testImportedIntrinsicTablesResolveKnownOrdinals();
 testGlobalAddressFeedsIntrinsicsAndLoopnextStaysHidden();
 testNamedIntrinsic003cRendersAsItemFamily();

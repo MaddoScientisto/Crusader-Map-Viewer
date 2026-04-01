@@ -1182,6 +1182,11 @@ function parseLoopSelectorStatement(statement) {
   return match ? match[1] : null;
 }
 
+function parseForeachLoopStatement(statement) {
+  const match = /^(foreach_(?:s)?list\s+.+?\s+->\s+)([A-Za-z0-9_]+);$/u.exec(statement);
+  return match ? { header: `${match[1]}${match[2]};`, target: match[2] } : null;
+}
+
 function isLoopSelectorOnlyBlock(statements) {
   return statements.length === 1 && parseLoopSelectorStatement(statements[0]) != null;
 }
@@ -1196,6 +1201,29 @@ function findNearestLoopSelector(blocks, index) {
     break;
   }
   return null;
+}
+
+function mergeExitLabels(...parts) {
+  const merged = new Set();
+  for (const part of parts) {
+    if (part == null) continue;
+    if (part instanceof Set) {
+      for (const value of part) merged.add(value);
+      continue;
+    }
+    merged.add(part);
+  }
+  return merged;
+}
+
+function isCommentStatement(statement) {
+  return /^\/\*.*\*\/$/u.test(String(statement).trim());
+}
+
+function isReturnOnlyBlock(statements) {
+  return statements.length > 0
+    && statements.at(-1) === "return;"
+    && statements.slice(0, -1).every((statement) => isCommentStatement(statement));
 }
 
 function detectNoopCompareChain(blocks, labelToIndex, startIndex, endIndex) {
@@ -1242,7 +1270,7 @@ function detectNoopCompareChain(blocks, labelToIndex, startIndex, endIndex) {
   return null;
 }
 
-function renderSelectorChain(blocks, labelToIndex, startIndex, endIndex, returnLabels, activeRegions = new Set(), renderCache = new Map()) {
+function renderSelectorChain(blocks, labelToIndex, startIndex, endIndex, returnLabels, exitLabels = new Set(), activeRegions = new Set(), renderCache = new Map()) {
   if (!blocks[startIndex][1].length) return null;
   const baseTerminal = parseTerminalStatement(blocks[startIndex][1].at(-1));
   if (!baseTerminal || baseTerminal.kind !== "if") return null;
@@ -1291,7 +1319,7 @@ function renderSelectorChain(blocks, labelToIndex, startIndex, endIndex, returnL
       cursor + 1,
       targetIndex,
       returnLabels,
-      new Set([joinLabel]),
+      mergeExitLabels(exitLabels, joinLabel),
       activeRegions,
       renderCache
     );
@@ -1324,7 +1352,7 @@ function lastNonemptyBlockIndex(blocks, startIndex, endIndex) {
   return null;
 }
 
-function renderLoopConstruct(blocks, labelToIndex, index, endIndex, returnLabels, activeRegions = new Set(), renderCache = new Map()) {
+function renderLoopConstruct(blocks, labelToIndex, index, endIndex, returnLabels, exitLabels = new Set(), activeRegions = new Set(), renderCache = new Map()) {
   const statements = blocks[index][1];
   if (!statements.length) return null;
   const terminal = parseTerminalStatement(statements.at(-1));
@@ -1344,7 +1372,7 @@ function renderLoopConstruct(blocks, labelToIndex, index, endIndex, returnLabels
     index + 1,
     targetIndex,
     returnLabels,
-    new Set([blocks[index][0]]),
+    mergeExitLabels(exitLabels, blocks[index][0]),
     activeRegions,
     renderCache
   );
@@ -1359,7 +1387,7 @@ function renderLoopConstruct(blocks, labelToIndex, index, endIndex, returnLabels
   return [rendered, targetIndex];
 }
 
-function renderInfiniteLoopConstruct(blocks, labelToIndex, index, endIndex, returnLabels, activeRegions = new Set(), renderCache = new Map()) {
+function renderInfiniteLoopConstruct(blocks, labelToIndex, index, endIndex, returnLabels, exitLabels = new Set(), activeRegions = new Set(), renderCache = new Map()) {
   if (index + 1 >= endIndex) return null;
   const loopLabel = blocks[index][0];
   let loopTailIndex = null;
@@ -1380,7 +1408,7 @@ function renderInfiniteLoopConstruct(blocks, labelToIndex, index, endIndex, retu
     index,
     loopTailIndex + 1,
     returnLabels,
-    new Set([loopLabel]),
+    mergeExitLabels(exitLabels, loopLabel),
     activeRegions,
     renderCache
   );
@@ -1392,7 +1420,7 @@ function renderInfiniteLoopConstruct(blocks, labelToIndex, index, endIndex, retu
   return [rendered, loopTailIndex + 1];
 }
 
-function renderSelectorLoopConstruct(blocks, labelToIndex, index, endIndex, returnLabels, activeRegions = new Set(), renderCache = new Map()) {
+function renderSelectorLoopConstruct(blocks, labelToIndex, index, endIndex, returnLabels, exitLabels = new Set(), activeRegions = new Set(), renderCache = new Map()) {
   const statements = blocks[index][1];
   const loopSelector = statements.length === 1 ? parseLoopSelectorStatement(statements[0]) : null;
   if (!loopSelector || index + 1 >= endIndex) return null;
@@ -1416,13 +1444,49 @@ function renderSelectorLoopConstruct(blocks, labelToIndex, index, endIndex, retu
     index + 2,
     targetIndex,
     returnLabels,
-    new Set([nextLabel]),
+    mergeExitLabels(exitLabels, nextLabel),
     activeRegions,
     renderCache
   );
   if (!loopBody) return null;
 
   const rendered = [`for ${loopSelector} {`];
+  rendered.push(...indentLines(loopBody[0]));
+  rendered.push("}");
+  return [rendered, targetIndex];
+}
+
+function renderForeachLoopConstruct(blocks, labelToIndex, index, endIndex, returnLabels, exitLabels = new Set(), activeRegions = new Set(), renderCache = new Map()) {
+  const statements = blocks[index][1];
+  if (!statements.length) return null;
+
+  const foreachLoop = parseForeachLoopStatement(statements.at(-1));
+  if (!foreachLoop) return null;
+
+  const targetIndex = resolveLabelIndex(labelToIndex, foreachLoop.target);
+  if (targetIndex == null || targetIndex <= index || targetIndex > endIndex) return null;
+
+  const loopTailIndex = lastNonemptyBlockIndex(blocks, index + 1, targetIndex);
+  if (loopTailIndex == null) return null;
+
+  const loopTailTerminal = parseTerminalStatement(blocks[loopTailIndex][1].at(-1));
+  if (!loopTailTerminal || loopTailTerminal.kind !== "goto" || loopTailTerminal.target !== blocks[index][0]) return null;
+
+  const loopBody = renderStructuredRegion(
+    blocks,
+    labelToIndex,
+    index + 1,
+    targetIndex,
+    returnLabels,
+    mergeExitLabels(exitLabels, blocks[index][0]),
+    activeRegions,
+    renderCache
+  );
+  if (!loopBody) return null;
+
+  const rendered = ["while (true) {"];
+  rendered.push(...indentLines(statements.slice(0, -1)));
+  rendered.push(`  ${foreachLoop.header}`);
   rendered.push(...indentLines(loopBody[0]));
   rendered.push("}");
   return [rendered, targetIndex];
@@ -1451,13 +1515,20 @@ function renderStructuredRegion(blocks, labelToIndex, startIndex, endIndex, retu
     }
 
     if (isLoopSelectorOnlyBlock(statements)) {
-      const selectorLoopConstruct = renderSelectorLoopConstruct(blocks, labelToIndex, index, endIndex, returnLabels, nextActive, renderCache);
+      const selectorLoopConstruct = renderSelectorLoopConstruct(blocks, labelToIndex, index, endIndex, returnLabels, exitLabels, nextActive, renderCache);
       if (selectorLoopConstruct) {
         lines.push(...selectorLoopConstruct[0]);
         index = selectorLoopConstruct[1];
         continue;
       }
       index += 1;
+      continue;
+    }
+
+    const foreachLoopConstruct = renderForeachLoopConstruct(blocks, labelToIndex, index, endIndex, returnLabels, exitLabels, nextActive, renderCache);
+    if (foreachLoopConstruct) {
+      lines.push(...foreachLoopConstruct[0]);
+      index = foreachLoopConstruct[1];
       continue;
     }
 
@@ -1508,21 +1579,21 @@ function renderStructuredRegion(blocks, labelToIndex, startIndex, endIndex, retu
       continue;
     }
 
-    const selectorChain = renderSelectorChain(blocks, labelToIndex, index, endIndex, returnLabels, nextActive, renderCache);
+    const selectorChain = renderSelectorChain(blocks, labelToIndex, index, endIndex, returnLabels, exitLabels, nextActive, renderCache);
     if (selectorChain) {
       lines.push(...selectorChain[0]);
       index = selectorChain[1];
       continue;
     }
 
-    const loopConstruct = renderLoopConstruct(blocks, labelToIndex, index, endIndex, returnLabels, nextActive, renderCache);
+    const loopConstruct = renderLoopConstruct(blocks, labelToIndex, index, endIndex, returnLabels, exitLabels, nextActive, renderCache);
     if (loopConstruct) {
       lines.push(...loopConstruct[0]);
       index = loopConstruct[1];
       continue;
     }
 
-    const infiniteLoopConstruct = renderInfiniteLoopConstruct(blocks, labelToIndex, index, endIndex, returnLabels, nextActive, renderCache);
+    const infiniteLoopConstruct = renderInfiniteLoopConstruct(blocks, labelToIndex, index, endIndex, returnLabels, exitLabels, nextActive, renderCache);
     if (infiniteLoopConstruct) {
       lines.push(...infiniteLoopConstruct[0]);
       index = infiniteLoopConstruct[1];
@@ -1542,7 +1613,7 @@ function renderStructuredRegion(blocks, labelToIndex, startIndex, endIndex, retu
             index + 1,
             targetIndex,
             returnLabels,
-            new Set([joinLabel]),
+            mergeExitLabels(exitLabels, joinLabel),
             nextActive,
             renderCache
           );
@@ -1552,7 +1623,7 @@ function renderStructuredRegion(blocks, labelToIndex, startIndex, endIndex, retu
             targetIndex,
             joinIndex,
             returnLabels,
-            new Set([joinLabel]),
+            mergeExitLabels(exitLabels, joinLabel),
             nextActive,
             renderCache
           );
@@ -1577,7 +1648,7 @@ function renderStructuredRegion(blocks, labelToIndex, startIndex, endIndex, retu
       }
     }
 
-    const inner = renderStructuredRegion(blocks, labelToIndex, index + 1, targetIndex, returnLabels, new Set(), nextActive, renderCache);
+    const inner = renderStructuredRegion(blocks, labelToIndex, index + 1, targetIndex, returnLabels, new Set(exitLabels), nextActive, renderCache);
     if (!inner) {
       renderCache.set(regionKey, null);
       return null;
@@ -1596,14 +1667,18 @@ function renderStructuredRegion(blocks, labelToIndex, startIndex, endIndex, retu
 function renderStructuredPseudocode(blocks) {
   if (!blocks.length) return [];
   const labelToIndex = new Map(blocks.map(([label], index) => [label, index]));
-  const returnLabels = new Set(blocks.filter(([, statements]) => statements.length === 1 && statements[0] === "return;").map(([label]) => label));
+  const returnLabels = new Set(blocks.filter(([, statements]) => isReturnOnlyBlock(statements)).map(([label]) => label));
   const rendered = renderStructuredRegion(blocks, labelToIndex, 0, blocks.length, returnLabels);
   return rendered ? rendered[0] : null;
 }
 
 export const __testHooks = {
+  buildClassRows,
+  buildIrForEvent,
   decompilePseudocodeBlocks,
   getIntrinsicNameHint,
+  parseForeachLoopStatement,
+  renderForeachLoopConstruct,
   renderPseudocode,
   renderStructuredPseudocode,
   renderSelectorLoopConstruct
@@ -1612,7 +1687,7 @@ export const __testHooks = {
 function renderPartiallyStructuredBlocks(blocks) {
   if (!blocks.length) return [];
   const labelToIndex = new Map(blocks.map(([label], index) => [label, index]));
-  const returnLabels = new Set(blocks.filter(([, statements]) => statements.length === 1 && statements[0] === "return;").map(([label]) => label));
+  const returnLabels = new Set(blocks.filter(([, statements]) => isReturnOnlyBlock(statements)).map(([label]) => label));
   const lines = [];
   let index = 0;
   while (index < blocks.length) {
@@ -1667,6 +1742,15 @@ function renderPartiallyStructuredBlocks(blocks) {
       lines.push(...loopConstruct[0].map((line) => (line ? `    ${line}` : "")));
       lines.push("");
       index = loopConstruct[1];
+      continue;
+    }
+
+    const foreachLoopConstruct = renderForeachLoopConstruct(blocks, labelToIndex, index, blocks.length, returnLabels);
+    if (foreachLoopConstruct) {
+      lines.push(`  ${label}:`);
+      lines.push(...foreachLoopConstruct[0].map((line) => (line ? `    ${line}` : "")));
+      lines.push("");
+      index = foreachLoopConstruct[1];
       continue;
     }
 
