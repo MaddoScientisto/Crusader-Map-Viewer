@@ -1255,7 +1255,7 @@ export function createScenePresentationController(deps) {
         pushUniqueLink(links, seenKeys, source, target, {
           color: "rgba(230, 111, 81, 0.9)",
           dashed: [3, 4],
-          label: `Door death QLo ${sourceQlo}`
+          label: `Destroyable door QLo ${sourceQlo}`
         });
       }
     }

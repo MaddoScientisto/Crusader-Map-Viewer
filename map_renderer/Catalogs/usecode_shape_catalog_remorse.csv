@@ -127,7 +127,7 @@ shape_code,human_readable_id,description,roof,semitransparency,OOB,categorizatio
 0x007d,,,,,,base,0
 0x007e,,,,,,base,0
 0x007f,,,,,,terrain,0
-0x0080,BOX_EW,"Usecode class 128 BOX_EW. Frame 0 acts like a local switch lane that dispatches TRIGGER lane 1 while map-array is clear; nonzero frames dispatch lane 0.",,,,base,21;24;271;272;288;771;783;799;1793
+0x0080,BOX_EW,Usecode class 128 BOX_EW. Frame 0 acts like a local switch lane that dispatches TRIGGER lane 1 while map-array is clear; nonzero frames dispatch lane 0.,,,,base,21;24;271;272;288;771;783;799;1793
 0x0081,,,,,,base,7;11;29;257;273;278;281;285;782;783;798;818
 0x0082,,,,,,base,0;776;1288
 0x0083,,,,,,terrain,0
@@ -231,7 +231,7 @@ shape_code,human_readable_id,description,roof,semitransparency,OOB,categorizatio
 0x00ff,,,,,,base,0
 0x0100,,,,,,base,56;21000
 0x0101,,,,,,base,0
-0x0102,,,,,,base,0;3;4;20;40;2570;3104;4928;42752
+0x0102,MONITNS,Monitor/computer object with a live MONITNS use handler.,,,,base,0;3;4;20;40;2570;3104;4928;42752
 0x0103,,,,,,base,25970
 0x0107,,,,,,base,6
 0x0108,wallgun_shape_0108,Auto-derived from WALLGUN self-shape comparison in USECODE,,,,helper,8448;11268;14086;14100;14103;14104
@@ -327,7 +327,7 @@ shape_code,human_readable_id,description,roof,semitransparency,OOB,categorizatio
 0x0162,,,,,,base,0;785
 0x0163,,,,,,base,0
 0x0164,,,,,,base,0;522;1802
-0x0165,,,,,,base,1;12;63;2573;3328;4619;43520
+0x0165,MONITEW,East-west monitor/computer object with a live MONITEW use handler.,,,,base,1;12;63;2573;3328;4619;43520
 0x0166,,,,,,base,0
 0x0167,REACTOR,Level 1 Reactor,,,,roof,0
 0x0168,REACTOR_CELL,Level 1,,,,terrain,0
@@ -752,7 +752,7 @@ shape_code,human_readable_id,description,roof,semitransparency,OOB,categorizatio
 0x0337,WIND_AREA,,,true,,editor,10246;10257;22552;29697
 0x0338,MECH_1,,,,,helper,0
 0x0339,,,,,,base,0
-0x033a,NUMBERS,"Tiny glyph-like number/readout helper family. Sampled scenes place these beside nearby 0x0501/0x0502/0x0503/0x0505/0x0507 display pieces rather than cmd-link controllers.",,,,editor,0;5;6;12;13;15;17;47;53;60;282;2060;5137
+0x033a,NUMBERS,Tiny glyph-like number/readout helper family. Sampled scenes place these beside nearby 0x0501/0x0502/0x0503/0x0505/0x0507 display pieces rather than cmd-link controllers.,,,,editor,0;5;6;12;13;15;17;47;53;60;282;2060;5137
 0x033c,npc_shape_033c,Auto-derived from NPC self-shape comparison in USECODE,,,,helper,0
 0x033d,BA-41 CLIP,"Retail Remorse DTable: BA-41 CLIP (ammo, display frame 0x0008, Ammo_GetNameForShapeNo).",,,,terrain,277
 0x033e,SG-A1 CLIP,"Retail Remorse DTable: SG-A1 CLIP (ammo, display frame 0x000A, Ammo_GetNameForShapeNo).",,,,terrain,3;277
@@ -780,11 +780,11 @@ shape_code,human_readable_id,description,roof,semitransparency,OOB,categorizatio
 0x0360,,,,,,base,1
 0x0361,EVENT_CONTROLLER,,,,,editor,1;5;12;13;15;19;21;22;25;47;53;60;234;235;236;238;239;525;776;777;825;1039;4589;5137;17146
 0x0362,,,,,,terrain,0
-0x0363,,Editor Object,,,,editor,11;190;277
+0x0363,NPCTRIG,Compact NPC-trigger event object; slot 0x0A is the strongest active-event body and slot 0x20 is the paired helper lane.,,,,editor,11;190;277
 0x0364,DEATH_PLANE,Kills player on contact,,,,terrain,0
-0x0365,,Editor Object,,,,terrain,22;55;61;711
+0x0365,CRUZTRIG,Trigger/helper object; the recovered active body is CRUZTRIG gotHit.,,,,terrain,22;55;61;711
 0x0366,NPC_ONLY,NPC-only trigger pad; requires Actor field 0x63 to match QLo before it flips frame and dispatches TRIGGER lanes 0 or 1.,,,,terrain,terrain
-0x0367,,,,,,base,99
+0x0367,VMAIL,Voice/mail helper object with a live slot-0x0A body.,,,,base,99
 0x0368,,,,,,,
 0x0369,,,,,,,
 0x036a,,,,,,base,0
@@ -1057,7 +1057,7 @@ shape_code,human_readable_id,description,roof,semitransparency,OOB,categorizatio
 0x04a6,,,,,,terrain,0
 0x04a7,,,,,,base,0
 0x04a8,,,,,,base,0
-0x04b1,,,,,,editor,0;1;2;3;5;6;7;8;9;10;11;12;13;14;15;16;17;18;19;20;21;22;23;24;25;26;27;28;29;30;31;32;33;34;35;36;37;47;50;51;53;55;60;63;64;65;66;172;199;257;258;260;261;262;265;267;269;270;271;272;273;274;275;276;277;278;279;280;281;282;283;285;288;296;316;320;491;513;515;516;522;525;528;532;771;772;773;774;775;777;778;779;781;783;784;787;792;793;794;798;799;801;802;803;823;825;826;1043;1044;1046;1050;1292;1306;1549;2056;2060;2065;2067;2068;2565;2572;2573;2575;2583;2607;2613;2620;2836;3073;3086;3087;3088;3104;3136;3342;4105;4110;4132;4159;4351;5122;6149;6158;6162;7180;7228;7367;11267;11577;13587;14593;14851;16398;17426;24833;26631;26637;26644;28161;28164;28165;28166;46084;65036;65286;65297
+0x04b1,CMD_LINK,Trigger/link controller; local command program that dispatches TRIGGER slot 0x20 by link id,,,,editor,0;1;2;3;5;6;7;8;9;10;11;12;13;14;15;16;17;18;19;20;21;22;23;24;25;26;27;28;29;30;31;32;33;34;35;36;37;47;50;51;53;55;60;63;64;65;66;172;199;257;258;260;261;262;265;267;269;270;271;272;273;274;275;276;277;278;279;280;281;282;283;285;288;296;316;320;491;513;515;516;522;525;528;532;771;772;773;774;775;777;778;779;781;783;784;787;792;793;794;798;799;801;802;803;823;825;826;1043;1044;1046;1050;1292;1306;1549;2056;2060;2065;2067;2068;2565;2572;2573;2575;2583;2607;2613;2620;2836;3073;3086;3087;3088;3104;3136;3342;4105;4110;4132;4159;4351;5122;6149;6158;6162;7180;7228;7367;11267;11577;13587;14593;14851;16398;17426;24833;26631;26637;26644;28161;28164;28165;28166;46084;65036;65286;65297
 0x04b2,,,,,,roof,0
 0x04b3,,,,,,roof,0
 0x04b6,,,,,,roof,0
@@ -1075,7 +1075,7 @@ shape_code,human_readable_id,description,roof,semitransparency,OOB,categorizatio
 0x04c9,,,,,,editor,34072;34838;35099;43269
 0x04ca,,Editor Object,,,,editor,62;150;151;254;306
 0x04cb,,,,,,base,0
-0x04cd,TRIGPAD,"Usecode class 1229 TRIGPAD. Occupancy and surface gated trigger pad that dispatches TRIGGER lanes 0 and 1 and can also prod nearby elevator helpers.",,,,terrain,2;7;9;18;19;29;31
+0x04cd,TRIGPAD,Usecode class 1229 TRIGPAD. Occupancy and surface gated trigger pad that dispatches TRIGGER lanes 0 and 1 and can also prod nearby elevator helpers.,,,,terrain,2;7;9;18;19;29;31
 0x04d0,NPC_SPAWNER_04D0,,,,,editor,256;257;260;264;268;270;272;273;279;280;281;284;296;316;319;320;455;506;512;513;518;519;523;529;533;534;537;540;575;576;684;768;769;770;771;773;774;775;776;777;778;779;780;781;783;784;785;786;787;788;790;793;794;796;798;799;800;802;804;805;815;818;819;821;823;831;832;833;834;967;1280;1281;1282;1283;1285;1287;1288;1289;1290;1291;1292;1293;1294;1295;1296;1299;1300;1301;1305;1308;1310;1311;1313;1315;1316;1317;1331;1335;1337;1340;1343;1344;1452;1515;1792;1793;1795;1798;1799;1804;1806;1808;1809;1814;1815;1817;1818;1820;1825;1852;1855;1856;2048;2051;2053;2055;2056;2058;2059;2061;2062;2063;2066;2067;2068;2071;2074;2075;2078;2081;2103;2108;2112;2113;2283;2307;2309;2310;2314;2318;2319;2326;2330;2331;2334;2339;2560;2565;2570;2572;2575;2576;2579;2595;2795;2823;2830;2846
 0x04d1,npcdeath_shape_04d1,Auto-derived from NPCDEATH self-shape comparison in USECODE,,,,,
 0x04d4,DATA LINK,"Retail Remorse DTable: DATA LINK (misc_item, display frame 0x0001, MiscTable_GetNameForItemShapeNo).",,,,helper,0
@@ -1089,7 +1089,7 @@ shape_code,human_readable_id,description,roof,semitransparency,OOB,categorizatio
 0x04de,,,,,,base,3066;4589
 0x04df,,,,,,base,0;786
 0x04e0,,,,,,base,0
-0x04e2,,Editor Object,,,,editor,7
+0x04e2,SFXTRIG,Compact event-bearing sound/trigger helper; slot 0x0A is the stable active body.,,,,editor,7
 0x04e3,,Editor Object,,,,editor,0;1;11;17;60;785;2572;11535
 0x04e5,,,,,,base,0;257
 0x04e6,,,,,,helper,0

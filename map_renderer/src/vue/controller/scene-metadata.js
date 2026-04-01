@@ -4,20 +4,31 @@ const MONSTER_EGG_PREVIEW_SHAPE = 0x024f;
 const MONSTER_SPAWNER_SHAPE = 0x04d0;
 const MONSTER_SPAWNER_PAIR_MAX_DISTANCE = 512;
 const BOX_EW_SHAPE = 0x0080;
+const MONITNS_SHAPE = 0x0102;
+const MONITEW_SHAPE = 0x0165;
 const FASTSKIL_SHAPE = 0x0120;
 const PANELNS_SHAPE = 0x00a1;
 const CARD_NS_SHAPE = 0x031d;
 const NUMBERS_SHAPE = 0x033a;
+const NPCTRIG_SHAPE = 0x0363;
+const CRUZTRIG_SHAPE = 0x0365;
+const VMAIL_SHAPE = 0x0367;
 const NPC_ONLY_SHAPE = 0x0366;
 const SPANEL_SHAPE = 0x03aa;
+const FLAMEBOX_SHAPE = 0x0403;
 const TRIGPAD_SHAPE = 0x04cd;
 const SKILLBOX_SHAPE = 0x04e3;
+const SFXTRIG_SHAPE = 0x04e2;
+const DEATHBOX_SHAPE = 0x04e7;
 const CMD_LINK_SHAPE = 0x04b1;
 const EVENT_SHAPE = 0x0361;
 const DOOR_DEATH_HELPER_SHAPE = 0x04f8;
+const BRO_BOOT_SHAPE = 0x04fe;
 const STEAMBOX_SHAPE = 0x0500;
 const ALARMHAT_SHAPE = 0x0561;
 const ALRMTRIG_SHAPE = 0x0581;
+const CHEST_NS_SHAPE = 0x054f;
+const CHEST_EW_SHAPE = 0x0550;
 const CMD_LINK_MAX_DISTANCE = 768;
 
 export function createSceneMetadataHelpers(dependencies) {
@@ -413,11 +424,29 @@ export function createSceneMetadataHelpers(dependencies) {
     if (definition.shape === BOX_EW_SHAPE) {
       return "BOX_EW switch family; use() only fires while map-array is clear, dispatching TRIGGER lane 1 from frame 0 and lane 0 from nonzero frames. Sampled scenes only justify same-QLo cmd-link arrows for frame 0.";
     }
+    if (definition.shape === MONITNS_SHAPE) {
+      return "MONITNS monitor/computer-adjacent object; the live MONITNS.use body makes this a stronger first-view gameplay script target than generic chest props.";
+    }
+    if (definition.shape === MONITEW_SHAPE) {
+      return "MONITEW monitor/computer-adjacent object; the east-west variant also has a live use handler and sits in the same practical viewer family as MONITNS.";
+    }
     if (definition.shape === FASTSKIL_SHAPE) {
       return "FASTSKIL fast-area trigger gate; enterFastArea waits briefly, uses difficulty to choose trigger lane or remap QLo, and frame 2 exposes explicit diff1/diff2/diff3+ link lanes.";
     }
+    if (definition.shape === MONSTER_SPAWNER_SHAPE) {
+      return "MONSTER helper/spawner; frame 0 participates in the verified MONSTER.enterFastArea auto-spawn lane, while mapNum bit 0x08 suppresses that automatic enter-area path.";
+    }
     if (definition.shape === PANELNS_SHAPE) {
       return "PANELNS switch/panel controller; its use() lane forwards the local QLo key through nearby trigger helpers rather than acting as a plain decorative panel.";
+    }
+    if (definition.shape === NPCTRIG_SHAPE) {
+      return "NPCTRIG compact event-bearing trigger object; slot 0x0A is the strongest current active-event body and slot 0x20 acts as the paired helper lane.";
+    }
+    if (definition.shape === CRUZTRIG_SHAPE) {
+      return "CRUZTRIG trigger/helper object; the recovered gotHit body makes this a concrete trigger-bearing gameplay object rather than a generic editor placeholder.";
+    }
+    if (definition.shape === VMAIL_SHAPE) {
+      return "VMAIL voice/mail helper object; the active known body is slot 0x0A, making it a valid first-view usecode target even though the exact event semantics are still weaker than the slot number.";
     }
     if (definition.shape === CARD_NS_SHAPE) {
       return "CARD_NS keyed switch controller; the thin use() wrapper immediately hands off into the downstream SWITCH/TRIGGER chain keyed by local QLo.";
@@ -427,6 +456,9 @@ export function createSceneMetadataHelpers(dependencies) {
     }
     if (definition.shape === SKILLBOX_SHAPE) {
       return "SKILLBOX difficulty/skill gate; frame 0 and 1 switch trigger lanes by difficulty, and frame 2 remaps QLo before dispatch.";
+    }
+    if (definition.shape === CHEST_NS_SHAPE || definition.shape === CHEST_EW_SHAPE) {
+      return "Chest object; use opens the chest, plays the local animation/audio path, and can spawn contents through FREE rather than behaving like a simple decorative container.";
     }
     if (definition.shape === CMD_LINK_SHAPE) {
       return "Trigger/link controller; TRIGGER reads QLo as the link id, uses mapNum low bits as phase and routing flags, and derives the target search shape from npcNum plus mapNum high bits.";
@@ -440,11 +472,23 @@ export function createSceneMetadataHelpers(dependencies) {
     if (definition.shape === SPANEL_SHAPE) {
       return "SPANEL switch controller; its use() body participates in the same local QLo trigger-helper network as PANELNS and CARD_NS.";
     }
+    if (definition.shape === FLAMEBOX_SHAPE) {
+      return "FLAMEBOX hazard controller; equip scans nearby flame-family helpers by shared QLo and can swap helper markers into active flame actors.";
+    }
     if (definition.shape === TRIGPAD_SHAPE) {
       return "TRIGPAD occupancy/surface-gated trigger pad; gotHit waits briefly, dispatches trigger lanes 0 then 1, and can prod nearby elevator helpers. Broader scene sweeps did not justify a generic cmd-link arrow rule.";
     }
     if (definition.shape === DOOR_DEATH_HELPER_SHAPE) {
-      return "Door death/crush helper; DOOR.slot_23 scans nearby 0x04F8 items with matching QLo and dispatches trigger lane 0 or +0x80 by map-array state.";
+      return "Destroyable-door helper; DOOR.slot_23 scans nearby 0x04F8 items with matching QLo and dispatches trigger lane 0 or +0x80 by map-array state after the door damage path.";
+    }
+    if (definition.shape === SFXTRIG_SHAPE) {
+      return "SFXTRIG minimal event-core helper; the active low slot is event 0x0A, and this family is one of the compact event-bearing controller records beside broader EVENT/NPCTRIG hubs.";
+    }
+    if (definition.shape === DEATHBOX_SHAPE) {
+      return "DEATHBOX NPC-death helper; slot 0x0A is the recovered helper body that matches death-link QLo and forwards into TRIGGER lanes from NPC death events.";
+    }
+    if (definition.shape === BRO_BOOT_SHAPE) {
+      return "BRO_BOOT helper; enterFastArea scans nearby SPANEL items by shared QLo, toggles their ITEM control slots, and runs its own boot-sequence animation.";
     }
     if (definition.shape === STEAMBOX_SHAPE) {
       return "STEAMBOX hazard controller; nearby steam-family helpers are matched by QLo and dispatched through STEAMBOX control slots.";
@@ -505,11 +549,29 @@ export function createSceneMetadataHelpers(dependencies) {
     if (definition.shape === BOX_EW_SHAPE) {
       return createUsecodeViewTarget("BOX_EW", 0x01, "use", "Frame-0 BOX_EW switches dispatch their local link through BOX_EW.use before forwarding into TRIGGER.slot_20.");
     }
+    if (definition.shape === MONITNS_SHAPE) {
+      return createUsecodeViewTarget("MONITNS", 0x01, "use", "MONITNS.use is a live computer-adjacent gameplay handler and is the strongest current first-view target for monitor objects.");
+    }
+    if (definition.shape === MONITEW_SHAPE) {
+      return createUsecodeViewTarget("MONITEW", 0x01, "use", "MONITEW.use is the east-west monitor variant's live computer-adjacent gameplay handler.");
+    }
     if (definition.shape === FASTSKIL_SHAPE) {
       return createUsecodeViewTarget("FASTSKIL", 0x0f, "enterFastArea", "FASTSKIL gates difficulty routing in enterFastArea, including the verified QLo/+1/+2 remap lane.");
     }
+    if (definition.shape === MONSTER_SPAWNER_SHAPE && item?.frame === 0) {
+      return createUsecodeViewTarget("MONSTER", 0x0f, "enterFastArea", "Frame-0 0x04D0 spawners participate in the verified MONSTER.enterFastArea auto-spawn lane when mapNum bit 0x08 is clear.");
+    }
     if (definition.shape === PANELNS_SHAPE) {
       return createUsecodeViewTarget("PANELNS", 0x01, "use", "PANELNS.use is the recovered panel-switch wrapper that passes the local QLo key into the trigger chain.");
+    }
+    if (definition.shape === NPCTRIG_SHAPE) {
+      return createUsecodeViewTarget("NPCTRIG", 0x0a, "equip", "NPCTRIG.equip is the strongest compact active-event body currently recovered for this trigger family.");
+    }
+    if (definition.shape === CRUZTRIG_SHAPE) {
+      return createUsecodeViewTarget("CRUZTRIG", 0x06, "gotHit", "CRUZTRIG.gotHit is the recovered active body for this trigger/helper family.");
+    }
+    if (definition.shape === VMAIL_SHAPE) {
+      return createUsecodeViewTarget("VMAIL", 0x0a, null, "VMAIL slot 0x0A is the live helper body for this voice/mail object family.");
     }
     if (definition.shape === CARD_NS_SHAPE) {
       return createUsecodeViewTarget("CARD_NS", 0x01, "use", "CARD_NS.use is the verified thin wrapper into the same SWITCH/TRIGGER path; Regret also has a cast body if the use wrapper is absent.", ["cast"]);
@@ -523,6 +585,9 @@ export function createSceneMetadataHelpers(dependencies) {
     if (definition.shape === SPANEL_SHAPE) {
       return createUsecodeViewTarget("SPANEL", 0x01, "use", "SPANEL.use participates in the same nearby cmd-helper routing as PANELNS and CARD_NS.");
     }
+    if (definition.shape === FLAMEBOX_SHAPE) {
+      return createUsecodeViewTarget("FLAMEBOX", 0x0a, "equip", "FLAMEBOX.equip is the recovered local flame-controller body that scans nearby helper shapes by shared QLo.");
+    }
     if (definition.shape === TRIGPAD_SHAPE) {
       return createUsecodeViewTarget("TRIGPAD", 0x06, "gotHit", "TRIGPAD.gotHit contains the occupancy-gated pad logic plus the recovered trigger-lane dispatches.");
     }
@@ -531,6 +596,24 @@ export function createSceneMetadataHelpers(dependencies) {
     }
     if (definition.shape === SKILLBOX_SHAPE) {
       return createUsecodeViewTarget("SKILLBOX", 0x0a, "equip", "SKILLBOX.equip is the verified skill-gated controller body for the recovered difficulty switch family.");
+    }
+    if (definition.shape === CHEST_NS_SHAPE) {
+      return createUsecodeViewTarget("CHEST_NS", 0x01, "use", "CHEST_NS.use is the live chest-open handler that drives the animation/audio path and content spawn flow.");
+    }
+    if (definition.shape === CHEST_EW_SHAPE) {
+      return createUsecodeViewTarget("CHEST_EW", 0x01, "use", "CHEST_EW.use is the live chest-open handler that drives the animation/audio path and content spawn flow.");
+    }
+    if (definition.shape === SFXTRIG_SHAPE) {
+      return createUsecodeViewTarget("SFXTRIG", 0x0a, null, "SFXTRIG slot 0x0A is the active minimal event-core body for this local sound/trigger helper family.");
+    }
+    if (definition.shape === DEATHBOX_SHAPE) {
+      return createUsecodeViewTarget("DEATHBOX", 0x0a, null, "DEATHBOX slot 0x0A is the recovered NPC-death helper body that matches death-link QLo and forwards into TRIGGER lanes.");
+    }
+    if (definition.shape === BRO_BOOT_SHAPE) {
+      return createUsecodeViewTarget("BRO_BOOT", 0x0f, "enterFastArea", "BRO_BOOT.enterFastArea is the recovered helper body that toggles nearby SPANEL items by shared QLo.");
+    }
+    if (definition.shape === STEAMBOX_SHAPE) {
+      return createUsecodeViewTarget("STEAMBOX", 0x0a, "equip", "STEAMBOX.equip is the recovered hazard-controller body that routes nearby steam helpers through event 0/1 lanes.");
     }
     if (definition.shape === ALARMHAT_SHAPE) {
       return createUsecodeViewTarget("ALARMHAT", 0x0a, "equip", "ALARMHAT.equip is the verified local alarm scan that walks nearby 0x04D0 helpers.");
@@ -631,6 +714,37 @@ export function createSceneMetadataHelpers(dependencies) {
       rows.push("<dt>Event note</dt><dd>Recovered EVENT.equip reads QLo as a link id and uses different event lanes to drive triggers, camera/audio, door logic, and nearby helper objects.</dd>");
     }
 
+    if (definition.shape === NPCTRIG_SHAPE) {
+      rows.push("<dt>Decoded class</dt><dd>NPCTRIG</dd>");
+      rows.push("<dt>Trigger note</dt><dd>Disasm crosswalks shape 0x0363 to NPCTRIG, whose compact slot-0x0A body remains one of the strongest active-event frontiers in the current corpus.</dd>");
+    }
+
+    if (definition.shape === CRUZTRIG_SHAPE) {
+      rows.push("<dt>Decoded class</dt><dd>CRUZTRIG</dd>");
+      rows.push("<dt>Trigger note</dt><dd>Disasm crosswalks shape 0x0365 to CRUZTRIG, and the recovered live body is gotHit rather than a generic placeholder slot.</dd>");
+    }
+
+    if (definition.shape === VMAIL_SHAPE) {
+      rows.push("<dt>Decoded class</dt><dd>VMAIL</dd>");
+      rows.push("<dt>Mail note</dt><dd>Disasm crosswalks shape 0x0367 to VMAIL; slot 0x0A is the active helper body even though the exact event name remains weaker than the slot number.</dd>");
+    }
+
+    if (definition.shape === MONITNS_SHAPE) {
+      rows.push("<dt>Decoded class</dt><dd>MONITNS</dd>");
+      rows.push("<dt>Monitor note</dt><dd>Existing gameplay notes identify shape 0x0102 as a live monitor/computer object whose MONITNS.use body is a defensible first inspection point.</dd>");
+    }
+
+    if (definition.shape === MONITEW_SHAPE) {
+      rows.push("<dt>Decoded class</dt><dd>MONITEW</dd>");
+      rows.push("<dt>Monitor note</dt><dd>Disasm crosswalks shape 0x0165 to the MONITEW east-west monitor variant, which also has a live use handler.</dd>");
+    }
+
+    if (definition.shape === MONSTER_SPAWNER_SHAPE) {
+      rows.push("<dt>Decoded class</dt><dd>MONSTER</dd>");
+      rows.push(`<dt>Spawner note</dt><dd>${escapeHtml(getMonsterSpawnerActivationSummary(item))}</dd>`);
+      rows.push("<dt>Viewer stance</dt><dd>Frame-0 0x04D0 objects now link directly to MONSTER.enterFastArea because that is the verified automatic enter-area lane.</dd>");
+    }
+
     if (definition.shape === NUMBERS_SHAPE) {
       rows.push("<dt>Decoded family</dt><dd>NUMBERS</dd>");
       rows.push("<dt>Display note</dt><dd>Tiny glyph-like frames in exported scenes cluster beside larger 0x0501/0x0502/0x0503/0x0505/0x0507 readout pieces instead of local trigger controllers.</dd>");
@@ -647,14 +761,28 @@ export function createSceneMetadataHelpers(dependencies) {
       rows.push("<dt>Overlay stance</dt><dd>Named and decoded in tooltips, but broader scene sweeps did not justify a generic TRIGPAD -&gt; 0x04B1 helper arrow rule.</dd>");
     }
 
+    if (definition.shape === FLAMEBOX_SHAPE) {
+      rows.push("<dt>Decoded class</dt><dd>FLAMEBOX</dd>");
+      if (rawQuality !== null) {
+        rows.push(`<dt>Flame link bytes</dt><dd>${escapeHtml(`QLo ${qLo} (${formatByteHex(qLo)}), QHi ${qHi} (${formatByteHex(qHi)}), raw ${formatWordHex(rawQuality)}`)}</dd>`);
+      }
+      rows.push("<dt>Flame note</dt><dd>Recovered FLAMEBOX.equip uses shared QLo to scan nearby flame-family helpers and can replace helper markers with active flame actors.</dd>");
+    }
+
+    if (definition.shape === CHEST_NS_SHAPE || definition.shape === CHEST_EW_SHAPE) {
+      rows.push(`<dt>Decoded class</dt><dd>${escapeHtml(definition.shape === CHEST_NS_SHAPE ? "CHEST_NS" : "CHEST_EW")}</dd>`);
+      rows.push("<dt>Chest note</dt><dd>Use opens the chest, runs the local animation/audio sequence, and can spawn contents through the FREE object-creation path.</dd>");
+    }
+
     if (definition.shape === DOOR_DEATH_HELPER_SHAPE) {
-      rows.push("<dt>Decoded role</dt><dd>Door death/crush trigger helper.</dd>");
+      rows.push("<dt>Decoded role</dt><dd>Destroyable-door trigger helper.</dd>");
       if (rawQuality !== null) {
         rows.push(`<dt>Door link bytes</dt><dd>${escapeHtml(`QLo ${qLo} (${formatByteHex(qLo)}), QHi ${qHi} (${formatByteHex(qHi)}), raw ${formatWordHex(rawQuality)}`)}</dd>`);
       }
       if (rawMapNum !== null) {
         rows.push(`<dt>Lane select</dt><dd>${escapeHtml(`${rawMapNum} (${formatByteHex(rawMapNum)}): clear routes to trigger lane 0, nonzero routes to lane 0x80.`)}</dd>`);
       }
+      rows.push("<dt>Door note</dt><dd>Current read: this helper exists so authored doors can become destroyable and then forward into the normal or +0x80 trigger lane.</dd>");
     }
 
     if (definition.shape === STEAMBOX_SHAPE) {
@@ -663,6 +791,27 @@ export function createSceneMetadataHelpers(dependencies) {
         rows.push(`<dt>Steam link bytes</dt><dd>${escapeHtml(`QLo ${qLo} (${formatByteHex(qLo)}), QHi ${qHi} (${formatByteHex(qHi)}), raw ${formatWordHex(rawQuality)}`)}</dd>`);
       }
       rows.push("<dt>Steam note</dt><dd>Recovered STEAMBOX.equip matches nearby steam-family helpers by QLo and forwards them into event 0/1 control lanes.</dd>");
+    }
+
+    if (definition.shape === SFXTRIG_SHAPE) {
+      rows.push("<dt>Decoded class</dt><dd>SFXTRIG</dd>");
+      rows.push("<dt>SFX note</dt><dd>Disasm crosswalks shape 0x04E2 to SFXTRIG, a compact event-bearing helper whose active exported body lives at slot 0x0A.</dd>");
+    }
+
+    if (definition.shape === DEATHBOX_SHAPE) {
+      rows.push("<dt>Decoded class</dt><dd>DEATHBOX</dd>");
+      if (rawQuality !== null) {
+        rows.push(`<dt>Death link bytes</dt><dd>${escapeHtml(`QLo ${qLo} (${formatByteHex(qLo)}), QHi ${qHi} (${formatByteHex(qHi)}), raw ${formatWordHex(rawQuality)}`)}</dd>`);
+      }
+      rows.push("<dt>Death note</dt><dd>Disasm crosswalks shape 0x04E7 to DEATHBOX, whose slot 0x0A helper body matches death-link QLo and forwards NPC death events into TRIGGER lanes.</dd>");
+    }
+
+    if (definition.shape === BRO_BOOT_SHAPE) {
+      rows.push("<dt>Decoded class</dt><dd>BRO_BOOT</dd>");
+      if (rawQuality !== null) {
+        rows.push(`<dt>Boot link bytes</dt><dd>${escapeHtml(`QLo ${qLo} (${formatByteHex(qLo)}), QHi ${qHi} (${formatByteHex(qHi)}), raw ${formatWordHex(rawQuality)}`)}</dd>`);
+      }
+      rows.push("<dt>Boot note</dt><dd>Recovered BRO_BOOT.enterFastArea scans nearby SPANEL items by shared QLo, applies ITEM control slots, and then runs its own boot animation loop.</dd>");
     }
 
     if (definition.shape === ALARMHAT_SHAPE) {
