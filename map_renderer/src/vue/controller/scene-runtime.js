@@ -18,6 +18,7 @@ export function createSceneRuntimeController(deps) {
     mapNextButton,
     includeEditorCheckbox,
     showEditorLinkArrowsCheckbox,
+    alwaysShowRangesCheckbox,
     alwaysShowNpcPreviewsCheckbox,
     alwaysShowItemPreviewsCheckbox,
     includeRoofsCheckbox,
@@ -129,6 +130,7 @@ export function createSceneRuntimeController(deps) {
   const persistedCheckboxes = [
     ["includeEditor", includeEditorCheckbox],
     ["showEditorLinkArrows", showEditorLinkArrowsCheckbox],
+    ["alwaysShowRanges", alwaysShowRangesCheckbox],
     ["alwaysShowNpcPreviews", alwaysShowNpcPreviewsCheckbox],
     ["alwaysShowItemPreviews", alwaysShowItemPreviewsCheckbox],
     ["includeRoofs", includeRoofsCheckbox],
@@ -988,6 +990,10 @@ export function createSceneRuntimeController(deps) {
       }
     });
     showEditorLinkArrowsCheckbox.addEventListener("change", () => {
+      writeViewerPreferences();
+      scheduleRender();
+    });
+    alwaysShowRangesCheckbox.addEventListener("change", () => {
       writeViewerPreferences();
       scheduleRender();
     });

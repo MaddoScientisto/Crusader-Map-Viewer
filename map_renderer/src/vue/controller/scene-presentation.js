@@ -9,6 +9,7 @@ export function createScenePresentationController(deps) {
     inspectShapesCheckbox,
     includeEditorCheckbox,
     showEditorLinkArrowsCheckbox,
+    alwaysShowRangesCheckbox,
     includeRoofsCheckbox,
     includeOobCheckbox,
     showBoundingBoxesCheckbox,
@@ -58,6 +59,7 @@ export function createScenePresentationController(deps) {
     renderPenIconSvg,
     formatEggId,
     formatNumericField,
+    formatDiskCoords,
     formatWorldCoords,
     duplicateTeleportWarning,
     normalizeTeleportId,
@@ -68,11 +70,16 @@ export function createScenePresentationController(deps) {
     getShapeDefinition
   } = deps;
 
+  if (typeof formatWorldCoords !== "function" || typeof formatDiskCoords !== "function") {
+    throw new Error("Scene presentation controller requires formatWorldCoords and formatDiskCoords formatter helpers.");
+  }
+
   let renderFrame = 0;
   const npcPreviewCanvasCache = new Map();
   const itemPreviewCanvasCache = new Map();
   let arrowGraphCache = null;
   const BOX_EW_SHAPE = 0x0080;
+  const USECODE_TRIGGER_EGG_SHAPE = 0x0011;
   const FASTSKIL_SHAPE = 0x0120;
   const PANELNS_SHAPE = 0x00a1;
   const CARD_NS_SHAPE = 0x031d;
@@ -96,6 +103,80 @@ export function createScenePresentationController(deps) {
   const LOCAL_EDITOR_LINK_DISTANCE = 768;
   const LOCAL_ALARM_LINK_DISTANCE = 512;
   const LOCAL_DOOR_LINK_DISTANCE = 640;
+  const CRUSADER_EGG_RANGE_WORLD_UNITS = 64;
+
+  function hasWorldPosition(item) {
+    return Boolean(
+      item?.world
+      && Number.isFinite(item.world.x)
+      && Number.isFinite(item.world.y)
+      && Number.isFinite(item.world.z)
+    );
+  }
+
+  function getUsecodeTriggerEggRange(item) {
+    if (getShapeNumber(item) !== USECODE_TRIGGER_EGG_SHAPE || item?.egg?.type !== "usecode-trigger" || !Number.isInteger(item?.npcNum)) {
+      return null;
+    }
+
+    const rawNpcNum = item.npcNum & 0xff;
+    return {
+      rawNpcNum,
+      xRange: (rawNpcNum >> 4) & 0x0f,
+      yRange: rawNpcNum & 0x0f,
+      worldXRange: ((rawNpcNum >> 4) & 0x0f) * CRUSADER_EGG_RANGE_WORLD_UNITS,
+      worldYRange: (rawNpcNum & 0x0f) * CRUSADER_EGG_RANGE_WORLD_UNITS
+    };
+  }
+
+  function projectUsecodeTriggerEggRange(item) {
+    if (!state.current) {
+      return null;
+    }
+
+    const range = getUsecodeTriggerEggRange(item);
+    if (!range || !hasWorldPosition(item) || (range.worldXRange === 0 && range.worldYRange === 0)) {
+      return null;
+    }
+
+    const minLeft = state.current.metadata.bounds.screenLeft;
+    const minTop = state.current.metadata.bounds.screenTop;
+    const centerX = item.world.x;
+    const centerY = item.world.y;
+    const left = centerX - range.worldXRange;
+    const right = centerX + range.worldXRange;
+    const top = centerY - range.worldYRange;
+    const bottom = centerY + range.worldYRange;
+    const projectPoint = (worldX, worldY, worldZ = item.world.z) => ({
+      x: Math.trunc(worldX / 4 - worldY / 4) - minLeft,
+      y: Math.trunc(worldX / 8 + worldY / 8 - worldZ) - minTop
+    });
+
+    const topPoint = projectPoint(left, top);
+    const leftPoint = projectPoint(left, bottom);
+    const bottomPoint = projectPoint(right, bottom);
+    const rightPoint = projectPoint(right, top);
+    const hitPolygon = [topPoint, leftPoint, bottomPoint, rightPoint];
+    const xs = hitPolygon.map((point) => point.x);
+    const ys = hitPolygon.map((point) => point.y);
+
+    return {
+      center: projectPoint(centerX, centerY),
+      segments: [
+        [topPoint.x, topPoint.y, rightPoint.x, rightPoint.y],
+        [rightPoint.x, rightPoint.y, bottomPoint.x, bottomPoint.y],
+        [bottomPoint.x, bottomPoint.y, leftPoint.x, leftPoint.y],
+        [leftPoint.x, leftPoint.y, topPoint.x, topPoint.y]
+      ],
+      hitPolygon,
+      bounds: {
+        left: Math.min(...xs),
+        right: Math.max(...xs),
+        top: Math.min(...ys),
+        bottom: Math.max(...ys)
+      }
+    };
+  }
 
   function sceneToViewportRect(item) {
     return {
@@ -120,8 +201,18 @@ export function createScenePresentationController(deps) {
   }
 
   function getBoundingGeometry(item) {
+    if (!item) {
+      return null;
+    }
     const definition = getShapeDefinition(item.shapeDefId);
     return projectBoundingBoxWireframe(item, definition);
+  }
+
+  function getRangeGeometry(item) {
+    if (!item) {
+      return null;
+    }
+    return projectUsecodeTriggerEggRange(item);
   }
 
   function showInspectHighlight(item) {
@@ -217,7 +308,7 @@ export function createScenePresentationController(deps) {
   }
 
   function isWithinLinkDistance(left, right, maxDistance) {
-    if (!left || !right) {
+    if (!left || !right || !hasWorldPosition(left) || !hasWorldPosition(right)) {
       return false;
     }
     return Math.hypot(left.world.x - right.world.x, left.world.y - right.world.y) <= maxDistance;
@@ -472,7 +563,7 @@ export function createScenePresentationController(deps) {
           <span class="egg-item-id">${escapeHtml(formatEggId(item.egg.labelId))}</span>
           <span class="egg-item-badge">${escapeHtml(describeEggType(item.egg))}</span>
         </div>
-        <div class="egg-item-meta">world ${escapeHtml(`${item.world.x}, ${item.world.y}, ${item.world.z}`)} · shape ${escapeHtml(display.shapeHex)}</div>
+        <div class="egg-item-meta">world ${escapeHtml(formatWorldCoords(item))} · shape ${escapeHtml(display.shapeHex)}</div>
       `;
       button.addEventListener("click", () => {
         centerViewportOnItem(item);
@@ -642,8 +733,8 @@ export function createScenePresentationController(deps) {
       <dt>Shape</dt><dd>${escapeHtml(display.shapeHex)} frame ${escapeHtml(item.frame)}</dd>
       <dt>Kind</dt><dd>${escapeHtml(display.kind)}</dd>
       <dt>Family</dt><dd>${escapeHtml(display.family)}</dd>
-      <dt>World</dt><dd>${escapeHtml(`${item.world.x}, ${item.world.y}, ${item.world.z}`)}</dd>
-      <dt>Disk</dt><dd>${escapeHtml(`${Math.trunc(item.world.x / 2)}, ${Math.trunc(item.world.y / 2)}, ${item.world.z}`)}</dd>
+      <dt>World</dt><dd>${escapeHtml(formatWorldCoords(item))}</dd>
+      <dt>Disk</dt><dd>${escapeHtml(formatDiskCoords(item))}</dd>
       <dt>Source</dt><dd>${escapeHtml(item.source)}</dd>
       <dt>Flags</dt><dd>${escapeHtml(item.flags.hex)}</dd>
       ${eggRows}
@@ -1528,7 +1619,7 @@ export function createScenePresentationController(deps) {
 
   function projectBoundingBoxWireframe(item, definition) {
     const dimensions = definition?.dimensions;
-    if (!dimensions || !state.current) {
+    if (!dimensions || !state.current || !hasWorldPosition(item)) {
       return null;
     }
 
@@ -1618,6 +1709,19 @@ export function createScenePresentationController(deps) {
     return inside;
   }
 
+  function pointInScreenRect(point, item) {
+    const screen = item?.screen;
+    if (!screen) {
+      return false;
+    }
+    return !(
+      point.x < screen.left
+      || point.x >= screen.right
+      || point.y < screen.top
+      || point.y >= screen.bottom
+    );
+  }
+
   function strokeSceneLine(targetContext, scale, offsetX, offsetY, x1, y1, x2, y2) {
     targetContext.moveTo(Math.round(x1 * scale + offsetX) + 0.5, Math.round(y1 * scale + offsetY) + 0.5);
     targetContext.lineTo(Math.round(x2 * scale + offsetX) + 0.5, Math.round(y2 * scale + offsetY) + 0.5);
@@ -1641,6 +1745,58 @@ export function createScenePresentationController(deps) {
       strokeSceneLine(targetContext, scale, offsetX, offsetY, x1, y1, x2, y2);
     }
     targetContext.stroke();
+  }
+
+  function drawScenePolygon(targetContext, scale, offsetX, offsetY, polygon) {
+    if (!polygon?.length) {
+      return;
+    }
+    const [firstPoint, ...restPoints] = polygon;
+    targetContext.beginPath();
+    targetContext.moveTo(firstPoint.x * scale + offsetX, firstPoint.y * scale + offsetY);
+    for (const point of restPoints) {
+      targetContext.lineTo(point.x * scale + offsetX, point.y * scale + offsetY);
+    }
+    targetContext.closePath();
+  }
+
+  function getItemRangeLinkPoint(item) {
+    if (!item?.screen) {
+      return null;
+    }
+    return {
+      x: item.screen.anchorX ?? Math.trunc((item.screen.left + item.screen.right) / 2),
+      y: item.screen.anchorY ?? Math.trunc((item.screen.top + item.screen.bottom) / 2)
+    };
+  }
+
+  function drawRangeConnector(targetContext, scale, offsetX, offsetY, geometry, item) {
+    const itemPoint = getItemRangeLinkPoint(item);
+    const rangePoint = geometry?.center;
+    if (!itemPoint || !rangePoint) {
+      return;
+    }
+    targetContext.beginPath();
+    strokeSceneLine(targetContext, scale, offsetX, offsetY, itemPoint.x, itemPoint.y, rangePoint.x, rangePoint.y);
+    targetContext.stroke();
+  }
+
+  function drawRangeOverlay(targetContext, scale, offsetX, offsetY, geometry, item, alpha = 1) {
+    if (!geometry) {
+      return;
+    }
+
+    targetContext.save();
+    targetContext.fillStyle = `rgba(64, 156, 255, ${0.18 * alpha})`;
+    targetContext.strokeStyle = `rgba(92, 181, 255, ${0.9 * alpha})`;
+    targetContext.lineWidth = 1.5;
+    targetContext.setLineDash([2, 6]);
+    drawScenePolygon(targetContext, scale, offsetX, offsetY, geometry.hitPolygon);
+    targetContext.fill();
+    drawBoundingGeometry(targetContext, scale, offsetX, offsetY, geometry);
+    targetContext.setLineDash([2, 10]);
+    drawRangeConnector(targetContext, scale, offsetX, offsetY, geometry, item);
+    targetContext.restore();
   }
 
   function getHighlightStrokeStyle(alpha) {
@@ -1706,6 +1862,14 @@ export function createScenePresentationController(deps) {
     }
     targetContext.restore();
 
+    if (!alwaysShowRangesCheckbox.checked && overlay.itemId) {
+      const item = getItemById(overlay.itemId);
+      const rangeGeometry = getRangeGeometry(item);
+      if (item && rangeGeometry) {
+        drawRangeOverlay(targetContext, scale, offsetX, offsetY, rangeGeometry, item, overlay.alpha);
+      }
+    }
+
     if (animationActive) {
       scheduleRender();
     }
@@ -1745,6 +1909,33 @@ export function createScenePresentationController(deps) {
     }
 
     targetContext.restore();
+  }
+
+  function drawRangeOverlays(targetContext, canvasWidth, canvasHeight, scale, offsetX, offsetY, hiddenIds = new Set()) {
+    if (!state.current || !alwaysShowRangesCheckbox.checked) {
+      return;
+    }
+
+    for (const item of state.current.scene.items) {
+      if (hiddenIds.has(item.id) || !isItemVisible(item)) {
+        continue;
+      }
+
+      const geometry = getRangeGeometry(item);
+      if (!geometry) {
+        continue;
+      }
+
+      const left = geometry.bounds.left * scale + offsetX;
+      const top = geometry.bounds.top * scale + offsetY;
+      const width = (geometry.bounds.right - geometry.bounds.left) * scale;
+      const height = (geometry.bounds.bottom - geometry.bounds.top) * scale;
+      if (left + width < 0 || top + height < 0 || left > canvasWidth || top > canvasHeight) {
+        continue;
+      }
+
+      drawRangeOverlay(targetContext, scale, offsetX, offsetY, geometry, item);
+    }
   }
 
   function drawEggLabels(targetContext, canvasWidth, canvasHeight) {
@@ -1802,6 +1993,7 @@ export function createScenePresentationController(deps) {
     }
     drawNpcPreviewOverlay(context, viewport.clientWidth, viewport.clientHeight, state.zoom, state.offsetX, state.offsetY);
     drawItemPreviewOverlay(context, viewport.clientWidth, viewport.clientHeight, state.zoom, state.offsetX, state.offsetY);
+    drawRangeOverlays(context, viewport.clientWidth, viewport.clientHeight, state.zoom, state.offsetX, state.offsetY, state.current?.hiddenIds ?? new Set());
     drawLinkArrows(context, viewport.clientWidth, viewport.clientHeight, state.zoom, state.offsetX, state.offsetY);
     drawBoundingBoxes(context, viewport.clientWidth, viewport.clientHeight, state.zoom, state.offsetX, state.offsetY, state.current?.hiddenIds ?? new Set());
     drawEggLabels(context, viewport.clientWidth, viewport.clientHeight);
@@ -1819,17 +2011,7 @@ export function createScenePresentationController(deps) {
     if (!isItemVisible(item)) {
       return false;
     }
-    const geometry = getBoundingGeometry(item);
-    const bounds = geometry?.bounds ?? item.screen;
-    if (
-      point.x < bounds.left
-      || point.x >= bounds.right
-      || point.y < bounds.top
-      || point.y >= bounds.bottom
-    ) {
-      return false;
-    }
-    return !geometry || pointInPolygon(point, geometry.hitPolygon);
+    return pointInScreenRect(point, item);
   }
 
   return {

@@ -10,10 +10,16 @@ export function formatEggId(value) {
 }
 
 export function formatWorldCoords(item) {
+  if (!item?.world || !Number.isFinite(item.world.x) || !Number.isFinite(item.world.y) || !Number.isFinite(item.world.z)) {
+    return "-";
+  }
   return `${item.world.x}, ${item.world.y}, ${item.world.z}`;
 }
 
 export function formatDiskCoords(item) {
+  if (!item?.world || !Number.isFinite(item.world.x) || !Number.isFinite(item.world.y) || !Number.isFinite(item.world.z)) {
+    return "-";
+  }
   return `${Math.trunc(item.world.x / 2)}, ${Math.trunc(item.world.y / 2)}, ${item.world.z}`;
 }
 

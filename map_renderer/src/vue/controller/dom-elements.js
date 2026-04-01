@@ -5,6 +5,7 @@ export let mapPrevButton = null;
 export let mapNextButton = null;
 export let includeEditorCheckbox = null;
 export let showEditorLinkArrowsCheckbox = null;
+export let alwaysShowRangesCheckbox = null;
 export let alwaysShowNpcPreviewsCheckbox = null;
 export let alwaysShowItemPreviewsCheckbox = null;
 export let includeRoofsCheckbox = null;
@@ -88,6 +89,7 @@ export function initializeDomElements() {
 	mapNextButton = requireDomElement("#map-next");
 	includeEditorCheckbox = requireDomElement("#include-editor");
 	showEditorLinkArrowsCheckbox = requireDomElement("#show-editor-link-arrows");
+	alwaysShowRangesCheckbox = requireDomElement("#always-show-ranges");
 	alwaysShowNpcPreviewsCheckbox = requireDomElement("#always-show-npc-previews");
 	alwaysShowItemPreviewsCheckbox = requireDomElement("#always-show-item-previews");
 	includeRoofsCheckbox = requireDomElement("#include-roofs");

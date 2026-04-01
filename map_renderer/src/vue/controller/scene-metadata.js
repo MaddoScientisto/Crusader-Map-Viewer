@@ -4,6 +4,7 @@ const MONSTER_EGG_PREVIEW_SHAPE = 0x024f;
 const MONSTER_SPAWNER_SHAPE = 0x04d0;
 const MONSTER_SPAWNER_PAIR_MAX_DISTANCE = 512;
 const BOX_EW_SHAPE = 0x0080;
+const USECODE_TRIGGER_EGG_SHAPE = 0x0011;
 const MONITNS_SHAPE = 0x0102;
 const MONITEW_SHAPE = 0x0165;
 const FASTSKIL_SHAPE = 0x0120;
@@ -16,6 +17,8 @@ const VMAIL_SHAPE = 0x0367;
 const NPC_ONLY_SHAPE = 0x0366;
 const SPANEL_SHAPE = 0x03aa;
 const FLAMEBOX_SHAPE = 0x0403;
+const TIMER_SHAPE = 0x04c9;
+const SPECIAL_SHAPE = 0x04ca;
 const TRIGPAD_SHAPE = 0x04cd;
 const SKILLBOX_SHAPE = 0x04e3;
 const SFXTRIG_SHAPE = 0x04e2;
@@ -30,6 +33,82 @@ const ALRMTRIG_SHAPE = 0x0581;
 const CHEST_NS_SHAPE = 0x054f;
 const CHEST_EW_SHAPE = 0x0550;
 const CMD_LINK_MAX_DISTANCE = 768;
+const CRUSADER_EGG_RANGE_WORLD_UNITS = 64;
+
+function getUsecodeTriggerEggRange(item) {
+  if (item?.egg?.type !== "usecode-trigger" || !Number.isInteger(item?.npcNum)) {
+    return null;
+  }
+
+  const rawNpcNum = item.npcNum & 0xff;
+  const xRange = (rawNpcNum >> 4) & 0x0f;
+  const yRange = rawNpcNum & 0x0f;
+
+  return {
+    rawNpcNum,
+    xRange,
+    yRange,
+    worldXRange: xRange * CRUSADER_EGG_RANGE_WORLD_UNITS,
+    worldYRange: yRange * CRUSADER_EGG_RANGE_WORLD_UNITS,
+    zWindow: 48
+  };
+}
+
+function getTimerMetadata(item) {
+  if (!Number.isInteger(item?.mapNum) || !Number.isInteger(item?.npcNum) || !Number.isInteger(item?.quality)) {
+    return null;
+  }
+
+  const rawMapNum = item.mapNum & 0xff;
+  const rawNpcNum = item.npcNum & 0xff;
+  const rawQuality = item.quality & 0xffff;
+  const qHi = (rawQuality >> 8) & 0xff;
+  const packedDelay = ((rawMapNum << 8) | rawNpcNum) & 0xffff;
+  const trimTier = (qHi >> 5) & 0x07;
+  const trimPercents = [0, 10, 25, 40, 50, 60, 75, 90];
+  const trimPercent = trimPercents[trimTier] ?? 0;
+  const trimmedDelay = packedDelay - Math.floor((packedDelay * trimPercent) / 100);
+
+  return {
+    rawMapNum,
+    rawNpcNum,
+    rawQuality,
+    qHi,
+    packedDelay,
+    trimTier,
+    trimPercent,
+    trimmedDelay,
+    repeatWhileArmed: Boolean(qHi & 0x01),
+    armOnEnterFastArea: Boolean(qHi & 0x02),
+    armOnLeaveFastArea: Boolean(qHi & 0x04),
+    phaseRoutingBit: Boolean(qHi & 0x08),
+    suppressPhaseOneBit: Boolean(qHi & 0x10)
+  };
+}
+
+function getSpecialMetadata(item) {
+  if (!Number.isInteger(item?.mapNum) || !Number.isInteger(item?.npcNum) || !Number.isInteger(item?.quality)) {
+    return null;
+  }
+
+  const rawMapNum = item.mapNum & 0xff;
+  const rawNpcNum = item.npcNum & 0xff;
+  const rawQuality = item.quality & 0xffff;
+  const qLo = rawQuality & 0xff;
+  const qHi = (rawQuality >> 8) & 0xff;
+
+  return {
+    rawMapNum,
+    rawNpcNum,
+    rawQuality,
+    qLo,
+    qHi,
+    immediateEnterPhase: rawMapNum === 1,
+    immediateExitPhase: rawMapNum === 2,
+    immediateNpcEnterPhase: rawNpcNum === 1,
+    immediateNpcExitPhase: rawNpcNum === 2
+  };
+}
 
 export function createSceneMetadataHelpers(dependencies) {
   const {
@@ -475,6 +554,20 @@ export function createSceneMetadataHelpers(dependencies) {
     if (definition.shape === FLAMEBOX_SHAPE) {
       return "FLAMEBOX hazard controller; equip scans nearby flame-family helpers by shared QLo and can swap helper markers into active flame actors.";
     }
+    if (definition.shape === TIMER_SHAPE) {
+      const timer = getTimerMetadata(item);
+      if (timer) {
+        return `TIMER fast-area helper; mapNum:npcNum pack a ${timer.packedDelay}-tick base delay, qHi tier ${timer.trimTier} trims that by ${timer.trimPercent}%, and the low qHi bits arm enter/leave/repeat routing into TRIGGER.slot_20.`;
+      }
+      return "TIMER fast-area helper; enter/leave-area hooks arm a delayed TRIGGER.slot_20 dispatch instead of behaving like a plain editor marker.";
+    }
+    if (definition.shape === SPECIAL_SHAPE) {
+      const special = getSpecialMetadata(item);
+      if (special) {
+        return `SPECIAL fast-area helper; mapNum and npcNum are phase bytes, qHi is the delay byte, and the helper can either fire direct 0x80/0x81 TRIGGER.slot_20 lanes or loop through SPECIAL.slot_21 state progression.`;
+      }
+      return "SPECIAL fast-area helper; mapNum/npcNum act like phase bytes rather than DTABLE rows, and the family fans out through TRIGGER.slot_20 and SPECIAL.slot_21.";
+    }
     if (definition.shape === TRIGPAD_SHAPE) {
       return "TRIGPAD occupancy/surface-gated trigger pad; gotHit waits briefly, dispatches trigger lanes 0 then 1, and can prod nearby elevator helpers. Broader scene sweeps did not justify a generic cmd-link arrow rule.";
     }
@@ -507,6 +600,13 @@ export function createSceneMetadataHelpers(dependencies) {
     }
     if (definition.shape === MONSTER_EGG_PREVIEW_SHAPE && item.egg?.type === "monster-spawn") {
       return "Monster egg spawn entry; egg ID comes from mapNum >> 3 and Remorse can still use npcNum as a DTABLE actor row.";
+    }
+    if (definition.shape === USECODE_TRIGGER_EGG_SHAPE && item.egg?.type === "usecode-trigger") {
+      const range = getUsecodeTriggerEggRange(item);
+      if (range) {
+        return `Usecode-trigger proximity egg; mapNum is the egg id, npcNum packs X/Y trigger range nibbles, and the inspect overlay shows the current footprint (${range.worldXRange} x ${range.worldYRange} world units, +/- ${range.zWindow} Z).`;
+      }
+      return "Usecode-trigger proximity egg; mapNum is the egg id and npcNum packs the X/Y trigger range nibbles used by the runtime egg-hatcher checks.";
     }
 
     const catalogText = [definition.displayName, definition.description, definition.catalogEntry?.humanReadableId]
@@ -593,6 +693,12 @@ export function createSceneMetadataHelpers(dependencies) {
     }
     if (definition.shape === CMD_LINK_SHAPE) {
       return createUsecodeViewTarget("TRIGGER", 0x20, null, "TRIGGER.slot_20 is the shared high-slot fan-out lane that nearby controller objects keep spawning on matched link ids.");
+    }
+    if (definition.shape === TIMER_SHAPE) {
+      return createUsecodeViewTarget("TIMER", 0x0f, "enterFastArea", "TIMER.enterFastArea is the first active body for this fast-area timer family; it arms slot 0x20 from qHi flags and the packed mapNum:npcNum delay payload.");
+    }
+    if (definition.shape === SPECIAL_SHAPE) {
+      return createUsecodeViewTarget("SPECIAL", 0x0f, "enterFastArea", "SPECIAL.enterFastArea is the first active body for this phase helper family; it reads mapNum/npcNum phase bytes and qHi delay before fanning out through TRIGGER.slot_20 and SPECIAL.slot_21.");
     }
     if (definition.shape === SKILLBOX_SHAPE) {
       return createUsecodeViewTarget("SKILLBOX", 0x0a, "equip", "SKILLBOX.equip is the verified skill-gated controller body for the recovered difficulty switch family.");
@@ -693,6 +799,7 @@ export function createSceneMetadataHelpers(dependencies) {
         rows.push(`<dt>Map flags</dt><dd>${escapeHtml(`${rawMapNum} (${formatByteHex(rawMapNum)})`)}</dd>`);
       }
       if (cmdMetadata) {
+        rows.push(`<dt>Field map</dt><dd>${escapeHtml(`QLo is the local link id. QHi low bits select subcommand ${cmdMetadata.subcommand}, QHi high bits carry arg ${cmdMetadata.subcommandArg}. mapNum low bits decode mode/itemMode/phase/priority, while mapNum high bits plus npcNum build target code ${formatWordHex(cmdMetadata.targetCode)}.`)}</dd>`);
         rows.push(`<dt>Phase lane</dt><dd>${escapeHtml(`Responds to TRIGGER phase ${cmdMetadata.phaseLane}${cmdMetadata.phaseLane === 0 ? " / 0x80" : " / 0x81"} because map bit 0x08 is ${cmdMetadata.phaseLane === 0 ? "set" : "clear"}.`)}</dd>`);
         rows.push(`<dt>Dispatch mode</dt><dd>${escapeHtml(`${cmdMetadata.itemMode ? "Item-targeting" : "NPC-triggering"} path, mode ${cmdMetadata.mode}, ${cmdMetadata.lowPriority ? "deferred/low-priority" : "immediate"} execution.`)}</dd>`);
         rows.push(`<dt>Target decode</dt><dd>${escapeHtml(`${cmdMetadata.targetLabel} from npcNum ${cmdMetadata.npcByte} + map high bits ${formatByteHex(cmdMetadata.mapByte & 0xe0)}.`)}</dd>`);
@@ -704,6 +811,32 @@ export function createSceneMetadataHelpers(dependencies) {
           }
         }
       }
+    }
+
+    if (definition.shape === TIMER_SHAPE) {
+      const timer = getTimerMetadata(item);
+      rows.push("<dt>Decoded class</dt><dd>TIMER</dd>");
+      if (rawQuality !== null) {
+        rows.push(`<dt>Timer bytes</dt><dd>${escapeHtml(`QLo ${qLo} (${formatByteHex(qLo)}), QHi ${qHi} (${formatByteHex(qHi)}), raw ${formatWordHex(rawQuality)}`)}</dd>`);
+      }
+      if (timer) {
+        rows.push(`<dt>Delay payload</dt><dd>${escapeHtml(`mapNum:npcNum packs ${timer.packedDelay} ticks (${formatWordHex(timer.packedDelay)}). qHi tier ${timer.trimTier} trims that by ${timer.trimPercent}%, leaving an effective ${timer.trimmedDelay}-tick wait.`)}</dd>`);
+        rows.push(`<dt>Flag bits</dt><dd>${escapeHtml(`qHi bit 0 = ${timer.repeatWhileArmed ? "repeat while armed" : "one-shot clear"}, bit 1 = ${timer.armOnEnterFastArea ? "arm on enter" : "skip enter arm"}, bit 2 = ${timer.armOnLeaveFastArea ? "arm on leave" : "skip leave arm"}, bit 3 = ${timer.phaseRoutingBit ? "alternate in/out phase routing" : "default in/out phase routing"}, bit 4 = ${timer.suppressPhaseOneBit ? "suppress one late phase branch" : "allow both late phase branches"}.`)}</dd>`);
+      }
+      rows.push("<dt>Timer note</dt><dd>Recovered TIMER.enterFastArea / leaveFastArea only arm the worker; TIMER.slot_20 performs the actual wait loop, checks fast-area state and status bit 0x1000, and then fans out into TRIGGER slot 0x20 with phase 0x80 or 0x81.</dd>");
+    }
+
+    if (definition.shape === SPECIAL_SHAPE) {
+      const special = getSpecialMetadata(item);
+      rows.push("<dt>Decoded class</dt><dd>SPECIAL</dd>");
+      if (rawQuality !== null) {
+        rows.push(`<dt>Special bytes</dt><dd>${escapeHtml(`QLo ${qLo} (${formatByteHex(qLo)}), QHi ${qHi} (${formatByteHex(qHi)}), raw ${formatWordHex(rawQuality)}`)}</dd>`);
+      }
+      if (special) {
+        rows.push(`<dt>Field roles</dt><dd>${escapeHtml(`mapNum ${special.rawMapNum} and npcNum ${special.rawNpcNum} are phase/control bytes, not DTABLE rows. qHi ${special.qHi} is the delay byte used by SPECIAL.slot_21, and QLo ${special.qLo} is the local link byte that slot 0x21 can bump by +3 before restoring it.`)}</dd>`);
+        rows.push(`<dt>Fast-area gates</dt><dd>${escapeHtml(`enterFastArea reacts directly to mapNum==1 (${special.immediateEnterPhase ? "armed here" : "not set"}) or npcNum==1 (${special.immediateNpcEnterPhase ? "armed here" : "not set"}); leaveFastArea uses the analogous value 2 checks.`)}</dd>`);
+      }
+      rows.push("<dt>Special note</dt><dd>Recovered SPECIAL.enterFastArea / leaveFastArea feed TRIGGER.slot_20 with phases 0x80 and 0x81, while SPECIAL.slot_21 handles the looping or counter-based cases and can temporarily rewrite QLo before restoring it.</dd>");
     }
 
     if (definition.shape === EVENT_SHAPE) {
@@ -829,6 +962,22 @@ export function createSceneMetadataHelpers(dependencies) {
         rows.push(`<dt>Alert lane byte</dt><dd>${escapeHtml(`${rawMapNum} (${formatByteHex(rawMapNum)}): zero selects base lanes 0/1, nonzero selects 0x80/0x81.`)}</dd>`);
       }
       rows.push("<dt>Alert note</dt><dd>Recovered ALRMTRIG.equip only checks map-array state and World.getAlertActive() before dispatching one of four TRIGGER lanes.</dd>");
+    }
+
+    if (definition.shape === USECODE_TRIGGER_EGG_SHAPE && item.egg?.type === "usecode-trigger") {
+      const range = getUsecodeTriggerEggRange(item);
+      rows.push("<dt>Decoded role</dt><dd>Usecode-trigger proximity egg.</dd>");
+      rows.push("<dt>Egg note</dt><dd>Current best read: family-4 shape 0x0011 behaves like a hidden enter/leave trigger item rather than a DTABLE-backed NPC spawner.</dd>");
+      if (range) {
+        rows.push(`<dt>Trigger range</dt><dd>${escapeHtml(`npc ${range.rawNpcNum} (${formatByteHex(range.rawNpcNum)}): X ${range.xRange} * 64 = ${range.worldXRange}, Y ${range.yRange} * 64 = ${range.worldYRange}, Z window +/- ${range.zWindow}.`)}</dd>`);
+        rows.push("<dt>Overlay stance</dt><dd>Pinned or hovered items now draw the projected trigger footprint instead of only the 1x1 egg bounding box.</dd>");
+      }
+      if (rawMapNum !== null) {
+        rows.push(`<dt>Egg ID</dt><dd>${escapeHtml(`${rawMapNum} (${formatByteHex(rawMapNum)})`)}</dd>`);
+      }
+      if (rawQuality !== null) {
+        rows.push(`<dt>Egg bytes</dt><dd>${escapeHtml(`QLo ${qLo} (${formatByteHex(qLo)}), QHi ${qHi} (${formatByteHex(qHi)}), raw ${formatWordHex(rawQuality)}`)}</dd>`);
+      }
     }
 
     return rows.join("");
