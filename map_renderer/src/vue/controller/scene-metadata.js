@@ -34,6 +34,108 @@ const CHEST_NS_SHAPE = 0x054f;
 const CHEST_EW_SHAPE = 0x0550;
 const CMD_LINK_MAX_DISTANCE = 768;
 const CRUSADER_EGG_RANGE_WORLD_UNITS = 64;
+const USECODE_TRIGGER_EGG_SUBTYPE_CLASSES = {
+  remorse: {
+    0: {
+      className: "TRIGEGG",
+      slot: 0x07,
+      eventNameHint: "hatch",
+      activeLaneLabel: "hatch / unhatch",
+      note: "TRIGEGG hatch and unhatch both spawn TRIGGER.slot_20 with phases 0x80 and 0x81, using the egg's local QLo as the downstream link id.",
+      overlayNote: "Renderer arrows expose nearby 0x04B1 cmd helpers that share this egg's local QLo link id."
+    },
+    1: {
+      className: "ONCEEGG",
+      slot: 0x07,
+      eventNameHint: "hatch",
+      activeLaneLabel: "hatch / unhatch",
+      note: "ONCEEGG uses the same TRIGGER.slot_20 routing as TRIGEGG in the recovered corpus, again keyed by the egg's local QLo.",
+      overlayNote: "Renderer arrows expose nearby 0x04B1 cmd helpers that share this egg's local QLo link id."
+    },
+    2: {
+      className: "FLOOR1",
+      slot: 0x0f,
+      eventNameHint: "enterFastArea",
+      activeLaneLabel: "enterFastArea / leaveFastArea",
+      note: "FLOOR1 does not use hatch and unhatch. Its fast-area lanes run a timed floor/NPC sweep driven by egg id timing and nearby item QLo values.",
+      overlayNote: "No generic arrow overlay is shown because the recovered body scans nearby floor items and NPCs rather than a stable helper family."
+    },
+    13: {
+      className: "MISS1EGG",
+      slot: 0x07,
+      eventNameHint: "hatch",
+      activeLaneLabel: "hatch",
+      note: "MISS1EGG is mission-specific. The recovered hatch body branches by egg id and can trigger scripted spawns, NPC handling, or localized event flow rather than one reusable helper lane.",
+      overlayNote: "No generic arrow overlay is shown because the recovered body is mission-specific rather than a reusable local helper router."
+    }
+  },
+  regret: {
+    0: {
+      className: "TRIGEGG",
+      slot: 0x07,
+      eventNameHint: "hatch",
+      activeLaneLabel: "hatch / unhatch",
+      note: "TRIGEGG hatch and unhatch both spawn TRIGGER.slot_20 with phases 0x80 and 0x81, using the egg's local QLo as the downstream link id.",
+      overlayNote: "Renderer arrows expose nearby 0x04B1 cmd helpers that share this egg's local QLo link id."
+    },
+    1: {
+      className: "ONCEEGG",
+      slot: 0x07,
+      eventNameHint: "hatch",
+      activeLaneLabel: "hatch / unhatch",
+      note: "ONCEEGG uses the same TRIGGER.slot_20 routing as TRIGEGG in the recovered corpus, again keyed by the egg's local QLo.",
+      overlayNote: "Renderer arrows expose nearby 0x04B1 cmd helpers that share this egg's local QLo link id."
+    },
+    2: {
+      className: "FLOOR1",
+      slot: 0x0f,
+      eventNameHint: "enterFastArea",
+      activeLaneLabel: "enterFastArea / leaveFastArea",
+      note: "FLOOR1 does not use hatch and unhatch. Its fast-area lanes run a timed floor/NPC sweep driven by egg id timing and nearby item QLo values.",
+      overlayNote: "No generic arrow overlay is shown because the recovered body scans nearby floor items and NPCs rather than a stable helper family."
+    },
+    5: {
+      className: "MHATCHER",
+      slot: 0x07,
+      eventNameHint: "hatch",
+      activeLaneLabel: "hatch",
+      note: "MHATCHER scans nearby 0x04D0 helper objects and matches their QLo against the egg id stored in mapNum.",
+      overlayNote: "Renderer arrows expose nearby frame-0 0x04D0 helpers whose QLo matches this egg's mapNum egg id."
+    },
+    8: {
+      className: "CHANGER",
+      slot: 0x07,
+      eventNameHint: "hatch",
+      activeLaneLabel: "hatch",
+      note: "CHANGER reads both the egg's local QLo and egg id, then scans nearby items, but the recovered hatch body is still too incomplete for a stable generic local-target rule.",
+      overlayNote: "No generic arrow overlay is shown because the recovered body is still structurally incomplete."
+    },
+    10: {
+      className: "DOOREGG",
+      slot: 0x07,
+      eventNameHint: "hatch",
+      activeLaneLabel: "hatch / unhatch via slot_20 / slot_21",
+      note: "DOOREGG delegates into helper slots that scan nearby family-1 door objects whose QLo matches the egg id stored in mapNum.",
+      overlayNote: "Renderer arrows expose nearby door-family objects whose QLo matches this egg's mapNum egg id."
+    },
+    13: {
+      className: "MISS1",
+      slot: 0x07,
+      eventNameHint: "hatch",
+      activeLaneLabel: "hatch",
+      note: "MISS1 is mission-specific. Its recovered hatch body branches by egg id, can manipulate nearby doors, and only sometimes falls back into TRIGGER routing.",
+      overlayNote: "No generic arrow overlay is shown because the recovered body is mission-specific rather than a reusable local helper router."
+    },
+    24: {
+      className: "VIDEOEGG",
+      slot: 0x07,
+      eventNameHint: "hatch",
+      activeLaneLabel: "hatch",
+      note: "VIDEOEGG is a cutscene/script egg gated by globals and nearby helper state, not a generic local trigger helper.",
+      overlayNote: "No generic arrow overlay is shown because the recovered body is cutscene-specific rather than a reusable local helper router."
+    }
+  }
+};
 
 function getUsecodeTriggerEggRange(item) {
   if (item?.egg?.type !== "usecode-trigger" || !Number.isInteger(item?.npcNum)) {
@@ -51,6 +153,39 @@ function getUsecodeTriggerEggRange(item) {
     worldXRange: xRange * CRUSADER_EGG_RANGE_WORLD_UNITS,
     worldYRange: yRange * CRUSADER_EGG_RANGE_WORLD_UNITS,
     zWindow: 48
+  };
+}
+
+function getUsecodeTriggerEggSubtypeInfo(item, gameId) {
+  if (item?.egg?.type !== "usecode-trigger") {
+    return null;
+  }
+
+  const rawQuality = Number.isInteger(item?.quality) ? (item.quality & 0xffff) : null;
+  const rawMapNum = Number.isInteger(item?.mapNum) ? (item.mapNum & 0xff) : null;
+  const qLo = rawQuality === null ? null : (rawQuality & 0xff);
+  const qHi = rawQuality === null ? null : ((rawQuality >> 8) & 0xff);
+  if (!Number.isInteger(qLo)) {
+    return null;
+  }
+
+  const subtypeCatalog = USECODE_TRIGGER_EGG_SUBTYPE_CLASSES[gameId] ?? null;
+  const subtype = subtypeCatalog ? subtypeCatalog[qLo] ?? null : null;
+
+  return {
+    qLo,
+    qHi,
+    rawQuality,
+    rawMapNum,
+    classId: 0x0900 + qLo,
+    ...(subtype ?? {
+      className: null,
+      slot: null,
+      eventNameHint: null,
+      activeLaneLabel: null,
+      note: "This QLo value still resolves into the family-4 class range 0x0900 + QLo, but the exact authored class has not been promoted in the viewer yet.",
+      overlayNote: "No generic arrow overlay is shown for unresolved family-4 subtypes."
+    })
   };
 }
 
@@ -603,10 +738,17 @@ export function createSceneMetadataHelpers(dependencies) {
     }
     if (definition.shape === USECODE_TRIGGER_EGG_SHAPE && item.egg?.type === "usecode-trigger") {
       const range = getUsecodeTriggerEggRange(item);
+      const subtype = getUsecodeTriggerEggSubtypeInfo(item, state.current?.selected?.game ?? null);
       if (range) {
-        return `Usecode-trigger proximity egg; mapNum is the egg id, npcNum packs X/Y trigger range nibbles, and the inspect overlay shows the current footprint (${range.worldXRange} x ${range.worldYRange} world units, +/- ${range.zWindow} Z).`;
+        const subtypeText = subtype?.className
+          ? ` QLo ${subtype.qLo} selects ${subtype.className} at class ${formatWordHex(subtype.classId)}.`
+          : "";
+        return `Usecode-trigger proximity egg; mapNum is the egg id, npcNum packs X/Y trigger range nibbles, and the inspect overlay shows the current footprint (${range.worldXRange} x ${range.worldYRange} world units, +/- ${range.zWindow} Z).${subtypeText}`;
       }
-      return "Usecode-trigger proximity egg; mapNum is the egg id and npcNum packs the X/Y trigger range nibbles used by the runtime egg-hatcher checks.";
+      if (subtype?.className) {
+        return `Usecode-trigger proximity egg; mapNum is the egg id, QLo selects ${subtype.className} at class ${formatWordHex(subtype.classId)}, and npcNum packs the X/Y trigger range nibbles used by the runtime egg-hatcher checks.`;
+      }
+      return "Usecode-trigger proximity egg; mapNum is the egg id, QLo selects the family-4 class at 0x0900 + QLo, and npcNum packs the X/Y trigger range nibbles used by the runtime egg-hatcher checks.";
     }
 
     const catalogText = [definition.displayName, definition.description, definition.catalogEntry?.humanReadableId]
@@ -644,6 +786,13 @@ export function createSceneMetadataHelpers(dependencies) {
   function getUsecodeViewTarget(item, definition = null) {
     if (!definition) {
       return null;
+    }
+
+    if (definition.shape === USECODE_TRIGGER_EGG_SHAPE && item?.egg?.type === "usecode-trigger") {
+      const subtype = getUsecodeTriggerEggSubtypeInfo(item, state.current?.selected?.game ?? null);
+      if (subtype?.className && Number.isInteger(subtype.slot)) {
+        return createUsecodeViewTarget(subtype.className, subtype.slot, subtype.eventNameHint, subtype.note);
+      }
     }
 
     if (definition.shape === BOX_EW_SHAPE) {
@@ -966,8 +1115,9 @@ export function createSceneMetadataHelpers(dependencies) {
 
     if (definition.shape === USECODE_TRIGGER_EGG_SHAPE && item.egg?.type === "usecode-trigger") {
       const range = getUsecodeTriggerEggRange(item);
+      const subtype = getUsecodeTriggerEggSubtypeInfo(item, state.current?.selected?.game ?? null);
       rows.push("<dt>Decoded role</dt><dd>Usecode-trigger proximity egg.</dd>");
-      rows.push("<dt>Egg note</dt><dd>Current best read: family-4 shape 0x0011 behaves like a hidden enter/leave trigger item rather than a DTABLE-backed NPC spawner.</dd>");
+      rows.push("<dt>Egg note</dt><dd>Family-4 shape 0x0011 is a hidden usecode trigger egg. The runtime selects the authored class from QLo via class id 0x0900 + QLo, not from mapNum.</dd>");
       if (range) {
         rows.push(`<dt>Trigger range</dt><dd>${escapeHtml(`npc ${range.rawNpcNum} (${formatByteHex(range.rawNpcNum)}): X ${range.xRange} * 64 = ${range.worldXRange}, Y ${range.yRange} * 64 = ${range.worldYRange}, Z window +/- ${range.zWindow}.`)}</dd>`);
         rows.push("<dt>Overlay stance</dt><dd>Pinned or hovered items now draw the projected trigger footprint instead of only the 1x1 egg bounding box.</dd>");
@@ -977,6 +1127,18 @@ export function createSceneMetadataHelpers(dependencies) {
       }
       if (rawQuality !== null) {
         rows.push(`<dt>Egg bytes</dt><dd>${escapeHtml(`QLo ${qLo} (${formatByteHex(qLo)}), QHi ${qHi} (${formatByteHex(qHi)}), raw ${formatWordHex(rawQuality)}`)}</dd>`);
+      }
+      if (subtype) {
+        rows.push(`<dt>Subtype selector</dt><dd>${escapeHtml(`QLo ${subtype.qLo} resolves to family-4 class ${formatWordHex(subtype.classId)}${subtype.className ? ` (${subtype.className})` : ""}.`)}</dd>`);
+        if (subtype.className && Number.isInteger(subtype.slot)) {
+          const eventLabel = subtype.eventNameHint || `slot_${subtype.slot.toString(16).padStart(2, "0")}`;
+          rows.push(`<dt>Viewer target</dt><dd>${escapeHtml(`${subtype.className}.${eventLabel} is the stable first-view script body for this authored subtype.`)}</dd>`);
+        }
+        if (subtype.activeLaneLabel) {
+          rows.push(`<dt>Active lane</dt><dd>${escapeHtml(subtype.activeLaneLabel)}</dd>`);
+        }
+        rows.push(`<dt>Subtype note</dt><dd>${escapeHtml(subtype.note)}</dd>`);
+        rows.push(`<dt>Arrow stance</dt><dd>${escapeHtml(subtype.overlayNote)}</dd>`);
       }
     }
 

@@ -104,6 +104,24 @@ export function createScenePresentationController(deps) {
   const LOCAL_ALARM_LINK_DISTANCE = 512;
   const LOCAL_DOOR_LINK_DISTANCE = 640;
   const CRUSADER_EGG_RANGE_WORLD_UNITS = 64;
+  const USECODE_TRIGGER_EGG_SUBTYPE_CLASSES = {
+    remorse: {
+      0: { className: "TRIGEGG", arrowMode: "trigger-qlo" },
+      1: { className: "ONCEEGG", arrowMode: "trigger-qlo" },
+      2: { className: "FLOOR1", arrowMode: null },
+      13: { className: "MISS1EGG", arrowMode: null }
+    },
+    regret: {
+      0: { className: "TRIGEGG", arrowMode: "trigger-qlo" },
+      1: { className: "ONCEEGG", arrowMode: "trigger-qlo" },
+      2: { className: "FLOOR1", arrowMode: null },
+      5: { className: "MHATCHER", arrowMode: "monster-by-egg-id" },
+      8: { className: "CHANGER", arrowMode: null },
+      10: { className: "DOOREGG", arrowMode: "door-by-egg-id" },
+      13: { className: "MISS1", arrowMode: null },
+      24: { className: "VIDEOEGG", arrowMode: null }
+    }
+  };
 
   function hasWorldPosition(item) {
     return Boolean(
@@ -126,6 +144,27 @@ export function createScenePresentationController(deps) {
       yRange: rawNpcNum & 0x0f,
       worldXRange: ((rawNpcNum >> 4) & 0x0f) * CRUSADER_EGG_RANGE_WORLD_UNITS,
       worldYRange: (rawNpcNum & 0x0f) * CRUSADER_EGG_RANGE_WORLD_UNITS
+    };
+  }
+
+  function getUsecodeTriggerEggSubtypeInfo(item) {
+    if (getShapeNumber(item) !== USECODE_TRIGGER_EGG_SHAPE || item?.egg?.type !== "usecode-trigger") {
+      return null;
+    }
+
+    const gameId = state.current?.selected?.game ?? null;
+    const qLo = getQualityLowByte(item);
+    if (!Number.isInteger(qLo)) {
+      return null;
+    }
+
+    const subtypeCatalog = USECODE_TRIGGER_EGG_SUBTYPE_CLASSES[gameId] ?? null;
+    const subtype = subtypeCatalog ? subtypeCatalog[qLo] ?? null : null;
+
+    return {
+      qLo,
+      eggId: Number.isInteger(item?.mapNum) ? (item.mapNum & 0xff) : null,
+      ...(subtype ?? { className: null, arrowMode: null })
     };
   }
 
@@ -554,6 +593,10 @@ export function createScenePresentationController(deps) {
 
     for (const item of eggs) {
       const display = getItemDisplay(item);
+      const subtype = getUsecodeTriggerEggSubtypeInfo(item);
+      const triggerSuffix = item.egg?.type === "usecode-trigger" && subtype?.className
+        ? ` · ${subtype.className} · QLo ${subtype.qLo}`
+        : "";
       const button = document.createElement("button");
       button.type = "button";
       button.className = "egg-item-button";
@@ -563,7 +606,7 @@ export function createScenePresentationController(deps) {
           <span class="egg-item-id">${escapeHtml(formatEggId(item.egg.labelId))}</span>
           <span class="egg-item-badge">${escapeHtml(describeEggType(item.egg))}</span>
         </div>
-        <div class="egg-item-meta">world ${escapeHtml(formatWorldCoords(item))} · shape ${escapeHtml(display.shapeHex)}</div>
+        <div class="egg-item-meta">world ${escapeHtml(formatWorldCoords(item))} · shape ${escapeHtml(display.shapeHex)}${escapeHtml(triggerSuffix)}</div>
       `;
       button.addEventListener("click", () => {
         centerViewportOnItem(item);
@@ -1268,6 +1311,7 @@ export function createScenePresentationController(deps) {
     const monsterSpawnerTargets = (byShape.get(MONSTER_SPAWNER_SHAPE) ?? []).filter((item) => item.frame === 0);
     const controllerTargetsByQlo = new Map();
     const controllerTargetsByMapByte = new Map();
+    const monsterSpawnerTargetsByQlo = new Map();
 
     const buildQloIndexForShapes = (shapes) => {
       const index = new Map();
@@ -1282,6 +1326,9 @@ export function createScenePresentationController(deps) {
     for (const target of controllerTargets) {
       addItemToBucket(controllerTargetsByQlo, getQualityLowByte(target), target);
       addItemToBucket(controllerTargetsByMapByte, getMapByte(target), target);
+    }
+    for (const target of monsterSpawnerTargets) {
+      addItemToBucket(monsterSpawnerTargetsByQlo, getQualityLowByte(target), target);
     }
 
     const doorTargetsByQlo = buildQloIndexForShapes(DOOR_TARGET_SHAPES);
@@ -1399,6 +1446,54 @@ export function createScenePresentationController(deps) {
           dashed: [5, 5],
           label: `BRO_BOOT QLo ${sourceQlo}`
         });
+      }
+    }
+
+    for (const source of byShape.get(USECODE_TRIGGER_EGG_SHAPE) ?? []) {
+      const subtype = getUsecodeTriggerEggSubtypeInfo(source);
+      if (!subtype?.className) {
+        continue;
+      }
+
+      if (subtype.arrowMode === "trigger-qlo") {
+        for (const target of controllerTargetsByQlo.get(subtype.qLo) ?? []) {
+          if (!isWithinLinkDistance(source, target, LOCAL_EDITOR_LINK_DISTANCE)) {
+            continue;
+          }
+          pushUniqueLink(links, seenKeys, source, target, {
+            color: "rgba(233, 196, 106, 0.9)",
+            dashed: [4, 4],
+            label: `${subtype.className} -> cmd QLo ${subtype.qLo}`
+          });
+        }
+        continue;
+      }
+
+      if (subtype.arrowMode === "monster-by-egg-id" && Number.isInteger(subtype.eggId)) {
+        for (const target of monsterSpawnerTargetsByQlo.get(subtype.eggId) ?? []) {
+          if (!isWithinLinkDistance(source, target, LOCAL_ALARM_LINK_DISTANCE)) {
+            continue;
+          }
+          pushUniqueLink(links, seenKeys, source, target, {
+            color: "rgba(105, 168, 236, 0.9)",
+            dashed: [5, 4],
+            label: `${subtype.className} egg ${subtype.eggId}`
+          });
+        }
+        continue;
+      }
+
+      if (subtype.arrowMode === "door-by-egg-id" && Number.isInteger(subtype.eggId)) {
+        for (const target of doorTargetsByQlo.get(subtype.eggId) ?? []) {
+          if (!isWithinLinkDistance(source, target, LOCAL_DOOR_LINK_DISTANCE)) {
+            continue;
+          }
+          pushUniqueLink(links, seenKeys, source, target, {
+            color: "rgba(230, 111, 81, 0.88)",
+            dashed: [5, 3],
+            label: `${subtype.className} egg ${subtype.eggId}`
+          });
+        }
       }
     }
 
