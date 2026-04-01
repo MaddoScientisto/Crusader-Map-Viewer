@@ -255,6 +255,57 @@ export function createSceneMetadataHelpers(dependencies) {
     formatNumericField,
     formatWorldCoords
   } = dependencies;
+  let monsterSpawnerAnalysisCache = null;
+
+  function getMonsterSpawnerAnalysis() {
+    if (!state.current) {
+      return {
+        items: [],
+        bySignalKey: new Map(),
+        pairCandidatesById: new Map(),
+        likelySpawnOwnerById: new Map()
+      };
+    }
+
+    const dataRevision = state.current.dataRevision ?? 0;
+    if (
+      monsterSpawnerAnalysisCache
+      && monsterSpawnerAnalysisCache.current === state.current
+      && monsterSpawnerAnalysisCache.dataRevision === dataRevision
+    ) {
+      return monsterSpawnerAnalysisCache;
+    }
+
+    const items = [];
+    const bySignalKey = new Map();
+    for (const item of state.current.scene.items) {
+      const definition = getShapeDefinition(item.shapeDefId);
+      if (!isMonsterSpawnerItem(item, definition)) {
+        continue;
+      }
+      items.push(item);
+      const signalKey = getMonsterSpawnerSignalKey(item);
+      if (!Number.isInteger(signalKey)) {
+        continue;
+      }
+      const existing = bySignalKey.get(signalKey);
+      if (existing) {
+        existing.push(item);
+      } else {
+        bySignalKey.set(signalKey, [item]);
+      }
+    }
+
+    monsterSpawnerAnalysisCache = {
+      current: state.current,
+      dataRevision,
+      items,
+      bySignalKey,
+      pairCandidatesById: new Map(),
+      likelySpawnOwnerById: new Map()
+    };
+    return monsterSpawnerAnalysisCache;
+  }
 
   function isMonsterSpawnerItem(item, definition = null) {
     return definition?.shape === MONSTER_SPAWNER_SHAPE;
@@ -268,12 +319,16 @@ export function createSceneMetadataHelpers(dependencies) {
     if (item?.frame === 0) {
       return isMonsterSpawnerAutoEnterEnabled(item)
         ? "Frame 0 plus clear map bit 0x08 uses the MONSTER enterFastArea auto-spawn lane."
-        : "Frame 0 is armed, but map bit 0x08 suppresses the MONSTER enterFastArea auto-spawn lane.";
+        : "Frame 0 is present, but set map bit 0x08 skips the MONSTER enterFastArea auto-spawn lane.";
     }
     if (item?.frame === 1) {
       return "Frame 1 skips the MONSTER enterFastArea hook and is more likely used in paired or externally signaled setups.";
     }
     return `Frame ${formatNumericField(item?.frame)} is not yet characterized for MONSTER enterFastArea.`;
+  }
+
+  function getMonsterSpawnerPairDistance(item, candidate) {
+    return Math.hypot(candidate.world.x - item.world.x, candidate.world.y - item.world.y);
   }
 
   function canResolveNpcInfo(item, definition = null) {
@@ -294,6 +349,46 @@ export function createSceneMetadataHelpers(dependencies) {
   }
 
   function renderNpcMetadataRows(item, definition = null) {
+    if (definition?.shape === MONSTER_SPAWNER_SHAPE) {
+      const selfNpcInfo = getNpcSpawnerInfoForItem(item, definition);
+      const selfNpcValue = selfNpcInfo
+        ? `${item.npcNum} (${selfNpcInfo.name})`
+        : formatNumericField(item.npcNum);
+      const pairCandidates = getMonsterSpawnerPairCandidates(item)
+        .sort((left, right) => getMonsterSpawnerPairDistance(item, left) - getMonsterSpawnerPairDistance(item, right));
+      const nearestPair = pairCandidates[0] ?? null;
+      const nearestPairNpcInfo = nearestPair ? getNpcSpawnerInfoForItem(nearestPair, definition) : null;
+      const practicalPreview = getMonsterSpawnerLikelySpawnOwner(item);
+      const practicalNpcInfo = practicalPreview.item ? getNpcSpawnerInfoForItem(practicalPreview.item, definition) : null;
+      const practicalNpcValue = practicalPreview.item
+        ? (practicalNpcInfo ? `${practicalPreview.item.npcNum} (${practicalNpcInfo.name})` : formatNumericField(practicalPreview.item.npcNum))
+        : "unresolved";
+      const roleNote = item.frame === 0
+        ? "Frame 0 is the controller-side record that MONSTER.enterFastArea checks directly. In confirmed auto-enabled pairs, the visible NPC often aligns better with the paired frame-1 preview than with this controller row."
+        : "Frame 1 is the paired preview-side record in the confirmed map-1 and map-248 examples. The viewer treats it as the practical NPC preview when an auto-enabled controller row points at it.";
+      const selfRowLabel = item.frame === 0 ? "Controller row" : "Paired row";
+      const selfShapeLabel = item.frame === 0 ? "Controller shape" : "Paired shape";
+      const selfShapeRow = selfNpcInfo?.shapeHex
+        ? `
+        <dt>${selfShapeLabel}</dt><dd>${escapeHtml(selfNpcInfo.shapeHex)}</dd>`
+        : "";
+      const pairRow = nearestPair
+        ? `
+        <dt>Nearest pair</dt><dd>${escapeHtml(`${nearestPairNpcInfo ? `${nearestPair.npcNum} (${nearestPairNpcInfo.name})` : formatNumericField(nearestPair.npcNum)} · frame ${nearestPair.frame}`)}</dd>`
+        : "";
+      const practicalRow = practicalPreview.item
+        ? `
+        <dt>Practical preview</dt><dd>${escapeHtml(`${practicalNpcValue}${practicalPreview.ambiguous ? ` (${practicalPreview.basis}, nearest of ${practicalPreview.pairCount})` : ` (${practicalPreview.basis})`}`)}</dd>${practicalNpcInfo?.shapeHex ? `
+        <dt>Practical shape</dt><dd>${escapeHtml(practicalNpcInfo.shapeHex)}</dd>` : ""}`
+        : "";
+      return `
+        <dt>${selfRowLabel}</dt><dd>${escapeHtml(selfNpcValue)}</dd>${selfShapeRow}${pairRow}${practicalRow}
+        <dt>Pair role</dt><dd>${escapeHtml(roleNote)}</dd>
+        <dt>Map</dt><dd>${escapeHtml(formatNumericField(item.mapNum))}</dd>
+        <dt>Quality</dt><dd>${escapeHtml(formatNumericField(item.quality))}</dd>
+      `;
+    }
+
     const npcInfo = getNpcSpawnerInfoForItem(item, definition);
     const npcValue = npcInfo
       ? `${item.npcNum} (${npcInfo.name})`
@@ -346,19 +441,22 @@ export function createSceneMetadataHelpers(dependencies) {
   }
 
   function getMonsterSpawnerItems() {
-    if (!state.current) {
-      return [];
-    }
-    return state.current.scene.items.filter((item) => isMonsterSpawnerItem(item, getShapeDefinition(item.shapeDefId)));
+    return getMonsterSpawnerAnalysis().items;
   }
 
   function getMonsterSpawnerPairCandidates(item) {
     const signalKey = getMonsterSpawnerSignalKey(item);
+    const analysis = getMonsterSpawnerAnalysis();
     if (!state.current || !Number.isInteger(signalKey)) {
       return [];
     }
 
-    return getMonsterSpawnerItems().filter((candidate) => {
+    const cached = analysis.pairCandidatesById.get(item.id);
+    if (cached) {
+      return cached;
+    }
+
+    const pairCandidates = (analysis.bySignalKey.get(signalKey) ?? []).filter((candidate) => {
       if (candidate.id === item.id) {
         return false;
       }
@@ -370,6 +468,85 @@ export function createSceneMetadataHelpers(dependencies) {
       }
       return Math.hypot(candidate.world.x - item.world.x, candidate.world.y - item.world.y) <= MONSTER_SPAWNER_PAIR_MAX_DISTANCE;
     });
+
+    analysis.pairCandidatesById.set(item.id, pairCandidates);
+    return pairCandidates;
+  }
+
+  function getMonsterSpawnerLikelySpawnOwner(item) {
+    const analysis = getMonsterSpawnerAnalysis();
+    if (!isMonsterSpawnerItem(item, getShapeDefinition(item?.shapeDefId))) {
+      return { item: null, ambiguous: false, pairCount: 0, basis: "none" };
+    }
+    const cached = analysis.likelySpawnOwnerById.get(item.id);
+    if (cached) {
+      return cached;
+    }
+
+    const selfNpcInfo = getNpcSpawnerInfoForItem(item, getShapeDefinition(item?.shapeDefId));
+    const pairCandidates = getMonsterSpawnerPairCandidates(item)
+      .sort((left, right) => getMonsterSpawnerPairDistance(item, left) - getMonsterSpawnerPairDistance(item, right));
+    const frameZeroCandidates = pairCandidates.filter((candidate) => candidate.frame === 0);
+    const frameOneCandidates = pairCandidates.filter((candidate) => candidate.frame === 1);
+    const nearestFrameZero = frameZeroCandidates[0] ?? null;
+    const nearestFrameOne = frameOneCandidates[0] ?? null;
+    const nearestFrameOneNpcInfo = nearestFrameOne ? getNpcSpawnerInfoForItem(nearestFrameOne, getShapeDefinition(nearestFrameOne.shapeDefId)) : null;
+    const nearestFrameZeroNpcInfo = nearestFrameZero ? getNpcSpawnerInfoForItem(nearestFrameZero, getShapeDefinition(nearestFrameZero.shapeDefId)) : null;
+    const controller = item?.frame === 0 ? item : nearestFrameZero;
+    const controllerEnabled = controller ? isMonsterSpawnerAutoEnterEnabled(controller) : true;
+    let result;
+
+    if (item?.frame === 0) {
+      if (nearestFrameOne && nearestFrameOneNpcInfo) {
+        result = {
+          item: nearestFrameOne,
+          ambiguous: frameOneCandidates.length > 1,
+          pairCount: frameOneCandidates.length,
+          basis: controllerEnabled ? "paired-frame1-auto" : "paired-frame1-signaled"
+        };
+        analysis.likelySpawnOwnerById.set(item.id, result);
+        return result;
+      }
+      result = {
+        item,
+        ambiguous: false,
+        pairCount: Math.max(frameOneCandidates.length, 1),
+        basis: controllerEnabled ? "self-frame0" : "self-frame0-blocked"
+      };
+      analysis.likelySpawnOwnerById.set(item.id, result);
+      return result;
+    }
+
+    if (selfNpcInfo) {
+      result = {
+        item,
+        ambiguous: frameZeroCandidates.length > 1,
+        pairCount: Math.max(frameZeroCandidates.length, 1),
+        basis: controllerEnabled ? "self-frame1-auto" : "self-frame1-signaled"
+      };
+      analysis.likelySpawnOwnerById.set(item.id, result);
+      return result;
+    }
+
+    if (nearestFrameZeroNpcInfo) {
+      result = {
+        item: nearestFrameZero,
+        ambiguous: frameZeroCandidates.length > 1,
+        pairCount: frameZeroCandidates.length,
+        basis: "nearest-frame0"
+      };
+      analysis.likelySpawnOwnerById.set(item.id, result);
+      return result;
+    }
+
+    result = {
+      item: item ?? null,
+      ambiguous: frameZeroCandidates.length > 1,
+      pairCount: frameZeroCandidates.length,
+      basis: item?.frame === 1 ? "self-frame1-fallback" : "fallback"
+    };
+    analysis.likelySpawnOwnerById.set(item.id, result);
+    return result;
   }
 
   function renderMonsterSpawnerActivationRows(item, definition = null) {
@@ -382,17 +559,30 @@ export function createSceneMetadataHelpers(dependencies) {
       ? "mapNum bit 0x08 clear"
       : "mapNum bit 0x08 set";
     const pairCandidates = getMonsterSpawnerPairCandidates(item);
+    const practicalPreview = getMonsterSpawnerLikelySpawnOwner(item);
+    const practicalNpcInfo = practicalPreview.item ? getNpcSpawnerInfoForItem(practicalPreview.item, definition) : null;
     const qLoNote = qLo >= 0 && qLo <= 2
       ? `<dt>QLo hint</dt><dd>Low quality ${escapeHtml(qLo)} is in the small 0/1/2 lane that Regret ALARMHAT difficulty-gates before equipping nearby 0x04D0 objects.</dd>`
       : "";
     const pairCandidateNote = pairCandidates.length
       ? `<dt>Pair candidates</dt><dd>${escapeHtml(`${pairCandidates.length} nearby opposite-frame 0x04D0 item${pairCandidates.length === 1 ? "" : "s"} share this QLo link key.`)}</dd>`
       : "";
+    const spawnRoleNote = item.frame === 0
+      ? "Frame 0 is the verified enter-area controller lane. The viewer no longer assumes that its NPC row is always the visible monster in paired authored setups."
+      : "Frame 1 is the current practical-preview side for confirmed auto-enabled pairs, but the underlying create path is still not fully closed at the field-by-field level.";
+    const practicalPreviewRow = practicalPreview.item
+      ? `<dt>Practical preview</dt><dd>${escapeHtml(`${practicalNpcInfo ? practicalNpcInfo.name : formatNumericField(practicalPreview.item.npcNum)}${practicalPreview.ambiguous ? ` (${practicalPreview.basis}, nearest of ${practicalPreview.pairCount})` : ` (${practicalPreview.basis})`}`)}</dd>`
+      : "";
+    const stateLabel = item.frame === 0
+      ? (isMonsterSpawnerAutoEnterEnabled(item) ? "☑ auto-enabled" : "☒ dormant until signaled")
+      : `◌ frame ${formatNumericField(item.frame)} pair state`;
 
     return `
         <dt>Activation</dt><dd>${escapeHtml(getMonsterSpawnerActivationSummary(item))}</dd>
+        <dt>Spawn state</dt><dd>${escapeHtml(stateLabel)}</dd>
         <dt>Enter-area gate</dt><dd>${escapeHtml(enterAreaNote)}</dd>
-        <dt>Signal key</dt><dd>${escapeHtml(String(qLo))}</dd>${qLoNote}${pairCandidateNote}
+        <dt>Signal key</dt><dd>${escapeHtml(String(qLo))}</dd>
+        <dt>Viewer stance</dt><dd>${escapeHtml(spawnRoleNote)}</dd>${practicalPreviewRow}${qLoNote}${pairCandidateNote}
       `;
   }
 
@@ -422,7 +612,7 @@ export function createSceneMetadataHelpers(dependencies) {
             <option value="blocked" ${enterMode === "blocked" ? "selected" : ""}>Block auto spawn on enter area</option>
           </select>
         </label>
-        <p class="tooltip-editor-note">Verified path: MONSTER.enterFastArea only checks frame 0, and it suppresses the automatic lane when mapNum bit 0x08 is set.</p>
+        <p class="tooltip-editor-note">Verified path: MONSTER.enterFastArea only checks frame 0, and it uses the automatic lane when mapNum bit 0x08 is clear.</p>
         <button class="tooltip-save-button" type="button" data-action="save-monster-spawner">Apply Spawner State</button>
       </div>
     `;
@@ -648,7 +838,7 @@ export function createSceneMetadataHelpers(dependencies) {
       return "FASTSKIL fast-area trigger gate; enterFastArea waits briefly, uses difficulty to choose trigger lane or remap QLo, and frame 2 exposes explicit diff1/diff2/diff3+ link lanes.";
     }
     if (definition.shape === MONSTER_SPAWNER_SHAPE) {
-      return "MONSTER helper/spawner; frame 0 participates in the verified MONSTER.enterFastArea auto-spawn lane, while mapNum bit 0x08 suppresses that automatic enter-area path.";
+      return "MONSTER helper/spawner; frame 0 is the verified automatic enter-area controller lane, while the paired frame-1 record is currently the stronger practical NPC preview in confirmed auto-enabled examples. Clear mapNum bit 0x08 enables the automatic enter-area path.";
     }
     if (definition.shape === PANELNS_SHAPE) {
       return "PANELNS switch/panel controller; its use() lane forwards the local QLo key through nearby trigger helpers rather than acting as a plain decorative panel.";
@@ -1219,6 +1409,7 @@ export function createSceneMetadataHelpers(dependencies) {
   return {
     buildWarpCommand,
     getMonsterSpawnerItems,
+    getMonsterSpawnerLikelySpawnOwner,
     getMonsterSpawnerPairCandidates,
     getMonsterSpawnerSignalKey,
     getNpcSpawnerInfoForItem,

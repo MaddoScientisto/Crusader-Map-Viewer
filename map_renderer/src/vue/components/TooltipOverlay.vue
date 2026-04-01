@@ -28,6 +28,7 @@
           >
             <button class="tooltip-action tooltip-usecode-button" type="button" :title="tooltip.usecodeTarget.title" @click.stop="handleOpenUsecode">USECODE</button>
           </div>
+          <button v-if="tooltip.onCopyStableId" class="tooltip-action tooltip-copy-id-button" type="button" title="Copy fixed or stable ID" @click.stop="handleCopyStableId">ID</button>
           <button v-if="tooltip.showTeleportEggEditor" class="tooltip-action" type="button" title="Edit egg values" @click.stop="handleEditEgg" v-html="tooltip.penIconSvg"></button>
           <button v-if="tooltip.showPinnedActions" class="tooltip-action" type="button" :title="tooltip.hidden ? 'Restore shape' : 'Hide shape'" @click.stop="handleToggleHidden" v-html="tooltip.eyeIconSvg"></button>
         </div>
@@ -96,7 +97,7 @@
             <div class="tooltip-title tooltip-title-static">{{ tooltip.displayName }}</div>
           </div>
         </div>
-        <div v-if="tooltip.showPinnedActions || tooltip.showTeleportEggEditor || tooltip.usecodeTarget" class="tooltip-actions">
+        <div v-if="tooltip.showPinnedActions || tooltip.showTeleportEggEditor || tooltip.usecodeTarget || tooltip.onCopyStableId" class="tooltip-actions">
           <div
             v-if="tooltip.usecodeTarget"
             class="tooltip-usecode-action"
@@ -105,6 +106,7 @@
           >
             <button class="tooltip-action tooltip-usecode-button" type="button" :title="tooltip.usecodeTarget.title" @click.stop="handleOpenUsecode">USECODE</button>
           </div>
+          <button v-if="tooltip.onCopyStableId" class="tooltip-action tooltip-copy-id-button" type="button" title="Copy fixed or stable ID" @click.stop="handleCopyStableId">ID</button>
           <button v-if="tooltip.showTeleportEggEditor" class="tooltip-action" type="button" title="Edit egg values" @click.stop="handleEditEgg" v-html="tooltip.penIconSvg"></button>
           <button v-if="tooltip.showPinnedActions" class="tooltip-action" type="button" :title="tooltip.hidden ? 'Restore shape' : 'Hide shape'" @click.stop="handleToggleHidden" v-html="tooltip.eyeIconSvg"></button>
         </div>
@@ -336,6 +338,10 @@ function handleOpenUsecode() {
 
 function handleCopyWarpCommand() {
   tooltip.value.onCopyWarpCommand?.();
+}
+
+function handleCopyStableId() {
+  tooltip.value.onCopyStableId?.();
 }
 
 function handleMonsterSpawnerClick(event) {

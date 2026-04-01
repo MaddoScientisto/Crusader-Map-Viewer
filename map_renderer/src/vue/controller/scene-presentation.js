@@ -40,6 +40,7 @@ export function createScenePresentationController(deps) {
     saveTeleportEggId,
     saveMonsterSpawnerState,
     getMonsterSpawnerItems,
+    getMonsterSpawnerLikelySpawnOwner,
     getMonsterSpawnerPairCandidates,
     getMonsterSpawnerSignalKey,
     getNpcSpawnerInfoForItem,
@@ -471,6 +472,58 @@ export function createScenePresentationController(deps) {
     }
   }
 
+  function getFixedSceneItemId(item) {
+    if (item?.source === "fixed" && Number.isInteger(item?.mapSourceIndex)) {
+      return `fixed:${item.mapSourceIndex}`;
+    }
+    return null;
+  }
+
+  function getStableSceneItemId(item) {
+    return getFixedSceneItemId(item) ?? item?.stableId ?? item?.id ?? "-";
+  }
+
+  function getMonsterSpawnerStateDisplay(item) {
+    if (item?.frame === 0) {
+      return isMonsterSpawnerAutoEnterEnabled(item)
+        ? {
+            shortLabel: "☑ Auto",
+            tooltipLabel: "☑ Auto-enabled enter-area spawn",
+            badgeClass: "egg-item-badge is-spawn-auto",
+            color: "rgba(79, 205, 126, 0.96)",
+            stroke: "rgba(14, 30, 18, 0.9)",
+            kind: "auto"
+          }
+        : {
+            shortLabel: "☒ Dormant",
+            tooltipLabel: "☒ Dormant until signaled",
+            badgeClass: "egg-item-badge is-spawn-blocked",
+            color: "rgba(218, 75, 36, 0.98)",
+            stroke: "rgba(44, 10, 6, 0.92)",
+            kind: "blocked"
+          };
+    }
+
+    return {
+      shortLabel: `◌ F${formatNumericField(item?.frame)}`,
+      tooltipLabel: `◌ Frame ${formatNumericField(item?.frame)} pair state`,
+      badgeClass: "egg-item-badge is-spawn-pair",
+      color: "rgba(124, 168, 221, 0.96)",
+      stroke: "rgba(10, 16, 28, 0.92)",
+      kind: "pair"
+    };
+  }
+
+  async function copyTextToClipboard(text, successMessage, failureMessage) {
+    try {
+      await navigator.clipboard.writeText(text);
+      showToast(successMessage);
+      setStatus(`${successMessage} copied to clipboard.`);
+    } catch (error) {
+      setStatus(error instanceof Error ? error.message : failureMessage);
+    }
+  }
+
   function updateMonsterSpawnerListSelection() {
     monsterSpawnerList.querySelectorAll("[data-monster-spawner-item-id]").forEach((button) => {
       button.classList.toggle("is-selected", button.getAttribute("data-monster-spawner-item-id") === state.pinnedItemId);
@@ -518,24 +571,37 @@ export function createScenePresentationController(deps) {
     }
 
     for (const item of spawners) {
-      const npcInfo = getNpcSpawnerInfoForItem(item, getShapeDefinition(item.shapeDefId));
+      const definition = getShapeDefinition(item.shapeDefId);
+      const npcInfo = getNpcSpawnerInfoForItem(item, definition);
+      const spawnOwner = getMonsterSpawnerLikelySpawnOwner(item);
+      const spawnNpcInfo = spawnOwner.item ? getNpcSpawnerInfoForItem(spawnOwner.item, definition) : null;
       const signalKey = getMonsterSpawnerSignalKey(item);
-      const mode = item.frame === 0
-        ? (isMonsterSpawnerAutoEnterEnabled(item) ? "Auto" : "Blocked")
-        : `Frame ${item.frame}`;
+      const stateDisplay = getMonsterSpawnerStateDisplay(item);
+      const fixedId = getFixedSceneItemId(item);
+      const stableId = getStableSceneItemId(item);
       const npcLabel = npcInfo
         ? `${item.npcNum} (${npcInfo.name})`
         : `NPC ${formatNumericField(item.npcNum)}`;
+      const spawnLabel = spawnNpcInfo
+        ? `${spawnOwner.item.npcNum} (${spawnNpcInfo.name})`
+        : (spawnOwner.item ? `NPC ${formatNumericField(spawnOwner.item.npcNum)}` : "spawn unresolved");
+      const rowSummary = item.frame === 0
+        ? `practical preview ${spawnLabel}${spawnOwner.basis ? ` (${spawnOwner.basis})` : ""}`
+        : `${npcLabel} partner -> ${spawnLabel}${spawnOwner.ambiguous ? ` (nearest of ${spawnOwner.pairCount})` : ""}`;
+
+      const row = document.createElement("div");
+      row.className = "monster-spawner-item-row";
       const button = document.createElement("button");
       button.type = "button";
-      button.className = "egg-item-button";
+      button.className = "egg-item-button monster-spawner-item-button";
       button.setAttribute("data-monster-spawner-item-id", item.id);
       button.innerHTML = `
         <div class="egg-item-title-row">
-          <span class="egg-item-id">${escapeHtml(item.id)}</span>
-          <span class="egg-item-badge">${escapeHtml(mode)}</span>
+          <span class="egg-item-id">${escapeHtml(stableId)}</span>
+          <span class="${escapeHtml(stateDisplay.badgeClass)}">${escapeHtml(stateDisplay.shortLabel)}</span>
         </div>
-        <div class="egg-item-meta">${escapeHtml(`${npcLabel} · QLo ${formatNumericField(signalKey)} · world ${formatWorldCoords(item)}`)}</div>
+        <div class="egg-item-meta">${escapeHtml(`${rowSummary} · QLo ${formatNumericField(signalKey)} · world ${formatWorldCoords(item)}`)}</div>
+        ${fixedId && fixedId !== item.id ? `<div class="egg-item-meta">${escapeHtml(item.id)}</div>` : ""}
       `;
       button.addEventListener("click", () => {
         centerViewportOnItem(item);
@@ -545,7 +611,21 @@ export function createScenePresentationController(deps) {
         updateMonsterSpawnerListSelection();
         scheduleRender();
       });
-      monsterSpawnerList.append(button);
+      row.append(button);
+      if (fixedId) {
+        const copyButton = document.createElement("button");
+        copyButton.type = "button";
+        copyButton.className = "monster-spawner-copy-button";
+        copyButton.textContent = "Copy ID";
+        copyButton.title = `Copy ${fixedId}`;
+        copyButton.addEventListener("click", async (event) => {
+          event.preventDefault();
+          event.stopPropagation();
+          await copyTextToClipboard(fixedId, "Fixed ID", "Failed to copy fixed ID.");
+        });
+        row.append(copyButton);
+      }
+      monsterSpawnerList.append(row);
     }
 
     updateMonsterSpawnerListSelection();
@@ -568,7 +648,6 @@ export function createScenePresentationController(deps) {
     }
     return state.current.eggs.filter((item) => isEggTypeEnabled(item.egg?.type));
   }
-
   function renderEggList() {
     if (!state.current) {
       eggList.innerHTML = "";
@@ -760,6 +839,9 @@ export function createScenePresentationController(deps) {
     const objectRows = renderObjectMetadataRows(item, display.definition);
     const monsterSpawnerEditor = renderMonsterSpawnerEditor(item, display.definition);
     const usecodeTarget = getUsecodeViewTarget(item, display.definition);
+    const fixedId = getFixedSceneItemId(item);
+    const stableId = getStableSceneItemId(item);
+    const stateDisplay = isMonsterSpawnerItem(item, display.definition) ? getMonsterSpawnerStateDisplay(item) : null;
     const catalogEntry = display.definition?.catalogEntry ?? null;
     const showCatalogEditor = canEditCatalog() && isPinnedTooltip && display.definition;
     const showTeleportEggEditor = isPinnedTooltip && isEggItem(item) && ["teleporter", "teleport-destination"].includes(item.egg?.type);
@@ -774,11 +856,14 @@ export function createScenePresentationController(deps) {
     const notes = item.notes.length ? `<ul class="tooltip-notes">${item.notes.map((note) => `<li>${note}</li>`).join("")}</ul>` : "";
     const metadataRows = `
       <dt>Shape</dt><dd>${escapeHtml(display.shapeHex)} frame ${escapeHtml(item.frame)}</dd>
+      ${fixedId ? `<dt>Fixed ID</dt><dd>${escapeHtml(fixedId)}</dd>` : `<dt>Stable ID</dt><dd>${escapeHtml(stableId)}</dd>`}
       <dt>Kind</dt><dd>${escapeHtml(display.kind)}</dd>
       <dt>Family</dt><dd>${escapeHtml(display.family)}</dd>
       <dt>World</dt><dd>${escapeHtml(formatWorldCoords(item))}</dd>
       <dt>Disk</dt><dd>${escapeHtml(formatDiskCoords(item))}</dd>
+      ${stateDisplay ? `<dt>Spawn state</dt><dd>${escapeHtml(stateDisplay.tooltipLabel)}</dd>` : ""}
       <dt>Source</dt><dd>${escapeHtml(item.source)}</dd>
+      ${fixedId && item.id !== fixedId ? `<dt>Runtime ID</dt><dd>${escapeHtml(item.id)}</dd>` : ""}
       <dt>Flags</dt><dd>${escapeHtml(item.flags.hex)}</dd>
       ${eggRows}
       ${npcRows}
@@ -846,6 +931,11 @@ export function createScenePresentationController(deps) {
           }
         }));
       },
+      onCopyStableId: fixedId || stableId
+        ? async () => {
+            await copyTextToClipboard(fixedId || stableId, fixedId ? "Fixed ID" : "Stable ID", fixedId ? "Failed to copy fixed ID." : "Failed to copy stable ID.");
+          }
+        : null,
       onCopyWarpCommand: async () => {
         if (!warpCommand) {
           return;
@@ -929,7 +1019,7 @@ export function createScenePresentationController(deps) {
       title.textContent = display.displayName;
       const meta = document.createElement("div");
       meta.className = "hidden-item-meta";
-      meta.textContent = `${display.shapeHex} · ${item.id}`;
+      meta.textContent = `${display.shapeHex} · ${item.stableId || item.id}`;
       const button = document.createElement("button");
       button.className = "hidden-item-button";
       button.type = "button";
@@ -1000,7 +1090,11 @@ export function createScenePresentationController(deps) {
       return;
     }
 
-    targetContext.globalAlpha = opacityOverride ?? item.presentation.opacity ?? 1;
+    const dormant = isDormantMonsterSpawner(item);
+    const baseOpacity = dormant
+      ? Math.min(opacityOverride ?? item.presentation.opacity ?? 1, 0.66)
+      : (opacityOverride ?? item.presentation.opacity ?? 1);
+    targetContext.globalAlpha = baseOpacity;
     if (item.flags.flipped) {
       targetContext.save();
       targetContext.translate(left + width, top);
@@ -1010,6 +1104,7 @@ export function createScenePresentationController(deps) {
     } else {
       targetContext.drawImage(atlas, sprite.x, sprite.y, sprite.width, sprite.height, left, top, width, height);
     }
+
   }
 
   function drawSceneToContext(targetContext, canvasWidth, canvasHeight, scale, offsetX, offsetY, hiddenIds = new Set()) {
@@ -1041,6 +1136,7 @@ export function createScenePresentationController(deps) {
 
     return state.current.scene.items.filter((item) => (
       item?.npcPreview
+      && shouldRenderNpcPreviewForItem(item)
       && isItemVisible(item)
       && !state.current.hiddenIds.has(item.id)
       && includeEditorCheckbox.checked
@@ -1114,11 +1210,44 @@ export function createScenePresentationController(deps) {
     return ghost;
   }
 
-  function getNpcPreviewGhost(sprite, atlas) {
-    return getTintedPreviewGhost(npcPreviewCanvasCache, sprite, atlas, "rgba(92, 181, 255, 1)");
+  function isDormantMonsterSpawner(item) {
+    return isMonsterSpawnerItem(item, getShapeDefinition(item?.shapeDefId))
+      && item?.frame === 0
+      && !isMonsterSpawnerAutoEnterEnabled(item);
   }
 
-  function getItemPreviewGhost(sprite, atlas) {
+  function getMonsterSpawnerPreviewRenderState(item) {
+    if (!isMonsterSpawnerItem(item, getShapeDefinition(item?.shapeDefId))) {
+      return { visible: true, tint: "rgba(92, 181, 255, 1)", basis: "default" };
+    }
+
+    const practicalPreview = getMonsterSpawnerLikelySpawnOwner(item);
+    if (practicalPreview.item?.id !== item.id) {
+      return { visible: false, tint: null, basis: practicalPreview.basis };
+    }
+
+    if (item.frame === 0) {
+      return isMonsterSpawnerAutoEnterEnabled(item)
+        ? { visible: true, tint: "rgba(92, 181, 255, 1)", basis: practicalPreview.basis }
+        : { visible: true, tint: "rgba(234, 96, 74, 1)", basis: practicalPreview.basis };
+    }
+    return {
+      visible: true,
+      tint: "rgba(92, 181, 255, 1)",
+      basis: practicalPreview.basis
+    };
+  }
+
+  function shouldRenderNpcPreviewForItem(item) {
+    return getMonsterSpawnerPreviewRenderState(item).visible;
+  }
+
+  function getNpcPreviewGhost(item, sprite, atlas) {
+    const previewState = getMonsterSpawnerPreviewRenderState(item);
+    return getTintedPreviewGhost(npcPreviewCanvasCache, sprite, atlas, previewState.tint ?? "rgba(92, 181, 255, 1)");
+  }
+
+  function getItemPreviewGhost(item, sprite, atlas) {
     return getTintedPreviewGhost(itemPreviewCanvasCache, sprite, atlas, "rgba(244, 197, 84, 1)");
   }
 
@@ -1163,7 +1292,7 @@ export function createScenePresentationController(deps) {
         continue;
       }
 
-      const ghost = getPreviewGhost(sprite, atlas);
+      const ghost = getPreviewGhost(item, sprite, atlas);
       const width = screenRect.width * scale;
       const height = screenRect.height * scale;
       const left = screenRect.left * scale + offsetX;
@@ -2130,6 +2259,7 @@ export function createScenePresentationController(deps) {
     getBoundingGeometry,
     getFilteredEggs,
     getItemDisplay,
+    getVisibleNpcPreviewItems,
     getRequestedPlacementTeleportId,
     hideInspectHighlight,
     hideOverlayTooltip,

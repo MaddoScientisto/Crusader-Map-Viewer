@@ -386,6 +386,22 @@ select:disabled,
   text-align: left;
 }
 
+.monster-spawner-item-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
+  align-items: start;
+}
+
+.monster-spawner-item-button {
+  min-width: 0;
+}
+
+.monster-spawner-copy-button {
+  align-self: stretch;
+  white-space: nowrap;
+}
+
 .egg-item-button.is-selected {
   border-color: color-mix(in srgb, var(--accent) 60%, white 40%);
   box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 28%, transparent 72%);
@@ -414,6 +430,21 @@ select:disabled,
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.04em;
+}
+
+.egg-item-badge.is-spawn-auto {
+  background: rgba(79, 205, 126, 0.16);
+  color: #bff4cb;
+}
+
+.egg-item-badge.is-spawn-blocked {
+  background: rgba(218, 75, 36, 0.18);
+  color: #ffd0c4;
+}
+
+.egg-item-badge.is-spawn-pair {
+  background: rgba(124, 168, 221, 0.16);
+  color: #d3e6ff;
 }
 
 .egg-item-meta {

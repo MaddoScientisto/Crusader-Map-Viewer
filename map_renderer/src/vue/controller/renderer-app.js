@@ -366,6 +366,7 @@ function updateTeleportEggWarningElement(element, teleportId, excludeItemId = nu
 const {
   buildWarpCommand,
   getMonsterSpawnerItems,
+  getMonsterSpawnerLikelySpawnOwner,
   getMonsterSpawnerPairCandidates,
   getMonsterSpawnerSignalKey,
   getNpcSpawnerInfoForItem,
@@ -427,6 +428,7 @@ const presentation = createScenePresentationController({
   saveTeleportEggId: (...args) => saveTeleportEggId(...args),
   saveMonsterSpawnerState: (...args) => saveMonsterSpawnerState(...args),
   getMonsterSpawnerItems,
+  getMonsterSpawnerLikelySpawnOwner,
   getMonsterSpawnerPairCandidates,
   getMonsterSpawnerSignalKey,
   getNpcSpawnerInfoForItem,

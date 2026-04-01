@@ -24,6 +24,7 @@ function createDefaultState() {
     onSaveCatalog: null,
     onEditEgg: null,
     onOpenUsecode: null,
+    onCopyStableId: null,
     onCopyWarpCommand: null,
     onSaveMonsterSpawner: null
   };

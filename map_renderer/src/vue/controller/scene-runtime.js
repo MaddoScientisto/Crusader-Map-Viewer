@@ -14,6 +14,24 @@ const DTABLE_NPC_SHAPES = new Set([0x04d0]);
 const MONSTER_EGG_PREVIEW_SHAPE = 0x024f;
 const ITEM_PREVIEW_SPAWNER_SHAPE = 0x0476;
 const OBSERVER_PREVIEW_FRAME = 0x0f;
+
+function buildStableSceneItemId(rawItem) {
+  if (rawItem.source === "fixed" && Number.isInteger(rawItem.mapSourceIndex)) {
+    return `fixed:${rawItem.mapSourceIndex}`;
+  }
+  return [
+    rawItem.source,
+    rawItem.shape,
+    rawItem.frame,
+    rawItem.x,
+    rawItem.y,
+    rawItem.z,
+    rawItem.mapNum,
+    rawItem.npcNum,
+    rawItem.quality,
+    rawItem.nextItem
+  ].join(":");
+}
 const CATALOG_SEMITRANSPARENCY_OPACITY = 0.5;
 
 function toHex(value, width = 4) {
@@ -238,6 +256,7 @@ function materializeCompactSceneItems(selected, scene, shapeDefinitions, sprites
     };
     const item = {
       id: `item:${index}:${rawItem.source}:${rawItem.shape}:${rawItem.frame}:${rawItem.x}:${rawItem.y}:${rawItem.z}`,
+      stableId: buildStableSceneItemId(rawItem),
       mapSourceIndex: Number.isInteger(rawItem.mapSourceIndex) ? rawItem.mapSourceIndex : null,
       drawOrder: index,
       kind,

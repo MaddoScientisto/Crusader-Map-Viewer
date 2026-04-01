@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 
 import { formatDiskCoords, formatWorldCoords } from "../src/vue/controller/formatters.js";
+import { createSceneMetadataHelpers } from "../src/vue/controller/scene-metadata.js";
 import { createScenePresentationController } from "../src/vue/controller/scene-presentation.js";
 
 function createBaseDeps(overrides = {}) {
@@ -193,10 +194,210 @@ function testPointHitsItemPrefersProjectedBoundaryGeometry() {
   assert.equal(controller.pointHitsItem({ x: 39, y: 39 }, item), false);
 }
 
+function testAutoEnabledSpawnerPreviewUsesSingleFrameOneCarrier() {
+  const frame0 = {
+    id: "item:f0",
+    shapeDefId: "shape:1232",
+    world: { x: 100, y: 100, z: 0 },
+    frame: 0,
+    npcPreview: { spriteId: "sprite:1:0" },
+    screen: { left: 0, top: 0, right: 1, bottom: 1, width: 1, height: 1, anchorX: 0, anchorY: 0 }
+  };
+  const frame1 = {
+    id: "item:f1",
+    shapeDefId: "shape:1232",
+    world: { x: 102, y: 102, z: 0 },
+    frame: 1,
+    npcPreview: { spriteId: "sprite:2:0" },
+    screen: { left: 0, top: 0, right: 1, bottom: 1, width: 1, height: 1, anchorX: 0, anchorY: 0 }
+  };
+
+  const controller = createScenePresentationController(createBaseDeps({
+    alwaysShowNpcPreviewsCheckbox: { checked: true },
+    state: {
+      current: {
+        metadata: { bounds: { screenLeft: 0, screenTop: 0 } },
+        hiddenIds: new Set(),
+        scene: { items: [frame0, frame1] },
+        spriteIndex: new Map(),
+        atlasImages: new Map()
+      },
+      zoom: 1,
+      offsetX: 0,
+      offsetY: 0,
+      pinnedItemId: null,
+      hoverItemId: null,
+      eggPlacement: null,
+      highlightOverlay: {
+        itemId: null,
+        geometry: null,
+        fallbackItem: null,
+        alpha: 0,
+        targetAlpha: 0,
+        lastTimestamp: 0
+      }
+    },
+    getShapeDefinition: () => ({ shape: 0x04d0 }),
+    isMonsterSpawnerItem: () => true,
+    isMonsterSpawnerAutoEnterEnabled: (item) => item.id === frame0.id,
+    getMonsterSpawnerPairCandidates: (item) => item.id === frame0.id ? [frame1] : [frame0],
+    getMonsterSpawnerLikelySpawnOwner: () => ({ item: frame1, ambiguous: false, pairCount: 1, basis: "paired-frame1-auto" })
+  }));
+
+  assert.deepEqual(controller.getVisibleNpcPreviewItems().map((item) => item.id), ["item:f1"]);
+}
+
+function testBlockedSpawnerPreviewUsesSingleFrameZeroCarrier() {
+  const frame0 = {
+    id: "item:bf0",
+    shapeDefId: "shape:1232",
+    world: { x: 200, y: 200, z: 0 },
+    frame: 0,
+    npcPreview: { spriteId: "sprite:1:0" },
+    screen: { left: 0, top: 0, right: 1, bottom: 1, width: 1, height: 1, anchorX: 0, anchorY: 0 }
+  };
+  const frame1 = {
+    id: "item:bf1",
+    shapeDefId: "shape:1232",
+    world: { x: 202, y: 202, z: 0 },
+    frame: 1,
+    npcPreview: { spriteId: "sprite:2:0" },
+    screen: { left: 0, top: 0, right: 1, bottom: 1, width: 1, height: 1, anchorX: 0, anchorY: 0 }
+  };
+
+  const controller = createScenePresentationController(createBaseDeps({
+    alwaysShowNpcPreviewsCheckbox: { checked: true },
+    state: {
+      current: {
+        metadata: { bounds: { screenLeft: 0, screenTop: 0 } },
+        hiddenIds: new Set(),
+        scene: { items: [frame0, frame1] },
+        spriteIndex: new Map(),
+        atlasImages: new Map()
+      },
+      zoom: 1,
+      offsetX: 0,
+      offsetY: 0,
+      pinnedItemId: null,
+      hoverItemId: null,
+      eggPlacement: null,
+      highlightOverlay: {
+        itemId: null,
+        geometry: null,
+        fallbackItem: null,
+        alpha: 0,
+        targetAlpha: 0,
+        lastTimestamp: 0
+      }
+    },
+    getShapeDefinition: () => ({ shape: 0x04d0 }),
+    isMonsterSpawnerItem: () => true,
+    isMonsterSpawnerAutoEnterEnabled: () => false,
+    getMonsterSpawnerPairCandidates: (item) => item.id === frame0.id ? [frame1] : [frame0],
+    getMonsterSpawnerLikelySpawnOwner: (item) => ({ item: item.id === frame0.id ? frame0 : frame0, ambiguous: false, pairCount: 1, basis: "self-frame0" })
+  }));
+
+  assert.deepEqual(controller.getVisibleNpcPreviewItems().map((item) => item.id), ["item:bf0"]);
+}
+
+function testFrameOneSpawnerKeepsItsOwnResolvedPreview() {
+  const frame0 = {
+    id: "item:susan-f0",
+    shapeDefId: "shape:1232",
+    world: { x: 57142, y: 62018, z: 0 },
+    mapNum: 0,
+    npcNum: 6,
+    quality: 799,
+    frame: 0,
+    egg: null
+  };
+  const frame1 = {
+    id: "item:susan-f1",
+    shapeDefId: "shape:1232",
+    world: { x: 57136, y: 62016, z: 0 },
+    mapNum: 11,
+    npcNum: 11,
+    quality: 799,
+    frame: 1,
+    egg: null
+  };
+
+  const metadata = createSceneMetadataHelpers({
+    state: {
+      current: {
+        selected: { game: "remorse" },
+        scene: { items: [frame0, frame1] }
+      }
+    },
+    escapeHtml: (value) => String(value),
+    getNpcSpawnerInfo: (_game, index) => {
+      if (index === 6) {
+        return { name: "Observer", shapeHex: "0x033c" };
+      }
+      if (index === 11) {
+        return { name: "RoamingSusan", shapeHex: "0x02cb" };
+      }
+      return null;
+    },
+    getShapeDefinition: () => ({ shape: 0x04d0 }),
+    getLinkedPreviewDisplay: () => null,
+    formatNumericField: (value) => String(value),
+    formatWorldCoords: (value) => JSON.stringify(value)
+  });
+
+  assert.equal(metadata.getMonsterSpawnerLikelySpawnOwner(frame1).item?.id, frame1.id);
+  assert.equal(metadata.getMonsterSpawnerLikelySpawnOwner(frame0).item?.id, frame1.id);
+}
+
+function testBlockedFrameOnePreviewStaysFrameOneCarrier() {
+  const frame0 = {
+    id: "item:chem-f0",
+    shapeDefId: "shape:1232",
+    world: { x: 61464, y: 59776, z: 0 },
+    mapNum: 8,
+    npcNum: 99,
+    quality: 256,
+    frame: 0,
+    egg: null
+  };
+  const frame1 = {
+    id: "item:chem-f1",
+    shapeDefId: "shape:1232",
+    world: { x: 61476, y: 59780, z: 0 },
+    mapNum: 7,
+    npcNum: 2,
+    quality: 256,
+    frame: 1,
+    egg: null
+  };
+
+  const metadata = createSceneMetadataHelpers({
+    state: {
+      current: {
+        selected: { game: "remorse" },
+        scene: { items: [frame0, frame1] }
+      }
+    },
+    escapeHtml: (value) => String(value),
+    getNpcSpawnerInfo: (_game, index) => index === 2 ? { name: "ChemSuitGuy", shapeHex: "0x02f6" } : null,
+    getShapeDefinition: () => ({ shape: 0x04d0 }),
+    getLinkedPreviewDisplay: () => null,
+    formatNumericField: (value) => String(value),
+    formatWorldCoords: (value) => JSON.stringify(value)
+  });
+
+  assert.equal(metadata.getMonsterSpawnerLikelySpawnOwner(frame0).item?.id, frame1.id);
+  assert.equal(metadata.getMonsterSpawnerLikelySpawnOwner(frame1).item?.id, frame1.id);
+}
+
 testControllerRequiresDiskFormatter();
 testBoundingGeometryHandlesMissingWorld();
 testFormattersHandleMissingWorld();
 testPointHitsItemUsesScreenRectBeforeCustomGeometry();
 testPointHitsItemPrefersProjectedBoundaryGeometry();
+testAutoEnabledSpawnerPreviewUsesSingleFrameOneCarrier();
+testBlockedSpawnerPreviewUsesSingleFrameZeroCarrier();
+testFrameOneSpawnerKeepsItsOwnResolvedPreview();
+testBlockedFrameOnePreviewStaysFrameOneCarrier();
 
 console.log("scene presentation regression checks passed");
