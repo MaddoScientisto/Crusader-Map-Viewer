@@ -41,15 +41,53 @@
       </ul>
     </div>
     <div class="usecode-right">
+      <div class="usecode-code-toolbar" role="toolbar" aria-label="Usecode viewer controls">
+        <div class="usecode-code-toolbar-group">
+          <button
+            class="usecode-code-button"
+            type="button"
+            title="Decrease code text size"
+            aria-label="Decrease code text size"
+            :disabled="codeFontSize <= MIN_CODE_FONT_SIZE"
+            @click="adjustCodeFontSize(-1)"
+          >
+            A-
+          </button>
+          <button
+            class="usecode-code-button"
+            type="button"
+            title="Increase code text size"
+            aria-label="Increase code text size"
+            :disabled="codeFontSize >= MAX_CODE_FONT_SIZE"
+            @click="adjustCodeFontSize(1)"
+          >
+            A+
+          </button>
+        </div>
+        <button
+          :class="['usecode-code-button', { 'is-active': softWrapEnabled }]"
+          type="button"
+          :aria-pressed="softWrapEnabled"
+          :title="softWrapEnabled ? 'Disable soft wrapping' : 'Enable soft wrapping'"
+          @click="softWrapEnabled = !softWrapEnabled"
+        >
+          Wrap
+        </button>
+      </div>
       <div v-if="fileLoading" class="muted">Loading...</div>
       <div v-else-if="!fileContent" class="muted">Choose a script from the tree to view it.</div>
-      <pre v-else class="usecode-text" v-html="highlightedFileContent"></pre>
+      <pre
+        v-else
+        :class="['usecode-text', { 'is-soft-wrapped': softWrapEnabled }]"
+        :style="codeTextStyle"
+        v-html="highlightedFileContent"
+      ></pre>
     </div>
   </div>
 </template>
 
 <script setup>
-import { computed, defineComponent, h, onMounted, onUnmounted, reactive, ref, toRefs } from "vue";
+import { computed, defineComponent, h, onMounted, onUnmounted, reactive, ref, toRefs, watch } from "vue";
 import {
   describeUsecodeTarget,
   formatTargetSlot,
@@ -62,10 +100,64 @@ import { state } from "../controller/state.js";
 
 const USECODE_STATE_EVENT = "crusader-map-renderer:scene-changed";
 const OPEN_USECODE_TARGET_EVENT = "crusader-map-renderer:open-usecode-target";
+const USECODE_VIEWER_PREFERENCES_KEY = "crusader-map-renderer:usecode-viewer-preferences";
+const MIN_CODE_FONT_SIZE = 10;
+const MAX_CODE_FONT_SIZE = 24;
+const DEFAULT_CODE_FONT_SIZE = 12;
 const data = reactive({ sources: [], sourceFiles: [], loading: false, fileContent: "", fileLoading: false });
 const searchQuery = ref("");
 const activeFilePath = ref("");
+const codeFontSize = ref(DEFAULT_CODE_FONT_SIZE);
+const softWrapEnabled = ref(false);
 let pendingOpenTarget = null;
+
+function clampCodeFontSize(value) {
+  return Math.min(MAX_CODE_FONT_SIZE, Math.max(MIN_CODE_FONT_SIZE, value));
+}
+
+function readUsecodeViewerPreferences() {
+  try {
+    const raw = window.localStorage?.getItem(USECODE_VIEWER_PREFERENCES_KEY);
+    if (!raw) {
+      return null;
+    }
+    const parsed = JSON.parse(raw);
+    return parsed && typeof parsed === "object" ? parsed : null;
+  } catch {
+    return null;
+  }
+}
+
+function writeUsecodeViewerPreferences() {
+  try {
+    window.localStorage?.setItem(
+      USECODE_VIEWER_PREFERENCES_KEY,
+      JSON.stringify({
+        codeFontSize: codeFontSize.value,
+        softWrapEnabled: softWrapEnabled.value
+      })
+    );
+  } catch {
+    // Ignore storage failures so the viewer still works in restricted environments.
+  }
+}
+
+function restoreUsecodeViewerPreferences() {
+  const preferences = readUsecodeViewerPreferences();
+  if (!preferences || typeof preferences !== "object") {
+    return;
+  }
+  if (Number.isFinite(preferences.codeFontSize)) {
+    codeFontSize.value = clampCodeFontSize(Math.round(preferences.codeFontSize));
+  }
+  if (typeof preferences.softWrapEnabled === "boolean") {
+    softWrapEnabled.value = preferences.softWrapEnabled;
+  }
+}
+
+function adjustCodeFontSize(delta) {
+  codeFontSize.value = clampCodeFontSize(codeFontSize.value + delta);
+}
 
 function normalizeSearchValue(value) {
   return String(value ?? "").trim().toLowerCase();
@@ -336,6 +428,7 @@ function loadFile(file) {
 onMounted(() => {
   window.addEventListener(USECODE_STATE_EVENT, refreshFromControllerState);
   window.addEventListener(OPEN_USECODE_TARGET_EVENT, handleOpenUsecodeTarget);
+  restoreUsecodeViewerPreferences();
   refreshFromControllerState();
 });
 
@@ -346,6 +439,9 @@ onUnmounted(() => {
 
 const { sources, loading, fileContent, fileLoading } = toRefs(data);
 const highlightedFileContent = computed(() => highlightUsecodeText(fileContent.value));
+const codeTextStyle = computed(() => ({ fontSize: `${codeFontSize.value}px` }));
+
+watch([codeFontSize, softWrapEnabled], writeUsecodeViewerPreferences);
 </script>
 
 <style scoped>
@@ -425,12 +521,64 @@ const highlightedFileContent = computed(() => highlightUsecodeText(fileContent.v
   padding: 14px;
 }
 
+.usecode-code-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: -14px -14px 12px;
+  padding: 14px;
+  background: linear-gradient(180deg, rgba(6, 9, 14, 0.98) 0%, rgba(6, 9, 14, 0.92) 72%, rgba(6, 9, 14, 0) 100%);
+  backdrop-filter: blur(10px);
+}
+
+.usecode-code-toolbar-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.usecode-code-button {
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+  min-width: 48px;
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--ink);
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+}
+
+.usecode-code-button:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.usecode-code-button.is-active {
+  background: rgba(13, 108, 125, 0.22);
+  border-color: rgba(124, 182, 214, 0.32);
+}
+
+.usecode-code-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
 .usecode-text {
   margin: 0;
   white-space: pre;
   font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
-  font-size: 12px;
   line-height: 1.5;
+}
+
+.usecode-text.is-soft-wrapped {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
 }
 
 .usecode-text :deep(.usecode-token-comment) {
@@ -601,5 +749,11 @@ const highlightedFileContent = computed(() => highlightUsecodeText(fileContent.v
   font-size: 0.74rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
+}
+
+@media (max-width: 900px) {
+  .usecode-code-toolbar {
+    flex-wrap: wrap;
+  }
 }
 </style>
