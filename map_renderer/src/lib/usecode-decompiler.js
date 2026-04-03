@@ -1327,6 +1327,34 @@ function parseEqualityCondition(condition) {
   return match ? [match[1].trim(), match[2].trim()] : null;
 }
 
+function parseIntegerLiteral(text) {
+  const trimmed = String(text ?? "").trim();
+  if (!/^-?(?:0x[0-9a-fA-F]+|\d+)$/u.test(trimmed)) return null;
+  const negative = trimmed.startsWith("-");
+  const raw = negative ? trimmed.slice(1) : trimmed;
+  const radix = raw.toLowerCase().startsWith("0x") ? 16 : 10;
+  const magnitude = Number.parseInt(raw, radix);
+  if (!Number.isSafeInteger(magnitude)) return null;
+  return {
+    value: negative ? -magnitude : magnitude,
+    radix,
+    text: trimmed
+  };
+}
+
+function shouldPreferDecimalSwitchCases(caseValues) {
+  if (!caseValues.length) return false;
+  const parsedValues = caseValues.map(parseIntegerLiteral);
+  if (parsedValues.some((value) => value == null)) return false;
+  return parsedValues.every((value) => value.value >= 0 && value.value <= 0xff);
+}
+
+function formatSwitchCaseValue(caseValue, preferDecimal) {
+  if (!preferDecimal) return caseValue;
+  const parsed = parseIntegerLiteral(caseValue);
+  return parsed ? String(parsed.value) : caseValue;
+}
+
 function parseLoopSelectorStatement(statement) {
   const match = /^\/\* loop_selector (.+) \*\/$/u.exec(statement);
   return match ? match[1] : null;
@@ -1498,9 +1526,10 @@ function renderSelectorChain(blocks, labelToIndex, startIndex, endIndex, returnL
   }
 
   if (canRenderSwitch) {
+    const preferDecimalCases = shouldPreferDecimalSwitchCases(switchBranches.map(([caseValue]) => caseValue));
     const rendered = [`switch (${selectorExpr}) {`];
     for (const [caseValue, bodyLines] of switchBranches) {
-      rendered.push(`case ${caseValue}:`);
+      rendered.push(`case ${formatSwitchCaseValue(caseValue, preferDecimalCases)}:`);
       rendered.push(...indentLines(bodyLines));
       if (bodyLines.at(-1) !== "return;") {
         rendered.push("  break;");

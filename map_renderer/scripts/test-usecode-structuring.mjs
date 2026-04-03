@@ -386,6 +386,44 @@ function testSelectorChainRendersAsSwitch() {
   assert.match(text, /case 3:/u);
 }
 
+function testOrdinalSwitchCasesStayDecimalAcrossByteWordBoundary() {
+  const structured = __testHooks.renderStructuredPseudocode([
+    ["entry", ["if keycode != 127 goto block_0004;"]],
+    ["block_0002", ["foo();", "goto block_000a;"]],
+    ["block_0004", ["if keycode != 0x0080 goto block_0008;"]],
+    ["block_0006", ["bar();", "goto block_000a;"]],
+    ["block_0008", ["if keycode != 0x0081 goto block_000a;"]],
+    ["block_0009", ["baz();", "goto block_000a;"]],
+    ["block_000a", ["return;"]]
+  ]);
+
+  assert.ok(structured, "expected mixed-width ordinal selector chain to structure as a switch");
+  const text = structured.join("\n");
+  assert.match(text, /case 127:/u);
+  assert.match(text, /case 128:/u);
+  assert.match(text, /case 129:/u);
+  assert.doesNotMatch(text, /case 0x0080:/u);
+  assert.doesNotMatch(text, /case 0x0081:/u);
+}
+
+function testLargeIdSwitchCasesStayHex() {
+  const structured = __testHooks.renderStructuredPseudocode([
+    ["entry", ["if shape != 0x053a goto block_0004;"]],
+    ["block_0002", ["foo();", "goto block_000a;"]],
+    ["block_0004", ["if shape != 0x053b goto block_0008;"]],
+    ["block_0006", ["bar();", "goto block_000a;"]],
+    ["block_0008", ["if shape != 0x053c goto block_000a;"]],
+    ["block_0009", ["baz();", "goto block_000a;"]],
+    ["block_000a", ["return;"]]
+  ]);
+
+  assert.ok(structured, "expected shape-id selector chain to structure as a switch");
+  const text = structured.join("\n");
+  assert.match(text, /case 0x053a:/u);
+  assert.match(text, /case 0x053b:/u);
+  assert.match(text, /case 0x053c:/u);
+}
+
 function testRegionEndGotoCountsAsStructuredExit() {
   const structured = __testHooks.renderStructuredPseudocode([
     ["entry", ["if !condition goto block_exit;"]],
@@ -584,6 +622,8 @@ testCreateListAndAppendListRenderAsListExpressions();
 testCompoundFalseBranchStaysNegated();
 testShapeWhitelistSelectorLoopRendersAsNearbyItems();
 testSelectorChainRendersAsSwitch();
+testOrdinalSwitchCasesStayDecimalAcrossByteWordBoundary();
+testLargeIdSwitchCasesStayHex();
 testRegionEndGotoCountsAsStructuredExit();
 testRealTriggerSlot20NoLongerFallsBackToBlocks();
 testRealBlastpacUseNoLongerFallsBackToBlocks();
