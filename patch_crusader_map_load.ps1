@@ -1,12 +1,13 @@
 <#
 .SYNOPSIS
-Patch the fresh-game startup selector and editor-object visibility in a local Crusader executable copy.
+Patch the fresh-game startup selector, editor-object visibility, and the Remorse datalink movie-browser route in a local Crusader install.
 
 .DESCRIPTION
-This script patches two retail behavior families:
+This script patches up to three retail behavior families:
 
 - the hardcoded new-game startup call inside Game_Start
 - the `SI_EDITOR` gates that suppress editor objects in the world-item renderer
+- in No Remorse only, the final `DATALINK::use` callee token in `USECODE\EUSECODE.FLX`
 
 It auto-detects whether the local executable is Crusader: No Remorse (`CRUSADER.EXE`) or
 Crusader: No Regret (`REGRET.EXE`) based on the executable found in the same folder as this
@@ -48,6 +49,17 @@ That means:
 The script resolves the exact patch site at runtime by scanning the detected executable for the
 fresh-game startup selector signature.
 
+For the Remorse-only datalink movie-browser patch, the script patches the installed
+`USECODE\EUSECODE.FLX` file rather than the executable.
+
+It resolves one unique `DATALINK::use` tail signature and rewrites only the 2-byte class token in
+the final `slot_20` spawn from `TEXTFILE` (`0x0A17`) to `FLICTEST` (`0x0A20`).
+
+That means:
+- only 2 bytes are changed in `USECODE\EUSECODE.FLX`
+- the executable and its relocation-sensitive far-call sites are untouched
+- restore writes the original `TEXTFILE` class token back verbatim
+
 .EXAMPLE
 powershell -NoProfile -ExecutionPolicy Bypass -File .\patch_crusader_map_load.ps1 -Choice status
 
@@ -65,10 +77,16 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\patch_crusader_map_load.ps
 
 .EXAMPLE
 powershell -NoProfile -ExecutionPolicy Bypass -File .\patch_crusader_map_load.ps1 -Choice editor-default
+
+.EXAMPLE
+powershell -NoProfile -ExecutionPolicy Bypass -File .\patch_crusader_map_load.ps1 -Choice flictest-enable
+
+.EXAMPLE
+powershell -NoProfile -ExecutionPolicy Bypass -File .\patch_crusader_map_load.ps1 -Choice flictest-default
 #>
 
 param(
-    [ValidateSet('1', '2', '3', '4', '5', '6', 'status', 'map-redirect', 'map-default', 'editor-visible', 'editor-default', 'exit')]
+    [ValidateSet('1', '2', '3', '4', '5', '6', '7', '8', 'status', 'map-redirect', 'map-default', 'editor-visible', 'editor-default', 'flictest-enable', 'flictest-default', 'exit')]
     [string]$Choice,
 
     [ValidateRange(0, 65535)]
@@ -125,6 +143,20 @@ $gameProfiles = @(
                 Enabled = [byte[]](0x26, 0x8A, 0x47, 0x06, 0x25, 0x01, 0x00, 0x0B, 0xC0, 0xEB, 0x03, 0xE9, 0x19, 0x06)
             }
         )
+        FlictestDefinitions = @(
+            @{
+                Label = 'DATALINK final spawn callee'
+                StatusLabel = 'Remorse datalink browser target'
+                PathRelativeToTargetDir = 'USECODE\EUSECODE.FLX'
+                Signature = @{
+                    Bytes = [byte[]](0x52, 0x2C, 0x00, 0x5B, 0x6E, 0x04, 0x59, 0x41, 0xFE, 0x40, 0x06, 0x57, 0x02, 0x02, 0x17, 0x0A, 0x20, 0x00, 0x65, 0x00, 0x6E, 0xFE, 0x5E, 0x54, 0x01, 0x01, 0x12, 0x53, 0x5C)
+                    Mask = [bool[]]($true, $true, $true, $true, $true, $true, $true, $true, $true, $true, $true, $true, $true, $true, $false, $false, $true, $true, $true, $true, $true, $true, $true, $true, $true, $true, $true, $true, $true)
+                }
+                PatchOffset = 14
+                Original = [byte[]](0x17, 0x0A)
+                Enabled = [byte[]](0x20, 0x0A)
+            }
+        )
     },
     @{
         GameTitle = 'Crusader: No Regret'
@@ -174,6 +206,7 @@ $gameProfiles = @(
                 Enabled = [byte[]](0x26, 0x8A, 0x47, 0x06, 0x25, 0x01, 0x00, 0x0B, 0xC0, 0xEB, 0x03, 0xE9, 0x19, 0x06)
             }
         )
+        FlictestDefinitions = @()
     }
 )
 
@@ -260,6 +293,7 @@ function Get-ResolvedTarget {
                     ExePath = $candidatePath
                     SiteDefinitions = $profile.SiteDefinitions
                     EditorVisibilityDefinitions = $profile.EditorVisibilityDefinitions
+                    FlictestDefinitions = $profile.FlictestDefinitions
                 }
             }
         }
@@ -309,8 +343,36 @@ function Get-ResolvedTarget {
         }
     )
 
+    $targetRoot = [System.IO.Path]::GetDirectoryName($target.ExePath)
+    $resolvedFlictestSites = New-Object System.Collections.Generic.List[hashtable]
+    foreach ($definition in $target.FlictestDefinitions) {
+        $siteFilePath = if ($definition.ContainsKey('PathRelativeToTargetDir')) {
+            Join-Path $targetRoot $definition.PathRelativeToTargetDir
+        }
+        else {
+            $target.ExePath
+        }
+
+        $siteBytes = [System.IO.File]::ReadAllBytes($siteFilePath)
+        $matchOffset = Find-ResolvedSingleOffset -Bytes $siteBytes -Signature $definition.Signature -GameTitle $target.GameTitle -Label $definition.Label
+        $resolvedOffset = $matchOffset
+        if ($definition.ContainsKey('PatchOffset')) {
+            $resolvedOffset += [int]$definition.PatchOffset
+        }
+
+        [void]$resolvedFlictestSites.Add(@{
+            Label = $definition.Label
+            StatusLabel = $definition.StatusLabel
+            Offset = $resolvedOffset
+            FilePath = $siteFilePath
+            Original = $definition.Original
+            Enabled = $definition.Enabled
+        })
+    }
+
     $target.Sites = $resolvedSites
     $target.EditorVisibilitySites = $resolvedEditorVisibilitySites
+    $target.FlictestSites = @($resolvedFlictestSites.ToArray())
     return $target
 }
 
@@ -320,6 +382,7 @@ $exePath = $target.ExePath
 $sites = $target.Sites
 $primarySite = $sites[0]
 $editorVisibilitySites = $target.EditorVisibilitySites
+$flictestBrowserSites = $target.FlictestSites
 
 $site = @{
     GameTitle = $target.GameTitle
@@ -559,6 +622,86 @@ function Assert-EditorVisibilityKnown {
     }
 }
 
+function Get-FlictestBrowserConfig {
+
+    if (-not $flictestBrowserSites -or $flictestBrowserSites.Count -eq 0) {
+        return $null
+    }
+
+    $siteStates = @(
+        foreach ($siteDefinition in $flictestBrowserSites) {
+            $siteBytes = [System.IO.File]::ReadAllBytes($siteDefinition.FilePath)
+            $current = Get-ByteSlice -Bytes $siteBytes -Offset $siteDefinition.Offset -Count $siteDefinition.Original.Length
+            $state = 'Unknown'
+            if (Test-ByteArrayEqual -Left $current -Right $siteDefinition.Original) {
+                $state = 'RetailDefault'
+            }
+            elseif (Test-ByteArrayEqual -Left $current -Right $siteDefinition.Enabled) {
+                $state = 'BrowserEnabled'
+            }
+
+            @{
+                Label = $siteDefinition.Label
+                StatusLabel = $siteDefinition.StatusLabel
+                FilePath = $siteDefinition.FilePath
+                Offset = $siteDefinition.Offset
+                State = $state
+                Bytes = $current
+            }
+        }
+    )
+
+    $unknownStates = @($siteStates | Where-Object { $_.State -eq 'Unknown' })
+    $retailStates = @($siteStates | Where-Object { $_.State -eq 'RetailDefault' })
+    $enabledStates = @($siteStates | Where-Object { $_.State -eq 'BrowserEnabled' })
+
+    $overallState = 'Mixed'
+    if ($unknownStates.Count -gt 0) {
+        $overallState = 'Unknown'
+    }
+    elseif ($retailStates.Count -eq $siteStates.Count) {
+        $overallState = 'RetailDefault'
+    }
+    elseif ($enabledStates.Count -eq $siteStates.Count) {
+        $overallState = 'BrowserEnabled'
+    }
+
+    return @{
+        Label = 'Remorse datalink movie-browser patch'
+        StatusLabel = 'Remorse datalink movie-browser'
+        State = $overallState
+        Sites = $siteStates
+    }
+}
+
+function Format-FlictestBrowserStatus {
+    param([hashtable]$Config)
+
+    switch ($Config.State) {
+        'RetailDefault' { return 'Retail default' }
+        'BrowserEnabled' { return 'Browser enabled' }
+        'Mixed' { return 'Mixed' }
+        default { return 'Unknown' }
+    }
+}
+
+function Assert-FlictestBrowserKnown {
+    if (-not $flictestBrowserSites -or $flictestBrowserSites.Count -eq 0) {
+        throw 'The active game does not expose the Remorse datalink movie-browser patch.'
+    }
+
+    $config = Get-FlictestBrowserConfig
+    if ($config.State -eq 'Unknown') {
+        $details = ($config.Sites | ForEach-Object {
+            "{0} @ 0x{1:X}: {2}" -f $_.StatusLabel, $_.Offset, (Format-HexBytes -Bytes $_.Bytes)
+        }) -join "`n"
+        throw (
+            "Remorse datalink movie-browser sites do not match the expected retail or browser-enabled bytes.`n{0}`n`nRefusing to modify an unknown executable state." -f
+            $details
+        )
+    }
+}
+
 function Show-Status {
     param([byte[]]$FileBytes)
 
@@ -585,6 +728,13 @@ function Show-Status {
     foreach ($siteConfig in $editorVisibilityConfig.Sites) {
         Write-Host ("{0} @ 0x{1:X}: {2}" -f $siteConfig.StatusLabel, $siteConfig.Offset, (Format-EditorVisibilityStatus -Config $siteConfig))
     }
+    if ($flictestBrowserSites.Count -gt 0) {
+        $flictestConfig = Get-FlictestBrowserConfig
+        Write-Host ("{0}: {1}" -f $flictestConfig.StatusLabel, (Format-FlictestBrowserStatus -Config $flictestConfig))
+        foreach ($siteConfig in $flictestConfig.Sites) {
+            Write-Host ("{0} @ 0x{1:X}: {2}" -f $siteConfig.StatusLabel, $siteConfig.Offset, (Format-FlictestBrowserStatus -Config $siteConfig))
+        }
+    }
     Write-Host ''
     Write-Host 'How it works:'
     Write-Host '- The script auto-detects CRUSADER.EXE or REGRET.EXE in this folder.'
@@ -598,13 +748,24 @@ function Show-Status {
     Write-Host '- Redirect changes only those two 16-bit values at each matched selector and leaves the rest of the executable alone.'
     Write-Host '- Restore writes the retail values back everywhere: map 1, egg 0x001E.'
     Write-Host '- The editor visibility patch flips both recovered SI_EDITOR branches from 74 03 to EB 03: the upstream world-item node-allocation skip and the downstream sprite-paint skip.'
+    if ($flictestBrowserSites.Count -gt 0) {
+        Write-Host '- The Remorse datalink movie-browser patch edits USECODE\EUSECODE.FLX and swaps the final DATALINK::use slot_20 callee from TEXTFILE (0x0A17) to FLICTEST (0x0A20).' 
+        Write-Host '- That exposes the shipped FLICTEST keypad browser through the datalink with only a 2-byte usecode change.'
+    }
     Write-Host ''
     Write-Host '1. Show status'
     Write-Host '2. Redirect fresh-game startup map/egg'
     Write-Host '3. Restore retail default'
     Write-Host '4. Force editor objects visible'
     Write-Host '5. Restore retail editor-object hide'
-    Write-Host '6. Exit'
+    if ($flictestBrowserSites.Count -gt 0) {
+        Write-Host '6. Enable Remorse datalink movie browser'
+        Write-Host '7. Restore retail Remorse datalink use'
+        Write-Host '8. Exit'
+    }
+    else {
+        Write-Host '6. Exit'
+    }
     Write-Host ''
 }
 
@@ -676,6 +837,37 @@ function Set-EditorVisibilityEnabled {
     Write-Host ("{0} @ {1}" -f $config.StatusLabel, (Format-EditorVisibilityStatus -Config $config))
     foreach ($siteConfig in $config.Sites) {
         Write-Host ("{0} @ 0x{1:X}: {2}" -f $siteConfig.StatusLabel, $siteConfig.Offset, (Format-EditorVisibilityStatus -Config $siteConfig))
+    }
+    Write-Host ''
+}
+
+function Set-FlictestBrowserEnabled {
+    param(
+        [bool]$Enabled,
+        [string]$Label
+    )
+
+    Assert-FlictestBrowserKnown
+
+    foreach ($siteDefinition in $flictestBrowserSites) {
+        $fileBytes = [System.IO.File]::ReadAllBytes($siteDefinition.FilePath)
+        $targetBytes = if ($Enabled) { $siteDefinition.Enabled } else { $siteDefinition.Original }
+        Set-ByteSlice -Bytes $fileBytes -Offset $siteDefinition.Offset -Value $targetBytes
+        [System.IO.File]::WriteAllBytes($siteDefinition.FilePath, $fileBytes)
+
+        $verifyBytes = [System.IO.File]::ReadAllBytes($siteDefinition.FilePath)
+        $verified = Get-ByteSlice -Bytes $verifyBytes -Offset $siteDefinition.Offset -Count $targetBytes.Length
+        if (-not (Test-ByteArrayEqual -Left $verified -Right $targetBytes)) {
+            throw ("{0} verification failed after write." -f $siteDefinition.Label)
+        }
+    }
+
+    $config = Get-FlictestBrowserConfig
+    Write-Host ''
+    Write-Host ("Applied: {0}" -f $Label)
+    Write-Host ("{0}: {1}" -f $config.StatusLabel, (Format-FlictestBrowserStatus -Config $config))
+    foreach ($siteConfig in $config.Sites) {
+        Write-Host ("{0} @ 0x{1:X}: {2}" -f $siteConfig.StatusLabel, $siteConfig.Offset, (Format-FlictestBrowserStatus -Config $siteConfig))
     }
     Write-Host ''
 }
@@ -773,6 +965,28 @@ function Invoke-MenuChoice {
             Set-EditorVisibilityEnabled -Enabled $false -Label 'Restore retail editor-object hide'
         }
         '6' {
+            if ($flictestBrowserSites.Count -gt 0) {
+                Set-FlictestBrowserEnabled -Enabled $true -Label 'Enable Remorse datalink movie browser'
+            }
+            else {
+                return $false
+            }
+        }
+        'flictest-enable' {
+            Set-FlictestBrowserEnabled -Enabled $true -Label 'Enable Remorse datalink movie browser'
+        }
+        '7' {
+            if ($flictestBrowserSites.Count -gt 0) {
+                Set-FlictestBrowserEnabled -Enabled $false -Label 'Restore retail Remorse datalink use'
+            }
+            else {
+                Write-Warning 'Invalid selection.'
+            }
+        }
+        'flictest-default' {
+            Set-FlictestBrowserEnabled -Enabled $false -Label 'Restore retail Remorse datalink use'
+        }
+        '8' {
             return $false
         }
         'exit' {
@@ -794,7 +1008,8 @@ if ($PSBoundParameters.ContainsKey('Choice')) {
 :mainloop while ($true) {
     $currentBytes = [System.IO.File]::ReadAllBytes($exePath)
     Show-Status -FileBytes $currentBytes
-    $choice = Read-Host 'Select 1-4'
+    $choicePrompt = if ($flictestBrowserSites.Count -gt 0) { 'Select 1-8' } else { 'Select 1-6' }
+    $choice = Read-Host $choicePrompt
     if ([string]::IsNullOrWhiteSpace($choice)) {
         break mainloop
     }
