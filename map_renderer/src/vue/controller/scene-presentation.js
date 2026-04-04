@@ -89,6 +89,7 @@ export function createScenePresentationController(deps) {
   const CARD_NS_SHAPE = 0x031d;
   const TELEPORTER_LIGHTS_SHAPE = 0x01db;
   const ELEVATOR_SHAPE = 0x021e;
+  const REGRET_ELEVATOR_SHAPE = 0x0190;
   const EVENT_SHAPE = 0x0361;
   const SPANEL_SHAPE = 0x03aa;
   const FLAMEBOX_SHAPE = 0x0403;
@@ -97,9 +98,15 @@ export function createScenePresentationController(deps) {
   const BRO_BOOT_SHAPE = 0x04fe;
   const DOOR_DEATH_HELPER_SHAPE = 0x04f8;
   const STEAMBOX_SHAPE = 0x0500;
+  const WATCHNS_SHAPE = 0x04c6;
+  const WATCHEW_SHAPE = 0x04de;
+  const SECRET_DOOR_POST_SHAPE = 0x0510;
   const ALARMHAT_SHAPE = 0x0561;
   const ALRMTRIG_SHAPE = 0x0581;
   const MONSTER_SPAWNER_SHAPE = 0x04d0;
+  const PRESSURE_BARRIER_V_SHAPE = 0x05df;
+  const PRESSURE_BARRIER_H_SHAPE = 0x05e0;
+  const CRYOBOX_SHAPE = 0x05e1;
   const FLAME_HELPER_SHAPES = new Set([0x0438, 0x0439, 0x043a, 0x043b, 0x050a, 0x0518]);
   const STEAM_TARGET_SHAPES = new Set([0x03a9, 0x04f9, 0x04fa, 0x04fd, 0x0511]);
   const DOOR_TARGET_SHAPES = new Set([0x0005, 0x0046, 0x007b, 0x0095, 0x0099, 0x00a9, 0x030a, 0x030b, 0x03f8, 0x03ff]);
@@ -109,6 +116,7 @@ export function createScenePresentationController(deps) {
   const LOCAL_EDITOR_LINK_DISTANCE = 768;
   const LOCAL_ALARM_LINK_DISTANCE = 512;
   const LOCAL_DOOR_LINK_DISTANCE = 640;
+  const CRYOBOX_LINK_DISTANCE = 1024;
   const CHANGER_REMORSE_SCAN_DISTANCE = 100 * 32;
   const CRUSADER_EGG_RANGE_WORLD_UNITS = 64;
   const SNAP_EGG_SHAPE = 0x04fe;
@@ -734,12 +742,27 @@ export function createScenePresentationController(deps) {
       return null;
     }
 
+    const gameId = state.current?.selected?.game ?? null;
     const definition = getShapeDefinition(item.shapeDefId);
-    if (definition?.shape !== ELEVATOR_SHAPE || item.frame !== 0 || !Number.isInteger(item.quality)) {
+    if (item.frame !== 0 || !Number.isInteger(item.quality)) {
       return null;
     }
 
     const qlo = item.quality & 0xff;
+    if (definition?.shape === REGRET_ELEVATOR_SHAPE && String(gameId).startsWith("regret")) {
+      if (qlo >= 100 && qlo < 0xc8) {
+        return {
+          labelId: qlo,
+          evidence: "regret-elevator-qlo"
+        };
+      }
+      return null;
+    }
+
+    if (definition?.shape !== ELEVATOR_SHAPE) {
+      return null;
+    }
+
     if (qlo >= 1 && qlo <= 0x0f) {
       return {
         labelId: qlo,
@@ -1971,7 +1994,7 @@ export function createScenePresentationController(deps) {
       }
     }
 
-    const controllerShapes = new Set([BOX_EW_SHAPE, FASTSKIL_SHAPE, EVENT_SHAPE, SKILLBOX_SHAPE, PANELNS_SHAPE, CARD_NS_SHAPE, SPANEL_SHAPE]);
+    const controllerShapes = new Set([BOX_EW_SHAPE, FASTSKIL_SHAPE, EVENT_SHAPE, SKILLBOX_SHAPE, PANELNS_SHAPE, CARD_NS_SHAPE, SPANEL_SHAPE, WATCHNS_SHAPE, WATCHEW_SHAPE]);
     for (const source of visibleItems) {
       const sourceShape = getShapeNumber(source);
       if (!controllerShapes.has(sourceShape)) {
@@ -1995,7 +2018,11 @@ export function createScenePresentationController(deps) {
                     ? "PANELNS"
                     : sourceShape === CARD_NS_SHAPE
                       ? "CARD_NS"
-                      : "SPANEL"
+                      : sourceShape === WATCHNS_SHAPE
+                        ? "WATCHNS"
+                        : sourceShape === WATCHEW_SHAPE
+                          ? "WATCHEW"
+                          : "SPANEL"
             }];
       for (const variant of controllerVariants) {
         for (const target of controllerTargetsByQlo.get(variant.qLo) ?? []) {
@@ -2008,6 +2035,62 @@ export function createScenePresentationController(deps) {
             label: `${variant.labelPrefix} -> cmd QLo ${variant.qLo}`
           });
         }
+      }
+    }
+
+    const secretDoorPostsByQlo = new Map();
+    for (const target of byShape.get(SECRET_DOOR_POST_SHAPE) ?? []) {
+      const qLo = getQualityLowByte(target);
+      if (!Number.isInteger(qLo)) {
+        continue;
+      }
+      addItemToBucket(secretDoorPostsByQlo, qLo, target);
+    }
+
+    for (const watchShape of [WATCHNS_SHAPE, WATCHEW_SHAPE]) {
+      for (const source of byShape.get(watchShape) ?? []) {
+        const qLo = getQualityLowByte(source);
+        if (!Number.isInteger(qLo)) {
+          continue;
+        }
+        for (const target of secretDoorPostsByQlo.get(qLo) ?? []) {
+          if (!isWithinLinkDistance(source, target, LOCAL_EDITOR_LINK_DISTANCE)) {
+            continue;
+          }
+          pushUniqueLink(links, seenKeys, source, target, {
+            color: "rgba(133, 211, 255, 0.86)",
+            dashed: [5, 3],
+            label: `${watchShape === WATCHNS_SHAPE ? "WATCHNS" : "WATCHEW"} -> secret post QLo ${qLo}`
+          });
+        }
+      }
+    }
+
+    const pressureBarriersByQlo = new Map();
+    for (const barrierShape of [PRESSURE_BARRIER_V_SHAPE, PRESSURE_BARRIER_H_SHAPE]) {
+      for (const target of byShape.get(barrierShape) ?? []) {
+        const qLo = getQualityLowByte(target);
+        if (!Number.isInteger(qLo)) {
+          continue;
+        }
+        addItemToBucket(pressureBarriersByQlo, qLo, target);
+      }
+    }
+
+    for (const source of byShape.get(CRYOBOX_SHAPE) ?? []) {
+      const qLo = getQualityLowByte(source);
+      if (!Number.isInteger(qLo)) {
+        continue;
+      }
+      for (const target of pressureBarriersByQlo.get(qLo) ?? []) {
+        if (!isWithinLinkDistance(source, target, CRYOBOX_LINK_DISTANCE)) {
+          continue;
+        }
+        pushUniqueLink(links, seenKeys, source, target, {
+          color: "rgba(111, 255, 233, 0.86)",
+          dashed: [4, 3],
+          label: `CRYOBOX -> pressure barrier QLo ${qLo}`
+        });
       }
     }
 

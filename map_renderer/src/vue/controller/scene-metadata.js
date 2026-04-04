@@ -28,8 +28,17 @@ const EVENT_SHAPE = 0x0361;
 const DOOR_DEATH_HELPER_SHAPE = 0x04f8;
 const BRO_BOOT_SHAPE = 0x04fe;
 const STEAMBOX_SHAPE = 0x0500;
+const WATCHNS_SHAPE = 0x04c6;
+const WATCHEW_SHAPE = 0x04de;
+const SECRET_DOOR_POST_SHAPE = 0x0510;
+const CRAZYEW_SHAPE = 0x0451;
+const VIDEOBOX_SHAPE = 0x056d;
 const ALARMHAT_SHAPE = 0x0561;
 const ALRMTRIG_SHAPE = 0x0581;
+const CRAZYNS_SHAPE = 0x05ae;
+const PRESSURE_BARRIER_V_SHAPE = 0x05df;
+const PRESSURE_BARRIER_H_SHAPE = 0x05e0;
+const CRYOBOX_SHAPE = 0x05e1;
 const CHEST_NS_SHAPE = 0x054f;
 const CHEST_EW_SHAPE = 0x0550;
 const CMD_LINK_MAX_DISTANCE = 768;
@@ -927,11 +936,35 @@ export function createSceneMetadataHelpers(dependencies) {
     if (definition.shape === STEAMBOX_SHAPE) {
       return "STEAMBOX hazard controller; nearby steam-family helpers are matched by QLo and dispatched through STEAMBOX control slots.";
     }
+    if (definition.shape === WATCHNS_SHAPE) {
+      return "WATCHNS secret-door watcher; slot 0x20 scans nearby 0x0510 posts by shared QLo, uses qHi-0 posts as the local text/door marker lane, then brackets TRIGGER.slot_20 around its watcher slot 0x21 phase.";
+    }
+    if (definition.shape === WATCHEW_SHAPE) {
+      return "WATCHEW secret-door watcher; the east-west variant uses the same nearby 0x0510 post scan and TRIGGER.slot_20 fan-out as WATCHNS.";
+    }
+    if (definition.shape === SECRET_DOOR_POST_SHAPE) {
+      return "Secret-door post/helper; nearby WATCHNS and WATCHEW controllers match these posts by local QLo, and qHi-0 placements are the text/door-side marker lane in the recovered watcher body.";
+    }
+    if (definition.shape === CRAZYEW_SHAPE) {
+      return "CRAZYEW NPC wake-up relay; gotHit checks actor handles >= 0x00ff and nudges eligible NPCs into slot 0x2C unless they are already in activity 12.";
+    }
+    if (definition.shape === VIDEOBOX_SHAPE) {
+      return "VIDEOBOX gated controller; equip is a thin global-flag check that either falls straight into ITEM.slot_21 or runs a short scripted helper loop first.";
+    }
     if (definition.shape === ALARMHAT_SHAPE) {
       return "ALARMHAT local alarm driver; equips nearby 0x04D0 helpers and uses frame-dependent gating rather than DTABLE NPC payloads.";
     }
     if (definition.shape === ALRMTRIG_SHAPE) {
       return "ALRMTRIG alert relay; chooses trigger lanes 0/1 or +0x80/+0x81 from map-array state and the current world alert flag.";
+    }
+    if (definition.shape === CRAZYNS_SHAPE) {
+      return "CRAZYNS NPC wake-up relay; gotHit checks actor handles >= 0x00ff and nudges eligible NPCs into slot 0x2C unless they are already in activity 12.";
+    }
+    if (definition.shape === PRESSURE_BARRIER_V_SHAPE || definition.shape === PRESSURE_BARRIER_H_SHAPE) {
+      return "Pressure-barrier face; CRYOBOX equips nearby 0x05DF/0x05E0 faces by shared QLo and then drives their open/steam animation lane through slots 0x20 and 0x21.";
+    }
+    if (definition.shape === CRYOBOX_SHAPE) {
+      return "CRYOBOX pressure-barrier switch; equip matches nearby 0x05DF/0x05E0 faces by shared QLo, then drives their open/close worker slots and steam release timing.";
     }
     if (definition.shape === CHEST_ITEM_SPAWNER_SHAPE) {
       return "Chest item spawner; chest usecode matches nearby 0x0476 helpers by QLo and FREE.slot_2E resolves the spawned item from mapNum/npcNum.";
@@ -1076,11 +1109,29 @@ export function createSceneMetadataHelpers(dependencies) {
     if (definition.shape === STEAMBOX_SHAPE) {
       return createUsecodeViewTarget("STEAMBOX", 0x0a, "equip", "STEAMBOX.equip is the recovered hazard-controller body that routes nearby steam helpers through event 0/1 lanes.");
     }
+    if (definition.shape === WATCHNS_SHAPE) {
+      return createUsecodeViewTarget("WATCHNS", 0x20, null, "WATCHNS.slot_20 is the recovered secret-door watcher lane that scans nearby 0x0510 posts by shared QLo before bracketing TRIGGER.slot_20.");
+    }
+    if (definition.shape === WATCHEW_SHAPE) {
+      return createUsecodeViewTarget("WATCHEW", 0x20, null, "WATCHEW.slot_20 is the east-west secret-door watcher lane that scans nearby 0x0510 posts by shared QLo before bracketing TRIGGER.slot_20.");
+    }
+    if (definition.shape === CRAZYEW_SHAPE) {
+      return createUsecodeViewTarget("CRAZYEW", 0x06, "gotHit", "CRAZYEW.gotHit is the recovered NPC wake-up relay for this Regret-only controller family.");
+    }
+    if (definition.shape === VIDEOBOX_SHAPE) {
+      return createUsecodeViewTarget("VIDEOBOX", 0x0a, "equip", "VIDEOBOX.equip is the recovered gated helper body for this Regret-only controller family.");
+    }
     if (definition.shape === ALARMHAT_SHAPE) {
       return createUsecodeViewTarget("ALARMHAT", 0x0a, "equip", "ALARMHAT.equip is the verified local alarm scan that walks nearby 0x04D0 helpers.");
     }
     if (definition.shape === ALRMTRIG_SHAPE) {
       return createUsecodeViewTarget("ALRMTRIG", 0x0a, "equip", "ALRMTRIG.equip is the recovered alert relay that selects TRIGGER lanes from map-array and world-alert state.");
+    }
+    if (definition.shape === CRAZYNS_SHAPE) {
+      return createUsecodeViewTarget("CRAZYNS", 0x06, "gotHit", "CRAZYNS.gotHit is the recovered NPC wake-up relay for this Regret-only controller family.");
+    }
+    if (definition.shape === CRYOBOX_SHAPE) {
+      return createUsecodeViewTarget("CRYOBOX", 0x0a, "equip", "CRYOBOX.equip is the recovered pressure-barrier controller body that matches nearby 0x05DF/0x05E0 faces by shared QLo.");
     }
 
     return null;
@@ -1281,6 +1332,35 @@ export function createSceneMetadataHelpers(dependencies) {
       rows.push("<dt>Steam note</dt><dd>Recovered STEAMBOX.equip matches nearby steam-family helpers by QLo and forwards them into event 0/1 control lanes.</dd>");
     }
 
+    if (definition.shape === WATCHNS_SHAPE || definition.shape === WATCHEW_SHAPE) {
+      rows.push(`<dt>Decoded class</dt><dd>${escapeHtml(definition.shape === WATCHNS_SHAPE ? "WATCHNS" : "WATCHEW")}</dd>`);
+      if (rawQuality !== null) {
+        rows.push(`<dt>Watcher bytes</dt><dd>${escapeHtml(`QLo ${qLo} (${formatByteHex(qLo)}), QHi ${qHi} (${formatByteHex(qHi)}), raw ${formatWordHex(rawQuality)}`)}</dd>`);
+      }
+      if (rawMapNum !== null) {
+        rows.push(`<dt>Map byte</dt><dd>${escapeHtml(`${rawMapNum} (${formatByteHex(rawMapNum)}): zero takes the nearby 0x0510 secret-door-post lane; nonzero falls through the alternate text/value path before slot 0x21.`)}</dd>`);
+      }
+      rows.push("<dt>Watcher note</dt><dd>Recovered slot 0x20 scans nearby 0x0510 posts, uses qHi-0 matches as the local text/door marker lane, then brackets TRIGGER.slot_20 around the watcher slot 0x21 phase.</dd>");
+    }
+
+    if (definition.shape === SECRET_DOOR_POST_SHAPE) {
+      rows.push("<dt>Decoded role</dt><dd>Secret-door post/helper target for WATCHNS/WATCHEW.</dd>");
+      if (rawQuality !== null) {
+        rows.push(`<dt>Post bytes</dt><dd>${escapeHtml(`QLo ${qLo} (${formatByteHex(qLo)}), QHi ${qHi} (${formatByteHex(qHi)}), raw ${formatWordHex(rawQuality)}`)}</dd>`);
+      }
+      rows.push("<dt>Watcher note</dt><dd>Current best read: nearby WATCHNS/WATCHEW controllers use the low quality byte as the local match key, and qHi-0 posts are the text/door-side marker lane in the recovered watcher body.</dd>");
+    }
+
+    if (definition.shape === CRAZYEW_SHAPE || definition.shape === CRAZYNS_SHAPE) {
+      rows.push(`<dt>Decoded class</dt><dd>${escapeHtml(definition.shape === CRAZYEW_SHAPE ? "CRAZYEW" : "CRAZYNS")}</dd>`);
+      rows.push("<dt>Wake-up note</dt><dd>Recovered gotHit only reacts to actor handles >= 0x00FF, checks NPC.slot_2A, and then spawns NPC.slot_2C unless the target is already in activity 12.</dd>");
+    }
+
+    if (definition.shape === VIDEOBOX_SHAPE) {
+      rows.push("<dt>Decoded class</dt><dd>VIDEOBOX</dd>");
+      rows.push("<dt>Video note</dt><dd>Recovered VIDEOBOX.equip is mostly a gate: when global 0x0001 is clear it falls straight into ITEM.slot_21, otherwise it runs a short helper loop before returning.</dd>");
+    }
+
     if (definition.shape === SFXTRIG_SHAPE) {
       rows.push("<dt>Decoded class</dt><dd>SFXTRIG</dd>");
       rows.push("<dt>SFX note</dt><dd>Disasm crosswalks shape 0x04E2 to SFXTRIG, a compact event-bearing helper whose active exported body lives at slot 0x0A.</dd>");
@@ -1317,6 +1397,27 @@ export function createSceneMetadataHelpers(dependencies) {
         rows.push(`<dt>Alert lane byte</dt><dd>${escapeHtml(`${rawMapNum} (${formatByteHex(rawMapNum)}): zero selects base lanes 0/1, nonzero selects 0x80/0x81.`)}</dd>`);
       }
       rows.push("<dt>Alert note</dt><dd>Recovered ALRMTRIG.equip only checks map-array state and World.getAlertActive() before dispatching one of four TRIGGER lanes.</dd>");
+    }
+
+    if (definition.shape === PRESSURE_BARRIER_V_SHAPE || definition.shape === PRESSURE_BARRIER_H_SHAPE) {
+      rows.push(`<dt>Decoded role</dt><dd>${escapeHtml(definition.shape === PRESSURE_BARRIER_V_SHAPE ? "Pressure barrier (vertical face)" : "Pressure barrier (horizontal face)")}</dd>`);
+      if (rawQuality !== null) {
+        rows.push(`<dt>Barrier bytes</dt><dd>${escapeHtml(`QLo ${qLo} (${formatByteHex(qLo)}), QHi ${qHi} (${formatByteHex(qHi)}), raw ${formatWordHex(rawQuality)}`)}</dd>`);
+      }
+      rows.push("<dt>Barrier note</dt><dd>Recovered CRYOBOX.equip and its worker slots use shared QLo to find these nearby faces, animate them, and trigger the steam-release helper lane.</dd>");
+    }
+
+    if (definition.shape === CRYOBOX_SHAPE) {
+      rows.push("<dt>Decoded class</dt><dd>CRYOBOX</dd>");
+      if (rawQuality !== null) {
+        rows.push(`<dt>Cryobox bytes</dt><dd>${escapeHtml(`QLo ${qLo} (${formatByteHex(qLo)}), QHi ${qHi} (${formatByteHex(qHi)}), raw ${formatWordHex(rawQuality)}`)}</dd>`);
+      }
+      if (item?.frame === 0) {
+        rows.push("<dt>Switch lane</dt><dd>Frame 0 scans nearby 0x05D9/0x05DA helper states by shared QLo and spawns slot 0x21 to transition them toward the matching pressure-barrier face.</dd>");
+      } else {
+        rows.push("<dt>Barrier lane</dt><dd>Nonzero frames scan nearby 0x05DF/0x05E0 pressure-barrier faces by shared QLo and spawn slot 0x20 to drive the open/steam animation path.</dd>");
+      }
+      rows.push("<dt>Cryobox note</dt><dd>Recovered CRYOBOX slot 0x20/0x21 wait on animation frames and screen visibility, then switch ITEM control slots and spawn STEAM worker lanes for the matched barrier face.</dd>");
     }
 
     if (definition.shape === USECODE_TRIGGER_EGG_SHAPE && item.egg?.type === "usecode-trigger") {
