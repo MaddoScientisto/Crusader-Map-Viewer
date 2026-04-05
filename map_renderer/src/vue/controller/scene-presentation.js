@@ -84,13 +84,18 @@ export function createScenePresentationController(deps) {
   let arrowGraphCache = null;
   const BOX_EW_SHAPE = 0x0080;
   const USECODE_TRIGGER_EGG_SHAPE = 0x0011;
+  const MONITNS_SHAPE = 0x0102;
+  const MONITEW_SHAPE = 0x0165;
   const FASTSKIL_SHAPE = 0x0120;
+  const VALUEBOX_SHAPE = 0x0251;
   const PANELNS_SHAPE = 0x00a1;
+  const CRUMORPH_SHAPE = 0x0318;
   const CARD_NS_SHAPE = 0x031d;
   const TELEPORTER_LIGHTS_SHAPE = 0x01db;
   const ELEVATOR_SHAPE = 0x021e;
   const REGRET_ELEVATOR_SHAPE = 0x0190;
   const EVENT_SHAPE = 0x0361;
+  const NPC_ONLY_SHAPE = 0x0366;
   const SPANEL_SHAPE = 0x03aa;
   const FLAMEBOX_SHAPE = 0x0403;
   const CMD_LINK_SHAPE = 0x04b1;
@@ -1804,6 +1809,7 @@ export function createScenePresentationController(deps) {
     const spanelTargetsByQlo = buildQloIndexForShapes(new Set([SPANEL_SHAPE]));
     const steamTargetsByQlo = buildQloIndexForShapes(STEAM_TARGET_SHAPES);
     const flameTargetsByQlo = buildQloIndexForShapes(FLAME_HELPER_SHAPES);
+    const valueBoxTargetsByQlo = buildQloIndexForShapes(new Set([VALUEBOX_SHAPE]));
 
     for (const source of byShape.get(CMD_LINK_SHAPE) ?? []) {
       const metadata = getCmdLinkMetadata(source);
@@ -1994,7 +2000,7 @@ export function createScenePresentationController(deps) {
       }
     }
 
-    const controllerShapes = new Set([BOX_EW_SHAPE, FASTSKIL_SHAPE, EVENT_SHAPE, SKILLBOX_SHAPE, PANELNS_SHAPE, CARD_NS_SHAPE, SPANEL_SHAPE, WATCHNS_SHAPE, WATCHEW_SHAPE]);
+    const controllerShapes = new Set([BOX_EW_SHAPE, FASTSKIL_SHAPE, EVENT_SHAPE, SKILLBOX_SHAPE, PANELNS_SHAPE, CRUMORPH_SHAPE, CARD_NS_SHAPE, NPC_ONLY_SHAPE, SPANEL_SHAPE, WATCHNS_SHAPE, WATCHEW_SHAPE]);
     for (const source of visibleItems) {
       const sourceShape = getShapeNumber(source);
       if (!controllerShapes.has(sourceShape)) {
@@ -2016,8 +2022,12 @@ export function createScenePresentationController(deps) {
                   ? "SKILLBOX"
                   : sourceShape === PANELNS_SHAPE
                     ? "PANELNS"
+                    : sourceShape === CRUMORPH_SHAPE
+                      ? "CRUMORPH"
                     : sourceShape === CARD_NS_SHAPE
                       ? "CARD_NS"
+                      : sourceShape === NPC_ONLY_SHAPE
+                        ? "NPC_ONLY"
                       : sourceShape === WATCHNS_SHAPE
                         ? "WATCHNS"
                         : sourceShape === WATCHEW_SHAPE
@@ -2033,6 +2043,32 @@ export function createScenePresentationController(deps) {
             color: "rgba(244, 162, 97, 0.92)",
             dashed: [6, 3],
             label: `${variant.labelPrefix} -> cmd QLo ${variant.qLo}`
+          });
+        }
+      }
+    }
+
+    for (const consumerShape of [MONITNS_SHAPE, MONITEW_SHAPE, WATCHNS_SHAPE, WATCHEW_SHAPE]) {
+      for (const source of byShape.get(consumerShape) ?? []) {
+        const qLo = getQualityLowByte(source);
+        if (!Number.isInteger(qLo)) {
+          continue;
+        }
+        for (const target of valueBoxTargetsByQlo.get(qLo) ?? []) {
+          if (!isWithinLinkDistance(source, target, LOCAL_EDITOR_LINK_DISTANCE)) {
+            continue;
+          }
+          const consumerLabel = consumerShape === MONITNS_SHAPE
+            ? "MONITNS"
+            : consumerShape === MONITEW_SHAPE
+              ? "MONITEW"
+              : consumerShape === WATCHNS_SHAPE
+                ? "WATCHNS"
+                : "WATCHEW";
+          pushUniqueLink(links, seenKeys, source, target, {
+            color: "rgba(42, 157, 143, 0.9)",
+            dashed: [4, 3],
+            label: `${consumerLabel} -> VALUEBOX QLo ${qLo}`
           });
         }
       }

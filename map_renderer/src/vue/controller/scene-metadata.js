@@ -7,8 +7,10 @@ const BOX_EW_SHAPE = 0x0080;
 const USECODE_TRIGGER_EGG_SHAPE = 0x0011;
 const MONITNS_SHAPE = 0x0102;
 const MONITEW_SHAPE = 0x0165;
+const VALUEBOX_SHAPE = 0x0251;
 const FASTSKIL_SHAPE = 0x0120;
 const PANELNS_SHAPE = 0x00a1;
+const CRUMORPH_SHAPE = 0x0318;
 const CARD_NS_SHAPE = 0x031d;
 const NUMBERS_SHAPE = 0x033a;
 const NPCTRIG_SHAPE = 0x0363;
@@ -42,11 +44,29 @@ const CRYOBOX_SHAPE = 0x05e1;
 const CHEST_NS_SHAPE = 0x054f;
 const CHEST_EW_SHAPE = 0x0550;
 const CMD_LINK_MAX_DISTANCE = 768;
+const VALUEBOX_LINK_DISTANCE = 768;
 const CRUSADER_EGG_RANGE_WORLD_UNITS = 64;
 const CHANGER_SCAN_DISTANCE = 100 * 32;
 const CHANGER_REMORSE_SCAN_DISTANCE = 100 * 32;
 const CHANGER_REMORSE_ROOF_TARGET_SHAPES = [0x03a7, 0x03a8, 0x021a, 0x012e, 0x051c, 0x051b];
 const CHANGER_REGRET_ROOF_TARGET_SHAPES = [0x03a7, 0x03a8, 0x021a, 0x012e, 0x04df, 0x051c, 0x051b, 0x0639, 0x063a, 0x063b, 0x063c, 0x063d];
+const VALUEBOX_CONSUMER_SHAPES = new Set([MONITNS_SHAPE, MONITEW_SHAPE, WATCHNS_SHAPE, WATCHEW_SHAPE]);
+const VALUEBOX_TEXTFILE_MESSAGE_HINTS = new Map([
+  [0, "random WEC network/system notice pool"],
+  [1, "Doors have been opened."],
+  [2, "Force field deactivated."],
+  [3, "Electronic bridge extended."],
+  [4, "Security systems activated."],
+  [5, "Security systems de-activated."],
+  [10, "delete this message / spies are everywhere"],
+  [11, "Security Cartel HQD / Thresher Cannon active"],
+  [12, "Refinery Ops fire warning"],
+  [13, "Refinery Ops plutonium contamination warning"],
+  [14, "Remote viewing facility / Watch Station now active"],
+  [15, "remote service droid now online"],
+  [16, "Remote alarm panel / stand down from alert"],
+  [17, "Remote Operations / Watch Station now active"]
+]);
 
 function formatWordHexLiteral(value) {
   return `0x${value.toString(16).padStart(4, "0")}`;
@@ -685,6 +705,93 @@ export function createSceneMetadataHelpers(dependencies) {
     return Number.isInteger(definition?.shape) ? definition.shape : null;
   }
 
+  function getFixedSceneItemId(item) {
+    if (item?.source === "fixed" && Number.isInteger(item?.mapSourceIndex)) {
+      return `fixed:${item.mapSourceIndex}`;
+    }
+    return null;
+  }
+
+  function getStableSceneItemId(item) {
+    return getFixedSceneItemId(item) ?? item?.stableId ?? item?.id ?? "-";
+  }
+
+  function hasWorldPosition(item) {
+    return Boolean(
+      item?.world
+      && Number.isFinite(item.world.x)
+      && Number.isFinite(item.world.y)
+      && Number.isFinite(item.world.z)
+    );
+  }
+
+  function getWorldDistance(left, right) {
+    if (!hasWorldPosition(left) || !hasWorldPosition(right)) {
+      return Infinity;
+    }
+    return Math.hypot(left.world.x - right.world.x, left.world.y - right.world.y, left.world.z - right.world.z);
+  }
+
+  function collectNearbyLinkedItems(source, targetShapes, maxDistance = VALUEBOX_LINK_DISTANCE) {
+    const qLo = getQualityLowByte(source);
+    if (!state.current || !hasWorldPosition(source) || !Number.isInteger(qLo)) {
+      return [];
+    }
+
+    const shapeSet = targetShapes instanceof Set ? targetShapes : new Set(targetShapes);
+    return state.current.scene.items
+      .filter((candidate) => {
+        if (!candidate || candidate.id === source.id || !shapeSet.has(getShapeNumber(candidate))) {
+          return false;
+        }
+        if (getQualityLowByte(candidate) !== qLo) {
+          return false;
+        }
+        return getWorldDistance(source, candidate) <= maxDistance;
+      })
+      .map((candidate) => ({
+        item: candidate,
+        distance: getWorldDistance(source, candidate)
+      }))
+      .sort((left, right) => left.distance - right.distance);
+  }
+
+  function formatWorldPoint(world) {
+    if (!world) {
+      return "?, ?, ?";
+    }
+    return `${world.x},${world.y},${world.z}`;
+  }
+
+  function describeLinkedItem(item) {
+    const definition = getShapeDefinition(item?.shapeDefId);
+    const displayName = definition?.displayName || item?.shapeDefId || "item";
+    return `${getStableSceneItemId(item)} (${displayName}) @ ${formatWorldPoint(item?.world)}`;
+  }
+
+  function getValueBoxTextMessageHint(messageId) {
+    return Number.isInteger(messageId) ? (VALUEBOX_TEXTFILE_MESSAGE_HINTS.get(messageId) ?? null) : null;
+  }
+
+  function appendLinkedValueBoxRows(rows, item, controllerLabel) {
+    const matches = collectNearbyLinkedItems(item, [VALUEBOX_SHAPE]);
+    if (!matches.length) {
+      return;
+    }
+
+    const nearest = matches[0].item;
+    const nearestRawQuality = Number.isInteger(nearest?.quality) ? (nearest.quality & 0xffff) : null;
+    const nearestQHi = getQualityHighByte(nearest);
+    rows.push(`<dt>Local VALUEBOX</dt><dd>${escapeHtml(`${matches.length} nearby same-QLo VALUEBOX ${matches.length === 1 ? "match" : "matches"}; nearest ${describeLinkedItem(nearest)}${nearestRawQuality === null ? "" : `, raw ${formatWordHex(nearestRawQuality)}`}.`)}</dd>`);
+    if (matches.length > 1) {
+      rows.push(`<dt>Link warning</dt><dd>${escapeHtml(`${controllerLabel}.use warns when more than one nearby VALUEBOX shares the same local link id.`)}</dd>`);
+    }
+    const messageHint = getValueBoxTextMessageHint(nearestQHi);
+    if (messageHint) {
+      rows.push(`<dt>Linked text</dt><dd>${escapeHtml(`Nearest VALUEBOX QHi ${nearestQHi} selects TEXTFILE message ${nearestQHi}: ${messageHint}`)}</dd>`);
+    }
+  }
+
   function getCmdLinkMetadata(item) {
     const mapByte = Number.isInteger(item?.mapNum) ? (item.mapNum & 0xff) : null;
     const npcByte = Number.isInteger(item?.npcNum) ? (item.npcNum & 0xff) : null;
@@ -850,6 +957,9 @@ export function createSceneMetadataHelpers(dependencies) {
     if (!definition) {
       return "";
     }
+    if (definition.shape === VALUEBOX_SHAPE) {
+      return "VALUEBOX local payload box; nearby controllers match it by QLo, pass QHi into TEXTFILE.slot_23 as a selector byte, and rely on VALBOX.slot_20(...) for the still-partially-opaque numeric/passcode payload.";
+    }
     if (definition.shape === BOX_EW_SHAPE) {
       return "BOX_EW switch family; use() only fires while map-array is clear, dispatching TRIGGER lane 1 from frame 0 and lane 0 from nonzero frames. Sampled scenes only justify same-QLo cmd-link arrows for frame 0.";
     }
@@ -867,6 +977,9 @@ export function createSceneMetadataHelpers(dependencies) {
     }
     if (definition.shape === PANELNS_SHAPE) {
       return "PANELNS switch/panel controller; its use() lane forwards the local QLo key through nearby trigger helpers rather than acting as a plain decorative panel.";
+    }
+    if (definition.shape === CRUMORPH_SHAPE) {
+      return "CRUMORPH control-transfer pad; equip scans nearby NPCs for a local-Qlo-matched actor key held in mutable actor field 0x63, temporarily hands player control to that NPC, and then brackets TRIGGER.slot_20 with success or failure lanes. Static scene export still cannot prove the actor side of that match.";
     }
     if (definition.shape === NPCTRIG_SHAPE) {
       return "NPCTRIG compact event-bearing trigger object; slot 0x0A is the strongest current active-event body and slot 0x20 acts as the paired helper lane.";
@@ -896,7 +1009,7 @@ export function createSceneMetadataHelpers(dependencies) {
       return "EVENT controller; a generic scripted event multiplexer that reuses QLo as a local link id and can drive triggers, doors, camera, audio, and nearby helper shapes.";
     }
     if (definition.shape === NPC_ONLY_SHAPE) {
-      return "NPC_ONLY trigger helper; its active gotHit() body is the recovered lane that reacts to scripted hit routing rather than direct player use.";
+      return "NPC_ONLY trigger helper; its active gotHit() body compares the pad's local QLo against mutable actor field 0x63 and reacts to scripted hit routing rather than direct player use. Static scene export still cannot prove the actor side of that match.";
     }
     if (definition.shape === SPANEL_SHAPE) {
       return "SPANEL switch controller; its use() body participates in the same local QLo trigger-helper network as PANELNS and CARD_NS.";
@@ -937,10 +1050,10 @@ export function createSceneMetadataHelpers(dependencies) {
       return "STEAMBOX hazard controller; nearby steam-family helpers are matched by QLo and dispatched through STEAMBOX control slots.";
     }
     if (definition.shape === WATCHNS_SHAPE) {
-      return "WATCHNS secret-door watcher; slot 0x20 scans nearby 0x0510 posts by shared QLo, uses qHi-0 posts as the local text/door marker lane, then brackets TRIGGER.slot_20 around its watcher slot 0x21 phase.";
+      return "WATCHNS secret-door watcher; slot 0x20 scans nearby 0x0510 posts by shared QLo, uses qHi-0 posts as the local text/door marker lane, then brackets TRIGGER.slot_20 around its watcher slot 0x21 phase. Its follow-up watcher lane also compares nearby actor field 0x63 against the controller QLo, but the current viewer keeps that actor side metadata-only.";
     }
     if (definition.shape === WATCHEW_SHAPE) {
-      return "WATCHEW secret-door watcher; the east-west variant uses the same nearby 0x0510 post scan and TRIGGER.slot_20 fan-out as WATCHNS.";
+      return "WATCHEW secret-door watcher; the east-west variant uses the same nearby 0x0510 post scan and TRIGGER.slot_20 fan-out as WATCHNS. Its follow-up watcher lane also compares nearby actor field 0x63 against the controller QLo, but the current viewer keeps that actor side metadata-only.";
     }
     if (definition.shape === SECRET_DOOR_POST_SHAPE) {
       return "Secret-door post/helper; nearby WATCHNS and WATCHEW controllers match these posts by local QLo, and qHi-0 placements are the text/door-side marker lane in the recovered watcher body.";
@@ -1027,6 +1140,10 @@ export function createSceneMetadataHelpers(dependencies) {
       return null;
     }
 
+    if (definition.shape === VALUEBOX_SHAPE) {
+      return createUsecodeViewTarget("VALUEBOX", 0x20, null, "VALUEBOX.slot_20 is the still-partially-opaque data codec that nearby monitors, watchers, and keypads call after matching the box by QLo.", ["cachein"]);
+    }
+
     if (definition.shape === USECODE_TRIGGER_EGG_SHAPE && item?.egg?.type === "usecode-trigger") {
       const subtype = getUsecodeTriggerEggSubtypeInfo(item, state.current?.selected?.game ?? null);
       if (subtype?.className && Number.isInteger(subtype.slot)) {
@@ -1051,6 +1168,9 @@ export function createSceneMetadataHelpers(dependencies) {
     }
     if (definition.shape === PANELNS_SHAPE) {
       return createUsecodeViewTarget("PANELNS", 0x01, "use", "PANELNS.use is the recovered panel-switch wrapper that passes the local QLo key into the trigger chain.");
+    }
+    if (definition.shape === CRUMORPH_SHAPE) {
+      return createUsecodeViewTarget("CRUMORPH", 0x0a, "equip", "CRUMORPH.equip scans nearby NPCs for the pad's local-Qlo control key, transfers control to the first live match, and then dispatches TRIGGER.slot_20 lane 0 or 1.");
     }
     if (definition.shape === NPCTRIG_SHAPE) {
       return createUsecodeViewTarget("NPCTRIG", 0x0a, "equip", "NPCTRIG.equip is the strongest compact active-event body currently recovered for this trigger family.");
@@ -1147,6 +1267,24 @@ export function createSceneMetadataHelpers(dependencies) {
     const qLo = rawQuality === null ? null : (rawQuality & 0xff);
     const qHi = rawQuality === null ? null : ((rawQuality >> 8) & 0xff);
     const rawMapNum = Number.isInteger(item?.mapNum) ? (item.mapNum & 0xff) : null;
+
+    if (definition.shape === VALUEBOX_SHAPE) {
+      rows.push("<dt>Decoded class</dt><dd>VALUEBOX</dd>");
+      if (rawQuality !== null) {
+        rows.push(`<dt>Stored bytes</dt><dd>${escapeHtml(`QLo ${qLo} (${formatByteHex(qLo)}), QHi ${qHi} (${formatByteHex(qHi)}), raw ${formatWordHex(rawQuality)}`)}</dd>`);
+      }
+      rows.push("<dt>Codec note</dt><dd>Recovered VALUEBOX.cachein first calls VALBOX.slot_20 on the box itself; if that decode comes back zero it seeds a replacement through FREE.slot_20(0x0383) and VALUEBOX.slot_20(...).</dd>");
+      const messageHint = getValueBoxTextMessageHint(qHi);
+      if (messageHint) {
+        rows.push(`<dt>Known text selector</dt><dd>${escapeHtml(`QHi ${qHi} matches TEXTFILE message ${qHi}: ${messageHint}`)}</dd>`);
+      }
+      const consumers = collectNearbyLinkedItems(item, VALUEBOX_CONSUMER_SHAPES);
+      if (consumers.length) {
+        const preview = consumers.slice(0, 3).map(({ item: candidate, distance }) => `${describeLinkedItem(candidate)} (dist ${Math.round(distance)})`);
+        rows.push(`<dt>Nearby consumers</dt><dd>${escapeHtml(`${consumers.length} nearby same-QLo monitor/watcher consumer${consumers.length === 1 ? "" : "s"}: ${preview.join("; ")}`)}</dd>`);
+      }
+      rows.push("<dt>Payload visibility</dt><dd>The authored bytes are viewable here: raw quality, QLo, QHi, mapNum, npcNum, and nextItem. The separate number returned by VALBOX.slot_20 is still not fully decoded, so keypad/passcode-style payloads remain partially opaque.</dd>");
+    }
 
     if (definition.shape === BOX_EW_SHAPE) {
       rows.push("<dt>Decoded class</dt><dd>BOX_EW</dd>");
@@ -1253,6 +1391,24 @@ export function createSceneMetadataHelpers(dependencies) {
       rows.push("<dt>Event note</dt><dd>Recovered EVENT.equip reads QLo as a link id and uses different event lanes to drive triggers, camera/audio, door logic, and nearby helper objects.</dd>");
     }
 
+    if (definition.shape === CRUMORPH_SHAPE) {
+      rows.push("<dt>Decoded class</dt><dd>CRUMORPH</dd>");
+      if (rawQuality !== null) {
+        rows.push(`<dt>Pad bytes</dt><dd>${escapeHtml(`QLo ${qLo} (${formatByteHex(qLo)}), QHi ${qHi} (${formatByteHex(qHi)}), raw ${formatWordHex(rawQuality)}`)}</dd>`);
+      }
+      rows.push("<dt>Actor-key note</dt><dd>Recovered CRUMORPH.equip does not match on DTABLE row or exported npcNum. It compares the pad QLo against mutable actor field 0x63 on nearby NPCs before transferring control and bracketing TRIGGER lane 0 or 1.</dd>");
+      rows.push("<dt>Overlay stance</dt><dd>The renderer currently exposes only the cautious nearby same-QLo 0x04B1 helper arrows. Actor-target arrows stay disabled because static scene/cache export does not expose the actor-side field-0x63 state.</dd>");
+    }
+
+    if (definition.shape === NPC_ONLY_SHAPE) {
+      rows.push("<dt>Decoded class</dt><dd>NPC_ONLY</dd>");
+      if (rawQuality !== null) {
+        rows.push(`<dt>Pad bytes</dt><dd>${escapeHtml(`QLo ${qLo} (${formatByteHex(qLo)}), QHi ${qHi} (${formatByteHex(qHi)}), raw ${formatWordHex(rawQuality)}`)}</dd>`);
+      }
+      rows.push("<dt>Actor-key note</dt><dd>Recovered NPC_ONLY.gotHit compares the pad QLo against mutable actor field 0x63 on the incoming NPC-like source, then brackets TRIGGER lane 0 and lane 1 while the match remains valid.</dd>");
+      rows.push("<dt>Overlay stance</dt><dd>The renderer currently exposes only cautious nearby same-QLo 0x04B1 helper arrows. Actor-target arrows stay disabled because neither DTABLE metadata nor static scene/cache export proves the actor-side field-0x63 value.</dd>");
+    }
+
     if (definition.shape === NPCTRIG_SHAPE) {
       rows.push("<dt>Decoded class</dt><dd>NPCTRIG</dd>");
       rows.push("<dt>Trigger note</dt><dd>Disasm crosswalks shape 0x0363 to NPCTRIG, whose compact slot-0x0A body remains one of the strongest active-event frontiers in the current corpus.</dd>");
@@ -1271,11 +1427,19 @@ export function createSceneMetadataHelpers(dependencies) {
     if (definition.shape === MONITNS_SHAPE) {
       rows.push("<dt>Decoded class</dt><dd>MONITNS</dd>");
       rows.push("<dt>Monitor note</dt><dd>Existing gameplay notes identify shape 0x0102 as a live monitor/computer object whose MONITNS.use body is a defensible first inspection point.</dd>");
+      if (item?.frame <= 1) {
+        rows.push("<dt>Current state</dt><dd>Recovered MONITNS.use only scans nearby VALUEBOX records once the monitor is above frame 1, so this frame reads as a dormant or inactive authored state.</dd>");
+      }
+      appendLinkedValueBoxRows(rows, item, "MONITNS");
     }
 
     if (definition.shape === MONITEW_SHAPE) {
       rows.push("<dt>Decoded class</dt><dd>MONITEW</dd>");
       rows.push("<dt>Monitor note</dt><dd>Disasm crosswalks shape 0x0165 to the MONITEW east-west monitor variant, which also has a live use handler.</dd>");
+      if (item?.frame <= 1) {
+        rows.push("<dt>Current state</dt><dd>Recovered MONITEW.use only scans nearby VALUEBOX records once the monitor is above frame 1, so this frame reads as a dormant or inactive authored state.</dd>");
+      }
+      appendLinkedValueBoxRows(rows, item, "MONITEW");
     }
 
     if (definition.shape === MONSTER_SPAWNER_SHAPE) {
@@ -1341,6 +1505,7 @@ export function createSceneMetadataHelpers(dependencies) {
         rows.push(`<dt>Map byte</dt><dd>${escapeHtml(`${rawMapNum} (${formatByteHex(rawMapNum)}): zero takes the nearby 0x0510 secret-door-post lane; nonzero falls through the alternate text/value path before slot 0x21.`)}</dd>`);
       }
       rows.push("<dt>Watcher note</dt><dd>Recovered slot 0x20 scans nearby 0x0510 posts, uses qHi-0 matches as the local text/door marker lane, then brackets TRIGGER.slot_20 around the watcher slot 0x21 phase.</dd>");
+      rows.push("<dt>Actor-key note</dt><dd>The later watcher lane also checks nearby actor field 0x63 against the controller QLo. That makes WATCHNS/WATCHEW part of the same hidden actor-key family as CRUMORPH and NPC_ONLY, but the current viewer keeps that actor side metadata-only.</dd>");
     }
 
     if (definition.shape === SECRET_DOOR_POST_SHAPE) {
