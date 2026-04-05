@@ -3,7 +3,7 @@ function keypad_slot_20() /* entry=2578 class_id=0x0a10 slot=0x20 */
   set_info(0x0207, *(arg_06));
   local_06 = 0;
   local_08 = 0;
-  for local_02 in nearby_items(shape=0x0251, origin=arg_06) {
+  for local_02 in nearby_items(shape=VALUEBOX, origin=arg_06) {
     if (Item.getCY(local_02) == Item.getCY(arg_06)) {
       VALBOX.slot_20(local_02);
       local_10 = retval;

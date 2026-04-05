@@ -8,7 +8,7 @@ function monitew_use() /* entry=359 class_id=0x0165 slot=0x01 */
   else {
     local_08 = void AudioProcess:stopAllSFX(arg_06);
     if (Item.getMapArray(arg_06) != 0) {
-      for local_04 in nearby_items(shape=PLACEHOLDER_KEY_CUBE, origin=arg_06) {
+      for local_04 in nearby_items(shape=VALUEBOX, origin=arg_06) {
         if ((void AudioProcess:stopAllSFX(local_04) == local_08) || (local_08 == 0)) {
           VALBOX.slot_20(local_04);
           local_06 = retval;
@@ -23,7 +23,7 @@ function monitew_use() /* entry=359 class_id=0x0165 slot=0x01 */
       return;
     }
     else {
-      for local_04 in nearby_items(shape=PLACEHOLDER_KEY_CUBE, origin=arg_06) {
+      for local_04 in nearby_items(shape=VALUEBOX, origin=arg_06) {
         if (void AudioProcess:stopAllSFX(local_04) == local_08) {
           VALBOX.slot_20(local_04);
           local_06 = retval;

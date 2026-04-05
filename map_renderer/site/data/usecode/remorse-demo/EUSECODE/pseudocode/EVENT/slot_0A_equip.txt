@@ -560,7 +560,7 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
     suspend;
     suspend;
     return;
-  case 0x00c8:
+  case 200:
     if (global[0x0022] == 0) {
       Actor.setDead(0x0096, 0x00c8, "mva3b", arg_06);
       suspend;
@@ -570,7 +570,7 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
       suspend;
     }
     return;
-  case 0x00c9:
+  case 201:
     qHi = Actor.clrInCombat(arg_06);
     if (qHi < 4) {
       qHi = (1 + qHi);
@@ -581,7 +581,7 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
       suspend;
     }
     return;
-  case 0x00d4:
+  case 212:
     spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
     suspend;
     playFlic(pid, 0x0096, 0x00c8, "13d", arg_06);
@@ -589,13 +589,13 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
     Ultima8Engine.setAvatarInStasis(1);
     resetVargasHealthTo500();
     return;
-  case 0x00d5:
+  case 213:
     spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
     suspend;
     playFlic(pid, 0x0096, 0x00c8, "13e", arg_06);
     suspend;
     return;
-  case 0x00e6:
+  case 230:
     qHi = Actor.clrInCombat(arg_06);
     if (qHi < 2) {
       qHi = (1 + qHi);
@@ -605,7 +605,7 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
       Item.andStatus();
     }
     return;
-  case 0x00fa:
+  case 250:
     spawn FLICTEST.slot_20(pid, flicMan);
     suspend;
     return;

@@ -538,7 +538,7 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
       }
     }
     return;
-  case 0x0091:
+  case 145:
     local_39 = (Item.getNpcNum(arg_06) * 5);
     local_21 = World.gameDifficulty();
     if (local_21 == 3) {
@@ -573,7 +573,7 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
       }
     }
     return;
-  case 0x0092:
+  case 146:
     local_39 = (Item.getNpcNum(arg_06) * 5);
     local_21 = World.gameDifficulty();
     if (local_21 == 3) {
@@ -608,7 +608,7 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
       }
     }
     return;
-  case 0x0094:
+  case 148:
     local_39 = Item.getNpcNum(arg_06);
     local_17 = (Item.getQHi(arg_06) + 1);
     local_19 = Item.getQLo(arg_06);
@@ -632,7 +632,7 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
     }
     Item.setQLo(local_29, arg_06);
     return;
-  case 0x0095:
+  case 149:
     local_39 = Item.getNpcNum(arg_06);
     local_17 = Item.getQHi(arg_06);
     while (1) {
@@ -663,10 +663,10 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
       }
     }
     return;
-  case 0x0096:
+  case 150:
     suspend;
     return;
-  case 0x00c8:
+  case 200:
     for local_02 in selector_0x42(arg0=0x028c, arg1=0x05ac, arg2=(32 * 32), origin=arg_06) {
       if (Item.getQLo(local_02) == Item.getQLo(arg_06)) {
         if (Item.getQHi(local_02) > 99) {
@@ -732,7 +732,7 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
       }
     }
     return;
-  case 0x00c9:
+  case 201:
     local_53 = Item.getQHi(arg_06);
     if (local_53 < 4) {
       local_53 = (1 + local_53);
@@ -743,14 +743,14 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
       suspend;
     }
     return;
-  case 0x00ca:
+  case 202:
     for local_02 in nearby_items(family=1, origin=arg_06) {
       if (Item.getQLo(local_02) == Item.getQLo(arg_06)) {
         ITEM.slot_25(0x1000, local_02);
       }
     }
     return;
-  case 0x00cf:
+  case 207:
     for local_02 in nearby_items(family=6, origin=arg_06) {
       if (local_02 < 0x0100) {
         local_27 = local_02;
@@ -768,7 +768,7 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
       }
     }
     return;
-  case 0x00d2:
+  case 210:
     for local_02 in selector_0x42(arg0=0x05ba, arg1=0x05e6, arg2=(5 * 32), origin=arg_06) {
       Actor.createActor(Item.getFrame(local_02), Item.getShape(local_02), local_27);
       Actor.clrInCombat(local_27);

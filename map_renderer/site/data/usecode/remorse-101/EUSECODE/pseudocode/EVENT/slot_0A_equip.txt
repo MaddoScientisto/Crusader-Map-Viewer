@@ -534,7 +534,7 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
     suspend;
     suspend;
     return;
-  case 0x00c8:
+  case 200:
     if (global[0x0023] == 0) {
       Item.getPoint(0x0096, 0x00c8, "mva3b", arg_06);
       suspend;
@@ -544,7 +544,7 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
       suspend;
     }
     return;
-  case 0x00c9:
+  case 201:
     local_45 = Item.IsOn(arg_06);
     if (local_45 < 4) {
       local_45 = (1 + local_45);
@@ -555,7 +555,7 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
       suspend;
     }
     return;
-  case 0x00d4:
+  case 212:
     spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
     suspend;
     playFlic(pid, 0x0096, 0x00c8, "13d", arg_06);
@@ -563,13 +563,13 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
     Ultima8Engine.setAvatarInStasis(1);
     MusicProcess.musicStop();
     return;
-  case 0x00d5:
+  case 213:
     spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
     suspend;
     playFlic(pid, 0x0096, 0x00c8, "13e", arg_06);
     suspend;
     return;
-  case 0x00e6:
+  case 230:
     local_45 = Item.IsOn(arg_06);
     if (local_45 < 2) {
       local_45 = (1 + local_45);
@@ -579,7 +579,7 @@ function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
       setSomeMovieGlobal();
     }
     return;
-  case 0x00fa:
+  case 250:
     spawn FLICTEST.slot_20(pid, local_47);
     suspend;
     return;

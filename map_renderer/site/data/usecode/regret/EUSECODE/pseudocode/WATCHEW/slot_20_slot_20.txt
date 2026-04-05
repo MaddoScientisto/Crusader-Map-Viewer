@@ -4,7 +4,7 @@ function watchew_slot_20() /* entry=1248 class_id=0x04de slot=0x20 */
   Item.orStatus(0x1000, arg_06);
   local_10 = Item.getQLo(arg_06);
   if (Item.getMapArray(arg_06) != 0) {
-    for local_04 in nearby_items(shape=0x0510, origin=arg_06) {
+    for local_04 in nearby_items(shape=SECRET_DOOR_POST, origin=arg_06) {
       if ((Item.getQLo(local_04) == local_10) || (local_10 == 0)) {
         if (Item.getQHi(local_04)) {
           TEXTFILE.slot_21(Item.getQHi(local_04), Item.getQLo(local_04), arg_06);
@@ -24,7 +24,7 @@ function watchew_slot_20() /* entry=1248 class_id=0x04de slot=0x20 */
   else {
     local_11 = 0;
     if (Item.getQHi(arg_06)) {
-      for local_06 in nearby_items(shape=0x0251, origin=arg_06) {
+      for local_06 in nearby_items(shape=VALUEBOX, origin=arg_06) {
         if (Item.getQLo(local_06) == local_10) {
           VALBOX.slot_20(local_06);
           local_08 = retval;

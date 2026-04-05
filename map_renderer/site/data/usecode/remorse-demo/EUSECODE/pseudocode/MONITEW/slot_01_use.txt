@@ -16,7 +16,7 @@ function monitew_use() /* entry=359 class_id=0x0165 slot=0x01 */
   else {
     link = Item.getQLo(arg_06);
     if (Item.getMapArray(arg_06) != 0) {
-      for valueBox in nearby_items(shape=PLACEHOLDER_KEY_CUBE, origin=arg_06) {
+      for valueBox in nearby_items(shape=VALUEBOX, origin=arg_06) {
         if ((Item.getQLo(valueBox) == link) || (link == 0)) {
           VALBOX.slot_20(valueBox);
           passcode = retval;
@@ -31,7 +31,7 @@ function monitew_use() /* entry=359 class_id=0x0165 slot=0x01 */
       return;
     }
     else {
-      for valueBox in nearby_items(shape=PLACEHOLDER_KEY_CUBE, origin=arg_06) {
+      for valueBox in nearby_items(shape=VALUEBOX, origin=arg_06) {
         if (Item.getQLo(valueBox) == link) {
           VALBOX.slot_20(valueBox);
           passcode = retval;

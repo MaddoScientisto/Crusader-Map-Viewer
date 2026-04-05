@@ -67,7 +67,7 @@ function tramflor_gotHit() /* entry=1498 class_id=0x05d8 slot=0x06 */
         Intrinsic0072("anim05");
       }
       switch (local_06) {
-      case 0x00ff:
+      case 255:
         if (AudioProcess.stopSFXCru(&global[0x001e]) == 6) {
           Intrinsic0072(0, "3h");
           local_12 = 25;
@@ -110,12 +110,12 @@ function tramflor_gotHit() /* entry=1498 class_id=0x05d8 slot=0x06 */
         Item.getNpcNum(&global[0x001e]);
         Item.setQuality(local_12);
         return;
-      case 0x00fe:
+      case 254:
         Intrinsic0072("anim13");
         Intrinsic0072(0, "10f");
         suspend;
         return;
-      case 0x00fd:
+      case 253:
         Item.setQuality(((global[0x000f] * 2) - 1));
         return;
       }

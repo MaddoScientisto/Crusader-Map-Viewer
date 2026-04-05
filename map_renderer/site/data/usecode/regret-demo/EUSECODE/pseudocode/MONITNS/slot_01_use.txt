@@ -16,7 +16,7 @@ function monitns_use() /* entry=260 class_id=0x0102 slot=0x01 */
     else {
       local_08 = Item.getCY(arg_06);
       if (Item.getMapArray(arg_06) != 0) {
-        for local_04 in nearby_items(shape=0x0251, origin=arg_06) {
+        for local_04 in nearby_items(shape=VALUEBOX, origin=arg_06) {
           if ((Item.getCY(local_04) == local_08) || (local_08 == 0)) {
             VALBOX.slot_20(local_04);
             local_06 = retval;
@@ -31,7 +31,7 @@ function monitns_use() /* entry=260 class_id=0x0102 slot=0x01 */
         return;
       }
       else {
-        for local_04 in nearby_items(shape=0x0251, origin=arg_06) {
+        for local_04 in nearby_items(shape=VALUEBOX, origin=arg_06) {
           if (Item.getCY(local_04) == local_08) {
             VALBOX.slot_20(local_04);
             local_06 = retval;

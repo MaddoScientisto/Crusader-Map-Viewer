@@ -13,7 +13,7 @@ function keypad_slot_20() /* entry=2578 class_id=0x0a10 slot=0x20 */
   set_info(0x0207, *(arg_06));
   wrongCode = 0;
   userInput = 0;
-  for valueBox in nearby_items(shape=PLACEHOLDER_KEY_CUBE, origin=arg_06) {
+  for valueBox in nearby_items(shape=VALUEBOX, origin=arg_06) {
     if (Item.unequip(valueBox) == Item.unequip(arg_06)) {
       VALBOX.slot_20(valueBox);
       boxPasscode = retval;

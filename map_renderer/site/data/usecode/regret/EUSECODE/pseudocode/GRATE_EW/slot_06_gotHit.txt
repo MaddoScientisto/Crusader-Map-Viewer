@@ -26,7 +26,7 @@ function grate_ew_gotHit() /* entry=274 class_id=0x0110 slot=0x06 */
       Item.playSfxCru(0x00bd, arg_06);
       Item.legal_create(local_14, (local_12 - 0x0090), local_10, 3, 28, local_06);
       Item.legal_create((local_14 + 48), local_12, local_10, 0, 18, local_04);
-      while (condition) {
+      for local_08 in nearby_items(shapes=[0x03a7, 0x03a8, 0x021a, 0x012e, 0x04df, 0x051c, 0x051b, 0x0639, 0x063a, 0x063b, 0x063c, 0x063d], distance=(100 * 32), origin=arg_06) {
         local_18 = Item.getQLo(local_08);
         if (local_18 == local_16) {
           if (local_18 != 0) {
