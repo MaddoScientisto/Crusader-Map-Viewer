@@ -10,6 +10,7 @@ const MONITEW_SHAPE = 0x0165;
 const VALUEBOX_SHAPE = 0x0251;
 const FASTSKIL_SHAPE = 0x0120;
 const PANELNS_SHAPE = 0x00a1;
+const PANELEW_SHAPE = 0x00a2;
 const CRUMORPH_SHAPE = 0x0318;
 const CARD_NS_SHAPE = 0x031d;
 const NUMBERS_SHAPE = 0x033a;
@@ -18,6 +19,7 @@ const CRUZTRIG_SHAPE = 0x0365;
 const VMAIL_SHAPE = 0x0367;
 const NPC_ONLY_SHAPE = 0x0366;
 const SPANEL_SHAPE = 0x03aa;
+const GENERATR_SHAPE = 0x03c1;
 const FLAMEBOX_SHAPE = 0x0403;
 const TIMER_SHAPE = 0x04c9;
 const SPECIAL_SHAPE = 0x04ca;
@@ -978,6 +980,9 @@ export function createSceneMetadataHelpers(dependencies) {
     if (definition.shape === PANELNS_SHAPE) {
       return "PANELNS switch/panel controller; its use() lane forwards the local QLo key through nearby trigger helpers rather than acting as a plain decorative panel.";
     }
+    if (definition.shape === PANELEW_SHAPE) {
+      return "PANELEW east-west panel switch; nonzero frames with clear map state dispatch TRIGGER lane 0, so the local QLo stays the practical authored link id just like PANELNS.";
+    }
     if (definition.shape === CRUMORPH_SHAPE) {
       return "CRUMORPH control-transfer pad; equip scans nearby NPCs for a local-Qlo-matched actor key held in mutable actor field 0x63, temporarily hands player control to that NPC, and then brackets TRIGGER.slot_20 with success or failure lanes. Static scene export still cannot prove the actor side of that match.";
     }
@@ -1013,6 +1018,9 @@ export function createSceneMetadataHelpers(dependencies) {
     }
     if (definition.shape === SPANEL_SHAPE) {
       return "SPANEL switch controller; its use() body participates in the same local QLo trigger-helper network as PANELNS and CARD_NS.";
+    }
+    if (definition.shape === GENERATR_SHAPE) {
+      return "GENERATR destroyable generator/controller; gotHit immediately excludes the source item and dispatches TRIGGER lane 0, and SATARG also scans nearby 0x03C1 placements during its scripted shutdown sequence.";
     }
     if (definition.shape === FLAMEBOX_SHAPE) {
       return "FLAMEBOX hazard controller; equip scans nearby flame-family helpers by shared QLo and can swap helper markers into active flame actors.";
@@ -1169,6 +1177,9 @@ export function createSceneMetadataHelpers(dependencies) {
     if (definition.shape === PANELNS_SHAPE) {
       return createUsecodeViewTarget("PANELNS", 0x01, "use", "PANELNS.use is the recovered panel-switch wrapper that passes the local QLo key into the trigger chain.");
     }
+    if (definition.shape === PANELEW_SHAPE) {
+      return createUsecodeViewTarget("PANELEW", 0x01, "use", "PANELEW.use is the east-west panel-switch wrapper; nonzero frames with clear map state forward the local QLo key into TRIGGER.slot_20 lane 0.");
+    }
     if (definition.shape === CRUMORPH_SHAPE) {
       return createUsecodeViewTarget("CRUMORPH", 0x0a, "equip", "CRUMORPH.equip scans nearby NPCs for the pad's local-Qlo control key, transfers control to the first live match, and then dispatches TRIGGER.slot_20 lane 0 or 1.");
     }
@@ -1192,6 +1203,9 @@ export function createSceneMetadataHelpers(dependencies) {
     }
     if (definition.shape === SPANEL_SHAPE) {
       return createUsecodeViewTarget("SPANEL", 0x01, "use", "SPANEL.use participates in the same nearby cmd-helper routing as PANELNS and CARD_NS.");
+    }
+    if (definition.shape === GENERATR_SHAPE) {
+      return createUsecodeViewTarget("GENERATR", 0x06, "gotHit", "GENERATR.gotHit is the recovered destroyable generator lane; it excludes the source item and immediately dispatches TRIGGER.slot_20 lane 0.");
     }
     if (definition.shape === FLAMEBOX_SHAPE) {
       return createUsecodeViewTarget("FLAMEBOX", 0x0a, "equip", "FLAMEBOX.equip is the recovered local flame-controller body that scans nearby helper shapes by shared QLo.");
@@ -1301,6 +1315,21 @@ export function createSceneMetadataHelpers(dependencies) {
       }
     }
 
+    if (definition.shape === PANELEW_SHAPE) {
+      rows.push("<dt>Decoded class</dt><dd>PANELEW</dd>");
+      if (rawQuality !== null) {
+        rows.push(`<dt>Switch bytes</dt><dd>${escapeHtml(`QLo ${qLo} (${formatByteHex(qLo)}), QHi ${qHi} (${formatByteHex(qHi)}), raw ${formatWordHex(rawQuality)}`)}</dd>`);
+      }
+      if (item?.frame === 0) {
+        rows.push("<dt>Activation</dt><dd>Frame 0 is the idle panel state in the recovered usecode body. PANELEW.use returns immediately until the panel is in a nonzero frame.</dd>");
+      } else {
+        rows.push("<dt>Trigger lane</dt><dd>Nonzero frames use the live switch lane: while the map byte stays clear, PANELEW.use dispatches TRIGGER lane 0 from the panel itself.</dd>");
+      }
+      if (qLo !== null) {
+        rows.push(`<dt>Helper overlay</dt><dd>${escapeHtml(`Current renderer arrows expose nearby same-QLo 0x04B1 helpers using local link id ${qLo}.`)}</dd>`);
+      }
+    }
+
     if (definition.shape === FASTSKIL_SHAPE) {
       rows.push("<dt>Decoded class</dt><dd>FASTSKIL</dd>");
       if (rawQuality !== null) {
@@ -1389,6 +1418,18 @@ export function createSceneMetadataHelpers(dependencies) {
         rows.push(`<dt>Event bytes</dt><dd>${escapeHtml(`QLo ${qLo} (${formatByteHex(qLo)}), QHi ${qHi} (${formatByteHex(qHi)}), raw ${formatWordHex(rawQuality)}`)}</dd>`);
       }
       rows.push("<dt>Event note</dt><dd>Recovered EVENT.equip reads QLo as a link id and uses different event lanes to drive triggers, camera/audio, door logic, and nearby helper objects.</dd>");
+    }
+
+    if (definition.shape === GENERATR_SHAPE) {
+      rows.push("<dt>Decoded class</dt><dd>GENERATR</dd>");
+      if (rawQuality !== null) {
+        rows.push(`<dt>Generator bytes</dt><dd>${escapeHtml(`QLo ${qLo} (${formatByteHex(qLo)}), QHi ${qHi} (${formatByteHex(qHi)}), raw ${formatWordHex(rawQuality)}`)}</dd>`);
+      }
+      rows.push("<dt>Destroy lane</dt><dd>Recovered GENERATR.gotHit is a very small wrapper: it excludes the source generator item and immediately dispatches TRIGGER lane 0 from that same item.</dd>");
+      if (qLo !== null) {
+        rows.push(`<dt>Helper overlay</dt><dd>${escapeHtml(`Current renderer arrows expose nearby same-QLo 0x04B1 helpers using local link id ${qLo}.`)}</dd>`);
+      }
+      rows.push("<dt>Set-piece note</dt><dd>Remorse SATARG.use also scans nearby 0x03C1 generators during its countdown/shutdown sequence, so some authored placements participate in local scripted power-down scenes beyond the plain gotHit trigger lane.</dd>");
     }
 
     if (definition.shape === CRUMORPH_SHAPE) {

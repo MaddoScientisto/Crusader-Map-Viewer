@@ -89,6 +89,7 @@ export function createScenePresentationController(deps) {
   const FASTSKIL_SHAPE = 0x0120;
   const VALUEBOX_SHAPE = 0x0251;
   const PANELNS_SHAPE = 0x00a1;
+  const PANELEW_SHAPE = 0x00a2;
   const CRUMORPH_SHAPE = 0x0318;
   const CARD_NS_SHAPE = 0x031d;
   const TELEPORTER_LIGHTS_SHAPE = 0x01db;
@@ -97,6 +98,7 @@ export function createScenePresentationController(deps) {
   const EVENT_SHAPE = 0x0361;
   const NPC_ONLY_SHAPE = 0x0366;
   const SPANEL_SHAPE = 0x03aa;
+  const GENERATR_SHAPE = 0x03c1;
   const FLAMEBOX_SHAPE = 0x0403;
   const CMD_LINK_SHAPE = 0x04b1;
   const SKILLBOX_SHAPE = 0x04e3;
@@ -2000,7 +2002,7 @@ export function createScenePresentationController(deps) {
       }
     }
 
-    const controllerShapes = new Set([BOX_EW_SHAPE, FASTSKIL_SHAPE, EVENT_SHAPE, SKILLBOX_SHAPE, PANELNS_SHAPE, CRUMORPH_SHAPE, CARD_NS_SHAPE, NPC_ONLY_SHAPE, SPANEL_SHAPE, WATCHNS_SHAPE, WATCHEW_SHAPE]);
+    const controllerShapes = new Set([BOX_EW_SHAPE, FASTSKIL_SHAPE, EVENT_SHAPE, SKILLBOX_SHAPE, PANELNS_SHAPE, PANELEW_SHAPE, CRUMORPH_SHAPE, CARD_NS_SHAPE, NPC_ONLY_SHAPE, SPANEL_SHAPE, GENERATR_SHAPE, WATCHNS_SHAPE, WATCHEW_SHAPE]);
     for (const source of visibleItems) {
       const sourceShape = getShapeNumber(source);
       if (!controllerShapes.has(sourceShape)) {
@@ -2022,12 +2024,16 @@ export function createScenePresentationController(deps) {
                   ? "SKILLBOX"
                   : sourceShape === PANELNS_SHAPE
                     ? "PANELNS"
+                    : sourceShape === PANELEW_SHAPE
+                      ? "PANELEW"
                     : sourceShape === CRUMORPH_SHAPE
                       ? "CRUMORPH"
                     : sourceShape === CARD_NS_SHAPE
                       ? "CARD_NS"
                       : sourceShape === NPC_ONLY_SHAPE
                         ? "NPC_ONLY"
+                        : sourceShape === GENERATR_SHAPE
+                          ? "GENERATR"
                       : sourceShape === WATCHNS_SHAPE
                         ? "WATCHNS"
                         : sourceShape === WATCHEW_SHAPE
