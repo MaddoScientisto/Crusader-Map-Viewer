@@ -6,7 +6,7 @@ function parseMapId(value) {
 }
 
 function sanitizeHistoryState(rawState = {}) {
-  const tab = rawState.tab === "usecode" ? "usecode" : "map";
+  const tab = rawState.tab === "usecode" || rawState.tab === "atlas" ? rawState.tab : "map";
   const game = String(rawState.game ?? "").trim() || null;
   const mapId = parseMapId(rawState.mapId);
   const usecodeTarget = sanitizeUsecodeTarget(rawState.usecodeTarget);

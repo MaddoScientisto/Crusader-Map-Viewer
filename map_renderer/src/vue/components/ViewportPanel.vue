@@ -2,6 +2,7 @@
   <main class="workspace">
     <div class="viewport-tabs">
       <button :class="['tab', { active: activeTab==='map' }]" @click="setActiveTab('map')">MAP</button>
+      <button :class="['tab', { active: activeTab==='atlas' }]" @click="setActiveTab('atlas')">ATLAS</button>
       <button :class="['tab', { active: activeTab==='usecode' }]" @click="setActiveTab('usecode')">USECODE</button>
     </div>
     <div class="workspace-body">
@@ -13,6 +14,9 @@
         <div id="notification-toast" class="notification-toast" hidden></div>
         <div id="empty-state" class="empty-state">Choose a detected map to build and view it.</div>
       </div>
+      <section v-show="activeTab==='atlas'" class="atlas-panel">
+        <AtlasViewer />
+      </section>
       <section v-show="activeTab==='usecode'" class="usecode-panel">
         <UsecodeViewer />
       </section>
@@ -21,6 +25,7 @@
 </template>
 
 <script setup>
+import AtlasViewer from "./AtlasViewer.vue";
 import TooltipOverlay from "./TooltipOverlay.vue";
 import { nextTick, onMounted, onUnmounted, ref, watch } from "vue";
 import UsecodeViewer from "./UsecodeViewer.vue";
@@ -69,10 +74,7 @@ function restoreHistoryState() {
   }
 }
 
-watch(activeTab, async (nextTab) => {
-  if (nextTab !== "map") {
-    return;
-  }
+watch(activeTab, async () => {
   await nextTick();
   window.dispatchEvent(new Event("resize"));
 });
@@ -126,6 +128,11 @@ onUnmounted(() => {
 }
 
 .usecode-panel {
+  height: 100%;
+  min-height: 0;
+}
+
+.atlas-panel {
   height: 100%;
   min-height: 0;
 }

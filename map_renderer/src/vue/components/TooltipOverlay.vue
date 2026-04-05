@@ -28,6 +28,7 @@
           >
             <button class="tooltip-action tooltip-usecode-button" type="button" :title="tooltip.usecodeTarget.title" @click.stop="handleOpenUsecode">USECODE</button>
           </div>
+          <button v-if="tooltip.pinned" class="tooltip-action" type="button" title="Open modal detail" @click.stop="openModal">Open</button>
           <button v-if="tooltip.onCopyStableId" class="tooltip-action tooltip-copy-id-button" type="button" title="Copy fixed or stable ID" @click.stop="handleCopyStableId">ID</button>
           <button v-if="tooltip.showTeleportEggEditor" class="tooltip-action" type="button" title="Edit egg values" @click.stop="handleEditEgg" v-html="tooltip.penIconSvg"></button>
           <button v-if="tooltip.showPinnedActions" class="tooltip-action" type="button" :title="tooltip.hidden ? 'Restore shape' : 'Hide shape'" @click.stop="handleToggleHidden" v-html="tooltip.eyeIconSvg"></button>
@@ -97,7 +98,7 @@
             <div class="tooltip-title tooltip-title-static">{{ tooltip.displayName }}</div>
           </div>
         </div>
-        <div v-if="tooltip.showPinnedActions || tooltip.showTeleportEggEditor || tooltip.usecodeTarget || tooltip.onCopyStableId" class="tooltip-actions">
+        <div v-if="tooltip.pinned || tooltip.showPinnedActions || tooltip.showTeleportEggEditor || tooltip.usecodeTarget || tooltip.onCopyStableId" class="tooltip-actions">
           <div
             v-if="tooltip.usecodeTarget"
             class="tooltip-usecode-action"
@@ -106,6 +107,7 @@
           >
             <button class="tooltip-action tooltip-usecode-button" type="button" :title="tooltip.usecodeTarget.title" @click.stop="handleOpenUsecode">USECODE</button>
           </div>
+          <button v-if="tooltip.pinned" class="tooltip-action" type="button" title="Open modal detail" @click.stop="openModal">Open</button>
           <button v-if="tooltip.onCopyStableId" class="tooltip-action tooltip-copy-id-button" type="button" title="Copy fixed or stable ID" @click.stop="handleCopyStableId">ID</button>
           <button v-if="tooltip.showTeleportEggEditor" class="tooltip-action" type="button" title="Edit egg values" @click.stop="handleEditEgg" v-html="tooltip.penIconSvg"></button>
           <button v-if="tooltip.showPinnedActions" class="tooltip-action" type="button" :title="tooltip.hidden ? 'Restore shape' : 'Hide shape'" @click.stop="handleToggleHidden" v-html="tooltip.eyeIconSvg"></button>
@@ -124,6 +126,140 @@
     </template>
   </aside>
   <teleport to="body">
+    <div v-if="modalOpen && tooltip.visible && tooltip.pinned" class="modal-backdrop tooltip-modal-backdrop" @click="closeModal">
+      <aside class="overlay-tooltip is-pinned is-modal tooltip-detail-modal" @click.stop>
+        <form v-if="tooltip.showCatalogEditor" class="tooltip-editor-form tooltip-editor-inline overlay-tooltip-scroll tooltip-modal-layout" @submit.prevent="handleSaveCatalog">
+          <div class="tooltip-modal-primary">
+            <div class="tooltip-preview tooltip-modal-preview">
+              <canvas ref="modalPreviewCanvas" class="tooltip-preview-canvas" aria-label="Selected shape preview"></canvas>
+            </div>
+            <div class="tooltip-header tooltip-modal-header">
+              <div class="tooltip-header-main">
+                <div class="tooltip-eyebrow">{{ tooltip.itemLabel }}</div>
+                <label class="tooltip-field tooltip-title-field">
+                  <span>Name</span>
+                  <input
+                    v-model="form.humanReadableId"
+                    class="tooltip-field-input tooltip-title-input"
+                    name="humanReadableId"
+                    type="text"
+                    maxlength="120"
+                    :placeholder="tooltip.displayName"
+                  >
+                </label>
+              </div>
+              <div class="tooltip-actions">
+                <div
+                  v-if="tooltip.usecodeTarget"
+                  class="tooltip-usecode-action"
+                  @mouseenter="handleUsecodePreviewEnter"
+                  @mouseleave="scheduleHideUsecodePreview"
+                >
+                  <button class="tooltip-action tooltip-usecode-button" type="button" :title="tooltip.usecodeTarget.title" @click.stop="handleOpenUsecode">USECODE</button>
+                </div>
+                <button v-if="tooltip.onCopyStableId" class="tooltip-action tooltip-copy-id-button" type="button" title="Copy fixed or stable ID" @click.stop="handleCopyStableId">ID</button>
+                <button v-if="tooltip.showTeleportEggEditor" class="tooltip-action" type="button" title="Edit egg values" @click.stop="handleEditEgg" v-html="tooltip.penIconSvg"></button>
+                <button v-if="tooltip.showPinnedActions" class="tooltip-action" type="button" :title="tooltip.hidden ? 'Restore shape' : 'Hide shape'" @click.stop="handleToggleHidden" v-html="tooltip.eyeIconSvg"></button>
+                <button class="tooltip-action" type="button" title="Close modal" @click.stop="closeModal">×</button>
+              </div>
+            </div>
+          </div>
+          <div class="tooltip-modal-secondary">
+            <div v-if="tooltip.hidden" class="tooltip-state">Hidden</div>
+            <dl class="tooltip-grid" v-html="tooltip.metadataRowsHtml"></dl>
+            <dl class="tooltip-grid">
+              <dt>Roof</dt>
+              <dd class="tooltip-grid-control">
+                <label class="tooltip-field tooltip-grid-field">
+                  <span class="tooltip-grid-field-label">Roof status</span>
+                  <select v-model="form.roof" class="tooltip-field-input" name="roof">
+                    <option value="">Auto</option>
+                    <option value="true">Yes</option>
+                    <option value="false">No</option>
+                  </select>
+                </label>
+              </dd>
+              <dt>Transparency</dt>
+              <dd class="tooltip-grid-control">
+                <label class="tooltip-field tooltip-grid-field">
+                  <span class="tooltip-grid-field-label">Transparency status</span>
+                  <select v-model="form.semitransparency" class="tooltip-field-input" name="semitransparency">
+                    <option value="">Auto</option>
+                    <option value="true">Yes</option>
+                    <option value="false">No</option>
+                  </select>
+                </label>
+              </dd>
+              <dt>OOB</dt>
+              <dd class="tooltip-grid-control">
+                <label class="tooltip-field tooltip-grid-field">
+                  <span class="tooltip-grid-field-label">Black out-of-bounds surface</span>
+                  <select v-model="form.oob" class="tooltip-field-input" name="oob">
+                    <option value="">Auto</option>
+                    <option value="true">Yes</option>
+                    <option value="false">No</option>
+                  </select>
+                </label>
+              </dd>
+            </dl>
+            <div v-if="tooltip.monsterSpawnerEditorHtml" ref="modalMonsterSpawnerRoot" v-html="tooltip.monsterSpawnerEditorHtml" @click="handleMonsterSpawnerClick"></div>
+            <div v-if="tooltip.warpCommand" class="tooltip-warp-row">
+              <div class="tooltip-warp-command">{{ tooltip.warpCommand }}</div>
+              <button class="tooltip-action tooltip-copy-button" type="button" @click.stop="handleCopyWarpCommand">Copy</button>
+            </div>
+            <label class="tooltip-field">
+              <span>Description</span>
+              <textarea v-model="form.description" class="tooltip-field-textarea" name="description" rows="4"></textarea>
+            </label>
+            <div v-if="tooltip.notesHtml" v-html="tooltip.notesHtml"></div>
+            <p class="tooltip-editor-note">Writes directly to the local CSV and invalidates the cached scene set for this game.</p>
+            <button class="tooltip-save-button" type="submit" :disabled="savingCatalog">{{ savingCatalog ? "Saving..." : "Save Catalog Entry" }}</button>
+          </div>
+        </form>
+
+        <div v-else class="overlay-tooltip-scroll tooltip-modal-layout">
+          <div class="tooltip-modal-primary">
+            <div class="tooltip-preview tooltip-modal-preview">
+              <canvas ref="modalPreviewCanvas" class="tooltip-preview-canvas" aria-label="Selected shape preview"></canvas>
+            </div>
+            <div class="tooltip-header tooltip-modal-header">
+              <div class="tooltip-header-main">
+                <div class="tooltip-eyebrow">{{ tooltip.itemLabel }}</div>
+                <div class="tooltip-field tooltip-title-field tooltip-title-static-field">
+                  <span>Name</span>
+                  <div class="tooltip-title tooltip-title-static">{{ tooltip.displayName }}</div>
+                </div>
+              </div>
+              <div class="tooltip-actions">
+                <div
+                  v-if="tooltip.usecodeTarget"
+                  class="tooltip-usecode-action"
+                  @mouseenter="handleUsecodePreviewEnter"
+                  @mouseleave="scheduleHideUsecodePreview"
+                >
+                  <button class="tooltip-action tooltip-usecode-button" type="button" :title="tooltip.usecodeTarget.title" @click.stop="handleOpenUsecode">USECODE</button>
+                </div>
+                <button v-if="tooltip.onCopyStableId" class="tooltip-action tooltip-copy-id-button" type="button" title="Copy fixed or stable ID" @click.stop="handleCopyStableId">ID</button>
+                <button v-if="tooltip.showTeleportEggEditor" class="tooltip-action" type="button" title="Edit egg values" @click.stop="handleEditEgg" v-html="tooltip.penIconSvg"></button>
+                <button v-if="tooltip.showPinnedActions" class="tooltip-action" type="button" :title="tooltip.hidden ? 'Restore shape' : 'Hide shape'" @click.stop="handleToggleHidden" v-html="tooltip.eyeIconSvg"></button>
+                <button class="tooltip-action" type="button" title="Close modal" @click.stop="closeModal">×</button>
+              </div>
+            </div>
+          </div>
+          <div class="tooltip-modal-secondary">
+            <div v-if="tooltip.hidden" class="tooltip-state">Hidden</div>
+            <dl class="tooltip-grid" v-html="tooltip.metadataRowsHtml"></dl>
+            <div v-if="tooltip.monsterSpawnerEditorHtml" ref="modalMonsterSpawnerRoot" v-html="tooltip.monsterSpawnerEditorHtml" @click="handleMonsterSpawnerClick"></div>
+            <div v-if="tooltip.warpCommand" class="tooltip-warp-row">
+              <div class="tooltip-warp-command">{{ tooltip.warpCommand }}</div>
+              <button class="tooltip-action tooltip-copy-button" type="button" @click.stop="handleCopyWarpCommand">Copy</button>
+            </div>
+            <p v-if="tooltip.displayDescription" class="muted">{{ tooltip.displayDescription }}</p>
+            <div v-if="tooltip.notesHtml" v-html="tooltip.notesHtml"></div>
+          </div>
+        </div>
+      </aside>
+    </div>
     <div
       v-if="usecodePreview.visible"
       class="tooltip-usecode-popover"
@@ -158,9 +294,12 @@ import {
 } from "../../shared/usecode-browser.js";
 
 const previewCanvas = ref(null);
+const modalPreviewCanvas = ref(null);
 const monsterSpawnerRoot = ref(null);
+const modalMonsterSpawnerRoot = ref(null);
 const tooltip = ref(getTooltipState());
 const savingCatalog = ref(false);
+const modalOpen = ref(false);
 const usecodePreview = reactive({
   visible: false,
   loading: false,
@@ -211,6 +350,7 @@ function encodeBoolean(value) {
 async function redrawPreview() {
   await nextTick();
   renderTooltipPreview(previewCanvas.value, tooltip.value.item);
+  renderTooltipPreview(modalPreviewCanvas.value, tooltip.value.item);
 }
 
 async function handleSaveCatalog() {
@@ -344,18 +484,33 @@ function handleCopyStableId() {
   tooltip.value.onCopyStableId?.();
 }
 
+function openModal() {
+  if (!tooltip.value.visible || !tooltip.value.pinned) {
+    return;
+  }
+  modalOpen.value = true;
+}
+
+function closeModal() {
+  modalOpen.value = false;
+}
+
 function handleMonsterSpawnerClick(event) {
   if (!event.target.closest('[data-action="save-monster-spawner"]')) {
     return;
   }
   event.preventDefault();
   event.stopPropagation();
-  tooltip.value.onSaveMonsterSpawner?.(monsterSpawnerRoot.value);
+  const root = modalOpen.value ? modalMonsterSpawnerRoot.value : monsterSpawnerRoot.value;
+  tooltip.value.onSaveMonsterSpawner?.(root);
 }
 
 watch(
   () => tooltip.value.version,
   async () => {
+    if (!tooltip.value.visible || !tooltip.value.pinned) {
+      modalOpen.value = false;
+    }
     resetUsecodePreview();
     syncFormFromTooltip();
     await redrawPreview();

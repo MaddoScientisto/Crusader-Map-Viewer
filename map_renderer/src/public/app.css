@@ -565,8 +565,10 @@ select:disabled,
   inset: 16px 16px 16px auto;
   width: min(420px, calc(100% - 32px));
   max-width: min(420px, calc(100% - 32px));
-  overflow: visible;
+  overflow: hidden;
   padding: 16px;
+  display: flex;
+  flex-direction: column;
 }
 
 .overlay-tooltip-scroll {
@@ -574,10 +576,86 @@ select:disabled,
 }
 
 .overlay-tooltip.is-pinned .overlay-tooltip-scroll {
+  min-height: 0;
+  flex: 1;
   max-height: calc(100vh - 64px);
   overflow-y: auto;
   overscroll-behavior: contain;
   padding-right: 4px;
+  padding-bottom: 12px;
+}
+
+.overlay-tooltip.is-pinned .tooltip-editor-form {
+  min-height: 0;
+  flex: 1;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding-right: 4px;
+  padding-bottom: 12px;
+}
+
+.overlay-tooltip.is-modal {
+  position: relative;
+  inset: auto;
+  width: min(1080px, calc(100vw - 48px));
+  max-width: min(1080px, calc(100vw - 48px));
+  max-height: calc(100vh - 48px);
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 28px 60px rgba(0, 0, 0, 0.42);
+}
+
+.tooltip-modal-backdrop {
+  z-index: 50;
+}
+
+.overlay-tooltip.is-modal .overlay-tooltip-scroll,
+.overlay-tooltip.is-modal .tooltip-editor-form {
+  min-height: 0;
+  flex: 1;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding-right: 8px;
+  padding-bottom: 12px;
+}
+
+.tooltip-detail-modal {
+  padding: 20px;
+}
+
+.tooltip-modal-layout {
+  display: grid;
+  grid-template-columns: minmax(260px, 320px) minmax(0, 1fr);
+  gap: 20px;
+  align-items: start;
+}
+
+.tooltip-modal-primary,
+.tooltip-modal-secondary {
+  min-width: 0;
+}
+
+.tooltip-modal-primary {
+  position: sticky;
+  top: 0;
+  display: grid;
+  gap: 16px;
+  align-content: start;
+}
+
+.tooltip-modal-preview,
+.tooltip-modal-header {
+  margin-bottom: 0;
+}
+
+.overlay-tooltip.is-modal .tooltip-preview-canvas {
+  width: 160px;
+  height: 160px;
+}
+
+.overlay-tooltip.is-modal .tooltip-title-input,
+.overlay-tooltip.is-modal .tooltip-title-static {
+  font-size: 1.08rem;
 }
 
 .overlay-tooltip[hidden] {
@@ -1024,6 +1102,29 @@ select:disabled,
 @media (max-width: 760px) {
   .tooltip-form-row {
     grid-template-columns: 1fr;
+  }
+
+  .overlay-tooltip.is-modal {
+    width: calc(100vw - 24px);
+    max-width: calc(100vw - 24px);
+    max-height: calc(100vh - 24px);
+  }
+
+  .tooltip-detail-modal {
+    padding: 16px;
+  }
+
+  .tooltip-modal-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .tooltip-modal-primary {
+    position: static;
+  }
+
+  .overlay-tooltip.is-modal .tooltip-preview-canvas {
+    width: 128px;
+    height: 128px;
   }
 }
 
