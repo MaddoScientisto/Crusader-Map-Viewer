@@ -390,6 +390,90 @@ function testBlockedFrameOnePreviewStaysFrameOneCarrier() {
   assert.equal(metadata.getMonsterSpawnerLikelySpawnOwner(frame1).item?.id, frame1.id);
 }
 
+function testTriggerEggMovableWallClusterLinksEggToCmdAndWall() {
+  const definitions = new Map([
+    ["shape:17", { shape: 0x0011 }],
+    ["shape:1201", { shape: 0x04b1 }],
+    ["shape:1000", { shape: 0x03e8 }]
+  ]);
+  const egg = {
+    id: "item:egg",
+    source: "fixed",
+    mapSourceIndex: 10,
+    shapeDefId: "shape:17",
+    world: { x: 1000, y: 1000, z: 0 },
+    screen: { left: 0, top: 0, right: 16, bottom: 16, width: 16, height: 16, anchorX: 8, anchorY: 16 },
+    quality: 0,
+    mapNum: 17,
+    npcNum: 128,
+    frame: 0,
+    egg: { type: "usecode-trigger" },
+    flags: { flipped: false }
+  };
+  const cmd = {
+    id: "item:cmd",
+    source: "fixed",
+    mapSourceIndex: 11,
+    shapeDefId: "shape:1201",
+    world: { x: 1200, y: 1000, z: 0 },
+    screen: { left: 20, top: 0, right: 36, bottom: 16, width: 16, height: 16, anchorX: 28, anchorY: 16 },
+    quality: 0x0111,
+    mapNum: 0x64,
+    npcNum: 0xe8,
+    frame: 0,
+    egg: null,
+    flags: { flipped: false }
+  };
+  const wall = {
+    id: "item:wall",
+    source: "fixed",
+    mapSourceIndex: 12,
+    shapeDefId: "shape:1000",
+    world: { x: 1456, y: 1000, z: 0 },
+    screen: { left: 40, top: 0, right: 56, bottom: 32, width: 16, height: 32, anchorX: 48, anchorY: 32 },
+    quality: 0,
+    mapNum: 0,
+    npcNum: 0,
+    frame: 0,
+    egg: null,
+    flags: { flipped: false }
+  };
+
+  const controller = createScenePresentationController(createBaseDeps({
+    state: {
+      current: {
+        selected: { game: "remorse" },
+        metadata: { bounds: { screenLeft: 0, screenTop: 0 } },
+        hiddenIds: new Set(),
+        scene: { items: [egg, cmd, wall] },
+        spriteIndex: new Map(),
+        atlasImages: new Map(),
+        dataRevision: 1,
+        visibilityRevision: 1
+      },
+      zoom: 1,
+      offsetX: 0,
+      offsetY: 0,
+      pinnedItemId: null,
+      hoverItemId: null,
+      eggPlacement: null,
+      highlightOverlay: {
+        itemId: null,
+        geometry: null,
+        fallbackItem: null,
+        alpha: 0,
+        targetAlpha: 0,
+        lastTimestamp: 0
+      }
+    },
+    getShapeDefinition: (shapeDefId) => definitions.get(shapeDefId) ?? null
+  }));
+
+  const labels = controller.getArrowGraph().editorLinks.map((link) => `${link.source.id}|${link.target.id}|${link.label}`);
+  assert.ok(labels.includes("item:egg|item:cmd|TRIGEGG egg 17 -> cmd QLo 17"));
+  assert.ok(labels.includes("item:cmd|item:wall|cmd QLo 17 -> movable wall"));
+}
+
 testControllerRequiresDiskFormatter();
 testBoundingGeometryHandlesMissingWorld();
 testFormattersHandleMissingWorld();
@@ -399,5 +483,6 @@ testAutoEnabledSpawnerPreviewUsesSingleFrameOneCarrier();
 testBlockedSpawnerPreviewUsesSingleFrameZeroCarrier();
 testFrameOneSpawnerKeepsItsOwnResolvedPreview();
 testBlockedFrameOnePreviewStaysFrameOneCarrier();
+testTriggerEggMovableWallClusterLinksEggToCmdAndWall();
 
 console.log("scene presentation regression checks passed");

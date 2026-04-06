@@ -438,6 +438,20 @@ function testRegionEndGotoCountsAsStructuredExit() {
   assert.doesNotMatch(text, /goto block_exit;/u);
 }
 
+function testFilterOnlySelectorLoopRendersAsCommentedScan() {
+  const structured = __testHooks.renderStructuredPseudocode([
+    ["entry_selector_00", ["/* loop_selector item in nearby_items(shape=searchtype, origin=aitem) */"]],
+    ["entry_cont_00", ["if !condition goto block_exit;"]],
+    ["block_match", ["if Item.getQLo(item) != baseLink goto block_continue;"]],
+    ["block_continue", ["goto entry_cont_00;"]],
+    ["block_exit", ["return;"]]
+  ]);
+
+  assert.ok(structured, "expected filter-only selector loop to structure");
+  const text = structured.join("\n");
+  assert.match(text, /scan item in nearby_items\(shape=searchtype, origin=aitem\) where Item\.getQLo\(item\) == baseLink;/u);
+}
+
 function testRealTriggerSlot20NoLongerFallsBackToBlocks() {
   const usecodePath = path.resolve("STATIC", "EUSECODE.FLX");
   const buffer = fs.readFileSync(usecodePath);
@@ -455,6 +469,23 @@ function testRealTriggerSlot20NoLongerFallsBackToBlocks() {
   assert.match(text, /for item in nearby_items\(shape=0x04b1, origin=aitem\) \{/u);
   assert.doesNotMatch(text, /^\s*(?:entry|block_[0-9a-f]+):/imu);
   assert.doesNotMatch(text, /goto block_/iu);
+}
+
+function testRealTriggerSlot23FilterOnlyLaneRendersAsCommentedScan() {
+  const usecodePath = path.resolve("STATIC", "EUSECODE.FLX");
+  const buffer = fs.readFileSync(usecodePath);
+  const classRows = __testHooks.buildClassRows(buffer);
+  const classRow = classRows.find((row) => row.className === "TRIGGER");
+  assert.ok(classRow, "expected TRIGGER class in remorse EUSECODE");
+
+  const eventRow = classRow.eventRows.find((row) => row.slot === 0x23);
+  assert.ok(eventRow, "expected TRIGGER slot 0x23 body");
+
+  const classNameMap = new Map(classRows.map((row) => [row.classId, row.className]));
+  const ir = __testHooks.buildIrForEvent(classRow, eventRow, "remorse", classNameMap);
+  const text = __testHooks.renderPseudocode(ir, new Map());
+
+  assert.match(text, /case 2:[\s\S]*scan item in nearby_items\(shape=searchtype, origin=aitem\) where Item\.getQLo\(item\) == baseLink && ref != item;/u);
 }
 
 function testRealBlastpacUseNoLongerFallsBackToBlocks() {
@@ -625,7 +656,9 @@ testSelectorChainRendersAsSwitch();
 testOrdinalSwitchCasesStayDecimalAcrossByteWordBoundary();
 testLargeIdSwitchCasesStayHex();
 testRegionEndGotoCountsAsStructuredExit();
+testFilterOnlySelectorLoopRendersAsCommentedScan();
 testRealTriggerSlot20NoLongerFallsBackToBlocks();
+testRealTriggerSlot23FilterOnlyLaneRendersAsCommentedScan();
 testRealBlastpacUseNoLongerFallsBackToBlocks();
 testRealRegretBridgeSlot22KeepsSideEffectsAndProcessResult();
 testRealRegretChangerHatchRendersRoofSelector();

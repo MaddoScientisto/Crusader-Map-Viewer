@@ -113,6 +113,8 @@ export function createScenePresentationController(deps) {
   const MONSTER_SPAWNER_SHAPE = 0x04d0;
   const PRESSURE_BARRIER_V_SHAPE = 0x05df;
   const PRESSURE_BARRIER_H_SHAPE = 0x05e0;
+  const MOVABLE_WALL_TARGET_SHAPES = new Set([0x01ab, 0x0393, 0x03e8]);
+  const MOVABLE_WALL_TRIGGER_CLASSES = new Set(["TRIGEGG", "ONCEEGG"]);
   const CRYOBOX_SHAPE = 0x05e1;
   const FLAME_HELPER_SHAPES = new Set([0x0438, 0x0439, 0x043a, 0x043b, 0x050a, 0x0518]);
   const STEAM_TARGET_SHAPES = new Set([0x03a9, 0x04f9, 0x04fa, 0x04fd, 0x0511]);
@@ -123,6 +125,8 @@ export function createScenePresentationController(deps) {
   const LOCAL_EDITOR_LINK_DISTANCE = 768;
   const LOCAL_ALARM_LINK_DISTANCE = 512;
   const LOCAL_DOOR_LINK_DISTANCE = 640;
+  const LOCAL_MOVABLE_WALL_LINK_DISTANCE = 1152;
+  const MOVABLE_WALL_Z_TOLERANCE = 16;
   const CRYOBOX_LINK_DISTANCE = 1024;
   const CHANGER_REMORSE_SCAN_DISTANCE = 100 * 32;
   const CRUSADER_EGG_RANGE_WORLD_UNITS = 64;
@@ -665,6 +669,13 @@ export function createScenePresentationController(deps) {
     }
     return Math.abs(left.world.x - right.world.x) <= maxDistance
       && Math.abs(left.world.y - right.world.y) <= maxDistance;
+  }
+
+  function hasLinkZTolerance(left, right, maxDelta) {
+    if (!left || !right || !hasWorldPosition(left) || !hasWorldPosition(right)) {
+      return false;
+    }
+    return Math.abs(left.world.z - right.world.z) <= maxDelta;
   }
 
   function pushUniqueLink(links, seenKeys, source, target, options) {
@@ -1767,6 +1778,7 @@ export function createScenePresentationController(deps) {
     const seenKeys = new Set();
     const controllerTargets = byShape.get(CMD_LINK_SHAPE) ?? [];
     const monsterSpawnerTargets = (byShape.get(MONSTER_SPAWNER_SHAPE) ?? []).filter((item) => item.frame === 0);
+    const movableWallTargets = [];
     const controllerTargetsByQlo = new Map();
     const controllerTargetsByMapByte = new Map();
     const monsterSpawnerTargetsByQlo = new Map();
@@ -1789,6 +1801,11 @@ export function createScenePresentationController(deps) {
     }
     for (const target of monsterSpawnerTargets) {
       addItemToBucket(monsterSpawnerTargetsByQlo, getQualityLowByte(target), target);
+    }
+    for (const shape of MOVABLE_WALL_TARGET_SHAPES) {
+      for (const target of byShape.get(shape) ?? []) {
+        movableWallTargets.push(target);
+      }
     }
     for (const shape of CHANGER_REMORSE_ROOF_TARGET_SHAPES) {
       for (const target of byShape.get(shape) ?? []) {
@@ -1930,6 +1947,43 @@ export function createScenePresentationController(deps) {
       const subtype = getUsecodeTriggerEggSubtypeInfo(source);
       if (!subtype?.className) {
         continue;
+      }
+
+      if (MOVABLE_WALL_TRIGGER_CLASSES.has(subtype.className) && Number.isInteger(subtype.eggId)) {
+        for (const cmdTarget of controllerTargetsByQlo.get(subtype.eggId) ?? []) {
+          const cmdMetadata = getCmdLinkMetadata(cmdTarget);
+          if (!cmdMetadata?.itemMode || cmdMetadata.targetKind !== "exact-shape") {
+            continue;
+          }
+          if (!isWithinLinkDistance(source, cmdTarget, LOCAL_MOVABLE_WALL_LINK_DISTANCE)) {
+            continue;
+          }
+          if (!hasLinkZTolerance(source, cmdTarget, MOVABLE_WALL_Z_TOLERANCE)) {
+            continue;
+          }
+
+          const matchingWalls = movableWallTargets.filter((target) => (
+            isWithinLinkDistance(cmdTarget, target, LOCAL_MOVABLE_WALL_LINK_DISTANCE)
+            && hasLinkZTolerance(cmdTarget, target, MOVABLE_WALL_Z_TOLERANCE)
+          ));
+          if (!matchingWalls.length) {
+            continue;
+          }
+
+          pushUniqueLink(links, seenKeys, source, cmdTarget, {
+            color: "rgba(233, 196, 106, 0.94)",
+            dashed: [2, 4],
+            label: `${subtype.className} egg ${subtype.eggId} -> cmd QLo ${subtype.eggId}`
+          });
+
+          for (const target of matchingWalls) {
+            pushUniqueLink(links, seenKeys, cmdTarget, target, {
+              color: "rgba(214, 40, 40, 0.9)",
+              dashed: [6, 2],
+              label: `cmd QLo ${subtype.eggId} -> movable wall`
+            });
+          }
+        }
       }
 
       if (subtype.arrowMode === "trigger-qlo") {
@@ -2850,6 +2904,7 @@ export function createScenePresentationController(deps) {
     drawSceneToContext,
     drawTooltipPreview,
     getBoundingGeometry,
+    getArrowGraph,
     getFilteredEggs,
     getItemDisplay,
     getVisibleNpcPreviewItems,

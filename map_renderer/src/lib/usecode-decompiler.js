@@ -1365,6 +1365,87 @@ function parseForeachLoopStatement(statement) {
   return match ? { header: `${match[1]}${match[2]};`, target: match[2] } : null;
 }
 
+function parseStructuredIfHeader(statement) {
+  const match = /^if \((.+)\) \{$/u.exec(String(statement).trim());
+  return match ? match[1] : null;
+}
+
+function summarizeFilterOnlyLoopBody(lines) {
+  const trimmed = lines.map((line) => String(line).trim()).filter(Boolean);
+  if (!trimmed.length) return null;
+
+  const conditions = [];
+  let depth = 0;
+
+  for (const line of trimmed) {
+    const condition = parseStructuredIfHeader(line);
+    if (condition != null) {
+      conditions.push(condition);
+      depth += 1;
+      continue;
+    }
+    if (line === "}") {
+      if (depth === 0) return null;
+      depth -= 1;
+      continue;
+    }
+    return null;
+  }
+
+  if (depth !== 0 || !conditions.length) return null;
+  return conditions.length === 1 ? conditions[0] : conditions.map((condition) => `(${condition})`).join(" && ");
+}
+
+function renderFilterOnlyLoop(loopHeader, filterCondition = null) {
+  return [`/* filter-only scan: ${loopHeader}${filterCondition ? ` where ${filterCondition}` : ""} */`];
+}
+
+function isContinueTrampoline(blocks, labelToIndex, label, continueLabel) {
+  const targetIndex = resolveLabelIndex(labelToIndex, label);
+  if (targetIndex == null) return false;
+  const statements = blocks[targetIndex][1];
+  if (statements.length !== 1) return false;
+  const terminal = parseTerminalStatement(statements[0]);
+  return terminal?.kind === "goto" && terminal.target === continueLabel;
+}
+
+function summarizeNoOpLoopRegion(blocks, labelToIndex, startIndex, endIndex, continueLabel, exitLabel = null) {
+  const conditions = [];
+  let skippedExitGuard = false;
+
+  for (let index = startIndex; index < endIndex; index += 1) {
+    const statements = blocks[index][1];
+    if (!statements.length) continue;
+
+    const terminal = parseTerminalStatement(statements.at(-1));
+    const prefix = terminal ? statements.slice(0, -1) : statements;
+    if (prefix.length) return null;
+    if (!terminal) return null;
+
+    if (terminal.kind === "if") {
+      if (!skippedExitGuard && exitLabel && terminal.target === exitLabel) {
+        skippedExitGuard = true;
+        continue;
+      }
+      if (terminal.target !== continueLabel && !isContinueTrampoline(blocks, labelToIndex, terminal.target, continueLabel)) return null;
+      conditions.push(invertConditionText(terminal.condition ?? "condition"));
+      continue;
+    }
+
+    if (terminal.kind === "goto" && terminal.target === continueLabel && index === endIndex - 1) {
+      continue;
+    }
+
+    return null;
+  }
+
+  return conditions.length ? conditions.join(" && ") : null;
+}
+
+function renderNoOpSelectorLoop(loopSelector, matchCondition) {
+  return [`scan ${loopSelector}${matchCondition ? ` where ${matchCondition}` : ""};`];
+}
+
 function isLoopSelectorOnlyBlock(statements) {
   return statements.length === 1 && parseLoopSelectorStatement(statements[0]) != null;
 }
@@ -1584,8 +1665,12 @@ function renderLoopConstruct(blocks, labelToIndex, index, endIndex, returnLabels
   if (!loopBody) return null;
 
   const loopSelector = findNearestLoopSelector(blocks, index);
+  const filterOnlyCondition = summarizeFilterOnlyLoopBody(loopBody[0]);
 
   const rendered = [];
+  if (filterOnlyCondition || !loopBody[0].length) {
+    return [renderFilterOnlyLoop(loopSelector ?? invertConditionText(terminal.condition), filterOnlyCondition), targetIndex];
+  }
   rendered.push(loopSelector ? `for ${loopSelector} {` : `while (${invertConditionText(terminal.condition)}) {`);
   rendered.push(...indentLines(loopBody[0]));
   rendered.push("}");
@@ -1643,6 +1728,11 @@ function renderSelectorLoopConstruct(blocks, labelToIndex, index, endIndex, retu
   const loopTailTerminal = parseTerminalStatement(blocks[loopTailIndex][1].at(-1));
   if (!loopTailTerminal || loopTailTerminal.kind !== "goto" || loopTailTerminal.target !== nextLabel) return null;
 
+  const noOpMatchCondition = summarizeNoOpLoopRegion(blocks, labelToIndex, index + 2, targetIndex, nextLabel, blocks[targetIndex][0]);
+  if (noOpMatchCondition) {
+    return [renderNoOpSelectorLoop(loopSelector, noOpMatchCondition), targetIndex];
+  }
+
   const loopBody = renderStructuredRegion(
     blocks,
     labelToIndex,
@@ -1654,6 +1744,11 @@ function renderSelectorLoopConstruct(blocks, labelToIndex, index, endIndex, retu
     renderCache
   );
   if (!loopBody) return null;
+
+  const filterOnlyCondition = summarizeFilterOnlyLoopBody(loopBody[0]);
+  if (filterOnlyCondition || !loopBody[0].length) {
+    return [renderFilterOnlyLoop(loopSelector, filterOnlyCondition), targetIndex];
+  }
 
   const rendered = [`for ${loopSelector} {`];
   rendered.push(...indentLines(loopBody[0]));
@@ -1688,6 +1783,11 @@ function renderForeachLoopConstruct(blocks, labelToIndex, index, endIndex, retur
     renderCache
   );
   if (!loopBody) return null;
+
+  const filterOnlyCondition = summarizeFilterOnlyLoopBody(loopBody[0]);
+  if (filterOnlyCondition || !loopBody[0].length) {
+    return [renderFilterOnlyLoop(foreachLoop.header.slice(0, -1), filterOnlyCondition), targetIndex];
+  }
 
   const rendered = ["while (true) {"];
   rendered.push(...indentLines(statements.slice(0, -1)));

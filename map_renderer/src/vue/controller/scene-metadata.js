@@ -81,7 +81,7 @@ const USECODE_TRIGGER_EGG_SUBTYPE_CLASSES = {
       eventNameHint: "hatch",
       activeLaneLabel: "hatch / unhatch",
       note: "TRIGEGG hatch and unhatch both spawn TRIGGER.slot_20 with phases 0x80 and 0x81, using the egg's local QLo as the downstream link id.",
-      overlayNote: "Renderer arrows expose nearby 0x04B1 cmd helpers that share this egg's local QLo link id."
+      overlayNote: "Renderer arrows expose nearby 0x04B1 cmd helpers that share this egg's local QLo link id, and also show the checked movable-wall cluster where the egg id in mapNum feeds a nearby cmd helper that opens an adjacent wall face."
     },
     1: {
       className: "ONCEEGG",
@@ -89,7 +89,7 @@ const USECODE_TRIGGER_EGG_SUBTYPE_CLASSES = {
       eventNameHint: "hatch",
       activeLaneLabel: "hatch / unhatch",
       note: "ONCEEGG uses the same TRIGGER.slot_20 routing as TRIGEGG in the recovered corpus, again keyed by the egg's local QLo.",
-      overlayNote: "Renderer arrows expose nearby 0x04B1 cmd helpers that share this egg's local QLo link id."
+      overlayNote: "Renderer arrows expose nearby 0x04B1 cmd helpers that share this egg's local QLo link id, and also show the checked movable-wall cluster where the egg id in mapNum feeds a nearby cmd helper that opens an adjacent wall face."
     },
     2: {
       className: "FLOOR1",
