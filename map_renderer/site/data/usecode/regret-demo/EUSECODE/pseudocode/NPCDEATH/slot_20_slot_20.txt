@@ -11,7 +11,7 @@ function npcdeath_slot_20() /* entry=2581 class_id=0x0a13 slot=0x20 */
     }
     local_02 = arg_10;
     local_03 = 0;
-    for local_05 in nearby_items(shape=0x04e7, origin=local_02) {
+    for local_05 in nearby_items(shape=DEATHBOX, origin=local_02) {
       if (arg_12 == Item.hurl(local_05)) {
         if (Item.getMapArray(local_05) != 0) {
           spawn TRIGGER.slot_20(pid, 0, local_05, local_05);

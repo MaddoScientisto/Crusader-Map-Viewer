@@ -69,8 +69,7 @@ function moveflor_slot_20() /* entry=166 class_id=0x00a4 slot=0x20 */
     suspend;
     local_04 = (1 + local_04);
   }
-  for local_10 in nearby_items(shape=0x043d, origin=arg_06) {
-  }
+  scan local_10 in nearby_items(shape=0x043d, origin=arg_06) where Item.getCY(local_10) == Item.getCY(arg_06);
   ITEM.slot_25(0x1000, arg_06);
   ITEM.slot_25(0x0100, arg_06);
   return;

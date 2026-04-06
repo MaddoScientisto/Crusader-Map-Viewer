@@ -69,10 +69,7 @@ function trigger_slot_2b() /* entry=2589 class_id=0x0a1b slot=0x2b */
     }
     return;
   case 2:
-    for npc in nearby_items(family=6, origin=aitem) {
-      if (Item.andStatus(Item.getShape(npc))) {
-      }
-    }
+    scan npc in nearby_items(family=6, origin=aitem) where Item.andStatus(Item.getShape(npc)) && Actor.GetNPCDataField0x63_00B(npc) == baseLink;
     return;
   case 3:
     scmd = (qHi & 7);

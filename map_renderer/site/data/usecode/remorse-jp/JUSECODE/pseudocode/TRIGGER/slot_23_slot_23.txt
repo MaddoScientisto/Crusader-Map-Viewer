@@ -43,10 +43,7 @@ function trigger_slot_23() /* entry=2589 class_id=0x0a1b slot=0x23 */
     }
     break;
   case 2:
-    for item in nearby_items(shape=searchtype, origin=aitem) {
-      if (Item.andStatus(item) == baseLink) {
-      }
-    }
+    scan item in nearby_items(shape=searchtype, origin=aitem) where Item.andStatus(item) == baseLink && ref != item;
     break;
   case 3:
     scmd = (qHi & 7);

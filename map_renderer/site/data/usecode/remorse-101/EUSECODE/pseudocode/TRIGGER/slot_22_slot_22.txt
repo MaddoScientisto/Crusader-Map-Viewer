@@ -50,10 +50,7 @@ function trigger_slot_22() /* entry=2586 class_id=0x0a18 slot=0x22 */
     }
     return;
   case 2:
-    for local_16 in nearby_items(family=6, origin=local_14) {
-      if (UCMachine.numToStr(Item.getShape(local_16))) {
-      }
-    }
+    scan local_16 in nearby_items(family=6, origin=local_14) where UCMachine.numToStr(Item.getShape(local_16)) && Actor.GetNPCDataField0x63_00B(local_16) == arg_18;
     return;
   case 3:
     local_02 = (arg_12 & 7);

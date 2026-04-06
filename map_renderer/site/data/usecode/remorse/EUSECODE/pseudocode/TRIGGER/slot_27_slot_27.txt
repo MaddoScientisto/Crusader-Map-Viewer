@@ -40,8 +40,7 @@ function trigger_slot_27() /* entry=2586 class_id=0x0a18 slot=0x27 */
     }
     break;
   case 2:
-    for item in nearby_items(family=1, origin=aitem) {
-    }
+    scan item in nearby_items(family=1, origin=aitem) where Item.getQLo(item) == baseLink;
     break;
   case 3:
     scmd = (qHi & 7);

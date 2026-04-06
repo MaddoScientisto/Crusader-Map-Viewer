@@ -77,8 +77,7 @@ function trigger_slot_29() /* entry=2586 class_id=0x0a18 slot=0x29 */
     }
     return;
   case 2:
-    for npc in nearby_items(shape=searchtype, origin=aitem) {
-    }
+    scan npc in nearby_items(shape=searchtype, origin=aitem) where Actor.GetNPCDataField0x63_00B(npc) == baseLink;
     return;
   case 3:
     scmd = (qHi & 7);

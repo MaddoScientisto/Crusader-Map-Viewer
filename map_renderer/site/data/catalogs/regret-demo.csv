@@ -141,8 +141,8 @@ shape_code,human_readable_id,description,roof,semitransparency,OOB,categorizatio
 0x009b,,,,,,base,0
 0x009d,,,,,,terrain,0
 0x00a0,,,,,,terrain,0
-0x00a1,,,,,,base,262;775;776;781;783;796;804;814;816;2833;63759
-0x00a2,,,,,,base,13;769;770;771;773;775;779;806;822;828;23070;23326;23582
+0x00a1,PANELNS,Directional panel switch; use dispatches TRIGGER lane 0 when active. Editor arrows use local same-QLo cmd-link matches.,,,,base,262;775;776;781;783;796;804;814;816;2833;63759
+0x00a2,PANELEW,East-west panel switch; nonzero frames with clear map state forward into TRIGGER lane 0 through the local QLo link id.,,,,base,13;769;770;771;773;775;779;806;822;828;23070;23326;23582
 0x00a4,,,,,,base,18
 0x00a6,,,,,,base,0
 0x00a9,,,,,,base,0
@@ -665,7 +665,7 @@ shape_code,human_readable_id,description,roof,semitransparency,OOB,categorizatio
 0x0318,CRUMORPH,NPC-control morph pad; equip scans nearby NPCs for a local-Qlo control key match,,,,editor,31;39;89
 0x0319,,,,,,helper,0
 0x031b,,,,,,terrain,0
-0x031d,,,,,,base,798
+0x031d,CARD_NS,Keycard switch; SWITCH::ordinal21 reads QLo as the card id and dispatches TRIGGER lane 0 or 1.,,,,base,798
 0x031e,,,,,,base,774;789
 0x0329,,,,,,base,0
 0x032a,,,,,,base,0
@@ -773,7 +773,7 @@ shape_code,human_readable_id,description,roof,semitransparency,OOB,categorizatio
 0x03a7,OOB_WALL_BLACK_03A7,,,,true,base,13;17;23;24;57
 0x03a8,,,,,,base,21
 0x03a9,,,,,,editor,285
-0x03aa,,,,,,terrain,3;13;30;39
+0x03aa,SPANEL,Switch panel; use dispatches TRIGGER lane 0 and BRO_BOOT toggles nearby SPANEL helpers by shared QLo.,,,,terrain,3;13;30;39
 0x03ab,,,,,,base,0
 0x03ac,,,,,,helper,0
 0x03ad,,,,,,terrain,78;120;121;122;123
@@ -796,7 +796,7 @@ shape_code,human_readable_id,description,roof,semitransparency,OOB,categorizatio
 0x03be,,,,,,base,0
 0x03bf,,,,,,terrain,0
 0x03c0,,,,,,terrain,0
-0x03c1,CAPACITOR_03C1,,,,,terrain,5;51206;51216;51460;51501;51502
+0x03c1,GENERATR,Destroyable generator/controller; gotHit dispatches TRIGGER lane 0 from the source item,,,,terrain,terrain
 0x03c2,,,,,,terrain,0
 0x03c3,,,,,,terrain,0
 0x03c4,,,,,,base,0
@@ -842,7 +842,7 @@ shape_code,human_readable_id,description,roof,semitransparency,OOB,categorizatio
 0x03fe,,,,,,base,0
 0x03ff,,,,,,base,0
 0x0401,,,,,,,
-0x0403,,,,,,editor,8;18;22;23;24;25;26;27
+0x0403,FLAMEBOX,Flame controller; scans nearby flame helper shapes by shared QLo and can swap them into active flame actors.,,,,editor,8;18;22;23;24;25;26;27
 0x0404,,,,,,base,0
 0x0405,,,,,,base,0
 0x0406,,,,,,base,0
@@ -1004,7 +1004,7 @@ shape_code,human_readable_id,description,roof,semitransparency,OOB,categorizatio
 0x04e3,,Editor Object,,,,editor,2;10;13;14;20;21;25;77;78;271
 0x04e5,,,,,,base,0
 0x04e6,,,,,,helper,0
-0x04e7,,,,,,editor,650;2067;4111;14134;19469;19473;33567;34087;47449
+0x04e7,DEATHBOX,NPC-death helper; exact shared DEATHBOX class in both games,,,,editor,650;2067;4111;14134;19469;19473;33567;34087;47449
 0x04e8,,,,,,base,5
 0x04e9,,,,,,base,5
 0x04ea,,,,,,base,0
@@ -1020,7 +1020,7 @@ shape_code,human_readable_id,description,roof,semitransparency,OOB,categorizatio
 0x04fa,,,,,,base,14
 0x04fc,,Editor Object,,,,editor,2
 0x04fd,,,,,,,
-0x04fe,,,,,,editor,0;13056;13568;13824;17152;17408;17664;17920;18176;18432;18944;21504;23040;23296;25856;26624;29440;29696;29952;30208;30720;31488;33536;33792;34048;34304;34560;34816;35072;35328;35584;35840;36096;38656;38912;39168;39680;43008;44032;47104;50432;51200
+0x04fe,BRO_BOOT,BRO_BOOT helper; enterFastArea toggles nearby SPANEL items by shared QLo and drives its own boot-frame animation.,,,,editor,0;13056;13568;13824;17152;17408;17664;17920;18176;18432;18944;21504;23040;23296;25856;26624;29440;29696;29952;30208;30720;31488;33536;33792;34048;34304;34560;34816;35072;35328;35584;35840;36096;38656;38912;39168;39680;43008;44032;47104;50432;51200
 0x0500,,,,,,editor,11;12;29
 0x0501,,,,,,base,0
 0x0502,,,,,,base,0

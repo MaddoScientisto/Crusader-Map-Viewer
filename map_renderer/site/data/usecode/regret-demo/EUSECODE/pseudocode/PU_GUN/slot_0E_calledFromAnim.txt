@@ -129,7 +129,7 @@ function pu_gun_calledFromAnim() /* entry=1468 class_id=0x05ba slot=0x0e */
   }
   else {
     set_info(0x00f0, 0);
-    for local_23 in nearby_items(shape=0x04e7, origin=local_02) {
+    for local_23 in nearby_items(shape=DEATHBOX, origin=local_02) {
       if (Intrinsic000D(local_02) == Item.andStatus(local_23)) {
         if (Item.getMapArray(local_23) != 0) {
           spawn TRIGGER.slot_20(pid, 0, local_23, local_23);
