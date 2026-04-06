@@ -5,10 +5,12 @@ import path from "node:path";
 import { CATALOG_ROOT, GAMES } from "../config.js";
 import { getShapeNameTable } from "./dtable.js";
 import { getMapSummaries, resolveStaticFile } from "./formats.js";
+import { loadPsxProcessedCatalog } from "./psx-cache.js";
 
 const CATALOG_FILE_BY_GAME = {
   remorse: "usecode_shape_catalog_remorse.csv",
-  regret: "usecode_shape_catalog_regret.csv"
+  regret: "usecode_shape_catalog_regret.csv",
+  "psx-remorse": "psx_shape_catalog_remorse.csv"
 };
 
 const shapeCatalogCache = new Map();
@@ -440,9 +442,21 @@ export function syncShapeCatalogWithDtable(gameId, options = {}) {
   };
 }
 
-export function detectCatalog() {
+export function detectCatalog(options = {}) {
+  const includePrebuilt = options.includePrebuilt !== false;
   const games = [];
   for (const game of GAMES) {
+    if (game.buildMode === "prebuilt-psx") {
+      if (!includePrebuilt) {
+        continue;
+      }
+      const processedCatalog = loadPsxProcessedCatalog();
+      const prebuiltGame = processedCatalog?.games?.find((entry) => entry.id === game.id);
+      if (prebuiltGame?.maps?.length) {
+        games.push(prebuiltGame);
+      }
+      continue;
+    }
     const fixedDat = resolveStaticFile(game.staticDir, "FIXED.DAT");
     if (!fs.existsSync(fixedDat)) {
       continue;

@@ -302,7 +302,8 @@ async function runThreadedTasks(tasks, threadCount) {
 async function mainThread() {
   const args = parseArgs(process.argv.slice(2));
   const catalog = detectCatalog();
-  const games = args.game ? catalog.games.filter((game) => game.id === args.game) : catalog.games;
+  const games = (args.game ? catalog.games.filter((game) => game.id === args.game) : catalog.games)
+    .filter((game) => getGameConfig(game.id)?.buildMode !== "prebuilt-psx");
 
   if (!games.length) {
     throw new Error(args.game ? `No detected catalog entry for game ${args.game}` : "No detected maps to cache");

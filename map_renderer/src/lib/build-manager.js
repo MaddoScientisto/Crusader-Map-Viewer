@@ -27,6 +27,7 @@ import { buildSceneReferencePayload, getSceneReferenceId } from "./scene-referen
 import { writeNpcSpawnerData } from "../generate-npc-spawner-data.js";
 import decompiler from "./usecode-decompiler.js";
 import { blitFrame, encodePng, rgbaBuffer } from "./png.js";
+import { getPsxProcessedMap, isPsxPrebuiltGame } from "./psx-cache.js";
 import { prepareSortedItems } from "./sorting.js";
 
 const SCENE_CACHE_VERSION = "v15-atlas-scene-crusader-explicit-semitransparency-only";
@@ -1057,6 +1058,10 @@ export class BuildManager {
     };
   }
 
+  isPrebuiltSceneGame(gameConfigOrId) {
+    return isPsxPrebuiltGame(gameConfigOrId);
+  }
+
   computeReferenceFingerprint(referenceId) {
     const groupGames = this.listReferenceGames(referenceId).map((game) => getGameConfig(game.id)).filter(Boolean);
     const fileStamps = [];
@@ -1232,6 +1237,14 @@ export class BuildManager {
   }
 
   ensureReferenceData(referenceId, requiredSpriteIds = [], requiredShapeDefinitionIds = [], hooks = {}) {
+    if (this.isPrebuiltSceneGame(referenceId)) {
+      const current = this.loadReferenceData(referenceId);
+      if (current) {
+        return current;
+      }
+      throw new Error(`Missing processed reference data for ${referenceId}`);
+    }
+
     const current = this.loadReferenceData(referenceId);
     const expectedFingerprint = this.computeReferenceFingerprint(referenceId);
     if (current) {
@@ -1253,6 +1266,9 @@ export class BuildManager {
   }
 
   ensureUsecodeCache(gameConfig) {
+    if (!gameConfig?.usecodeFileName || this.isPrebuiltSceneGame(gameConfig)) {
+      return null;
+    }
     const cached = this.usecodeCache.get(gameConfig.id);
     if (cached) {
       return cached;
@@ -1263,6 +1279,9 @@ export class BuildManager {
   }
 
   ensureGlobalJsonData(gameConfig) {
+    if (this.isPrebuiltSceneGame(gameConfig)) {
+      return;
+    }
     const gameConfigs = this.catalog.games.map((game) => getGameConfig(game.id)).filter(Boolean);
     const missionMapData = loadMissionMapData();
     if (!missionMapData?.games?.[gameConfig.id]) {
@@ -1304,6 +1323,14 @@ export class BuildManager {
   }
 
   ensureCatalogCoverage(gameConfig, mapId) {
+    if (this.isPrebuiltSceneGame(gameConfig)) {
+      return {
+        changed: false,
+        added: 0,
+        updated: 0,
+        filePath: getShapeCatalog(gameConfig.id).filePath
+      };
+    }
     const assets = this.getAssets(gameConfig);
     const fixedDatPath = resolveGameAssetPath(gameConfig, "FIXED.DAT");
     const baseItems = loadMapItems(fixedDatPath, mapId);
@@ -1318,6 +1345,10 @@ export class BuildManager {
   }
 
   async createOrReuseBuild(gameConfig, mapId, rawOptions = {}, hooks = {}) {
+    if (this.isPrebuiltSceneGame(gameConfig)) {
+      return this.createOrReusePrebuiltBuild(gameConfig, mapId, hooks);
+    }
+
     const options = normalizeBuildOptions(rawOptions);
     this.ensureGlobalJsonData(gameConfig);
     this.ensureCatalogCoverage(gameConfig, mapId);
@@ -1353,6 +1384,59 @@ export class BuildManager {
     this.jobs.set(job.id, job);
     this.jobsByKey.set(key, job);
     job.promise = this.runBuild(job, gameConfig, catalogInfo, dtableInfo, hooks);
+    return job;
+  }
+
+  createOrReusePrebuiltBuild(gameConfig, mapId, hooks = {}) {
+    const processed = getPsxProcessedMap(gameConfig.id, mapId);
+    if (!processed) {
+      throw new Error(`No processed PSX cache for ${gameConfig.id} map ${mapId}. Run npm run build-psx-cache first.`);
+    }
+
+    const key = `${gameConfig.id}:${mapId}:${processed.map.fingerprint}`;
+    const existing = this.jobsByKey.get(key);
+    if (existing && (existing.status === "ready" || existing.status === "building")) {
+      return existing;
+    }
+    if (existing) {
+      this.jobsByKey.delete(key);
+    }
+
+    const scene = JSON.parse(fs.readFileSync(processed.map.sceneFile, "utf8"));
+    const referenceData = this.ensureReferenceData(processed.catalog.referenceId);
+    const createdAt = nowIso();
+    const job = {
+      id: crypto.randomUUID(),
+      key,
+      fingerprint: processed.map.fingerprint,
+      game: gameConfig.id,
+      mapId,
+      options: { includeEditor: true, includeRoofs: true },
+      status: "ready",
+      phase: "ready",
+      createdAt,
+      updatedAt: createdAt,
+      progress: [
+        {
+          at: createdAt,
+          phase: "ready",
+          message: `Loaded processed PSX scene with ${scene.metadata?.itemCount ?? 0} items`
+        }
+      ],
+      error: null,
+      metadata: scene.metadata,
+      build: {
+        ...scene,
+        cacheDir: path.dirname(processed.map.sceneFile),
+        sceneFilePath: processed.map.sceneFile,
+        referenceData,
+        atlasFiles: referenceData.atlasFiles
+      },
+      promise: Promise.resolve()
+    };
+    this.jobs.set(job.id, job);
+    this.jobsByKey.set(key, job);
+    hooks.progress?.("ready", `Loaded processed PSX scene with ${scene.metadata?.itemCount ?? 0} items`);
     return job;
   }
 

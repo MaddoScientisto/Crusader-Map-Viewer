@@ -1,0 +1,25 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "ui-regression-test",
+			"type": "shell",
+			"command": "npm",
+			"args": [
+				"run",
+				"test:ui"
+			],
+			"isBackground": false
+		},
+		{
+			"label": "psx-scene-presentation-regression",
+			"type": "shell",
+			"command": "node",
+			"args": [
+				"scripts/test-scene-presentation.mjs"
+			],
+			"isBackground": false,
+			"group": "test"
+		}
+	]
+}

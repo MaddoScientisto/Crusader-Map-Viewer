@@ -139,6 +139,10 @@ export function createScenePresentationController(deps) {
     altF7: 0x09,
     ctrlF7: 0x0d
   });
+    function shouldUseAuthoredScreenRect(item) {
+      const currentGame = state.current?.metadata?.game ?? state.current?.selected?.game;
+      return currentGame === "psx-remorse" && Boolean(item?.screen);
+    }
   const CYCLE_COLOR_NUMBERS = Object.freeze([8, 9, 10, 11, 12, 13, 14]);
   const CYCLE_COLOR_WORD_FLAGS = Object.freeze([0, 0, 0, 0, 0, 0, 1]);
   const CYCLE_COLOR_FLAGS = Object.freeze([
@@ -2366,6 +2370,10 @@ export function createScenePresentationController(deps) {
   }
 
   function projectBoundingBoxWireframe(item, definition) {
+    if (shouldUseAuthoredScreenRect(item)) {
+      return null;
+    }
+
     const dimensions = definition?.dimensions;
     if (!dimensions || !state.current || !hasWorldPosition(item)) {
       return null;

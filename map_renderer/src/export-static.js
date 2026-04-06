@@ -163,7 +163,8 @@ async function main() {
   const args = parseArgs(process.argv.slice(2));
   const catalog = detectCatalog();
   const builds = new BuildManager(catalog);
-  const games = args.game ? catalog.games.filter((game) => game.id === args.game) : catalog.games;
+  const games = (args.game ? catalog.games.filter((game) => game.id === args.game) : catalog.games)
+    .filter((game) => getGameConfig(game.id)?.includeInStaticExport !== false);
 
   if (!games.length) {
     throw new Error(args.game ? `No detected catalog entry for game ${args.game}` : "No detected maps to export");

@@ -194,6 +194,49 @@ function testPointHitsItemPrefersProjectedBoundaryGeometry() {
   assert.equal(controller.pointHitsItem({ x: 39, y: 39 }, item), false);
 }
 
+function testPsxBoundingGeometryUsesAuthoredScreenRectFallback() {
+  const item = {
+    id: "item:psx-box",
+    shapeDefId: "shape:256",
+    spriteId: "sprite:256:0",
+    world: { x: 4096, y: 6144, z: 0 },
+    flags: { flipped: false },
+    screen: { left: 100, top: 120, right: 148, bottom: 172, width: 48, height: 52, anchorX: 124, anchorY: 172 }
+  };
+
+  const controller = createScenePresentationController(createBaseDeps({
+    getShapeDefinition: () => ({ shape: 0x0100, dimensions: { x: 2, y: 2, z: 2 } }),
+    state: {
+      current: {
+        selected: { game: "psx-remorse" },
+        metadata: { bounds: { screenLeft: 0, screenTop: 0 } },
+        hiddenIds: new Set(),
+        scene: { items: [item] },
+        spriteIndex: new Map(),
+        atlasImages: new Map()
+      },
+      zoom: 1,
+      offsetX: 0,
+      offsetY: 0,
+      pinnedItemId: null,
+      hoverItemId: null,
+      eggPlacement: null,
+      highlightOverlay: {
+        itemId: null,
+        geometry: null,
+        fallbackItem: null,
+        alpha: 0,
+        targetAlpha: 0,
+        lastTimestamp: 0
+      }
+    }
+  }));
+
+  assert.equal(controller.getBoundingGeometry(item), null);
+  assert.equal(controller.pointHitsItem({ x: 124, y: 140 }, item), true);
+  assert.equal(controller.pointHitsItem({ x: 90, y: 140 }, item), false);
+}
+
 function testAutoEnabledSpawnerPreviewUsesSingleFrameOneCarrier() {
   const frame0 = {
     id: "item:f0",
@@ -479,6 +522,7 @@ testBoundingGeometryHandlesMissingWorld();
 testFormattersHandleMissingWorld();
 testPointHitsItemUsesScreenRectBeforeCustomGeometry();
 testPointHitsItemPrefersProjectedBoundaryGeometry();
+testPsxBoundingGeometryUsesAuthoredScreenRectFallback();
 testAutoEnabledSpawnerPreviewUsesSingleFrameOneCarrier();
 testBlockedSpawnerPreviewUsesSingleFrameZeroCarrier();
 testFrameOneSpawnerKeepsItsOwnResolvedPreview();

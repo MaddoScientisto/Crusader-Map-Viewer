@@ -11,6 +11,7 @@ export const TILE_SIZE = Number.parseInt(process.env.TILE_SIZE ?? "1024", 10);
 export const ATLAS_MAX_SIZE = Number.parseInt(process.env.ATLAS_MAX_SIZE ?? "4096", 10);
 export const PORT = Number.parseInt(process.env.PORT ?? "3000", 10);
 export const CACHE_ROOT = path.join(APP_ROOT, ".cache");
+export const PSX_CACHE_ROOT = path.join(CACHE_ROOT, "psx");
 export const TILE_CACHE_ROOT = path.join(CACHE_ROOT, "tiles");
 export const SCENE_CACHE_ROOT = path.join(CACHE_ROOT, "scene-cache");
 export const REFERENCE_DATA_CACHE_ROOT = path.join(CACHE_ROOT, "reference-data");
@@ -23,6 +24,7 @@ const REMORSE_STATIC_DIR = process.env.REMORSE_STATIC_DIR || path.join(APP_ROOT,
 const REMORSE_STATIC_101_DIR = process.env.REMORSE_STATIC_101_DIR || path.join(APP_ROOT, "STATIC_1.01");
 const REMORSE_STATIC_DEMO_DIR = process.env.REMORSE_STATIC_DEMO_DIR || path.join(APP_ROOT, "STATIC_DEMO");
 const REMORSE_STATIC_JP_DIR = process.env.REMORSE_STATIC_JP_DIR || path.join(APP_ROOT, "STATIC_JP");
+const REMORSE_STATIC_PSX_DIR = process.env.REMORSE_STATIC_PSX_DIR || path.join(APP_ROOT, "STATIC_PSX");
 const REGRET_STATIC_DIR = process.env.REGRET_STATIC_DIR || path.join(APP_ROOT, "STATIC_REGRET");
 const REGRET_STATIC_DEMO_DIR = process.env.REGRET_STATIC_DEMO_DIR || path.join(APP_ROOT, "STATIC_REGRET_DEMO");
 
@@ -90,6 +92,22 @@ export const GAMES = [
     missionTableAddress: "0x0047b72c",
     missionTableConsumerFunction: "FUN_00428e00",
     missionTableConsumerAddress: "0x00429056"
+  },
+  {
+    id: "psx-remorse",
+    gameId: "psx-remorse",
+    versionId: "psx",
+    versionLabel: "PSX",
+    label: "No Remorse PSX",
+    selectorLabel: "No Remorse PSX",
+    catalogId: "psx-remorse",
+    tableId: null,
+    staticDir: REMORSE_STATIC_PSX_DIR,
+    fallbackStaticDirs: [],
+    usecodeFileName: null,
+    supportsMissionMapExtraction: false,
+    buildMode: "prebuilt-psx",
+    includeInStaticExport: false
   },
   {
     id: "regret",
