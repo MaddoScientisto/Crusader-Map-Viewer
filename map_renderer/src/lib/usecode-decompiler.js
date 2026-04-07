@@ -7,7 +7,7 @@ import { CACHE_ROOT, CATALOG_ROOT } from "../config.js";
 import { GENERATED_INTRINSIC_HINT_TABLES } from "./usecode-intrinsic-hints.generated.js";
 
 const USECODE_CACHE_ROOT = path.join(CACHE_ROOT, "usecode");
-const USECODE_CACHE_SCHEMA_VERSION = 4;
+const USECODE_CACHE_SCHEMA_VERSION = 5;
 const DISASM_OPCODE_TABLE_PATH = path.resolve(CACHE_ROOT, "..", "..", "..", "crusader-disasm", "usecode_opcodes.txt");
 const USECODE_DECOMPILER_IMPL_PATH = fileURLToPath(import.meta.url);
 const USECODE_SHAPE_CATALOG_PATHS = [
@@ -681,6 +681,76 @@ function parseDebugSymbols(body, start) {
     end_offset: reader.offset + 1,
     trailing_bytes: body.subarray(reader.offset + 1)
   };
+}
+
+function parseFieldTags(body, start) {
+  if (start >= body.length) return null;
+  const reader = new BodyReader(body, start);
+  const fieldTags = [];
+
+  try {
+    while (reader.offset < body.length && body[reader.offset] !== 0x7a) {
+      const tagId = reader.readU8();
+      const bpOffset = reader.readU8();
+      const valueKind = reader.readU8();
+      const name = reader.readCString();
+      if (!name) return null;
+      fieldTags.push({
+        tag_id: tagId,
+        bp_offset: bpOffset,
+        bp_repr: bpRepr(bpOffset),
+        value_kind: valueKind,
+        name,
+        tag_label: `${tagId.toString(16).padStart(2, "0")}:${bpOffset.toString(16).padStart(2, "0")}${valueKind.toString(16).padStart(2, "0")}->${name}`
+      });
+      if (reader.offset < body.length && body[reader.offset] === 0x00) {
+        reader.offset += 1;
+      }
+    }
+  } catch {
+    return null;
+  }
+
+  if (!fieldTags.length || reader.offset >= body.length || body[reader.offset] !== 0x7a) return null;
+  return {
+    field_tags: fieldTags,
+    end_offset: reader.offset + 1,
+    trailing_bytes: body.subarray(reader.offset + 1)
+  };
+}
+
+function classifyPostRetMetadata(body, ops) {
+  const lastRetIndex = [...ops.keys()].reverse().find((index) => ops[index].mnemonic === "ret");
+  if (lastRetIndex == null) return null;
+
+  const retEnd = ops[lastRetIndex].offset + ops[lastRetIndex].raw_bytes.length / 2;
+  if (body.length - retEnd <= 1) return null;
+
+  const debugResult = parseDebugSymbols(body, retEnd);
+  if (debugResult && debugResult.end_offset === body.length) {
+    return {
+      ops: ops.slice(0, lastRetIndex + 1),
+      end_reason: "debug_symbols_then_end",
+      unknown_trailing: debugResult.trailing_bytes,
+      debug_symbol_offset: retEnd,
+      debug_symbols: debugResult.debug_symbols,
+      field_tags: []
+    };
+  }
+
+  const fieldTagResult = parseFieldTags(body, retEnd);
+  if (fieldTagResult && fieldTagResult.end_offset === body.length) {
+    return {
+      ops: ops.slice(0, lastRetIndex + 1),
+      end_reason: "field_tags_then_end",
+      unknown_trailing: fieldTagResult.trailing_bytes,
+      debug_symbol_offset: null,
+      debug_symbols: [],
+      field_tags: fieldTagResult.field_tags
+    };
+  }
+
+  return null;
 }
 
 function buildLocalNameMap(ir) {
@@ -2128,6 +2198,7 @@ function buildIrForEvent(classRow, eventRow, variant, classNameMap) {
   let endReason = "body_exhausted";
   let unknownTrailing = Buffer.alloc(0);
   let unsupportedOpcodeName = null;
+  let fieldTags = [];
   const targetClassNames = classNameMap;
 
   while (offset < body.length) {
@@ -2148,6 +2219,17 @@ function buildIrForEvent(classRow, eventRow, variant, classNameMap) {
 
   let debugSymbols = [];
   let debugSymbolOffset = null;
+  const postRetMetadata = classifyPostRetMetadata(body, ops);
+  if (postRetMetadata) {
+    debugSymbols = postRetMetadata.debug_symbols;
+    debugSymbolOffset = postRetMetadata.debug_symbol_offset;
+    fieldTags = postRetMetadata.field_tags;
+    endReason = postRetMetadata.end_reason;
+    unknownTrailing = postRetMetadata.unknown_trailing;
+    ops.length = 0;
+    ops.push(...postRetMetadata.ops);
+  }
+
   const lastRetIndex = [...ops.keys()].reverse().find((index) => ops[index].mnemonic === "ret");
   if ((endReason === "unknown_opcode" || endReason === "unsupported_opcode") && lastRetIndex != null) {
     const retEnd = ops[lastRetIndex].offset + ops[lastRetIndex].raw_bytes.length / 2;
@@ -2190,11 +2272,12 @@ function buildIrForEvent(classRow, eventRow, variant, classNameMap) {
       unknown_trailing_bytes: unknownTrailing.toString("hex"),
       decoded_op_count: ops.length,
       debug_symbol_offset: debugSymbolOffset,
-      debug_symbol_count: debugSymbols.length
+      debug_symbol_count: debugSymbols.length,
+      field_tag_count: fieldTags.length
     },
     ops,
     debug_symbols: debugSymbols,
-    field_tags: []
+    field_tags: fieldTags
   };
 }
 
@@ -2223,6 +2306,20 @@ function renderPseudocode(ir, shapeCatalog) {
 
   if (ir.body.end_reason === "unsupported_opcode") {
     lines.push(`  /* decompilation stopped at ${ir.body.unsupported_opcode_name ?? "unsupported opcode"} */`);
+  }
+
+  if (ir.debug_symbols.length || ir.field_tags.length) {
+    lines.push("");
+    lines.push("  /* post-return metadata (not executable):");
+    for (const symbol of ir.debug_symbols) {
+      lines.push(
+        `    debug_symbol ${sanitizeIdentifier(symbol.name)} ${symbol.bp_repr} type=0x${symbol.type_id.toString(16).padStart(2, "0")} unk1=0x${(symbol.unknown1 ?? 0).toString(16).padStart(2, "0")} unk3=0x${(symbol.unknown3 ?? 0).toString(16).padStart(2, "0")}`
+      );
+    }
+    for (const tag of ir.field_tags) {
+      lines.push(`    field_tag ${tag.tag_label} (${tag.bp_repr})`);
+    }
+    lines.push("  */");
   }
 
   lines.push("}");

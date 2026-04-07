@@ -19,6 +19,7 @@ function makeIr(ops, debugSymbols = []) {
       end_reason: "end_opcode"
     },
     debug_symbols: debugSymbols,
+    field_tags: [],
     ops
   };
 }
@@ -40,6 +41,49 @@ function renderStructured(ir) {
 
 function renderPseudo(ir) {
   return __testHooks.renderPseudocode(ir, new Map());
+}
+
+function testPostRetMetadataIsShownInPseudocode() {
+  const classRow = {
+    entryIndex: 277,
+    objectIndex: 0x4d5,
+    classId: 0x04d3,
+    className: "JELYHACK",
+    rawCodeBaseU32: 0,
+    codeBaseMinusOne: 0,
+    conservativeEventCount: 1,
+    raw: Buffer.from([
+      0x5a, 0x00,
+      0x5c, 0x0f, 0x00, 0x4a, 0x45, 0x4c, 0x59, 0x48, 0x41, 0x43, 0x4b, 0x00,
+      0x0b, 0x07, 0x02,
+      0x40, 0x06,
+      0x4c, 0x02,
+      0x77,
+      0x78,
+      0x5b, 0xdb, 0x00,
+      0x50,
+      0x01, 0x01, 0x69, 0x00, 0x00,
+      0x72, 0x65, 0x66, 0x65, 0x72, 0x65, 0x6e, 0x74, 0x00,
+      0x7a
+    ])
+  };
+  const eventRow = {
+    slot: 0x01,
+    eventNameHint: "use",
+    rawEventEntryWord: 0x002a,
+    rawCodeOffset: 1,
+    derivedBodyStart: 0,
+    derivedBodyEnd: classRow.raw.length,
+    derivedBodyLength: classRow.raw.length
+  };
+
+  const ir = __testHooks.buildIrForEvent(classRow, eventRow, "remorse", new Map([[0x04d3, "JELYHACK"]]));
+  const text = __testHooks.renderPseudocode(ir, new Map());
+
+  assert.equal(ir.body.end_reason, "debug_symbols_then_end");
+  assert.equal(ir.debug_symbols.length, 1);
+  assert.match(text, /post-return metadata \(not executable\)/u);
+  assert.match(text, /debug_symbol referent \[BP\+00h\] type=0x69/u);
 }
 
 function testImportedIntrinsicTablesResolveKnownOrdinals() {
@@ -637,6 +681,7 @@ function testTerminalTrailingBytesDoNotEmitStopBanner() {
   assert.doesNotMatch(text, /decompilation stopped at SEARCH_SURFACE/u);
 }
 
+testPostRetMetadataIsShownInPseudocode();
 testSelectorLadderUsesEqualityCompareAndFalseBranch();
 testCountedLoopRendersWithContinueCondition();
 testAlarmhatStyleSelectorLoopStructuring();
