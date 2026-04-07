@@ -10,8 +10,8 @@ import { buildSceneReferencePayload } from "./scene-reference-data.js";
 const PSX_GAME_ID = "psx-remorse";
 const PSX_LABEL = "No Remorse PSX";
 const PSX_REFERENCE_ID = "psx-remorse";
-const PSX_SCENE_VERSION = "psx-runtime-record-probe-v5";
-const PSX_REFERENCE_VERSION = "psx-runtime-record-reference-v1";
+const PSX_SCENE_VERSION = "psx-runtime-record-probe-v8";
+const PSX_REFERENCE_VERSION = "psx-runtime-record-reference-v3";
 const PSX_SCREEN_SCALE = 2;
 const ALLOWED_U5 = new Set([0x20, 0x22, 0x30]);
 const PSX_PROCESSED_CATALOG_FILE = path.join(PSX_CACHE_ROOT, "catalog.json");
@@ -22,6 +22,8 @@ const PSX_FAMILY_SECTION0_ROOT = "section0_dispatch_roots";
 const PSX_FAMILY_SECTION0_BULK = "section0_constructor_placements";
 const PSX_DECOMPRESSED_LEVEL_SIZE = 0x3e00;
 const PSX_LEVEL_RING_SIZE = 0x80;
+const PSX_GENERIC_TEMPLATE_FAMILY_MIN = 0x003e;
+const PSX_GENERIC_TEMPLATE_FAMILY_MAX = 0x0064;
 const VERIFIED_TYPE_STATE_FRAME_FALLBACKS = new Map([
   [0x50, { 0: 0, 1: 1, 2: 2, 3: 3 }]
 ]);
@@ -256,6 +258,63 @@ function parseTypedSection16(data, section, startOffset = 0) {
   };
 }
 
+function parseTypedSection16Absolute(data, absoluteOffset) {
+  if (absoluteOffset < 0 || absoluteOffset >= data.length) {
+    return null;
+  }
+
+  const pseudoSection = {
+    name: "absolute-file-scan",
+    offset: absoluteOffset,
+    size: data.length - absoluteOffset
+  };
+  const candidate = parseTypedSection16(data, pseudoSection, 0);
+  if (!candidate) {
+    return null;
+  }
+
+  candidate.discoveryMode = "absolute-file-scan";
+  return candidate;
+}
+
+function findSectionForAbsoluteOffset(parsed, absoluteOffset) {
+  for (const section of parsed.sections ?? []) {
+    if (absoluteOffset >= section.offset && absoluteOffset < section.offset + section.size) {
+      return section;
+    }
+  }
+  return null;
+}
+
+function annotateAbsoluteTypedSectionCandidate(parsed, candidate) {
+  const section = findSectionForAbsoluteOffset(parsed, candidate.parseAbsoluteOffset);
+  if (!section) {
+    return candidate;
+  }
+
+  return {
+    ...candidate,
+    sectionName: section.name,
+    sectionOffset: section.offset,
+    sectionSize: section.size,
+    parseOffset: candidate.parseAbsoluteOffset - section.offset,
+    discoveryMode: candidate.discoveryMode ?? "absolute-file-scan"
+  };
+}
+
+function findAbsoluteTypedSection16Candidates(data, parsed, requestedTypeIds, step = 4) {
+  const candidates = [];
+  for (let absoluteOffset = 0; absoluteOffset + 8 <= data.length; absoluteOffset += step) {
+    const candidate = parseTypedSection16Absolute(data, absoluteOffset);
+    if (!candidate) {
+      continue;
+    }
+    candidate.typeOverlap = countTypeOverlap(candidate, requestedTypeIds);
+    candidates.push(annotateAbsoluteTypedSectionCandidate(parsed, candidate));
+  }
+  return candidates;
+}
+
 function countTypeOverlap(candidate, requestedTypeIds) {
   let overlap = 0;
   for (const record of candidate.records) {
@@ -386,9 +445,15 @@ function findBestTypedSection8(data, parsed, records) {
 
 function findBestTypedSection16(data, parsed, records) {
   const requestedTypeIds = new Set(records.map((record) => record.u0));
-  const candidates = findTypedSectionCandidates(data, parsed, parseTypedSection16, requestedTypeIds)
-    .sort((left, right) => right.typeOverlap - left.typeOverlap || right.recordCount - left.recordCount || right.payloadBytes - left.payloadBytes);
-  return candidates[0] ?? null;
+  const rankCandidates = (candidates) => candidates.sort((left, right) => right.typeOverlap - left.typeOverlap || right.recordCount - left.recordCount || right.payloadBytes - left.payloadBytes);
+  const sectionCandidates = rankCandidates(findTypedSectionCandidates(data, parsed, parseTypedSection16, requestedTypeIds));
+  const bestSectionCandidate = sectionCandidates[0] ?? null;
+  if (bestSectionCandidate) {
+    return bestSectionCandidate;
+  }
+
+  const absoluteCandidates = rankCandidates(findAbsoluteTypedSection16Candidates(data, parsed, requestedTypeIds));
+  return absoluteCandidates.find((candidate) => candidate.typeOverlap > 0) ?? absoluteCandidates[0] ?? null;
 }
 
 function findBestCompressedLevelSection(data, parsed) {
@@ -442,9 +507,9 @@ function matchTemplateBundles(templateSection, spriteBundles, graphicsRegionOffs
   return matchesByType;
 }
 
-function collectPsxRuntimeState(data, parsed, records) {
+function collectPsxRuntimeState(data, parsed, records, paletteSets = null) {
   const graphicsRegion = parsed.regions.find((region) => region.name === "post_audio_region_04") ?? null;
-  const spriteBundles = resolveSpriteBundlesForMap(data, parsed);
+  const spriteBundles = resolveSpriteBundlesForMap(data, parsed, paletteSets);
   const templateSection = findBestTypedSection8(data, parsed, records);
   const compoundSection = findBestTypedSection16(data, parsed, records);
   const compressedSection = findBestCompressedLevelSection(data, parsed);
@@ -516,7 +581,7 @@ function collectPsxRuntimeState(data, parsed, records) {
     stateLayers.push({
       id: "compound-variant-bank",
       runtimeTarget: "DAT_800758d4",
-      role: "per-type-compound-variants",
+      role: "per-type-compound-companion-extents",
       sectionName: compoundSection.sectionName,
       sectionOffset: compoundSection.sectionOffset,
       sectionSize: compoundSection.sectionSize,
@@ -530,7 +595,8 @@ function collectPsxRuntimeState(data, parsed, records) {
         typeId: record.typeId,
         variantTypeId: record.variantTypeId,
         d4Size: record.d4Size,
-        d4BytesBase64: record.d4BytesBase64
+        d4BytesBase64: record.d4BytesBase64,
+        companionExtents: parseCompoundVariantExtentsMap(record.d4BytesBase64)?.extentsByState ?? null
       }))
     });
   }
@@ -619,7 +685,9 @@ function extractRegion01Records(data, region) {
         u2: readU16LE(regionBytes, base + 4),
         u3: readU16LE(regionBytes, base + 6),
         u4: readU16LE(regionBytes, base + 8),
-        u5: readU16LE(regionBytes, base + 10)
+        u5: readU16LE(regionBytes, base + 10),
+        sourceBytes: Buffer.from(regionBytes.subarray(base, base + 12)),
+        sourceByteOffset: 0
       };
       if (isStructuredCandidate(record)) {
         rows.push(record);
@@ -670,13 +738,19 @@ function extractRegion00Records(data, region) {
       break;
     }
 
+    const rowBytes = Buffer.from(regionBytes.subarray(base, base + 24));
+
     const words = [];
     for (let wordIndex = 0; wordIndex < 12; wordIndex += 1) {
       words.push(readU16LE(regionBytes, base + wordIndex * 2));
     }
 
     for (const side of ["left", "right"]) {
-      const record = normalizeRegion00Record(words, rowIndex, side);
+      const record = {
+        ...normalizeRegion00Record(words, rowIndex, side),
+        sourceBytes: rowBytes,
+        sourceByteOffset: side === "left" ? 0 : 12
+      };
       if (isStructuredCandidate(record)) {
         rows.push(record);
       }
@@ -1388,17 +1462,98 @@ function parseStateSelectorFrameMap(ccBytesBase64) {
     return null;
   }
 
+  const scriptOffsets = [];
+  for (let selector = 0; selector < scriptCount; selector += 1) {
+    scriptOffsets.push(readU32LE(bytes, 4 + selector * 4));
+  }
+
   const frameBySelector = {};
   const usedFrameIndexes = new Set();
   let mappedSelectorCount = 0;
 
-  for (let selector = 0; selector < scriptCount; selector += 1) {
-    const scriptOffset = readU32LE(bytes, 4 + selector * 4);
-    if (scriptOffset < headerBytes || scriptOffset + 4 > bytes.length) {
-      continue;
+  function readScriptEntry(offset) {
+    if (offset < headerBytes || offset + 4 > bytes.length) {
+      return null;
     }
-    const frameIndex = readU16LE(bytes, scriptOffset);
-    if (frameIndex === 0xffff) {
+    return {
+      offset,
+      frameIndex: readU16LE(bytes, offset),
+      delayOrSelector: readU16LE(bytes, offset + 2)
+    };
+  }
+
+  function resolveSelectorFrame(selector) {
+    const initialBaseOffset = scriptOffsets[selector];
+    if (initialBaseOffset < headerBytes || initialBaseOffset + 4 > bytes.length) {
+      return null;
+    }
+
+    let scriptBaseOffset = initialBaseOffset;
+    let currentOffset = initialBaseOffset;
+    const seen = new Set();
+    for (let step = 0; step < 32; step += 1) {
+      const key = `${scriptBaseOffset}:${currentOffset}`;
+      if (seen.has(key)) {
+        return null;
+      }
+      seen.add(key);
+
+      const entry = readScriptEntry(currentOffset);
+      if (!entry) {
+        return null;
+      }
+
+      const selectorWord = entry.delayOrSelector;
+      switch (entry.frameIndex) {
+        case 0xffff:
+          return null;
+        case 0xfffe:
+          currentOffset += 4;
+          break;
+        case 0xfffd:
+          if (selectorWord === 0) {
+            return null;
+          }
+          currentOffset = scriptBaseOffset + (selectorWord - 1) * 4;
+          break;
+        case 0xfffc: {
+          if (selectorWord === 0 || selectorWord > scriptOffsets.length) {
+            return null;
+          }
+          scriptBaseOffset = scriptOffsets[selectorWord - 1];
+          currentOffset = scriptBaseOffset;
+          break;
+        }
+        case 0xfffb: {
+          if (selectorWord === 0 || selectorWord > scriptOffsets.length) {
+            return null;
+          }
+          scriptBaseOffset = scriptOffsets[selectorWord - 1];
+          currentOffset = scriptBaseOffset;
+          let jumpEntry = readScriptEntry(currentOffset);
+          let scanStep = 0;
+          while (jumpEntry && jumpEntry.frameIndex !== 0xfffd && scanStep < 64) {
+            currentOffset += 4;
+            jumpEntry = readScriptEntry(currentOffset);
+            scanStep += 1;
+          }
+          if (!jumpEntry || jumpEntry.frameIndex !== 0xfffd || jumpEntry.delayOrSelector === 0) {
+            return null;
+          }
+          currentOffset = scriptBaseOffset + (jumpEntry.delayOrSelector - 1) * 4;
+          break;
+        }
+        default:
+          return entry.frameIndex;
+      }
+    }
+
+    return null;
+  }
+
+  for (let selector = 0; selector < scriptCount; selector += 1) {
+    const frameIndex = resolveSelectorFrame(selector);
+    if (frameIndex == null) {
       continue;
     }
     frameBySelector[selector] = frameIndex;
@@ -1418,6 +1573,47 @@ function parseStateSelectorFrameMap(ccBytesBase64) {
   };
 }
 
+function signExtendPsxVariantByte(value) {
+  return value & 0x80 ? value - 0x100 : value;
+}
+
+function parseCompoundVariantExtentsMap(d4BytesBase64) {
+  if (!d4BytesBase64) {
+    return null;
+  }
+
+  const bytes = Buffer.from(d4BytesBase64, "base64");
+  if (bytes.length < 4) {
+    return null;
+  }
+
+  const entryCount = readU32LE(bytes, 0);
+  if (entryCount <= 0 || entryCount > 0x400) {
+    return null;
+  }
+
+  const expectedBytes = 4 + entryCount * 4;
+  if (expectedBytes > bytes.length) {
+    return null;
+  }
+
+  const extentsByState = {};
+  for (let index = 0; index < entryCount; index += 1) {
+    const packed = readU32LE(bytes, 4 + index * 4);
+    extentsByState[index] = {
+      x: signExtendPsxVariantByte(packed & 0xff),
+      y: signExtendPsxVariantByte((packed >>> 8) & 0xff),
+      z: signExtendPsxVariantByte((packed >>> 16) & 0xff),
+      packed
+    };
+  }
+
+  return {
+    entryCount,
+    extentsByState
+  };
+}
+
 function buildVerifiedStateFrameMap(frameBySelector) {
   const usedFrameIndexes = [...new Set(Object.values(frameBySelector))].sort((left, right) => left - right);
   return {
@@ -1427,6 +1623,116 @@ function buildVerifiedStateFrameMap(frameBySelector) {
     mappedSelectorCount: Object.keys(frameBySelector).length,
     source: "verified-fallback"
   };
+}
+
+function isPsxGenericTemplateFamilyType(typeId) {
+  return typeId >= PSX_GENERIC_TEMPLATE_FAMILY_MIN && typeId <= PSX_GENERIC_TEMPLATE_FAMILY_MAX;
+}
+
+function buildDirectTemplateMatchMap(mapEntry) {
+  const directMatches = new Map();
+  const templateLayer = mapEntry.runtimeState?.stateLayers?.find((layer) => layer.runtimeTarget === "DAT_800758d8") ?? null;
+  if (!templateLayer) {
+    return directMatches;
+  }
+
+  for (const record of templateLayer.records ?? []) {
+    if (!record?.bundleMatch || !record.blockSize) {
+      continue;
+    }
+
+    directMatches.set(record.typeId, {
+      ...record.bundleMatch,
+      matchKind: record.bundleMatch.matchKind,
+      templateTypeId: record.typeId,
+      donorTypeId: null
+    });
+  }
+
+  return directMatches;
+}
+
+function buildTypeStateSignatureMap(mapEntry) {
+  const signatures = new Map();
+  const stateLayer = mapEntry.runtimeState?.stateLayers?.find((layer) => layer.runtimeTarget === "DAT_800758cc") ?? null;
+  if (!stateLayer) {
+    return signatures;
+  }
+
+  for (const record of stateLayer.records ?? []) {
+    if (!record?.ccBytesBase64 || signatures.has(record.typeId)) {
+      continue;
+    }
+    signatures.set(record.typeId, sha1(record.ccBytesBase64));
+  }
+
+  return signatures;
+}
+
+function chooseBestTemplateDonor(targetTypeId, directTemplateMatches, stateSignatures) {
+  const targetSignature = stateSignatures.get(targetTypeId) ?? null;
+  const candidates = [];
+
+  for (const [candidateTypeId, templateMatch] of directTemplateMatches.entries()) {
+    if (candidateTypeId === targetTypeId) {
+      continue;
+    }
+
+    const candidateSignature = stateSignatures.get(candidateTypeId) ?? null;
+    const signatureMatches = targetSignature !== null && candidateSignature === targetSignature;
+    const sameGenericFamily = isPsxGenericTemplateFamilyType(targetTypeId) && isPsxGenericTemplateFamilyType(candidateTypeId);
+    if (!signatureMatches && !sameGenericFamily) {
+      continue;
+    }
+
+    candidates.push({
+      candidateTypeId,
+      templateMatch,
+      signatureMatches,
+      sameGenericFamily,
+      distance: Math.abs(candidateTypeId - targetTypeId)
+    });
+  }
+
+  candidates.sort((left, right) => {
+    return Number(right.signatureMatches) - Number(left.signatureMatches)
+      || Number(right.sameGenericFamily) - Number(left.sameGenericFamily)
+      || left.distance - right.distance
+      || left.candidateTypeId - right.candidateTypeId;
+  });
+
+  return candidates[0] ?? null;
+}
+
+function buildTemplateDonorMatchMap(mapEntry, directTemplateMatches) {
+  const donorMatches = new Map();
+  const stateSignatures = buildTypeStateSignatureMap(mapEntry);
+  const templateLayer = mapEntry.runtimeState?.stateLayers?.find((layer) => layer.runtimeTarget === "DAT_800758d8") ?? null;
+  if (!templateLayer) {
+    return donorMatches;
+  }
+
+  for (const record of templateLayer.records ?? []) {
+    if (!record || !isPsxGenericTemplateFamilyType(record.typeId) || record.blockSize !== 0 || directTemplateMatches.has(record.typeId)) {
+      continue;
+    }
+
+    const donor = chooseBestTemplateDonor(record.typeId, directTemplateMatches, stateSignatures);
+    if (!donor) {
+      continue;
+    }
+
+    donorMatches.set(record.typeId, {
+      ...donor.templateMatch,
+      matchKind: donor.signatureMatches
+        ? `cc-signature-donor:${donor.candidateTypeId.toString(16).padStart(4, "0")}`
+        : `generic-family-donor:${donor.candidateTypeId.toString(16).padStart(4, "0")}`,
+      templateTypeId: donor.templateMatch.templateTypeId ?? donor.candidateTypeId,
+      donorTypeId: donor.candidateTypeId
+    });
+  }
+
+  return donorMatches;
 }
 
 function buildTypeStateFrameMaps(mapEntry) {
@@ -1449,13 +1755,102 @@ function buildTypeStateFrameMaps(mapEntry) {
   return frameMapsByType;
 }
 
+function buildTypeCompanionExtentsMaps(mapEntry) {
+  const companionLayer = mapEntry.runtimeState?.stateLayers?.find((layer) => layer.runtimeTarget === "DAT_800758d4") ?? null;
+  const extentsMapsByType = new Map();
+  if (!companionLayer) {
+    return extentsMapsByType;
+  }
+
+  for (const record of companionLayer.records ?? []) {
+    const extentsMap = parseCompoundVariantExtentsMap(record.d4BytesBase64);
+    if (!extentsMap) {
+      continue;
+    }
+    extentsMapsByType.set(record.typeId, extentsMap);
+  }
+
+  return extentsMapsByType;
+}
+
+function getPsxRecordPaletteOverrideWordOffset(typeId) {
+  if (typeId >= 0x003e && typeId <= 0x00ab) {
+    return 0x06;
+  }
+  if (typeId >= 0x00ac) {
+    return 0x0c;
+  }
+  return null;
+}
+
+function getPsxRecordPaletteOverrideIndex(record) {
+  const wordOffset = getPsxRecordPaletteOverrideWordOffset(record.u0);
+  if (wordOffset == null) {
+    return null;
+  }
+
+  const sourceBytes = record.sourceBytes;
+  if (!sourceBytes?.length) {
+    return null;
+  }
+
+  const authoredByteOffset = (record.sourceByteOffset ?? 0) + wordOffset + 1;
+  if (authoredByteOffset < sourceBytes.length) {
+    return sourceBytes[authoredByteOffset];
+  }
+
+  if (record.sourceFamily === PSX_FAMILY_SECTION0_ROOT && wordOffset === 0x0c && wordOffset + 1 < sourceBytes.length) {
+    return sourceBytes[wordOffset + 1];
+  }
+
+  return null;
+}
+
+function getPaletteBankForBundle(mapEntry, bundle) {
+  if (bundle.mode === 2) {
+    return mapEntry.palettes16 ?? [];
+  }
+  if (bundle.mode === 1) {
+    return mapEntry.palettes256 ?? [];
+  }
+  return [];
+}
+
+function buildPaletteVariantRequests(records, bundle, mapEntry) {
+  const paletteBank = getPaletteBankForBundle(mapEntry, bundle);
+  const requestedPaletteIndexes = new Set();
+
+  if (Number.isInteger(bundle.resolvedPaletteIndex) && bundle.resolvedPaletteIndex >= 0 && bundle.resolvedPaletteIndex < paletteBank.length) {
+    requestedPaletteIndexes.add(bundle.resolvedPaletteIndex);
+  }
+
+  for (const record of records) {
+    const paletteIndex = getPsxRecordPaletteOverrideIndex(record);
+    if (!Number.isInteger(paletteIndex) || paletteIndex < 0 || paletteIndex >= paletteBank.length) {
+      continue;
+    }
+    requestedPaletteIndexes.add(paletteIndex);
+  }
+
+  if (!requestedPaletteIndexes.size) {
+    requestedPaletteIndexes.add(bundle.resolvedPaletteIndex ?? 0);
+  }
+
+  return [...requestedPaletteIndexes].sort((left, right) => left - right);
+}
+
+function makeBundlePaletteVariantKey(mapId, typeId, paletteIndex) {
+  return `${mapId}:${typeId}:${paletteIndex == null ? "default" : paletteIndex}`;
+}
+
 function buildRealArtReference(mapEntries) {
   ensureDir(PSX_REFERENCE_CACHE_ROOT);
   const atlases = [];
   const sprites = [];
   const shapeDefinitions = [];
   const catalogLines = ["shape_code,human_readable_id,description,roof,semitransparency,OOB,categorization,qualities"];
-  const bundleByMapAndIndex = new Map();
+  const bundleByMapTypeAndPalette = new Map();
+  const defaultBundleByMapAndType = new Map();
   const fallbackByMapSpriteKey = new Map();
   const nextShapeCode = { value: 0xA000 };
   const fingerprintMaterial = [];
@@ -1465,64 +1860,95 @@ function buildRealArtReference(mapEntries) {
   for (const mapEntry of mapEntries) {
     const bundleByOffset = new Map(mapEntry.spriteBundles.map((bundle, index) => [bundle.offset, { ...bundle, scannedIndex: index }]));
     const stateFrameMapsByType = buildTypeStateFrameMaps(mapEntry);
+    const directTemplateMatches = buildDirectTemplateMatchMap(mapEntry);
+    const donorTemplateMatches = buildTemplateDonorMatchMap(mapEntry, directTemplateMatches);
     const requestedTypeIds = [...new Set(mapEntry.records.map((record) => record.u0))].sort((left, right) => left - right);
     for (const typeId of requestedTypeIds) {
-      const templateMatch = mapEntry.runtimeState?.templateMatches?.[String(typeId)] ?? null;
+      const recordsForType = mapEntry.records.filter((record) => record.u0 === typeId);
+      const templateMatch = directTemplateMatches.get(typeId)
+        ?? donorTemplateMatches.get(typeId)
+        ?? mapEntry.runtimeState?.templateMatches?.[String(typeId)]
+        ?? null;
       const matchedBundle = templateMatch?.bundleOffset != null ? bundleByOffset.get(templateMatch.bundleOffset) ?? null : null;
       const bundle = matchedBundle ?? null;
       if (!bundle?.frames?.length || !bundle.palette?.length) {
         continue;
       }
+
+      const paletteBank = getPaletteBankForBundle(mapEntry, bundle);
+      if (!paletteBank.length) {
+        continue;
+      }
+
       const stateFrameMap = stateFrameMapsByType.get(typeId) ?? null;
       const usedFrameIndexes = (stateFrameMap?.usedFrameIndexes ?? [0]).filter((frameIndex) => frameIndex < bundle.frames.length);
       if (usedFrameIndexes.length === 0) {
         usedFrameIndexes.push(0);
       }
 
-      const artFrames = usedFrameIndexes.map((frameIndex) => {
-        const frame = bundle.frames[frameIndex];
-        return {
-          ...frame,
-          id: `frame:map:${mapEntry.id}:type:${typeId}:frame:${frameIndex}`,
-          rgba: colorizeIndexedPixels(frame.pixels, frame.width, frame.height, bundle.mode, bundle.palette)
-        };
-      });
-      const shapeCode = nextShapeCode.value;
-      nextShapeCode.value += 1;
-      const displayName = `PSX map ${mapEntry.id} type ${typeId.toString(16).toUpperCase().padStart(4, "0")} offset ${bundle.offset.toString(16).toUpperCase().padStart(8, "0")}`;
-      const description = stateFrameMap
-        ? `PSX type-to-art probe resolved through the parsed per-type art-template bank using ${templateMatch.matchKind}. The scene renderer also uses the parsed DAT_800758cc state script to choose among ${usedFrameIndexes.length} frame(s) for this type.`
-        : `PSX type-to-art probe resolved through the parsed per-type art-template bank using ${templateMatch.matchKind}. The scene renderer keeps frame 0 until the executable state-script path is decoded far enough to choose per-state animation frames.`;
-      const spriteEntries = new Map();
-      for (const frame of artFrames) {
-        rawFrames.push(frame);
-        spriteEntries.set(frame.index, {
-          rawFrameId: frame.id,
-          width: frame.width,
-          height: frame.height,
-          xoff: frame.originX,
-          yoff: frame.originY
+      const paletteIndexes = buildPaletteVariantRequests(recordsForType, bundle, mapEntry);
+      for (const paletteIndex of paletteIndexes) {
+        const palette = paletteBank[paletteIndex] ?? null;
+        if (!palette?.length) {
+          continue;
+        }
+
+        const artFrames = usedFrameIndexes.map((frameIndex) => {
+          const frame = bundle.frames[frameIndex];
+          return {
+            ...frame,
+            id: `frame:map:${mapEntry.id}:type:${typeId}:palette:${paletteIndex}:frame:${frameIndex}`,
+            rgba: colorizeIndexedPixels(frame.pixels, frame.width, frame.height, bundle.mode, palette)
+          };
         });
+        const shapeCode = nextShapeCode.value;
+        nextShapeCode.value += 1;
+        const displayName = `PSX map ${mapEntry.id} type ${typeId.toString(16).toUpperCase().padStart(4, "0")} palette ${paletteIndex.toString(16).toUpperCase().padStart(2, "0")} offset ${bundle.offset.toString(16).toUpperCase().padStart(8, "0")}`;
+        const templateSourceNote = templateMatch?.donorTypeId == null
+          ? `the parsed per-type art-template bank using ${templateMatch.matchKind}`
+          : `a donor art-template from type ${templateMatch.donorTypeId.toString(16).toUpperCase().padStart(4, "0")} using ${templateMatch.matchKind}`;
+        const description = stateFrameMap
+          ? `PSX type-to-art probe resolved through ${templateSourceNote}. The scene renderer uses the parsed DAT_800758cc state script to choose among ${usedFrameIndexes.length} frame(s) for this type and now applies executable-backed authored palette overrides when the source record exposes one.`
+          : `PSX type-to-art probe resolved through ${templateSourceNote}. The scene renderer keeps frame 0 until the executable state-script path is decoded far enough to choose per-state animation frames, but now applies executable-backed authored palette overrides when the source record exposes one.`;
+        const spriteEntries = new Map();
+        for (const frame of artFrames) {
+          rawFrames.push(frame);
+          spriteEntries.set(frame.index, {
+            rawFrameId: frame.id,
+            width: frame.width,
+            height: frame.height,
+            xoff: frame.originX,
+            yoff: frame.originY
+          });
+        }
+        pendingArtEntries.push({
+          shapeCode,
+          displayName,
+          description,
+          templateMatch,
+          spriteEntries
+        });
+        catalogLines.push(`${toShapeCodeHex(shapeCode)},${displayName},${description},,,,terrain,`);
+        fingerprintMaterial.push(`${mapEntry.id}:${typeId}:${bundle.offset}:${bundle.mode}:${paletteIndex}:${usedFrameIndexes.join("-")}`);
+
+        const mapping = {
+          shapeCode,
+          bundleIndex: bundle.scannedIndex ?? typeId,
+          bundleOffset: bundle.offset,
+          resolvedPaletteIndex: paletteIndex,
+          defaultPaletteIndex: bundle.resolvedPaletteIndex,
+          mode: bundle.mode,
+          mappingSource: templateMatch?.matchKind ?? "scan-order-index-fallback",
+          donorTypeId: templateMatch?.donorTypeId ?? null,
+          templateTypeId: templateMatch?.templateTypeId ?? typeId,
+          stateFrameBySelector: stateFrameMap?.frameBySelector ?? null,
+          spriteEntries
+        };
+        bundleByMapTypeAndPalette.set(makeBundlePaletteVariantKey(mapEntry.id, typeId, paletteIndex), mapping);
+        if (paletteIndex === bundle.resolvedPaletteIndex || !defaultBundleByMapAndType.has(`${mapEntry.id}:${typeId}`)) {
+          defaultBundleByMapAndType.set(`${mapEntry.id}:${typeId}`, mapping);
+        }
       }
-      pendingArtEntries.push({
-        shapeCode,
-        displayName,
-        description,
-        templateMatch,
-        spriteEntries
-      });
-      catalogLines.push(`${toShapeCodeHex(shapeCode)},${displayName},${description},,,,terrain,`);
-      fingerprintMaterial.push(`${mapEntry.id}:${typeId}:${bundle.offset}:${bundle.mode}:${bundle.resolvedPaletteIndex}:${usedFrameIndexes.join("-")}`);
-      bundleByMapAndIndex.set(`${mapEntry.id}:${typeId}`, {
-        shapeCode,
-        bundleIndex: bundle.scannedIndex ?? typeId,
-        bundleOffset: bundle.offset,
-        resolvedPaletteIndex: bundle.resolvedPaletteIndex,
-        mode: bundle.mode,
-        mappingSource: templateMatch?.matchKind ?? "scan-order-index-fallback",
-        stateFrameBySelector: stateFrameMap?.frameBySelector ?? null,
-        spriteEntries
-      });
     }
   }
 
@@ -1603,7 +2029,7 @@ function buildRealArtReference(mapEntries) {
   for (const mapEntry of mapEntries) {
     for (const record of mapEntry.records) {
       const bundleKey = `${mapEntry.id}:${record.u0}`;
-      if (!bundleByMapAndIndex.has(bundleKey)) {
+      if (!defaultBundleByMapAndType.has(bundleKey)) {
         buildFallbackEntry(nextShapeCode, mapEntry, record, atlases, sprites, shapeDefinitions, catalogLines, fallbackByMapSpriteKey);
       }
     }
@@ -1624,7 +2050,8 @@ function buildRealArtReference(mapEntries) {
     shapeDefinitions,
     sprites,
     atlases,
-    bundleByMapAndIndex,
+    bundleByMapTypeAndPalette,
+    defaultBundleByMapAndType,
     fallbackByMapSpriteKey
   };
 }
@@ -1632,6 +2059,7 @@ function buildRealArtReference(mapEntries) {
 function buildSceneForMap(mapEntry, referenceData, fingerprint, relativePath) {
   const records = mapEntry.records;
   const decodedRuntimeLayers = buildDecodedRuntimeLayers(mapEntry);
+  const companionExtentsByType = buildTypeCompanionExtentsMaps(mapEntry);
   const spriteIndex = new Map(referenceData.sprites.map((sprite) => [sprite.id, sprite]));
   const laneCounts = {};
   const familyCounts = {};
@@ -1649,7 +2077,10 @@ function buildSceneForMap(mapEntry, referenceData, fingerprint, relativePath) {
 
   for (let drawOrder = 0; drawOrder < records.length; drawOrder += 1) {
     const record = records[drawOrder];
-    const bundleMapping = referenceData.bundleByMapAndIndex.get(`${mapEntry.id}:${record.u0}`) ?? null;
+    const requestedPaletteIndex = getPsxRecordPaletteOverrideIndex(record);
+    const bundleMapping = referenceData.bundleByMapTypeAndPalette.get(makeBundlePaletteVariantKey(mapEntry.id, record.u0, requestedPaletteIndex))
+      ?? referenceData.defaultBundleByMapAndType.get(`${mapEntry.id}:${record.u0}`)
+      ?? null;
     const fallbackMapping = referenceData.fallbackByMapSpriteKey.get(`${mapEntry.id}:${record.u0}:${record.u4}:${record.u5}`) ?? null;
 
     let shapeCode = null;
@@ -1659,6 +2090,8 @@ function buildSceneForMap(mapEntry, referenceData, fingerprint, relativePath) {
     let paletteIndex = null;
     let actualFrameIndex = 0;
     let isFallback = false;
+    let donorTypeId = null;
+    let templateTypeId = null;
 
     if (bundleMapping) {
       const spriteFrameIndexes = [...bundleMapping.spriteEntries.keys()].sort((left, right) => left - right);
@@ -1671,7 +2104,9 @@ function buildSceneForMap(mapEntry, referenceData, fingerprint, relativePath) {
       spriteId = spriteEntry.spriteId;
       bundleOffset = bundleMapping.bundleOffset;
       paletteIndex = bundleMapping.resolvedPaletteIndex;
-      mappingNote = `type-to-art mapping: type=${record.u0} source=${bundleMapping.mappingSource} bundle_offset=0x${bundleOffset.toString(16).padStart(8, "0")} state_selector=${record.u4} chosen_frame=${actualFrameIndex} palette_index=${paletteIndex ?? -1}`;
+      donorTypeId = bundleMapping.donorTypeId ?? null;
+      templateTypeId = bundleMapping.templateTypeId ?? record.u0;
+      mappingNote = `type-to-art mapping: type=${record.u0} source=${bundleMapping.mappingSource} template_type=${templateTypeId} donor_type=${donorTypeId ?? -1} bundle_offset=0x${bundleOffset.toString(16).padStart(8, "0")} state_selector=${record.u4} chosen_frame=${actualFrameIndex} requested_palette_index=${requestedPaletteIndex ?? -1} resolved_palette_index=${paletteIndex ?? -1}`;
       resolvedBundleCount += 1;
     } else if (fallbackMapping) {
       shapeCode = fallbackMapping.shapeCode;
@@ -1684,6 +2119,7 @@ function buildSceneForMap(mapEntry, referenceData, fingerprint, relativePath) {
     }
 
     const sprite = spriteIndex.get(spriteId);
+    const companionExtents = companionExtentsByType.get(record.u0)?.extentsByState?.[actualFrameIndex] ?? null;
     const worldZ = getPsxRecordElevation(record);
     const projected = projectPsxWorldToAnchor(record.u1, record.u2, worldZ);
     const anchorX = projected.anchorX;
@@ -1750,6 +2186,12 @@ function buildSceneForMap(mapEntry, referenceData, fingerprint, relativePath) {
         (record.sourceFamily === PSX_FAMILY_SECTION0_BULK || record.legacySourceFamily === "region01")
           ? `decoded elevation: z=${worldZ} from low byte of raw word u3=0x${record.u3.toString(16).padStart(4, "0")} using the constructor-backed +0x06 byte lane`
           : "decoded elevation: z=0 retained for the top-level descriptor family until its constructor-backed height source is proven",
+        requestedPaletteIndex == null
+          ? "palette override: no executable-backed authored palette byte was recovered for this record; renderer falls back to the bundle default or heuristic palette"
+          : `palette override: executable-backed authored palette index ${requestedPaletteIndex} recovered from the source record pointer lane used by FUN_80041458`,
+        companionExtents
+          ? `companion extents: live state ${actualFrameIndex} resolves DAT_800758d4 to signed extents x=${companionExtents.x} y=${companionExtents.y} z=${companionExtents.z}`
+          : "companion extents: no DAT_800758d4 entry was resolved for the chosen live state",
         "screen anchor uses the executable-backed PSX projection basis screen_x = y - x, screen_y = 2*z - (x + y)/2"
       ],
       frameSize: {
@@ -1763,9 +2205,12 @@ function buildSceneForMap(mapEntry, referenceData, fingerprint, relativePath) {
       itemPreview: null,
       shapeDefId: `shape:${shapeCode}`,
       spriteId,
+      runtimeBounds: companionExtents,
       _rawRecord: record,
       _bundleOffset: bundleOffset,
       _paletteIndex: paletteIndex,
+      _templateTypeId: templateTypeId,
+      _donorTypeId: donorTypeId,
       _isFallback: isFallback
     });
 
@@ -1821,8 +2266,12 @@ function buildSceneForMap(mapEntry, referenceData, fingerprint, relativePath) {
       lane: item._rawRecord.u5,
       variant: item._rawRecord.u4,
       stateSelector: item._rawRecord.u4,
+      authoredPaletteIndex: getPsxRecordPaletteOverrideIndex(item._rawRecord),
       bundleOffset: item._bundleOffset,
       paletteIndex: item._paletteIndex,
+      templateTypeId: item._templateTypeId,
+      donorTypeId: item._donorTypeId,
+      companionExtents: item.runtimeBounds,
       projectedAnchorX: item.screen.anchorX,
       projectedAnchorY: item.screen.anchorY,
       isFallback: item._isFallback
@@ -1831,6 +2280,8 @@ function buildSceneForMap(mapEntry, referenceData, fingerprint, relativePath) {
     delete item._rawRecord;
     delete item._bundleOffset;
     delete item._paletteIndex;
+    delete item._templateTypeId;
+    delete item._donorTypeId;
     delete item._isFallback;
   }
 
@@ -1879,12 +2330,12 @@ function buildSceneForMap(mapEntry, referenceData, fingerprint, relativePath) {
           "Type-to-art resolution now prefers parsed per-type template-bank bundle references before falling back to the old scan-order bundle heuristic.",
           `Scene items preserve executable-named section-0 record families and raw u0..u5 words in mapSource.rawWords.`,
           "Structured section-0 constructor placements now use the constructor-backed +0x06 byte as provisional z.",
-          "Palette selection still uses bundle default palettes or local heuristics and remains provisional until the runtime override path is recovered."
+          "Palette selection now applies executable-backed authored record overrides when the source byte lane is available; unresolved records still fall back to the bundle default or local heuristics."
         ],
         itemMapNums: [...new Set(records.map((record) => record.u5))].sort((left, right) => left - right),
         nonzeroItemMapNums: [...new Set(records.map((record) => record.u5).filter((value) => value !== 0))].sort((left, right) => left - right),
         npcLinkedItemCount: records.filter((record) => record.u4 !== 0).length,
-        note: `PSX art/state probe from ${relativePath}. The export now carries executable-named section-0 record families (${mapEntry.recordFamilies.map((family) => `${family.sourceFamily}:${family.recordCount}`).join(", ")}), parsed runtime-bank layers, and an offline decode of the candidate compressed level-state source. Type-to-art matching is improved but still not fully closed.`,
+        note: `PSX art/state probe from ${relativePath}. The export now carries executable-named section-0 record families (${mapEntry.recordFamilies.map((family) => `${family.sourceFamily}:${family.recordCount}`).join(", ")}), parsed runtime-bank layers, an offline decode of the candidate compressed level-state source, and executable-backed authored palette overrides where the source record bytes expose them. Type-to-art matching is improved but still not fully closed.`,
         hasRenderableContent: true,
         game: PSX_GAME_ID,
         map: mapEntry.id
@@ -2020,14 +2471,14 @@ function buildPsxCatalogPayload(mapEntries, fingerprint, referenceFingerprint) {
   };
 }
 
-function resolveSpriteBundlesForMap(data, parsed) {
+function resolveSpriteBundlesForMap(data, parsed, paletteSets = null) {
   const graphicsRegion = parsed.regions.find((region) => region.name === "post_audio_region_04");
   if (!graphicsRegion) {
     return [];
   }
 
-  const palettes16 = extractPaletteSets(data, parsed.headerWords);
-  const palettes256 = extractPaletteBlocks256(data, parsed.headerWords);
+  const palettes16 = paletteSets?.palettes16 ?? extractPaletteSets(data, parsed.headerWords);
+  const palettes256 = paletteSets?.palettes256 ?? extractPaletteBlocks256(data, parsed.headerWords);
   const regionData = data.subarray(graphicsRegion.offset, graphicsRegion.offset + graphicsRegion.size);
   return scanSpriteBundles(regionData, 160)
     .map((bundle) => {
@@ -2146,7 +2597,9 @@ export function buildPsxTypeProbeCache(gameConfig, options = {}) {
 
     const region00RecordCount = recordFamilies.find((family) => family.legacySourceFamily === "region00" || family.sourceFamily === PSX_FAMILY_SECTION0_ROOT)?.recordCount ?? 0;
     const region01RecordCount = recordFamilies.find((family) => family.legacySourceFamily === "region01" || family.sourceFamily === PSX_FAMILY_SECTION0_BULK)?.recordCount ?? 0;
-    const runtimeState = collectPsxRuntimeState(data, parsed, records);
+    const palettes16 = extractPaletteSets(data, parsed.headerWords);
+    const palettes256 = extractPaletteBlocks256(data, parsed.headerWords);
+    const runtimeState = collectPsxRuntimeState(data, parsed, records, { palettes16, palettes256 });
 
     sourceDigests.push(`${source.relativePath}:${fileStamp(source.absolutePath)}`);
     mapEntries.push({
@@ -2158,6 +2611,8 @@ export function buildPsxTypeProbeCache(gameConfig, options = {}) {
       recordFamilies,
       region00RecordCount,
       region01RecordCount,
+      palettes16,
+      palettes256,
       records,
       spriteBundles: runtimeState.spriteBundles,
       runtimeState

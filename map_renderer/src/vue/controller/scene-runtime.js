@@ -224,6 +224,66 @@ function materializeMapSource(mapSource) {
   };
 }
 
+function extractHeavyResearchFields(section) {
+  if (!section) {
+    return null;
+  }
+
+  const research = {};
+  let hasResearch = false;
+  if (Object.hasOwn(section, "stateLayers")) {
+    research.stateLayers = section.stateLayers;
+    hasResearch = true;
+  }
+  if (Object.hasOwn(section, "decodedRuntimeLayers")) {
+    research.decodedRuntimeLayers = section.decodedRuntimeLayers;
+    hasResearch = true;
+  }
+  return hasResearch ? research : null;
+}
+
+function stripHeavyResearchFields(section) {
+  if (!section) {
+    return section;
+  }
+
+  const { stateLayers, decodedRuntimeLayers, ...trimmedSection } = section;
+  return trimmedSection;
+}
+
+function splitRuntimeSceneResearchPayload(scene) {
+  if (!scene) {
+    return { runtimeScene: scene, researchPayload: null };
+  }
+
+  const metadataResearch = extractHeavyResearchFields(scene.metadata);
+  const mapSourceResearch = extractHeavyResearchFields(scene.mapSource);
+  return {
+    runtimeScene: {
+      ...scene,
+      metadata: stripHeavyResearchFields(scene.metadata),
+      mapSource: stripHeavyResearchFields(scene.mapSource)
+    },
+    researchPayload: metadataResearch || mapSourceResearch
+      ? {
+          metadata: metadataResearch,
+          mapSource: mapSourceResearch
+        }
+      : null
+  };
+}
+
+function mergeHeavyResearchFields(section, research) {
+  if (!section || !research) {
+    return section;
+  }
+
+  return {
+    ...section,
+    ...research
+  };
+}
+
 function materializeCompactSceneItems(selected, scene, shapeDefinitions, sprites) {
   if (Array.isArray(scene?.items)) {
     return scene.items;
@@ -425,6 +485,7 @@ export function createSceneRuntimeController(deps) {
   } = deps;
 
   let autoBuildTimer = null;
+  let currentSceneResearchPayload = null;
   let historyRestoreInProgress = false;
   let historyInitialized = false;
   const VIEWER_PREFERENCES_STORAGE_KEY = "crusader-map-renderer:viewer-preferences";
@@ -775,6 +836,8 @@ export function createSceneRuntimeController(deps) {
 
     return {
       ...state.current.scene,
+      metadata: mergeHeavyResearchFields(state.current.scene.metadata, currentSceneResearchPayload?.metadata),
+      mapSource: mergeHeavyResearchFields(state.current.mapSource, currentSceneResearchPayload?.mapSource),
       exportedAt: new Date().toISOString(),
       exportMode: "viewer-scene-json"
     };
@@ -1002,20 +1065,22 @@ export function createSceneRuntimeController(deps) {
   }
 
   function applyLoadedScene(selected, jobId, scene, atlasImages, preservedView = null) {
-    const editableMapSource = cloneMapSource(scene.mapSource);
-    scene.mapSource = editableMapSource;
+    const { runtimeScene, researchPayload } = splitRuntimeSceneResearchPayload(scene);
+    const editableMapSource = cloneMapSource(runtimeScene.mapSource);
+    runtimeScene.mapSource = editableMapSource;
     resetRenderCaches();
+    currentSceneResearchPayload = researchPayload;
     state.current = {
       selected,
       jobId,
-      metadata: scene.metadata,
-      scene,
+      metadata: runtimeScene.metadata,
+      scene: runtimeScene,
       mapSource: editableMapSource,
       atlasImages,
-      spriteIndex: new Map(scene.sprites.map((sprite) => [sprite.id, sprite])),
-      shapeDefinitions: new Map(scene.shapeDefinitions.map((definition) => [definition.id, definition])),
-      itemIndex: new Map(scene.items.map((item) => [item.id, item])),
-      eggs: sortEggItems(scene.items),
+      spriteIndex: new Map(runtimeScene.sprites.map((sprite) => [sprite.id, sprite])),
+      shapeDefinitions: new Map(runtimeScene.shapeDefinitions.map((definition) => [definition.id, definition])),
+      itemIndex: new Map(runtimeScene.items.map((item) => [item.id, item])),
+      eggs: sortEggItems(runtimeScene.items),
       hiddenIds: new Set(),
       dataRevision: 0,
       visibilityRevision: 0
@@ -1024,12 +1089,12 @@ export function createSceneRuntimeController(deps) {
     state.hoverItemId = null;
     state.pinnedItemId = state.pendingPinnedItemId && state.current.itemIndex.has(state.pendingPinnedItemId) ? state.pendingPinnedItemId : null;
     state.pendingPinnedItemId = null;
-    setMeta(scene.metadata);
+    setMeta(runtimeScene.metadata);
     updateHiddenList();
-    setDownloadState(scene.items.length > 0);
+    setDownloadState(runtimeScene.items.length > 0);
     setSceneJsonDownloadState(true);
     setMapBinaryDownloadState(canDownloadCurrentMapBinary());
-    setAtlasDownloadState(scene.atlases.length > 0, scene.atlases.length);
+    setAtlasDownloadState(runtimeScene.atlases.length > 0, runtimeScene.atlases.length);
     setHiddenExportState(false);
     setReloadState(true);
     setEmptyStateVisible(false);
