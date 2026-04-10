@@ -3,6 +3,7 @@ import fs from "node:fs";
 import path from "node:path";
 
 import { __testHooks } from "../src/lib/usecode-decompiler.js";
+import { buildUnkExportForClass } from "../src/lib/usecode-unk-exporter.js";
 
 function makeIr(ops, debugSymbols = []) {
   return {
@@ -681,6 +682,107 @@ function testTerminalTrailingBytesDoNotEmitStopBanner() {
   assert.doesNotMatch(text, /decompilation stopped at SEARCH_SURFACE/u);
 }
 
+function testUnkExporterBuildsSparseLinesAndAppendix() {
+  const ir = {
+    ...makeIr(
+      [
+        op(0, "line_number", { line_number: 10 }),
+        op(1, "push_local_word", { bp_offset: 0xfe }),
+        op(2, "call_intrinsic", { intrinsic_ordinal: 0x003c, arg_bytes: 2, intrinsic_name_hint: "Item::getItemFamily(void)" }),
+        op(3, "push_retval_word", {}),
+        op(4, "cmp", {}),
+        op(5, "jne", { target_offset: 0x0010 }),
+        op(6, "line_number", { line_number: 12 }),
+        op(7, "push_string_immediate", { declared_length: 2, string: "ok" }),
+        op(8, "pop_local_word", { bp_offset: 0xfc }),
+        op(9, "ret", {})
+      ],
+      [
+        { bp_offset: 0xfe, name: "item" },
+        { bp_offset: 0xfc, name: "status" }
+      ]
+    ),
+    class: {
+      entry_index: 7,
+      class_id: 0x0123,
+      class_name: "ALARMHAT"
+    },
+    event: {
+      derived_body_start: 0,
+      slot: 0x01,
+      event_name_hint: "use"
+    }
+  };
+
+  const exported = buildUnkExportForClass({
+    className: "ALARMHAT",
+    entryIndex: 7,
+    events: [
+      {
+        ir,
+        pseudocode: "function alarmhat_use()\n{\n  return;\n}\n"
+      }
+    ]
+  });
+
+  assert.equal(exported.fileName, "ALARMHAT.unk");
+  assert.equal(exported.manifestRow.body_count, 1);
+  assert.equal(exported.manifestRow.debug_line_count, 2);
+  assert.equal(exported.manifestRow.mapped_line_count, 2);
+  assert.equal(exported.manifestRow.line_table_mode, "recovered");
+  assert.equal(exported.manifestRow.line_table_count, 12);
+  assert.match(exported.text, /^(?:\/\/\r\n){9}\[01:use\] call_intrinsic Item\.getItemFamily/u);
+  assert.match(exported.text, /\[01:use\] pop_local_word status ; ret/u);
+  assert.match(exported.text, /\/\* synthesized appendix for ALARMHAT \*\//u);
+  assert.match(exported.text, /function alarmhat_use\(\)/u);
+  assert.doesNotMatch(exported.text, /^\r?\n/u);
+  assert.doesNotMatch(exported.text, /(?<!\r)\n/u);
+}
+
+function testUnkExporterNoDebugLinesStillStartsSafely() {
+  const ir = {
+    ...makeIr(
+      [
+        op(0, "push_local_word", { bp_offset: 0xfe }),
+        op(1, "ret", {})
+      ],
+      [
+        { bp_offset: 0xfe, name: "item" }
+      ]
+    ),
+    class: {
+      entry_index: 9,
+      class_id: 0x0456,
+      class_name: "EVENT"
+    },
+    event: {
+      derived_body_start: 0,
+      slot: 0x0a,
+      event_name_hint: "equip"
+    }
+  };
+
+  const exported = buildUnkExportForClass({
+    className: "EVENT",
+    entryIndex: 9,
+    fallbackDenseLineCount: 12,
+    events: [
+      {
+        ir,
+        pseudocode: "function event_equip()\n{\n  return;\n}\n"
+      }
+    ]
+  });
+
+  assert.equal(exported.manifestRow.debug_line_count, 0);
+  assert.equal(exported.manifestRow.line_table_mode, "synthetic_floor");
+  assert.equal(exported.manifestRow.line_table_count, 12);
+  assert.match(exported.text, /^\/\/ 0001\r\n\/\/ 0002\r\n/u);
+  assert.match(exported.text, /\/\/ 0012\r\n\/\* synthesized appendix for EVENT \*\//u);
+  assert.doesNotMatch(exported.text, /^\r?\n/u);
+  assert.doesNotMatch(exported.text, /(?<!\r)\n/u);
+}
+
 testPostRetMetadataIsShownInPseudocode();
 testSelectorLadderUsesEqualityCompareAndFalseBranch();
 testCountedLoopRendersWithContinueCondition();
@@ -713,5 +815,7 @@ testImportedIntrinsicTablesResolveKnownOrdinals();
 testGlobalAddressFeedsIntrinsicsAndLoopnextStaysHidden();
 testNamedIntrinsic003cRendersAsItemFamily();
 testTerminalTrailingBytesDoNotEmitStopBanner();
+testUnkExporterBuildsSparseLinesAndAppendix();
+testUnkExporterNoDebugLinesStillStartsSafely();
 
 console.log("usecode structuring regression checks passed");

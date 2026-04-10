@@ -4,10 +4,12 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { CACHE_ROOT, CATALOG_ROOT } from "../config.js";
+import { USECODE_UNK_EXPORTER_IMPL_PATH, buildUnkExportForClass, writeUnkManifest } from "./usecode-unk-exporter.js";
 import { GENERATED_INTRINSIC_HINT_TABLES } from "./usecode-intrinsic-hints.generated.js";
 
 const USECODE_CACHE_ROOT = path.join(CACHE_ROOT, "usecode");
-const USECODE_CACHE_SCHEMA_VERSION = 5;
+const USECODE_CACHE_SCHEMA_VERSION = 7;
+const REGRET_DEBUGGER_SYNTHETIC_LINE_FLOOR = 2991;
 const USECODE_DECOMPILER_IMPL_PATH = fileURLToPath(import.meta.url);
 const USECODE_SHAPE_CATALOG_PATHS = [
   path.join(CATALOG_ROOT, "usecode_shape_catalog_remorse.csv"),
@@ -2307,7 +2309,7 @@ function renderPartiallyStructuredBlocks(blocks) {
   return lines;
 }
 
-function buildIrForEvent(classRow, eventRow, variant, classNameMap) {
+export function buildIrForEvent(classRow, eventRow, variant, classNameMap) {
   const body = classRow.raw.subarray(eventRow.derivedBodyStart, eventRow.derivedBodyEnd);
   const ops = [];
   let offset = 0;
@@ -2397,7 +2399,7 @@ function buildIrForEvent(classRow, eventRow, variant, classNameMap) {
   };
 }
 
-function renderPseudocode(ir, shapeCatalog) {
+export function renderPseudocode(ir, shapeCatalog) {
   const slotName = sanitizeIdentifier(ir.event.event_name_hint || `slot_${ir.event.slot.toString(16).padStart(2, "0")}`);
   const lines = [
     `function ${sanitizeIdentifier(String(ir.class.class_name).toLowerCase())}_${slotName}() /* entry=${ir.class.entry_index} class_id=0x${ir.class.class_id.toString(16).padStart(4, "0")} slot=0x${ir.event.slot.toString(16).padStart(2, "0")} */`,
@@ -2486,7 +2488,7 @@ export function ensureGameUsecodeCache(gameConfig) {
 
   fs.mkdirSync(USECODE_CACHE_ROOT, { recursive: true });
   const cacheRoot = getGameUsecodeCacheRoot(gameConfig.id);
-  const stamp = computeSourceStamp(sourcePaths, [USECODE_DECOMPILER_IMPL_PATH, ...USECODE_SHAPE_CATALOG_PATHS]);
+  const stamp = computeSourceStamp(sourcePaths, [USECODE_DECOMPILER_IMPL_PATH, USECODE_UNK_EXPORTER_IMPL_PATH, ...USECODE_SHAPE_CATALOG_PATHS]);
   const manifestPath = path.join(cacheRoot, "manifest.json");
   if (fs.existsSync(manifestPath)) {
     try {
@@ -2514,12 +2516,20 @@ export function ensureGameUsecodeCache(gameConfig) {
     const classNameMap = new Map(classRows.map((classRow) => [classRow.classId, classRow.className]));
     const sourceName = path.basename(sourcePath, path.extname(sourcePath));
     const sourceRoot = path.join(cacheRoot, sourceName, "pseudocode");
+    const dataRoot = path.join(cacheRoot, sourceName, ".data");
+    const fallbackDenseLineCount = String(gameConfig.gameId || gameConfig.catalogId || gameConfig.id).startsWith("regret")
+      ? REGRET_DEBUGGER_SYNTHETIC_LINE_FLOOR
+      : 0;
     fs.mkdirSync(sourceRoot, { recursive: true });
+    fs.mkdirSync(dataRoot, { recursive: true });
     const files = [];
+    const unkFiles = [];
+    const unkManifestRows = [];
 
     for (const classRow of classRows) {
       const classDir = path.join(sourceRoot, sanitizeIdentifier(classRow.className));
       fs.mkdirSync(classDir, { recursive: true });
+      const classEvents = [];
       for (const eventRow of classRow.eventRows) {
         if (eventRow.derivedBodyStart == null || eventRow.derivedBodyEnd == null) continue;
         const ir = buildIrForEvent(classRow, eventRow, String(gameConfig.gameId || gameConfig.catalogId || gameConfig.id).startsWith("regret") ? "regret" : "remorse", classNameMap);
@@ -2527,6 +2537,7 @@ export function ensureGameUsecodeCache(gameConfig) {
         const fileName = makeFileNameForEvent(eventRow);
         const outPath = path.join(classDir, fileName);
         fs.writeFileSync(outPath, pseudocode, "utf8");
+        classEvents.push({ ir, pseudocode });
         files.push({
           className: classRow.className,
           rel: `${sanitizeIdentifier(classRow.className)}/${fileName}`,
@@ -2536,10 +2547,46 @@ export function ensureGameUsecodeCache(gameConfig) {
           eventNameHint: eventRow.eventNameHint
         });
       }
+
+      if (classEvents.length) {
+        const unkExport = buildUnkExportForClass({
+          className: classRow.className,
+          entryIndex: classRow.entryIndex,
+          events: classEvents,
+          fallbackDenseLineCount
+        });
+        const unkRel = unkExport.fileName;
+        const unkPath = path.join(dataRoot, unkExport.fileName);
+        fs.writeFileSync(unkPath, unkExport.text, "ascii");
+        unkFiles.push({
+          className: classRow.className,
+          rel: unkRel,
+          name: unkExport.fileName,
+          path: `${sourceName}/.data/${unkRel}`,
+          entryIndex: classRow.entryIndex,
+          debugLineCount: unkExport.manifestRow.debug_line_count,
+          mappedLineCount: unkExport.manifestRow.mapped_line_count,
+          collisionCount: unkExport.manifestRow.collision_count,
+          lineTableMode: unkExport.manifestRow.line_table_mode,
+          lineTableCount: unkExport.manifestRow.line_table_count
+        });
+        unkManifestRows.push({
+          ...unkExport.manifestRow,
+          output_path: unkRel
+        });
+      }
     }
 
     files.sort((left, right) => left.className.localeCompare(right.className) || left.rel.localeCompare(right.rel));
-    index.sources.push({ id: sourceName, label: sourceName, files });
+    unkFiles.sort((left, right) => left.className.localeCompare(right.className) || left.rel.localeCompare(right.rel));
+    writeUnkManifest(path.join(dataRoot, "SYNTH_UNK_MANIFEST.tsv"), unkManifestRows);
+    index.sources.push({
+      id: sourceName,
+      label: sourceName,
+      files,
+      unkFiles,
+      unkManifestPath: `${sourceName}/.data/SYNTH_UNK_MANIFEST.tsv`
+    });
   }
 
   fs.writeFileSync(path.join(cacheRoot, "index.json"), JSON.stringify(index, null, 2), "utf8");

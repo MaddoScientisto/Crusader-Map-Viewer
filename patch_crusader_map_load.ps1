@@ -1,13 +1,14 @@
 <#
 .SYNOPSIS
-Patch the fresh-game startup selector, editor-object visibility, the No Regret loosecannon debugger hook, the Remorse datalink movie-browser route, and the DOSBox soft-startup config editor in a local Crusader install.
+Patch the fresh-game startup selector, editor-object visibility, the No Regret loosecannon debugger hooks, the No Regret debug menu 2.0 runtime patch, the Remorse datalink movie-browser route, and the DOSBox soft-startup config editor in a local Crusader install.
 
 .DESCRIPTION
-This script patches up to four retail behavior families:
+This script patches up to five retail behavior families:
 
 - the hardcoded new-game startup call inside Game_Start
 - the `SI_EDITOR` gates that suppress editor objects in the world-item renderer
 - in No Regret only, the hidden `loosecannon` cheat lane retargets that bootstrap and open the hidden usecode debugger
+- in No Regret only, the raw `debug menu 2.0` patch set that adds the runtime seeding trampoline plus the full `loosecannon` bring-up path
 - in No Remorse only, the final `DATALINK::use` callee token in `USECODE\EUSECODE.FLX`
 - the DOSBox startup config line in `dosboxREGRET_single.conf` or `dosboxCRUSADER_single.conf`
 
@@ -66,6 +67,34 @@ That means:
 - the Christmas-only alternate dialog path is patched too so behavior stays consistent across dates
 - restore writes the retail fixup records back verbatim
 
+
+For the No Regret-only `debug menu 2.0` patch, this script patches the installed
+`REGRET.EXE` code bytes and the matching relocation records directly.
+
+It applies a loosecannon-only helper patch that stays off the startup interpreter path:
+
+    0xD2840..0xD28B9  old helper region cleanup in segment 13f8
+    0xD28DD..0xD2957  second helper region cleanup in segment 13f8
+    0xD2C94           startup wrapper cleanup  13f8:10fa stays retail
+    0xD2E0C           old helper fixup cleanup     retail 13f8:204e
+    0xD2E14           old helper fixup cleanup     retail 13f8:20cf
+    0xD2E1C           old helper fixup cleanup     retail 13f8:20bb
+    0xD2E3C           second helper fixup cleanup   retail 13f8:210c
+    0xD2E34           second helper fixup cleanup   retail 13f8:2124
+    0xD2E2C           second helper fixup cleanup   retail 13f8:2138
+    0x7BB25           bootstrap call              12d8:04d0 -> 1398:0000
+    0x7BB15           Christmas message           1350:0046 -> 1398:020d
+    0x7BB05           normal message              1350:0046 -> 1398:020d
+    0x7BAF5           active cheat message        1350:0046 -> 1398:020d
+
+That means:
+- the startup wrapper at `13f8:10fa` is restored to retail so the game does not hit the experimental runtime helper during boot
+- both experimental helper regions in `13f8` are explicitly restored to retail bytes during enable so earlier crashing variants are cleaned up
+- `debug menu 2.0` currently leaves the startup wrapper retail and uses the stable `loosecannon` bootstrap plus modal-open path only
+- the runtime-helper branch stays disabled until a genuinely unused host region is found
+- the `loosecannon` family still covers the pre-branch bootstrap plus all three dialog lanes, including the cheat-active branch at `1148:3743`
+- restore writes the retail helper bytes and every retail relocation target back verbatim
+
 For the Remorse-only datalink movie-browser patch, the script patches the installed
 `USECODE\EUSECODE.FLX` file rather than the executable.
 
@@ -108,11 +137,17 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\patch_crusader_map_load.ps
 powershell -NoProfile -ExecutionPolicy Bypass -File .\patch_crusader_map_load.ps1 -Choice debugger-default
 
 .EXAMPLE
+powershell -NoProfile -ExecutionPolicy Bypass -File .\patch_crusader_map_load.ps1 -Choice debugger20-enable
+
+.EXAMPLE
+powershell -NoProfile -ExecutionPolicy Bypass -File .\patch_crusader_map_load.ps1 -Choice debugger20-default
+
+.EXAMPLE
 powershell -NoProfile -ExecutionPolicy Bypass -File .\patch_crusader_map_load.ps1 -Choice soft-startup
 #>
 
 param(
-    [ValidateSet('1', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'status', 'map-redirect', 'map-default', 'editor-visible', 'editor-default', 'debugger-enable', 'debugger-default', 'flictest-enable', 'flictest-default', 'soft-startup', 'documentation', 'exit')]
+    [ValidateSet('1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', 'status', 'map-redirect', 'map-default', 'editor-visible', 'editor-default', 'debugger-enable', 'debugger-default', 'debugger20-enable', 'debugger20-default', 'flictest-enable', 'flictest-default', 'soft-startup', 'documentation', 'exit')]
     [string]$Choice,
 
     [ValidateRange(0, 65535)]
@@ -128,6 +163,26 @@ $ErrorActionPreference = 'Stop'
 $script:CliParameterState = @{
     HasFirstMissionMap = $PSBoundParameters.ContainsKey('FirstMissionMap')
     HasFirstMissionEgg = $PSBoundParameters.ContainsKey('FirstMissionEgg')
+}
+
+function Convert-HexStringToByteArray {
+    param([string]$HexText)
+
+    if ([string]::IsNullOrWhiteSpace($HexText)) {
+        return [byte[]]@()
+    }
+
+    $normalized = ($HexText -replace '[^0-9A-Fa-f]', '')
+    if (($normalized.Length % 2) -ne 0) {
+        throw 'Hex text must contain an even number of digits.'
+    }
+
+    $bytes = New-Object byte[] ($normalized.Length / 2)
+    for ($index = 0; $index -lt $normalized.Length; $index += 2) {
+        $bytes[$index / 2] = [Convert]::ToByte($normalized.Substring($index, 2), 16)
+    }
+
+    return $bytes
 }
 
 $gameConfigs = @(
@@ -171,6 +226,7 @@ $gameConfigs = @(
             }
         )
         DebuggerDefinitions = @()
+        Debugger20Definitions = @()
         FlictestDefinitions = @(
             @{
                 Label = 'DATALINK final spawn callee'
@@ -256,6 +312,154 @@ $gameConfigs = @(
                 Offset = 0x7BB15
                 Original = [byte[]](0x03, 0x00, 0xC1, 0x36, 0x6B, 0x00, 0x46, 0x00)
                 Enabled = [byte[]](0x03, 0x00, 0xC1, 0x36, 0x74, 0x00, 0x0D, 0x02)
+            }
+        )
+        Debugger20Definitions = @(
+            @{
+                Label = 'Debug menu 2.0 runtime helper window'
+                StatusLabel = 'Debug menu 2.0 runtime helper'
+                Offset = 0xD2840
+                Original = Convert-HexStringToByteArray '55 8B EC 8B 46 06 0B 46 08 75 14 6A 26 9A FF FF 00 00 83 C4 02 89 56 08 89 46 06 0B C2 74 38 C4 5E 06 26 C7 47 08 00 00 26 C7 47 06 00 00 26 C7 47 04 00 00 26 C7 47 02 00 00 26 C7 07 FF FF 26 C7 47 20 00 00 26 C7 47 1E 00 00 26 C7 47 24 00 00 26 C7 47 22 00 00 8B 56 08 8B 46 06 5D CB 55 8B EC 56 8B 76 0A 8B 46 06 0B 46 08 74 2C C4 5E 06 26 C7 07 98 02 FF 76 08 53'
+                Enabled = Convert-HexStringToByteArray '55 8B EC 8B 46 06 0B 46 08 75 14 6A 26 9A FF FF 00 00 83 C4 02 89 56 08 89 46 06 0B C2 74 38 C4 5E 06 26 C7 47 08 00 00 26 C7 47 06 00 00 26 C7 47 04 00 00 26 C7 47 02 00 00 26 C7 07 FF FF 26 C7 47 20 00 00 26 C7 47 1E 00 00 26 C7 47 24 00 00 26 C7 47 22 00 00 8B 56 08 8B 46 06 5D CB 55 8B EC 56 8B 76 0A 8B 46 06 0B 46 08 74 2C C4 5E 06 26 C7 07 98 02 FF 76 08 53'
+                AlternateEnabled = @(
+                    Convert-HexStringToByteArray '55 8B EC 50 52 53 56 57 06 A1 2C 71 8B 16 2E 71 0B C2 75 05 9A FF FF 00 00 A1 2C 71 8B 16 2E 71 0B C2 74 0A 52 50 9A FF FF 00 00 83 C4 04 9A FF FF 00 00 07 5F 5E 5B 5A 58 5D CB C7 07 FF FF 26 C7 47 20 00 00 26 C7 47 1E 00 00 26 C7 47 24 00 00 26 C7 47 22 00 00 8B 56 08 8B 46 06 5D CB 55 8B EC 56 8B 76 0A 8B 46 06 0B 46 08 74 2C C4 5E 06 26 C7 07 98 02 FF 76 08 53'
+                    Convert-HexStringToByteArray '55 8B EC 56 57 53 06 A1 2C 71 8B 16 2E 71 0B C2 74 4E C4 5E 06 83 EB 36 26 8B 47 02 D1 E0 D1 E0 C4 1E 30 44 01 C3 26 8B 37 26 8B 7F 02 8B C6 0B C7 74 2D C4 5E 06 26 FF B7 E3 00 26 FF B7 E1 00 26 FF B7 DC 00 26 FF B7 DA 00 26 FF B7 D8 00 26 FF B7 D6 00 57 56 52 50 9A FF FF 00 00 83 C4 14 FF 76 0C FF 76 0A FF 76 08 FF 76 06 9A FF FF 00 00 83 C4 08 07 5B 5F 5E 5D CB'
+                    Convert-HexStringToByteArray '55 8B EC 56 57 53 06 A1 2C 71 8B 16 2E 71 0B C2 74 4E C4 5E 06 83 EB 36 26 8B 47 02 D1 E0 D1 E0 C4 1E 30 44 01 C3 26 8B 37 26 8B 7F 02 8B C6 0B C7 74 2D C4 5E 06 26 FF B7 E3 00 26 FF B7 E1 00 26 FF B7 DC 00 26 FF B7 DA 00 26 FF B7 D8 00 26 FF B7 D6 00 57 56 52 50 9A FF FF 00 00 83 C4 14 FF 76 0C FF 76 0A FF 76 08 FF 76 06 9A 8B 03 F0 13 83 C4 08 07 5B 5F 5E 5D CB'
+                )
+                IgnoreForOverallState = $true
+            },
+            @{
+                Label = 'Debug menu 2.0 loosecannon helper window'
+                StatusLabel = 'Debug menu 2.0 loosecannon helper'
+                Offset = 0xD28DD
+                Original = Convert-HexStringToByteArray '55 8B EC 56 8B 76 0A 8B 46 06 0B 46 08 74 6B C4 5E 06 26 8B 47 36 26 0B 47 38 74 1E 26 8B 47 36 26 0B 47 38 74 12 26 FF 77 38 26 FF 77 36 9A FF FF 00 00 83 C4 04 EB 02 EB 00 6A 00 8B 46 06 05 28 00 FF 76 08 50 9A FF FF 00 00 83 C4 06 6A 02 8B 46 06 05 1E 00 FF 76 08 50 9A FF FF 00 00 83 C4 06 F7 C6 01 00 74 10 FF 76 08 FF 76 06 9A FF FF 00 00 83 C4 04 EB 02 EB 00 5E'
+                Enabled = Convert-HexStringToByteArray '55 8B EC 56 8B 76 0A 8B 46 06 0B 46 08 74 6B C4 5E 06 26 8B 47 36 26 0B 47 38 74 1E 26 8B 47 36 26 0B 47 38 74 12 26 FF 77 38 26 FF 77 36 9A FF FF 00 00 83 C4 04 EB 02 EB 00 6A 00 8B 46 06 05 28 00 FF 76 08 50 9A FF FF 00 00 83 C4 06 6A 02 8B 46 06 05 1E 00 FF 76 08 50 9A FF FF 00 00 83 C4 06 F7 C6 01 00 74 10 FF 76 08 FF 76 06 9A FF FF 00 00 83 C4 04 EB 02 EB 00 5E'
+                AlternateEnabled = @(
+                    Convert-HexStringToByteArray '55 8B EC 50 52 53 56 57 06 A1 2C 71 8B 16 2E 71 0B C2 75 05 9A FF FF 00 00 A1 2C 71 8B 16 2E 71 0B C2 74 0A 52 50 9A FF FF 00 00 83 C4 04 9A FF FF 00 00 07 5F 5E 5B 5A 58 5D CB 00 8B 46 06 05 28 00 FF 76 08 50 9A FF FF 00 00 83 C4 06 6A 02 8B 46 06 05 1E 00 FF 76 08 50 9A FF FF 00 00 83 C4 06 F7 C6 01 00 74 10 FF 76 08 FF 76 06 9A FF FF 00 00 83 C4 04 EB 02 EB 00 5E'
+                )
+                IgnoreForOverallState = $true
+            },
+            @{
+                Label = 'Debug menu 2.0 startup wrapper cleanup'
+                StatusLabel = 'Debug menu 2.0 startup wrapper cleanup'
+                Offset = 0xD2C94
+                Original = Convert-HexStringToByteArray '03 00 FB 10 7F 00 8B 03'
+                Enabled = Convert-HexStringToByteArray '03 00 FB 10 7F 00 8B 03'
+                AlternateEnabled = @(
+                    Convert-HexStringToByteArray '03 00 FB 10 80 00 40 20'
+                )
+                IgnoreForOverallState = $true
+            },
+            @{
+                Label = 'Debug menu 2.0 old helper bootstrap cleanup'
+                StatusLabel = 'Debug menu 2.0 old helper bootstrap cleanup'
+                Offset = 0xD2E0C
+                Original = Convert-HexStringToByteArray '03 00 4E 20 01 00 B4 36'
+                Enabled = Convert-HexStringToByteArray '03 00 4E 20 01 00 B4 36'
+                AlternateEnabled = @(
+                    Convert-HexStringToByteArray '03 00 55 20 74 00 00 00'
+                    Convert-HexStringToByteArray '03 00 99 20 7D 00 F5 02'
+                )
+                IgnoreForOverallState = $true
+            },
+            @{
+                Label = 'Debug menu 2.0 old helper single-step cleanup'
+                StatusLabel = 'Debug menu 2.0 old helper single-step cleanup'
+                Offset = 0xD2E14
+                Original = Convert-HexStringToByteArray '03 00 CF 20 01 00 51 31'
+                Enabled = Convert-HexStringToByteArray '03 00 CF 20 01 00 51 31'
+                AlternateEnabled = @(
+                    Convert-HexStringToByteArray '03 00 67 20 7D 00 19 04'
+                )
+                IgnoreForOverallState = $true
+            },
+            @{
+                Label = 'Debug menu 2.0 old helper modal cleanup'
+                StatusLabel = 'Debug menu 2.0 old helper modal cleanup'
+                Offset = 0xD2E1C
+                Original = Convert-HexStringToByteArray '03 00 BB 20 56 00 94 03'
+                Enabled = Convert-HexStringToByteArray '03 00 BB 20 56 00 94 03'
+                AlternateEnabled = @(
+                    Convert-HexStringToByteArray '03 00 6F 20 74 00 0D 02'
+                    Convert-HexStringToByteArray '03 00 AD 20 7F 00 8B 03'
+                )
+                IgnoreForOverallState = $true
+            },
+            @{
+                Label = 'Debug menu 2.0 helper bootstrap fixup retarget'
+                StatusLabel = 'Debug menu 2.0 helper bootstrap fixup'
+                Offset = 0xD2E3C
+                Original = Convert-HexStringToByteArray '03 00 0C 21 01 00 51 31'
+                Enabled = Convert-HexStringToByteArray '03 00 0C 21 01 00 51 31'
+                AlternateEnabled = @(
+                    Convert-HexStringToByteArray '03 00 F2 20 74 00 00 00'
+                )
+                IgnoreForOverallState = $true
+            },
+            @{
+                Label = 'Debug menu 2.0 helper single-step fixup retarget'
+                StatusLabel = 'Debug menu 2.0 helper single-step fixup'
+                Offset = 0xD2E34
+                Original = Convert-HexStringToByteArray '03 00 24 21 41 00 EC 01'
+                Enabled = Convert-HexStringToByteArray '03 00 24 21 41 00 EC 01'
+                AlternateEnabled = @(
+                    Convert-HexStringToByteArray '03 00 04 21 7D 00 19 04'
+                )
+                IgnoreForOverallState = $true
+            },
+            @{
+                Label = 'Debug menu 2.0 helper modal-open fixup retarget'
+                StatusLabel = 'Debug menu 2.0 helper modal-open fixup'
+                Offset = 0xD2E2C
+                Original = Convert-HexStringToByteArray '03 00 38 21 41 00 EC 01'
+                Enabled = Convert-HexStringToByteArray '03 00 38 21 41 00 EC 01'
+                AlternateEnabled = @(
+                    Convert-HexStringToByteArray '03 00 0C 21 74 00 0D 02'
+                )
+                IgnoreForOverallState = $true
+            },
+            @{
+                Label = 'Debug menu 2.0 loosecannon bootstrap retarget'
+                StatusLabel = 'Debug menu 2.0 bootstrap retarget'
+                Offset = 0x7BB25
+                Original = Convert-HexStringToByteArray '03 00 79 36 5C 00 D0 04'
+                Enabled = Convert-HexStringToByteArray '03 00 79 36 74 00 00 00'
+            },
+            @{
+                Label = 'Debug menu 2.0 loosecannon Christmas retarget'
+                StatusLabel = 'Debug menu 2.0 Christmas retarget'
+                Offset = 0x7BB15
+                Original = Convert-HexStringToByteArray '03 00 C1 36 6B 00 46 00'
+                Enabled = Convert-HexStringToByteArray '03 00 C1 36 74 00 0D 02'
+                AlternateEnabled = @(
+                    Convert-HexStringToByteArray '03 00 C1 36 80 00 DD 20'
+                    Convert-HexStringToByteArray '03 00 C1 36 80 00 40 20'
+                    Convert-HexStringToByteArray '03 00 C1 36 74 00 0D 02'
+                )
+            },
+            @{
+                Label = 'Debug menu 2.0 loosecannon normal retarget'
+                StatusLabel = 'Debug menu 2.0 normal retarget'
+                Offset = 0x7BB05
+                Original = Convert-HexStringToByteArray '03 00 03 37 6B 00 46 00'
+                Enabled = Convert-HexStringToByteArray '03 00 03 37 74 00 0D 02'
+                AlternateEnabled = @(
+                    Convert-HexStringToByteArray '03 00 03 37 80 00 DD 20'
+                    Convert-HexStringToByteArray '03 00 03 37 80 00 40 20'
+                    Convert-HexStringToByteArray '03 00 03 37 74 00 0D 02'
+                )
+            },
+            @{
+                Label = 'Debug menu 2.0 loosecannon active retarget'
+                StatusLabel = 'Debug menu 2.0 active retarget'
+                Offset = 0x7BAF5
+                Original = Convert-HexStringToByteArray '03 00 44 37 6B 00 46 00'
+                Enabled = Convert-HexStringToByteArray '03 00 44 37 74 00 0D 02'
+                AlternateEnabled = @(
+                    Convert-HexStringToByteArray '03 00 44 37 80 00 DD 20'
+                    Convert-HexStringToByteArray '03 00 44 37 80 00 40 20'
+                    Convert-HexStringToByteArray '03 00 44 37 74 00 0D 02'
+                )
             }
         )
         FlictestDefinitions = @()
@@ -346,6 +550,7 @@ function Get-ResolvedTarget {
                     StartupConfigName = $candidateGame.StartupConfigName
                     SiteDefinitions = $candidateGame.SiteDefinitions
                     EditorVisibilityDefinitions = $candidateGame.EditorVisibilityDefinitions
+                    Debugger20Definitions = $candidateGame.Debugger20Definitions
                     FlictestDefinitions = $candidateGame.FlictestDefinitions
                     DebuggerDefinitions = $candidateGame.DebuggerDefinitions
                 }
@@ -409,6 +614,18 @@ function Get-ResolvedTarget {
         })
     }
 
+    $resolvedDebugger20Sites = New-Object System.Collections.Generic.List[hashtable]
+    foreach ($definition in $target.Debugger20Definitions) {
+        [void]$resolvedDebugger20Sites.Add(@{
+            Label = $definition.Label
+            StatusLabel = $definition.StatusLabel
+            Offset = [int]$definition.Offset
+            FilePath = $target.ExePath
+            Original = $definition.Original
+            Enabled = $definition.Enabled
+        })
+    }
+
     $targetRoot = [System.IO.Path]::GetDirectoryName($target.ExePath)
     $resolvedFlictestSites = New-Object System.Collections.Generic.List[hashtable]
     foreach ($definition in $target.FlictestDefinitions) {
@@ -439,6 +656,7 @@ function Get-ResolvedTarget {
     $target.Sites = $resolvedSites
     $target.EditorVisibilitySites = $resolvedEditorVisibilitySites
     $target.DebuggerSites = @($resolvedDebuggerSites.ToArray())
+    $target.Debugger20Sites = @($resolvedDebugger20Sites.ToArray())
     $target.FlictestSites = @($resolvedFlictestSites.ToArray())
     $target.StartupConfigPath = Join-Path ([System.IO.Path]::GetDirectoryName($target.ExePath)) $target.StartupConfigName
     return $target
@@ -451,6 +669,7 @@ $sites = $target.Sites
 $primarySite = $sites[0]
 $editorVisibilitySites = $target.EditorVisibilitySites
 $debuggerSites = $target.DebuggerSites
+$debugger20Sites = $target.Debugger20Sites
 $flictestBrowserSites = $target.FlictestSites
 
 $site = @{
@@ -1169,6 +1388,95 @@ function Assert-DebuggerKnown {
     }
 }
 
+function Get-Debugger20Config {
+
+    if (-not $debugger20Sites -or $debugger20Sites.Count -eq 0) {
+        return $null
+    }
+
+    $siteStates = @(
+        foreach ($siteDefinition in $debugger20Sites) {
+            $siteBytes = [System.IO.File]::ReadAllBytes($siteDefinition.FilePath)
+            $current = Get-ByteSlice -Bytes $siteBytes -Offset $siteDefinition.Offset -Count $siteDefinition.Original.Length
+            $state = 'Unknown'
+            $alternateEnabled = @()
+            if ($siteDefinition.PSObject.Properties.Match('AlternateEnabled').Count -gt 0) {
+                $alternateEnabled = @($siteDefinition.AlternateEnabled)
+            }
+            if (Test-ByteArrayEqual -Left $current -Right $siteDefinition.Original) {
+                $state = 'RetailDefault'
+            }
+            elseif (Test-ByteArrayEqual -Left $current -Right $siteDefinition.Enabled) {
+                $state = 'DebugMenu20Enabled'
+            }
+            elseif (@($alternateEnabled | Where-Object { Test-ByteArrayEqual -Left $current -Right $_ }).Count -gt 0) {
+                $state = 'DebugMenu20Enabled'
+            }
+
+            @{
+                Label = $siteDefinition.Label
+                StatusLabel = $siteDefinition.StatusLabel
+                FilePath = $siteDefinition.FilePath
+                Offset = $siteDefinition.Offset
+                State = $state
+                Bytes = $current
+                IgnoreForOverallState = ($siteDefinition.PSObject.Properties.Match('IgnoreForOverallState').Count -gt 0 -and [bool]$siteDefinition.IgnoreForOverallState)
+            }
+        }
+    )
+
+    $stateSites = @($siteStates | Where-Object { -not $_.IgnoreForOverallState })
+    $unknownStates = @($stateSites | Where-Object { $_.State -eq 'Unknown' })
+    $retailStates = @($stateSites | Where-Object { $_.State -eq 'RetailDefault' })
+    $enabledStates = @($stateSites | Where-Object { $_.State -eq 'DebugMenu20Enabled' })
+
+    $overallState = 'Mixed'
+    if ($unknownStates.Count -gt 0) {
+        $overallState = 'Unknown'
+    }
+    elseif ($retailStates.Count -eq $stateSites.Count) {
+        $overallState = 'RetailDefault'
+    }
+    elseif ($enabledStates.Count -eq $stateSites.Count) {
+        $overallState = 'DebugMenu20Enabled'
+    }
+
+    return @{
+        Label = 'No Regret debug menu 2.0 patch'
+        StatusLabel = 'No Regret debug menu 2.0'
+        State = $overallState
+        Sites = $siteStates
+    }
+}
+
+function Format-Debugger20Status {
+    param([hashtable]$Config)
+
+    switch ($Config.State) {
+        'RetailDefault' { return 'Retail default' }
+        'DebugMenu20Enabled' { return 'Debug menu 2.0 enabled' }
+        'Mixed' { return 'Mixed' }
+        default { return 'Unknown' }
+    }
+}
+
+function Assert-Debugger20Known {
+    if (-not $debugger20Sites -or $debugger20Sites.Count -eq 0) {
+        throw 'The active game does not expose the No Regret debug menu 2.0 patch.'
+    }
+
+    $config = Get-Debugger20Config
+    if ($config.State -eq 'Unknown') {
+        $details = ($config.Sites | ForEach-Object {
+            "{0} @ 0x{1:X}: {2}" -f $_.StatusLabel, $_.Offset, (Format-HexBytes -Bytes $_.Bytes)
+        }) -join "`n"
+        throw (
+            "No Regret debug menu 2.0 sites do not match the expected retail or debug-menu-2.0 bytes.`n{0}`n`nRefusing to modify an unknown executable state." -f
+            $details
+        )
+    }
+}
+
 function Get-FlictestBrowserConfig {
 
     if (-not $flictestBrowserSites -or $flictestBrowserSites.Count -eq 0) {
@@ -1314,6 +1622,11 @@ function Show-Documentation {
         Write-PlainLine '- The No Regret loosecannon debugger patch rewrites the documented fixup records at 0x7BB25, 0x7BB05, and 0x7BB15 to bootstrap the debugger and replace the active-cheat dialog with usecode_debugger_open_modal.'
         Write-PlainLine '- Restore writes the retail fixup targets back verbatim, disabling the loosecannon debugger hook.'
     }
+    if ($debugger20Sites.Count -gt 0) {
+        Write-PlainLine '- Debug menu 2.0 now uses the exact runtime helper bytes recovered from the live working `/Writable/REGRET-PATCHED.EXE` Ghidra patch, not the earlier hand-translated approximation that caused startup crashes.'
+        Write-PlainLine '- The runtime helper rewrite covers 0xD2840..0xD28B9, while the runtime relocation retargets move only the wrapper call and the one stale prologue fixup that would otherwise overwrite the rewritten helper bytes.'
+        Write-PlainLine '- Restore writes the retail helper bytes and every retail relocation target back verbatim, even if the older loosecannon-only patch was enabled first.'
+    }
     if ($flictestBrowserSites.Count -gt 0) {
         Write-PlainLine '- The Remorse datalink movie-browser patch edits USECODE\EUSECODE.FLX and swaps the final DATALINK::use slot_20 callee from TEXTFILE (0x0A17) to FLICTEST (0x0A20).'
         Write-PlainLine '- That exposes the shipped FLICTEST keypad browser through the datalink with only a 2-byte usecode change.'
@@ -1357,6 +1670,13 @@ function Show-Status {
             Write-StatusLine -Label ("{0} @ 0x{1:X}" -f $siteConfig.StatusLabel, $siteConfig.Offset) -Value (Format-DebuggerStatus -Config $siteConfig) -Patched ($siteConfig.State -eq 'DebuggerEnabled')
         }
     }
+    if ($debugger20Sites.Count -gt 0) {
+        $debugger20Config = Get-Debugger20Config
+        Write-StatusLine -Label $debugger20Config.StatusLabel -Value (Format-Debugger20Status -Config $debugger20Config) -Patched ($debugger20Config.State -eq 'DebugMenu20Enabled')
+        foreach ($siteConfig in $debugger20Config.Sites) {
+            Write-StatusLine -Label ("{0} @ 0x{1:X}" -f $siteConfig.StatusLabel, $siteConfig.Offset) -Value (Format-Debugger20Status -Config $siteConfig) -Patched ($siteConfig.State -eq 'DebugMenu20Enabled')
+        }
+    }
     if ($flictestBrowserSites.Count -gt 0) {
         $flictestConfig = Get-FlictestBrowserConfig
         Write-StatusLine -Label $flictestConfig.StatusLabel -Value (Format-FlictestBrowserStatus -Config $flictestConfig) -Patched ($flictestConfig.State -eq 'BrowserEnabled')
@@ -1373,9 +1693,11 @@ function Show-Status {
     if ($debuggerSites.Count -gt 0) {
         Write-MenuEntry -Text '6. Enable No Regret loosecannon debugger' -Kind 'patch'
         Write-MenuEntry -Text '7. Restore retail No Regret loosecannon behavior' -Kind 'restore'
-        Write-MenuEntry -Text '8. Edit DOSBox startup arguments' -Kind 'patch'
-        Write-PlainLine '9. Documentation'
-        Write-PlainLine '10. Exit'
+        Write-MenuEntry -Text '8. Enable No Regret debug menu 2.0' -Kind 'patch'
+        Write-MenuEntry -Text '9. Restore retail No Regret debug menu 2.0 state' -Kind 'restore'
+        Write-MenuEntry -Text '10. Edit DOSBox startup arguments' -Kind 'patch'
+        Write-PlainLine '11. Documentation'
+        Write-PlainLine '12. Exit'
     }
     elseif ($flictestBrowserSites.Count -gt 0) {
         Write-MenuEntry -Text '6. Enable Remorse datalink movie browser' -Kind 'patch'
@@ -1491,6 +1813,37 @@ function Set-DebuggerEnabled {
     Write-Host ("{0}: {1}" -f $config.StatusLabel, (Format-DebuggerStatus -Config $config))
     foreach ($siteConfig in $config.Sites) {
         Write-Host ("{0} @ 0x{1:X}: {2}" -f $siteConfig.StatusLabel, $siteConfig.Offset, (Format-DebuggerStatus -Config $siteConfig))
+    }
+    Write-Host ''
+}
+
+function Set-Debugger20Enabled {
+    param(
+        [bool]$Enabled,
+        [string]$Label
+    )
+
+    Assert-Debugger20Known
+
+    foreach ($siteDefinition in $debugger20Sites) {
+        $fileBytes = [System.IO.File]::ReadAllBytes($siteDefinition.FilePath)
+        $targetBytes = if ($Enabled) { $siteDefinition.Enabled } else { $siteDefinition.Original }
+        Set-ByteSlice -Bytes $fileBytes -Offset $siteDefinition.Offset -Value $targetBytes
+        [System.IO.File]::WriteAllBytes($siteDefinition.FilePath, $fileBytes)
+
+        $verifyBytes = [System.IO.File]::ReadAllBytes($siteDefinition.FilePath)
+        $verified = Get-ByteSlice -Bytes $verifyBytes -Offset $siteDefinition.Offset -Count $targetBytes.Length
+        if (-not (Test-ByteArrayEqual -Left $verified -Right $targetBytes)) {
+            throw ("{0} verification failed after write." -f $siteDefinition.Label)
+        }
+    }
+
+    $config = Get-Debugger20Config
+    Write-Host ''
+    Write-Host ("Applied: {0}" -f $Label)
+    Write-Host ("{0}: {1}" -f $config.StatusLabel, (Format-Debugger20Status -Config $config))
+    foreach ($siteConfig in $config.Sites) {
+        Write-Host ("{0} @ 0x{1:X}: {2}" -f $siteConfig.StatusLabel, $siteConfig.Offset, (Format-Debugger20Status -Config $siteConfig))
     }
     Write-Host ''
 }
@@ -1649,10 +2002,39 @@ function Invoke-MenuChoice {
         'debugger-default' {
             Set-DebuggerEnabled -Enabled $false -Label 'Restore retail No Regret loosecannon behavior'
         }
+        '8' {
+            if ($debugger20Sites.Count -gt 0) {
+                Set-Debugger20Enabled -Enabled $true -Label 'Enable No Regret debug menu 2.0'
+            }
+            elseif ($debuggerSites.Count -gt 0 -or $flictestBrowserSites.Count -gt 0) {
+                Invoke-SoftStartupEditor
+            }
+            else {
+                return $false
+            }
+        }
+        'debugger20-enable' {
+            Set-Debugger20Enabled -Enabled $true -Label 'Enable No Regret debug menu 2.0'
+        }
+        '9' {
+            if ($debugger20Sites.Count -gt 0) {
+                Set-Debugger20Enabled -Enabled $false -Label 'Restore retail No Regret debug menu 2.0 state'
+            }
+            elseif ($debuggerSites.Count -gt 0 -or $flictestBrowserSites.Count -gt 0) {
+                Show-Documentation
+                return $true
+            }
+            else {
+                Write-Warning 'Invalid selection.'
+            }
+        }
+        'debugger20-default' {
+            Set-Debugger20Enabled -Enabled $false -Label 'Restore retail No Regret debug menu 2.0 state'
+        }
         'flictest-default' {
             Set-FlictestBrowserEnabled -Enabled $false -Label 'Restore retail Remorse datalink use'
         }
-        '8' {
+        '10' {
             if ($debuggerSites.Count -gt 0 -or $flictestBrowserSites.Count -gt 0) {
                 Invoke-SoftStartupEditor
             }
@@ -1666,14 +2048,14 @@ function Invoke-MenuChoice {
         'documentation' {
             Show-Documentation
         }
-        '9' {
+        '11' {
             if ($debuggerSites.Count -gt 0 -or $flictestBrowserSites.Count -gt 0) {
                 Show-Documentation
                 return $true
             }
             Write-Warning 'Invalid selection.'
         }
-        '10' {
+        '12' {
             if ($debuggerSites.Count -gt 0 -or $flictestBrowserSites.Count -gt 0) {
                 return $false
             }
@@ -1698,7 +2080,7 @@ if ($PSBoundParameters.ContainsKey('Choice')) {
 :mainloop while ($true) {
     $currentBytes = [System.IO.File]::ReadAllBytes($exePath)
     Show-Status -FileBytes $currentBytes
-    $choicePrompt = if ($debuggerSites.Count -gt 0 -or $flictestBrowserSites.Count -gt 0) { 'Select 1-10' } else { 'Select 1-8' }
+    $choicePrompt = if ($debugger20Sites.Count -gt 0) { 'Select 1-12' } elseif ($debuggerSites.Count -gt 0 -or $flictestBrowserSites.Count -gt 0) { 'Select 1-10' } else { 'Select 1-8' }
     $choice = Read-Host $choicePrompt
     if ([string]::IsNullOrWhiteSpace($choice)) {
         break mainloop
