@@ -1,0 +1,100 @@
+/* synthesized appendix for MISS13 */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x04 cachein ===== */
+function miss13_cachein() /* entry=2331 class_id=0x0919 slot=0x04 */
+{
+  set_info(0x0213, *(arg_06));
+  process_exclude();
+  return;
+}
+
+/* ===== slot 0x07 hatch ===== */
+function miss13_hatch() /* entry=2331 class_id=0x0919 slot=0x07 */
+{
+  set_info(0x0210, *(arg_06));
+  process_exclude();
+  if (Item.fallProbably_03E(arg_06) == 1) {
+    return;
+  }
+  else if (Item.fallProbably_03E(arg_06) == 2) {
+    FREE.slot_41();
+    spawn MISS13.slot_20(pid, arg_06);
+    suspend;
+    return;
+  }
+  return;
+}
+
+/* ===== slot 0x20 slot_20 ===== */
+function miss13_slot_20() /* entry=2331 class_id=0x0919 slot=0x20 */
+{
+  set_info(0x0001, *(arg_06));
+  local_02 = 0;
+  local_06 = *(arg_06);
+  set_info(1, 0);
+  Ultima8Engine.setAvatarInStasis(1);
+  while (Actor.isBusy(&global[0x003d])) {
+    spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+    suspend;
+  }
+  local_08 = 0;
+  local_12 = 0;
+  for local_10 in nearby_items(shape=0x0524, origin=global[0x003d]) {
+    local_08 = local_10;
+  }
+  for local_04 in nearby_items(shape=PRISON_BARS_DOOR, origin=global[0x003d]) {
+    if (Egg.getEggXRange(local_04) == 4) {
+      Ultima8Engine.setAvatarInStasis(0);
+      return;
+    }
+  }
+  if (local_08) {
+    suspend;
+    Item.destroy(local_06);
+    for local_04 in nearby_items(shape=door_shape_00a9, origin=global[0x003d]) {
+      FREE.slot_29(local_04, global[0x003d]);
+      while ((retval > 3) && (local_02 != 20)) {
+        spawn NPC.slot_22(Item.getDirFromTo16(pid, 1, Item.getY(local_08), Item.getX(Item.getY(Item.getX(local_08), &global[0x003d]), &global[0x003d])), &global[0x003d]);
+        suspend;
+        local_02 = (1 + local_02);
+      }
+      local_12 = local_04;
+      spawn DOOR.slot_20(pid, local_12);
+      suspend;
+    }
+    suspend;
+    spawn NPC.slot_22(pid, 3, 0, &global[0x003d]);
+    suspend;
+    spawn NPC.slot_22(pid, 2, 14, &global[0x003d]);
+    suspend;
+    spawn NPC.slot_22(pid, 4, 12, &global[0x003d]);
+    suspend;
+    suspend;
+    playFlic(pid, 0x0096, 0x00fa, "13f", &global[0x003d]);
+    suspend;
+    Ultima8Engine.setAvatarInStasis(1);
+    spawn NPC.slot_22(pid, 6, 4, local_08);
+    suspend;
+    spawn NPC.slot_22(pid, 3, 4, local_08);
+    suspend;
+    suspend;
+    spawn NPC.slot_22(pid, 2, 4, &global[0x003d]);
+    suspend;
+    suspend;
+    for local_04 in selector_0x42(arg0=0x0329, arg1=0x032a, arg2=(15 * 32), origin=global[0x003d]) {
+      Item.destroy(local_04);
+    }
+    spawn NPC.slot_22(pid, 3, 0, local_08);
+    suspend;
+    suspend;
+    suspend;
+    spawn NPC.slot_24(pid, local_08);
+    suspend;
+    Item.destroy(local_08);
+    spawn FREE.waitNTimerTicks(pid, 15, 0x00000000);
+    suspend;
+  }
+  Ultima8Engine.setAvatarInStasis(0);
+  return;
+}

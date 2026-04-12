@@ -1,0 +1,204 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[01:use] call_class_event FREE.slot_33 ; ...
+//
+//
+[01:use] call_intrinsic Item.getFrame(arg_bytes=0x4) ; gt ; jne 0x007d ; ...
+[01:use]
+[01:use] call_intrinsic Item.getFrame(arg_bytes=0x4) ; sub ; call_intrinsic Item.setFrame(arg_bytes=0x6) ; ...
+[01:use] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[01:use] spawn FREE.slot_21 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[01:use] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[01:use] spawn BART.enterFastArea ; pop_temp ; ...
+//
+[01:use] ret
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[0F:enterFastArea] call_class_event FREE.slot_20 ; gt ; jne 0x014d ; ...
+[0F:enterFastArea]
+[0F:enterFastArea] call_intrinsic Item.setFrame(arg_bytes=0x6)
+[0F:enterFastArea] call_class_event FREE.slot_20 ; add ; spawn FREE.slot_32 ; ...
+//
+[0F:enterFastArea] call_class_event FREE.slot_20 ; add ; pop_local_word rndNum ; ...
+//
+[0F:enterFastArea] pop_local_word counter ; add ; pop_local_word counter ; ...
+[0F:enterFastArea] le ; jne 0x014a
+[0F:enterFastArea] pop_local_word counter2 ; le ; jne 0x00eb ; ...
+//
+[0F:enterFastArea] call_intrinsic Item.setFrame(arg_bytes=0x6)
+[0F:enterFastArea] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[0F:enterFastArea] pop_local_word counter2 ; le ; jne 0x013d ; ...
+//
+[0F:enterFastArea] sub ; call_intrinsic Item.setFrame(arg_bytes=0x6) ; ...
+[0F:enterFastArea] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+//
+//
+[0F:enterFastArea] pop_local_word counter ; le ; jne 0x019c ; ...
+//
+[0F:enterFastArea] call_intrinsic Item.setFrame(arg_bytes=0x6)
+[0F:enterFastArea] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[0F:enterFastArea] call_class_event FREE.slot_20 ; add ; spawn FREE.slot_32 ; ...
+//
+[0F:enterFastArea] pop_local_word counter ; le ; jne 0x021f ; ...
+//
+[0F:enterFastArea] sub ; call_intrinsic Item.setFrame(arg_bytes=0x6) ; ...
+[0F:enterFastArea] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[0F:enterFastArea] call_class_event FREE.slot_20 ; add ; spawn FREE.slot_32 ; ...
+//
+[0F:enterFastArea] pop_local_word counter ; le ; jne 0x02a2 ; ...
+//
+[0F:enterFastArea] sub ; call_intrinsic Item.setFrame(arg_bytes=0x6) ; ...
+[0F:enterFastArea] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+[0F:enterFastArea] ret
+
+/* synthesized appendix for BART */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x01 use ===== */
+function bart_use() /* entry=503 class_id=0x01f5 slot=0x01 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    counter; /* [BP-02h] type=0x69 */
+
+  set_info(0x0207, *(arg_06));
+  process_exclude();
+  FREE.slot_33(0x021b, *(arg_06));
+  while (Item.getFrame(arg_06) > 1) {
+    Item.setFrame((Item.getFrame(arg_06) - 1), arg_06);
+    spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+    suspend;
+  }
+  spawn FREE.slot_21(pid, 0x00e8, 0x00000000);
+  suspend;
+  spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
+  suspend;
+  spawn BART.enterFastArea(arg_06);
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol counter [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x0f enterFastArea ===== */
+function bart_enterFastArea() /* entry=503 class_id=0x01f5 slot=0x0f */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    counter, /* [BP-02h] type=0x69 */
+    counter2, /* [BP-04h] type=0x69 */
+    rndNum; /* [BP-06h] type=0x69 */
+
+  set_info(0x021b, *(arg_06));
+  process_exclude();
+  suspend;
+  FREE.slot_20(100);
+  while (true) {
+    suspend;
+    FREE.slot_20(100);
+    if (retval > 50) {
+      Item.setFrame(0, arg_06);
+      FREE.slot_20(pid, 120);
+      spawn FREE.waitNTimerTicks((retval + 60), 0x00000000);
+      suspend;
+      FREE.slot_20(5);
+      rndNum = (retval + 4);
+      counter = 0;
+      while (counter <= rndNum) {
+        counter2 = 1;
+        while (counter2 <= 7) {
+          Item.setFrame(counter2, arg_06);
+          spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+          suspend;
+          counter2 = (1 + counter2);
+        }
+        counter2 = 1;
+        while (counter2 <= 7) {
+          Item.setFrame((8 - counter2), arg_06);
+          spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+          suspend;
+          counter2 = (1 + counter2);
+        }
+        counter = (1 + counter);
+      }
+    }
+    else {
+      counter = 1;
+      while (counter <= 16) {
+        Item.setFrame(counter, arg_06);
+        spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+        suspend;
+        counter = (1 + counter);
+      }
+      FREE.slot_20(pid, 60);
+      spawn FREE.waitNTimerTicks((retval + 60), 0x00000000);
+      suspend;
+      counter = 0;
+      while (counter <= 3) {
+        Item.setFrame((16 - counter), arg_06);
+        spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+        suspend;
+        counter = (1 + counter);
+      }
+      FREE.slot_20(pid, 120);
+      spawn FREE.waitNTimerTicks((retval + 60), 0x00000000);
+      suspend;
+      counter = 0;
+      while (counter <= 14) {
+        Item.setFrame((14 - counter), arg_06);
+        spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+        suspend;
+        counter = (1 + counter);
+      }
+    }
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol counter [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol counter2 [BP-04h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol rndNum [BP-06h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}

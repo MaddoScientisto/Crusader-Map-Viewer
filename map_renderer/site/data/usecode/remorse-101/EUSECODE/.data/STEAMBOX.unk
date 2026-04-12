@@ -1,0 +1,141 @@
+/* synthesized appendix for STEAMBOX */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x0a equip ===== */
+function steambox_equip() /* entry=1282 class_id=0x0500 slot=0x0a */
+{
+  set_info(0x0211, *(arg_06));
+  process_exclude();
+  if (arg_10 == 0) {
+    while (condition) {
+      if (Actor.getDefaultActivity2(local_02) == Actor.getDefaultActivity2(arg_06)) {
+        if (Item.getStatus(local_02) & 0x1000) {
+        }
+        else if ((Item.getShape(local_02) == 0x04fa) || (Item.getShape(local_02) == 0x04f9)) {
+          spawn STEAMBOX.slot_21(0, local_02, arg_06);
+        }
+        else if ((Item.getShape(local_02) == 0x0511) || (Item.getShape(local_02) == 0x04fd)) {
+          spawn STEAMBOX.slot_21(1, local_02, arg_06);
+        }
+      }
+    }
+    return;
+  }
+  else if (arg_10 == 1) {
+    for local_02 in nearby_items(shape=0x03a9, origin=arg_06) {
+      if (Actor.getDefaultActivity2(local_02) == Actor.getDefaultActivity2(arg_06)) {
+        if (Item.getFrame(local_02) == 0) {
+          Item.legal_create(0, 0x04f9, local_04);
+          getTargetNPCNumMaybe(Item.getZ(local_02), Item.getY(local_02), Item.getX(local_02), local_04);
+          AudioProcess.playSFXCru(95, arg_06);
+          spawn STEAMBOX.slot_20(0, local_04, arg_06);
+          Item.destroy(local_02);
+        }
+        else if (Item.getFrame(local_02) == 1) {
+          Item.legal_create(0, 0x04fd, local_04);
+          getTargetNPCNumMaybe(Item.getZ(local_02), Item.getY(local_02), Item.getX(local_02), local_04);
+          AudioProcess.playSFXCru(95, arg_06);
+          spawn STEAMBOX.slot_20(1, local_04, arg_06);
+          Item.destroy(local_02);
+        }
+      }
+    }
+    return;
+  }
+  return;
+}
+
+/* ===== slot 0x20 slot_20 ===== */
+function steambox_slot_20() /* entry=1282 class_id=0x0500 slot=0x20 */
+{
+  set_info(0x00f0, *(arg_06));
+  if (PaletteFaderProcess.fadeToColor()) {
+    while ((Item.getFrame(arg_10) != 39) && (Item.isOnScreen(arg_10) == 1)) {
+      spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+      suspend;
+      if (Item.getFrame(arg_10) == 12) {
+        AudioProcess.playAmbientSFXCru(30, arg_06);
+        ITEM.slot_23(4, arg_10);
+        spawn STEAM.slot_20(arg_10);
+      }
+    }
+  }
+  else {
+    spawn FREE.waitNTimerTicks(pid, 120, 0x00000000);
+    suspend;
+  }
+  if (arg_12 == 0) {
+    if (PaletteFaderProcess.fadeToColor()) {
+      Item.legal_create(0, 0x04fa, local_04);
+    }
+    else {
+      Item.legal_create(10, 0x04fa, local_04);
+    }
+  }
+  else if (arg_12 == 1) {
+    if (PaletteFaderProcess.fadeToColor()) {
+      Item.legal_create(0, 0x0511, local_04);
+    }
+    else {
+      Item.legal_create(10, 0x0511, local_04);
+    }
+  }
+  Item.andStatus(Actor.getDefaultActivity2(arg_06), local_04);
+  getTargetNPCNumMaybe(Item.getZ(arg_10), Item.getY(arg_10), Item.getX(arg_10), local_04);
+  ITEM.slot_23(4, local_04);
+  AudioProcess.playAmbientSFXCru(30, local_04);
+  spawn STEAM.slot_20(local_04);
+  Item.destroy(arg_10);
+  return;
+}
+
+/* ===== slot 0x21 slot_21 ===== */
+function steambox_slot_21() /* entry=1282 class_id=0x0500 slot=0x21 */
+{
+  set_info(1, *(arg_06));
+  ITEM.slot_23(0x1000, arg_10);
+  if (PaletteFaderProcess.fadeToColor()) {
+    if ((Item.getShape(arg_10) == 0x04f9) || (Item.getShape(arg_10) == 0x04fd)) {
+      while ((Item.getFrame(arg_10) != 39) && (Item.isOnScreen(arg_06) == 1)) {
+        spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+        suspend;
+      }
+    }
+    else {
+      while ((Item.getFrame(arg_10) != 23) && (Item.isOnScreen(arg_10) == 1)) {
+        spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+        suspend;
+      }
+    }
+  }
+  else {
+    spawn FREE.waitNTimerTicks(pid, 0x00c8, 0x00000000);
+    suspend;
+  }
+  AudioProcess.stopSFXCru(30, arg_06);
+  AudioProcess.playSFXCru(36, arg_06);
+  if (arg_12 == 0) {
+    Item.legal_create(0, 0x04fb, local_04);
+  }
+  else if (arg_12 == 1) {
+    Item.legal_create(0, 0x0512, local_04);
+  }
+  Item.andStatus(Actor.getDefaultActivity2(arg_06), local_04);
+  ITEM.slot_23(0x1000, local_04);
+  getTargetNPCNumMaybe(Item.getZ(arg_10), Item.getY(arg_10), Item.getX(arg_10), local_04);
+  Item.destroy(arg_10);
+  if (PaletteFaderProcess.fadeToColor()) {
+    while ((Item.getFrame(local_04) != 29) && (Item.isOnScreen(local_04) == 1)) {
+      spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+      suspend;
+    }
+  }
+  else {
+    spawn FREE.waitNTimerTicks(pid, 0x00c8, 0x00000000);
+    suspend;
+  }
+  Item.setShape(0x03a9, local_04);
+  Item.isCentreOn(arg_12, local_04);
+  ITEM.slot_24(0x1000, local_04);
+  return;
+}

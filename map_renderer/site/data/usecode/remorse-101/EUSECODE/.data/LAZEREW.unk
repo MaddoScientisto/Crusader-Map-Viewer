@@ -1,0 +1,76 @@
+/* synthesized appendix for LAZEREW */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x0a equip ===== */
+function lazerew_equip() /* entry=414 class_id=0x019c slot=0x0a */
+{
+  set_info(0x0211, *(arg_06));
+  process_exclude();
+  if (Item.getFrame(arg_06) < 4) {
+    if (arg_10 == 1) {
+      spawn LAZEREW.slot_20(arg_06);
+      return;
+    }
+    else if (arg_10 > 1) {
+      spawn LAZEREW.slot_20(arg_06);
+      spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
+      suspend;
+      ITEM.slot_24(0x1000, arg_06);
+      FREE.slot_33(0x0205, *(arg_06));
+      return;
+    }
+    else {
+      ITEM.slot_24(0x1000, arg_06);
+      FREE.slot_33(0x0205, *(arg_06));
+    }
+  }
+  return;
+}
+
+/* ===== slot 0x10 leaveFastArea ===== */
+function lazerew_leaveFastArea() /* entry=414 class_id=0x019c slot=0x10 */
+{
+  set_info(0x021c, *(arg_06));
+  process_exclude();
+  ITEM.slot_24(0x1000, arg_06);
+  FREE.slot_33(0x0205, *(arg_06));
+  return;
+}
+
+/* ===== slot 0x20 slot_20 ===== */
+function lazerew_slot_20() /* entry=414 class_id=0x019c slot=0x20 */
+{
+  set_info(0x0205, *(arg_06));
+  if (Item.getStatus(arg_06) & 0x1000) {
+    return;
+  }
+  else {
+    ITEM.slot_23(0x1000, arg_06);
+    local_02 = Item.getFrame(arg_06);
+    suspend;
+    while (true) {
+      suspend;
+      if (local_02 == 1) {
+        AudioProcess.playSFXCru(2, arg_06);
+        Item.getQHi((Item.getZ(arg_06) + 14), (Item.getY(arg_06) + 9), (Item.getX(arg_06) + 17), 6, 11, 9, 0x040c);
+      }
+      else if (local_02 == 2) {
+        AudioProcess.playSFXCru(83, arg_06);
+        Item.getQHi((Item.getZ(arg_06) + 14), (Item.getY(arg_06) + 9), (Item.getX(arg_06) + 17), 6, 8, 6, 0x040c);
+      }
+      else if (local_02 == 3) {
+        AudioProcess.playSFXCru(100, arg_06);
+        Item.getQHi((Item.getZ(arg_06) + 1), (Item.getY(arg_06) - 19), (Item.getX(arg_06) + 1), 6, 2, 0, 0x040c);
+        spawn FREE.waitNTimerTicks(pid, 100, 0x00000000);
+        suspend;
+      }
+      else {
+        AudioProcess.playSFXCru(44, arg_06);
+        Item.getQHi((Item.getZ(arg_06) + 2), (Item.getY(arg_06) - 17), (Item.getX(arg_06) + 9), 6, 2, 0, 0x040c);
+      }
+      spawn FREE.waitNTimerTicks(pid, ((5 - Game.getDifficultyLevel()) * 20), 0x00000000);
+      suspend;
+    }
+  }
+  return;
+}

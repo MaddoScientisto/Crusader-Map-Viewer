@@ -96,6 +96,7 @@ import {
   loadUsecodeText,
   resolveUsecodeTargetFile
 } from "../../shared/usecode-browser.js";
+import { versionSelect } from "../controller/dom-elements.js";
 import { state } from "../controller/state.js";
 
 const USECODE_STATE_EVENT = "crusader-map-renderer:scene-changed";
@@ -109,7 +110,16 @@ const searchQuery = ref("");
 const activeFilePath = ref("");
 const codeFontSize = ref(DEFAULT_CODE_FONT_SIZE);
 const softWrapEnabled = ref(false);
+const selectedGameId = ref(null);
 let pendingOpenTarget = null;
+
+function getSelectedVersionGameId() {
+  return versionSelect?.value || null;
+}
+
+function resolveActiveUsecodeGameId() {
+  return selectedGameId.value ?? state.current?.selected?.game ?? getSelectedVersionGameId();
+}
 
 function clampCodeFontSize(value) {
   return Math.min(MAX_CODE_FONT_SIZE, Math.max(MIN_CODE_FONT_SIZE, value));
@@ -343,11 +353,16 @@ const UsecodeTree = defineComponent({
   }
 });
 
-function getUsecodeList() {
-  if (!state.current) return;
+function getUsecodeList(gameId = resolveActiveUsecodeGameId()) {
+  if (!gameId) {
+    data.sources = [];
+    data.sourceFiles = [];
+    data.fileContent = "";
+    activeFilePath.value = "";
+    return;
+  }
   data.loading = true;
-  const selected = state.current.selected;
-  loadUsecodeIndex(state.siteConfig, selected.game)
+  loadUsecodeIndex(state.siteConfig, gameId)
     .then(({ sources: sourceEntries, sourceFiles }) => {
       data.sourceFiles = sourceFiles;
       data.sources = buildSourceTree(sourceEntries);
@@ -374,9 +389,14 @@ function getUsecodeList() {
     .finally(() => (data.loading = false));
 }
 
-function refreshFromControllerState() {
-  if (state.current?.selected?.game) {
-    getUsecodeList();
+function refreshFromControllerState(event) {
+  const nextGameId = event?.detail && "game" in event.detail
+    ? (event.detail.game || null)
+    : (state.current?.selected?.game ?? getSelectedVersionGameId());
+  selectedGameId.value = nextGameId;
+
+  if (nextGameId) {
+    getUsecodeList(nextGameId);
     return;
   }
   data.sources = [];
@@ -386,11 +406,12 @@ function refreshFromControllerState() {
 
 function openUsecodeTarget(target) {
   pendingOpenTarget = target;
-  if (data.loading || !state.current?.selected?.game) {
+  const gameId = resolveActiveUsecodeGameId();
+  if (data.loading || !gameId) {
     return;
   }
 
-  resolveUsecodeTargetFile(state.siteConfig, state.current.selected.game, target)
+  resolveUsecodeTargetFile(state.siteConfig, gameId, target)
     .then((file) => {
       if (!file) {
         activeFilePath.value = "";
@@ -412,10 +433,11 @@ function handleOpenUsecodeTarget(event) {
 }
 
 function loadFile(file) {
-  if (!state.current) return;
+  const gameId = resolveActiveUsecodeGameId();
+  if (!gameId) return;
   activeFilePath.value = file.path;
   data.fileLoading = true;
-  loadUsecodeText(state.siteConfig, state.current.selected.game, file.path)
+  loadUsecodeText(state.siteConfig, gameId, file.path)
     .then((text) => {
       data.fileContent = text;
     })

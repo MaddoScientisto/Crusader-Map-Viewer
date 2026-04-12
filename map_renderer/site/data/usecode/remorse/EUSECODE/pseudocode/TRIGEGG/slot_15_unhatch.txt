@@ -16,4 +16,11 @@ function trigegg_unhatch() /* entry=2306 class_id=0x0900 slot=0x15 */
   suspend;
   Item.setQLo(qlo, item);
   return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol item [BP-02h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol id [BP-04h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol qlo [BP-06h] type=0x69 unk1=0x00 unk3=0x00
+  */
 }

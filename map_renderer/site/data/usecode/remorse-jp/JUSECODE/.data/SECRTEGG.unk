@@ -1,0 +1,71 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[07:hatch] pop_local_word id
+[07:hatch] pop_local_word range
+[07:hatch] call_intrinsic CameraProcess.setCenterOn(arg_bytes=0x4) ; pop_local_word id ; loopscr value_u8=0x24 ; ...
+//
+[07:hatch] loopscr value_u8=0x42 ; mul ; ...
+[07:hatch] loop current_var=0xfc, string_bytes=0x6, loop_type=0x2 ; jne 0x007a ; ...
+[07:hatch] call_intrinsic Item.andStatus(arg_bytes=0x4) ; cmp ; jne 0x0076 ; ...
+[07:hatch]
+[07:hatch] spawn DOOR.slot_20 ; pop_temp ; loopnext ; ...
+//
+//
+[07:hatch] ret
+
+/* synthesized appendix for SECRTEGG */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x07 hatch ===== */
+function secrtegg_hatch() /* entry=2312 class_id=0x0906 slot=0x07 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    item, /* [BP-02h] type=0x24 */
+    door, /* [BP-04h] type=0x24 */
+    id, /* [BP-06h] type=0x69 */
+    range; /* [BP-08h] type=0x69 */
+
+  set_info(0x0210, *(arg_06));
+  process_exclude();
+  id = 0;
+  range = 32;
+  id = CameraProcess.setCenterOn(arg_06);
+  for door in selector_0x42(arg0=0x01ab, arg1=0x0393, arg2=(range * 32), origin=arg_06) {
+    if (id == Item.andStatus(door)) {
+      spawn DOOR.slot_20(door);
+    }
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol item [BP-02h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol door [BP-04h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol id [BP-06h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol range [BP-08h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}

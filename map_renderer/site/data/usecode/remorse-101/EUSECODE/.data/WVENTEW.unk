@@ -1,0 +1,31 @@
+/* synthesized appendix for WVENTEW */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x06 gotHit ===== */
+function wventew_gotHit() /* entry=1002 class_id=0x03e8 slot=0x06 */
+{
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  local_02 = Item.getFrame(arg_06);
+  AudioProcess.stopSFXCru(94, arg_06);
+  FREE.slot_2c(arg_12, arg_10);
+  if (retval) {
+    if (local_02 < 1) {
+      for local_04 in nearby_items(shape=WIND_AREA, origin=arg_06) {
+        if (Actor.getDefaultActivity2(arg_06) == Actor.getDefaultActivity2(local_04)) {
+          Item.destroy(local_04);
+        }
+      }
+    }
+  }
+  return;
+}
+
+/* ===== slot 0x0f enterFastArea ===== */
+function wventew_enterFastArea() /* entry=1002 class_id=0x03e8 slot=0x0f */
+{
+  set_info(0x021b, *(arg_06));
+  process_exclude();
+  AudioProcess.playAmbientSFXCru(94, arg_06);
+  return;
+}

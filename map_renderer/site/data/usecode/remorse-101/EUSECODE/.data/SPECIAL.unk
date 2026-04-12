@@ -1,0 +1,160 @@
+/* synthesized appendix for SPECIAL */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x0a equip ===== */
+function special_equip() /* entry=1228 class_id=0x04ca slot=0x0a */
+{
+  set_info(0x0211, *(arg_06));
+  process_exclude();
+  FREE.slot_33(0x021b, *(arg_06));
+  Item.setQHi(arg_10, arg_06);
+  if (arg_10) {
+    spawn SPECIAL.slot_21(arg_06);
+  }
+  return;
+}
+
+/* ===== slot 0x0f enterFastArea ===== */
+function special_enterFastArea() /* entry=1228 class_id=0x04ca slot=0x0f */
+{
+  set_info(0x021b, *(arg_06));
+  process_exclude();
+  if (Item.popToEnd(arg_06)) {
+    local_02 = Item.getMapArray(arg_06);
+    local_04 = Item.isOn(arg_06);
+    if (local_02 == 1) {
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+      spawn TRIGGER.slot_2a(pid, (0x0080 + 0), *(arg_06), arg_06);
+      suspend;
+    }
+    if (local_04 == 1) {
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+      spawn TRIGGER.slot_2a(pid, (0x0080 + 1), *(arg_06), arg_06);
+      suspend;
+    }
+    if ((local_02 > 2) || (local_04 > 2)) {
+      spawn SPECIAL.slot_21(arg_06);
+    }
+  }
+  return;
+}
+
+/* ===== slot 0x10 leaveFastArea ===== */
+function special_leaveFastArea() /* entry=1228 class_id=0x04ca slot=0x10 */
+{
+  set_info(0x021c, *(arg_06));
+  process_exclude();
+  if (Item.popToEnd(arg_06)) {
+    if (Item.getMapArray(arg_06) == 2) {
+      spawn TRIGGER.slot_2a(pid, (0x0080 + 0), *(arg_06), arg_06);
+      suspend;
+    }
+    if (Item.isOn(arg_06) == 2) {
+      spawn TRIGGER.slot_2a(pid, (0x0080 + 1), *(arg_06), arg_06);
+      suspend;
+    }
+  }
+  return;
+}
+
+/* ===== slot 0x20 slot_20 ===== */
+function special_slot_20() /* entry=1228 class_id=0x04ca slot=0x20 */
+{
+  set_info(0x021b, *(arg_06));
+  switch (arg_10) {
+  case 3:
+    local_02 = Actor.maybeFire(&global[0x003d]);
+    if ((local_02 <= 4) || (local_02 >= 12)) {
+      spawn TRIGGER.slot_2a(pid, arg_12, *(arg_06), arg_06);
+      suspend;
+    }
+    return;
+  case 4:
+    local_02 = Actor.maybeFire(&global[0x003d]);
+    if ((local_02 > 4) && (local_02 < 12)) {
+      spawn TRIGGER.slot_2a(pid, arg_12, *(arg_06), arg_06);
+      suspend;
+    }
+    return;
+  case 5:
+    if (KeypadGump.showKeypad(&global[0x003d]) == 1) {
+      spawn TRIGGER.slot_2a(pid, arg_12, *(arg_06), arg_06);
+      suspend;
+    }
+    return;
+  case 6:
+    if (KeypadGump.showKeypad(&global[0x003d]) == 0) {
+      spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+      suspend;
+      if (KeypadGump.showKeypad(&global[0x003d]) == 0) {
+        spawn TRIGGER.slot_2a(pid, arg_12, *(arg_06), arg_06);
+        suspend;
+      }
+    }
+    return;
+  case 7:
+    local_02 = 0;
+    for local_04 in nearby_items(family=6, origin=global[0x003d]) {
+      if (local_04 < 0x0100) {
+        local_02 = (1 + local_02);
+      }
+    }
+    if (local_02 > 4) {
+      spawn TRIGGER.slot_2a(pid, arg_12, *(arg_06), arg_06);
+      suspend;
+    }
+    spawn FREE.waitNTimerTicks(pid, (Item.popToEnd(arg_06) * 9), 0x00000000);
+    suspend;
+    return;
+  case 8:
+    local_02 = 0;
+    for local_04 in nearby_items(family=6, origin=global[0x003d]) {
+      if (local_04 < 0x0100) {
+        local_02 = (1 + local_02);
+      }
+    }
+    if (local_02 <= 4) {
+      spawn TRIGGER.slot_2a(pid, arg_12, *(arg_06), arg_06);
+      suspend;
+    }
+    spawn FREE.waitNTimerTicks(pid, (Item.popToEnd(arg_06) * 9), 0x00000000);
+    suspend;
+    return;
+  case 9:
+    local_06 = Actor.getDefaultActivity2(arg_06);
+    FREE.slot_20(local_06, 3);
+    Item.andStatus(retval, arg_06);
+    spawn TRIGGER.slot_2a(pid, arg_12, *(arg_06), arg_06);
+    suspend;
+    Item.andStatus(local_06, arg_06);
+    return;
+  }
+  return;
+}
+
+/* ===== slot 0x21 slot_21 ===== */
+function special_slot_21() /* entry=1228 class_id=0x04ca slot=0x21 */
+{
+  set_info(0x021b, *(arg_06));
+  local_02 = 0;
+  local_04 = Item.popToEnd(arg_06);
+  local_06 = Item.getMapArray(arg_06);
+  local_08 = Item.isOn(arg_06);
+  while (1) {
+    spawn SPECIAL.slot_20(pid, (0x0080 + 0), local_06, arg_06);
+    suspend;
+    spawn SPECIAL.slot_20(pid, (0x0080 + 1), local_08, arg_06);
+    suspend;
+    spawn FREE.waitNTimerTicks(pid, local_04, 0x00000000);
+    suspend;
+    local_02 = (1 + local_02);
+    if ((local_06 == 8) || (local_06 == 7)) {
+      if (local_02 >= 4) {
+        return;
+      }
+    }
+  }
+  return;
+}

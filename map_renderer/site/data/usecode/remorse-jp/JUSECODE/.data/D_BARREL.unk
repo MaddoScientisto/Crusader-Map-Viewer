@@ -1,0 +1,66 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[06:gotHit] call_class_event FREE.slot_2c ; jne 0x0079 ; ...
+//
+[06:gotHit] call_class_event FREE.slot_2c ; ...
+[06:gotHit] ne ; jne 0x0079
+[06:gotHit] call_class_event FREE.slot_20 ; gt ; jne 0x006a ; ...
+[06:gotHit]
+[06:gotHit] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6) ; jmp 0x0079 ; ...
+//
+//
+//
+[06:gotHit] call_intrinsic Item.explode(arg_bytes=0x8) ; ...
+//
+//
+//
+[06:gotHit] ret
+
+/* synthesized appendix for D_BARREL */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x06 gotHit ===== */
+function d_barrel_gotHit() /* entry=557 class_id=0x022b slot=0x06 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    vel; /* [BP+12h] type=0x69 */
+
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  FREE.slot_2c(vel, ref);
+  if (retval) {
+    FREE.slot_2c(vel, ref);
+    if (retval != 4) {
+      FREE.slot_20(10);
+      if (retval > 5) {
+        AudioProcess.playSFXCru(38, arg_06);
+        return;
+      }
+      else {
+        Item.explode(1, 1, arg_06);
+      }
+    }
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol ref [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol vel [BP+12h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}

@@ -1,0 +1,93 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[07:hatch] loopscr value_u8=0x25 ; mul ; ...
+[07:hatch] loop current_var=0xfe, string_bytes=0x6, loop_type=0x2 ; jne 0x0055 ; ...
+[07:hatch] call_intrinsic Item.getFrame(arg_bytes=0x4) ; cmp ; jne 0x0051 ; ...
+//
+[07:hatch] pop_local_word source ; loopnext ; jmp 0x0035 ; ...
+//
+//
+//
+//
+[07:hatch] loopscr value_u8=0x25 ; mul ; ...
+[07:hatch] loop current_var=0xfe, string_bytes=0x6, loop_type=0x2 ; jne 0x0095 ; ...
+[07:hatch] call_intrinsic Item.getFrame(arg_bytes=0x4) ; cmp ; jne 0x0091 ; ...
+//
+[07:hatch] pop_local_word dest ; loopnext ; jmp 0x0075 ; ...
+//
+//
+//
+[07:hatch] push_local_word source
+[07:hatch] and ; jne 0x011c
+//
+[07:hatch] call_intrinsic Item.getX(arg_bytes=0x4) ; pop_local_word wp ; ...
+[07:hatch] call_intrinsic Item.getY(arg_bytes=0x4) ; pop_local_word local_11 ; ...
+[07:hatch] call_intrinsic Item.getZ(arg_bytes=0x4) ; pop_local_byte local_09 ; ...
+//
+[07:hatch] call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[07:hatch] call_intrinsic Item.getZ(arg_bytes=0x4) ; add ; call_intrinsic Item.getY(arg_bytes=0x4) ; ...
+[07:hatch] call_intrinsic Item.enterFastArea(arg_bytes=0xc) ; ...
+//
+//
+[07:hatch] ret
+
+/* synthesized appendix for GRENEGG */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x07 hatch ===== */
+function grenegg_hatch() /* entry=2315 class_id=0x0909 slot=0x07 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    item, /* [BP-02h] type=0x24 */
+    source, /* [BP-04h] type=0x24 */
+    dest, /* [BP-06h] type=0x24 */
+    counter, /* [BP-08h] type=0x69 */
+    wp; /* [BP-13h] type=0x24 */
+
+  set_info(0x0210, *(arg_06));
+  process_exclude();
+  for item in nearby_items(shape=NUMBERS, origin=arg_06) {
+    if (Item.getFrame(item) == 0) {
+      source = item;
+    }
+  }
+  for item in nearby_items(shape=NUMBERS, origin=arg_06) {
+    if (Item.getFrame(item) == 0) {
+      dest = item;
+    }
+  }
+  if (source && dest) {
+    wp = Item.getX(dest);
+    local_11 = Item.getY(dest);
+    local_09 = Item.getZ(dest);
+    Item.create(0, GRENADE, item);
+    Item.popToCoords((Item.getZ(source) + 60), Item.getY(source), Item.getX(source), item);
+    Item.enterFastArea(1, 64, wp, item);
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol item [BP-02h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol source [BP-04h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol dest [BP-06h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol counter [BP-08h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol wp [BP-13h] type=0x24 unk1=0x00 unk3=0x05
+  */
+}

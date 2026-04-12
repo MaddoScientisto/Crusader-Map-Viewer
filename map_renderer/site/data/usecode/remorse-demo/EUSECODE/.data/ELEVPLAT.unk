@@ -1,0 +1,261 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[05:hit] ne ; jne 0x008a ; ...
+[05:hit]
+//
+[05:hit] pop_local_word cargo
+//
+[05:hit] lt ; jne 0x008a ; ...
+//
+[05:hit] call_intrinsic Item.getItemFamily(arg_bytes=0x4) ; not ; jne 0x008a ; ...
+[05:hit]
+[05:hit] call_intrinsic Item.getZ(arg_bytes=0x4) ; call_intrinsic Item.getZ(arg_bytes=0x4) ; lt ; ...
+[05:hit]
+[05:hit] call_intrinsic Actor.setActivity(arg_bytes=0x4) ; call_intrinsic UCMachine.rndRange(arg_bytes=0x4) ; call_intrinsic Actor.getSomeFlagProbablyCrouch(arg_bytes=0xc) ; ...
+//
+//
+//
+//
+//
+[05:hit] ret
+//
+//
+//
+//
+[0A:equip] call_intrinsic Item.getStatus(arg_bytes=0x4) ; bit_and ; jne 0x0030 ; ...
+//
+[0A:equip] jmp 0x01ec
+//
+//
+[0A:equip] pop_global global[0x0000]
+//
+//
+[0A:equip] call_intrinsic Item.getZ(arg_bytes=0x4) ; pop_local_word zz ; ...
+//
+[0A:equip] ge ; lt ; and ; ...
+[0A:equip]
+[0A:equip] pop_global global[0x0000]
+[0A:equip] sub ; pop_local_word var ; ...
+//
+//
+[0A:equip] cmp ; jne 0x00d3 ; ...
+//
+//
+[0A:equip] call_intrinsic Actor.clrInCombat(arg_bytes=0x4) ; pop_local_word h ; ...
+[0A:equip] cmp ; add ; le ; ...
+[0A:equip]
+[0A:equip] call_intrinsic Item.pop(arg_bytes=0x6) ; jmp 0x00d0 ; ...
+//
+//
+[0A:equip] lt ; jne 0x00d0 ; ...
+//
+[0A:equip] add ; call_intrinsic Item.pop(arg_bytes=0x6) ; jmp 0x00d0 ; ...
+//
+//
+//
+//
+[0A:equip] jne 0x013c
+[0A:equip] lt ; jne 0x0103 ; ...
+//
+[0A:equip] call_intrinsic Item.move(arg_bytes=0x6)
+[0A:equip] call_intrinsic Item.pop(arg_bytes=0x6) ; jmp 0x0139 ; ...
+//
+[0A:equip] gt ; jne 0x012b ; ...
+//
+[0A:equip] call_intrinsic Item.move(arg_bytes=0x6)
+[0A:equip] call_intrinsic Item.pop(arg_bytes=0x6) ; jmp 0x0139 ; ...
+//
+[0A:equip] cmp ; jne 0x0139 ; jmp 0x0139 ; ...
+//
+//
+//
+//
+//
+//
+//
+[0A:equip] call_intrinsic Item.move(arg_bytes=0x6)
+[0A:equip] call_intrinsic Item.pop(arg_bytes=0x6)
+//
+//
+[0A:equip] spawn ELEVAT.slot_20 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[0A:equip] push_global global[0x0000]
+[0A:equip] cmp ; jne 0x01ec ; loopscr value_u8=0x24 ; ...
+//
+//
+[0A:equip] loopscr value_u8=0x25
+[0A:equip] loop current_var=0xfa, string_bytes=0x6, loop_type=0x6 ; jne 0x01ea ; ...
+[0A:equip] call_intrinsic Intrinsic056(arg_bytes=0x6)
+[0A:equip] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[0A:equip] call_intrinsic Item.getQuality(arg_bytes=0x6) ; loopnext ; jmp 0x01a3 ; ...
+//
+//
+[0A:equip] ret
+//
+//
+//
+[10:leaveFastArea] bit_not ; call_intrinsic Ultima8Engine.getUnkCrusaderFlag(arg_bytes=0x6) ; ...
+[10:leaveFastArea] ret
+//
+//
+//
+[0F:enterFastArea] call_intrinsic Item.setQuality(arg_bytes=0x4) ; cmp ; jne 0x0057 ; ...
+[0F:enterFastArea]
+[0F:enterFastArea] call_intrinsic Item.use(arg_bytes=0x6)
+[0F:enterFastArea] call_intrinsic MainActor.getMaxEnergy(arg_bytes=0x4) ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[0F:enterFastArea] ret
+
+/* synthesized appendix for ELEVPLAT */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x05 hit ===== */
+function elevplat_hit() /* entry=305 class_id=0x012f slot=0x05 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    r, /* [BP+10h] type=0x69 */
+    vel, /* [BP+12h] type=0x69 */
+    cargo; /* [BP-02h] type=0x24 */
+
+  set_info(0x020b, *(arg_06));
+  process_exclude();
+  if (r != 1) {
+    cargo = r;
+    if (cargo < 0x0100) {
+      if (!Item.getItemFamily(cargo)) {
+        if (Item.getZ(cargo) < Item.getZ(arg_06)) {
+          Actor.getSomeFlagProbablyCrouch(8, UCMachine.rndRange(Actor.setActivity(cargo), 16, 0), 0, cargo);
+        }
+      }
+    }
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol r [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol vel [BP+12h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol cargo [BP-02h] type=0x24 unk1=0x00 unk3=0x02
+  */
+}
+
+/* ===== slot 0x0a equip ===== */
+function elevplat_equip() /* entry=305 class_id=0x012f slot=0x0a */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    var, /* [BP+10h] type=0x69 */
+    zz, /* [BP-02h] type=0x69 */
+    h, /* [BP-04h] type=0x69 */
+    npc; /* [BP-06h] type=0x24 */
+
+  set_info(0x0211, *(arg_06));
+  process_exclude();
+  if (Item.getStatus(arg_06) & 0x1000) {
+    return;
+  }
+  else {
+    zz = Item.getZ(arg_06);
+    if ((var >= 0x00a0) && (var < 0x00ff)) {
+      var = (var - 0x00a0);
+    }
+    if (var == 0x00ff) {
+      h = Actor.clrInCombat(arg_06);
+      if ((h == 88) || ((zz + 1) <= h)) {
+        Item.pop(22, arg_06);
+      }
+      else if (h < 88) {
+        Item.pop((h + 22), arg_06);
+      }
+    }
+    else if (var) {
+      if (zz < var) {
+        Item.move(zz, arg_06);
+        Item.pop(var, arg_06);
+      }
+      else if (zz > var) {
+        Item.move(var, arg_06);
+        Item.pop(zz, arg_06);
+      }
+      else if (zz == var) {
+      }
+    }
+    else {
+      Item.move(1, arg_06);
+      Item.pop(88, arg_06);
+    }
+    spawn ELEVAT.slot_20(pid, arg_06);
+    suspend;
+    if (global[0x0000] == 1) {
+      while (condition) {
+        Intrinsic056(5, npc);
+        spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+        suspend;
+        Item.getQuality(114, npc);
+      }
+    }
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol var [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol zz [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol h [BP-04h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol npc [BP-06h] type=0x24 unk1=0x00 unk3=0x02
+  */
+}
+
+/* ===== slot 0x0f enterFastArea ===== */
+function elevplat_enterFastArea() /* entry=305 class_id=0x012f slot=0x0f */
+{
+  var
+    referent; /* [BP+00h] type=0x69 */
+
+  set_info(0x021b, *(arg_06));
+  process_exclude();
+  if (Item.setQuality(arg_06) == 101) {
+    Item.use(0, arg_06);
+    suspend;
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+  */
+}
+
+/* ===== slot 0x10 leaveFastArea ===== */
+function elevplat_leaveFastArea() /* entry=305 class_id=0x012f slot=0x10 */
+{
+  var
+    referent; /* [BP+00h] type=0x69 */
+
+  set_info(0x021c, *(arg_06));
+  process_exclude();
+  Ultima8Engine.getUnkCrusaderFlag((~0x1000), arg_06);
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+  */
+}

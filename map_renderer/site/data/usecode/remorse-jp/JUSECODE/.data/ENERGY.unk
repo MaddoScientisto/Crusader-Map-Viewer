@@ -1,0 +1,132 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[01:use] set_info ; global_address global[0x003c] ; call_intrinsic Actor.getMana(arg_bytes=0x4) ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+[01:use] pop_local_word fule ; jmp 0x0083 ; global_address global[0x003c] ; ...
+//
+//
+//
+//
+[01:use] pop_local_word fule ; jmp 0x0083 ; global_address global[0x003c] ; ...
+//
+//
+//
+//
+[01:use] pop_local_word fule ; jmp 0x0083
+//
+//
+//
+//
+[01:use] global_address global[0x003c] ; call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+//
+//
+//
+//
+[01:use] global_address global[0x003c] ; call_intrinsic Actor.setMana(arg_bytes=0x4) ; global_address global[0x003c] ; ...
+[01:use]
+[01:use] call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[01:use] call_intrinsic Item.popToCoords(arg_bytes=0xa) ; ...
+[01:use] call_intrinsic AudioProcess.isSFXPlayingForObject(arg_bytes=0x4)
+[01:use] call_intrinsic Item.isInNPC(arg_bytes=0x0)
+//
+[01:use] spawn FREE.slot_21 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[01:use] jmp 0x01d8
+//
+//
+[01:use] global_address global[0x003c] ; call_intrinsic Actor.setMana(arg_bytes=0x4) ; add ; ...
+[01:use]
+[01:use] global_address global[0x003c] ; call_intrinsic Actor.setMana(arg_bytes=0x4) ; add ; ...
+[01:use] call_intrinsic Item.isInNPC(arg_bytes=0x0)
+[01:use] spawn FREE.slot_21 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+[01:use] global_address global[0x003c] ; call_intrinsic Actor.getMana(arg_bytes=0x4) ; global_address global[0x003c] ; ...
+[01:use] call_intrinsic Item.isInNPC(arg_bytes=0x0)
+[01:use] spawn FREE.slot_21 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[01:use] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[01:use] ret
+
+/* synthesized appendix for ENERGY */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x01 use ===== */
+function energy_use() /* entry=1412 class_id=0x0582 slot=0x01 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    maxLimit, /* [BP-02h] type=0x69 */
+    fule, /* [BP-04h] type=0x69 */
+    item; /* [BP-06h] type=0x24 */
+
+  set_info(0x0207, *(arg_06));
+  process_exclude();
+  set_info(0x00f0, 0);
+  if (Actor.getMana(&global[0x003c]) == 0x09c4) {
+    fule = 0x03e8;
+  }
+  else if (Actor.getMana(&global[0x003c]) == 0x1388) {
+    fule = 0x07d0;
+  }
+  else if (Actor.getMana(&global[0x003c]) == 0x2710) {
+    fule = 0x0bb8;
+  }
+  else {
+    AudioProcess.playSFXCru(0x00b9, &global[0x003c]);
+  }
+  if (Actor.getMana(Actor.setMana(&global[0x003c]), &global[0x003c])) {
+    Item.create(0, ENERGY_CUBE, item);
+    Item.popToCoords(0, 0, 0, item);
+    AudioProcess.isSFXPlayingForObject(0, item);
+    Item.isInNPC();
+    spawn FREE.slot_21(pid, 0x00b0, 0x00000000);
+    suspend;
+    return;
+  }
+  else if (Actor.getMana((Actor.setMana(&global[0x003c]) + fule), &global[0x003c])) {
+    Item.getQLo((Actor.setMana(&global[0x003c]) + fule), &global[0x003c]);
+    Item.isInNPC();
+    spawn FREE.slot_21(pid, 0x010d, 0x00000000);
+    suspend;
+  }
+  else {
+    Item.getQLo(Actor.getMana(&global[0x003c]), &global[0x003c]);
+    Item.isInNPC();
+    spawn FREE.slot_21(pid, 0x010d, 0x00000000);
+    suspend;
+  }
+  spawn FREE.slot_32(pid, 30, 0x00000000);
+  suspend;
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol maxLimit [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol fule [BP-04h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol item [BP-06h] type=0x24 unk1=0x00 unk3=0x02
+  */
+}

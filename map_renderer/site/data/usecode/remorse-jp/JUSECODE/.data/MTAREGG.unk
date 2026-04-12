@@ -1,0 +1,240 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[07:hatch] pop_local_word id
+[07:hatch] pop_local_word hiValue
+[07:hatch] pop_local_word loValue
+//
+[07:hatch] call_intrinsic CameraProcess.setCenterOn(arg_bytes=0x4) ; pop_local_word id ; loopscr value_u8=0x24 ; ...
+[07:hatch] loopscr value_u8=0x42 ; mul ; ...
+[07:hatch] loop current_var=0xfe, string_bytes=0x6, loop_type=0x2 ; jne 0x010f ; ...
+[07:hatch] call_intrinsic Actor.SetNPCDataField0x63_0E6(arg_bytes=0x4) ; pop_local_word loValue ; ...
+[07:hatch] push_local_word id
+[07:hatch] cmp ; jne 0x010b
+[07:hatch] call_intrinsic Actor.getLastAnimSet(arg_bytes=0x4) ; pop_local_word hiValue ; cmp ; ...
+//
+//
+//
+//
+[07:hatch] spawn MTAREGG.slot_20 ; pop_temp ; jmp 0x010b ; ...
+//
+//
+//
+[07:hatch] spawn MTAREGG.slot_20 ; pop_temp ; jmp 0x010b ; ...
+//
+//
+//
+[07:hatch] spawn MTAREGG.slot_20 ; pop_temp ; jmp 0x010b ; ...
+//
+//
+//
+[07:hatch] spawn MTAREGG.slot_20 ; pop_temp ; jmp 0x010b ; ...
+//
+//
+//
+//
+[07:hatch] ret
+//
+//
+//
+//
+[20:slot_20] set_info
+//
+//
+//
+//
+[20:slot_20] pop_local_word me
+[20:slot_20] pop_local_word num ; cmp ; jne 0x003e ; ...
+//
+//
+//
+//
+//
+//
+[20:slot_20] pop_local_word local_07
+[20:slot_20] pop_local_word dp ; jmp 0x0089 ; cmp ; ...
+//
+//
+//
+[20:slot_20] pop_local_word local_07
+[20:slot_20] pop_local_word dp ; jmp 0x0089 ; cmp ; ...
+//
+//
+//
+[20:slot_20] pop_local_word local_07
+[20:slot_20] pop_local_word dp ; jmp 0x0089 ; cmp ; ...
+//
+//
+//
+[20:slot_20] pop_local_word local_07
+[20:slot_20] pop_local_word dp ; jmp 0x0089 ; suspend ; ...
+//
+//
+//
+//
+//
+//
+[20:slot_20] cmp ; jne 0x00aa ; ...
+[20:slot_20]
+[20:slot_20] jmp 0x0116
+//
+//
+[20:slot_20] sub ; pop_local_word num ; ...
+//
+//
+//
+[20:slot_20] call_intrinsic Item.getX(arg_bytes=0x4) ; pop_local_word wp ; ...
+[20:slot_20] call_intrinsic Item.getY(arg_bytes=0x4) ; pop_local_word local_12 ; ...
+[20:slot_20] call_intrinsic Item.getZ(arg_bytes=0x4) ; pop_local_byte local_10 ; ...
+[20:slot_20] add ; pop_local_word wp ; ...
+[20:slot_20] add ; pop_local_word local_12 ; ...
+//
+[20:slot_20] call_intrinsic Item.andStatus(arg_bytes=0xc) ; cmp ; jne 0x0113 ; ...
+[20:slot_20]
+[20:slot_20] jmp 0x0116 ; jmp 0x0089
+//
+//
+//
+[20:slot_20] ret
+
+/* synthesized appendix for MTAREGG */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x07 hatch ===== */
+function mtaregg_hatch() /* entry=2309 class_id=0x0903 slot=0x07 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    item, /* [BP-02h] type=0x24 */
+    id, /* [BP-04h] type=0x69 */
+    hiValue, /* [BP-06h] type=0x69 */
+    loValue; /* [BP-08h] type=0x69 */
+
+  set_info(0x0210, *(arg_06));
+  process_exclude();
+  id = 0;
+  hiValue = 0;
+  loValue = 0;
+  id = CameraProcess.setCenterOn(arg_06);
+  for item in selector_0x42(arg0=0x01f2, arg1=0x01f3, arg2=(20 * 32), origin=arg_06) {
+    loValue = Actor.SetNPCDataField0x63_0E6(item);
+    if (id == loValue) {
+      hiValue = Actor.getLastAnimSet(item);
+      switch (hiValue) {
+      case 1:
+        spawn MTAREGG.slot_20(74, 0, item, arg_06);
+        break;
+      case 2:
+        spawn MTAREGG.slot_20(74, 4, item, arg_06);
+        break;
+      case 3:
+        spawn MTAREGG.slot_20(74, 8, item, arg_06);
+        break;
+      case 4:
+        spawn MTAREGG.slot_20(74, 12, item, arg_06);
+        break;
+      }
+    }
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol item [BP-02h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol id [BP-04h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol hiValue [BP-06h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol loValue [BP-08h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x20 slot_20 ===== */
+function mtaregg_slot_20() /* entry=2309 class_id=0x0903 slot=0x20 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    dir, /* [BP+12h] type=0x62 */
+    num, /* [BP+14h] type=0x69 */
+    me, /* [BP-02h] type=0x24 */
+    num, /* [BP-04h] type=0x69 */
+    dp, /* [BP-09h] type=0x24 */
+    wp; /* [BP-14h] type=0x24 */
+
+  set_info(0x00f0, ref);
+  me = ref;
+  num = num;
+  switch (dir) {
+  case 0:
+    local_07 = -2;
+    dp = 0;
+    break;
+  case 8:
+    local_07 = 2;
+    dp = 0;
+    break;
+  case 4:
+    local_07 = 0;
+    dp = 2;
+    break;
+  case 12:
+    local_07 = 0;
+    dp = -2;
+    break;
+  }
+  suspend;
+  while (true) {
+    suspend;
+    if (num == 0) {
+      return;
+    }
+    else {
+      num = (num - 1);
+      wp = Item.getX(me);
+      local_12 = Item.getY(me);
+      local_10 = Item.getZ(me);
+      wp = (wp + dp);
+      local_12 = (local_12 + local_07);
+      if (Item.andStatus(0, 1, wp, me) == 0) {
+        return;
+      }
+    }
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol ref [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol dir [BP+12h] type=0x62 unk1=0x00 unk3=0x00
+    debug_symbol num [BP+14h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol me [BP-02h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol num [BP-04h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol dp [BP-09h] type=0x24 unk1=0x00 unk3=0x05
+    debug_symbol wp [BP-14h] type=0x24 unk1=0x00 unk3=0x05
+  */
+}

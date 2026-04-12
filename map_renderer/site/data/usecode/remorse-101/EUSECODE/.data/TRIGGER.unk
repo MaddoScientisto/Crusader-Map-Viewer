@@ -1,0 +1,1337 @@
+/* synthesized appendix for TRIGGER */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x20 slot_20 ===== */
+function trigger_slot_20() /* entry=2586 class_id=0x0a18 slot=0x20 */
+{
+  set_info(0x021b, 0);
+  local_14 = arg_10;
+  local_04 = (arg_16 & 3);
+  switch (local_04) {
+  case 0:
+    for local_16 in nearby_items(shape=arg_20, origin=local_14) {
+      if (Actor.GetNPCDataField0x63_00B(local_16) == arg_18) {
+        local_06 = (arg_12 / 16);
+        local_08 = (arg_12 & 15);
+        if (local_06 == 0) {
+          if (Item.getQHi(local_16) != 1) {
+            GetQOfAvatarInventoryItem0x4ed_0EB(1, local_16);
+          }
+          local_18 = Item.use(local_16);
+          suspend;
+          spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+          suspend;
+          local_20 = Item.use(local_16);
+          GetQOfAvatarInventoryItem0x4ed_0EB(local_20, local_16);
+        }
+        else if (Item.getQHi(local_16) != 1) {
+          GetQOfAvatarInventoryItem0x4ed_0EB(1, local_16);
+        }
+        local_22 = Item.use(local_16);
+        suspend;
+        spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+        suspend;
+        if (Actor.isDead(local_16) == 1) {
+          return;
+        }
+        local_24 = 1;
+        while (local_24 <= local_06) {
+          if (Actor.isDead(local_16) == 0) {
+            suspend;
+          }
+          spawn FREE.waitNTimerTicks(pid, 1, 0x00000000);
+          suspend;
+          local_24 = (1 + local_24);
+        }
+        local_26 = Item.use(local_16);
+        local_28 = Item.getQHi(local_16);
+        GetQOfAvatarInventoryItem0x4ed_0EB(Item.use(local_16), local_16);
+      }
+    }
+    return;
+  case 1:
+    for local_16 in nearby_items(shape=arg_20, origin=local_14) {
+      if (Actor.GetNPCDataField0x63_00B(local_16) == arg_18) {
+        Actor.setCombatTactic(arg_12, local_16);
+      }
+    }
+    return;
+  case 2:
+    scan local_16 in nearby_items(shape=arg_20, origin=local_14) where Actor.GetNPCDataField0x63_00B(local_16) == arg_18;
+    return;
+  case 3:
+    local_02 = (arg_12 & 7);
+    local_06 = (arg_12 / 8);
+    switch (local_02) {
+    case 0:
+      for local_16 in nearby_items(shape=arg_20, origin=local_14) {
+        if (Actor.GetNPCDataField0x63_00B(local_16) == arg_18) {
+          if (local_06 == 1) {
+            GetQOfAvatarInventoryItem0x4ed_0EB(9, local_16);
+          }
+          else if (local_06 == 2) {
+            GetQOfAvatarInventoryItem0x4ed_0EB(10, local_16);
+          }
+          else if (local_06 == 3) {
+            GetQOfAvatarInventoryItem0x4ed_0EB(11, local_16);
+          }
+          else {
+            GetQOfAvatarInventoryItem0x4ed_0EB(5, local_16);
+          }
+        }
+      }
+      break;
+    case 1:
+      for local_16 in nearby_items(shape=arg_20, origin=local_14) {
+        if (Actor.GetNPCDataField0x63_00B(local_16) == arg_18) {
+          Actor.clrInCombat(local_06, local_16);
+          spawn FREE.waitNTimerTicks(pid, 1, 0x00000000);
+          suspend;
+          GetQOfAvatarInventoryItem0x4ed_0EB(112, local_16);
+        }
+      }
+      break;
+    case 2:
+      for local_16 in nearby_items(shape=arg_20, origin=local_14) {
+        if (Actor.GetNPCDataField0x63_00B(local_16) == arg_18) {
+          Actor.setDefaultActivity0(local_06, local_16);
+          spawn FREE.waitNTimerTicks(pid, 1, 0x00000000);
+          suspend;
+          GetQOfAvatarInventoryItem0x4ed_0EB(113, local_16);
+        }
+      }
+      break;
+    case 3:
+      for local_16 in nearby_items(shape=arg_20, origin=local_14) {
+        if (Actor.GetNPCDataField0x63_00B(local_16) == arg_18) {
+          Actor.setDefaultActivity1(local_06, local_16);
+          spawn FREE.waitNTimerTicks(pid, 1, 0x00000000);
+          suspend;
+          GetQOfAvatarInventoryItem0x4ed_0EB(114, local_16);
+        }
+      }
+      break;
+    case 4:
+      for local_16 in nearby_items(shape=arg_20, origin=local_14) {
+        if (Actor.GetNPCDataField0x63_00B(local_16) == arg_18) {
+          local_30 = local_06;
+          GetQOfAvatarInventoryItem0x4ed_0EB(local_30, local_16);
+        }
+      }
+      break;
+    case 5:
+      for local_16 in nearby_items(shape=arg_20, origin=local_14) {
+        if (Actor.GetNPCDataField0x63_00B(local_16) == arg_18) {
+          spawn NPC.equip(local_06, local_16);
+        }
+      }
+      break;
+    }
+    return;
+  }
+  return;
+}
+
+/* ===== slot 0x21 slot_21 ===== */
+function trigger_slot_21() /* entry=2586 class_id=0x0a18 slot=0x21 */
+{
+  set_info(0x021b, 0);
+  local_14 = arg_10;
+  local_04 = (arg_16 & 3);
+  switch (local_04) {
+  case 0:
+    for local_16 in nearby_items(shape=arg_20, origin=local_14) {
+      local_06 = (arg_12 / 16);
+      local_08 = (arg_12 & 15);
+      if (local_06 == 0) {
+        GetQOfAvatarInventoryItem0x4ed_0EB(1, local_16);
+        suspend;
+        spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+        suspend;
+        GetQOfAvatarInventoryItem0x4ed_0EB(Item.use(local_16), local_16);
+      }
+      else {
+        GetQOfAvatarInventoryItem0x4ed_0EB(1, local_16);
+        suspend;
+        spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+        suspend;
+        if (Actor.isDead(local_16) == 1) {
+          return;
+        }
+        local_18 = 1;
+        while (local_18 <= local_06) {
+          if (Actor.isDead(local_16) == 0) {
+            suspend;
+          }
+          spawn FREE.waitNTimerTicks(pid, 1, 0x00000000);
+          suspend;
+          local_18 = (1 + local_18);
+        }
+        GetQOfAvatarInventoryItem0x4ed_0EB(Item.use(local_16), local_16);
+      }
+    }
+    return;
+  case 1:
+    for local_16 in nearby_items(shape=arg_20, origin=local_14) {
+      Actor.setCombatTactic(arg_12, local_16);
+    }
+    return;
+  case 2:
+    /* filter-only scan: local_16 in nearby_items(shape=arg_20, origin=local_14) */
+    return;
+  case 3:
+    local_02 = (arg_12 & 7);
+    local_06 = (arg_12 / 8);
+    switch (local_02) {
+    case 0:
+      for local_16 in nearby_items(shape=arg_20, origin=local_14) {
+        if (local_06 == 1) {
+          GetQOfAvatarInventoryItem0x4ed_0EB(9, local_16);
+        }
+        else if (local_06 == 2) {
+          GetQOfAvatarInventoryItem0x4ed_0EB(10, local_16);
+        }
+        else if (local_06 == 3) {
+          GetQOfAvatarInventoryItem0x4ed_0EB(11, local_16);
+        }
+        else {
+          GetQOfAvatarInventoryItem0x4ed_0EB(5, local_16);
+        }
+      }
+      break;
+    case 1:
+      for local_16 in nearby_items(shape=arg_20, origin=local_14) {
+        Actor.clrInCombat(local_06, local_16);
+        spawn FREE.waitNTimerTicks(pid, 1, 0x00000000);
+        suspend;
+        GetQOfAvatarInventoryItem0x4ed_0EB(112, local_16);
+      }
+      break;
+    case 2:
+      for local_16 in nearby_items(shape=arg_20, origin=local_14) {
+        Actor.setDefaultActivity0(local_06, local_16);
+        spawn FREE.waitNTimerTicks(pid, 1, 0x00000000);
+        suspend;
+        GetQOfAvatarInventoryItem0x4ed_0EB(113, local_16);
+      }
+      break;
+    case 3:
+      for local_16 in nearby_items(shape=arg_20, origin=local_14) {
+        Actor.setDefaultActivity1(local_06, local_16);
+        spawn FREE.waitNTimerTicks(pid, 1, 0x00000000);
+        suspend;
+        GetQOfAvatarInventoryItem0x4ed_0EB(114, local_16);
+      }
+      break;
+    case 4:
+      for local_16 in nearby_items(shape=arg_20, origin=local_14) {
+        local_20 = local_06;
+        GetQOfAvatarInventoryItem0x4ed_0EB(local_20, local_16);
+      }
+      break;
+    case 5:
+      for local_16 in nearby_items(shape=arg_20, origin=local_14) {
+        spawn NPC.equip(local_06, local_16);
+      }
+      break;
+    }
+    return;
+  }
+  return;
+}
+
+/* ===== slot 0x22 slot_22 ===== */
+function trigger_slot_22() /* entry=2586 class_id=0x0a18 slot=0x22 */
+{
+  set_info(0x021b, 0);
+  local_14 = arg_10;
+  local_04 = (arg_16 & 3);
+  switch (local_04) {
+  case 0:
+    for local_16 in nearby_items(family=6, origin=local_14) {
+      if (UCMachine.numToStr(Item.getShape(local_16))) {
+        if (Actor.GetNPCDataField0x63_00B(local_16) == arg_18) {
+          local_06 = (arg_12 / 16);
+          local_08 = (arg_12 & 15);
+          if (local_06 == 0) {
+            GetQOfAvatarInventoryItem0x4ed_0EB(1, local_16);
+            suspend;
+            spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+            suspend;
+            GetQOfAvatarInventoryItem0x4ed_0EB(Item.use(local_16), local_16);
+          }
+          else {
+            GetQOfAvatarInventoryItem0x4ed_0EB(1, local_16);
+            suspend;
+            spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+            suspend;
+            if (Actor.isDead(local_16) == 1) {
+              return;
+            }
+            local_18 = 1;
+            while (local_18 <= local_06) {
+              if (Actor.isDead(local_16) == 0) {
+                suspend;
+              }
+              spawn FREE.waitNTimerTicks(pid, 1, 0x00000000);
+              suspend;
+              local_18 = (1 + local_18);
+            }
+            GetQOfAvatarInventoryItem0x4ed_0EB(Item.use(local_16), local_16);
+          }
+        }
+      }
+    }
+    return;
+  case 1:
+    for local_16 in nearby_items(family=6, origin=local_14) {
+      if (UCMachine.numToStr(Item.getShape(local_16))) {
+        if (Actor.GetNPCDataField0x63_00B(local_16) == arg_18) {
+          Actor.setCombatTactic(arg_12, local_16);
+        }
+      }
+    }
+    return;
+  case 2:
+    scan local_16 in nearby_items(family=6, origin=local_14) where UCMachine.numToStr(Item.getShape(local_16)) && Actor.GetNPCDataField0x63_00B(local_16) == arg_18;
+    return;
+  case 3:
+    local_02 = (arg_12 & 7);
+    local_06 = (arg_12 / 8);
+    switch (local_02) {
+    case 0:
+      for local_16 in nearby_items(family=6, origin=local_14) {
+        if (UCMachine.numToStr(Item.getShape(local_16))) {
+          if (Actor.GetNPCDataField0x63_00B(local_16) == arg_18) {
+            if (local_06 == 1) {
+              GetQOfAvatarInventoryItem0x4ed_0EB(9, local_16);
+            }
+            else if (local_06 == 2) {
+              GetQOfAvatarInventoryItem0x4ed_0EB(10, local_16);
+            }
+            else if (local_06 == 3) {
+              GetQOfAvatarInventoryItem0x4ed_0EB(11, local_16);
+            }
+            else {
+              GetQOfAvatarInventoryItem0x4ed_0EB(5, local_16);
+            }
+          }
+        }
+      }
+      break;
+    case 1:
+      for local_16 in nearby_items(family=6, origin=local_14) {
+        if (UCMachine.numToStr(Item.getShape(local_16))) {
+          if (Actor.GetNPCDataField0x63_00B(local_16) == arg_18) {
+            Actor.clrInCombat(local_06, local_16);
+            spawn FREE.waitNTimerTicks(pid, 1, 0x00000000);
+            suspend;
+            GetQOfAvatarInventoryItem0x4ed_0EB(112, local_16);
+          }
+        }
+      }
+      break;
+    case 2:
+      for local_16 in nearby_items(family=6, origin=local_14) {
+        if (UCMachine.numToStr(Item.getShape(local_16))) {
+          if (Actor.GetNPCDataField0x63_00B(local_16) == arg_18) {
+            Actor.setDefaultActivity0(local_06, local_16);
+            spawn FREE.waitNTimerTicks(pid, 1, 0x00000000);
+            suspend;
+            GetQOfAvatarInventoryItem0x4ed_0EB(113, local_16);
+          }
+        }
+      }
+      break;
+    case 3:
+      for local_16 in nearby_items(family=6, origin=local_14) {
+        if (UCMachine.numToStr(Item.getShape(local_16))) {
+          if (Actor.GetNPCDataField0x63_00B(local_16) == arg_18) {
+            Actor.setDefaultActivity1(local_06, local_16);
+            spawn FREE.waitNTimerTicks(pid, 1, 0x00000000);
+            suspend;
+            GetQOfAvatarInventoryItem0x4ed_0EB(114, local_16);
+          }
+        }
+      }
+      break;
+    case 4:
+      for local_16 in nearby_items(family=6, origin=local_14) {
+        if (UCMachine.numToStr(Item.getShape(local_16))) {
+          if (Actor.GetNPCDataField0x63_00B(local_16) == arg_18) {
+            local_20 = local_06;
+            GetQOfAvatarInventoryItem0x4ed_0EB(local_20, local_16);
+          }
+        }
+      }
+      break;
+    case 5:
+      for local_16 in nearby_items(family=6, origin=local_14) {
+        if (UCMachine.numToStr(Item.getShape(local_16))) {
+          if (Actor.GetNPCDataField0x63_00B(local_16) == arg_18) {
+            spawn NPC.equip(local_06, local_16);
+          }
+        }
+      }
+      break;
+    }
+    return;
+  }
+  return;
+}
+
+/* ===== slot 0x23 slot_23 ===== */
+function trigger_slot_23() /* entry=2586 class_id=0x0a18 slot=0x23 */
+{
+  set_info(0x021b, 0);
+  local_02 = arg_10;
+  while (1) {
+    if ((Item.getStatus(local_02) & 0x1000) == 0) {
+      Item.orStatus(0x1000, local_02);
+      spawn DOOR.slot_21(pid, arg_12, local_02);
+      suspend;
+      Item.getNPCNum((~0x1000), local_02);
+      return;
+    }
+    else {
+      spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+      suspend;
+    }
+  }
+  return;
+}
+
+/* ===== slot 0x24 slot_24 ===== */
+function trigger_slot_24() /* entry=2586 class_id=0x0a18 slot=0x24 */
+{
+  set_info(0x021b, 0);
+  local_18 = arg_18;
+  local_16 = arg_10;
+  local_04 = (arg_16 & 3);
+  switch (local_04) {
+  case 0:
+    for local_14 in nearby_items(shape=arg_20, origin=local_16) {
+      if (Actor.getDefaultActivity2(local_14) == arg_18) {
+        if (arg_10 != local_14) {
+          Item.setQHi(arg_12, local_14);
+        }
+      }
+    }
+    break;
+  case 1:
+    for local_14 in nearby_items(shape=arg_20, origin=local_16) {
+      if (Actor.getDefaultActivity2(local_14) == arg_18) {
+        if (arg_10 != local_14) {
+          Item.andStatus(arg_12, local_14);
+        }
+      }
+    }
+    break;
+  case 2:
+    scan local_14 in nearby_items(shape=arg_20, origin=local_16) where Actor.getDefaultActivity2(local_14) == arg_18 && arg_10 != local_14;
+    break;
+  case 3:
+    local_02 = (arg_12 & 7);
+    switch (local_02) {
+    case 0:
+      local_12 = (arg_12 / 8);
+      for local_14 in nearby_items(shape=0x0476, origin=local_16) {
+        if (Actor.getDefaultActivity2(local_14) == arg_18) {
+          local_06 = Item.andStatus(local_14);
+          local_10 = (local_06 & 15);
+          local_08 = Item.getMapArray(local_14);
+          local_08 = (((local_06 & 0x00e0) * 8) + local_08);
+          FREE.slot_30(local_12, local_10, local_08, local_14);
+        }
+      }
+      break;
+    case 1:
+      local_12 = (arg_12 / 8);
+      for local_14 in nearby_items(shape=arg_20, origin=local_16) {
+        if (Actor.getDefaultActivity2(local_14) == arg_18) {
+          if (arg_10 != local_14) {
+            Item.move(12, local_14);
+            if (local_12 == 31) {
+              suspend;
+              Item.destroy(local_14);
+            }
+            else {
+              local_10 = Item.getFrame(local_14);
+              local_08 = Item.getShape(local_14);
+              local_06 = (local_08 & 0x00ff);
+              local_08 = (local_08 & 0x0700);
+              local_08 = (local_08 / 8);
+              local_08 = (local_08 + local_10);
+              Item.getQLo(local_08, local_14);
+              MainActor.getMaxEnergy(local_06, local_14);
+              Item.isCentreOn(0, local_14);
+              push(local_14);
+              suspend;
+              Item.setShape(0x0476, local_14);
+              Item.orStatus(16, local_14);
+              Item.getNPCNum((~0x1000), local_14);
+              Item.pop(local_14);
+            }
+          }
+        }
+      }
+      break;
+    case 2:
+      local_06 = (arg_12 / 8);
+      for local_14 in nearby_items(shape=arg_20, origin=local_16) {
+        if (Actor.getDefaultActivity2(local_14) == arg_18) {
+          if (arg_10 != local_14) {
+            Item.isCentreOn(local_06, local_14);
+          }
+        }
+      }
+      break;
+    case 3:
+      for local_14 in nearby_items(shape=arg_20, origin=local_16) {
+        if (Actor.getDefaultActivity2(local_14) == arg_18) {
+          if (arg_10 != local_14) {
+            local_06 = (arg_12 / 8);
+            spawn TRIGGER.slot_23(local_06, local_14, arg_06);
+          }
+        }
+      }
+      break;
+    case 4:
+      local_06 = (arg_12 / 8);
+      local_18 = (local_18 + local_06);
+      break;
+    case 5:
+      local_06 = (arg_12 / 8);
+      local_18 = (local_18 - local_06);
+      break;
+    case 6:
+      local_12 = (arg_12 / 8);
+      for local_14 in nearby_items(shape=0x0476, origin=local_16) {
+        if (Actor.getDefaultActivity2(local_14) == arg_18) {
+          local_06 = Item.isCrusTypeNPC(local_14);
+          local_10 = (local_06 & 15);
+          local_08 = Item.getMapArray(local_14);
+          local_08 = (((local_06 & 0x00e0) * 8) + local_08);
+          if (local_08 != 0) {
+            if (Item.legal_create(local_10, local_08, local_20) == 1) {
+              BatteryChargerProcess.create(Item.popToContainer(local_14), local_20);
+              push(local_20);
+              Item.touch(local_20);
+              getTargetNPCNumMaybe(Item.getZ(local_14), Item.getY(local_14), Item.getX(local_14), local_20);
+              suspend;
+            }
+          }
+        }
+      }
+      break;
+    }
+    break;
+  }
+  process_result = local_18;
+  return;
+}
+
+/* ===== slot 0x25 slot_25 ===== */
+function trigger_slot_25() /* entry=2586 class_id=0x0a18 slot=0x25 */
+{
+  set_info(0x021b, 0);
+  local_18 = arg_18;
+  local_16 = arg_10;
+  local_04 = (arg_16 & 3);
+  switch (local_04) {
+  case 0:
+    for local_14 in nearby_items(family=1, origin=local_16) {
+      if (Actor.getDefaultActivity2(local_14) == arg_18) {
+        if (arg_10 != local_14) {
+          Item.setQHi(arg_12, local_14);
+        }
+      }
+    }
+    break;
+  case 1:
+    for local_14 in nearby_items(family=1, origin=local_16) {
+      if (Actor.getDefaultActivity2(local_14) == arg_18) {
+        if (arg_10 != local_14) {
+          Item.andStatus(arg_12, local_14);
+        }
+      }
+    }
+    break;
+  case 2:
+    scan local_14 in nearby_items(family=1, origin=local_16) where Actor.getDefaultActivity2(local_14) == arg_18 && arg_10 != local_14;
+    break;
+  case 3:
+    local_02 = (arg_12 & 7);
+    switch (local_02) {
+    case 0:
+      local_12 = (arg_12 / 8);
+      for local_14 in nearby_items(shape=0x0476, origin=local_16) {
+        if (Actor.getDefaultActivity2(local_14) == arg_18) {
+          local_06 = Item.isCrusTypeNPC(local_14);
+          local_10 = (local_06 & 15);
+          local_08 = Item.getMapArray(local_14);
+          local_08 = (((local_06 & 0x00e0) * 8) + local_08);
+          FREE.slot_30(local_12, local_10, local_08, local_14);
+        }
+      }
+      break;
+    case 1:
+      local_12 = (arg_12 / 8);
+      for local_14 in nearby_items(family=1, origin=local_16) {
+        if (Actor.getDefaultActivity2(local_14) == arg_18) {
+          if (arg_10 != local_14) {
+            Item.move(12, local_14);
+            if (local_12 == 31) {
+              suspend;
+              Item.destroy(local_14);
+            }
+            else {
+              local_10 = Item.getFrame(local_14);
+              local_08 = Item.getShape(local_14);
+              local_06 = (local_08 & 0x00ff);
+              local_08 = (local_08 & 0x0700);
+              local_08 = (local_08 / 8);
+              local_08 = (local_08 + local_10);
+              Item.getQLo(local_08, local_14);
+              MainActor.getMaxEnergy(local_06, local_14);
+              push(local_14);
+              Item.isCentreOn(0, local_14);
+              suspend;
+              Item.setShape(0x0476, local_14);
+              Item.orStatus(16, local_14);
+              Item.andStatus((~0x1000), local_14);
+              Item.pop(local_14);
+            }
+          }
+        }
+      }
+      break;
+    case 2:
+      local_06 = (arg_12 / 8);
+      for local_14 in nearby_items(family=1, origin=local_16) {
+        if (Actor.getDefaultActivity2(local_14) == arg_18) {
+          if (arg_10 != local_14) {
+            Item.isCentreOn(local_06, local_14);
+          }
+        }
+      }
+      break;
+    case 3:
+      if (global[0x0041] == 100) {
+        local_20 = 32;
+      }
+      else {
+        local_20 = global[0x0041];
+      }
+      for local_14 in nearby_items(family=1, origin=local_16) {
+        if (Actor.getDefaultActivity2(local_14) == arg_18) {
+          if (arg_10 != local_14) {
+            local_06 = (arg_12 / 8);
+            spawn TRIGGER.slot_23(local_06, local_14, arg_06);
+          }
+        }
+      }
+      break;
+    case 4:
+      local_06 = (arg_12 / 8);
+      local_18 = (local_18 + local_06);
+      break;
+    case 5:
+      local_06 = (arg_12 / 8);
+      local_18 = (local_18 - local_06);
+      break;
+    case 6:
+      local_12 = (arg_12 / 8);
+      for local_14 in nearby_items(shape=0x0476, origin=local_16) {
+        if (Actor.getDefaultActivity2(local_14) == arg_18) {
+          local_06 = Item.getNPCNum(local_14);
+          local_10 = (local_06 & 15);
+          local_08 = Item.getMapArray(local_14);
+          local_08 = (((local_06 & 0x00e0) * 8) + local_08);
+          if (local_08 != 0) {
+            if (Item.legal_create(local_10, local_08, local_22) == 1) {
+              BatteryChargerProcess.create(Item.popToContainer(local_14), local_22);
+              push(local_22);
+              Item.touch(local_22);
+              getTargetNPCNumMaybe(Item.getZ(local_14), Item.getY(local_14), Item.getX(local_14), local_22);
+              suspend;
+            }
+          }
+        }
+      }
+      break;
+    }
+    break;
+  }
+  process_result = local_18;
+  return;
+}
+
+/* ===== slot 0x26 slot_26 ===== */
+function trigger_slot_26() /* entry=2586 class_id=0x0a18 slot=0x26 */
+{
+  set_info(0x021b, 0);
+  local_18 = arg_18;
+  local_16 = arg_10;
+  local_04 = (arg_16 & 3);
+  switch (local_04) {
+  case 0:
+    for local_14 in nearby_items(shape=arg_20, origin=local_16) {
+      if (arg_10 != local_14) {
+        Item.setQHi(arg_12, local_14);
+      }
+    }
+    break;
+  case 1:
+    for local_14 in nearby_items(shape=arg_20, origin=local_16) {
+      if (arg_10 != local_14) {
+        Item.andStatus(arg_12, local_14);
+      }
+    }
+    break;
+  case 2:
+    scan local_14 in nearby_items(shape=arg_20, origin=local_16) where arg_10 != local_14;
+    break;
+  case 3:
+    local_02 = (arg_12 & 7);
+    switch (local_02) {
+    case 0:
+      local_12 = (arg_12 / 8);
+      for local_14 in nearby_items(shape=0x0476, origin=local_16) {
+        local_06 = Item.getNPCNum(local_14);
+        local_10 = (local_06 & 15);
+        local_08 = Item.getMapArray(local_14);
+        local_08 = (((local_06 & 0x00e0) * 8) + local_08);
+        FREE.slot_30(local_12, local_10, local_08, local_14);
+      }
+      break;
+    case 1:
+      local_12 = (arg_12 / 8);
+      for local_14 in nearby_items(shape=arg_20, origin=local_16) {
+        if (arg_10 != local_14) {
+          Item.move(12, local_14);
+          if (local_12 == 31) {
+            suspend;
+            Item.destroy(local_14);
+          }
+          else {
+            local_10 = Item.getFrame(local_14);
+            local_08 = Item.getShape(local_14);
+            local_06 = (local_08 & 0x00ff);
+            local_08 = (local_08 & 0x0700);
+            local_08 = (local_08 / 8);
+            local_08 = (local_08 + local_10);
+            Item.getQLo(local_08, local_14);
+            MainActor.getMaxEnergy(local_06, local_14);
+            push(local_14);
+            Item.isCentreOn(0, local_14);
+            suspend;
+            Item.setShape(0x0476, local_14);
+            Item.orStatus(16, local_14);
+            Item.andStatus((~0x1000), local_14);
+            Item.pop(local_14);
+          }
+        }
+      }
+      break;
+    case 2:
+      local_06 = (arg_12 / 8);
+      for local_14 in nearby_items(shape=arg_20, origin=local_16) {
+        if (arg_10 != local_14) {
+          Item.isCentreOn(local_06, local_14);
+        }
+      }
+      break;
+    case 3:
+      for local_14 in nearby_items(shape=arg_20, origin=local_16) {
+        if (arg_10 != local_14) {
+          local_06 = (arg_12 / 8);
+          spawn TRIGGER.slot_23(local_06, local_14, arg_06);
+        }
+      }
+      break;
+    case 4:
+      local_06 = (arg_12 / 8);
+      local_18 = (local_18 + local_06);
+      break;
+    case 5:
+      local_06 = (arg_12 / 8);
+      local_18 = (local_18 - local_06);
+      break;
+    case 6:
+      local_12 = (arg_12 / 8);
+      for local_14 in nearby_items(shape=0x0476, origin=local_16) {
+        local_06 = Item.getNPCNum(local_14);
+        local_10 = (local_06 & 15);
+        local_08 = Item.getMapArray(local_14);
+        local_08 = (((local_06 & 0x00e0) * 8) + local_08);
+        if (local_08 != 0) {
+          if (Item.legal_create(local_10, local_08, local_20) == 1) {
+            BatteryChargerProcess.create(Item.popToContainer(local_14), local_20);
+            push(local_20);
+            Item.touch(local_20);
+            getTargetNPCNumMaybe(Item.getZ(local_14), Item.getY(local_14), Item.getX(local_14), local_20);
+            suspend;
+          }
+        }
+      }
+      break;
+    }
+    break;
+  }
+  process_result = local_18;
+  return;
+}
+
+/* ===== slot 0x27 slot_27 ===== */
+function trigger_slot_27() /* entry=2586 class_id=0x0a18 slot=0x27 */
+{
+  set_info(0x021b, 0);
+  local_18 = arg_18;
+  local_16 = arg_10;
+  local_04 = (arg_16 & 3);
+  switch (local_04) {
+  case 0:
+    for local_14 in nearby_items(shape=arg_20, origin=local_16) {
+      if (Actor.getDefaultActivity2(local_14) == arg_18) {
+        Item.setQHi(arg_12, local_14);
+      }
+    }
+    break;
+  case 1:
+    for local_14 in nearby_items(shape=arg_20, origin=local_16) {
+      if (Actor.getDefaultActivity2(local_14) == arg_18) {
+        Item.andStatus(arg_12, local_14);
+      }
+    }
+    break;
+  case 2:
+    scan local_14 in nearby_items(shape=arg_20, origin=local_16) where Actor.getDefaultActivity2(local_14) == arg_18;
+    break;
+  case 3:
+    local_02 = (arg_12 & 7);
+    switch (local_02) {
+    case 0:
+      local_12 = (arg_12 / 8);
+      for local_14 in nearby_items(shape=0x0476, origin=local_16) {
+        if (Actor.getDefaultActivity2(local_14) == arg_18) {
+          local_06 = Item.getNPCNum(local_14);
+          local_10 = (local_06 & 15);
+          local_08 = Item.getMapArray(local_14);
+          local_08 = (((local_06 & 0x00e0) * 8) + local_08);
+          FREE.slot_30(local_12, local_10, local_08, local_14);
+        }
+      }
+      break;
+    case 1:
+      local_12 = (arg_12 / 8);
+      for local_14 in nearby_items(shape=arg_20, origin=local_16) {
+        if (Actor.getDefaultActivity2(local_14) == arg_18) {
+          Item.move(12, local_14);
+          if (local_12 == 31) {
+            suspend;
+            Item.destroy(local_14);
+          }
+          else {
+            local_10 = Item.getFrame(local_14);
+            local_08 = Item.getShape(local_14);
+            local_06 = (local_08 & 0x00ff);
+            local_08 = (local_08 & 0x0700);
+            local_08 = (local_08 / 8);
+            local_08 = (local_08 + local_10);
+            Item.getQLo(local_08, local_14);
+            MainActor.getMaxEnergy(local_06, local_14);
+            push(local_14);
+            Item.isCentreOn(0, local_14);
+            suspend;
+            Item.setShape(0x0476, local_14);
+            Item.orStatus(16, local_14);
+            Item.andStatus((~0x1000), local_14);
+            Item.pop(local_14);
+          }
+        }
+      }
+      break;
+    case 2:
+      local_06 = (arg_12 / 8);
+      for local_14 in nearby_items(shape=arg_20, origin=local_16) {
+        if (Actor.getDefaultActivity2(local_14) == arg_18) {
+          Item.isCentreOn(local_06, local_14);
+        }
+      }
+      break;
+    case 3:
+      for local_14 in nearby_items(shape=arg_20, origin=local_16) {
+        if (Actor.getDefaultActivity2(local_14) == arg_18) {
+          local_06 = (arg_12 / 8);
+          spawn TRIGGER.slot_23(local_06, local_14, arg_06);
+        }
+      }
+      break;
+    case 4:
+      local_06 = (arg_12 / 8);
+      local_18 = (local_18 + local_06);
+      break;
+    case 5:
+      local_06 = (arg_12 / 8);
+      local_18 = (local_18 - local_06);
+      break;
+    case 6:
+      local_12 = (arg_12 / 8);
+      for local_14 in nearby_items(shape=0x0476, origin=local_16) {
+        if (Actor.getDefaultActivity2(local_14) == arg_18) {
+          local_06 = Item.getNPCNum(local_14);
+          local_10 = (local_06 & 15);
+          local_08 = Item.getMapArray(local_14);
+          local_08 = (((local_06 & 0x00e0) * 8) + local_08);
+          if (local_08 != 0) {
+            if (Item.legal_create(local_10, local_08, local_20) == 1) {
+              BatteryChargerProcess.create(Item.popToContainer(local_14), local_20);
+              push(local_20);
+              Item.touch(local_20);
+              getTargetNPCNumMaybe(Item.getZ(local_14), Item.getY(local_14), Item.getX(local_14), local_20);
+              suspend;
+            }
+          }
+        }
+      }
+      break;
+    }
+    break;
+  }
+  process_result = local_18;
+  return;
+}
+
+/* ===== slot 0x28 slot_28 ===== */
+function trigger_slot_28() /* entry=2586 class_id=0x0a18 slot=0x28 */
+{
+  set_info(0x021b, 0);
+  local_18 = arg_18;
+  local_16 = arg_10;
+  local_04 = (arg_16 & 3);
+  switch (local_04) {
+  case 0:
+    for local_14 in nearby_items(family=1, origin=local_16) {
+      if (Actor.getDefaultActivity2(local_14) == arg_18) {
+        Item.setQHi(arg_12, local_14);
+      }
+    }
+    break;
+  case 1:
+    for local_14 in nearby_items(family=1, origin=local_16) {
+      if (Actor.getDefaultActivity2(local_14) == arg_18) {
+        Item.andStatus(arg_12, local_14);
+      }
+    }
+    break;
+  case 2:
+    scan local_14 in nearby_items(family=1, origin=local_16) where Actor.getDefaultActivity2(local_14) == arg_18;
+    break;
+  case 3:
+    local_02 = (arg_12 & 7);
+    switch (local_02) {
+    case 0:
+      local_12 = (arg_12 / 8);
+      for local_14 in nearby_items(shape=0x0476, origin=local_16) {
+        if (Actor.getDefaultActivity2(local_14) == arg_18) {
+          local_06 = Item.getNPCNum(local_14);
+          local_10 = (local_06 & 15);
+          local_08 = Item.getMapArray(local_14);
+          local_08 = (((local_06 & 0x00e0) * 8) + local_08);
+          FREE.slot_30(local_12, local_10, local_08, local_14);
+        }
+      }
+      break;
+    case 1:
+      local_12 = (arg_12 / 8);
+      for local_14 in nearby_items(family=1, origin=local_16) {
+        if (Actor.getDefaultActivity2(local_14) == arg_18) {
+          Item.move(12, local_14);
+          if (local_12 == 31) {
+            suspend;
+            Item.destroy(local_14);
+          }
+          else {
+            local_10 = Item.getFrame(local_14);
+            local_08 = Item.getShape(local_14);
+            local_06 = (local_08 & 0x00ff);
+            local_08 = (local_08 & 0x0700);
+            local_08 = (local_08 / 8);
+            local_08 = (local_08 + local_10);
+            Item.getQLo(local_08, local_14);
+            MainActor.getMaxEnergy(local_06, local_14);
+            push(local_14);
+            Item.isCentreOn(0, local_14);
+            suspend;
+            Item.setShape(0x0476, local_14);
+            Item.orStatus(16, local_14);
+            Item.andStatus((~0x1000), local_14);
+            Item.pop(local_14);
+          }
+        }
+      }
+      break;
+    case 2:
+      local_06 = (arg_12 / 8);
+      for local_14 in nearby_items(family=1, origin=local_16) {
+        if (Actor.getDefaultActivity2(local_14) == arg_18) {
+          Item.isCentreOn(local_06, local_14);
+        }
+      }
+      break;
+    case 3:
+      if (global[0x0041] == 100) {
+        local_20 = 32;
+      }
+      else {
+        local_20 = global[0x0041];
+      }
+      for local_14 in nearby_items(family=1, origin=local_16) {
+        if (Actor.getDefaultActivity2(local_14) == arg_18) {
+          local_06 = (arg_12 / 8);
+          spawn TRIGGER.slot_23(local_06, local_14, arg_06);
+        }
+      }
+      break;
+    case 4:
+      local_06 = (arg_12 / 8);
+      local_18 = (local_18 + local_06);
+      break;
+    case 5:
+      local_06 = (arg_12 / 8);
+      local_18 = (local_18 - local_06);
+      break;
+    case 6:
+      local_12 = (arg_12 / 8);
+      for local_14 in nearby_items(shape=0x0476, origin=local_16) {
+        if (Actor.getDefaultActivity2(local_14) == arg_18) {
+          local_06 = Item.getNPCNum(local_14);
+          local_10 = (local_06 & 15);
+          local_08 = Item.getMapArray(local_14);
+          local_08 = (((local_06 & 0x00e0) * 8) + local_08);
+          if (local_08 != 0) {
+            if (Item.legal_create(local_10, local_08, local_22) == 1) {
+              BatteryChargerProcess.create(Item.popToContainer(local_14), local_22);
+              push(local_22);
+              Item.touch(local_22);
+              getTargetNPCNumMaybe(Item.getZ(local_14), Item.getY(local_14), Item.getX(local_14), local_22);
+              suspend;
+            }
+          }
+        }
+      }
+      break;
+    }
+    break;
+  }
+  process_result = local_18;
+  return;
+}
+
+/* ===== slot 0x29 slot_29 ===== */
+function trigger_slot_29() /* entry=2586 class_id=0x0a18 slot=0x29 */
+{
+  set_info(0x021b, 0);
+  local_18 = arg_18;
+  local_16 = arg_10;
+  local_04 = (arg_16 & 3);
+  switch (local_04) {
+  case 0:
+    for local_14 in nearby_items(shape=arg_20, origin=local_16) {
+      Item.setQHi(arg_12, local_14);
+    }
+    break;
+  case 1:
+    for local_14 in nearby_items(shape=arg_20, origin=local_16) {
+      Item.andStatus(arg_12, local_14);
+    }
+    break;
+  case 2:
+    /* filter-only scan: local_14 in nearby_items(shape=arg_20, origin=local_16) */
+    break;
+  case 3:
+    local_02 = (arg_12 & 7);
+    switch (local_02) {
+    case 0:
+      local_12 = (arg_12 / 8);
+      for local_14 in nearby_items(shape=0x0476, origin=local_16) {
+        local_06 = Item.getNPCNum(local_14);
+        local_10 = (local_06 & 15);
+        local_08 = Item.getMapArray(local_14);
+        local_08 = (((local_06 & 0x00e0) * 8) + local_08);
+        FREE.slot_30(local_12, local_10, local_08, local_14);
+      }
+      break;
+    case 1:
+      local_12 = (arg_12 / 8);
+      for local_14 in nearby_items(shape=arg_20, origin=local_16) {
+        Item.move(12, local_14);
+        if (local_12 == 31) {
+          suspend;
+          Item.destroy(local_14);
+        }
+        else {
+          local_10 = Item.getFrame(local_14);
+          local_08 = Item.getShape(local_14);
+          local_06 = (local_08 & 0x00ff);
+          local_08 = (local_08 & 0x0700);
+          local_08 = (local_08 / 8);
+          local_08 = (local_08 + local_10);
+          Item.getQLo(local_08, local_14);
+          MainActor.getMaxEnergy(local_06, local_14);
+          push(local_14);
+          Item.isCentreOn(0, local_14);
+          suspend;
+          Item.setShape(0x0476, local_14);
+          Item.orStatus(16, local_14);
+          Item.andStatus((~0x1000), local_14);
+          Item.pop(local_14);
+        }
+      }
+      break;
+    case 2:
+      local_06 = (arg_12 / 8);
+      for local_14 in nearby_items(shape=arg_20, origin=local_16) {
+        Item.isCentreOn(local_06, local_14);
+      }
+      break;
+    case 3:
+      for local_14 in nearby_items(shape=arg_20, origin=local_16) {
+        local_06 = (arg_12 / 8);
+        spawn TRIGGER.slot_23(local_06, local_14, arg_06);
+      }
+      break;
+    case 4:
+      local_06 = (arg_12 / 8);
+      local_18 = (local_18 + local_06);
+      break;
+    case 5:
+      local_06 = (arg_12 / 8);
+      local_18 = (local_18 - local_06);
+      break;
+    case 6:
+      local_12 = (arg_12 / 8);
+      for local_14 in nearby_items(shape=0x0476, origin=local_16) {
+        local_06 = Item.getNPCNum(local_14);
+        local_10 = (local_06 & 15);
+        local_08 = Item.getMapArray(local_14);
+        local_08 = (((local_06 & 0x00e0) * 8) + local_08);
+        if (local_08 != 0) {
+          if (Item.legal_create(local_10, local_08, local_20) == 1) {
+            BatteryChargerProcess.create(Item.popToContainer(local_14), local_20);
+            push(local_20);
+            Item.touch(local_20);
+            getTargetNPCNumMaybe(Item.getZ(local_14), Item.getY(local_14), Item.getX(local_14), local_20);
+            suspend;
+          }
+        }
+      }
+      break;
+    }
+    break;
+  }
+  process_result = local_18;
+  return;
+}
+
+/* ===== slot 0x2a slot_2a ===== */
+function trigger_slot_2a() /* entry=2586 class_id=0x0a18 slot=0x2a */
+{
+  set_info(0x021b, 0);
+  local_16 = 0;
+  local_18 = 0;
+  local_20 = 0;
+  spawn FREE.waitNTimerTicks(pid, 1, 0x00000000);
+  suspend;
+  local_14 = arg_10;
+  if (arg_12 == 0x00fe) {
+    local_16 = 0x00fe;
+    arg_12 = 0x0080;
+  }
+  else {
+    local_06 = Item.getQ(local_14);
+    local_16 = Actor.getDefaultActivity2(local_14);
+    local_10 = Item.getMapArray(local_14);
+    local_08 = Item.getNPCNum(local_14);
+  }
+  local_18 = local_16;
+  if (arg_12 < 0x0080) {
+    local_20 = (((local_10 & 0x00e0) * 8) + local_08);
+    if (local_10 == 0) {
+      return;
+    }
+    if (local_16 == 0) {
+      return;
+    }
+    local_04 = 0;
+    if (local_10 & 8) {
+      local_04 = 1;
+    }
+    if (arg_12 == local_04) {
+      if (local_10 & 4) {
+        if (UCMachine.numToStr(local_20)) {
+          if (local_16 == 0x00ff) {
+            if (local_20 != 0) {
+              spawn TRIGGER.slot_21(pid, local_20, local_16, local_10, local_08, local_06, arg_10, arg_06);
+              suspend;
+            }
+          }
+          else if (local_20 == 0x07fe) {
+            spawn TRIGGER.slot_22(pid, local_20, local_16, local_10, local_08, local_06, arg_10, arg_06);
+            suspend;
+          }
+          else if (local_20 != 0) {
+            spawn TRIGGER.slot_20(pid, local_20, local_16, local_10, local_08, local_06, arg_10, arg_06);
+            suspend;
+          }
+        }
+        else if (local_16 == 0x00ff) {
+          if (local_20 != 0) {
+            spawn TRIGGER.slot_26(pid, local_20, local_16, local_10, local_08, local_06, arg_10, arg_06);
+            suspend;
+            local_16 = process_result;
+          }
+        }
+        else if (local_20 == 0x07ff) {
+          spawn TRIGGER.slot_25(pid, local_20, local_16, local_10, local_08, local_06, arg_10, arg_06);
+          suspend;
+          local_16 = process_result;
+        }
+        else if (local_20 != 0) {
+          spawn TRIGGER.slot_24(pid, local_20, local_16, local_10, local_08, local_06, arg_10, arg_06);
+          suspend;
+          local_16 = process_result;
+        }
+      }
+      else if (local_16 == 0x00ff) {
+        if (local_20 != 0) {
+          spawn TRIGGER.slot_29(pid, local_20, local_16, local_10, local_08, local_06, arg_10, arg_06);
+          suspend;
+          local_16 = process_result;
+        }
+      }
+      else if (local_20 == 0x07ff) {
+        spawn TRIGGER.slot_28(pid, local_20, local_16, local_10, local_08, local_06, arg_10, arg_06);
+        suspend;
+        local_16 = process_result;
+      }
+      else if (local_20 != 0) {
+        spawn TRIGGER.slot_27(pid, local_20, local_16, local_10, local_08, local_06, arg_10, arg_06);
+        suspend;
+        local_16 = process_result;
+      }
+      if (local_10 & 16) {
+        Item.andStatus(0, local_14);
+      }
+    }
+  }
+  local_22 = (arg_12 & 1);
+  while (1) {
+    for local_12 in nearby_items(shape=CMD_LINK, origin=local_14) {
+      if (Actor.getDefaultActivity2(local_12) == local_16) {
+        local_10 = Item.getMapArray(local_12);
+        local_04 = 0;
+        if (local_10 & 8) {
+          local_04 = 1;
+        }
+        if (local_22 == local_04) {
+          if (local_10 & 16) {
+            spawn TRIGGER.slot_2b(pid, local_12, arg_06);
+            suspend;
+            local_18 = process_result;
+          }
+          else {
+            local_02 = (local_02 + [local_12]);
+          }
+        }
+      }
+    }
+    while (true) {
+      foreach_list local_12 -> block_2afa;
+      spawn TRIGGER.slot_2b(pid, local_12, arg_06);
+      suspend;
+      local_18 = process_result;
+      /* remove_matching_inline */
+      local_02 = [local_12];
+    }
+    if (local_18 == local_16) {
+      return;
+    }
+    else {
+      local_16 = local_18;
+    }
+  }
+  return;
+}
+
+/* ===== slot 0x2b slot_2b ===== */
+function trigger_slot_2b() /* entry=2586 class_id=0x0a18 slot=0x2b */
+{
+  set_info(0x021b, 0);
+  local_12 = arg_10;
+  local_14 = Actor.getDefaultActivity2(local_12);
+  local_16 = local_14;
+  local_04 = Item.getQ(local_12);
+  local_08 = Item.getMapArray(local_12);
+  local_06 = Item.getNPCNum(local_12);
+  local_10 = (((local_08 & 0x00e0) * 8) + local_06);
+  if (local_08 == 0) {
+    return;
+  }
+  else if (local_08 & 4) {
+    if (UCMachine.numToStr(local_10)) {
+      if (local_14 == 0x00ff) {
+        if (local_10 != 0) {
+          spawn TRIGGER.slot_21(pid, local_10, local_14, local_08, local_06, local_04, arg_10, arg_06);
+          suspend;
+        }
+      }
+      else if (local_10 == 0x07fe) {
+        spawn TRIGGER.slot_22(pid, local_10, local_14, local_08, local_06, local_04, arg_10, arg_06);
+        suspend;
+      }
+      else if (local_10 != 0) {
+        spawn TRIGGER.slot_20(pid, local_10, local_14, local_08, local_06, local_04, arg_10, arg_06);
+        suspend;
+      }
+    }
+    else if (local_14 == 0x00ff) {
+      if (local_10 != 0) {
+        spawn TRIGGER.slot_26(pid, local_10, local_14, local_08, local_06, local_04, arg_10, arg_06);
+        suspend;
+        local_16 = process_result;
+      }
+    }
+    else if (local_10 == 0x07ff) {
+      spawn TRIGGER.slot_25(pid, local_10, local_14, local_08, local_06, local_04, arg_10, arg_06);
+      suspend;
+      local_16 = process_result;
+    }
+    else if (local_10 != 0) {
+      spawn TRIGGER.slot_24(pid, local_10, local_14, local_08, local_06, local_04, arg_10, arg_06);
+      suspend;
+      local_16 = process_result;
+    }
+  }
+  else if (local_14 == 0x00ff) {
+    if (local_10 != 0) {
+      spawn TRIGGER.slot_29(pid, local_10, local_14, local_08, local_06, local_04, arg_10, arg_06);
+      suspend;
+      local_16 = process_result;
+    }
+  }
+  else if (local_10 == 0x07ff) {
+    spawn TRIGGER.slot_28(pid, local_10, local_14, local_08, local_06, local_04, arg_10, arg_06);
+    suspend;
+    local_16 = process_result;
+  }
+  else if (local_10 != 0) {
+    spawn TRIGGER.slot_27(pid, local_10, local_14, local_08, local_06, local_04, arg_10, arg_06);
+    suspend;
+    local_16 = process_result;
+  }
+  process_result = local_16;
+  return;
+  return;
+}

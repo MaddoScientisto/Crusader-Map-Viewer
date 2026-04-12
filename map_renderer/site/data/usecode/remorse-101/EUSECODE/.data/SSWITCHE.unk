@@ -1,0 +1,191 @@
+/* synthesized appendix for SSWITCHE */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x01 use ===== */
+function sswitche_use() /* entry=1113 class_id=0x0457 slot=0x01 */
+{
+  set_info(0x0207, *(arg_06));
+  process_exclude();
+  local_01 = Item.getFrame(arg_06);
+  if (Item.getMapArray(arg_06) != 0) {
+    if (local_01 == 2) {
+      AudioProcess.playSFXCru(0x00ae, arg_06);
+      spawn TRIGGER.slot_2a(pid, 0, *(arg_06), arg_06);
+      suspend;
+    }
+    else if (local_01 < 2) {
+      local_02 = ((local_01 + 1) & 1);
+      AudioProcess.playSFXCru(0x00ae, arg_06);
+      spawn TRIGGER.slot_2a(pid, local_01, *(arg_06), arg_06);
+      suspend;
+      Item.isCentreOn(local_02, arg_06);
+    }
+  }
+  else {
+    local_27 = Actor.getDefaultActivity2(arg_06);
+    for local_07 in nearby_items(shape=0x0457, origin=arg_06) {
+      if (local_07 != *(arg_06)) {
+        if (Item.getMapArray(local_07) == 0) {
+          switch (Actor.getDefaultActivity2(local_07)) {
+          case 29:
+            local_09 = local_07;
+            local_03 = Item.getFrame(local_09);
+            break;
+          case 30:
+            local_11 = local_07;
+            local_04 = Item.getFrame(local_11);
+            break;
+          case 31:
+            local_13 = local_07;
+            local_05 = Item.getFrame(local_13);
+            break;
+          }
+        }
+      }
+      local_25 = (1 + local_25);
+    }
+    for local_17 in nearby_items(shape=0x0452, origin=arg_06) {
+      if (Item.getMapArray(local_17) == 0) {
+        switch (Actor.getDefaultActivity2(local_17)) {
+        case 29:
+          local_19 = local_17;
+          break;
+        case 30:
+          local_21 = local_17;
+          break;
+        case 31:
+          local_23 = local_17;
+          break;
+        }
+      }
+    }
+    switch (local_27) {
+    case 29:
+      local_03 = Item.getFrame(arg_06);
+      local_09 = *(arg_06);
+      if (local_11 && local_13) {
+        if (local_03) {
+          Item.isCentreOn(0, arg_06);
+          Item.isCentreOn(0, local_19);
+          local_03 = 0;
+          Item.isCentreOn(1, local_11);
+          Item.isCentreOn(1, local_21);
+          local_04 = 1;
+        }
+        else {
+          Item.isCentreOn(1, arg_06);
+          Item.isCentreOn(1, local_19);
+          local_03 = 1;
+          Item.isCentreOn(0, local_11);
+          Item.isCentreOn(0, local_21);
+          local_04 = 0;
+        }
+      }
+      break;
+    case 30:
+      local_04 = Item.getFrame(arg_06);
+      local_11 = *(arg_06);
+      if (local_09 && local_13) {
+        if (local_04) {
+          Item.isCentreOn(0, arg_06);
+          Item.isCentreOn(0, local_21);
+          local_04 = 0;
+          Item.isCentreOn(1, local_09);
+          Item.isCentreOn(1, local_19);
+          local_03 = 1;
+          Item.isCentreOn(1, local_13);
+          Item.isCentreOn(1, local_23);
+          local_05 = 1;
+        }
+        else {
+          Item.isCentreOn(1, arg_06);
+          Item.isCentreOn(1, local_21);
+          local_04 = 1;
+          Item.isCentreOn(0, local_09);
+          Item.isCentreOn(0, local_19);
+          local_03 = 0;
+          Item.isCentreOn(0, local_13);
+          Item.isCentreOn(0, local_23);
+          local_05 = 0;
+        }
+      }
+      break;
+    case 31:
+      local_05 = Item.getFrame(arg_06);
+      local_13 = *(arg_06);
+      if (local_09 && local_11) {
+        if (local_05) {
+          Item.isCentreOn(0, arg_06);
+          Item.isCentreOn(0, local_23);
+          local_05 = 0;
+          Item.isCentreOn(1, local_11);
+          Item.isCentreOn(1, local_21);
+          local_04 = 1;
+        }
+        else {
+          Item.isCentreOn(1, arg_06);
+          Item.isCentreOn(1, local_23);
+          local_05 = 1;
+          Item.isCentreOn(0, local_11);
+          Item.isCentreOn(0, local_21);
+          local_04 = 0;
+        }
+      }
+      break;
+    }
+    if (local_03) {
+      if (local_04 || local_05) {
+        return;
+      }
+      else {
+        for local_15 in nearby_items(shape=TIMER, origin=arg_06) {
+          if (Actor.getDefaultActivity2(local_15) == 29) {
+            suspend;
+          }
+        }
+      }
+    }
+    else if (local_04) {
+      if (local_05) {
+        return;
+      }
+      else {
+        for local_15 in nearby_items(shape=TIMER, origin=arg_06) {
+          if (Actor.getDefaultActivity2(local_15) == 30) {
+            suspend;
+          }
+        }
+      }
+    }
+    else if (local_05) {
+      for local_15 in nearby_items(shape=TIMER, origin=arg_06) {
+        if (Actor.getDefaultActivity2(local_15) == 31) {
+          suspend;
+        }
+      }
+    }
+    spawn FREE.waitNTimerTicks(pid, 20, 0x00000000);
+    suspend;
+  }
+  spawn FREE.waitNTimerTicks(pid, 20, 0x00000000);
+  suspend;
+  return;
+}
+
+/* ===== slot 0x06 gotHit ===== */
+function sswitche_gotHit() /* entry=1113 class_id=0x0457 slot=0x06 */
+{
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  FREE.slot_2b(arg_12, arg_10);
+  if (retval != 4) {
+    if (arg_10 == 1) {
+      return;
+    }
+    else {
+      spawn SSWITCHE.use(pid, arg_06);
+      suspend;
+    }
+  }
+  return;
+}

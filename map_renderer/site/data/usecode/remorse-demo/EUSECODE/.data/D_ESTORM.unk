@@ -1,0 +1,126 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[06:gotHit] call_class_event FREE.slot_2c ; ne ; ...
+[06:gotHit] call_intrinsic Item.getNPCNum(arg_bytes=0x0) ; cmp ; or ; ...
+[06:gotHit]
+[06:gotHit] jmp 0x00f2 ; loopscr value_u8=0x24
+//
+//
+//
+//
+//
+[06:gotHit] loop current_var=0xfe, string_bytes=0x1, loop_type=0x4 ; jne 0x00b0 ; ...
+[06:gotHit] call_intrinsic Item.getShape(arg_bytes=0x4)
+[06:gotHit] cmp ; jne 0x00a1
+[06:gotHit] call_intrinsic push(arg_bytes=0x4)
+[06:gotHit] call_intrinsic Item.getZ(arg_bytes=0x4) ; call_intrinsic Item.getY(arg_bytes=0x4) ; call_intrinsic Item.getX(arg_bytes=0x4) ; ...
+//
+//
+//
+[06:gotHit] call_intrinsic Item.destroy(arg_bytes=0x4) ; loopnext ; jmp 0x0051 ; ...
+//
+//
+//
+//
+[06:gotHit] call_intrinsic Item.getFrame(arg_bytes=0x4) ; ge ; jne 0x00dd ; ...
+[06:gotHit]
+[06:gotHit] call_intrinsic UCMachine.rndRange(arg_bytes=0x4) ; call_intrinsic Item.legal_create(arg_bytes=0x6) ; ...
+//
+//
+[06:gotHit] call_intrinsic Item.setShape(arg_bytes=0x6)
+[06:gotHit] call_intrinsic Item.getFootpad(arg_bytes=0x0)
+//
+[06:gotHit] ret
+//
+//
+//
+//
+[01:use] call_intrinsic Item.getStatus(arg_bytes=0x4) ; bit_and ; jne 0x0030 ; ...
+//
+[01:use] jmp 0x0051
+//
+//
+[01:use] call_class_event FREE.slot_40 ; jne 0x0051 ; ...
+//
+[01:use] call_class_event ITEM.slot_23
+//
+[01:use] ret
+
+/* synthesized appendix for D_ESTORM */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x01 use ===== */
+function d_estorm_use() /* entry=1236 class_id=0x04d2 slot=0x01 */
+{
+  var
+    referent; /* [BP+00h] type=0x69 */
+
+  set_info(0x0207, *(arg_06));
+  process_exclude();
+  if (Item.getStatus(arg_06) & 0x1000) {
+    return;
+  }
+  else {
+    FREE.slot_40(*(arg_06));
+    if (retval) {
+      ITEM.slot_23(0x1000, arg_06);
+    }
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+  */
+}
+
+/* ===== slot 0x06 gotHit ===== */
+function d_estorm_gotHit() /* entry=1236 class_id=0x04d2 slot=0x06 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    vel, /* [BP+12h] type=0x69 */
+    goods; /* [BP-02h] type=0x24 */
+
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  FREE.slot_2c(vel, ref);
+  if ((retval != 4) || (Item.getNPCNum() == 0)) {
+    return;
+  }
+  else {
+    while (condition) {
+      if (Item.getShape(goods) == 0x0111) {
+        push(goods);
+        Item.popToCoords(Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06), goods);
+      }
+      else {
+        Item.destroy(goods);
+      }
+    }
+    if (Item.getFrame(arg_06) >= 10) {
+      Item.legal_create(UCMachine.rndRange(5, 0), arg_06);
+    }
+    Item.setShape(0x04e1, arg_06);
+    Item.getFootpad();
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol ref [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol vel [BP+12h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol goods [BP-02h] type=0x24 unk1=0x00 unk3=0x02
+  */
+}

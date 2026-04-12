@@ -1,0 +1,113 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[06:gotHit] call_class_event FREE.slot_2c ; not ; jne 0x0107 ; ...
+[06:gotHit]
+//
+//
+[06:gotHit] pop_local_word item
+//
+[06:gotHit] call_intrinsic Item.getQLo(arg_bytes=0x6) ; not ; jne 0x0051 ; ...
+[06:gotHit]
+[06:gotHit] jmp 0x0107
+//
+//
+//
+[06:gotHit] call_intrinsic Item.getShape(arg_bytes=0x4) ; cmp ; ...
+[06:gotHit] call_intrinsic Item.getShape(arg_bytes=0x4) ; cmp ; or ; ...
+[06:gotHit] call_intrinsic Item.getShape(arg_bytes=0x4) ; cmp ; or ; ...
+[06:gotHit] call_intrinsic Item.getShape(arg_bytes=0x4) ; cmp ; or ; ...
+[06:gotHit]
+[06:gotHit] jmp 0x0107
+//
+//
+//
+[06:gotHit] gt ; jne 0x00c3 ; ...
+//
+[06:gotHit] call_intrinsic Item.destroy(arg_bytes=0x4)
+[06:gotHit] jmp 0x0107
+//
+//
+[06:gotHit] cmp ; jne 0x00df ; ...
+[06:gotHit]
+[06:gotHit] call_intrinsic Item.inFastArea(arg_bytes=0x0) ; jne 0x00dc ; jmp 0x0107 ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[06:gotHit] pop_local_word n
+[06:gotHit] call_intrinsic Item.setQHi(arg_bytes=0x4)
+[06:gotHit] call_intrinsic Actor.setDead(arg_bytes=0x4)
+[06:gotHit] call_intrinsic Item.destroy(arg_bytes=0x4)
+//
+//
+[06:gotHit] ret
+
+/* synthesized appendix for BLACK16 */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x06 gotHit ===== */
+function black16_gotHit() /* entry=17 class_id=0x000f slot=0x06 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    vel, /* [BP+12h] type=0x69 */
+    item, /* [BP-02h] type=0x24 */
+    n; /* [BP-04h] type=0x24 */
+
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  FREE.slot_2c(vel, ref);
+  if (!retval) {
+    item = ref;
+    if (!Item.getQLo(*(arg_06), item)) {
+      return;
+    }
+    else if ((((Item.getShape(item) == 0x052c) || (Item.getShape(item) == 0x057a)) || (Item.getShape(item) == 0x057f)) || (Item.getShape(item) == 0x0580)) {
+      return;
+    }
+    else if (ref > 0x00ff) {
+      Item.destroy(item);
+      return;
+    }
+    else if (ref == 1) {
+      return;
+    }
+    else {
+      n = ref;
+      Item.setQHi(n);
+      Actor.setDead(n);
+      Item.destroy(n);
+    }
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol ref [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol vel [BP+12h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol item [BP-02h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol n [BP-04h] type=0x24 unk1=0x00 unk3=0x02
+  */
+}

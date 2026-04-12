@@ -1,0 +1,172 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[06:gotHit] call_intrinsic getTargetNPCNumMaybe(arg_bytes=0x0) ; ne ; jne 0x002b ; ...
+//
+[06:gotHit] jmp 0x0242
+//
+//
+[06:gotHit] call_intrinsic Item.getMapArray(arg_bytes=0x4) ; ne ; jne 0x0242 ; ...
+//
+//
+[06:gotHit] pop_local_word item
+[06:gotHit] call_intrinsic Actor.getLastAnimSet(arg_bytes=0x4) ; cmp ; call_intrinsic Item.legal_create(arg_bytes=0x6) ; ...
+[06:gotHit]
+[06:gotHit] jmp 0x0242
+//
+//
+[06:gotHit] call_intrinsic Item.getPoint(arg_bytes=0x6)
+[06:gotHit] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[06:gotHit] spawn TRIGGER.slot_20 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[06:gotHit] jne 0x0242
+//
+[06:gotHit] call_intrinsic Actor.getLastAnimSet(arg_bytes=0x4) ; ne ; jne 0x010d ; ...
+//
+[06:gotHit] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+[06:gotHit] call_intrinsic Item.getPoint(arg_bytes=0x6)
+[06:gotHit] spawn TRIGGER.slot_20 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[06:gotHit] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[06:gotHit] loopscr value_u8=0x25
+[06:gotHit] loop current_var=0xfc, string_bytes=0x6, loop_type=0x6 ; jne 0x0237 ; ...
+[06:gotHit] call_intrinsic Item.getStatus(arg_bytes=0x4) ; bit_and ; jne 0x01c2 ; ...
+//
+[06:gotHit] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[06:gotHit] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[06:gotHit] global_address global[0x003c] ; call_intrinsic Item.getZ(arg_bytes=0x4) ; call_intrinsic Item.getZ(arg_bytes=0x4) ; ...
+[06:gotHit]
+[06:gotHit] call_intrinsic Item.getZ(arg_bytes=0x4) ; call_class_event ELEVAT.slot_21 ; gt ; ...
+[06:gotHit]
+[06:gotHit] spawn ELEVAT.slot_20 ; pop_temp ; loopnext ; ...
+//
+//
+//
+//
+[06:gotHit] jmp 0x0242 ; jmp 0x00ca
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[06:gotHit] ret
+
+/* synthesized appendix for CRUZTRIG */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x06 gotHit ===== */
+function cruztrig_gotHit() /* entry=871 class_id=0x0365 slot=0x06 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    vel, /* [BP+12h] type=0x69 */
+    item, /* [BP-02h] type=0x24 */
+    elev; /* [BP-04h] type=0x24 */
+
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  if (ref != getTargetNPCNumMaybe()) {
+    return;
+  }
+  else if (Item.getMapArray(arg_06) != 0) {
+    item = ref;
+    if ((Actor.getLastAnimSet(arg_06) == 0) || (Item.legal_create(*(arg_06), item) == 0)) {
+      return;
+    }
+    else {
+      Item.getPoint(1, arg_06);
+      spawn FREE.slot_32(pid, 2, 0x00000000);
+      suspend;
+      spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
+      suspend;
+      while (1) {
+        if (Actor.getLastAnimSet(arg_06) != 0) {
+          spawn FREE.slot_32(pid, 2, 0x00000000);
+          suspend;
+        }
+        else {
+          Item.getPoint(0, arg_06);
+          spawn TRIGGER.slot_20(pid, 1, *(arg_06), arg_06);
+          suspend;
+          spawn FREE.slot_32(pid, 2, 0x00000000);
+          suspend;
+          while (condition) {
+            while (Item.getStatus(elev) & 0x1000) {
+              spawn FREE.slot_32(pid, 2, 0x00000000);
+              suspend;
+            }
+            spawn FREE.slot_32(pid, 120, 0x00000000);
+            suspend;
+            if (Item.getZ(&global[0x003c]) < (Item.getZ(elev) - 5)) {
+              ELEVAT.slot_21(Item.getZ(elev), elev);
+              if (retval) {
+                spawn ELEVAT.slot_20(elev);
+              }
+            }
+          }
+          return;
+        }
+      }
+    }
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol ref [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol vel [BP+12h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol item [BP-02h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol elev [BP-04h] type=0x24 unk1=0x00 unk3=0x02
+  */
+}

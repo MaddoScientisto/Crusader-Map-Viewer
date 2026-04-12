@@ -1,0 +1,2665 @@
+/* synthesized appendix for WALLGUN */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x20 slot_20 ===== */
+function wallgun_slot_20() /* entry=2588 class_id=0x0a1a slot=0x20 */
+{
+  local_02 = Item.getQ(arg_06);
+  if (local_02 > 99) {
+    local_02 = (local_02 - 100);
+  }
+  return;
+}
+
+/* ===== slot 0x21 slot_21 ===== */
+function wallgun_slot_21() /* entry=2588 class_id=0x0a1a slot=0x21 */
+{
+  local_02 = Item.getQ(arg_06);
+  if (local_02 > 99) {
+    local_02 = (local_02 - 100);
+  }
+  return;
+}
+
+/* ===== slot 0x22 slot_22 ===== */
+function wallgun_slot_22() /* entry=2588 class_id=0x0a1a slot=0x22 */
+{
+  WALLGUN.slot_21(arg_10, arg_06);
+  Item.setQHi((retval * 10), arg_06);
+  return;
+}
+
+/* ===== slot 0x23 slot_23 ===== */
+function wallgun_slot_23() /* entry=2588 class_id=0x0a1a slot=0x23 */
+{
+  WALLGUN.slot_20((arg_10 * 10), arg_06);
+  Item.setQHi(retval, arg_06);
+  return;
+}
+
+/* ===== slot 0x24 slot_24 ===== */
+function wallgun_slot_24() /* entry=2588 class_id=0x0a1a slot=0x24 */
+{
+  set_info(0x021b, *(arg_06));
+  WALLGUN.slot_25(Item.getFrame(arg_06), Item.getShape(arg_06), arg_06);
+  if ((retval == 1) || (Item.inFastArea(arg_06) == 0)) {
+    return;
+  }
+  else if ((arg_12 < 90) || (arg_12 > 99)) {
+    FREE.slot_33(1, *(arg_06));
+    FREE.slot_33(0x020a, *(arg_06));
+    spawn WALLGUN.slot_28(arg_12, arg_10, arg_06);
+    return;
+  }
+  else {
+    switch (arg_12) {
+    case 90:
+      spawn WALLGUN.slot_34(arg_06);
+      return;
+    case 91:
+      spawn WALLGUN.slot_35(arg_06);
+      return;
+    case 92:
+      spawn WALLGUN.slot_4a(arg_10, arg_06);
+      return;
+    }
+  }
+  return;
+}
+
+/* ===== slot 0x25 slot_25 ===== */
+function wallgun_slot_25() /* entry=2588 class_id=0x0a1a slot=0x25 */
+{
+  if ((((arg_10 == 0x0113) || (arg_10 == 0x0108)) || (arg_10 == 0x02f0)) || (arg_10 == 0x0373)) {
+    if (arg_12 == 27) {
+      return;
+    }
+    else {
+      return;
+    }
+  }
+  else if ((arg_10 == 0x0399) || (arg_10 == 0x03a1)) {
+    if ((arg_12 == 18) || (arg_12 == 19)) {
+      return;
+    }
+    else {
+      return;
+    }
+  }
+  else if (arg_10 == 0x04c8) {
+    return;
+  }
+  else if (arg_12 == 9) {
+    return;
+  }
+  return;
+}
+
+/* ===== slot 0x26 slot_26 ===== */
+function wallgun_slot_26() /* entry=2588 class_id=0x0a1a slot=0x26 */
+{
+  set_info(0x0001, *(arg_06));
+  while (Item.isOnScreen(arg_06) == 0) {
+    spawn FREE.waitNTimerTicks(pid, 20, 0x00000000);
+    suspend;
+  }
+  return;
+}
+
+/* ===== slot 0x27 slot_27 ===== */
+function wallgun_slot_27() /* entry=2588 class_id=0x0a1a slot=0x27 */
+{
+  set_info(0x0001, *(arg_06));
+  WALLGUN.slot_25(Item.getFrame(arg_06), Item.getShape(arg_06), arg_06);
+  if (retval) {
+    return;
+  }
+  else {
+    WALLGUN.slot_29(arg_06);
+    if (retval) {
+      if (Item.getFrame(arg_06) > 15) {
+        Item.isCentreOn(UCMachine.rndRange(15, 0), arg_06);
+      }
+    }
+    else if (Item.getFrame(arg_06) > 8) {
+      Item.isCentreOn(UCMachine.rndRange(7, 0), arg_06);
+    }
+    if (Actor.getLastAnimSet() != 0) {
+      spawn WALLGUN.slot_28(pid, Item.andStatus(arg_06), Actor.getLastAnimSet(), arg_06);
+      suspend;
+      return;
+    }
+    else {
+      spawn WALLGUN.slot_28(pid, Item.andStatus(arg_06), global[0x003d], arg_06);
+      suspend;
+    }
+  }
+  return;
+}
+
+/* ===== slot 0x28 slot_28 ===== */
+function wallgun_slot_28() /* entry=2588 class_id=0x0a1a slot=0x28 */
+{
+  set_info(0x020a, *(arg_06));
+  Item.getQLo(arg_12, arg_06);
+  if (arg_12 > 99) {
+    arg_12 = (arg_12 - 100);
+  }
+  local_02 = Item.getQ(arg_06);
+  if (local_02 == 0) {
+    Item.setQHi(33, arg_06);
+  }
+  if (((local_02 == 99) || (local_02 == 0x00c7)) || (arg_12 == 6)) {
+    return;
+  }
+  else {
+    WALLGUN.slot_25(Item.getFrame(arg_06), Item.getShape(arg_06), arg_06);
+    if (retval == 1) {
+      return;
+    }
+    else {
+      while (1) {
+        spawn WALLGUN.slot_26(pid, arg_06);
+        suspend;
+        if (arg_12 == 7) {
+          spawn WALLGUN.slot_36(pid, arg_06);
+          suspend;
+        }
+        else if (arg_12 == 9) {
+          spawn WALLGUN.slot_37(pid, arg_06);
+          suspend;
+        }
+        else if (arg_12 == 8) {
+          spawn WALLGUN.slot_32(pid, arg_10, arg_06);
+          suspend;
+        }
+        else if (arg_12 == 10) {
+          spawn WALLGUN.slot_33(pid, arg_10, arg_06);
+          suspend;
+        }
+        else if (arg_12 == 11) {
+          while (1) {
+            if (Actor.getLastAnimSet() != 0) {
+              arg_10 = Actor.getLastAnimSet();
+            }
+            else {
+              arg_10 = 1;
+            }
+            spawn WALLGUN.slot_3c(pid, arg_12, arg_10, arg_06);
+            suspend;
+            spawn WALLGUN.slot_2f(pid, arg_12, arg_10, arg_06);
+            suspend;
+            spawn FREE.waitNTimerTicks(pid, 3, 0x00000000);
+            suspend;
+            spawn WALLGUN.slot_26(pid, arg_06);
+            suspend;
+          }
+        }
+        else if (arg_12 == 1) {
+          if (Actor.getLastAnimSet() != 0) {
+            arg_10 = Actor.getLastAnimSet();
+          }
+          else {
+            arg_10 = 1;
+          }
+          spawn WALLGUN.slot_3d(pid, arg_12, arg_10, arg_06);
+          suspend;
+        }
+        else if (arg_12 == 2) {
+          while (1) {
+            if (Actor.getLastAnimSet() != 0) {
+              arg_10 = Actor.getLastAnimSet();
+            }
+            else {
+              arg_10 = 1;
+            }
+            spawn WALLGUN.slot_26(pid, arg_06);
+            suspend;
+            spawn WALLGUN.slot_31(pid, arg_12, arg_10, arg_06);
+            suspend;
+            if (process_result) {
+            }
+          }
+          spawn WALLGUN.slot_3d(pid, arg_12, arg_10, arg_06);
+          suspend;
+        }
+        else if (arg_12 == 5) {
+          spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
+          suspend;
+        }
+        else if (arg_12 == 12) {
+          spawn WALLGUN.slot_38(pid, arg_10, arg_06);
+          suspend;
+        }
+        else if (arg_12 == 13) {
+          spawn WALLGUN.slot_39(pid, arg_10, arg_06);
+          suspend;
+        }
+        else if (arg_12 == 14) {
+          spawn WALLGUN.slot_3a(pid, arg_10, arg_06);
+          suspend;
+        }
+        else if (arg_12 == 15) {
+          spawn WALLGUN.slot_3b(pid, arg_10, arg_06);
+          suspend;
+        }
+        else if (Actor.getLastAnimSet() != 0) {
+          arg_10 = Actor.getLastAnimSet();
+        }
+        else {
+          arg_10 = 1;
+        }
+        spawn WALLGUN.slot_31(pid, arg_12, arg_10, arg_06);
+        suspend;
+        if (process_result) {
+          spawn WALLGUN.slot_3d(pid, arg_12, arg_10, arg_06);
+          suspend;
+        }
+        else {
+          WALLGUN.slot_20(arg_06);
+          local_04 = retval;
+          if (local_04 == 0) {
+            local_04 = 3;
+          }
+          if (local_04 > 5) {
+            local_04 = 5;
+          }
+          local_04 = (local_04 - 1);
+          local_04 = (local_04 * 30);
+          local_04 = (local_04 + 120);
+          spawn FREE.waitNTimerTicks(pid, local_04, 0x00000000);
+          suspend;
+        }
+        spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+        suspend;
+      }
+    }
+  }
+  return;
+}
+
+/* ===== slot 0x29 slot_29 ===== */
+function wallgun_slot_29() /* entry=2588 class_id=0x0a1a slot=0x29 */
+{
+  local_02 = Item.getShape(arg_06);
+  if ((local_02 == 0x04c8) || (local_02 == 0x01cd)) {
+    return;
+  }
+  else {
+    return;
+  }
+  return;
+}
+
+/* ===== slot 0x2a slot_2a ===== */
+function wallgun_slot_2a() /* entry=2588 class_id=0x0a1a slot=0x2a */
+{
+  /* in_list */
+  if ([0x01b9, 0x0260, 0x03a1, 0x0373, 0x0113]) {
+    return;
+  }
+  else {
+    return;
+  }
+  return;
+}
+
+/* ===== slot 0x2b slot_2b ===== */
+function wallgun_slot_2b() /* entry=2588 class_id=0x0a1a slot=0x2b */
+{
+  /* in_list */
+  if ([0x03a1, 0x0373, 0x0113]) {
+    return;
+  }
+  else {
+    return;
+  }
+  return;
+}
+
+/* ===== slot 0x2c slot_2c ===== */
+function wallgun_slot_2c() /* entry=2588 class_id=0x0a1a slot=0x2c */
+{
+  WALLGUN.slot_2a(arg_06);
+  WALLGUN.slot_2b((retval == 1), arg_06);
+  WALLGUN.slot_29((retval == 1), arg_06);
+  if (retval == 1) {
+    return;
+  }
+  else {
+    WALLGUN.slot_2a(arg_06);
+    if (retval) {
+      return;
+    }
+    else {
+      return;
+    }
+  }
+  return;
+}
+
+/* ===== slot 0x2d slot_2d ===== */
+function wallgun_slot_2d() /* entry=2588 class_id=0x0a1a slot=0x2d */
+{
+  local_02 = arg_10;
+  local_04 = Item.getDirFromTo16(Item.getY(local_02), Item.getX(local_02), Item.getY(arg_06), Item.getX(arg_06));
+  WALLGUN.slot_2c(arg_06);
+  if (retval == local_04) {
+    return;
+  }
+  else {
+    WALLGUN.slot_29(arg_06);
+    if (retval) {
+      WALLGUN.slot_2c(arg_06);
+      local_10 = retval;
+      local_06 = 0;
+      local_08 = 0;
+      while ((local_10 != local_04) && (local_06 < 15)) {
+        local_06 = (1 + local_06);
+        if (local_10 == 0) {
+          local_10 = 15;
+        }
+        else {
+          local_10 = (local_10 - 1);
+        }
+      }
+      WALLGUN.slot_2c(arg_06);
+      local_10 = retval;
+      while ((local_10 != local_04) && (local_08 < 15)) {
+        local_08 = (1 + local_08);
+        if (local_10 == 15) {
+          local_10 = 0;
+        }
+        else {
+          local_10 = (1 + local_10);
+        }
+      }
+      if (local_06 < local_08) {
+        return;
+      }
+    }
+    else {
+      WALLGUN.slot_2a(arg_06);
+      if (((retval == 1) && (local_04 >= 13)) && (local_04 <= 15)) {
+        return;
+      }
+      WALLGUN.slot_2c(arg_06);
+      if (retval > local_04) {
+        return;
+      }
+    }
+    return;
+  }
+  return;
+}
+
+/* ===== slot 0x2e slot_2e ===== */
+function wallgun_slot_2e() /* entry=2588 class_id=0x0a1a slot=0x2e */
+{
+  WALLGUN.slot_2c(arg_06);
+  local_11 = retval;
+  WALLGUN.slot_3e(local_11, arg_06);
+  local_02 = retval;
+  WALLGUN.slot_3f(local_11, arg_06);
+  local_06 = retval;
+  WALLGUN.slot_40(local_11, arg_06);
+  local_09 = retval;
+  local_13 = arg_10;
+  if (Actor.isDead(local_13)) {
+    return;
+  }
+  else {
+    WALLGUN.slot_2d(arg_10, arg_06);
+    if (!retval) {
+      if (Item.andStatus(arg_06) > 99) {
+        return;
+      }
+      if (Item.getNPCNum(local_09, local_06, local_02, local_11, arg_10, arg_06)) {
+        return;
+      }
+      WALLGUN.slot_29(arg_06);
+      if (retval) {
+        WALLGUN.slot_41(local_11, arg_06);
+        local_04 = retval;
+        WALLGUN.slot_42(local_11, arg_06);
+        local_08 = retval;
+        WALLGUN.slot_43(local_11, arg_06);
+        local_10 = retval;
+        if (Item.getNPCNum(local_10, local_08, local_04, local_11, arg_10, arg_06)) {
+          return;
+        }
+      }
+    }
+    else {
+      return;
+    }
+  }
+  return;
+}
+
+/* ===== slot 0x2f slot_2f ===== */
+function wallgun_slot_2f() /* entry=2588 class_id=0x0a1a slot=0x2f */
+{
+  set_info(0x0001, *(arg_06));
+  WALLGUN.slot_20(arg_06);
+  local_02 = retval;
+  if (!local_02) {
+    local_02 = 3;
+  }
+  if (local_02 > 5) {
+    local_02 = 5;
+  }
+  local_02 = (local_02 * 5);
+  while (local_02) {
+    spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+    suspend;
+    WALLGUN.slot_2e(arg_10, arg_06);
+    local_04 = retval;
+    FREE.slot_29(*(arg_06), arg_10);
+    local_06 = retval;
+    if ((((arg_12 == 4) && (local_04 == 1)) && (local_06 <= 20)) || (((arg_12 != 4) && (local_04 == 1)) && (local_06 <= 46))) {
+      return;
+    }
+    else {
+      local_02 = (local_02 - 1);
+    }
+  }
+  return;
+}
+
+/* ===== slot 0x30 slot_30 ===== */
+function wallgun_slot_30() /* entry=2588 class_id=0x0a1a slot=0x30 */
+{
+  set_info(0x0001, *(arg_06));
+  WALLGUN.slot_21(arg_06);
+  local_02 = retval;
+  if (!local_02) {
+    local_02 = 3;
+  }
+  if (local_02 > 5) {
+    local_02 = 5;
+  }
+  local_02 = (local_02 * 8);
+  spawn FREE.waitNTimerTicks(pid, local_02, 0x00000000);
+  suspend;
+  return;
+}
+
+/* ===== slot 0x31 slot_31 ===== */
+function wallgun_slot_31() /* entry=2588 class_id=0x0a1a slot=0x31 */
+{
+  set_info(0x0001, *(arg_06));
+  local_09 = 1;
+  local_10 = 1;
+  WALLGUN.slot_29(arg_06);
+  local_11 = retval;
+  if (local_11 == 1) {
+    local_06 = 1;
+    local_02 = 0;
+    local_04 = 15;
+  }
+  else {
+    WALLGUN.slot_2b(arg_06);
+    if (retval) {
+      local_06 = 1;
+      local_02 = 0;
+      local_04 = 8;
+    }
+    else {
+      local_06 = -1;
+      local_02 = 8;
+      local_04 = 0;
+    }
+  }
+  WALLGUN.slot_2e(arg_10, arg_06);
+  if (retval) {
+    if (arg_12 != 4) {
+      process_result = 1;
+      return;
+    }
+    else {
+      FREE.slot_29(arg_10, *(arg_06));
+      if (retval <= 20) {
+        process_result = 1;
+        return;
+      }
+    }
+  }
+  while (1) {
+    spawn WALLGUN.slot_26(pid, arg_06);
+    suspend;
+    local_08 = Item.getFrame(arg_06);
+    if (local_11 == 1) {
+      if (local_08 > 19) {
+        spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+        suspend;
+      }
+    }
+    else if (local_08 > 8) {
+      spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+      suspend;
+    }
+    if (local_09) {
+      if (local_08 == local_04) {
+        local_09 = 0;
+      }
+      else {
+        local_08 = (local_08 + local_06);
+      }
+    }
+    else if ((local_10 == 1) && (local_11 == 0)) {
+      if (local_08 == local_02) {
+        local_10 = 0;
+      }
+      else {
+        local_08 = (local_08 - local_06);
+      }
+    }
+    else if (local_11 == 1) {
+      Item.isCentreOn(local_02, arg_06);
+      process_result = 0;
+      return;
+    }
+    else if (local_08 == 4) {
+      process_result = 0;
+      return;
+    }
+    else {
+      local_08 = (local_08 + local_06);
+    }
+    Item.getRangeIfVisible(115, arg_06);
+    Item.isCentreOn(local_08, arg_06);
+    spawn WALLGUN.slot_2f(pid, arg_12, arg_10, arg_06);
+    suspend;
+    WALLGUN.slot_2e(arg_10, arg_06);
+    if (retval) {
+      if (arg_12 != 4) {
+        process_result = 1;
+        return;
+      }
+      else {
+        FREE.slot_29(arg_10, *(arg_06));
+        if (retval <= 20) {
+          process_result = 1;
+          return;
+        }
+      }
+    }
+  }
+  return;
+}
+
+/* ===== slot 0x32 slot_32 ===== */
+function wallgun_slot_32() /* entry=2588 class_id=0x0a1a slot=0x32 */
+{
+  set_info(0x0001, *(arg_06));
+  local_09 = 1;
+  local_10 = 1;
+  WALLGUN.slot_29(arg_06);
+  local_11 = retval;
+  if (local_11 == 1) {
+    local_06 = 1;
+    local_02 = 0;
+    local_04 = 15;
+  }
+  else {
+    WALLGUN.slot_2b(arg_06);
+    if (retval) {
+      local_06 = 1;
+      local_02 = 0;
+      local_04 = 8;
+    }
+    else {
+      local_06 = -1;
+      local_02 = 8;
+      local_04 = 0;
+    }
+  }
+  WALLGUN.slot_20(arg_06);
+  local_13 = (retval * 5);
+  while (1) {
+    spawn WALLGUN.slot_26(pid, arg_06);
+    suspend;
+    local_08 = Item.getFrame(arg_06);
+    if (local_11 == 1) {
+      if (local_08 > 19) {
+        spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+        suspend;
+      }
+    }
+    else if (local_08 > 8) {
+      spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+      suspend;
+    }
+    if (local_09) {
+      if (local_08 == local_04) {
+        local_09 = 0;
+      }
+      else {
+        local_08 = (local_08 + local_06);
+      }
+    }
+    else if ((local_10 == 1) && (local_11 == 0)) {
+      if (local_08 == local_02) {
+        local_10 = 0;
+      }
+      else {
+        local_08 = (local_08 - local_06);
+      }
+    }
+    else if (local_11 == 1) {
+      local_08 = local_02;
+    }
+    else if (local_08 != 4) {
+      local_08 = (local_08 + local_06);
+    }
+    local_09 = 1;
+    local_10 = 1;
+    Item.getRangeIfVisible(115, arg_06);
+    Item.isCentreOn(local_08, arg_06);
+    spawn FREE.waitNTimerTicks(pid, local_13, 0x00000000);
+    suspend;
+    WALLGUN.slot_2e(arg_10, arg_06);
+    if (retval) {
+      spawn WALLGUN.slot_46(pid, arg_10, arg_06);
+      suspend;
+    }
+  }
+  return;
+}
+
+/* ===== slot 0x33 slot_33 ===== */
+function wallgun_slot_33() /* entry=2588 class_id=0x0a1a slot=0x33 */
+{
+  set_info(0x0001, *(arg_06));
+  local_09 = 1;
+  local_10 = 1;
+  WALLGUN.slot_29(arg_06);
+  local_11 = retval;
+  if (local_11 == 1) {
+    local_06 = 1;
+    local_02 = 0;
+    local_04 = 15;
+  }
+  else {
+    WALLGUN.slot_2b(arg_06);
+    if (retval) {
+      local_06 = 1;
+      local_02 = 0;
+      local_04 = 8;
+    }
+    else {
+      local_06 = -1;
+      local_02 = 8;
+      local_04 = 0;
+    }
+  }
+  WALLGUN.slot_20(arg_06);
+  local_13 = (retval * 5);
+  while (1) {
+    spawn WALLGUN.slot_26(pid, arg_06);
+    suspend;
+    local_08 = Item.getFrame(arg_06);
+    if (local_11 == 1) {
+      if (local_08 > 19) {
+        spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+        suspend;
+      }
+    }
+    else if (local_08 > 8) {
+      spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+      suspend;
+    }
+    if (local_10 == 1) {
+      if (local_08 == local_02) {
+        local_10 = 0;
+      }
+      else {
+        local_08 = (local_08 - local_06);
+      }
+    }
+    else if ((local_09 == 1) && (local_11 == 0)) {
+      if (local_08 == local_04) {
+        local_09 = 0;
+      }
+      else {
+        local_08 = (local_08 + local_06);
+      }
+    }
+    else {
+      local_09 = 1;
+      local_10 = 1;
+      if (local_11 == 1) {
+        local_08 = local_04;
+      }
+      else if (local_08 != 4) {
+        local_08 = (local_08 - local_06);
+      }
+    }
+    Item.getRangeIfVisible(115, arg_06);
+    Item.isCentreOn(local_08, arg_06);
+    WALLGUN.slot_2e(arg_10, arg_06);
+    if (retval) {
+      spawn WALLGUN.slot_46(pid, arg_10, arg_06);
+      suspend;
+    }
+    spawn FREE.waitNTimerTicks(pid, local_13, 0x00000000);
+    suspend;
+  }
+  return;
+}
+
+/* ===== slot 0x34 slot_34 ===== */
+function wallgun_slot_34() /* entry=2588 class_id=0x0a1a slot=0x34 */
+{
+  set_info(0x0001, *(arg_06));
+  local_09 = 1;
+  WALLGUN.slot_29(arg_06);
+  local_10 = retval;
+  if (local_10 == 1) {
+    local_06 = 1;
+    local_02 = 0;
+    local_04 = 15;
+  }
+  else {
+    WALLGUN.slot_2b(arg_06);
+    if (retval) {
+      local_06 = 1;
+      local_02 = 0;
+      local_04 = 8;
+    }
+    else {
+      local_06 = -1;
+      local_02 = 8;
+      local_04 = 0;
+    }
+  }
+  WALLGUN.slot_20(arg_06);
+  local_12 = (retval * 5);
+  while (1) {
+    local_08 = Item.getFrame(arg_06);
+    if (local_10 == 1) {
+      if (local_08 > 19) {
+        spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+        suspend;
+      }
+    }
+    else if (local_08 > 8) {
+      spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+      suspend;
+    }
+    if (local_09) {
+      if (local_08 == local_04) {
+        local_09 = 0;
+      }
+      else {
+        local_08 = (local_08 + local_06);
+      }
+    }
+    else if (local_10 == 1) {
+      local_08 = local_02;
+    }
+    else if ((local_08 != 4) && (local_08 != local_04)) {
+      local_08 = (local_08 + local_06);
+    }
+    Item.getRangeIfVisible(115, arg_06);
+    Item.isCentreOn(local_08, arg_06);
+    spawn FREE.waitNTimerTicks(pid, local_12, 0x00000000);
+    suspend;
+    return;
+  }
+  return;
+}
+
+/* ===== slot 0x35 slot_35 ===== */
+function wallgun_slot_35() /* entry=2588 class_id=0x0a1a slot=0x35 */
+{
+  set_info(0x0001, *(arg_06));
+  local_09 = 1;
+  WALLGUN.slot_29(arg_06);
+  local_10 = retval;
+  if (local_10 == 1) {
+    local_06 = 1;
+    local_02 = 0;
+    local_04 = 15;
+  }
+  else {
+    WALLGUN.slot_2b(arg_06);
+    if (retval) {
+      local_06 = 1;
+      local_02 = 0;
+      local_04 = 8;
+    }
+    else {
+      local_06 = -1;
+      local_02 = 8;
+      local_04 = 0;
+    }
+  }
+  WALLGUN.slot_20(arg_06);
+  local_12 = (retval * 5);
+  while (1) {
+    local_08 = Item.getFrame(arg_06);
+    if (local_10 == 1) {
+      if (local_08 > 19) {
+        spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+        suspend;
+      }
+    }
+    else if (local_08 > 8) {
+      spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+      suspend;
+    }
+    if (local_09 == 1) {
+      if (local_08 == local_02) {
+        local_09 = 0;
+      }
+      else {
+        local_08 = (local_08 - local_06);
+      }
+    }
+    else if (local_10 == 1) {
+      local_08 = local_04;
+    }
+    else if ((local_08 != 4) && (local_08 != local_02)) {
+      local_08 = (local_08 - local_06);
+    }
+    Item.getRangeIfVisible(115, arg_06);
+    Item.isCentreOn(local_08, arg_06);
+    spawn FREE.waitNTimerTicks(pid, local_12, 0x00000000);
+    suspend;
+    return;
+  }
+  return;
+}
+
+/* ===== slot 0x36 slot_36 ===== */
+function wallgun_slot_36() /* entry=2588 class_id=0x0a1a slot=0x36 */
+{
+  set_info(0x0001, *(arg_06));
+  local_09 = 1;
+  local_10 = 1;
+  WALLGUN.slot_29(arg_06);
+  local_11 = retval;
+  if (local_11 == 1) {
+    local_06 = 1;
+    local_02 = 0;
+    local_04 = 15;
+  }
+  else {
+    WALLGUN.slot_2b(arg_06);
+    if (retval) {
+      local_06 = 1;
+      local_02 = 0;
+      local_04 = 8;
+    }
+    else {
+      local_06 = -1;
+      local_02 = 8;
+      local_04 = 0;
+    }
+  }
+  WALLGUN.slot_20(arg_06);
+  local_13 = (retval * 5);
+  while (1) {
+    spawn WALLGUN.slot_26(pid, arg_06);
+    suspend;
+    local_08 = Item.getFrame(arg_06);
+    if (local_11 == 1) {
+      if (local_08 > 19) {
+        spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+        suspend;
+      }
+    }
+    else if (local_08 > 8) {
+      spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+      suspend;
+    }
+    if (local_09) {
+      if (local_08 == local_04) {
+        local_09 = 0;
+      }
+      else {
+        local_08 = (local_08 + local_06);
+      }
+    }
+    else if ((local_10 == 1) && (local_11 == 0)) {
+      if (local_08 == local_02) {
+        local_10 = 0;
+      }
+      else {
+        local_08 = (local_08 - local_06);
+      }
+    }
+    else {
+      local_09 = 1;
+      local_10 = 1;
+      if (local_11 == 1) {
+        local_08 = local_02;
+      }
+      else if (local_08 != 4) {
+        local_08 = (local_08 + local_06);
+      }
+    }
+    Item.getRangeIfVisible(115, arg_06);
+    Item.isCentreOn(local_08, arg_06);
+    spawn FREE.waitNTimerTicks(pid, local_13, 0x00000000);
+    suspend;
+  }
+  return;
+}
+
+/* ===== slot 0x37 slot_37 ===== */
+function wallgun_slot_37() /* entry=2588 class_id=0x0a1a slot=0x37 */
+{
+  set_info(0x0001, *(arg_06));
+  local_09 = 1;
+  local_10 = 1;
+  WALLGUN.slot_29(arg_06);
+  local_11 = retval;
+  if (local_11 == 1) {
+    local_06 = 1;
+    local_02 = 0;
+    local_04 = 15;
+  }
+  else {
+    WALLGUN.slot_2b(arg_06);
+    if (retval) {
+      local_06 = 1;
+      local_02 = 0;
+      local_04 = 8;
+    }
+    else {
+      local_06 = -1;
+      local_02 = 8;
+      local_04 = 0;
+    }
+  }
+  WALLGUN.slot_20(arg_06);
+  local_13 = (retval * 5);
+  while (1) {
+    spawn WALLGUN.slot_26(pid, arg_06);
+    suspend;
+    local_08 = Item.getFrame(arg_06);
+    if (local_11 == 1) {
+      if (local_08 > 19) {
+        spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+        suspend;
+      }
+    }
+    else if (local_08 > 8) {
+      spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+      suspend;
+    }
+    if (local_10 == 1) {
+      if (local_08 == local_02) {
+        local_10 = 0;
+      }
+      else {
+        local_08 = (local_08 - local_06);
+      }
+    }
+    else if ((local_09 == 1) && (local_11 == 0)) {
+      if (local_08 == local_04) {
+        local_09 = 0;
+      }
+      else {
+        local_08 = (local_08 + local_06);
+      }
+    }
+    else {
+      local_09 = 1;
+      local_10 = 1;
+      if (local_11 == 1) {
+        local_08 = local_04;
+      }
+      else if (local_08 != 4) {
+        local_08 = (local_08 - local_06);
+      }
+    }
+    Item.getRangeIfVisible(115, arg_06);
+    Item.isCentreOn(local_08, arg_06);
+    spawn FREE.waitNTimerTicks(pid, local_13, 0x00000000);
+    suspend;
+  }
+  return;
+}
+
+/* ===== slot 0x38 slot_38 ===== */
+function wallgun_slot_38() /* entry=2588 class_id=0x0a1a slot=0x38 */
+{
+  set_info(0x0001, *(arg_06));
+  local_09 = 1;
+  local_10 = 1;
+  WALLGUN.slot_29(arg_06);
+  local_11 = retval;
+  if (local_11 == 1) {
+    local_06 = 1;
+    local_02 = 4;
+    local_04 = 12;
+  }
+  else {
+    WALLGUN.slot_2b(arg_06);
+    if (retval) {
+      local_06 = 1;
+      local_02 = 0;
+      local_04 = 8;
+    }
+    else {
+      local_06 = -1;
+      local_02 = 8;
+      local_04 = 0;
+    }
+  }
+  WALLGUN.slot_20(arg_06);
+  local_13 = (retval * 5);
+  while (1) {
+    spawn WALLGUN.slot_26(pid, arg_06);
+    suspend;
+    local_08 = Item.getFrame(arg_06);
+    if (local_11 == 1) {
+      if (local_08 > 19) {
+        spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+        suspend;
+      }
+    }
+    else if (local_08 > 8) {
+      spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+      suspend;
+    }
+    if (local_09) {
+      if (local_08 == local_04) {
+        local_09 = 0;
+      }
+      else {
+        local_08 = (local_08 + local_06);
+      }
+    }
+    else if (local_10 == 1) {
+      if (local_08 == local_02) {
+        local_10 = 0;
+      }
+      else {
+        local_08 = (local_08 - local_06);
+      }
+    }
+    else if (local_08 != 4) {
+      local_08 = (local_08 + local_06);
+    }
+    local_09 = 1;
+    local_10 = 1;
+    Item.getRangeIfVisible(115, arg_06);
+    Item.isCentreOn(local_08, arg_06);
+    spawn FREE.waitNTimerTicks(pid, local_13, 0x00000000);
+    suspend;
+    WALLGUN.slot_2e(arg_10, arg_06);
+    if (retval) {
+      spawn WALLGUN.slot_46(pid, arg_10, arg_06);
+      suspend;
+    }
+  }
+  return;
+}
+
+/* ===== slot 0x39 slot_39 ===== */
+function wallgun_slot_39() /* entry=2588 class_id=0x0a1a slot=0x39 */
+{
+  set_info(0x0001, *(arg_06));
+  local_09 = 1;
+  local_10 = 1;
+  WALLGUN.slot_29(arg_06);
+  local_11 = retval;
+  if (local_11 == 1) {
+    local_06 = 1;
+    local_02 = 0;
+    local_04 = 8;
+  }
+  else {
+    WALLGUN.slot_2b(arg_06);
+    if (retval) {
+      local_06 = 1;
+      local_02 = 0;
+      local_04 = 8;
+    }
+    else {
+      local_06 = -1;
+      local_02 = 8;
+      local_04 = 0;
+    }
+  }
+  WALLGUN.slot_20(arg_06);
+  local_13 = (retval * 5);
+  while (1) {
+    spawn WALLGUN.slot_26(pid, arg_06);
+    suspend;
+    local_08 = Item.getFrame(arg_06);
+    if (local_11 == 1) {
+      if (local_08 > 19) {
+        spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+        suspend;
+      }
+    }
+    else if (local_08 > 8) {
+      spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+      suspend;
+    }
+    if (local_09) {
+      if (local_08 == local_04) {
+        local_09 = 0;
+      }
+      else {
+        local_08 = (local_08 + local_06);
+      }
+    }
+    else if (local_10 == 1) {
+      if (local_08 == local_02) {
+        local_10 = 0;
+      }
+      else {
+        local_08 = (local_08 - local_06);
+      }
+    }
+    else if (local_08 != 4) {
+      local_08 = (local_08 + local_06);
+    }
+    local_09 = 1;
+    local_10 = 1;
+    Item.getRangeIfVisible(115, arg_06);
+    Item.isCentreOn(local_08, arg_06);
+    spawn FREE.waitNTimerTicks(pid, local_13, 0x00000000);
+    suspend;
+    WALLGUN.slot_2e(arg_10, arg_06);
+    if (retval) {
+      spawn WALLGUN.slot_46(pid, arg_10, arg_06);
+      suspend;
+    }
+  }
+  return;
+}
+
+/* ===== slot 0x3a slot_3a ===== */
+function wallgun_slot_3a() /* entry=2588 class_id=0x0a1a slot=0x3a */
+{
+  set_info(0x0001, *(arg_06));
+  local_09 = 1;
+  local_10 = 1;
+  WALLGUN.slot_29(arg_06);
+  local_11 = retval;
+  if (local_11 == 1) {
+    local_06 = 1;
+    local_02 = 8;
+    local_04 = 12;
+  }
+  else {
+    WALLGUN.slot_2b(arg_06);
+    if (retval) {
+      local_06 = 1;
+      local_02 = 0;
+      local_04 = 8;
+    }
+    else {
+      local_06 = -1;
+      local_02 = 8;
+      local_04 = 0;
+    }
+  }
+  WALLGUN.slot_20(arg_06);
+  local_13 = (retval * 15);
+  while (1) {
+    spawn WALLGUN.slot_26(pid, arg_06);
+    suspend;
+    local_08 = Item.getFrame(arg_06);
+    if (local_11 == 1) {
+      if (local_08 > 19) {
+        spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+        suspend;
+      }
+    }
+    else if (local_08 > 8) {
+      spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+      suspend;
+    }
+    if (local_09) {
+      if (local_08 == local_04) {
+        local_09 = 0;
+        spawn FREE.waitNTimerTicks(pid, 20, 0x00000000);
+        suspend;
+      }
+      else {
+        local_08 = (local_08 + local_06);
+      }
+    }
+    else if (local_10 == 1) {
+      if (local_08 == local_02) {
+        local_10 = 0;
+        spawn FREE.waitNTimerTicks(pid, 20, 0x00000000);
+        suspend;
+      }
+      else {
+        local_08 = (local_08 - local_06);
+      }
+    }
+    else if (local_08 != 4) {
+      local_08 = (local_08 + local_06);
+    }
+    local_09 = 1;
+    local_10 = 1;
+    Item.getRangeIfVisible(115, arg_06);
+    Item.isCentreOn(local_08, arg_06);
+    spawn FREE.waitNTimerTicks(pid, local_13, 0x00000000);
+    suspend;
+    WALLGUN.slot_2e(arg_10, arg_06);
+    if (retval) {
+      spawn WALLGUN.slot_46(pid, arg_10, arg_06);
+      suspend;
+    }
+  }
+  return;
+}
+
+/* ===== slot 0x3b slot_3b ===== */
+function wallgun_slot_3b() /* entry=2588 class_id=0x0a1a slot=0x3b */
+{
+  set_info(0x0001, *(arg_06));
+  local_09 = 1;
+  local_10 = 1;
+  WALLGUN.slot_29(arg_06);
+  local_11 = retval;
+  if (local_11 == 1) {
+    local_06 = 1;
+    local_02 = 4;
+    local_04 = 8;
+  }
+  else {
+    WALLGUN.slot_2b(arg_06);
+    if (retval) {
+      local_06 = 1;
+      local_02 = 0;
+      local_04 = 8;
+    }
+    else {
+      local_06 = -1;
+      local_02 = 8;
+      local_04 = 0;
+    }
+  }
+  WALLGUN.slot_20(arg_06);
+  local_13 = (retval * 15);
+  while (1) {
+    spawn WALLGUN.slot_26(pid, arg_06);
+    suspend;
+    local_08 = Item.getFrame(arg_06);
+    if (local_11 == 1) {
+      if (local_08 > 19) {
+        spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+        suspend;
+      }
+    }
+    else if (local_08 > 8) {
+      spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+      suspend;
+    }
+    if (local_09) {
+      if (local_08 == local_04) {
+        local_09 = 0;
+        spawn FREE.waitNTimerTicks(pid, (local_13 + 20), 0x00000000);
+        suspend;
+      }
+      else {
+        local_08 = (local_08 + local_06);
+      }
+    }
+    else if (local_10 == 1) {
+      if (local_08 == local_02) {
+        local_10 = 0;
+        spawn FREE.waitNTimerTicks(pid, (local_13 + 20), 0x00000000);
+        suspend;
+      }
+      else {
+        local_08 = (local_08 - local_06);
+      }
+    }
+    else if (local_08 != 4) {
+      local_08 = (local_08 + local_06);
+    }
+    local_09 = 1;
+    local_10 = 1;
+    Item.getRangeIfVisible(115, arg_06);
+    Item.isCentreOn(local_08, arg_06);
+    spawn FREE.waitNTimerTicks(pid, local_13, 0x00000000);
+    suspend;
+    WALLGUN.slot_2e(arg_10, arg_06);
+    if (retval) {
+      spawn WALLGUN.slot_46(pid, arg_10, arg_06);
+      suspend;
+    }
+  }
+  return;
+}
+
+/* ===== slot 0x3c slot_3c ===== */
+function wallgun_slot_3c() /* entry=2588 class_id=0x0a1a slot=0x3c */
+{
+  set_info(0x0001, *(arg_06));
+  WALLGUN.slot_29(arg_06);
+  local_12 = retval;
+  if (local_12 == 1) {
+    local_08 = -1;
+    local_04 = 0;
+    local_06 = 15;
+  }
+  else {
+    WALLGUN.slot_2b(arg_06);
+    if (retval) {
+      local_08 = -1;
+      local_04 = 0;
+      local_06 = 8;
+    }
+    else {
+      local_08 = 1;
+      local_04 = 8;
+      local_06 = 0;
+    }
+  }
+  WALLGUN.slot_2d(arg_10, arg_06);
+  if (!retval) {
+    process_result = 1;
+    return;
+  }
+  else {
+    while (1) {
+      spawn WALLGUN.slot_26(pid, arg_06);
+      suspend;
+      spawn WALLGUN.slot_2f(pid, arg_12, arg_10, arg_06);
+      suspend;
+      local_10 = Item.getFrame(arg_06);
+      if (local_12 == 1) {
+        if (local_10 > 19) {
+          spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+          suspend;
+        }
+      }
+      else if (local_10 > 8) {
+        spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+        suspend;
+      }
+      WALLGUN.slot_2d(arg_10, arg_06);
+      local_02 = retval;
+      if (local_02 == 0) {
+        process_result = 1;
+        return;
+      }
+      else if (local_02 == 1) {
+        if (local_10 == local_04) {
+          if (local_12 == 1) {
+            local_10 = local_06;
+          }
+          else {
+            process_result = 0;
+            return;
+          }
+        }
+        else {
+          local_10 = (local_10 + local_08);
+        }
+      }
+      else if (local_10 == local_06) {
+        if (local_12 == 1) {
+          local_10 = local_04;
+        }
+        else {
+          process_result = 0;
+          return;
+        }
+      }
+      else {
+        local_10 = (local_10 - local_08);
+      }
+      Item.getRangeIfVisible(115, arg_06);
+      Item.isCentreOn(local_10, arg_06);
+    }
+  }
+  return;
+}
+
+/* ===== slot 0x3d slot_3d ===== */
+function wallgun_slot_3d() /* entry=2588 class_id=0x0a1a slot=0x3d */
+{
+  set_info(0x0001, *(arg_06));
+  while (1) {
+    spawn WALLGUN.slot_26(pid, arg_06);
+    suspend;
+    spawn WALLGUN.slot_3c(pid, arg_12, arg_10, arg_06);
+    suspend;
+    if (process_result) {
+      WALLGUN.slot_2e(arg_10, arg_06);
+      local_02 = retval;
+      FREE.slot_29(*(arg_06), arg_10);
+      local_04 = retval;
+      if ((((arg_12 == 4) && (local_02 == 1)) && (local_04 <= 20)) || (((arg_12 != 4) && (local_02 == 1)) && (local_04 <= 46))) {
+        spawn WALLGUN.slot_45(pid, arg_12, arg_10, arg_06);
+        suspend;
+      }
+      else {
+        return;
+      }
+    }
+  }
+  return;
+}
+
+/* ===== slot 0x3e slot_3e ===== */
+function wallgun_slot_3e() /* entry=2588 class_id=0x0a1a slot=0x3e */
+{
+  if (Item.getShape(arg_06) == wallgun_shape_0108) {
+    switch (arg_10) {
+    case 12:
+      return;
+    case 11:
+      return;
+    case 10:
+      return;
+    case 9:
+      return;
+    case 8:
+      return;
+    case 7:
+      return;
+    case 6:
+      return;
+    case 5:
+      return;
+    case 4:
+      return;
+    }
+    return;
+  }
+  else if (Item.getShape(arg_06) == wallgun_shape_0113) {
+    switch (arg_10) {
+    case 0:
+      return;
+    case 1:
+      return;
+    case 2:
+      return;
+    case 3:
+      return;
+    case 4:
+      return;
+    case 5:
+      return;
+    case 6:
+      return;
+    case 7:
+      return;
+    case 8:
+      return;
+    }
+    return;
+  }
+  else if (Item.getShape(arg_06) == wallgun_shape_02f0) {
+    switch (arg_10) {
+    case 12:
+      return;
+    case 11:
+      return;
+    case 10:
+      return;
+    case 9:
+      return;
+    case 8:
+      return;
+    case 7:
+      return;
+    case 6:
+      return;
+    case 5:
+      return;
+    case 4:
+      return;
+    }
+    return;
+  }
+  else if (Item.getShape(arg_06) == wallgun_shape_0373) {
+    switch (arg_10) {
+    case 0:
+      return;
+    case 1:
+      return;
+    case 2:
+      return;
+    case 3:
+      return;
+    case 4:
+      return;
+    case 5:
+      return;
+    case 6:
+      return;
+    case 7:
+      return;
+    case 8:
+      return;
+    case 9:
+      return;
+    }
+    return;
+  }
+  else if (Item.getShape(arg_06) == wallgun_shape_0399) {
+    switch (arg_10) {
+    case 12:
+      return;
+    case 11:
+      return;
+    case 10:
+      return;
+    case 9:
+      return;
+    case 8:
+      return;
+    case 7:
+      return;
+    case 6:
+      return;
+    case 5:
+      return;
+    case 4:
+      return;
+    }
+    return;
+  }
+  else if (Item.getShape(arg_06) == wallgun_shape_03a1) {
+    switch (arg_10) {
+    case 0:
+      return;
+    case 1:
+      return;
+    case 2:
+      return;
+    case 3:
+      return;
+    case 4:
+      return;
+    case 5:
+      return;
+    case 6:
+      return;
+    case 7:
+      return;
+    case 8:
+      return;
+    }
+    return;
+  }
+  else if ((Item.getShape(arg_06) == wallgun_shape_01ba) || (Item.getShape(arg_06) == wallgun_shape_025f)) {
+    switch (arg_10) {
+    case 12:
+      return;
+    case 11:
+      return;
+    case 10:
+      return;
+    case 9:
+      return;
+    case 8:
+      return;
+    case 7:
+      return;
+    case 6:
+      return;
+    case 5:
+      return;
+    case 4:
+      return;
+    }
+    return;
+  }
+  else if ((Item.getShape(arg_06) == wallgun_shape_01b9) || (Item.getShape(arg_06) == wallgun_shape_0260)) {
+    switch (arg_10) {
+    case 8:
+      return;
+    case 7:
+      return;
+    case 6:
+      return;
+    case 5:
+      return;
+    case 4:
+      return;
+    case 3:
+      return;
+    case 2:
+      return;
+    case 1:
+      return;
+    case 0:
+      return;
+    }
+    return;
+  }
+  else if (Item.getShape(arg_06) == wallgun_shape_04c8) {
+    switch (arg_10) {
+    case 0:
+      return;
+    case 1:
+      return;
+    case 2:
+      return;
+    case 3:
+      return;
+    case 4:
+      return;
+    case 5:
+      return;
+    case 6:
+      return;
+    case 7:
+      return;
+    case 8:
+      return;
+    case 9:
+      return;
+    case 10:
+      return;
+    case 11:
+      return;
+    case 12:
+      return;
+    case 13:
+      return;
+    case 14:
+      return;
+    case 15:
+      return;
+    }
+    return;
+  }
+  else if (Item.getShape(arg_06) == wallgun_shape_01cd) {
+    switch (arg_10) {
+    case 0:
+      return;
+    case 1:
+      return;
+    case 2:
+      return;
+    case 3:
+      return;
+    case 4:
+      return;
+    case 5:
+      return;
+    case 6:
+      return;
+    case 7:
+      return;
+    case 8:
+      return;
+    case 9:
+      return;
+    case 10:
+      return;
+    case 11:
+      return;
+    case 12:
+      return;
+    case 13:
+      return;
+    case 14:
+      return;
+    case 15:
+      return;
+    }
+    return;
+  }
+  return;
+}
+
+/* ===== slot 0x3f slot_3f ===== */
+function wallgun_slot_3f() /* entry=2588 class_id=0x0a1a slot=0x3f */
+{
+  local_02 = Item.getShape(arg_06);
+  if (local_02 == 0x0108) {
+    switch (arg_10) {
+    case 12:
+      return;
+    case 11:
+      return;
+    case 10:
+      return;
+    case 9:
+      return;
+    case 8:
+      return;
+    case 7:
+      return;
+    case 6:
+      return;
+    case 5:
+      return;
+    case 4:
+      return;
+    }
+    return;
+  }
+  else if (local_02 == 0x0113) {
+    switch (arg_10) {
+    case 0:
+      return;
+    case 1:
+      return;
+    case 2:
+      return;
+    case 3:
+      return;
+    case 4:
+      return;
+    case 5:
+      return;
+    case 6:
+      return;
+    case 7:
+      return;
+    case 8:
+      return;
+    }
+    return;
+  }
+  else if (local_02 == 0x02f0) {
+    switch (arg_10) {
+    case 12:
+      return;
+    case 11:
+      return;
+    case 10:
+      return;
+    case 9:
+      return;
+    case 8:
+      return;
+    case 7:
+      return;
+    case 6:
+      return;
+    case 5:
+      return;
+    case 4:
+      return;
+    }
+    return;
+  }
+  else if (local_02 == 0x0373) {
+    switch (arg_10) {
+    case 0:
+      return;
+    case 1:
+      return;
+    case 2:
+      return;
+    case 3:
+      return;
+    case 4:
+      return;
+    case 5:
+      return;
+    case 6:
+      return;
+    case 7:
+      return;
+    case 8:
+      return;
+    case 9:
+      return;
+    }
+    return;
+  }
+  else if (local_02 == 0x0399) {
+    switch (arg_10) {
+    case 12:
+      return;
+    case 11:
+      return;
+    case 10:
+      return;
+    case 9:
+      return;
+    case 8:
+      return;
+    case 7:
+      return;
+    case 6:
+      return;
+    case 5:
+      return;
+    case 4:
+      return;
+    }
+    return;
+  }
+  else if (local_02 == 0x03a1) {
+    switch (arg_10) {
+    case 0:
+      return;
+    case 1:
+      return;
+    case 2:
+      return;
+    case 3:
+      return;
+    case 4:
+      return;
+    case 5:
+      return;
+    case 6:
+      return;
+    case 7:
+      return;
+    case 8:
+      return;
+    }
+    return;
+  }
+  else if ((local_02 == 0x01ba) || (local_02 == 0x025f)) {
+    switch (arg_10) {
+    case 12:
+      return;
+    case 11:
+      return;
+    case 10:
+      return;
+    case 9:
+      return;
+    case 8:
+      return;
+    case 7:
+      return;
+    case 6:
+      return;
+    case 5:
+      return;
+    case 4:
+      return;
+    }
+    return;
+  }
+  else if ((local_02 == 0x01b9) || (local_02 == 0x0260)) {
+    switch (arg_10) {
+    case 8:
+      return;
+    case 7:
+      return;
+    case 6:
+      return;
+    case 5:
+      return;
+    case 4:
+      return;
+    case 3:
+      return;
+    case 2:
+      return;
+    case 1:
+      return;
+    case 0:
+      return;
+    }
+    return;
+  }
+  else if (local_02 == 0x04c8) {
+    switch (arg_10) {
+    case 0:
+      return;
+    case 1:
+      return;
+    case 2:
+      return;
+    case 3:
+      return;
+    case 4:
+      return;
+    case 5:
+      return;
+    case 6:
+      return;
+    case 7:
+      return;
+    case 8:
+      return;
+    case 9:
+      return;
+    case 10:
+      return;
+    case 11:
+      return;
+    case 12:
+      return;
+    case 13:
+      return;
+    case 14:
+      return;
+    case 15:
+      return;
+    }
+    return;
+  }
+  else if (local_02 == 0x01cd) {
+    switch (arg_10) {
+    case 0:
+      return;
+    case 1:
+      return;
+    case 2:
+      return;
+    case 3:
+      return;
+    case 4:
+      return;
+    case 5:
+      return;
+    case 6:
+      return;
+    case 7:
+      return;
+    case 8:
+      return;
+    case 9:
+      return;
+    case 10:
+      return;
+    case 11:
+      return;
+    case 12:
+      return;
+    case 13:
+      return;
+    case 14:
+      return;
+    case 15:
+      return;
+    }
+    return;
+  }
+  return;
+}
+
+/* ===== slot 0x40 slot_40 ===== */
+function wallgun_slot_40() /* entry=2588 class_id=0x0a1a slot=0x40 */
+{
+  if ((((Item.getShape(arg_06) == wallgun_shape_0108) || (Item.getShape(arg_06) == wallgun_shape_0113)) || (Item.getShape(arg_06) == wallgun_shape_0399)) || (Item.getShape(arg_06) == wallgun_shape_03a1)) {
+    return;
+  }
+  else if (Item.getShape(arg_06) == wallgun_shape_02f0) {
+    if (arg_10 == 6) {
+      return;
+    }
+    else if (arg_10 == 5) {
+      return;
+    }
+    else if (arg_10 == 4) {
+      return;
+    }
+    else {
+      return;
+    }
+    return;
+  }
+  else if (Item.getShape(arg_06) == wallgun_shape_0373) {
+    if (arg_10 == 6) {
+      return;
+    }
+    else if ((arg_10 == 7) || (arg_10 == 8)) {
+      return;
+    }
+    else {
+      return;
+    }
+    return;
+  }
+  else {
+    return;
+  }
+  return;
+}
+
+/* ===== slot 0x41 slot_41 ===== */
+function wallgun_slot_41() /* entry=2588 class_id=0x0a1a slot=0x41 */
+{
+  if (Item.getShape(arg_06) == wallgun_shape_04c8) {
+    switch (arg_10) {
+    case 0:
+      return;
+    case 1:
+      return;
+    case 2:
+      return;
+    case 3:
+      return;
+    case 4:
+      return;
+    case 5:
+      return;
+    case 6:
+      return;
+    case 7:
+      return;
+    case 8:
+      return;
+    case 9:
+      return;
+    case 10:
+      return;
+    case 11:
+      return;
+    case 12:
+      return;
+    case 13:
+      return;
+    case 14:
+      return;
+    case 15:
+      return;
+    }
+  }
+  return;
+}
+
+/* ===== slot 0x42 slot_42 ===== */
+function wallgun_slot_42() /* entry=2588 class_id=0x0a1a slot=0x42 */
+{
+  if (Item.getShape(arg_06) == wallgun_shape_04c8) {
+    switch (arg_10) {
+    case 0:
+      return;
+    case 1:
+      return;
+    case 2:
+      return;
+    case 3:
+      return;
+    case 4:
+      return;
+    case 5:
+      return;
+    case 6:
+      return;
+    case 7:
+      return;
+    case 8:
+      return;
+    case 9:
+      return;
+    case 10:
+      return;
+    case 11:
+      return;
+    case 12:
+      return;
+    case 13:
+      return;
+    case 14:
+      return;
+    case 15:
+      return;
+    }
+  }
+  return;
+}
+
+/* ===== slot 0x43 slot_43 ===== */
+function wallgun_slot_43() /* entry=2588 class_id=0x0a1a slot=0x43 */
+{
+  if (Item.getShape(arg_06) == wallgun_shape_04c8) {
+    return;
+  }
+  else {
+    return;
+  }
+  return;
+}
+
+/* ===== slot 0x44 slot_44 ===== */
+function wallgun_slot_44() /* entry=2588 class_id=0x0a1a slot=0x44 */
+{
+  local_02 = Item.getShape(arg_06);
+  if (((local_02 == 0x0108) || (local_02 == 0x0113)) || (local_02 == 0x01cd)) {
+    return;
+  }
+  else {
+    return;
+  }
+  return;
+}
+
+/* ===== slot 0x45 slot_45 ===== */
+function wallgun_slot_45() /* entry=2588 class_id=0x0a1a slot=0x45 */
+{
+  set_info(0x0001, *(arg_06));
+  spawn FREE.waitNTimerTicks(pid, 1, 0x00000000);
+  suspend;
+  WALLGUN.slot_2c(arg_06);
+  local_01 = retval;
+  local_07 = 3;
+  local_09 = Item.getFrame(arg_06);
+  local_11 = (Item.getFrame(arg_06) * 2);
+  WALLGUN.slot_29(arg_06);
+  if (retval) {
+    local_11 = (local_11 + 20);
+  }
+  else {
+    local_11 = (local_11 + 9);
+  }
+  while (1) {
+    spawn WALLGUN.slot_26(pid, arg_06);
+    suspend;
+    FREE.slot_29(*(arg_06), arg_10);
+    local_03 = retval;
+    WALLGUN.slot_2e(arg_10, arg_06);
+    if (retval == 0) {
+      return;
+    }
+    else if (local_03 > 20) {
+      if (arg_12 == 4) {
+        return;
+      }
+      if (local_03 > 46) {
+        return;
+      }
+    }
+    else if ((Item.getShape(arg_06) == wallgun_shape_0113) || (Item.getShape(arg_06) == wallgun_shape_0108)) {
+      Item.isCentreOn(local_11, arg_06);
+      spawn WALLGUN.slot_47(local_01, arg_06);
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+      Item.isCentreOn((Item.getFrame(arg_06) + 1), arg_06);
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+      Item.isCentreOn(local_11, arg_06);
+      spawn WALLGUN.slot_47(local_01, arg_06);
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+      Item.isCentreOn((Item.getFrame(arg_06) + 1), arg_06);
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+      Item.isCentreOn(local_11, arg_06);
+      spawn WALLGUN.slot_47(local_01, arg_06);
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+      Item.isCentreOn((Item.getFrame(arg_06) + 1), arg_06);
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+    }
+    else if ((((Item.getShape(arg_06) == wallgun_shape_025f) || (Item.getShape(arg_06) == wallgun_shape_0260)) || (Item.getShape(arg_06) == wallgun_shape_01b9)) || (Item.getShape(arg_06) == wallgun_shape_01ba)) {
+      spawn WALLGUN.slot_47(local_01, arg_06);
+    }
+    else if ((Item.getShape(arg_06) == wallgun_shape_0373) || (Item.getShape(arg_06) == wallgun_shape_02f0)) {
+      Item.isCentreOn(local_11, arg_06);
+      spawn WALLGUN.slot_47(local_01, arg_06);
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+      Item.isCentreOn((Item.getFrame(arg_06) + 1), arg_06);
+    }
+    else if ((Item.getShape(arg_06) == wallgun_shape_04c8) || (Item.getShape(arg_06) == wallgun_shape_01cd)) {
+      Item.isCentreOn(local_11, arg_06);
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+      Item.isCentreOn((Item.getFrame(arg_06) + 1), arg_06);
+      spawn WALLGUN.slot_47(local_01, arg_06);
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+      Item.isCentreOn(local_11, arg_06);
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+      Item.isCentreOn((Item.getFrame(arg_06) + 1), arg_06);
+      spawn WALLGUN.slot_47(local_01, arg_06);
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+      Item.isCentreOn(local_11, arg_06);
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+      Item.isCentreOn((Item.getFrame(arg_06) + 1), arg_06);
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+    }
+    else if ((Item.getShape(arg_06) == wallgun_shape_03a1) || (Item.getShape(arg_06) == wallgun_shape_0399)) {
+      Item.isCentreOn((Item.getFrame(arg_06) + 9), arg_06);
+      spawn WALLGUN.slot_47(local_01, arg_06);
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+    }
+    Item.isCentreOn(local_09, arg_06);
+    spawn WALLGUN.slot_30(pid, arg_06);
+    suspend;
+  }
+  return;
+}
+
+/* ===== slot 0x46 slot_46 ===== */
+function wallgun_slot_46() /* entry=2588 class_id=0x0a1a slot=0x46 */
+{
+  set_info(0x0001, *(arg_06));
+  spawn FREE.waitNTimerTicks(pid, 1, 0x00000000);
+  suspend;
+  if (Item.getStatus(arg_06) & 0x1000) {
+    spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
+    suspend;
+    if (Item.getStatus(arg_06) & 0x1000) {
+      return;
+    }
+  }
+  else {
+    Item.orStatus(0x1000, arg_06);
+    WALLGUN.slot_2c(arg_06);
+    local_01 = retval;
+    local_07 = 3;
+    local_09 = Item.getFrame(arg_06);
+    local_11 = (Item.getFrame(arg_06) * 2);
+    WALLGUN.slot_29(arg_06);
+    if (retval) {
+      local_11 = (local_11 + 20);
+    }
+    else {
+      local_11 = (local_11 + 9);
+    }
+    if ((Item.getShape(arg_06) == wallgun_shape_0113) || (Item.getShape(arg_06) == wallgun_shape_0108)) {
+      Item.isCentreOn(local_11, arg_06);
+      spawn WALLGUN.slot_47(local_01, arg_06);
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+      Item.isCentreOn((Item.getFrame(arg_06) + 1), arg_06);
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+      Item.isCentreOn(local_11, arg_06);
+      spawn WALLGUN.slot_47(local_01, arg_06);
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+      Item.isCentreOn((Item.getFrame(arg_06) + 1), arg_06);
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+      Item.isCentreOn(local_11, arg_06);
+      spawn WALLGUN.slot_47(local_01, arg_06);
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+      Item.isCentreOn((Item.getFrame(arg_06) + 1), arg_06);
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+    }
+    else if ((((Item.getShape(arg_06) == wallgun_shape_0373) || (Item.getShape(arg_06) == wallgun_shape_02f0)) || (Item.getShape(arg_06) == wallgun_shape_01b9)) || (Item.getShape(arg_06) == wallgun_shape_01ba)) {
+      Item.isCentreOn(local_11, arg_06);
+      spawn WALLGUN.slot_47(local_01, arg_06);
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+      Item.isCentreOn((Item.getFrame(arg_06) + 1), arg_06);
+    }
+    else if ((((Item.getShape(arg_06) == wallgun_shape_025f) || (Item.getShape(arg_06) == wallgun_shape_0260)) || (Item.getShape(arg_06) == wallgun_shape_01b9)) || (Item.getShape(arg_06) == wallgun_shape_01ba)) {
+      spawn WALLGUN.slot_47(local_01, arg_06);
+    }
+    else if ((Item.getShape(arg_06) == wallgun_shape_04c8) || (Item.getShape(arg_06) == wallgun_shape_01cd)) {
+      Item.isCentreOn(local_11, arg_06);
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+      Item.isCentreOn((Item.getFrame(arg_06) + 1), arg_06);
+      spawn WALLGUN.slot_47(local_01, arg_06);
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+      Item.isCentreOn(local_11, arg_06);
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+      Item.isCentreOn((Item.getFrame(arg_06) + 1), arg_06);
+      spawn WALLGUN.slot_47(local_01, arg_06);
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+      Item.isCentreOn(local_11, arg_06);
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+      Item.isCentreOn((Item.getFrame(arg_06) + 1), arg_06);
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+    }
+    else if ((Item.getShape(arg_06) == wallgun_shape_03a1) || (Item.getShape(arg_06) == wallgun_shape_0399)) {
+      Item.isCentreOn((Item.getFrame(arg_06) + 9), arg_06);
+      spawn WALLGUN.slot_47(local_01, arg_06);
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+    }
+    Item.isCentreOn(local_09, arg_06);
+    spawn WALLGUN.slot_30(pid, arg_06);
+    suspend;
+    Actor.getDir((~0x1000), arg_06);
+  }
+  return;
+}
+
+/* ===== slot 0x47 slot_47 ===== */
+function wallgun_slot_47() /* entry=2588 class_id=0x0a1a slot=0x47 */
+{
+  set_info(0x0001, *(arg_06));
+  spawn FREE.waitNTimerTicks(pid, 1, 0x00000000);
+  suspend;
+  WALLGUN.slot_44(arg_06);
+  local_12 = retval;
+  arg_10 = (arg_10 & 15);
+  WALLGUN.slot_3e(arg_10, arg_06);
+  local_02 = retval;
+  WALLGUN.slot_3f(arg_10, arg_06);
+  local_06 = retval;
+  WALLGUN.slot_40(arg_10, arg_06);
+  local_09 = retval;
+  if (local_12 == 1) {
+    AudioProcess.playSFXCru(44, arg_06);
+  }
+  if (local_12 == 5) {
+    AudioProcess.playSFXCru(83, arg_06);
+  }
+  WALLGUN.slot_29(arg_06);
+  if (retval) {
+    WALLGUN.slot_41(arg_10, arg_06);
+    local_04 = retval;
+    WALLGUN.slot_42(arg_10, arg_06);
+    local_08 = retval;
+    WALLGUN.slot_43(arg_10, arg_06);
+    local_10 = retval;
+    return;
+  }
+  return;
+}
+
+/* ===== slot 0x48 slot_48 ===== */
+function wallgun_slot_48() /* entry=2588 class_id=0x0a1a slot=0x48 */
+{
+  set_info(0x0001, *(arg_06));
+  if ((Item.getShape(arg_06) == wallgun_shape_0113) || (Item.getShape(arg_06) == wallgun_shape_0108)) {
+    local_02 = 100;
+  }
+  else if ((Item.getShape(arg_06) == wallgun_shape_0373) || (Item.getShape(arg_06) == wallgun_shape_0373)) {
+    local_02 = 100;
+  }
+  else if ((Item.getShape(arg_06) == wallgun_shape_0399) || (Item.getShape(arg_06) == wallgun_shape_03a1)) {
+    local_02 = 50;
+  }
+  else if (Item.getShape(arg_06) == wallgun_shape_04c8) {
+    local_02 = 0x00fa;
+  }
+  else if (Item.getShape(arg_06) == wallgun_shape_01cd) {
+    local_02 = 0x00c8;
+  }
+  else {
+    local_02 = 100;
+  }
+  spawn ITEM.slot_27(pid, local_02, arg_12, arg_10, arg_06);
+  suspend;
+  if (!process_result) {
+    FREE.slot_20(1);
+    if (retval) {
+      AudioProcess.playSFXCru(38, arg_06);
+    }
+    else {
+      AudioProcess.playSFXCru(39, arg_06);
+    }
+    WALLGUN.slot_20(arg_06);
+    local_04 = retval;
+    WALLGUN.slot_21(arg_06);
+    local_06 = retval;
+    if ((local_04 == 0) || (local_04 == 3)) {
+      WALLGUN.slot_22(4, arg_06);
+    }
+    else if (local_04 < 5) {
+      WALLGUN.slot_20(arg_06);
+      WALLGUN.slot_22((retval + 1), arg_06);
+    }
+    if ((local_06 == 0) || (local_06 == 3)) {
+      WALLGUN.slot_23(4, arg_06);
+    }
+    else if (local_06 < 5) {
+      WALLGUN.slot_21(arg_06);
+      WALLGUN.slot_23((retval + 1), arg_06);
+    }
+    process_result = 0;
+    return;
+  }
+  return;
+}
+
+/* ===== slot 0x49 slot_49 ===== */
+function wallgun_slot_49() /* entry=2588 class_id=0x0a1a slot=0x49 */
+{
+  set_info(0x020c, *(arg_06));
+  FREE.slot_2c(arg_12, arg_10);
+  if (!retval) {
+    return;
+  }
+  else if (Item.getQ(arg_06) > 99) {
+    AudioProcess.playSFXCru(0x0091, arg_06);
+    Item.getQHi(Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06), 5, 10, 0, 0x04f1);
+    return;
+  }
+  else {
+    spawn WALLGUN.slot_48(pid, arg_12, arg_10, arg_06);
+    suspend;
+    if (!process_result) {
+      return;
+    }
+    else {
+      FREE.slot_33(1, *(arg_06));
+      FREE.slot_33(0x020a, *(arg_06));
+      if ((Item.getShape(arg_06) == wallgun_shape_0108) || (Item.getShape(arg_06) == wallgun_shape_0113)) {
+        if (Item.getFrame(arg_06) != 27) {
+          spawn ITEM.slot_28(pid, 0, 0, arg_06);
+          suspend;
+          Item.isCentreOn(27, arg_06);
+          if (Item.getShape(arg_06) == wallgun_shape_0108) {
+            Item.legal_create(0, 0x02a1, local_02);
+            getTargetNPCNumMaybe((Item.getZ(arg_06) + 32), (Item.getY(arg_06) + 16), Item.getX(arg_06), local_02);
+            Item.legal_create(0, 0x029c, local_04);
+            getTargetNPCNumMaybe((Item.getZ(arg_06) + 16), (Item.getY(arg_06) + 16), Item.getX(arg_06), local_04);
+            suspend;
+          }
+          else {
+            Item.legal_create(1, 0x02a1, local_02);
+            getTargetNPCNumMaybe((Item.getZ(arg_06) + 32), Item.getY(arg_06), (Item.getX(arg_06) + 16), local_02);
+            Item.legal_create(1, 0x029c, local_04);
+            getTargetNPCNumMaybe((Item.getZ(arg_06) + 16), Item.getY(arg_06), (Item.getX(arg_06) + 16), local_04);
+            suspend;
+          }
+        }
+      }
+      else if ((Item.getShape(arg_06) == wallgun_shape_02f0) || (Item.getShape(arg_06) == wallgun_shape_0373)) {
+        if (Item.getFrame(arg_06) != 27) {
+          spawn ITEM.slot_28(pid, 0, 0, arg_06);
+          suspend;
+          Item.isCentreOn(27, arg_06);
+          if (Item.getShape(arg_06) == wallgun_shape_02f0) {
+            Item.legal_create(2, 0x02a1, local_02);
+            getTargetNPCNumMaybe((Item.getZ(arg_06) + 32), (Item.getY(arg_06) + 16), Item.getX(arg_06), local_02);
+          }
+          else {
+            Item.legal_create(OOB_FLOOR_BLACK_0003, 0x02a1, local_02);
+            getTargetNPCNumMaybe((Item.getZ(arg_06) + 32), Item.getY(arg_06), (Item.getX(arg_06) + 16), local_02);
+          }
+        }
+      }
+      else if ((((Item.getShape(arg_06) == wallgun_shape_01ba) || (Item.getShape(arg_06) == wallgun_shape_01b9)) || (Item.getShape(arg_06) == wallgun_shape_025f)) || (Item.getShape(arg_06) == wallgun_shape_0260)) {
+        if (Item.getFrame(arg_06) != 9) {
+          spawn ITEM.slot_28(pid, 0, 0, arg_06);
+          suspend;
+          Item.isCentreOn(9, arg_06);
+          if ((Item.getShape(arg_06) == wallgun_shape_01ba) || (Item.getShape(arg_06) == wallgun_shape_025f)) {
+            Item.legal_create(0, 0x0229, local_02);
+            getTargetNPCNumMaybe((Item.getZ(arg_06) + 16), (Item.getY(arg_06) + 16), Item.getX(arg_06), local_02);
+            suspend;
+          }
+          else {
+            Item.legal_create(1, 0x0229, local_02);
+            getTargetNPCNumMaybe((Item.getZ(arg_06) + 16), Item.getY(arg_06), (Item.getX(arg_06) + 16), local_02);
+            suspend;
+          }
+        }
+      }
+      else if ((Item.getShape(arg_06) == wallgun_shape_0399) || (Item.getShape(arg_06) == wallgun_shape_03a1)) {
+        if (Item.getFrame(arg_06) < 18) {
+          spawn ITEM.slot_28(pid, 0, 0, arg_06);
+          suspend;
+          FREE.slot_20(1);
+          Item.isCentreOn((retval + 18), arg_06);
+        }
+      }
+      else if (Item.getShape(arg_06) == wallgun_shape_04c8) {
+        if (Item.getFrame(arg_06) < 52) {
+          spawn ITEM.slot_28(pid, 0, 1, arg_06);
+          suspend;
+          for local_02 in nearby_items(shape=TURRET_BASE, origin=arg_06) {
+            Item.isCentreOn(1, local_02);
+          }
+          local_02 = *(arg_06);
+          set_info(1, 0);
+          FREE.slot_20(2);
+          Item.legal_create(retval, 0x03a5, local_04);
+          getTargetNPCNumMaybe(Item.getZ(local_02), Item.getY(local_02), Item.getX(local_02), local_04);
+          Item.destroy(local_02);
+        }
+      }
+      else if ((Item.getShape(arg_06) == wallgun_shape_04c8) || (Item.getShape(arg_06) == wallgun_shape_01cd)) {
+        if (Item.getFrame(arg_06) < 52) {
+          spawn ITEM.slot_28(pid, 0, 1, arg_06);
+          suspend;
+          local_02 = *(arg_06);
+          set_info(1, 0);
+          FREE.slot_20(3);
+          Item.legal_create(retval, 0x056a, local_04);
+          getTargetNPCNumMaybe(Item.getZ(local_02), Item.getY(local_02), Item.getX(local_02), local_04);
+          Item.explode(1, 1, local_02);
+        }
+      }
+      Item.andStatus(arg_06);
+    }
+  }
+  return;
+}
+
+/* ===== slot 0x4a slot_4a ===== */
+function wallgun_slot_4a() /* entry=2588 class_id=0x0a1a slot=0x4a */
+{
+  set_info(0x0001, *(arg_06));
+  spawn FREE.waitNTimerTicks(pid, 1, 0x00000000);
+  suspend;
+  if (Item.getStatus(arg_06) & 0x1000) {
+    spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
+    suspend;
+    if (Item.getStatus(arg_06) & 0x1000) {
+      return;
+    }
+  }
+  else {
+    Item.orStatus(0x1000, arg_06);
+    WALLGUN.slot_2c(arg_06);
+    local_01 = retval;
+    local_07 = 3;
+    local_09 = Item.getFrame(arg_06);
+    local_11 = (Item.getFrame(arg_06) * 2);
+    WALLGUN.slot_29(arg_06);
+    if (retval) {
+      local_11 = (local_11 + 20);
+    }
+    else {
+      local_11 = (local_11 + 9);
+    }
+    if ((Item.getShape(arg_06) == wallgun_shape_0113) || (Item.getShape(arg_06) == wallgun_shape_0108)) {
+      Item.isCentreOn(local_11, arg_06);
+      spawn WALLGUN.slot_4b(local_01, arg_06);
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+      Item.isCentreOn((Item.getFrame(arg_06) + 1), arg_06);
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+      Item.isCentreOn(local_11, arg_06);
+      spawn WALLGUN.slot_4b(local_01, arg_06);
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+      Item.isCentreOn((Item.getFrame(arg_06) + 1), arg_06);
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+      Item.isCentreOn(local_11, arg_06);
+      spawn WALLGUN.slot_4b(local_01, arg_06);
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+      Item.isCentreOn((Item.getFrame(arg_06) + 1), arg_06);
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+    }
+    else if ((((Item.getShape(arg_06) == wallgun_shape_0373) || (Item.getShape(arg_06) == wallgun_shape_02f0)) || (Item.getShape(arg_06) == wallgun_shape_01b9)) || (Item.getShape(arg_06) == wallgun_shape_01ba)) {
+      Item.isCentreOn(local_11, arg_06);
+      spawn WALLGUN.slot_4b(local_01, arg_06);
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+      Item.isCentreOn((Item.getFrame(arg_06) + 1), arg_06);
+    }
+    else if ((((Item.getShape(arg_06) == wallgun_shape_025f) || (Item.getShape(arg_06) == wallgun_shape_0260)) || (Item.getShape(arg_06) == wallgun_shape_01b9)) || (Item.getShape(arg_06) == wallgun_shape_01ba)) {
+      spawn WALLGUN.slot_4b(local_01, arg_06);
+    }
+    else if ((Item.getShape(arg_06) == wallgun_shape_04c8) || (Item.getShape(arg_06) == wallgun_shape_01cd)) {
+      Item.isCentreOn(local_11, arg_06);
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+      Item.isCentreOn((Item.getFrame(arg_06) + 1), arg_06);
+      spawn WALLGUN.slot_4b(local_01, arg_06);
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+      Item.isCentreOn(local_11, arg_06);
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+      Item.isCentreOn((Item.getFrame(arg_06) + 1), arg_06);
+      spawn WALLGUN.slot_4b(local_01, arg_06);
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+      Item.isCentreOn(local_11, arg_06);
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+      Item.isCentreOn((Item.getFrame(arg_06) + 1), arg_06);
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+    }
+    else if ((Item.getShape(arg_06) == wallgun_shape_03a1) || (Item.getShape(arg_06) == wallgun_shape_0399)) {
+      Item.isCentreOn((Item.getFrame(arg_06) + 9), arg_06);
+      spawn WALLGUN.slot_4b(local_01, arg_06);
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+    }
+    Item.isCentreOn(local_09, arg_06);
+    spawn WALLGUN.slot_30(pid, arg_06);
+    suspend;
+    Item.getNPCNum((~0x1000), arg_06);
+  }
+  return;
+}
+
+/* ===== slot 0x4b slot_4b ===== */
+function wallgun_slot_4b() /* entry=2588 class_id=0x0a1a slot=0x4b */
+{
+  set_info(0x0001, *(arg_06));
+  spawn FREE.waitNTimerTicks(pid, 1, 0x00000000);
+  suspend;
+  WALLGUN.slot_44(arg_06);
+  local_12 = retval;
+  arg_10 = (arg_10 & 15);
+  WALLGUN.slot_3e(arg_10, arg_06);
+  local_02 = retval;
+  WALLGUN.slot_3f(arg_10, arg_06);
+  local_06 = retval;
+  WALLGUN.slot_40(arg_10, arg_06);
+  local_09 = retval;
+  if (local_12 == 1) {
+    AudioProcess.playSFXCru(44, arg_06);
+  }
+  if (local_12 == 5) {
+    AudioProcess.playSFXCru(83, arg_06);
+  }
+  WALLGUN.slot_29(arg_06);
+  if (retval) {
+    WALLGUN.slot_41(arg_10, arg_06);
+    local_04 = retval;
+    WALLGUN.slot_42(arg_10, arg_06);
+    local_08 = retval;
+    WALLGUN.slot_43(arg_10, arg_06);
+    local_10 = retval;
+    return;
+  }
+  return;
+}

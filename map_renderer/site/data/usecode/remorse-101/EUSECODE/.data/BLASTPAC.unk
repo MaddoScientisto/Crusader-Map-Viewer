@@ -1,0 +1,290 @@
+/* synthesized appendix for BLASTPAC */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x01 use ===== */
+function blastpac_use() /* entry=925 class_id=0x039b slot=0x01 */
+{
+  set_info(0x0207, *(arg_06));
+  process_exclude();
+  local_03 = *(arg_06);
+  set_info(0x00f0, 0);
+  local_11 = Item.create(&global[0x003d]);
+  Ultima8Engine.setAvatarInStasis(1);
+  while (Actor.isBusy(&global[0x003d])) {
+    spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+    suspend;
+  }
+  for local_07 in nearby_items(shape=0x053a, origin=global[0x003d]) {
+    local_05 = local_07;
+    FREE.slot_29(local_05, global[0x003d]);
+    while ((retval > 3) && (local_09 != 6)) {
+      spawn NPC.slot_22(Item.getDirFromTo16(pid, 1, Item.getY(local_05), Item.getX(Item.getY(Item.getX(local_05), &global[0x003d]), &global[0x003d])), &global[0x003d]);
+      suspend;
+      local_09 = (1 + local_09);
+    }
+    suspend;
+  }
+  switch (Actor.maybeFire(&global[0x003d])) {
+  case 0:
+    local_13 = -1;
+    local_15 = -3;
+    break;
+  case 1:
+    local_13 = 0;
+    local_15 = -3;
+    break;
+  case 2:
+    local_13 = 1;
+    local_15 = -3;
+    break;
+  case 3:
+    local_13 = 2;
+    local_15 = -2;
+    break;
+  case 4:
+    local_13 = 2;
+    local_15 = -1;
+    break;
+  case 5:
+    local_13 = 2;
+    local_15 = 0;
+    break;
+  case 6:
+    local_13 = 2;
+    local_15 = 2;
+    break;
+  case 7:
+    local_13 = 0;
+    local_15 = 2;
+    break;
+  case 8:
+    local_13 = -1;
+    local_15 = 2;
+    break;
+  case 9:
+    local_13 = -2;
+    local_15 = 2;
+    break;
+  case 10:
+    local_13 = -3;
+    local_15 = 2;
+    break;
+  case 11:
+    local_13 = -3;
+    local_15 = 1;
+    break;
+  case 12:
+    local_13 = -3;
+    local_15 = 0;
+    break;
+  case 13:
+    local_13 = -3;
+    local_15 = -1;
+    break;
+  case 14:
+    local_13 = -3;
+    local_15 = -2;
+    break;
+  case 15:
+    local_13 = -3;
+    local_15 = -3;
+    break;
+  }
+  if (local_05) {
+    if (Actor.getSomeFlagProbablyCrouch(&global[0x003d])) {
+      local_01 = 1;
+    }
+    else {
+      local_01 = 0;
+      suspend;
+    }
+    Item.legal_create(0, 0x053f, local_17);
+    getTargetNPCNumMaybe((Item.getX((Item.getY(Item.getZ(&global[0x003d]), &global[0x003d]) + (local_15 * 16)), &global[0x003d]) + (local_13 * 16)), local_17);
+    spawn BLASTPAC.slot_20(local_17, arg_06);
+    while (Actor.isBusy(&global[0x003d])) {
+      spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+      suspend;
+    }
+    spawn FREE.slot_21(pid, 13, 0x00000000);
+    suspend;
+    if (!local_01) {
+      suspend;
+      if (local_05) {
+        suspend;
+        suspend;
+      }
+    }
+    else {
+      spawn FREE.slot_21(pid, 0x00b0, 0x00000000);
+      suspend;
+      Item.legal_create(0, 0x039b, local_17);
+      getTargetNPCNumMaybe(0, 0, 0, local_17);
+      MainActor.addItemCru(0, local_17);
+    }
+  }
+  else {
+    spawn FREE.slot_21(pid, 0x00b0, 0x00000000);
+    suspend;
+    Item.legal_create(0, 0x039b, local_17);
+    getTargetNPCNumMaybe(0, 0, 0, local_17);
+    MainActor.addItemCru(0, local_17);
+  }
+  Ultima8Engine.setAvatarInStasis(0);
+  return;
+}
+
+/* ===== slot 0x20 slot_20 ===== */
+function blastpac_slot_20() /* entry=925 class_id=0x039b slot=0x20 */
+{
+  spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
+  suspend;
+  set_info(0x00f0, 0);
+  local_04 = 1;
+  while (local_04 <= 5) {
+    spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
+    suspend;
+    AudioProcess.playSFXCru(51, arg_10);
+    local_04 = (1 + local_04);
+  }
+  spawn ITEM.slot_28(pid, 1, 2, arg_10);
+  suspend;
+  switch (Actor.getMap(&global[0x003d])) {
+  case 1:
+    spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+    suspend;
+    for local_02 in nearby_items(shape=REACTOR, origin=global[0x003d]) {
+      AudioProcess.stopSFXCru(0x00a4, arg_06);
+      spawn ITEM.slot_28(pid, 0, 2, local_02);
+      suspend;
+      Item.setFrame(1, local_02);
+      local_06 = local_02;
+    }
+    for local_02 in nearby_items(shape=REACTOR_CELL, origin=local_06) {
+      spawn ITEM.slot_28(pid, 1, 0, local_02);
+      suspend;
+      local_08 = local_02;
+      spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
+      suspend;
+    }
+    if (Actor.isDead(&global[0x003d])) {
+      return;
+    }
+    for local_02 in nearby_items(shape=NUMBERS, origin=local_06) {
+      Item.explode(1, 0, local_02);
+      spawn FREE.waitNTimerTicks(UCMachine.rndRange(pid, 20, 10), 0x00000000);
+      suspend;
+    }
+    local_04 = 0;
+    while (local_04 <= 2) {
+      AudioProcess.playSFXCru(22, local_08);
+      while (AudioProcess.isSFXPlayingForObject(22, local_08)) {
+        spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+        suspend;
+      }
+      local_04 = (1 + local_04);
+    }
+    spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
+    suspend;
+    for local_02 in nearby_items(shape=ELECTRODE, origin=local_06) {
+      spawn ITEM.slot_28(pid, 0, 0, local_02);
+      suspend;
+      Item.setFrame(1, local_02);
+      spawn FREE.waitNTimerTicks(UCMachine.rndRange(pid, 10, 5), 0x00000000);
+      suspend;
+    }
+    spawn FREE.waitNTimerTicks(pid, 0x00c8, 0x00000000);
+    suspend;
+    spawn FREE.slot_26(pid, "1c", 0x00000000);
+    suspend;
+    for local_02 in selector_0x42(arg0=0x032a, arg1=0x0329, arg2=(50 * 32), origin=global[0x003d]) {
+      Item.destroy(local_02);
+    }
+    return;
+  case 7:
+    spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+    suspend;
+    for local_02 in nearby_items(shape=COMM_CONSOLE, origin=global[0x003d]) {
+      AudioProcess.stopSFXCru(0x0092, arg_06);
+      Item.explode(0, 2, local_02);
+      Item.setFrame(1, local_02);
+      local_10 = local_02;
+    }
+    for local_02 in nearby_items(shape=RADAR_DISH, origin=local_10) {
+      spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
+      suspend;
+      local_14 = Item.getX(local_02);
+      local_16 = Item.getY(local_02);
+      local_18 = Item.getZ(local_02);
+      Item.explode(1, 1, local_02);
+      Item.legal_create(0, 0x0484, local_02);
+      getTargetNPCNumMaybe(local_18, local_16, local_14, local_02);
+    }
+    for local_02 in selector_0x42(arg0=0x01a5, arg1=0x01a4, arg2=(50 * 32), origin=local_10) {
+      spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
+      suspend;
+      Item.explode(1, 0, local_02);
+    }
+    spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
+    suspend;
+    if (Actor.isDead(&global[0x003d])) {
+      return;
+    }
+    for local_02 in nearby_items(shape=NUMBERS, origin=local_10) {
+      Item.explode(1, 0, local_02);
+      spawn FREE.waitNTimerTicks(UCMachine.rndRange(pid, 20, 10), 0x00000000);
+      suspend;
+    }
+    local_04 = 0;
+    while (local_04 <= 2) {
+      AudioProcess.playSFXCru(0x0096, local_10);
+      while (AudioProcess.isSFXPlayingForObject(0x0096, local_10)) {
+        spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+        suspend;
+      }
+      local_04 = (1 + local_04);
+    }
+    spawn FREE.waitNTimerTicks(pid, 0x00c8, 0x00000000);
+    suspend;
+    spawn FREE.slot_26(pid, "4g", 0x00000000);
+    suspend;
+    for local_02 in selector_0x42(arg0=0x032a, arg1=0x0329, arg2=(50 * 32), origin=local_10) {
+      Item.destroy(local_02);
+    }
+    return;
+  case 29:
+    spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+    suspend;
+    for local_02 in nearby_items(shape=LIGHT_TUBE, origin=global[0x003d]) {
+      AudioProcess.stopSFXCru(0x00a4, arg_06);
+      spawn ITEM.slot_28(pid, 0, 2, local_02);
+      suspend;
+      Item.setFrame(6, local_02);
+    }
+    for local_02 in nearby_items(shape=TUBE_PLATFORM, origin=global[0x003d]) {
+      Item.setFrame(1, local_02);
+    }
+    spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
+    suspend;
+    if (Actor.isDead(&global[0x003d])) {
+      return;
+    }
+    else {
+      for local_02 in nearby_items(shape=NUMBERS, origin=global[0x003d]) {
+        if (Item.getQLo(local_02) == 0) {
+          Item.explode(1, 0, local_02);
+          spawn FREE.waitNTimerTicks(UCMachine.rndRange(pid, 30, 20), 0x00000000);
+          suspend;
+        }
+      }
+      for local_02 in nearby_items(shape=0x03b0, origin=global[0x003d]) {
+        Item.destroy(local_02);
+        spawn FREE.waitNTimerTicks(pid, 20, 0x00000000);
+        suspend;
+      }
+      spawn FREE.slot_22(0x00000000);
+      return;
+    }
+    break;
+  }
+  return;
+}

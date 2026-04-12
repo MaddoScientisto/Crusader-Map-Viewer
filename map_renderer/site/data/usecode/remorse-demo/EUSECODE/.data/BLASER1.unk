@@ -1,0 +1,578 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[0B:unequip] call_intrinsic Item.getStatus(arg_bytes=0x4) ; bit_and ; cmp ; ...
+//
+[0B:unequip] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+[0B:unequip] spawn BLASER1.slot_20 ; pop_temp ; ...
+//
+[0B:unequip] ret
+//
+//
+//
+[0A:equip] cmp ; jne 0x0043 ; ...
+//
+//
+[0A:equip] call_intrinsic Item.getQHi(arg_bytes=0x4) ; pop_local_word h ; ...
+[0A:equip] bit_or ; call_intrinsic Item.pop(arg_bytes=0x6) ; jmp 0x006f ; ...
+//
+//
+[0A:equip] cmp ; jne 0x006f ; ...
+//
+[0A:equip] call_intrinsic Item.getQHi(arg_bytes=0x4) ; pop_local_word h ; ...
+[0A:equip] bit_or ; call_intrinsic Item.pop(arg_bytes=0x6) ; jmp 0x006f ; ...
+//
+[0A:equip] ret
+//
+//
+//
+[0F:enterFastArea] call_intrinsic Item.getStatus(arg_bytes=0x4) ; bit_and ; cmp ; ...
+//
+[0F:enterFastArea] spawn BLASER1.slot_20 ; pop_temp ; ...
+//
+[0F:enterFastArea] ret
+//
+//
+[10:leaveFastArea] bit_not ; call_intrinsic Item.getDirFromTo16(arg_bytes=0x6) ; ...
+[10:leaveFastArea] ret
+//
+//
+//
+[05:hit] spawn BLASER1.slot_21 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[05:hit] ret
+//
+//
+//
+[06:gotHit] spawn BLASER1.slot_21 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[06:gotHit] ret
+//
+//
+//
+[20:slot_20] set_info
+//
+//
+//
+//
+//
+//
+//
+[20:slot_20] pop_local_word item
+[20:slot_20] call_intrinsic legalMoveToPoint(arg_bytes=0x4) ; pop_local_word link ; ...
+//
+[20:slot_20] pop_local_word count ; loopscr value_u8=0x24 ; loopscr value_u8=0x3d ; ...
+//
+[20:slot_20] loopscr value_u8=0x25 ; mul ; ...
+[20:slot_20] loop current_var=0xf7, string_bytes=0x6, loop_type=0x2 ; jne 0x00c4
+[20:slot_20] call_intrinsic legalMoveToPoint(arg_bytes=0x4) ; cmp ; call_intrinsic Item.getStatus(arg_bytes=0x4) ; ...
+[20:slot_20]
+[20:slot_20] create_list element_size=0x2, count=0x1 ; append_list ; free_local_list laserList ; ...
+[20:slot_20] call_intrinsic Item.getQHi(arg_bytes=0x4) ; pop_local_word h ; ...
+[20:slot_20] add ; bit_and ; call_intrinsic Item.pop(arg_bytes=0x6) ; ...
+[20:slot_20] call_intrinsic Item.orStatus(arg_bytes=0x6)
+[20:slot_20] add ; pop_local_word count ; loopnext ; ...
+//
+//
+//
+[20:slot_20] cmp ; jne 0x00d7 ; ...
+//
+[20:slot_20] jmp 0x04aa
+//
+//
+//
+[20:slot_20] jne 0x04aa
+//
+[20:slot_20] pop_local_word inFastArea
+//
+//
+[20:slot_20] foreach_list 0x044d
+//
+[20:slot_20] bit_and ; jne 0x011e ; ...
+//
+[20:slot_20] create_list element_size=0x2, count=0x1 ; remove_matching_inline element_size=0x2 ; free_local_list laserList ; ...
+[20:slot_20] call_intrinsic Item.destroy(arg_bytes=0x4) ; jmp 0x0447
+//
+//
+[20:slot_20] call_intrinsic Item.getStatus(arg_bytes=0x4) ; cmp ; bit_and ; ...
+//
+[20:slot_20] create_list element_size=0x2, count=0x1 ; remove_matching_inline element_size=0x2 ; free_local_list laserList ; ...
+//
+//
+[20:slot_20] call_intrinsic Intrinsic02F(arg_bytes=0x4) ; cmp ; call_intrinsic Item.getShape(arg_bytes=0x4) ; ...
+[20:slot_20]
+[20:slot_20] add ; pop_local_word inFastArea ; ...
+[20:slot_20] call_intrinsic Item.getQHi(arg_bytes=0x4) ; pop_local_word h ; ...
+[20:slot_20] call_intrinsic Item.getFrame(arg_bytes=0x4) ; pop_local_word f ; ...
+//
+[20:slot_20] bit_and ; jne 0x01fc ; ...
+//
+[20:slot_20] bit_not ; bit_and ; pop_local_word h ; ...
+[20:slot_20] cmp ; jne 0x01d5 ; ...
+//
+[20:slot_20] bit_and ; jne 0x01cb ; ...
+//
+[20:slot_20] bit_not ; bit_and ; pop_local_word h ; ...
+//
+//
+//
+[20:slot_20] bit_or ; pop_local_word h ; ...
+//
+//
+//
+[20:slot_20] add ; bit_and ; pop_local_word f ; ...
+[20:slot_20] call_intrinsic Item.setFrame(arg_bytes=0x6)
+[20:slot_20] call_intrinsic Item.pop(arg_bytes=0x6)
+//
+//
+[20:slot_20] call_intrinsic Item.getZ(arg_bytes=0x4) ; pop_local_byte local_01 ; ...
+//
+[20:slot_20] bit_and ; add ; pop_local_word a ; ...
+//
+[20:slot_20] bit_and ; cmp ; jne 0x02df ; ...
+[20:slot_20]
+//
+//
+//
+//
+[20:slot_20] call_intrinsic Item.getY(arg_bytes=0x4) ; sub ; pop_local_word local_03 ; ...
+[20:slot_20] call_intrinsic Item.getX(arg_bytes=0x4) ; add ; pop_local_word wp ; ...
+//
+//
+//
+[20:slot_20] call_intrinsic Item.getY(arg_bytes=0x4) ; add ; pop_local_word local_03 ; ...
+[20:slot_20] call_intrinsic Item.getX(arg_bytes=0x4) ; add ; pop_local_word wp ; ...
+//
+//
+//
+[20:slot_20] call_intrinsic Item.getY(arg_bytes=0x4) ; add ; pop_local_word local_03 ; ...
+[20:slot_20] call_intrinsic Item.getX(arg_bytes=0x4) ; sub ; pop_local_word wp ; ...
+//
+//
+//
+[20:slot_20] call_intrinsic Item.getY(arg_bytes=0x4) ; sub ; pop_local_word local_03 ; ...
+[20:slot_20] call_intrinsic Item.getX(arg_bytes=0x4) ; sub ; pop_local_word wp ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[20:slot_20] call_intrinsic Item.getY(arg_bytes=0x4) ; add ; pop_local_word local_03 ; ...
+[20:slot_20] call_intrinsic Item.getX(arg_bytes=0x4) ; sub ; pop_local_word wp ; ...
+//
+//
+//
+[20:slot_20] call_intrinsic Item.getY(arg_bytes=0x4) ; sub ; pop_local_word local_03 ; ...
+[20:slot_20] call_intrinsic Item.getX(arg_bytes=0x4) ; sub ; pop_local_word wp ; ...
+//
+//
+//
+[20:slot_20] call_intrinsic Item.getY(arg_bytes=0x4) ; sub ; pop_local_word local_03 ; ...
+[20:slot_20] call_intrinsic Item.getX(arg_bytes=0x4) ; add ; pop_local_word wp ; ...
+//
+//
+//
+[20:slot_20] call_intrinsic Item.getY(arg_bytes=0x4) ; add ; pop_local_word local_03 ; ...
+[20:slot_20] call_intrinsic Item.getX(arg_bytes=0x4) ; add ; pop_local_word wp ; ...
+//
+//
+//
+//
+[20:slot_20] call_intrinsic Item.andStatus(arg_bytes=0xc) ; cmp ; jne 0x041e ; ...
+//
+[20:slot_20] call_intrinsic Item.getQHi(arg_bytes=0x4) ; pop_local_word h ; ...
+[20:slot_20] bit_and ; cmp ; jne 0x03e0 ; ...
+[20:slot_20]
+[20:slot_20] bit_or ; bit_or ; call_intrinsic Item.pop(arg_bytes=0x6) ; ...
+//
+//
+//
+[20:slot_20] bit_not ; bit_and ; pop_local_word h ; ...
+[20:slot_20] bit_and ; jne 0x0404 ; ...
+//
+[20:slot_20] bit_not ; bit_and ; pop_local_word h ; ...
+//
+//
+//
+[20:slot_20] bit_or ; pop_local_word h ; ...
+//
+[20:slot_20] call_intrinsic Item.pop(arg_bytes=0x6) ; jmp 0x0444 ; ...
+//
+//
+//
+//
+[20:slot_20] call_intrinsic Item.getQHi(arg_bytes=0x4) ; pop_local_word h ; ...
+[20:slot_20] bit_not ; bit_and ; pop_local_word h ; ...
+[20:slot_20] call_intrinsic Item.pop(arg_bytes=0x6) ; jmp 0x0447 ; ...
+//
+//
+[20:slot_20] jmp 0x00ef
+//
+[20:slot_20] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[20:slot_20] cmp ; jne 0x04a7 ; ...
+//
+//
+[20:slot_20] foreach_list 0x04a1
+[20:slot_20] bit_not ; call_intrinsic Item.getDirFromTo16(arg_bytes=0x6) ; ...
+[20:slot_20] jmp 0x0487
+[20:slot_20] jmp 0x04aa ; jmp 0x00d7 ; free_local_list laserList
+//
+//
+[20:slot_20] ret
+//
+//
+//
+[21:slot_21] set_info ; ...
+//
+[21:slot_21] pop_local_word n
+//
+[21:slot_21] call_intrinsic Actor.isNPC(arg_bytes=0x4) ; jne 0x0079 ; ...
+//
+//
+[21:slot_21] spawn NPC.slot_2c ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[21:slot_21] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[21:slot_21] ret
+
+/* synthesized appendix for BLASER1 */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x05 hit ===== */
+function blaser1_hit() /* entry=1093 class_id=0x0443 slot=0x05 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    ke; /* [BP+12h] type=0x69 */
+
+  set_info(0x020b, *(arg_06));
+  process_exclude();
+  spawn BLASER1.slot_21(pid, ke, ref, arg_06);
+  suspend;
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol ref [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol ke [BP+12h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x06 gotHit ===== */
+function blaser1_gotHit() /* entry=1093 class_id=0x0443 slot=0x06 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    ke; /* [BP+12h] type=0x69 */
+
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  spawn BLASER1.slot_21(pid, ke, ref, arg_06);
+  suspend;
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol ref [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol ke [BP+12h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x0a equip ===== */
+function blaser1_equip() /* entry=1093 class_id=0x0443 slot=0x0a */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    var, /* [BP+10h] type=0x69 */
+    h; /* [BP-02h] type=0x69 */
+
+  set_info(0x0211, *(arg_06));
+  process_exclude();
+  if (var == 1) {
+    h = Item.getQHi(arg_06);
+    Item.pop((h | 4), arg_06);
+    return;
+  }
+  else if (var == 31) {
+    h = Item.getQHi(arg_06);
+    Item.pop((h | 31), arg_06);
+    return;
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol var [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol h [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x0b unequip ===== */
+function blaser1_unequip() /* entry=1093 class_id=0x0443 slot=0x0b */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    var; /* [BP+10h] type=0x69 */
+
+  set_info(0x0212, *(arg_06));
+  process_exclude();
+  if ((Item.getStatus(arg_06) & 0x1000) == 0) {
+    AudioProcess.playSFXCru(2, arg_06);
+    spawn BLASER1.slot_20(*(arg_06), arg_06);
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol var [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x0f enterFastArea ===== */
+function blaser1_enterFastArea() /* entry=1093 class_id=0x0443 slot=0x0f */
+{
+  var
+    referent; /* [BP+00h] type=0x69 */
+
+  set_info(0x021b, *(arg_06));
+  process_exclude();
+  if ((Item.getStatus(arg_06) & 0x1000) == 0) {
+    spawn BLASER1.slot_20(*(arg_06), arg_06);
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+  */
+}
+
+/* ===== slot 0x10 leaveFastArea ===== */
+function blaser1_leaveFastArea() /* entry=1093 class_id=0x0443 slot=0x10 */
+{
+  var
+    referent; /* [BP+00h] type=0x69 */
+
+  set_info(0x021c, *(arg_06));
+  process_exclude();
+  Item.getDirFromTo16((~0x1000), arg_06);
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+  */
+}
+
+/* ===== slot 0x20 slot_20 ===== */
+function blaser1_slot_20() /* entry=1093 class_id=0x0443 slot=0x20 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    wp, /* [BP-05h] type=0x24 */
+    laserList, /* [BP-07h] type=0x6c */
+    item, /* [BP-09h] type=0x24 */
+    inFastArea, /* [BP-11h] type=0x69 */
+    count, /* [BP-13h] type=0x69 */
+    a, /* [BP-15h] type=0x69 */
+    f, /* [BP-17h] type=0x69 */
+    h, /* [BP-19h] type=0x69 */
+    link, /* [BP-21h] type=0x69 */
+    x, /* [BP-23h] type=0x69 */
+    y; /* [BP-25h] type=0x69 */
+
+  set_info(1, 0);
+  item = ref;
+  link = legalMoveToPoint(item);
+  count = 0;
+  for item in nearby_items(shape=0x0443, origin=ref) {
+    if ((legalMoveToPoint(item) == link) && ((Item.getStatus(item) & 0x1000) == 0)) {
+      laserList = (laserList + [item]);
+      h = Item.getQHi(item);
+      Item.pop((h & (1 + 2)), item);
+      Item.orStatus(0x1000, item);
+      count = (1 + count);
+    }
+  }
+  if (count == 0) {
+    return;
+  }
+  else {
+    while (1) {
+      inFastArea = 0;
+      while (true) {
+        foreach_list item -> block_076f;
+        if (h & 31) {
+          /* remove_matching_inline */
+          laserList = [item];
+          Item.destroy(item);
+        }
+        else if (Item.getStatus(item) & (0x1000 == 0)) {
+          /* remove_matching_inline */
+          laserList = [item];
+        }
+        else if ((Intrinsic02F(item) == 1) && (Item.getShape(item) != 0x0476)) {
+          inFastArea = (1 + inFastArea);
+          h = Item.getQHi(item);
+          f = Item.getFrame(item);
+          if (h & 4) {
+            h = (h & (~4));
+            if (f == 1) {
+              if (h & 2) {
+                h = (h & (~2));
+              }
+              else {
+                h = (h | 2);
+              }
+            }
+            f = ((f + 1) & 1);
+            Item.setFrame(f, item);
+            Item.pop(h, item);
+          }
+          local_01 = Item.getZ(item);
+          a = ((h & 2) + f);
+          if ((h & 1) == 0) {
+            switch (a) {
+            case 0:
+              local_03 = (Item.getY(item) - 4);
+              wp = (Item.getX(item) + 4);
+              break;
+            case 1:
+              local_03 = (Item.getY(item) + 4);
+              wp = (Item.getX(item) + 4);
+              break;
+            case 2:
+              local_03 = (Item.getY(item) + 4);
+              wp = (Item.getX(item) - 4);
+              break;
+            case 3:
+              local_03 = (Item.getY(item) - 4);
+              wp = (Item.getX(item) - 4);
+              break;
+            }
+          }
+          else {
+            switch (a) {
+            case 0:
+              local_03 = (Item.getY(item) + 4);
+              wp = (Item.getX(item) - 4);
+              break;
+            case 1:
+              local_03 = (Item.getY(item) - 4);
+              wp = (Item.getX(item) - 4);
+              break;
+            case 2:
+              local_03 = (Item.getY(item) - 4);
+              wp = (Item.getX(item) + 4);
+              break;
+            case 3:
+              local_03 = (Item.getY(item) + 4);
+              wp = (Item.getX(item) + 4);
+              break;
+            }
+          }
+          if (Item.andStatus(0, 0, wp, item) == 0) {
+            h = Item.getQHi(item);
+            if ((h & 8) == 0) {
+              Item.pop((h | (4 | 8)), item);
+            }
+            else {
+              h = (h & (~8));
+              if (h & 1) {
+                h = (h & (~1));
+              }
+              else {
+                h = (h | 1);
+              }
+              Item.pop(h, item);
+            }
+          }
+          else {
+            h = Item.getQHi(item);
+            h = (h & (~8));
+            Item.pop(h, item);
+          }
+        }
+      }
+      spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+      suspend;
+      if (inFastArea == 0) {
+        while (true) {
+          foreach_list item -> block_07c3;
+          Item.getDirFromTo16((~0x1000), item);
+        }
+        return;
+      }
+    }
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol ref [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol wp [BP-05h] type=0x24 unk1=0x00 unk3=0x05
+    debug_symbol laserList [BP-07h] type=0x6c unk1=0x00 unk3=0x02
+    debug_symbol item [BP-09h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol inFastArea [BP-11h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol count [BP-13h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol a [BP-15h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol f [BP-17h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol h [BP-19h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol link [BP-21h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol x [BP-23h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol y [BP-25h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x21 slot_21 ===== */
+function blaser1_slot_21() /* entry=1093 class_id=0x0443 slot=0x21 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    ke, /* [BP+12h] type=0x69 */
+    n; /* [BP-02h] type=0x24 */
+
+  set_info(1, *(arg_06));
+  n = ref;
+  if (Actor.isNPC(n)) {
+    spawn NPC.slot_2c(pid, *(arg_06), n);
+    suspend;
+    spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+    suspend;
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol ref [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol ke [BP+12h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol n [BP-02h] type=0x24 unk1=0x00 unk3=0x02
+  */
+}

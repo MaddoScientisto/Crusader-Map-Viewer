@@ -1,0 +1,653 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[0A:equip] call_intrinsic Item.getStatus(arg_bytes=0x4) ; bit_and ; jne 0x0030 ; ...
+//
+[0A:equip] jmp 0x00b6
+//
+//
+[0A:equip] cmp ; jne 0x007a ; ...
+//
+[0A:equip] global_address global[0x003c] ; call_intrinsic Actor.getMap(arg_bytes=0x4) ; call_intrinsic Item.getZ(arg_bytes=0x4) ; ...
+[0A:equip] spawn SURCAMEW.slot_21 ; pop_temp ; jmp 0x00b6 ; ...
+//
+//
+//
+[0A:equip] global_address global[0x003c] ; call_intrinsic Actor.getMap(arg_bytes=0x4) ; call_intrinsic Item.getZ(arg_bytes=0x4) ; ...
+[0A:equip] spawn SURCAMEW.slot_20 ; pop_temp ; ...
+//
+[0A:equip] ret
+//
+//
+//
+[01:use] call_intrinsic Item.getStatus(arg_bytes=0x4) ; bit_and ; jne 0x0030 ; ...
+//
+[01:use] jmp 0x00e4
+//
+//
+[01:use] call_intrinsic Item.getQLo(arg_bytes=0x4) ; cmp ; global_address global[0x003c] ; ...
+[01:use]
+[01:use] cmp ; jne 0x00be ; ...
+//
+[01:use] pop_global global[0x002c]
+[01:use] call_intrinsic playFlic(arg_bytes=0xc) ; free_stack_string value_u8=0x4, target=[SP+04h] ; implies arg0=0x1, arg1=0x1 ; ...
+//
+[01:use] spawn TRIGGER.slot_20 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[01:use] bit_not ; call_intrinsic IItem.getCY(arg_bytes=0x6) ; ...
+[01:use] jmp 0x00e4 ; jmp 0x00e4
+//
+//
+//
+//
+[01:use] spawn SURCAMEW.slot_20 ; pop_temp ; ...
+//
+//
+[01:use] ret
+//
+//
+//
+//
+[20:slot_20] set_info
+//
+[20:slot_20] call_intrinsic Item.orStatus(arg_bytes=0x6)
+//
+//
+//
+//
+//
+//
+[20:slot_20] call_intrinsic Item.getQLo(arg_bytes=0x4) ; pop_local_word link ; ...
+//
+[20:slot_20] call_intrinsic Item.getMapArray(arg_bytes=0x4) ; ne ; jne 0x014e ; ...
+//
+[20:slot_20] loopscr value_u8=0x25 ; mul ; ...
+[20:slot_20] loop current_var=0xfc, string_bytes=0x6, loop_type=0x2 ; jne 0x00dc ; ...
+[20:slot_20] call_intrinsic Item.getQLo(arg_bytes=0x4) ; cmp ; cmp ; ...
+[20:slot_20]
+[20:slot_20] call_intrinsic Item.isOn(arg_bytes=0x4) ; jne 0x00d8 ; ...
+//
+[20:slot_20] call_intrinsic Item.isOn(arg_bytes=0x4) ; call_intrinsic Item.getQLo(arg_bytes=0x4) ; call_class_event TEXTFILE.slot_21 ; ...
+[20:slot_20] spawn TEXTFILE.slot_20 ; free_stack_string value_u8=0x0, target=[SP+00h] ; implies arg0=0x1, arg1=0x1 ; ...
+//
+//
+//
+[20:slot_20] spawn TRIGGER.slot_20 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[20:slot_20] spawn SURCAMEW.slot_21 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[20:slot_20] spawn TRIGGER.slot_20 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+[20:slot_20] pop_local_byte code
+[20:slot_20] call_intrinsic Item.isOn(arg_bytes=0x4) ; jne 0x0234 ; loopscr value_u8=0x24 ; ...
+//
+[20:slot_20] loopscr value_u8=0x25 ; mul ; ...
+[20:slot_20] loop current_var=0xfa, string_bytes=0x6, loop_type=0x2 ; jne 0x01ba ; ...
+[20:slot_20] call_intrinsic Item.getQLo(arg_bytes=0x4) ; cmp ; jne 0x01b6 ; ...
+//
+[20:slot_20] call_class_event VALBOX.slot_20 ; pop_local_word passcode ; ...
+[20:slot_20] add ; pop_local_byte code ; ...
+[20:slot_20] jmp 0x01ba ; loopnext ; jmp 0x0182
+//
+//
+//
+[20:slot_20] jne 0x01ec
+[20:slot_20] call_intrinsic Item.isOn(arg_bytes=0x4) ; call_intrinsic Item.getQLo(arg_bytes=0x4) ; call_class_event TEXTFILE.slot_23 ; ...
+//
+//
+//
+[20:slot_20] call_intrinsic Item.isOn(arg_bytes=0x4) ; call_intrinsic Item.getQLo(arg_bytes=0x4) ; call_class_event TEXTFILE.slot_21 ; ...
+//
+[20:slot_20] spawn TEXTFILE.slot_20 ; free_stack_string value_u8=0x0, target=[SP+00h] ; implies arg0=0x1, arg1=0x1 ; ...
+//
+[20:slot_20] spawn SURCAMEW.slot_21 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[20:slot_20] bit_not ; call_intrinsic IItem.getCY(arg_bytes=0x6) ; free_local_string textFile ; ...
+[20:slot_20] ret
+//
+//
+//
+[21:slot_21] set_info
+//
+//
+[21:slot_21] pop_local_word trueRef
+//
+//
+[21:slot_21] call_intrinsic Ultima8Engine.setAvatarInStasis(arg_bytes=0x2)
+[21:slot_21] call_intrinsic Actor.setDead(arg_bytes=0x0)
+//
+[21:slot_21] call_intrinsic Item.create(arg_bytes=0x8) ; jne 0x0072 ; ...
+//
+[21:slot_21] call_intrinsic Item.getZ(arg_bytes=0x4) ; add ; call_intrinsic Item.getY(arg_bytes=0x4) ; ...
+//
+[21:slot_21] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[21:slot_21] loopscr value_u8=0x25 ; mul ; ...
+[21:slot_21] loop current_var=0xfc, string_bytes=0x6, loop_type=0x2 ; jne 0x058f ; ...
+[21:slot_21] call_intrinsic Item.getQLo(arg_bytes=0x4) ; call_intrinsic Item.getQLo(arg_bytes=0x4) ; cmp ; ...
+[21:slot_21]
+[21:slot_21] call_intrinsic Item.getQLo(arg_bytes=0x4) ; cmp ; jne 0x02e7 ; ...
+//
+[21:slot_21] call_intrinsic MusicProcess.musicStop(arg_bytes=0x0)
+[21:slot_21] call_intrinsic mouseSomethingResume05F(arg_bytes=0x0)
+//
+[21:slot_21] global_address global[0x003c] ; call_intrinsic Actor.getMap(arg_bytes=0x4) ; call_intrinsic Item.getZ(arg_bytes=0x4) ; ...
+[21:slot_21] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[21:slot_21] call_intrinsic resetVargasHealthTo500(arg_bytes=0x0)
+[21:slot_21] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+[21:slot_21] loopscr value_u8=0x25 ; mul ; ...
+[21:slot_21] loop current_var=0xf8, string_bytes=0x6, loop_type=0x2 ; jne 0x01d3
+[21:slot_21] call_intrinsic Actor.isNPC(arg_bytes=0x4) ; jne 0x01cf ; ...
+//
+[21:slot_21] call_intrinsic Actor.GetNPCDataField0x63_00B(arg_bytes=0x4) ; call_intrinsic Item.getQLo(arg_bytes=0x4) ; cmp ; ...
+[21:slot_21]
+[21:slot_21] pop_local_word therma
+[21:slot_21] jmp 0x01d3 ; loopnext ; jmp 0x0194
+//
+//
+//
+//
+[21:slot_21] jne 0x021e
+[21:slot_21] spawn NPC.slot_28 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[21:slot_21] call_intrinsic mouseSomethingResume05F(arg_bytes=0x0)
+[21:slot_21] call_intrinsic PaletteFaderProcess.fadeFromBlack(arg_bytes=0x0)
+[21:slot_21] call_intrinsic Item.isCentreOn(arg_bytes=0x2)
+[21:slot_21] jmp 0x05e3 ; jmp 0x02e4
+//
+//
+//
+//
+[21:slot_21] global_address global[0x003c] ; call_intrinsic Item.getX(arg_bytes=0x4) ; pop_local_word x1 ; ...
+[21:slot_21] global_address global[0x003c] ; call_intrinsic Item.getY(arg_bytes=0x4) ; pop_local_word y1 ; ...
+[21:slot_21] global_address global[0x003c] ; call_intrinsic Item.getZ(arg_bytes=0x4) ; pop_local_byte z1 ; ...
+//
+//
+[21:slot_21] call_intrinsic MainActor.teleportToEgg(arg_bytes=0x0) ; not ; jne 0x0283 ; ...
+[21:slot_21]
+[21:slot_21] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+[21:slot_21] call_intrinsic MusicProcess.musicStop(arg_bytes=0x0)
+[21:slot_21] call_intrinsic mouseSomethingResume05F(arg_bytes=0x0)
+[21:slot_21] global_address global[0x003c] ; call_intrinsic Actor.getMap(arg_bytes=0x4) ; call_intrinsic Item.getRangeIfVisible(arg_bytes=0x8) ; ...
+[21:slot_21] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[21:slot_21] call_intrinsic Actor.create(arg_bytes=0x0)
+[21:slot_21] call_intrinsic PaletteFaderProcess.fadeFromBlack(arg_bytes=0x0)
+[21:slot_21] jmp 0x058f ; jmp 0x058b
+//
+//
+//
+//
+//
+[21:slot_21] call_intrinsic Item.getQLo(arg_bytes=0x4) ; cmp ; jne 0x0350 ; ...
+//
+[21:slot_21] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[21:slot_21] call_intrinsic playFlic(arg_bytes=0xc) ; free_stack_string value_u8=0x4, target=[SP+04h] ; implies arg0=0x1, arg1=0x1 ; ...
+//
+//
+[21:slot_21] call_intrinsic Item.getQLo(arg_bytes=0x4) ; gt ; jne 0x03e0 ; ...
+//
+[21:slot_21] call_intrinsic MusicProcess.musicStop(arg_bytes=0x0)
+[21:slot_21] call_intrinsic mouseSomethingResume05F(arg_bytes=0x0)
+[21:slot_21] global_address global[0x003c] ; call_intrinsic Actor.getMap(arg_bytes=0x4) ; call_intrinsic Item.getZ(arg_bytes=0x4) ; ...
+[21:slot_21] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[21:slot_21] spawn SURCAMEW.slot_22 ; pop_temp ; ...
+[21:slot_21] jmp 0x058f ; jmp 0x058b
+//
+//
+//
+[21:slot_21] call_intrinsic MusicProcess.musicStop(arg_bytes=0x0)
+//
+[21:slot_21] call_intrinsic Item.getX(arg_bytes=0x4) ; pop_local_word x ; ...
+[21:slot_21] call_intrinsic Item.getY(arg_bytes=0x4) ; pop_local_word y ; ...
+[21:slot_21] call_intrinsic Item.getZ(arg_bytes=0x4) ; pop_local_byte z ; ...
+//
+[21:slot_21] call_intrinsic mouseSomethingResume05F(arg_bytes=0x0)
+[21:slot_21] global_address global[0x003c] ; call_intrinsic Actor.getMap(arg_bytes=0x4) ; call_intrinsic Item.getRangeIfVisible(arg_bytes=0x8) ; ...
+[21:slot_21] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[21:slot_21] call_intrinsic resetVargasHealthTo500(arg_bytes=0x0)
+[21:slot_21] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[21:slot_21] call_intrinsic Item.getMapArray(arg_bytes=0x4) ; ne ; jne 0x04bb ; ...
+//
+[21:slot_21] spawn TRIGGER.slot_20 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[21:slot_21] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[21:slot_21] call_intrinsic MainActor.teleportToEgg(arg_bytes=0x0) ; not ; jne 0x0519 ; ...
+[21:slot_21]
+[21:slot_21] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[21:slot_21] call_intrinsic MusicProcess.musicStop(arg_bytes=0x0)
+[21:slot_21] call_intrinsic Actor.create(arg_bytes=0x0)
+[21:slot_21] global_address global[0x003c] ; call_intrinsic Actor.getMap(arg_bytes=0x4) ; global_address global[0x003c] ; ...
+[21:slot_21] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[21:slot_21] call_intrinsic PaletteFaderProcess.fadeFromBlack(arg_bytes=0x0)
+[21:slot_21] jmp 0x058f ; loopnext ; jmp 0x00b7
+//
+//
+//
+//
+[21:slot_21] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[21:slot_21] jne 0x05ca
+[21:slot_21] call_intrinsic Item.destroy(arg_bytes=0x4)
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[21:slot_21] call_intrinsic Ultima8Engine.setAvatarInStasis(arg_bytes=0x2)
+[21:slot_21] call_intrinsic AudioProcess.stopSFX(arg_bytes=0x0)
+[21:slot_21] call_intrinsic Intrinsic0D3(arg_bytes=0x0)
+[21:slot_21] ret
+//
+//
+//
+//
+[22:slot_22] set_info ; loopscr value_u8=0x24 ; ...
+//
+//
+//
+//
+[22:slot_22] loopscr value_u8=0x42
+[22:slot_22] mul
+[22:slot_22] loop current_var=0xfe, string_bytes=0x6, loop_type=0x2 ; jne 0x005d
+[22:slot_22] call_intrinsic Actor.isNPC(arg_bytes=0x4) ; jne 0x0059 ; ...
+//
+[22:slot_22] call_intrinsic Item.isCentreOn(arg_bytes=0x2)
+[22:slot_22] pop_local_byte foundGun ; loopnext ; jmp 0x0035 ; ...
+//
+//
+//
+[22:slot_22] global_address global[0x003c] ; call_intrinsic Actor.getMap(arg_bytes=0x4) ; call_intrinsic Item.getZ(arg_bytes=0x4) ; ...
+[22:slot_22] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[22:slot_22] call_intrinsic resetVargasHealthTo500(arg_bytes=0x0)
+//
+//
+[22:slot_22] jne 0x00ff
+[22:slot_22] call_intrinsic getTargetNPCNumMaybe(arg_bytes=0x0) ; ne ; jne 0x00fc ; ...
+[22:slot_22]
+[22:slot_22] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+[22:slot_22] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[22:slot_22] call_intrinsic MusicProcess.musicStop(arg_bytes=0x0)
+[22:slot_22] global_address global[0x003c] ; call_intrinsic Actor.getMap(arg_bytes=0x4) ; global_address global[0x003c] ; ...
+[22:slot_22] call_intrinsic Actor.create(arg_bytes=0x0)
+[22:slot_22] call_intrinsic PaletteFaderProcess.fadeFromBlack(arg_bytes=0x0)
+[22:slot_22] ret
+
+/* synthesized appendix for SURCAMEW */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x01 use ===== */
+function surcamew_use() /* entry=1248 class_id=0x04de slot=0x01 */
+{
+  var
+    referent; /* [BP+00h] type=0x69 */
+
+  set_info(0x0207, *(arg_06));
+  process_exclude();
+  if (Item.getStatus(arg_06) & 0x1000) {
+    return;
+  }
+  else if (Actor.getMap((Item.getQLo(arg_06) == 4), &global[0x003c]) == 25) {
+    if (global[0x002c] == 0) {
+      playFlic(pid, 0x0096, 0x00c8, "13d", arg_06);
+      suspend;
+      spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
+      suspend;
+    }
+    IItem.getCY((~0x1000), arg_06);
+    return;
+  }
+  else {
+    spawn SURCAMEW.slot_20(arg_06);
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+  */
+}
+
+/* ===== slot 0x0a equip ===== */
+function surcamew_equip() /* entry=1248 class_id=0x04de slot=0x0a */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    var; /* [BP+10h] type=0x69 */
+
+  set_info(0x0211, *(arg_06));
+  process_exclude();
+  if (Item.getStatus(arg_06) & 0x1000) {
+    return;
+  }
+  else if (var == 0) {
+    Item.getRangeIfVisible(Actor.getMap(&global[0x003c]), Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06));
+    spawn SURCAMEW.slot_21(arg_06);
+    return;
+  }
+  else {
+    Item.getRangeIfVisible(Actor.getMap(&global[0x003c]), Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06));
+    spawn SURCAMEW.slot_20(arg_06);
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol var [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x20 slot_20 ===== */
+function surcamew_slot_20() /* entry=1248 class_id=0x04de slot=0x20 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    textFile, /* [BP-02h] type=0x73 */
+    monit, /* [BP-04h] type=0x24 */
+    valueBox, /* [BP-06h] type=0x24 */
+    passcode, /* [BP-08h] type=0x69 */
+    link, /* [BP-10h] type=0x69 */
+    code; /* [BP-11h] type=0x62 */
+
+  set_info(0x021b, 0);
+  Item.orStatus(0x1000, arg_06);
+  link = Item.getQLo(arg_06);
+  if (Item.getMapArray(arg_06) != 0) {
+    for monit in nearby_items(shape=0x037d, origin=arg_06) {
+      if ((Item.getQLo(monit) == link) || (link == 0)) {
+        if (Item.isOn(monit)) {
+          TEXTFILE.slot_21(Item.isOn(monit), Item.getQLo(monit), arg_06);
+          textFile = retval;
+          spawn TEXTFILE.slot_20(pid, textFile, arg_06);
+          suspend;
+        }
+      }
+    }
+    spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
+    suspend;
+    spawn SURCAMEW.slot_21(pid, arg_06);
+    suspend;
+    spawn TRIGGER.slot_20(pid, 1, *(arg_06), arg_06);
+    suspend;
+  }
+  else {
+    code = 0;
+    if (Item.isOn(arg_06)) {
+      for valueBox in nearby_items(shape=VALUEBOX, origin=arg_06) {
+        if (Item.getQLo(valueBox) == link) {
+          VALBOX.slot_20(valueBox);
+          passcode = retval;
+          code = (1 + code);
+        }
+      }
+      if (code) {
+        TEXTFILE.slot_23(passcode, Item.isOn(arg_06), Item.getQLo(arg_06), arg_06);
+        textFile = retval;
+      }
+      else {
+        TEXTFILE.slot_21(Item.isOn(arg_06), Item.getQLo(arg_06), arg_06);
+        textFile = retval;
+      }
+      spawn TEXTFILE.slot_20(pid, textFile, arg_06);
+      suspend;
+    }
+    spawn SURCAMEW.slot_21(pid, arg_06);
+    suspend;
+  }
+  IItem.getCY((~0x1000), arg_06);
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol textFile [BP-02h] type=0x73 unk1=0x00 unk3=0x00
+    debug_symbol monit [BP-04h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol valueBox [BP-06h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol passcode [BP-08h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol link [BP-10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol code [BP-11h] type=0x62 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x21 slot_21 ===== */
+function surcamew_slot_21() /* entry=1248 class_id=0x04de slot=0x21 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    screen, /* [BP-02h] type=0x24 */
+    cameraEgg, /* [BP-04h] type=0x24 */
+    trueRef, /* [BP-06h] type=0x69 */
+    npc, /* [BP-08h] type=0x24 */
+    therma, /* [BP-10h] type=0x24 */
+    x1, /* [BP-12h] type=0x69 */
+    y1, /* [BP-14h] type=0x69 */
+    z1, /* [BP-15h] type=0x62 */
+    x, /* [BP-17h] type=0x69 */
+    y, /* [BP-19h] type=0x69 */
+    z; /* [BP-20h] type=0x62 */
+
+  set_info(0x021b, 0);
+  trueRef = *(arg_06);
+  Ultima8Engine.setAvatarInStasis(1);
+  Actor.setDead();
+  if (Item.create(0, 0x0470, screen)) {
+    Item.popToCoords((Item.getZ(arg_06) + 52), (Item.getY(arg_06) + 20), Item.getX(arg_06), screen);
+  }
+  spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
+  suspend;
+  for cameraEgg in nearby_items(shape=EVENT_CONTROLLER, origin=arg_06) {
+    if (Item.getQLo(cameraEgg) == Item.getQLo(arg_06)) {
+      if (Item.getQLo(arg_06) == 0x00fe) {
+        MusicProcess.musicStop();
+        mouseSomethingResume05F();
+        Item.getRangeIfVisible(Actor.getMap(&global[0x003c]), Item.getZ(cameraEgg), Item.getY(cameraEgg), Item.getX(cameraEgg));
+        spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+        suspend;
+        resetVargasHealthTo500();
+        spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+        suspend;
+        for npc in nearby_items(shape=MECH_1, origin=cameraEgg) {
+          if (Actor.isNPC(npc)) {
+            if (Actor.GetNPCDataField0x63_00B(npc) == Item.getQLo(arg_06)) {
+              therma = npc;
+            }
+          }
+        }
+        if (therma) {
+          spawn NPC.slot_28(pid, therma);
+          suspend;
+          mouseSomethingResume05F();
+          PaletteFaderProcess.fadeFromBlack();
+          Item.isCentreOn(therma);
+          return;
+        }
+        else {
+          x1 = Item.getX(&global[0x003c]);
+          y1 = Item.getY(&global[0x003c]);
+          z1 = Item.getZ(&global[0x003c]);
+          while (!MainActor.teleportToEgg()) {
+            spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+            suspend;
+          }
+          MusicProcess.musicStop();
+          mouseSomethingResume05F();
+          Item.getRangeIfVisible(Actor.getMap(&global[0x003c]), z1, y1, x1);
+          spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+          suspend;
+          Actor.create();
+          PaletteFaderProcess.fadeFromBlack();
+        }
+      }
+      else if (Item.getQLo(arg_06) == 0x00fd) {
+        spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
+        suspend;
+        playFlic(pid, 0x0096, 0x00c8, "3j", arg_06);
+        suspend;
+      }
+      else if (Item.getQLo(arg_06) > 0x00f9) {
+        MusicProcess.musicStop();
+        mouseSomethingResume05F();
+        Item.getRangeIfVisible(Actor.getMap(&global[0x003c]), Item.getZ(cameraEgg), Item.getY(cameraEgg), Item.getX(cameraEgg));
+        spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+        suspend;
+        spawn SURCAMEW.slot_22(cameraEgg, arg_06);
+      }
+      else {
+        MusicProcess.musicStop();
+        x = Item.getX(cameraEgg);
+        y = Item.getY(cameraEgg);
+        z = Item.getZ(cameraEgg);
+        mouseSomethingResume05F();
+        Item.getRangeIfVisible(Actor.getMap(&global[0x003c]), z, y, x);
+        spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+        suspend;
+        resetVargasHealthTo500();
+        spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
+        suspend;
+        if (Item.getMapArray(cameraEgg) != 0) {
+          spawn TRIGGER.slot_20(pid, 0, cameraEgg, arg_06);
+          suspend;
+        }
+        spawn FREE.waitNTimerTicks(pid, 120, 0x00000000);
+        suspend;
+        while (!MainActor.teleportToEgg()) {
+          spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+          suspend;
+        }
+        MusicProcess.musicStop();
+        Actor.create();
+        Item.getRangeIfVisible(Item.getX(Item.getY(Item.getZ(Actor.getMap(&global[0x003c]), &global[0x003c]), &global[0x003c]), &global[0x003c]));
+        spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+        suspend;
+        PaletteFaderProcess.fadeFromBlack();
+      }
+    }
+  }
+  spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
+  suspend;
+  if (screen) {
+    Item.destroy(screen);
+  }
+  Ultima8Engine.setAvatarInStasis(0);
+  AudioProcess.stopSFX();
+  Intrinsic0D3();
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol screen [BP-02h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol cameraEgg [BP-04h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol trueRef [BP-06h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol npc [BP-08h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol therma [BP-10h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol x1 [BP-12h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol y1 [BP-14h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol z1 [BP-15h] type=0x62 unk1=0x00 unk3=0x00
+    debug_symbol x [BP-17h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol y [BP-19h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol z [BP-20h] type=0x62 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x22 slot_22 ===== */
+function surcamew_slot_22() /* entry=1248 class_id=0x04de slot=0x22 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    eventTrigger, /* [BP+10h] type=0x24 */
+    n, /* [BP-02h] type=0x24 */
+    foundGun; /* [BP-03h] type=0x62 */
+
+  set_info(0x00f0, 0);
+  for n in selector_0x42(arg0=0x04c8, arg1=0x01cd, arg2=(50 * 32), origin=eventTrigger) {
+    if (Actor.isNPC(n)) {
+      Item.isCentreOn(n);
+      foundGun = 1;
+    }
+  }
+  Item.getRangeIfVisible(Actor.getMap(&global[0x003c]), Item.getZ(eventTrigger), Item.getY(eventTrigger), Item.getX(eventTrigger));
+  spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+  suspend;
+  resetVargasHealthTo500();
+  if (foundGun) {
+    while (getTargetNPCNumMaybe() != 1) {
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+    }
+  }
+  else {
+    spawn FREE.waitNTimerTicks(pid, 0x00c8, 0x00000000);
+    suspend;
+  }
+  MusicProcess.musicStop();
+  Item.getRangeIfVisible(Item.getX(Item.getY(Item.getZ(Actor.getMap(&global[0x003c]), &global[0x003c]), &global[0x003c]), &global[0x003c]));
+  Actor.create();
+  PaletteFaderProcess.fadeFromBlack();
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol eventTrigger [BP+10h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol n [BP-02h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol foundGun [BP-03h] type=0x62 unk1=0x00 unk3=0x00
+  */
+}

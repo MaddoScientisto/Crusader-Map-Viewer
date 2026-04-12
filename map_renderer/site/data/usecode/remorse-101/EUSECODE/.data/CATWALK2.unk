@@ -1,0 +1,26 @@
+/* synthesized appendix for CATWALK2 */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x06 gotHit ===== */
+function catwalk2_gotHit() /* entry=308 class_id=0x0132 slot=0x06 */
+{
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  FREE.slot_2c(arg_12, arg_10);
+  if (retval != 4) {
+    return;
+  }
+  else {
+    spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+    suspend;
+    Item.setShape(0x00d1, arg_06);
+    Item.touch(arg_06);
+    Item.legal_create(0, 0x00d1, local_02);
+    getTargetNPCNumMaybe(Item.getZ(arg_06), (Item.getY(arg_06) - 64), (Item.getX(arg_06) - 64), local_02);
+    Item.legal_create(0, 0x00d1, local_02);
+    getTargetNPCNumMaybe(Item.getZ(arg_06), (Item.getY(arg_06) - 64), Item.getX(arg_06), local_02);
+    Item.legal_create(0, 0x00d1, local_02);
+    getTargetNPCNumMaybe(Item.getZ(arg_06), Item.getY(arg_06), (Item.getX(arg_06) - 64), local_02);
+  }
+  return;
+}

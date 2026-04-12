@@ -1,5 +1,8 @@
 function alarmbox_enterFastArea() /* entry=1145 class_id=0x0477 slot=0x0f */
 {
+  var
+    referent; /* [BP+00h] type=0x69 */
+
   set_info(0x021b, *(arg_06));
   process_exclude();
   if (World.getAlertActive()) {
@@ -20,4 +23,8 @@ function alarmbox_enterFastArea() /* entry=1145 class_id=0x0477 slot=0x0f */
     return;
   }
   return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+  */
 }

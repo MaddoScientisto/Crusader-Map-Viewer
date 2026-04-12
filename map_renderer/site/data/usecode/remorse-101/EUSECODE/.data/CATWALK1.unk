@@ -1,0 +1,20 @@
+/* synthesized appendix for CATWALK1 */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x06 gotHit ===== */
+function catwalk1_gotHit() /* entry=152 class_id=0x0096 slot=0x06 */
+{
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  FREE.slot_2c(arg_12, arg_10);
+  if (retval != 4) {
+    return;
+  }
+  else {
+    spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+    suspend;
+    Item.setShape(0x00d1, arg_06);
+    Item.touch(arg_06);
+  }
+  return;
+}

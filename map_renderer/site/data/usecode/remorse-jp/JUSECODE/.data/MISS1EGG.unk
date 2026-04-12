@@ -1,0 +1,918 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[07:hatch] spawn MISS1EGG.slot_21 ; pop_temp ; ...
+[07:hatch] global_address global[0x003c] ; spawn NPC.slot_23 ; implies arg0=0x1, arg1=0x1 ; ...
+[07:hatch] call_intrinsic Ultima8Engine.setAvatarInStasis(arg_bytes=0x2)
+[07:hatch] call_intrinsic Item.destroy(arg_bytes=0x4) ; jmp 0x016d ; call_intrinsic CameraProcess.setCenterOn(arg_bytes=0x4) ; ...
+//
+//
+//
+//
+//
+[07:hatch] not ; jne 0x00d7
+[07:hatch] pop_global global[0x003b] ; loopscr value_u8=0x24 ; loopscr value_u8=0x3d ; ...
+[07:hatch] loopscr value_u8=0x25 ; mul ; ...
+[07:hatch] loop current_var=0xfa, string_bytes=0x6, loop_type=0x2 ; jne 0x00d5 ; ...
+[07:hatch] call_class_event ITEM.slot_23
+[07:hatch] spawn MISS1EGG.slot_22 ; pop_temp ; loopnext ; ...
+//
+//
+[07:hatch] call_intrinsic Item.destroy(arg_bytes=0x4) ; jmp 0x016d ; call_intrinsic CameraProcess.setCenterOn(arg_bytes=0x4) ; ...
+//
+//
+//
+//
+[07:hatch] call_class_event FREE.slot_41
+[07:hatch] spawn MISS1EGG.slot_23 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[07:hatch] call_intrinsic Item.destroy(arg_bytes=0x4) ; jmp 0x016d ; call_intrinsic CameraProcess.setCenterOn(arg_bytes=0x4) ; ...
+//
+//
+//
+//
+//
+[07:hatch] call_class_event FREE.slot_41
+[07:hatch] spawn MISS1EGG.slot_20 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[07:hatch] call_intrinsic Item.destroy(arg_bytes=0x4) ; jmp 0x016d
+//
+//
+//
+[07:hatch] ret
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[20:slot_20] call_intrinsic Ultima8Engine.setAvatarInStasis(arg_bytes=0x2)
+[20:slot_20] global_address global[0x003c] ; call_intrinsic Actor.doAnim(arg_bytes=0x4) ; jne 0x005a ; ...
+//
+[20:slot_20] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[20:slot_20] global_address global[0x003c] ; call_intrinsic Actor.isDead(arg_bytes=0xc) ; implies arg0=0x1, arg1=0x1 ; ...
+//
+[20:slot_20] loopscr value_u8=0x25 ; mul ; ...
+[20:slot_20] loop current_var=0xfc, string_bytes=0x6, loop_type=0x2 ; jne 0x00d9
+[20:slot_20] global_address global[0x003c] ; call_intrinsic Actor.getMap(arg_bytes=0x4) ; call_intrinsic Item.getY(arg_bytes=0x4) ; ...
+[20:slot_20] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x2) ; loopnext ; jmp 0x00a0 ; ...
+//
+//
+[20:slot_20] loopscr value_u8=0x42
+[20:slot_20] mul
+[20:slot_20] loop current_var=0xfa, string_bytes=0x6, loop_type=0x2 ; jne 0x010d
+[20:slot_20] call_intrinsic Item.destroy(arg_bytes=0x4) ; loopnext ; jmp 0x00fb ; ...
+//
+//
+//
+[20:slot_20] global_address global[0x003c] ; spawn NPC.slot_22 ; implies arg0=0x1, arg1=0x1 ; ...
+[20:slot_20] global_address global[0x003c] ; spawn NPC.slot_22 ; implies arg0=0x1, arg1=0x1 ; ...
+[20:slot_20] global_address global[0x003c] ; spawn NPC.slot_22 ; implies arg0=0x1, arg1=0x1 ; ...
+[20:slot_20] global_address global[0x003c] ; spawn NPC.slot_22 ; implies arg0=0x1, arg1=0x1 ; ...
+//
+[20:slot_20] global_address global[0x003c] ; call_intrinsic Actor.isDead(arg_bytes=0xc) ; implies arg0=0x1, arg1=0x1 ; ...
+[20:slot_20] call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[20:slot_20] call_intrinsic Item.popToCoords(arg_bytes=0xa) ; loopscr value_u8=0x24 ; loopscr value_u8=0x3d ; ...
+//
+[20:slot_20] loopscr value_u8=0x25 ; loop current_var=0xfa, string_bytes=0x6, loop_type=0x4 ; jne 0x021d ; ...
+//
+[20:slot_20] call_intrinsic Item.destroy(arg_bytes=0x4) ; loopnext ; jmp 0x020b ; ...
+//
+[20:slot_20] global_address global[0x003c] ; call_intrinsic Actor.isDead(arg_bytes=0xc) ; implies arg0=0x1, arg1=0x1 ; ...
+[20:slot_20] global_address global[0x003c] ; call_intrinsic Actor.isDead(arg_bytes=0xc) ; implies arg0=0x1, arg1=0x1 ; ...
+[20:slot_20] global_address global[0x003c] ; call_intrinsic Actor.isDead(arg_bytes=0xc) ; implies arg0=0x1, arg1=0x1 ; ...
+[20:slot_20] global_address global[0x003c] ; call_intrinsic Actor.isDead(arg_bytes=0xc) ; implies arg0=0x1, arg1=0x1 ; ...
+//
+[20:slot_20] pop_local_word counter ; le ; jne 0x030e ; ...
+//
+[20:slot_20] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+[20:slot_20] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[20:slot_20] spawn ITEM.slot_28 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[20:slot_20] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[20:slot_20] loopscr value_u8=0x25 ; mul ; ...
+[20:slot_20] loop current_var=0xfa, string_bytes=0x6, loop_type=0x2 ; jne 0x03be
+[20:slot_20] call_intrinsic Item.setQLo(arg_bytes=0x6)
+[20:slot_20] spawn ITEM.slot_28 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[20:slot_20] call_intrinsic Item.getPoint(arg_bytes=0x6) ; loopnext ; jmp 0x0377 ; ...
+//
+//
+[20:slot_20] loopscr value_u8=0x25 ; mul ; ...
+[20:slot_20] loop current_var=0xfa, string_bytes=0x6, loop_type=0x2 ; jne 0x0430
+[20:slot_20] spawn ITEM.slot_28 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[20:slot_20] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[20:slot_20] spawn FREE.slot_3b ; pop_temp ; loopscr value_u8=0x24 ; ...
+//
+[20:slot_20] loopscr value_u8=0x25 ; mul ; ...
+[20:slot_20] loop current_var=0xfa, string_bytes=0x6, loop_type=0x2 ; jne 0x04a6
+[20:slot_20] call_intrinsic Item.explode(arg_bytes=0x8) ; ...
+[20:slot_20] call_intrinsic UCMachine.rndRange(arg_bytes=0x4) ; spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; ...
+//
+//
+[20:slot_20] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[20:slot_20] loopscr value_u8=0x25 ; mul ; ...
+[20:slot_20] loop current_var=0xfa, string_bytes=0x6, loop_type=0x2 ; jne 0x0554
+[20:slot_20] spawn ITEM.slot_28 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[20:slot_20] call_intrinsic Item.getPoint(arg_bytes=0x6)
+[20:slot_20] call_intrinsic UCMachine.rndRange(arg_bytes=0x4) ; spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; ...
+//
+//
+[20:slot_20] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[20:slot_20] spawn FREE.slot_26 ; free_stack_string value_u8=0x0, target=[SP+00h] ; implies arg0=0x1, arg1=0x1 ; ...
+//
+[20:slot_20] call_intrinsic Item.destroy(arg_bytes=0x4)
+//
+[20:slot_20] ret
+//
+//
+//
+//
+//
+[21:slot_21] set_info
+//
+//
+[21:slot_21] call_intrinsic Game.getDifficultyLevel(arg_bytes=0x0) ; sub ; mul ; ...
+//
+//
+[21:slot_21] not ; jne 0x0092
+[21:slot_21] pop_global global[0x003b] ; loopscr value_u8=0x24 ; loopscr value_u8=0x3d ; ...
+//
+[21:slot_21] loopscr value_u8=0x25 ; mul ; ...
+[21:slot_21] loop current_var=0xfe, string_bytes=0x6, loop_type=0x2 ; jne 0x0090
+[21:slot_21] spawn MISS1EGG.slot_22 ; pop_temp ; loopnext ; ...
+//
+//
+[21:slot_21] ret
+//
+//
+//
+//
+//
+//
+[22:slot_22] set_info
+[22:slot_22] call_class_event FREE.slot_33
+//
+//
+//
+[22:slot_22] pop_local_word rubberSuit
+//
+//
+[22:slot_22] call_intrinsic Item.setQAndCombine(arg_bytes=0x4) ; jne 0x0041 ; ...
+//
+[22:slot_22] jmp 0x0222
+//
+//
+//
+[22:slot_22] call_intrinsic Actor.turnToward(arg_bytes=0x8) ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[22:slot_22] spawn NPC.slot_2a ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[22:slot_22] call_intrinsic Item.setQAndCombine(arg_bytes=0x4) ; jne 0x009c ; ...
+//
+[22:slot_22] jmp 0x0222
+//
+//
+[22:slot_22] call_intrinsic Actor.turnToward(arg_bytes=0x8) ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[22:slot_22] call_intrinsic Actor.setActivity(arg_bytes=0x4) ; cmp ; call_intrinsic Item.setQAndCombine(arg_bytes=0x4) ; ...
+[22:slot_22]
+[22:slot_22] call_intrinsic Actor.isDead(arg_bytes=0xc) ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[22:slot_22] add ; pop_local_word counter ; jmp 0x00be ; ...
+//
+//
+[22:slot_22] call_intrinsic Item.setQAndCombine(arg_bytes=0x4) ; jne 0x012f ; ...
+//
+[22:slot_22] jmp 0x0222
+//
+//
+[22:slot_22] call_intrinsic Actor.turnToward(arg_bytes=0x8) ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[22:slot_22] call_intrinsic Actor.setActivity(arg_bytes=0x4) ; cmp ; call_intrinsic Item.setQAndCombine(arg_bytes=0x4) ; ...
+[22:slot_22]
+[22:slot_22] call_intrinsic Actor.isDead(arg_bytes=0xc) ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[22:slot_22] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[22:slot_22] call_intrinsic Actor.setActivity(arg_bytes=0x4) ; cmp ; call_intrinsic Item.setQAndCombine(arg_bytes=0x4) ; ...
+[22:slot_22]
+[22:slot_22] spawn FREE.slot_3b ; pop_temp ; ...
+//
+//
+//
+//
+[22:slot_22] call_intrinsic Actor.setActivity(arg_bytes=0x4) ; cmp ; call_intrinsic Item.setQAndCombine(arg_bytes=0x4) ; ...
+[22:slot_22]
+[22:slot_22] call_intrinsic PaletteFaderProcess.setPalToAllGrey(arg_bytes=0x6)
+//
+[22:slot_22] ret
+//
+//
+//
+//
+//
+//
+//
+//
+[23:slot_23] call_intrinsic Ultima8Engine.setAvatarInStasis(arg_bytes=0x2)
+[23:slot_23] spawn MISS1EGG.slot_25 ; pop_temp ; loopscr value_u8=0x24 ; ...
+//
+[23:slot_23] loopscr value_u8=0x25 ; mul ; ...
+[23:slot_23] loop current_var=0xfe, string_bytes=0x6, loop_type=0x2 ; jne 0x005b
+[23:slot_23] pop_local_word n ; loopnext ; jmp 0x004d ; ...
+//
+//
+//
+[23:slot_23] not ; jne 0x0077
+//
+[23:slot_23] call_intrinsic Ultima8Engine.setAvatarInStasis(arg_bytes=0x2)
+[23:slot_23] jmp 0x0261
+//
+//
+[23:slot_23] call_intrinsic Actor.isDead(arg_bytes=0xc) ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[23:slot_23] loopscr value_u8=0x25 ; mul ; ...
+[23:slot_23] loop current_var=0xfe, string_bytes=0x6, loop_type=0x2 ; jne 0x00fd ; ...
+[23:slot_23] call_intrinsic Item.unequip(arg_bytes=0x4) ; cmp ; jne 0x00f9 ; ...
+[23:slot_23]
+//
+[23:slot_23] pop_local_word door
+[23:slot_23] spawn DOOR.slot_20 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+[23:slot_23] spawn NPC.slot_22 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[23:slot_23] call_intrinsic Actor.isDead(arg_bytes=0xc) ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[23:slot_23] call_intrinsic playFlic(arg_bytes=0xc) ; free_stack_string value_u8=0x4, target=[SP+04h] ; implies arg0=0x1, arg1=0x1 ; ...
+[23:slot_23] call_intrinsic Ultima8Engine.setAvatarInStasis(arg_bytes=0x2)
+//
+[23:slot_23] spawn FREE.slot_3b ; pop_temp ; ...
+//
+[23:slot_23] call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[23:slot_23] call_intrinsic Item.fallProbably_03E(arg_bytes=0x6)
+[23:slot_23] call_intrinsic Item.popToCoords(arg_bytes=0xa) ; ...
+[23:slot_23] call_intrinsic Item.setQuality(arg_bytes=0x4) ; loopscr value_u8=0x24 ; loopscr value_u8=0x3d ; ...
+//
+//
+//
+[23:slot_23] loopscr value_u8=0x25 ; mul ; ...
+[23:slot_23] loop current_var=0xf8, string_bytes=0x6, loop_type=0x2 ; jne 0x0228
+[23:slot_23] call_intrinsic Actor.setActivity(arg_bytes=0x6)
+[23:slot_23] call_intrinsic Intrinsic056(arg_bytes=0x6)
+[23:slot_23] call_intrinsic Item.getSurfaceWeight(arg_bytes=0x6)
+[23:slot_23] call_intrinsic PaletteFaderProcess.setPalToAllGrey(arg_bytes=0x6) ; loopnext ; jmp 0x01ed ; ...
+//
+//
+[23:slot_23] pop_global global[0x002f]
+//
+[23:slot_23] spawn MISS1EGG.slot_24 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[23:slot_23] call_intrinsic Ultima8Engine.setAvatarInStasis(arg_bytes=0x2)
+[23:slot_23] ret
+//
+//
+//
+//
+//
+//
+[24:slot_24] set_info
+//
+//
+[24:slot_24] spawn NPC.slot_22 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[24:slot_24] loopscr value_u8=0x25 ; mul ; ...
+[24:slot_24] loop current_var=0xfe, string_bytes=0x6, loop_type=0x2 ; jne 0x009a
+[24:slot_24] call_intrinsic Item.unequip(arg_bytes=0x4) ; cmp ; jne 0x0096 ; ...
+[24:slot_24]
+[24:slot_24] spawn DOOR.slot_20 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+[24:slot_24] spawn NPC.slot_21 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[24:slot_24] call_intrinsic Ultima8Engine.setAvatarInStasis(arg_bytes=0x2)
+[24:slot_24] spawn NPC.slot_21 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[24:slot_24] call_intrinsic Item.setQHi(arg_bytes=0x4)
+[24:slot_24] call_intrinsic Item.destroy(arg_bytes=0x4)
+[24:slot_24] ret
+//
+//
+//
+//
+//
+//
+[25:slot_25] global_address global[0x003c] ; call_intrinsic Actor.isDead(arg_bytes=0xc) ; implies arg0=0x1, arg1=0x1 ; ...
+[25:slot_25] global_address global[0x003c] ; call_intrinsic Actor.isDead(arg_bytes=0xc) ; implies arg0=0x1, arg1=0x1 ; ...
+[25:slot_25] global_address global[0x003c] ; call_intrinsic Actor.isDead(arg_bytes=0xc) ; implies arg0=0x1, arg1=0x1 ; ...
+[25:slot_25] global_address global[0x003c] ; call_intrinsic Actor.isDead(arg_bytes=0xc) ; implies arg0=0x1, arg1=0x1 ; ...
+[25:slot_25] global_address global[0x003c] ; call_intrinsic Actor.isDead(arg_bytes=0xc) ; implies arg0=0x1, arg1=0x1 ; ...
+[25:slot_25] ret
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[04:cachein] call_intrinsic CameraProcess.setCenterOn(arg_bytes=0x4) ; cmp ; jne 0x03f4 ; ...
+[04:cachein]
+[04:cachein] call_intrinsic Item.inFastArea(arg_bytes=0x0) ; not ; jne 0x01c6 ; ...
+[04:cachein]
+[04:cachein] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[04:cachein] pop_global global[0x001f]
+//
+//
+//
+//
+[04:cachein] call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[04:cachein] call_intrinsic Item.popToCoords(arg_bytes=0xa) ; ...
+[04:cachein] call_intrinsic Item.setQuality(arg_bytes=0x4)
+//
+[04:cachein] call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[04:cachein] call_intrinsic Item.isOn(arg_bytes=0x6)
+[04:cachein] call_intrinsic Item.popToCoords(arg_bytes=0xa) ; ...
+[04:cachein] call_intrinsic Item.setQuality(arg_bytes=0x4)
+//
+[04:cachein] call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[04:cachein] call_intrinsic Item.popToCoords(arg_bytes=0xa) ; ...
+[04:cachein] call_intrinsic Item.setQuality(arg_bytes=0x4)
+//
+[04:cachein] call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[04:cachein] call_intrinsic Item.popToCoords(arg_bytes=0xa) ; ...
+[04:cachein] call_intrinsic Item.setQuality(arg_bytes=0x4)
+//
+//
+//
+//
+//
+[04:cachein] call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[04:cachein] call_intrinsic Item.popToCoords(arg_bytes=0xa) ; ...
+[04:cachein] call_intrinsic Item.setQuality(arg_bytes=0x4)
+//
+[04:cachein] global_address global[0x003c] ; call_intrinsic Item.getQLo(arg_bytes=0x6)
+//
+[04:cachein] call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[04:cachein] call_intrinsic Item.popToCoords(arg_bytes=0xa) ; ...
+[04:cachein] call_intrinsic Item.setQuality(arg_bytes=0x4)
+//
+[04:cachein] call_intrinsic Actor.GetNPCDataField0x4_0DD(arg_bytes=0x4) ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[04:cachein] call_intrinsic Item.destroy(arg_bytes=0x4) ; jmp 0x03f4
+//
+//
+//
+[04:cachein] call_intrinsic MusicProcess.musicStop(arg_bytes=0x0)
+[04:cachein] call_intrinsic Ultima8Engine.setAvatarInStasis(arg_bytes=0x2)
+[04:cachein] call_intrinsic Actor.setDead(arg_bytes=0x0)
+[04:cachein] call_intrinsic Actor.setCombatTactic(arg_bytes=0x0)
+//
+[04:cachein] pop_global global[0x001f]
+[04:cachein] global_address global[0x003c] ; call_intrinsic Item.getPoint(arg_bytes=0x6)
+[04:cachein] call_intrinsic playFlic092(arg_bytes=0x0)
+[04:cachein] call_intrinsic Actor.getEquip(arg_bytes=0xe) ; free_stack_string value_u8=0x4, target=[SP+04h] ; implies arg0=0x1, arg1=0x1 ; ...
+[04:cachein] call_intrinsic Game.playCredits(arg_bytes=0x0)
+//
+[04:cachein] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+//
+//
+//
+[04:cachein] call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[04:cachein] call_intrinsic Item.popToCoords(arg_bytes=0xa) ; ...
+[04:cachein] call_intrinsic Item.setQuality(arg_bytes=0x4)
+//
+[04:cachein] call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[04:cachein] call_intrinsic Item.isOn(arg_bytes=0x6)
+[04:cachein] call_intrinsic Item.popToCoords(arg_bytes=0xa) ; ...
+[04:cachein] call_intrinsic Item.setQuality(arg_bytes=0x4)
+//
+[04:cachein] call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[04:cachein] call_intrinsic Item.popToCoords(arg_bytes=0xa) ; ...
+[04:cachein] call_intrinsic Item.setQuality(arg_bytes=0x4)
+//
+[04:cachein] call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[04:cachein] call_intrinsic Item.popToCoords(arg_bytes=0xa) ; ...
+[04:cachein] call_intrinsic Item.setQuality(arg_bytes=0x4)
+//
+[04:cachein] global_address global[0x003c] ; call_intrinsic Item.getQLo(arg_bytes=0x6)
+//
+[04:cachein] call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[04:cachein] call_intrinsic Item.popToCoords(arg_bytes=0xa) ; ...
+[04:cachein] call_intrinsic Item.setQuality(arg_bytes=0x4)
+//
+[04:cachein] call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[04:cachein] call_intrinsic Item.popToCoords(arg_bytes=0xa) ; ...
+[04:cachein] call_intrinsic Item.setQuality(arg_bytes=0x4)
+//
+//
+//
+//
+[04:cachein] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[04:cachein] call_intrinsic Item.isInNPC(arg_bytes=0x0)
+[04:cachein] call_intrinsic PaletteFaderProcess.fadeFromBlackWithParam(arg_bytes=0x2) ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[04:cachein] call_intrinsic AudioProcess.stopSFX(arg_bytes=0x0)
+[04:cachein] call_intrinsic Actor.setEquip(arg_bytes=0x0)
+//
+[04:cachein] call_intrinsic Item.destroy(arg_bytes=0x4)
+//
+//
+//
+[04:cachein] ret
+
+/* synthesized appendix for MISS1EGG */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x04 cachein ===== */
+function miss1egg_cachein() /* entry=2319 class_id=0x090d slot=0x04 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    item, /* [BP-02h] type=0x24 */
+    pad2, /* [BP-04h] type=0x24 */
+    counter, /* [BP-06h] type=0x69 */
+    slot; /* [BP-08h] type=0x69 */
+
+  set_info(0x0213, *(arg_06));
+  process_exclude();
+  if (CameraProcess.setCenterOn(arg_06) == 30) {
+    if (!Item.inFastArea()) {
+      spawn FREE.slot_32(pid, 1, 0x00000000);
+      suspend;
+      Item.create(0, BA_40, item);
+      Item.popToCoords(0, 0, 0, item);
+      Item.setQuality(0, item);
+      Item.create(0, BA_41_CLIP, item);
+      Item.isOn(25, item);
+      Item.popToCoords(0, 0, 0, item);
+      Item.setQuality(0, item);
+      Item.create(0, BLAST_PAC, item);
+      Item.popToCoords(0, 0, 0, item);
+      Item.setQuality(0, item);
+      Item.create(0, ENERGY_CUBE, item);
+      Item.popToCoords(0, 0, 0, item);
+      Item.setQuality(0, item);
+      Item.create(0, CHEMICAL_BATTERY, item);
+      Item.popToCoords(0, 0, 0, item);
+      Item.setQuality(0, item);
+      Item.getQLo(0x0960, &global[0x003c]);
+      Item.create(0, IONIC_GENERATOR, item);
+      Item.popToCoords(0, 0, 0, item);
+      Item.setQuality(0, item);
+      suspend;
+      Item.destroy(arg_06);
+      return;
+    }
+    else {
+      MusicProcess.musicStop();
+      Ultima8Engine.setAvatarInStasis(1);
+      Actor.setDead();
+      Actor.setCombatTactic();
+      Item.getPoint(8, &global[0x003c]);
+      playFlic092();
+      Actor.getEquip(pid, 0, 0x0096, 0x00c8, "1a", arg_06);
+      suspend;
+      Game.playCredits();
+      spawn FREE.slot_32(pid, 1, 0x00000000);
+      suspend;
+      Item.create(0, BA_40, item);
+      Item.popToCoords(0, 0, 0, item);
+      Item.setQuality(0, item);
+      Item.create(0, BA_41_CLIP, item);
+      Item.isOn(25, item);
+      Item.popToCoords(0, 0, 0, item);
+      Item.setQuality(0, item);
+      Item.create(0, BLAST_PAC, item);
+      Item.popToCoords(0, 0, 0, item);
+      Item.setQuality(0, item);
+      Item.create(0, CHEMICAL_BATTERY, item);
+      Item.popToCoords(0, 0, 0, item);
+      Item.setQuality(0, item);
+      Item.getQLo(0x0960, &global[0x003c]);
+      Item.create(0, IONIC_GENERATOR, item);
+      Item.popToCoords(0, 0, 0, item);
+      Item.setQuality(0, item);
+      Item.create(0, ENERGY_CUBE, item);
+      Item.popToCoords(0, 0, 0, item);
+      Item.setQuality(0, item);
+      spawn FREE.slot_32(pid, 1, 0x00000000);
+      suspend;
+      Item.isInNPC();
+      suspend;
+      AudioProcess.stopSFX();
+      Actor.setEquip();
+      Item.destroy(arg_06);
+    }
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol item [BP-02h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol pad2 [BP-04h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol counter [BP-06h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol slot [BP-08h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x07 hatch ===== */
+function miss1egg_hatch() /* entry=2319 class_id=0x090d slot=0x07 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    item, /* [BP-02h] type=0x24 */
+    pad2, /* [BP-04h] type=0x24 */
+    buster, /* [BP-06h] type=0x24 */
+    slot; /* [BP-08h] type=0x69 */
+
+  set_info(0x0210, *(arg_06));
+  process_exclude();
+  switch (CameraProcess.setCenterOn(arg_06)) {
+  case 1:
+    spawn MISS1EGG.slot_21(arg_06);
+    spawn NPC.slot_23(pid, &global[0x003c]);
+    suspend;
+    Ultima8Engine.setAvatarInStasis(0);
+    Item.destroy(arg_06);
+    return;
+  case 2:
+    if (!(global[0x003b])) {
+      for buster in nearby_items(shape=NPC_TECH, origin=arg_06) {
+        ITEM.slot_23(4, buster);
+        spawn MISS1EGG.slot_22(buster, arg_06);
+      }
+    }
+    Item.destroy(arg_06);
+    return;
+  case 3:
+    FREE.slot_41();
+    spawn MISS1EGG.slot_23(pid, arg_06);
+    suspend;
+    Item.destroy(arg_06);
+    return;
+  case 7:
+    FREE.slot_41();
+    spawn MISS1EGG.slot_20(pid, arg_06);
+    suspend;
+    Item.destroy(arg_06);
+    return;
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol item [BP-02h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol pad2 [BP-04h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol buster [BP-06h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol slot [BP-08h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x20 slot_20 ===== */
+function miss1egg_slot_20() /* entry=2319 class_id=0x090d slot=0x20 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    pac, /* [BP-02h] type=0x24 */
+    eTrigger, /* [BP-04h] type=0x24 */
+    item, /* [BP-06h] type=0x24 */
+    counter; /* [BP-08h] type=0x69 */
+
+  set_info(0x00f0, *(arg_06));
+  Ultima8Engine.setAvatarInStasis(1);
+  while (Actor.doAnim(&global[0x003c])) {
+    spawn FREE.slot_32(pid, 2, 0x00000000);
+    suspend;
+  }
+  suspend;
+  for eTrigger in nearby_items(shape=EVENT_CONTROLLER, origin=global[0x003c]) {
+    Item.getRangeIfVisible(Actor.getMap(&global[0x003c]), 0, Item.getY(eTrigger), Item.getX(eTrigger));
+    AudioProcess.playSFXCru(eTrigger);
+  }
+  for item in selector_0x42(arg0=0x032a, arg1=0x0329, arg2=(100 * 32), origin=global[0x003c]) {
+    Item.destroy(item);
+  }
+  spawn NPC.slot_22(pid, 5, 8, &global[0x003c]);
+  suspend;
+  spawn NPC.slot_22(pid, 8, 6, &global[0x003c]);
+  suspend;
+  spawn NPC.slot_22(pid, 2, 8, &global[0x003c]);
+  suspend;
+  spawn NPC.slot_22(pid, 2, 12, &global[0x003c]);
+  suspend;
+  suspend;
+  Item.create(0, BLAST_PAC, pac);
+  Item.popToCoords(16, 0x4c3f, 0x4a1f, pac);
+  while (condition) {
+    Item.destroy(item);
+  }
+  suspend;
+  suspend;
+  suspend;
+  suspend;
+  counter = 1;
+  while (counter <= 5) {
+    AudioProcess.playSFXCru(51, arg_06);
+    spawn FREE.slot_32(pid, 30, 0x00000000);
+    suspend;
+    counter = (1 + counter);
+  }
+  spawn ITEM.slot_28(pid, 1, 1, pac);
+  suspend;
+  spawn FREE.slot_32(pid, 10, 0x00000000);
+  suspend;
+  for item in nearby_items(shape=REACTOR, origin=global[0x003c]) {
+    Item.setQLo(0x00a4, arg_06);
+    spawn ITEM.slot_28(pid, 0, 2, item);
+    suspend;
+    Item.getPoint(1, item);
+  }
+  for item in nearby_items(shape=REACTOR_CELL, origin=global[0x003c]) {
+    spawn ITEM.slot_28(pid, 1, 0, item);
+    suspend;
+    spawn FREE.slot_32(pid, 30, 0x00000000);
+    suspend;
+  }
+  spawn FREE.slot_3b(0x00000000);
+  for item in nearby_items(shape=NUMBERS, origin=global[0x003c]) {
+    Item.explode(1, 0, item);
+    spawn FREE.slot_32(UCMachine.rndRange(pid, 20, 10), 0x00000000);
+    suspend;
+  }
+  spawn FREE.slot_32(pid, 30, 0x00000000);
+  suspend;
+  for item in nearby_items(shape=ELECTRODE, origin=global[0x003c]) {
+    spawn ITEM.slot_28(pid, 0, 0, item);
+    suspend;
+    Item.getPoint(1, item);
+    spawn FREE.slot_32(UCMachine.rndRange(pid, 10, 5), 0x00000000);
+    suspend;
+  }
+  spawn FREE.slot_32(pid, 0x00c8, 0x00000000);
+  suspend;
+  spawn FREE.slot_26(pid, "1c", 0x00000000);
+  suspend;
+  Item.destroy(arg_06);
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol pac [BP-02h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol eTrigger [BP-04h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol item [BP-06h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol counter [BP-08h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x21 slot_21 ===== */
+function miss1egg_slot_21() /* entry=2319 class_id=0x090d slot=0x21 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    buster; /* [BP-02h] type=0x24 */
+
+  set_info(1, 0);
+  spawn FREE.slot_32(pid, ((5 - Game.getDifficultyLevel()) * 100), 0x00000000);
+  suspend;
+  if (!(global[0x003b])) {
+    for buster in nearby_items(shape=NPC_TECH, origin=global[0x003c]) {
+      spawn MISS1EGG.slot_22(buster, arg_06);
+    }
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol buster [BP-02h] type=0x24 unk1=0x00 unk3=0x02
+  */
+}
+
+/* ===== slot 0x22 slot_22 ===== */
+function miss1egg_slot_22() /* entry=2319 class_id=0x090d slot=0x22 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    buster, /* [BP+10h] type=0x69 */
+    rubberSuit, /* [BP-02h] type=0x24 */
+    counter; /* [BP-04h] type=0x69 */
+
+  set_info(1, buster);
+  FREE.slot_33(buster, 0x0205);
+  rubberSuit = buster;
+  if (Item.setQAndCombine(rubberSuit)) {
+    return;
+  }
+  else {
+    suspend;
+    spawn NPC.slot_2a(pid, 0x00b4, rubberSuit);
+    suspend;
+    if (Item.setQAndCombine(rubberSuit)) {
+      return;
+    }
+    else {
+      suspend;
+      while (((Actor.setActivity(rubberSuit) == 0) && (Item.setQAndCombine(rubberSuit) == 0)) && (counter < 4)) {
+        suspend;
+        counter = (1 + counter);
+      }
+      if (Item.setQAndCombine(rubberSuit)) {
+        return;
+      }
+      else {
+        suspend;
+        if ((Actor.setActivity(rubberSuit) == 0) && (Item.setQAndCombine(rubberSuit) == 0)) {
+          suspend;
+        }
+        spawn FREE.slot_32(pid, 30, 0x00000000);
+        suspend;
+        if ((Actor.setActivity(rubberSuit) == 0) || (Item.setQAndCombine(rubberSuit) == 0)) {
+          spawn FREE.slot_3b(0x00000000);
+        }
+        if ((Actor.setActivity(rubberSuit) == 0) || (Item.setQAndCombine(rubberSuit) == 0)) {
+          PaletteFaderProcess.setPalToAllGrey(7, rubberSuit);
+        }
+      }
+    }
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol buster [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol rubberSuit [BP-02h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol counter [BP-04h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x23 slot_23 ===== */
+function miss1egg_slot_23() /* entry=2319 class_id=0x090d slot=0x23 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    item, /* [BP-02h] type=0x24 */
+    pathegg, /* [BP-04h] type=0x24 */
+    n, /* [BP-06h] type=0x24 */
+    guardBoy, /* [BP-08h] type=0x24 */
+    door; /* [BP-10h] type=0x24 */
+
+  set_info(0x0001, *(arg_06));
+  Ultima8Engine.setAvatarInStasis(1);
+  spawn MISS1EGG.slot_25(arg_06);
+  for item in nearby_items(shape=0x04e0, origin=global[0x003c]) {
+    n = item;
+  }
+  if (!n) {
+    Ultima8Engine.setAvatarInStasis(0);
+    return;
+  }
+  else {
+    suspend;
+    for item in nearby_items(shape=door_shape_007b, origin=arg_06) {
+      if (Item.unequip(item) == 23) {
+        door = item;
+        spawn DOOR.slot_20(pid, door);
+        suspend;
+      }
+    }
+    spawn NPC.slot_22(pid, 5, 4, n);
+    suspend;
+    suspend;
+    playFlic(pid, 0x0096, 0x00c8, "1b", arg_06);
+    suspend;
+    Ultima8Engine.setAvatarInStasis(1);
+    spawn FREE.slot_3b(0x00000000);
+    Item.create(0, 0x0111, item);
+    Item.fallProbably_03E(1, item);
+    Item.popToCoords(0, 0, 0, item);
+    Item.setQuality(1, item);
+    for guardBoy in nearby_items(shape=npcdeath_shape_02fd, origin=global[0x003c]) {
+      Actor.setActivity(3, guardBoy);
+      Intrinsic056(3, guardBoy);
+      Item.getSurfaceWeight(5, guardBoy);
+      PaletteFaderProcess.setPalToAllGrey(3, guardBoy);
+    }
+    spawn MISS1EGG.slot_24(pid, n, arg_06);
+    suspend;
+    Ultima8Engine.setAvatarInStasis(0);
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol item [BP-02h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol pathegg [BP-04h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol n [BP-06h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol guardBoy [BP-08h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol door [BP-10h] type=0x24 unk1=0x00 unk3=0x02
+  */
+}
+
+/* ===== slot 0x24 slot_24 ===== */
+function miss1egg_slot_24() /* entry=2319 class_id=0x090d slot=0x24 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    n, /* [BP+10h] type=0x24 */
+    door; /* [BP-02h] type=0x24 */
+
+  set_info(0x0001, *(arg_06));
+  set_info(1, 0);
+  spawn NPC.slot_22(pid, 5, 0, n);
+  suspend;
+  for door in nearby_items(shape=0x00c2, origin=n) {
+    if (Item.unequip(door) == 21) {
+      spawn DOOR.slot_20(pid, door);
+      suspend;
+    }
+  }
+  spawn NPC.slot_21(pid, 3, n);
+  suspend;
+  Ultima8Engine.setAvatarInStasis(0);
+  spawn NPC.slot_21(pid, 2, n);
+  suspend;
+  Item.setQHi(n);
+  Item.destroy(n);
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol n [BP+10h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol door [BP-02h] type=0x24 unk1=0x00 unk3=0x02
+  */
+}
+
+/* ===== slot 0x25 slot_25 ===== */
+function miss1egg_slot_25() /* entry=2319 class_id=0x090d slot=0x25 */
+{
+  var
+    referent; /* [BP+00h] type=0x69 */
+
+  set_info(0x0001, *(arg_06));
+  suspend;
+  suspend;
+  suspend;
+  suspend;
+  suspend;
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+  */
+}

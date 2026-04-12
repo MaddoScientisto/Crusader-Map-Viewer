@@ -1,0 +1,50 @@
+/* synthesized appendix for MTELEPAD */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x06 gotHit ===== */
+function mtelepad_gotHit() /* entry=400 class_id=0x018e slot=0x06 */
+{
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  local_02 = arg_10;
+  FREE.slot_2c(arg_12, arg_10);
+  if (retval) {
+    return;
+  }
+  else if (Actor.isNPC(local_02) == 0) {
+    Item.destroy(local_02);
+  }
+  if (global[0x0001] == 1) {
+    while (condition) {
+      if (local_04 < 0x0100) {
+        if (local_04 != 1) {
+          Item.receiveHit(8, UCMachine.rndRange(Ultima8Engine.clrCruStasis(local_04), 16, 0), 0, local_04);
+        }
+      }
+    }
+    return;
+  }
+  return;
+}
+
+/* ===== slot 0x09 release ===== */
+function mtelepad_release() /* entry=400 class_id=0x018e slot=0x09 */
+{
+  set_info(0x020d, *(arg_06));
+  process_exclude();
+  spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+  suspend;
+  while (condition) {
+    return;
+  }
+  while (condition) {
+    if (local_04 == 1) {
+      while (playSFX(*(arg_06), &global[0x003d])) {
+        spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+        suspend;
+      }
+    }
+    return;
+  }
+  return;
+}

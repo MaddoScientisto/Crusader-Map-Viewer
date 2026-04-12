@@ -1,0 +1,99 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[04:cachein] call_class_event VALBOX.slot_20 ; cmp ; jne 0x004b ; ...
+//
+[04:cachein] call_class_event FREE.slot_20 ; add ; pop_local_word randNum ; ...
+[04:cachein] call_class_event VALUEBOX.slot_20
+//
+[04:cachein] ret
+//
+//
+//
+//
+[20:slot_20] bit_and ; pop_local_word lowByte ; ...
+[20:slot_20] rsh ; bit_and ; pop_local_word highByte ; ...
+//
+[20:slot_20] call_intrinsic Game.isViolenceEnabled(arg_bytes=0x6)
+[20:slot_20] call_intrinsic Item.getNpcNum(arg_bytes=0x6)
+//
+[20:slot_20] ret
+
+/* synthesized appendix for VALUEBOX */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x04 cachein ===== */
+function valuebox_cachein() /* entry=595 class_id=0x0251 slot=0x04 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    randNum; /* [BP-02h] type=0x69 */
+
+  set_info(0x0213, *(arg_06));
+  process_exclude();
+  VALBOX.slot_20(arg_06);
+  if (retval == 0) {
+    FREE.slot_20(0x0383);
+    randNum = (retval + 100);
+    VALUEBOX.slot_20(randNum, arg_06);
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol randNum [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x20 slot_20 ===== */
+function valuebox_slot_20() /* entry=595 class_id=0x0251 slot=0x20 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    rand, /* [BP+10h] type=0x69 */
+    lowByte, /* [BP-02h] type=0x69 */
+    highByte; /* [BP-04h] type=0x69 */
+
+  lowByte = (rand & 0x00ff);
+  highByte = ((rand >> 8) & 3);
+  Game.isViolenceEnabled(lowByte, arg_06);
+  Item.getNpcNum(highByte, arg_06);
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol rand [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol lowByte [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol highByte [BP-04h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}

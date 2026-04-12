@@ -194,7 +194,10 @@ async function main() {
     }
     const maps = Number.isInteger(args.mapId) ? game.maps.filter((map) => map.id === args.mapId) : game.maps;
     if (!maps.length) {
-      throw new Error(`No detected map ${args.mapId} for game ${game.id}`);
+      if (Number.isInteger(args.mapId)) {
+        throw new Error(`No detected map ${args.mapId} for game ${game.id}`);
+      }
+      continue;
     }
 
     for (const map of maps) {

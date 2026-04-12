@@ -1,0 +1,369 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[20:slot_20] set_info
+//
+//
+//
+//
+//
+//
+//
+//
+[20:slot_20] pop_local_word item
+[20:slot_20] call_intrinsic Item.getQLo(arg_bytes=0x4) ; pop_local_word link ; ...
+//
+[20:slot_20] pop_local_word count ; loopscr value_u8=0x24
+[20:slot_20] loopscr value_u8=0x42
+[20:slot_20] mul
+[20:slot_20] loop current_var=0xf7, string_bytes=0x6, loop_type=0x2 ; jne 0x00a5
+[20:slot_20] call_intrinsic Item.getQLo(arg_bytes=0x4) ; cmp ; call_intrinsic Item.getStatus(arg_bytes=0x4) ; ...
+[20:slot_20]
+[20:slot_20] create_list element_size=0x2, count=0x1 ; append_list ; free_local_list laserList ; ...
+//
+[20:slot_20] call_intrinsic Item.orStatus(arg_bytes=0x6)
+[20:slot_20] add ; pop_local_word count ; loopnext ; ...
+//
+//
+//
+[20:slot_20] cmp ; jne 0x00b8 ; ...
+//
+[20:slot_20] jmp 0x03a5
+//
+//
+//
+[20:slot_20] jne 0x03a5
+//
+[20:slot_20] pop_local_word inFastArea
+//
+//
+[20:slot_20] foreach_list 0x0348
+[20:slot_20] call_intrinsic Item.getQHi(arg_bytes=0x4) ; pop_local_word h ; ...
+//
+[20:slot_20] bit_and ; jne 0x010d ; ...
+//
+[20:slot_20] create_list element_size=0x2, count=0x1 ; remove_matching_inline element_size=0x2 ; free_local_list laserList ; ...
+[20:slot_20] call_intrinsic Item.destroy(arg_bytes=0x4) ; jmp 0x0342
+//
+//
+[20:slot_20] call_intrinsic Item.getStatus(arg_bytes=0x4) ; cmp ; bit_and ; ...
+//
+[20:slot_20] create_list element_size=0x2, count=0x1 ; remove_matching_inline element_size=0x2 ; free_local_list laserList ; ...
+//
+//
+[20:slot_20] call_intrinsic Item.inFastArea(arg_bytes=0x4) ; cmp ; call_intrinsic Item.getShape(arg_bytes=0x4) ; ...
+[20:slot_20]
+[20:slot_20] add ; pop_local_word inFastArea ; ...
+//
+[20:slot_20] bit_and ; jne 0x01a1 ; ...
+//
+[20:slot_20] bit_and ; jne 0x0187 ; ...
+//
+[20:slot_20] bit_and ; pop_local_word h ; jmp 0x0194 ; ...
+//
+//
+//
+[20:slot_20] bit_and ; bit_or ; pop_local_word h ; ...
+//
+[20:slot_20] call_intrinsic Item.setQHi(arg_bytes=0x6)
+//
+//
+[20:slot_20] pop_local_word dir
+[20:slot_20] bit_and ; jne 0x01ba ; ...
+//
+[20:slot_20] pop_local_word dir
+//
+//
+[20:slot_20] call_intrinsic Item.getX(arg_bytes=0x4) ; pop_local_word x ; ...
+[20:slot_20] call_intrinsic Item.getY(arg_bytes=0x4) ; pop_local_word y ; ...
+//
+[20:slot_20] call_intrinsic Item.getShape(arg_bytes=0x4)
+[20:slot_20] cmp ; jne 0x0206
+[20:slot_20] mul ; add ; pop_local_word wp ; ...
+[20:slot_20] pop_local_word local_03 ; jmp 0x021a
+//
+//
+//
+[20:slot_20] pop_local_word wp
+[20:slot_20] mul ; add ; pop_local_word local_03 ; ...
+//
+//
+[20:slot_20] call_intrinsic Item.getZ(arg_bytes=0x4) ; pop_local_byte local_01 ; ...
+[20:slot_20] call_intrinsic legalMoveToPoint(arg_bytes=0xc) ; cmp ; jne 0x0261 ; ...
+//
+[20:slot_20] call_intrinsic Item.getQHi(arg_bytes=0x4) ; pop_local_word h ; ...
+[20:slot_20] bit_or ; call_intrinsic Item.setQHi(arg_bytes=0x6) ; jmp 0x033f ; ...
+//
+//
+[20:slot_20] bit_and ; jne 0x033f ; ...
+//
+[20:slot_20] call_intrinsic Item.getShape(arg_bytes=0x4)
+[20:slot_20] cmp ; jne 0x02e2
+[20:slot_20] call_intrinsic push(arg_bytes=0x4)
+[20:slot_20] call_intrinsic Intrinsic02F(arg_bytes=0xa) ; cmp ; jne 0x02d4 ; ...
+//
+[20:slot_20] call_intrinsic Item.pop(arg_bytes=0x4)
+[20:slot_20] call_intrinsic Item.setShape(arg_bytes=0x6)
+[20:slot_20] bit_not ; bit_and ; call_intrinsic Item.setQHi(arg_bytes=0x6) ; ...
+//
+//
+//
+[20:slot_20] call_intrinsic Item.pop(arg_bytes=0x4) ; jmp 0x033c
+//
+//
+//
+//
+[20:slot_20] call_intrinsic push(arg_bytes=0x4)
+[20:slot_20] call_intrinsic Intrinsic02F(arg_bytes=0xa) ; cmp ; jne 0x0331 ; ...
+//
+[20:slot_20] call_intrinsic Item.pop(arg_bytes=0x4)
+[20:slot_20] call_intrinsic Item.setShape(arg_bytes=0x6)
+[20:slot_20] bit_not ; bit_and ; call_intrinsic Item.setQHi(arg_bytes=0x6) ; ...
+//
+//
+//
+[20:slot_20] call_intrinsic Item.pop(arg_bytes=0x4) ; jmp 0x033f ; jmp 0x0342 ; ...
+//
+//
+//
+//
+//
+[20:slot_20] jmp 0x00d0
+//
+//
+[20:slot_20] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[20:slot_20] cmp ; jne 0x03a2 ; ...
+//
+//
+[20:slot_20] foreach_list 0x039c
+[20:slot_20] bit_not ; call_intrinsic Item.andStatus(arg_bytes=0x6) ; ...
+[20:slot_20] jmp 0x0382
+[20:slot_20] jmp 0x03a5 ; jmp 0x00b8 ; free_local_list laserList
+//
+//
+[20:slot_20] ret
+//
+//
+//
+//
+//
+[21:slot_21] set_info ; ...
+//
+[21:slot_21] pop_local_word n
+//
+[21:slot_21] call_intrinsic Actor.isNPC(arg_bytes=0x4) ; jne 0x0139 ; ...
+//
+//
+[21:slot_21] call_intrinsic Item.getFrame(arg_bytes=0x4) ; pop_local_word f ; ...
+[21:slot_21] cmp ; jne 0x0086 ; ...
+//
+[21:slot_21] call_intrinsic UCMachine.rndRange(arg_bytes=0x4) ; call_intrinsic Item.receiveHit(arg_bytes=0xc) ; ...
+[21:slot_21] call_intrinsic Item.getQHi(arg_bytes=0x4) ; pop_local_word h ; ...
+[21:slot_21] bit_or ; call_intrinsic Item.setQHi(arg_bytes=0x6) ; jmp 0x0139 ; ...
+//
+//
+[21:slot_21] cmp ; jne 0x00ee ; ...
+//
+[21:slot_21] call_intrinsic UCMachine.rndRange(arg_bytes=0x4) ; call_intrinsic Item.receiveHit(arg_bytes=0xc) ; ...
+[21:slot_21] bit_not ; call_intrinsic Item.andStatus(arg_bytes=0x6) ; ...
+[21:slot_21] call_intrinsic Item.getQHi(arg_bytes=0x4) ; pop_local_word h ; ...
+[21:slot_21] bit_or ; call_intrinsic Item.setQHi(arg_bytes=0x6) ; ...
+[21:slot_21] call_intrinsic Item.explode(arg_bytes=0x8) ; jmp 0x0139 ; ...
+//
+//
+//
+//
+[21:slot_21] spawn NPC.slot_2c ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[21:slot_21] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[21:slot_21] ret
+
+/* synthesized appendix for BLASER */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x20 slot_20 ===== */
+function blaser_slot_20() /* entry=2564 class_id=0x0a02 slot=0x20 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    wp, /* [BP-05h] type=0x24 */
+    laserList, /* [BP-07h] type=0x6c */
+    item, /* [BP-09h] type=0x24 */
+    inFastArea, /* [BP-11h] type=0x69 */
+    dir, /* [BP-13h] type=0x69 */
+    count, /* [BP-15h] type=0x69 */
+    h, /* [BP-17h] type=0x69 */
+    link, /* [BP-19h] type=0x69 */
+    x, /* [BP-21h] type=0x69 */
+    y; /* [BP-23h] type=0x69 */
+
+  set_info(1, 0);
+  item = ref;
+  link = Item.getQLo(item);
+  count = 0;
+  for item in selector_0x42(arg0=0x02c3, arg1=0x02c4, arg2=(50 * 32), origin=ref) {
+    if ((Item.getQLo(item) == link) && ((Item.getStatus(item) & 0x1000) == 0)) {
+      laserList = (laserList + [item]);
+      Item.orStatus(0x1000, item);
+      count = (1 + count);
+    }
+  }
+  if (count == 0) {
+    return;
+  }
+  else {
+    while (1) {
+      inFastArea = 0;
+      while (true) {
+        foreach_list item -> block_0428;
+        h = Item.getQHi(item);
+        if (h & 8) {
+          /* remove_matching_inline */
+          laserList = [item];
+          Item.destroy(item);
+        }
+        else if (Item.getStatus(item) & (0x1000 == 0)) {
+          /* remove_matching_inline */
+          laserList = [item];
+        }
+        else if ((Item.inFastArea(item) == 1) && (Item.getShape(item) != 0x0476)) {
+          inFastArea = (1 + inFastArea);
+          if (h & 1) {
+            if (h & 2) {
+              h = (h & 4);
+            }
+            else {
+              h = ((h & 4) | 2);
+            }
+            Item.setQHi(h, item);
+          }
+          dir = -1;
+          if (h & 2) {
+            dir = 1;
+          }
+          x = Item.getX(item);
+          y = Item.getY(item);
+          if (Item.getShape(item) == 0x02c4) {
+            wp = (x + (dir * 16));
+            local_03 = y;
+          }
+          else {
+            wp = x;
+            local_03 = (y + (dir * 16));
+          }
+          local_01 = Item.getZ(item);
+          if (legalMoveToPoint(0, 0, wp, item) == 0) {
+            h = Item.getQHi(item);
+            Item.setQHi((h | 1), item);
+          }
+          else if (h & 4) {
+            if (Item.getShape(item) == 0x02c4) {
+              push(item);
+              if (Intrinsic02F(wp, 0x02c3, arg_06) == 1) {
+                Item.pop(item);
+                Item.setShape(0x02c3, item);
+                Item.setQHi((h & (~4)), item);
+              }
+              else {
+                Item.pop(item);
+              }
+            }
+            else {
+              push(item);
+              if (Intrinsic02F(wp, 0x02c4, arg_06) == 1) {
+                Item.pop(item);
+                Item.setShape(0x02c4, item);
+                Item.setQHi((h & (~4)), item);
+              }
+              else {
+                Item.pop(item);
+              }
+            }
+          }
+        }
+      }
+      spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+      suspend;
+      if (inFastArea == 0) {
+        while (true) {
+          foreach_list item -> block_047c;
+          Item.andStatus((~0x1000), item);
+        }
+        return;
+      }
+    }
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol ref [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol wp [BP-05h] type=0x24 unk1=0x00 unk3=0x05
+    debug_symbol laserList [BP-07h] type=0x6c unk1=0x00 unk3=0x02
+    debug_symbol item [BP-09h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol inFastArea [BP-11h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol dir [BP-13h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol count [BP-15h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol h [BP-17h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol link [BP-19h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol x [BP-21h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol y [BP-23h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x21 slot_21 ===== */
+function blaser_slot_21() /* entry=2564 class_id=0x0a02 slot=0x21 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    ke, /* [BP+12h] type=0x69 */
+    n, /* [BP-02h] type=0x24 */
+    f, /* [BP-04h] type=0x69 */
+    h; /* [BP-06h] type=0x69 */
+
+  set_info(1, *(arg_06));
+  n = ref;
+  if (Actor.isNPC(n)) {
+    f = Item.getFrame(arg_06);
+    if (f == 1) {
+      Item.receiveHit(UCMachine.rndRange(4, 6, 2), 8, *(arg_06), n);
+      h = Item.getQHi(arg_06);
+      Item.setQHi((h | 8), arg_06);
+      return;
+    }
+    else if (f == 2) {
+      Item.receiveHit(UCMachine.rndRange(4, 6, 2), 8, *(arg_06), n);
+      Item.andStatus((~0x1000), arg_06);
+      h = Item.getQHi(arg_06);
+      Item.setQHi((h | 8), arg_06);
+      Item.explode(0, 0, arg_06);
+      return;
+    }
+    else {
+      spawn NPC.slot_2c(pid, *(arg_06), n);
+      suspend;
+      spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+      suspend;
+    }
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol ref [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol ke [BP+12h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol n [BP-02h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol f [BP-04h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol h [BP-06h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}

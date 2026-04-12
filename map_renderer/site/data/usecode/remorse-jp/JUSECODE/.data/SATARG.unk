@@ -1,0 +1,194 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[01:use] call_intrinsic Item.getFrame(arg_bytes=0x4) ; jne 0x002c ; ...
+//
+[01:use] jmp 0x04ed
+//
+//
+[01:use] call_intrinsic Ultima8Engine.setAvatarInStasis(arg_bytes=0x2)
+[01:use] global_address global[0x003c] ; call_intrinsic Actor.doAnim(arg_bytes=0x4) ; jne 0x0070 ; ...
+//
+[01:use] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[01:use] global_address global[0x003c] ; call_intrinsic Item.getDirToItem(arg_bytes=0x6) ; global_address global[0x003c] ; ...
+//
+[01:use] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[01:use] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+//
+[01:use] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[01:use] call_intrinsic Actor.create(arg_bytes=0xc) ; free_stack_string value_u8=0x4, target=[SP+04h] ; implies arg0=0x1, arg1=0x1 ; ...
+[01:use] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+[01:use] spawn ITEM.slot_28 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[01:use] call_intrinsic Item.getPoint(arg_bytes=0x6)
+[01:use] spawn FREE.slot_3b ; pop_temp ; ...
+//
+[01:use] call_intrinsic Ultima8Engine.setAvatarInStasis(arg_bytes=0x2) ; loopscr value_u8=0x24 ; loopscr value_u8=0x3d ; ...
+//
+[01:use] loopscr value_u8=0x25 ; mul ; ...
+[01:use] loop current_var=0xfe, string_bytes=0x6, loop_type=0x2 ; jne 0x0216 ; ...
+[01:use] call_intrinsic Item.andStatus(arg_bytes=0x4) ; cmp ; jne 0x0212 ; ...
+[01:use]
+[01:use] call_intrinsic Item.explode(arg_bytes=0x8) ; ...
+[01:use] call_intrinsic UCMachine.rndRange(arg_bytes=0x4) ; spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; ...
+//
+//
+//
+[01:use] loopscr value_u8=0x25 ; mul ; ...
+[01:use] loop current_var=0xfe, string_bytes=0x6, loop_type=0x2 ; jne 0x02bc ; ...
+[01:use] spawn ITEM.slot_28 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[01:use] call_intrinsic Item.getFrame(arg_bytes=0x4) ; lt ; jne 0x0289 ; ...
+[01:use]
+[01:use] call_intrinsic UCMachine.rndRange(arg_bytes=0x4) ; call_intrinsic Item.getPoint(arg_bytes=0x6) ; ...
+//
+[01:use] call_intrinsic UCMachine.rndRange(arg_bytes=0x4) ; spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; ...
+//
+//
+[01:use] loopscr value_u8=0x25 ; mul ; ...
+[01:use] loop current_var=0xfe, string_bytes=0x6, loop_type=0x2 ; jne 0x0363 ; ...
+[01:use] spawn ITEM.slot_28 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[01:use] call_intrinsic Item.getFrame(arg_bytes=0x4) ; lt ; jne 0x0330 ; ...
+[01:use]
+[01:use] call_intrinsic Item.getFrame(arg_bytes=0x4) ; add ; call_intrinsic Item.getPoint(arg_bytes=0x6) ; ...
+//
+[01:use] call_intrinsic UCMachine.rndRange(arg_bytes=0x4) ; spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; ...
+//
+//
+[01:use] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[01:use] spawn FREE.slot_26 ; free_stack_string value_u8=0x0, target=[SP+00h] ; implies arg0=0x1, arg1=0x1 ; ...
+[01:use] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[01:use] pop_global global[0x0038]
+[01:use] spawn TRIGGER.slot_20 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[01:use] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[01:use] call_intrinsic Game.getDifficultyLevel(arg_bytes=0x0) ; gt ; jne 0x046f ; ...
+[01:use]
+[01:use] spawn TRIGGER.slot_20 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[01:use] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[01:use] loopscr value_u8=0x25 ; mul ; ...
+[01:use] loop current_var=0xfe, string_bytes=0x6, loop_type=0x2 ; jne 0x04eb ; ...
+[01:use] call_intrinsic Item.andStatus(arg_bytes=0x4) ; cmp ; jne 0x04e7 ; ...
+[01:use]
+[01:use] call_intrinsic Item.getPoint(arg_bytes=0x6)
+[01:use] call_intrinsic Item.fallProbably_03E(arg_bytes=0x6) ; loopnext ; jmp 0x04b4 ; ...
+//
+//
+[01:use] ret
+
+/* synthesized appendix for SATARG */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x01 use ===== */
+function satarg_use() /* entry=1355 class_id=0x0549 slot=0x01 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    item, /* [BP-02h] type=0x24 */
+    counter; /* [BP-04h] type=0x69 */
+
+  set_info(0x0207, *(arg_06));
+  process_exclude();
+  if (Item.getFrame(arg_06)) {
+    return;
+  }
+  else {
+    Ultima8Engine.setAvatarInStasis(1);
+    while (Actor.doAnim(&global[0x003c])) {
+      spawn FREE.slot_32(pid, 2, 0x00000000);
+      suspend;
+    }
+    suspend;
+    spawn FREE.slot_32(pid, 30, 0x00000000);
+    suspend;
+    AudioProcess.playSFXCru(0x0093, arg_06);
+    spawn FREE.slot_32(pid, 60, 0x00000000);
+    suspend;
+    Actor.create(0x00c8, "mva15b", arg_06);
+    suspend;
+    spawn FREE.slot_32(pid, 60, 0x00000000);
+    suspend;
+    spawn ITEM.slot_28(pid, 0, 1, arg_06);
+    suspend;
+    Item.getPoint(1, arg_06);
+    spawn FREE.slot_3b(0x00000000);
+    Ultima8Engine.setAvatarInStasis(0);
+    for item in nearby_items(shape=NUMBERS, origin=arg_06) {
+      if (Item.andStatus(item) == 0) {
+        Item.explode(0, 0, item);
+        spawn FREE.slot_32(UCMachine.rndRange(pid, 30, 20), 0x00000000);
+        suspend;
+      }
+    }
+    for item in nearby_items(shape=GENERATR, origin=arg_06) {
+      spawn ITEM.slot_28(pid, 0, 1, item);
+      suspend;
+      if (Item.getFrame(item) < 2) {
+        Item.getPoint(UCMachine.rndRange(4, 2), item);
+      }
+      spawn FREE.slot_32(UCMachine.rndRange(pid, 40, 20), 0x00000000);
+      suspend;
+    }
+    for item in nearby_items(shape=0x03bf, origin=arg_06) {
+      spawn ITEM.slot_28(pid, 0, 1, item);
+      suspend;
+      if (Item.getFrame(item) < 4) {
+        Item.getPoint((Item.getFrame(item) + 4), item);
+      }
+      spawn FREE.slot_32(UCMachine.rndRange(pid, 50, 30), 0x00000000);
+      suspend;
+    }
+    spawn FREE.slot_32(pid, 0x00c8, 0x00000000);
+    suspend;
+    spawn FREE.slot_26(pid, "15d", 0x00000000);
+    suspend;
+    spawn FREE.slot_32(pid, 0x00c8, 0x00000000);
+    suspend;
+    spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
+    suspend;
+    spawn FREE.slot_32(pid, 0x00c8, 0x00000000);
+    suspend;
+    if (Game.getDifficultyLevel() > 1) {
+      spawn TRIGGER.slot_20(pid, 1, *(arg_06), arg_06);
+      suspend;
+    }
+    spawn FREE.slot_32(pid, 0x00c8, 0x00000000);
+    suspend;
+    for item in nearby_items(shape=TELEPORTER_LIGHTS, origin=arg_06) {
+      if (Item.andStatus(item) == 0x00ff) {
+        Item.getPoint(0, item);
+        Item.fallProbably_03E(23, item);
+      }
+    }
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol item [BP-02h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol counter [BP-04h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}

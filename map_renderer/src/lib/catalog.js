@@ -5,6 +5,7 @@ import path from "node:path";
 import { CATALOG_ROOT, GAMES } from "../config.js";
 import { getShapeNameTable } from "./dtable.js";
 import { getMapSummaries, resolveStaticFile } from "./formats.js";
+import { filterBrowsableMapsForGame, isUsecodeOnlyVariantGame } from "./game-map-difference-manifest.js";
 import { loadPsxProcessedCatalog } from "./psx-cache.js";
 
 const CATALOG_FILE_BY_GAME = {
@@ -461,14 +462,18 @@ export function detectCatalog(options = {}) {
     if (!fs.existsSync(fixedDat)) {
       continue;
     }
-    const maps = getMapSummaries(fixedDat)
+    const maps = filterBrowsableMapsForGame(
+      game.id,
+      getMapSummaries(fixedDat)
       .filter((map) => map.isValid && map.rawItemCount > 0)
       .map((map) => ({
         id: map.id,
         label: `Map ${map.id}`,
         rawItemCount: map.rawItemCount
-      }));
-    if (maps.length > 0) {
+      }))
+    );
+    const hasUsecode = Boolean(game.usecodeFileName);
+    if (maps.length > 0 || hasUsecode) {
       games.push({
         id: game.id,
         gameId: game.gameId,
@@ -478,6 +483,8 @@ export function detectCatalog(options = {}) {
         label: game.label,
         selectorLabel: game.selectorLabel ?? game.label,
         mapCount: maps.length,
+        hasUsecode,
+        usecodeOnly: hasUsecode && isUsecodeOnlyVariantGame(game.id),
         maps
       });
     }

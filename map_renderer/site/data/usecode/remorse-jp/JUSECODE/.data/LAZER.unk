@@ -1,0 +1,172 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[20:slot_20] set_info ; ...
+//
+//
+//
+//
+[20:slot_20] call_intrinsic Item.getStatus(arg_bytes=0x4) ; bit_and ; call_intrinsic Item.getFrame(arg_bytes=0x4) ; ...
+//
+[20:slot_20] jmp 0x0227
+//
+//
+//
+[20:slot_20] call_class_event ITEM.slot_23 ; loopscr value_u8=0x24 ; ...
+//
+//
+//
+//
+[20:slot_20] push_word_immediate 0x01cb ; push_word_immediate 0x01cc
+[20:slot_20] push_word_immediate 0x01ce ; push_word_immediate 0x01cf
+[20:slot_20] push_word_immediate 0x01d0 ; push_word_immediate 0x01d1
+[20:slot_20] loopscr value_u8=0x48
+[20:slot_20] mul
+[20:slot_20] loop current_var=0xfe, string_bytes=0x12, loop_type=0x2 ; jne 0x00c3 ; ...
+[20:slot_20] call_intrinsic Item.unequip(arg_bytes=0x4) ; call_intrinsic Item.unequip(arg_bytes=0x4) ; cmp ; ...
+[20:slot_20]
+[20:slot_20] call_class_event ITEM.slot_23 ; loopnext ; jmp 0x0091 ; ...
+//
+//
+//
+//
+[20:slot_20] loopscr value_u8=0x25 ; mul ; ...
+[20:slot_20] loop current_var=0xfc, string_bytes=0x6, loop_type=0x2 ; jne 0x01a7 ; ...
+//
+[20:slot_20] le ; jne 0x01a3 ; ...
+[20:slot_20]
+[20:slot_20] call_intrinsic Item.isOn(arg_bytes=0x6) ; jne 0x01a3 ; ...
+//
+//
+[20:slot_20] call_intrinsic getTargetNPCNumMaybe(arg_bytes=0x0) ; ne ; jne 0x017e ; ...
+[20:slot_20]
+[20:slot_20] call_intrinsic Actor.getDir(arg_bytes=0x4) ; pop_local_word dir ; ...
+//
+[20:slot_20] lt ; jne 0x013f ; ...
+[20:slot_20]
+[20:slot_20] add ; pop_local_word dir ; jmp 0x0149 ; ...
+//
+//
+//
+[20:slot_20] sub ; pop_local_word dir ; ...
+//
+//
+[20:slot_20] call_class_event NPC.slot_2b ; not ; jne 0x017b ; ...
+[20:slot_20]
+[20:slot_20] call_intrinsic UCMachine.rndRange(arg_bytes=0x4) ; call_intrinsic Actor.getSomeFlagProbablyCrouch(arg_bytes=0xc) ; jmp 0x01a3 ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[20:slot_20] spawn NPC.slot_2c ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+[20:slot_20] push_word_immediate 0x01cb ; push_word_immediate 0x01cc
+[20:slot_20] push_word_immediate 0x01ce ; push_word_immediate 0x01cf
+[20:slot_20] push_word_immediate 0x01d0 ; push_word_immediate 0x01d1
+[20:slot_20] loopscr value_u8=0x48
+[20:slot_20] mul
+[20:slot_20] loop current_var=0xfe, string_bytes=0x12, loop_type=0x2 ; jne 0x0216 ; ...
+[20:slot_20] call_intrinsic Item.unequip(arg_bytes=0x4) ; call_intrinsic Item.unequip(arg_bytes=0x4) ; cmp ; ...
+[20:slot_20]
+[20:slot_20] call_class_event ITEM.slot_24 ; loopnext ; jmp 0x01e4 ; ...
+//
+//
+//
+[20:slot_20] call_class_event ITEM.slot_24
+[20:slot_20] ret
+
+/* synthesized appendix for LAZER */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x20 slot_20 ===== */
+function lazer_slot_20() /* entry=2579 class_id=0x0a11 slot=0x20 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    item, /* [BP-02h] type=0x24 */
+    monster, /* [BP-04h] type=0x24 */
+    dir; /* [BP-06h] type=0x69 */
+
+  set_info(0x0205, *(arg_06));
+  set_info(0x0205, *(arg_06));
+  if ((Item.getStatus(arg_06) & 0x1000) || (Item.getFrame(arg_06) != 0)) {
+    return;
+  }
+  else {
+    ITEM.slot_23(0x1000, arg_06);
+    while (condition) {
+      if (Item.unequip(arg_06) == Item.unequip(item)) {
+        ITEM.slot_23(0x1000, item);
+      }
+    }
+    for monster in nearby_items(family=6, origin=arg_06) {
+      if (monster <= 0x0100) {
+        if (Item.isOn(monster, arg_06)) {
+          if (monster != getTargetNPCNumMaybe()) {
+            dir = Actor.getDir(monster);
+            if (dir < 8) {
+              dir = (dir + 8);
+            }
+            else {
+              dir = (dir - 8);
+            }
+            NPC.slot_2b(monster);
+            if (!retval) {
+              Actor.getSomeFlagProbablyCrouch(UCMachine.rndRange(8, 5, 4, 2), *(arg_06), monster);
+            }
+          }
+          else {
+            spawn NPC.slot_2c(pid, *(arg_06), monster);
+            suspend;
+          }
+        }
+      }
+    }
+    while (condition) {
+      if (Item.unequip(arg_06) == Item.unequip(item)) {
+        ITEM.slot_24(0x1000, item);
+      }
+    }
+    ITEM.slot_24(0x1000, arg_06);
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol item [BP-02h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol monster [BP-04h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol dir [BP-06h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}

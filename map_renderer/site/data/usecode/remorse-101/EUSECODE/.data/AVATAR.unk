@@ -1,0 +1,85 @@
+/* synthesized appendix for AVATAR */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x00 look ===== */
+function avatar_look() /* entry=2051 class_id=0x0801 slot=0x00 */
+{
+  set_info(0x0208, *(arg_06));
+  process_exclude();
+  return;
+}
+
+/* ===== slot 0x01 use ===== */
+function avatar_use() /* entry=2051 class_id=0x0801 slot=0x01 */
+{
+  set_info(0x0207, *(arg_06));
+  process_exclude();
+  return;
+}
+
+/* ===== slot 0x04 cachein ===== */
+function avatar_cachein() /* entry=2051 class_id=0x0801 slot=0x04 */
+{
+  set_info(0x0213, *(arg_06));
+  process_exclude();
+  spawn AVATAR.cast(0, arg_06);
+  return;
+}
+
+/* ===== slot 0x11 cast ===== */
+function avatar_cast() /* entry=2051 class_id=0x0801 slot=0x11 */
+{
+  set_info(0x021d, *(arg_06));
+  process_exclude();
+  spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+  suspend;
+  local_02 = Actor.getMap(&global[0x003d]);
+  switch (Actor.getMap(arg_06)) {
+  case 1:
+    void MusicProcess:playMusic(1);
+    return;
+  case 3:
+    void MusicProcess:playMusic(2);
+    return;
+  case 5:
+    void MusicProcess:playMusic(3);
+    return;
+  case 7:
+    void MusicProcess:playMusic(4);
+    return;
+  case 9:
+    void MusicProcess:playMusic(5);
+    return;
+  case 11:
+    void MusicProcess:playMusic(6);
+    return;
+  case 13:
+    void MusicProcess:playMusic(7);
+    return;
+  case 15:
+    void MusicProcess:playMusic(8);
+    return;
+  case 17:
+    void MusicProcess:playMusic(9);
+    return;
+  case 19:
+    void MusicProcess:playMusic(10);
+    return;
+  case 21:
+    void MusicProcess:playMusic(11);
+    return;
+  case 23:
+    void MusicProcess:playMusic(12);
+    return;
+  case 25:
+    void MusicProcess:playMusic(13);
+    return;
+  case 27:
+    void MusicProcess:playMusic(14);
+    return;
+  case 29:
+    void MusicProcess:playMusic(15);
+    return;
+  }
+  return;
+}

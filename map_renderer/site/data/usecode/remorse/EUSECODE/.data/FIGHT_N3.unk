@@ -1,0 +1,131 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[06:gotHit] call_intrinsic Item.getStatus(arg_bytes=0x4)
+[06:gotHit] bit_and ; jne 0x0036
+[06:gotHit] jmp 0x0198
+//
+//
+[06:gotHit] call_class_event FREE.slot_2c ; not ; jne 0x0052 ; ...
+[06:gotHit]
+[06:gotHit] jmp 0x0198
+//
+//
+//
+[06:gotHit] spawn ITEM.slot_27 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[06:gotHit]
+[06:gotHit] call_class_event FREE.slot_20 ; jne 0x00a3 ; ...
+//
+[06:gotHit] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6) ; jmp 0x00b0 ; ...
+//
+//
+//
+[06:gotHit] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+//
+//
+[06:gotHit] jmp 0x0198 ; loopscr value_u8=0x24
+//
+//
+//
+//
+[06:gotHit] push_word_immediate 0x0183 ; push_word_immediate 0x017f
+[06:gotHit] loopscr value_u8=0x44
+[06:gotHit] mul
+[06:gotHit] loop current_var=0xfe, string_bytes=0xa, loop_type=0x2 ; jne 0x0196 ; ...
+[06:gotHit] call_class_event ITEM.slot_23
+//
+[06:gotHit] call_intrinsic Item.getFrame(arg_bytes=0x4) ; not ; jne 0x0192 ; ...
+[06:gotHit]
+[06:gotHit] call_intrinsic Item.getShape(arg_bytes=0x4) ; cmp ; ...
+[06:gotHit] call_intrinsic Item.getShape(arg_bytes=0x4) ; cmp ; or ; ...
+[06:gotHit]
+[06:gotHit] spawn ITEM.slot_28 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[06:gotHit] call_intrinsic Item.setFrame(arg_bytes=0x6) ; jmp 0x0192 ; ...
+//
+//
+//
+[06:gotHit] spawn ITEM.slot_28 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[06:gotHit] call_intrinsic Item.setFrame(arg_bytes=0x6) ; loopnext ; jmp 0x00df ; ...
+//
+//
+//
+[06:gotHit] ret
+
+/* synthesized appendix for FIGHT_N3 */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x06 gotHit ===== */
+function fight_n3_gotHit() /* entry=386 class_id=0x0180 slot=0x06 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    vel, /* [BP+12h] type=0x69 */
+    item; /* [BP-02h] type=0x24 */
+
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  if (Item.getStatus(arg_06) & 0x1000) {
+    return;
+  }
+  else {
+    FREE.slot_2c(vel, ref);
+    if (!retval) {
+      return;
+    }
+    else {
+      spawn ITEM.slot_27(pid, 0x00c8, vel, ref, arg_06);
+      suspend;
+      if (!process_result) {
+        FREE.slot_20(1);
+        if (retval) {
+          AudioProcess.playSFXCru(38, arg_06);
+        }
+        else {
+          AudioProcess.playSFXCru(39, arg_06);
+        }
+        return;
+      }
+      else {
+        while (condition) {
+          ITEM.slot_23(0x1000, item);
+          if (!Item.getFrame(item)) {
+            if ((Item.getShape(item) == 0x017f) || (Item.getShape(item) == 0x0141)) {
+              spawn ITEM.slot_28(pid, 0, 2, item);
+              suspend;
+              Item.setFrame(1, item);
+            }
+            else {
+              spawn ITEM.slot_28(pid, 0, 1, item);
+              suspend;
+              Item.setFrame(1, item);
+            }
+          }
+        }
+      }
+    }
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol ref [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol vel [BP+12h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol item [BP-02h] type=0x24 unk1=0x00 unk3=0x02
+  */
+}

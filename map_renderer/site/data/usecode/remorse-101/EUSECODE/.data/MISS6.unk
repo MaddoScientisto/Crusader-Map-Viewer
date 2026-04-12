@@ -1,0 +1,121 @@
+/* synthesized appendix for MISS6 */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x04 cachein ===== */
+function miss6_cachein() /* entry=2324 class_id=0x0912 slot=0x04 */
+{
+  set_info(0x0213, *(arg_06));
+  process_exclude();
+  return;
+}
+
+/* ===== slot 0x07 hatch ===== */
+function miss6_hatch() /* entry=2324 class_id=0x0912 slot=0x07 */
+{
+  set_info(0x0210, *(arg_06));
+  process_exclude();
+  if (Item.fallProbably_03E(arg_06) == 1) {
+    FREE.slot_41();
+    spawn MISS6.slot_20(pid, arg_06);
+    suspend;
+    return;
+  }
+  else if (Item.fallProbably_03E(arg_06) == 2) {
+    spawn MISS6.slot_21(pid, arg_06);
+    suspend;
+    return;
+  }
+  return;
+}
+
+/* ===== slot 0x20 slot_20 ===== */
+function miss6_slot_20() /* entry=2324 class_id=0x0912 slot=0x20 */
+{
+  set_info(0x0001, *(arg_06));
+  Ultima8Engine.setAvatarInStasis(1);
+  while (Actor.isBusy(&global[0x003d])) {
+    spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+    suspend;
+  }
+  for local_04 in nearby_items(shape=0x04dc, origin=global[0x003d]) {
+    playFlicsomething(0, 0x04dc, local_02);
+    getTargetNPCNumMaybe(Item.getZ(local_04), Item.getY(local_04), Item.getX(local_04), local_02);
+    Item.destroy(local_04);
+  }
+  if (local_02) {
+    suspend;
+    local_08 = 0;
+    for local_06 in nearby_items(shape=door_shape_0095, origin=global[0x003d]) {
+      if (void AudioProcess:stopAllSFX(local_06) == 19) {
+        local_08 = local_06;
+        spawn DOOR.slot_20(pid, local_08);
+        suspend;
+        local_10 = Item.getX(local_08);
+      }
+    }
+    if (!local_08) {
+      for local_06 in nearby_items(shape=0x0493, origin=global[0x003d]) {
+        local_08 = local_06;
+        spawn DOOR.slot_20(pid, local_08);
+        suspend;
+        local_10 = Item.getX(local_08);
+      }
+    }
+    if (Item.getX(&global[0x003d]) > local_10) {
+      spawn NPC.slot_22(pid, 1, 12, &global[0x003d]);
+      suspend;
+    }
+    else if (Item.getX(&global[0x003d]) < (local_10 - 64)) {
+      spawn NPC.slot_22(pid, 1, 4, &global[0x003d]);
+      suspend;
+    }
+    spawn NPC.slot_22(pid, 4, 0, &global[0x003d]);
+    suspend;
+    spawn NPC.slot_22(pid, 2, 14, &global[0x003d]);
+    suspend;
+    spawn NPC.slot_22(pid, 2, 4, local_02);
+    suspend;
+    spawn NPC.slot_22(pid, 1, 6, local_02);
+    suspend;
+    suspend;
+    suspend;
+    spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
+    suspend;
+    suspend;
+    playFlic(pid, 0x0096, 0x00fa, "6g", arg_06);
+    suspend;
+    playFlic(pid, 0x0096, 0x00fa, "6h", arg_06);
+    suspend;
+    playFlic(pid, 0x0096, 0x00fa, "6i", arg_06);
+    suspend;
+    spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
+    suspend;
+    spawn NPC.slot_22(pid, 1, 4, local_02);
+    suspend;
+    spawn NPC.slot_22(pid, 1, 2, local_02);
+    suspend;
+    spawn NPC.slot_22(pid, 1, 4, local_02);
+    suspend;
+    suspend;
+    spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
+    suspend;
+    spawn NPC.slot_24(pid, local_02);
+    suspend;
+    Item.destroy(local_02);
+    suspend;
+    Actor.setDead(0, 0, 0, 0, local_02);
+  }
+  Ultima8Engine.setAvatarInStasis(0);
+  Item.destroy(arg_06);
+  return;
+}
+
+/* ===== slot 0x21 slot_21 ===== */
+function miss6_slot_21() /* entry=2324 class_id=0x0912 slot=0x21 */
+{
+  set_info(0x0001, *(arg_06));
+  spawn FREE.slot_26(pid, "6f", 0x00000000);
+  suspend;
+  Item.destroy(arg_06);
+  return;
+}

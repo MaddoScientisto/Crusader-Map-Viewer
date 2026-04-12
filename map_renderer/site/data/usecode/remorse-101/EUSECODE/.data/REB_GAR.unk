@@ -1,0 +1,52 @@
+/* synthesized appendix for REB_GAR */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x0f enterFastArea ===== */
+function reb_gar_enterFastArea() /* entry=1262 class_id=0x04ec slot=0x0f */
+{
+  entry:
+    set_info(0x021b, *(arg_06));
+    process_exclude();
+    Item.andStatus(Item.getFrame(arg_06), arg_06);
+    if UCMachine.rndRange(10, 1) <= 5 goto block_013a;
+
+  block_012d:
+    Item.isCentreOn(32, arg_06);
+    goto block_0213;
+
+  while (true) {
+    suspend;
+    spawn FREE.waitNTimerTicks(UCMachine.rndRange(pid, 0x00dc, 120), 0x00000000);
+    suspend;
+    local_02 = 1;
+    while (local_02 <= 7) {
+      Item.isCentreOn((Item.getFrame(arg_06) + 1), arg_06);
+      spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+      suspend;
+      local_02 = (1 + local_02);
+    }
+    spawn FREE.waitNTimerTicks(UCMachine.rndRange(pid, 0x00dc, 120), 0x00000000);
+    suspend;
+    local_02 = 1;
+    while (local_02 <= 7) {
+      Item.isCentreOn((Item.getFrame(arg_06) - 1), arg_06);
+      spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+      suspend;
+      local_02 = (1 + local_02);
+    }
+    Item.isCentreOn(Actor.getDefaultActivity2(arg_06), arg_06);
+  }
+
+  return;
+
+}
+
+/* ===== slot 0x10 leaveFastArea ===== */
+function reb_gar_leaveFastArea() /* entry=1262 class_id=0x04ec slot=0x10 */
+{
+  set_info(0x021c, *(arg_06));
+  process_exclude();
+  Item.isCentreOn(Actor.getDefaultActivity2(arg_06), arg_06);
+  FREE.slot_33(*(arg_06), 0x021b);
+  return;
+}

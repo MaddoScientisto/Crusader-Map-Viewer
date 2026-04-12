@@ -1,0 +1,109 @@
+/* synthesized appendix for AND_BOOT */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x0a equip ===== */
+function and_boot_equip() /* entry=790 class_id=0x0314 slot=0x0a */
+{
+  set_info(0x0211, *(arg_06));
+  process_exclude();
+  if (Item.getFrame(arg_06) == 12) {
+    return;
+  }
+  else {
+    Ultima8Engine.setAvatarInStasis(1);
+    FREE.slot_33(0x021b, *(arg_06));
+    while (Item.getFrame(arg_06) != 11) {
+      Item.setFrame((Item.getFrame(arg_06) + 1), arg_06);
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+    }
+    spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+    suspend;
+    if (global[0x0020] == 2) {
+      playFlic(pid, 0x0096, 0x00c8, "2c", arg_06);
+      suspend;
+    }
+    else if (global[0x0020] == 3) {
+      playFlic(pid, 0x0096, 0x00c8, "3e", arg_06);
+      suspend;
+    }
+    else if (global[0x0020] == 4) {
+      playFlic(pid, 0x0096, 0x00c8, "4c", arg_06);
+      suspend;
+    }
+    else {
+      playFlic(pid, 0x0096, 0x00c8, "1b", arg_06);
+      suspend;
+    }
+    local_02 = 0;
+    while (local_02 <= 11) {
+      Item.setFrame((11 - local_02), arg_06);
+      spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+      suspend;
+      local_02 = (1 + local_02);
+    }
+    spawn AND_BOOT.enterFastArea(arg_06);
+    Ultima8Engine.setAvatarInStasis(0);
+  }
+  return;
+}
+
+/* ===== slot 0x0f enterFastArea ===== */
+function and_boot_enterFastArea() /* entry=790 class_id=0x0314 slot=0x0f */
+{
+  set_info(0x021b, *(arg_06));
+  process_exclude();
+  if (((global[0x0020] == 2) || (global[0x0020] == 3)) || (global[0x0020] == 4)) {
+    for local_02 in nearby_items(shape=SPANEL, origin=arg_06) {
+      if (Item.getQLo(local_02) == Item.getQLo(arg_06)) {
+        ITEM.slot_24(0x1000, local_02);
+      }
+    }
+    Item.setFrame(0, arg_06);
+  }
+  else {
+    for local_02 in nearby_items(shape=SPANEL, origin=arg_06) {
+      if (Item.getQLo(local_02) == Item.getQLo(arg_06)) {
+        ITEM.slot_23(0x1000, local_02);
+      }
+    }
+    Item.setFrame(12, arg_06);
+    return;
+  }
+
+  while (true) {
+    suspend;
+    FREE.slot_20(pid, 0x00c8);
+    spawn FREE.waitNTimerTicks((retval + 0x00c8), 0x00000000);
+    suspend;
+    local_04 = 0;
+    while (local_04 <= 6) {
+      Item.setFrame(local_04, arg_06);
+      spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+      suspend;
+      local_04 = (1 + local_04);
+    }
+    FREE.slot_20(pid, 0x00c8);
+    spawn FREE.waitNTimerTicks((retval + 0x00c8), 0x00000000);
+    suspend;
+    local_04 = 0;
+    while (local_04 <= 6) {
+      Item.setFrame((6 - local_04), arg_06);
+      spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+      suspend;
+      local_04 = (1 + local_04);
+    }
+  }
+
+  return;
+
+}
+
+/* ===== slot 0x10 leaveFastArea ===== */
+function and_boot_leaveFastArea() /* entry=790 class_id=0x0314 slot=0x10 */
+{
+  set_info(0x021c, *(arg_06));
+  process_exclude();
+  FREE.slot_33(0x021b, *(arg_06));
+  return;
+}

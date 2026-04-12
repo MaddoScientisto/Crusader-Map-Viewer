@@ -1,0 +1,348 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[0F:enterFastArea] call_intrinsic Item.getQHi(arg_bytes=0x4) ; bit_and ; jne 0x004d ; ...
+//
+[0F:enterFastArea] call_intrinsic Item.getStatus(arg_bytes=0x4) ; bit_and ; cmp ; ...
+//
+[0F:enterFastArea] spawn TIMER.slot_20 ; pop_temp ; ...
+//
+//
+[0F:enterFastArea] ret
+//
+//
+//
+[10:leaveFastArea] call_intrinsic Item.getQHi(arg_bytes=0x4) ; bit_and ; jne 0x004b ; ...
+//
+[10:leaveFastArea] call_intrinsic Item.getStatus(arg_bytes=0x4) ; bit_and ; jne 0x004b ; ...
+//
+[10:leaveFastArea] bit_not ; call_intrinsic Item.andStatus(arg_bytes=0x6) ; ...
+//
+//
+[10:leaveFastArea] ret
+//
+//
+//
+[0A:equip] cmp ; jne 0x0049 ; ...
+//
+[0A:equip] call_intrinsic Item.getStatus(arg_bytes=0x4) ; bit_and ; cmp ; ...
+//
+[0A:equip] spawn TIMER.slot_20 ; pop_temp ; jmp 0x0066 ; ...
+//
+//
+//
+[0A:equip] cmp ; jne 0x0066 ; ...
+//
+[0A:equip] bit_not ; call_intrinsic Item.andStatus(arg_bytes=0x6) ; jmp 0x0066 ; ...
+//
+[0A:equip] ret
+//
+//
+//
+[20:slot_20] set_info
+//
+//
+//
+//
+//
+//
+[20:slot_20] call_intrinsic Item.orStatus(arg_bytes=0x6)
+//
+//
+[20:slot_20] call_intrinsic Item.getMapArray(arg_bytes=0x4) ; mul ; call_intrinsic Item.getNPCNum(arg_bytes=0x4) ; ...
+//
+[20:slot_20] cmp ; jne 0x0051 ; ...
+//
+[20:slot_20] jmp 0x02ef
+//
+//
+[20:slot_20] call_intrinsic Item.getQHi(arg_bytes=0x4) ; pop_local_word cmd ; ...
+[20:slot_20] div ; pop_local_word a ; cmp ; ...
+//
+//
+//
+//
+[20:slot_20] pop_local_word phase2 ; jmp 0x00f9 ; cmp ; ...
+//
+//
+//
+[20:slot_20] pop_local_word phase2 ; jmp 0x00f9 ; cmp ; ...
+//
+//
+//
+[20:slot_20] pop_local_word phase2 ; jmp 0x00f9 ; cmp ; ...
+//
+//
+//
+[20:slot_20] pop_local_word phase2 ; jmp 0x00f9 ; cmp ; ...
+//
+//
+//
+[20:slot_20] pop_local_word phase2 ; jmp 0x00f9 ; cmp ; ...
+//
+//
+//
+[20:slot_20] pop_local_word phase2 ; jmp 0x00f9 ; cmp ; ...
+//
+//
+//
+[20:slot_20] pop_local_word phase2 ; jmp 0x00f9 ; cmp ; ...
+//
+//
+//
+[20:slot_20] pop_local_word phase2 ; jmp 0x00f9
+//
+//
+//
+[20:slot_20] pop_local_dword l1
+[20:slot_20] pop_local_dword l2
+[20:slot_20] mul_dword ; pop_local_dword l1 ; ...
+[20:slot_20] pop_local_dword l3
+//
+[20:slot_20] div_dword ; pop_local_dword l1 ; ...
+[20:slot_20] pop_local_word phase2
+[20:slot_20] sub ; pop_local_word time ; ...
+//
+[20:slot_20] jne 0x02ef
+//
+[20:slot_20] jne 0x01d2
+//
+[20:slot_20] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[20:slot_20] call_intrinsic Item.getStatus(arg_bytes=0x4) ; bit_and ; cmp ; ...
+//
+[20:slot_20] jmp 0x02ef
+//
+//
+[20:slot_20] call_intrinsic Item.inFastArea(arg_bytes=0x4) ; cmp ; bit_and ; ...
+[20:slot_20]
+[20:slot_20] add ; spawn TRIGGER.slot_20 ; implies arg0=0x1, arg1=0x1 ; ...
+//
+//
+//
+//
+[20:slot_20] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[20:slot_20] call_intrinsic Item.getStatus(arg_bytes=0x4) ; bit_and ; cmp ; ...
+//
+[20:slot_20] bit_and ; jne 0x0244 ; ...
+//
+[20:slot_20] add ; spawn TRIGGER.slot_20 ; implies arg0=0x1, arg1=0x1 ; ...
+//
+[20:slot_20] jmp 0x02ef
+//
+//
+[20:slot_20] call_intrinsic Item.inFastArea(arg_bytes=0x4) ; cmp ; bit_and ; ...
+[20:slot_20]
+[20:slot_20] jne 0x029e
+//
+[20:slot_20] add ; spawn TRIGGER.slot_20 ; implies arg0=0x1, arg1=0x1 ; ...
+//
+//
+//
+[20:slot_20] add ; spawn TRIGGER.slot_20 ; implies arg0=0x1, arg1=0x1 ; ...
+//
+//
+//
+[20:slot_20] bit_and ; cmp ; jne 0x02ec ; ...
+//
+[20:slot_20] bit_not ; call_intrinsic Item.andStatus(arg_bytes=0x6) ; ...
+[20:slot_20] jmp 0x02ef ; jmp 0x0137
+//
+//
+[20:slot_20] ret
+
+/* synthesized appendix for TIMER */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x0a equip ===== */
+function timer_equip() /* entry=1227 class_id=0x04c9 slot=0x0a */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    var; /* [BP+10h] type=0x69 */
+
+  set_info(0x0211, *(arg_06));
+  process_exclude();
+  if (var == 1) {
+    if ((Item.getStatus(arg_06) & 0x1000) == 0) {
+      spawn TIMER.slot_20(arg_06);
+    }
+    return;
+  }
+  else if (var == 0) {
+    Item.andStatus((~0x1000), arg_06);
+    return;
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol var [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x0f enterFastArea ===== */
+function timer_enterFastArea() /* entry=1227 class_id=0x04c9 slot=0x0f */
+{
+  var
+    referent; /* [BP+00h] type=0x69 */
+
+  set_info(0x021b, *(arg_06));
+  process_exclude();
+  if (Item.getQHi(arg_06) & 2) {
+    if ((Item.getStatus(arg_06) & 0x1000) == 0) {
+      spawn TIMER.slot_20(arg_06);
+    }
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+  */
+}
+
+/* ===== slot 0x10 leaveFastArea ===== */
+function timer_leaveFastArea() /* entry=1227 class_id=0x04c9 slot=0x10 */
+{
+  var
+    referent; /* [BP+00h] type=0x69 */
+
+  set_info(0x021c, *(arg_06));
+  process_exclude();
+  if (Item.getQHi(arg_06) & 4) {
+    if (Item.getStatus(arg_06) & 0x1000) {
+      Item.andStatus((~0x1000), arg_06);
+    }
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+  */
+}
+
+/* ===== slot 0x20 slot_20 ===== */
+function timer_slot_20() /* entry=1227 class_id=0x04c9 slot=0x20 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    cmd, /* [BP-02h] type=0x69 */
+    time, /* [BP-04h] type=0x69 */
+    phase2, /* [BP-06h] type=0x69 */
+    a, /* [BP-08h] type=0x69 */
+    l1, /* [BP-12h] type=0x64 */
+    l2, /* [BP-16h] type=0x64 */
+    l3; /* [BP-20h] type=0x64 */
+
+  set_info(1, 0);
+  Item.orStatus(0x1000, arg_06);
+  time = ((Item.getMapArray(arg_06) * 0x0100) + Item.getNPCNum(arg_06));
+  if (time == 0) {
+    return;
+  }
+  else {
+    cmd = Item.getQHi(arg_06);
+    a = (cmd / 32);
+    switch (a) {
+    case 0:
+      phase2 = 0;
+      break;
+    case 1:
+      phase2 = 10;
+      break;
+    case 2:
+      phase2 = 25;
+      break;
+    case 3:
+      phase2 = 40;
+      break;
+    case 4:
+      phase2 = 50;
+      break;
+    case 5:
+      phase2 = 60;
+      break;
+    case 6:
+      phase2 = 75;
+      break;
+    case 7:
+      phase2 = 90;
+      break;
+    }
+    l1 = time;
+    l2 = phase2;
+    l1 = (l1 * l2);
+    l3 = 100;
+    l1 = (l1 / l3);
+    phase2 = l1;
+    time = (time - phase2);
+    while (1) {
+      if (phase2) {
+        spawn FREE.waitNTimerTicks(pid, phase2, 0x00000000);
+        suspend;
+        if ((Item.getStatus(arg_06) & 0x1000) == 0) {
+          return;
+        }
+        if ((Item.inFastArea(arg_06) == 1) || ((cmd & 8) == 0)) {
+          spawn TRIGGER.slot_20(pid, (0x0080 + 0), *(arg_06), arg_06);
+          suspend;
+        }
+      }
+      spawn FREE.waitNTimerTicks(pid, time, 0x00000000);
+      suspend;
+      if ((Item.getStatus(arg_06) & 0x1000) == 0) {
+        if (cmd & 16) {
+          spawn TRIGGER.slot_20(pid, (0x0080 + 1), *(arg_06), arg_06);
+          suspend;
+        }
+        return;
+      }
+      else if ((Item.inFastArea(arg_06) == 1) || ((cmd & 8) == 0)) {
+        if (phase2) {
+          spawn TRIGGER.slot_20(pid, (0x0080 + 1), *(arg_06), arg_06);
+          suspend;
+        }
+        else {
+          spawn TRIGGER.slot_20(pid, (0x0080 + 0), *(arg_06), arg_06);
+          suspend;
+        }
+      }
+      if ((cmd & 1) == 0) {
+        Item.andStatus((~0x1000), arg_06);
+        return;
+      }
+    }
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol cmd [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol time [BP-04h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol phase2 [BP-06h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol a [BP-08h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol l1 [BP-12h] type=0x64 unk1=0x00 unk3=0x00
+    debug_symbol l2 [BP-16h] type=0x64 unk1=0x00 unk3=0x00
+    debug_symbol l3 [BP-20h] type=0x64 unk1=0x00 unk3=0x00
+  */
+}

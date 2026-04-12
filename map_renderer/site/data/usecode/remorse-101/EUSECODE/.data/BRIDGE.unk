@@ -1,0 +1,445 @@
+/* synthesized appendix for BRIDGE */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x20 slot_20 ===== */
+function bridge_slot_20() /* entry=2565 class_id=0x0a03 slot=0x20 */
+{
+  set_info(0x0211, *(arg_06));
+  if (arg_10 == 1) {
+    local_02 = Item.getQLo(arg_06);
+    spawn BRIDGE.slot_22(pid, local_02, arg_06);
+    suspend;
+    if (process_result == 1) {
+      spawn BRIDGE.slot_24(pid, local_02, arg_06);
+      suspend;
+      spawn BRIDGE.slot_26(0, local_02, arg_06);
+    }
+    return;
+  }
+  else if (arg_10 == 2) {
+    local_02 = Item.getQLo(arg_06);
+    spawn BRIDGE.slot_23(pid, local_02, arg_06);
+    suspend;
+    if (process_result == 1) {
+      spawn BRIDGE.slot_25(pid, local_02, arg_06);
+      suspend;
+    }
+    return;
+  }
+  return;
+}
+
+/* ===== slot 0x21 slot_21 ===== */
+function bridge_slot_21() /* entry=2565 class_id=0x0a03 slot=0x21 */
+{
+  local_02 = Item.getShape(arg_06);
+  if ((local_02 == 0x0413) || (local_02 == 0x0290)) {
+    if (arg_08 == 0x03a6) {
+      arg_08 = 0x0413;
+    }
+    else {
+      arg_08 = 0x0290;
+    }
+  }
+  Item.setShape(arg_08, arg_06);
+  Item.touch(arg_06);
+  return;
+}
+
+/* ===== slot 0x22 slot_22 ===== */
+function bridge_slot_22() /* entry=2565 class_id=0x0a03 slot=0x22 */
+{
+  set_info(0x021b, *(arg_06));
+  for local_02 in selector_0x42(arg0=0x0336, arg1=0x0290, arg2=(70 * 32), origin=arg_06) {
+    if (Item.getFrame(local_02) == 0) {
+      local_04 = Item.getQLo(local_02);
+      if (local_04 == arg_10) {
+        AudioProcess.playSFXCru(0x0099, arg_06);
+        process_result = 1;
+        return;
+      }
+    }
+  }
+  process_result = 0;
+  return;
+}
+
+/* ===== slot 0x23 slot_23 ===== */
+function bridge_slot_23() /* entry=2565 class_id=0x0a03 slot=0x23 */
+{
+  set_info(0x021b, *(arg_06));
+  local_06 = 0;
+  for local_02 in selector_0x42(arg0=0x03a6, arg1=0x0413, arg2=(70 * 32), origin=arg_06) {
+    local_04 = Item.getQLo(local_02);
+    if (local_04 == arg_10) {
+      local_04 = Item.getQHi(local_02);
+      if (local_04 != 0) {
+        local_06 = local_04;
+      }
+    }
+  }
+  if (local_06 == 0) {
+    for local_02 in selector_0x42(arg0=0x0336, arg1=0x0290, arg2=(70 * 32), origin=arg_06) {
+      if (Item.getFrame(local_02) == 1) {
+        local_04 = Item.getQLo(local_02);
+        if (local_04 == arg_10) {
+          local_04 = Item.getQHi(local_02);
+          if (local_04 != 0) {
+            local_06 = local_04;
+          }
+        }
+      }
+    }
+  }
+  if (local_06 != 0) {
+    for local_02 in selector_0x42(arg0=0x03a6, arg1=0x0413, arg2=(70 * 32), origin=arg_06) {
+      local_04 = Item.getQLo(local_02);
+      if (local_04 == local_06) {
+        AudioProcess.playSFXCru(0x00a1, arg_06);
+        process_result = 1;
+        return;
+      }
+    }
+    for local_02 in selector_0x42(arg0=0x0336, arg1=0x0290, arg2=(70 * 32), origin=arg_06) {
+      if (Item.getFrame(arg_06) == 1) {
+        local_04 = Item.getQLo(local_02);
+        if (local_04 == local_06) {
+          AudioProcess.playSFXCru(0x00a1, arg_06);
+          process_result = 1;
+          return;
+        }
+      }
+    }
+  }
+  process_result = 0;
+  return;
+}
+
+/* ===== slot 0x24 slot_24 ===== */
+function bridge_slot_24() /* entry=2565 class_id=0x0a03 slot=0x24 */
+{
+  set_info(0x021b, *(arg_06));
+  local_06 = 0;
+  for local_02 in selector_0x42(arg0=0x0336, arg1=0x0290, arg2=(70 * 32), origin=arg_06) {
+    local_08 = Item.getQLo(local_02);
+    if (local_08 == arg_10) {
+      local_06 = Item.getQHi(local_02);
+    }
+  }
+  if (local_06 == 0) {
+    return;
+  }
+  else if (local_06 < arg_10) {
+    return;
+  }
+  else {
+    local_10 = arg_10;
+    while (local_10 <= local_06) {
+      local_12 = local_10;
+      for local_02 in selector_0x42(arg0=0x0336, arg1=0x0290, arg2=(70 * 32), origin=arg_06) {
+        local_08 = Item.getQLo(local_02);
+        if (local_08 == local_10) {
+          local_04 = (local_04 + [local_02]);
+          local_10 = (1 + local_10);
+        }
+      }
+      if (local_12 == local_10) {
+        spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+        suspend;
+      }
+    }
+    while (true) {
+      foreach_list local_02 -> block_04fc;
+      if (Item.inFastArea(local_02) == 1) {
+        BRIDGE.slot_21(0x03a6, local_02);
+        AudioProcess.playAmbientSFXCru(0x0098, local_02);
+        Item.setFrame(0, local_02);
+        Item.touch(local_02);
+        spawn FREE.waitNTimerTicks(pid, 15, 0x00000000);
+        suspend;
+      }
+    }
+    while (true) {
+      foreach_list local_02 -> block_0542;
+      if (Item.inFastArea(local_02) == 1) {
+        BRIDGE.slot_21(0x03a6, local_02);
+        AudioProcess.playAmbientSFXCru(0x0098, local_02);
+        Item.setFrame(0, local_02);
+        Item.touch(local_02);
+      }
+    }
+  }
+  return;
+}
+
+/* ===== slot 0x25 slot_25 ===== */
+function bridge_slot_25() /* entry=2565 class_id=0x0a03 slot=0x25 */
+{
+  set_info(0x021b, *(arg_06));
+  local_06 = 0;
+  for local_02 in selector_0x42(arg0=0x03a6, arg1=0x0413, arg2=(70 * 32), origin=arg_06) {
+    local_08 = Item.getQLo(local_02);
+    if (local_08 == arg_10) {
+      local_06 = Item.getQHi(local_02);
+    }
+  }
+  if (local_06 == 0) {
+    for local_02 in selector_0x42(arg0=0x0336, arg1=0x0290, arg2=(70 * 32), origin=arg_06) {
+      if (Item.getFrame(arg_06) == 1) {
+        local_08 = Item.getQLo(local_02);
+        if (local_08 == arg_10) {
+          local_06 = Item.getQHi(local_02);
+        }
+      }
+    }
+    if (local_06 == 0) {
+      return;
+    }
+  }
+  else if (local_06 < arg_10) {
+    return;
+  }
+  else {
+    local_10 = local_06;
+    arg_10 = (arg_10 - 1);
+    while (local_10 != arg_10) {
+      local_12 = local_10;
+      for local_02 in selector_0x42(arg0=0x03a6, arg1=0x0413, arg2=(70 * 32), origin=arg_06) {
+        local_08 = Item.getQLo(local_02);
+        if (local_08 == local_10) {
+          local_04 = (local_04 + [local_02]);
+          local_10 = (local_10 - 1);
+        }
+      }
+      if (local_12 == local_10) {
+        for local_02 in selector_0x42(arg0=0x0336, arg1=0x0290, arg2=(70 * 32), origin=arg_06) {
+          if (Item.getFrame(arg_06) == 1) {
+            local_08 = Item.getQLo(local_02);
+            if (local_08 == local_10) {
+              local_04 = (local_04 + [local_02]);
+              local_10 = (local_10 - 1);
+            }
+          }
+        }
+        if (local_12 == local_10) {
+          spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+          suspend;
+        }
+      }
+    }
+    while (true) {
+      foreach_list local_02 -> block_07bc;
+      if (Item.inFastArea(local_02) == 1) {
+        BRIDGE.slot_21(0x0336, local_02);
+        AudioProcess.stopSFXCru(0x0098, local_02);
+        Item.setFrame(0, local_02);
+        spawn FREE.waitNTimerTicks(pid, 15, 0x00000000);
+        suspend;
+      }
+      while (condition) {
+        if ((Item.setQLo(local_14) == 6) && (Actor.isNPC(local_14) == 0)) {
+          for local_16 in nearby_items(shape=0x04b8, origin=local_14) {
+            Item.destroy(local_16);
+          }
+          Item.getItemFamily(local_14);
+          spawn ITEM.slot_28(pid, 1, 0, local_14);
+          suspend;
+        }
+        else {
+          Container.destroyContents(local_02);
+        }
+      }
+    }
+    while (true) {
+      foreach_list local_02 -> block_087a;
+      if (Item.inFastArea(local_02) == 1) {
+        BRIDGE.slot_21(0x0336, local_02);
+        AudioProcess.stopSFXCru(0x0098, local_02);
+        Item.setFrame(0, local_02);
+      }
+      while (condition) {
+        if ((Item.setQLo(local_14) == 6) && (Actor.isNPC(local_14) == 0)) {
+          for local_16 in nearby_items(shape=0x04b8, origin=local_14) {
+            Item.destroy(local_16);
+          }
+          Item.getItemFamily(local_14);
+          spawn ITEM.slot_28(pid, 1, 0, local_14);
+          suspend;
+        }
+        else {
+          Container.destroyContents(local_02);
+        }
+      }
+    }
+  }
+  return;
+}
+
+/* ===== slot 0x26 slot_26 ===== */
+function bridge_slot_26() /* entry=2565 class_id=0x0a03 slot=0x26 */
+{
+  set_info(0x021b, *(arg_06));
+  local_18 = 0;
+  local_20 = 1;
+  local_08 = arg_12;
+  if (local_08 == 0) {
+    for local_04 in selector_0x42(arg0=0x03a6, arg1=0x0413, arg2=(70 * 32), origin=arg_06) {
+      local_10 = Item.getQLo(local_04);
+      if (local_10 == arg_10) {
+        local_08 = Item.getQHi(local_04);
+      }
+    }
+    if (local_08 == 0) {
+      return;
+    }
+  }
+  else if (local_08 < arg_10) {
+    return;
+  }
+  else {
+    local_12 = arg_10;
+    local_22 = 100;
+    while (local_12 <= local_08) {
+      local_14 = local_12;
+      for local_04 in selector_0x42(arg0=0x03a6, arg1=0x0413, arg2=(70 * 32), origin=arg_06) {
+        local_10 = Item.getQLo(local_04);
+        if (local_10 == local_12) {
+          if (local_10 == (arg_10 + 1)) {
+            local_16 = Item.getQHi(local_04);
+            if (local_16 < 0) {
+              local_16 = (local_16 + 0x0100);
+            }
+            local_16 = (local_16 & 127);
+            local_18 = (local_16 & 7);
+            local_20 = (local_16 / 8);
+            if (local_20 == 0) {
+              local_20 = 1;
+            }
+            local_20 = (local_20 * 5);
+            if (local_18 == 0) {
+              return;
+            }
+          }
+          local_06 = (local_06 + [local_04]);
+          local_12 = (1 + local_12);
+        }
+      }
+      if (local_14 == local_12) {
+        if (local_22 == 0) {
+          spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
+          suspend;
+        }
+        else {
+          local_22 = (local_22 - 1);
+          spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+          suspend;
+        }
+      }
+    }
+    if (local_18 == 3) {
+      while (1) {
+        local_10 = 0;
+        while (true) {
+          foreach_list local_04 -> block_0a2a;
+          if (Item.inFastArea(local_04) == 0) {
+            local_10 = (1 + local_10);
+          }
+        }
+        if (local_10 == 0) {
+          while (true) {
+            foreach_list local_04 -> block_0a77;
+            if (local_10 == 0) {
+              local_12 = Item.getFrame(local_04);
+              local_29 = local_04;
+              local_10 = 1;
+            }
+            else {
+              local_14 = Item.getFrame(local_04);
+              Item.setFrame(local_12, local_04);
+              local_12 = local_14;
+            }
+          }
+          Item.setFrame(local_12, local_29);
+          while (true) {
+            foreach_list local_04 -> block_0b6a;
+            local_10 = Item.getFrame(local_04);
+            if (local_10 == 1) {
+              while (condition) {
+                local_02 = local_29;
+                FREE.slot_20(pid, 8);
+                spawn NPC.slot_2d(retval, local_04, local_02);
+                suspend;
+              }
+            }
+            else if (local_10 == 2) {
+              BRIDGE.slot_21(0x0336, local_04);
+              AudioProcess.stopSFXCru(0x0098, local_04);
+              Item.setFrame(1, local_04);
+              while (condition) {
+                Container.destroyContents(local_29);
+              }
+              spawn FREE.waitNTimerTicks(pid, local_20, 0x00000000);
+              suspend;
+              if (Item.getFrame(local_04) == 1) {
+                BRIDGE.slot_21(0x03a6, local_04);
+                AudioProcess.playAmbientSFXCru(0x0098, local_04);
+                Item.setFrame(2, local_04);
+              }
+            }
+          }
+        }
+        spawn FREE.waitNTimerTicks(pid, local_20, 0x00000000);
+        suspend;
+      }
+    }
+    while (true) {
+      foreach_list local_04 -> block_0bab;
+      if (Item.inFastArea(local_04) == 1) {
+        Item.setFrame(0, local_04);
+      }
+    }
+    while (1) {
+      while (true) {
+        foreach_list local_04 -> block_0cec;
+        if (Item.inFastArea(local_04) == 0) {
+          return;
+        }
+        local_10 = Item.getShape(local_04);
+        if ((local_10 == 0x0336) || (local_10 == 0x0290)) {
+          return;
+        }
+        if (local_18 == 1) {
+          Item.setFrame(1, local_04);
+          while (condition) {
+            local_02 = local_29;
+            FREE.slot_20(pid, 8);
+            spawn NPC.slot_2d(retval, local_04, local_02);
+            suspend;
+          }
+          spawn FREE.waitNTimerTicks(pid, local_20, 0x00000000);
+          suspend;
+          Item.setFrame(0, local_04);
+        }
+        else if (local_18 == 2) {
+          BRIDGE.slot_21(0x0336, local_04);
+          AudioProcess.stopSFXCru(0x0098, local_04);
+          Item.setFrame(1, local_04);
+          while (condition) {
+            Container.destroyContents(local_29);
+          }
+          spawn FREE.waitNTimerTicks(pid, local_20, 0x00000000);
+          suspend;
+          if (Item.getFrame(local_04) == 1) {
+            BRIDGE.slot_21(0x03a6, local_04);
+            AudioProcess.playAmbientSFXCru(0x0098, local_04);
+            Item.setFrame(0, local_04);
+          }
+        }
+        else {
+          return;
+        }
+      }
+    }
+  }
+  return;
+}

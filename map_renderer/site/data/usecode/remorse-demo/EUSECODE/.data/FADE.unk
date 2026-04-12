@@ -1,0 +1,215 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[0A:equip] call_class_event ITEM.slot_23 ; cmp ; jne 0x0038 ; ...
+//
+//
+//
+//
+//
+//
+[0A:equip] call_intrinsic PaletteFaderProcess.fadeFromBlack(arg_bytes=0x0) ; jmp 0x0196 ; cmp ; ...
+//
+//
+//
+//
+[0A:equip] call_intrinsic PaletteFaderProcess.fadeFromBlackWithParam(arg_bytes=0x2) ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+[0A:equip] call_intrinsic PaletteFaderProcess.fadeToBlack(arg_bytes=0x4) ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+[0A:equip] call_intrinsic resetVargasHealthTo500(arg_bytes=0x0) ; jmp 0x0196 ; cmp ; ...
+//
+//
+//
+//
+[0A:equip] call_intrinsic MusicProcess.musicStop(arg_bytes=0x0) ; jmp 0x0196 ; cmp ; ...
+//
+//
+//
+//
+[0A:equip] call_intrinsic MainActor.clrKeycards(arg_bytes=0x0) ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+[0A:equip] call_intrinsic PaletteFaderProcess.fadeToBlackWithParam(arg_bytes=0x2) ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+[0A:equip] call_intrinsic PaletteFaderProcess.fadeToColor(arg_bytes=0x4) ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+[0A:equip] call_intrinsic Actor.setDead(arg_bytes=0xa) ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+[0A:equip] spawn FADE.slot_20 ; pop_temp ; ...
+[0A:equip] call_class_event ITEM.slot_24 ; jmp 0x0196 ; cmp ; ...
+//
+//
+//
+//
+[0A:equip] pop_global global[0x000a] ; jmp 0x0196
+//
+//
+[0A:equip] call_class_event ITEM.slot_24
+[0A:equip] ret
+//
+//
+//
+//
+[20:slot_20] set_info ; ...
+//
+//
+//
+//
+[20:slot_20] push_global global[0x000a]
+[20:slot_20] cmp ; jne 0x0154
+[20:slot_20] pop_global global[0x000a]
+//
+[20:slot_20] pop_local_word loop ; le ; jne 0x00e8 ; ...
+//
+[20:slot_20] pop_local_word loop2 ; le ; jne 0x00b5 ; ...
+//
+[20:slot_20] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[20:slot_20] not ; jne 0x00a8
+[20:slot_20] call_intrinsic PaletteFaderProcess.fadeFromBlackWithParam(arg_bytes=0x2) ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[20:slot_20] jmp 0x0154
+//
+//
+//
+[20:slot_20] call_intrinsic Actor.setDead(arg_bytes=0xa) ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[20:slot_20] global_address global[0x003c] ; call_intrinsic Item.getItemFamily(arg_bytes=0x4) ; not ; ...
+[20:slot_20]
+[20:slot_20] global_address global[0x003c] ; call_intrinsic Actor.setActivity(arg_bytes=0x4) ; global_address global[0x003c] ; ...
+[20:slot_20] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[20:slot_20] pop_global global[0x000a]
+[20:slot_20] global_address global[0x003c] ; call_intrinsic Item.getQLo(arg_bytes=0x4)
+//
+[20:slot_20] ret
+
+/* synthesized appendix for FADE */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x0a equip ===== */
+function fade_equip() /* entry=1278 class_id=0x04fc slot=0x0a */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    var; /* [BP+10h] type=0x69 */
+
+  set_info(0x0211, *(arg_06));
+  process_exclude();
+  ITEM.slot_23(0x1000, arg_06);
+  switch (var) {
+  case 0:
+    PaletteFaderProcess.fadeFromBlack();
+    break;
+  case 1:
+    suspend;
+    break;
+  case 2:
+    suspend;
+    break;
+  case 3:
+    resetVargasHealthTo500();
+    break;
+  case 4:
+    MusicProcess.musicStop();
+    break;
+  case 5:
+    suspend;
+    break;
+  case 6:
+    suspend;
+    break;
+  case 7:
+    suspend;
+    break;
+  case 8:
+    suspend;
+    break;
+  case 9:
+    spawn FADE.slot_20(arg_06);
+    ITEM.slot_24(0x1000, arg_06);
+    break;
+  case 10:
+    break;
+  }
+  ITEM.slot_24(0x1000, arg_06);
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol var [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x20 slot_20 ===== */
+function fade_slot_20() /* entry=1278 class_id=0x04fc slot=0x20 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    loop, /* [BP-02h] type=0x69 */
+    loop2; /* [BP-04h] type=0x69 */
+
+  set_info(0x00f0, *(arg_06));
+  if (global[0x000a] == 0) {
+    loop = 1;
+    while (loop <= 20) {
+      loop2 = 1;
+      while (loop2 <= 4) {
+        spawn FREE.waitNTimerTicks(pid, 20, 0x00000000);
+        suspend;
+        if (!(global[0x000a])) {
+          suspend;
+          return;
+        }
+        loop2 = (1 + loop2);
+      }
+      suspend;
+      loop = (1 + loop);
+    }
+    if (!Item.getItemFamily(&global[0x003c])) {
+      Actor.getSomeFlagProbablyCrouch(Actor.setActivity(8, &global[0x003c]), 14, 0, &global[0x003c]);
+      spawn FREE.waitNTimerTicks(pid, 0x00c8, 0x00000000);
+      suspend;
+    }
+    Item.getQLo(&global[0x003c]);
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol loop [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol loop2 [BP-04h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}

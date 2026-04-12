@@ -629,6 +629,29 @@ export function createScenePresentationController(deps) {
     return sourceFamily || "psx";
   }
 
+  function getPsxArtStatusLabel(sourceRecord) {
+    if (!sourceRecord) {
+      return "resolved sprite bundle";
+    }
+    if (sourceRecord.isFallback) {
+      return "fallback placeholder";
+    }
+
+    const mappingSource = typeof sourceRecord.mappingSource === "string"
+      ? sourceRecord.mappingSource
+      : "";
+    if (mappingSource.startsWith("cohort-")) {
+      return "cohort donor sprite bundle";
+    }
+    if (mappingSource.includes("donor") || sourceRecord.donorTypeId != null) {
+      return "donor sprite bundle";
+    }
+    if (mappingSource.startsWith("payload-dword")) {
+      return "direct sprite bundle";
+    }
+    return "resolved sprite bundle";
+  }
+
   function buildPsxTooltipRows(item, sourceRecord) {
     if (!isPsxSceneItem(item) || !sourceRecord) {
       return "";
@@ -638,6 +661,8 @@ export function createScenePresentationController(deps) {
       ? sourceRecord.rawWords.map((value) => formatPsxHex(value)).join(" ")
       : "-";
     const authoredPalette = Number.isInteger(sourceRecord.authoredPaletteIndex) ? String(sourceRecord.authoredPaletteIndex) : "-";
+    const defaultPalette = Number.isInteger(sourceRecord.defaultPaletteIndex) ? String(sourceRecord.defaultPaletteIndex) : "-";
+    const paletteFormula = sourceRecord.paletteFormula || "-";
     const bundleOffset = Number.isInteger(sourceRecord.bundleOffset) ? formatPsxHex(sourceRecord.bundleOffset, 8) : "-";
 
     return `
@@ -645,10 +670,12 @@ export function createScenePresentationController(deps) {
       <dt>Type</dt><dd>${escapeHtml(formatPsxHex(sourceRecord.typeId))}</dd>
       <dt>State selector</dt><dd>${escapeHtml(String(sourceRecord.stateSelector ?? "-"))}</dd>
       <dt>Lane</dt><dd>${escapeHtml(formatPsxHex(sourceRecord.lane))}</dd>
-      <dt>Palette</dt><dd>${escapeHtml(`${sourceRecord.paletteIndex ?? "-"} (authored ${authoredPalette})`)}</dd>
+      <dt>Palette</dt><dd>${escapeHtml(`${sourceRecord.paletteIndex ?? "-"} (authored ${authoredPalette}, default ${defaultPalette})`)}</dd>
+      <dt>Palette rule</dt><dd>${escapeHtml(paletteFormula)}</dd>
       <dt>Bundle offset</dt><dd>${escapeHtml(bundleOffset)}</dd>
+      <dt>Art source</dt><dd>${escapeHtml(sourceRecord.mappingSource || "-")}</dd>
       <dt>Record index</dt><dd>${escapeHtml(`${sourceRecord.recordSide || "-"} row ${sourceRecord.rowIndex ?? "-"}`)}</dd>
-      <dt>Art status</dt><dd>${escapeHtml(sourceRecord.isFallback ? "fallback placeholder" : "resolved sprite bundle")}</dd>
+      <dt>Art status</dt><dd>${escapeHtml(getPsxArtStatusLabel(sourceRecord))}</dd>
       <dt>Raw words</dt><dd>${escapeHtml(rawWords)}</dd>
     `;
   }
@@ -1302,7 +1329,7 @@ export function createScenePresentationController(deps) {
       hidden,
       item,
       itemLabel: isPsxSceneItem(item) && sourceRecord
-        ? `${sourceRecord.isFallback ? "PSX fallback" : "PSX art"} · ${getPsxFamilyLabel(sourceRecord.sourceFamily)}`
+        ? `${getPsxArtStatusLabel(sourceRecord)} · ${getPsxFamilyLabel(sourceRecord.sourceFamily)}`
         : item.label,
       displayName: display.displayName,
       displayDescription: display.description,

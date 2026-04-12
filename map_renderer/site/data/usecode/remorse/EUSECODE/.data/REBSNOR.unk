@@ -1,0 +1,119 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[0F:enterFastArea] gt ; jne 0x014e ; ...
+[0F:enterFastArea]
+[0F:enterFastArea] call_intrinsic UCMachine.rndRange(arg_bytes=0x4) ; gt ; jne 0x0054 ; ...
+[0F:enterFastArea]
+[0F:enterFastArea] call_intrinsic Item.setFrame(arg_bytes=0x6)
+[0F:enterFastArea] jmp 0x014e ; jmp 0x014e
+//
+//
+//
+[0F:enterFastArea] jne 0x014e
+//
+//
+[0F:enterFastArea] pop_local_word counter ; le ; jne 0x00ab ; ...
+//
+[0F:enterFastArea] call_intrinsic Item.setFrame(arg_bytes=0x6)
+[0F:enterFastArea] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[0F:enterFastArea] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[0F:enterFastArea] pop_local_word counter ; le ; jne 0x0124 ; ...
+//
+[0F:enterFastArea] sub ; call_intrinsic Item.setFrame(arg_bytes=0x6) ; ...
+[0F:enterFastArea] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[0F:enterFastArea] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+[0F:enterFastArea] ret
+//
+//
+//
+//
+//
+[10:leaveFastArea] call_class_event FREE.slot_33 ; ...
+[10:leaveFastArea] ret
+
+/* synthesized appendix for REBSNOR */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x0f enterFastArea ===== */
+function rebsnor_enterFastArea() /* entry=1350 class_id=0x0544 slot=0x0f */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    counter; /* [BP-02h] type=0x69 */
+
+  set_info(0x021b, *(arg_06));
+  process_exclude();
+  if (global[0x001f] > 3) {
+    if (UCMachine.rndRange(10, 1) > 5) {
+      Item.setFrame(6, arg_06);
+      return;
+    }
+    else {
+      while (1) {
+        counter = 0;
+        while (counter <= 5) {
+          Item.setFrame(counter, arg_06);
+          spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+          suspend;
+          counter = (1 + counter);
+        }
+        spawn FREE.waitNTimerTicks(pid, 0x012c, 0x00000000);
+        suspend;
+        counter = 0;
+        while (counter <= 5) {
+          Item.setFrame((5 - counter), arg_06);
+          spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+          suspend;
+          counter = (1 + counter);
+        }
+        spawn FREE.waitNTimerTicks(pid, 0x00dc, 0x00000000);
+        suspend;
+      }
+    }
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol counter [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x10 leaveFastArea ===== */
+function rebsnor_leaveFastArea() /* entry=1350 class_id=0x0544 slot=0x10 */
+{
+  var
+    referent; /* [BP+00h] type=0x69 */
+
+  set_info(0x021c, *(arg_06));
+  process_exclude();
+  FREE.slot_33(*(arg_06), 0x021b);
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+  */
+}

@@ -1,0 +1,38 @@
+/* synthesized appendix for MISS3 */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x04 cachein ===== */
+function miss3_cachein() /* entry=2321 class_id=0x090f slot=0x04 */
+{
+  set_info(0x0213, *(arg_06));
+  process_exclude();
+  return;
+}
+
+/* ===== slot 0x07 hatch ===== */
+function miss3_hatch() /* entry=2321 class_id=0x090f slot=0x07 */
+{
+  set_info(0x0210, *(arg_06));
+  process_exclude();
+  switch (Item.fallProbably_03E(arg_06)) {
+  case 1:
+    spawn FREE.slot_26(pid, "3g", 0x00000000);
+    suspend;
+    Item.destroy(arg_06);
+    return;
+  case 2:
+    if (!(global[0x0023])) {
+      spawn FREE.slot_26(pid, "3i", 0x00000000);
+      suspend;
+    }
+    return;
+  case 3:
+    if (global[0x0023]) {
+      spawn FREE.slot_26(pid, "3h", 0x00000000);
+      suspend;
+      Item.destroy(arg_06);
+    }
+    return;
+  }
+  return;
+}

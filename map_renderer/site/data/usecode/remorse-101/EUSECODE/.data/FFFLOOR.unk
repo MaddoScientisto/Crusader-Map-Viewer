@@ -1,0 +1,107 @@
+/* synthesized appendix for FFFLOOR */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x06 gotHit ===== */
+function fffloor_gotHit() /* entry=311 class_id=0x0135 slot=0x06 */
+{
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  if ((Item.getFrame(arg_06) == 1) || (arg_10 > 0x0100)) {
+    return;
+  }
+  else {
+    local_02 = arg_10;
+    while (PaletteFaderProcess.fadeToBlackWithParam(*(arg_06), local_02)) {
+      if (Item.getFrame(arg_06) == 1) {
+        return;
+      }
+      else {
+        FREE.slot_20(pid, 8);
+        spawn NPC.slot_2d(retval, *(arg_06), local_02);
+        suspend;
+        spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+        suspend;
+      }
+    }
+  }
+  return;
+}
+
+/* ===== slot 0x0a equip ===== */
+function fffloor_equip() /* entry=311 class_id=0x0135 slot=0x0a */
+{
+  set_info(0x0211, *(arg_06));
+  process_exclude();
+  switch (arg_10) {
+  case 0:
+    for local_02 in nearby_items(shape=17, origin=arg_06) {
+      if (PaletteFaderProcess.fadeFromBlack(local_02) == 2) {
+        PaletteFaderProcess.fadeFromBlackWithParam(0, local_02);
+      }
+    }
+    spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+    suspend;
+    Item.orStatus(0x1000, arg_06);
+    return;
+  case 1:
+    for local_02 in nearby_items(shape=17, origin=arg_06) {
+      if (PaletteFaderProcess.fadeFromBlack(local_02) == 2) {
+        PaletteFaderProcess.fadeFromBlackWithParam(0, local_02);
+      }
+    }
+    playFlic092((~0x1000), arg_06);
+    return;
+  case 29:
+    spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+    suspend;
+    for local_04 in nearby_items(shape=0x0135, origin=arg_06) {
+      Item.isCentreOn(1, local_04);
+    }
+    return;
+  case 30:
+    spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+    suspend;
+    for local_02 in nearby_items(shape=17, origin=arg_06) {
+      if (PaletteFaderProcess.fadeFromBlack(local_02) == 2) {
+        PaletteFaderProcess.fadeFromBlackWithParam(1, local_02);
+      }
+    }
+    spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+    suspend;
+    for local_04 in nearby_items(shape=0x0135, origin=arg_06) {
+      Item.isCentreOn(0, local_04);
+      Item.touch(local_04);
+    }
+    return;
+  case 31:
+    for local_02 in nearby_items(shape=17, origin=arg_06) {
+      if (PaletteFaderProcess.fadeFromBlack(local_02) == 2) {
+        PaletteFaderProcess.fadeFromBlackWithParam(1, local_02);
+      }
+    }
+    return;
+  }
+  return;
+}
+
+/* ===== slot 0x0b unequip ===== */
+function fffloor_unequip() /* entry=311 class_id=0x0135 slot=0x0b */
+{
+  set_info(0x0212, *(arg_06));
+  process_exclude();
+  if (Item.getFrame(arg_06) == 1) {
+    return;
+  }
+  else {
+    for local_02 in nearby_items(family=6, origin=arg_06) {
+      if (Actor.isNPC(local_02) == 1) {
+        if (PaletteFaderProcess.fadeToBlack(local_02, arg_06)) {
+          FREE.slot_20(pid, 8);
+          spawn NPC.slot_2d(retval, *(arg_06), local_02);
+          suspend;
+        }
+      }
+    }
+  }
+  return;
+}

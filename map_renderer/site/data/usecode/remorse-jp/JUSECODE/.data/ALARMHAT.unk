@@ -1,0 +1,100 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[0A:equip] call_intrinsic Item.getFrame(arg_bytes=0x4) ; jne 0x0082 ; loopscr value_u8=0x24 ; ...
+//
+//
+//
+[0A:equip] loopscr value_u8=0x25 ; mul ; ...
+[0A:equip] loop current_var=0xfe, string_bytes=0x6, loop_type=0x2 ; jne 0x007d ; ...
+[0A:equip] call_intrinsic Item.getFrame(arg_bytes=0x4) ; cmp ; jne 0x0079 ; ...
+//
+[0A:equip] call_intrinsic Item.equip(arg_bytes=0x6) ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+//
+//
+//
+[0A:equip] call_intrinsic Item.isOnScreen(arg_bytes=0x4) ; not ; jne 0x015f ; ...
+[0A:equip]
+[0A:equip] loopscr value_u8=0x25 ; mul ; ...
+[0A:equip] loop current_var=0xfc, string_bytes=0x6, loop_type=0x2 ; jne 0x0104 ; ...
+[0A:equip] call_intrinsic Actor.isNPC(arg_bytes=0x4) ; jne 0x0100 ; ...
+//
+[0A:equip] call_intrinsic Item.getZ(arg_bytes=0x4) ; call_intrinsic Item.getZ(arg_bytes=0x4) ; sub ; ...
+[0A:equip]
+[0A:equip] jmp 0x015f ; loopnext ; jmp 0x00b2 ; ...
+//
+//
+//
+[0A:equip] loopscr value_u8=0x25 ; mul ; ...
+[0A:equip] loop current_var=0xfe, string_bytes=0x6, loop_type=0x2 ; jne 0x015d ; ...
+[0A:equip] call_intrinsic Item.getFrame(arg_bytes=0x4) ; cmp ; jne 0x0159 ; ...
+//
+[0A:equip] call_intrinsic Item.equip(arg_bytes=0x6) ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+[0A:equip] ret
+
+/* synthesized appendix for ALARMHAT */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x0a equip ===== */
+function alarmhat_equip() /* entry=1379 class_id=0x0561 slot=0x0a */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    var, /* [BP+10h] type=0x69 */
+    item, /* [BP-02h] type=0x24 */
+    npc; /* [BP-04h] type=0x24 */
+
+  set_info(0x0211, *(arg_06));
+  process_exclude();
+  if (Item.getFrame(arg_06)) {
+    for item in nearby_items(shape=NPC_SPAWNER_04D0, origin=arg_06) {
+      if (Item.getFrame(item) == 0) {
+        suspend;
+      }
+    }
+    return;
+  }
+  else if (!Item.isOnScreen(arg_06)) {
+    for npc in nearby_items(family=6, origin=arg_06) {
+      if (Actor.isNPC(npc)) {
+        if ((Item.getZ(npc) > (Item.getZ(arg_06) - 10)) && (Item.getZ(npc) < (Item.getZ(arg_06) + 10))) {
+          return;
+        }
+      }
+    }
+    for item in nearby_items(shape=NPC_SPAWNER_04D0, origin=arg_06) {
+      if (Item.getFrame(item) == 0) {
+        suspend;
+      }
+    }
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol var [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol item [BP-02h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol npc [BP-04h] type=0x24 unk1=0x00 unk3=0x02
+  */
+}

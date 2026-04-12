@@ -1,0 +1,55 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[01:use] call_intrinsic Item.getQLo(arg_bytes=0x4) ; jne 0x00cc ; ...
+//
+[01:use] spawn TRIGGER.slot_20 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[01:use] cmp ; jne 0x00cc ; ...
+[01:use]
+[01:use] call_class_event ITEM.slot_23
+[01:use] call_intrinsic Item.fallProbably_03E(arg_bytes=0x6)
+[01:use] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[01:use] spawn FREE.slot_26 ; free_stack_string value_u8=0x0, target=[SP+00h] ; implies arg0=0x1, arg1=0x1 ; ...
+//
+//
+[01:use] ret
+
+/* synthesized appendix for PHIR */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x01 use ===== */
+function phir_use() /* entry=1281 class_id=0x04ff slot=0x01 */
+{
+  var
+    referent; /* [BP+00h] type=0x69 */
+
+  set_info(0x0207, *(arg_06));
+  process_exclude();
+  if (Item.getQLo(arg_06)) {
+    spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
+    suspend;
+    if (global[0x001f] == 12) {
+      ITEM.slot_23(0x1000, arg_06);
+      Item.fallProbably_03E(0, arg_06);
+      spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
+      suspend;
+      spawn FREE.slot_26(pid, "12e", 0x00000000);
+      suspend;
+    }
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+  */
+}

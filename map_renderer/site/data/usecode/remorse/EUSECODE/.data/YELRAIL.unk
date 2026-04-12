@@ -1,0 +1,265 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[20:slot_20] set_info ; ...
+//
+[20:slot_20] call_class_event FREE.slot_2c ; pop_local_word damage ; ...
+//
+//
+//
+//
+[20:slot_20] not ; jne 0x0040
+[20:slot_20] jmp 0x036f
+//
+//
+//
+//
+[20:slot_20] cmp
+[20:slot_20] cmp ; or ; ...
+[20:slot_20] cmp ; or ; jne 0x036f ; ...
+[20:slot_20]
+[20:slot_20] call_intrinsic UCMachine.rndRange(arg_bytes=0x4) ; gt ; jne 0x008b ; ...
+[20:slot_20]
+[20:slot_20] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6) ; jmp 0x0099 ; ...
+//
+//
+//
+[20:slot_20] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6) ; call_intrinsic Item.getShape(arg_bytes=0x4) ; cmp ; ...
+//
+//
+//
+//
+//
+//
+[20:slot_20] call_intrinsic Item.getFrame(arg_bytes=0x4) ; not ; jne 0x00e0 ; ...
+[20:slot_20]
+[20:slot_20] call_intrinsic UCMachine.rndRange(arg_bytes=0x4) ; call_intrinsic Item.setFrame(arg_bytes=0x6) ; ...
+//
+//
+[20:slot_20] jmp 0x036f ; jmp 0x036f ; call_intrinsic Item.getShape(arg_bytes=0x4) ; ...
+//
+//
+//
+//
+[20:slot_20] call_intrinsic Item.getFrame(arg_bytes=0x4) ; not ; jne 0x0130 ; ...
+[20:slot_20]
+[20:slot_20] call_intrinsic UCMachine.rndRange(arg_bytes=0x4) ; call_intrinsic Item.setFrame(arg_bytes=0x6) ; ...
+//
+//
+[20:slot_20] jmp 0x036f ; jmp 0x036f ; call_intrinsic Item.getShape(arg_bytes=0x4) ; ...
+//
+//
+//
+//
+//
+[20:slot_20] call_intrinsic Item.getFrame(arg_bytes=0x4) ; not ; jne 0x0177 ; ...
+[20:slot_20]
+[20:slot_20] call_intrinsic Item.setFrame(arg_bytes=0x6)
+//
+//
+[20:slot_20] jmp 0x036f ; jmp 0x036f ; call_intrinsic Item.getShape(arg_bytes=0x4) ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[20:slot_20] call_intrinsic Item.setFrame(arg_bytes=0x6) ; jmp 0x020c ; call_intrinsic Item.getFrame(arg_bytes=0x4) ; ...
+//
+//
+//
+[20:slot_20] call_intrinsic Item.setFrame(arg_bytes=0x6) ; jmp 0x020c ; call_intrinsic Item.getFrame(arg_bytes=0x4) ; ...
+//
+//
+//
+[20:slot_20] call_intrinsic Item.setFrame(arg_bytes=0x6) ; jmp 0x020c ; call_intrinsic Item.getFrame(arg_bytes=0x4) ; ...
+//
+//
+//
+[20:slot_20] call_intrinsic Item.setFrame(arg_bytes=0x6) ; jmp 0x020c ; ...
+//
+//
+//
+[20:slot_20] jmp 0x036f ; jmp 0x036f ; call_intrinsic Item.getShape(arg_bytes=0x4) ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[20:slot_20] call_intrinsic Item.setFrame(arg_bytes=0x6) ; jmp 0x02a0 ; call_intrinsic Item.getFrame(arg_bytes=0x4) ; ...
+//
+//
+//
+[20:slot_20] call_intrinsic Item.setFrame(arg_bytes=0x6) ; jmp 0x02a0 ; call_intrinsic Item.getFrame(arg_bytes=0x4) ; ...
+//
+//
+//
+[20:slot_20] call_intrinsic Item.setFrame(arg_bytes=0x6) ; jmp 0x02a0 ; call_intrinsic Item.getFrame(arg_bytes=0x4) ; ...
+//
+//
+//
+[20:slot_20] call_intrinsic Item.setFrame(arg_bytes=0x6) ; jmp 0x02a0 ; ...
+//
+//
+[20:slot_20] jmp 0x036f ; jmp 0x036f ; call_intrinsic Item.getShape(arg_bytes=0x4) ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+[20:slot_20] call_intrinsic Item.setFrame(arg_bytes=0x6) ; jmp 0x0366 ; call_intrinsic Item.getFrame(arg_bytes=0x4) ; ...
+//
+//
+//
+[20:slot_20] call_intrinsic Item.setFrame(arg_bytes=0x6) ; jmp 0x0366 ; call_intrinsic Item.getFrame(arg_bytes=0x4) ; ...
+//
+//
+//
+[20:slot_20] call_intrinsic Item.setFrame(arg_bytes=0x6) ; jmp 0x0366 ; call_intrinsic Item.getFrame(arg_bytes=0x4) ; ...
+//
+//
+//
+[20:slot_20] call_intrinsic UCMachine.rndRange(arg_bytes=0x4) ; call_intrinsic Item.setFrame(arg_bytes=0x6) ; jmp 0x0366 ; ...
+//
+//
+//
+[20:slot_20] call_intrinsic UCMachine.rndRange(arg_bytes=0x4) ; call_intrinsic Item.setFrame(arg_bytes=0x6) ; jmp 0x0366 ; ...
+//
+//
+//
+[20:slot_20] jmp 0x036f ; jmp 0x036f
+//
+//
+//
+[20:slot_20] ret
+
+/* synthesized appendix for YELRAIL */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x20 slot_20 ===== */
+function yelrail_slot_20() /* entry=2589 class_id=0x0a1b slot=0x20 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    shotRef, /* [BP+12h] type=0x69 */
+    vel, /* [BP+14h] type=0x69 */
+    item, /* [BP-02h] type=0x24 */
+    damage; /* [BP-04h] type=0x69 */
+
+  set_info(0x0001, *(arg_06));
+  set_info(1, *(arg_06));
+  FREE.slot_2c(vel, shotRef);
+  damage = retval;
+  if (!damage) {
+    return;
+  }
+  else if (((damage == 4) || (damage == 3)) || (damage == 10)) {
+    if (UCMachine.rndRange(100, 0) > 50) {
+      AudioProcess.playSFXCru(0x00bd, arg_06);
+    }
+    else {
+      AudioProcess.playSFXCru(0x00bc, arg_06);
+    }
+    if ((Item.getShape(arg_06) == yelrail_shape_008a) || (Item.getShape(arg_06) == yelrail_shape_0088)) {
+      if (!Item.getFrame(arg_06)) {
+        Item.setFrame(UCMachine.rndRange(3, 1), arg_06);
+      }
+      return;
+    }
+    else if ((Item.getShape(arg_06) == yelrail_shape_008b) || (Item.getShape(arg_06) == yelrail_shape_0091)) {
+      if (!Item.getFrame(arg_06)) {
+        Item.setFrame(UCMachine.rndRange(2, 1), arg_06);
+      }
+      return;
+    }
+    else if ((Item.getShape(arg_06) == yelrail_shape_008c) || (Item.getShape(arg_06) == yelrail_shape_0092)) {
+      if (!Item.getFrame(arg_06)) {
+        Item.setFrame(1, arg_06);
+      }
+      return;
+    }
+    else {
+      switch (Item.getShape(arg_06)) {
+      case 141:
+        switch (Item.getFrame(arg_06)) {
+        case 0:
+          Item.setFrame(4, arg_06);
+          break;
+        case 1:
+          Item.setFrame(5, arg_06);
+          break;
+        case 2:
+          Item.setFrame(7, arg_06);
+          break;
+        case 3:
+          Item.setFrame(6, arg_06);
+          break;
+        }
+        return;
+      case 112:
+        switch (Item.getFrame(arg_06)) {
+        case 0:
+          Item.setFrame(4, arg_06);
+          break;
+        case 1:
+          Item.setFrame(5, arg_06);
+          break;
+        case 2:
+          Item.setFrame(6, arg_06);
+          break;
+        case 3:
+          Item.setFrame(7, arg_06);
+          break;
+        }
+        return;
+      case 147:
+        switch (Item.getFrame(arg_06)) {
+        case 0:
+          Item.setFrame(5, arg_06);
+          break;
+        case 1:
+          Item.setFrame(11, arg_06);
+          break;
+        case 2:
+          Item.setFrame(10, arg_06);
+          break;
+        case 3:
+          Item.setFrame(UCMachine.rndRange(7, 6), arg_06);
+          break;
+        case 4:
+          Item.setFrame(UCMachine.rndRange(9, 8), arg_06);
+          break;
+        }
+        return;
+      }
+    }
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol ref [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol shotRef [BP+12h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol vel [BP+14h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol item [BP-02h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol damage [BP-04h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}

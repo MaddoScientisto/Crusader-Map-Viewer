@@ -1,7 +1,16 @@
 function free_slot_38() /* entry=2575 class_id=0x0a0d slot=0x38 */
 {
+  var
+    list, /* [BP+06h] type=0x7a */
+    line; /* [BP+08h] type=0x73 */
+
   /* remove_matching_indirect */
-  arg_06 = [arg_08];
-  arg_06 = (arg_06 + [arg_08]);
+  list = [line];
+  list = (list + [line]);
   return;
+
+  /* post-return metadata (not executable):
+    debug_symbol list [BP+06h] type=0x7a unk1=0x00 unk3=0x02
+    debug_symbol line [BP+08h] type=0x73 unk1=0x00 unk3=0x00
+  */
 }

@@ -1,8 +1,12 @@
 function conv_el_equip() /* entry=661 class_id=0x0293 slot=0x0a */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    var; /* [BP+10h] type=0x69 */
+
   set_info(0x0211, *(arg_06));
   process_exclude();
-  switch (arg_10) {
+  switch (var) {
   case 0:
     Item.pop(0x00ff, arg_06);
     FREE.slot_33(0x0205, *(arg_06));
@@ -21,4 +25,9 @@ function conv_el_equip() /* entry=661 class_id=0x0293 slot=0x0a */
     return;
   }
   return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol var [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+  */
 }

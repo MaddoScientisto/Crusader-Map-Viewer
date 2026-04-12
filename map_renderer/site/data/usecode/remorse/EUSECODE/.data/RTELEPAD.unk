@@ -1,0 +1,151 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[06:gotHit] pop_local_word item
+//
+[06:gotHit] call_class_event FREE.slot_2c ; jne 0x0036 ; ...
+//
+[06:gotHit] jmp 0x00c5
+//
+//
+[06:gotHit] call_intrinsic Actor.isNPC(arg_bytes=0x4) ; cmp ; jne 0x0053 ; ...
+//
+[06:gotHit] call_intrinsic Item.destroy(arg_bytes=0x4)
+//
+//
+//
+[06:gotHit] call_intrinsic Ultima8Engine.getUnkCrusaderFlag(arg_bytes=0x0) ; cmp ; jne 0x00c5 ; ...
+//
+//
+[06:gotHit] loopscr value_u8=0x25
+[06:gotHit] loop current_var=0xfc, string_bytes=0x6, loop_type=0x6 ; jne 0x00bd ; ...
+[06:gotHit] lt ; jne 0x00b9 ; ...
+//
+[06:gotHit] ne ; jne 0x00b9 ; ...
+//
+[06:gotHit] call_intrinsic Actor.getHp(arg_bytes=0x4) ; call_intrinsic UCMachine.rndRange(arg_bytes=0x4) ; call_intrinsic Item.receiveHit(arg_bytes=0xc) ; ...
+//
+//
+//
+[06:gotHit] jmp 0x00c5
+//
+[06:gotHit] ret
+//
+//
+//
+//
+[09:release] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+[09:release] loopscr value_u8=0x25
+[09:release] loop current_var=0xfe, string_bytes=0x6, loop_type=0x6 ; jne 0x0066 ; ...
+[09:release] jmp 0x00e4 ; loopnext ; jmp 0x0059 ; ...
+//
+//
+//
+//
+[09:release] loopscr value_u8=0x25
+[09:release] loop current_var=0xfc, string_bytes=0x6, loop_type=0x6 ; jne 0x00e2 ; ...
+[09:release] cmp ; jne 0x00d8 ; ...
+[09:release]
+[09:release] global_address global[0x003c] ; call_intrinsic Item.isOn(arg_bytes=0x6) ; jne 0x00d1 ; ...
+//
+[09:release] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[09:release] call_intrinsic Ultima8Engine.clrUnkCrusaderFlag(arg_bytes=0x0)
+//
+[09:release] jmp 0x00e4 ; loopnext ; jmp 0x0083
+//
+[09:release] ret
+
+/* synthesized appendix for RTELEPAD */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x06 gotHit ===== */
+function rtelepad_gotHit() /* entry=394 class_id=0x0188 slot=0x06 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    ke, /* [BP+12h] type=0x69 */
+    item, /* [BP-02h] type=0x24 */
+    npc; /* [BP-04h] type=0x24 */
+
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  item = ref;
+  FREE.slot_2c(ke, ref);
+  if (retval) {
+    return;
+  }
+  else if (Actor.isNPC(item) == 0) {
+    Item.destroy(item);
+  }
+  if (Ultima8Engine.getUnkCrusaderFlag() == 1) {
+    while (condition) {
+      if (npc < 0x0100) {
+        if (npc != 1) {
+          Item.receiveHit(8, UCMachine.rndRange(Actor.getHp(npc), 16, 0), 0, npc);
+        }
+      }
+    }
+    return;
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol ref [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol ke [BP+12h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol item [BP-02h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol npc [BP-04h] type=0x24 unk1=0x00 unk3=0x02
+  */
+}
+
+/* ===== slot 0x09 release ===== */
+function rtelepad_release() /* entry=394 class_id=0x0188 slot=0x09 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    tele, /* [BP-02h] type=0x24 */
+    npc; /* [BP-04h] type=0x24 */
+
+  set_info(0x020d, *(arg_06));
+  process_exclude();
+  spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+  suspend;
+  while (condition) {
+    return;
+  }
+  while (condition) {
+    if (npc == 1) {
+      while (Item.isOn(*(arg_06), &global[0x003c])) {
+        spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+        suspend;
+      }
+      Ultima8Engine.clrUnkCrusaderFlag();
+    }
+    return;
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol tele [BP-02h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol npc [BP-04h] type=0x24 unk1=0x00 unk3=0x02
+  */
+}

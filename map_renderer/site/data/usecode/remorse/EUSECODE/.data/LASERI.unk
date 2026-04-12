@@ -1,0 +1,124 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[06:gotHit] call_class_event FREE.slot_2c ; pop_local_word hType ; ...
+[06:gotHit] call_intrinsic Item.getQLo(arg_bytes=0x4) ; pop_local_word QLo ; ...
+//
+[06:gotHit] call_class_event FREE.slot_2c ; not ; jne 0x0052 ; ...
+[06:gotHit]
+[06:gotHit] jmp 0x01b3
+//
+//
+[06:gotHit] spawn ITEM.slot_27 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[06:gotHit] cmp ; not ; and ; ...
+[06:gotHit]
+[06:gotHit] jmp 0x01b3
+//
+//
+//
+[06:gotHit] gt ; call_intrinsic Item.getFrame(arg_bytes=0x4) ; cmp ; ...
+[06:gotHit]
+//
+[06:gotHit] push_word_immediate 0x01cf ; push_word_immediate 0x01ce
+[06:gotHit] push_word_immediate 0x01cc ; push_word_immediate 0x01cb
+[06:gotHit] push_word_immediate 0x01d3 ; push_word_immediate 0x01d0
+[06:gotHit] loopscr value_u8=0x48
+[06:gotHit] mul
+[06:gotHit] loop current_var=0xfe, string_bytes=0x12, loop_type=0x2 ; jne 0x0115 ; ...
+[06:gotHit] call_intrinsic Item.getQLo(arg_bytes=0x4)
+[06:gotHit] cmp ; jne 0x0111
+[06:gotHit] call_intrinsic Item.destroy(arg_bytes=0x4) ; loopnext ; jmp 0x00eb ; ...
+//
+//
+//
+[06:gotHit] spawn ITEM.slot_28 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[06:gotHit] call_intrinsic Item.setFrame(arg_bytes=0x6)
+//
+[06:gotHit] call_intrinsic Item.getMapArray(arg_bytes=0x4) ; ne ; jne 0x0188 ; ...
+[06:gotHit]
+[06:gotHit] spawn TRIGGER.slot_20 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+[06:gotHit] add ; spawn TRIGGER.slot_20 ; implies arg0=0x1, arg1=0x1 ; ...
+//
+//
+[06:gotHit] ret
+
+/* synthesized appendix for LASERI */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x06 gotHit ===== */
+function laseri_gotHit() /* entry=471 class_id=0x01d5 slot=0x06 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    vel, /* [BP+12h] type=0x69 */
+    laser, /* [BP-02h] type=0x24 */
+    hType, /* [BP-04h] type=0x69 */
+    QLo, /* [BP-06h] type=0x69 */
+    p; /* [BP-08h] type=0x69 */
+
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  FREE.slot_2c(vel, ref);
+  hType = retval;
+  QLo = Item.getQLo(arg_06);
+  FREE.slot_2c(vel, ref);
+  if (!retval) {
+    return;
+  }
+  else {
+    spawn ITEM.slot_27(pid, 50, vel, ref, arg_06);
+    suspend;
+    p = process_result;
+    if ((hType == 4) && (!p)) {
+      return;
+    }
+    else if ((hType > 0) && (Item.getFrame(arg_06) == 0)) {
+      while (condition) {
+        if (Item.getQLo(laser) == QLo) {
+          Item.destroy(laser);
+        }
+      }
+      spawn ITEM.slot_28(pid, 0, 0, arg_06);
+      suspend;
+      Item.setFrame(1, arg_06);
+      if (Item.getMapArray(arg_06) != 0) {
+        spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
+        suspend;
+        return;
+      }
+      else {
+        spawn TRIGGER.slot_20(pid, (0 + 0x0080), *(arg_06), arg_06);
+        suspend;
+      }
+    }
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol ref [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol vel [BP+12h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol laser [BP-02h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol hType [BP-04h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol QLo [BP-06h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol p [BP-08h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}

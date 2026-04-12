@@ -1,0 +1,135 @@
+/* synthesized appendix for BLASER */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x20 slot_20 ===== */
+function blaser_slot_20() /* entry=2564 class_id=0x0a02 slot=0x20 */
+{
+  set_info(1, 0);
+  local_09 = arg_10;
+  local_19 = Item.getQLo(local_09);
+  local_15 = 0;
+  for local_09 in selector_0x42(arg0=0x02c3, arg1=0x02c4, arg2=(50 * 32), origin=arg_10) {
+    if ((Item.getQLo(local_09) == local_19) && ((Item.getStatus(local_09) & 0x1000) == 0)) {
+      local_07 = (local_07 + [local_09]);
+      Item.orStatus(0x1000, local_09);
+      local_15 = (1 + local_15);
+    }
+  }
+  if (local_15 == 0) {
+    return;
+  }
+  else {
+    while (1) {
+      local_11 = 0;
+      while (true) {
+        foreach_list local_09 -> block_035c;
+        local_17 = Item.getQHi(local_09);
+        if (local_17 & 8) {
+          /* remove_matching_inline */
+          local_07 = [local_09];
+          Item.destroy(local_09);
+        }
+        else if (Item.getStatus(local_09) & (0x1000 == 0)) {
+          /* remove_matching_inline */
+          local_07 = [local_09];
+        }
+        else if ((Item.inFastArea(local_09) == 1) && (Item.getShape(local_09) != 0x0476)) {
+          local_11 = (1 + local_11);
+          if (local_17 & 1) {
+            if (local_17 & 2) {
+              local_17 = (local_17 & 4);
+            }
+            else {
+              local_17 = ((local_17 & 4) | 2);
+            }
+            Item.setQHi(local_17, local_09);
+          }
+          local_13 = -1;
+          if (local_17 & 2) {
+            local_13 = 1;
+          }
+          local_21 = Item.getX(local_09);
+          local_23 = Item.getY(local_09);
+          if (Item.getShape(local_09) == 0x02c4) {
+            local_05 = (local_21 + (local_13 * 16));
+            local_03 = local_23;
+          }
+          else {
+            local_05 = local_21;
+            local_03 = (local_23 + (local_13 * 16));
+          }
+          local_01 = Item.getZ(local_09);
+          if (legalMoveToPoint(0, 0, local_05, local_09) == 0) {
+            local_17 = Item.getQHi(local_09);
+            Item.setQHi((local_17 | 1), local_09);
+          }
+          else if (local_17 & 4) {
+            if (Item.getShape(local_09) == 0x02c4) {
+              push(local_09);
+              if (Intrinsic02F(local_05, 0x02c3, arg_06) == 1) {
+                Item.pop(local_09);
+                Item.setShape(0x02c3, local_09);
+                Item.setQHi((local_17 & (~4)), local_09);
+              }
+              else {
+                Item.pop(local_09);
+              }
+            }
+            else {
+              push(local_09);
+              if (Intrinsic02F(local_05, 0x02c4, arg_06) == 1) {
+                Item.pop(local_09);
+                Item.setShape(0x02c4, local_09);
+                Item.setQHi((local_17 & (~4)), local_09);
+              }
+              else {
+                Item.pop(local_09);
+              }
+            }
+          }
+        }
+      }
+      spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+      suspend;
+      if (local_11 == 0) {
+        while (true) {
+          foreach_list local_09 -> block_0395;
+          Item.andStatus((~0x1000), local_09);
+        }
+        return;
+      }
+    }
+  }
+  return;
+}
+
+/* ===== slot 0x21 slot_21 ===== */
+function blaser_slot_21() /* entry=2564 class_id=0x0a02 slot=0x21 */
+{
+  set_info(1, *(arg_06));
+  local_02 = arg_10;
+  if (Actor.isNPC(local_02)) {
+    local_04 = Item.getFrame(arg_06);
+    if (local_04 == 1) {
+      Item.receiveHit(UCMachine.rndRange(4, 6, 2), 8, *(arg_06), local_02);
+      local_06 = Item.getQHi(arg_06);
+      Item.setQHi((local_06 | 8), arg_06);
+      return;
+    }
+    else if (local_04 == 2) {
+      Item.receiveHit(UCMachine.rndRange(4, 6, 2), 8, *(arg_06), local_02);
+      Item.andStatus((~0x1000), arg_06);
+      local_06 = Item.getQHi(arg_06);
+      Item.setQHi((local_06 | 8), arg_06);
+      Item.explode(0, 0, arg_06);
+      return;
+    }
+    else {
+      spawn NPC.slot_2c(pid, *(arg_06), local_02);
+      suspend;
+      spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+      suspend;
+    }
+  }
+  return;
+}

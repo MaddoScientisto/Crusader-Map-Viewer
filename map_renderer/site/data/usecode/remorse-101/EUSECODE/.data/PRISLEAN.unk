@@ -1,0 +1,69 @@
+/* synthesized appendix for PRISLEAN */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x0f enterFastArea ===== */
+function prislean_enterFastArea() /* entry=746 class_id=0x02e8 slot=0x0f */
+{
+  set_info(0x021b, *(arg_06));
+  process_exclude();
+  spawn FREE.waitNTimerTicks(pid, 100, 0x00000000);
+  suspend;
+  suspend;
+  FREE.slot_20(pid, 100, 100);
+  spawn FREE.waitNTimerTicks(retval, 0x00000000);
+  suspend;
+  while (true) {
+    suspend;
+    FREE.slot_20(pid, 100, 100);
+    spawn FREE.waitNTimerTicks(retval, 0x00000000);
+    suspend;
+    if (Item.getFrame(arg_06) < 6) {
+      local_02 = Item.getFrame(arg_06);
+      while (local_02 <= 5) {
+        Item.isCentreOn(local_02, arg_06);
+        spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+        suspend;
+        local_02 = (1 + local_02);
+      }
+      FREE.slot_20(pid, 100, 100);
+      spawn FREE.waitNTimerTicks(retval, 0x00000000);
+      suspend;
+      local_02 = 0;
+      while (local_02 <= 5) {
+        Item.isCentreOn((5 - local_02), arg_06);
+        spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+        suspend;
+        local_02 = (1 + local_02);
+      }
+    }
+    else {
+      local_02 = Item.getFrame(arg_06);
+      while (local_02 <= 12) {
+        Item.isCentreOn(local_02, arg_06);
+        spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+        suspend;
+        local_02 = (1 + local_02);
+      }
+      FREE.slot_20(pid, 100, 100);
+      spawn FREE.waitNTimerTicks(retval, 0x00000000);
+      suspend;
+      local_02 = 0;
+      while (local_02 <= 5) {
+        Item.isCentreOn((12 - local_02), arg_06);
+        spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+        suspend;
+        local_02 = (1 + local_02);
+      }
+    }
+  }
+  return;
+}
+
+/* ===== slot 0x10 leaveFastArea ===== */
+function prislean_leaveFastArea() /* entry=746 class_id=0x02e8 slot=0x10 */
+{
+  set_info(0x021c, *(arg_06));
+  process_exclude();
+  FREE.slot_33(0x021b, *(arg_06));
+  return;
+}

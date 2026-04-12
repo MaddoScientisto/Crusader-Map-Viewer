@@ -1,0 +1,53 @@
+/* synthesized appendix for VMAIL */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x0a equip ===== */
+function vmail_equip() /* entry=873 class_id=0x0367 slot=0x0a */
+{
+  set_info(0x0211, *(arg_06));
+  process_exclude();
+  suspend;
+  local_02 = ((((((((((((((((("KILL BOARD:^-----------^Guards: " + Item.andStatus(global[0x000c])) + "^Soldiers: ") + Item.andStatus(global[0x000e])) + "^Storm troopers: ") + Item.andStatus(global[0x0010])) + "^Elite troopers: ") + Item.andStatus(global[0x0012])) + "^Enforcers: ") + Item.andStatus(global[0x0014])) + "^^Androids: ") + Item.andStatus(global[0x0016])) + "^Thermatrons: ") + Item.andStatus(global[0x0018])) + "^Vetrons: ") + Item.andStatus(global[0x001a])) + "^Solartrons: ") + Item.andStatus(global[0x001c]));
+  Item.hurl(local_02);
+  spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+  suspend;
+  if (global[0x0020] == 4) {
+    playFlic(pid, 0x0096, 0x00c8, "4a", arg_06);
+    suspend;
+    return;
+  }
+  else if (global[0x0020] == 6) {
+    playFlic(pid, 0x0096, 0x00c8, "6a", arg_06);
+    suspend;
+    return;
+  }
+  else if (global[0x0020] == 7) {
+    playFlic(pid, 0x0096, 0x00c8, "7a", arg_06);
+    suspend;
+    return;
+  }
+  else if (global[0x0020] == 8) {
+    playFlic(pid, 0x0096, 0x00c8, "8a", arg_06);
+    suspend;
+    return;
+  }
+  else if (global[0x0020] == 11) {
+    playFlic(pid, 0x0096, 0x00c8, "11b", arg_06);
+    suspend;
+    return;
+  }
+  else if (global[0x0020] == 12) {
+    playFlic(pid, 0x0096, 0x00c8, "12a", arg_06);
+    suspend;
+    return;
+  }
+  else if (global[0x0020] == 14) {
+    playFlic(pid, 0x0096, 0x00c8, "14a", arg_06);
+    suspend;
+    return;
+  }
+  else {
+    AudioProcess.playSFXCru(126, arg_06);
+  }
+  return;
+}

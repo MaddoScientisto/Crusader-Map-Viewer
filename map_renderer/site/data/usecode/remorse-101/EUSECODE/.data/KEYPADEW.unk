@@ -1,0 +1,31 @@
+/* synthesized appendix for KEYPADEW */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x01 use ===== */
+function keypadew_use() /* entry=1102 class_id=0x044c slot=0x01 */
+{
+  set_info(0x0207, *(arg_06));
+  process_exclude();
+  if (Item.getMapArray(arg_06) != 0) {
+    local_01 = (Item.getStatus(arg_06) & 4);
+    if (local_01 == 0) {
+      if (World.getAlertActive()) {
+        AudioProcess.playSFXCru(123, arg_06);
+        while (AudioProcess.isSFXPlayingForObject(123, arg_06)) {
+          spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+          suspend;
+        }
+        AudioProcess.playSFXCru(121, arg_06);
+        return;
+      }
+      spawn KEYPAD.slot_20(pid, arg_06);
+      suspend;
+    }
+    else {
+      spawn TRIGGER.slot_2a(pid, 0, *(arg_06), arg_06);
+      suspend;
+    }
+    return;
+  }
+  return;
+}

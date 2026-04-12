@@ -1,0 +1,588 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[20:slot_20] call_intrinsic Item.getStatus(arg_bytes=0x4) ; bit_and ; jne 0x002f ; ...
+//
+[20:slot_20] jmp 0x00a6
+//
+//
+[20:slot_20] call_intrinsic Item.isCompletelyOn(arg_bytes=0x4) ; not ; jne 0x0048 ; ...
+[20:slot_20]
+[20:slot_20] jmp 0x00a6
+//
+//
+//
+[20:slot_20] call_intrinsic Item.getZ(arg_bytes=0x4) ; call_class_event ELEVAT.slot_22 ; lt ; ...
+[20:slot_20]
+[20:slot_20] spawn ELEVAT.slot_23 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+//
+[20:slot_20] spawn ELEVAT.slot_24 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[20:slot_20] ret
+//
+//
+//
+//
+[21:slot_21] call_intrinsic Item.isCompletelyOn(arg_bytes=0x4) ; pop_temp ; jmp 0x001e ; ...
+[21:slot_21] ret
+//
+//
+//
+[22:slot_22] call_intrinsic Actor.clrInCombat(arg_bytes=0x4) ; pop_temp ; jmp 0x001e ; ...
+[22:slot_22] ret
+//
+//
+//
+//
+//
+[23:slot_23] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+[23:slot_23] call_intrinsic Item.orStatus(arg_bytes=0x6)
+[23:slot_23] call_intrinsic Item.legal_create(arg_bytes=0x6)
+//
+//
+//
+//
+//
+//
+//
+[23:slot_23] call_intrinsic Item.getZ(arg_bytes=0x4) ; pop_local_byte height ; ...
+[23:slot_23] call_intrinsic Actor.clrInCombat(arg_bytes=0x4) ; pop_local_word maxLimit ; ...
+[23:slot_23] call_intrinsic Actor.clrInCombat(arg_bytes=0x4) ; sub ; div ; ...
+//
+[23:slot_23] call_intrinsic AudioProcess.playAmbientSFXCru(arg_bytes=0x6)
+//
+[23:slot_23] pop_local_word counter ; add ; pop_local_word counter ; ...
+[23:slot_23] le ; jne 0x018e ; loopscr value_u8=0x24 ; ...
+//
+//
+//
+[23:slot_23] loop current_var=0xfe, string_bytes=0x1, loop_type=0x6 ; jne 0x00cc ; ...
+[23:slot_23] call_intrinsic Item.getShape(arg_bytes=0x4) ; ne ; jne 0x00c8 ; ...
+//
+[23:slot_23] call_intrinsic push(arg_bytes=0x4)
+[23:slot_23] add ; pop_local_word total ; loopnext ; ...
+//
+//
+//
+[23:slot_23] pop_local_word counter2 ; add ; pop_local_word counter2 ; ...
+[23:slot_23] le ; jne 0x0120
+[23:slot_23] call_intrinsic Item.getEtherealTop(arg_bytes=0x0) ; pop_local_word cargoUp
+//
+[23:slot_23] call_intrinsic Item.getZ(arg_bytes=0x4) ; add ; call_intrinsic Item.getY(arg_bytes=0x4) ; ...
+//
+//
+[23:slot_23] call_intrinsic push(arg_bytes=0x4)
+[23:slot_23] call_intrinsic Item.getZ(arg_bytes=0x4) ; add ; call_intrinsic Item.getY(arg_bytes=0x4) ; ...
+[23:slot_23] pop_local_word total
+[23:slot_23] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[23:slot_23] sub ; bit_and ; jne 0x0250 ; ...
+//
+//
+[23:slot_23] loop current_var=0xfe, string_bytes=0x1, loop_type=0x6 ; jne 0x01c8 ; ...
+[23:slot_23] call_intrinsic push(arg_bytes=0x4)
+[23:slot_23] add ; pop_local_word total ; loopnext ; ...
+//
+//
+[23:slot_23] pop_local_word counter2 ; add ; pop_local_word counter2 ; ...
+[23:slot_23] le ; jne 0x021c
+[23:slot_23] call_intrinsic Item.getEtherealTop(arg_bytes=0x0) ; pop_local_word cargoUp
+//
+[23:slot_23] call_intrinsic Item.getZ(arg_bytes=0x4) ; add ; call_intrinsic Item.getY(arg_bytes=0x4) ; ...
+//
+//
+[23:slot_23] call_intrinsic push(arg_bytes=0x4)
+[23:slot_23] call_intrinsic Item.getZ(arg_bytes=0x4) ; add ; call_intrinsic Item.getY(arg_bytes=0x4) ; ...
+//
+//
+//
+//
+[23:slot_23] call_intrinsic Item.legal_create(arg_bytes=0x6)
+[23:slot_23] bit_not ; call_intrinsic Ultima8Engine.getUnkCrusaderFlag(arg_bytes=0x6) ; ...
+[23:slot_23] call_intrinsic Item.setQLo(arg_bytes=0x6)
+[23:slot_23] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+//
+[23:slot_23] ret
+//
+//
+//
+//
+[24:slot_24] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+[24:slot_24] call_intrinsic Item.orStatus(arg_bytes=0x6)
+[24:slot_24] call_intrinsic Item.legal_create(arg_bytes=0x6)
+//
+//
+//
+//
+//
+[24:slot_24] call_intrinsic Item.getZ(arg_bytes=0x4) ; pop_local_byte height ; ...
+[24:slot_24] call_class_event ELEVAT.slot_21 ; pop_local_word minLimit ; ...
+[24:slot_24] sub ; div ; pop_local_word minLimitCount ; ...
+//
+[24:slot_24] call_intrinsic AudioProcess.playAmbientSFXCru(arg_bytes=0x6)
+[24:slot_24] pop_local_word counter ; add ; pop_local_word counter ; ...
+[24:slot_24] le ; jne 0x02e2
+//
+//
+//
+[24:slot_24] call_intrinsic Item.getX(arg_bytes=0x4) ; pop_local_word wp ; ...
+[24:slot_24] call_intrinsic Item.getY(arg_bytes=0x4) ; pop_local_word local_14 ; ...
+[24:slot_24] call_intrinsic Item.getZ(arg_bytes=0x4) ; sub ; pop_local_byte local_12 ; ...
+//
+[24:slot_24] pop_local_word total2 ; loopscr value_u8=0x24 ; ...
+//
+//
+[24:slot_24] loop current_var=0xf5, string_bytes=0x1, loop_type=0x6 ; jne 0x0178 ; ...
+[24:slot_24] call_intrinsic Actor.getLastAnimSet(arg_bytes=0x6) ; jne 0x0174 ; ...
+//
+[24:slot_24] lt ; jne 0x015f ; ...
+[24:slot_24]
+[24:slot_24] call_intrinsic Item.getQLo(arg_bytes=0x6) ; jne 0x011b ; ...
+//
+[24:slot_24] add ; pop_local_word total2 ; ...
+[24:slot_24] call_intrinsic push(arg_bytes=0x4) ; jmp 0x015c
+//
+//
+//
+[24:slot_24] call_intrinsic Item.getZ(arg_bytes=0x4) ; call_intrinsic Item.getY(arg_bytes=0x4) ; sub ; ...
+[24:slot_24] add ; pop_local_word total2 ; ...
+[24:slot_24] call_intrinsic push(arg_bytes=0x4) ; jmp 0x0174
+//
+//
+//
+//
+[24:slot_24] add ; pop_local_word total2 ; ...
+[24:slot_24] call_intrinsic push(arg_bytes=0x4) ; loopnext ; jmp 0x00cb ; ...
+//
+//
+//
+//
+[24:slot_24] call_intrinsic Item.andStatus(arg_bytes=0xc) ; jne 0x020a ; ...
+//
+[24:slot_24] pop_local_word counter2 ; add ; pop_local_word counter2 ; ...
+[24:slot_24] le ; jne 0x01e1
+[24:slot_24] call_intrinsic Item.getEtherealTop(arg_bytes=0x0) ; pop_local_word cargoDown
+[24:slot_24] call_intrinsic Item.getZ(arg_bytes=0x4) ; sub ; call_intrinsic Item.getY(arg_bytes=0x4) ; ...
+//
+[24:slot_24] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+[24:slot_24] pop_local_word counter2 ; add ; pop_local_word counter2 ; ...
+[24:slot_24] le ; jne 0x025c
+[24:slot_24] call_intrinsic Item.getEtherealTop(arg_bytes=0x0) ; pop_local_word cargoDown
+[24:slot_24] call_intrinsic Item.getZ(arg_bytes=0x4) ; add ; call_intrinsic Item.getY(arg_bytes=0x4) ; ...
+//
+//
+[24:slot_24] call_intrinsic Item.legal_create(arg_bytes=0x6)
+[24:slot_24] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[24:slot_24] call_intrinsic Item.setQLo(arg_bytes=0x6)
+[24:slot_24] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+//
+//
+[24:slot_24] spawn ELEVAT.slot_23 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[24:slot_24] jmp 0x03ed
+//
+//
+[24:slot_24] pop_local_word total2
+//
+[24:slot_24] sub ; bit_and ; jne 0x03b7 ; ...
+//
+//
+[24:slot_24] loop current_var=0xf5, string_bytes=0x1, loop_type=0x6 ; jne 0x032f ; ...
+[24:slot_24] call_intrinsic Actor.getLastAnimSet(arg_bytes=0x6) ; jne 0x032b ; ...
+//
+[24:slot_24] call_intrinsic push(arg_bytes=0x4)
+[24:slot_24] add ; pop_local_word total2 ; loopnext ; ...
+//
+//
+//
+[24:slot_24] pop_local_word counter2 ; add ; pop_local_word counter2 ; ...
+[24:slot_24] le ; jne 0x0383
+[24:slot_24] call_intrinsic Item.getEtherealTop(arg_bytes=0x0) ; pop_local_word cargoDown
+//
+[24:slot_24] call_intrinsic Item.getZ(arg_bytes=0x4) ; sub ; call_intrinsic Item.getY(arg_bytes=0x4) ; ...
+//
+//
+[24:slot_24] call_intrinsic push(arg_bytes=0x4)
+[24:slot_24] call_intrinsic Item.getZ(arg_bytes=0x4) ; sub ; call_intrinsic Item.getY(arg_bytes=0x4) ; ...
+//
+//
+//
+//
+[24:slot_24] call_intrinsic Item.legal_create(arg_bytes=0x6)
+[24:slot_24] bit_not ; call_intrinsic Ultima8Engine.getUnkCrusaderFlag(arg_bytes=0x6) ; ...
+[24:slot_24] call_intrinsic Item.setQLo(arg_bytes=0x6)
+[24:slot_24] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+[24:slot_24] ret
+//
+//
+//
+//
+//
+//
+[25:slot_25] pop_local_byte totFrames ; loopscr value_u8=0x24 ; loopscr value_u8=0x3d ; ...
+//
+[25:slot_25] loopscr value_u8=0x25 ; mul ; ...
+[25:slot_25] loop current_var=0xfe, string_bytes=0x6, loop_type=0x2 ; jne 0x01b8 ; ...
+//
+[25:slot_25] call_intrinsic Item.getX(arg_bytes=0x4) ; call_intrinsic Item.getX(arg_bytes=0x4) ; sub ; ...
+[25:slot_25] call_intrinsic Item.getY(arg_bytes=0x4) ; call_intrinsic Item.getY(arg_bytes=0x4) ; sub ; ...
+//
+[25:slot_25] lt ; lt ; and ; ...
+[25:slot_25]
+[25:slot_25] call_intrinsic Item.getStatus(arg_bytes=0x4) ; bit_and ; cmp ; ...
+[25:slot_25]
+[25:slot_25] call_intrinsic Item.orStatus(arg_bytes=0x6)
+//
+[25:slot_25] call_intrinsic Item.getFrame(arg_bytes=0x4) ; cmp ; jne 0x0120 ; ...
+//
+[25:slot_25] pop_local_byte pitCounter ; add ; pop_local_byte pitCounter ; ...
+[25:slot_25] le ; jne 0x011d
+[25:slot_25] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[25:slot_25] call_intrinsic Item.legal_create(arg_bytes=0x6)
+//
+//
+//
+//
+[25:slot_25] pop_local_byte pitCounter ; gt ; jne 0x0172 ; ...
+[25:slot_25]
+[25:slot_25] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[25:slot_25] call_intrinsic Item.legal_create(arg_bytes=0x6)
+//
+[25:slot_25] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[25:slot_25] call_intrinsic Item.legal_create(arg_bytes=0x6)
+//
+//
+[25:slot_25] bit_not ; call_intrinsic Ultima8Engine.getUnkCrusaderFlag(arg_bytes=0x6) ; loopnext ; ...
+//
+//
+//
+//
+[25:slot_25] ret
+
+/* synthesized appendix for ELEVAT */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x20 slot_20 ===== */
+function elevat_slot_20() /* entry=2571 class_id=0x0a09 slot=0x20 */
+{
+  var
+    referent; /* [BP+00h] type=0x69 */
+
+  set_info(0x0001, *(arg_06));
+  if (Item.getStatus(arg_06) & 0x1000) {
+    return;
+  }
+  else if (!Item.isCompletelyOn(arg_06)) {
+    return;
+  }
+  else {
+    ELEVAT.slot_22(Item.getZ(arg_06), arg_06);
+    if (retval) {
+      spawn ELEVAT.slot_23(pid, arg_06);
+      suspend;
+      return;
+    }
+    else {
+      spawn ELEVAT.slot_24(pid, arg_06);
+      suspend;
+    }
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+  */
+}
+
+/* ===== slot 0x21 slot_21 ===== */
+function elevat_slot_21() /* entry=2571 class_id=0x0a09 slot=0x21 */
+{
+  var
+    referent; /* [BP+00h] type=0x69 */
+
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+  */
+}
+
+/* ===== slot 0x22 slot_22 ===== */
+function elevat_slot_22() /* entry=2571 class_id=0x0a09 slot=0x22 */
+{
+  var
+    referent; /* [BP+00h] type=0x69 */
+
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+  */
+}
+
+/* ===== slot 0x23 slot_23 ===== */
+function elevat_slot_23() /* entry=2571 class_id=0x0a09 slot=0x23 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    cargoUp, /* [BP-02h] type=0x24 */
+    existCargo, /* [BP-03h] type=0x62 */
+    counter, /* [BP-05h] type=0x69 */
+    height, /* [BP-06h] type=0x62 */
+    maxLimit, /* [BP-08h] type=0x69 */
+    maxLimitCount, /* [BP-10h] type=0x69 */
+    counter2, /* [BP-12h] type=0x69 */
+    total; /* [BP-14h] type=0x69 */
+
+  set_info(0x0001, *(arg_06));
+  AudioProcess.playSFXCru(17, arg_06);
+  Item.orStatus(0x1000, arg_06);
+  Item.legal_create(1, arg_06);
+  height = Item.getZ(arg_06);
+  maxLimit = Actor.clrInCombat(arg_06);
+  maxLimitCount = ((Actor.clrInCombat(arg_06) - height) / 2);
+  AudioProcess.playAmbientSFXCru(18, arg_06);
+  counter = 1;
+  while (counter <= maxLimitCount) {
+    while (condition) {
+      if (Item.getShape(cargoUp) != BRO_BOOT) {
+        push(cargoUp);
+        total = (1 + total);
+      }
+    }
+    counter2 = 1;
+    while (counter2 <= total) {
+      cargoUp = Item.getEtherealTop();
+      Item.popToCoords((Item.getZ(cargoUp) + 2), Item.getY(cargoUp), Item.getX(cargoUp), cargoUp);
+      counter2 = (1 + counter2);
+    }
+    push(arg_06);
+    Item.popToCoords((Item.getZ(arg_06) + 2), Item.getY(arg_06), Item.getX(arg_06), arg_06);
+    total = 0;
+    spawn FREE.waitNTimerTicks(pid, 1, 0x00000000);
+    suspend;
+    counter = (1 + counter);
+  }
+  if ((maxLimit - height) & 1) {
+    while (condition) {
+      push(cargoUp);
+      total = (1 + total);
+    }
+    counter2 = 1;
+    while (counter2 <= total) {
+      cargoUp = Item.getEtherealTop();
+      Item.popToCoords((Item.getZ(cargoUp) + 1), Item.getY(cargoUp), Item.getX(cargoUp), cargoUp);
+      counter2 = (1 + counter2);
+    }
+    push(arg_06);
+    Item.popToCoords((Item.getZ(arg_06) + 1), Item.getY(arg_06), Item.getX(arg_06), arg_06);
+  }
+  Item.legal_create(0, arg_06);
+  Ultima8Engine.getUnkCrusaderFlag((~0x1000), arg_06);
+  Item.setQLo(18, arg_06);
+  AudioProcess.playSFXCru(19, arg_06);
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol cargoUp [BP-02h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol existCargo [BP-03h] type=0x62 unk1=0x00 unk3=0x00
+    debug_symbol counter [BP-05h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol height [BP-06h] type=0x62 unk1=0x00 unk3=0x00
+    debug_symbol maxLimit [BP-08h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol maxLimitCount [BP-10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol counter2 [BP-12h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol total [BP-14h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x24 slot_24 ===== */
+function elevat_slot_24() /* entry=2571 class_id=0x0a09 slot=0x24 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    counter, /* [BP-02h] type=0x69 */
+    counter2, /* [BP-04h] type=0x69 */
+    height, /* [BP-05h] type=0x62 */
+    minLimit, /* [BP-07h] type=0x69 */
+    minLimitCount, /* [BP-09h] type=0x69 */
+    cargoDown, /* [BP-11h] type=0x24 */
+    wp, /* [BP-16h] type=0x24 */
+    x, /* [BP-18h] type=0x69 */
+    y, /* [BP-20h] type=0x69 */
+    z, /* [BP-22h] type=0x69 */
+    total2; /* [BP-24h] type=0x69 */
+
+  set_info(0x0001, *(arg_06));
+  AudioProcess.playSFXCru(17, arg_06);
+  Item.orStatus(0x1000, arg_06);
+  Item.legal_create(1, arg_06);
+  height = Item.getZ(arg_06);
+  ELEVAT.slot_21(arg_06);
+  minLimit = retval;
+  minLimitCount = ((height - minLimit) / 2);
+  AudioProcess.playAmbientSFXCru(18, arg_06);
+  counter = 1;
+  while (counter <= minLimitCount) {
+    wp = Item.getX(arg_06);
+    local_14 = Item.getY(arg_06);
+    local_12 = (Item.getZ(arg_06) - 2);
+    total2 = 0;
+    while (condition) {
+      if (Actor.getLastAnimSet(*(arg_06), cargoDown)) {
+        if (cargoDown < 0x0100) {
+          if (Item.getQLo(*(arg_06), cargoDown)) {
+            total2 = (1 + total2);
+            push(cargoDown);
+          }
+          else {
+            Kernel.resetRef(Item.getZ(cargoDown), (Item.getY(arg_06) - 12), (Item.getX(arg_06) - 12), cargoDown);
+            total2 = (1 + total2);
+            push(cargoDown);
+          }
+        }
+        else {
+          total2 = (1 + total2);
+          push(cargoDown);
+        }
+      }
+    }
+    if (Item.andStatus(0, 0, wp, arg_06)) {
+      counter2 = 1;
+      while (counter2 <= total2) {
+        cargoDown = Item.getEtherealTop();
+        Item.popToCoords((Item.getZ(cargoDown) - 2), Item.getY(cargoDown), Item.getX(cargoDown), cargoDown);
+        counter2 = (1 + counter2);
+      }
+      spawn FREE.waitNTimerTicks(pid, 1, 0x00000000);
+      suspend;
+    }
+    else {
+      counter2 = 1;
+      while (counter2 <= total2) {
+        cargoDown = Item.getEtherealTop();
+        Item.popToCoords((Item.getZ(arg_06) + 8), Item.getY(cargoDown), Item.getX(cargoDown), cargoDown);
+        counter2 = (1 + counter2);
+      }
+      Item.legal_create(0, arg_06);
+      spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
+      suspend;
+      Item.setQLo(18, arg_06);
+      AudioProcess.playSFXCru(19, arg_06);
+      spawn ELEVAT.slot_23(pid, arg_06);
+      suspend;
+      return;
+    }
+    total2 = 0;
+    counter = (1 + counter);
+  }
+  if ((height - minLimit) & 1) {
+    while (condition) {
+      if (Actor.getLastAnimSet(*(arg_06), cargoDown)) {
+        push(cargoDown);
+        total2 = (1 + total2);
+      }
+    }
+    counter2 = 1;
+    while (counter2 <= total2) {
+      cargoDown = Item.getEtherealTop();
+      Item.popToCoords((Item.getZ(cargoDown) - 1), Item.getY(cargoDown), Item.getX(cargoDown), cargoDown);
+      counter2 = (1 + counter2);
+    }
+    push(arg_06);
+    Item.popToCoords((Item.getZ(arg_06) - 1), Item.getY(arg_06), Item.getX(arg_06), arg_06);
+  }
+  Item.legal_create(0, arg_06);
+  Ultima8Engine.getUnkCrusaderFlag((~0x1000), arg_06);
+  Item.setQLo(18, arg_06);
+  AudioProcess.playSFXCru(19, arg_06);
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol counter [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol counter2 [BP-04h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol height [BP-05h] type=0x62 unk1=0x00 unk3=0x00
+    debug_symbol minLimit [BP-07h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol minLimitCount [BP-09h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol cargoDown [BP-11h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol wp [BP-16h] type=0x24 unk1=0x00 unk3=0x05
+    debug_symbol x [BP-18h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol y [BP-20h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol z [BP-22h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol total2 [BP-24h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x25 slot_25 ===== */
+function elevat_slot_25() /* entry=2571 class_id=0x0a09 slot=0x25 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    liftpit, /* [BP-02h] type=0x24 */
+    pitCounter, /* [BP-03h] type=0x62 */
+    totFrames, /* [BP-04h] type=0x62 */
+    checkX, /* [BP-06h] type=0x69 */
+    checkY; /* [BP-08h] type=0x69 */
+
+  set_info(0x0001, *(arg_06));
+  totFrames = 5;
+  for liftpit in nearby_items(shape=ELEVATOR_BASE, origin=arg_06) {
+    FREE.slot_3f((Item.getX(arg_06) - Item.getX(liftpit)));
+    checkX = retval;
+    FREE.slot_3f((Item.getY(arg_06) - Item.getY(liftpit)));
+    checkY = retval;
+    if ((checkX < 2) && (checkY < 2)) {
+      if ((Item.getStatus(liftpit) & 0x1000) == 0) {
+        Item.orStatus(0x1000, liftpit);
+        if (Item.getFrame(liftpit) == 0) {
+          pitCounter = 1;
+          while (pitCounter <= totFrames) {
+            spawn FREE.waitNTimerTicks(pid, 1, 0x00000000);
+            suspend;
+            Item.legal_create(pitCounter, liftpit);
+            pitCounter = (1 + pitCounter);
+          }
+        }
+        else {
+          pitCounter = totFrames;
+          while (pitCounter > 0) {
+            spawn FREE.waitNTimerTicks(pid, 1, 0x00000000);
+            suspend;
+            Item.legal_create(pitCounter, liftpit);
+            pitCounter = (pitCounter - 1);
+          }
+          spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+          suspend;
+          Item.legal_create(0, liftpit);
+        }
+        Ultima8Engine.getUnkCrusaderFlag((~0x1000), liftpit);
+      }
+    }
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol liftpit [BP-02h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol pitCounter [BP-03h] type=0x62 unk1=0x00 unk3=0x00
+    debug_symbol totFrames [BP-04h] type=0x62 unk1=0x00 unk3=0x00
+    debug_symbol checkX [BP-06h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol checkY [BP-08h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}

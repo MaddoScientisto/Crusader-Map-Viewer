@@ -1,0 +1,85 @@
+/* synthesized appendix for CONVEYOR */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x10 leaveFastArea ===== */
+function conveyor_leaveFastArea() /* entry=2566 class_id=0x0a04 slot=0x10 */
+{
+  set_info(0x021c, *(arg_06));
+  process_exclude();
+  AudioProcess.stopSFXCru(115, arg_06);
+  FREE.slot_33(0x0205, *(arg_06));
+  return;
+}
+
+/* ===== slot 0x20 slot_20 ===== */
+function conveyor_slot_20() /* entry=2566 class_id=0x0a04 slot=0x20 */
+{
+  set_info(0x0205, *(arg_06));
+  set_info(0x0205, *(arg_06));
+  AudioProcess.playSFXCru(111, arg_06);
+  local_02 = 0;
+  local_02 = Item.getFrame(arg_06);
+  if (AudioProcess.isSFXPlayingForObject(115, arg_06) == 0) {
+    AudioProcess.playAmbientSFXCru(115, arg_06);
+  }
+  suspend;
+  local_03 = 0;
+  while (true) {
+    suspend;
+    local_03 = 0;
+    if (Item.getQHi(arg_06)) {
+      local_02 = (local_02 - 1);
+      if (arg_10 < 0) {
+        arg_10 = (arg_10 * -1);
+      }
+      if (arg_12 < 0) {
+        arg_12 = (arg_12 * -1);
+      }
+    }
+    else {
+      local_02 = (1 + local_02);
+      if (arg_10 > 0) {
+        arg_10 = (arg_10 * -1);
+      }
+      if (arg_12 > 0) {
+        arg_12 = (arg_12 * -1);
+      }
+    }
+    if (local_02 > 2) {
+      local_02 = 0;
+    }
+    if (local_02 < 0) {
+      local_02 = 2;
+    }
+    while (condition) {
+      local_09 = Item.getShape(local_05);
+      if ((local_09 != 0x0476) && (local_09 != 0x04d0)) {
+        local_06 = AudioProcess.playSFXCru(*(arg_06), local_05);
+        push(local_05);
+        local_14 = (Item.getX(local_05) + arg_10);
+        local_12 = (Item.getY(local_05) + arg_12);
+        local_10 = Item.getZ(local_05);
+        if (!legalMoveToPoint(0, 1, local_14, local_05)) {
+          getTargetNPCNumMaybe(Item.getZ(local_05), Item.getY(local_05), Item.getX(local_05), local_05);
+        }
+        local_07 = AudioProcess.playSFXCru(*(arg_06), local_05);
+        local_03 = 1;
+        if ((local_06 == 1) && (local_07 == 0)) {
+          Container.destroyContents(local_05);
+        }
+      }
+    }
+    spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+    suspend;
+    if (!local_03) {
+      AudioProcess.stopSFXCru(115, arg_06);
+      AudioProcess.playSFXCru(116, arg_06);
+      return;
+    }
+    else if (AudioProcess.isSFXPlayingForObject(115, arg_06) == 0) {
+      AudioProcess.playAmbientSFXCru(115, arg_06);
+    }
+    Item.setFrame(local_02, arg_06);
+  }
+  return;
+}

@@ -1,0 +1,86 @@
+/* synthesized appendix for LITEWALL */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x20 slot_20 ===== */
+function litewall_slot_20() /* entry=2578 class_id=0x0a10 slot=0x20 */
+{
+  set_info(0x0001, *(arg_06));
+  set_info(1, arg_10);
+  local_02 = arg_10;
+  local_08 = 0;
+  switch (Item.getShape(local_02)) {
+  case 0x045e:
+    local_06 = 0x045e;
+    local_04 = 0x0462;
+    break;
+  case 0x045f:
+    local_06 = 0x045f;
+    local_04 = 0x0463;
+    break;
+  case 0x0460:
+    local_06 = 0x0460;
+    local_04 = 0x0464;
+    break;
+  case 0x0461:
+    local_06 = 0x0461;
+    local_04 = 0x0465;
+    break;
+  }
+  Item.setShape(local_04, local_02);
+  while (local_08 < 4) {
+    spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+    suspend;
+    local_08 = (1 + local_08);
+    Item.isCentreOn(local_08, local_02);
+  }
+  spawn FREE.waitNTimerTicks(pid, 3, 0x00000000);
+  suspend;
+  while (local_08) {
+    spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+    suspend;
+    local_08 = (local_08 - 1);
+    Item.isCentreOn(local_08, local_02);
+  }
+  Item.setShape(local_06, local_02);
+  Item.touch(local_02);
+  return;
+}
+
+/* ===== slot 0x21 slot_21 ===== */
+function litewall_slot_21() /* entry=2578 class_id=0x0a10 slot=0x21 */
+{
+  set_info(0x0001, *(arg_06));
+  if (global[0x0006]) {
+    return;
+  }
+  else {
+    local_02 = arg_10;
+    local_06 = 0;
+    local_15 = 21;
+    local_17 = Item.andStatus(local_02);
+    local_19 = 3;
+    local_21 = 48;
+    local_23 = 49;
+    if (((Item.andStatus(local_02) == 3) || (Item.andStatus(local_02) == 48)) || (Item.andStatus(local_02) == 49)) {
+      while (condition) {
+        local_08 = (local_08 + [local_04]);
+        FREE.slot_29(local_02, local_04);
+        if (retval < local_15) {
+          FREE.slot_29(local_02, local_04);
+          local_15 = retval;
+          local_06 = local_04;
+        }
+      }
+      if ((local_06 != 0) && (local_15 <= 2)) {
+        while (true) {
+          foreach_list local_04 -> block_02f1;
+          spawn LITEWALL.slot_20(local_04, arg_06);
+        }
+        AudioProcess.playSFXCru(67, arg_06);
+        spawn NPC.slot_2d(pid, Item.andStatus(local_06, local_02), local_06, local_02);
+        suspend;
+      }
+    }
+  }
+  return;
+}

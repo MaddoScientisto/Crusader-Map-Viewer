@@ -1,0 +1,75 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[06:gotHit] call_intrinsic Item.getFrame(arg_bytes=0x4) ; pop_local_word fram ; ...
+[06:gotHit] gt ; jne 0x0039 ; ...
+[06:gotHit]
+[06:gotHit] jmp 0x00d2
+//
+//
+[06:gotHit] call_class_event FREE.slot_2c ; ...
+[06:gotHit] cmp ; jne 0x00d2 ; loopscr value_u8=0x24 ; ...
+//
+//
+//
+[06:gotHit] loop current_var=0xfc, string_bytes=0x1, loop_type=0x6 ; jne 0x009b ; ...
+[06:gotHit] call_class_event FREE.slot_20 ; add ; call_class_event FREE.slot_20 ; ...
+//
+//
+[06:gotHit] spawn ITEM.slot_28 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[06:gotHit] add ; call_intrinsic Item.setFrame(arg_bytes=0x6) ; ...
+//
+[06:gotHit] ret
+
+/* synthesized appendix for MDESKNS */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x06 gotHit ===== */
+function mdeskns_gotHit() /* entry=478 class_id=0x01dc slot=0x06 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    vel, /* [BP+12h] type=0x69 */
+    fram, /* [BP-02h] type=0x69 */
+    item; /* [BP-04h] type=0x24 */
+
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  fram = Item.getFrame(arg_06);
+  if (fram > 1) {
+    return;
+  }
+  else {
+    FREE.slot_2c(vel, ref);
+    if (retval == 4) {
+      while (condition) {
+        FREE.slot_20(1, 10);
+        FREE.slot_20((retval + 10), 10);
+        FREE.slot_20(retval, 10);
+      }
+      spawn ITEM.slot_28(pid, 0, 1, arg_06);
+      suspend;
+      Item.setFrame((fram + 2), arg_06);
+    }
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol ref [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol vel [BP+12h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol fram [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol item [BP-04h] type=0x24 unk1=0x00 unk3=0x02
+  */
+}

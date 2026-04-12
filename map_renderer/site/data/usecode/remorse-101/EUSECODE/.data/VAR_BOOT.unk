@@ -1,0 +1,115 @@
+/* synthesized appendix for VAR_BOOT */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x0a equip ===== */
+function var_boot_equip() /* entry=1118 class_id=0x045c slot=0x0a */
+{
+  set_info(0x0211, *(arg_06));
+  process_exclude();
+  if (Item.getFrame(arg_06) == 5) {
+    return;
+  }
+  else {
+    Ultima8Engine.setAvatarInStasis(1);
+    FREE.slot_33(0x021b, *(arg_06));
+    while (Item.getFrame(arg_06) != 4) {
+      Item.isCentreOn((Item.getFrame(arg_06) + 1), arg_06);
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+    }
+    spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+    suspend;
+    switch (global[0x0020]) {
+    case 3:
+      playFlic(pid, 0x0096, 0x00c8, "3c", arg_06);
+      suspend;
+      break;
+    case 4:
+      playFlic(pid, 0x0096, 0x00c8, "4b", arg_06);
+      suspend;
+      break;
+    case 6:
+      playFlic(pid, 0x0096, 0x00c8, "6b", arg_06);
+      suspend;
+      break;
+    case 7:
+      playFlic(pid, 0x0096, 0x00c8, "7b", arg_06);
+      suspend;
+      break;
+    case 9:
+      playFlic(pid, 0x0096, 0x00c8, "9a", arg_06);
+      suspend;
+      break;
+    }
+    local_02 = 0;
+    while (local_02 <= 4) {
+      Item.isCentreOn((4 - local_02), arg_06);
+      spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+      suspend;
+      local_02 = (1 + local_02);
+    }
+    spawn VAR_BOOT.enterFastArea(arg_06);
+    Ultima8Engine.setAvatarInStasis(0);
+  }
+  return;
+}
+
+/* ===== slot 0x0f enterFastArea ===== */
+function var_boot_enterFastArea() /* entry=1118 class_id=0x045c slot=0x0f */
+{
+  set_info(0x021b, *(arg_06));
+  process_exclude();
+  if (((((global[0x0020] == 3) || (global[0x0020] == 4)) || (global[0x0020] == 6)) || (global[0x0020] == 7)) || (global[0x0020] == 9)) {
+    Item.isCentreOn(0, arg_06);
+    for local_02 in nearby_items(shape=SPANEL, origin=arg_06) {
+      if (Actor.getDefaultActivity2(local_02) == Actor.getDefaultActivity2(arg_06)) {
+        ITEM.slot_24(0x1000, local_02);
+      }
+    }
+  }
+  else {
+    for local_02 in nearby_items(shape=SPANEL, origin=arg_06) {
+      if (Actor.getDefaultActivity2(local_02) == Actor.getDefaultActivity2(arg_06)) {
+        ITEM.slot_23(0x1000, local_02);
+      }
+    }
+    Item.isCentreOn(5, arg_06);
+    return;
+  }
+
+  while (true) {
+    suspend;
+    FREE.slot_20(pid, 120);
+    spawn FREE.waitNTimerTicks((retval + 0x00dc), 0x00000000);
+    suspend;
+    local_04 = 0;
+    while (local_04 <= 4) {
+      Item.isCentreOn(local_04, arg_06);
+      spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+      suspend;
+      local_04 = (1 + local_04);
+    }
+    FREE.slot_20(pid, 120);
+    spawn FREE.waitNTimerTicks((retval + 120), 0x00000000);
+    suspend;
+    local_04 = 0;
+    while (local_04 <= 4) {
+      Item.isCentreOn((4 - local_04), arg_06);
+      spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+      suspend;
+      local_04 = (1 + local_04);
+    }
+  }
+
+  return;
+
+}
+
+/* ===== slot 0x10 leaveFastArea ===== */
+function var_boot_leaveFastArea() /* entry=1118 class_id=0x045c slot=0x10 */
+{
+  set_info(0x021c, *(arg_06));
+  process_exclude();
+  FREE.slot_33(0x021b, *(arg_06));
+  return;
+}

@@ -1,0 +1,244 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[0F:enterFastArea] call_intrinsic Item.getStatus(arg_bytes=0x4) ; bit_and ; jne 0x002f ; ...
+//
+[0F:enterFastArea] jmp 0x004a
+//
+[0F:enterFastArea] call_intrinsic Item.orStatus(arg_bytes=0x6)
+[0F:enterFastArea] spawn WALLGUN.slot_27 ; pop_temp ; ...
+[0F:enterFastArea] ret
+//
+//
+//
+[0B:unequip] call_intrinsic Item.getStatus(arg_bytes=0x4) ; bit_and ; jne 0x002f ; ...
+//
+[0B:unequip] jmp 0x004a
+//
+[0B:unequip] call_intrinsic Item.orStatus(arg_bytes=0x6)
+[0B:unequip] spawn WALLGUN.slot_27 ; pop_temp ; ...
+[0B:unequip] ret
+//
+//
+//
+[10:leaveFastArea] bit_not ; call_intrinsic Item.andStatus(arg_bytes=0x6) ; ...
+[10:leaveFastArea] call_class_event FREE.slot_33 ; ...
+[10:leaveFastArea] call_class_event FREE.slot_33 ; ...
+[10:leaveFastArea] ret
+//
+//
+//
+[06:gotHit] spawn WALLGUN.slot_49 ; pop_temp ; ...
+[06:gotHit] ret
+//
+//
+//
+[0A:equip] call_intrinsic getTargetNPCNumMaybe(arg_bytes=0x0) ; ne ; jne 0x0053 ; ...
+[0A:equip]
+[0A:equip] call_intrinsic getTargetNPCNumMaybe(arg_bytes=0x0) ; spawn WALLGUN.slot_24 ; implies arg0=0x1, arg1=0x1 ; ...
+//
+//
+//
+[0A:equip] spawn WALLGUN.slot_24 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[0A:equip] ret
+//
+//
+//
+//
+[0E:calledFromAnim] pop_local_word n
+[0E:calledFromAnim] call_intrinsic Actor.getDir(arg_bytes=0x4) ; pop_local_word dir ; ...
+//
+[0E:calledFromAnim] call_intrinsic Actor.getLastAnimSet(arg_bytes=0x4) ; pop_local_word b ; ...
+//
+[0E:calledFromAnim] cmp
+[0E:calledFromAnim] cmp ; or ; jne 0x00d1 ; ...
+[0E:calledFromAnim]
+[0E:calledFromAnim] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+//
+[0E:calledFromAnim] call_class_event WALLGUN.slot_40 ; call_class_event WALLGUN.slot_3f ; call_class_event WALLGUN.slot_3e ; ...
+[0E:calledFromAnim] call_class_event WALLGUN.slot_43 ; call_class_event WALLGUN.slot_42 ; call_class_event WALLGUN.slot_41 ; ...
+//
+//
+//
+[0E:calledFromAnim] set_info
+//
+//
+[0E:calledFromAnim] call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[0E:calledFromAnim] call_intrinsic Item.getZ(arg_bytes=0x4) ; call_intrinsic Item.getY(arg_bytes=0x4) ; call_intrinsic Item.getX(arg_bytes=0x4) ; ...
+[0E:calledFromAnim] call_intrinsic Actor.setDead(arg_bytes=0x4)
+[0E:calledFromAnim] spawn ITEM.slot_28 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[0E:calledFromAnim] ret
+
+/* synthesized appendix for BASEGUN */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x06 gotHit ===== */
+function basegun_gotHit() /* entry=1226 class_id=0x04c8 slot=0x06 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    vel; /* [BP+12h] type=0x69 */
+
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  spawn WALLGUN.slot_49(vel, ref, arg_06);
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol ref [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol vel [BP+12h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x0a equip ===== */
+function basegun_equip() /* entry=1226 class_id=0x04c8 slot=0x0a */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    var; /* [BP+10h] type=0x69 */
+
+  set_info(0x0211, *(arg_06));
+  process_exclude();
+  if (getTargetNPCNumMaybe() != 0) {
+    spawn WALLGUN.slot_24(pid, var, getTargetNPCNumMaybe(), arg_06);
+    suspend;
+    return;
+  }
+  else {
+    spawn WALLGUN.slot_24(pid, var, global[0x003c], arg_06);
+    suspend;
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol var [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x0b unequip ===== */
+function basegun_unequip() /* entry=1226 class_id=0x04c8 slot=0x0b */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    var; /* [BP+10h] type=0x69 */
+
+  set_info(0x0212, *(arg_06));
+  process_exclude();
+  if (Item.getStatus(arg_06) & 4) {
+    return;
+  }
+  else {
+    Item.orStatus(4, arg_06);
+    spawn WALLGUN.slot_27(arg_06);
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol var [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x0e calledFromAnim ===== */
+function basegun_calledFromAnim() /* entry=1226 class_id=0x04c8 slot=0x0e */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    n, /* [BP-02h] type=0x24 */
+    dir, /* [BP-04h] type=0x69 */
+    b, /* [BP-06h] type=0x69 */
+    item; /* [BP-08h] type=0x24 */
+
+  set_info(0x021a, *(arg_06));
+  process_exclude();
+  n = *(arg_06);
+  dir = Actor.getDir(n);
+  b = Actor.getLastAnimSet(n);
+  if ((b == 13) || (b == 8)) {
+    AudioProcess.playSFXCru(83, arg_06);
+    WALLGUN.slot_40(0, 5, dir, dir, arg_06);
+    WALLGUN.slot_3f(retval, dir, arg_06);
+    WALLGUN.slot_3e(retval, dir, arg_06);
+    WALLGUN.slot_43(0, 5, dir, dir, arg_06);
+    WALLGUN.slot_42(retval, dir, arg_06);
+    WALLGUN.slot_41(retval, dir, arg_06);
+    return;
+  }
+  else {
+    set_info(0x00f0, 0);
+    Item.create(0, 0x03a5, item);
+    Item.popToCoords(Item.getZ(n), Item.getY(n), Item.getX(n), item);
+    Actor.setDead(n);
+    spawn ITEM.slot_28(pid, 1, 2, n);
+    suspend;
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol n [BP-02h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol dir [BP-04h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol b [BP-06h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol item [BP-08h] type=0x24 unk1=0x00 unk3=0x02
+  */
+}
+
+/* ===== slot 0x0f enterFastArea ===== */
+function basegun_enterFastArea() /* entry=1226 class_id=0x04c8 slot=0x0f */
+{
+  var
+    referent; /* [BP+00h] type=0x69 */
+
+  set_info(0x021b, *(arg_06));
+  process_exclude();
+  if (Item.getStatus(arg_06) & 4) {
+    return;
+  }
+  else {
+    Item.orStatus(4, arg_06);
+    spawn WALLGUN.slot_27(arg_06);
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+  */
+}
+
+/* ===== slot 0x10 leaveFastArea ===== */
+function basegun_leaveFastArea() /* entry=1226 class_id=0x04c8 slot=0x10 */
+{
+  var
+    referent; /* [BP+00h] type=0x69 */
+
+  set_info(0x021c, *(arg_06));
+  process_exclude();
+  Item.andStatus((~4), arg_06);
+  FREE.slot_33(1, *(arg_06));
+  FREE.slot_33(0x020a, *(arg_06));
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+  */
+}

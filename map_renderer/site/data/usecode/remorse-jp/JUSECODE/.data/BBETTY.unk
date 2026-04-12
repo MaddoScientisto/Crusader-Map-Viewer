@@ -1,0 +1,310 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[20:slot_20] call_intrinsic Item.getShape(arg_bytes=0x4)
+[20:slot_20] ne ; jne 0x0152
+[20:slot_20] pop_local_word counter ; le ; jne 0x0139 ; ...
+//
+[20:slot_20] call_intrinsic Item.setFrame(arg_bytes=0x6)
+[20:slot_20] pop_local_word total ; loopscr value_u8=0x24 ; ...
+//
+//
+[20:slot_20] loop current_var=0xfe, string_bytes=0x1, loop_type=0x6 ; jne 0x007e ; ...
+[20:slot_20] call_intrinsic push(arg_bytes=0x4)
+[20:slot_20] add ; pop_local_word total ; loopnext ; ...
+//
+//
+[20:slot_20] call_intrinsic push(arg_bytes=0x4)
+[20:slot_20] call_intrinsic Item.getZ(arg_bytes=0x4) ; add ; call_intrinsic Item.getY(arg_bytes=0x4) ; ...
+//
+[20:slot_20] pop_local_word counter2 ; add ; pop_local_word counter2 ; ...
+[20:slot_20] le ; jne 0x0106
+[20:slot_20] call_intrinsic Item.getEtherealTop(arg_bytes=0x0) ; pop_local_word item
+[20:slot_20] call_intrinsic Item.getZ(arg_bytes=0x4) ; add ; call_intrinsic Item.getY(arg_bytes=0x4) ; ...
+//
+//
+[20:slot_20] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[20:slot_20] call_intrinsic Item.setShape(arg_bytes=0x6)
+[20:slot_20] call_intrinsic Item.touch(arg_bytes=0x4)
+//
+[20:slot_20] spawn BBETTY.slot_21 ; pop_temp ; ...
+[20:slot_20] ret
+//
+//
+//
+//
+//
+//
+//
+[21:slot_21] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+[21:slot_21] call_intrinsic Item.getQHi(arg_bytes=0x4) ; jne 0x0093 ; ...
+//
+[21:slot_21] global_address global[0x003c] ; call_intrinsic Item.getY(arg_bytes=0x4) ; global_address global[0x003c] ; ...
+//
+//
+//
+//
+[21:slot_21] add ; pop_local_byte dir ; ...
+[21:slot_21] gt ; jne 0x00b2 ; ...
+[21:slot_21]
+[21:slot_21] pop_local_byte dir ; cmp ; jne 0x00d9 ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+[21:slot_21] pop_local_word x
+[21:slot_21] pop_local_word y
+[21:slot_21] pop_local_word xx
+[21:slot_21] pop_local_word yy ; jmp 0x01ea ; cmp ; ...
+//
+//
+//
+[21:slot_21] pop_local_word x
+[21:slot_21] pop_local_word y
+[21:slot_21] pop_local_word xx
+[21:slot_21] pop_local_word yy ; jmp 0x01ea ; cmp ; ...
+//
+//
+//
+[21:slot_21] pop_local_word x
+[21:slot_21] pop_local_word y
+[21:slot_21] pop_local_word xx
+[21:slot_21] pop_local_word yy ; jmp 0x01ea ; cmp ; ...
+//
+//
+//
+[21:slot_21] pop_local_word x
+[21:slot_21] pop_local_word y
+[21:slot_21] pop_local_word xx
+[21:slot_21] pop_local_word yy ; jmp 0x01ea ; cmp ; ...
+//
+//
+//
+[21:slot_21] pop_local_word x
+[21:slot_21] pop_local_word y
+[21:slot_21] pop_local_word xx
+[21:slot_21] pop_local_word yy ; jmp 0x01ea ; cmp ; ...
+//
+//
+//
+[21:slot_21] pop_local_word x
+[21:slot_21] pop_local_word y
+[21:slot_21] pop_local_word xx
+[21:slot_21] pop_local_word yy ; jmp 0x01ea ; cmp ; ...
+//
+//
+//
+[21:slot_21] pop_local_word x
+[21:slot_21] pop_local_word y
+[21:slot_21] pop_local_word xx
+[21:slot_21] pop_local_word yy ; jmp 0x01ea ; cmp ; ...
+//
+//
+//
+[21:slot_21] pop_local_word x
+[21:slot_21] pop_local_word y
+[21:slot_21] pop_local_word xx
+[21:slot_21] pop_local_word yy ; jmp 0x01ea
+//
+//
+//
+//
+//
+[21:slot_21] call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[21:slot_21] call_intrinsic Item.orStatus(arg_bytes=0x6)
+[21:slot_21] call_intrinsic Item.getZ(arg_bytes=0x4) ; add ; call_intrinsic Item.getY(arg_bytes=0x4) ; ...
+[21:slot_21] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+[21:slot_21] call_class_event FREE.slot_20 ; add ; mul ; ...
+//
+//
+//
+[21:slot_21] call_intrinsic Game.getDifficultyLevel(arg_bytes=0x0) ; sub ; mul ; ...
+//
+//
+[21:slot_21] ret
+//
+//
+[10:leaveFastArea] call_class_event FREE.slot_33 ; ...
+[10:leaveFastArea] ret
+
+/* synthesized appendix for BBETTY */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x10 leaveFastArea ===== */
+function bbetty_leaveFastArea() /* entry=2563 class_id=0x0a01 slot=0x10 */
+{
+  var
+    referent; /* [BP+00h] type=0x69 */
+
+  set_info(0x0001, *(arg_06));
+  process_exclude();
+  FREE.slot_33(1, *(arg_06));
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+  */
+}
+
+/* ===== slot 0x20 slot_20 ===== */
+function bbetty_slot_20() /* entry=2563 class_id=0x0a01 slot=0x20 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    item, /* [BP-02h] type=0x24 */
+    counter, /* [BP-04h] type=0x69 */
+    counter2, /* [BP-06h] type=0x69 */
+    total; /* [BP-08h] type=0x69 */
+
+  set_info(0x0205, *(arg_06));
+  if (Item.getShape(arg_06) != bbetty_shape_02c9) {
+    counter = 0;
+    while (counter <= 4) {
+      Item.setFrame(counter, arg_06);
+      total = 0;
+      while (condition) {
+        push(item);
+        total = (1 + total);
+      }
+      push(arg_06);
+      Item.popToCoords((Item.getZ(arg_06) + 1), Item.getY(arg_06), Item.getX(arg_06), arg_06);
+      counter2 = 1;
+      while (counter2 <= total) {
+        item = Item.getEtherealTop();
+        Item.popToCoords((Item.getZ(item) + 1), Item.getY(item), Item.getX(item), item);
+        counter2 = (1 + counter2);
+      }
+      spawn FREE.slot_32(pid, 5, 0x00000000);
+      suspend;
+      counter = (1 + counter);
+    }
+    Item.setShape(0x02c9, arg_06);
+    Item.touch(arg_06);
+  }
+  spawn BBETTY.slot_21(arg_06);
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol item [BP-02h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol counter [BP-04h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol counter2 [BP-06h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol total [BP-08h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x21 slot_21 ===== */
+function bbetty_slot_21() /* entry=2563 class_id=0x0a01 slot=0x21 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    x, /* [BP-02h] type=0x69 */
+    y, /* [BP-04h] type=0x69 */
+    xx, /* [BP-06h] type=0x69 */
+    yy, /* [BP-08h] type=0x69 */
+    counter, /* [BP-10h] type=0x69 */
+    dir, /* [BP-11h] type=0x62 */
+    item3; /* [BP-13h] type=0x24 */
+
+  set_info(0x00f0, *(arg_06));
+  spawn FREE.slot_32(pid, 60, 0x00000000);
+  suspend;
+  suspend;
+  while (true) {
+    suspend;
+    if (Item.getQHi(arg_06)) {
+      dir = getClosestDirectionInRange(8, Item.getX(Item.getY(0, 8, &global[0x003c]), &global[0x003c]), Item.getY(arg_06), Item.getX(arg_06));
+    }
+    else {
+      dir = (1 + dir);
+      if (dir > 7) {
+        dir = 0;
+      }
+    }
+    switch (dir) {
+    case 0:
+      x = 0;
+      y = -1;
+      xx = -16;
+      yy = -48;
+      break;
+    case 1:
+      x = 1;
+      y = -1;
+      xx = 16;
+      yy = -48;
+      break;
+    case 2:
+      x = 1;
+      y = 0;
+      xx = 16;
+      yy = -16;
+      break;
+    case 3:
+      x = 1;
+      y = 1;
+      xx = 16;
+      yy = 16;
+      break;
+    case 4:
+      x = 0;
+      y = 1;
+      xx = -16;
+      yy = 16;
+      break;
+    case 5:
+      x = -1;
+      y = 1;
+      xx = -48;
+      yy = 16;
+      break;
+    case 6:
+      x = -1;
+      y = 0;
+      xx = -48;
+      yy = -16;
+      break;
+    case 7:
+      x = -1;
+      y = -1;
+      xx = -48;
+      yy = -48;
+      break;
+    }
+    Item.create(0, 0x029e, item3);
+    Item.orStatus(0x0080, item3);
+    Item.popToCoords((Item.getZ(arg_06) + 8), (Item.getY(arg_06) + yy), (Item.getX(arg_06) + xx), arg_06);
+    AudioProcess.playSFXCru(63, arg_06);
+    FREE.slot_20(8, 30, 15);
+    spawn FREE.slot_32(pid, ((5 - Game.getDifficultyLevel()) * 20), 0x00000000);
+    suspend;
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol x [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol y [BP-04h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol xx [BP-06h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol yy [BP-08h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol counter [BP-10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol dir [BP-11h] type=0x62 unk1=0x00 unk3=0x00
+    debug_symbol item3 [BP-13h] type=0x24 unk1=0x00 unk3=0x02
+  */
+}

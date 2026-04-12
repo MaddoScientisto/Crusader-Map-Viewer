@@ -1,0 +1,133 @@
+/* synthesized appendix for MISS8 */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x04 cachein ===== */
+function miss8_cachein() /* entry=2326 class_id=0x0914 slot=0x04 */
+{
+  set_info(0x0213, *(arg_06));
+  process_exclude();
+  return;
+}
+
+/* ===== slot 0x07 hatch ===== */
+function miss8_hatch() /* entry=2326 class_id=0x0914 slot=0x07 */
+{
+  set_info(0x0210, *(arg_06));
+  process_exclude();
+  if (Item.fallProbably_03E(arg_06) == 1) {
+    FREE.slot_41();
+    spawn MISS8.slot_20(pid, arg_06);
+    suspend;
+    return;
+  }
+  return;
+}
+
+/* ===== slot 0x20 slot_20 ===== */
+function miss8_slot_20() /* entry=2326 class_id=0x0914 slot=0x20 */
+{
+  set_info(0x0001, *(arg_06));
+  local_16 = Item.getY(&global[0x003d]);
+  Ultima8Engine.setAvatarInStasis(1);
+  while (Actor.isBusy(&global[0x003d])) {
+    spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+    suspend;
+  }
+  for local_06 in nearby_items(shape=0x04e0, origin=global[0x003d]) {
+    playFlicsomething(2, 0x04e0, local_02);
+    getTargetNPCNumMaybe(Item.getZ(local_06), Item.getY(local_06), Item.getX(local_06), local_02);
+    Item.destroy(local_06);
+  }
+  if (local_02) {
+    local_04 = 0;
+    spawn NPC.slot_22(2, 0, &global[0x003d]);
+    spawn NPC.slot_22(pid, 2, 12, local_02);
+    suspend;
+    suspend;
+    suspend;
+    suspend;
+    suspend;
+    playFlic(pid, 0x0096, 0x00fa, "8e", arg_06);
+    suspend;
+    Ultima8Engine.setAvatarInStasis(1);
+    spawn NPC.slot_22(pid, 4, 12, local_02);
+    suspend;
+    suspend;
+    suspend;
+    suspend;
+    AudioProcess.playSFXCru(0x0097, &global[0x003d]);
+    spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
+    suspend;
+    playFlic(pid, 0x0096, 0x00fa, "8f", arg_06);
+    suspend;
+    Ultima8Engine.setAvatarInStasis(1);
+    suspend;
+    spawn NPC.slot_22(pid, 3, 12, local_02);
+    suspend;
+    suspend;
+    spawn NPC.slot_22(pid, 2, 0, local_02);
+    suspend;
+    suspend;
+    suspend;
+    spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
+    suspend;
+    Item.legal_create(0, 0x0317, local_10);
+    getTargetNPCNumMaybe(Item.getZ(local_02), Item.getY(local_02), Item.getX(local_02), local_10);
+    AudioProcess.playSFXCru(52, local_10);
+    local_04 = 0;
+    while (local_04 <= 37) {
+      Item.isCentreOn(local_04, local_10);
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+      local_04 = (1 + local_04);
+    }
+    AudioProcess.playSFXCru(0x00c2, local_02);
+    playFlic0D2();
+    AudioProcess.playSFXCru(24, local_10);
+    AudioProcess.playSFXCru(108, arg_06);
+    spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+    suspend;
+    clearSomeMovieGlobal();
+    local_04 = 0;
+    while (local_04 <= 37) {
+      Item.isCentreOn((37 - local_04), local_10);
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+      local_04 = (1 + local_04);
+    }
+    playFlic0D2();
+    AudioProcess.playSFXCru(108, arg_06);
+    Item.legal_create(0, 0x04ee, local_06);
+    Actor.setDead(0, 0, 0, 0, local_02);
+    getTargetNPCNumMaybe(8, 0x0caa, 0x46a2, local_06);
+    Item.destroy(local_10);
+    Item.touch(local_06);
+    spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+    suspend;
+    clearSomeMovieGlobal();
+    AudioProcess.playSFXCru(0x00c3, local_06);
+    local_04 = 0;
+    while (local_04 <= 40) {
+      Item.isCentreOn(local_04, local_06);
+      spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+      suspend;
+      local_04 = (1 + local_04);
+    }
+  }
+  for local_06 in nearby_items(shape=TELEPORTER_LIGHTS, origin=global[0x003d]) {
+    if (void AudioProcess:stopAllSFX(local_06) == 0x00ff) {
+      getCurrentTimerTick(30, local_06);
+      Item.isCentreOn(1, local_06);
+    }
+  }
+  playFlic(pid, 0x0096, 0x00fa, "8h", arg_06);
+  suspend;
+  Ultima8Engine.setAvatarInStasis(0);
+  for local_06 in nearby_items(shape=NPC_SPAWNER_04D0, origin=arg_06) {
+    if ((Item.getFrame(local_06) == 0) && (void AudioProcess:stopAllSFX(local_06) == 20)) {
+      suspend;
+    }
+  }
+  Item.destroy(arg_06);
+  return;
+}

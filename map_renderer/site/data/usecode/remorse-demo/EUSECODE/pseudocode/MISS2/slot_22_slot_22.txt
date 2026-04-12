@@ -1,24 +1,31 @@
 function miss2_slot_22() /* entry=2320 class_id=0x090e slot=0x22 */
 {
+  var
+    item; /* [BP+06h] type=0x24 */
+
   set_info(1, 0);
-  AudioProcess.playSFXCru(81, arg_06);
-  if (Item.getFrame(arg_06) != 9) {
-    while (Item.getFrame(arg_06) != 9) {
-      Item.legal_create((Item.getFrame(arg_06) + 1), arg_06);
+  AudioProcess.playSFXCru(81, item);
+  if (Item.getFrame(item) != 9) {
+    while (Item.getFrame(item) != 9) {
+      Item.legal_create((Item.getFrame(item) + 1), item);
       spawn FREE.waitNTimerTicks(pid, 8, 0x00000000);
       suspend;
     }
   }
   else {
-    while (Item.getFrame(arg_06) != 2) {
-      Item.legal_create((Item.getFrame(arg_06) - 1), arg_06);
+    while (Item.getFrame(item) != 2) {
+      Item.legal_create((Item.getFrame(item) - 1), item);
       spawn FREE.waitNTimerTicks(pid, 8, 0x00000000);
       suspend;
     }
   }
-  while (Container.destroyContents(81, arg_06)) {
+  while (Container.destroyContents(81, item)) {
     spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
     suspend;
   }
   return;
+
+  /* post-return metadata (not executable):
+    debug_symbol item [BP+06h] type=0x24 unk1=0x00 unk3=0x02
+  */
 }

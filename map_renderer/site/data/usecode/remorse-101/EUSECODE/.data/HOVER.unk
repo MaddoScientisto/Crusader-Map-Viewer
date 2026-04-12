@@ -1,0 +1,556 @@
+/* synthesized appendix for HOVER */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x20 slot_20 ===== */
+function hover_slot_20() /* entry=2575 class_id=0x0a0d slot=0x20 */
+{
+  set_info(1, 0);
+  local_25 = arg_10;
+  local_27 = Item.getX(local_25);
+  local_29 = Item.getY(local_25);
+  local_30 = Item.getZ(local_25);
+  FREE.slot_3f((arg_12 - local_27));
+  local_32 = retval;
+  FREE.slot_3f((arg_14 - local_29));
+  local_34 = retval;
+  FREE.slot_3f((arg_16 - local_30));
+  local_36 = retval;
+  if ((local_32 > local_34) && (local_32 > local_36)) {
+    local_64 = local_32;
+    local_56 = local_34;
+    local_56 = (local_56 * 0x0fa0);
+    local_56 = (local_56 / local_64);
+    local_44 = 0;
+    local_60 = local_36;
+    local_60 = (local_60 * 0x0fa0);
+    local_60 = (local_60 / local_64);
+    local_48 = 0;
+    while (1) {
+      if ((Item.getStatus(local_25) & 0x1000) == 0) {
+        process_result = 0;
+        return;
+      }
+      local_17 = (arg_12 - local_27);
+      local_19 = (arg_14 - local_29);
+      local_21 = (arg_16 - local_30);
+      local_11 = 0;
+      local_13 = 0;
+      local_15 = 0;
+      if ((local_17 < 4) && (local_17 > -4)) {
+        process_result = 0;
+        return;
+      }
+      local_11 = 4;
+      if (local_17 < 0) {
+        local_11 = -4;
+      }
+      if (local_19) {
+        local_44 = (local_44 + local_56);
+        if (local_44 > 0x0fa0) {
+          local_44 = (local_44 - 0x0fa0);
+          local_13 = 4;
+          if (local_19 < 0) {
+            local_13 = -4;
+          }
+        }
+      }
+      if (local_21) {
+        local_48 = (local_48 + local_60);
+        if (local_48 > 0x0fa0) {
+          local_48 = (local_48 - 0x0fa0);
+          local_15 = 4;
+          if (local_21 < 0) {
+            local_15 = -4;
+          }
+        }
+      }
+      local_07 = 0;
+      while (condition) {
+        if (Item.getShape(local_23) != NUMBERS) {
+          if (local_23 < 0x00ff) {
+            local_66 = local_23;
+            if (Actor.isDead(local_66)) {
+              suspend;
+            }
+            else {
+              local_07 = (1 + local_07);
+              push(local_66);
+            }
+          }
+          else {
+            local_07 = (1 + local_07);
+            push(local_23);
+          }
+        }
+      }
+      local_27 = (local_27 + local_11);
+      local_29 = (local_29 + local_13);
+      local_30 = (local_30 + local_15);
+      local_05 = local_27;
+      local_03 = local_29;
+      local_01 = local_30;
+      if (Item.inFastArea(local_25) == 0) {
+        push(local_25);
+        getTargetNPCNumMaybe(local_30, local_29, local_27, local_25);
+        local_09 = 1;
+        while (local_09 <= local_07) {
+          local_23 = Item.getEtherealTop();
+          getTargetNPCNumMaybe((Item.getZ(local_23) + local_15), (Item.getY(local_23) + local_13), (Item.getX(local_23) + local_11), local_23);
+          local_09 = (1 + local_09);
+        }
+      }
+      else if (legalMoveToPoint(0, 1, local_05, local_25)) {
+        local_09 = 1;
+        while (local_09 <= local_07) {
+          local_23 = Item.getEtherealTop();
+          getTargetNPCNumMaybe((Item.getZ(local_23) + local_15), (Item.getY(local_23) + local_13), (Item.getX(local_23) + local_11), local_23);
+          local_09 = (1 + local_09);
+        }
+      }
+      else {
+        local_09 = 1;
+        while (local_09 <= local_07) {
+          local_23 = Item.getEtherealTop();
+          getTargetNPCNumMaybe(Item.getZ(local_23), Item.getY(local_23), Item.getX(local_23), local_23);
+          local_09 = (1 + local_09);
+        }
+        if (Ultima8Engine.clrAlertActive(local_25) & 16) {
+          Ultima8Engine.getAvatarInStasis((~0x1000), local_25);
+          process_result = 1;
+          return;
+        }
+        local_27 = (local_27 - local_11);
+        local_29 = (local_29 - local_13);
+        local_30 = (local_30 - local_15);
+        spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+        suspend;
+      }
+      spawn FREE.waitNTimerTicks(pid, 1, 0x00000000);
+      suspend;
+    }
+    return;
+  }
+  else if ((local_34 > local_32) && (local_34 > local_36)) {
+    local_64 = local_34;
+    local_52 = local_32;
+    local_52 = (local_52 * 0x0fa0);
+    local_52 = (local_52 / local_64);
+    local_40 = 0;
+    local_60 = local_36;
+    local_60 = (local_60 * 0x0fa0);
+    local_60 = (local_60 / local_64);
+    local_48 = 0;
+    while (1) {
+      if ((Item.getStatus(local_25) & 0x1000) == 0) {
+        process_result = 0;
+        return;
+      }
+      local_17 = (arg_12 - local_27);
+      local_19 = (arg_14 - local_29);
+      local_21 = (arg_16 - local_30);
+      local_11 = 0;
+      local_13 = 0;
+      local_15 = 0;
+      if ((local_19 < 4) && (local_19 > -4)) {
+        process_result = 0;
+        return;
+      }
+      if (local_17) {
+        local_40 = (local_40 + local_52);
+        if (local_40 > 0x0fa0) {
+          local_40 = (local_40 - 0x0fa0);
+          local_11 = 4;
+          if (local_17 < 0) {
+            local_11 = -4;
+          }
+        }
+      }
+      local_13 = 4;
+      if (local_19 < 0) {
+        local_13 = -4;
+      }
+      if (local_21) {
+        local_48 = (local_48 + local_60);
+        if (local_48 > 0x0fa0) {
+          local_48 = (local_48 - 0x0fa0);
+          local_15 = 4;
+          if (local_21 < 0) {
+            local_15 = -4;
+          }
+        }
+      }
+      local_07 = 0;
+      while (condition) {
+        if (Item.getShape(local_23) != NUMBERS) {
+          if (local_23 < 0x00ff) {
+            local_66 = local_23;
+            if (Actor.isDead(local_66)) {
+              suspend;
+            }
+            else {
+              local_07 = (1 + local_07);
+              push(local_66);
+            }
+          }
+          else {
+            local_07 = (1 + local_07);
+            push(local_23);
+          }
+        }
+      }
+      local_27 = (local_27 + local_11);
+      local_29 = (local_29 + local_13);
+      local_30 = (local_30 + local_15);
+      local_05 = local_27;
+      local_03 = local_29;
+      local_01 = local_30;
+      if (Item.inFastArea(local_25) == 0) {
+        push(local_25);
+        getTargetNPCNumMaybe(local_30, local_29, local_27, local_25);
+        local_09 = 1;
+        while (local_09 <= local_07) {
+          local_23 = Item.getEtherealTop();
+          getTargetNPCNumMaybe((Item.getZ(local_23) + local_15), (Item.getY(local_23) + local_13), (Item.getX(local_23) + local_11), local_23);
+          local_09 = (1 + local_09);
+        }
+      }
+      else if (legalMoveToPoint(0, 1, local_05, local_25)) {
+        local_09 = 1;
+        while (local_09 <= local_07) {
+          local_23 = Item.getEtherealTop();
+          getTargetNPCNumMaybe((Item.getZ(local_23) + local_15), (Item.getY(local_23) + local_13), (Item.getX(local_23) + local_11), local_23);
+          local_09 = (1 + local_09);
+        }
+      }
+      else {
+        local_09 = 1;
+        while (local_09 <= local_07) {
+          local_23 = Item.getEtherealTop();
+          getTargetNPCNumMaybe(Item.getZ(local_23), Item.getY(local_23), Item.getX(local_23), local_23);
+          local_09 = (1 + local_09);
+        }
+        if (Ultima8Engine.clrAlertActive(local_25) & 16) {
+          Actor.getLastAnimSet((~0x1000), local_25);
+          process_result = 1;
+          return;
+        }
+        local_27 = (local_27 - local_11);
+        local_29 = (local_29 - local_13);
+        local_30 = (local_30 - local_15);
+        spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+        suspend;
+      }
+      spawn FREE.waitNTimerTicks(pid, 1, 0x00000000);
+      suspend;
+    }
+    return;
+  }
+  else {
+    local_64 = local_36;
+    local_52 = local_32;
+    local_52 = (local_52 * 0x0fa0);
+    local_52 = (local_52 / local_64);
+    local_40 = 0;
+    local_56 = local_34;
+    local_56 = (local_56 * 0x0fa0);
+    local_56 = (local_56 / local_64);
+    local_44 = 0;
+    while (1) {
+      if ((Item.getStatus(local_25) & 0x1000) == 0) {
+        process_result = 0;
+        return;
+      }
+      else {
+        local_17 = (arg_12 - local_27);
+        local_19 = (arg_14 - local_29);
+        local_21 = (arg_16 - local_30);
+        local_11 = 0;
+        local_13 = 0;
+        local_15 = 0;
+        if ((local_21 < 4) && (local_21 > -4)) {
+          process_result = 0;
+          return;
+        }
+        else if (local_17) {
+          local_40 = (local_40 + local_52);
+          if (local_40 > 0x0fa0) {
+            local_40 = (local_40 - 0x0fa0);
+            local_11 = 4;
+            if (local_17 < 0) {
+              local_11 = -4;
+            }
+          }
+        }
+        if (local_19) {
+          local_44 = (local_44 + local_56);
+          if (local_44 > 0x0fa0) {
+            local_44 = (local_44 - 0x0fa0);
+            local_13 = 4;
+            if (local_19 < 0) {
+              local_13 = -4;
+            }
+          }
+        }
+        local_15 = 4;
+        if (local_21 < 0) {
+          local_15 = -4;
+        }
+        local_07 = 0;
+        while (condition) {
+          if (Item.getShape(local_23) != NUMBERS) {
+            if (local_23 < 0x00ff) {
+              local_66 = local_23;
+              if (Actor.isDead(local_66)) {
+                suspend;
+              }
+              else {
+                local_07 = (1 + local_07);
+                push(local_66);
+              }
+            }
+            else {
+              local_07 = (1 + local_07);
+              push(local_23);
+            }
+          }
+        }
+        local_27 = (local_27 + local_11);
+        local_29 = (local_29 + local_13);
+        local_30 = (local_30 + local_15);
+        local_05 = local_27;
+        local_03 = local_29;
+        local_01 = local_30;
+        if (Item.inFastArea(local_25) == 0) {
+          push(local_25);
+          getTargetNPCNumMaybe(local_30, local_29, local_27, local_25);
+          local_09 = 1;
+          while (local_09 <= local_07) {
+            local_23 = Item.getEtherealTop();
+            getTargetNPCNumMaybe((Item.getZ(local_23) + local_15), (Item.getY(local_23) + local_13), (Item.getX(local_23) + local_11), local_23);
+            local_09 = (1 + local_09);
+          }
+        }
+        else if (legalMoveToPoint(0, 1, local_05, local_25)) {
+          local_09 = 1;
+          while (local_09 <= local_07) {
+            local_23 = Item.getEtherealTop();
+            getTargetNPCNumMaybe((Item.getZ(local_23) + local_15), (Item.getY(local_23) + local_13), (Item.getX(local_23) + local_11), local_23);
+            local_09 = (1 + local_09);
+          }
+        }
+        else {
+          local_09 = 1;
+          while (local_09 <= local_07) {
+            local_23 = Item.getEtherealTop();
+            getTargetNPCNumMaybe(Item.getZ(local_23), Item.getY(local_23), Item.getX(local_23), local_23);
+            local_09 = (1 + local_09);
+          }
+          if (Ultima8Engine.clrAlertActive(local_25) & 16) {
+            Intrinsic0BB((~0x1000), local_25);
+            process_result = 1;
+            return;
+          }
+          local_27 = (local_27 - local_11);
+          local_29 = (local_29 - local_13);
+          local_30 = (local_30 - local_15);
+          spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+          suspend;
+        }
+        spawn FREE.waitNTimerTicks(pid, 1, 0x00000000);
+        suspend;
+      }
+    }
+  }
+  return;
+}
+
+/* ===== slot 0x21 slot_21 ===== */
+function hover_slot_21() /* entry=2575 class_id=0x0a0d slot=0x21 */
+{
+  set_info(1, 0);
+  local_19 = arg_10;
+  Item.orStatus(0x1000, local_19);
+  local_02 = Ultima8Engine.clrAlertActive(local_19);
+  local_10 = local_02;
+  local_04 = (local_02 & 15);
+  local_06 = local_04;
+  while (1) {
+    if ((Item.getStatus(local_19) & 0x1000) == 0) {
+      Item.setQHi(local_10, local_19);
+      spawn HOVER.slot_23(pid, 1, arg_10, arg_06);
+      suspend;
+      return;
+    }
+    else {
+      local_12 = Egg.getEggXRange(local_19);
+      local_14 = -1;
+      for local_21 in nearby_items(shape=NUMBERS, origin=arg_10) {
+        if (Item.getFrame(local_21) == local_06) {
+          if ((local_12 == 0) || (local_12 == Egg.getEggXRange(local_21))) {
+            local_14 = Item.getX(local_21);
+            local_16 = Item.getY(local_21);
+            local_17 = Item.getZ(local_21);
+            local_08 = Ultima8Engine.clrAlertActive(local_21);
+          }
+        }
+      }
+      if (local_14 == -1) {
+        if (local_06 == local_04) {
+          Intrinsic0BB((~0x1000), local_19);
+          Item.setQHi(local_10, local_19);
+          return;
+        }
+        local_06 = local_04;
+        local_02 = (local_02 & 0x00f0);
+        Item.setQHi((local_02 | local_06), local_19);
+      }
+      spawn HOVER.slot_20(pid, local_17, local_16, local_14, arg_10, arg_06);
+      suspend;
+      if (process_result == 1) {
+        Item.setQHi(local_10, local_19);
+        return;
+      }
+      else {
+        spawn HOVER.slot_24(pid, local_06, arg_10, arg_06);
+        suspend;
+        if ((Item.getStatus(local_19) & 0x1000) == 0) {
+          Item.setQHi(local_10, local_19);
+          spawn HOVER.slot_23(pid, 1, arg_10, arg_06);
+          suspend;
+          return;
+        }
+        else if (local_02 & 0x0080) {
+          spawn TRIGGER.slot_2a(pid, (0 + 0x0080), local_21, arg_06);
+          suspend;
+        }
+        if (local_08 != 0) {
+          spawn FREE.waitNTimerTicks(pid, (local_08 * 10), 0x00000000);
+          suspend;
+        }
+        local_02 = Ultima8Engine.clrAlertActive(local_19);
+        if ((local_02 & 15) == local_06) {
+          local_06 = ((local_06 + 1) & 15);
+        }
+        else {
+          local_04 = (local_02 & 15);
+          local_06 = local_04;
+          local_10 = local_02;
+        }
+        local_02 = (local_02 & 0x00f0);
+        Item.setQHi((local_02 | local_06), local_19);
+      }
+    }
+  }
+  return;
+}
+
+/* ===== slot 0x22 slot_22 ===== */
+function hover_slot_22() /* entry=2575 class_id=0x0a0d slot=0x22 */
+{
+  set_info(0x021b, *(arg_06));
+  if (arg_10 == 0x00ff) {
+    if ((Item.getStatus(arg_06) & 0x1000) == 0) {
+      spawn HOVER.slot_21(*(arg_06), arg_06);
+    }
+    return;
+  }
+  else if (arg_10 == 0x00fe) {
+    Intrinsic0BB((~0x1000), arg_06);
+    return;
+  }
+  else if (arg_10 == 0x00fd) {
+    Intrinsic0BB((~0x1000), arg_06);
+    spawn FREE.waitNTimerTicks(pid, 20, 0x00000000);
+    suspend;
+    local_02 = Ultima8Engine.clrAlertActive(arg_06);
+    Item.setQHi((local_02 | 16), arg_06);
+    Item.orStatus(0x1000, arg_06);
+    spawn HOVER.slot_20(pid, 0, Item.getY(arg_06), Item.getX(arg_06), *(arg_06), arg_06);
+    suspend;
+    Item.setQHi(local_02, arg_06);
+    Intrinsic0BB((~0x1000), arg_06);
+    return;
+  }
+  else if (arg_10 == 0x00fc) {
+    Intrinsic0BB((~0x1000), arg_06);
+    spawn FREE.waitNTimerTicks(pid, 20, 0x00000000);
+    suspend;
+    spawn HOVER.slot_23(pid, 0, *(arg_06), arg_06);
+    suspend;
+    return;
+  }
+  else {
+    Item.setQHi(arg_10, arg_06);
+    if ((Item.getStatus(arg_06) & 0x1000) == 0) {
+      spawn HOVER.slot_21(pid, *(arg_06), arg_06);
+      suspend;
+    }
+  }
+  return;
+}
+
+/* ===== slot 0x23 slot_23 ===== */
+function hover_slot_23() /* entry=2575 class_id=0x0a0d slot=0x23 */
+{
+  set_info(1, 0);
+  local_06 = arg_10;
+  if ((arg_12 == 1) && (Item.inFastArea(local_06) == 1)) {
+    return;
+  }
+  else {
+    local_14 = (Ultima8Engine.clrAlertActive(local_06) & 15);
+    local_16 = Egg.getEggXRange(local_06);
+    for local_04 in nearby_items(shape=NUMBERS, origin=arg_10) {
+      if (Item.getFrame(local_04) == local_14) {
+        if ((local_16 == 0) || (local_16 == Egg.getEggXRange(local_04))) {
+          local_18 = Item.getX(local_04);
+          local_20 = Item.getY(local_04);
+          local_21 = Item.getZ(local_04);
+          local_08 = (local_18 - Item.getX(local_06));
+          local_10 = (local_20 - Item.getY(local_06));
+          local_12 = (local_21 - Item.getZ(local_06));
+          while (condition) {
+            if (Item.getShape(local_02) != NUMBERS) {
+              push(local_02);
+              getTargetNPCNumMaybe((Item.getZ(local_02) + local_12), (Item.getY(local_02) + local_10), (Item.getX(local_02) + local_08), local_02);
+            }
+          }
+          push(local_06);
+          getTargetNPCNumMaybe(local_21, local_20, local_18, local_06);
+          return;
+        }
+      }
+    }
+  }
+  return;
+}
+
+/* ===== slot 0x24 slot_24 ===== */
+function hover_slot_24() /* entry=2575 class_id=0x0a0d slot=0x24 */
+{
+  set_info(1, 0);
+  local_06 = arg_10;
+  local_16 = Egg.getEggXRange(local_06);
+  for local_04 in nearby_items(shape=NUMBERS, origin=arg_10) {
+    if (Item.getFrame(local_04) == arg_12) {
+      if ((local_16 == 0) || (local_16 == Egg.getEggXRange(local_04))) {
+        local_18 = Item.getX(local_04);
+        local_20 = Item.getY(local_04);
+        local_21 = Item.getZ(local_04);
+        local_08 = (local_18 - Item.getX(local_06));
+        local_10 = (local_20 - Item.getY(local_06));
+        local_12 = (local_21 - Item.getZ(local_06));
+        while (condition) {
+          if (Item.getShape(local_02) != NUMBERS) {
+            push(local_02);
+            getTargetNPCNumMaybe((Item.getZ(local_02) + local_12), (Item.getY(local_02) + local_10), (Item.getX(local_02) + local_08), local_02);
+          }
+        }
+        push(local_06);
+        getTargetNPCNumMaybe(local_21, local_20, local_18, local_06);
+        return;
+      }
+    }
+  }
+  return;
+}

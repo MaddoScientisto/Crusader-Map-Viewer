@@ -1,0 +1,68 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[06:gotHit] call_intrinsic Item.getStatus(arg_bytes=0x4) ; bit_and ; jne 0x0030 ; ...
+//
+[06:gotHit] jmp 0x00ad
+//
+[06:gotHit] call_class_event FREE.slot_2c ; jne 0x00ad ; ...
+//
+[06:gotHit] call_class_event ITEM.slot_23
+//
+[06:gotHit] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+//
+[06:gotHit] call_intrinsic Item.setFrame(arg_bytes=0x6)
+[06:gotHit] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[06:gotHit] call_intrinsic Item.setFrame(arg_bytes=0x6)
+//
+[06:gotHit] call_class_event ITEM.slot_24
+//
+//
+[06:gotHit] ret
+
+/* synthesized appendix for MGR_EW */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x06 gotHit ===== */
+function mgr_ew_gotHit() /* entry=688 class_id=0x02ae slot=0x06 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    vel; /* [BP+12h] type=0x69 */
+
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  if (Item.getStatus(arg_06) & 0x1000) {
+    return;
+  }
+  else {
+    FREE.slot_2c(vel, ref);
+    if (retval) {
+      ITEM.slot_23(0x1000, arg_06);
+      AudioProcess.playSFXCru(68, arg_06);
+      Item.setFrame(1, arg_06);
+      spawn FREE.waitNTimerTicks(pid, 20, 0x00000000);
+      suspend;
+      Item.setFrame(0, arg_06);
+      ITEM.slot_24(0x1000, arg_06);
+    }
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol ref [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol vel [BP+12h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}

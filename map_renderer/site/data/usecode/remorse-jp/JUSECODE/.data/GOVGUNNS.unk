@@ -1,0 +1,175 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[0F:enterFastArea] call_intrinsic Item.getStatus(arg_bytes=0x4) ; bit_and ; jne 0x002f ; ...
+//
+[0F:enterFastArea] jmp 0x004a
+//
+[0F:enterFastArea] call_intrinsic Item.orStatus(arg_bytes=0x6)
+[0F:enterFastArea] spawn WALLGUN.slot_27 ; pop_temp ; ...
+[0F:enterFastArea] ret
+//
+//
+//
+[0B:unequip] call_intrinsic Item.getStatus(arg_bytes=0x4) ; bit_and ; jne 0x002f ; ...
+//
+[0B:unequip] jmp 0x004a
+//
+[0B:unequip] call_intrinsic Item.orStatus(arg_bytes=0x6)
+[0B:unequip] spawn WALLGUN.slot_27 ; pop_temp ; ...
+[0B:unequip] ret
+//
+//
+//
+[10:leaveFastArea] bit_not ; call_intrinsic Ultima8Engine.setAlertActive(arg_bytes=0x6) ; ...
+[10:leaveFastArea] call_class_event FREE.slot_33 ; ...
+[10:leaveFastArea] call_class_event FREE.slot_33 ; ...
+[10:leaveFastArea] ret
+//
+//
+//
+//
+//
+//
+[06:gotHit] spawn WALLGUN.slot_49 ; pop_temp ; ...
+[06:gotHit] ret
+//
+//
+//
+[0A:equip] call_intrinsic getTargetNPCNumMaybe(arg_bytes=0x0) ; ne ; jne 0x0053 ; ...
+[0A:equip]
+[0A:equip] call_intrinsic getTargetNPCNumMaybe(arg_bytes=0x0) ; spawn WALLGUN.slot_24 ; implies arg0=0x1, arg1=0x1 ; ...
+//
+//
+//
+[0A:equip] spawn WALLGUN.slot_24 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[0A:equip] ret
+
+/* synthesized appendix for GOVGUNNS */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x06 gotHit ===== */
+function govgunns_gotHit() /* entry=923 class_id=0x0399 slot=0x06 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    vel; /* [BP+12h] type=0x69 */
+
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  spawn WALLGUN.slot_49(vel, ref, arg_06);
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol ref [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol vel [BP+12h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x0a equip ===== */
+function govgunns_equip() /* entry=923 class_id=0x0399 slot=0x0a */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    var; /* [BP+10h] type=0x69 */
+
+  set_info(0x0211, *(arg_06));
+  process_exclude();
+  if (getTargetNPCNumMaybe() != 0) {
+    spawn WALLGUN.slot_24(pid, var, getTargetNPCNumMaybe(), arg_06);
+    suspend;
+    return;
+  }
+  else {
+    spawn WALLGUN.slot_24(pid, var, global[0x003c], arg_06);
+    suspend;
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol var [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x0b unequip ===== */
+function govgunns_unequip() /* entry=923 class_id=0x0399 slot=0x0b */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    var; /* [BP+10h] type=0x69 */
+
+  set_info(0x0212, *(arg_06));
+  process_exclude();
+  if (Item.getStatus(arg_06) & 4) {
+    return;
+  }
+  else {
+    Item.orStatus(4, arg_06);
+    spawn WALLGUN.slot_27(arg_06);
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol var [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x0f enterFastArea ===== */
+function govgunns_enterFastArea() /* entry=923 class_id=0x0399 slot=0x0f */
+{
+  var
+    referent; /* [BP+00h] type=0x69 */
+
+  set_info(0x021b, *(arg_06));
+  process_exclude();
+  if (Item.getStatus(arg_06) & 4) {
+    return;
+  }
+  else {
+    Item.orStatus(4, arg_06);
+    spawn WALLGUN.slot_27(arg_06);
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+  */
+}
+
+/* ===== slot 0x10 leaveFastArea ===== */
+function govgunns_leaveFastArea() /* entry=923 class_id=0x0399 slot=0x10 */
+{
+  var
+    referent; /* [BP+00h] type=0x69 */
+
+  set_info(0x021c, *(arg_06));
+  process_exclude();
+  Ultima8Engine.setAlertActive((~4), arg_06);
+  FREE.slot_33(1, *(arg_06));
+  FREE.slot_33(0x020a, *(arg_06));
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+  */
+}

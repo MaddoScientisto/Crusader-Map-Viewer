@@ -1,0 +1,71 @@
+/* synthesized appendix for STEAM */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x20 slot_20 ===== */
+function steam_slot_20() /* entry=2583 class_id=0x0a15 slot=0x20 */
+{
+  entry:
+    set_info(0x0001, *(arg_06));
+
+  while (true) {
+    suspend;
+    spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
+    suspend;
+    local_03 = 0;
+    for local_02 in nearby_items(family=6, origin=arg_06) {
+      if (Actor.isNPC(local_02)) {
+        if (PaletteFaderProcess.fadeToBlack(*(arg_06), local_02)) {
+          local_05 = local_02;
+          if (local_05 != Actor.getLastAnimSet()) {
+            NPC.slot_2b(local_05);
+            if (!retval) {
+              Item.receiveHit(8, UCMachine.rndRange(Ultima8Engine.clrCruStasis(local_05), 16, 0), 0, local_05);
+            }
+          }
+          else {
+            Item.receiveHit(UCMachine.rndRange(UCMachine.rndRange(8, 20, 10), 16, 0), 0, local_05);
+          }
+          local_03 = 1;
+        }
+      }
+    }
+    if (!local_03) {
+      ITEM.slot_24(4, arg_06);
+      return;
+    }
+  }
+
+  return;
+
+}
+
+/* ===== slot 0x21 slot_21 ===== */
+function steam_slot_21() /* entry=2583 class_id=0x0a15 slot=0x21 */
+{
+  set_info(0x0001, *(arg_06));
+  local_02 = arg_10;
+  if (Item.getStatus(arg_06) & 4) {
+    return;
+  }
+  else {
+    ITEM.slot_23(4, arg_06);
+    suspend;
+    while (true) {
+      suspend;
+      if (arg_10 < 0x00ff) {
+        if (arg_10 == Actor.getLastAnimSet()) {
+          Item.receiveHit(8, UCMachine.rndRange(((Game.getDifficultyLevel() + 1) * 20), 16, 0), *(arg_06), local_02);
+        }
+        else {
+          NPC.slot_2b(local_02);
+          if (!retval) {
+            Item.receiveHit(8, UCMachine.rndRange(Ultima8Engine.clrCruStasis(local_02), 16, 0), *(arg_06), local_02);
+          }
+        }
+        spawn STEAM.slot_20(arg_06);
+        return;
+      }
+    }
+  }
+  return;
+}

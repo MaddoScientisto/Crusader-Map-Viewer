@@ -1,0 +1,133 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[06:gotHit] call_intrinsic getTargetNPCNumMaybe(arg_bytes=0x0) ; cmp ; jne 0x0080 ; ...
+//
+[06:gotHit] spawn LAZER.slot_20 ; pop_temp ; ...
+[06:gotHit] spawn TRIGGER.slot_20 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[06:gotHit] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[06:gotHit] ret
+//
+//
+//
+//
+[0F:enterFastArea] call_intrinsic Item.getFrame(arg_bytes=0x4) ; not ; jne 0x0038 ; ...
+[0F:enterFastArea]
+[0F:enterFastArea] call_intrinsic AudioProcess.playAmbientSFXCru(arg_bytes=0x6)
+//
+[0F:enterFastArea] ret
+//
+//
+//
+//
+[0B:unequip] call_intrinsic Item.getFrame(arg_bytes=0x4) ; not ; jne 0x0038 ; ...
+[0B:unequip]
+[0B:unequip] call_intrinsic AudioProcess.playAmbientSFXCru(arg_bytes=0x6)
+//
+[0B:unequip] ret
+//
+//
+//
+//
+//
+[13:avatarStoleSomething] call_intrinsic Item.setQLo(arg_bytes=0x6)
+[13:avatarStoleSomething] ret
+
+/* synthesized appendix for L_EW-4 */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x06 gotHit ===== */
+function l_ew_4_gotHit() /* entry=467 class_id=0x01d1 slot=0x06 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    vel; /* [BP+12h] type=0x69 */
+
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  if (ref == getTargetNPCNumMaybe()) {
+    spawn LAZER.slot_20(arg_06);
+    spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
+    suspend;
+    spawn FREE.slot_32(pid, 60, 0x00000000);
+    suspend;
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol ref [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol vel [BP+12h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x0b unequip ===== */
+function l_ew_4_unequip() /* entry=467 class_id=0x01d1 slot=0x0b */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    num; /* [BP+10h] type=0x69 */
+
+  set_info(0x0212, *(arg_06));
+  process_exclude();
+  if (!Item.getFrame(arg_06)) {
+    AudioProcess.playAmbientSFXCru(0x00a9, arg_06);
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol num [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x0f enterFastArea ===== */
+function l_ew_4_enterFastArea() /* entry=467 class_id=0x01d1 slot=0x0f */
+{
+  var
+    referent; /* [BP+00h] type=0x69 */
+
+  set_info(0x021b, *(arg_06));
+  process_exclude();
+  if (!Item.getFrame(arg_06)) {
+    AudioProcess.playAmbientSFXCru(0x00a9, arg_06);
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+  */
+}
+
+/* ===== slot 0x13 avatarStoleSomething ===== */
+function l_ew_4_avatarStoleSomething() /* entry=467 class_id=0x01d1 slot=0x13 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    num; /* [BP+10h] type=0x69 */
+
+  set_info(0x022e, *(arg_06));
+  process_exclude();
+  Item.setQLo(0x00a9, arg_06);
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol num [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}

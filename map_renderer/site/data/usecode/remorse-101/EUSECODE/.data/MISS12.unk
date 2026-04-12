@@ -1,0 +1,32 @@
+/* synthesized appendix for MISS12 */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x04 cachein ===== */
+function miss12_cachein() /* entry=2330 class_id=0x0918 slot=0x04 */
+{
+  set_info(0x0213, *(arg_06));
+  process_exclude();
+  return;
+}
+
+/* ===== slot 0x07 hatch ===== */
+function miss12_hatch() /* entry=2330 class_id=0x0918 slot=0x07 */
+{
+  set_info(0x0210, *(arg_06));
+  process_exclude();
+  local_04 = Item.fallProbably_03E(arg_06);
+  if (local_04) {
+    if (global[0x002c]) {
+      spawn FREE.slot_26(pid, "12e", 0x00000000);
+      suspend;
+      local_02 = *(arg_06);
+      local_06 = Egg.getEggXRange(local_02);
+      Item.andStatus(local_04, local_02);
+      spawn TRIGGER.slot_2a(pid, (0 + 0x0080), local_02, arg_06);
+      suspend;
+      Item.andStatus(local_06, local_02);
+      Item.destroy(arg_06);
+    }
+  }
+  return;
+}

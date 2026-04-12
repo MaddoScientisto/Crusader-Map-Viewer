@@ -1,0 +1,55 @@
+/* synthesized appendix for MONITNS */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x01 use ===== */
+function monitns_use() /* entry=260 class_id=0x0102 slot=0x01 */
+{
+  set_info(0x0207, *(arg_06));
+  process_exclude();
+  if (Item.getFrame(arg_06) > 1) {
+    return;
+  }
+  else {
+    local_08 = void AudioProcess:stopAllSFX(arg_06);
+    if (Item.getMapArray(arg_06) != 0) {
+      for local_04 in nearby_items(shape=VALUEBOX, origin=arg_06) {
+        if ((void AudioProcess:stopAllSFX(local_04) == local_08) || (local_08 == 0)) {
+          VALBOX.slot_20(local_04);
+          local_06 = retval;
+          TEXTFILE.slot_23(local_06, Item.andStatus(local_04), void AudioProcess:stopAllSFX(local_04), arg_06);
+          local_02 = retval;
+          spawn TEXTFILE.slot_20(pid, local_02, arg_06);
+          suspend;
+        }
+      }
+      spawn TRIGGER.slot_2a(pid, 0, *(arg_06), arg_06);
+      suspend;
+      return;
+    }
+    else {
+      for local_04 in nearby_items(shape=VALUEBOX, origin=arg_06) {
+        if (void AudioProcess:stopAllSFX(local_04) == local_08) {
+          VALBOX.slot_20(local_04);
+          local_06 = retval;
+          local_10 = (1 + local_10);
+        }
+      }
+      TEXTFILE.slot_23(local_06, Item.andStatus(arg_06), void AudioProcess:stopAllSFX(arg_06), arg_06);
+      local_02 = retval;
+      if (local_10 > 1) {
+        local_02 = "There is more than one Value box in range with the same link";
+      }
+      spawn TEXTFILE.slot_20(pid, local_02, arg_06);
+      suspend;
+    }
+  }
+  return;
+}
+
+/* ===== slot 0x06 gotHit ===== */
+function monitns_gotHit() /* entry=260 class_id=0x0102 slot=0x06 */
+{
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  return;
+}

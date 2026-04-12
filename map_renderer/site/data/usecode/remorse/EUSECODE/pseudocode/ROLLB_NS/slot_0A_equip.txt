@@ -1,14 +1,18 @@
 function rollb_ns_equip() /* entry=1416 class_id=0x0586 slot=0x0a */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    var; /* [BP+10h] type=0x69 */
+
   set_info(0x0211, *(arg_06));
   process_exclude();
-  if (arg_10 == 1) {
+  if (var == 1) {
     if ((Item.getStatus(arg_06) & 0x1000) == 0) {
       spawn ROLLB_NS.slot_21(arg_06);
     }
     return;
   }
-  else if (arg_10 == 2) {
+  else if (var == 2) {
     if (Item.getStatus(arg_06) & 0x1000) {
       Item.andStatus((~0x1000), arg_06);
       Kernel.resetRef(0x021b, *(arg_06));
@@ -16,4 +20,9 @@ function rollb_ns_equip() /* entry=1416 class_id=0x0586 slot=0x0a */
     return;
   }
   return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol var [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+  */
 }

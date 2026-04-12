@@ -1,0 +1,115 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[06:gotHit] call_class_event FREE.slot_2c ; jne 0x0184 ; ...
+//
+[06:gotHit] spawn ITEM.slot_27 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[06:gotHit]
+[06:gotHit] call_class_event FREE.slot_20 ; jne 0x0079 ; ...
+//
+[06:gotHit] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6) ; jmp 0x0086 ; ...
+//
+//
+//
+[06:gotHit] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6) ; jmp 0x0184 ; ...
+//
+//
+//
+//
+//
+[06:gotHit] spawn ITEM.slot_28 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+//
+[06:gotHit] call_intrinsic UCMachine.rndRange(arg_bytes=0x4) ; call_intrinsic Item.create(arg_bytes=0x8) ; jmp 0x0148 ; ...
+//
+//
+//
+[06:gotHit] call_intrinsic UCMachine.rndRange(arg_bytes=0x4) ; call_intrinsic Item.create(arg_bytes=0x8) ; jmp 0x0148 ; ...
+//
+//
+//
+[06:gotHit] call_intrinsic UCMachine.rndRange(arg_bytes=0x4) ; call_intrinsic Item.create(arg_bytes=0x8) ; jmp 0x0148 ; ...
+//
+//
+//
+[06:gotHit] call_intrinsic UCMachine.rndRange(arg_bytes=0x4) ; call_intrinsic Item.create(arg_bytes=0x8) ; ...
+//
+//
+//
+[06:gotHit] call_intrinsic Item.getZ(arg_bytes=0x4) ; call_intrinsic Item.getY(arg_bytes=0x4) ; call_intrinsic Item.getX(arg_bytes=0x4) ; ...
+[06:gotHit] call_intrinsic CameraProcess.moveTo(arg_bytes=0x4)
+[06:gotHit] call_intrinsic Item.destroy(arg_bytes=0x4)
+//
+//
+[06:gotHit] ret
+
+/* synthesized appendix for LUGGAGE */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x06 gotHit ===== */
+function luggage_gotHit() /* entry=145 class_id=0x008f slot=0x06 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    vel, /* [BP+12h] type=0x69 */
+    item; /* [BP-02h] type=0x24 */
+
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  FREE.slot_2c(vel, ref);
+  if (retval) {
+    spawn ITEM.slot_27(pid, 100, vel, ref, arg_06);
+    suspend;
+    if (!process_result) {
+      FREE.slot_20(1);
+      if (retval) {
+        AudioProcess.playSFXCru(38, arg_06);
+      }
+      else {
+        AudioProcess.playSFXCru(39, arg_06);
+      }
+      return;
+    }
+    else {
+      spawn ITEM.slot_28(pid, 0, 0, arg_06);
+      suspend;
+      if (Item.getFrame(arg_06) == 1) {
+        Item.create(UCMachine.rndRange(3, 2), 0x059f, item);
+      }
+      else if (Item.getFrame(arg_06) == 2) {
+        Item.create(UCMachine.rndRange(5, 4), 0x059f, item);
+      }
+      else if (Item.getFrame(arg_06) == 3) {
+        Item.create(UCMachine.rndRange(7, 6), 0x059f, item);
+      }
+      else {
+        Item.create(UCMachine.rndRange(1, 0), 0x059f, item);
+      }
+      Item.popToCoords(Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06), item);
+      CameraProcess.moveTo(item);
+      Item.destroy(arg_06);
+    }
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol ref [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol vel [BP+12h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol item [BP-02h] type=0x24 unk1=0x00 unk3=0x02
+  */
+}

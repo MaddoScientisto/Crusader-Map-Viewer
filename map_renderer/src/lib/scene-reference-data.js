@@ -89,16 +89,28 @@ export function buildCompactScenePayload(scene, referenceId) {
     }
   }
 
-  const itemEncoding = Array.isArray(scene?.items)
-    ? packCompactSceneItems(scene.items)
-    : null;
+  let itemEncoding = null;
+  let inlineItems = Array.isArray(scene?.items) ? scene.items : sceneWithoutShapeDefinitions.items;
+  if (Array.isArray(scene?.items)) {
+    try {
+      itemEncoding = packCompactSceneItems(scene.items);
+      inlineItems = undefined;
+    } catch {
+      itemEncoding = null;
+      inlineItems = scene.items;
+    }
+  }
   const mapSource = sceneWithoutShapeDefinitions?.mapSource && typeof sceneWithoutShapeDefinitions.mapSource === "object"
     ? { ...sceneWithoutShapeDefinitions.mapSource }
     : sceneWithoutShapeDefinitions?.mapSource;
 
   if (mapSource && Array.isArray(mapSource.items)) {
-    mapSource.itemEncoding = packCompactMapSourceItems(mapSource.items);
-    delete mapSource.items;
+    try {
+      mapSource.itemEncoding = packCompactMapSourceItems(mapSource.items);
+      delete mapSource.items;
+    } catch {
+      delete mapSource.itemEncoding;
+    }
   }
 
   return {
@@ -106,7 +118,7 @@ export function buildCompactScenePayload(scene, referenceId) {
     metadata,
     mapSource,
     itemEncoding,
-    items: Array.isArray(scene?.items) ? undefined : sceneWithoutShapeDefinitions.items,
+    items: inlineItems,
     references: {
       referenceId,
       atlasIds,

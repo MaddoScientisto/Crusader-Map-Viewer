@@ -1,0 +1,41 @@
+/* synthesized appendix for RECHAGNS */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x06 gotHit ===== */
+function rechagns_gotHit() /* entry=312 class_id=0x0136 slot=0x06 */
+{
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  FREE.slot_2b(arg_12, arg_10);
+  if (retval && (Item.getFrame(arg_06) < 4)) {
+    spawn ITEM.slot_27(pid, 100, arg_12, arg_10, arg_06);
+    suspend;
+    if (!process_result) {
+      return;
+    }
+    else {
+      spawn ITEM.slot_28(pid, 0, 1, arg_06);
+      suspend;
+      FREE.slot_33(0x0254, global[0x003d]);
+      for local_02 in nearby_items(shape=0x0136, origin=arg_06) {
+        if (Item.getFrame(local_02) < 2) {
+          Item.isCentreOn((Item.getFrame(local_02) + 4), local_02);
+        }
+        else if (Item.getFrame(local_02) < 4) {
+          Item.isCentreOn((Item.getFrame(local_02) + 2), local_02);
+        }
+      }
+      for local_02 in nearby_items(shape=0x0138, origin=arg_06) {
+        Item.isCentreOn(1, local_02);
+      }
+      for local_02 in nearby_items(shape=0x0139, origin=arg_06) {
+        Item.isCentreOn(1, local_02);
+      }
+      for local_02 in nearby_items(shape=0x0137, origin=arg_06) {
+        Item.isCentreOn(1, local_02);
+      }
+      AudioProcess.playSFXCru(93, arg_06);
+    }
+  }
+  return;
+}

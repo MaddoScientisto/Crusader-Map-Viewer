@@ -1,0 +1,93 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[0F:enterFastArea] call_intrinsic AudioProcess.playAmbientSFXCru(arg_bytes=0x6)
+[0F:enterFastArea] ret
+//
+//
+//
+//
+//
+//
+[06:gotHit] call_intrinsic Item.getFrame(arg_bytes=0x4) ; pop_local_word fram ; ...
+//
+[06:gotHit] call_class_event FREE.slot_2c ; jne 0x0093 ; ...
+//
+[06:gotHit] lt ; jne 0x0093 ; loopscr value_u8=0x24 ; ...
+//
+[06:gotHit] loopscr value_u8=0x25
+[06:gotHit] mul
+[06:gotHit] loop current_var=0xfc, string_bytes=0x6, loop_type=0x2 ; jne 0x0091 ; ...
+[06:gotHit] call_intrinsic Item.andStatus(arg_bytes=0x4) ; call_intrinsic Item.andStatus(arg_bytes=0x4) ; cmp ; ...
+[06:gotHit]
+[06:gotHit] call_intrinsic Item.destroy(arg_bytes=0x4) ; loopnext ; jmp 0x0063 ; ...
+//
+//
+//
+//
+[06:gotHit] ret
+
+/* synthesized appendix for WVENTNS */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x06 gotHit ===== */
+function wventns_gotHit() /* entry=1001 class_id=0x03e7 slot=0x06 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    vel, /* [BP+12h] type=0x69 */
+    fram, /* [BP-02h] type=0x69 */
+    windsurf; /* [BP-04h] type=0x24 */
+
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  fram = Item.getFrame(arg_06);
+  FREE.slot_2c(vel, ref);
+  if (retval) {
+    if (fram < 1) {
+      for windsurf in nearby_items(shape=WIND_AREA, origin=arg_06) {
+        if (Item.andStatus(arg_06) == Item.andStatus(windsurf)) {
+          Item.destroy(windsurf);
+        }
+      }
+    }
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol ref [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol vel [BP+12h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol fram [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol windsurf [BP-04h] type=0x24 unk1=0x00 unk3=0x02
+  */
+}
+
+/* ===== slot 0x0f enterFastArea ===== */
+function wventns_enterFastArea() /* entry=1001 class_id=0x03e7 slot=0x0f */
+{
+  var
+    referent; /* [BP+00h] type=0x69 */
+
+  set_info(0x021b, *(arg_06));
+  process_exclude();
+  AudioProcess.playAmbientSFXCru(94, arg_06);
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+  */
+}

@@ -1,0 +1,216 @@
+/* synthesized appendix for BLASER1 */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x05 hit ===== */
+function blaser1_hit() /* entry=1093 class_id=0x0443 slot=0x05 */
+{
+  set_info(0x020b, *(arg_06));
+  process_exclude();
+  spawn BLASER1.slot_21(pid, arg_12, arg_10, arg_06);
+  suspend;
+  return;
+}
+
+/* ===== slot 0x06 gotHit ===== */
+function blaser1_gotHit() /* entry=1093 class_id=0x0443 slot=0x06 */
+{
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  spawn BLASER1.slot_21(pid, arg_12, arg_10, arg_06);
+  suspend;
+  return;
+}
+
+/* ===== slot 0x0a equip ===== */
+function blaser1_equip() /* entry=1093 class_id=0x0443 slot=0x0a */
+{
+  set_info(0x0211, *(arg_06));
+  process_exclude();
+  if (arg_10 == 1) {
+    local_02 = Item.getQHi(arg_06);
+    Item.setQHi((local_02 | 4), arg_06);
+    return;
+  }
+  else if (arg_10 == 31) {
+    local_02 = Item.getQHi(arg_06);
+    Item.setQHi((local_02 | 31), arg_06);
+    return;
+  }
+  return;
+}
+
+/* ===== slot 0x0b unequip ===== */
+function blaser1_unequip() /* entry=1093 class_id=0x0443 slot=0x0b */
+{
+  set_info(0x0212, *(arg_06));
+  process_exclude();
+  if ((Item.getStatus(arg_06) & 0x1000) == 0) {
+    AudioProcess.playSFXCru(2, arg_06);
+    spawn BLASER1.slot_20(*(arg_06), arg_06);
+  }
+  return;
+}
+
+/* ===== slot 0x0f enterFastArea ===== */
+function blaser1_enterFastArea() /* entry=1093 class_id=0x0443 slot=0x0f */
+{
+  set_info(0x021b, *(arg_06));
+  process_exclude();
+  if ((Item.getStatus(arg_06) & 0x1000) == 0) {
+    spawn BLASER1.slot_20(*(arg_06), arg_06);
+  }
+  return;
+}
+
+/* ===== slot 0x10 leaveFastArea ===== */
+function blaser1_leaveFastArea() /* entry=1093 class_id=0x0443 slot=0x10 */
+{
+  set_info(0x021c, *(arg_06));
+  process_exclude();
+  Item.andStatus((~0x1000), arg_06);
+  return;
+}
+
+/* ===== slot 0x20 slot_20 ===== */
+function blaser1_slot_20() /* entry=1093 class_id=0x0443 slot=0x20 */
+{
+  set_info(1, 0);
+  local_09 = arg_10;
+  local_21 = Item.getQLo(local_09);
+  local_13 = 0;
+  for local_09 in nearby_items(shape=0x0443, origin=arg_10) {
+    if ((Item.getQLo(local_09) == local_21) && ((Item.getStatus(local_09) & 0x1000) == 0)) {
+      local_07 = (local_07 + [local_09]);
+      local_19 = Item.getQHi(local_09);
+      Item.setQHi((local_19 & (1 + 2)), local_09);
+      Item.orStatus(0x1000, local_09);
+      local_13 = (1 + local_13);
+    }
+  }
+  if (local_13 == 0) {
+    return;
+  }
+  else {
+    while (1) {
+      local_11 = 0;
+      while (true) {
+        foreach_list local_09 -> block_056a;
+        if (local_19 & 31) {
+          /* remove_matching_inline */
+          local_07 = [local_09];
+          Item.destroy(local_09);
+        }
+        else if (Item.getStatus(local_09) & (0x1000 == 0)) {
+          /* remove_matching_inline */
+          local_07 = [local_09];
+        }
+        else if ((Item.inFastArea(local_09) == 1) && (Item.getShape(local_09) != 0x0476)) {
+          local_11 = (1 + local_11);
+          local_19 = Item.getQHi(local_09);
+          local_17 = Item.getFrame(local_09);
+          if (local_19 & 4) {
+            local_19 = (local_19 & (~4));
+            if (local_17 == 1) {
+              if (local_19 & 2) {
+                local_19 = (local_19 & (~2));
+              }
+              else {
+                local_19 = (local_19 | 2);
+              }
+            }
+            local_17 = ((local_17 + 1) & 1);
+            Item.setFrame(local_17, local_09);
+            Item.setQHi(local_19, local_09);
+          }
+          local_01 = Item.getZ(local_09);
+          local_15 = ((local_19 & 2) + local_17);
+          if ((local_19 & 1) == 0) {
+            switch (local_15) {
+            case 0:
+              local_03 = (Item.getY(local_09) - 4);
+              local_05 = (Item.getX(local_09) + 4);
+              break;
+            case 1:
+              local_03 = (Item.getY(local_09) + 4);
+              local_05 = (Item.getX(local_09) + 4);
+              break;
+            case 2:
+              local_03 = (Item.getY(local_09) + 4);
+              local_05 = (Item.getX(local_09) - 4);
+              break;
+            case 3:
+              local_03 = (Item.getY(local_09) - 4);
+              local_05 = (Item.getX(local_09) - 4);
+              break;
+            }
+          }
+          else {
+            switch (local_15) {
+            case 0:
+              local_03 = (Item.getY(local_09) + 4);
+              local_05 = (Item.getX(local_09) - 4);
+              break;
+            case 1:
+              local_03 = (Item.getY(local_09) - 4);
+              local_05 = (Item.getX(local_09) - 4);
+              break;
+            case 2:
+              local_03 = (Item.getY(local_09) - 4);
+              local_05 = (Item.getX(local_09) + 4);
+              break;
+            case 3:
+              local_03 = (Item.getY(local_09) + 4);
+              local_05 = (Item.getX(local_09) + 4);
+              break;
+            }
+          }
+          if (legalMoveToPoint(0, 0, local_05, local_09) == 0) {
+            local_19 = Item.getQHi(local_09);
+            if ((local_19 & 8) == 0) {
+              Item.setQHi((local_19 | (4 | 8)), local_09);
+            }
+            else {
+              local_19 = (local_19 & (~8));
+              if (local_19 & 1) {
+                local_19 = (local_19 & (~1));
+              }
+              else {
+                local_19 = (local_19 | 1);
+              }
+              Item.setQHi(local_19, local_09);
+            }
+          }
+          else {
+            local_19 = Item.getQHi(local_09);
+            local_19 = (local_19 & (~8));
+            Item.setQHi(local_19, local_09);
+          }
+        }
+      }
+      spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+      suspend;
+      if (local_11 == 0) {
+        while (true) {
+          foreach_list local_09 -> block_05a3;
+          Item.andStatus((~0x1000), local_09);
+        }
+        return;
+      }
+    }
+  }
+  return;
+}
+
+/* ===== slot 0x21 slot_21 ===== */
+function blaser1_slot_21() /* entry=1093 class_id=0x0443 slot=0x21 */
+{
+  set_info(1, *(arg_06));
+  local_02 = arg_10;
+  if (Actor.isNPC(local_02)) {
+    spawn NPC.slot_2c(pid, *(arg_06), local_02);
+    suspend;
+    spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+    suspend;
+  }
+  return;
+}

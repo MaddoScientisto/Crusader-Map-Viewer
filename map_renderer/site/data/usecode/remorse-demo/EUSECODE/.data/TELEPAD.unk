@@ -1,0 +1,691 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[0F:enterFastArea] call_intrinsic Item.getFrame(arg_bytes=0x4) ; lt ; jne 0x0039 ; ...
+[0F:enterFastArea]
+[0F:enterFastArea] call_intrinsic AudioProcess.playAmbientSFXCru(arg_bytes=0x6)
+//
+[0F:enterFastArea] ret
+//
+//
+//
+//
+//
+//
+[06:gotHit] pop_local_word item
+[06:gotHit] pop_local_word pad
+[06:gotHit] call_intrinsic Item.setQuality(arg_bytes=0x4) ; pop_local_word theQual ; ...
+//
+[06:gotHit] set_info
+//
+[06:gotHit] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[06:gotHit] call_class_event FREE.slot_2c ; jne 0x007b ; ...
+//
+[06:gotHit] jmp 0x0373
+//
+//
+[06:gotHit] call_intrinsic Actor.isNPC(arg_bytes=0x4) ; cmp ; jne 0x009c ; ...
+//
+[06:gotHit] call_intrinsic Item.explode(arg_bytes=0x8) ; ...
+//
+//
+//
+[06:gotHit] call_intrinsic Ultima8Engine.setUnkCrusaderFlag(arg_bytes=0x0) ; cmp ; jne 0x010e ; ...
+//
+//
+[06:gotHit] loopscr value_u8=0x25
+[06:gotHit] loop current_var=0xf6, string_bytes=0x6, loop_type=0x6 ; jne 0x0106 ; ...
+[06:gotHit] lt ; jne 0x0102 ; ...
+//
+[06:gotHit] ne ; jne 0x0102 ; ...
+//
+[06:gotHit] call_intrinsic Actor.setActivity(arg_bytes=0x4) ; call_intrinsic UCMachine.rndRange(arg_bytes=0x4) ; call_intrinsic Actor.getSomeFlagProbablyCrouch(arg_bytes=0xc) ; ...
+//
+//
+//
+[06:gotHit] jmp 0x0373
+//
+//
+[06:gotHit] call_intrinsic Actor.getLastAnimSet(arg_bytes=0x6) ; not ; jne 0x0128 ; ...
+//
+[06:gotHit] jmp 0x0373
+//
+//
+[06:gotHit] cmp ; global_address global[0x003c] ; call_intrinsic Item.getShape(arg_bytes=0x4) ; ...
+[06:gotHit]
+[06:gotHit] cmp ; jne 0x0156 ; ...
+//
+[06:gotHit] jmp 0x0373
+//
+[06:gotHit] gt ; lt ; and ; ...
+[06:gotHit]
+[06:gotHit] global_address global[0x003c] ; call_intrinsic Actor.getMap(arg_bytes=0x4) ; spawn TELEPAD.slot_20 ; ...
+[06:gotHit] jmp 0x0373 ; cmp ; jne 0x01ab ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[06:gotHit] spawn TELEPAD.slot_20 ; pop_temp ; jmp 0x0373 ; ...
+//
+//
+//
+//
+//
+[06:gotHit] spawn TELEPAD.slot_20 ; pop_temp ; jmp 0x0373 ; ...
+//
+//
+//
+//
+//
+[06:gotHit] spawn TELEPAD.slot_20 ; pop_temp ; jmp 0x0373 ; ...
+//
+//
+//
+//
+//
+[06:gotHit] spawn TELEPAD.slot_20 ; pop_temp ; jmp 0x0373 ; ...
+//
+//
+//
+//
+//
+[06:gotHit] spawn TELEPAD.slot_20 ; pop_temp ; jmp 0x0373 ; ...
+//
+//
+//
+//
+[06:gotHit] spawn TELEPAD.slot_20 ; pop_temp ; jmp 0x0373 ; ...
+//
+//
+//
+[06:gotHit] spawn TELEPAD.slot_20 ; pop_temp ; jmp 0x0373 ; ...
+//
+//
+//
+[06:gotHit] spawn TELEPAD.slot_20 ; pop_temp ; jmp 0x0373 ; ...
+//
+//
+//
+[06:gotHit] spawn TELEPAD.slot_20 ; pop_temp ; jmp 0x0373 ; ...
+//
+//
+//
+[06:gotHit] spawn TELEPAD.slot_20 ; pop_temp ; jmp 0x0373 ; ...
+//
+//
+//
+[06:gotHit] spawn TELEPAD.slot_20 ; pop_temp ; jmp 0x0373 ; ...
+//
+//
+//
+[06:gotHit] spawn TELEPAD.slot_20 ; pop_temp ; jmp 0x0373 ; ...
+//
+//
+//
+[06:gotHit] spawn TELEPAD.slot_20 ; pop_temp ; jmp 0x0373 ; ...
+//
+//
+//
+[06:gotHit] spawn TELEPAD.slot_20 ; pop_temp ; jmp 0x0373 ; ...
+//
+//
+//
+[06:gotHit] spawn TELEPAD.slot_20 ; pop_temp ; jmp 0x0373 ; ...
+//
+//
+//
+[06:gotHit] jmp 0x0373
+//
+//
+//
+[06:gotHit] ret
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[20:slot_20] set_info
+//
+[20:slot_20] global_address global[0x003c] ; call_intrinsic Item.andStatus(arg_bytes=0x4) ; jne 0x002c ; ...
+//
+[20:slot_20] jmp 0x05aa
+//
+//
+[20:slot_20] call_intrinsic Ultima8Engine.setAvatarInStasis(arg_bytes=0x2)
+[20:slot_20] global_address global[0x003c] ; call_intrinsic CameraProcess.getCameraX(arg_bytes=0x4)
+[20:slot_20] global_address global[0x003c] ; spawn NPC.slot_24 ; implies arg0=0x1, arg1=0x1 ; ...
+//
+//
+[20:slot_20] ne ; jne 0x03b2 ; ...
+[20:slot_20]
+[20:slot_20] global_address global[0x003c] ; call_intrinsic Actor.getMap(arg_bytes=0x4) ; ne ; ...
+//
+[20:slot_20] call_intrinsic MainActor.clrKeycards(arg_bytes=0x0) ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[20:slot_20] call_intrinsic setSomeMovieGlobal(arg_bytes=0x0)
+//
+//
+[20:slot_20] cmp ; jne 0x028f ; ...
+[20:slot_20]
+[20:slot_20] call_intrinsic Ultima8Engine.getAvatarInStasis(arg_bytes=0x0)
+[20:slot_20] spawn FREE.slot_23 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[20:slot_20] spawn FREE.slot_25 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[20:slot_20] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[20:slot_20] global_address global[0x003c] ; call_intrinsic Actor.getMap(arg_bytes=0x4) ; cmp ; ...
+[20:slot_20]
+[20:slot_20] call_intrinsic MusicProcess.musicStop(arg_bytes=0x0)
+[20:slot_20] call_intrinsic PaletteFaderProcess.fadeToBlack(arg_bytes=0x4)
+[20:slot_20] call_intrinsic playFlic092(arg_bytes=0x0)
+[20:slot_20] call_intrinsic playSFX(arg_bytes=0xc) ; free_stack_string value_u8=0x4, target=[SP+04h] ; implies arg0=0x1, arg1=0x1 ; ...
+[20:slot_20] call_intrinsic Game.playCredits(arg_bytes=0x0) ; jmp 0x027e
+//
+[20:slot_20] global_address global[0x003c] ; call_intrinsic Actor.getMap(arg_bytes=0x4) ; cmp ; ...
+[20:slot_20]
+[20:slot_20] call_intrinsic MusicProcess.musicStop(arg_bytes=0x0)
+[20:slot_20] call_intrinsic PaletteFaderProcess.fadeToBlack(arg_bytes=0x4)
+[20:slot_20] call_intrinsic playFlic092(arg_bytes=0x0)
+[20:slot_20] call_intrinsic playSFX(arg_bytes=0xc) ; free_stack_string value_u8=0x4, target=[SP+04h] ; implies arg0=0x1, arg1=0x1 ; ...
+[20:slot_20] call_intrinsic Game.playCredits(arg_bytes=0x0) ; jmp 0x027e
+//
+[20:slot_20] global_address global[0x003c] ; call_intrinsic Actor.getMap(arg_bytes=0x4) ; cmp ; ...
+[20:slot_20]
+[20:slot_20] call_intrinsic MusicProcess.musicStop(arg_bytes=0x0)
+[20:slot_20] call_intrinsic PaletteFaderProcess.fadeToBlack(arg_bytes=0x4)
+[20:slot_20] call_intrinsic playFlic092(arg_bytes=0x0)
+[20:slot_20] call_intrinsic playSFX(arg_bytes=0xc) ; free_stack_string value_u8=0x4, target=[SP+04h] ; implies arg0=0x1, arg1=0x1 ; ...
+[20:slot_20] call_intrinsic playSFX(arg_bytes=0xc) ; free_stack_string value_u8=0x4, target=[SP+04h] ; implies arg0=0x1, arg1=0x1 ; ...
+[20:slot_20] call_intrinsic Game.playCredits(arg_bytes=0x0) ; jmp 0x027e
+//
+//
+//
+//
+//
+[20:slot_20] call_intrinsic Actor.getInCombat(arg_bytes=0x2)
+[20:slot_20] jmp 0x05aa
+//
+//
+[20:slot_20] cmp ; jne 0x034b ; ...
+[20:slot_20]
+[20:slot_20] call_intrinsic Ultima8Engine.getAvatarInStasis(arg_bytes=0x0)
+[20:slot_20] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[20:slot_20] call_intrinsic MusicProcess.musicStop(arg_bytes=0x0)
+[20:slot_20] call_intrinsic playFlic092(arg_bytes=0x0)
+[20:slot_20] call_intrinsic playFlic(arg_bytes=0xc) ; free_stack_string value_u8=0x4, target=[SP+04h] ; implies arg0=0x1, arg1=0x1 ; ...
+[20:slot_20] call_intrinsic Game.playCredits(arg_bytes=0x0)
+[20:slot_20] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[20:slot_20] call_intrinsic Item.getFootpad(arg_bytes=0x0)
+//
+[20:slot_20] call_intrinsic Actor.getInCombat(arg_bytes=0x2)
+//
+[20:slot_20] jmp 0x05aa
+//
+//
+//
+//
+[20:slot_20] jne 0x0375
+[20:slot_20] call_intrinsic PaletteFaderProcess.fadeFromBlack(arg_bytes=0x6) ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[20:slot_20] call_intrinsic Actor.clrImmortal(arg_bytes=0x0) ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+[20:slot_20] call_intrinsic void PaletteFaderProcess:setScreenGreyscale(arg_bytes=0x4) ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+[20:slot_20] global_address global[0x003c] ; spawn NPC.slot_23 ; implies arg0=0x1, arg1=0x1 ; ...
+//
+//
+[20:slot_20] cmp ; jne 0x0593 ; ...
+[20:slot_20]
+//
+//
+//
+//
+[20:slot_20] global_address global[0x003c] ; call_intrinsic Item.getY(arg_bytes=0x4) ; pop_local_word y ; ...
+//
+[20:slot_20] global_address global[0x003c] ; call_intrinsic Item.legal_create(arg_bytes=0x6)
+[20:slot_20] global_address global[0x003c] ; call_intrinsic CameraProcess.getCameraX(arg_bytes=0x4)
+[20:slot_20] call_intrinsic Ultima8Engine.setAvatarInStasis(arg_bytes=0x2)
+//
+[20:slot_20] call_intrinsic PaletteFaderProcess.setPalToAllGrey(arg_bytes=0x0)
+[20:slot_20] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+[20:slot_20] call_intrinsic Item.create(arg_bytes=0x8) ; loopscr value_u8=0x24 ; loopscr value_u8=0x3d ; ...
+//
+[20:slot_20] loopscr value_u8=0x25 ; mul ; ...
+[20:slot_20] loop current_var=0xf7, string_bytes=0x6, loop_type=0x2 ; jne 0x0487
+[20:slot_20] call_intrinsic Item.getX(arg_bytes=0x4) ; pop_local_word newx ; ...
+[20:slot_20] call_intrinsic Item.getY(arg_bytes=0x4) ; pop_local_word newy ; ...
+[20:slot_20] call_intrinsic Item.getZ(arg_bytes=0x4) ; pop_local_byte newz ; loopnext ; ...
+//
+[20:slot_20] loopscr value_u8=0x25 ; mul ; ...
+[20:slot_20] loop current_var=0xf7, string_bytes=0x6, loop_type=0x2 ; jne 0x04b9
+[20:slot_20] call_intrinsic Item.destroy(arg_bytes=0x4) ; loopnext ; jmp 0x04a7 ; ...
+//
+[20:slot_20] add ; add ; call_intrinsic Item.popToCoords(arg_bytes=0xa) ; ...
+//
+[20:slot_20] call_intrinsic Item.touch(arg_bytes=0x4)
+[20:slot_20] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[20:slot_20] call_intrinsic PaletteFaderProcess.fadeFromBlack(arg_bytes=0x0)
+//
+//
+[20:slot_20] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+[20:slot_20] pop_local_word counter ; le ; jne 0x0581 ; ...
+//
+[20:slot_20] call_intrinsic Item.legal_create(arg_bytes=0x6)
+[20:slot_20] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[20:slot_20] cmp ; jne 0x0574 ; ...
+[20:slot_20]
+[20:slot_20] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+//
+//
+[20:slot_20] global_address global[0x003c] ; call_intrinsic Actor.isDead(arg_bytes=0x4)
+[20:slot_20] jmp 0x05aa
+//
+//
+[20:slot_20] global_address global[0x003c] ; call_intrinsic Item.setIsBroken(arg_bytes=0x4)
+[20:slot_20] call_intrinsic Ultima8Engine.setAvatarInStasis(arg_bytes=0x2)
+[20:slot_20] ret
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[09:release] loopscr value_u8=0x25
+[09:release] loop current_var=0xfe, string_bytes=0x6, loop_type=0x6 ; jne 0x004e ; ...
+[09:release] cmp ; jne 0x004a ; ...
+[09:release]
+[09:release] pop_local_byte onPad ; loopnext ; jmp 0x0032 ; ...
+//
+//
+//
+//
+//
+[09:release] not ; jne 0x0060
+//
+[09:release] call_intrinsic Ultima8Engine.clrCruStasis(arg_bytes=0x0)
+//
+[09:release] ret
+
+/* synthesized appendix for TELEPAD */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x06 gotHit ===== */
+function telepad_gotHit() /* entry=477 class_id=0x01db slot=0x06 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    ke, /* [BP+12h] type=0x69 */
+    item, /* [BP-02h] type=0x24 */
+    pad, /* [BP-04h] type=0x24 */
+    pad2, /* [BP-06h] type=0x24 */
+    theQual, /* [BP-08h] type=0x69 */
+    npc; /* [BP-10h] type=0x24 */
+
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  item = ref;
+  pad = *(arg_06);
+  theQual = Item.setQuality(pad);
+  set_info(1, 0);
+  spawn FREE.waitNTimerTicks(pid, 1, 0x00000000);
+  suspend;
+  FREE.slot_2c(ke, ref);
+  if (retval) {
+    return;
+  }
+  else if (Actor.isNPC(item) == 0) {
+    Item.explode(1, 1, item);
+  }
+  if (Ultima8Engine.setUnkCrusaderFlag() == 1) {
+    while (condition) {
+      if (npc < 0x0100) {
+        if (npc != 1) {
+          Actor.getSomeFlagProbablyCrouch(8, UCMachine.rndRange(Actor.setActivity(npc), 16, 0), 0, npc);
+        }
+      }
+    }
+    return;
+  }
+  else if (!Actor.getLastAnimSet(*(arg_06), item)) {
+    return;
+  }
+  else if (Item.getShape((item == 1), &global[0x003c]) == 1) {
+    if (theQual == 0x00ff) {
+      return;
+    }
+    else if ((theQual > 0) && (theQual < 30)) {
+      spawn TELEPAD.slot_20(Actor.getMap(theQual, &global[0x003c]), arg_06);
+      return;
+    }
+    else if (theQual == 30) {
+      spawn TELEPAD.slot_20(30, 40, arg_06);
+      return;
+    }
+    else if (theQual == 31) {
+      spawn TELEPAD.slot_20(69, 69, arg_06);
+      return;
+    }
+    else if (theQual == 32) {
+      spawn TELEPAD.slot_20(16, 4, arg_06);
+      return;
+    }
+    else if (theQual == 33) {
+      spawn TELEPAD.slot_20(17, 3, arg_06);
+      return;
+    }
+    else if (theQual == 35) {
+      spawn TELEPAD.slot_20(30, 41, arg_06);
+      return;
+    }
+    else if (theQual == 100) {
+      spawn TELEPAD.slot_20(100, 5, arg_06);
+      return;
+    }
+    else if (theQual == 101) {
+      spawn TELEPAD.slot_20(101, 5, arg_06);
+      return;
+    }
+    else if (theQual == 0x0082) {
+      spawn TELEPAD.slot_20(0x0082, 25, arg_06);
+      return;
+    }
+    else if (theQual == 0x0083) {
+      spawn TELEPAD.slot_20(0x0083, 25, arg_06);
+      return;
+    }
+    else if (theQual == 0x0084) {
+      spawn TELEPAD.slot_20(0x0082, 25, arg_06);
+      return;
+    }
+    else if (theQual == 0x0085) {
+      spawn TELEPAD.slot_20(0x0083, 25, arg_06);
+      return;
+    }
+    else if (theQual == 0x00d7) {
+      spawn TELEPAD.slot_20(0x00d7, 5, arg_06);
+      return;
+    }
+    else if (theQual == 0x00da) {
+      spawn TELEPAD.slot_20(0x00da, 5, arg_06);
+      return;
+    }
+    else if (theQual == 0x00db) {
+      spawn TELEPAD.slot_20(0x00db, 5, arg_06);
+      return;
+    }
+    else if (theQual == 0x00dc) {
+      spawn TELEPAD.slot_20(0x00dc, 5, arg_06);
+      return;
+    }
+    else {
+      return;
+    }
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol ref [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol ke [BP+12h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol item [BP-02h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol pad [BP-04h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol pad2 [BP-06h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol theQual [BP-08h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol npc [BP-10h] type=0x24 unk1=0x00 unk3=0x02
+  */
+}
+
+/* ===== slot 0x09 release ===== */
+function telepad_release() /* entry=477 class_id=0x01db slot=0x09 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    npc, /* [BP-02h] type=0x24 */
+    onPad; /* [BP-03h] type=0x62 */
+
+  set_info(0x020d, *(arg_06));
+  process_exclude();
+  while (condition) {
+    if (npc == 1) {
+      onPad = 1;
+    }
+  }
+  if (!onPad) {
+    Ultima8Engine.clrCruStasis();
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol npc [BP-02h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol onPad [BP-03h] type=0x62 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x0f enterFastArea ===== */
+function telepad_enterFastArea() /* entry=477 class_id=0x01db slot=0x0f */
+{
+  var
+    referent; /* [BP+00h] type=0x69 */
+
+  set_info(0x021b, *(arg_06));
+  process_exclude();
+  if (Item.getFrame(arg_06) < 2) {
+    AudioProcess.playAmbientSFXCru(96, arg_06);
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+  */
+}
+
+/* ===== slot 0x20 slot_20 ===== */
+function telepad_slot_20() /* entry=477 class_id=0x01db slot=0x20 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    mapNum, /* [BP+10h] type=0x69 */
+    eggNum, /* [BP+12h] type=0x69 */
+    newx, /* [BP-02h] type=0x69 */
+    newy, /* [BP-04h] type=0x69 */
+    newz, /* [BP-05h] type=0x62 */
+    counter, /* [BP-07h] type=0x69 */
+    floor, /* [BP-09h] type=0x24 */
+    item, /* [BP-11h] type=0x24 */
+    telebeam, /* [BP-13h] type=0x24 */
+    y; /* [BP-15h] type=0x69 */
+
+  set_info(1, 0);
+  if (Item.andStatus(&global[0x003c])) {
+    return;
+  }
+  else {
+    Ultima8Engine.setAvatarInStasis(1);
+    CameraProcess.getCameraX(&global[0x003c]);
+    spawn NPC.slot_24(pid, &global[0x003c]);
+    suspend;
+    if (mapNum != 69) {
+      if (Actor.getMap(&global[0x003c]) != mapNum) {
+        suspend;
+        setSomeMovieGlobal();
+        if (mapNum == 40) {
+          Ultima8Engine.getAvatarInStasis();
+          spawn FREE.slot_23(pid, 0x00000000);
+          suspend;
+          spawn FREE.slot_25(pid, 0x00000000);
+          suspend;
+          spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+          suspend;
+          switch (Actor.getMap(&global[0x003c])) {
+          case 1:
+            MusicProcess.musicStop();
+            PaletteFaderProcess.fadeToBlack(arg_06);
+            playFlic092();
+            playSFX(pid, 0, 0, "R01", arg_06);
+            suspend;
+            Game.playCredits();
+            break;
+          case 13:
+            MusicProcess.musicStop();
+            PaletteFaderProcess.fadeToBlack(arg_06);
+            playFlic092();
+            playSFX(pid, 0, 0, "B01", arg_06);
+            suspend;
+            Game.playCredits();
+            break;
+          case 5:
+            MusicProcess.musicStop();
+            PaletteFaderProcess.fadeToBlack(arg_06);
+            playFlic092();
+            playSFX(pid, 0, 0, "wec", arg_06);
+            suspend;
+            playSFX(pid, 0, 0, "1d", arg_06);
+            suspend;
+            Game.playCredits();
+            break;
+          }
+          Actor.getInCombat(40);
+          return;
+        }
+        if (mapNum == 41) {
+          Ultima8Engine.getAvatarInStasis();
+          spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+          suspend;
+          MusicProcess.musicStop();
+          playFlic092();
+          playFlic(pid, 0x0096, 0x00c8, "14a", arg_06);
+          suspend;
+          Game.playCredits();
+          spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+          suspend;
+          Item.getFootpad();
+          Actor.getInCombat(41);
+          return;
+        }
+        if (mapNum) {
+          suspend;
+        }
+        suspend;
+      }
+      else {
+        suspend;
+      }
+    }
+    spawn NPC.slot_23(pid, &global[0x003c]);
+    suspend;
+    if (eggNum == 69) {
+      y = Item.getY(&global[0x003c]);
+      Item.legal_create(8, &global[0x003c]);
+      CameraProcess.getCameraX(&global[0x003c]);
+      Ultima8Engine.setAvatarInStasis(1);
+      PaletteFaderProcess.setPalToAllGrey();
+      AudioProcess.playSFXCru(108, arg_06);
+      Item.create(0, 0x0562, item);
+      for floor in nearby_items(shape=TELEPAD_RED, origin=global[0x003c]) {
+        newx = Item.getX(floor);
+        newy = Item.getY(floor);
+        newz = Item.getZ(floor);
+      }
+      for floor in nearby_items(shape=0x04ee, origin=global[0x003c]) {
+        Item.destroy(floor);
+      }
+      Item.popToCoords(newz, (newy + 16), (newx + 16), item);
+      Item.touch(item);
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+      PaletteFaderProcess.fadeFromBlack();
+      AudioProcess.playSFXCru(52, arg_06);
+      counter = 0;
+      while (counter <= 40) {
+        Item.legal_create(counter, item);
+        spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+        suspend;
+        if (counter == 10) {
+          AudioProcess.playSFXCru(98, item);
+        }
+        counter = (1 + counter);
+      }
+      Actor.isDead(&global[0x003c]);
+      return;
+    }
+    else {
+      Item.setIsBroken(&global[0x003c]);
+      Ultima8Engine.setAvatarInStasis(0);
+    }
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol mapNum [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol eggNum [BP+12h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol newx [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol newy [BP-04h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol newz [BP-05h] type=0x62 unk1=0x00 unk3=0x00
+    debug_symbol counter [BP-07h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol floor [BP-09h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol item [BP-11h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol telebeam [BP-13h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol y [BP-15h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}

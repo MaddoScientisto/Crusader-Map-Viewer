@@ -1,5 +1,8 @@
 function rebel_tv_use() /* entry=1007 class_id=0x03ed slot=0x01 */
 {
+  var
+    referent; /* [BP+00h] type=0x69 */
+
   set_info(0x0207, *(arg_06));
   process_exclude();
   spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
@@ -72,4 +75,8 @@ function rebel_tv_use() /* entry=1007 class_id=0x03ed slot=0x01 */
     suspend;
   }
   return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+  */
 }

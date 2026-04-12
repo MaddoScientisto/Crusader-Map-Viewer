@@ -1,25 +1,40 @@
 function free_slot_27() /* entry=2575 class_id=0x0a0d slot=0x27 */
 {
-  local_02 = (arg_06 - arg_11);
-  local_04 = (arg_08 - arg_13);
-  local_06 = (arg_10 - arg_15);
-  FREE.slot_3f(local_02);
-  local_02 = retval;
-  FREE.slot_3f(local_04);
-  local_04 = retval;
-  FREE.slot_3f(local_06);
-  local_06 = retval;
-  if ((local_02 > local_04) && (local_02 > local_06)) {
+  var
+    p1, /* [BP+06h] type=0x24 */
+    p2, /* [BP+11h] type=0x24 */
+    x, /* [BP-02h] type=0x69 */
+    y, /* [BP-04h] type=0x69 */
+    z; /* [BP-06h] type=0x69 */
+
+  x = (p1 - p2);
+  y = (arg_08 - arg_13);
+  z = (arg_10 - arg_15);
+  FREE.slot_3f(x);
+  x = retval;
+  FREE.slot_3f(y);
+  y = retval;
+  FREE.slot_3f(z);
+  z = retval;
+  if ((x > y) && (x > z)) {
     return;
   }
-  else if ((local_04 > local_02) && (local_04 > local_06)) {
+  else if ((y > x) && (y > z)) {
     return;
   }
-  else if ((local_06 > local_02) && (local_06 > local_04)) {
+  else if ((z > x) && (z > y)) {
     return;
   }
   else {
     return;
   }
   return;
+
+  /* post-return metadata (not executable):
+    debug_symbol p1 [BP+06h] type=0x24 unk1=0x00 unk3=0x05
+    debug_symbol p2 [BP+11h] type=0x24 unk1=0x00 unk3=0x05
+    debug_symbol x [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol y [BP-04h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol z [BP-06h] type=0x69 unk1=0x00 unk3=0x00
+  */
 }

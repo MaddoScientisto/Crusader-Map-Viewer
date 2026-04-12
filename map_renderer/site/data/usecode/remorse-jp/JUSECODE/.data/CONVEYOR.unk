@@ -1,0 +1,243 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[20:slot_20] set_info ; ...
+//
+//
+//
+[20:slot_20] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+[20:slot_20] pop_local_word counter
+//
+[20:slot_20] call_intrinsic Item.getFrame(arg_bytes=0x4) ; pop_local_word counter ; ...
+[20:slot_20] call_intrinsic Container.destroyContents(arg_bytes=0x6) ; cmp ; jne 0x0064 ; ...
+//
+[20:slot_20] call_intrinsic AudioProcess.playAmbientSFXCru(arg_bytes=0x6) ; suspend ; ...
+//
+//
+//
+//
+//
+//
+[20:slot_20] pop_local_byte areThereItems
+//
+//
+[20:slot_20] call_intrinsic Item.getQHi(arg_bytes=0x4) ; jne 0x00c4 ; ...
+//
+[20:slot_20] sub ; pop_local_word counter ; ...
+[20:slot_20] lt ; jne 0x00a9 ; ...
+[20:slot_20]
+[20:slot_20] mul ; pop_local_byte xdir ; ...
+//
+[20:slot_20] lt ; jne 0x00c1 ; ...
+[20:slot_20]
+[20:slot_20] mul ; pop_local_byte ydir ; jmp 0x00fe ; ...
+//
+//
+//
+//
+[20:slot_20] add ; pop_local_word counter ; ...
+[20:slot_20] gt ; jne 0x00e6 ; ...
+[20:slot_20]
+[20:slot_20] mul ; pop_local_byte xdir ; ...
+//
+[20:slot_20] gt ; jne 0x00fe ; ...
+[20:slot_20]
+[20:slot_20] mul ; pop_local_byte ydir ; ...
+//
+//
+//
+//
+//
+[20:slot_20] gt ; jne 0x0113 ; ...
+[20:slot_20]
+[20:slot_20] pop_local_word counter
+//
+//
+[20:slot_20] lt ; jne 0x0128 ; ...
+[20:slot_20]
+[20:slot_20] pop_local_word counter ; loopscr value_u8=0x24 ; ...
+//
+//
+//
+//
+//
+//
+//
+[20:slot_20] loop current_var=0xfb, string_bytes=0x1, loop_type=0x6 ; jne 0x022a ; ...
+//
+[20:slot_20] call_intrinsic Item.getShape(arg_bytes=0x4) ; pop_local_word t ; ...
+[20:slot_20] ne ; ne ; and ; ...
+[20:slot_20]
+[20:slot_20] call_intrinsic Item.IsOn(arg_bytes=0x6) ; pop_local_byte a ; ...
+[20:slot_20] call_intrinsic push(arg_bytes=0x4)
+//
+//
+[20:slot_20] call_intrinsic Item.getX(arg_bytes=0x4) ; add ; pop_local_word wp ; ...
+[20:slot_20] call_intrinsic Item.getY(arg_bytes=0x4) ; add ; pop_local_word local_12 ; ...
+[20:slot_20] call_intrinsic Item.getZ(arg_bytes=0x4) ; pop_local_byte local_10 ; ...
+[20:slot_20] call_intrinsic Item.andStatus(arg_bytes=0xc) ; not ; jne 0x01f1 ; ...
+[20:slot_20]
+[20:slot_20] call_intrinsic Item.getX(arg_bytes=0x4) ; call_intrinsic Item.popToCoords(arg_bytes=0xa) ; ...
+[20:slot_20] call_intrinsic Item.getY(arg_bytes=0x4)
+[20:slot_20] call_intrinsic Item.getZ(arg_bytes=0x4)
+//
+[20:slot_20] call_intrinsic Item.IsOn(arg_bytes=0x6) ; pop_local_byte b ; ...
+[20:slot_20] pop_local_byte areThereItems
+[20:slot_20] cmp ; cmp ; and ; ...
+//
+[20:slot_20] call_intrinsic CameraProcess.moveTo(arg_bytes=0x4) ; loopnext ; jmp 0x0138 ; ...
+//
+//
+//
+//
+[20:slot_20] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[20:slot_20] not ; jne 0x027b
+[20:slot_20] call_intrinsic Item.setQLo(arg_bytes=0x6)
+[20:slot_20] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+[20:slot_20] jmp 0x02ac
+//
+//
+[20:slot_20] call_intrinsic Container.destroyContents(arg_bytes=0x6) ; cmp ; jne 0x029c ; ...
+//
+[20:slot_20] call_intrinsic AudioProcess.playAmbientSFXCru(arg_bytes=0x6)
+//
+[20:slot_20] call_intrinsic Item.setFrame(arg_bytes=0x6) ; jmp 0x0064 ; ...
+//
+[20:slot_20] ret
+//
+//
+//
+[10:leaveFastArea] call_intrinsic Item.setQLo(arg_bytes=0x6)
+[10:leaveFastArea] call_class_event FREE.slot_33 ; ...
+[10:leaveFastArea] ret
+
+/* synthesized appendix for CONVEYOR */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x10 leaveFastArea ===== */
+function conveyor_leaveFastArea() /* entry=2566 class_id=0x0a04 slot=0x10 */
+{
+  var
+    referent; /* [BP+00h] type=0x69 */
+
+  set_info(0x021c, *(arg_06));
+  process_exclude();
+  Item.setQLo(115, arg_06);
+  FREE.slot_33(0x0205, *(arg_06));
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+  */
+}
+
+/* ===== slot 0x20 slot_20 ===== */
+function conveyor_slot_20() /* entry=2566 class_id=0x0a04 slot=0x20 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    xdir, /* [BP+10h] type=0x62 */
+    ydir, /* [BP+12h] type=0x62 */
+    counter, /* [BP-02h] type=0x69 */
+    areThereItems, /* [BP-03h] type=0x62 */
+    cargo_item, /* [BP-05h] type=0x24 */
+    a, /* [BP-06h] type=0x62 */
+    b, /* [BP-07h] type=0x62 */
+    t, /* [BP-09h] type=0x69 */
+    wp; /* [BP-14h] type=0x24 */
+
+  set_info(0x0205, *(arg_06));
+  set_info(0x0205, *(arg_06));
+  AudioProcess.playSFXCru(111, arg_06);
+  counter = 0;
+  counter = Item.getFrame(arg_06);
+  if (Container.destroyContents(115, arg_06) == 0) {
+    AudioProcess.playAmbientSFXCru(115, arg_06);
+  }
+  suspend;
+  areThereItems = 0;
+  while (true) {
+    suspend;
+    areThereItems = 0;
+    if (Item.getQHi(arg_06)) {
+      counter = (counter - 1);
+      if (xdir < 0) {
+        xdir = (xdir * -1);
+      }
+      if (ydir < 0) {
+        ydir = (ydir * -1);
+      }
+    }
+    else {
+      counter = (1 + counter);
+      if (xdir > 0) {
+        xdir = (xdir * -1);
+      }
+      if (ydir > 0) {
+        ydir = (ydir * -1);
+      }
+    }
+    if (counter > 2) {
+      counter = 0;
+    }
+    if (counter < 0) {
+      counter = 2;
+    }
+    while (condition) {
+      t = Item.getShape(cargo_item);
+      if ((t != 0x0476) && (t != 0x04d0)) {
+        a = Item.IsOn(*(arg_06), cargo_item);
+        push(cargo_item);
+        wp = (Item.getX(cargo_item) + xdir);
+        local_12 = (Item.getY(cargo_item) + ydir);
+        local_10 = Item.getZ(cargo_item);
+        if (!Item.andStatus(0, 1, wp, cargo_item)) {
+          Item.popToCoords(Item.getZ(cargo_item), Item.getY(cargo_item), Item.getX(cargo_item), cargo_item);
+        }
+        b = Item.IsOn(*(arg_06), cargo_item);
+        areThereItems = 1;
+        if ((a == 1) && (b == 0)) {
+          CameraProcess.moveTo(cargo_item);
+        }
+      }
+    }
+    spawn FREE.slot_32(pid, 2, 0x00000000);
+    suspend;
+    if (!areThereItems) {
+      Item.setQLo(115, arg_06);
+      AudioProcess.playSFXCru(116, arg_06);
+      return;
+    }
+    else if (Container.destroyContents(115, arg_06) == 0) {
+      AudioProcess.playAmbientSFXCru(115, arg_06);
+    }
+    Item.setFrame(counter, arg_06);
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol xdir [BP+10h] type=0x62 unk1=0x00 unk3=0x00
+    debug_symbol ydir [BP+12h] type=0x62 unk1=0x00 unk3=0x00
+    debug_symbol counter [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol areThereItems [BP-03h] type=0x62 unk1=0x00 unk3=0x00
+    debug_symbol cargo_item [BP-05h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol a [BP-06h] type=0x62 unk1=0x00 unk3=0x00
+    debug_symbol b [BP-07h] type=0x62 unk1=0x00 unk3=0x00
+    debug_symbol t [BP-09h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol wp [BP-14h] type=0x24 unk1=0x00 unk3=0x05
+  */
+}

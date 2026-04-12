@@ -1,0 +1,68 @@
+/* synthesized appendix for NPCTRIG */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x0a equip ===== */
+function npctrig_equip() /* entry=869 class_id=0x0363 slot=0x0a */
+{
+  set_info(0x0211, *(arg_06));
+  process_exclude();
+  if (Item.getStatus(arg_06) & 0x1000) {
+    return;
+  }
+  else {
+    ITEM.slot_23(0x1000, arg_06);
+    switch (arg_10) {
+    case 1:
+      spawn NPCTRIG.slot_20(pid, 0x02fd, arg_06);
+      suspend;
+      break;
+    case 2:
+      spawn NPCTRIG.slot_20(pid, 0x0384, arg_06);
+      suspend;
+      break;
+    case 3:
+      spawn NPCTRIG.slot_20(pid, 0x0371, arg_06);
+      suspend;
+      break;
+    case 4:
+      spawn NPCTRIG.slot_20(pid, 0x04d1, arg_06);
+      suspend;
+      break;
+    case 5:
+      spawn NPCTRIG.slot_20(pid, 0x01b4, arg_06);
+      suspend;
+      break;
+    }
+    ITEM.slot_24(0x1000, arg_06);
+  }
+  return;
+}
+
+/* ===== slot 0x20 slot_20 ===== */
+function npctrig_slot_20() /* entry=869 class_id=0x0363 slot=0x20 */
+{
+  set_info(0x0001, *(arg_06));
+  for local_04 in nearby_items(shape=TELEPORTER_LIGHTS, origin=arg_06) {
+    local_06 = local_04;
+  }
+  if (local_06) {
+    playFlicsomething(8, arg_10, local_02);
+    Actor.clrInCombat(0, local_02);
+    Actor.setDefaultActivity0(0, local_02);
+    Actor.setDefaultActivity1(0, local_02);
+    getTargetNPCNumMaybe(Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06), local_02);
+    spawn NPC.slot_23(pid, local_02);
+    suspend;
+    Actor.clrInCombat(5, local_02);
+    Actor.setDefaultActivity0(5, local_02);
+    Actor.setDefaultActivity1(5, local_02);
+    if (Actor.getLastAnimSet() != 0) {
+      Actor.GetNPCDataField0x4_0DD(Actor.getLastAnimSet(), local_02);
+      return;
+    }
+    else {
+      Actor.GetNPCDataField0x4_0DD(global[0x003d], local_02);
+    }
+  }
+  return;
+}

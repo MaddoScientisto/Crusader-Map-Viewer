@@ -1,0 +1,59 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[07:hatch] call_intrinsic CameraProcess.setCenterOn(arg_bytes=0x4) ; pop_local_word id ; loopscr value_u8=0x24 ; ...
+//
+[07:hatch] loopscr value_u8=0x25 ; mul ; ...
+[07:hatch] loop current_var=0xfe, string_bytes=0x6, loop_type=0x2 ; jne 0x00d4 ; ...
+[07:hatch] call_intrinsic Item.andStatus(arg_bytes=0x4)
+[07:hatch] cmp ; jne 0x00d0
+[07:hatch] call_intrinsic Item.cast(arg_bytes=0x6) ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[07:hatch] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[07:hatch] call_intrinsic Item.cast(arg_bytes=0x6) ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[07:hatch] call_intrinsic Item.destroy(arg_bytes=0x4) ; loopnext ; jmp 0x0043 ; ...
+//
+//
+[07:hatch] ret
+
+/* synthesized appendix for STEAMEGG */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x07 hatch ===== */
+function steamegg_hatch() /* entry=2335 class_id=0x091d slot=0x07 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    sBox, /* [BP-02h] type=0x24 */
+    id; /* [BP-04h] type=0x69 */
+
+  set_info(0x0210, *(arg_06));
+  process_exclude();
+  id = CameraProcess.setCenterOn(arg_06);
+  for sBox in nearby_items(shape=STEAMBOX_HAZARD_CONTROLLER, origin=arg_06) {
+    if (Item.andStatus(sBox) == id) {
+      suspend;
+      spawn FREE.slot_32(pid, 0x015e, 0x00000000);
+      suspend;
+      suspend;
+      Item.destroy(arg_06);
+    }
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol sBox [BP-02h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol id [BP-04h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}

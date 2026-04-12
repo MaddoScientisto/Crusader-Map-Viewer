@@ -1,0 +1,92 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[06:gotHit] call_class_event FREE.slot_2c ; jne 0x011e ; ...
+//
+[06:gotHit] call_intrinsic Item.getFrame(arg_bytes=0x4) ; not ; jne 0x007a ; ...
+[06:gotHit]
+[06:gotHit] spawn ITEM.slot_28 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[06:gotHit] call_intrinsic UCMachine.rndRange(arg_bytes=0x4) ; call_intrinsic Item.legal_create(arg_bytes=0x6) ; jmp 0x011e ; ...
+//
+//
+//
+[06:gotHit] spawn ITEM.slot_27 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[06:gotHit]
+[06:gotHit] call_class_event FREE.slot_20 ; jne 0x00ca ; ...
+//
+[06:gotHit] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6) ; jmp 0x00d7 ; ...
+//
+//
+//
+[06:gotHit] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6) ; jmp 0x011e ; ...
+//
+//
+//
+//
+[06:gotHit] spawn ITEM.slot_2a ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[06:gotHit] spawn ITEM.slot_28 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+[06:gotHit] ret
+
+/* synthesized appendix for BBOX */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x06 gotHit ===== */
+function bbox_gotHit() /* entry=1319 class_id=0x0525 slot=0x06 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    vel; /* [BP+12h] type=0x69 */
+
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  FREE.slot_2c(vel, ref);
+  if (retval) {
+    if (!Item.getFrame(arg_06)) {
+      spawn ITEM.slot_28(pid, 0, 0, arg_06);
+      suspend;
+      Item.legal_create(UCMachine.rndRange(3, 1), arg_06);
+      return;
+    }
+    else {
+      spawn ITEM.slot_27(pid, 100, vel, ref, arg_06);
+      suspend;
+      if (!process_result) {
+        FREE.slot_20(1);
+        if (retval) {
+          AudioProcess.playSFXCru(38, arg_06);
+        }
+        else {
+          AudioProcess.playSFXCru(39, arg_06);
+        }
+        return;
+      }
+      else {
+        spawn ITEM.slot_2a(pid, arg_06);
+        suspend;
+        spawn ITEM.slot_28(pid, 1, 1, arg_06);
+        suspend;
+      }
+    }
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol ref [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol vel [BP+12h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}

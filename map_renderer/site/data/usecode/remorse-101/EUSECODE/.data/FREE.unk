@@ -1,0 +1,739 @@
+/* synthesized appendix for FREE */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x20 slot_20 ===== */
+function free_slot_20() /* entry=2574 class_id=0x0a0c slot=0x20 */
+{
+  return;
+}
+
+/* ===== slot 0x21 slot_21 ===== */
+function free_slot_21() /* entry=2574 class_id=0x0a0c slot=0x21 */
+{
+  set_info(1, 0);
+  AudioProcess.playSFXCru(arg_06, &global[0x003d]);
+  while (AudioProcess.isSFXPlayingForObject(arg_06, &global[0x003d])) {
+    spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+    suspend;
+  }
+  return;
+}
+
+/* ===== slot 0x22 slot_22 ===== */
+function free_slot_22() /* entry=2574 class_id=0x0a0c slot=0x22 */
+{
+  set_info(0x022b, 0);
+  if (global[0x0007]) {
+    return;
+  }
+  else {
+    suspend;
+    spawn FREE.waitNTimerTicks(pid, 100, 0x00000000);
+    suspend;
+    spawn FREE.slot_21(pid, 0x007f, 0x00000000);
+    suspend;
+    spawn FREE.slot_21(pid, 57, 0x00000000);
+    suspend;
+    spawn FREE.slot_21(pid, 60, 0x00000000);
+    suspend;
+    spawn FREE.waitNTimerTicks(pid, 0x1770, 0x00000000);
+    suspend;
+    spawn FREE.slot_21(pid, 34, 0x00000000);
+    suspend;
+    spawn FREE.waitNTimerTicks(pid, 0x1770, 0x00000000);
+    suspend;
+    spawn FREE.slot_21(pid, 33, 0x00000000);
+    suspend;
+    spawn FREE.waitNTimerTicks(pid, 0x1770, 0x00000000);
+    suspend;
+    spawn FREE.slot_21(pid, 31, 0x00000000);
+    suspend;
+    spawn FREE.waitNTimerTicks(pid, 0x1770, 0x00000000);
+    suspend;
+    spawn FREE.slot_21(pid, 26, 0x00000000);
+    suspend;
+    spawn FREE.waitNTimerTicks(pid, 0x0bb8, 0x00000000);
+    suspend;
+    spawn FREE.slot_21(pid, 32, 0x00000000);
+    suspend;
+    spawn FREE.waitNTimerTicks(pid, 0x0708, 0x00000000);
+    suspend;
+    while (true) {
+      suspend;
+      spawn FREE.waitNTimerTicks(pid, 100, 0x00000000);
+      suspend;
+      spawn FREE.slot_21(pid, 0x007f, 0x00000000);
+      suspend;
+      spawn FREE.slot_21(pid, 57, 0x00000000);
+      suspend;
+      spawn FREE.slot_21(pid, 60, 0x00000000);
+      suspend;
+      spawn FREE.waitNTimerTicks(pid, 0x1770, 0x00000000);
+      suspend;
+      spawn FREE.slot_21(pid, 34, 0x00000000);
+      suspend;
+      spawn FREE.waitNTimerTicks(pid, 0x1770, 0x00000000);
+      suspend;
+      spawn FREE.slot_21(pid, 33, 0x00000000);
+      suspend;
+      spawn FREE.waitNTimerTicks(pid, 0x1770, 0x00000000);
+      suspend;
+      spawn FREE.slot_21(pid, 31, 0x00000000);
+      suspend;
+      spawn FREE.waitNTimerTicks(pid, 0x1770, 0x00000000);
+      suspend;
+      spawn FREE.slot_21(pid, 26, 0x00000000);
+      suspend;
+      spawn FREE.waitNTimerTicks(pid, 0x0bb8, 0x00000000);
+      suspend;
+      spawn FREE.slot_21(pid, 32, 0x00000000);
+      suspend;
+      spawn FREE.waitNTimerTicks(pid, 0x0708, 0x00000000);
+      suspend;
+      if (!(global[0x0007])) {
+        return;
+      }
+      else if (!Actor.isDead(&global[0x003d])) {
+        Ultima8Engine.setAvatarInStasis(1);
+        Item.getQLo(&global[0x003d]);
+        Item.setMapArray();
+        Item.getNpcNum();
+        spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+        suspend;
+        Intrinsic08A();
+        Item.getUnkEggType(pid, 0, 0, "o02", &global[0x003d]);
+        suspend;
+        Item.setIsBroken();
+        Item.hurl();
+        return;
+      }
+    }
+  }
+  return;
+}
+
+/* ===== slot 0x23 slot_23 ===== */
+function free_slot_23() /* entry=2574 class_id=0x0a0c slot=0x23 */
+{
+  set_info(1, global[0x003d]);
+  FREE.slot_33(0x0224, 0);
+  return;
+}
+
+/* ===== slot 0x24 slot_24 ===== */
+function free_slot_24() /* entry=2574 class_id=0x0a0c slot=0x24 */
+{
+  set_info(0x0224, 0);
+  if (global[0x0007]) {
+    return;
+  }
+  else {
+    suspend;
+    spawn FREE.waitNTimerTicks(pid, arg_06, 0x00000000);
+    suspend;
+    while (true) {
+      suspend;
+      spawn FREE.waitNTimerTicks(pid, arg_06, 0x00000000);
+      suspend;
+      if (!(global[0x0007])) {
+        return;
+      }
+      else {
+        Egg.setEggXRange(51);
+        arg_06 = (arg_06 - 1);
+        if (arg_06 == 0) {
+          Ultima8Engine.setAvatarInStasis(1);
+          Item.getQLo(&global[0x003d]);
+          Item.setMapArray();
+          Item.getNpcNum();
+          spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+          suspend;
+          Intrinsic08A();
+          Item.getUnkEggType(pid, 0, 0, "b01", &global[0x003d]);
+          suspend;
+          Item.setIsBroken();
+          Item.hurl();
+          return;
+        }
+      }
+    }
+  }
+  return;
+}
+
+/* ===== slot 0x25 slot_25 ===== */
+function free_slot_25() /* entry=2574 class_id=0x0a0c slot=0x25 */
+{
+  set_info(0x0224, global[0x003d]);
+  FREE.slot_33(0x0224, 0);
+  return;
+}
+
+/* ===== slot 0x26 slot_26 ===== */
+function free_slot_26() /* entry=2574 class_id=0x0a0c slot=0x26 */
+{
+  /* param_pid_chg */
+  set_info(1, global[0x003d]);
+  local_02 = arg_06;
+  Egg.setEggXRange(0x0097);
+  spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
+  suspend;
+  Ultima8Engine.setAvatarInStasis(1);
+  FREE.slot_41();
+  while (Item.overlaps(&global[0x003d])) {
+    spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+    suspend;
+  }
+  if (!Actor.isDead(&global[0x003d])) {
+    while (Actor.isBusy(&global[0x003d])) {
+      spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+      suspend;
+    }
+    suspend;
+    suspend;
+  }
+  Ultima8Engine.setAvatarInStasis(0);
+  return;
+}
+
+/* ===== slot 0x27 slot_27 ===== */
+function free_slot_27() /* entry=2574 class_id=0x0a0c slot=0x27 */
+{
+  local_02 = (arg_06 - arg_11);
+  local_04 = (arg_08 - arg_13);
+  local_06 = (arg_10 - arg_15);
+  FREE.slot_3f(local_02);
+  local_02 = retval;
+  FREE.slot_3f(local_04);
+  local_04 = retval;
+  FREE.slot_3f(local_06);
+  local_06 = retval;
+  if ((local_02 > local_04) && (local_02 > local_06)) {
+    return;
+  }
+  else if ((local_04 > local_02) && (local_04 > local_06)) {
+    return;
+  }
+  else if ((local_06 > local_02) && (local_06 > local_04)) {
+    return;
+  }
+  else {
+    return;
+  }
+  return;
+}
+
+/* ===== slot 0x28 slot_28 ===== */
+function free_slot_28() /* entry=2574 class_id=0x0a0c slot=0x28 */
+{
+  local_02 = arg_06;
+  local_04 = arg_08;
+  local_06 = Actor.getMap(&global[0x003d]);
+  if (Actor.isNPC(local_02)) {
+    local_08 = local_02;
+    if (Actor.getMap(local_08) != local_06) {
+      return;
+    }
+  }
+  else if (Actor.isNPC(local_04)) {
+    local_10 = local_04;
+    if (Actor.getMap(local_10) != local_06) {
+      return;
+    }
+  }
+  else {
+    local_12 = (Item.getX(local_02) - Item.getX(local_04));
+    local_14 = (Item.getY(local_02) - Item.getY(local_04));
+    local_16 = (Item.getZ(local_02) - Item.getZ(local_04));
+    FREE.slot_3f(local_12);
+    local_12 = retval;
+    FREE.slot_3f(local_14);
+    local_14 = retval;
+    FREE.slot_3f(local_16);
+    local_16 = retval;
+    if ((local_12 > local_14) && (local_12 > local_16)) {
+      return;
+    }
+    else if ((local_14 > local_12) && (local_14 > local_16)) {
+      return;
+    }
+    else if ((local_16 > local_12) && (local_16 > local_14)) {
+      return;
+    }
+    else {
+      return;
+    }
+  }
+  return;
+}
+
+/* ===== slot 0x29 slot_29 ===== */
+function free_slot_29() /* entry=2574 class_id=0x0a0c slot=0x29 */
+{
+  FREE.slot_28(arg_08, arg_06);
+  local_02 = retval;
+  local_02 = (local_02 / 32);
+  return;
+}
+
+/* ===== slot 0x2a slot_2a ===== */
+function free_slot_2a() /* entry=2574 class_id=0x0a0c slot=0x2a */
+{
+  local_06 = 0x7d00;
+  local_04 = 0;
+  for local_02 in nearby_items(shape=arg_08, origin=global[0x003d]) {
+    if (Item.getFrame(local_02) == arg_10) {
+      FREE.slot_28(local_02, global[0x003d]);
+      local_08 = retval;
+      if (local_08 < local_06) {
+        local_06 = local_08;
+        local_04 = local_02;
+      }
+    }
+  }
+  return;
+}
+
+/* ===== slot 0x2b slot_2b ===== */
+function free_slot_2b() /* entry=2574 class_id=0x0a0c slot=0x2b */
+{
+  if (arg_06 == 0x4000) {
+    return;
+  }
+  else {
+    return;
+  }
+  return;
+}
+
+/* ===== slot 0x2c slot_2c ===== */
+function free_slot_2c() /* entry=2574 class_id=0x0a0c slot=0x2c */
+{
+  if (arg_06 == 0x4000) {
+    arg_08 = (arg_08 >> 8);
+    return;
+  }
+  else {
+    return;
+  }
+  return;
+}
+
+/* ===== slot 0x2d slot_2d ===== */
+function free_slot_2d() /* entry=2574 class_id=0x0a0c slot=0x2d */
+{
+  local_02 = arg_06;
+  if (Item.isOn(arg_08) == Item.setQLo(local_02)) {
+    push(local_02);
+    Item.touch(local_02);
+    if (CameraProcess.somethingAboutCameraUpdate(arg_16, arg_14, arg_12, arg_10, arg_08, local_04)) {
+      Item.destroy(local_04);
+      Item.setShape(arg_08, local_02);
+      Item.isCentreOn(arg_10, local_02);
+      getTargetNPCNumMaybe(arg_16, arg_14, arg_12, local_02);
+      Item.touch(local_02);
+      return;
+    }
+    else {
+      Item.pop(local_02);
+      return;
+    }
+    return;
+  }
+  else {
+    return;
+  }
+  return;
+}
+
+/* ===== slot 0x2e slot_2e ===== */
+function free_slot_2e() /* entry=2574 class_id=0x0a0c slot=0x2e */
+{
+  set_info(1, 0);
+  local_02 = arg_06;
+  if (Item.getShape(local_02) == 0x0476) {
+    local_06 = getAnimationsDisabled(local_02);
+    local_10 = (local_06 & 15);
+    local_08 = Item.getMapArray(local_02);
+    local_08 = (((local_06 & 0x00e0) * 8) + local_08);
+    if (local_08 != 0) {
+      Item.legal_create(local_10, local_08, local_04);
+      Item.andStatus(Egg.getEggXRange(local_02), local_04);
+      Item.setQHi(Actor.setDead(local_02), local_04);
+      getTargetNPCNumMaybe(Item.getZ(local_02), Item.getY(local_02), Item.getX(local_02), local_04);
+      Item.destroy(local_02);
+      return;
+    }
+  }
+  return;
+}
+
+/* ===== slot 0x2f slot_2f ===== */
+function free_slot_2f() /* entry=2574 class_id=0x0a0c slot=0x2f */
+{
+  set_info(1, 0);
+  local_02 = arg_06;
+  if (Item.getShape(local_02) == 0x0476) {
+    local_06 = getAnimationsDisabled(local_02);
+    local_10 = (local_06 & 15);
+    local_08 = Item.getMapArray(local_02);
+    local_08 = (((local_06 & 0x00e0) * 8) + local_08);
+    if ((local_08 != 0) && (local_08 == arg_08)) {
+      Item.legal_create(local_10, local_08, local_04);
+      Item.andStatus(Egg.getEggXRange(local_02), local_04);
+      Item.setQHi(Actor.setDead(local_02), local_04);
+      getTargetNPCNumMaybe(Item.getZ(local_02), Item.getY(local_02), Item.getX(local_02), local_04);
+      Item.destroy(local_02);
+      return;
+    }
+  }
+  return;
+}
+
+/* ===== slot 0x30 slot_30 ===== */
+function free_slot_30() /* entry=2574 class_id=0x0a0c slot=0x30 */
+{
+  set_info(1, 0);
+  local_02 = arg_06;
+  if (Item.getShape(local_02) == 0x0476) {
+    if (arg_08 != 0) {
+      Item.legal_create(arg_10, arg_08, local_04);
+      Item.andStatus(Egg.getEggXRange(local_02), local_04);
+      Item.setQHi(Actor.setDead(local_02), local_04);
+      getTargetNPCNumMaybe(Item.getZ(local_02), Item.getY(local_02), Item.getX(local_02), local_04);
+      Item.destroy(local_02);
+      return;
+    }
+  }
+  return;
+}
+
+/* ===== slot 0x31 slot_31 ===== */
+function free_slot_31() /* entry=2574 class_id=0x0a0c slot=0x31 */
+{
+  set_info(1, 0);
+  local_02 = arg_06;
+  if (local_02) {
+    Item.move(12, local_02);
+    local_10 = Item.getFrame(local_02);
+    local_08 = Item.getShape(local_02);
+    local_06 = (local_08 & 0x00ff);
+    local_08 = (local_08 & 0x0700);
+    local_08 = (local_08 / 8);
+    local_08 = (local_08 + local_10);
+    Item.legal_create(0, 0x0476, local_04);
+    Item.andStatus(Egg.getEggXRange(local_02), local_04);
+    Item.setQHi(Actor.setDead(local_02), local_04);
+    Item.getQLo(local_08, local_04);
+    MainActor.getMaxEnergy(local_06, local_04);
+    Item.isCentreOn(0, local_04);
+    Item.orStatus(16, local_02);
+    suspend;
+    getTargetNPCNumMaybe(Item.getZ(local_02), Item.getY(local_02), Item.getX(local_02), local_04);
+    Item.orStatus(16, local_04);
+    Actor.NPCGetField0x59Flag1_0AB((~0x1000), local_04);
+    Item.destroy(local_02);
+    process_result = local_04;
+    return;
+  }
+  return;
+}
+
+/* ===== slot 0x32 slot_32 ===== */
+function free_slot_32() /* entry=2574 class_id=0x0a0c slot=0x32 */
+{
+  set_info(9, 0);
+  local_08 = Item.getFamilyOfType();
+  local_04 = Item.getFamilyOfType();
+  if (arg_06 < 1) {
+    return;
+  }
+  else {
+    suspend;
+    local_08 = Item.getFamilyOfType();
+    while (true) {
+      suspend;
+      local_08 = Item.getFamilyOfType();
+      if (local_08 != local_04) {
+        local_04 = local_08;
+        arg_06 = (arg_06 - 1);
+        if (arg_06 < 1) {
+          return;
+        }
+      }
+    }
+  }
+  return;
+}
+
+/* ===== slot 0x33 slot_33 ===== */
+function free_slot_33() /* entry=2574 class_id=0x0a0c slot=0x33 */
+{
+  Item.move(arg_08, arg_06);
+  return;
+}
+
+/* ===== slot 0x34 slot_34 ===== */
+function free_slot_34() /* entry=2574 class_id=0x0a0c slot=0x34 */
+{
+  if (Item.getY((Item.getY((Item.getX((Item.getX(&global[0x003d]) >= (arg_06 - 0x0200)), &global[0x003d]) > (arg_06 + 0x0200)), &global[0x003d]) >= (arg_08 - 0x0200)), &global[0x003d]) > (arg_08 + 0x0200)) {
+    return;
+  }
+  else {
+    return;
+  }
+  return;
+}
+
+/* ===== slot 0x35 slot_35 ===== */
+function free_slot_35() /* entry=2574 class_id=0x0a0c slot=0x35 */
+{
+  local_04 = 0;
+  while (true) {
+    foreach_slist local_02 -> block_0c62;
+    local_04 = (1 + local_04);
+  }
+  return;
+}
+
+/* ===== slot 0x36 slot_36 ===== */
+function free_slot_36() /* entry=2574 class_id=0x0a0c slot=0x36 */
+{
+  local_02 = arg_06;
+  arg_06 = [arg_08];
+  arg_06 = (arg_06 + local_02);
+  return;
+}
+
+/* ===== slot 0x37 slot_37 ===== */
+function free_slot_37() /* entry=2574 class_id=0x0a0c slot=0x37 */
+{
+  local_02 = arg_06;
+  arg_06 = arg_08;
+  arg_06 = (arg_06 + local_02);
+  return;
+}
+
+/* ===== slot 0x38 slot_38 ===== */
+function free_slot_38() /* entry=2574 class_id=0x0a0c slot=0x38 */
+{
+  /* remove_matching_indirect */
+  arg_06 = [arg_08];
+  arg_06 = (arg_06 + [arg_08]);
+  return;
+}
+
+/* ===== slot 0x39 slot_39 ===== */
+function free_slot_39() /* entry=2574 class_id=0x0a0c slot=0x39 */
+{
+  while (true) {
+    foreach_slist local_02 -> block_0cf0;
+    /* remove_matching_indirect */
+    arg_06 = [local_02];
+  }
+  arg_06 = (arg_06 + arg_08);
+  return;
+}
+
+/* ===== slot 0x3a slot_3a ===== */
+function free_slot_3a() /* entry=2574 class_id=0x0a0c slot=0x3a */
+{
+  local_04 = 0;
+  while (true) {
+    foreach_list local_02 -> block_0d1e;
+    local_04 = (1 + local_04);
+  }
+  return;
+}
+
+/* ===== slot 0x3b slot_3b ===== */
+function free_slot_3b() /* entry=2574 class_id=0x0a0c slot=0x3b */
+{
+  set_info(0x022b, 0);
+  local_10 = 1;
+  if (World.getAlertActive()) {
+    return;
+  }
+  else {
+    Item.getNPCNum();
+    if (Actor.getMap((Actor.getMap((Actor.getMap((Actor.getMap((Actor.getMap((Actor.getMap(&global[0x003d]) == 1), &global[0x003d]) == 5), &global[0x003d]) == 9), &global[0x003d]) == 13), &global[0x003d]) == 23), &global[0x003d]) == 27) {
+      local_04 = 22;
+    }
+    else if (Actor.getMap((Actor.getMap((Actor.getMap(&global[0x003d]) == 3), &global[0x003d]) == 15), &global[0x003d]) == 25) {
+      local_04 = 0x0096;
+    }
+    else if (Actor.getMap((Actor.getMap((Actor.getMap((Actor.getMap(&global[0x003d]) == 7), &global[0x003d]) == 11), &global[0x003d]) == 17), &global[0x003d]) == 24) {
+      local_04 = 0x00a0;
+    }
+    else if (Actor.getMap((Actor.getMap((Actor.getMap(&global[0x003d]) == 10), &global[0x003d]) == 19), &global[0x003d]) == 21) {
+      local_04 = 0x0096;
+    }
+    else if (Actor.getMap(&global[0x003d]) == 29) {
+      local_04 = 0x00c4;
+    }
+    else {
+      local_04 = 22;
+    }
+    local_02 = 0;
+    while (local_02 <= 2) {
+      spawn FREE.slot_21(pid, local_04, 0x00000000);
+      suspend;
+      local_02 = (1 + local_02);
+    }
+    spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
+    suspend;
+    if (UCMachine.rndRange((UCMachine.rndRange((UCMachine.rndRange((UCMachine.rndRange((UCMachine.rndRange(10, 0) == 0), 10, 0) == 1), 10, 0) == 2), 10, 0) == 3), 10, 0) == 4) {
+      Egg.setEggXRange(123);
+    }
+    else {
+      spawn FREE.slot_21(pid, 123, 0x00000000);
+      suspend;
+      spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+      suspend;
+      Egg.setEggXRange(125);
+    }
+    for local_06 in nearby_items(shape=0x0561, origin=local_10) {
+      if (Item.inFastArea(local_06)) {
+        suspend;
+      }
+    }
+    suspend;
+    while (true) {
+      suspend;
+      if (!World.getAlertActive()) {
+        return;
+      }
+      else {
+        local_10 = 1;
+        spawn FREE.waitNTimerTicks(pid, (0x04b0 * (5 - Game.getDifficultyLevel())), 0x00000000);
+        suspend;
+        local_02 = 0;
+        while (local_02 <= 2) {
+          spawn FREE.slot_21(pid, local_04, 0x00000000);
+          suspend;
+          local_02 = (1 + local_02);
+        }
+        if (UCMachine.rndRange(100, 0) > 50) {
+          Egg.setEggXRange(0x00d4);
+        }
+        else {
+          Egg.setEggXRange(0x00d0);
+        }
+        for local_06 in nearby_items(shape=0x0561, origin=local_10) {
+          if (Item.inFastArea(local_06)) {
+            suspend;
+          }
+        }
+      }
+    }
+  }
+  return;
+}
+
+/* ===== slot 0x3c slot_3c ===== */
+function free_slot_3c() /* entry=2574 class_id=0x0a0c slot=0x3c */
+{
+  set_info(1, 0);
+  FREE.slot_33(0x022b, 0);
+  local_04 = 1;
+  Item.getQHi();
+  if (Item.unequip() == 1) {
+    Item.getQHi();
+    return;
+  }
+  else {
+    local_06 = UCMachine.rndRange(100, 0);
+    if (local_06 < 30) {
+      spawn FREE.slot_21(pid, 15, 0x00000000);
+      suspend;
+      local_06 = UCMachine.rndRange(100, 0);
+      if (local_06 < 50) {
+        spawn FREE.slot_21(pid, 14, 0x00000000);
+        suspend;
+      }
+      Item.getQHi();
+      return;
+    }
+    else if (local_06 > 60) {
+      spawn FREE.slot_21(pid, 14, 0x00000000);
+      suspend;
+      local_06 = UCMachine.rndRange(100, 0);
+      if (local_06 < 30) {
+        spawn FREE.slot_21(pid, 15, 0x00000000);
+        suspend;
+      }
+      if (local_06 > 60) {
+        spawn FREE.slot_21(pid, 0x00b6, 0x00000000);
+        suspend;
+      }
+      Item.getQHi();
+      return;
+    }
+    else {
+      spawn FREE.slot_21(pid, 0x00d2, 0x00000000);
+      suspend;
+      local_06 = UCMachine.rndRange(100, 0);
+      if (local_06 < 30) {
+        spawn FREE.slot_21(pid, 14, 0x00000000);
+        suspend;
+      }
+      if (local_06 > 60) {
+        spawn FREE.slot_21(pid, 0x00b6, 0x00000000);
+        suspend;
+      }
+      Item.getQHi();
+    }
+  }
+  return;
+}
+
+/* ===== slot 0x3d slot_3d ===== */
+function free_slot_3d() /* entry=2574 class_id=0x0a0c slot=0x3d */
+{
+  set_info(1, 0);
+  Egg.getEggId(Actor.getMap(&global[0x003d]), 0, arg_08, arg_06);
+  return;
+}
+
+/* ===== slot 0x3e slot_3e ===== */
+function free_slot_3e() /* entry=2574 class_id=0x0a0c slot=0x3e */
+{
+  set_info(1, 0);
+  Egg.getEggId(Item.getX(Item.getY(Item.getZ(Actor.getMap(&global[0x003d]), &global[0x003d]), &global[0x003d]), &global[0x003d]));
+  return;
+}
+
+/* ===== slot 0x3f slot_3f ===== */
+function free_slot_3f() /* entry=2574 class_id=0x0a0c slot=0x3f */
+{
+  if (arg_06 > 0) {
+    return;
+  }
+  else {
+    return;
+  }
+  return;
+}
+
+/* ===== slot 0x40 slot_40 ===== */
+function free_slot_40() /* entry=2574 class_id=0x0a0c slot=0x40 */
+{
+  while (condition) {
+    if (!Item.spawnUsecodeEvent0x13(1, local_02)) {
+      Egg.setEggXRange(0x00b0);
+      push(local_02);
+      getTargetNPCNumMaybe(Item.getX((Item.getY(Item.getZ(&global[0x003d]), &global[0x003d]) + 16), &global[0x003d]), local_02);
+    }
+  }
+  return;
+}
+
+/* ===== slot 0x41 slot_41 ===== */
+function free_slot_41() /* entry=2574 class_id=0x0a0c slot=0x41 */
+{
+  set_info(1, 0);
+  for local_02 in selector_0x42(arg0=0x0560, arg1=0x0584, arg2=(50 * 32), origin=global[0x003d]) {
+    Item.destroy(local_02);
+  }
+  return;
+}

@@ -1,0 +1,221 @@
+/* synthesized appendix for DATALINK */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x01 use ===== */
+function datalink_use() /* entry=1238 class_id=0x04d4 slot=0x01 */
+{
+  set_info(0x0207, *(arg_06));
+  process_exclude();
+  local_02 = "MISSION OBJECTIVES:^*";
+  if (Actor.getMap(&global[0x003d]) > 30) {
+    return;
+  }
+  else if (Actor.getMap((Actor.getMap(&global[0x003d]) == 1), &global[0x003d]) == 2) {
+    if (!(global[0x0021])) {
+      Item.getPoint(0x0096, 0x00fa, "mva1", arg_06);
+      suspend;
+    }
+    if (!(global[0x0030])) {
+      local_02 = (local_02 + "^)Gain keycard from rebel informant.");
+    }
+    if (!(global[0x0021])) {
+      local_02 = (local_02 + "^)Locate Thermal Coupler on level four and destroy objective with BlastPac.");
+    }
+    if (global[0x0030] && global[0x0021]) {
+      local_02 = (local_02 + "^)Locate telepad on fourth level and return to rebel base.");
+    }
+  }
+  else if (Actor.getMap((Actor.getMap(&global[0x003d]) == 3), &global[0x003d]) == 4) {
+    if (!(global[0x0031])) {
+      local_02 = (local_02 + "^)PFC. Andrews to confirm coordinates before teleportation into prison area.");
+    }
+    if (!(global[0x0022])) {
+      local_02 = (((local_02 + "^)Locate and free rebel soldiers. ") + "^Prisoners rumored to be held for experimentation ") + "in Dr. Hoffman's lab.");
+    }
+    if (global[0x0031] && global[0x0022]) {
+      local_02 = (local_02 + "^)Locate telepad on prison level and return to rebel base.");
+    }
+  }
+  else if (Actor.getMap((Actor.getMap(&global[0x003d]) == 5), &global[0x003d]) == 6) {
+    if (!(global[0x0023])) {
+      Item.getPoint(0x0096, 0x00fa, "mva3a", arg_06);
+      suspend;
+    }
+    if (!(global[0x0032])) {
+      local_02 = (local_02 + "^)PFC. Cardova to confirm coordinates before teleportation into industrial complex.");
+    }
+    if (!(global[0x0023])) {
+      local_02 = (local_02 + "^)Locate PHIR computer and download latest prototypes' plans.");
+    }
+    if (global[0x0032] && global[0x0023]) {
+      local_02 = (local_02 + "^)Locate telepad on level 1 and return to rebel base.");
+    }
+  }
+  else if (Actor.getMap((Actor.getMap(&global[0x003d]) == 7), &global[0x003d]) == 8) {
+    if (!(global[0x0024])) {
+      Item.getPoint(0x0096, 0x00fa, "mva4", arg_06);
+      suspend;
+    }
+    if (!(global[0x0033])) {
+      local_02 = (local_02 + "^)PFC. Andrews to bring down defense screens before objective can be reached.");
+    }
+    if (!(global[0x0024])) {
+      local_02 = (local_02 + "^)Locate SORC computer on level 3 and destroy it with a BlastPac.");
+    }
+    if (global[0x0033] && global[0x0024]) {
+      local_02 = (local_02 + "^)Locate telepad on level 4 and return to rebel base.");
+    }
+  }
+  else if (Actor.getMap((Actor.getMap(&global[0x003d]) == 9), &global[0x003d]) == 10) {
+    if (!(global[0x0025])) {
+      Item.getPoint(0x0096, 0x00fa, "mva5a", arg_06);
+      suspend;
+    }
+    if (!(global[0x0034])) {
+      local_02 = (local_02 + "^)Gain keycard from rebel informant.");
+    }
+    if (!(global[0x0025])) {
+      local_02 = (local_02 + "^)Locate MELF computer in Science Wing, level 5 and download Cypher chip plans.");
+    }
+    if (global[0x0034] && global[0x0025]) {
+      local_02 = (local_02 + "^)Locate telepad in Science Wing, level 4 and return to rebel base.");
+    }
+  }
+  else if (Actor.getMap((Actor.getMap(&global[0x003d]) == 11), &global[0x003d]) == 12) {
+    if (!(global[0x0026])) {
+      Item.getPoint(0x0096, 0x00fa, "mva6", arg_06);
+      suspend;
+    }
+    if (!(global[0x0035])) {
+      local_02 = (local_02 + "^)Sgt. Brooks to confirm teleportation coordinates into government complex.");
+    }
+    if (!(global[0x0026])) {
+      local_02 = ((local_02 + "^)Locate office of Senator Everett Snell on level 2.") + "Transport the senator back to Central for questioning.");
+    }
+    if (global[0x0035] && global[0x0026]) {
+      local_02 = (local_02 + "^)Return to rebel base.");
+    }
+  }
+  else if (Actor.getMap((Actor.getMap(&global[0x003d]) == 13), &global[0x003d]) == 14) {
+    if (!(global[0x0027])) {
+      Item.getPoint(0x0096, 0x00fa, "mva7", arg_06);
+      suspend;
+    }
+    if (!(global[0x0027])) {
+      local_02 = ((local_02 + "^)Locate EEOD nerve gas containment unit on level 7.") + "Destroy objective with FusionPac.");
+    }
+    if (global[0x0027]) {
+      local_02 = (local_02 + "^)Locate teleporter on level 7 and return to rebel base.");
+    }
+  }
+  else if (Actor.getMap((Actor.getMap(&global[0x003d]) == 15), &global[0x003d]) == 16) {
+    if (!(global[0x0028])) {
+      Item.getPoint(0x0096, 0x00fa, "mva8", arg_06);
+      suspend;
+    }
+    if (!(global[0x0028])) {
+      local_02 = (local_02 + "^)Liberate Professor Willmar from WEC prison.");
+    }
+    else {
+      local_02 = (local_02 + "^)Locate teleporter on level 3 and return to rebel base.");
+    }
+  }
+  else if (Actor.getMap((Actor.getMap(&global[0x003d]) == 17), &global[0x003d]) == 18) {
+    if (!(global[0x0029])) {
+      Item.getPoint(0x0096, 0x00fa, "mva9", arg_06);
+      suspend;
+    }
+    if (!(global[0x0029])) {
+      local_02 = (local_02 + "^)Infiltrate governement complex and spy on congressional meeting.");
+    }
+    if (global[0x0029]) {
+      local_02 = (local_02 + "^)Return to your original telepad for extraction back to rebel base.");
+    }
+  }
+  else if (Actor.getMap((Actor.getMap(&global[0x003d]) == 19), &global[0x003d]) == 20) {
+    if (!(global[0x002a])) {
+      Item.getPoint(0x0096, 0x00fa, "mva10", arg_06);
+      suspend;
+    }
+    if (!(global[0x002a])) {
+      local_02 = (local_02 + "^)Locate plans for new experimental weapon in Dr. Hoffman's lab.");
+    }
+    if (global[0x002a]) {
+      local_02 = ((local_02 + "^)Destroy as many of the experimental Silencer prototypes as possible.") + "^Locate telepad on level 3 to return to rebel base.");
+    }
+  }
+  else if (Actor.getMap((Actor.getMap(&global[0x003d]) == 21), &global[0x003d]) == 22) {
+    if (!(global[0x002b])) {
+      Item.getPoint(0x00fa, "mva11a", arg_06);
+      suspend;
+    }
+    if (!(global[0x0036])) {
+      local_02 = (local_02 + "^)PFC. Cardova to bring down teleport defense screens.");
+    }
+    if (!(global[0x002b])) {
+      local_02 = (local_02 + "^)Locate OPTS computer and download plans to the Vigilance Platform.");
+    }
+    if (global[0x002b]) {
+      local_02 = (local_02 + "^)Locate teleporter on level 4 and return to rebel base.");
+    }
+  }
+  else if (Actor.getMap((Actor.getMap(&global[0x003d]) == 23), &global[0x003d]) == 24) {
+    if (!(global[0x002c])) {
+      Item.getPoint(0x00fa, "mva12a", arg_06);
+      suspend;
+    }
+    if (!(global[0x002c])) {
+      local_02 = (local_02 + "^)Locate OPC computer and upload new targeting coordinates. ");
+    }
+    if (global[0x002c]) {
+      local_02 = (local_02 + "^)Locate teleporter on level 3 and return to rebel base.");
+    }
+  }
+  else if (Actor.getMap((Actor.getMap(&global[0x003d]) == 25), &global[0x003d]) == 26) {
+    if (!(global[0x002d])) {
+      Item.getPoint(0x0096, 0x00fa, "mva13", arg_06);
+      suspend;
+    }
+    if (!(global[0x002d])) {
+      local_02 = (local_02 + "^)Rescue Col. Ely from WEC prison.");
+    }
+    else {
+      local_02 = (local_02 + "^)Locate teleporter and return to rebel base.");
+    }
+  }
+  else if (Actor.getMap((Actor.getMap(&global[0x003d]) == 27), &global[0x003d]) == 28) {
+    if (!(global[0x002e])) {
+      Item.getPoint(0x0096, 0x00fa, "mva14", arg_06);
+      suspend;
+    }
+    if (!(global[0x002e])) {
+      local_02 = (local_02 + "^)Locate shuttle to Vigilance Platform.^)Await troop transfer.^)Lead hit squad to Vigilance Platform.");
+    }
+    else {
+      local_02 = (local_02 + "^)Take shuttle to Vigilance Platform.");
+    }
+  }
+  else if (Actor.getMap((Actor.getMap(&global[0x003d]) == 29), &global[0x003d]) == 30) {
+    if (!(global[0x0039])) {
+      if (!(global[0x0039])) {
+        Item.getPoint(0x00fa, "mva15a", arg_06);
+        suspend;
+      }
+      local_02 = (local_02 + "^)Locate and deactivate SATARG system, then destroy weapon control system.");
+    }
+    if ((global[0x0039] == 1) && (global[0x002f] == 0)) {
+      Item.getPoint(0x00fa, "mva15c", arg_06);
+      suspend;
+      local_02 = (local_02 + "^)Locate and destroy Lithium Power Core with BlastPac.");
+    }
+    if (global[0x002b]) {
+      local_02 = (local_02 + "^)Locate escape pod on level 10 and escape Vigilance Platform.");
+    }
+  }
+  else {
+    return;
+  }
+  spawn TEXTFILE.slot_20(pid, local_02, arg_06);
+  suspend;
+  return;
+}

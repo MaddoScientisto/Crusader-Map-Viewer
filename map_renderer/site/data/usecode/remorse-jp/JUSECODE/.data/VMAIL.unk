@@ -1,0 +1,187 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[0A:equip] global_address global[0x003c] ; call_intrinsic Item.getDirToItem(arg_bytes=0x6) ; global_address global[0x003c] ; ...
+//
+//
+//
+//
+//
+//
+[0A:equip] call_intrinsic Item.andStatus(arg_bytes=0x2) ; concat ; ...
+[0A:equip] concat ; call_intrinsic Item.andStatus(arg_bytes=0x2) ; concat ; ...
+[0A:equip] concat ; call_intrinsic Item.andStatus(arg_bytes=0x2) ; concat ; ...
+[0A:equip] concat ; call_intrinsic Item.andStatus(arg_bytes=0x2) ; concat ; ...
+[0A:equip] concat ; call_intrinsic Item.andStatus(arg_bytes=0x2) ; concat ; ...
+[0A:equip] concat ; call_intrinsic Item.andStatus(arg_bytes=0x2) ; concat ; ...
+[0A:equip] concat ; call_intrinsic Item.andStatus(arg_bytes=0x2) ; concat ; ...
+[0A:equip] concat ; call_intrinsic Item.andStatus(arg_bytes=0x2) ; concat ; ...
+[0A:equip] concat ; call_intrinsic Item.andStatus(arg_bytes=0x2) ; concat ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[0A:equip] call_intrinsic Actor.setActivity(arg_bytes=0x4)
+//
+[0A:equip] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+//
+[0A:equip] call_intrinsic playFlic(arg_bytes=0xc) ; free_stack_string value_u8=0x4, target=[SP+04h] ; implies arg0=0x1, arg1=0x1 ; ...
+//
+//
+//
+//
+[0A:equip] call_intrinsic playFlic(arg_bytes=0xc) ; free_stack_string value_u8=0x4, target=[SP+04h] ; implies arg0=0x1, arg1=0x1 ; ...
+//
+//
+//
+//
+[0A:equip] call_intrinsic playFlic(arg_bytes=0xc) ; free_stack_string value_u8=0x4, target=[SP+04h] ; implies arg0=0x1, arg1=0x1 ; ...
+//
+//
+//
+//
+[0A:equip] call_intrinsic playFlic(arg_bytes=0xc) ; free_stack_string value_u8=0x4, target=[SP+04h] ; implies arg0=0x1, arg1=0x1 ; ...
+//
+//
+//
+//
+[0A:equip] call_intrinsic playFlic(arg_bytes=0xc) ; free_stack_string value_u8=0x4, target=[SP+04h] ; implies arg0=0x1, arg1=0x1 ; ...
+//
+//
+//
+//
+[0A:equip] call_intrinsic playFlic(arg_bytes=0xc) ; free_stack_string value_u8=0x4, target=[SP+04h] ; implies arg0=0x1, arg1=0x1 ; ...
+//
+//
+//
+//
+//
+[0A:equip] call_intrinsic playFlic(arg_bytes=0xc) ; free_stack_string value_u8=0x4, target=[SP+04h] ; implies arg0=0x1, arg1=0x1 ; ...
+//
+//
+//
+//
+//
+[0A:equip] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6) ; free_local_string textFile ; ...
+//
+//
+[0A:equip] ret
+
+/* synthesized appendix for VMAIL */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x0a equip ===== */
+function vmail_equip() /* entry=873 class_id=0x0367 slot=0x0a */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    var, /* [BP+10h] type=0x69 */
+    textFile; /* [BP-02h] type=0x73 */
+
+  set_info(0x0211, *(arg_06));
+  process_exclude();
+  suspend;
+  textFile = ((((((((((((((((("KILL BOARD:^-----------^åxîıàı: " + Item.andStatus(global[0x000b])) + "^ï∫ém: ") + Item.andStatus(global[0x000d])) + "^ìÀåÇë‡àı: ") + Item.andStatus(global[0x000f])) + "^ÉGÉäÅ[Égë‡àı: ") + Item.andStatus(global[0x0011])) + "^ÉGÉìÉtÉHÅ[ÉTÅ[: ") + Item.andStatus(global[0x0013])) + "^^ÉAÉìÉhÉçÉCÉh: ") + Item.andStatus(global[0x0015])) + "^ÉTÅ[É}ÉgÉçÉì: ") + Item.andStatus(global[0x0017])) + "^ÉxÉgÉçÉì: ") + Item.andStatus(global[0x0019])) + "^É?Å[ÉâÅ[ÉgÉçÉì: ") + Item.andStatus(global[0x001b]));
+  Actor.setActivity(textFile);
+  spawn FREE.slot_32(pid, 10, 0x00000000);
+  suspend;
+  if (global[0x001f] == 4) {
+    playFlic(pid, 0x0096, 0x00c8, "4a", arg_06);
+    suspend;
+    return;
+  }
+  else if (global[0x001f] == 6) {
+    playFlic(pid, 0x0096, 0x00c8, "6a", arg_06);
+    suspend;
+    return;
+  }
+  else if (global[0x001f] == 7) {
+    playFlic(pid, 0x0096, 0x00c8, "7a", arg_06);
+    suspend;
+    return;
+  }
+  else if (global[0x001f] == 8) {
+    playFlic(pid, 0x0096, 0x00c8, "8a", arg_06);
+    suspend;
+    return;
+  }
+  else if (global[0x001f] == 11) {
+    playFlic(pid, 0x0096, 0x00c8, "11b", arg_06);
+    suspend;
+    return;
+  }
+  else if (global[0x001f] == 12) {
+    playFlic(pid, 0x0096, 0x00c8, "12a", arg_06);
+    suspend;
+    return;
+  }
+  else if (global[0x001f] == 14) {
+    playFlic(pid, 0x0096, 0x00c8, "14a", arg_06);
+    suspend;
+    return;
+  }
+  else {
+    AudioProcess.playSFXCru(126, arg_06);
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol var [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol textFile [BP-02h] type=0x73 unk1=0x00 unk3=0x00
+  */
+}

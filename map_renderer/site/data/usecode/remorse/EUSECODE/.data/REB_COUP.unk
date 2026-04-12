@@ -1,0 +1,166 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[0F:enterFastArea] call_intrinsic UCMachine.rndRange(arg_bytes=0x4) ; spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; ...
+//
+[0F:enterFastArea] pop_local_word counter ; le ; jne 0x00a2 ; ...
+//
+[0F:enterFastArea] call_intrinsic Item.setFrame(arg_bytes=0x6)
+[0F:enterFastArea] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[0F:enterFastArea] call_intrinsic UCMachine.rndRange(arg_bytes=0x4) ; spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; ...
+//
+[0F:enterFastArea] pop_local_word counter ; le ; jne 0x0123 ; ...
+//
+[0F:enterFastArea] sub ; call_intrinsic Item.setFrame(arg_bytes=0x6) ; ...
+[0F:enterFastArea] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[0F:enterFastArea] ret
+//
+//
+//
+//
+//
+[0A:equip] call_class_event FREE.slot_33 ; ...
+//
+//
+[0A:equip] jne 0x00b7
+[0A:equip] call_intrinsic Item.getStatus(arg_bytes=0x4)
+[0A:equip] bit_and ; jne 0x004f
+[0A:equip] jmp 0x0126
+//
+//
+[0A:equip] call_class_event ITEM.slot_23
+//
+//
+//
+[0A:equip] call_intrinsic Item.getFrame(arg_bytes=0x4) ; pop_local_word counter ; le ; ...
+//
+[0A:equip] call_intrinsic Item.setFrame(arg_bytes=0x6)
+[0A:equip] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+//
+[0A:equip] pop_local_word counter ; le ; jne 0x0109 ; ...
+//
+[0A:equip] sub ; call_intrinsic Item.setFrame(arg_bytes=0x6) ; ...
+[0A:equip] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[0A:equip] call_class_event ITEM.slot_24
+[0A:equip] spawn REB_COUP.enterFastArea ; pop_temp ; ...
+//
+[0A:equip] ret
+
+/* synthesized appendix for REB_COUP */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x0a equip ===== */
+function reb_coup_equip() /* entry=847 class_id=0x034d slot=0x0a */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    val, /* [BP+10h] type=0x69 */
+    counter; /* [BP-02h] type=0x69 */
+
+  set_info(0x0211, *(arg_06));
+  process_exclude();
+  FREE.slot_33(0x021b, *(arg_06));
+  if (val) {
+    if (Item.getStatus(arg_06) & 0x1000) {
+      return;
+    }
+    ITEM.slot_23(0x1000, arg_06);
+    counter = Item.getFrame(arg_06);
+    while (counter <= 9) {
+      Item.setFrame(counter, arg_06);
+      spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+      suspend;
+      counter = (1 + counter);
+    }
+    return;
+  }
+  else {
+    counter = 0;
+    while (counter <= 9) {
+      Item.setFrame((9 - counter), arg_06);
+      spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+      suspend;
+      counter = (1 + counter);
+    }
+    ITEM.slot_24(0x1000, arg_06);
+    spawn REB_COUP.enterFastArea(arg_06);
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol val [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol counter [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x0f enterFastArea ===== */
+function reb_coup_enterFastArea() /* entry=847 class_id=0x034d slot=0x0f */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    counter; /* [BP-02h] type=0x69 */
+
+  entry:
+    set_info(0x021b, *(arg_06));
+    process_exclude();
+
+  while (true) {
+    suspend;
+    spawn FREE.waitNTimerTicks(UCMachine.rndRange(pid, 60, 30), 0x00000000);
+    suspend;
+    counter = 0;
+    while (counter <= 4) {
+      Item.setFrame(counter, arg_06);
+      spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+      suspend;
+      counter = (1 + counter);
+    }
+    spawn FREE.waitNTimerTicks(UCMachine.rndRange(pid, 60, 30), 0x00000000);
+    suspend;
+    counter = 0;
+    while (counter <= 4) {
+      Item.setFrame((4 - counter), arg_06);
+      spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+      suspend;
+      counter = (1 + counter);
+    }
+  }
+
+  return;
+
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol counter [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}

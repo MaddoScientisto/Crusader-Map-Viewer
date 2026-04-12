@@ -1,0 +1,50 @@
+/* synthesized appendix for SKILLBOX */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x0a equip ===== */
+function skillbox_equip() /* entry=1253 class_id=0x04e3 slot=0x0a */
+{
+  set_info(0x0211, *(arg_06));
+  process_exclude();
+  local_02 = Game.getDifficultyLevel();
+  if (Item.getMapArray(arg_06) != 0) {
+    if (Item.getFrame(arg_06) == 2) {
+      local_04 = Actor.getDefaultActivity2(arg_06);
+      if (local_02 == 1) {
+        spawn TRIGGER.slot_2a(pid, 0, *(arg_06), arg_06);
+        suspend;
+      }
+      else if (local_02 == 2) {
+        Item.andStatus((local_04 + 1), arg_06);
+        spawn TRIGGER.slot_2a(pid, 0, *(arg_06), arg_06);
+        suspend;
+      }
+      else if (local_02 >= 3) {
+        Item.andStatus((local_04 + 2), arg_06);
+        spawn TRIGGER.slot_2a(pid, 0, *(arg_06), arg_06);
+        suspend;
+      }
+      Item.andStatus(local_04, arg_06);
+      return;
+    }
+    if (local_02 >= (Item.getFrame(arg_06) + 2)) {
+      spawn TRIGGER.slot_2a(pid, 0, *(arg_06), arg_06);
+      suspend;
+    }
+    else {
+      spawn TRIGGER.slot_2a(pid, 1, *(arg_06), arg_06);
+      suspend;
+    }
+    return;
+  }
+  else if (local_02 >= (Item.getFrame(arg_06) + 2)) {
+    spawn TRIGGER.slot_2a(pid, (0 + 0x0080), *(arg_06), arg_06);
+    suspend;
+    return;
+  }
+  else {
+    spawn TRIGGER.slot_2a(pid, (1 + 0x0080), *(arg_06), arg_06);
+    suspend;
+  }
+  return;
+}

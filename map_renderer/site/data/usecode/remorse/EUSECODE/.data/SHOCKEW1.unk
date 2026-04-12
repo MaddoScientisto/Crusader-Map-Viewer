@@ -1,0 +1,99 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[0B:unequip] jne 0x002c
+[0B:unequip] call_intrinsic Item.setQHi(arg_bytes=0x6)
+//
+//
+[0B:unequip] spawn SHOCKER.slot_20 ; pop_temp ; ...
+[0B:unequip] call_class_event FREE.slot_20 ; add ; spawn FREE.slot_32 ; ...
+[0B:unequip] call_intrinsic Item.destroy(arg_bytes=0x4)
+[0B:unequip] ret
+//
+//
+//
+[0F:enterFastArea] spawn SHOCKER.slot_20 ; pop_temp ; ...
+[0F:enterFastArea] ret
+//
+//
+//
+[10:leaveFastArea] call_class_event FREE.slot_33 ; ...
+[10:leaveFastArea] call_class_event FREE.slot_33 ; ...
+[10:leaveFastArea] call_class_event FREE.slot_33 ; ...
+[10:leaveFastArea] ret
+
+/* synthesized appendix for SHOCKEW1 */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x0b unequip ===== */
+function shockew1_unequip() /* entry=1116 class_id=0x045a slot=0x0b */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    var; /* [BP+10h] type=0x69 */
+
+  set_info(0x0212, *(arg_06));
+  process_exclude();
+  if (var) {
+    Item.setQHi(var, arg_06);
+  }
+  spawn SHOCKER.slot_20(arg_06);
+  FREE.slot_20(pid, 30);
+  spawn FREE.waitNTimerTicks((retval + 30), 0x00000000);
+  suspend;
+  Item.destroy(arg_06);
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol var [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x0f enterFastArea ===== */
+function shockew1_enterFastArea() /* entry=1116 class_id=0x045a slot=0x0f */
+{
+  var
+    referent; /* [BP+00h] type=0x69 */
+
+  set_info(0x021b, *(arg_06));
+  process_exclude();
+  spawn SHOCKER.slot_20(arg_06);
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+  */
+}
+
+/* ===== slot 0x10 leaveFastArea ===== */
+function shockew1_leaveFastArea() /* entry=1116 class_id=0x045a slot=0x10 */
+{
+  var
+    referent; /* [BP+00h] type=0x69 */
+
+  set_info(0x021c, *(arg_06));
+  process_exclude();
+  FREE.slot_33(0x021b, *(arg_06));
+  FREE.slot_33(0x020a, *(arg_06));
+  FREE.slot_33(0x0205, *(arg_06));
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+  */
+}

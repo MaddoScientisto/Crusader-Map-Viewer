@@ -1,0 +1,175 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[20:slot_20] pop_local_byte wrongCode
+[20:slot_20] pop_local_word userInput ; loopscr value_u8=0x24 ; loopscr value_u8=0x3d ; ...
+//
+[20:slot_20] loopscr value_u8=0x25 ; mul ; ...
+[20:slot_20] loop current_var=0xfe, string_bytes=0x6, loop_type=0x2 ; jne 0x0089 ; ...
+[20:slot_20] call_intrinsic Item.unequip(arg_bytes=0x4) ; call_intrinsic Item.unequip(arg_bytes=0x4) ; cmp ; ...
+[20:slot_20]
+//
+[20:slot_20] call_class_event VALBOX.slot_20 ; pop_local_word boxPasscode ; ...
+//
+//
+[20:slot_20] gt ; jne 0x0085 ; ...
+[20:slot_20]
+//
+//
+//
+//
+//
+//
+[20:slot_20] jmp 0x01d1 ; loopnext ; jmp 0x0042
+//
+//
+//
+//
+[20:slot_20] call_intrinsic Item.getStatus(arg_bytes=0x4) ; bit_and ; cmp ; ...
+//
+[20:slot_20] call_intrinsic Item.orStatus(arg_bytes=0x6)
+[20:slot_20] call_intrinsic Actor.setDead(arg_bytes=0x2) ; pop_local_word keycode ; ...
+//
+[20:slot_20] cmp ; jne 0x00e0 ; ...
+[20:slot_20]
+[20:slot_20] bit_not ; call_intrinsic playFlic0D2(arg_bytes=0x6) ; ...
+[20:slot_20] jmp 0x01d1
+//
+//
+[20:slot_20] cmp ; jne 0x0155 ; ...
+//
+[20:slot_20] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[20:slot_20] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+[20:slot_20] spawn TRIGGER.slot_20 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[20:slot_20] call_intrinsic Item.orStatus(arg_bytes=0x6) ; jmp 0x01c2 ; ...
+//
+//
+//
+[20:slot_20] spawn TRIGGER.slot_20 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[20:slot_20] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[20:slot_20] call_intrinsic World.getAlertActive(arg_bytes=0x0) ; not ; jne 0x01c2 ; ...
+[20:slot_20]
+[20:slot_20] spawn FREE.slot_3b ; pop_temp ; ...
+//
+//
+//
+[20:slot_20] bit_not ; call_intrinsic playFlic0D2(arg_bytes=0x6) ; ...
+//
+//
+[20:slot_20] ret
+
+/* synthesized appendix for KEYPAD */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x20 slot_20 ===== */
+function keypad_slot_20() /* entry=2578 class_id=0x0a10 slot=0x20 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    valueBox, /* [BP-02h] type=0x24 */
+    boxesInArea, /* [BP-04h] type=0x69 */
+    linkedWithSwitch, /* [BP-05h] type=0x62 */
+    wrongCode, /* [BP-06h] type=0x62 */
+    userInput, /* [BP-08h] type=0x69 */
+    boxPasscode, /* [BP-10h] type=0x69 */
+    keycode; /* [BP-12h] type=0x69 */
+
+  set_info(0x0207, *(arg_06));
+  wrongCode = 0;
+  userInput = 0;
+  for valueBox in nearby_items(shape=VALUEBOX, origin=arg_06) {
+    if (Item.unequip(valueBox) == Item.unequip(arg_06)) {
+      VALBOX.slot_20(valueBox);
+      boxPasscode = retval;
+      if (boxPasscode > 0x03e7) {
+        return;
+      }
+    }
+  }
+  if ((Item.getStatus(arg_06) & 0x1000) == 0) {
+    Item.orStatus(0x1000, arg_06);
+    keycode = Actor.setDead(boxPasscode);
+    if (keycode == -1) {
+      playFlic0D2((~0x1000), arg_06);
+      return;
+    }
+    else if (keycode == boxPasscode) {
+      spawn FREE.slot_32(pid, 60, 0x00000000);
+      suspend;
+      AudioProcess.playSFXCru(122, arg_06);
+      spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
+      suspend;
+      Item.orStatus(4, arg_06);
+    }
+    else {
+      spawn TRIGGER.slot_20(pid, 1, *(arg_06), arg_06);
+      suspend;
+      spawn FREE.slot_32(pid, 60, 0x00000000);
+      suspend;
+      if (!World.getAlertActive()) {
+        spawn FREE.slot_3b(0x00000000);
+      }
+    }
+    playFlic0D2((~0x1000), arg_06);
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol valueBox [BP-02h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol boxesInArea [BP-04h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol linkedWithSwitch [BP-05h] type=0x62 unk1=0x00 unk3=0x00
+    debug_symbol wrongCode [BP-06h] type=0x62 unk1=0x00 unk3=0x00
+    debug_symbol userInput [BP-08h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol boxPasscode [BP-10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol keycode [BP-12h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}

@@ -1,0 +1,47 @@
+/* synthesized appendix for REBSNOR */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x0f enterFastArea ===== */
+function rebsnor_enterFastArea() /* entry=1350 class_id=0x0544 slot=0x0f */
+{
+  set_info(0x021b, *(arg_06));
+  process_exclude();
+  if (global[0x0020] > 3) {
+    if (UCMachine.rndRange(10, 1) > 5) {
+      Item.isCentreOn(6, arg_06);
+      return;
+    }
+    else {
+      while (1) {
+        local_02 = 0;
+        while (local_02 <= 5) {
+          Item.isCentreOn(local_02, arg_06);
+          spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+          suspend;
+          local_02 = (1 + local_02);
+        }
+        spawn FREE.waitNTimerTicks(pid, 0x012c, 0x00000000);
+        suspend;
+        local_02 = 0;
+        while (local_02 <= 5) {
+          Item.isCentreOn((5 - local_02), arg_06);
+          spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+          suspend;
+          local_02 = (1 + local_02);
+        }
+        spawn FREE.waitNTimerTicks(pid, 0x00dc, 0x00000000);
+        suspend;
+      }
+    }
+  }
+  return;
+}
+
+/* ===== slot 0x10 leaveFastArea ===== */
+function rebsnor_leaveFastArea() /* entry=1350 class_id=0x0544 slot=0x10 */
+{
+  set_info(0x021c, *(arg_06));
+  process_exclude();
+  FREE.slot_33(*(arg_06), 0x021b);
+  return;
+}

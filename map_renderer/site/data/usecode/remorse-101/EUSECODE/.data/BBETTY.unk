@@ -1,0 +1,122 @@
+/* synthesized appendix for BBETTY */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x10 leaveFastArea ===== */
+function bbetty_leaveFastArea() /* entry=2563 class_id=0x0a01 slot=0x10 */
+{
+  set_info(0x0001, *(arg_06));
+  process_exclude();
+  FREE.slot_33(1, *(arg_06));
+  return;
+}
+
+/* ===== slot 0x20 slot_20 ===== */
+function bbetty_slot_20() /* entry=2563 class_id=0x0a01 slot=0x20 */
+{
+  set_info(0x0205, *(arg_06));
+  if (Item.getShape(arg_06) != bbetty_shape_02c9) {
+    local_04 = 0;
+    while (local_04 <= 4) {
+      Item.setFrame(local_04, arg_06);
+      local_08 = 0;
+      while (condition) {
+        push(local_02);
+        local_08 = (1 + local_08);
+      }
+      push(arg_06);
+      getTargetNPCNumMaybe((Item.getZ(arg_06) + 1), Item.getY(arg_06), Item.getX(arg_06), arg_06);
+      local_06 = 1;
+      while (local_06 <= local_08) {
+        local_02 = Item.getEtherealTop();
+        getTargetNPCNumMaybe((Item.getZ(local_02) + 1), Item.getY(local_02), Item.getX(local_02), local_02);
+        local_06 = (1 + local_06);
+      }
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+      local_04 = (1 + local_04);
+    }
+    Item.setShape(0x02c9, arg_06);
+    Item.touch(arg_06);
+  }
+  spawn BBETTY.slot_21(arg_06);
+  return;
+}
+
+/* ===== slot 0x21 slot_21 ===== */
+function bbetty_slot_21() /* entry=2563 class_id=0x0a01 slot=0x21 */
+{
+  set_info(0x00f0, *(arg_06));
+  spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
+  suspend;
+  suspend;
+  while (true) {
+    suspend;
+    if (Item.getQHi(arg_06)) {
+      local_11 = getClosestDirectionInRange(8, Item.getX(Item.getY(0, 8, &global[0x003d]), &global[0x003d]), Item.getY(arg_06), Item.getX(arg_06));
+    }
+    else {
+      local_11 = (1 + local_11);
+      if (local_11 > 7) {
+        local_11 = 0;
+      }
+    }
+    switch (local_11) {
+    case 0:
+      local_02 = 0;
+      local_04 = -1;
+      local_06 = -16;
+      local_08 = -48;
+      break;
+    case 1:
+      local_02 = 1;
+      local_04 = -1;
+      local_06 = 16;
+      local_08 = -48;
+      break;
+    case 2:
+      local_02 = 1;
+      local_04 = 0;
+      local_06 = 16;
+      local_08 = -16;
+      break;
+    case 3:
+      local_02 = 1;
+      local_04 = 1;
+      local_06 = 16;
+      local_08 = 16;
+      break;
+    case 4:
+      local_02 = 0;
+      local_04 = 1;
+      local_06 = -16;
+      local_08 = 16;
+      break;
+    case 5:
+      local_02 = -1;
+      local_04 = 1;
+      local_06 = -48;
+      local_08 = 16;
+      break;
+    case 6:
+      local_02 = -1;
+      local_04 = 0;
+      local_06 = -48;
+      local_08 = -16;
+      break;
+    case 7:
+      local_02 = -1;
+      local_04 = -1;
+      local_06 = -48;
+      local_08 = -48;
+      break;
+    }
+    Item.legal_create(0, 0x029e, local_13);
+    Item.orStatus(0x0080, local_13);
+    getTargetNPCNumMaybe((Item.getZ(arg_06) + 8), (Item.getY(arg_06) + local_08), (Item.getX(arg_06) + local_06), arg_06);
+    AudioProcess.playSFXCru(63, arg_06);
+    FREE.slot_20(8, 30, 15);
+    spawn FREE.waitNTimerTicks(pid, ((5 - Game.getDifficultyLevel()) * 20), 0x00000000);
+    suspend;
+  }
+  return;
+}

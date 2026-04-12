@@ -1,0 +1,376 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[20:slot_20] pop_local_word item
+//
+//
+//
+[20:slot_20] call_class_event FREE.slot_2c ; jne 0x0035 ; ...
+//
+[20:slot_20] jmp 0x065c
+//
+//
+//
+//
+//
+[20:slot_20] call_intrinsic Actor.getLastAnimSet(arg_bytes=0x6) ; cmp ; jne 0x0051 ; ...
+//
+[20:slot_20] jmp 0x065c
+//
+//
+//
+//
+[20:slot_20] call_intrinsic Item.getStatus(arg_bytes=0x4)
+[20:slot_20] bit_and ; jne 0x0070
+[20:slot_20] jmp 0x065c
+//
+//
+[20:slot_20] call_class_event ITEM.slot_23
+//
+[20:slot_20] call_intrinsic Actor.isNPC(arg_bytes=0x4) ; jne 0x051f ; ...
+//
+//
+[20:slot_20] pop_local_word n
+[20:slot_20] call_intrinsic Actor.getDir(arg_bytes=0x4) ; pop_local_word dir ; call_intrinsic Item.getShape(arg_bytes=0x4) ; ...
+//
+//
+//
+//
+//
+[20:slot_20] global_address global[0x003c] ; call_intrinsic CameraProcess.somethingAboutCameraUpdate(arg_bytes=0x4)
+[20:slot_20] call_intrinsic Actor.teleport(arg_bytes=0x8) ; ...
+//
+[20:slot_20] global_address global[0x003c] ; call_intrinsic Item.getZ(arg_bytes=0x4) ; add ; ...
+[20:slot_20] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+[20:slot_20] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x2)
+[20:slot_20] call_intrinsic Item.getFootpad(arg_bytes=0x0)
+//
+[20:slot_20] global_address global[0x003c] ; call_intrinsic Actor.getMap(arg_bytes=0x4) ; global_address global[0x003c] ; ...
+[20:slot_20] call_intrinsic Actor.isDead(arg_bytes=0xc) ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[20:slot_20] call_intrinsic Item.destroy(arg_bytes=0x4)
+[20:slot_20] call_intrinsic Item.getFootpad(arg_bytes=0x0)
+[20:slot_20] jmp 0x065c ; jmp 0x051c ; call_intrinsic Item.getShape(arg_bytes=0x4) ; ...
+//
+//
+//
+//
+//
+//
+//
+[20:slot_20] call_intrinsic Actor.teleport(arg_bytes=0x8) ; ...
+//
+[20:slot_20] call_intrinsic CameraProcess.somethingAboutCameraUpdate(arg_bytes=0x4) ; loopscr value_u8=0x24
+//
+//
+[20:slot_20] loop current_var=0xfc, string_bytes=0x1, loop_type=0x4 ; jne 0x01c9 ; ...
+[20:slot_20] call_intrinsic Item.destroy(arg_bytes=0x4) ; loopnext ; jmp 0x01b7 ; ...
+//
+//
+[20:slot_20] call_intrinsic Item.getZ(arg_bytes=0x4) ; add ; call_intrinsic Item.getY(arg_bytes=0x4) ; ...
+[20:slot_20] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+[20:slot_20] call_intrinsic Item.destroy(arg_bytes=0x4)
+[20:slot_20] call_intrinsic Actor.isDead(arg_bytes=0xc) ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[20:slot_20] call_intrinsic Item.destroy(arg_bytes=0x4)
+[20:slot_20] call_intrinsic Item.getFootpad(arg_bytes=0x0)
+[20:slot_20] jmp 0x065c ; jmp 0x051c ; call_intrinsic Item.getShape(arg_bytes=0x4) ; ...
+//
+//
+//
+//
+//
+//
+//
+[20:slot_20] call_intrinsic Actor.teleport(arg_bytes=0x8) ; ...
+//
+[20:slot_20] call_intrinsic CameraProcess.somethingAboutCameraUpdate(arg_bytes=0x4) ; loopscr value_u8=0x24
+//
+//
+[20:slot_20] loop current_var=0xfc, string_bytes=0x1, loop_type=0x4 ; jne 0x02a0 ; ...
+[20:slot_20] call_intrinsic Item.destroy(arg_bytes=0x4) ; loopnext ; jmp 0x028e ; ...
+//
+//
+[20:slot_20] call_intrinsic Item.getZ(arg_bytes=0x4) ; add ; call_intrinsic Item.getY(arg_bytes=0x4) ; ...
+[20:slot_20] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+[20:slot_20] call_intrinsic Item.destroy(arg_bytes=0x4)
+[20:slot_20] call_intrinsic Actor.isDead(arg_bytes=0xc) ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[20:slot_20] call_intrinsic Item.destroy(arg_bytes=0x4)
+[20:slot_20] call_intrinsic Item.getFootpad(arg_bytes=0x0)
+[20:slot_20] jmp 0x065c ; jmp 0x051c ; call_intrinsic Item.getShape(arg_bytes=0x4) ; ...
+//
+//
+//
+//
+//
+//
+//
+[20:slot_20] call_intrinsic Actor.teleport(arg_bytes=0x8) ; ...
+//
+[20:slot_20] call_intrinsic CameraProcess.somethingAboutCameraUpdate(arg_bytes=0x4) ; loopscr value_u8=0x24
+//
+//
+[20:slot_20] loop current_var=0xfc, string_bytes=0x1, loop_type=0x4 ; jne 0x0377 ; ...
+[20:slot_20] call_intrinsic Item.destroy(arg_bytes=0x4) ; loopnext ; jmp 0x0365 ; ...
+//
+//
+[20:slot_20] call_intrinsic Item.getZ(arg_bytes=0x4) ; add ; call_intrinsic Item.getY(arg_bytes=0x4) ; ...
+[20:slot_20] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+[20:slot_20] call_intrinsic Item.destroy(arg_bytes=0x4)
+[20:slot_20] call_intrinsic Actor.isDead(arg_bytes=0xc) ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[20:slot_20] call_intrinsic Item.destroy(arg_bytes=0x4)
+[20:slot_20] call_intrinsic Item.getFootpad(arg_bytes=0x0)
+[20:slot_20] jmp 0x065c ; jmp 0x051c ; call_intrinsic Item.getShape(arg_bytes=0x4) ; ...
+//
+//
+//
+//
+//
+//
+//
+[20:slot_20] jmp 0x065c ; jmp 0x051c
+//
+//
+//
+//
+//
+[20:slot_20] call_intrinsic CameraProcess.somethingAboutCameraUpdate(arg_bytes=0x4) ; loopscr value_u8=0x24
+//
+//
+[20:slot_20] loop current_var=0xfc, string_bytes=0x1, loop_type=0x4 ; jne 0x0471 ; ...
+[20:slot_20] call_intrinsic Item.destroy(arg_bytes=0x4) ; loopnext ; jmp 0x045f ; ...
+//
+//
+[20:slot_20] call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[20:slot_20] call_intrinsic Item.getZ(arg_bytes=0x4) ; call_intrinsic Item.getY(arg_bytes=0x4) ; call_intrinsic Item.getX(arg_bytes=0x4) ; ...
+[20:slot_20] call_intrinsic Item.destroy(arg_bytes=0x4)
+[20:slot_20] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+[20:slot_20] pop_local_word counter ; le ; jne 0x0511 ; ...
+//
+[20:slot_20] call_intrinsic Item.legal_create(arg_bytes=0x6)
+[20:slot_20] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[20:slot_20] call_intrinsic Item.destroy(arg_bytes=0x4) ; jmp 0x0655
+//
+//
+//
+//
+//
+//
+[20:slot_20] call_intrinsic Egg.getEggId(arg_bytes=0x4)
+[20:slot_20] cmp ; jne 0x0559 ; loopscr value_u8=0x24 ; ...
+//
+[20:slot_20] loop current_var=0xfc, string_bytes=0x1, loop_type=0x4 ; jne 0x0557 ; ...
+[20:slot_20] call_intrinsic Item.destroy(arg_bytes=0x4) ; loopnext ; jmp 0x0545 ; ...
+//
+//
+//
+//
+//
+//
+[20:slot_20] call_intrinsic Item.getQLo(arg_bytes=0x10) ; ...
+//
+//
+[20:slot_20] gt ; gt ; or ; ...
+[20:slot_20]
+[20:slot_20] pop_local_word spoogeType ; jmp 0x0591
+//
+//
+//
+[20:slot_20] pop_local_word spoogeType
+//
+//
+[20:slot_20] call_intrinsic Item.getZ(arg_bytes=0x4) ; pop_local_word z ; ...
+[20:slot_20] call_intrinsic Item.getY(arg_bytes=0x4) ; call_intrinsic Item.getX(arg_bytes=0x4) ; call_intrinsic Item.legal_create(arg_bytes=0xe) ; ...
+//
+[20:slot_20] call_intrinsic Item.destroy(arg_bytes=0x4)
+[20:slot_20] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+//
+[20:slot_20] pop_local_word counter ; le ; jne 0x062e ; ...
+//
+[20:slot_20] call_intrinsic Item.legal_create(arg_bytes=0x6)
+[20:slot_20] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[20:slot_20] call_intrinsic Item.destroy(arg_bytes=0x4) ; jmp 0x0655
+//
+//
+//
+[20:slot_20] call_intrinsic Item.destroy(arg_bytes=0x4)
+[20:slot_20] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+//
+//
+//
+[20:slot_20] call_intrinsic Item.getFootpad(arg_bytes=0x0)
+[20:slot_20] ret
+
+/* synthesized appendix for DEATHFL */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x20 slot_20 ===== */
+function deathfl_slot_20() /* entry=2567 class_id=0x0a05 slot=0x20 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    vel, /* [BP+12h] type=0x69 */
+    item, /* [BP-02h] type=0x24 */
+    item2, /* [BP-04h] type=0x24 */
+    counter, /* [BP-06h] type=0x69 */
+    n, /* [BP-08h] type=0x24 */
+    n2, /* [BP-10h] type=0x24 */
+    dir, /* [BP-12h] type=0x69 */
+    x, /* [BP-14h] type=0x69 */
+    y, /* [BP-16h] type=0x69 */
+    z, /* [BP-18h] type=0x69 */
+    spoogeType; /* [BP-20h] type=0x69 */
+
+  set_info(0x0001, *(arg_06));
+  item = ref;
+  FREE.slot_2c(vel, ref);
+  if (retval) {
+    return;
+  }
+  else if (Actor.getLastAnimSet(*(arg_06), item) == 0) {
+    return;
+  }
+  else if (Item.getStatus(item) & 0x4000) {
+    return;
+  }
+  else {
+    ITEM.slot_23(0x4000, item);
+    if (Actor.isNPC(item)) {
+      n = ref;
+      dir = Actor.getDir(n);
+      if (Item.getShape(item) == 1) {
+        CameraProcess.somethingAboutCameraUpdate(&global[0x003c]);
+        Actor.teleport(0, 0x0580, n2);
+        Item.popToCoords((Item.getX((Item.getY((Item.getZ(&global[0x003c]) + 1), &global[0x003c]) + 80), &global[0x003c]) + 65), n2);
+        AudioProcess.playSFXCru(0x0094, n2);
+        AudioProcess.playSFXCru(0);
+        Item.getFootpad();
+        Item.isInNPC(Actor.getMap(&global[0x003c]), 0, 0, 0, &global[0x003c]);
+        suspend;
+        Item.destroy(n2);
+        Item.getFootpad();
+        return;
+      }
+      else if (Item.getShape(item) == npcdeath_shape_02fd) {
+        Actor.teleport(0, 0x052c, n2);
+        CameraProcess.somethingAboutCameraUpdate(n);
+        while (condition) {
+          Item.destroy(item2);
+        }
+        Item.popToCoords((Item.getZ(n) + 1), (Item.getY(n) + 80), (Item.getX(n) + 65), n2);
+        AudioProcess.playSFXCru(0x0094, n2);
+        Item.destroy(n);
+        suspend;
+        Item.destroy(n2);
+        Item.getFootpad();
+        return;
+      }
+      else if (Item.getShape(item) == npcdeath_shape_0371) {
+        Actor.teleport(0, 0x057a, n2);
+        CameraProcess.somethingAboutCameraUpdate(n);
+        while (condition) {
+          Item.destroy(item2);
+        }
+        Item.popToCoords((Item.getZ(n) + 1), (Item.getY(n) + 80), (Item.getX(n) + 65), n2);
+        AudioProcess.playSFXCru(0x0094, n2);
+        Item.destroy(n);
+        suspend;
+        Item.destroy(n2);
+        Item.getFootpad();
+        return;
+      }
+      else if (Item.getShape(item) == npcdeath_shape_04d1) {
+        Actor.teleport(0, 0x057f, n2);
+        CameraProcess.somethingAboutCameraUpdate(n);
+        while (condition) {
+          Item.destroy(item2);
+        }
+        Item.popToCoords((Item.getZ(n) + 1), (Item.getY(n) + 80), (Item.getX(n) + 65), n2);
+        AudioProcess.playSFXCru(0x0094, n2);
+        Item.destroy(n);
+        suspend;
+        Item.destroy(n2);
+        Item.getFootpad();
+        return;
+      }
+      else if ((((Item.getShape(item) == 0x0580) || (Item.getShape(item) == 0x057a)) || (Item.getShape(item) == 0x057f)) || (Item.getShape(item) == 0x052c)) {
+        return;
+      }
+      else {
+        CameraProcess.somethingAboutCameraUpdate(n);
+        while (condition) {
+          Item.destroy(item2);
+        }
+        Item.create(0, 0x0539, item2);
+        Item.popToCoords(Item.getZ(item), Item.getY(item), Item.getX(item), item2);
+        Item.destroy(item);
+        AudioProcess.playSFXCru(0x0094, item2);
+        counter = 0;
+        while (counter <= 7) {
+          Item.legal_create(counter, item2);
+          spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+          suspend;
+          counter = (1 + counter);
+        }
+        Item.destroy(item2);
+      }
+    }
+    else if (Egg.getEggId(item) == 6) {
+      while (condition) {
+        Item.destroy(item2);
+      }
+    }
+    Item.getQLo(z, y, x, item);
+    if ((x > 4) || (y > 4)) {
+      spoogeType = 0x054c;
+    }
+    else {
+      spoogeType = 0x0539;
+    }
+    z = Item.getZ(arg_06);
+    if (Item.legal_create(z, Item.getY(item), Item.getX(item), 0, spoogeType, item2)) {
+      Item.destroy(item);
+      AudioProcess.playSFXCru(0x0094, item2);
+      counter = 0;
+      while (counter <= 7) {
+        Item.legal_create(counter, item2);
+        spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+        suspend;
+        counter = (1 + counter);
+      }
+      Item.destroy(item2);
+    }
+    else {
+      Item.destroy(item);
+      AudioProcess.playSFXCru(0x0094, arg_06);
+    }
+    Item.getFootpad();
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol ref [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol vel [BP+12h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol item [BP-02h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol item2 [BP-04h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol counter [BP-06h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol n [BP-08h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol n2 [BP-10h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol dir [BP-12h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol x [BP-14h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol y [BP-16h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol z [BP-18h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol spoogeType [BP-20h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}

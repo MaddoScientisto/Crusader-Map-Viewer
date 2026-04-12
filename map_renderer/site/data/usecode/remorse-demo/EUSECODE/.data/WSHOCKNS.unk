@@ -1,0 +1,232 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[0B:unequip] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6) ; loopscr value_u8=0x24 ; loopscr value_u8=0x3d ; ...
+//
+[0B:unequip] loopscr value_u8=0x25 ; mul ; ...
+[0B:unequip] loop current_var=0xfe, string_bytes=0x6, loop_type=0x2 ; jne 0x008b ; ...
+[0B:unequip] call_intrinsic Actor.isNPC(arg_bytes=0x4) ; jne 0x0087 ; ...
+//
+[0B:unequip] call_intrinsic Item.isOn(arg_bytes=0x6) ; ...
+[0B:unequip] cmp ; jne 0x0087
+[0B:unequip] spawn WSHOCKNS.gotHit ; pop_temp ; ...
+[0B:unequip] jmp 0x008d ; loopnext ; jmp 0x0041
+//
+//
+//
+[0B:unequip] ret
+//
+//
+//
+//
+//
+//
+[06:gotHit] pop_local_word item
+//
+[06:gotHit] call_intrinsic Actor.isNPC(arg_bytes=0x4) ; jne 0x01e5 ; ...
+//
+//
+//
+[06:gotHit] pop_local_word n
+//
+[06:gotHit] call_intrinsic Item.isOn(arg_bytes=0x6) ; cmp ; jne 0x01bf ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+[06:gotHit] call_intrinsic Item.getCX(arg_bytes=0x4) ; pop_local_word x ; ...
+[06:gotHit] call_intrinsic Item.getX(arg_bytes=0x4) ; pop_local_word x1 ; ...
+[06:gotHit] call_intrinsic Item.getY(arg_bytes=0x4) ; pop_local_word y ; ...
+[06:gotHit] call_intrinsic Item.getCZ(arg_bytes=0x4) ; pop_local_word z ; ...
+[06:gotHit] call_intrinsic Item.getZ(arg_bytes=0x4) ; pop_local_word z1 ; ...
+//
+[06:gotHit] sub ; pop_local_word a ; ...
+[06:gotHit] mul ; pop_local_word a ; ...
+[06:gotHit] sub ; pop_local_word b ; ...
+[06:gotHit] div ; mul ; pop_local_word b ; ...
+//
+[06:gotHit] call_class_event FREE.slot_20 ; add ; pop_local_word c ; ...
+[06:gotHit] ne ; jne 0x0196 ; ...
+//
+//
+[06:gotHit] call_class_event FREE.slot_20 ; pop_local_word d ; ...
+[06:gotHit] sub ; pop_local_word d ; ...
+[06:gotHit] pop_local_word x
+//
+[06:gotHit] call_class_event FREE.slot_20 ; pop_local_word e ; ...
+[06:gotHit] add ; pop_local_word e ; ...
+[06:gotHit] pop_local_word z
+//
+//
+//
+//
+[06:gotHit] call_intrinsic Item.create(arg_bytes=0x8) ; jne 0x015b ; ...
+//
+[06:gotHit] pop_local_word c
+[06:gotHit] call_intrinsic Item.popToCoords(arg_bytes=0xa) ; ...
+[06:gotHit] call_intrinsic Item.spawnUsecodeEvent0x13(arg_bytes=0x6) ; pop_temp ; ...
+[06:gotHit] add ; pop_local_word shockCount ; ...
+//
+[06:gotHit] call_class_event FREE.slot_20 ; spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; ...
+[06:gotHit] sub ; pop_local_word c ; jmp 0x00cb ; ...
+//
+[06:gotHit] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[06:gotHit] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[06:gotHit] ret
+//
+//
+[13:avatarStoleSomething] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+[13:avatarStoleSomething] ret
+
+/* synthesized appendix for WSHOCKNS */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x06 gotHit ===== */
+function wshockns_gotHit() /* entry=1103 class_id=0x044d slot=0x06 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    vel, /* [BP+12h] type=0x69 */
+    item, /* [BP-02h] type=0x24 */
+    n, /* [BP-04h] type=0x24 */
+    x, /* [BP-06h] type=0x69 */
+    x1, /* [BP-08h] type=0x69 */
+    y, /* [BP-10h] type=0x69 */
+    z, /* [BP-12h] type=0x69 */
+    z1, /* [BP-14h] type=0x69 */
+    shocker, /* [BP-16h] type=0x24 */
+    a, /* [BP-18h] type=0x69 */
+    b, /* [BP-20h] type=0x69 */
+    c, /* [BP-22h] type=0x69 */
+    d, /* [BP-24h] type=0x69 */
+    e, /* [BP-26h] type=0x69 */
+    shockCount; /* [BP-28h] type=0x69 */
+
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  item = ref;
+  if (Actor.isNPC(item)) {
+    n = item;
+    while (Item.isOn(ref, arg_06) == 1) {
+      x = Item.getCX(arg_06);
+      x1 = Item.getX(arg_06);
+      y = Item.getY(arg_06);
+      z = Item.getCZ(item);
+      z1 = Item.getZ(item);
+      a = (x1 - x);
+      a = (a * 2);
+      b = (z - z1);
+      b = ((b / 2) * 3);
+      FREE.slot_20(2);
+      c = (retval + 1);
+      while (c != 0) {
+        FREE.slot_20(a);
+        d = retval;
+        d = (x1 - d);
+        x = d;
+        FREE.slot_20(b);
+        e = retval;
+        e = (e + z1);
+        z = e;
+        if (Item.create(0, 0x0459, shocker)) {
+          c = 1;
+          Item.popToCoords(z, y, x, shocker);
+          shockCount = (1 + shockCount);
+        }
+        FREE.slot_20(pid, 30);
+        spawn FREE.waitNTimerTicks(retval, 0x00000000);
+        suspend;
+        c = (c - 1);
+      }
+      spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
+      suspend;
+    }
+    spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+    suspend;
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol ref [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol vel [BP+12h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol item [BP-02h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol n [BP-04h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol x [BP-06h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol x1 [BP-08h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol y [BP-10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol z [BP-12h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol z1 [BP-14h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol shocker [BP-16h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol a [BP-18h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol b [BP-20h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol c [BP-22h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol d [BP-24h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol e [BP-26h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol shockCount [BP-28h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x0b unequip ===== */
+function wshockns_unequip() /* entry=1103 class_id=0x044d slot=0x0b */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    var, /* [BP+10h] type=0x69 */
+    item; /* [BP-02h] type=0x24 */
+
+  set_info(0x0212, *(arg_06));
+  process_exclude();
+  AudioProcess.playSFXCru(93, arg_06);
+  for item in nearby_items(family=6, origin=arg_06) {
+    if (Actor.isNPC(item)) {
+      if (Item.isOn(item, arg_06) == 1) {
+        spawn WSHOCKNS.gotHit(0, item, arg_06);
+        return;
+      }
+    }
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol var [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol item [BP-02h] type=0x24 unk1=0x00 unk3=0x02
+  */
+}
+
+/* ===== slot 0x13 avatarStoleSomething ===== */
+function wshockns_avatarStoleSomething() /* entry=1103 class_id=0x044d slot=0x13 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    var; /* [BP+10h] type=0x69 */
+
+  set_info(0x022e, *(arg_06));
+  process_exclude();
+  AudioProcess.playSFXCru(0x00b1, arg_06);
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol var [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}

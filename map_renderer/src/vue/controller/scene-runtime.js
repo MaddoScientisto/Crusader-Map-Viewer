@@ -702,6 +702,25 @@ export function createSceneRuntimeController(deps) {
     return state.catalog?.games?.find((game) => game.id === selected?.game)?.label ?? selected?.game ?? "unknown game";
   }
 
+  function getSelectedVersionEntry() {
+    if (!versionSelect.value || !state.catalog?.games?.length) {
+      return null;
+    }
+    return state.catalog.games.find((game) => game.id === versionSelect.value) ?? null;
+  }
+
+  function publishUsecodeState(selection = null) {
+    const detail = selection ?? (() => {
+      const selectedMap = getSelectedMap();
+      if (selectedMap) {
+        return selectedMap;
+      }
+      const selectedVersion = getSelectedVersionEntry();
+      return selectedVersion ? { game: selectedVersion.id, mapId: null } : { game: null, mapId: null };
+    })();
+    window.dispatchEvent(new CustomEvent(USECODE_STATE_EVENT, { detail }));
+  }
+
   function clientToScenePoint(clientX, clientY) {
     const rect = viewport.getBoundingClientRect();
     return {
@@ -1114,7 +1133,7 @@ export function createSceneRuntimeController(deps) {
     rememberViewport(selected);
     writeViewerPreferences();
     syncSelectionHistory(selected);
-    window.dispatchEvent(new CustomEvent(USECODE_STATE_EVENT, { detail: { game: selected.game, mapId: selected.mapId } }));
+    publishUsecodeState({ game: selected.game, mapId: selected.mapId });
   }
 
   async function loadStaticScene(selected, token, preservedView) {
@@ -1419,6 +1438,7 @@ export function createSceneRuntimeController(deps) {
       updateMapNavigationState();
       rememberSelection(getSelectedMap());
       writeViewerPreferences();
+      publishUsecodeState();
       scheduleAutoBuild();
     });
     versionSelect.addEventListener("change", () => {
@@ -1426,8 +1446,14 @@ export function createSceneRuntimeController(deps) {
       const previousSelection = getSelectedMap();
       const selectedVersion = syncVersionSelection(previousSelection);
       writeViewerPreferences();
+      publishUsecodeState();
       if (!selectedVersion) {
         setStatus(isStaticMode() ? "No exported versions were found in the static site bundle." : "No usable versioned STATIC folders were detected under the app root.");
+        setEmptyStateVisible(true);
+        return;
+      }
+      if (selectedVersion.usecodeOnly) {
+        setStatus(`${selectedVersion.label} has no unique map archive. Use the USECODE tab for this build.`);
         setEmptyStateVisible(true);
         return;
       }
@@ -1824,7 +1850,7 @@ export function createSceneRuntimeController(deps) {
     resizeCanvas();
     setInspectMode(false);
     updateEggPlacementButtonState();
-    window.dispatchEvent(new CustomEvent(USECODE_STATE_EVENT, { detail: { game: null, mapId: null } }));
+    publishUsecodeState({ game: null, mapId: null });
   }
 
   return {

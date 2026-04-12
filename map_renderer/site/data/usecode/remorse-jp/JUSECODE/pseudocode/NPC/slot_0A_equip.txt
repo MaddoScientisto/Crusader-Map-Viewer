@@ -1,12 +1,23 @@
 function npc_equip() /* entry=2581 class_id=0x0a13 slot=0x0a */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    var, /* [BP+10h] type=0x69 */
+    cx, /* [BP-02h] type=0x69 */
+    cy, /* [BP-04h] type=0x69 */
+    nx, /* [BP-06h] type=0x69 */
+    ny, /* [BP-08h] type=0x69 */
+    a, /* [BP-10h] type=0x69 */
+    b, /* [BP-12h] type=0x69 */
+    c; /* [BP-14h] type=0x69 */
+
   set_info(0x0211, *(arg_06));
   process_exclude();
   if (Item.setQAndCombine(arg_06)) {
     return;
   }
   else {
-    switch (arg_10) {
+    switch (var) {
     case 1:
       Item.popToEnd(0, arg_06);
       Item.andStatus(112, arg_06);
@@ -24,22 +35,22 @@ function npc_equip() /* entry=2581 class_id=0x0a13 slot=0x0a */
       spawn FREE.slot_32(pid, 2, 0x00000000);
       suspend;
       Item.andStatus(112, arg_06);
-      local_02 = CameraProcess.getCameraY();
-      local_04 = Item.setMapArray();
-      local_06 = Item.getX(arg_06);
-      local_08 = Item.getY(arg_06);
-      spawn NPC.slot_29(pid, local_08, local_06, local_04, local_02, arg_06);
+      cx = CameraProcess.getCameraY();
+      cy = Item.setMapArray();
+      nx = Item.getX(arg_06);
+      ny = Item.getY(arg_06);
+      spawn NPC.slot_29(pid, ny, nx, cy, cx, arg_06);
       suspend;
       spawn FREE.slot_32(pid, 10, 0x00000000);
       suspend;
       Item.setFrame(*(arg_06));
       return;
     case 30:
-      local_10 = Item.popToContainer(1, arg_06);
-      local_12 = Item.popToContainer(2, arg_06);
-      local_14 = Item.popToContainer(0, arg_06);
-      BatteryChargerProcess.create(local_12, 1, arg_06);
-      BatteryChargerProcess.create(local_10, 2, arg_06);
+      a = Item.popToContainer(1, arg_06);
+      b = Item.popToContainer(2, arg_06);
+      c = Item.popToContainer(0, arg_06);
+      BatteryChargerProcess.create(b, 1, arg_06);
+      BatteryChargerProcess.create(a, 2, arg_06);
       return;
     case 31:
       Item.setQHi(arg_06);
@@ -49,4 +60,16 @@ function npc_equip() /* entry=2581 class_id=0x0a13 slot=0x0a */
     }
   }
   return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol var [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol cx [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol cy [BP-04h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol nx [BP-06h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol ny [BP-08h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol a [BP-10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol b [BP-12h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol c [BP-14h] type=0x69 unk1=0x00 unk3=0x00
+  */
 }
