@@ -7,6 +7,7 @@ import { getShapeNameTable } from "./dtable.js";
 import { getMapSummaries, resolveStaticFile } from "./formats.js";
 import { filterBrowsableMapsForGame, isUsecodeOnlyVariantGame } from "./game-map-difference-manifest.js";
 import { loadPsxProcessedCatalog } from "./psx-cache.js";
+import { parseEditableCatalogSurfaceType } from "../shared/catalog-surface-types.js";
 
 const CATALOG_FILE_BY_GAME = {
   remorse: "usecode_shape_catalog_remorse.csv",
@@ -15,7 +16,7 @@ const CATALOG_FILE_BY_GAME = {
 };
 
 const shapeCatalogCache = new Map();
-const CATALOG_HEADERS = ["shape_code", "human_readable_id", "description", "roof", "semitransparency", "OOB", "categorization", "qualities"];
+const CATALOG_HEADERS = ["shape_code", "human_readable_id", "description", "roof", "semitransparency", "OOB", "surface_type", "categorization", "qualities"];
 
 function getCatalogSourceGameId(gameId) {
   return GAMES.find((game) => game.id === gameId)?.catalogId ?? gameId;
@@ -92,6 +93,7 @@ function normalizeCatalogEntry(row) {
     roof: parseOptionalBoolean(getRowValue(row, "roof", "Roof")),
     semitransparency: parseOptionalBoolean(getRowValue(row, "semitransparency", "semi_transparency", "Semitransparency", "SemiTransparency")),
     oob: parseOptionalBoolean(getRowValue(row, "OOB", "oob", "OutOfBounds")),
+    surfaceType: parseEditableCatalogSurfaceType(getRowValue(row, "surface_type", "surfaceType", "SurfaceType", "surface", "Surface")),
     categorization: String(getRowValue(row, "categorization", "category", "Categorization", "Category")).trim(),
     qualities: String(getRowValue(row, "qualities", "quality_values", "Qualities", "QualityValues")).trim()
   };
@@ -152,6 +154,7 @@ function serializeCatalog(entries) {
         formatOptionalBoolean(entry.roof),
         formatOptionalBoolean(entry.semitransparency),
         formatOptionalBoolean(entry.oob),
+        entry.surfaceType,
         entry.categorization,
         entry.qualities
       ]
@@ -185,6 +188,7 @@ function createCatalogEntry(shapeCode, overrides = {}) {
     roof: null,
     semitransparency: null,
     oob: null,
+    surfaceType: "",
     categorization: "",
     qualities: "",
     ...overrides
@@ -314,6 +318,7 @@ export function ensureShapeCatalogCoverage(gameId, observedShapes) {
       roof: null,
       semitransparency: null,
       oob: null,
+      surfaceType: "",
       categorization: observed.categorization,
       qualities: observed.qualities
     });
@@ -359,7 +364,8 @@ export function updateShapeCatalogEntry(gameId, shapeCodeValue, updates = {}) {
     description: sanitizeCatalogText(updates.description ?? current.description, "Catalog description"),
     roof: parseEditableBoolean(updates.roof ?? current.roof, "Roof status"),
     semitransparency: parseEditableBoolean(updates.semitransparency ?? current.semitransparency, "Transparency status"),
-    oob: parseEditableBoolean(updates.oob ?? current.oob, "Out-of-bounds surface status")
+    oob: parseEditableBoolean(updates.oob ?? current.oob, "Out-of-bounds surface status"),
+    surfaceType: parseEditableCatalogSurfaceType(updates.surfaceType ?? current.surfaceType, "Surface type")
   };
 
   entries.set(shapeCode, next);

@@ -13,7 +13,8 @@ export function createCatalogActions(dependencies) {
     canEditCatalog,
     startBuild,
     showToast,
-    setStatus
+    setStatus,
+    normalizeCatalogSurfaceType
   } = dependencies;
 
   async function saveCatalogEntry(item, payload) {
@@ -31,7 +32,8 @@ export function createCatalogActions(dependencies) {
       description: String(payload?.description ?? "").trim(),
       roof: decodeCatalogBoolean(String(payload?.roof ?? "")),
       semitransparency: decodeCatalogBoolean(String(payload?.semitransparency ?? "")),
-      oob: decodeCatalogBoolean(String(payload?.oob ?? ""))
+      oob: decodeCatalogBoolean(String(payload?.oob ?? "")),
+      surfaceType: normalizeCatalogSurfaceType(payload?.surfaceType)
     };
     if (catalogSnapshotsEqual(previousSnapshot, normalizedPayload)) {
       setStatus(`No catalog changes to save for ${definition.shapeHex}.`);

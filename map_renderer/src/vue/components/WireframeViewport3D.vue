@@ -2,10 +2,11 @@
   <section class="wireframe-shell">
     <div ref="host" class="wireframe-host" tabindex="0"></div>
     <div class="wireframe-overlay">
-      <div class="wireframe-badge">3D Wireframe</div>
+      <div class="wireframe-badge">3D Surface View</div>
       <div class="wireframe-status">{{ statusText }}</div>
       <div class="wireframe-help">{{ helpText }}</div>
       <div v-if="wireframeCount > 0" class="wireframe-count">{{ wireframeCount }} shapes</div>
+      <div v-if="texturedCount > 0" class="wireframe-count">{{ texturedCount }} textured</div>
     </div>
   </section>
 </template>
@@ -13,13 +14,27 @@
 <script setup>
 import { computed, onBeforeUnmount, onMounted, ref } from "vue";
 import * as THREE from "three";
+
 import { state } from "../controller/state.js";
+import { includeOobCheckbox, includeRoofsCheckbox, overlayTooltip } from "../controller/dom-elements.js";
+import { clearTooltipState, setTooltipState } from "../../shared/tooltip-bridge.js";
+import { getCatalogUpdatePath } from "../../shared/runtime-adapter.js";
+import { formatCatalogSurfaceTypeLabel, normalizeCatalogSurfaceType } from "../../shared/catalog-surface-types.js";
+import {
+  appUrl,
+  canEditCatalog,
+  catalogSnapshotsEqual,
+  cloneCatalogSnapshot,
+  decodeCatalogBoolean,
+  escapeHtml,
+  fetchJson
+} from "../../public/helpers.js";
 
 const host = ref(null);
-const pointerLocked = ref(false);
 const dragLooking = ref(false);
 const statusText = ref("Choose a PC map to inspect it in 3D.");
 const wireframeCount = ref(0);
+const texturedCount = ref(0);
 
 let renderer = null;
 let scene = null;
@@ -30,6 +45,10 @@ let resizeObserver = null;
 let animationFrame = 0;
 let lastFrameTime = 0;
 let currentRenderKey = null;
+let tooltipLayoutFrame = 0;
+let suppressNextClick = false;
+let needsRender = true;
+let currentPixelRatio = 1;
 
 const lookState = {
   yaw: 0,
@@ -38,21 +57,37 @@ const lookState = {
 
 const sceneMetrics = {
   largestSpan: 512,
-  height: 128,
-  centerX: 0,
-  centerZ: 0
+  height: 128
 };
 
 const dragState = {
   active: false,
   pointerId: null,
   lastX: 0,
-  lastY: 0
+  lastY: 0,
+  moved: false
+};
+
+const lastPointer = {
+  x: 0,
+  y: 0,
+  active: false
 };
 
 const pressedKeys = new Set();
 const edgeGeometryCache = new Map();
+const boxGeometryCache = new Map();
 const materialCache = new Map();
+const textureCache = new Map();
+const spriteSourceCache = new Map();
+const dynamicMaterials = [];
+const interactiveObjects = [];
+const itemRenderIndex = new Map();
+const raycaster = new THREE.Raycaster();
+const pointerNdc = new THREE.Vector2();
+
+let hoveredItemId = null;
+let pinnedItemId = null;
 
 const KIND_COLORS = Object.freeze({
   base: 0xc6d3dd,
@@ -63,13 +98,21 @@ const KIND_COLORS = Object.freeze({
   editor: 0xff8d6a
 });
 
+const WORLD_VERTICAL_SCALE = 3;
+
 const helpText = computed(() => (
-  pointerLocked.value
-    ? "WASD move, Space up, C down, mouse look active. Press Esc to release the mouse."
-    : dragLooking.value
-      ? "Dragging to look. Release the mouse to stop looking. WASD moves, Space goes up, C goes down."
-      : "Click to try mouse capture. If the browser denies it, hold left mouse and drag to look. WASD moves, Space goes up, C goes down."
+  dragLooking.value
+    ? "Dragging to look. Release to stop. Right-click pins the hovered shape for tooltip editing."
+    : "Hold the left mouse button and drag to look. WASD moves in view direction, Space rises, C descends, and right-click pins the hovered shape for tooltip editing."
 ));
+
+function requestRender() {
+  needsRender = true;
+}
+
+function clamp(value, min, max) {
+  return Math.min(max, Math.max(min, value));
+}
 
 function isPcSceneSelected() {
   return Boolean(state.current?.selected?.game) && !String(state.current.selected.game).startsWith("psx");
@@ -84,12 +127,22 @@ function getSceneRenderKey() {
     current.selected.game,
     current.selected.mapId,
     current.dataRevision ?? 0,
-    current.visibilityRevision ?? 0
+    current.visibilityRevision ?? 0,
+    includeRoofsCheckbox?.checked !== false,
+    includeOobCheckbox?.checked !== false
   ].join(":");
 }
 
 function setStatus(message) {
   statusText.value = message;
+}
+
+function getItemDefinition(item) {
+  return state.current?.shapeDefinitions.get(item.shapeDefId) ?? null;
+}
+
+function getCatalogSurfaceType(definition) {
+  return normalizeCatalogSurfaceType(definition?.catalogEntry?.surfaceType);
 }
 
 function applyCameraLook() {
@@ -103,6 +156,7 @@ function applyCameraLook() {
     Math.cos(lookState.yaw) * cosPitch
   );
   camera.lookAt(camera.position.clone().add(forward));
+  requestRender();
 }
 
 function syncLookFromDirection(direction) {
@@ -112,61 +166,424 @@ function syncLookFromDirection(direction) {
   applyCameraLook();
 }
 
+function getBoxGeometry(width, height, depth) {
+  const cacheKey = `${width}:${height}:${depth}`;
+  const cached = boxGeometryCache.get(cacheKey);
+  if (cached) {
+    return cached;
+  }
+  const geometry = new THREE.BoxGeometry(width, height, depth);
+  boxGeometryCache.set(cacheKey, geometry);
+  return geometry;
+}
+
 function getEdgesGeometry(width, height, depth) {
   const cacheKey = `${width}:${height}:${depth}`;
   const cached = edgeGeometryCache.get(cacheKey);
   if (cached) {
     return cached;
   }
-  const boxGeometry = new THREE.BoxGeometry(width, height, depth);
-  const edgesGeometry = new THREE.EdgesGeometry(boxGeometry);
-  boxGeometry.dispose();
+  const edgesGeometry = new THREE.EdgesGeometry(getBoxGeometry(width, height, depth));
   edgeGeometryCache.set(cacheKey, edgesGeometry);
   return edgesGeometry;
 }
 
-function getMaterial(kind) {
-  const cacheKey = kind || "base";
+function getMaterial(kind, opacity = 1) {
+  const normalizedOpacity = clamp(opacity, 0.1, 1);
+  const cacheKey = `${kind || "base"}:${normalizedOpacity.toFixed(2)}`;
   const cached = materialCache.get(cacheKey);
   if (cached) {
     return cached;
   }
   const material = new THREE.LineBasicMaterial({
-    color: KIND_COLORS[cacheKey] ?? KIND_COLORS.base,
+    color: KIND_COLORS[kind || "base"] ?? KIND_COLORS.base,
     transparent: true,
-    opacity: cacheKey === "helper" ? 0.55 : 0.9
+    opacity: (kind === "helper" ? 0.55 : 0.9) * normalizedOpacity
   });
   materialCache.set(cacheKey, material);
   return material;
+}
+
+function getHiddenPickMaterial() {
+  const cacheKey = "pick-hidden";
+  const cached = materialCache.get(cacheKey);
+  if (cached) {
+    return cached;
+  }
+  const material = new THREE.MeshBasicMaterial({ transparent: true, opacity: 0, depthWrite: false });
+  material.colorWrite = false;
+  materialCache.set(cacheKey, material);
+  return material;
+}
+
+function getNeutralSurfaceMaterial(opacity = 1) {
+  const normalizedOpacity = clamp(opacity, 0.1, 1);
+  const cacheKey = `surface-neutral:${normalizedOpacity.toFixed(2)}`;
+  const cached = materialCache.get(cacheKey);
+  if (cached) {
+    return cached;
+  }
+  const material = new THREE.MeshBasicMaterial({
+    color: 0x13212a,
+    transparent: true,
+    opacity: 0.22 * normalizedOpacity,
+    polygonOffset: true,
+    polygonOffsetFactor: 1,
+    polygonOffsetUnits: 1
+  });
+  materialCache.set(cacheKey, material);
+  return material;
+}
+
+function trackDynamicMaterial(material) {
+  dynamicMaterials.push(material);
+  return material;
+}
+
+function createTexturedMaterial(texture, opacity = 1) {
+  const normalizedOpacity = clamp(opacity, 0.1, 1);
+  return trackDynamicMaterial(new THREE.MeshBasicMaterial({
+    map: texture,
+    alphaTest: 0.08,
+    transparent: normalizedOpacity < 0.999,
+    opacity: normalizedOpacity,
+    depthWrite: normalizedOpacity >= 0.999,
+    polygonOffset: true,
+    polygonOffsetFactor: 1,
+    polygonOffsetUnits: 1,
+    side: THREE.DoubleSide
+  }));
+}
+
+function getSpriteSource(sprite, atlasImage) {
+  if (!sprite || !atlasImage) {
+    return null;
+  }
+  const cacheKey = `${sprite.id}:${sprite.atlasId}`;
+  const cached = spriteSourceCache.get(cacheKey);
+  if (cached) {
+    return cached;
+  }
+
+  const canvasElement = document.createElement("canvas");
+  canvasElement.width = sprite.width;
+  canvasElement.height = sprite.height;
+  const context = canvasElement.getContext("2d", { willReadFrequently: true });
+  if (!context) {
+    return null;
+  }
+  context.imageSmoothingEnabled = false;
+  context.drawImage(atlasImage, sprite.x, sprite.y, sprite.width, sprite.height, 0, 0, sprite.width, sprite.height);
+  const imageData = context.getImageData(0, 0, sprite.width, sprite.height);
+  const alphaRows = Array.from({ length: sprite.height }, () => ({ left: -1, right: -1 }));
+  let top = -1;
+  let bottom = -1;
+  let left = sprite.width;
+  let right = -1;
+
+  for (let y = 0; y < sprite.height; y += 1) {
+    for (let x = 0; x < sprite.width; x += 1) {
+      const alpha = imageData.data[(y * sprite.width + x) * 4 + 3];
+      if (alpha < 16) {
+        continue;
+      }
+      if (top === -1) {
+        top = y;
+      }
+      bottom = y;
+      left = Math.min(left, x);
+      right = Math.max(right, x);
+      if (alphaRows[y].left === -1) {
+        alphaRows[y].left = x;
+      }
+      alphaRows[y].right = x;
+    }
+  }
+
+  const source = {
+    imageData,
+    alphaRows,
+    width: sprite.width,
+    height: sprite.height,
+    bounds: top === -1
+      ? { top: 0, bottom: sprite.height - 1, left: 0, right: sprite.width - 1 }
+      : { top, bottom, left, right }
+  };
+  spriteSourceCache.set(cacheKey, source);
+  return source;
+}
+
+function copyNearestSample(output, offset, source, x, y) {
+  const clampedX = clamp(Math.round(x), 0, source.width - 1);
+  const clampedY = clamp(Math.round(y), 0, source.height - 1);
+  const sourceOffset = (clampedY * source.width + clampedX) * 4;
+  output[offset] = source.imageData.data[sourceOffset];
+  output[offset + 1] = source.imageData.data[sourceOffset + 1];
+  output[offset + 2] = source.imageData.data[sourceOffset + 2];
+  output[offset + 3] = source.imageData.data[sourceOffset + 3];
+}
+
+function computeTextureSize(sourceWidth, sourceHeight, aspect) {
+  const normalizedAspect = Number.isFinite(aspect) && aspect > 0 ? aspect : 1;
+  const area = Math.max(sourceWidth * sourceHeight, 256);
+  const width = clamp(Math.round(Math.sqrt(area * normalizedAspect)), 24, 512);
+  const height = clamp(Math.round(width / normalizedAspect), 24, 512);
+  return { width, height };
+}
+
+function sampleSpriteX(source, x, flipped) {
+  return flipped ? (source.width - 1 - x) : x;
+}
+
+function interpolatePoint(topLeft, topRight, bottomLeft, bottomRight, u, v) {
+  const invU = 1 - u;
+  const invV = 1 - v;
+  return {
+    x: topLeft.x * invU * invV + topRight.x * u * invV + bottomLeft.x * invU * v + bottomRight.x * u * v,
+    y: topLeft.y * invU * invV + topRight.y * u * invV + bottomLeft.y * invU * v + bottomRight.y * u * v
+  };
+}
+
+function buildSmoothedColumnProfiles(source) {
+  const width = Math.max(1, source.bounds.right - source.bounds.left + 1);
+  const topProfile = new Array(width).fill(-1);
+  const bottomProfile = new Array(width).fill(-1);
+
+  for (let y = source.bounds.top; y <= source.bounds.bottom; y += 1) {
+    const row = source.alphaRows[y];
+    if (!row || row.left === -1 || row.right === -1) {
+      continue;
+    }
+    const start = clamp(Math.round(row.left), source.bounds.left, source.bounds.right);
+    const end = clamp(Math.round(row.right), source.bounds.left, source.bounds.right);
+    for (let x = start; x <= end; x += 1) {
+      const index = x - source.bounds.left;
+      if (topProfile[index] === -1) {
+        topProfile[index] = y;
+      }
+      bottomProfile[index] = y;
+    }
+  }
+
+  const fillMissing = (values, fallback) => {
+    let last = fallback;
+    for (let index = 0; index < values.length; index += 1) {
+      if (values[index] === -1) {
+        values[index] = last;
+      } else {
+        last = values[index];
+      }
+    }
+    last = fallback;
+    for (let index = values.length - 1; index >= 0; index -= 1) {
+      if (values[index] === -1) {
+        values[index] = last;
+      } else {
+        last = values[index];
+      }
+    }
+  };
+
+  fillMissing(topProfile, source.bounds.top);
+  fillMissing(bottomProfile, source.bounds.bottom);
+
+  const smooth = (values) => values.map((value, index) => {
+    let total = 0;
+    let weightTotal = 0;
+    for (let offset = -2; offset <= 2; offset += 1) {
+      const sampleIndex = clamp(index + offset, 0, values.length - 1);
+      const weight = offset === 0 ? 4 : Math.max(1, 3 - Math.abs(offset));
+      total += values[sampleIndex] * weight;
+      weightTotal += weight;
+    }
+    return total / Math.max(weightTotal, 1);
+  });
+
+  return {
+    top: smooth(topProfile),
+    bottom: smooth(bottomProfile)
+  };
+}
+
+function buildFloorTexture(sprite, atlasImage, worldWidth, worldDepth, sideHeightPixels, flipped = false) {
+  const source = getSpriteSource(sprite, atlasImage);
+  if (!source) {
+    return null;
+  }
+  const projectedTopHeight = (worldWidth + worldDepth) / 8;
+  const derivedSideHeight = clamp(sprite.yoff - projectedTopHeight, 0, sprite.height);
+  const sideHeight = Number.isFinite(derivedSideHeight) ? derivedSideHeight : Math.max(0, sideHeightPixels);
+  const cacheKey = `floor:${sprite.id}:${worldWidth}:${worldDepth}:${Math.round(sideHeight)}:${flipped ? 1 : 0}`;
+  if (textureCache.has(cacheKey)) {
+    return textureCache.get(cacheKey);
+  }
+
+  const { width, height } = computeTextureSize(source.width, source.height, worldWidth / Math.max(worldDepth, 1));
+  const canvasElement = document.createElement("canvas");
+  canvasElement.width = width;
+  canvasElement.height = height;
+  const context = canvasElement.getContext("2d");
+  if (!context) {
+    return null;
+  }
+  const imageData = context.createImageData(width, height);
+  const anchorX = sprite.xoff;
+  const anchorY = sprite.yoff;
+  const topLeft = {
+    x: anchorX + (worldDepth - worldWidth) / 4,
+    y: anchorY - sideHeight - projectedTopHeight
+  };
+  const topRight = {
+    x: anchorX + worldDepth / 4,
+    y: anchorY - sideHeight - worldDepth / 8
+  };
+  const bottomLeft = {
+    x: anchorX - worldWidth / 4,
+    y: anchorY - sideHeight - worldWidth / 8
+  };
+  const bottomRight = {
+    x: anchorX,
+    y: anchorY - sideHeight
+  };
+
+  for (let y = 0; y < height; y += 1) {
+    const depthT = height <= 1 ? 0 : y / (height - 1);
+    for (let x = 0; x < width; x += 1) {
+      const widthT = width <= 1 ? 0 : x / (width - 1);
+      const point = interpolatePoint(topLeft, topRight, bottomLeft, bottomRight, widthT, depthT);
+      copyNearestSample(
+        imageData.data,
+        (y * width + x) * 4,
+        source,
+        sampleSpriteX(source, point.x, flipped),
+        point.y
+      );
+    }
+  }
+
+  context.putImageData(imageData, 0, 0);
+  const texture = new THREE.CanvasTexture(canvasElement);
+  texture.colorSpace = THREE.SRGBColorSpace;
+  texture.magFilter = THREE.NearestFilter;
+  texture.minFilter = THREE.NearestFilter;
+  texture.generateMipmaps = false;
+  texture.needsUpdate = true;
+  textureCache.set(cacheKey, texture);
+  return texture;
+}
+
+function buildWallTexture(sprite, atlasImage, wallSpan, wallHeight) {
+  const source = getSpriteSource(sprite, atlasImage);
+  if (!source) {
+    return null;
+  }
+  const cacheKey = `wall:${sprite.id}:${wallSpan}:${wallHeight}`;
+  if (textureCache.has(cacheKey)) {
+    return textureCache.get(cacheKey);
+  }
+
+  const visibleWidth = Math.max(1, source.bounds.right - source.bounds.left + 1);
+  const columnProfiles = buildSmoothedColumnProfiles(source);
+  const minTop = Math.min(...columnProfiles.top);
+  const maxColumnHeight = columnProfiles.top.reduce((maxHeight, topValue, index) => {
+    const bottomValue = columnProfiles.bottom[index];
+    return Math.max(maxHeight, bottomValue - topValue + 1);
+  }, 1);
+  const wallAspect = wallSpan / Math.max(wallHeight, 1);
+  const width = clamp(Math.round(visibleWidth * Math.max(1, wallAspect)), 32, 1024);
+  const wallHeightScale = Math.max(1, wallHeight / Math.max(wallSpan, 1));
+  const height = clamp(Math.round(maxColumnHeight * Math.max(1.5, wallHeightScale * 3)), 24, 768);
+  const canvasElement = document.createElement("canvas");
+  canvasElement.width = width;
+  canvasElement.height = height;
+  const context = canvasElement.getContext("2d");
+  if (!context) {
+    return null;
+  }
+  const imageData = context.createImageData(width, height);
+
+  for (let y = 0; y < height; y += 1) {
+    const v = height <= 1 ? 0 : y / (height - 1);
+    for (let x = 0; x < width; x += 1) {
+      const u = width <= 1 ? 0 : x / (width - 1);
+      const columnIndex = clamp(Math.round(u * (visibleWidth - 1)), 0, visibleWidth - 1);
+      const sourceX = source.bounds.left + columnIndex;
+      const columnTop = columnProfiles.top[columnIndex] ?? minTop;
+      const columnBottom = columnProfiles.bottom[columnIndex] ?? source.bounds.bottom;
+      const columnHeight = Math.max(1, columnBottom - columnTop + 1);
+      const sourceY = columnTop + v * (columnHeight - 1);
+      copyNearestSample(imageData.data, (y * width + x) * 4, source, sourceX, sourceY);
+    }
+  }
+
+  context.putImageData(imageData, 0, 0);
+  const texture = new THREE.CanvasTexture(canvasElement);
+  texture.colorSpace = THREE.SRGBColorSpace;
+  texture.magFilter = THREE.NearestFilter;
+  texture.minFilter = THREE.NearestFilter;
+  texture.generateMipmaps = false;
+  texture.needsUpdate = true;
+  textureCache.set(cacheKey, texture);
+  return texture;
 }
 
 function clearWorldGroup() {
   if (!worldGroup) {
     return;
   }
+  interactiveObjects.length = 0;
+  itemRenderIndex.clear();
   while (worldGroup.children.length > 0) {
-    const child = worldGroup.children[0];
-    worldGroup.remove(child);
+    worldGroup.remove(worldGroup.children[0]);
   }
   if (gridHelper) {
     scene?.remove(gridHelper);
     gridHelper.geometry.dispose();
-    gridHelper.material.dispose();
     if (Array.isArray(gridHelper.material)) {
       for (const material of gridHelper.material) {
         material.dispose();
       }
+    } else {
+      gridHelper.material.dispose();
     }
     gridHelper = null;
   }
+  while (dynamicMaterials.length > 0) {
+    dynamicMaterials.pop()?.dispose?.();
+  }
+  requestRender();
+}
+
+function disposeTextureCache() {
+  for (const texture of textureCache.values()) {
+    texture.dispose?.();
+  }
+  textureCache.clear();
+  spriteSourceCache.clear();
 }
 
 function createGrid(span) {
   const majorSpan = Math.max(256, Math.ceil(span / 256) * 256);
   const divisions = Math.max(8, Math.min(64, Math.round(majorSpan / 128)));
-  const helper = new THREE.GridHelper(majorSpan, divisions, 0x315567, 0x1b2d36);
-  helper.position.set(0, 0, 0);
-  return helper;
+  return new THREE.GridHelper(majorSpan, divisions, 0x315567, 0x1b2d36);
+}
+
+function updateRendererQuality(visibleCount, texturedVisibleCount) {
+  if (!renderer) {
+    return;
+  }
+  const deviceRatio = window.devicePixelRatio || 1;
+  const complexity = Math.max(visibleCount, texturedVisibleCount * 2);
+  const nextPixelRatio = Math.min(
+    deviceRatio,
+    complexity >= 1800 ? 0.9 : complexity >= 900 ? 1 : 1.25
+  );
+  if (Math.abs(nextPixelRatio - currentPixelRatio) < 0.01) {
+    return;
+  }
+  currentPixelRatio = nextPixelRatio;
+  renderer.setPixelRatio(nextPixelRatio);
+  resizeRenderer();
 }
 
 function resetCamera(selectionChanged) {
@@ -183,6 +600,289 @@ function resetCamera(selectionChanged) {
   syncLookFromDirection(new THREE.Vector3(0, Math.max(-0.35, -sceneMetrics.height / Math.max(distance * 1.5, 1)), -1));
 }
 
+function positionTooltip() {
+  if (!overlayTooltip || overlayTooltip.hidden) {
+    return;
+  }
+  if (pinnedItemId) {
+    overlayTooltip.style.left = "auto";
+    overlayTooltip.style.right = "16px";
+    overlayTooltip.style.top = "16px";
+    overlayTooltip.style.bottom = "16px";
+    return;
+  }
+  if (!lastPointer.active) {
+    return;
+  }
+  const containerRect = overlayTooltip.offsetParent?.getBoundingClientRect() ?? host.value?.getBoundingClientRect();
+  const containerWidth = overlayTooltip.offsetParent?.clientWidth ?? host.value?.clientWidth ?? 0;
+  const containerHeight = overlayTooltip.offsetParent?.clientHeight ?? host.value?.clientHeight ?? 0;
+  if (!containerRect || !containerWidth || !containerHeight) {
+    return;
+  }
+  const padding = 18;
+  const tooltipWidth = overlayTooltip.offsetWidth;
+  const tooltipHeight = overlayTooltip.offsetHeight;
+  let left = lastPointer.x - containerRect.left + 18;
+  let top = lastPointer.y - containerRect.top + 18;
+  if (left + tooltipWidth + padding > containerWidth) {
+    left = Math.max(padding, left - tooltipWidth - 36);
+  }
+  if (top + tooltipHeight + padding > containerHeight) {
+    top = Math.max(padding, containerHeight - tooltipHeight - padding);
+  }
+  overlayTooltip.style.left = `${left}px`;
+  overlayTooltip.style.top = `${top}px`;
+  overlayTooltip.style.right = "auto";
+  overlayTooltip.style.bottom = "auto";
+}
+
+function scheduleTooltipPosition() {
+  window.cancelAnimationFrame(tooltipLayoutFrame);
+  tooltipLayoutFrame = window.requestAnimationFrame(positionTooltip);
+}
+
+function hideTooltipOverlay() {
+  if (overlayTooltip) {
+    overlayTooltip.hidden = true;
+    overlayTooltip.classList.remove("is-pinned", "is-hover");
+  }
+  clearTooltipState();
+}
+
+async function saveCatalogEntry(item, payload) {
+  const definition = getItemDefinition(item);
+  if (!state.current || !definition) {
+    return;
+  }
+  const previousSnapshot = cloneCatalogSnapshot(definition.catalogEntry);
+  const nextSnapshot = {
+    humanReadableId: String(payload?.humanReadableId ?? "").trim(),
+    description: String(payload?.description ?? "").trim(),
+    surfaceType: normalizeCatalogSurfaceType(payload?.surfaceType),
+    roof: decodeCatalogBoolean(String(payload?.roof ?? "")),
+    semitransparency: decodeCatalogBoolean(String(payload?.semitransparency ?? "")),
+    oob: decodeCatalogBoolean(String(payload?.oob ?? ""))
+  };
+  if (catalogSnapshotsEqual(previousSnapshot, nextSnapshot)) {
+    setStatus(`No catalog changes to save for ${definition.shapeHex}.`);
+    return;
+  }
+
+  setStatus(`Saving ${definition.shapeHex} to the ${state.current.selected.game} catalog...`);
+  const result = await fetchJson(appUrl(getCatalogUpdatePath(state.current.selected.game, definition.shape)), {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(nextSnapshot)
+  });
+  definition.catalogEntry = {
+    ...definition.catalogEntry,
+    ...result.entry
+  };
+  rebuildScene();
+  syncTooltipState();
+  setStatus(`Saved catalog entry for ${definition.displayName || definition.shapeHex}.`);
+}
+
+function buildTooltipMetadataRows(item, definition, surfaceType) {
+  const dimensions = definition?.dimensions;
+  const dimensionText = dimensions
+    ? `${dimensions.x ?? "-"} × ${dimensions.y ?? "-"} × ${dimensions.z ?? "-"}`
+    : "-";
+  return `
+    <dt>Shape</dt><dd>${escapeHtml(definition?.shapeHex ?? item.shapeDefId)} frame ${escapeHtml(item.frame)}</dd>
+    <dt>Kind</dt><dd>${escapeHtml(item.kind)}</dd>
+    <dt>World</dt><dd>${escapeHtml(`${item.world.x}, ${item.world.y}, ${item.world.z}`)}</dd>
+    <dt>Dims</dt><dd>${escapeHtml(dimensionText)}</dd>
+    <dt>3D Surface</dt><dd>${escapeHtml(formatCatalogSurfaceTypeLabel(surfaceType))}</dd>
+    <dt>Sprite</dt><dd>${escapeHtml(item.spriteId)}</dd>
+    <dt>Flags</dt><dd>${escapeHtml(item.flags.hex)}</dd>
+  `;
+}
+
+function syncTooltipState() {
+  if (!state.current || !overlayTooltip) {
+    hideTooltipOverlay();
+    return;
+  }
+  const activeItemId = pinnedItemId || hoveredItemId;
+  if (!activeItemId) {
+    hideTooltipOverlay();
+    return;
+  }
+  const item = state.current.itemIndex.get(activeItemId) ?? null;
+  const definition = item ? getItemDefinition(item) : null;
+  if (!item || !definition) {
+    hideTooltipOverlay();
+    return;
+  }
+
+  const pinned = pinnedItemId === activeItemId;
+  const surfaceType = getCatalogSurfaceType(definition);
+  overlayTooltip.hidden = false;
+  overlayTooltip.classList.toggle("is-pinned", pinned);
+  overlayTooltip.classList.toggle("is-hover", !pinned);
+  setTooltipState({
+    visible: true,
+    pinned,
+    hover: !pinned,
+    hidden: false,
+    item,
+    itemLabel: item.label,
+    displayName: definition.displayName,
+    displayDescription: definition.description,
+    metadataRowsHtml: buildTooltipMetadataRows(item, definition, surfaceType),
+    notesHtml: "",
+    monsterSpawnerEditorHtml: "",
+    showCatalogEditor: pinned && canEditCatalog(),
+    showTeleportEggEditor: false,
+    showPinnedActions: false,
+    usecodeTarget: null,
+    warpCommand: "",
+    catalogEntry: definition.catalogEntry ?? null,
+    eyeIconSvg: "",
+    penIconSvg: "",
+    onToggleHidden: null,
+    onSaveCatalog: (payload) => saveCatalogEntry(item, payload),
+    onEditEgg: null,
+    onOpenUsecode: null,
+    onCopyStableId: null,
+    onCopyWarpCommand: null,
+    onSaveMonsterSpawner: null
+  });
+  scheduleTooltipPosition();
+}
+
+function setHoveredItem(nextItemId) {
+  if (pinnedItemId) {
+    return;
+  }
+  if (hoveredItemId === nextItemId) {
+    scheduleTooltipPosition();
+    return;
+  }
+  hoveredItemId = nextItemId;
+  syncTooltipState();
+}
+
+function togglePinnedItem(nextItemId) {
+  pinnedItemId = pinnedItemId === nextItemId ? null : nextItemId;
+  if (pinnedItemId) {
+    hoveredItemId = null;
+  }
+  syncTooltipState();
+}
+
+function pickItemAtClient(clientX, clientY) {
+  if (!renderer || !camera || interactiveObjects.length === 0) {
+    return null;
+  }
+  const rect = renderer.domElement.getBoundingClientRect();
+  if (clientX < rect.left || clientX > rect.right || clientY < rect.top || clientY > rect.bottom) {
+    return null;
+  }
+  pointerNdc.x = ((clientX - rect.left) / rect.width) * 2 - 1;
+  pointerNdc.y = -((clientY - rect.top) / rect.height) * 2 + 1;
+  raycaster.setFromCamera(pointerNdc, camera);
+  const hits = raycaster.intersectObjects(interactiveObjects, false);
+  return hits.find((hit) => hit.object?.userData?.itemId)?.object?.userData?.itemId ?? null;
+}
+
+function shouldRenderItem(item, definition) {
+  if (!item || !definition) {
+    return false;
+  }
+  if (state.current?.hiddenIds.has(item.id)) {
+    return false;
+  }
+  if (includeRoofsCheckbox?.checked === false && definition.traits?.roof) {
+    return false;
+  }
+  if (includeOobCheckbox?.checked === false && definition.traits?.oob) {
+    return false;
+  }
+  return true;
+}
+
+function getDepthBias(item) {
+  return (item.drawOrder % 29) * 0.003;
+}
+
+function addItemGeometry(item, definition, width, depth, height, minItemX, minItemY, minItemZ) {
+  const geometry = getBoxGeometry(width, height, depth);
+  const group = new THREE.Group();
+  const depthBias = getDepthBias(item);
+  const position = new THREE.Vector3(minItemX + width / 2, minItemY + height / 2 + depthBias, minItemZ + depth / 2);
+  const surfaceType = getCatalogSurfaceType(definition);
+  const itemOpacity = item.presentation?.opacity ?? 1;
+  const sprite = state.current?.spriteIndex.get(item.spriteId) ?? null;
+  const atlasImage = sprite ? state.current?.atlasImages.get(sprite.atlasId) ?? null : null;
+  const sideHeightPixels = height / WORLD_VERTICAL_SCALE;
+  let textured = false;
+
+  try {
+    if (surfaceType === "floor" && sprite && atlasImage) {
+      const floorTexture = buildFloorTexture(sprite, atlasImage, width, depth, sideHeightPixels, Boolean(item.flags?.flipped));
+      if (floorTexture) {
+        const mesh = new THREE.Mesh(geometry, [
+          getNeutralSurfaceMaterial(itemOpacity),
+          getNeutralSurfaceMaterial(itemOpacity),
+          createTexturedMaterial(floorTexture, itemOpacity),
+          getNeutralSurfaceMaterial(itemOpacity),
+          getNeutralSurfaceMaterial(itemOpacity),
+          getNeutralSurfaceMaterial(itemOpacity)
+        ]);
+        mesh.userData = { itemId: item.id };
+        mesh.renderOrder = item.drawOrder * 2;
+        group.add(mesh);
+        interactiveObjects.push(mesh);
+        textured = true;
+      }
+    }
+
+    if (!textured && surfaceType === "wall" && sprite && atlasImage) {
+      const wallTexture = buildWallTexture(sprite, atlasImage, Math.max(width, depth), height);
+      if (wallTexture) {
+        const wallMaterial = createTexturedMaterial(wallTexture, itemOpacity);
+        const mesh = new THREE.Mesh(geometry, [
+          wallMaterial,
+          wallMaterial,
+          getNeutralSurfaceMaterial(itemOpacity),
+          getNeutralSurfaceMaterial(itemOpacity),
+          wallMaterial,
+          wallMaterial
+        ]);
+        mesh.userData = { itemId: item.id };
+        mesh.renderOrder = item.drawOrder * 2;
+        group.add(mesh);
+        interactiveObjects.push(mesh);
+        textured = true;
+      }
+    }
+  } catch (error) {
+    const shapeLabel = definition?.shapeHex ?? item.shapeDefId;
+    console.error("3D surface generation failed", { itemId: item.id, shape: shapeLabel, surfaceType, error });
+    setStatus(`3D ${surfaceType || "surface"} generation failed for ${shapeLabel}; using wireframe fallback.`);
+  }
+
+  if (!textured) {
+    const collider = new THREE.Mesh(geometry, getHiddenPickMaterial());
+    collider.userData = { itemId: item.id };
+    collider.renderOrder = item.drawOrder * 2;
+    group.add(collider);
+    interactiveObjects.push(collider);
+  }
+
+  const edges = new THREE.LineSegments(getEdgesGeometry(width, height, depth), getMaterial(item.kind, itemOpacity));
+  edges.renderOrder = item.drawOrder * 2 + 1;
+  group.add(edges);
+  group.position.copy(position);
+  group.renderOrder = item.drawOrder * 2;
+  worldGroup.add(group);
+  itemRenderIndex.set(item.id, { item, definition, surfaceType, textured });
+  return textured;
+}
+
 function rebuildScene() {
   if (!scene || !worldGroup) {
     return;
@@ -194,17 +894,25 @@ function rebuildScene() {
   const selectionChanged = previousSelectionKey !== nextSelectionKey;
 
   clearWorldGroup();
+  disposeTextureCache();
   wireframeCount.value = 0;
+  texturedCount.value = 0;
 
   if (!state.current) {
     currentRenderKey = nextRenderKey;
+    pinnedItemId = null;
+    hoveredItemId = null;
+    hideTooltipOverlay();
     setStatus("Choose a PC map to inspect it in 3D.");
     return;
   }
 
   if (!isPcSceneSelected()) {
     currentRenderKey = nextRenderKey;
-    setStatus("The 3D wireframe viewer is only available for the DOS/PC scenes.");
+    pinnedItemId = null;
+    hoveredItemId = null;
+    hideTooltipOverlay();
+    setStatus("The 3D surface viewer is only available for the DOS/PC scenes.");
     return;
   }
 
@@ -215,27 +923,25 @@ function rebuildScene() {
   let minY = Number.POSITIVE_INFINITY;
   let maxY = Number.NEGATIVE_INFINITY;
   let visibleCount = 0;
+  let texturedVisibleCount = 0;
 
   for (const item of state.current.scene.items) {
-    if (state.current.hiddenIds.has(item.id)) {
-      continue;
-    }
-    const definition = state.current.shapeDefinitions.get(item.shapeDefId) ?? null;
+    const definition = getItemDefinition(item);
     const dimensions = definition?.dimensions;
-    if (!dimensions || !item?.world) {
+    if (!dimensions || !item?.world || !shouldRenderItem(item, definition)) {
       continue;
     }
 
     const flipped = Boolean(item.flags?.flipped);
     const width = Math.max(1, (flipped ? dimensions.y : dimensions.x) * 32);
     const depth = Math.max(1, (flipped ? dimensions.x : dimensions.y) * 32);
-    const height = Math.max(8, dimensions.z * 8);
-    const minItemX = item.world.x - width;
-    const maxItemX = item.world.x;
+    const height = Math.max(8, dimensions.z * 8 * WORLD_VERTICAL_SCALE);
+    const minItemX = -item.world.x;
+    const maxItemX = -(item.world.x - width);
     const minItemZ = -item.world.y;
     const maxItemZ = -(item.world.y - depth);
-    const minItemY = item.world.z;
-    const maxItemY = item.world.z + height;
+    const minItemY = item.world.z * WORLD_VERTICAL_SCALE;
+    const maxItemY = minItemY + height;
 
     minX = Math.min(minX, minItemX);
     maxX = Math.max(maxX, maxItemX);
@@ -244,23 +950,23 @@ function rebuildScene() {
     minY = Math.min(minY, minItemY);
     maxY = Math.max(maxY, maxItemY);
 
-    const edges = getEdgesGeometry(width, height, depth);
-    const lineSegments = new THREE.LineSegments(edges, getMaterial(item.kind));
-    lineSegments.position.set(
-      minItemX + width / 2,
-      minItemY + height / 2,
-      minItemZ + depth / 2
-    );
-    worldGroup.add(lineSegments);
+    if (addItemGeometry(item, definition, width, depth, height, minItemX, minItemY, minItemZ)) {
+      texturedVisibleCount += 1;
+    }
     visibleCount += 1;
   }
 
   currentRenderKey = nextRenderKey;
   wireframeCount.value = visibleCount;
+  texturedCount.value = texturedVisibleCount;
+  updateRendererQuality(visibleCount, texturedVisibleCount);
 
   if (!visibleCount) {
     sceneMetrics.largestSpan = 512;
     sceneMetrics.height = 128;
+    pinnedItemId = null;
+    hoveredItemId = null;
+    hideTooltipOverlay();
     setStatus("Current PC scene has no visible shapes with 3D bounds.");
     resetCamera(selectionChanged);
     return;
@@ -272,8 +978,6 @@ function rebuildScene() {
 
   sceneMetrics.largestSpan = Math.max(maxX - minX, maxWorldZ - minWorldZ, 512);
   sceneMetrics.height = Math.max(maxY - minY, 96);
-  sceneMetrics.centerX = centerX;
-  sceneMetrics.centerZ = centerZ;
 
   if (camera) {
     camera.near = 4;
@@ -284,8 +988,17 @@ function rebuildScene() {
   gridHelper = createGrid(sceneMetrics.largestSpan);
   scene.add(gridHelper);
 
+  if (pinnedItemId && !itemRenderIndex.has(pinnedItemId)) {
+    pinnedItemId = null;
+  }
+  if (hoveredItemId && !itemRenderIndex.has(hoveredItemId)) {
+    hoveredItemId = null;
+  }
+
   resetCamera(selectionChanged);
-  setStatus(`Viewing ${state.current.selected.game} map ${state.current.selected.mapId} as ${visibleCount} wireframe bounds.`);
+  syncTooltipState();
+  setStatus(`Viewing ${state.current.selected.game} map ${state.current.selected.mapId} with ${texturedVisibleCount} textured surfaces and ${visibleCount - texturedVisibleCount} wireframe-only shapes.`);
+  requestRender();
 }
 
 function resizeRenderer() {
@@ -298,6 +1011,8 @@ function resizeRenderer() {
   renderer.setViewport(0, 0, width, height);
   camera.aspect = width / height;
   camera.updateProjectionMatrix();
+  scheduleTooltipPosition();
+  requestRender();
 }
 
 function applyLookDelta(deltaX, deltaY) {
@@ -308,12 +1023,11 @@ function applyLookDelta(deltaX, deltaY) {
 
 function updateMovement(deltaSeconds) {
   if (!camera || pressedKeys.size === 0) {
-    return;
+    return false;
   }
   const forward = new THREE.Vector3();
   camera.getWorldDirection(forward);
   forward.normalize();
-
   const right = new THREE.Vector3().crossVectors(forward, camera.up).normalize();
   const velocity = new THREE.Vector3();
 
@@ -337,12 +1051,13 @@ function updateMovement(deltaSeconds) {
   }
 
   if (velocity.lengthSq() === 0) {
-    return;
+    return false;
   }
 
   const speed = Math.max(128, Math.min(3072, sceneMetrics.largestSpan * 0.45)) * (pressedKeys.has("ShiftLeft") ? 2 : 1);
   camera.position.addScaledVector(velocity.normalize(), speed * deltaSeconds);
   applyCameraLook();
+  return true;
 }
 
 function animate(timestamp) {
@@ -355,28 +1070,32 @@ function animate(timestamp) {
     rebuildScene();
   }
 
-  updateMovement(deltaSeconds);
-  renderer?.render(scene, camera);
+  const moved = updateMovement(deltaSeconds);
+  if (moved || needsRender) {
+    renderer?.render(scene, camera);
+    needsRender = false;
+  }
 }
 
-function handlePointerLockChange() {
-  pointerLocked.value = document.pointerLockElement === renderer?.domElement;
-}
+function handleCanvasPointerMove(event) {
+  lastPointer.x = event.clientX;
+  lastPointer.y = event.clientY;
+  lastPointer.active = true;
 
-function handlePointerMove(event) {
-  if (pointerLocked.value) {
-    applyLookDelta(event.movementX, event.movementY);
+  if (dragState.active && event.pointerId === dragState.pointerId) {
+    const deltaX = event.clientX - dragState.lastX;
+    const deltaY = event.clientY - dragState.lastY;
+    dragState.lastX = event.clientX;
+    dragState.lastY = event.clientY;
+    if (Math.abs(deltaX) > 2 || Math.abs(deltaY) > 2) {
+      dragState.moved = true;
+    }
+    dragLooking.value = true;
+    applyLookDelta(deltaX, deltaY);
     return;
   }
-  if (!dragState.active || event.pointerId !== dragState.pointerId) {
-    return;
-  }
-  const deltaX = event.clientX - dragState.lastX;
-  const deltaY = event.clientY - dragState.lastY;
-  dragState.lastX = event.clientX;
-  dragState.lastY = event.clientY;
-  dragLooking.value = true;
-  applyLookDelta(deltaX, deltaY);
+
+  setHoveredItem(pickItemAtClient(event.clientX, event.clientY));
 }
 
 function handleKeyDown(event) {
@@ -390,17 +1109,17 @@ function handleKeyUp(event) {
   pressedKeys.delete(event.code);
 }
 
-function handleWindowBlur() {
-  pressedKeys.clear();
-  dragState.active = false;
-  dragState.pointerId = null;
-  dragLooking.value = false;
-}
-
 function stopDragLook() {
   dragState.active = false;
   dragState.pointerId = null;
+  dragState.moved = false;
   dragLooking.value = false;
+}
+
+function handleWindowBlur() {
+  pressedKeys.clear();
+  stopDragLook();
+  lastPointer.active = false;
 }
 
 function handlePointerDown(event) {
@@ -412,11 +1131,13 @@ function handlePointerDown(event) {
   dragState.pointerId = event.pointerId;
   dragState.lastX = event.clientX;
   dragState.lastY = event.clientY;
+  dragState.moved = false;
   dragLooking.value = false;
 }
 
 function handlePointerUp(event) {
   if (event.pointerId === dragState.pointerId) {
+    suppressNextClick = dragState.moved;
     stopDragLook();
   }
 }
@@ -428,27 +1149,30 @@ function handlePointerCancel(event) {
 }
 
 function handlePointerLeave(event) {
-  if (!pointerLocked.value && event.pointerId === dragState.pointerId) {
+  if (event.pointerId === dragState.pointerId) {
     stopDragLook();
+  }
+  if (!pinnedItemId) {
+    hoveredItemId = null;
+    hideTooltipOverlay();
   }
 }
 
-function handlePointerLockError() {
-  pointerLocked.value = false;
-  setStatus("Pointer lock was denied by the browser. Drag with the left mouse button to look around instead.");
-}
-
-function requestPointerLock() {
-  if (!renderer?.domElement || document.pointerLockElement === renderer.domElement) {
+function handleCanvasClick(event) {
+  if (event.button !== 0 || suppressNextClick) {
+    suppressNextClick = false;
     return;
   }
   host.value?.focus();
-  const request = renderer.domElement.requestPointerLock?.();
-  if (request && typeof request.catch === "function") {
-    request.catch(() => {
-      handlePointerLockError();
-    });
-  }
+  setHoveredItem(pickItemAtClient(event.clientX, event.clientY));
+}
+
+function handleContextMenu(event) {
+  event.preventDefault();
+  lastPointer.x = event.clientX;
+  lastPointer.y = event.clientY;
+  lastPointer.active = true;
+  togglePinnedItem(pickItemAtClient(event.clientX, event.clientY));
 }
 
 function initializeRenderer() {
@@ -457,7 +1181,8 @@ function initializeRenderer() {
   }
 
   renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: "high-performance" });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+  currentPixelRatio = Math.min(window.devicePixelRatio || 1, 1.25);
+  renderer.setPixelRatio(currentPixelRatio);
   renderer.setClearColor(0x081018, 1);
   host.value.append(renderer.domElement);
 
@@ -469,14 +1194,13 @@ function initializeRenderer() {
   resizeObserver = new ResizeObserver(() => resizeRenderer());
   resizeObserver.observe(host.value);
 
-  renderer.domElement.addEventListener("click", requestPointerLock);
+  renderer.domElement.addEventListener("click", handleCanvasClick);
+  renderer.domElement.addEventListener("contextmenu", handleContextMenu);
+  renderer.domElement.addEventListener("pointermove", handleCanvasPointerMove);
   renderer.domElement.addEventListener("pointerdown", handlePointerDown);
   renderer.domElement.addEventListener("pointerup", handlePointerUp);
   renderer.domElement.addEventListener("pointercancel", handlePointerCancel);
   renderer.domElement.addEventListener("pointerleave", handlePointerLeave);
-  document.addEventListener("pointerlockchange", handlePointerLockChange);
-  document.addEventListener("pointerlockerror", handlePointerLockError);
-  document.addEventListener("pointermove", handlePointerMove);
   window.addEventListener("keydown", handleKeyDown);
   window.addEventListener("keyup", handleKeyUp);
   window.addEventListener("blur", handleWindowBlur);
@@ -489,18 +1213,13 @@ function initializeRenderer() {
 
 function disposeRenderer() {
   window.cancelAnimationFrame(animationFrame);
+  window.cancelAnimationFrame(tooltipLayoutFrame);
   animationFrame = 0;
+  tooltipLayoutFrame = 0;
   lastFrameTime = 0;
+  needsRender = true;
   pressedKeys.clear();
   stopDragLook();
-
-  if (document.pointerLockElement === renderer?.domElement) {
-    document.exitPointerLock?.();
-  }
-
-  document.removeEventListener("pointerlockchange", handlePointerLockChange);
-  document.removeEventListener("pointerlockerror", handlePointerLockError);
-  document.removeEventListener("pointermove", handlePointerMove);
   window.removeEventListener("keydown", handleKeyDown);
   window.removeEventListener("keyup", handleKeyUp);
   window.removeEventListener("blur", handleWindowBlur);
@@ -510,7 +1229,9 @@ function disposeRenderer() {
   resizeObserver = null;
 
   if (renderer?.domElement) {
-    renderer.domElement.removeEventListener("click", requestPointerLock);
+    renderer.domElement.removeEventListener("click", handleCanvasClick);
+    renderer.domElement.removeEventListener("contextmenu", handleContextMenu);
+    renderer.domElement.removeEventListener("pointermove", handleCanvasPointerMove);
     renderer.domElement.removeEventListener("pointerdown", handlePointerDown);
     renderer.domElement.removeEventListener("pointerup", handlePointerUp);
     renderer.domElement.removeEventListener("pointercancel", handlePointerCancel);
@@ -518,11 +1239,17 @@ function disposeRenderer() {
   }
 
   clearWorldGroup();
+  disposeTextureCache();
 
   for (const geometry of edgeGeometryCache.values()) {
     geometry.dispose();
   }
   edgeGeometryCache.clear();
+
+  for (const geometry of boxGeometryCache.values()) {
+    geometry.dispose();
+  }
+  boxGeometryCache.clear();
 
   for (const material of materialCache.values()) {
     material.dispose();
@@ -535,15 +1262,18 @@ function disposeRenderer() {
   camera = null;
   worldGroup = null;
   currentRenderKey = null;
-  pointerLocked.value = false;
+  suppressNextClick = false;
+  hoveredItemId = null;
+  pinnedItemId = null;
   dragLooking.value = false;
+  hideTooltipOverlay();
 }
 
 onMounted(() => {
   try {
     initializeRenderer();
   } catch (error) {
-    console.error("3D wireframe viewer initialization failed", error);
+    console.error("3D surface viewer initialization failed", error);
     setStatus("WebGL could not be initialized in this browser session.");
   }
 });

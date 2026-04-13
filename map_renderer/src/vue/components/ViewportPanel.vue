@@ -11,7 +11,6 @@
         <div id="viewport-hint" class="viewport-hint">Drag to pan. Scroll or pinch to zoom.</div>
         <canvas id="scene-canvas" class="scene-canvas"></canvas>
         <div id="inspect-highlight" class="inspect-highlight" hidden></div>
-        <TooltipOverlay />
         <div id="notification-toast" class="notification-toast" hidden></div>
         <div id="empty-state" class="empty-state">Choose a detected map to build and view it.</div>
       </div>
@@ -24,6 +23,7 @@
       <section v-show="activeTab==='usecode'" class="usecode-panel">
         <UsecodeViewer />
       </section>
+      <TooltipOverlay />
     </div>
   </main>
 </template>
@@ -137,6 +137,7 @@ onUnmounted(() => {
 .workspace-body {
   flex: 1;
   min-height: 0;
+  position: relative;
 }
 
 .viewport-tabs {

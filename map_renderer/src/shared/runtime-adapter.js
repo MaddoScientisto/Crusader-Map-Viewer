@@ -26,7 +26,7 @@ export function getEmptyStateMessage(siteConfig) {
 
 export function getCatalogEditingHint(siteConfig) {
   return canEditCatalogInRuntime(siteConfig)
-    ? "Admin mode is active. Pin a shape to edit its catalog name, description, roof, transparency, and black out-of-bounds surface values."
+    ? "Admin mode is active. Pin a shape to edit its catalog name, description, roof, transparency, black out-of-bounds surface value, and 3D surface type."
     : "";
 }
 
