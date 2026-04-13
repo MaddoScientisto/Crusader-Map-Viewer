@@ -344,6 +344,130 @@ function interpolatePoint(topLeft, topRight, bottomLeft, bottomRight, u, v) {
   };
 }
 
+function computeQuadBounds(points) {
+  return points.reduce((bounds, point) => ({
+    left: Math.min(bounds.left, point.x),
+    top: Math.min(bounds.top, point.y),
+    right: Math.max(bounds.right, point.x),
+    bottom: Math.max(bounds.bottom, point.y)
+  }), {
+    left: Number.POSITIVE_INFINITY,
+    top: Number.POSITIVE_INFINITY,
+    right: Number.NEGATIVE_INFINITY,
+    bottom: Number.NEGATIVE_INFINITY
+  });
+}
+
+function detectVisibleWallSide(source, anchorY, sideHeight) {
+  const verticalStart = clamp(Math.round(anchorY - sideHeight), source.bounds.top, source.bounds.bottom);
+  const edgeTolerance = Math.max(1, Math.round((source.bounds.right - source.bounds.left + 1) * 0.04));
+  let leftEdgeHits = 0;
+  let rightEdgeHits = 0;
+  let measuredRows = 0;
+
+  for (let y = verticalStart; y <= source.bounds.bottom; y += 1) {
+    const row = source.alphaRows[y];
+    if (!row || row.left === -1 || row.right === -1) {
+      continue;
+    }
+    measuredRows += 1;
+    if (row.left <= source.bounds.left + edgeTolerance) {
+      leftEdgeHits += 1;
+    }
+    if (row.right >= source.bounds.right - edgeTolerance) {
+      rightEdgeHits += 1;
+    }
+  }
+
+  if (measuredRows === 0) {
+    return "right";
+  }
+
+  return leftEdgeHits > rightEdgeHits ? "left" : "right";
+}
+
+function sampleSourceAlpha(source, x, y, flipped = false) {
+  const clampedX = clamp(Math.round(sampleSpriteX(source, x, flipped)), 0, source.width - 1);
+  const clampedY = clamp(Math.round(y), 0, source.height - 1);
+  return source.imageData.data[(clampedY * source.width + clampedX) * 4 + 3] ?? 0;
+}
+
+function getEffectiveSpriteAnchorX(sprite, flipped = false) {
+  if (!sprite) {
+    return 0;
+  }
+  return flipped ? (sprite.width - 1 - sprite.xoff) : sprite.xoff;
+}
+
+function scoreQuadCoverage(source, quad, flipped = false, samplesU = 18, samplesV = 28) {
+  let alphaTotal = 0;
+  let hitCount = 0;
+  const totalSamples = Math.max(1, samplesU * samplesV);
+
+  for (let y = 0; y < samplesV; y += 1) {
+    const v = samplesV <= 1 ? 0.5 : y / (samplesV - 1);
+    for (let x = 0; x < samplesU; x += 1) {
+      const u = samplesU <= 1 ? 0.5 : x / (samplesU - 1);
+      const point = interpolatePoint(quad[0], quad[1], quad[2], quad[3], u, v);
+      const alpha = sampleSourceAlpha(source, point.x, point.y, flipped);
+      alphaTotal += alpha;
+      if (alpha >= 16) {
+        hitCount += 1;
+      }
+    }
+  }
+
+  return {
+    averageAlpha: alphaTotal / totalSamples,
+    hitRatio: hitCount / totalSamples,
+    score: (alphaTotal / totalSamples) + (hitCount / totalSamples) * 255
+  };
+}
+
+function buildQuadTexture(source, cacheKey, quad, aspect, flipped = false) {
+  if (textureCache.has(cacheKey)) {
+    return textureCache.get(cacheKey);
+  }
+
+  const bounds = computeQuadBounds(quad);
+  const sourceWidth = Math.max(1, bounds.right - bounds.left);
+  const sourceHeight = Math.max(1, bounds.bottom - bounds.top);
+  const { width, height } = computeTextureSize(sourceWidth, sourceHeight, aspect);
+  const canvasElement = document.createElement("canvas");
+  canvasElement.width = width;
+  canvasElement.height = height;
+  const context = canvasElement.getContext("2d");
+  if (!context) {
+    return null;
+  }
+  const imageData = context.createImageData(width, height);
+
+  for (let y = 0; y < height; y += 1) {
+    const v = height <= 1 ? 0 : y / (height - 1);
+    for (let x = 0; x < width; x += 1) {
+      const u = width <= 1 ? 0 : x / (width - 1);
+      const point = interpolatePoint(quad[0], quad[1], quad[2], quad[3], u, v);
+      copyNearestSample(
+        imageData.data,
+        (y * width + x) * 4,
+        source,
+        sampleSpriteX(source, point.x, flipped),
+        point.y
+      );
+    }
+  }
+
+  context.putImageData(imageData, 0, 0);
+  const texture = new THREE.CanvasTexture(canvasElement);
+  texture.colorSpace = THREE.SRGBColorSpace;
+  texture.magFilter = THREE.NearestFilter;
+  texture.minFilter = THREE.NearestFilter;
+  texture.generateMipmaps = false;
+  texture.needsUpdate = true;
+  textureCache.set(cacheKey, texture);
+  return texture;
+}
+
 function buildSmoothedColumnProfiles(source) {
   const width = Math.max(1, source.bounds.right - source.bounds.left + 1);
   const topProfile = new Array(width).fill(-1);
@@ -472,59 +596,96 @@ function buildFloorTexture(sprite, atlasImage, worldWidth, worldDepth, sideHeigh
   return texture;
 }
 
-function buildWallTexture(sprite, atlasImage, wallSpan, wallHeight) {
+function buildWallTextures(sprite, atlasImage, wallWidth, wallDepth, wallHeight, flipped = false) {
   const source = getSpriteSource(sprite, atlasImage);
   if (!source) {
     return null;
   }
-  const cacheKey = `wall:${sprite.id}:${wallSpan}:${wallHeight}`;
-  if (textureCache.has(cacheKey)) {
-    return textureCache.get(cacheKey);
-  }
+  const projectedTopHeight = (wallWidth + wallDepth) / 8;
+  const sideHeight = clamp(sprite.yoff - projectedTopHeight, 0, sprite.height);
+  const anchorX = sprite.xoff;
+  const anchorY = sprite.yoff;
 
-  const visibleWidth = Math.max(1, source.bounds.right - source.bounds.left + 1);
-  const columnProfiles = buildSmoothedColumnProfiles(source);
-  const minTop = Math.min(...columnProfiles.top);
-  const maxColumnHeight = columnProfiles.top.reduce((maxHeight, topValue, index) => {
-    const bottomValue = columnProfiles.bottom[index];
-    return Math.max(maxHeight, bottomValue - topValue + 1);
-  }, 1);
-  const wallAspect = wallSpan / Math.max(wallHeight, 1);
-  const width = clamp(Math.round(visibleWidth * Math.max(1, wallAspect)), 32, 1024);
-  const wallHeightScale = Math.max(1, wallHeight / Math.max(wallSpan, 1));
-  const height = clamp(Math.round(maxColumnHeight * Math.max(1.5, wallHeightScale * 3)), 24, 768);
-  const canvasElement = document.createElement("canvas");
-  canvasElement.width = width;
-  canvasElement.height = height;
-  const context = canvasElement.getContext("2d");
-  if (!context) {
-    return null;
-  }
-  const imageData = context.createImageData(width, height);
+  const topLeft = {
+    x: anchorX + (wallDepth - wallWidth) / 4,
+    y: anchorY - sideHeight - projectedTopHeight
+  };
+  const topRight = {
+    x: anchorX + wallDepth / 4,
+    y: anchorY - sideHeight - wallDepth / 8
+  };
+  const bottomLeft = {
+    x: anchorX - wallWidth / 4,
+    y: anchorY - sideHeight - wallWidth / 8
+  };
+  const bottomRight = {
+    x: anchorX,
+    y: anchorY - sideHeight
+  };
+  const groundTopRight = {
+    x: topRight.x,
+    y: topRight.y + sideHeight
+  };
+  const groundTopLeft = {
+    x: topLeft.x,
+    y: topLeft.y + sideHeight
+  };
+  const groundBottomLeft = {
+    x: bottomLeft.x,
+    y: bottomLeft.y + sideHeight
+  };
+  const groundBottomRight = {
+    x: bottomRight.x,
+    y: bottomRight.y + sideHeight
+  };
+  const upperFrontQuad = [topLeft, topRight, groundTopLeft, groundTopRight];
+  const lowerFrontQuad = [bottomLeft, bottomRight, groundBottomLeft, groundBottomRight];
+  const rightSideQuad = [topRight, bottomRight, groundTopRight, groundBottomRight];
+  const leftSideQuad = [topLeft, bottomLeft, groundTopLeft, groundBottomLeft];
+  const upperFrontScore = scoreQuadCoverage(source, upperFrontQuad, flipped);
+  const lowerFrontScore = scoreQuadCoverage(source, lowerFrontQuad, flipped);
+  const leftSideScore = scoreQuadCoverage(source, leftSideQuad, flipped, 10, 28);
+  const rightSideScore = scoreQuadCoverage(source, rightSideQuad, flipped, 10, 28);
+  const anchorMidpoint = (sprite.width - 1) / 2;
+  const effectiveAnchorX = getEffectiveSpriteAnchorX(sprite, flipped);
+  const anchorBias = (effectiveAnchorX - anchorMidpoint) / Math.max(sprite.width, 1);
+  const layoutBias = anchorBias * 40;
+  const pairedLeftScore = upperFrontScore.score + leftSideScore.score + layoutBias;
+  const pairedRightScore = lowerFrontScore.score + rightSideScore.score - layoutBias;
+  const fallbackSide = detectVisibleWallSide(source, anchorY, sideHeight) === "left";
+  const useLeftLayout = Math.abs(pairedLeftScore - pairedRightScore) < 8
+    ? fallbackSide
+    : pairedLeftScore > pairedRightScore;
+  const useUpperFront = useLeftLayout;
+  const useLeftSide = useLeftLayout;
+  const selectedSideQuad = useLeftSide ? leftSideQuad : rightSideQuad;
+  const selectedFrontQuad = useUpperFront ? upperFrontQuad : lowerFrontQuad;
 
-  for (let y = 0; y < height; y += 1) {
-    const v = height <= 1 ? 0 : y / (height - 1);
-    for (let x = 0; x < width; x += 1) {
-      const u = width <= 1 ? 0 : x / (width - 1);
-      const columnIndex = clamp(Math.round(u * (visibleWidth - 1)), 0, visibleWidth - 1);
-      const sourceX = source.bounds.left + columnIndex;
-      const columnTop = columnProfiles.top[columnIndex] ?? minTop;
-      const columnBottom = columnProfiles.bottom[columnIndex] ?? source.bounds.bottom;
-      const columnHeight = Math.max(1, columnBottom - columnTop + 1);
-      const sourceY = columnTop + v * (columnHeight - 1);
-      copyNearestSample(imageData.data, (y * width + x) * 4, source, sourceX, sourceY);
-    }
-  }
-
-  context.putImageData(imageData, 0, 0);
-  const texture = new THREE.CanvasTexture(canvasElement);
-  texture.colorSpace = THREE.SRGBColorSpace;
-  texture.magFilter = THREE.NearestFilter;
-  texture.minFilter = THREE.NearestFilter;
-  texture.generateMipmaps = false;
-  texture.needsUpdate = true;
-  textureCache.set(cacheKey, texture);
-  return texture;
+  return {
+    top: buildQuadTexture(
+      source,
+      `wall-top:${sprite.id}:${wallWidth}:${wallDepth}:${wallHeight}:${flipped ? 1 : 0}`,
+      [topLeft, topRight, bottomLeft, bottomRight],
+      wallWidth / Math.max(wallDepth, 1),
+      flipped
+    ),
+    front: buildQuadTexture(
+      source,
+      `wall-front:${sprite.id}:${wallWidth}:${wallDepth}:${wallHeight}:${flipped ? 1 : 0}:${useUpperFront ? "u" : "l"}`,
+      selectedFrontQuad,
+      wallWidth / Math.max(wallHeight, 1),
+      flipped
+    ),
+    side: buildQuadTexture(
+      source,
+      `wall-side:${sprite.id}:${wallWidth}:${wallDepth}:${wallHeight}:${flipped ? 1 : 0}:${useLeftSide ? "l" : "r"}`,
+      selectedSideQuad,
+      wallDepth / Math.max(wallHeight, 1),
+      flipped
+    ),
+    frontOnUpperEdge: useUpperFront,
+    sideOnLeft: useLeftSide
+  };
 }
 
 function clearWorldGroup() {
@@ -841,16 +1002,24 @@ function addItemGeometry(item, definition, width, depth, height, minItemX, minIt
     }
 
     if (!textured && surfaceType === "wall" && sprite && atlasImage) {
-      const wallTexture = buildWallTexture(sprite, atlasImage, Math.max(width, depth), height);
-      if (wallTexture) {
-        const wallMaterial = createTexturedMaterial(wallTexture, itemOpacity);
+      const wallTextures = buildWallTextures(sprite, atlasImage, width, depth, height, Boolean(item.flags?.flipped));
+      if (wallTextures?.front || wallTextures?.side || wallTextures?.top) {
+        const frontMaterial = wallTextures.front
+          ? createTexturedMaterial(wallTextures.front, itemOpacity)
+          : getNeutralSurfaceMaterial(itemOpacity);
+        const sideMaterial = wallTextures.side
+          ? createTexturedMaterial(wallTextures.side, itemOpacity)
+          : getNeutralSurfaceMaterial(itemOpacity);
+        const topMaterial = wallTextures.top
+          ? createTexturedMaterial(wallTextures.top, itemOpacity)
+          : getNeutralSurfaceMaterial(itemOpacity);
         const mesh = new THREE.Mesh(geometry, [
-          wallMaterial,
-          wallMaterial,
+          sideMaterial,
+          sideMaterial,
+          topMaterial,
           getNeutralSurfaceMaterial(itemOpacity),
-          getNeutralSurfaceMaterial(itemOpacity),
-          wallMaterial,
-          wallMaterial
+          frontMaterial,
+          frontMaterial
         ]);
         mesh.userData = { itemId: item.id };
         mesh.renderOrder = item.drawOrder * 2;
