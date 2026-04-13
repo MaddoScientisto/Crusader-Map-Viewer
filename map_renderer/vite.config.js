@@ -11,7 +11,23 @@ export default defineConfig({
   root: path.join(__dirname, "src", "vue"),
   build: {
     outDir: path.join(__dirname, "dist-vue"),
-    emptyOutDir: true
+    emptyOutDir: true,
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes("node_modules/three")) {
+            return "three-vendor";
+          }
+          if (id.includes("WireframeViewport3D.vue")) {
+            return "viewport-3d";
+          }
+          if (id.includes("node_modules")) {
+            return "vendor";
+          }
+          return undefined;
+        }
+      }
+    }
   },
   server: {
     fs: {

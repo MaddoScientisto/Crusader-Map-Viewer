@@ -5,7 +5,7 @@
       <div class="wireframe-badge">3D Surface View</div>
       <div class="wireframe-status">{{ statusText }}</div>
       <div class="wireframe-help">{{ helpText }}</div>
-      <div v-if="wireframeCount > 0" class="wireframe-count">{{ wireframeCount }} shapes</div>
+      <div v-if="wireframeCount > 0" class="wireframe-count">{{ wireframeCount }} wireframe</div>
       <div v-if="texturedCount > 0" class="wireframe-count">{{ texturedCount }} textured</div>
     </div>
   </section>
@@ -16,7 +16,7 @@ import { computed, onBeforeUnmount, onMounted, ref } from "vue";
 import * as THREE from "three";
 
 import { state } from "../controller/state.js";
-import { includeOobCheckbox, includeRoofsCheckbox, overlayTooltip } from "../controller/dom-elements.js";
+import { includeOobCheckbox, includeRoofsCheckbox, overlayTooltip, showBoundingBoxesCheckbox } from "../controller/dom-elements.js";
 import { clearTooltipState, setTooltipState } from "../../shared/tooltip-bridge.js";
 import { getCatalogUpdatePath } from "../../shared/runtime-adapter.js";
 import { formatCatalogSurfaceTypeLabel, normalizeCatalogSurfaceType } from "../../shared/catalog-surface-types.js";
@@ -41,6 +41,7 @@ let scene = null;
 let camera = null;
 let worldGroup = null;
 let gridHelper = null;
+let selectionHighlightMesh = null;
 let resizeObserver = null;
 let animationFrame = 0;
 let lastFrameTime = 0;
@@ -85,6 +86,9 @@ const interactiveObjects = [];
 const itemRenderIndex = new Map();
 const raycaster = new THREE.Raycaster();
 const pointerNdc = new THREE.Vector2();
+const instanceMatrix = new THREE.Matrix4();
+const identityQuaternion = new THREE.Quaternion();
+const unitScale = new THREE.Vector3(1, 1, 1);
 
 let hoveredItemId = null;
 let pinnedItemId = null;
@@ -129,7 +133,8 @@ function getSceneRenderKey() {
     current.dataRevision ?? 0,
     current.visibilityRevision ?? 0,
     includeRoofsCheckbox?.checked !== false,
-    includeOobCheckbox?.checked !== false
+    includeOobCheckbox?.checked !== false,
+    showBoundingBoxesCheckbox?.checked === true
   ].join(":");
 }
 
@@ -204,6 +209,42 @@ function getMaterial(kind, opacity = 1) {
   return material;
 }
 
+function getWireframeMaterial(kind, opacity = 1) {
+  const normalizedOpacity = clamp(opacity, 0.1, 1);
+  const cacheKey = `wireframe:${kind || "base"}:${normalizedOpacity.toFixed(2)}`;
+  const cached = materialCache.get(cacheKey);
+  if (cached) {
+    return cached;
+  }
+  const material = new THREE.MeshBasicMaterial({
+    color: KIND_COLORS[kind || "base"] ?? KIND_COLORS.base,
+    wireframe: true,
+    transparent: true,
+    opacity: (kind === "helper" ? 0.5 : 0.78) * normalizedOpacity,
+    depthWrite: false
+  });
+  materialCache.set(cacheKey, material);
+  return material;
+}
+
+function getSelectionHighlightMaterial(pinned = false) {
+  const cacheKey = pinned ? "selection-highlight:pinned" : "selection-highlight:hover";
+  const cached = materialCache.get(cacheKey);
+  if (cached) {
+    return cached;
+  }
+  const material = new THREE.MeshBasicMaterial({
+    color: pinned ? 0xfff1a8 : 0xffffff,
+    wireframe: true,
+    transparent: true,
+    opacity: pinned ? 0.9 : 0.72,
+    depthTest: false,
+    depthWrite: false
+  });
+  materialCache.set(cacheKey, material);
+  return material;
+}
+
 function getHiddenPickMaterial() {
   const cacheKey = "pick-hidden";
   const cached = materialCache.get(cacheKey);
@@ -240,14 +281,15 @@ function trackDynamicMaterial(material) {
   return material;
 }
 
-function createTexturedMaterial(texture, opacity = 1) {
+function createTexturedMaterial(texture, opacity = 1, transparentSurface = false) {
   const normalizedOpacity = clamp(opacity, 0.1, 1);
+  const usesTransparency = transparentSurface || normalizedOpacity < 0.999;
   return trackDynamicMaterial(new THREE.MeshBasicMaterial({
     map: texture,
-    alphaTest: 0.08,
-    transparent: normalizedOpacity < 0.999,
+    alphaTest: usesTransparency ? 0.01 : 0.08,
+    transparent: usesTransparency,
     opacity: normalizedOpacity,
-    depthWrite: normalizedOpacity >= 0.999,
+    depthWrite: !usesTransparency,
     polygonOffset: true,
     polygonOffsetFactor: 1,
     polygonOffsetUnits: 1,
@@ -280,12 +322,16 @@ function getSpriteSource(sprite, atlasImage) {
   let bottom = -1;
   let left = sprite.width;
   let right = -1;
+  let hasPartialAlpha = false;
 
   for (let y = 0; y < sprite.height; y += 1) {
     for (let x = 0; x < sprite.width; x += 1) {
       const alpha = imageData.data[(y * sprite.width + x) * 4 + 3];
       if (alpha < 16) {
         continue;
+      }
+      if (alpha < 250) {
+        hasPartialAlpha = true;
       }
       if (top === -1) {
         top = y;
@@ -303,6 +349,7 @@ function getSpriteSource(sprite, atlasImage) {
   const source = {
     imageData,
     alphaRows,
+    hasPartialAlpha,
     width: sprite.width,
     height: sprite.height,
     bounds: top === -1
@@ -694,6 +741,7 @@ function clearWorldGroup() {
   }
   interactiveObjects.length = 0;
   itemRenderIndex.clear();
+  selectionHighlightMesh = null;
   while (worldGroup.children.length > 0) {
     worldGroup.remove(worldGroup.children[0]);
   }
@@ -920,10 +968,12 @@ function setHoveredItem(nextItemId) {
   }
   if (hoveredItemId === nextItemId) {
     scheduleTooltipPosition();
+    syncSelectionHighlight();
     return;
   }
   hoveredItemId = nextItemId;
   syncTooltipState();
+  syncSelectionHighlight();
 }
 
 function togglePinnedItem(nextItemId) {
@@ -932,6 +982,7 @@ function togglePinnedItem(nextItemId) {
     hoveredItemId = null;
   }
   syncTooltipState();
+  syncSelectionHighlight();
 }
 
 function pickItemAtClient(clientX, clientY) {
@@ -946,7 +997,20 @@ function pickItemAtClient(clientX, clientY) {
   pointerNdc.y = -((clientY - rect.top) / rect.height) * 2 + 1;
   raycaster.setFromCamera(pointerNdc, camera);
   const hits = raycaster.intersectObjects(interactiveObjects, false);
-  return hits.find((hit) => hit.object?.userData?.itemId)?.object?.userData?.itemId ?? null;
+  const hit = hits.find((entry) => (
+    entry.object?.userData?.itemId
+    || Number.isInteger(entry.instanceId)
+  ));
+  if (!hit) {
+    return null;
+  }
+  if (hit.object?.userData?.itemId) {
+    return hit.object.userData.itemId;
+  }
+  const instanceItemIds = hit.object?.userData?.instanceItemIds;
+  return Array.isArray(instanceItemIds) && Number.isInteger(hit.instanceId)
+    ? instanceItemIds[hit.instanceId] ?? null
+    : null;
 }
 
 function shouldRenderItem(item, definition) {
@@ -969,15 +1033,100 @@ function getDepthBias(item) {
   return (item.drawOrder % 29) * 0.003;
 }
 
-function addItemGeometry(item, definition, width, depth, height, minItemX, minItemY, minItemZ) {
+function isWireframeEnabled() {
+  return showBoundingBoxesCheckbox?.checked === true;
+}
+
+function shouldKeepFallbackWireframe(surfaceType, rendered) {
+  return !surfaceType && !rendered;
+}
+
+function shouldUseSurfaceTransparency(definition, sprite, atlasImage, itemOpacity) {
+  if (itemOpacity < 0.999) {
+    return true;
+  }
+  if (definition?.traits?.translucent || definition?.catalogEntry?.semitransparency === true) {
+    return true;
+  }
+  const source = getSpriteSource(sprite, atlasImage);
+  return Boolean(source?.hasPartialAlpha);
+}
+
+function syncSelectionHighlight() {
+  if (!worldGroup) {
+    return;
+  }
+  if (selectionHighlightMesh) {
+    worldGroup.remove(selectionHighlightMesh);
+    selectionHighlightMesh = null;
+  }
+  const activeItemId = pinnedItemId || hoveredItemId;
+  if (!activeItemId) {
+    requestRender();
+    return;
+  }
+  const renderedItem = itemRenderIndex.get(activeItemId);
+  if (!renderedItem) {
+    requestRender();
+    return;
+  }
+  const scale = 1.02;
+  const geometry = getBoxGeometry(renderedItem.width * scale, renderedItem.height * scale, renderedItem.depth * scale);
+  selectionHighlightMesh = new THREE.Mesh(
+    geometry,
+    getSelectionHighlightMaterial(Boolean(pinnedItemId && pinnedItemId === activeItemId))
+  );
+  selectionHighlightMesh.position.copy(renderedItem.position);
+  selectionHighlightMesh.renderOrder = renderedItem.item.drawOrder * 2 + 3;
+  worldGroup.add(selectionHighlightMesh);
+  requestRender();
+}
+
+function queueWireframeInstance(batches, item, definition, width, height, depth, position, itemOpacity) {
+  const cacheKey = `${width}:${height}:${depth}:${definition?.kind || item.kind}:${clamp(itemOpacity, 0.1, 1).toFixed(2)}`;
+  let batch = batches.get(cacheKey);
+  if (!batch) {
+    batch = {
+      geometry: getBoxGeometry(width, height, depth),
+      material: getWireframeMaterial(definition?.kind || item.kind, itemOpacity),
+      itemIds: [],
+      positions: []
+    };
+    batches.set(cacheKey, batch);
+  }
+  batch.itemIds.push(item.id);
+  batch.positions.push({ x: position.x, y: position.y, z: position.z });
+}
+
+function flushWireframeBatches(batches) {
+  for (const batch of batches.values()) {
+    const mesh = new THREE.InstancedMesh(batch.geometry, batch.material, batch.itemIds.length);
+    mesh.instanceMatrix.setUsage(THREE.StaticDrawUsage);
+    mesh.renderOrder = 1;
+    mesh.userData = { instanceItemIds: batch.itemIds };
+    for (let index = 0; index < batch.positions.length; index += 1) {
+      const position = batch.positions[index];
+      instanceMatrix.compose(new THREE.Vector3(position.x, position.y, position.z), identityQuaternion, unitScale);
+      mesh.setMatrixAt(index, instanceMatrix);
+    }
+    mesh.instanceMatrix.needsUpdate = true;
+    mesh.computeBoundingSphere();
+    worldGroup.add(mesh);
+    interactiveObjects.push(mesh);
+  }
+}
+
+function addItemGeometry(item, definition, width, depth, height, minItemX, minItemY, minItemZ, wireframeBatches) {
   const geometry = getBoxGeometry(width, height, depth);
-  const group = new THREE.Group();
   const depthBias = getDepthBias(item);
   const position = new THREE.Vector3(minItemX + width / 2, minItemY + height / 2 + depthBias, minItemZ + depth / 2);
   const surfaceType = getCatalogSurfaceType(definition);
   const itemOpacity = item.presentation?.opacity ?? 1;
   const sprite = state.current?.spriteIndex.get(item.spriteId) ?? null;
   const atlasImage = sprite ? state.current?.atlasImages.get(sprite.atlasId) ?? null : null;
+  const transparentSurface = sprite && atlasImage
+    ? shouldUseSurfaceTransparency(definition, sprite, atlasImage, itemOpacity)
+    : itemOpacity < 0.999;
   const sideHeightPixels = height / WORLD_VERTICAL_SCALE;
   let textured = false;
 
@@ -988,14 +1137,15 @@ function addItemGeometry(item, definition, width, depth, height, minItemX, minIt
         const mesh = new THREE.Mesh(geometry, [
           getNeutralSurfaceMaterial(itemOpacity),
           getNeutralSurfaceMaterial(itemOpacity),
-          createTexturedMaterial(floorTexture, itemOpacity),
+          createTexturedMaterial(floorTexture, itemOpacity, transparentSurface),
           getNeutralSurfaceMaterial(itemOpacity),
           getNeutralSurfaceMaterial(itemOpacity),
           getNeutralSurfaceMaterial(itemOpacity)
         ]);
         mesh.userData = { itemId: item.id };
         mesh.renderOrder = item.drawOrder * 2;
-        group.add(mesh);
+        mesh.position.copy(position);
+        worldGroup.add(mesh);
         interactiveObjects.push(mesh);
         textured = true;
       }
@@ -1005,13 +1155,13 @@ function addItemGeometry(item, definition, width, depth, height, minItemX, minIt
       const wallTextures = buildWallTextures(sprite, atlasImage, width, depth, height, Boolean(item.flags?.flipped));
       if (wallTextures?.front || wallTextures?.side || wallTextures?.top) {
         const frontMaterial = wallTextures.front
-          ? createTexturedMaterial(wallTextures.front, itemOpacity)
+          ? createTexturedMaterial(wallTextures.front, itemOpacity, transparentSurface)
           : getNeutralSurfaceMaterial(itemOpacity);
         const sideMaterial = wallTextures.side
-          ? createTexturedMaterial(wallTextures.side, itemOpacity)
+          ? createTexturedMaterial(wallTextures.side, itemOpacity, transparentSurface)
           : getNeutralSurfaceMaterial(itemOpacity);
         const topMaterial = wallTextures.top
-          ? createTexturedMaterial(wallTextures.top, itemOpacity)
+          ? createTexturedMaterial(wallTextures.top, itemOpacity, transparentSurface)
           : getNeutralSurfaceMaterial(itemOpacity);
         const mesh = new THREE.Mesh(geometry, [
           sideMaterial,
@@ -1023,7 +1173,8 @@ function addItemGeometry(item, definition, width, depth, height, minItemX, minIt
         ]);
         mesh.userData = { itemId: item.id };
         mesh.renderOrder = item.drawOrder * 2;
-        group.add(mesh);
+        mesh.position.copy(position);
+        worldGroup.add(mesh);
         interactiveObjects.push(mesh);
         textured = true;
       }
@@ -1034,22 +1185,23 @@ function addItemGeometry(item, definition, width, depth, height, minItemX, minIt
     setStatus(`3D ${surfaceType || "surface"} generation failed for ${shapeLabel}; using wireframe fallback.`);
   }
 
-  if (!textured) {
-    const collider = new THREE.Mesh(geometry, getHiddenPickMaterial());
-    collider.userData = { itemId: item.id };
-    collider.renderOrder = item.drawOrder * 2;
-    group.add(collider);
-    interactiveObjects.push(collider);
+  const wireframeVisible = isWireframeEnabled() || shouldKeepFallbackWireframe(surfaceType, textured);
+  if (wireframeVisible) {
+    queueWireframeInstance(wireframeBatches, item, definition, width, height, depth, position, itemOpacity);
   }
 
-  const edges = new THREE.LineSegments(getEdgesGeometry(width, height, depth), getMaterial(item.kind, itemOpacity));
-  edges.renderOrder = item.drawOrder * 2 + 1;
-  group.add(edges);
-  group.position.copy(position);
-  group.renderOrder = item.drawOrder * 2;
-  worldGroup.add(group);
-  itemRenderIndex.set(item.id, { item, definition, surfaceType, textured });
-  return textured;
+  itemRenderIndex.set(item.id, {
+    item,
+    definition,
+    surfaceType,
+    textured,
+    wireframeVisible,
+    width,
+    height,
+    depth,
+    position: position.clone()
+  });
+  return { textured, wireframeVisible };
 }
 
 function rebuildScene() {
@@ -1093,6 +1245,8 @@ function rebuildScene() {
   let maxY = Number.NEGATIVE_INFINITY;
   let visibleCount = 0;
   let texturedVisibleCount = 0;
+  let wireframeVisibleCount = 0;
+  const wireframeBatches = new Map();
 
   for (const item of state.current.scene.items) {
     const definition = getItemDefinition(item);
@@ -1119,16 +1273,22 @@ function rebuildScene() {
     minY = Math.min(minY, minItemY);
     maxY = Math.max(maxY, maxItemY);
 
-    if (addItemGeometry(item, definition, width, depth, height, minItemX, minItemY, minItemZ)) {
+    const geometryResult = addItemGeometry(item, definition, width, depth, height, minItemX, minItemY, minItemZ, wireframeBatches);
+    if (geometryResult.textured) {
       texturedVisibleCount += 1;
+    }
+    if (geometryResult.wireframeVisible) {
+      wireframeVisibleCount += 1;
     }
     visibleCount += 1;
   }
 
+  flushWireframeBatches(wireframeBatches);
+
   currentRenderKey = nextRenderKey;
-  wireframeCount.value = visibleCount;
+  wireframeCount.value = wireframeVisibleCount;
   texturedCount.value = texturedVisibleCount;
-  updateRendererQuality(visibleCount, texturedVisibleCount);
+  updateRendererQuality(wireframeVisibleCount, texturedVisibleCount);
 
   if (!visibleCount) {
     sceneMetrics.largestSpan = 512;
@@ -1166,7 +1326,8 @@ function rebuildScene() {
 
   resetCamera(selectionChanged);
   syncTooltipState();
-  setStatus(`Viewing ${state.current.selected.game} map ${state.current.selected.mapId} with ${texturedVisibleCount} textured surfaces and ${visibleCount - texturedVisibleCount} wireframe-only shapes.`);
+  syncSelectionHighlight();
+  setStatus(`Viewing ${state.current.selected.game} map ${state.current.selected.mapId} with ${texturedVisibleCount} textured surfaces and ${wireframeVisibleCount} wireframe-visible shapes.`);
   requestRender();
 }
 

@@ -29,16 +29,16 @@
 </template>
 
 <script setup>
-import { computed, defineAsyncComponent, nextTick, onMounted, onUnmounted, ref, watch } from "vue";
+import { computed, nextTick, onMounted, onUnmounted, ref, watch } from "vue";
 import AtlasViewer from "./AtlasViewer.vue";
 import TooltipOverlay from "./TooltipOverlay.vue";
 import UsecodeViewer from "./UsecodeViewer.vue";
+import WireframeViewport3D from "./WireframeViewport3D.vue";
 import { sanitizeUsecodeTarget } from "../../shared/usecode-browser.js";
 import { readViewerHistoryState, updateViewerHistory } from "../../shared/viewer-history.js";
 
 const OPEN_USECODE_TARGET_EVENT = "crusader-map-renderer:open-usecode-target";
 const SCENE_CHANGED_EVENT = "crusader-map-renderer:scene-changed";
-const WireframeViewport3D = defineAsyncComponent(() => import("./WireframeViewport3D.vue"));
 const activeTab = ref(readViewerHistoryState().tab || "map");
 const lastUsecodeTarget = ref(readViewerHistoryState().usecodeTarget);
 const selectedGame = ref(readViewerHistoryState().game || null);
