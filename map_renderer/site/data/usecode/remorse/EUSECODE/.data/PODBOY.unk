@@ -1,0 +1,174 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[20:slot_20] set_info
+//
+//
+[20:slot_20] pop_local_word item
+//
+//
+[20:slot_20] call_intrinsic UCMachine.rndRange(arg_bytes=0x4) ; mul ; pop_local_word fram ; ...
+//
+[20:slot_20] call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[20:slot_20] call_intrinsic Item.getZ(arg_bytes=0x4) ; sub ; call_intrinsic Item.getY(arg_bytes=0x4) ; ...
+//
+[20:slot_20] pop_local_word counter ; le ; jne 0x00e1 ; ...
+//
+[20:slot_20] call_intrinsic Item.setFrame(arg_bytes=0x6)
+[20:slot_20] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+//
+[20:slot_20] call_intrinsic AudioProcess.isSFXPlayingForObject(arg_bytes=0x6) ; jne 0x00d4 ; ...
+//
+[20:slot_20] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+[20:slot_20] ret
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[06:gotHit] pop_local_word fram ; jmp 0x0069 ; call_intrinsic Item.getFrame(arg_bytes=0x4) ; ...
+//
+//
+//
+//
+[06:gotHit] pop_local_word fram ; jmp 0x0069 ; call_intrinsic Item.getFrame(arg_bytes=0x4) ; ...
+//
+//
+//
+//
+[06:gotHit] pop_local_word fram ; jmp 0x0069
+//
+//
+//
+//
+[06:gotHit] pop_local_word fram
+//
+//
+//
+[06:gotHit] call_intrinsic push(arg_bytes=0x4)
+[06:gotHit] call_intrinsic Item.setShape(arg_bytes=0x6)
+[06:gotHit] call_intrinsic Item.setFrame(arg_bytes=0x6)
+[06:gotHit] call_intrinsic Item.getZ(arg_bytes=0x4) ; add ; call_intrinsic Item.getY(arg_bytes=0x4) ; ...
+[06:gotHit] spawn PODBOY.slot_20 ; pop_temp ; ...
+//
+[06:gotHit] spawn ITEM.slot_28 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[06:gotHit] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+//
+[06:gotHit] pop_local_word counter ; le ; jne 0x0156 ; ...
+//
+[06:gotHit] add ; call_intrinsic Item.setFrame(arg_bytes=0x6) ; ...
+[06:gotHit] sub ; spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; ...
+//
+//
+//
+[06:gotHit] ret
+
+/* synthesized appendix for PODBOY */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x06 gotHit ===== */
+function podboy_gotHit() /* entry=559 class_id=0x022d slot=0x06 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    vel, /* [BP+12h] type=0x69 */
+    fram, /* [BP-02h] type=0x69 */
+    counter, /* [BP-04h] type=0x69 */
+    item; /* [BP-06h] type=0x24 */
+
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  if (Item.getFrame(arg_06) == 1) {
+    fram = 22;
+  }
+  else if (Item.getFrame(arg_06) == 2) {
+    fram = 11;
+  }
+  else if (Item.getFrame(arg_06) == 3) {
+    fram = 0;
+  }
+  else {
+    fram = 34;
+  }
+  push(arg_06);
+  Item.setShape(0x058d, arg_06);
+  Item.setFrame(fram, arg_06);
+  Item.popToCoords((Item.getZ(arg_06) + 1), Item.getY(arg_06), Item.getX(arg_06), arg_06);
+  spawn PODBOY.slot_20(*(arg_06), 0x00000000);
+  spawn ITEM.slot_28(pid, 0, 1, arg_06);
+  suspend;
+  AudioProcess.playSFXCru(3, arg_06);
+  counter = 0;
+  while (counter <= 10) {
+    Item.setFrame((fram + counter), arg_06);
+    spawn FREE.waitNTimerTicks(pid, (15 - counter), 0x00000000);
+    suspend;
+    counter = (1 + counter);
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol ref [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol vel [BP+12h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol fram [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol counter [BP-04h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol item [BP-06h] type=0x24 unk1=0x00 unk3=0x02
+  */
+}
+
+/* ===== slot 0x20 slot_20 ===== */
+function podboy_slot_20() /* entry=559 class_id=0x022d slot=0x20 */
+{
+  var
+    ref, /* [BP+06h] type=0x69 */
+    item, /* [BP-02h] type=0x24 */
+    spooge, /* [BP-04h] type=0x24 */
+    fram, /* [BP-06h] type=0x69 */
+    counter; /* [BP-08h] type=0x69 */
+
+  set_info(1, 0);
+  item = ref;
+  fram = (UCMachine.rndRange(3, 0) * 8);
+  Item.create(fram, 0x058e, spooge);
+  Item.popToCoords((Item.getZ(item) - 1), (Item.getY(item) + 39), (Item.getX(item) + 69), spooge);
+  counter = 0;
+  while (counter <= 5) {
+    Item.setFrame(counter, spooge);
+    AudioProcess.playSFXCru(0x0094, spooge);
+    while (AudioProcess.isSFXPlayingForObject(0x0094, spooge)) {
+      spawn FREE.waitNTimerTicks(pid, 4, 0x00000000);
+      suspend;
+    }
+    counter = (1 + counter);
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol ref [BP+06h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol item [BP-02h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol spooge [BP-04h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol fram [BP-06h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol counter [BP-08h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}

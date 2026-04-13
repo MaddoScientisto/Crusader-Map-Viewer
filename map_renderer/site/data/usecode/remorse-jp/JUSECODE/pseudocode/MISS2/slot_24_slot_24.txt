@@ -1,11 +1,18 @@
 function miss2_slot_24() /* entry=2320 class_id=0x090e slot=0x24 */
 {
+  var
+    counter; /* [BP+06h] type=0x69 */
+
   set_info(0x0202, 0);
-  while (arg_06) {
+  while (counter) {
     AudioProcess.playSFXCru(18, &global[0x003c]);
-    arg_06 = (arg_06 - 1);
+    counter = (counter - 1);
     spawn FREE.slot_32(pid, 2, 0x00000000);
     suspend;
   }
   return;
+
+  /* post-return metadata (not executable):
+    debug_symbol counter [BP+06h] type=0x69 unk1=0x00 unk3=0x00
+  */
 }

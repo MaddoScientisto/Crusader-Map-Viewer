@@ -1,0 +1,136 @@
+/* synthesized appendix for ELYDESK */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x01 use ===== */
+function elydesk_use() /* entry=1105 class_id=0x044f slot=0x01 */
+{
+  set_info(0x0207, *(arg_06));
+  process_exclude();
+  Ultima8Engine.setAvatarInStasis(1);
+  FREE.slot_33(0x021b, *(arg_06));
+  while (Item.getFrame(arg_06) < 5) {
+    Item.isCentreOn((Item.getFrame(arg_06) + 1), arg_06);
+    spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+    suspend;
+  }
+  spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+  suspend;
+  switch (global[0x0020]) {
+  case 2:
+    playFlic(pid, 0x0096, 0x00c8, "2f", arg_06);
+    suspend;
+    break;
+  case 3:
+    playFlic(pid, 0x0096, 0x00c8, "3f", arg_06);
+    suspend;
+    break;
+  case 4:
+    playFlic(pid, 0x0096, 0x00c8, "4e", arg_06);
+    suspend;
+    break;
+  case 5:
+    playFlic(pid, 0x0096, 0x00c8, "5e", arg_06);
+    suspend;
+    break;
+  case 6:
+    playFlic(pid, 0x0096, 0x00c8, "6e", arg_06);
+    suspend;
+    break;
+  case 7:
+    playFlic(pid, 0x0096, 0x00c8, "7d", arg_06);
+    suspend;
+    break;
+  case 8:
+    playFlic(pid, 0x0096, 0x00c8, "8d", arg_06);
+    suspend;
+    break;
+  case 9:
+    playFlic(pid, 0x0096, 0x00c8, "9d", arg_06);
+    suspend;
+    break;
+  }
+  for local_04 in nearby_items(shape=0x043d, origin=arg_06) {
+    Item.andStatus(global[0x0020], local_04);
+    Item.isCentreOn(1, local_04);
+  }
+  local_02 = 0;
+  while (local_02 <= 5) {
+    Item.isCentreOn((5 - local_02), arg_06);
+    spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+    suspend;
+    local_02 = (1 + local_02);
+  }
+  spawn ELYDESK.enterFastArea(arg_06);
+  Ultima8Engine.setAvatarInStasis(0);
+  return;
+}
+
+/* ===== slot 0x0f enterFastArea ===== */
+function elydesk_enterFastArea() /* entry=1105 class_id=0x044f slot=0x0f */
+{
+  set_info(0x021b, *(arg_06));
+  process_exclude();
+  if (Item.getFrame(arg_06) == 10) {
+    return;
+  }
+  else {
+    suspend;
+    FREE.slot_20(pid, 100);
+    spawn FREE.waitNTimerTicks((retval + 60), 0x00000000);
+    suspend;
+    while (true) {
+      suspend;
+      FREE.slot_20(pid, 100);
+      spawn FREE.waitNTimerTicks((retval + 60), 0x00000000);
+      suspend;
+      if (!Item.getFrame(arg_06)) {
+        local_02 = 0;
+        while (local_02 <= 5) {
+          Item.isCentreOn(local_02, arg_06);
+          spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+          suspend;
+          local_02 = (1 + local_02);
+        }
+      }
+      FREE.slot_20(100);
+      if (retval > 50) {
+        local_02 = 0;
+        while (local_02 <= 5) {
+          Item.isCentreOn((5 - local_02), arg_06);
+          spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+          suspend;
+          local_02 = (1 + local_02);
+        }
+      }
+      else {
+        local_02 = 6;
+        while (local_02 <= 9) {
+          Item.isCentreOn(local_02, arg_06);
+          spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+          suspend;
+          local_02 = (1 + local_02);
+        }
+        FREE.slot_20(pid, 60);
+        spawn FREE.waitNTimerTicks((retval + 60), 0x00000000);
+        suspend;
+        local_02 = 0;
+        while (local_02 <= 3) {
+          Item.isCentreOn((9 - local_02), arg_06);
+          spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+          suspend;
+          local_02 = (1 + local_02);
+        }
+      }
+    }
+  }
+  return;
+}
+
+/* ===== slot 0x10 leaveFastArea ===== */
+function elydesk_leaveFastArea() /* entry=1105 class_id=0x044f slot=0x10 */
+{
+  set_info(0x021c, *(arg_06));
+  process_exclude();
+  FREE.slot_33(0x021b, *(arg_06));
+  return;
+}

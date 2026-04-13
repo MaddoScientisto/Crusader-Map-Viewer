@@ -1,0 +1,203 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[0A:equip] call_intrinsic Item.getFrame(arg_bytes=0x4) ; pop_local_word ff ; ...
+//
+[0A:equip] bit_and ; jne 0x0090 ; ...
+//
+[0A:equip] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[0A:equip] sub ; call_intrinsic Item.getPoint(arg_bytes=0x6) ; ...
+[0A:equip] spawn TRIGGER.slot_20 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+[0A:equip] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[0A:equip] add ; call_intrinsic Item.getPoint(arg_bytes=0x6) ; ...
+[0A:equip] spawn TRIGGER.slot_20 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[0A:equip] ret
+//
+//
+//
+//
+//
+[06:gotHit] call_class_event FREE.slot_2c ; jne 0x002f ; ...
+//
+[06:gotHit] jmp 0x01d0
+//
+//
+[06:gotHit] call_intrinsic Item.getFrame(arg_bytes=0x4) ; pop_local_word f ; ...
+[06:gotHit] bit_and ; jne 0x004e ; ...
+//
+[06:gotHit] jmp 0x01d0
+//
+//
+//
+[06:gotHit] pop_local_word item
+[06:gotHit] call_intrinsic Actor.getLastAnimSet(arg_bytes=0x4) ; cmp ; call_intrinsic Item.legal_create(arg_bytes=0x6) ; ...
+[06:gotHit]
+[06:gotHit] jmp 0x01d0
+//
+//
+[06:gotHit] add ; call_intrinsic Item.getPoint(arg_bytes=0x6) ; ...
+//
+[06:gotHit] call_intrinsic Item.getMapArray(arg_bytes=0x4) ; ne ; jne 0x0169 ; ...
+//
+[06:gotHit] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+[06:gotHit] spawn TRIGGER.slot_20 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[06:gotHit] jne 0x0166
+//
+[06:gotHit] call_intrinsic Actor.getLastAnimSet(arg_bytes=0x4) ; ne ; jne 0x011b ; ...
+//
+[06:gotHit] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+[06:gotHit] call_intrinsic Item.getPoint(arg_bytes=0x6)
+[06:gotHit] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+[06:gotHit] spawn TRIGGER.slot_20 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[06:gotHit] jmp 0x01d0 ; jmp 0x00d8 ; jmp 0x01d0
+//
+//
+//
+//
+//
+[06:gotHit] jne 0x01d0
+//
+[06:gotHit] call_intrinsic Actor.getLastAnimSet(arg_bytes=0x4) ; ne ; jne 0x01ac ; ...
+//
+[06:gotHit] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+[06:gotHit] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+[06:gotHit] call_intrinsic Item.getPoint(arg_bytes=0x6)
+[06:gotHit] jmp 0x01d0 ; jmp 0x0169
+//
+//
+//
+[06:gotHit] ret
+
+/* synthesized appendix for PPLATE2 */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x06 gotHit ===== */
+function pplate2_gotHit() /* entry=411 class_id=0x0199 slot=0x06 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    vel, /* [BP+12h] type=0x69 */
+    f, /* [BP-02h] type=0x69 */
+    item; /* [BP-04h] type=0x24 */
+
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  FREE.slot_2c(vel, ref);
+  if (retval) {
+    return;
+  }
+  else {
+    f = Item.getFrame(arg_06);
+    if (f & 1) {
+      return;
+    }
+    else {
+      item = ref;
+      if ((Actor.getLastAnimSet(arg_06) == 0) || (Item.legal_create(*(arg_06), item) == 0)) {
+        return;
+      }
+      else {
+        Item.getPoint((f + 1), arg_06);
+        if (Item.getMapArray(arg_06) != 0) {
+          AudioProcess.playSFXCru(0x00aa, arg_06);
+          spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
+          suspend;
+          while (1) {
+            if (Actor.getLastAnimSet(arg_06) != 0) {
+              spawn FREE.slot_32(pid, 2, 0x00000000);
+              suspend;
+            }
+            else {
+              Item.getPoint(f, arg_06);
+              AudioProcess.playSFXCru(0x00ab, arg_06);
+              spawn TRIGGER.slot_20(pid, 1, *(arg_06), arg_06);
+              suspend;
+              return;
+            }
+          }
+          return;
+        }
+        else {
+          while (1) {
+            if (Actor.getLastAnimSet(arg_06) != 0) {
+              spawn FREE.slot_32(pid, 2, 0x00000000);
+              suspend;
+            }
+            else {
+              AudioProcess.playSFXCru(0x00ab, arg_06);
+              Item.getPoint(f, arg_06);
+              return;
+            }
+          }
+        }
+      }
+    }
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol ref [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol vel [BP+12h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol f [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol item [BP-04h] type=0x24 unk1=0x00 unk3=0x02
+  */
+}
+
+/* ===== slot 0x0a equip ===== */
+function pplate2_equip() /* entry=411 class_id=0x0199 slot=0x0a */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    var, /* [BP+10h] type=0x69 */
+    ff; /* [BP-02h] type=0x69 */
+
+  set_info(0x0211, *(arg_06));
+  process_exclude();
+  ff = Item.getFrame(arg_06);
+  if (ff & 1) {
+    spawn FREE.slot_32(pid, 2, 0x00000000);
+    suspend;
+    Item.getPoint((ff - 1), arg_06);
+    spawn TRIGGER.slot_20(pid, 1, *(arg_06), arg_06);
+    suspend;
+    return;
+  }
+  else {
+    spawn FREE.slot_32(pid, 2, 0x00000000);
+    suspend;
+    Item.getPoint((ff + 1), arg_06);
+    spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
+    suspend;
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol var [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol ff [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}

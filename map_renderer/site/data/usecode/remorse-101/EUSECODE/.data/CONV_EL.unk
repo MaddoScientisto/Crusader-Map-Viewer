@@ -1,0 +1,57 @@
+/* synthesized appendix for CONV_EL */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x06 gotHit ===== */
+function conv_el_gotHit() /* entry=661 class_id=0x0293 slot=0x06 */
+{
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  local_01 = 0;
+  local_02 = -3;
+  if (Item.IsOn(arg_06)) {
+    local_02 = 3;
+  }
+  FREE.slot_2c(arg_12, arg_10);
+  if (retval) {
+    return;
+  }
+  else {
+    local_04 = arg_10;
+    local_05 = Item.getQHi(*(arg_06), local_04);
+    local_06 = 1;
+    if (Item.IsOn(arg_06) == 0x00ff) {
+      local_06 = 0;
+    }
+    if (local_05 && local_06) {
+      spawn CONVEYOR.slot_20(pid, local_02, local_01, arg_06);
+      suspend;
+    }
+  }
+  return;
+}
+
+/* ===== slot 0x0a equip ===== */
+function conv_el_equip() /* entry=661 class_id=0x0293 slot=0x0a */
+{
+  set_info(0x0211, *(arg_06));
+  process_exclude();
+  switch (arg_10) {
+  case 0:
+    Item.setQHi(0x00ff, arg_06);
+    FREE.slot_33(0x0205, *(arg_06));
+    AudioProcess.stopSFXCru(115, arg_06);
+    AudioProcess.playSFXCru(116, arg_06);
+    return;
+  case 1:
+    FREE.slot_33(0x0205, *(arg_06));
+    Item.setQHi(0, arg_06);
+    spawn CONVEYOR.slot_20(-3, 0, arg_06);
+    return;
+  case 2:
+    FREE.slot_33(0x0205, *(arg_06));
+    Item.setQHi(1, arg_06);
+    spawn CONVEYOR.slot_20(3, 0, arg_06);
+    return;
+  }
+  return;
+}

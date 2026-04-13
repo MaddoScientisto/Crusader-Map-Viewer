@@ -1,0 +1,59 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[06:gotHit] call_class_event FREE.slot_2c ; jne 0x002f ; ...
+//
+[06:gotHit] jmp 0x0067
+//
+//
+//
+[06:gotHit] pop_local_word item
+//
+[06:gotHit] cmp ; jne 0x0067 ; ...
+[06:gotHit]
+[06:gotHit] spawn LITEWALL.slot_21 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[06:gotHit] ret
+
+/* synthesized appendix for LWPLATE4 */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x06 gotHit ===== */
+function lwplate4_gotHit() /* entry=1128 class_id=0x0466 slot=0x06 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    r, /* [BP+10h] type=0x69 */
+    vel, /* [BP+12h] type=0x69 */
+    item; /* [BP-02h] type=0x24 */
+
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  FREE.slot_2c(vel, r);
+  if (retval) {
+    return;
+  }
+  else {
+    item = r;
+    if (r == 1) {
+      spawn LITEWALL.slot_21(pid, r, arg_06);
+      suspend;
+    }
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol r [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol vel [BP+12h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol item [BP-02h] type=0x24 unk1=0x00 unk3=0x02
+  */
+}

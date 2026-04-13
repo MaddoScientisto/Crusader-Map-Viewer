@@ -1,0 +1,85 @@
+/* synthesized appendix for PPLATE2 */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x06 gotHit ===== */
+function pplate2_gotHit() /* entry=411 class_id=0x0199 slot=0x06 */
+{
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  FREE.slot_2c(arg_12, arg_10);
+  if (retval) {
+    return;
+  }
+  else {
+    local_02 = Item.getFrame(arg_06);
+    if (local_02 & 1) {
+      return;
+    }
+    else {
+      local_04 = arg_10;
+      if ((Intrinsic056(arg_06) == 0) || (Item.getSurfaceWeight(*(arg_06), local_04) == 0)) {
+        return;
+      }
+      else {
+        Item.isCentreOn((local_02 + 1), arg_06);
+        if (Item.getMapArray(arg_06) != 0) {
+          AudioProcess.playSFXCru(0x00aa, arg_06);
+          spawn TRIGGER.slot_2a(pid, 0, *(arg_06), arg_06);
+          suspend;
+          while (1) {
+            if (Intrinsic056(arg_06) != 0) {
+              spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+              suspend;
+            }
+            else {
+              Item.isCentreOn(local_02, arg_06);
+              AudioProcess.playSFXCru(0x00ab, arg_06);
+              spawn TRIGGER.slot_2a(pid, 1, *(arg_06), arg_06);
+              suspend;
+              return;
+            }
+          }
+          return;
+        }
+        else {
+          while (1) {
+            if (Intrinsic056(arg_06) != 0) {
+              spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+              suspend;
+            }
+            else {
+              AudioProcess.playSFXCru(0x00ab, arg_06);
+              Item.isCentreOn(local_02, arg_06);
+              return;
+            }
+          }
+        }
+      }
+    }
+  }
+  return;
+}
+
+/* ===== slot 0x0a equip ===== */
+function pplate2_equip() /* entry=411 class_id=0x0199 slot=0x0a */
+{
+  set_info(0x0211, *(arg_06));
+  process_exclude();
+  local_02 = Item.getFrame(arg_06);
+  if (local_02 & 1) {
+    spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+    suspend;
+    Item.isCentreOn((local_02 - 1), arg_06);
+    spawn TRIGGER.slot_2a(pid, 1, *(arg_06), arg_06);
+    suspend;
+    return;
+  }
+  else {
+    spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+    suspend;
+    Item.isCentreOn((local_02 + 1), arg_06);
+    spawn TRIGGER.slot_2a(pid, 0, *(arg_06), arg_06);
+    suspend;
+  }
+  return;
+}

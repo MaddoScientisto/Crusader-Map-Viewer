@@ -596,6 +596,109 @@ export function createScenePresentationController(deps) {
     };
   }
 
+  function formatPsxHex(value, width = 4) {
+    if (!Number.isInteger(value)) {
+      return "-";
+    }
+    return `0x${value.toString(16).toUpperCase().padStart(width, "0")}`;
+  }
+
+  function getMapSourceRecordForItem(item) {
+    if (!state.current?.mapSource || !Number.isInteger(item?.mapSourceIndex)) {
+      return null;
+    }
+    return state.current.mapSource.items?.[item.mapSourceIndex] ?? null;
+  }
+
+  function isPsxSceneItem(item) {
+    return typeof item?.source === "string" && item.source.startsWith("psx-");
+  }
+
+  function isPsxFallbackItem(item, sourceRecord = null) {
+    return Boolean(item && typeof item.source === "string" && item.source.endsWith("-fallback"))
+      || Boolean(sourceRecord?.isFallback);
+  }
+
+  function getPsxFamilyLabel(sourceFamily) {
+    if (sourceFamily === "section0_dispatch_roots") {
+      return "root";
+    }
+    if (sourceFamily === "section0_constructor_placements") {
+      return "bulk";
+    }
+    return sourceFamily || "psx";
+  }
+
+  function getPsxArtStatusLabel(sourceRecord) {
+    if (!sourceRecord) {
+      return "resolved sprite bundle";
+    }
+    if (sourceRecord.isFallback) {
+      return "fallback placeholder";
+    }
+
+    const mappingSource = typeof sourceRecord.mappingSource === "string"
+      ? sourceRecord.mappingSource
+      : "";
+    if (mappingSource.startsWith("cohort-")) {
+      return "cohort donor sprite bundle";
+    }
+    if (mappingSource.includes("donor") || sourceRecord.donorTypeId != null) {
+      return "donor sprite bundle";
+    }
+    if (mappingSource.startsWith("payload-dword")) {
+      return "direct sprite bundle";
+    }
+    return "resolved sprite bundle";
+  }
+
+  function buildPsxTooltipRows(item, sourceRecord) {
+    if (!isPsxSceneItem(item) || !sourceRecord) {
+      return "";
+    }
+
+    const rawWords = Array.isArray(sourceRecord.rawWords)
+      ? sourceRecord.rawWords.map((value) => formatPsxHex(value)).join(" ")
+      : "-";
+    const authoredPalette = Number.isInteger(sourceRecord.authoredPaletteIndex) ? String(sourceRecord.authoredPaletteIndex) : "-";
+    const defaultPalette = Number.isInteger(sourceRecord.defaultPaletteIndex) ? String(sourceRecord.defaultPaletteIndex) : "-";
+    const paletteFormula = sourceRecord.paletteFormula || "-";
+    const bundleOffset = Number.isInteger(sourceRecord.bundleOffset) ? formatPsxHex(sourceRecord.bundleOffset, 8) : "-";
+
+    return `
+      <dt>PSX family</dt><dd>${escapeHtml(sourceRecord.sourceFamily || "-")}</dd>
+      <dt>Type</dt><dd>${escapeHtml(formatPsxHex(sourceRecord.typeId))}</dd>
+      <dt>State selector</dt><dd>${escapeHtml(String(sourceRecord.stateSelector ?? "-"))}</dd>
+      <dt>Lane</dt><dd>${escapeHtml(formatPsxHex(sourceRecord.lane))}</dd>
+      <dt>Palette</dt><dd>${escapeHtml(`${sourceRecord.paletteIndex ?? "-"} (authored ${authoredPalette}, default ${defaultPalette})`)}</dd>
+      <dt>Palette rule</dt><dd>${escapeHtml(paletteFormula)}</dd>
+      <dt>Bundle offset</dt><dd>${escapeHtml(bundleOffset)}</dd>
+      <dt>Art source</dt><dd>${escapeHtml(sourceRecord.mappingSource || "-")}</dd>
+      <dt>Record index</dt><dd>${escapeHtml(`${sourceRecord.recordSide || "-"} row ${sourceRecord.rowIndex ?? "-"}`)}</dd>
+      <dt>Art status</dt><dd>${escapeHtml(getPsxArtStatusLabel(sourceRecord))}</dd>
+      <dt>Raw words</dt><dd>${escapeHtml(rawWords)}</dd>
+    `;
+  }
+
+  function getPsxFallbackBadgeLines(item, sourceRecord) {
+    if (!isPsxFallbackItem(item, sourceRecord) || !sourceRecord) {
+      return null;
+    }
+
+    const typeHex = Number.isInteger(sourceRecord.typeId)
+      ? sourceRecord.typeId.toString(16).toUpperCase().padStart(4, "0")
+      : "----";
+    const selector = Number.isInteger(sourceRecord.stateSelector) ? String(sourceRecord.stateSelector) : "-";
+    const laneHex = Number.isInteger(sourceRecord.lane)
+      ? sourceRecord.lane.toString(16).toUpperCase().padStart(2, "0")
+      : "--";
+
+    return [
+      `${getPsxFamilyLabel(sourceRecord.sourceFamily)} ${typeHex}`,
+      `s${selector} l${laneHex}`
+    ];
+  }
+
   function isEggItem(item) {
     return Boolean(item?.egg);
   }
@@ -1176,6 +1279,7 @@ export function createScenePresentationController(deps) {
     const isPinnedTooltip = state.pinnedItemId === item.id;
     const hidden = state.current?.hiddenIds.has(item.id) ?? false;
     const display = getItemDisplay(item);
+    const sourceRecord = getMapSourceRecordForItem(item);
     const npcRows = renderNpcMetadataRows(item, display.definition);
     const chestRows = renderChestSpawnerMetadataRows(item, display.definition);
     const spawnerRows = renderMonsterSpawnerActivationRows(item, display.definition);
@@ -1208,6 +1312,7 @@ export function createScenePresentationController(deps) {
       <dt>Source</dt><dd>${escapeHtml(item.source)}</dd>
       ${fixedId && item.id !== fixedId ? `<dt>Runtime ID</dt><dd>${escapeHtml(item.id)}</dd>` : ""}
       <dt>Flags</dt><dd>${escapeHtml(item.flags.hex)}</dd>
+      ${buildPsxTooltipRows(item, sourceRecord)}
       ${eggRows}
       ${npcRows}
       ${chestRows}
@@ -1223,7 +1328,9 @@ export function createScenePresentationController(deps) {
       hover: !isPinnedTooltip,
       hidden,
       item,
-      itemLabel: item.label,
+      itemLabel: isPsxSceneItem(item) && sourceRecord
+        ? `${getPsxArtStatusLabel(sourceRecord)} · ${getPsxFamilyLabel(sourceRecord.sourceFamily)}`
+        : item.label,
       displayName: display.displayName,
       displayDescription: display.description,
       metadataRowsHtml: metadataRows,
@@ -1448,6 +1555,57 @@ export function createScenePresentationController(deps) {
       targetContext.drawImage(atlas, sprite.x, sprite.y, sprite.width, sprite.height, left, top, width, height);
     }
 
+  }
+
+  function drawPsxFallbackBadges(targetContext, canvasWidth, canvasHeight, scale, offsetX, offsetY, hiddenIds = new Set()) {
+    if (!state.current || scale < 0.75) {
+      return;
+    }
+
+    const rootStyles = getComputedStyle(document.documentElement);
+    const fontFamily = rootStyles.getPropertyValue("--font-ui").trim() || "sans-serif";
+
+    targetContext.save();
+    targetContext.font = `700 ${scale >= 1.2 ? 11 : 10}px ${fontFamily}`;
+    targetContext.textBaseline = "middle";
+    targetContext.textAlign = "left";
+
+    for (const item of state.current.scene.items) {
+      if (hiddenIds.has(item.id) || !isItemVisible(item) || !isPsxSceneItem(item)) {
+        continue;
+      }
+
+      const sourceRecord = getMapSourceRecordForItem(item);
+      const lines = getPsxFallbackBadgeLines(item, sourceRecord);
+      if (!lines) {
+        continue;
+      }
+
+      const anchorX = item.screen.anchorX * scale + offsetX;
+      const anchorY = item.screen.anchorY * scale + offsetY;
+      if (anchorX < -48 || anchorY < -48 || anchorX > canvasWidth + 48 || anchorY > canvasHeight + 48) {
+        continue;
+      }
+
+      const textWidth = Math.max(...lines.map((line) => Math.ceil(targetContext.measureText(line).width)));
+      const badgeWidth = textWidth + 10;
+      const badgeHeight = lines.length * 12 + 6;
+      const left = Math.round(anchorX + 8);
+      const top = Math.round(anchorY - badgeHeight - 6);
+
+      targetContext.fillStyle = "rgba(9, 16, 28, 0.76)";
+      targetContext.strokeStyle = "rgba(142, 197, 255, 0.88)";
+      targetContext.lineWidth = 1;
+      targetContext.fillRect(left, top, badgeWidth, badgeHeight);
+      targetContext.strokeRect(left + 0.5, top + 0.5, badgeWidth, badgeHeight);
+
+      targetContext.fillStyle = "rgba(235, 244, 255, 0.96)";
+      for (let index = 0; index < lines.length; index += 1) {
+        targetContext.fillText(lines[index], left + 5, top + 9 + index * 12);
+      }
+    }
+
+    targetContext.restore();
   }
 
   function drawSceneToContext(targetContext, canvasWidth, canvasHeight, scale, offsetX, offsetY, hiddenIds = new Set()) {
@@ -2873,6 +3031,7 @@ export function createScenePresentationController(deps) {
     drawCtrlF7EggRanges(context, viewport.clientWidth, viewport.clientHeight, state.zoom, state.offsetX, state.offsetY, timestamp, state.current?.hiddenIds ?? new Set());
     drawLinkArrows(context, viewport.clientWidth, viewport.clientHeight, state.zoom, state.offsetX, state.offsetY);
     drawBoundingBoxes(context, viewport.clientWidth, viewport.clientHeight, state.zoom, state.offsetX, state.offsetY, state.current?.hiddenIds ?? new Set());
+    drawPsxFallbackBadges(context, viewport.clientWidth, viewport.clientHeight, state.zoom, state.offsetX, state.offsetY, state.current?.hiddenIds ?? new Set());
     drawEggLabels(context, viewport.clientWidth, viewport.clientHeight);
     syncOverlayState();
     drawHighlightOverlay(context, state.zoom, state.offsetX, state.offsetY, timestamp);

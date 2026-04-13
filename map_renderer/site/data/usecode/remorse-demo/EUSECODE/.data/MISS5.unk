@@ -1,0 +1,455 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[04:cachein] pop_global global[0x001f]
+[04:cachein] ret
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[07:hatch] pop_global global[0x0033]
+[07:hatch] call_class_event FREE.slot_41
+[07:hatch] spawn MISS5.slot_20 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[07:hatch] ret
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[20:slot_20] pop_local_word egg
+[20:slot_20] set_info
+//
+[20:slot_20] call_intrinsic Ultima8Engine.setAvatarInStasis(arg_bytes=0x2)
+[20:slot_20] global_address global[0x003c] ; call_intrinsic Actor.doAnim(arg_bytes=0x4) ; jne 0x0068 ; ...
+[20:slot_20] global_address global[0x003c] ; call_intrinsic Actor.isDead(arg_bytes=0xc) ; implies arg0=0x1, arg1=0x1 ; ...
+//
+[20:slot_20] pop_local_word door ; loopscr value_u8=0x24 ; loopscr value_u8=0x3d ; ...
+//
+//
+[20:slot_20] loopscr value_u8=0x25 ; mul ; ...
+[20:slot_20] loop current_var=0xfc, string_bytes=0x6, loop_type=0x2 ; jne 0x00d5
+[20:slot_20] call_intrinsic Item.getQHi(arg_bytes=0x4) ; cmp ; jne 0x00d1 ; ...
+//
+[20:slot_20] pop_local_word door ; loopnext ; jmp 0x00b5 ; ...
+//
+//
+//
+//
+//
+//
+//
+[20:slot_20] jne 0x0875
+[20:slot_20] call_intrinsic Item.destroy(arg_bytes=0x4)
+//
+[20:slot_20] global_address global[0x003c] ; call_intrinsic Actor.getLastAnimSet(arg_bytes=0x4) ; cmp ; ...
+[20:slot_20] pop_local_word counter
+//
+[20:slot_20] global_address global[0x003c] ; spawn NPC.slot_22 ; pop_temp ; ...
+[20:slot_20] global_address global[0x003c] ; call_intrinsic Actor.isDead(arg_bytes=0xc) ; implies arg0=0x1, arg1=0x1 ; ...
+[20:slot_20] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[20:slot_20] global_address global[0x003c] ; call_intrinsic Item.getDirToItem(arg_bytes=0x6) ; global_address global[0x003c] ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+[20:slot_20] loopscr value_u8=0x25 ; mul ; ...
+[20:slot_20] loop current_var=0xfc, string_bytes=0x6, loop_type=0x2 ; jne 0x01c7
+[20:slot_20] pop_local_word willmar ; loopnext ; jmp 0x01b9 ; ...
+//
+//
+//
+//
+//
+//
+[20:slot_20] loopscr value_u8=0x25 ; mul ; ...
+[20:slot_20] loop current_var=0xfc, string_bytes=0x6, loop_type=0x2 ; jne 0x0203 ; ...
+[20:slot_20] call_intrinsic Actor.addHp(arg_bytes=0x4) ; pop_local_word dir ; ...
+[20:slot_20] pop_local_word floor ; loopnext ; jmp 0x01e7 ; ...
+//
+//
+//
+[20:slot_20] loopscr value_u8=0x42
+[20:slot_20] mul
+[20:slot_20] loop current_var=0xfc, string_bytes=0x6, loop_type=0x2 ; jne 0x0231
+[20:slot_20] pop_local_word post1 ; loopnext ; jmp 0x0223 ; ...
+//
+//
+//
+[20:slot_20] loopscr value_u8=0x42
+[20:slot_20] mul
+[20:slot_20] loop current_var=0xfc, string_bytes=0x6, loop_type=0x2 ; jne 0x025f
+[20:slot_20] pop_local_word post2 ; loopnext ; jmp 0x0251 ; ...
+//
+//
+//
+[20:slot_20] push_local_word post1
+[20:slot_20] and ; jne 0x0402
+[20:slot_20] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+[20:slot_20] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[20:slot_20] global_address global[0x003c] ; call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+//
+//
+[20:slot_20] jne 0x0344
+[20:slot_20] call_intrinsic Item.legal_create(arg_bytes=0x6)
+[20:slot_20] call_intrinsic Item.legal_create(arg_bytes=0x6)
+//
+[20:slot_20] pop_local_word counter ; le ; jne 0x0341 ; ...
+//
+[20:slot_20] call_intrinsic Item.legal_create(arg_bytes=0x6)
+[20:slot_20] call_intrinsic Item.legal_create(arg_bytes=0x6)
+[20:slot_20] call_intrinsic Item.getQHi(arg_bytes=0x6)
+[20:slot_20] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+[20:slot_20] pop_local_word counter ; le ; jne 0x03b4 ; ...
+//
+[20:slot_20] sub ; call_intrinsic Item.legal_create(arg_bytes=0x6) ; ...
+[20:slot_20] sub ; call_intrinsic Item.legal_create(arg_bytes=0x6) ; ...
+[20:slot_20] call_intrinsic Item.getQHi(arg_bytes=0x6)
+[20:slot_20] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+[20:slot_20] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[20:slot_20] call_intrinsic Item.legal_create(arg_bytes=0x6)
+[20:slot_20] call_intrinsic Item.legal_create(arg_bytes=0x6)
+[20:slot_20] call_intrinsic Item.getQHi(arg_bytes=0x6)
+//
+//
+[20:slot_20] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[20:slot_20] loopscr value_u8=0x42
+[20:slot_20] mul
+[20:slot_20] loop current_var=0xfc, string_bytes=0x6, loop_type=0x2 ; jne 0x0477
+[20:slot_20] pop_local_word door
+[20:slot_20] spawn DOOR.slot_21 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+[20:slot_20] spawn NPC.slot_21 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[20:slot_20] call_intrinsic Actor.isDead(arg_bytes=0xc) ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[20:slot_20] global_address global[0x003c] ; call_intrinsic Item.getDirToItem(arg_bytes=0x6) ; global_address global[0x003c] ; ...
+[20:slot_20] call_intrinsic Item.getDirToItem(arg_bytes=0x6) ; call_intrinsic Actor.turnToward(arg_bytes=0x8) ; implies arg0=0x1, arg1=0x1 ; ...
+//
+[20:slot_20] call_intrinsic playFlic(arg_bytes=0xc) ; free_stack_string value_u8=0x4, target=[SP+04h] ; implies arg0=0x1, arg1=0x1 ; ...
+//
+[20:slot_20] call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[20:slot_20] call_intrinsic Item.fallProbably_03E(arg_bytes=0x6)
+[20:slot_20] call_intrinsic Item.popToCoords(arg_bytes=0xa) ; ...
+[20:slot_20] call_intrinsic Actor.getLastAnimSet(arg_bytes=0x4)
+//
+//
+[20:slot_20] call_intrinsic Actor.turnToward(arg_bytes=0x8) ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[20:slot_20] spawn NPC.slot_21 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[20:slot_20] call_intrinsic Actor.isDead(arg_bytes=0xc) ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[20:slot_20] spawn DOOR.slot_21 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[20:slot_20] global_address global[0x003c] ; call_intrinsic Item.getDirToItem(arg_bytes=0x6) ; global_address global[0x003c] ; ...
+//
+[20:slot_20] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[20:slot_20] spawn NPC.slot_21 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[20:slot_20] call_intrinsic Actor.turnToward(arg_bytes=0x8) ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[20:slot_20] spawn DOOR.slot_21 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+[20:slot_20] push_local_word post1
+[20:slot_20] and ; jne 0x085f
+[20:slot_20] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+[20:slot_20] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[20:slot_20] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+//
+//
+[20:slot_20] not ; jne 0x07a1
+[20:slot_20] call_intrinsic Item.legal_create(arg_bytes=0x6)
+[20:slot_20] call_intrinsic Item.legal_create(arg_bytes=0x6)
+//
+[20:slot_20] pop_local_word counter ; le ; jne 0x079e ; ...
+//
+[20:slot_20] call_intrinsic Item.legal_create(arg_bytes=0x6)
+[20:slot_20] call_intrinsic Item.legal_create(arg_bytes=0x6)
+[20:slot_20] call_intrinsic Item.getQHi(arg_bytes=0x6)
+[20:slot_20] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+[20:slot_20] pop_local_word counter ; le ; jne 0x0811 ; ...
+//
+[20:slot_20] sub ; call_intrinsic Item.legal_create(arg_bytes=0x6) ; ...
+[20:slot_20] sub ; call_intrinsic Item.legal_create(arg_bytes=0x6) ; ...
+[20:slot_20] call_intrinsic Item.getQHi(arg_bytes=0x6)
+[20:slot_20] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+[20:slot_20] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[20:slot_20] call_intrinsic Item.legal_create(arg_bytes=0x6)
+[20:slot_20] call_intrinsic Item.legal_create(arg_bytes=0x6)
+[20:slot_20] call_intrinsic Item.getQHi(arg_bytes=0x6)
+//
+//
+//
+[20:slot_20] call_intrinsic Actor.setDead(arg_bytes=0x4)
+[20:slot_20] call_intrinsic Item.destroy(arg_bytes=0x4)
+//
+//
+//
+[20:slot_20] call_intrinsic Ultima8Engine.setAvatarInStasis(arg_bytes=0x2)
+[20:slot_20] ret
+
+/* synthesized appendix for MISS5 */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x04 cachein ===== */
+function miss5_cachein() /* entry=2323 class_id=0x0911 slot=0x04 */
+{
+  var
+    referent; /* [BP+00h] type=0x69 */
+
+  set_info(0x0213, *(arg_06));
+  process_exclude();
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+  */
+}
+
+/* ===== slot 0x07 hatch ===== */
+function miss5_hatch() /* entry=2323 class_id=0x0911 slot=0x07 */
+{
+  var
+    referent; /* [BP+00h] type=0x69 */
+
+  set_info(0x0210, *(arg_06));
+  process_exclude();
+  if (CameraProcess.setCenterOn(arg_06) == 1) {
+    FREE.slot_41();
+    spawn MISS5.slot_20(pid, arg_06);
+    suspend;
+    return;
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+  */
+}
+
+/* ===== slot 0x20 slot_20 ===== */
+function miss5_slot_20() /* entry=2323 class_id=0x0911 slot=0x20 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    counter, /* [BP-02h] type=0x69 */
+    item, /* [BP-04h] type=0x24 */
+    door, /* [BP-06h] type=0x24 */
+    egg, /* [BP-08h] type=0x24 */
+    willmar, /* [BP-10h] type=0x24 */
+    post1, /* [BP-12h] type=0x24 */
+    post2, /* [BP-14h] type=0x24 */
+    floor, /* [BP-16h] type=0x24 */
+    dir; /* [BP-18h] type=0x69 */
+
+  set_info(0x0001, *(arg_06));
+  egg = *(arg_06);
+  set_info(1, 0);
+  Ultima8Engine.setAvatarInStasis(1);
+  while (Actor.doAnim(&global[0x003c])) {
+    spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+    suspend;
+  }
+  suspend;
+  door = 0;
+  for item in nearby_items(shape=ELEVATOR_DOOR_RIGHT, origin=global[0x003c]) {
+    if (Item.getQHi(item) == 1) {
+      door = item;
+    }
+  }
+  if (door) {
+    Item.destroy(egg);
+    if (Actor.getLastAnimSet(&global[0x003c]) == 3) {
+      counter = 2;
+    }
+    else {
+      counter = 3;
+    }
+    spawn NPC.slot_22(counter, 0, &global[0x003c]);
+    suspend;
+    spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
+    suspend;
+    suspend;
+    for item in nearby_items(shape=0x04e0, origin=global[0x003c]) {
+      willmar = item;
+    }
+    for item in nearby_items(shape=GRATE_FLOOR_GRAY, origin=arg_06) {
+      dir = Actor.addHp(item);
+      floor = item;
+    }
+    for item in selector_0x42(arg0=0x01c4, arg1=0x0186, arg2=(10 * 32), origin=floor) {
+      post1 = item;
+    }
+    for item in selector_0x42(arg0=0x01c5, arg1=0x0184, arg2=(10 * 32), origin=floor) {
+      post2 = item;
+    }
+    if (post1 && post2) {
+      AudioProcess.playSFXCru(0x00f4, arg_06);
+      spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
+      suspend;
+      AudioProcess.playSFXCru(0x00f1, &global[0x003c]);
+      if (dir) {
+        Item.legal_create(0, post1);
+        Item.legal_create(0, post2);
+        counter = 1;
+        while (counter <= 4) {
+          Item.legal_create(counter, post1);
+          Item.legal_create(counter, post2);
+          Item.getQHi(0x0093, post1);
+          spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
+          suspend;
+          counter = (1 + counter);
+        }
+      }
+      else {
+        counter = 0;
+        while (counter <= 3) {
+          Item.legal_create((7 - counter), post1);
+          Item.legal_create((7 - counter), post2);
+          Item.getQHi(0x0093, post1);
+          spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
+          suspend;
+          counter = (1 + counter);
+        }
+      }
+      spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
+      suspend;
+      Item.legal_create(0, post1);
+      Item.legal_create(0, post2);
+      Item.getQHi(0x0093, post1);
+    }
+    spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
+    suspend;
+    for item in selector_0x42(arg0=0x0193, arg1=0x01c7, arg2=(10 * 32), origin=floor) {
+      door = item;
+      spawn DOOR.slot_21(pid, 1, door);
+      suspend;
+    }
+    spawn NPC.slot_21(pid, 4, willmar);
+    suspend;
+    suspend;
+    suspend;
+    playFlic(pid, 0x0096, 0x00fa, "5f", arg_06);
+    suspend;
+    Item.create(0, 0x0111, item);
+    Item.fallProbably_03E(3, item);
+    Item.popToCoords(0, 0, 0, item);
+    Actor.getLastAnimSet(1, item);
+    suspend;
+    spawn NPC.slot_21(pid, 2, willmar);
+    suspend;
+    suspend;
+    spawn DOOR.slot_21(pid, 1, door);
+    suspend;
+    suspend;
+    spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
+    suspend;
+    spawn NPC.slot_21(pid, 2, willmar);
+    suspend;
+    suspend;
+    spawn DOOR.slot_21(pid, 2, door);
+    suspend;
+    if (post1 && post2) {
+      AudioProcess.playSFXCru(0x00f4, arg_06);
+      spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
+      suspend;
+      AudioProcess.playSFXCru(0x00f5, arg_06);
+      if (!dir) {
+        Item.legal_create(0, post1);
+        Item.legal_create(0, post2);
+        counter = 1;
+        while (counter <= 4) {
+          Item.legal_create(counter, post1);
+          Item.legal_create(counter, post2);
+          Item.getQHi(0x0093, post1);
+          spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
+          suspend;
+          counter = (1 + counter);
+        }
+      }
+      else {
+        counter = 0;
+        while (counter <= 3) {
+          Item.legal_create((7 - counter), post1);
+          Item.legal_create((7 - counter), post2);
+          Item.getQHi(0x0093, post1);
+          spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
+          suspend;
+          counter = (1 + counter);
+        }
+      }
+      spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
+      suspend;
+      Item.legal_create(0, post1);
+      Item.legal_create(0, post2);
+      Item.getQHi(0x0093, post1);
+    }
+    Actor.setDead(willmar);
+    Item.destroy(willmar);
+  }
+  Ultima8Engine.setAvatarInStasis(0);
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol counter [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol item [BP-04h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol door [BP-06h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol egg [BP-08h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol willmar [BP-10h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol post1 [BP-12h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol post2 [BP-14h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol floor [BP-16h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol dir [BP-18h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}

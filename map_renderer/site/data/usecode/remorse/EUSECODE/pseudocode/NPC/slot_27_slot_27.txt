@@ -1,5 +1,13 @@
 function npc_slot_27() /* entry=2579 class_id=0x0a11 slot=0x27 */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    act, /* [BP+10h] type=0x69 */
+    a, /* [BP-02h] type=0x69 */
+    b, /* [BP-04h] type=0x69 */
+    c, /* [BP-06h] type=0x69 */
+    d; /* [BP-08h] type=0x69 */
+
   set_info(0x020a, *(arg_06));
   while (Actor.isBusy(arg_06)) {
     spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
@@ -8,12 +16,12 @@ function npc_slot_27() /* entry=2579 class_id=0x0a11 slot=0x27 */
   if (Actor.isDead(arg_06)) {
     return;
   }
-  else if (arg_10 == 0) {
-    local_02 = GetNPCDataField0x2_050(arg_06);
-    local_04 = Actor.getDefaultActivity0(arg_06);
-    local_06 = Actor.getDefaultActivity1(arg_06);
-    local_08 = Actor.getDefaultActivity2(arg_06);
-    switch (local_02) {
+  else if (act == 0) {
+    a = GetNPCDataField0x2_050(arg_06);
+    b = Actor.getDefaultActivity0(arg_06);
+    c = Actor.getDefaultActivity1(arg_06);
+    d = Actor.getDefaultActivity2(arg_06);
+    switch (a) {
     case 112:
       Actor.setActivity(1, arg_06);
       break;
@@ -27,7 +35,16 @@ function npc_slot_27() /* entry=2579 class_id=0x0a11 slot=0x27 */
     return;
   }
   else {
-    Actor.setActivity(arg_10, arg_06);
+    Actor.setActivity(act, arg_06);
   }
   return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol act [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol a [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol b [BP-04h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol c [BP-06h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol d [BP-08h] type=0x69 unk1=0x00 unk3=0x00
+  */
 }

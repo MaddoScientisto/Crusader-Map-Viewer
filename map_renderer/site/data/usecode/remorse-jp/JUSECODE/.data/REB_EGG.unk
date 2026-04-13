@@ -1,0 +1,737 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[04:cachein] not ; jne 0x0030
+[04:cachein] add ; pop_global global[0x001f] ; ...
+//
+//
+[04:cachein] add ; pop_global global[0x001f] ; ...
+[04:cachein] ret
+//
+//
+//
+//
+//
+//
+[15:unhatch] global_address global[0x003c] ; call_intrinsic Actor.getMap(arg_bytes=0x4) ; cmp ; ...
+[15:unhatch]
+[15:unhatch] loopscr value_u8=0x25 ; mul ; ...
+[15:unhatch] loop current_var=0xfe, string_bytes=0x6, loop_type=0x2 ; jne 0x0072 ; ...
+[15:unhatch] call_intrinsic Item.getPoint(arg_bytes=0x6)
+[15:unhatch] call_intrinsic Item.fallProbably_03E(arg_bytes=0x6)
+[15:unhatch] jmp 0x0074 ; loopnext ; jmp 0x004b
+//
+//
+//
+[15:unhatch] ret
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[07:hatch] call_intrinsic Ultima8Engine.setUnkCrusaderFlag(arg_bytes=0x0)
+[07:hatch] cmp ; jne 0x0031
+[07:hatch] jmp 0x0d9e
+//
+//
+//
+//
+//
+[07:hatch] call_intrinsic MainActor.teleportToEgg(arg_bytes=0x0)
+[07:hatch] call_intrinsic MusicProcess.musicStop(arg_bytes=0x0)
+//
+[07:hatch] cmp ; jne 0x00b6 ; ...
+[07:hatch]
+[07:hatch] call_intrinsic playFlic092(arg_bytes=0x0)
+[07:hatch] call_intrinsic playFlic0A9(arg_bytes=0xc) ; free_stack_string value_u8=0x4, target=[SP+04h] ; implies arg0=0x1, arg1=0x1 ; ...
+[07:hatch] call_intrinsic playFlic(arg_bytes=0xc) ; free_stack_string value_u8=0x4, target=[SP+04h] ; implies arg0=0x1, arg1=0x1 ; ...
+[07:hatch] call_intrinsic Game.playCredits(arg_bytes=0x0)
+//
+//
+//
+//
+[07:hatch] lt ; jne 0x0100 ; ...
+[07:hatch]
+[07:hatch] call_intrinsic playFlic092(arg_bytes=0x0)
+[07:hatch] call_intrinsic playFlic(arg_bytes=0xc) ; free_stack_string value_u8=0x4, target=[SP+04h] ; implies arg0=0x1, arg1=0x1 ; ...
+[07:hatch] call_intrinsic Game.playCredits(arg_bytes=0x0)
+//
+//
+[07:hatch] set_info
+//
+[07:hatch] cmp ; jne 0x0121 ; ...
+[07:hatch]
+[07:hatch] pop_global global[0x001f]
+//
+//
+[07:hatch] global_address global[0x003c] ; call_intrinsic Actor.getMap(arg_bytes=0x4) ; cmp ; ...
+[07:hatch]
+[07:hatch] pop_global global[0x001f] ; loopscr value_u8=0x24 ; loopscr value_u8=0x3d ; ...
+//
+//
+[07:hatch] loopscr value_u8=0x25 ; mul ; ...
+[07:hatch] loop current_var=0xfe, string_bytes=0x6, loop_type=0x2 ; jne 0x0171 ; ...
+[07:hatch] call_intrinsic Item.destroy(arg_bytes=0x4) ; loopnext ; jmp 0x015f ; ...
+//
+//
+[07:hatch] loopscr value_u8=0x25 ; mul ; ...
+[07:hatch] loop current_var=0xfe, string_bytes=0x6, loop_type=0x2 ; jne 0x01b9 ; ...
+[07:hatch] call_intrinsic Item.setQuality(arg_bytes=0x4) ; cmp ; jne 0x01b5 ; ...
+[07:hatch]
+[07:hatch] call_intrinsic Item.destroy(arg_bytes=0x4) ; loopnext ; jmp 0x0192 ; ...
+//
+//
+//
+//
+//
+[07:hatch] gt ; lt ; and ; ...
+[07:hatch]
+[07:hatch] call_intrinsic UCMachine.rndRange(arg_bytes=0x4) ; gt ; jne 0x023b ; ...
+[07:hatch]
+[07:hatch] call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[07:hatch] call_intrinsic Item.fallProbably_03E(arg_bytes=0x6)
+[07:hatch] call_intrinsic Item.popToCoords(arg_bytes=0xa) ; ...
+[07:hatch] call_intrinsic Item.setIsBroken(arg_bytes=0x4) ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+[07:hatch] call_intrinsic UCMachine.rndRange(arg_bytes=0x4) ; call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[07:hatch] call_intrinsic Item.popToCoords(arg_bytes=0xa) ; ...
+//
+[07:hatch] call_intrinsic UCMachine.rndRange(arg_bytes=0x4) ; call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[07:hatch] call_intrinsic Item.popToCoords(arg_bytes=0xa) ; jmp 0x02ee ; ...
+//
+//
+//
+//
+[07:hatch] call_intrinsic UCMachine.rndRange(arg_bytes=0x4) ; call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[07:hatch] call_intrinsic Item.popToCoords(arg_bytes=0xa) ; ...
+//
+[07:hatch] call_intrinsic UCMachine.rndRange(arg_bytes=0x4) ; call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[07:hatch] call_intrinsic Item.popToCoords(arg_bytes=0xa) ; cmp ; cmp ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[07:hatch] loopscr value_u8=0x25 ; mul ; ...
+[07:hatch] loop current_var=0xfe, string_bytes=0x6, loop_type=0x2 ; jne 0x0332 ; ...
+[07:hatch] call_intrinsic Item.getPoint(arg_bytes=0x6) ; loopnext ; jmp 0x031e ; ...
+//
+//
+[07:hatch] loopscr value_u8=0x25 ; mul ; ...
+[07:hatch] loop current_var=0xfe, string_bytes=0x6, loop_type=0x2 ; jne 0x038f ; ...
+[07:hatch] call_intrinsic Item.getFootpad(arg_bytes=0x8) ; ...
+[07:hatch] call_intrinsic Item.getZ(arg_bytes=0x4) ; call_intrinsic Item.getY(arg_bytes=0x4) ; call_intrinsic Item.getX(arg_bytes=0x4) ; ...
+//
+//
+//
+[07:hatch] pop_local_byte moreVideo ; jmp 0x05b5 ; cmp ; ...
+//
+//
+//
+//
+//
+//
+//
+[07:hatch] loopscr value_u8=0x25 ; mul ; ...
+[07:hatch] loop current_var=0xfe, string_bytes=0x6, loop_type=0x2 ; jne 0x040b ; ...
+[07:hatch] call_intrinsic push(arg_bytes=0x4)
+[07:hatch] call_intrinsic Item.setShape(arg_bytes=0x6)
+[07:hatch] call_intrinsic Item.getPoint(arg_bytes=0x6)
+[07:hatch] call_intrinsic Item.popToCoords(arg_bytes=0xa) ; loopnext ; jmp 0x03cb ; ...
+//
+//
+[07:hatch] loopscr value_u8=0x25 ; mul ; ...
+[07:hatch] loop current_var=0xfe, string_bytes=0x6, loop_type=0x2 ; jne 0x048f ; ...
+[07:hatch] call_intrinsic Item.getFootpad(arg_bytes=0x8) ; ...
+[07:hatch] call_intrinsic Item.getZ(arg_bytes=0x4) ; call_intrinsic Item.getY(arg_bytes=0x4) ; call_intrinsic Item.getX(arg_bytes=0x4) ; ...
+[07:hatch] call_intrinsic Actor.isDead(arg_bytes=0xc) ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+[07:hatch] pop_local_byte moreVideo ; jmp 0x05b5 ; cmp ; ...
+//
+//
+//
+//
+[07:hatch] loopscr value_u8=0x25 ; mul ; ...
+[07:hatch] loop current_var=0xfe, string_bytes=0x6, loop_type=0x2 ; jne 0x0518 ; ...
+[07:hatch] call_intrinsic push(arg_bytes=0x4)
+[07:hatch] call_intrinsic Item.setShape(arg_bytes=0x6)
+[07:hatch] call_intrinsic Item.getPoint(arg_bytes=0x6)
+[07:hatch] call_intrinsic Item.popToCoords(arg_bytes=0xa) ; ...
+[07:hatch] call_intrinsic Item.setIsBroken(arg_bytes=0x4) ; pop_temp ; loopnext ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+[07:hatch] loopscr value_u8=0x25 ; mul ; ...
+[07:hatch] loop current_var=0xfe, string_bytes=0x6, loop_type=0x2 ; jne 0x05a9 ; ...
+[07:hatch] call_intrinsic Item.getFootpad(arg_bytes=0x8) ; ...
+[07:hatch] call_intrinsic Item.getZ(arg_bytes=0x4) ; call_intrinsic Item.getY(arg_bytes=0x4) ; call_intrinsic Item.getX(arg_bytes=0x4) ; ...
+[07:hatch] call_intrinsic Actor.isDead(arg_bytes=0xc) ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+[07:hatch] pop_local_byte moreVideo ; jmp 0x05b5
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[07:hatch] global_address global[0x003c] ; call_intrinsic Item.getPoint(arg_bytes=0x6)
+[07:hatch] call_intrinsic Actor.clrImmortal(arg_bytes=0x0) ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[07:hatch] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[07:hatch] global_address global[0x003c] ; spawn NPC.slot_23 ; implies arg0=0x1, arg1=0x1 ; ...
+//
+[07:hatch] spawn REB_EGG.slot_20 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+[07:hatch] push_word_immediate 0x0316 ; push_word_immediate 0x0360
+[07:hatch] push_word_immediate 0x04db ; push_word_immediate 0x0314
+[07:hatch] loopscr value_u8=0x45
+[07:hatch] mul
+[07:hatch] loop current_var=0xfe, string_bytes=0xc, loop_type=0x2 ; jne 0x0685 ; ...
+[07:hatch] call_intrinsic Item.setIsBroken(arg_bytes=0x4) ; pop_temp ; loopnext ; ...
+//
+//
+//
+//
+[07:hatch] not ; jne 0x06f5
+//
+[07:hatch] call_intrinsic Ultima8Engine.clrCruStasis(arg_bytes=0x0)
+[07:hatch] call_intrinsic Ultima8Engine.setAvatarInStasis(arg_bytes=0x2)
+[07:hatch] call_intrinsic void MusicProcess:playMusic(arg_bytes=0x2) ; loopscr value_u8=0x24
+//
+[07:hatch] loopscr value_u8=0x42
+[07:hatch] mul
+[07:hatch] loop current_var=0xfe, string_bytes=0x6, loop_type=0x2 ; jne 0x06f0 ; ...
+[07:hatch] call_intrinsic Item.getPoint(arg_bytes=0x6)
+[07:hatch] call_intrinsic Item.setQ(arg_bytes=0x6) ; pop_temp ; loopnext ; ...
+//
+//
+//
+//
+//
+[07:hatch] global_address global[0x003c] ; call_intrinsic Actor.isDead(arg_bytes=0xc) ; implies arg0=0x1, arg1=0x1 ; ...
+[07:hatch] global_address global[0x003c] ; call_intrinsic Actor.isDead(arg_bytes=0xc) ; implies arg0=0x1, arg1=0x1 ; ...
+//
+//
+//
+//
+//
+[07:hatch] call_intrinsic playFlic(arg_bytes=0xc) ; free_stack_string value_u8=0x4, target=[SP+04h] ; implies arg0=0x1, arg1=0x1 ; ...
+[07:hatch] call_intrinsic Ultima8Engine.setAvatarInStasis(arg_bytes=0x2)
+[07:hatch] call_intrinsic MainActor.clrKeycards(arg_bytes=0x0) ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[07:hatch] call_intrinsic Item.getQLo(arg_bytes=0xc) ; ...
+[07:hatch] global_address global[0x003c] ; call_intrinsic Item.getQLo(arg_bytes=0xc) ; ...
+[07:hatch] call_intrinsic Item.isInNPC(arg_bytes=0x0) ; loopscr value_u8=0x24 ; loopscr value_u8=0x3d ; ...
+//
+[07:hatch] loopscr value_u8=0x25 ; mul ; ...
+[07:hatch] loop current_var=0xfe, string_bytes=0x6, loop_type=0x2 ; jne 0x0810 ; ...
+[07:hatch] call_intrinsic Item.getPoint(arg_bytes=0x6)
+[07:hatch] call_intrinsic Item.setIsBroken(arg_bytes=0x4) ; pop_temp ; loopnext ; ...
+//
+//
+[07:hatch] call_intrinsic void MusicProcess:playMusic(arg_bytes=0x2)
+[07:hatch] call_intrinsic Item.isInNPC(arg_bytes=0x0)
+//
+[07:hatch] call_intrinsic Actor.clrImmortal(arg_bytes=0x0) ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[07:hatch] call_intrinsic Ultima8Engine.clrCruStasis(arg_bytes=0x0)
+[07:hatch] call_intrinsic Ultima8Engine.setAvatarInStasis(arg_bytes=0x2) ; jmp 0x0d9e ; cmp ; ...
+//
+//
+//
+//
+//
+//
+//
+[07:hatch] jne 0x0897
+[07:hatch] call_intrinsic playFlic(arg_bytes=0xc) ; free_stack_string value_u8=0x4, target=[SP+04h] ; implies arg0=0x1, arg1=0x1 ; ...
+//
+//
+//
+[07:hatch] call_intrinsic playFlic(arg_bytes=0xc) ; free_stack_string value_u8=0x4, target=[SP+04h] ; implies arg0=0x1, arg1=0x1 ; ...
+//
+//
+[07:hatch] call_intrinsic Ultima8Engine.setAvatarInStasis(arg_bytes=0x2)
+[07:hatch] call_intrinsic MainActor.clrKeycards(arg_bytes=0x0) ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[07:hatch] call_intrinsic Item.getQLo(arg_bytes=0xc) ; ...
+[07:hatch] global_address global[0x003c] ; call_intrinsic Item.getQLo(arg_bytes=0xc) ; ...
+[07:hatch] call_intrinsic Item.isInNPC(arg_bytes=0x0) ; loopscr value_u8=0x24 ; loopscr value_u8=0x3d ; ...
+//
+[07:hatch] loopscr value_u8=0x25 ; mul ; ...
+[07:hatch] loop current_var=0xfe, string_bytes=0x6, loop_type=0x2 ; jne 0x0958 ; ...
+[07:hatch] call_intrinsic Item.getPoint(arg_bytes=0x6)
+[07:hatch] call_intrinsic Item.setIsBroken(arg_bytes=0x4) ; pop_temp ; loopnext ; ...
+//
+//
+[07:hatch] call_intrinsic void MusicProcess:playMusic(arg_bytes=0x2)
+[07:hatch] call_intrinsic Item.isInNPC(arg_bytes=0x0)
+[07:hatch] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[07:hatch] call_intrinsic Actor.clrImmortal(arg_bytes=0x0) ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[07:hatch] call_intrinsic Ultima8Engine.clrCruStasis(arg_bytes=0x0)
+[07:hatch] call_intrinsic Ultima8Engine.setAvatarInStasis(arg_bytes=0x2) ; jmp 0x0d9e ; cmp ; ...
+//
+//
+//
+//
+[07:hatch] cmp ; jne 0x0a14 ; ...
+[07:hatch]
+[07:hatch] call_intrinsic playFlic(arg_bytes=0xc) ; free_stack_string value_u8=0x4, target=[SP+04h] ; implies arg0=0x1, arg1=0x1 ; ...
+//
+//
+//
+[07:hatch] call_intrinsic playFlic(arg_bytes=0xc) ; free_stack_string value_u8=0x4, target=[SP+04h] ; implies arg0=0x1, arg1=0x1 ; ...
+//
+//
+[07:hatch] call_intrinsic Ultima8Engine.setAvatarInStasis(arg_bytes=0x2)
+[07:hatch] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[07:hatch] call_intrinsic MainActor.clrKeycards(arg_bytes=0x0) ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[07:hatch] call_intrinsic Item.setQHi(arg_bytes=0x4)
+[07:hatch] call_intrinsic Item.destroy(arg_bytes=0x4)
+[07:hatch] global_address global[0x003c] ; call_intrinsic Item.getQLo(arg_bytes=0xc) ; ...
+[07:hatch] call_intrinsic Item.isInNPC(arg_bytes=0x0) ; loopscr value_u8=0x24 ; loopscr value_u8=0x3d ; ...
+//
+[07:hatch] loopscr value_u8=0x25 ; mul ; ...
+[07:hatch] loop current_var=0xfe, string_bytes=0x6, loop_type=0x2 ; jne 0x0aff ; ...
+[07:hatch] call_intrinsic Item.getPoint(arg_bytes=0x6)
+[07:hatch] call_intrinsic Item.setIsBroken(arg_bytes=0x4) ; pop_temp ; loopnext ; ...
+//
+//
+[07:hatch] call_intrinsic void MusicProcess:playMusic(arg_bytes=0x2)
+[07:hatch] call_intrinsic Item.isInNPC(arg_bytes=0x0)
+[07:hatch] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[07:hatch] call_intrinsic Actor.clrImmortal(arg_bytes=0x0) ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[07:hatch] call_intrinsic Ultima8Engine.clrCruStasis(arg_bytes=0x0)
+[07:hatch] call_intrinsic Ultima8Engine.setAvatarInStasis(arg_bytes=0x2) ; jmp 0x0d9e ; cmp ; ...
+//
+//
+//
+//
+[07:hatch] call_intrinsic playFlic(arg_bytes=0xc) ; free_stack_string value_u8=0x4, target=[SP+04h] ; implies arg0=0x1, arg1=0x1 ; ...
+[07:hatch] call_intrinsic Ultima8Engine.setAvatarInStasis(arg_bytes=0x2)
+[07:hatch] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[07:hatch] global_address global[0x003c] ; call_intrinsic Actor.isDead(arg_bytes=0xc) ; implies arg0=0x1, arg1=0x1 ; ...
+[07:hatch] global_address global[0x003c] ; call_intrinsic Actor.isDead(arg_bytes=0xc) ; implies arg0=0x1, arg1=0x1 ; ...
+[07:hatch] global_address global[0x003c] ; call_intrinsic Actor.isDead(arg_bytes=0xc) ; implies arg0=0x1, arg1=0x1 ; ...
+[07:hatch] global_address global[0x003c] ; call_intrinsic Actor.isDead(arg_bytes=0xc) ; implies arg0=0x1, arg1=0x1 ; ...
+[07:hatch] global_address global[0x003c] ; call_intrinsic Actor.turnToward(arg_bytes=0x8) ; implies arg0=0x1, arg1=0x1 ; ...
+//
+//
+[07:hatch] spawn NPC.slot_22 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[07:hatch] call_intrinsic Actor.turnToward(arg_bytes=0x8) ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[07:hatch] spawn NPC.slot_24 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[07:hatch] call_intrinsic Item.setQHi(arg_bytes=0x4)
+[07:hatch] call_intrinsic Item.destroy(arg_bytes=0x4)
+//
+[07:hatch] call_intrinsic void MusicProcess:playMusic(arg_bytes=0x2)
+[07:hatch] call_intrinsic Item.isInNPC(arg_bytes=0x0)
+[07:hatch] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[07:hatch] loopscr value_u8=0x25 ; mul ; ...
+[07:hatch] loop current_var=0xfe, string_bytes=0x6, loop_type=0x2 ; jne 0x0d87 ; ...
+[07:hatch] call_intrinsic Item.getPoint(arg_bytes=0x6)
+[07:hatch] call_intrinsic Item.fallProbably_03E(arg_bytes=0x6) ; loopnext ; jmp 0x0d66 ; ...
+//
+//
+//
+[07:hatch] call_intrinsic Ultima8Engine.clrCruStasis(arg_bytes=0x0)
+[07:hatch] call_intrinsic Ultima8Engine.setAvatarInStasis(arg_bytes=0x2) ; jmp 0x0d9e
+//
+//
+//
+[07:hatch] ret
+//
+//
+//
+[20:slot_20] set_info ; loopscr value_u8=0x24 ; loopscr value_u8=0x3d ; ...
+//
+//
+//
+//
+//
+[20:slot_20] loopscr value_u8=0x25 ; mul ; ...
+[20:slot_20] loop current_var=0xfe, string_bytes=0x6, loop_type=0x2 ; jne 0x00ce
+//
+[20:slot_20] call_intrinsic Item.getX(arg_bytes=0x4) ; add ; pop_local_word x ; ...
+[20:slot_20] call_intrinsic Item.getY(arg_bytes=0x4) ; add ; pop_local_word y ; ...
+//
+//
+[20:slot_20] loopscr value_u8=0x25
+[20:slot_20] loop current_var=0xfc, string_bytes=0x6, loop_type=0x4 ; jne 0x00c2 ; ...
+[20:slot_20] call_intrinsic push(arg_bytes=0x4)
+[20:slot_20] call_intrinsic Item.getZ(arg_bytes=0x4) ; call_intrinsic Item.popToCoords(arg_bytes=0xa) ; ...
+[20:slot_20] sub ; pop_local_word x ; ...
+[20:slot_20] bit_not ; call_intrinsic Item.getQHi(arg_bytes=0x6) ; ...
+[20:slot_20] add ; pop_local_word counter ; loopnext ; ...
+//
+[20:slot_20] jmp 0x00d0 ; loopnext ; jmp 0x0035
+//
+//
+[20:slot_20] ret
+
+/* synthesized appendix for REB_EGG */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x04 cachein ===== */
+function reb_egg_cachein() /* entry=2313 class_id=0x0907 slot=0x04 */
+{
+  var
+    referent; /* [BP+00h] type=0x69 */
+
+  set_info(0x0213, *(arg_06));
+  process_exclude();
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+  */
+}
+
+/* ===== slot 0x07 hatch ===== */
+function reb_egg_hatch() /* entry=2313 class_id=0x0907 slot=0x07 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    item, /* [BP-02h] type=0x24 */
+    pad, /* [BP-04h] type=0x24 */
+    n, /* [BP-06h] type=0x24 */
+    door, /* [BP-08h] type=0x24 */
+    moreVideo; /* [BP-09h] type=0x62 */
+
+  set_info(0x0210, *(arg_06));
+  process_exclude();
+  if (Ultima8Engine.setUnkCrusaderFlag() == 0) {
+    return;
+  }
+  else {
+    MainActor.teleportToEgg();
+    MusicProcess.musicStop();
+    if (global[0x001f] == 9) {
+      playFlic092();
+      playFlic0A9(pid, 0, 0, "wec", arg_06);
+      suspend;
+      playFlic(pid, 0x0096, 0x00c8, "8i", arg_06);
+      suspend;
+      Game.playCredits();
+    }
+    if (global[0x001f] < 13) {
+      playFlic092();
+      playFlic(pid, 0, 0, "H01", arg_06);
+      suspend;
+      Game.playCredits();
+    }
+    set_info(1, 0);
+    for item in nearby_items(shape=BAR_PATRONS_1, origin=arg_06) {
+      Item.destroy(item);
+    }
+    for item in nearby_items(shape=BAR_STOOL, origin=arg_06) {
+      if (Item.setQuality(item) == 1) {
+        Item.destroy(item);
+      }
+    }
+    if ((global[0x001f] > 3) && (global[0x001f] < 13)) {
+      if (UCMachine.rndRange(9, 0) > 5) {
+        Item.create(0, BAR_PATRONS_1, item);
+        Item.fallProbably_03E(10, item);
+        Item.popToCoords(16, 0x442f, 0x41ef, item);
+        suspend;
+      }
+      else {
+        Item.create(UCMachine.rndRange(3, 0), 0x0315, item);
+        Item.popToCoords(16, 0x441f, 0x418f, item);
+        Item.create(UCMachine.rndRange(3, 0), 0x0315, item);
+        Item.popToCoords(16, 0x441f, 0x41ef, item);
+      }
+    }
+    else {
+      Item.create(UCMachine.rndRange(3, 0), 0x0315, item);
+      Item.popToCoords(16, 0x441f, 0x418f, item);
+      Item.create(UCMachine.rndRange(3, 0), 0x0315, item);
+      Item.popToCoords(16, 0x441f, 0x41ef, item);
+    }
+    if ((global[0x001f] == 2) || (global[0x001f] == 5)) {
+      for item in nearby_items(shape=0x044f, origin=arg_06) {
+        Item.getPoint(10, item);
+      }
+      for item in nearby_items(shape=NUMBERS, origin=arg_06) {
+        Item.getFootpad(3, 0x03c4, n);
+        Item.popToCoords(Item.getZ(item), Item.getY(item), Item.getX(item), n);
+      }
+      moreVideo = 1;
+    }
+    else if ((global[0x001f] == 10) || (global[0x001f] == 11)) {
+      for item in nearby_items(shape=0x044f, origin=arg_06) {
+        push(item);
+        Item.setShape(0x0442, item);
+        Item.getPoint(6, item);
+        Item.popToCoords(72, 0x4428, 0x3c38, item);
+      }
+      for item in nearby_items(shape=NUMBERS, origin=arg_06) {
+        Item.getFootpad(0, 0x03ac, n);
+        Item.popToCoords(Item.getZ(item), Item.getY(item), Item.getX(item), n);
+        suspend;
+      }
+      moreVideo = 1;
+    }
+    else if ((global[0x001f] == 12) || (global[0x001f] == 13)) {
+      for item in nearby_items(shape=0x044f, origin=arg_06) {
+        push(item);
+        Item.setShape(0x0442, item);
+        Item.getPoint(0, item);
+        Item.popToCoords(72, 0x4428, 0x3c38, item);
+      }
+    }
+    else if (global[0x001f] == 14) {
+      for item in nearby_items(shape=NUMBERS, origin=arg_06) {
+        Item.getFootpad(6, 0x0524, n);
+        Item.popToCoords(Item.getZ(item), Item.getY(item), Item.getX(item), n);
+        suspend;
+      }
+      moreVideo = 1;
+    }
+    Item.getPoint(8, &global[0x003c]);
+    suspend;
+    spawn FREE.slot_32(pid, 120, 0x00000000);
+    suspend;
+    spawn NPC.slot_23(pid, &global[0x003c]);
+    suspend;
+    spawn REB_EGG.slot_20(pid, arg_06);
+    suspend;
+    /* filter-only scan: condition */
+    if (!moreVideo) {
+      Ultima8Engine.clrCruStasis();
+      Ultima8Engine.setAvatarInStasis(0);
+      void MusicProcess:playMusic(16);
+      for item in selector_0x42(arg0=0x044f, arg1=0x0442, arg2=(50 * 32), origin=arg_06) {
+        Item.getPoint(0, item);
+      }
+      return;
+    }
+    else {
+      suspend;
+      suspend;
+      if (global[0x001f] == 2) {
+        playFlic(pid, 0x0096, 0x00c8, "2b", arg_06);
+        suspend;
+        Ultima8Engine.setAvatarInStasis(1);
+        suspend;
+        Item.getQLo(0, 0, 0, 0, n);
+        Item.getQLo(40, 16, 0x427c, 0x427c, &global[0x003c]);
+        Item.isInNPC();
+        for item in nearby_items(shape=0x044f, origin=arg_06) {
+          Item.getPoint(0, item);
+        }
+        void MusicProcess:playMusic(16);
+        Item.isInNPC();
+        suspend;
+        Ultima8Engine.clrCruStasis();
+        Ultima8Engine.setAvatarInStasis(0);
+        return;
+      }
+      else if (global[0x001f] == 5) {
+        if (global[0x0023]) {
+          playFlic(pid, 0x0096, 0x00c8, "5a", arg_06);
+          suspend;
+        }
+        else {
+          playFlic(pid, 0x0096, 0x00c8, "5b", arg_06);
+          suspend;
+        }
+        Ultima8Engine.setAvatarInStasis(1);
+        suspend;
+        Item.getQLo(0, 0, 0, 0, n);
+        Item.getQLo(40, 16, 0x427c, 0x427c, &global[0x003c]);
+        Item.isInNPC();
+        for item in nearby_items(shape=0x044f, origin=arg_06) {
+          Item.getPoint(0, item);
+        }
+        void MusicProcess:playMusic(16);
+        Item.isInNPC();
+        spawn FREE.slot_32(pid, 10, 0x00000000);
+        suspend;
+        suspend;
+        Ultima8Engine.clrCruStasis();
+        Ultima8Engine.setAvatarInStasis(0);
+        return;
+      }
+      else if ((global[0x001f] == 10) || (global[0x001f] == 11)) {
+        if (global[0x001f] == 10) {
+          playFlic(pid, 0x0096, 0x00c8, "10a", arg_06);
+          suspend;
+        }
+        else {
+          playFlic(pid, 0x0096, 0x00c8, "11a", arg_06);
+          suspend;
+        }
+        Ultima8Engine.setAvatarInStasis(1);
+        spawn FREE.slot_32(pid, 120, 0x00000000);
+        suspend;
+        suspend;
+        Item.setQHi(n);
+        Item.destroy(n);
+        Item.getQLo(40, 16, 0x427c, 0x427c, &global[0x003c]);
+        Item.isInNPC();
+        for item in nearby_items(shape=0x0442, origin=arg_06) {
+          Item.getPoint(0, item);
+        }
+        void MusicProcess:playMusic(16);
+        Item.isInNPC();
+        spawn FREE.slot_32(pid, 10, 0x00000000);
+        suspend;
+        suspend;
+        Ultima8Engine.clrCruStasis();
+        Ultima8Engine.setAvatarInStasis(0);
+        return;
+      }
+      else if (global[0x001f] == 14) {
+        playFlic(pid, 0x0096, 0x00c8, "14B", arg_06);
+        suspend;
+        Ultima8Engine.setAvatarInStasis(1);
+        spawn FREE.slot_32(pid, 10, 0x00000000);
+        suspend;
+        suspend;
+        suspend;
+        suspend;
+        suspend;
+        suspend;
+        spawn NPC.slot_22(pid, 4, 12, n);
+        suspend;
+        suspend;
+        spawn NPC.slot_24(pid, n);
+        suspend;
+        Item.setQHi(n);
+        Item.destroy(n);
+        void MusicProcess:playMusic(16);
+        Item.isInNPC();
+        spawn FREE.slot_32(pid, 10, 0x00000000);
+        suspend;
+        for item in nearby_items(shape=0x043d, origin=arg_06) {
+          Item.getPoint(1, item);
+          Item.fallProbably_03E(15, item);
+        }
+        Ultima8Engine.clrCruStasis();
+        Ultima8Engine.setAvatarInStasis(0);
+        return;
+      }
+    }
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol item [BP-02h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol pad [BP-04h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol n [BP-06h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol door [BP-08h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol moreVideo [BP-09h] type=0x62 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x15 unhatch ===== */
+function reb_egg_unhatch() /* entry=2313 class_id=0x0907 slot=0x15 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    item; /* [BP-02h] type=0x24 */
+
+  set_info(0x0239, *(arg_06));
+  process_exclude();
+  if (Actor.getMap(&global[0x003c]) == 41) {
+    for item in nearby_items(shape=0x043d, origin=arg_06) {
+      Item.getPoint(1, item);
+      Item.fallProbably_03E(15, item);
+      return;
+    }
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol item [BP-02h] type=0x24 unk1=0x00 unk3=0x02
+  */
+}
+
+/* ===== slot 0x20 slot_20 ===== */
+function reb_egg_slot_20() /* entry=2313 class_id=0x0907 slot=0x20 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    chest, /* [BP-02h] type=0x24 */
+    phold, /* [BP-04h] type=0x24 */
+    counter, /* [BP-06h] type=0x69 */
+    counter2, /* [BP-08h] type=0x69 */
+    x, /* [BP-10h] type=0x69 */
+    y; /* [BP-12h] type=0x69 */
+
+  set_info(0x021b, 0);
+  for chest in nearby_items(shape=0x054f, origin=global[0x003c]) {
+    x = (Item.getX(chest) + 48);
+    y = (Item.getY(chest) + 48);
+    while (condition) {
+      push(phold);
+      Item.popToCoords(Item.getZ(chest), y, x, phold);
+      x = (x - 4);
+      Item.getQHi((~16), phold);
+      counter = (1 + counter);
+    }
+    return;
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol chest [BP-02h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol phold [BP-04h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol counter [BP-06h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol counter2 [BP-08h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol x [BP-10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol y [BP-12h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}

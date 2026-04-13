@@ -37,6 +37,18 @@
       <div v-if="tooltip.hidden" class="tooltip-state">Hidden</div>
       <dl class="tooltip-grid" v-html="tooltip.metadataRowsHtml"></dl>
       <dl class="tooltip-grid">
+        <dt>3D Surface</dt>
+        <dd class="tooltip-grid-control">
+          <label class="tooltip-field tooltip-grid-field">
+            <span class="tooltip-grid-field-label">3D surface type</span>
+            <select v-model="form.surfaceType" class="tooltip-field-input" name="surfaceType">
+              <option value="">Auto</option>
+              <option value="floor">Floor</option>
+              <option value="wall">Wall</option>
+              <option value="object">Object</option>
+            </select>
+          </label>
+        </dd>
         <dt>Roof</dt>
         <dd class="tooltip-grid-control">
           <label class="tooltip-field tooltip-grid-field">
@@ -168,6 +180,18 @@
             <div v-if="tooltip.hidden" class="tooltip-state">Hidden</div>
             <dl class="tooltip-grid" v-html="tooltip.metadataRowsHtml"></dl>
             <dl class="tooltip-grid">
+              <dt>3D Surface</dt>
+              <dd class="tooltip-grid-control">
+                <label class="tooltip-field tooltip-grid-field">
+                  <span class="tooltip-grid-field-label">3D surface type</span>
+                  <select v-model="form.surfaceType" class="tooltip-field-input" name="surfaceType">
+                    <option value="">Auto</option>
+                    <option value="floor">Floor</option>
+                    <option value="wall">Wall</option>
+                    <option value="object">Object</option>
+                  </select>
+                </label>
+              </dd>
               <dt>Roof</dt>
               <dd class="tooltip-grid-control">
                 <label class="tooltip-field tooltip-grid-field">
@@ -314,6 +338,7 @@ const usecodePreview = reactive({
 const form = reactive({
   humanReadableId: "",
   description: "",
+  surfaceType: "",
   roof: "",
   semitransparency: "",
   oob: ""
@@ -332,6 +357,7 @@ const usecodePreviewStyle = computed(() => ({
 function syncFormFromTooltip() {
   form.humanReadableId = String(tooltip.value.catalogEntry?.humanReadableId ?? "");
   form.description = String(tooltip.value.catalogEntry?.description ?? "");
+  form.surfaceType = String(tooltip.value.catalogEntry?.surfaceType ?? "");
   form.roof = encodeBoolean(tooltip.value.catalogEntry?.roof ?? null);
   form.semitransparency = encodeBoolean(tooltip.value.catalogEntry?.semitransparency ?? null);
   form.oob = encodeBoolean(tooltip.value.catalogEntry?.oob ?? null);
@@ -362,6 +388,7 @@ async function handleSaveCatalog() {
     await tooltip.value.onSaveCatalog({
       humanReadableId: form.humanReadableId,
       description: form.description,
+      surfaceType: form.surfaceType,
       roof: form.roof,
       semitransparency: form.semitransparency,
       oob: form.oob

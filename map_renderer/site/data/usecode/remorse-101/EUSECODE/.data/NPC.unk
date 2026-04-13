@@ -1,0 +1,364 @@
+/* synthesized appendix for NPC */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x0a equip ===== */
+function npc_equip() /* entry=2579 class_id=0x0a11 slot=0x0a */
+{
+  set_info(0x0211, *(arg_06));
+  process_exclude();
+  if (Actor.isDead(arg_06)) {
+    return;
+  }
+  else {
+    switch (arg_10) {
+    case 1:
+      CameraProcess.getCameraZ(0, arg_06);
+      Intrinsic0D3(112, arg_06);
+      return;
+    case 2:
+      CameraProcess.getCameraZ(0, arg_06);
+      Intrinsic0D3(113, arg_06);
+      return;
+    case 3:
+      CameraProcess.getCameraZ(0, arg_06);
+      Intrinsic0D3(114, arg_06);
+      return;
+    case 10:
+      Actor.clrInCombat(1, arg_06);
+      spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+      suspend;
+      Intrinsic0D3(112, arg_06);
+      local_02 = Item.setQuality();
+      local_04 = Item.use();
+      local_06 = Item.getX(arg_06);
+      local_08 = Item.getY(arg_06);
+      spawn NPC.slot_29(pid, local_08, local_06, local_04, local_02, arg_06);
+      suspend;
+      spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+      suspend;
+      Actor.setActivity(*(arg_06));
+      return;
+    case 30:
+      local_10 = Actor.getLastAnimSet(1, arg_06);
+      local_12 = Actor.getLastAnimSet(2, arg_06);
+      local_14 = Actor.getLastAnimSet(0, arg_06);
+      Actor.setDead(local_12, 1, arg_06);
+      Actor.setDead(local_10, 2, arg_06);
+      return;
+    case 31:
+      Item.getItemFamily(arg_06);
+      suspend;
+      Item.destroy(arg_06);
+      return;
+    }
+  }
+  return;
+}
+
+/* ===== slot 0x20 slot_20 ===== */
+function npc_slot_20() /* entry=2579 class_id=0x0a11 slot=0x20 */
+{
+  while (condition) {
+    return;
+  }
+  return;
+}
+
+/* ===== slot 0x21 slot_21 ===== */
+function npc_slot_21() /* entry=2579 class_id=0x0a11 slot=0x21 */
+{
+  set_info(0x020a, *(arg_06));
+  if (!arg_10) {
+    arg_10 = 1;
+  }
+  local_02 = 1;
+  while (local_02 <= arg_10) {
+    if ((Actor.isDead(arg_06) == 0) && (KeypadGump.showKeypad(arg_06) == 0)) {
+      suspend;
+    }
+    local_02 = (1 + local_02);
+  }
+  return;
+}
+
+/* ===== slot 0x22 slot_22 ===== */
+function npc_slot_22() /* entry=2579 class_id=0x0a11 slot=0x22 */
+{
+  set_info(0x020a, *(arg_06));
+  suspend;
+  spawn NPC.slot_21(pid, arg_12, arg_06);
+  suspend;
+  return;
+}
+
+/* ===== slot 0x23 slot_23 ===== */
+function npc_slot_23() /* entry=2579 class_id=0x0a11 slot=0x23 */
+{
+  set_info(0x020a, *(arg_06));
+  if (Actor.getMap((*(arg_06) != 1), &global[0x003d]) == 40) {
+    Ultima8Engine.setAvatarInStasis(1);
+    Item.getQuality(&global[0x003d]);
+  }
+  for local_02 in selector_0x42(arg0=0x01db, arg1=0x043d, arg2=(5 * 32), origin=arg_06) {
+    local_04 = local_02;
+  }
+  while (condition) {
+    if (Item.getShape(local_02) == TELEPAD_RED) {
+      if (!Item.getFrame(local_02)) {
+        local_06 = 1;
+      }
+    }
+    else if (Item.getFrame(local_02)) {
+      local_06 = 1;
+    }
+  }
+  Item.isCentreOn(8, arg_06);
+  spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
+  suspend;
+  AudioProcess.playSFXCru(48, &global[0x003d]);
+  Item.getQHi(Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06), 1, 37, 0, 0x0317);
+  if (!local_06) {
+    suspend;
+  }
+  else {
+    suspend;
+  }
+  if (AudioProcess.isSFXPlayingForObject(48, &global[0x003d])) {
+    spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+    suspend;
+  }
+  if (*(arg_06) == 1) {
+    Ultima8Engine.getUnkCrusaderFlag();
+    createMapJumpProcess();
+    Ultima8Engine.clrUnkCrusaderFlag(&global[0x003d]);
+    Ultima8Engine.setAvatarInStasis(0);
+  }
+  return;
+}
+
+/* ===== slot 0x24 slot_24 ===== */
+function npc_slot_24() /* entry=2579 class_id=0x0a11 slot=0x24 */
+{
+  set_info(0x020a, *(arg_06));
+  if (global[0x003d] == *(arg_06)) {
+    Item.getQuality(&global[0x003d]);
+    Ultima8Engine.setAvatarInStasis(1);
+    Item.andStatus();
+    while (Actor.isBusy(&global[0x003d])) {
+      spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+      suspend;
+    }
+  }
+  for local_02 in selector_0x42(arg0=0x01db, arg1=0x043d, arg2=(5 * 32), origin=arg_06) {
+    local_04 = local_02;
+  }
+  if (local_04) {
+    Actor.setDead(Actor.getMap(arg_06), Item.getZ(local_04), (Item.getY(local_04) - 16), (Item.getX(local_04) - 16), arg_06);
+    if (Item.getFrame(local_04) == 1) {
+      suspend;
+      spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
+      suspend;
+      Item.getQHi(Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06), 1, 37, 0, 0x0317);
+      AudioProcess.playSFXCru(52, &global[0x003d]);
+      suspend;
+    }
+    else {
+      suspend;
+      spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
+      suspend;
+      Item.getQHi(Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06), 1, 37, 0, 0x0317);
+      AudioProcess.playSFXCru(52, &global[0x003d]);
+      suspend;
+    }
+    Item.isCentreOn(8, arg_06);
+    if (AudioProcess.isSFXPlayingForObject(52, &global[0x003d])) {
+      spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+      suspend;
+    }
+    spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
+    suspend;
+  }
+  return;
+}
+
+/* ===== slot 0x25 slot_25 ===== */
+function npc_slot_25() /* entry=2579 class_id=0x0a11 slot=0x25 */
+{
+  set_info(0x020a, *(arg_06));
+  Intrinsic0D3(1, arg_06);
+  suspend;
+  spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+  suspend;
+  local_02 = Item.use(arg_06);
+  if (!Actor.isDead(arg_06)) {
+    Intrinsic0D3(Item.use(arg_06), arg_06);
+  }
+  return;
+}
+
+/* ===== slot 0x26 slot_26 ===== */
+function npc_slot_26() /* entry=2579 class_id=0x0a11 slot=0x26 */
+{
+  set_info(0x020a, *(arg_06));
+  local_02 = Item.use(arg_06);
+  local_04 = Item.getQHi(arg_06);
+  if (!Actor.isDead(arg_06)) {
+    Intrinsic0D3(1, arg_06);
+  }
+  local_06 = Item.use(arg_06);
+  local_08 = Item.getQHi(arg_06);
+  if (!Actor.isDead(arg_06)) {
+    suspend;
+    spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+    suspend;
+  }
+  local_10 = Item.use(arg_06);
+  local_12 = Item.getQHi(arg_06);
+  local_14 = 1;
+  while (local_14 <= arg_14) {
+    if (!Actor.isDead(arg_06)) {
+      suspend;
+    }
+    local_14 = (1 + local_14);
+  }
+  local_16 = Item.use(arg_06);
+  local_18 = Item.getQHi(arg_06);
+  if (!Actor.isDead(arg_06)) {
+    Intrinsic0D3(Item.use(arg_06), arg_06);
+  }
+  return;
+}
+
+/* ===== slot 0x27 slot_27 ===== */
+function npc_slot_27() /* entry=2579 class_id=0x0a11 slot=0x27 */
+{
+  set_info(0x020a, *(arg_06));
+  while (Actor.isBusy(arg_06)) {
+    spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+    suspend;
+  }
+  if (Actor.isDead(arg_06)) {
+    return;
+  }
+  else if (arg_10 == 0) {
+    local_02 = Item.getQHi(arg_06);
+    local_04 = Item.getQLo(arg_06);
+    local_06 = PaletteFaderProcess.setPalToAllGrey(arg_06);
+    local_08 = Actor.setActivity(arg_06);
+    switch (local_02) {
+    case 112:
+      Intrinsic0D3(1, arg_06);
+      break;
+    case 113:
+      Intrinsic0D3(3, arg_06);
+      break;
+    case 114:
+      Intrinsic0D3(5, arg_06);
+      break;
+    }
+    return;
+  }
+  else {
+    Intrinsic0D3(arg_10, arg_06);
+  }
+  return;
+}
+
+/* ===== slot 0x28 slot_28 ===== */
+function npc_slot_28() /* entry=2579 class_id=0x0a11 slot=0x28 */
+{
+  set_info(0x021b, *(arg_06));
+  return;
+}
+
+/* ===== slot 0x29 slot_29 ===== */
+function npc_slot_29() /* entry=2579 class_id=0x0a11 slot=0x29 */
+{
+  set_info(0x021b, *(arg_06));
+  spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+  suspend;
+  Egg.getEggId(Actor.getMap(arg_06), 0, arg_16, arg_14);
+  return;
+}
+
+/* ===== slot 0x2a slot_2a ===== */
+function npc_slot_2a() /* entry=2579 class_id=0x0a11 slot=0x2a */
+{
+  local_02 = *(arg_06);
+  set_info(0x0205, 0);
+  if ((global[0x0009] == 1) || (Item.inFastArea(local_02) == 0)) {
+    return;
+  }
+  else if (Item.getStatus(local_02) & 4) {
+    return;
+  }
+  else {
+    ITEM.slot_23(4, local_02);
+    AudioProcess.playSFXCru(arg_10, local_02);
+    while (AudioProcess.isSFXPlayingForObject(arg_10, local_02)) {
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+    }
+    spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
+    suspend;
+  }
+  return;
+}
+
+/* ===== slot 0x2b slot_2b ===== */
+function npc_slot_2b() /* entry=2579 class_id=0x0a11 slot=0x2b */
+{
+  if (((((((Item.getShape(arg_06) == 0x02cb) || (Item.getShape(arg_06) == npc_shape_033c)) || (Item.getShape(arg_06) == 0x045d)) || (Item.getShape(arg_06) == MECH_1)) || (Item.getShape(arg_06) == 0x0385)) || (Item.getShape(arg_06) == 0x04e6)) || (Item.getShape(arg_06) == 0x0383)) {
+    return;
+  }
+  else {
+    return;
+  }
+  return;
+}
+
+/* ===== slot 0x2c slot_2c ===== */
+function npc_slot_2c() /* entry=2579 class_id=0x0a11 slot=0x2c */
+{
+  set_info(0x020a, *(arg_06));
+  spawn NPC.slot_2d(pid, 8, arg_10, arg_06);
+  suspend;
+  return;
+}
+
+/* ===== slot 0x2d slot_2d ===== */
+function npc_slot_2d() /* entry=2579 class_id=0x0a11 slot=0x2d */
+{
+  set_info(0x020a, *(arg_06));
+  if (*(arg_06) > 0x0100) {
+    return;
+  }
+  else if (*(arg_06) == 1) {
+    if (global[0x000a] == 1) {
+      return;
+    }
+    local_02 = Item.isOn(arg_06);
+    spawn NPC.slot_2e(arg_06);
+    Item.receiveHit(UCMachine.rndRange(7, 20, 10), 8, arg_10, arg_06);
+    return;
+  }
+  else if (*(arg_06) != Actor.getLastAnimSet()) {
+    NPC.slot_2b(arg_06);
+    if (retval == 0) {
+      Item.receiveHit(UCMachine.rndRange(7, (20 - (Game.getDifficultyLevel() * 2)), 5), arg_12, arg_10, arg_06);
+    }
+    spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+    suspend;
+    return;
+  }
+  return;
+}
+
+/* ===== slot 0x2e slot_2e ===== */
+function npc_slot_2e() /* entry=2579 class_id=0x0a11 slot=0x2e */
+{
+  set_info(1, 0);
+  spawn FREE.waitNTimerTicks(pid, (90 - (Game.getDifficultyLevel() * 8)), 0x00000000);
+  suspend;
+  return;
+}

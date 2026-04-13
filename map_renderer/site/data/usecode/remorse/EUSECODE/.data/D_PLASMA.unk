@@ -1,0 +1,64 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[0E:calledFromAnim] call_intrinsic Actor.GetNPCDataField0x63_00B(arg_bytes=0x4) ; spawn NPCDEATH.slot_20 ; pop_temp ; ...
+//
+[0E:calledFromAnim] ret
+//
+//
+//
+[0F:enterFastArea] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[0F:enterFastArea] call_intrinsic Actor.GetNPCDataField0x63_00B(arg_bytes=0x4) ; spawn NPCDEATH.slot_20 ; pop_temp ; ...
+[0F:enterFastArea] ret
+
+/* synthesized appendix for D_PLASMA */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x0e calledFromAnim ===== */
+function d_plasma_calledFromAnim() /* entry=1425 class_id=0x058f slot=0x0e */
+{
+  var
+    referent; /* [BP+00h] type=0x69 */
+
+  set_info(0x021a, *(arg_06));
+  process_exclude();
+  spawn NPCDEATH.slot_20(Actor.GetNPCDataField0x63_00B(arg_06), *(arg_06), arg_06);
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+  */
+}
+
+/* ===== slot 0x0f enterFastArea ===== */
+function d_plasma_enterFastArea() /* entry=1425 class_id=0x058f slot=0x0f */
+{
+  var
+    referent; /* [BP+00h] type=0x69 */
+
+  set_info(0x021b, *(arg_06));
+  process_exclude();
+  spawn FREE.waitNTimerTicks(pid, 1, 0x00000000);
+  suspend;
+  spawn NPCDEATH.slot_20(Actor.GetNPCDataField0x63_00B(arg_06), *(arg_06), arg_06);
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+  */
+}

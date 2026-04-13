@@ -1,0 +1,131 @@
+/* synthesized appendix for TIMER */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x0a equip ===== */
+function timer_equip() /* entry=1227 class_id=0x04c9 slot=0x0a */
+{
+  set_info(0x0211, *(arg_06));
+  process_exclude();
+  if (arg_10 == 1) {
+    if ((Item.getStatus(arg_06) & 0x1000) == 0) {
+      spawn TIMER.slot_20(arg_06);
+    }
+    return;
+  }
+  else if (arg_10 == 0) {
+    Item.setQ((~0x1000), arg_06);
+    return;
+  }
+  return;
+}
+
+/* ===== slot 0x0f enterFastArea ===== */
+function timer_enterFastArea() /* entry=1227 class_id=0x04c9 slot=0x0f */
+{
+  set_info(0x021b, *(arg_06));
+  process_exclude();
+  if (Item.getQ(arg_06) & 2) {
+    if ((Item.getStatus(arg_06) & 0x1000) == 0) {
+      spawn TIMER.slot_20(arg_06);
+    }
+  }
+  return;
+}
+
+/* ===== slot 0x10 leaveFastArea ===== */
+function timer_leaveFastArea() /* entry=1227 class_id=0x04c9 slot=0x10 */
+{
+  set_info(0x021c, *(arg_06));
+  process_exclude();
+  if (Item.getQ(arg_06) & 4) {
+    if (Item.getStatus(arg_06) & 0x1000) {
+      Item.setQ((~0x1000), arg_06);
+    }
+  }
+  return;
+}
+
+/* ===== slot 0x20 slot_20 ===== */
+function timer_slot_20() /* entry=1227 class_id=0x04c9 slot=0x20 */
+{
+  set_info(1, 0);
+  Item.orStatus(0x1000, arg_06);
+  local_04 = ((Item.getMapArray(arg_06) * 0x0100) + Item.getQHi(arg_06));
+  if (local_04 == 0) {
+    return;
+  }
+  else {
+    local_02 = Item.getQ(arg_06);
+    local_08 = (local_02 / 32);
+    switch (local_08) {
+    case 0:
+      local_06 = 0;
+      break;
+    case 1:
+      local_06 = 10;
+      break;
+    case 2:
+      local_06 = 25;
+      break;
+    case 3:
+      local_06 = 40;
+      break;
+    case 4:
+      local_06 = 50;
+      break;
+    case 5:
+      local_06 = 60;
+      break;
+    case 6:
+      local_06 = 75;
+      break;
+    case 7:
+      local_06 = 90;
+      break;
+    }
+    local_12 = local_04;
+    local_16 = local_06;
+    local_12 = (local_12 * local_16);
+    local_20 = 100;
+    local_12 = (local_12 / local_20);
+    local_06 = local_12;
+    local_04 = (local_04 - local_06);
+    while (1) {
+      if (local_06) {
+        spawn FREE.waitNTimerTicks(pid, local_06, 0x00000000);
+        suspend;
+        if ((Item.getStatus(arg_06) & 0x1000) == 0) {
+          return;
+        }
+        if ((Item.inFastArea(arg_06) == 1) || ((local_02 & 8) == 0)) {
+          spawn TRIGGER.slot_2a(pid, (0x0080 + 0), *(arg_06), arg_06);
+          suspend;
+        }
+      }
+      spawn FREE.waitNTimerTicks(pid, local_04, 0x00000000);
+      suspend;
+      if ((Item.getStatus(arg_06) & 0x1000) == 0) {
+        if (local_02 & 16) {
+          spawn TRIGGER.slot_2a(pid, (0x0080 + 1), *(arg_06), arg_06);
+          suspend;
+        }
+        return;
+      }
+      else if ((Item.inFastArea(arg_06) == 1) || ((local_02 & 8) == 0)) {
+        if (local_06) {
+          spawn TRIGGER.slot_2a(pid, (0x0080 + 1), *(arg_06), arg_06);
+          suspend;
+        }
+        else {
+          spawn TRIGGER.slot_2a(pid, (0x0080 + 0), *(arg_06), arg_06);
+          suspend;
+        }
+      }
+      if ((local_02 & 1) == 0) {
+        Item.andStatus((~0x1000), arg_06);
+        return;
+      }
+    }
+  }
+  return;
+}

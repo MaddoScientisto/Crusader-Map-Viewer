@@ -1,0 +1,748 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[0B:unequip] spawn ROLL_NS.equip ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[0B:unequip] ret
+//
+//
+//
+[0A:equip] cmp ; jne 0x004c ; ...
+//
+[0A:equip] call_intrinsic Item.getStatus(arg_bytes=0x4) ; bit_and ; cmp ; ...
+[0A:equip]
+[0A:equip] spawn ROLL_NS.slot_21 ; pop_temp ; jmp 0x008c ; ...
+//
+//
+//
+[0A:equip] cmp ; jne 0x008c ; ...
+//
+[0A:equip] call_intrinsic Item.getStatus(arg_bytes=0x4) ; bit_and ; jne 0x0089 ; ...
+//
+[0A:equip] bit_not ; call_intrinsic Item.andStatus(arg_bytes=0x6) ; ...
+[0A:equip] call_intrinsic Kernel.resetRef(arg_bytes=0x4) ; jmp 0x008c ; ...
+//
+//
+//
+[0A:equip] ret
+//
+//
+//
+[20:slot_20] set_info ; ...
+//
+//
+//
+//
+//
+//
+//
+[20:slot_20] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[20:slot_20] call_intrinsic Item.getQHi(arg_bytes=0x4) ; pop_local_word h ; ...
+//
+[20:slot_20] bit_and ; jne 0x0080 ; loopscr value_u8=0x24 ; ...
+//
+//
+[20:slot_20] loop current_var=0xfc, string_bytes=0x1, loop_type=0x6 ; jne 0x007e ; ...
+[20:slot_20] create_list element_size=0x2, count=0x1 ; append_list ; free_local_list riderList ; ...
+//
+//
+//
+[20:slot_20] bit_and ; jne 0x00b5 ; ...
+//
+[20:slot_20] bit_not ; call_intrinsic Item.andStatus(arg_bytes=0x6) ; ...
+[20:slot_20] call_intrinsic Item.explode(arg_bytes=0x8) ; ...
+[20:slot_20] pop_local_word item2 ; jmp 0x0199 ; ...
+//
+//
+//
+[20:slot_20] call_class_event FREE.slot_20 ; pop_local_word r1 ; ...
+[20:slot_20] jne 0x00ef
+//
+[20:slot_20] call_class_event FREE.slot_20 ; pop_local_word r2 ; ...
+[20:slot_20] ne ; jne 0x00ec ; ...
+//
+[20:slot_20] jmp 0x00ef ; jmp 0x00c4
+//
+//
+//
+[20:slot_20] call_intrinsic Item.getX(arg_bytes=0x4) ; pop_local_word x ; ...
+[20:slot_20] call_intrinsic Item.getY(arg_bytes=0x4) ; pop_local_word y ; ...
+[20:slot_20] call_intrinsic Item.getZ(arg_bytes=0x4) ; pop_local_byte z ; ...
+[20:slot_20] call_intrinsic Item.getQLo(arg_bytes=0x4) ; pop_local_word qLo ; ...
+//
+[20:slot_20] call_intrinsic Item.explode(arg_bytes=0x8) ; ...
+[20:slot_20] spawn ITEM.slot_2a ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[20:slot_20] call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[20:slot_20] call_intrinsic Item.setQLo(arg_bytes=0x6)
+[20:slot_20] call_intrinsic Item.popToCoords(arg_bytes=0xa) ; ...
+[20:slot_20] call_intrinsic Item.fallProbably_03E(arg_bytes=0x4)
+//
+//
+//
+//
+//
+//
+[20:slot_20] call_intrinsic Item.destroy(arg_bytes=0x4) ; free_local_list riderList
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[20:slot_20] ret
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[21:slot_21] call_intrinsic Item.getQHi(arg_bytes=0x4) ; pop_local_word a ; ...
+[21:slot_21] bit_and ; pop_local_word time ; ...
+[21:slot_21] cmp ; jne 0x0040 ; ...
+//
+[21:slot_21] pop_local_word time
+//
+//
+[21:slot_21] call_intrinsic Item.getFrame(arg_bytes=0x4) ; pop_local_word f ; ...
+[21:slot_21] call_intrinsic Item.getX(arg_bytes=0x4) ; pop_local_word wp ; ...
+[21:slot_21] call_intrinsic Item.getY(arg_bytes=0x4) ; pop_local_word local_17 ; ...
+[21:slot_21] call_intrinsic Item.getZ(arg_bytes=0x4) ; pop_local_byte local_15 ; ...
+[21:slot_21] call_intrinsic Item.orStatus(arg_bytes=0x6)
+[21:slot_21] call_intrinsic AudioProcess.playAmbientSFXCru(arg_bytes=0x6)
+//
+[21:slot_21] bit_and ; jne 0x03b1 ; ...
+//
+[21:slot_21] lt ; jne 0x022e ; ...
+//
+[21:slot_21] jne 0x022b
+//
+[21:slot_21] sub ; pop_local_word f ; ...
+[21:slot_21] lt ; jne 0x00d2 ; ...
+[21:slot_21]
+[21:slot_21] pop_local_word f
+//
+//
+[21:slot_21] pop_local_word total ; loopscr value_u8=0x24 ; ...
+//
+[21:slot_21] loop current_var=0xeb, string_bytes=0x1, loop_type=0x6 ; jne 0x0105 ; ...
+[21:slot_21] add ; pop_local_word total ; ...
+[21:slot_21] call_intrinsic push(arg_bytes=0x4) ; loopnext ; jmp 0x00e9 ; ...
+//
+//
+//
+[21:slot_21] add ; pop_local_word local_17 ; ...
+[21:slot_21] call_intrinsic legalMoveToPoint(arg_bytes=0xc) ; ...
+[21:slot_21] cmp ; jne 0x01a3
+[21:slot_21] pop_local_word counter ; add ; pop_local_word counter ; ...
+[21:slot_21] le ; jne 0x017e
+[21:slot_21] call_intrinsic Item.getEtherealTop(arg_bytes=0x0) ; pop_local_word cargo
+[21:slot_21] call_intrinsic Item.getZ(arg_bytes=0x4) ; call_intrinsic Item.getY(arg_bytes=0x4) ; call_intrinsic Item.getX(arg_bytes=0x4) ; ...
+//
+[21:slot_21] spawn ROLL_NS.slot_20 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[21:slot_21] jmp 0x06ce
+//
+//
+//
+[21:slot_21] pop_local_word counter ; add ; pop_local_word counter ; ...
+[21:slot_21] le ; jne 0x01f5
+[21:slot_21] call_intrinsic Item.getEtherealTop(arg_bytes=0x0) ; pop_local_word cargo
+[21:slot_21] call_intrinsic Item.getZ(arg_bytes=0x4) ; call_intrinsic Item.getY(arg_bytes=0x4) ; add ; ...
+//
+//
+[21:slot_21] call_intrinsic Item.setFrame(arg_bytes=0x6)
+[21:slot_21] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+[21:slot_21] jne 0x03ae
+//
+[21:slot_21] add ; pop_local_word f ; ...
+[21:slot_21] gt ; jne 0x0255 ; ...
+[21:slot_21]
+[21:slot_21] pop_local_word f
+//
+//
+[21:slot_21] pop_local_word total ; loopscr value_u8=0x24 ; ...
+//
+[21:slot_21] loop current_var=0xeb, string_bytes=0x1, loop_type=0x6 ; jne 0x0288 ; ...
+[21:slot_21] add ; pop_local_word total ; ...
+[21:slot_21] call_intrinsic push(arg_bytes=0x4) ; loopnext ; jmp 0x026c ; ...
+//
+//
+[21:slot_21] sub ; pop_local_word local_17 ; ...
+[21:slot_21] call_intrinsic legalMoveToPoint(arg_bytes=0xc) ; ...
+[21:slot_21] cmp ; jne 0x0326
+[21:slot_21] pop_local_word counter ; add ; pop_local_word counter ; ...
+[21:slot_21] le ; jne 0x0301
+[21:slot_21] call_intrinsic Item.getEtherealTop(arg_bytes=0x0) ; pop_local_word cargo
+[21:slot_21] call_intrinsic Item.getZ(arg_bytes=0x4) ; call_intrinsic Item.getY(arg_bytes=0x4) ; call_intrinsic Item.getX(arg_bytes=0x4) ; ...
+//
+[21:slot_21] spawn ROLL_NS.slot_20 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[21:slot_21] jmp 0x06ce
+//
+//
+[21:slot_21] pop_local_word counter ; add ; pop_local_word counter ; ...
+[21:slot_21] le ; jne 0x0378
+[21:slot_21] call_intrinsic Item.getEtherealTop(arg_bytes=0x0) ; pop_local_word cargo
+[21:slot_21] call_intrinsic Item.getZ(arg_bytes=0x4) ; call_intrinsic Item.getY(arg_bytes=0x4) ; sub ; ...
+//
+//
+[21:slot_21] call_intrinsic Item.setFrame(arg_bytes=0x6)
+[21:slot_21] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+//
+[21:slot_21] pop_local_word zCheck
+[21:slot_21] pop_local_byte zMax
+//
+[21:slot_21] lt ; jne 0x054e ; ...
+//
+[21:slot_21] jne 0x054b
+//
+[21:slot_21] sub ; pop_local_word f ; ...
+[21:slot_21] lt ; jne 0x03f2 ; ...
+[21:slot_21]
+[21:slot_21] pop_local_word f
+//
+//
+[21:slot_21] add ; pop_local_word local_17 ; ...
+[21:slot_21] call_intrinsic legalMoveToPoint(arg_bytes=0xc) ; ...
+[21:slot_21] cmp ; jne 0x0467
+[21:slot_21] add ; pop_local_byte local_15 ; ...
+[21:slot_21] call_intrinsic legalMoveToPoint(arg_bytes=0xc) ; ...
+[21:slot_21] cmp ; jne 0x0467
+[21:slot_21] spawn ROLL_NS.slot_20 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[21:slot_21] jmp 0x06ce
+//
+//
+//
+[21:slot_21] gt ; jne 0x04b1 ; ...
+//
+[21:slot_21] sub ; pop_local_byte local_15 ; ...
+[21:slot_21] call_intrinsic legalMoveToPoint(arg_bytes=0xc) ; ...
+[21:slot_21] cmp ; jne 0x04a4
+[21:slot_21] add ; pop_local_byte local_15 ; ...
+//
+[21:slot_21] sub ; pop_local_word zCheck ; jmp 0x0515 ; ...
+//
+//
+[21:slot_21] gt ; jne 0x0515 ; ...
+//
+[21:slot_21] call_intrinsic Item.fallProbably_03E(arg_bytes=0x4)
+[21:slot_21] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[21:slot_21] spawn ROLL_NS.slot_20 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[21:slot_21] jmp 0x06ce ; jmp 0x0515
+//
+//
+[21:slot_21] call_intrinsic Item.setFrame(arg_bytes=0x6)
+[21:slot_21] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+[21:slot_21] jne 0x06ce
+//
+[21:slot_21] add ; pop_local_word f ; ...
+[21:slot_21] gt ; jne 0x0575 ; ...
+[21:slot_21]
+[21:slot_21] pop_local_word f
+//
+//
+[21:slot_21] sub ; pop_local_word local_17 ; ...
+[21:slot_21] call_intrinsic legalMoveToPoint(arg_bytes=0xc) ; ...
+[21:slot_21] cmp ; jne 0x05ea
+[21:slot_21] add ; pop_local_byte local_15 ; ...
+[21:slot_21] call_intrinsic legalMoveToPoint(arg_bytes=0xc) ; ...
+[21:slot_21] cmp ; jne 0x05ea
+[21:slot_21] spawn ROLL_NS.slot_20 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[21:slot_21] jmp 0x06ce
+//
+//
+//
+[21:slot_21] gt ; jne 0x0634 ; ...
+//
+[21:slot_21] sub ; pop_local_byte local_15 ; ...
+[21:slot_21] call_intrinsic legalMoveToPoint(arg_bytes=0xc) ; ...
+[21:slot_21] cmp ; jne 0x0627
+[21:slot_21] add ; pop_local_byte local_15 ; ...
+//
+[21:slot_21] sub ; pop_local_word zCheck ; jmp 0x0698 ; ...
+//
+//
+[21:slot_21] gt ; jne 0x0698 ; ...
+//
+[21:slot_21] call_intrinsic Item.fallProbably_03E(arg_bytes=0x4)
+[21:slot_21] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[21:slot_21] spawn ROLL_NS.slot_20 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[21:slot_21] jmp 0x06ce ; jmp 0x0698
+//
+//
+[21:slot_21] call_intrinsic Item.setFrame(arg_bytes=0x6)
+[21:slot_21] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+[21:slot_21] ret
+//
+//
+//
+//
+//
+[06:gotHit] call_intrinsic Item.getStatus(arg_bytes=0x4) ; bit_and ; cmp ; ...
+[06:gotHit]
+[06:gotHit] spawn ROLL_NS.slot_21 ; pop_temp ; jmp 0x00c6 ; ...
+//
+//
+//
+[06:gotHit] spawn ITEM.slot_27 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[06:gotHit]
+[06:gotHit] call_class_event FREE.slot_20 ; jne 0x0091 ; ...
+//
+[06:gotHit] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6) ; jmp 0x009e ; ...
+//
+//
+//
+[06:gotHit] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+//
+//
+[06:gotHit] jmp 0x00c6 ; jmp 0x00c6
+//
+//
+//
+[06:gotHit] spawn ROLL_NS.slot_20 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[06:gotHit] ret
+//
+//
+//
+//
+//
+[05:hit] call_intrinsic Item.getStatus(arg_bytes=0x4) ; bit_and ; cmp ; ...
+[05:hit]
+[05:hit] spawn ROLL_NS.slot_21 ; pop_temp ; ...
+//
+[05:hit] ret
+
+/* synthesized appendix for ROLL_NS */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x05 hit ===== */
+function roll_ns_hit() /* entry=840 class_id=0x0346 slot=0x05 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    vel; /* [BP+12h] type=0x69 */
+
+  set_info(0x020b, *(arg_06));
+  process_exclude();
+  if ((Item.getStatus(arg_06) & 0x1000) == 0) {
+    spawn ROLL_NS.slot_21(arg_06);
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol ref [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol vel [BP+12h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x06 gotHit ===== */
+function roll_ns_gotHit() /* entry=840 class_id=0x0346 slot=0x06 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    vel; /* [BP+12h] type=0x69 */
+
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  if ((Item.getStatus(arg_06) & 0x1000) == 0) {
+    spawn ROLL_NS.slot_21(arg_06);
+    return;
+  }
+  else {
+    spawn ITEM.slot_27(pid, 100, vel, ref, arg_06);
+    suspend;
+    if (!process_result) {
+      FREE.slot_20(1);
+      if (retval) {
+        AudioProcess.playSFXCru(38, arg_06);
+      }
+      else {
+        AudioProcess.playSFXCru(39, arg_06);
+      }
+      return;
+    }
+    else {
+      spawn ROLL_NS.slot_20(pid, arg_06);
+      suspend;
+    }
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol ref [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol vel [BP+12h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x0a equip ===== */
+function roll_ns_equip() /* entry=840 class_id=0x0346 slot=0x0a */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    var; /* [BP+10h] type=0x69 */
+
+  set_info(0x0211, *(arg_06));
+  process_exclude();
+  if (var == 1) {
+    if ((Item.getStatus(arg_06) & 0x1000) == 0) {
+      spawn ROLL_NS.slot_21(arg_06);
+    }
+    return;
+  }
+  else if (var == 2) {
+    if (Item.getStatus(arg_06) & 0x1000) {
+      Item.andStatus((~0x1000), arg_06);
+      Kernel.resetRef(0x021b, *(arg_06));
+    }
+    return;
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol var [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x0b unequip ===== */
+function roll_ns_unequip() /* entry=840 class_id=0x0346 slot=0x0b */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    var; /* [BP+10h] type=0x69 */
+
+  set_info(0x0212, *(arg_06));
+  process_exclude();
+  spawn ROLL_NS.equip(pid, var, arg_06);
+  suspend;
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol var [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x20 slot_20 ===== */
+function roll_ns_slot_20() /* entry=840 class_id=0x0346 slot=0x20 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    item, /* [BP-02h] type=0x24 */
+    item2, /* [BP-04h] type=0x24 */
+    riderList, /* [BP-06h] type=0x6c */
+    r1, /* [BP-08h] type=0x69 */
+    r2, /* [BP-10h] type=0x69 */
+    h, /* [BP-12h] type=0x69 */
+    x, /* [BP-14h] type=0x69 */
+    y, /* [BP-16h] type=0x69 */
+    z, /* [BP-17h] type=0x62 */
+    qLo; /* [BP-19h] type=0x69 */
+
+  set_info(1, *(arg_06));
+  spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+  suspend;
+  h = Item.getQHi(arg_06);
+  if (h & 32) {
+    while (condition) {
+      riderList = (riderList + [item2]);
+    }
+  }
+  if (h & 64) {
+    Item.andStatus((~0x1000), arg_06);
+    Item.explode(0, 1, arg_06);
+    item2 = *(arg_06);
+    return;
+  }
+  else {
+    FREE.slot_20(3);
+    r1 = retval;
+    while (1) {
+      FREE.slot_20(3);
+      r2 = retval;
+      if (r2 != r1) {
+      }
+    }
+    x = Item.getX(arg_06);
+    y = Item.getY(arg_06);
+    z = Item.getZ(arg_06);
+    qLo = Item.getQLo(arg_06);
+    Item.explode(0, 1, arg_06);
+    spawn ITEM.slot_2a(pid, arg_06);
+    suspend;
+    Item.create(r1, 0x0261, item);
+    Item.setQLo(qLo, item);
+    Item.popToCoords(z, y, x, item);
+    Item.fallProbably_03E(item);
+    Item.destroy(arg_06);
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol item [BP-02h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol item2 [BP-04h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol riderList [BP-06h] type=0x6c unk1=0x00 unk3=0x02
+    debug_symbol r1 [BP-08h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol r2 [BP-10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol h [BP-12h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol x [BP-14h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol y [BP-16h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol z [BP-17h] type=0x62 unk1=0x00 unk3=0x00
+    debug_symbol qLo [BP-19h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x21 slot_21 ===== */
+function roll_ns_slot_21() /* entry=840 class_id=0x0346 slot=0x21 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    time, /* [BP-02h] type=0x69 */
+    f, /* [BP-04h] type=0x69 */
+    a, /* [BP-06h] type=0x69 */
+    total, /* [BP-08h] type=0x69 */
+    counter, /* [BP-10h] type=0x69 */
+    dz, /* [BP-12h] type=0x69 */
+    oldz, /* [BP-14h] type=0x69 */
+    wp, /* [BP-19h] type=0x24 */
+    cargo, /* [BP-21h] type=0x24 */
+    zCheck, /* [BP-23h] type=0x69 */
+    zMax; /* [BP-24h] type=0x62 */
+
+  set_info(0x0001, *(arg_06));
+  a = Item.getQHi(arg_06);
+  time = (a & 31);
+  if (time == 0) {
+    time = 1;
+  }
+  f = Item.getFrame(arg_06);
+  wp = Item.getX(arg_06);
+  local_17 = Item.getY(arg_06);
+  local_15 = Item.getZ(arg_06);
+  Item.orStatus(0x1000, arg_06);
+  AudioProcess.playAmbientSFXCru(0x00a3, arg_06);
+  if (a & 32) {
+    if (a < 0x0080) {
+      while (1) {
+        f = (f - 1);
+        if (f < 0) {
+          f = 3;
+        }
+        total = 0;
+        while (condition) {
+          total = (1 + total);
+          push(cargo);
+        }
+        local_17 = (local_17 + 8);
+        if (legalMoveToPoint(0, 0, wp, arg_06) == 0) {
+          counter = 1;
+          while (counter <= total) {
+            cargo = Item.getEtherealTop();
+            Item.popToCoords(Item.getZ(cargo), Item.getY(cargo), Item.getX(cargo), cargo);
+            counter = (1 + counter);
+          }
+          spawn ROLL_NS.slot_20(pid, arg_06);
+          suspend;
+          return;
+        }
+        counter = 1;
+        while (counter <= total) {
+          cargo = Item.getEtherealTop();
+          Item.popToCoords(Item.getZ(cargo), (Item.getY(cargo) + 8), Item.getX(cargo), cargo);
+          counter = (1 + counter);
+        }
+        Item.setFrame(f, arg_06);
+        spawn FREE.waitNTimerTicks(pid, time, 0x00000000);
+        suspend;
+      }
+    }
+    else {
+      while (1) {
+        f = (1 + f);
+        if (f > 3) {
+          f = 0;
+        }
+        total = 0;
+        while (condition) {
+          total = (1 + total);
+          push(cargo);
+        }
+        local_17 = (local_17 - 8);
+        if (legalMoveToPoint(0, 0, wp, arg_06) == 0) {
+          counter = 1;
+          while (counter <= total) {
+            cargo = Item.getEtherealTop();
+            Item.popToCoords(Item.getZ(cargo), Item.getY(cargo), Item.getX(cargo), cargo);
+            counter = (1 + counter);
+          }
+          spawn ROLL_NS.slot_20(pid, arg_06);
+          suspend;
+          return;
+        }
+        counter = 1;
+        while (counter <= total) {
+          cargo = Item.getEtherealTop();
+          Item.popToCoords(Item.getZ(cargo), (Item.getY(cargo) - 8), Item.getX(cargo), cargo);
+          counter = (1 + counter);
+        }
+        Item.setFrame(f, arg_06);
+        spawn FREE.waitNTimerTicks(pid, time, 0x00000000);
+        suspend;
+      }
+    }
+    return;
+  }
+  else {
+    zCheck = 0;
+    zMax = local_15;
+    if (a < 0x0080) {
+      while (1) {
+        f = (f - 1);
+        if (f < 0) {
+          f = 3;
+        }
+        local_17 = (local_17 + 8);
+        if (legalMoveToPoint(0, 0, wp, arg_06) == 0) {
+          local_15 = (1 + local_15);
+          if (legalMoveToPoint(0, 0, wp, arg_06) == 0) {
+            spawn ROLL_NS.slot_20(pid, arg_06);
+            suspend;
+            return;
+          }
+        }
+        if (local_15 > 1) {
+          local_15 = (local_15 - 4);
+          if (legalMoveToPoint(0, 0, wp, arg_06) == 0) {
+            local_15 = (local_15 + 4);
+          }
+          zCheck = (zMax - local_15);
+        }
+        else if (zCheck > 12) {
+          Item.fallProbably_03E(arg_06);
+          spawn FREE.waitNTimerTicks(pid, 6, 0x00000000);
+          suspend;
+          spawn ROLL_NS.slot_20(pid, arg_06);
+          suspend;
+          return;
+        }
+        Item.setFrame(f, arg_06);
+        spawn FREE.waitNTimerTicks(pid, time, 0x00000000);
+        suspend;
+      }
+      return;
+    }
+    else {
+      while (1) {
+        f = (1 + f);
+        if (f > 3) {
+          f = 0;
+        }
+        local_17 = (local_17 - 8);
+        if (legalMoveToPoint(0, 0, wp, arg_06) == 0) {
+          local_15 = (1 + local_15);
+          if (legalMoveToPoint(0, 0, wp, arg_06) == 0) {
+            spawn ROLL_NS.slot_20(pid, arg_06);
+            suspend;
+            return;
+          }
+        }
+        else if (local_15 > 1) {
+          local_15 = (local_15 - 4);
+          if (legalMoveToPoint(0, 0, wp, arg_06) == 0) {
+            local_15 = (local_15 + 4);
+          }
+          zCheck = (zMax - local_15);
+        }
+        else if (zCheck > 12) {
+          Item.fallProbably_03E(arg_06);
+          spawn FREE.waitNTimerTicks(pid, 6, 0x00000000);
+          suspend;
+          spawn ROLL_NS.slot_20(pid, arg_06);
+          suspend;
+          return;
+        }
+        Item.setFrame(f, arg_06);
+        spawn FREE.waitNTimerTicks(pid, time, 0x00000000);
+        suspend;
+      }
+    }
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol time [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol f [BP-04h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol a [BP-06h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol total [BP-08h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol counter [BP-10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol dz [BP-12h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol oldz [BP-14h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol wp [BP-19h] type=0x24 unk1=0x00 unk3=0x05
+    debug_symbol cargo [BP-21h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol zCheck [BP-23h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol zMax [BP-24h] type=0x62 unk1=0x00 unk3=0x00
+  */
+}

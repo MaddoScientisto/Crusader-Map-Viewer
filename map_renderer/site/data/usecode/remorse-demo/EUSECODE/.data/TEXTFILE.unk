@@ -1,0 +1,2445 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[20:slot_20] call_intrinsic ComputerGump.readComputer(arg_bytes=0x4)
+[20:slot_20] ret
+//
+//
+//
+//
+//
+[21:slot_21] ge ; jne 0x0036 ; ...
+[21:slot_21]
+[21:slot_21] call_class_event TEXTFIL2.slot_20 ; pop_temp ; jmp 0x0075 ; ...
+//
+//
+[21:slot_21] ge ; jne 0x005e ; ...
+[21:slot_21]
+[21:slot_21] call_class_event TEXTFIL1.slot_20 ; pop_temp ; jmp 0x0075 ; ...
+//
+//
+//
+[21:slot_21] call_class_event TEXTFILE.slot_23 ; pop_temp ; jmp 0x0075 ; ...
+//
+//
+[21:slot_21] ret
+//
+//
+//
+[22:slot_22] call_class_event FREE.slot_2b ; jne 0x00c2 ; ...
+//
+[22:slot_22] call_intrinsic Item.getMapArray(arg_bytes=0x4) ; cmp ; jne 0x00c2 ; ...
+//
+//
+//
+//
+//
+[22:slot_22] spawn ITEM.slot_28 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[22:slot_22] call_intrinsic Item.legal_create(arg_bytes=0x6) ; jmp 0x00c2 ; call_intrinsic Item.getFrame(arg_bytes=0x4) ; ...
+//
+//
+//
+[22:slot_22] spawn ITEM.slot_28 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[22:slot_22] call_intrinsic Item.legal_create(arg_bytes=0x6) ; jmp 0x00c2 ; ...
+//
+//
+//
+//
+[22:slot_22] ret
+//
+//
+//
+//
+//
+//
+//
+[23:slot_23] ge ; jne 0x0036 ; ...
+[23:slot_23]
+[23:slot_23] call_class_event TEXTFIL2.slot_20 ; pop_temp ; jmp 0x2228 ; ...
+//
+//
+[23:slot_23] ge ; jne 0x005e ; ...
+[23:slot_23]
+[23:slot_23] call_class_event TEXTFIL1.slot_20 ; pop_temp ; jmp 0x2228 ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[23:slot_23] call_intrinsic UCMachine.rndRange(arg_bytes=0x4) ; pop_local_word rnge ; cmp ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[23:slot_23]
+//
+//
+//
+//
+//
+[23:slot_23]
+//
+//
+//
+//
+[23:slot_23]
+//
+//
+//
+//
+//
+//
+[23:slot_23]
+//
+//
+//
+//
+//
+//
+[23:slot_23]
+//
+//
+//
+//
+//
+[23:slot_23]
+//
+//
+//
+//
+//
+[23:slot_23]
+//
+//
+//
+[23:slot_23] free_local_string textFile ; pop_local_word textFile ; jmp 0x06af ; ...
+//
+//
+//
+//
+//
+[23:slot_23]
+//
+//
+//
+//
+//
+[23:slot_23]
+//
+//
+//
+//
+[23:slot_23]
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[23:slot_23] free_local_string textFile ; pop_local_word textFile ; jmp 0x221f ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[23:slot_23] free_local_string textFile ; pop_local_word textFile ; jmp 0x221f ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[23:slot_23] free_local_string textFile ; pop_local_word textFile ; jmp 0x221f ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[23:slot_23] free_local_string textFile ; pop_local_word textFile ; jmp 0x221f ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[23:slot_23] free_local_string textFile ; pop_local_word textFile ; jmp 0x221f ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[23:slot_23] free_local_string textFile ; pop_local_word textFile ; jmp 0x221f ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[23:slot_23] call_intrinsic UCMachine.numToStr(arg_bytes=0x2) ; concat ; ...
+[23:slot_23] concat ; free_local_string textFile ; pop_local_word textFile ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[23:slot_23]
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[23:slot_23]
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[23:slot_23]
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[23:slot_23]
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[23:slot_23]
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[23:slot_23]
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[23:slot_23]
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[23:slot_23] call_intrinsic UCMachine.numToStr(arg_bytes=0x2) ; concat ; concat ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[23:slot_23] call_intrinsic UCMachine.numToStr(arg_bytes=0x2) ; concat ; concat ; ...
+[23:slot_23] concat ; free_local_string textFile ; pop_local_word textFile ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[23:slot_23]
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[23:slot_23]
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[23:slot_23]
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[23:slot_23] free_local_string textFile ; pop_local_word textFile ; jmp 0x221f ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[23:slot_23] push_string_immediate "NOTICE: To all Techs - ^The passcode to Dr. ...
+[23:slot_23] call_intrinsic UCMachine.numToStr(arg_bytes=0x2) ; concat ; ...
+[23:slot_23] concat ; free_local_string textFile ; pop_local_word textFile ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[23:slot_23] free_local_string textFile ; pop_local_word textFile ; jmp 0x221f ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[23:slot_23] call_intrinsic UCMachine.numToStr(arg_bytes=0x2) ; concat ; ...
+[23:slot_23] concat ; free_local_string textFile ; pop_local_word textFile ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[23:slot_23]
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[23:slot_23] free_local_string textFile ; pop_local_word textFile ; jmp 0x221f ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[23:slot_23]
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[23:slot_23]
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[23:slot_23]
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[23:slot_23] free_local_string textFile ; pop_local_word textFile ; jmp 0x221f ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[23:slot_23]
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[23:slot_23]
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[23:slot_23] call_intrinsic UCMachine.numToStr(arg_bytes=0x2) ; concat ; ...
+[23:slot_23] concat ; free_local_string textFile ; pop_local_word textFile ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[23:slot_23]
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[23:slot_23]
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[23:slot_23]
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[23:slot_23]
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[23:slot_23]
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[23:slot_23]
+[23:slot_23] call_intrinsic UCMachine.numToStr(arg_bytes=0x2) ; concat ; ...
+[23:slot_23] concat
+[23:slot_23] concat ; free_local_string textFile ; pop_local_word textFile ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[23:slot_23]
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[23:slot_23]
+[23:slot_23] call_intrinsic UCMachine.numToStr(arg_bytes=0x2) ; concat ; ...
+[23:slot_23] concat ; free_local_string textFile ; pop_local_word textFile ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[23:slot_23] push_string_immediate "Security code to Level 4 express elevator is: "
+[23:slot_23] call_intrinsic UCMachine.numToStr(arg_bytes=0x2) ; concat ; free_local_string textFile ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[23:slot_23] push_string_immediate "Code to Security Station forcebridge is: "
+[23:slot_23] call_intrinsic UCMachine.numToStr(arg_bytes=0x2) ; concat ; free_local_string textFile ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[23:slot_23] push_local_word linkNum
+[23:slot_23] and ; jne 0x1d77
+//
+//
+//
+//
+[23:slot_23] call_intrinsic UCMachine.numToStr(arg_bytes=0x2) ; concat ; ...
+[23:slot_23] concat ; free_local_string textFile ; pop_local_word textFile ; ...
+//
+//
+//
+//
+//
+[23:slot_23]
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[23:slot_23]
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[23:slot_23]
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[23:slot_23]
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[23:slot_23]
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[23:slot_23]
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[23:slot_23] push_local_word linkNum
+[23:slot_23] and ; jne 0x21b4
+//
+//
+//
+//
+[23:slot_23] call_intrinsic UCMachine.numToStr(arg_bytes=0x2) ; concat ; concat ; ...
+[23:slot_23] concat ; free_local_string textFile ; pop_local_word textFile ; ...
+//
+//
+//
+//
+//
+//
+//
+[23:slot_23]
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[23:slot_23] pop_temp ; jmp 0x2228 ; free_local_string textFile ; ...
+[23:slot_23] free_local_string textFile ; pop_local_word textFile ; jmp 0x06af ; ...
+
+/* synthesized appendix for TEXTFILE */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x20 slot_20 ===== */
+function textfile_slot_20() /* entry=2585 class_id=0x0a17 slot=0x20 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    textFile; /* [BP+10h] type=0x73 */
+
+  /* param_pid_chg */
+  set_info(0x0001, *(arg_06));
+  ComputerGump.readComputer(textFile);
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol textFile [BP+10h] type=0x73 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x21 slot_21 ===== */
+function textfile_slot_21() /* entry=2585 class_id=0x0a17 slot=0x21 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    linkNum, /* [BP+10h] type=0x69 */
+    msgNum; /* [BP+12h] type=0x69 */
+
+  if (msgNum >= 110) {
+    TEXTFIL2.slot_20(0, msgNum, linkNum, arg_06);
+    return;
+  }
+  else if (msgNum >= 60) {
+    TEXTFIL1.slot_20(0, msgNum, linkNum, arg_06);
+    return;
+  }
+  else {
+    TEXTFILE.slot_23(0, msgNum, linkNum, arg_06);
+    return;
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol linkNum [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol msgNum [BP+12h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x22 slot_22 ===== */
+function textfile_slot_22() /* entry=2585 class_id=0x0a17 slot=0x22 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    vel; /* [BP+12h] type=0x69 */
+
+  set_info(0x0001, *(arg_06));
+  FREE.slot_2b(vel, ref);
+  if (retval) {
+    if (Item.getMapArray(arg_06) == 0) {
+      if (Item.getFrame(arg_06) == 0) {
+        spawn ITEM.slot_28(pid, 0, 0, arg_06);
+        suspend;
+        Item.legal_create(2, arg_06);
+        return;
+      }
+      else if (Item.getFrame(arg_06) == 1) {
+        spawn ITEM.slot_28(pid, 0, 0, arg_06);
+        suspend;
+        Item.legal_create(OOB_FLOOR_BLACK_0003, arg_06);
+        return;
+      }
+    }
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol ref [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol vel [BP+12h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x23 slot_23 ===== */
+function textfile_slot_23() /* entry=2585 class_id=0x0a17 slot=0x23 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    linkNum, /* [BP+10h] type=0x69 */
+    msgNum, /* [BP+12h] type=0x69 */
+    passcode, /* [BP+14h] type=0x69 */
+    textFile, /* [BP-02h] type=0x73 */
+    rnge; /* [BP-04h] type=0x69 */
+
+  if (msgNum >= 110) {
+    TEXTFIL2.slot_20(passcode, msgNum, linkNum, arg_06);
+    return;
+  }
+  else if (msgNum >= 60) {
+    TEXTFIL1.slot_20(passcode, msgNum, linkNum, arg_06);
+    return;
+  }
+  if (msgNum == 0) {
+    rnge = UCMachine.rndRange(11, 1);
+    if (rnge == 1) {
+      textFile = "Due to recent rebel activity, the T-300 lines have failed. *^Do NOT attempt to access the WEC network at this time.^END OF MESSAGE...";
+    }
+    else if (rnge == 2) {
+      textFile = "The use of WEC equipment for playing computerized entertainment software is strictly prohibited!* Return to work IMMEDIATELY!***";
+    }
+    else if (rnge == 3) {
+      textFile = "All workers must display their badges at ALL TIMES!* Failure to comply will result in immediate termination!*^";
+    }
+    else if (rnge == 4) {
+      textFile = "Report all unauthorized use of WEC equipment immediately! Remember, your co-workers could be rebel sympathizers! Collect big cash rewards too!*";
+    }
+    else if (rnge == 5) {
+      textFile = "Unauthorized access of this terminal constitutes a violation of WEC security code 1701-D. Please report yourself to the nearest WEC security officer for correctional measures IMMEDIATELY.*^";
+    }
+    else if (rnge == 6) {
+      textFile = "The WEC network is exp*erien^*cing*^ slight dif^*ficulties.^Please st$#@**%^#@!*)(*^%$#^";
+    }
+    else if (rnge == 7) {
+      textFile = "The carrying of unregistered radiation detection devices is strictly prohibited by the WEC. Register yours today. Remember, the WEC is just like family, and we care about you!";
+    }
+    else if (rnge == 8) {
+      textFile = "WEC T-300/SYS out of disk space^";
+    }
+    else if (rnge == 9) {
+      textFile = "Consortium-wide meeting tomorrow at 1330. WedgeRoom 1501. This is a mandatory meeting! All Branch Leaders must attend!";
+    }
+    else if (rnge == 10) {
+      textFile = "The WEC Regulatory Commission requires reports of your daily activities. Failure to submit these reports may result in immediate termination.";
+    }
+    else {
+      textFile = "The WEC network is experiencing slight difficulties.^Please stand by*.*.*.^";
+    }
+  }
+  else if (msgNum == 1) {
+    textFile = "Doors have been opened.^";
+  }
+  else if (msgNum == 2) {
+    textFile = "Force field deactivated.^";
+  }
+  else if (msgNum == 3) {
+    textFile = "Electronic bridge extended.^";
+  }
+  else if (msgNum == 4) {
+    textFile = "Security systems activated.^";
+  }
+  else if (msgNum == 5) {
+    textFile = "Security systems de-activated.^";
+  }
+  else if ((((msgNum == 6) || (msgNum == 7)) || (msgNum == 8)) || (msgNum == 9)) {
+    textFile = "All alarm systems have been de-activated.^";
+  }
+  else if (msgNum == 10) {
+    textFile = (("From: Security^______________^Due to recent rebel activity, the code to operations has been changed to " + UCMachine.numToStr(passcode)) + "^Remember, delete this message! Spies are everywhere!");
+  }
+  else if (msgNum == 11) {
+    textFile = "Security Cartel HQD^___________________^*^Accessing system:*.*.*.*^^Thresher Cannon: *ACTIVE";
+  }
+  else if (msgNum == 12) {
+    textFile = "To all Refinery Ops^2nd Class Tech Stokes has once again started a fire in the thermalcoupler area.^We ask again that all employees smoke only in the authorized areas.";
+  }
+  else if (msgNum == 13) {
+    textFile = "To all Refinery Ops^3rd Class Tech Brandt has contaminated the fifth level with dangerous^plutonium isotopes again. Be careful where you step.^";
+  }
+  else if (msgNum == 14) {
+    textFile = "Security Cartel:^________________^Remote viewing facility.^*Thermal Coupler power system.^^Watch Station: ^*<NOW ACTIVE>";
+  }
+  else if (msgNum == 15) {
+    textFile = "Refinery Operations:^____________________^Now interfacing with remote service droid...*^Thermatron ZC90201^^Unit is now *-ONLINE-.";
+  }
+  else if (msgNum == 16) {
+    textFile = "Security Cartel: ^^Remote alarm panel^User ID <TZ81664>^*^Area is secured:*^Stand down from alert.";
+  }
+  else if (msgNum == 17) {
+    textFile = "Security Cartel:^__________________^Remote Operations^Watch Station: ^*<NOW ACTIVE>";
+  }
+  else if (msgNum == 18) {
+    textFile = (("From: DBEYER^______________^Due to the alert, I have hidden my keycard. Do not open the safe unless it's of absolute ^importance, for there could be rebel saboteurs about. Keep in mind that this may not be a drill, this could be for real this time.^" + UCMachine.numToStr(passcode)) + " is this week's passcode.");
+  }
+  else if (msgNum == 19) {
+    textFile = ((("From: MGREENE^______________^*You will have to learn to write down the new passcodes.^I can't keep giving these out!^" + UCMachine.numToStr(passcode)) + " is this week's passcode.") + "^This is the last time, Philbert!^");
+  }
+  else if (msgNum == 20) {
+    textFile = "NOTICE:^^To: All Personnel^Please remember to keep your keycards with you at all times.^";
+  }
+  else if (msgNum == 21) {
+    textFile = "Security Cartel: ^Operations Center.^User ID T*Z*1*6*^^Area is secured:*^Stand down from Alert.";
+  }
+  else if (msgNum == 22) {
+    textFile = "Security Cartel: ^Operations Center.*^User ID T*Z*1*6*^^Due to malfunctions within the security grid, the telepad is inoperative. Please use the backup telepad in the west wing.";
+  }
+  else if (msgNum == 25) {
+    textFile = "Phase one of the impassable laser field has been de-activated.";
+  }
+  else if (msgNum == 27) {
+    textFile = (("NOTICE: To all Techs - ^The passcode to Dr. Hoffman's lab has been changed to^" + UCMachine.numToStr(passcode)) + ".^*End of Message <");
+  }
+  else if (((((msgNum == 23) || (msgNum == 24)) || (msgNum == 26)) || (msgNum == 28)) || (msgNum == 29)) {
+    textFile = "Mission 2 Generic Message 0-9^";
+  }
+  else {
+    switch (msgNum) {
+    case 30:
+      textFile = (("Attention Plant Workers:^There has been a change in security procedures. The security passcode has been changed to " + UCMachine.numToStr(passcode)) + ".^*End of Message <");
+      break;
+    case 31:
+      textFile = "Thermatron Assembly Line:^_____________^Now interfacing with remote droid *.*.*.^<Thermatron> VTK944^^Unit is now *-ONLINE-.";
+      break;
+    case 32:
+      textFile = "Thermatron Manufacturing Plant:^_____________";
+      break;
+    case 33:
+      textFile = "Refinery Operations:^____________^Remote viewing facility.^*Restricted Access*^Granted";
+      break;
+    case 34:
+      textFile = "Security Cartel:^________________^Remote viewing facility.^*Production Line^*<DEACTIVATED>";
+      break;
+    case 35:
+      textFile = "Security Cartel:^________________^*Auxiliary Production Line^*<ACTIVE>^Shut down requires Security Card Clearance";
+      break;
+    case 36:
+      textFile = "Thermatron Auxiliary Production Line:^________";
+      break;
+    case 37:
+      textFile = "Security Cartel:^________________^*Laser Field^*<DEACTIVATED>";
+      break;
+    case 38:
+      textFile = "Security Cartel:^________________^Remote viewing facility.^*Laser Field^*<ACTIVE>^Security card clearance required to de-activate";
+      break;
+    case 39:
+      textFile = (("Thermatron Assembly Line Vault:^____To access the Thermatron design plans, use the new security code " + UCMachine.numToStr(passcode)) + "^Memorize the code and delete this message immediately! <");
+      break;
+    case 40:
+      textFile = "Security Cartel:^________________^*Laser Field^*<DEACTIVATED>";
+      break;
+    case 41:
+      textFile = "Remote Security Op:^_____________^Now interfacing with remote droid *.*.*.^<Thermatron> ATK656^^Unit is now *-ONLINE-.";
+      break;
+    case 42:
+      textFile = "^Security Control:^_______________^^*Laser Field^*<ACTIVATED>";
+      break;
+    case 43:
+      textFile = "Security Cartel HQD^___________________^*^Accessing system:*.*.*.*^^Thresher Cannon: *ACTIVE";
+      break;
+    case 44:
+      textFile = "Security Cartel HQD^___________________^*^Accessing system:*.*.*.*^^SORC Monitoring station security field:^^*<DEACTIVATED>";
+      break;
+    case 45:
+      textFile = ((("Security Station 5:^^The passcode to the Sector Y15 blast door has been changed to: " + UCMachine.numToStr(passcode)) + "*.*.*.") + "^^Spies are everywhere so be alert!");
+      break;
+    case 46:
+      textFile = "^* WEC Email^^To: Prof. Coulson^^From: Sev Dorren,^Security Chief^^Professor, I have installed a force-field at the entrance to the SORC station as you instructed. If there is anything further required please let me know. ^PS: The only way to access the force-field is through the central computer, so I am sure it will be quite safe from any saboteurs. .^*End of Message <";
+      break;
+    case 47:
+      textFile = (("^*Private Journal:^Sev Dorren^^Note to remind myself about the SORC station. I have changed the force field access code to: " + UCMachine.numToStr(passcode)) + "^*End of Message <");
+      break;
+    case 48:
+      textFile = ("Security code to Level 4 express elevator is: " + UCMachine.numToStr(passcode));
+      break;
+    case 49:
+      textFile = ("Code to Security Station forcebridge is: " + UCMachine.numToStr(passcode));
+      break;
+    case 50:
+      if (linkNum && passcode) {
+        textFile = (("Matt - Since you're new, and most likely unfamiliar with all of these new numbers, I thought I'd give you this one for free. It's " + UCMachine.numToStr(passcode)) + ". J.J.");
+      }
+      else {
+        textFile = "WEC SECURITY SYSTEM:^^Remote Camera: ACTIVE*";
+      }
+      break;
+    case 52:
+      textFile = "Dr. Watson:^Since we no longer produce the 37x18 Chip at the Snell Memorial Science Center, you can expect to receive the remaining chips for meltdown this afternoon. See that no chips find their way out of your facility.^L. Probst^End of Message <";
+      break;
+    case 53:
+      textFile = "Ms. Ashcraft - *It has come to my attention that you have had problems with your platform elevator. Just put an Out of Order sign on it, and I'll send a maintenance worker out to fix it A.S.A.P. Larson ";
+      break;
+    case 54:
+      textFile = "WEC SECURITY SYSTEM:^^Remote Camera: ACTIVE*^M.E.L.F. Station";
+      break;
+    case 56:
+      textFile = "WEC SECURITY SYSTEM:^^Remote Camera: *ACTIVE^Teleporter Room^Level Four";
+      break;
+    case 57:
+      textFile = "WEC SECURITY SYSTEM:^^Remote Camera: ACTIVE*^Security System^*ACTIVE";
+      break;
+    case 58:
+      if (linkNum && passcode) {
+        textFile = ((("Dear Dr. Soose:^A new keypad for your very own safe I have now put in its very own place With its very own numbers^ And its very own code (" + UCMachine.numToStr(passcode)) + ") ") + "Now you can store your very own load!");
+      }
+      else {
+        textFile = "WEC SECURITY SYSTEM:^Remote Camera: ACTIVE*^Security System^*ACTIVE^Forcefield Deactivated";
+      }
+      break;
+    }
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol linkNum [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol msgNum [BP+12h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol passcode [BP+14h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol textFile [BP-02h] type=0x73 unk1=0x00 unk3=0x00
+    debug_symbol rnge [BP-04h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}

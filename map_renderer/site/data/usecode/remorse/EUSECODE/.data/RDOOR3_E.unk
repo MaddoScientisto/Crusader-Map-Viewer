@@ -1,0 +1,61 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[0F:enterFastArea] call_intrinsic Item.setShape(arg_bytes=0x6)
+[0F:enterFastArea] ret
+//
+//
+//
+[06:gotHit] spawn DOOR.slot_23 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[06:gotHit] ret
+
+/* synthesized appendix for RDOOR3_E */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x06 gotHit ===== */
+function rdoor3_e_gotHit() /* entry=199 class_id=0x00c5 slot=0x06 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    vel; /* [BP+12h] type=0x69 */
+
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  spawn DOOR.slot_23(pid, vel, ref, arg_06);
+  suspend;
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol ref [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol vel [BP+12h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x0f enterFastArea ===== */
+function rdoor3_e_enterFastArea() /* entry=199 class_id=0x00c5 slot=0x0f */
+{
+  var
+    referent; /* [BP+00h] type=0x69 */
+
+  set_info(0x021b, *(arg_06));
+  process_exclude();
+  Item.setShape(123, arg_06);
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+  */
+}

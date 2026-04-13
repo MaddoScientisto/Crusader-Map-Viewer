@@ -1,0 +1,3991 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[20:slot_20] set_info
+//
+//
+//
+//
+//
+[20:slot_20] pop_local_word baseLink
+[20:slot_20] pop_local_word newLink
+[20:slot_20] pop_local_word searchtype
+//
+[20:slot_20] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[20:slot_20] pop_local_word aitem
+//
+[20:slot_20] cmp ; jne 0x0078 ; ...
+//
+[20:slot_20] pop_local_word baseLink
+[20:slot_20] pop_local_word phase ; jmp 0x00b0
+//
+//
+//
+[20:slot_20] call_intrinsic Item.getQHi(arg_bytes=0x4) ; pop_local_word qHi ; ...
+[20:slot_20] call_intrinsic Item.getQLo(arg_bytes=0x4) ; pop_local_word baseLink ; ...
+[20:slot_20] call_intrinsic Item.getMapArray(arg_bytes=0x4) ; pop_local_word mapNum ; ...
+[20:slot_20] call_intrinsic Item.getNPCNum(arg_bytes=0x4) ; pop_local_word npcNum ; ...
+//
+//
+[20:slot_20] pop_local_word newLink
+[20:slot_20] pop_global global[0x0040]
+//
+[20:slot_20] lt ; jne 0x03a4 ; ...
+//
+[20:slot_20] bit_and ; mul ; add ; ...
+//
+[20:slot_20] cmp ; jne 0x00ee ; ...
+//
+[20:slot_20] jmp 0x04cb
+//
+//
+[20:slot_20] cmp ; jne 0x00ff ; ...
+//
+[20:slot_20] jmp 0x04cb
+//
+//
+[20:slot_20] pop_local_word cmdphase
+[20:slot_20] bit_and ; jne 0x0118 ; ...
+//
+[20:slot_20] pop_local_word cmdphase
+//
+//
+[20:slot_20] cmp ; jne 0x03a4 ; ...
+//
+[20:slot_20] bit_and ; jne 0x02c5 ; ...
+//
+[20:slot_20] call_intrinsic Item.isCrusTypeNPC(arg_bytes=0x2) ; jne 0x01fb ; ...
+//
+[20:slot_20] cmp ; jne 0x0184 ; ...
+//
+[20:slot_20] ne ; jne 0x0181 ; ...
+//
+[20:slot_20] spawn TRIGGER.slot_2a ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+[20:slot_20] cmp ; jne 0x01c0 ; ...
+//
+[20:slot_20] spawn TRIGGER.slot_2b ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+[20:slot_20] ne ; jne 0x01f8 ; ...
+//
+[20:slot_20] spawn TRIGGER.slot_29 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+//
+[20:slot_20] cmp ; jne 0x0246 ; ...
+//
+[20:slot_20] ne ; jne 0x0243 ; ...
+//
+[20:slot_20] spawn TRIGGER.slot_25 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+[20:slot_20] cmp ; jne 0x0286 ; ...
+//
+[20:slot_20] spawn TRIGGER.slot_24 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+[20:slot_20] ne ; jne 0x02c2 ; ...
+//
+[20:slot_20] spawn TRIGGER.slot_23 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+//
+//
+[20:slot_20] cmp ; jne 0x0310 ; ...
+//
+[20:slot_20] ne ; jne 0x030d ; ...
+//
+[20:slot_20] spawn TRIGGER.slot_28 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+[20:slot_20] cmp ; jne 0x0350 ; ...
+//
+[20:slot_20] spawn TRIGGER.slot_27 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+[20:slot_20] ne ; jne 0x038c ; ...
+//
+[20:slot_20] spawn TRIGGER.slot_26 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+[20:slot_20] bit_and ; jne 0x03a4 ; ...
+//
+[20:slot_20] call_intrinsic Item.setQLo(arg_bytes=0x6)
+//
+//
+//
+//
+//
+[20:slot_20] bit_and ; pop_local_word newphase ; ...
+//
+[20:slot_20] jne 0x04cb ; loopscr value_u8=0x24 ; loopscr value_u8=0x3d ; ...
+//
+//
+[20:slot_20] loopscr value_u8=0x25 ; mul ; ...
+[20:slot_20] loop current_var=0xf4, string_bytes=0x6, loop_type=0x2 ; jne 0x0462
+[20:slot_20] call_intrinsic Item.getQLo(arg_bytes=0x4) ; cmp ; jne 0x045e ; ...
+//
+[20:slot_20] call_intrinsic Item.getMapArray(arg_bytes=0x4) ; pop_local_word mapNum ; ...
+[20:slot_20] pop_local_word cmdphase
+[20:slot_20] bit_and ; jne 0x040e ; ...
+//
+[20:slot_20] pop_local_word cmdphase
+//
+[20:slot_20] cmp ; jne 0x045e ; ...
+//
+[20:slot_20] bit_and ; jne 0x044e ; ...
+//
+[20:slot_20] spawn TRIGGER.slot_21 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+[20:slot_20] create_list element_size=0x2, count=0x1 ; append_list ; free_local_list lowPriorityTriggers ; ...
+//
+//
+//
+//
+//
+//
+[20:slot_20] foreach_list 0x04b0
+//
+//
+//
+//
+//
+//
+[20:slot_20] spawn TRIGGER.slot_21 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[20:slot_20] create_list element_size=0x2, count=0x1 ; remove_matching_inline element_size=0x2 ; free_local_list lowPriorityTriggers ; ...
+//
+//
+//
+//
+//
+[20:slot_20] jmp 0x046d
+//
+[20:slot_20] cmp ; jne 0x04c1 ; ...
+//
+[20:slot_20] jmp 0x04cb
+//
+//
+[20:slot_20] pop_local_word baseLink ; jmp 0x03ae ; free_local_list lowPriorityTriggers ; ...
+//
+[20:slot_20] ret
+//
+//
+//
+//
+[21:slot_21] set_info
+//
+//
+//
+[21:slot_21] pop_local_word aitem
+//
+[21:slot_21] call_intrinsic Item.getQLo(arg_bytes=0x4) ; pop_local_word baseLink ; ...
+[21:slot_21] pop_local_word newLink
+//
+[21:slot_21] call_intrinsic Item.getQHi(arg_bytes=0x4) ; pop_local_word qHi ; ...
+[21:slot_21] call_intrinsic Item.getMapArray(arg_bytes=0x4) ; pop_local_word mapNum ; ...
+[21:slot_21] call_intrinsic Item.getNPCNum(arg_bytes=0x4) ; pop_local_word npcNum ; ...
+//
+[21:slot_21] bit_and ; mul ; add ; ...
+//
+[21:slot_21] cmp ; jne 0x007f ; ...
+//
+[21:slot_21] jmp 0x02f2
+//
+//
+[21:slot_21] bit_and ; jne 0x0221 ; ...
+//
+[21:slot_21] call_intrinsic Item.isCrusTypeNPC(arg_bytes=0x2) ; jne 0x0157 ; ...
+//
+[21:slot_21] cmp ; jne 0x00e0 ; ...
+//
+[21:slot_21] ne ; jne 0x00dd ; ...
+//
+[21:slot_21] spawn TRIGGER.slot_2a ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+[21:slot_21] cmp ; jne 0x011c ; ...
+//
+[21:slot_21] spawn TRIGGER.slot_2b ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+[21:slot_21] ne ; jne 0x0154 ; ...
+//
+[21:slot_21] spawn TRIGGER.slot_29 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+//
+[21:slot_21] cmp ; jne 0x01a2 ; ...
+//
+[21:slot_21] ne ; jne 0x019f ; ...
+//
+[21:slot_21] spawn TRIGGER.slot_25 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+[21:slot_21] cmp ; jne 0x01e2 ; ...
+//
+[21:slot_21] spawn TRIGGER.slot_24 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+[21:slot_21] ne ; jne 0x021e ; ...
+//
+[21:slot_21] spawn TRIGGER.slot_23 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+//
+//
+[21:slot_21] cmp ; jne 0x026c ; ...
+//
+[21:slot_21] ne ; jne 0x0269 ; ...
+//
+[21:slot_21] spawn TRIGGER.slot_28 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+[21:slot_21] cmp ; jne 0x02ac ; ...
+//
+[21:slot_21] spawn TRIGGER.slot_27 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+[21:slot_21] ne ; jne 0x02e8 ; ...
+//
+[21:slot_21] spawn TRIGGER.slot_26 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+[21:slot_21] pop_result ; jmp 0x02f2
+//
+[21:slot_21] ret
+//
+//
+//
+//
+//
+//
+//
+[22:slot_22] set_info
+//
+//
+//
+[22:slot_22] pop_local_word door
+//
+[22:slot_22] jne 0x00ae
+//
+[22:slot_22] call_intrinsic Item.getStatus(arg_bytes=0x4) ; bit_and ; cmp ; ...
+//
+[22:slot_22] call_intrinsic Item.orStatus(arg_bytes=0x6)
+[22:slot_22] spawn DOOR.slot_21 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[22:slot_22] bit_not ; call_intrinsic Item.andStatus(arg_bytes=0x6) ; ...
+[22:slot_22] jmp 0x00ae ; jmp 0x00ab
+//
+//
+//
+[22:slot_22] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+[22:slot_22] ret
+//
+//
+//
+//
+//
+//
+//
+[23:slot_23] set_info
+//
+//
+//
+//
+//
+//
+[23:slot_23] pop_local_word newLink
+//
+[23:slot_23] pop_local_word aitem
+//
+//
+[23:slot_23] bit_and ; pop_local_word cmd ; cmp ; ...
+//
+//
+//
+//
+//
+//
+[23:slot_23] loopscr value_u8=0x25 ; mul ; ...
+[23:slot_23] loop current_var=0xf2, string_bytes=0x6, loop_type=0x2 ; jne 0x0085
+[23:slot_23] call_intrinsic Item.getQLo(arg_bytes=0x4) ; cmp ; jne 0x0081 ; ...
+//
+[23:slot_23] ne ; jne 0x0081 ; ...
+//
+[23:slot_23] call_intrinsic Item.setQHi(arg_bytes=0x6) ; loopnext ; jmp 0x0054 ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+[23:slot_23] loopscr value_u8=0x25 ; mul ; ...
+[23:slot_23] loop current_var=0xf2, string_bytes=0x6, loop_type=0x2 ; jne 0x00e0
+[23:slot_23] call_intrinsic Item.getQLo(arg_bytes=0x4) ; cmp ; jne 0x00dc ; ...
+//
+[23:slot_23] ne ; jne 0x00dc ; ...
+//
+[23:slot_23] call_intrinsic Item.setQLo(arg_bytes=0x6) ; loopnext ; jmp 0x00af ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+[23:slot_23] loopscr value_u8=0x25 ; mul ; ...
+[23:slot_23] loop current_var=0xf2, string_bytes=0x6, loop_type=0x2 ; jne 0x013d
+[23:slot_23] call_intrinsic Item.getQLo(arg_bytes=0x4) ; cmp ; jne 0x0139 ; ...
+//
+[23:slot_23] ne ; jne 0x0139 ; ...
+//
+[23:slot_23] call_intrinsic Item.equip(arg_bytes=0x6) ; pop_temp ; loopnext ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+[23:slot_23] bit_and ; pop_local_word scmd ; cmp ; ...
+//
+//
+//
+//
+[23:slot_23] div ; pop_local_word d ; loopscr value_u8=0x24 ; ...
+//
+[23:slot_23] loopscr value_u8=0x25 ; mul ; ...
+[23:slot_23] loop current_var=0xf2, string_bytes=0x6, loop_type=0x2 ; jne 0x01e6
+[23:slot_23] call_intrinsic Item.getQLo(arg_bytes=0x4) ; cmp ; jne 0x01e2 ; ...
+//
+[23:slot_23] call_intrinsic Item.getNPCNum(arg_bytes=0x4) ; pop_local_word a ; ...
+[23:slot_23] bit_and ; pop_local_word c ; ...
+//
+[23:slot_23] call_intrinsic Item.getMapArray(arg_bytes=0x4) ; pop_local_word b ; ...
+[23:slot_23] bit_and ; mul ; add ; ...
+//
+//
+//
+[23:slot_23] call_class_event FREE.slot_30 ; loopnext ; jmp 0x0184 ; ...
+//
+//
+//
+//
+//
+//
+//
+[23:slot_23] div ; pop_local_word d ; loopscr value_u8=0x24 ; ...
+//
+[23:slot_23] loopscr value_u8=0x25 ; mul ; ...
+[23:slot_23] loop current_var=0xf2, string_bytes=0x6, loop_type=0x2 ; jne 0x0351
+[23:slot_23] call_intrinsic Item.getQLo(arg_bytes=0x4) ; cmp ; jne 0x034d ; ...
+//
+[23:slot_23] ne ; jne 0x034d ; ...
+//
+[23:slot_23] call_intrinsic Kernel.resetRef(arg_bytes=0x4)
+//
+[23:slot_23] cmp ; jne 0x0280 ; ...
+//
+[23:slot_23] call_intrinsic Item.spawnUsecodeEvent0x13(arg_bytes=0x6) ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[23:slot_23] call_intrinsic Item.destroy(arg_bytes=0x4) ; jmp 0x034d
+//
+//
+//
+[23:slot_23] call_intrinsic Item.getFrame(arg_bytes=0x4) ; pop_local_word c ; ...
+[23:slot_23] call_intrinsic Item.getShape(arg_bytes=0x4) ; pop_local_word b ; ...
+[23:slot_23] bit_and ; pop_local_word a ; ...
+[23:slot_23] bit_and ; pop_local_word b ; ...
+[23:slot_23] div ; pop_local_word b ; ...
+[23:slot_23] add ; pop_local_word b ; ...
+[23:slot_23] call_intrinsic Item.setNpcNum(arg_bytes=0x6)
+[23:slot_23] call_intrinsic Item.setMapArray(arg_bytes=0x6)
+[23:slot_23] call_intrinsic Item.setFrame(arg_bytes=0x6)
+[23:slot_23] call_intrinsic push(arg_bytes=0x4)
+[23:slot_23] call_intrinsic Item.spawnUsecodeEvent0x13(arg_bytes=0x6) ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[23:slot_23] call_intrinsic Item.setShape(arg_bytes=0x6)
+[23:slot_23] call_intrinsic Item.orStatus(arg_bytes=0x6)
+[23:slot_23] bit_not ; call_intrinsic Item.andStatus(arg_bytes=0x6) ; ...
+[23:slot_23] call_intrinsic Item.pop(arg_bytes=0x4) ; loopnext ; jmp 0x021a ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+[23:slot_23] div ; pop_local_word a ; loopscr value_u8=0x24 ; ...
+//
+[23:slot_23] loopscr value_u8=0x25 ; mul ; ...
+[23:slot_23] loop current_var=0xf2, string_bytes=0x6, loop_type=0x2 ; jne 0x03b6
+[23:slot_23] call_intrinsic Item.getQLo(arg_bytes=0x4) ; cmp ; jne 0x03b2 ; ...
+//
+[23:slot_23] ne ; jne 0x03b2 ; ...
+//
+[23:slot_23] call_intrinsic Item.setFrame(arg_bytes=0x6) ; loopnext ; jmp 0x0385 ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+[23:slot_23] loopscr value_u8=0x25 ; mul ; ...
+[23:slot_23] loop current_var=0xf2, string_bytes=0x6, loop_type=0x2 ; jne 0x0422
+[23:slot_23] call_intrinsic Item.getQLo(arg_bytes=0x4) ; cmp ; jne 0x041e ; ...
+//
+[23:slot_23] ne ; jne 0x041e ; ...
+//
+[23:slot_23] div ; pop_local_word a ; ...
+[23:slot_23] spawn TRIGGER.slot_22 ; pop_temp ; loopnext ; ...
+//
+//
+//
+//
+//
+//
+//
+[23:slot_23] div ; pop_local_word a ; ...
+[23:slot_23] add ; pop_local_word newLink ; jmp 0x057b ; ...
+//
+//
+//
+//
+[23:slot_23] div ; pop_local_word a ; ...
+[23:slot_23] sub ; pop_local_word newLink ; jmp 0x057b ; ...
+//
+//
+//
+//
+[23:slot_23] div ; pop_local_word d ; loopscr value_u8=0x24 ; ...
+//
+//
+[23:slot_23] loopscr value_u8=0x25 ; mul ; ...
+[23:slot_23] loop current_var=0xf2, string_bytes=0x6, loop_type=0x2 ; jne 0x0576
+[23:slot_23] call_intrinsic Item.getQLo(arg_bytes=0x4) ; cmp ; jne 0x0572 ; ...
+//
+[23:slot_23] call_intrinsic Item.getNPCNum(arg_bytes=0x4) ; pop_local_word a ; ...
+[23:slot_23] bit_and ; pop_local_word c ; ...
+[23:slot_23] call_intrinsic Item.getMapArray(arg_bytes=0x4) ; pop_local_word b ; ...
+[23:slot_23] bit_and ; mul ; add ; ...
+[23:slot_23] ne ; jne 0x0572 ; ...
+//
+[23:slot_23] call_intrinsic Item.create(arg_bytes=0x8) ; cmp ; jne 0x0572 ; ...
+//
+[23:slot_23] call_intrinsic Item.getQ(arg_bytes=0x4) ; call_intrinsic Item.setQ(arg_bytes=0x6) ; ...
+[23:slot_23] call_intrinsic push(arg_bytes=0x4)
+[23:slot_23] call_intrinsic Item.touch(arg_bytes=0x4)
+[23:slot_23] call_intrinsic Item.getZ(arg_bytes=0x4) ; call_intrinsic Item.getY(arg_bytes=0x4) ; call_intrinsic Item.getX(arg_bytes=0x4) ; ...
+[23:slot_23] call_intrinsic Item.unequip(arg_bytes=0x6) ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[23:slot_23] pop_result ; jmp 0x0588
+//
+[23:slot_23] ret
+//
+//
+//
+[24:slot_24] set_info
+//
+//
+//
+//
+//
+[24:slot_24] pop_local_word newLink
+//
+[24:slot_24] pop_local_word aitem
+//
+[24:slot_24] bit_and ; pop_local_word cmd ; cmp ; ...
+//
+//
+//
+//
+//
+//
+[24:slot_24] loopscr value_u8=0x25 ; mul ; ...
+[24:slot_24] loop current_var=0xf2, string_bytes=0x6, loop_type=0x2 ; jne 0x0085
+[24:slot_24] call_intrinsic Item.getQLo(arg_bytes=0x4) ; cmp ; jne 0x0081 ; ...
+//
+[24:slot_24] ne ; jne 0x0081 ; ...
+//
+[24:slot_24] call_intrinsic Item.setQHi(arg_bytes=0x6) ; loopnext ; jmp 0x0054 ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+[24:slot_24] loopscr value_u8=0x25 ; mul ; ...
+[24:slot_24] loop current_var=0xf2, string_bytes=0x6, loop_type=0x2 ; jne 0x00e0
+[24:slot_24] call_intrinsic Item.getQLo(arg_bytes=0x4) ; cmp ; jne 0x00dc ; ...
+//
+[24:slot_24] ne ; jne 0x00dc ; ...
+//
+[24:slot_24] call_intrinsic Item.setQLo(arg_bytes=0x6) ; loopnext ; jmp 0x00af ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+[24:slot_24] loopscr value_u8=0x25 ; mul ; ...
+[24:slot_24] loop current_var=0xf2, string_bytes=0x6, loop_type=0x2 ; jne 0x013d
+[24:slot_24] call_intrinsic Item.getQLo(arg_bytes=0x4) ; cmp ; jne 0x0139 ; ...
+//
+[24:slot_24] ne ; jne 0x0139 ; ...
+//
+[24:slot_24] call_intrinsic Item.equip(arg_bytes=0x6) ; pop_temp ; loopnext ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+[24:slot_24] bit_and ; pop_local_word scmd ; cmp ; ...
+//
+//
+//
+//
+[24:slot_24] div ; pop_local_word d ; loopscr value_u8=0x24 ; ...
+//
+[24:slot_24] loopscr value_u8=0x25 ; mul ; ...
+[24:slot_24] loop current_var=0xf2, string_bytes=0x6, loop_type=0x2 ; jne 0x01e6
+[24:slot_24] call_intrinsic Item.getQLo(arg_bytes=0x4) ; cmp ; jne 0x01e2 ; ...
+//
+[24:slot_24] call_intrinsic Item.getNPCNum(arg_bytes=0x4) ; pop_local_word a ; ...
+[24:slot_24] bit_and ; pop_local_word c ; ...
+[24:slot_24] call_intrinsic Item.getMapArray(arg_bytes=0x4) ; pop_local_word b ; ...
+[24:slot_24] bit_and ; mul ; add ; ...
+//
+[24:slot_24] call_class_event FREE.slot_30 ; loopnext ; jmp 0x0184 ; ...
+//
+//
+//
+//
+//
+//
+//
+[24:slot_24] div ; pop_local_word d ; loopscr value_u8=0x24 ; ...
+//
+[24:slot_24] loopscr value_u8=0x25 ; mul ; ...
+[24:slot_24] loop current_var=0xf2, string_bytes=0x6, loop_type=0x2 ; jne 0x0351
+[24:slot_24] call_intrinsic Item.getQLo(arg_bytes=0x4) ; cmp ; jne 0x034d ; ...
+//
+[24:slot_24] ne ; jne 0x034d ; ...
+//
+[24:slot_24] call_intrinsic Kernel.resetRef(arg_bytes=0x4)
+//
+[24:slot_24] cmp ; jne 0x0280 ; ...
+//
+[24:slot_24] call_intrinsic Item.spawnUsecodeEvent0x13(arg_bytes=0x6) ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[24:slot_24] call_intrinsic Item.destroy(arg_bytes=0x4) ; jmp 0x034d
+//
+//
+//
+[24:slot_24] call_intrinsic Item.getFrame(arg_bytes=0x4) ; pop_local_word c ; ...
+[24:slot_24] call_intrinsic Item.getShape(arg_bytes=0x4) ; pop_local_word b ; ...
+[24:slot_24] bit_and ; pop_local_word a ; ...
+[24:slot_24] bit_and ; pop_local_word b ; ...
+[24:slot_24] div ; pop_local_word b ; ...
+[24:slot_24] add ; pop_local_word b ; ...
+[24:slot_24] call_intrinsic Item.setNpcNum(arg_bytes=0x6)
+[24:slot_24] call_intrinsic Item.setMapArray(arg_bytes=0x6)
+[24:slot_24] call_intrinsic push(arg_bytes=0x4)
+[24:slot_24] call_intrinsic Item.setFrame(arg_bytes=0x6)
+[24:slot_24] call_intrinsic Item.spawnUsecodeEvent0x13(arg_bytes=0x6) ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[24:slot_24] call_intrinsic Item.setShape(arg_bytes=0x6)
+[24:slot_24] call_intrinsic Item.orStatus(arg_bytes=0x6)
+[24:slot_24] bit_not ; call_intrinsic Item.andStatus(arg_bytes=0x6) ; ...
+[24:slot_24] call_intrinsic Item.pop(arg_bytes=0x4) ; loopnext ; jmp 0x021a ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+[24:slot_24] div ; pop_local_word a ; loopscr value_u8=0x24 ; ...
+//
+[24:slot_24] loopscr value_u8=0x25 ; mul ; ...
+[24:slot_24] loop current_var=0xf2, string_bytes=0x6, loop_type=0x2 ; jne 0x03b6
+[24:slot_24] call_intrinsic Item.getQLo(arg_bytes=0x4) ; cmp ; jne 0x03b2 ; ...
+//
+[24:slot_24] ne ; jne 0x03b2 ; ...
+//
+[24:slot_24] call_intrinsic Item.setFrame(arg_bytes=0x6) ; loopnext ; jmp 0x0385 ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[24:slot_24] cmp ; jne 0x03da ; ...
+//
+[24:slot_24] pop_local_word distance ; jmp 0x03e3
+//
+//
+//
+[24:slot_24] pop_local_word distance ; loopscr value_u8=0x24 ; loopscr value_u8=0x3d ; ...
+//
+//
+//
+[24:slot_24] loopscr value_u8=0x25 ; mul ; ...
+[24:slot_24] loop current_var=0xf2, string_bytes=0x6, loop_type=0x2 ; jne 0x0440
+[24:slot_24] call_intrinsic Item.getQLo(arg_bytes=0x4) ; cmp ; jne 0x043c ; ...
+//
+[24:slot_24] ne ; jne 0x043c ; ...
+//
+[24:slot_24] div ; pop_local_word a ; ...
+[24:slot_24] spawn TRIGGER.slot_22 ; pop_temp ; loopnext ; ...
+//
+//
+//
+//
+//
+//
+//
+[24:slot_24] div ; pop_local_word a ; ...
+[24:slot_24] add ; pop_local_word newLink ; jmp 0x0599 ; ...
+//
+//
+//
+//
+[24:slot_24] div ; pop_local_word a ; ...
+[24:slot_24] sub ; pop_local_word newLink ; jmp 0x0599 ; ...
+//
+//
+//
+//
+[24:slot_24] div ; pop_local_word d ; loopscr value_u8=0x24 ; ...
+//
+//
+[24:slot_24] loopscr value_u8=0x25 ; mul ; ...
+[24:slot_24] loop current_var=0xf2, string_bytes=0x6, loop_type=0x2 ; jne 0x0594
+[24:slot_24] call_intrinsic Item.getQLo(arg_bytes=0x4) ; cmp ; jne 0x0590 ; ...
+//
+[24:slot_24] call_intrinsic Item.getNPCNum(arg_bytes=0x4) ; pop_local_word a ; ...
+[24:slot_24] bit_and ; pop_local_word c ; ...
+[24:slot_24] call_intrinsic Item.getMapArray(arg_bytes=0x4) ; pop_local_word b ; ...
+[24:slot_24] bit_and ; mul ; add ; ...
+[24:slot_24] ne ; jne 0x0590 ; ...
+//
+[24:slot_24] call_intrinsic Item.create(arg_bytes=0x8) ; cmp ; jne 0x0590 ; ...
+//
+[24:slot_24] call_intrinsic Item.getQ(arg_bytes=0x4) ; call_intrinsic Item.setQ(arg_bytes=0x6) ; ...
+[24:slot_24] call_intrinsic push(arg_bytes=0x4)
+[24:slot_24] call_intrinsic Item.touch(arg_bytes=0x4)
+[24:slot_24] call_intrinsic Item.getZ(arg_bytes=0x4) ; call_intrinsic Item.getY(arg_bytes=0x4) ; call_intrinsic Item.getX(arg_bytes=0x4) ; ...
+[24:slot_24] call_intrinsic Item.unequip(arg_bytes=0x6) ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[24:slot_24] pop_result ; jmp 0x05a6
+//
+[24:slot_24] ret
+//
+//
+//
+[25:slot_25] set_info
+//
+//
+//
+//
+//
+[25:slot_25] pop_local_word newLink
+//
+[25:slot_25] pop_local_word aitem
+//
+[25:slot_25] bit_and ; pop_local_word cmd ; cmp ; ...
+//
+//
+//
+//
+//
+//
+[25:slot_25] loopscr value_u8=0x25 ; mul ; ...
+[25:slot_25] loop current_var=0xf2, string_bytes=0x6, loop_type=0x2 ; jne 0x0073
+[25:slot_25] ne ; jne 0x006f ; ...
+//
+[25:slot_25] call_intrinsic Item.setQHi(arg_bytes=0x6) ; loopnext ; jmp 0x0054 ; ...
+//
+//
+//
+//
+//
+//
+//
+[25:slot_25] loopscr value_u8=0x25 ; mul ; ...
+[25:slot_25] loop current_var=0xf2, string_bytes=0x6, loop_type=0x2 ; jne 0x00bc
+[25:slot_25] ne ; jne 0x00b8 ; ...
+//
+[25:slot_25] call_intrinsic Item.setQLo(arg_bytes=0x6) ; loopnext ; jmp 0x009d ; ...
+//
+//
+//
+//
+//
+//
+//
+[25:slot_25] loopscr value_u8=0x25 ; mul ; ...
+[25:slot_25] loop current_var=0xf2, string_bytes=0x6, loop_type=0x2 ; jne 0x0107
+[25:slot_25] ne ; jne 0x0103 ; ...
+//
+[25:slot_25] call_intrinsic Item.equip(arg_bytes=0x6) ; pop_temp ; loopnext ; ...
+//
+//
+//
+//
+//
+//
+[25:slot_25] bit_and ; pop_local_word scmd ; cmp ; ...
+//
+//
+//
+//
+[25:slot_25] div ; pop_local_word d ; loopscr value_u8=0x24 ; ...
+//
+[25:slot_25] loopscr value_u8=0x25 ; mul ; ...
+[25:slot_25] loop current_var=0xf2, string_bytes=0x6, loop_type=0x2 ; jne 0x019e
+[25:slot_25] call_intrinsic Item.getNPCNum(arg_bytes=0x4) ; pop_local_word a ; ...
+[25:slot_25] bit_and ; pop_local_word c ; ...
+[25:slot_25] call_intrinsic Item.getMapArray(arg_bytes=0x4) ; pop_local_word b ; ...
+[25:slot_25] bit_and ; mul ; add ; ...
+//
+[25:slot_25] call_class_event FREE.slot_30 ; loopnext ; jmp 0x014e ; ...
+//
+//
+//
+//
+//
+//
+[25:slot_25] div ; pop_local_word d ; loopscr value_u8=0x24 ; ...
+//
+[25:slot_25] loopscr value_u8=0x25 ; mul ; ...
+[25:slot_25] loop current_var=0xf2, string_bytes=0x6, loop_type=0x2 ; jne 0x02f7
+[25:slot_25] ne ; jne 0x02f3 ; ...
+//
+[25:slot_25] call_intrinsic Kernel.resetRef(arg_bytes=0x4)
+//
+//
+[25:slot_25] cmp ; jne 0x0226 ; ...
+//
+[25:slot_25] call_intrinsic Item.spawnUsecodeEvent0x13(arg_bytes=0x6) ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[25:slot_25] call_intrinsic Item.destroy(arg_bytes=0x4) ; jmp 0x02f3
+//
+//
+//
+[25:slot_25] call_intrinsic Item.getFrame(arg_bytes=0x4) ; pop_local_word c ; ...
+[25:slot_25] call_intrinsic Item.getShape(arg_bytes=0x4) ; pop_local_word b ; ...
+[25:slot_25] bit_and ; pop_local_word a ; ...
+[25:slot_25] bit_and ; pop_local_word b ; ...
+[25:slot_25] div ; pop_local_word b ; ...
+[25:slot_25] add ; pop_local_word b ; ...
+[25:slot_25] call_intrinsic Item.setNpcNum(arg_bytes=0x6)
+[25:slot_25] call_intrinsic Item.setMapArray(arg_bytes=0x6)
+[25:slot_25] call_intrinsic push(arg_bytes=0x4)
+[25:slot_25] call_intrinsic Item.setFrame(arg_bytes=0x6)
+[25:slot_25] call_intrinsic Item.spawnUsecodeEvent0x13(arg_bytes=0x6) ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[25:slot_25] call_intrinsic Item.setShape(arg_bytes=0x6)
+[25:slot_25] call_intrinsic Item.orStatus(arg_bytes=0x6)
+[25:slot_25] bit_not ; call_intrinsic Item.andStatus(arg_bytes=0x6) ; ...
+[25:slot_25] call_intrinsic Item.pop(arg_bytes=0x4) ; loopnext ; jmp 0x01d2 ; ...
+//
+//
+//
+//
+//
+//
+//
+[25:slot_25] div ; pop_local_word a ; loopscr value_u8=0x24 ; ...
+//
+[25:slot_25] loopscr value_u8=0x25 ; mul ; ...
+[25:slot_25] loop current_var=0xf2, string_bytes=0x6, loop_type=0x2 ; jne 0x034a
+[25:slot_25] ne ; jne 0x0346 ; ...
+//
+[25:slot_25] call_intrinsic Item.setFrame(arg_bytes=0x6) ; loopnext ; jmp 0x032b ; ...
+//
+//
+//
+//
+//
+//
+//
+[25:slot_25] loopscr value_u8=0x25 ; mul ; ...
+[25:slot_25] loop current_var=0xf2, string_bytes=0x6, loop_type=0x2 ; jne 0x03a4
+[25:slot_25] ne ; jne 0x03a0 ; ...
+//
+[25:slot_25] div ; pop_local_word a ; ...
+[25:slot_25] spawn TRIGGER.slot_22 ; pop_temp ; loopnext ; ...
+//
+//
+//
+//
+//
+//
+[25:slot_25] div ; pop_local_word a ; ...
+[25:slot_25] add ; pop_local_word newLink ; jmp 0x04eb ; ...
+//
+//
+//
+//
+[25:slot_25] div ; pop_local_word a ; ...
+[25:slot_25] sub ; pop_local_word newLink ; jmp 0x04eb ; ...
+//
+//
+//
+//
+[25:slot_25] div ; pop_local_word d ; loopscr value_u8=0x24 ; ...
+//
+//
+[25:slot_25] loopscr value_u8=0x25 ; mul ; ...
+[25:slot_25] loop current_var=0xf2, string_bytes=0x6, loop_type=0x2 ; jne 0x04e6
+[25:slot_25] call_intrinsic Item.getNPCNum(arg_bytes=0x4) ; pop_local_word a ; ...
+[25:slot_25] bit_and ; pop_local_word c ; ...
+[25:slot_25] call_intrinsic Item.getMapArray(arg_bytes=0x4) ; pop_local_word b ; ...
+[25:slot_25] bit_and ; mul ; add ; ...
+[25:slot_25] ne ; jne 0x04e2 ; ...
+//
+[25:slot_25] call_intrinsic Item.create(arg_bytes=0x8) ; cmp ; jne 0x04e2 ; ...
+//
+[25:slot_25] call_intrinsic Item.getQ(arg_bytes=0x4) ; call_intrinsic Item.setQ(arg_bytes=0x6) ; ...
+[25:slot_25] call_intrinsic push(arg_bytes=0x4)
+[25:slot_25] call_intrinsic Item.touch(arg_bytes=0x4)
+[25:slot_25] call_intrinsic Item.getZ(arg_bytes=0x4) ; call_intrinsic Item.getY(arg_bytes=0x4) ; call_intrinsic Item.getX(arg_bytes=0x4) ; ...
+[25:slot_25] call_intrinsic Item.unequip(arg_bytes=0x6) ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[25:slot_25] pop_result ; jmp 0x04f8
+[25:slot_25] ret
+//
+//
+//
+[26:slot_26] set_info
+//
+//
+//
+//
+//
+[26:slot_26] pop_local_word newLink
+//
+[26:slot_26] pop_local_word aitem
+//
+[26:slot_26] bit_and ; pop_local_word cmd ; cmp ; ...
+//
+//
+//
+//
+//
+//
+[26:slot_26] loopscr value_u8=0x25 ; mul ; ...
+[26:slot_26] loop current_var=0xf2, string_bytes=0x6, loop_type=0x2 ; jne 0x007a
+[26:slot_26] call_intrinsic Item.getQLo(arg_bytes=0x4) ; cmp ; jne 0x0076 ; ...
+//
+[26:slot_26] call_intrinsic Item.setQHi(arg_bytes=0x6) ; loopnext ; jmp 0x0054 ; ...
+//
+//
+//
+//
+//
+//
+//
+[26:slot_26] loopscr value_u8=0x25 ; mul ; ...
+[26:slot_26] loop current_var=0xf2, string_bytes=0x6, loop_type=0x2 ; jne 0x00ca
+[26:slot_26] call_intrinsic Item.getQLo(arg_bytes=0x4) ; cmp ; jne 0x00c6 ; ...
+//
+[26:slot_26] call_intrinsic Item.setQLo(arg_bytes=0x6) ; loopnext ; jmp 0x00a4 ; ...
+//
+//
+//
+//
+//
+//
+//
+[26:slot_26] loopscr value_u8=0x25 ; mul ; ...
+[26:slot_26] loop current_var=0xf2, string_bytes=0x6, loop_type=0x2 ; jne 0x011c
+[26:slot_26] call_intrinsic Item.getQLo(arg_bytes=0x4) ; cmp ; jne 0x0118 ; ...
+//
+[26:slot_26] call_intrinsic Item.equip(arg_bytes=0x6) ; pop_temp ; loopnext ; ...
+//
+//
+//
+//
+//
+//
+[26:slot_26] bit_and ; pop_local_word scmd ; cmp ; ...
+//
+//
+//
+//
+[26:slot_26] div ; pop_local_word d ; loopscr value_u8=0x24 ; ...
+//
+[26:slot_26] loopscr value_u8=0x25 ; mul ; ...
+[26:slot_26] loop current_var=0xf2, string_bytes=0x6, loop_type=0x2 ; jne 0x01c5
+[26:slot_26] call_intrinsic Item.getQLo(arg_bytes=0x4) ; cmp ; jne 0x01c1 ; ...
+//
+[26:slot_26] call_intrinsic Item.getNPCNum(arg_bytes=0x4) ; pop_local_word a ; ...
+[26:slot_26] bit_and ; pop_local_word c ; ...
+[26:slot_26] call_intrinsic Item.getMapArray(arg_bytes=0x4) ; pop_local_word b ; ...
+[26:slot_26] bit_and ; mul ; add ; ...
+//
+[26:slot_26] call_class_event FREE.slot_30 ; loopnext ; jmp 0x0163 ; ...
+//
+//
+//
+//
+//
+//
+//
+[26:slot_26] div ; pop_local_word d ; loopscr value_u8=0x24 ; ...
+//
+[26:slot_26] loopscr value_u8=0x25 ; mul ; ...
+[26:slot_26] loop current_var=0xf2, string_bytes=0x6, loop_type=0x2 ; jne 0x0325
+[26:slot_26] call_intrinsic Item.getQLo(arg_bytes=0x4) ; cmp ; jne 0x0321 ; ...
+//
+[26:slot_26] call_intrinsic Kernel.resetRef(arg_bytes=0x4)
+//
+[26:slot_26] cmp ; jne 0x0254 ; ...
+//
+[26:slot_26] call_intrinsic Item.spawnUsecodeEvent0x13(arg_bytes=0x6) ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[26:slot_26] call_intrinsic Item.destroy(arg_bytes=0x4) ; jmp 0x0321
+//
+//
+//
+[26:slot_26] call_intrinsic Item.getFrame(arg_bytes=0x4) ; pop_local_word c ; ...
+[26:slot_26] call_intrinsic Item.getShape(arg_bytes=0x4) ; pop_local_word b ; ...
+[26:slot_26] bit_and ; pop_local_word a ; ...
+[26:slot_26] bit_and ; pop_local_word b ; ...
+[26:slot_26] div ; pop_local_word b ; ...
+[26:slot_26] add ; pop_local_word b ; ...
+[26:slot_26] call_intrinsic Item.setNpcNum(arg_bytes=0x6)
+[26:slot_26] call_intrinsic Item.setMapArray(arg_bytes=0x6)
+[26:slot_26] call_intrinsic push(arg_bytes=0x4)
+[26:slot_26] call_intrinsic Item.setFrame(arg_bytes=0x6)
+[26:slot_26] call_intrinsic Item.spawnUsecodeEvent0x13(arg_bytes=0x6) ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[26:slot_26] call_intrinsic Item.setShape(arg_bytes=0x6)
+[26:slot_26] call_intrinsic Item.orStatus(arg_bytes=0x6)
+[26:slot_26] bit_not ; call_intrinsic Item.andStatus(arg_bytes=0x6) ; ...
+[26:slot_26] call_intrinsic Item.pop(arg_bytes=0x4) ; loopnext ; jmp 0x01f9 ; ...
+//
+//
+//
+//
+//
+//
+//
+[26:slot_26] div ; pop_local_word a ; loopscr value_u8=0x24 ; ...
+//
+[26:slot_26] loopscr value_u8=0x25 ; mul ; ...
+[26:slot_26] loop current_var=0xf2, string_bytes=0x6, loop_type=0x2 ; jne 0x037f
+[26:slot_26] call_intrinsic Item.getQLo(arg_bytes=0x4) ; cmp ; jne 0x037b ; ...
+//
+[26:slot_26] call_intrinsic Item.setFrame(arg_bytes=0x6) ; loopnext ; jmp 0x0359 ; ...
+//
+//
+//
+//
+//
+//
+//
+[26:slot_26] loopscr value_u8=0x25 ; mul ; ...
+[26:slot_26] loop current_var=0xf2, string_bytes=0x6, loop_type=0x2 ; jne 0x03e0
+[26:slot_26] call_intrinsic Item.getQLo(arg_bytes=0x4) ; cmp ; jne 0x03dc ; ...
+//
+[26:slot_26] div ; pop_local_word a ; ...
+[26:slot_26] spawn TRIGGER.slot_22 ; pop_temp ; loopnext ; ...
+//
+//
+//
+//
+//
+//
+[26:slot_26] div ; pop_local_word a ; ...
+[26:slot_26] add ; pop_local_word newLink ; jmp 0x0539 ; ...
+//
+//
+//
+//
+[26:slot_26] div ; pop_local_word a ; ...
+[26:slot_26] sub ; pop_local_word newLink ; jmp 0x0539 ; ...
+//
+//
+//
+//
+[26:slot_26] div ; pop_local_word d ; loopscr value_u8=0x24 ; ...
+//
+//
+[26:slot_26] loopscr value_u8=0x25 ; mul ; ...
+[26:slot_26] loop current_var=0xf2, string_bytes=0x6, loop_type=0x2 ; jne 0x0534
+[26:slot_26] call_intrinsic Item.getQLo(arg_bytes=0x4) ; cmp ; jne 0x0530 ; ...
+//
+[26:slot_26] call_intrinsic Item.getNPCNum(arg_bytes=0x4) ; pop_local_word a ; ...
+[26:slot_26] bit_and ; pop_local_word c ; ...
+[26:slot_26] call_intrinsic Item.getMapArray(arg_bytes=0x4) ; pop_local_word b ; ...
+[26:slot_26] bit_and ; mul ; add ; ...
+[26:slot_26] ne ; jne 0x0530 ; ...
+//
+[26:slot_26] call_intrinsic Item.create(arg_bytes=0x8) ; cmp ; jne 0x0530 ; ...
+//
+[26:slot_26] call_intrinsic Item.getQ(arg_bytes=0x4) ; call_intrinsic Item.setQ(arg_bytes=0x6) ; ...
+[26:slot_26] call_intrinsic push(arg_bytes=0x4)
+[26:slot_26] call_intrinsic Item.touch(arg_bytes=0x4)
+[26:slot_26] call_intrinsic Item.getZ(arg_bytes=0x4) ; call_intrinsic Item.getY(arg_bytes=0x4) ; call_intrinsic Item.getX(arg_bytes=0x4) ; ...
+[26:slot_26] call_intrinsic Item.unequip(arg_bytes=0x6) ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[26:slot_26] pop_result ; jmp 0x0546
+[26:slot_26] ret
+//
+//
+//
+[27:slot_27] set_info
+//
+//
+//
+//
+//
+[27:slot_27] pop_local_word newLink
+//
+[27:slot_27] pop_local_word aitem
+//
+[27:slot_27] bit_and ; pop_local_word cmd ; cmp ; ...
+//
+//
+//
+//
+//
+//
+[27:slot_27] loopscr value_u8=0x25 ; mul ; ...
+[27:slot_27] loop current_var=0xf2, string_bytes=0x6, loop_type=0x2 ; jne 0x007a
+[27:slot_27] call_intrinsic Item.getQLo(arg_bytes=0x4) ; cmp ; jne 0x0076 ; ...
+//
+[27:slot_27] call_intrinsic Item.setQHi(arg_bytes=0x6) ; loopnext ; jmp 0x0054 ; ...
+//
+//
+//
+//
+//
+//
+//
+[27:slot_27] loopscr value_u8=0x25 ; mul ; ...
+[27:slot_27] loop current_var=0xf2, string_bytes=0x6, loop_type=0x2 ; jne 0x00ca
+[27:slot_27] call_intrinsic Item.getQLo(arg_bytes=0x4) ; cmp ; jne 0x00c6 ; ...
+//
+[27:slot_27] call_intrinsic Item.setQLo(arg_bytes=0x6) ; loopnext ; jmp 0x00a4 ; ...
+//
+//
+//
+//
+//
+//
+//
+[27:slot_27] loopscr value_u8=0x25 ; mul ; ...
+[27:slot_27] loop current_var=0xf2, string_bytes=0x6, loop_type=0x2 ; jne 0x011c
+[27:slot_27] call_intrinsic Item.getQLo(arg_bytes=0x4) ; cmp ; jne 0x0118 ; ...
+//
+[27:slot_27] call_intrinsic Item.equip(arg_bytes=0x6) ; pop_temp ; loopnext ; ...
+//
+//
+//
+//
+//
+//
+[27:slot_27] bit_and ; pop_local_word scmd ; cmp ; ...
+//
+//
+//
+//
+[27:slot_27] div ; pop_local_word d ; loopscr value_u8=0x24 ; ...
+//
+[27:slot_27] loopscr value_u8=0x25 ; mul ; ...
+[27:slot_27] loop current_var=0xf2, string_bytes=0x6, loop_type=0x2 ; jne 0x01c5
+[27:slot_27] call_intrinsic Item.getQLo(arg_bytes=0x4) ; cmp ; jne 0x01c1 ; ...
+//
+[27:slot_27] call_intrinsic Item.getNPCNum(arg_bytes=0x4) ; pop_local_word a ; ...
+[27:slot_27] bit_and ; pop_local_word c ; ...
+[27:slot_27] call_intrinsic Item.getMapArray(arg_bytes=0x4) ; pop_local_word b ; ...
+[27:slot_27] bit_and ; mul ; add ; ...
+//
+[27:slot_27] call_class_event FREE.slot_30 ; loopnext ; jmp 0x0163 ; ...
+//
+//
+//
+//
+//
+//
+//
+[27:slot_27] div ; pop_local_word d ; loopscr value_u8=0x24 ; ...
+//
+[27:slot_27] loopscr value_u8=0x25 ; mul ; ...
+[27:slot_27] loop current_var=0xf2, string_bytes=0x6, loop_type=0x2 ; jne 0x0325
+[27:slot_27] call_intrinsic Item.getQLo(arg_bytes=0x4) ; cmp ; jne 0x0321 ; ...
+//
+[27:slot_27] call_intrinsic Kernel.resetRef(arg_bytes=0x4)
+//
+//
+[27:slot_27] cmp ; jne 0x0254 ; ...
+//
+[27:slot_27] call_intrinsic Item.spawnUsecodeEvent0x13(arg_bytes=0x6) ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[27:slot_27] call_intrinsic Item.destroy(arg_bytes=0x4) ; jmp 0x0321
+//
+//
+//
+[27:slot_27] call_intrinsic Item.getFrame(arg_bytes=0x4) ; pop_local_word c ; ...
+[27:slot_27] call_intrinsic Item.getShape(arg_bytes=0x4) ; pop_local_word b ; ...
+[27:slot_27] bit_and ; pop_local_word a ; ...
+[27:slot_27] bit_and ; pop_local_word b ; ...
+[27:slot_27] div ; pop_local_word b ; ...
+[27:slot_27] add ; pop_local_word b ; ...
+[27:slot_27] call_intrinsic Item.setNpcNum(arg_bytes=0x6)
+[27:slot_27] call_intrinsic Item.setMapArray(arg_bytes=0x6)
+[27:slot_27] call_intrinsic push(arg_bytes=0x4)
+[27:slot_27] call_intrinsic Item.setFrame(arg_bytes=0x6)
+[27:slot_27] call_intrinsic Item.spawnUsecodeEvent0x13(arg_bytes=0x6) ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[27:slot_27] call_intrinsic Item.setShape(arg_bytes=0x6)
+[27:slot_27] call_intrinsic Item.orStatus(arg_bytes=0x6)
+[27:slot_27] bit_not ; call_intrinsic Item.andStatus(arg_bytes=0x6) ; ...
+[27:slot_27] call_intrinsic Item.pop(arg_bytes=0x4) ; loopnext ; jmp 0x01f9 ; ...
+//
+//
+//
+//
+//
+//
+//
+[27:slot_27] div ; pop_local_word a ; loopscr value_u8=0x24 ; ...
+//
+[27:slot_27] loopscr value_u8=0x25 ; mul ; ...
+[27:slot_27] loop current_var=0xf2, string_bytes=0x6, loop_type=0x2 ; jne 0x037f
+[27:slot_27] call_intrinsic Item.getQLo(arg_bytes=0x4) ; cmp ; jne 0x037b ; ...
+//
+[27:slot_27] call_intrinsic Item.setFrame(arg_bytes=0x6) ; loopnext ; jmp 0x0359 ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+[27:slot_27] cmp ; jne 0x03a3 ; ...
+//
+[27:slot_27] pop_local_word distance ; jmp 0x03ac
+//
+//
+//
+[27:slot_27] pop_local_word distance ; loopscr value_u8=0x24 ; loopscr value_u8=0x3d ; ...
+//
+//
+//
+[27:slot_27] loopscr value_u8=0x25 ; mul ; ...
+[27:slot_27] loop current_var=0xf2, string_bytes=0x6, loop_type=0x2 ; jne 0x03fe
+[27:slot_27] call_intrinsic Item.getQLo(arg_bytes=0x4) ; cmp ; jne 0x03fa ; ...
+//
+[27:slot_27] div ; pop_local_word a ; ...
+[27:slot_27] spawn TRIGGER.slot_22 ; pop_temp ; loopnext ; ...
+//
+//
+//
+//
+//
+//
+[27:slot_27] div ; pop_local_word a ; ...
+[27:slot_27] add ; pop_local_word newLink ; jmp 0x0557 ; ...
+//
+//
+//
+//
+[27:slot_27] div ; pop_local_word a ; ...
+[27:slot_27] sub ; pop_local_word newLink ; jmp 0x0557 ; ...
+//
+//
+//
+//
+[27:slot_27] div ; pop_local_word d ; loopscr value_u8=0x24 ; ...
+//
+//
+[27:slot_27] loopscr value_u8=0x25 ; mul ; ...
+[27:slot_27] loop current_var=0xf2, string_bytes=0x6, loop_type=0x2 ; jne 0x0552
+[27:slot_27] call_intrinsic Item.getQLo(arg_bytes=0x4) ; cmp ; jne 0x054e ; ...
+//
+[27:slot_27] call_intrinsic Item.getNPCNum(arg_bytes=0x4) ; pop_local_word a ; ...
+[27:slot_27] bit_and ; pop_local_word c ; ...
+[27:slot_27] call_intrinsic Item.getMapArray(arg_bytes=0x4) ; pop_local_word b ; ...
+[27:slot_27] bit_and ; mul ; add ; ...
+[27:slot_27] ne ; jne 0x054e ; ...
+//
+[27:slot_27] call_intrinsic Item.create(arg_bytes=0x8) ; cmp ; jne 0x054e ; ...
+//
+[27:slot_27] call_intrinsic Item.getQ(arg_bytes=0x4) ; call_intrinsic Item.setQ(arg_bytes=0x6) ; ...
+[27:slot_27] call_intrinsic push(arg_bytes=0x4)
+[27:slot_27] call_intrinsic Item.touch(arg_bytes=0x4)
+[27:slot_27] call_intrinsic Item.getZ(arg_bytes=0x4) ; call_intrinsic Item.getY(arg_bytes=0x4) ; call_intrinsic Item.getX(arg_bytes=0x4) ; ...
+[27:slot_27] call_intrinsic Item.unequip(arg_bytes=0x6) ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[27:slot_27] pop_result ; jmp 0x0564
+[27:slot_27] ret
+//
+//
+//
+[28:slot_28] set_info
+//
+//
+//
+//
+//
+[28:slot_28] pop_local_word newLink
+//
+[28:slot_28] pop_local_word aitem
+//
+[28:slot_28] bit_and ; pop_local_word cmd ; cmp ; ...
+//
+//
+//
+//
+//
+//
+[28:slot_28] loopscr value_u8=0x25 ; mul ; ...
+[28:slot_28] loop current_var=0xf2, string_bytes=0x6, loop_type=0x2 ; jne 0x0068
+[28:slot_28] call_intrinsic Item.setQHi(arg_bytes=0x6) ; loopnext ; jmp 0x0054 ; ...
+//
+//
+//
+//
+//
+//
+[28:slot_28] loopscr value_u8=0x25 ; mul ; ...
+[28:slot_28] loop current_var=0xf2, string_bytes=0x6, loop_type=0x2 ; jne 0x00a6
+[28:slot_28] call_intrinsic Item.setQLo(arg_bytes=0x6) ; loopnext ; jmp 0x0092 ; ...
+//
+//
+//
+//
+//
+//
+[28:slot_28] loopscr value_u8=0x25 ; mul ; ...
+[28:slot_28] loop current_var=0xf2, string_bytes=0x6, loop_type=0x2 ; jne 0x00e6
+[28:slot_28] call_intrinsic Item.equip(arg_bytes=0x6) ; pop_temp ; loopnext ; ...
+//
+//
+//
+//
+//
+[28:slot_28] bit_and ; pop_local_word scmd ; cmp ; ...
+//
+//
+//
+//
+[28:slot_28] div ; pop_local_word d ; loopscr value_u8=0x24 ; ...
+//
+[28:slot_28] loopscr value_u8=0x25 ; mul ; ...
+[28:slot_28] loop current_var=0xf2, string_bytes=0x6, loop_type=0x2 ; jne 0x017d
+[28:slot_28] call_intrinsic Item.getNPCNum(arg_bytes=0x4) ; pop_local_word a ; ...
+[28:slot_28] bit_and ; pop_local_word c ; ...
+[28:slot_28] call_intrinsic Item.getMapArray(arg_bytes=0x4) ; pop_local_word b ; ...
+[28:slot_28] bit_and ; mul ; add ; ...
+//
+[28:slot_28] call_class_event FREE.slot_30 ; loopnext ; jmp 0x012d ; ...
+//
+//
+//
+//
+//
+//
+[28:slot_28] div ; pop_local_word d ; loopscr value_u8=0x24 ; ...
+//
+[28:slot_28] loopscr value_u8=0x25 ; mul ; ...
+[28:slot_28] loop current_var=0xf2, string_bytes=0x6, loop_type=0x2 ; jne 0x02cb
+[28:slot_28] call_intrinsic Kernel.resetRef(arg_bytes=0x4)
+//
+//
+[28:slot_28] cmp ; jne 0x01fa ; ...
+//
+[28:slot_28] call_intrinsic Item.spawnUsecodeEvent0x13(arg_bytes=0x6) ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[28:slot_28] call_intrinsic Item.destroy(arg_bytes=0x4) ; jmp 0x02c7
+//
+//
+//
+[28:slot_28] call_intrinsic Item.getFrame(arg_bytes=0x4) ; pop_local_word c ; ...
+[28:slot_28] call_intrinsic Item.getShape(arg_bytes=0x4) ; pop_local_word b ; ...
+[28:slot_28] bit_and ; pop_local_word a ; ...
+[28:slot_28] bit_and ; pop_local_word b ; ...
+[28:slot_28] div ; pop_local_word b ; ...
+[28:slot_28] add ; pop_local_word b ; ...
+[28:slot_28] call_intrinsic Item.setNpcNum(arg_bytes=0x6)
+[28:slot_28] call_intrinsic Item.setMapArray(arg_bytes=0x6)
+[28:slot_28] call_intrinsic push(arg_bytes=0x4)
+[28:slot_28] call_intrinsic Item.setFrame(arg_bytes=0x6)
+[28:slot_28] call_intrinsic Item.spawnUsecodeEvent0x13(arg_bytes=0x6) ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[28:slot_28] call_intrinsic Item.setShape(arg_bytes=0x6)
+[28:slot_28] call_intrinsic Item.orStatus(arg_bytes=0x6)
+[28:slot_28] bit_not ; call_intrinsic Item.andStatus(arg_bytes=0x6) ; ...
+[28:slot_28] call_intrinsic Item.pop(arg_bytes=0x4) ; loopnext ; jmp 0x01b1 ; ...
+//
+//
+//
+//
+//
+//
+[28:slot_28] div ; pop_local_word a ; loopscr value_u8=0x24 ; ...
+//
+[28:slot_28] loopscr value_u8=0x25 ; mul ; ...
+[28:slot_28] loop current_var=0xf2, string_bytes=0x6, loop_type=0x2 ; jne 0x0313
+[28:slot_28] call_intrinsic Item.setFrame(arg_bytes=0x6) ; loopnext ; jmp 0x02ff ; ...
+//
+//
+//
+//
+//
+//
+[28:slot_28] loopscr value_u8=0x25 ; mul ; ...
+[28:slot_28] loop current_var=0xf2, string_bytes=0x6, loop_type=0x2 ; jne 0x0362
+[28:slot_28] div ; pop_local_word a ; ...
+[28:slot_28] spawn TRIGGER.slot_22 ; pop_temp ; loopnext ; ...
+//
+//
+//
+//
+//
+[28:slot_28] div ; pop_local_word a ; ...
+[28:slot_28] add ; pop_local_word newLink ; jmp 0x04a9 ; ...
+//
+//
+//
+//
+[28:slot_28] div ; pop_local_word a ; ...
+[28:slot_28] sub ; pop_local_word newLink ; jmp 0x04a9 ; ...
+//
+//
+//
+[28:slot_28] div ; pop_local_word d ; loopscr value_u8=0x24 ; ...
+//
+//
+[28:slot_28] loopscr value_u8=0x25 ; mul ; ...
+[28:slot_28] loop current_var=0xf2, string_bytes=0x6, loop_type=0x2 ; jne 0x04a4
+[28:slot_28] call_intrinsic Item.getNPCNum(arg_bytes=0x4) ; pop_local_word a ; ...
+[28:slot_28] bit_and ; pop_local_word c ; ...
+[28:slot_28] call_intrinsic Item.getMapArray(arg_bytes=0x4) ; pop_local_word b ; ...
+[28:slot_28] bit_and ; mul ; add ; ...
+[28:slot_28] ne ; jne 0x04a0 ; ...
+//
+[28:slot_28] call_intrinsic Item.create(arg_bytes=0x8) ; cmp ; jne 0x04a0 ; ...
+//
+[28:slot_28] call_intrinsic Item.getQ(arg_bytes=0x4) ; call_intrinsic Item.setQ(arg_bytes=0x6) ; ...
+[28:slot_28] call_intrinsic push(arg_bytes=0x4)
+[28:slot_28] call_intrinsic Item.touch(arg_bytes=0x4)
+[28:slot_28] call_intrinsic Item.getZ(arg_bytes=0x4) ; call_intrinsic Item.getY(arg_bytes=0x4) ; call_intrinsic Item.getX(arg_bytes=0x4) ; ...
+[28:slot_28] call_intrinsic Item.unequip(arg_bytes=0x6) ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[28:slot_28] pop_result ; jmp 0x04b6
+[28:slot_28] ret
+//
+//
+//
+//
+//
+//
+//
+[29:slot_29] set_info
+//
+//
+//
+//
+//
+//
+//
+[29:slot_29] pop_local_word aitem
+//
+[29:slot_29] bit_and ; pop_local_word cmd ; cmp ; ...
+//
+//
+//
+//
+//
+//
+//
+[29:slot_29] loopscr value_u8=0x25 ; mul ; ...
+[29:slot_29] loop current_var=0xf0, string_bytes=0x6, loop_type=0x2 ; jne 0x0253
+[29:slot_29] call_intrinsic Actor.GetNPCDataField0x63_00B(arg_bytes=0x4) ; cmp ; jne 0x024f ; ...
+//
+[29:slot_29] div ; pop_local_word a ; ...
+[29:slot_29] bit_and ; pop_local_word b ; ...
+[29:slot_29] cmp ; jne 0x0114 ; ...
+//
+[29:slot_29] call_intrinsic GetNPCDataField0x2_050(arg_bytes=0x4) ; ne ; jne 0x00a0 ; ...
+//
+[29:slot_29] call_intrinsic Actor.setActivity(arg_bytes=0x6)
+//
+//
+[29:slot_29] call_intrinsic Actor.GetNPCDataField0x4_0DD(arg_bytes=0x4) ; pop_local_word e ; ...
+//
+[29:slot_29] call_intrinsic Actor.turnToward(arg_bytes=0x8) ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[29:slot_29] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[29:slot_29] call_intrinsic Actor.GetNPCDataField0x4_0DD(arg_bytes=0x4) ; pop_local_word f ; ...
+//
+[29:slot_29] call_intrinsic Actor.setActivity(arg_bytes=0x6) ; jmp 0x024f ; ...
+//
+//
+//
+//
+//
+[29:slot_29] call_intrinsic GetNPCDataField0x2_050(arg_bytes=0x4) ; ne ; jne 0x0133 ; ...
+//
+[29:slot_29] call_intrinsic Actor.setActivity(arg_bytes=0x6)
+//
+//
+[29:slot_29] call_intrinsic Actor.GetNPCDataField0x4_0DD(arg_bytes=0x4) ; pop_local_word g ; ...
+//
+[29:slot_29] call_intrinsic Actor.turnToward(arg_bytes=0x8) ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[29:slot_29] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[29:slot_29] call_intrinsic Actor.isDead(arg_bytes=0x4) ; cmp ; jne 0x01a1 ; ...
+//
+[29:slot_29] jmp 0x05f4
+//
+[29:slot_29] pop_local_word counter ; add ; pop_local_word counter ; ...
+[29:slot_29] le ; jne 0x021f
+[29:slot_29] call_intrinsic Actor.isDead(arg_bytes=0x4) ; cmp ; jne 0x01ec ; ...
+//
+[29:slot_29] call_intrinsic Actor.doAnim(arg_bytes=0xc) ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[29:slot_29] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[29:slot_29] call_intrinsic Actor.GetNPCDataField0x4_0DD(arg_bytes=0x4) ; pop_local_word h ; ...
+[29:slot_29] call_intrinsic GetNPCDataField0x2_050(arg_bytes=0x4) ; pop_local_word i ; ...
+//
+[29:slot_29] call_intrinsic Actor.GetNPCDataField0x4_0DD(arg_bytes=0x4) ; call_intrinsic Actor.setActivity(arg_bytes=0x6) ; loopnext ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[29:slot_29] loopscr value_u8=0x25 ; mul ; ...
+[29:slot_29] loop current_var=0xf0, string_bytes=0x6, loop_type=0x2 ; jne 0x02a3
+[29:slot_29] call_intrinsic Actor.GetNPCDataField0x63_00B(arg_bytes=0x4) ; cmp ; jne 0x029f ; ...
+//
+[29:slot_29] call_intrinsic Actor.SetNPCDataField0x63_0E6(arg_bytes=0x6) ; loopnext ; jmp 0x027d ; ...
+//
+//
+//
+//
+//
+//
+//
+[29:slot_29] loopscr value_u8=0x25 ; mul ; ...
+[29:slot_29] loop current_var=0xf0, string_bytes=0x6, loop_type=0x2 ; jne 0x0303
+[29:slot_29] call_intrinsic Actor.GetNPCDataField0x63_00B(arg_bytes=0x4) ; cmp ; jne 0x02ff ; ...
+//
+[29:slot_29] call_intrinsic Actor.getDir(arg_bytes=0x4) ; call_intrinsic Actor.doAnim(arg_bytes=0xc) ; pop_temp ; ...
+//
+//
+//
+//
+//
+//
+[29:slot_29] bit_and ; pop_local_word scmd ; ...
+[29:slot_29] div ; pop_local_word a ; cmp ; ...
+//
+//
+//
+//
+//
+[29:slot_29] loopscr value_u8=0x25 ; mul ; ...
+[29:slot_29] loop current_var=0xf0, string_bytes=0x6, loop_type=0x2 ; jne 0x03b7
+[29:slot_29] call_intrinsic Actor.GetNPCDataField0x63_00B(arg_bytes=0x4) ; cmp ; jne 0x03b3 ; ...
+//
+//
+//
+//
+//
+[29:slot_29] call_intrinsic Actor.setActivity(arg_bytes=0x6) ; jmp 0x03b3 ; cmp ; ...
+//
+//
+//
+[29:slot_29] call_intrinsic Actor.setActivity(arg_bytes=0x6) ; jmp 0x03b3 ; cmp ; ...
+//
+//
+//
+[29:slot_29] call_intrinsic Actor.setActivity(arg_bytes=0x6) ; jmp 0x03b3 ; ...
+//
+//
+//
+[29:slot_29] call_intrinsic Actor.setActivity(arg_bytes=0x6) ; loopnext ; jmp 0x0349 ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[29:slot_29] loopscr value_u8=0x25 ; mul ; ...
+[29:slot_29] loop current_var=0xf0, string_bytes=0x6, loop_type=0x2 ; jne 0x043a
+[29:slot_29] call_intrinsic Actor.GetNPCDataField0x63_00B(arg_bytes=0x4) ; cmp ; jne 0x0436 ; ...
+//
+[29:slot_29] call_intrinsic Actor.setDefaultActivity0(arg_bytes=0x6)
+[29:slot_29] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[29:slot_29] call_intrinsic Actor.setActivity(arg_bytes=0x6) ; loopnext ; jmp 0x03e1 ; ...
+//
+//
+//
+//
+//
+//
+//
+[29:slot_29] loopscr value_u8=0x25 ; mul ; ...
+[29:slot_29] loop current_var=0xf0, string_bytes=0x6, loop_type=0x2 ; jne 0x04bd
+[29:slot_29] call_intrinsic Actor.GetNPCDataField0x63_00B(arg_bytes=0x4) ; cmp ; jne 0x04b9 ; ...
+//
+[29:slot_29] call_intrinsic Actor.setDefaultActivity1(arg_bytes=0x6)
+[29:slot_29] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[29:slot_29] call_intrinsic Actor.setActivity(arg_bytes=0x6) ; loopnext ; jmp 0x0464 ; ...
+//
+//
+//
+//
+//
+//
+//
+[29:slot_29] loopscr value_u8=0x25 ; mul ; ...
+[29:slot_29] loop current_var=0xf0, string_bytes=0x6, loop_type=0x2 ; jne 0x0540
+[29:slot_29] call_intrinsic Actor.GetNPCDataField0x63_00B(arg_bytes=0x4) ; cmp ; jne 0x053c ; ...
+//
+[29:slot_29] call_intrinsic Actor.setDefaultActivity2(arg_bytes=0x6)
+[29:slot_29] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[29:slot_29] call_intrinsic Actor.setActivity(arg_bytes=0x6) ; loopnext ; jmp 0x04e7 ; ...
+//
+//
+//
+//
+//
+//
+//
+[29:slot_29] loopscr value_u8=0x25 ; mul ; ...
+[29:slot_29] loop current_var=0xf0, string_bytes=0x6, loop_type=0x2 ; jne 0x0597
+[29:slot_29] call_intrinsic Actor.GetNPCDataField0x63_00B(arg_bytes=0x4) ; cmp ; jne 0x0593 ; ...
+//
+[29:slot_29] pop_local_word k
+[29:slot_29] call_intrinsic Actor.setActivity(arg_bytes=0x6) ; loopnext ; jmp 0x056a ; ...
+//
+//
+//
+//
+//
+//
+//
+[29:slot_29] loopscr value_u8=0x25 ; mul ; ...
+[29:slot_29] loop current_var=0xf0, string_bytes=0x6, loop_type=0x2 ; jne 0x05ec
+[29:slot_29] call_intrinsic Actor.GetNPCDataField0x63_00B(arg_bytes=0x4) ; cmp ; jne 0x05e8 ; ...
+//
+[29:slot_29] spawn NPC.equip ; pop_temp ; loopnext ; ...
+//
+//
+//
+//
+//
+//
+[29:slot_29] ret
+//
+//
+//
+[2A:slot_2a] set_info
+//
+//
+//
+//
+//
+[2A:slot_2a] pop_local_word aitem
+//
+[2A:slot_2a] bit_and ; pop_local_word cmd ; cmp ; ...
+//
+//
+//
+//
+//
+//
+[2A:slot_2a] loopscr value_u8=0x25 ; mul ; ...
+[2A:slot_2a] loop current_var=0xf0, string_bytes=0x6, loop_type=0x2 ; jne 0x01de
+[2A:slot_2a] div ; pop_local_word a ; ...
+[2A:slot_2a] bit_and ; pop_local_word b ; ...
+[2A:slot_2a] cmp ; jne 0x00db ; ...
+//
+[2A:slot_2a] call_intrinsic Actor.setActivity(arg_bytes=0x6)
+//
+//
+[2A:slot_2a] call_intrinsic Actor.turnToward(arg_bytes=0x8) ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[2A:slot_2a] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[2A:slot_2a] call_intrinsic Actor.GetNPCDataField0x4_0DD(arg_bytes=0x4) ; call_intrinsic Actor.setActivity(arg_bytes=0x6) ; jmp 0x01da ; ...
+//
+//
+//
+//
+//
+[2A:slot_2a] call_intrinsic Actor.setActivity(arg_bytes=0x6)
+//
+//
+[2A:slot_2a] call_intrinsic Actor.turnToward(arg_bytes=0x8) ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[2A:slot_2a] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[2A:slot_2a] call_intrinsic Actor.isDead(arg_bytes=0x4) ; cmp ; jne 0x0148 ; ...
+//
+[2A:slot_2a] jmp 0x04ef
+//
+[2A:slot_2a] pop_local_word counter ; add ; pop_local_word counter ; ...
+[2A:slot_2a] le ; jne 0x01c6
+[2A:slot_2a] call_intrinsic Actor.isDead(arg_bytes=0x4) ; cmp ; jne 0x0193 ; ...
+//
+[2A:slot_2a] call_intrinsic Actor.doAnim(arg_bytes=0xc) ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[2A:slot_2a] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[2A:slot_2a] call_intrinsic Actor.GetNPCDataField0x4_0DD(arg_bytes=0x4) ; call_intrinsic Actor.setActivity(arg_bytes=0x6) ; loopnext ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[2A:slot_2a] loopscr value_u8=0x25 ; mul ; ...
+[2A:slot_2a] loop current_var=0xf0, string_bytes=0x6, loop_type=0x2 ; jne 0x021c
+[2A:slot_2a] call_intrinsic Actor.SetNPCDataField0x63_0E6(arg_bytes=0x6) ; loopnext ; jmp 0x0208 ; ...
+//
+//
+//
+//
+//
+//
+[2A:slot_2a] loopscr value_u8=0x25 ; mul ; ...
+[2A:slot_2a] loop current_var=0xf0, string_bytes=0x6, loop_type=0x2 ; jne 0x026a
+[2A:slot_2a] call_intrinsic Actor.getDir(arg_bytes=0x4) ; call_intrinsic Actor.doAnim(arg_bytes=0xc) ; pop_temp ; ...
+//
+//
+//
+//
+//
+[2A:slot_2a] bit_and ; pop_local_word scmd ; ...
+[2A:slot_2a] div ; pop_local_word a ; cmp ; ...
+//
+//
+//
+//
+//
+//
+[2A:slot_2a] loopscr value_u8=0x25 ; mul ; ...
+[2A:slot_2a] loop current_var=0xf0, string_bytes=0x6, loop_type=0x2 ; jne 0x030c ; cmp ; ...
+//
+//
+//
+//
+[2A:slot_2a] call_intrinsic Actor.setActivity(arg_bytes=0x6) ; jmp 0x0308 ; cmp ; ...
+//
+//
+//
+[2A:slot_2a] call_intrinsic Actor.setActivity(arg_bytes=0x6) ; jmp 0x0308 ; cmp ; ...
+//
+//
+//
+[2A:slot_2a] call_intrinsic Actor.setActivity(arg_bytes=0x6) ; jmp 0x0308 ; ...
+//
+//
+//
+[2A:slot_2a] call_intrinsic Actor.setActivity(arg_bytes=0x6) ; loopnext ; jmp 0x02b0 ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[2A:slot_2a] loopscr value_u8=0x25 ; mul ; ...
+[2A:slot_2a] loop current_var=0xf0, string_bytes=0x6, loop_type=0x2 ; jne 0x037d
+[2A:slot_2a] call_intrinsic Actor.setDefaultActivity0(arg_bytes=0x6)
+[2A:slot_2a] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[2A:slot_2a] call_intrinsic Actor.setActivity(arg_bytes=0x6) ; loopnext ; jmp 0x0336 ; ...
+//
+//
+//
+//
+//
+//
+[2A:slot_2a] loopscr value_u8=0x25 ; mul ; ...
+[2A:slot_2a] loop current_var=0xf0, string_bytes=0x6, loop_type=0x2 ; jne 0x03ee
+[2A:slot_2a] call_intrinsic Actor.setDefaultActivity1(arg_bytes=0x6)
+[2A:slot_2a] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[2A:slot_2a] call_intrinsic Actor.setActivity(arg_bytes=0x6) ; loopnext ; jmp 0x03a7 ; ...
+//
+//
+//
+//
+//
+//
+[2A:slot_2a] loopscr value_u8=0x25 ; mul ; ...
+[2A:slot_2a] loop current_var=0xf0, string_bytes=0x6, loop_type=0x2 ; jne 0x045f
+[2A:slot_2a] call_intrinsic Actor.setDefaultActivity2(arg_bytes=0x6)
+[2A:slot_2a] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[2A:slot_2a] call_intrinsic Actor.setActivity(arg_bytes=0x6) ; loopnext ; jmp 0x0418 ; ...
+//
+//
+//
+//
+//
+//
+//
+[2A:slot_2a] loopscr value_u8=0x25 ; mul ; ...
+[2A:slot_2a] loop current_var=0xf0, string_bytes=0x6, loop_type=0x2 ; jne 0x04a4
+[2A:slot_2a] pop_local_word k
+[2A:slot_2a] call_intrinsic Actor.setActivity(arg_bytes=0x6) ; loopnext ; jmp 0x0489 ; ...
+//
+//
+//
+//
+//
+//
+[2A:slot_2a] loopscr value_u8=0x25 ; mul ; ...
+[2A:slot_2a] loop current_var=0xf0, string_bytes=0x6, loop_type=0x2 ; jne 0x04e7
+[2A:slot_2a] spawn NPC.equip ; pop_temp ; loopnext ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+[2A:slot_2a] ret
+//
+//
+//
+[2B:slot_2b] set_info
+//
+//
+//
+//
+//
+[2B:slot_2b] pop_local_word aitem
+//
+[2B:slot_2b] bit_and ; pop_local_word cmd ; cmp ; ...
+//
+//
+//
+//
+//
+//
+[2B:slot_2b] loopscr value_u8=0x25 ; mul ; ...
+[2B:slot_2b] loop current_var=0xf0, string_bytes=0x6, loop_type=0x2 ; jne 0x0206
+[2B:slot_2b] call_intrinsic Item.getShape(arg_bytes=0x4) ; call_intrinsic Item.isCrusTypeNPC(arg_bytes=0x2) ; jne 0x0202 ; ...
+//
+//
+[2B:slot_2b] call_intrinsic Actor.GetNPCDataField0x63_00B(arg_bytes=0x4) ; cmp ; jne 0x0202 ; ...
+//
+[2B:slot_2b] div ; pop_local_word a ; ...
+[2B:slot_2b] bit_and ; pop_local_word b ; ...
+[2B:slot_2b] cmp ; jne 0x0103 ; ...
+//
+[2B:slot_2b] call_intrinsic Actor.setActivity(arg_bytes=0x6)
+//
+//
+[2B:slot_2b] call_intrinsic Actor.turnToward(arg_bytes=0x8) ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[2B:slot_2b] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[2B:slot_2b] call_intrinsic Actor.GetNPCDataField0x4_0DD(arg_bytes=0x4) ; call_intrinsic Actor.setActivity(arg_bytes=0x6) ; jmp 0x0202 ; ...
+//
+//
+//
+//
+//
+[2B:slot_2b] call_intrinsic Actor.setActivity(arg_bytes=0x6)
+//
+//
+[2B:slot_2b] call_intrinsic Actor.turnToward(arg_bytes=0x8) ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[2B:slot_2b] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[2B:slot_2b] call_intrinsic Actor.isDead(arg_bytes=0x4) ; cmp ; jne 0x0170 ; ...
+//
+[2B:slot_2b] jmp 0x0657
+//
+[2B:slot_2b] pop_local_word counter ; add ; pop_local_word counter ; ...
+[2B:slot_2b] le ; jne 0x01ee
+[2B:slot_2b] call_intrinsic Actor.isDead(arg_bytes=0x4) ; cmp ; jne 0x01bb ; ...
+//
+[2B:slot_2b] call_intrinsic Actor.doAnim(arg_bytes=0xc) ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[2B:slot_2b] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[2B:slot_2b] call_intrinsic Actor.GetNPCDataField0x4_0DD(arg_bytes=0x4) ; call_intrinsic Actor.setActivity(arg_bytes=0x6) ; loopnext ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[2B:slot_2b] loopscr value_u8=0x25 ; mul ; ...
+[2B:slot_2b] loop current_var=0xf0, string_bytes=0x6, loop_type=0x2 ; jne 0x026c
+[2B:slot_2b] call_intrinsic Item.getShape(arg_bytes=0x4) ; call_intrinsic Item.isCrusTypeNPC(arg_bytes=0x2) ; jne 0x0268 ; ...
+//
+//
+[2B:slot_2b] call_intrinsic Actor.GetNPCDataField0x63_00B(arg_bytes=0x4) ; cmp ; jne 0x0268 ; ...
+//
+[2B:slot_2b] call_intrinsic Actor.SetNPCDataField0x63_0E6(arg_bytes=0x6) ; loopnext ; jmp 0x0230 ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+[2B:slot_2b] loopscr value_u8=0x25 ; mul ; ...
+[2B:slot_2b] loop current_var=0xf0, string_bytes=0x6, loop_type=0x2 ; jne 0x02e2
+[2B:slot_2b] call_intrinsic Item.getShape(arg_bytes=0x4) ; call_intrinsic Item.isCrusTypeNPC(arg_bytes=0x2) ; jne 0x02de ; ...
+//
+[2B:slot_2b] call_intrinsic Actor.GetNPCDataField0x63_00B(arg_bytes=0x4) ; cmp ; jne 0x02de ; ...
+//
+[2B:slot_2b] call_intrinsic Actor.getDir(arg_bytes=0x4) ; call_intrinsic Actor.doAnim(arg_bytes=0xc) ; pop_temp ; ...
+//
+//
+//
+//
+//
+//
+//
+[2B:slot_2b] bit_and ; pop_local_word scmd ; ...
+[2B:slot_2b] div ; pop_local_word a ; cmp ; ...
+//
+//
+//
+//
+//
+//
+[2B:slot_2b] loopscr value_u8=0x25 ; mul ; ...
+[2B:slot_2b] loop current_var=0xf0, string_bytes=0x6, loop_type=0x2 ; jne 0x03ac
+[2B:slot_2b] call_intrinsic Item.getShape(arg_bytes=0x4) ; call_intrinsic Item.isCrusTypeNPC(arg_bytes=0x2) ; jne 0x03a8 ; ...
+//
+[2B:slot_2b] call_intrinsic Actor.GetNPCDataField0x63_00B(arg_bytes=0x4) ; cmp ; jne 0x03a8 ; ...
+//
+//
+//
+//
+//
+[2B:slot_2b] call_intrinsic Actor.setActivity(arg_bytes=0x6) ; jmp 0x03a8 ; cmp ; ...
+//
+//
+//
+[2B:slot_2b] call_intrinsic Actor.setActivity(arg_bytes=0x6) ; jmp 0x03a8 ; cmp ; ...
+//
+//
+//
+[2B:slot_2b] call_intrinsic Actor.setActivity(arg_bytes=0x6) ; jmp 0x03a8 ; ...
+//
+//
+//
+[2B:slot_2b] call_intrinsic Actor.setActivity(arg_bytes=0x6) ; loopnext ; jmp 0x0328 ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[2B:slot_2b] loopscr value_u8=0x25 ; mul ; ...
+[2B:slot_2b] loop current_var=0xf0, string_bytes=0x6, loop_type=0x2 ; jne 0x0445
+[2B:slot_2b] call_intrinsic Item.getShape(arg_bytes=0x4) ; call_intrinsic Item.isCrusTypeNPC(arg_bytes=0x2) ; jne 0x0441 ; ...
+//
+[2B:slot_2b] call_intrinsic Actor.GetNPCDataField0x63_00B(arg_bytes=0x4) ; cmp ; jne 0x0441 ; ...
+//
+[2B:slot_2b] call_intrinsic Actor.setDefaultActivity0(arg_bytes=0x6)
+[2B:slot_2b] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[2B:slot_2b] call_intrinsic Actor.setActivity(arg_bytes=0x6) ; loopnext ; jmp 0x03d6 ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+[2B:slot_2b] loopscr value_u8=0x25 ; mul ; ...
+[2B:slot_2b] loop current_var=0xf0, string_bytes=0x6, loop_type=0x2 ; jne 0x04de
+[2B:slot_2b] call_intrinsic Item.getShape(arg_bytes=0x4) ; call_intrinsic Item.isCrusTypeNPC(arg_bytes=0x2) ; jne 0x04da ; ...
+//
+[2B:slot_2b] call_intrinsic Actor.GetNPCDataField0x63_00B(arg_bytes=0x4) ; cmp ; jne 0x04da ; ...
+//
+[2B:slot_2b] call_intrinsic Actor.setDefaultActivity1(arg_bytes=0x6)
+[2B:slot_2b] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[2B:slot_2b] call_intrinsic Actor.setActivity(arg_bytes=0x6) ; loopnext ; jmp 0x046f ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+[2B:slot_2b] loopscr value_u8=0x25 ; mul ; ...
+[2B:slot_2b] loop current_var=0xf0, string_bytes=0x6, loop_type=0x2 ; jne 0x0577
+[2B:slot_2b] call_intrinsic Item.getShape(arg_bytes=0x4) ; call_intrinsic Item.isCrusTypeNPC(arg_bytes=0x2) ; jne 0x0573 ; ...
+//
+[2B:slot_2b] call_intrinsic Actor.GetNPCDataField0x63_00B(arg_bytes=0x4) ; cmp ; jne 0x0573 ; ...
+//
+[2B:slot_2b] call_intrinsic Actor.setDefaultActivity2(arg_bytes=0x6)
+[2B:slot_2b] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[2B:slot_2b] call_intrinsic Actor.setActivity(arg_bytes=0x6) ; loopnext ; jmp 0x0508 ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+[2B:slot_2b] loopscr value_u8=0x25 ; mul ; ...
+[2B:slot_2b] loop current_var=0xf0, string_bytes=0x6, loop_type=0x2 ; jne 0x05e4
+[2B:slot_2b] call_intrinsic Item.getShape(arg_bytes=0x4) ; call_intrinsic Item.isCrusTypeNPC(arg_bytes=0x2) ; jne 0x05e0 ; ...
+//
+[2B:slot_2b] call_intrinsic Actor.GetNPCDataField0x63_00B(arg_bytes=0x4) ; cmp ; jne 0x05e0 ; ...
+//
+[2B:slot_2b] pop_local_word k
+[2B:slot_2b] call_intrinsic Actor.setActivity(arg_bytes=0x6) ; loopnext ; jmp 0x05a1 ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+[2B:slot_2b] loopscr value_u8=0x25 ; mul ; ...
+[2B:slot_2b] loop current_var=0xf0, string_bytes=0x6, loop_type=0x2 ; jne 0x064f
+[2B:slot_2b] call_intrinsic Item.getShape(arg_bytes=0x4) ; call_intrinsic Item.isCrusTypeNPC(arg_bytes=0x2) ; jne 0x064b ; ...
+//
+[2B:slot_2b] call_intrinsic Actor.GetNPCDataField0x63_00B(arg_bytes=0x4) ; cmp ; jne 0x064b ; ...
+//
+[2B:slot_2b] spawn NPC.equip ; pop_temp ; loopnext ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[2B:slot_2b] ret
+
+/* synthesized appendix for TRIGGER */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x20 slot_20 ===== */
+function trigger_slot_20() /* entry=2586 class_id=0x0a18 slot=0x20 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    phase, /* [BP+12h] type=0x69 */
+    lowPriorityTriggers, /* [BP-02h] type=0x6c */
+    cmdphase, /* [BP-04h] type=0x69 */
+    qHi, /* [BP-06h] type=0x69 */
+    npcNum, /* [BP-08h] type=0x69 */
+    mapNum, /* [BP-10h] type=0x69 */
+    item, /* [BP-12h] type=0x24 */
+    aitem, /* [BP-14h] type=0x24 */
+    baseLink, /* [BP-16h] type=0x69 */
+    newLink, /* [BP-18h] type=0x69 */
+    searchtype, /* [BP-20h] type=0x69 */
+    newphase; /* [BP-22h] type=0x69 */
+
+  set_info(0x021b, 0);
+  baseLink = 0;
+  newLink = 0;
+  searchtype = 0;
+  spawn FREE.waitNTimerTicks(pid, 1, 0x00000000);
+  suspend;
+  aitem = ref;
+  if (phase == 0x00fe) {
+    baseLink = 0x00fe;
+    phase = 0x0080;
+  }
+  else {
+    qHi = Item.getQHi(aitem);
+    baseLink = Item.getQLo(aitem);
+    mapNum = Item.getMapArray(aitem);
+    npcNum = Item.getNPCNum(aitem);
+  }
+  newLink = baseLink;
+  if (phase < 0x0080) {
+    searchtype = (((mapNum & 0x00e0) * 8) + npcNum);
+    if (mapNum == 0) {
+      return;
+    }
+    if (baseLink == 0) {
+      return;
+    }
+    cmdphase = 0;
+    if (mapNum & 8) {
+      cmdphase = 1;
+    }
+    if (phase == cmdphase) {
+      if (mapNum & 4) {
+        if (Item.isCrusTypeNPC(searchtype)) {
+          if (baseLink == 0x00ff) {
+            if (searchtype != 0) {
+              spawn TRIGGER.slot_2a(pid, searchtype, baseLink, mapNum, npcNum, qHi, ref, arg_06);
+              suspend;
+            }
+          }
+          else if (searchtype == 0x07fe) {
+            spawn TRIGGER.slot_2b(pid, searchtype, baseLink, mapNum, npcNum, qHi, ref, arg_06);
+            suspend;
+          }
+          else if (searchtype != 0) {
+            spawn TRIGGER.slot_29(pid, searchtype, baseLink, mapNum, npcNum, qHi, ref, arg_06);
+            suspend;
+          }
+        }
+        else if (baseLink == 0x00ff) {
+          if (searchtype != 0) {
+            spawn TRIGGER.slot_25(pid, searchtype, baseLink, mapNum, npcNum, qHi, ref, arg_06);
+            suspend;
+            baseLink = process_result;
+          }
+        }
+        else if (searchtype == 0x07ff) {
+          spawn TRIGGER.slot_24(pid, searchtype, baseLink, mapNum, npcNum, qHi, ref, arg_06);
+          suspend;
+          baseLink = process_result;
+        }
+        else if (searchtype != 0) {
+          spawn TRIGGER.slot_23(pid, searchtype, baseLink, mapNum, npcNum, qHi, ref, arg_06);
+          suspend;
+          baseLink = process_result;
+        }
+      }
+      else if (baseLink == 0x00ff) {
+        if (searchtype != 0) {
+          spawn TRIGGER.slot_28(pid, searchtype, baseLink, mapNum, npcNum, qHi, ref, arg_06);
+          suspend;
+          baseLink = process_result;
+        }
+      }
+      else if (searchtype == 0x07ff) {
+        spawn TRIGGER.slot_27(pid, searchtype, baseLink, mapNum, npcNum, qHi, ref, arg_06);
+        suspend;
+        baseLink = process_result;
+      }
+      else if (searchtype != 0) {
+        spawn TRIGGER.slot_26(pid, searchtype, baseLink, mapNum, npcNum, qHi, ref, arg_06);
+        suspend;
+        baseLink = process_result;
+      }
+      if (mapNum & 16) {
+        Item.setQLo(0, aitem);
+      }
+    }
+  }
+  newphase = (phase & 1);
+  while (1) {
+    for item in nearby_items(shape=CMD_LINK, origin=aitem) {
+      if (Item.getQLo(item) == baseLink) {
+        mapNum = Item.getMapArray(item);
+        cmdphase = 0;
+        if (mapNum & 8) {
+          cmdphase = 1;
+        }
+        if (newphase == cmdphase) {
+          if (mapNum & 16) {
+            spawn TRIGGER.slot_21(pid, item, arg_06);
+            suspend;
+            newLink = process_result;
+          }
+          else {
+            lowPriorityTriggers = (lowPriorityTriggers + [item]);
+          }
+        }
+      }
+    }
+    while (true) {
+      foreach_list item -> block_05cc;
+      spawn TRIGGER.slot_21(pid, item, arg_06);
+      suspend;
+      newLink = process_result;
+      /* remove_matching_inline */
+      lowPriorityTriggers = [item];
+    }
+    if (newLink == baseLink) {
+      return;
+    }
+    else {
+      baseLink = newLink;
+    }
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol ref [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol phase [BP+12h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol lowPriorityTriggers [BP-02h] type=0x6c unk1=0x00 unk3=0x02
+    debug_symbol cmdphase [BP-04h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol qHi [BP-06h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol npcNum [BP-08h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol mapNum [BP-10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol item [BP-12h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol aitem [BP-14h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol baseLink [BP-16h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol newLink [BP-18h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol searchtype [BP-20h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol newphase [BP-22h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x21 slot_21 ===== */
+function trigger_slot_21() /* entry=2586 class_id=0x0a18 slot=0x21 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    cmd, /* [BP-02h] type=0x69 */
+    qHi, /* [BP-04h] type=0x69 */
+    npcNum, /* [BP-06h] type=0x69 */
+    mapNum, /* [BP-08h] type=0x69 */
+    searchtype, /* [BP-10h] type=0x69 */
+    aitem, /* [BP-12h] type=0x24 */
+    baseLink, /* [BP-14h] type=0x69 */
+    newLink; /* [BP-16h] type=0x69 */
+
+  set_info(0x021b, 0);
+  aitem = ref;
+  baseLink = Item.getQLo(aitem);
+  newLink = baseLink;
+  qHi = Item.getQHi(aitem);
+  mapNum = Item.getMapArray(aitem);
+  npcNum = Item.getNPCNum(aitem);
+  searchtype = (((mapNum & 0x00e0) * 8) + npcNum);
+  if (mapNum == 0) {
+    return;
+  }
+  else if (mapNum & 4) {
+    if (Item.isCrusTypeNPC(searchtype)) {
+      if (baseLink == 0x00ff) {
+        if (searchtype != 0) {
+          spawn TRIGGER.slot_2a(pid, searchtype, baseLink, mapNum, npcNum, qHi, ref, arg_06);
+          suspend;
+        }
+      }
+      else if (searchtype == 0x07fe) {
+        spawn TRIGGER.slot_2b(pid, searchtype, baseLink, mapNum, npcNum, qHi, ref, arg_06);
+        suspend;
+      }
+      else if (searchtype != 0) {
+        spawn TRIGGER.slot_29(pid, searchtype, baseLink, mapNum, npcNum, qHi, ref, arg_06);
+        suspend;
+      }
+    }
+    else if (baseLink == 0x00ff) {
+      if (searchtype != 0) {
+        spawn TRIGGER.slot_25(pid, searchtype, baseLink, mapNum, npcNum, qHi, ref, arg_06);
+        suspend;
+        newLink = process_result;
+      }
+    }
+    else if (searchtype == 0x07ff) {
+      spawn TRIGGER.slot_24(pid, searchtype, baseLink, mapNum, npcNum, qHi, ref, arg_06);
+      suspend;
+      newLink = process_result;
+    }
+    else if (searchtype != 0) {
+      spawn TRIGGER.slot_23(pid, searchtype, baseLink, mapNum, npcNum, qHi, ref, arg_06);
+      suspend;
+      newLink = process_result;
+    }
+  }
+  else if (baseLink == 0x00ff) {
+    if (searchtype != 0) {
+      spawn TRIGGER.slot_28(pid, searchtype, baseLink, mapNum, npcNum, qHi, ref, arg_06);
+      suspend;
+      newLink = process_result;
+    }
+  }
+  else if (searchtype == 0x07ff) {
+    spawn TRIGGER.slot_27(pid, searchtype, baseLink, mapNum, npcNum, qHi, ref, arg_06);
+    suspend;
+    newLink = process_result;
+  }
+  else if (searchtype != 0) {
+    spawn TRIGGER.slot_26(pid, searchtype, baseLink, mapNum, npcNum, qHi, ref, arg_06);
+    suspend;
+    newLink = process_result;
+  }
+  process_result = newLink;
+  return;
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol ref [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol cmd [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol qHi [BP-04h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol npcNum [BP-06h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol mapNum [BP-08h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol searchtype [BP-10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol aitem [BP-12h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol baseLink [BP-14h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol newLink [BP-16h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x22 slot_22 ===== */
+function trigger_slot_22() /* entry=2586 class_id=0x0a18 slot=0x22 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    num, /* [BP+12h] type=0x69 */
+    door; /* [BP-02h] type=0x24 */
+
+  set_info(0x021b, 0);
+  door = ref;
+  while (1) {
+    if ((Item.getStatus(door) & 0x1000) == 0) {
+      Item.orStatus(0x1000, door);
+      spawn DOOR.slot_21(pid, num, door);
+      suspend;
+      Item.andStatus((~0x1000), door);
+      return;
+    }
+    else {
+      spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+      suspend;
+    }
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol ref [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol num [BP+12h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol door [BP-02h] type=0x24 unk1=0x00 unk3=0x02
+  */
+}
+
+/* ===== slot 0x23 slot_23 ===== */
+function trigger_slot_23() /* entry=2586 class_id=0x0a18 slot=0x23 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    qHi, /* [BP+12h] type=0x69 */
+    npcNum, /* [BP+14h] type=0x69 */
+    mapNum, /* [BP+16h] type=0x69 */
+    baseLink, /* [BP+18h] type=0x69 */
+    searchtype, /* [BP+20h] type=0x69 */
+    scmd, /* [BP-02h] type=0x69 */
+    cmd, /* [BP-04h] type=0x69 */
+    a, /* [BP-06h] type=0x69 */
+    b, /* [BP-08h] type=0x69 */
+    c, /* [BP-10h] type=0x69 */
+    d, /* [BP-12h] type=0x69 */
+    item, /* [BP-14h] type=0x24 */
+    aitem, /* [BP-16h] type=0x24 */
+    newLink, /* [BP-18h] type=0x69 */
+    item2; /* [BP-20h] type=0x24 */
+
+  set_info(0x021b, 0);
+  newLink = baseLink;
+  aitem = ref;
+  cmd = (mapNum & 3);
+  switch (cmd) {
+  case 0:
+    for item in nearby_items(shape=searchtype, origin=aitem) {
+      if (Item.getQLo(item) == baseLink) {
+        if (ref != item) {
+          Item.setQHi(qHi, item);
+        }
+      }
+    }
+    break;
+  case 1:
+    for item in nearby_items(shape=searchtype, origin=aitem) {
+      if (Item.getQLo(item) == baseLink) {
+        if (ref != item) {
+          Item.setQLo(qHi, item);
+        }
+      }
+    }
+    break;
+  case 2:
+    scan item in nearby_items(shape=searchtype, origin=aitem) where Item.getQLo(item) == baseLink && ref != item;
+    break;
+  case 3:
+    scmd = (qHi & 7);
+    switch (scmd) {
+    case 0:
+      d = (qHi / 8);
+      for item in nearby_items(shape=0x0476, origin=aitem) {
+        if (Item.getQLo(item) == baseLink) {
+          a = Item.getNPCNum(item);
+          c = (a & 15);
+          b = Item.getMapArray(item);
+          b = (((a & 0x00e0) * 8) + b);
+          FREE.slot_30(d, c, b, item);
+        }
+      }
+      break;
+    case 1:
+      d = (qHi / 8);
+      for item in nearby_items(shape=searchtype, origin=aitem) {
+        if (Item.getQLo(item) == baseLink) {
+          if (ref != item) {
+            Kernel.resetRef(12, item);
+            if (d == 31) {
+              suspend;
+              Item.destroy(item);
+            }
+            else {
+              c = Item.getFrame(item);
+              b = Item.getShape(item);
+              a = (b & 0x00ff);
+              b = (b & 0x0700);
+              b = (b / 8);
+              b = (b + c);
+              Item.setNpcNum(b, item);
+              Item.setMapArray(a, item);
+              Item.setFrame(0, item);
+              push(item);
+              suspend;
+              Item.setShape(0x0476, item);
+              Item.orStatus(16, item);
+              Item.andStatus((~0x1000), item);
+              Item.pop(item);
+            }
+          }
+        }
+      }
+      break;
+    case 2:
+      a = (qHi / 8);
+      for item in nearby_items(shape=searchtype, origin=aitem) {
+        if (Item.getQLo(item) == baseLink) {
+          if (ref != item) {
+            Item.setFrame(a, item);
+          }
+        }
+      }
+      break;
+    case 3:
+      for item in nearby_items(shape=searchtype, origin=aitem) {
+        if (Item.getQLo(item) == baseLink) {
+          if (ref != item) {
+            a = (qHi / 8);
+            spawn TRIGGER.slot_22(a, item, arg_06);
+          }
+        }
+      }
+      break;
+    case 4:
+      a = (qHi / 8);
+      newLink = (newLink + a);
+      break;
+    case 5:
+      a = (qHi / 8);
+      newLink = (newLink - a);
+      break;
+    case 6:
+      d = (qHi / 8);
+      for item in nearby_items(shape=0x0476, origin=aitem) {
+        if (Item.getQLo(item) == baseLink) {
+          a = Item.getNPCNum(item);
+          c = (a & 15);
+          b = Item.getMapArray(item);
+          b = (((a & 0x00e0) * 8) + b);
+          if (b != 0) {
+            if (Item.create(c, b, item2) == 1) {
+              Item.setQ(Item.getQ(item), item2);
+              push(item2);
+              Item.touch(item2);
+              Item.popToCoords(Item.getZ(item), Item.getY(item), Item.getX(item), item2);
+              suspend;
+            }
+          }
+        }
+      }
+      break;
+    }
+    break;
+  }
+  process_result = newLink;
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol ref [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol qHi [BP+12h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol npcNum [BP+14h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol mapNum [BP+16h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol baseLink [BP+18h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol searchtype [BP+20h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol scmd [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol cmd [BP-04h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol a [BP-06h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol b [BP-08h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol c [BP-10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol d [BP-12h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol item [BP-14h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol aitem [BP-16h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol newLink [BP-18h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol item2 [BP-20h] type=0x24 unk1=0x00 unk3=0x02
+  */
+}
+
+/* ===== slot 0x24 slot_24 ===== */
+function trigger_slot_24() /* entry=2586 class_id=0x0a18 slot=0x24 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    qHi, /* [BP+12h] type=0x69 */
+    npcNum, /* [BP+14h] type=0x69 */
+    mapNum, /* [BP+16h] type=0x69 */
+    baseLink, /* [BP+18h] type=0x69 */
+    searchtype, /* [BP+20h] type=0x69 */
+    scmd, /* [BP-02h] type=0x69 */
+    cmd, /* [BP-04h] type=0x69 */
+    a, /* [BP-06h] type=0x69 */
+    b, /* [BP-08h] type=0x69 */
+    c, /* [BP-10h] type=0x69 */
+    d, /* [BP-12h] type=0x69 */
+    item, /* [BP-14h] type=0x24 */
+    aitem, /* [BP-16h] type=0x24 */
+    newLink, /* [BP-18h] type=0x69 */
+    distance, /* [BP-20h] type=0x69 */
+    item2; /* [BP-22h] type=0x24 */
+
+  set_info(0x021b, 0);
+  newLink = baseLink;
+  aitem = ref;
+  cmd = (mapNum & 3);
+  switch (cmd) {
+  case 0:
+    for item in nearby_items(family=1, origin=aitem) {
+      if (Item.getQLo(item) == baseLink) {
+        if (ref != item) {
+          Item.setQHi(qHi, item);
+        }
+      }
+    }
+    break;
+  case 1:
+    for item in nearby_items(family=1, origin=aitem) {
+      if (Item.getQLo(item) == baseLink) {
+        if (ref != item) {
+          Item.setQLo(qHi, item);
+        }
+      }
+    }
+    break;
+  case 2:
+    scan item in nearby_items(family=1, origin=aitem) where Item.getQLo(item) == baseLink && ref != item;
+    break;
+  case 3:
+    scmd = (qHi & 7);
+    switch (scmd) {
+    case 0:
+      d = (qHi / 8);
+      for item in nearby_items(shape=0x0476, origin=aitem) {
+        if (Item.getQLo(item) == baseLink) {
+          a = Item.getNPCNum(item);
+          c = (a & 15);
+          b = Item.getMapArray(item);
+          b = (((a & 0x00e0) * 8) + b);
+          FREE.slot_30(d, c, b, item);
+        }
+      }
+      break;
+    case 1:
+      d = (qHi / 8);
+      for item in nearby_items(family=1, origin=aitem) {
+        if (Item.getQLo(item) == baseLink) {
+          if (ref != item) {
+            Kernel.resetRef(12, item);
+            if (d == 31) {
+              suspend;
+              Item.destroy(item);
+            }
+            else {
+              c = Item.getFrame(item);
+              b = Item.getShape(item);
+              a = (b & 0x00ff);
+              b = (b & 0x0700);
+              b = (b / 8);
+              b = (b + c);
+              Item.setNpcNum(b, item);
+              Item.setMapArray(a, item);
+              push(item);
+              Item.setFrame(0, item);
+              suspend;
+              Item.setShape(0x0476, item);
+              Item.orStatus(16, item);
+              Item.andStatus((~0x1000), item);
+              Item.pop(item);
+            }
+          }
+        }
+      }
+      break;
+    case 2:
+      a = (qHi / 8);
+      for item in nearby_items(family=1, origin=aitem) {
+        if (Item.getQLo(item) == baseLink) {
+          if (ref != item) {
+            Item.setFrame(a, item);
+          }
+        }
+      }
+      break;
+    case 3:
+      if (global[0x0040] == 100) {
+        distance = 32;
+      }
+      else {
+        distance = global[0x0040];
+      }
+      for item in nearby_items(family=1, origin=aitem) {
+        if (Item.getQLo(item) == baseLink) {
+          if (ref != item) {
+            a = (qHi / 8);
+            spawn TRIGGER.slot_22(a, item, arg_06);
+          }
+        }
+      }
+      break;
+    case 4:
+      a = (qHi / 8);
+      newLink = (newLink + a);
+      break;
+    case 5:
+      a = (qHi / 8);
+      newLink = (newLink - a);
+      break;
+    case 6:
+      d = (qHi / 8);
+      for item in nearby_items(shape=0x0476, origin=aitem) {
+        if (Item.getQLo(item) == baseLink) {
+          a = Item.getNPCNum(item);
+          c = (a & 15);
+          b = Item.getMapArray(item);
+          b = (((a & 0x00e0) * 8) + b);
+          if (b != 0) {
+            if (Item.create(c, b, item2) == 1) {
+              Item.setQ(Item.getQ(item), item2);
+              push(item2);
+              Item.touch(item2);
+              Item.popToCoords(Item.getZ(item), Item.getY(item), Item.getX(item), item2);
+              suspend;
+            }
+          }
+        }
+      }
+      break;
+    }
+    break;
+  }
+  process_result = newLink;
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol ref [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol qHi [BP+12h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol npcNum [BP+14h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol mapNum [BP+16h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol baseLink [BP+18h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol searchtype [BP+20h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol scmd [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol cmd [BP-04h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol a [BP-06h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol b [BP-08h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol c [BP-10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol d [BP-12h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol item [BP-14h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol aitem [BP-16h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol newLink [BP-18h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol distance [BP-20h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol item2 [BP-22h] type=0x24 unk1=0x00 unk3=0x02
+  */
+}
+
+/* ===== slot 0x25 slot_25 ===== */
+function trigger_slot_25() /* entry=2586 class_id=0x0a18 slot=0x25 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    qHi, /* [BP+12h] type=0x69 */
+    npcNum, /* [BP+14h] type=0x69 */
+    mapNum, /* [BP+16h] type=0x69 */
+    baseLink, /* [BP+18h] type=0x69 */
+    searchtype, /* [BP+20h] type=0x69 */
+    scmd, /* [BP-02h] type=0x69 */
+    cmd, /* [BP-04h] type=0x69 */
+    a, /* [BP-06h] type=0x69 */
+    b, /* [BP-08h] type=0x69 */
+    c, /* [BP-10h] type=0x69 */
+    d, /* [BP-12h] type=0x69 */
+    item, /* [BP-14h] type=0x24 */
+    aitem, /* [BP-16h] type=0x24 */
+    newLink, /* [BP-18h] type=0x69 */
+    item2; /* [BP-20h] type=0x24 */
+
+  set_info(0x021b, 0);
+  newLink = baseLink;
+  aitem = ref;
+  cmd = (mapNum & 3);
+  switch (cmd) {
+  case 0:
+    for item in nearby_items(shape=searchtype, origin=aitem) {
+      if (ref != item) {
+        Item.setQHi(qHi, item);
+      }
+    }
+    break;
+  case 1:
+    for item in nearby_items(shape=searchtype, origin=aitem) {
+      if (ref != item) {
+        Item.setQLo(qHi, item);
+      }
+    }
+    break;
+  case 2:
+    scan item in nearby_items(shape=searchtype, origin=aitem) where ref != item;
+    break;
+  case 3:
+    scmd = (qHi & 7);
+    switch (scmd) {
+    case 0:
+      d = (qHi / 8);
+      for item in nearby_items(shape=0x0476, origin=aitem) {
+        a = Item.getNPCNum(item);
+        c = (a & 15);
+        b = Item.getMapArray(item);
+        b = (((a & 0x00e0) * 8) + b);
+        FREE.slot_30(d, c, b, item);
+      }
+      break;
+    case 1:
+      d = (qHi / 8);
+      for item in nearby_items(shape=searchtype, origin=aitem) {
+        if (ref != item) {
+          Kernel.resetRef(12, item);
+          if (d == 31) {
+            suspend;
+            Item.destroy(item);
+          }
+          else {
+            c = Item.getFrame(item);
+            b = Item.getShape(item);
+            a = (b & 0x00ff);
+            b = (b & 0x0700);
+            b = (b / 8);
+            b = (b + c);
+            Item.setNpcNum(b, item);
+            Item.setMapArray(a, item);
+            push(item);
+            Item.setFrame(0, item);
+            suspend;
+            Item.setShape(0x0476, item);
+            Item.orStatus(16, item);
+            Item.andStatus((~0x1000), item);
+            Item.pop(item);
+          }
+        }
+      }
+      break;
+    case 2:
+      a = (qHi / 8);
+      for item in nearby_items(shape=searchtype, origin=aitem) {
+        if (ref != item) {
+          Item.setFrame(a, item);
+        }
+      }
+      break;
+    case 3:
+      for item in nearby_items(shape=searchtype, origin=aitem) {
+        if (ref != item) {
+          a = (qHi / 8);
+          spawn TRIGGER.slot_22(a, item, arg_06);
+        }
+      }
+      break;
+    case 4:
+      a = (qHi / 8);
+      newLink = (newLink + a);
+      break;
+    case 5:
+      a = (qHi / 8);
+      newLink = (newLink - a);
+      break;
+    case 6:
+      d = (qHi / 8);
+      for item in nearby_items(shape=0x0476, origin=aitem) {
+        a = Item.getNPCNum(item);
+        c = (a & 15);
+        b = Item.getMapArray(item);
+        b = (((a & 0x00e0) * 8) + b);
+        if (b != 0) {
+          if (Item.create(c, b, item2) == 1) {
+            Item.setQ(Item.getQ(item), item2);
+            push(item2);
+            Item.touch(item2);
+            Item.popToCoords(Item.getZ(item), Item.getY(item), Item.getX(item), item2);
+            suspend;
+          }
+        }
+      }
+      break;
+    }
+    break;
+  }
+  process_result = newLink;
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol ref [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol qHi [BP+12h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol npcNum [BP+14h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol mapNum [BP+16h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol baseLink [BP+18h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol searchtype [BP+20h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol scmd [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol cmd [BP-04h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol a [BP-06h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol b [BP-08h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol c [BP-10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol d [BP-12h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol item [BP-14h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol aitem [BP-16h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol newLink [BP-18h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol item2 [BP-20h] type=0x24 unk1=0x00 unk3=0x02
+  */
+}
+
+/* ===== slot 0x26 slot_26 ===== */
+function trigger_slot_26() /* entry=2586 class_id=0x0a18 slot=0x26 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    qHi, /* [BP+12h] type=0x69 */
+    npcNum, /* [BP+14h] type=0x69 */
+    mapNum, /* [BP+16h] type=0x69 */
+    baseLink, /* [BP+18h] type=0x69 */
+    searchtype, /* [BP+20h] type=0x69 */
+    scmd, /* [BP-02h] type=0x69 */
+    cmd, /* [BP-04h] type=0x69 */
+    a, /* [BP-06h] type=0x69 */
+    b, /* [BP-08h] type=0x69 */
+    c, /* [BP-10h] type=0x69 */
+    d, /* [BP-12h] type=0x69 */
+    item, /* [BP-14h] type=0x24 */
+    aitem, /* [BP-16h] type=0x24 */
+    newLink, /* [BP-18h] type=0x69 */
+    item2; /* [BP-20h] type=0x24 */
+
+  set_info(0x021b, 0);
+  newLink = baseLink;
+  aitem = ref;
+  cmd = (mapNum & 3);
+  switch (cmd) {
+  case 0:
+    for item in nearby_items(shape=searchtype, origin=aitem) {
+      if (Item.getQLo(item) == baseLink) {
+        Item.setQHi(qHi, item);
+      }
+    }
+    break;
+  case 1:
+    for item in nearby_items(shape=searchtype, origin=aitem) {
+      if (Item.getQLo(item) == baseLink) {
+        Item.setQLo(qHi, item);
+      }
+    }
+    break;
+  case 2:
+    scan item in nearby_items(shape=searchtype, origin=aitem) where Item.getQLo(item) == baseLink;
+    break;
+  case 3:
+    scmd = (qHi & 7);
+    switch (scmd) {
+    case 0:
+      d = (qHi / 8);
+      for item in nearby_items(shape=0x0476, origin=aitem) {
+        if (Item.getQLo(item) == baseLink) {
+          a = Item.getNPCNum(item);
+          c = (a & 15);
+          b = Item.getMapArray(item);
+          b = (((a & 0x00e0) * 8) + b);
+          FREE.slot_30(d, c, b, item);
+        }
+      }
+      break;
+    case 1:
+      d = (qHi / 8);
+      for item in nearby_items(shape=searchtype, origin=aitem) {
+        if (Item.getQLo(item) == baseLink) {
+          Kernel.resetRef(12, item);
+          if (d == 31) {
+            suspend;
+            Item.destroy(item);
+          }
+          else {
+            c = Item.getFrame(item);
+            b = Item.getShape(item);
+            a = (b & 0x00ff);
+            b = (b & 0x0700);
+            b = (b / 8);
+            b = (b + c);
+            Item.setNpcNum(b, item);
+            Item.setMapArray(a, item);
+            push(item);
+            Item.setFrame(0, item);
+            suspend;
+            Item.setShape(0x0476, item);
+            Item.orStatus(16, item);
+            Item.andStatus((~0x1000), item);
+            Item.pop(item);
+          }
+        }
+      }
+      break;
+    case 2:
+      a = (qHi / 8);
+      for item in nearby_items(shape=searchtype, origin=aitem) {
+        if (Item.getQLo(item) == baseLink) {
+          Item.setFrame(a, item);
+        }
+      }
+      break;
+    case 3:
+      for item in nearby_items(shape=searchtype, origin=aitem) {
+        if (Item.getQLo(item) == baseLink) {
+          a = (qHi / 8);
+          spawn TRIGGER.slot_22(a, item, arg_06);
+        }
+      }
+      break;
+    case 4:
+      a = (qHi / 8);
+      newLink = (newLink + a);
+      break;
+    case 5:
+      a = (qHi / 8);
+      newLink = (newLink - a);
+      break;
+    case 6:
+      d = (qHi / 8);
+      for item in nearby_items(shape=0x0476, origin=aitem) {
+        if (Item.getQLo(item) == baseLink) {
+          a = Item.getNPCNum(item);
+          c = (a & 15);
+          b = Item.getMapArray(item);
+          b = (((a & 0x00e0) * 8) + b);
+          if (b != 0) {
+            if (Item.create(c, b, item2) == 1) {
+              Item.setQ(Item.getQ(item), item2);
+              push(item2);
+              Item.touch(item2);
+              Item.popToCoords(Item.getZ(item), Item.getY(item), Item.getX(item), item2);
+              suspend;
+            }
+          }
+        }
+      }
+      break;
+    }
+    break;
+  }
+  process_result = newLink;
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol ref [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol qHi [BP+12h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol npcNum [BP+14h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol mapNum [BP+16h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol baseLink [BP+18h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol searchtype [BP+20h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol scmd [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol cmd [BP-04h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol a [BP-06h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol b [BP-08h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol c [BP-10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol d [BP-12h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol item [BP-14h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol aitem [BP-16h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol newLink [BP-18h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol item2 [BP-20h] type=0x24 unk1=0x00 unk3=0x02
+  */
+}
+
+/* ===== slot 0x27 slot_27 ===== */
+function trigger_slot_27() /* entry=2586 class_id=0x0a18 slot=0x27 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    qHi, /* [BP+12h] type=0x69 */
+    npcNum, /* [BP+14h] type=0x69 */
+    mapNum, /* [BP+16h] type=0x69 */
+    baseLink, /* [BP+18h] type=0x69 */
+    searchtype, /* [BP+20h] type=0x69 */
+    scmd, /* [BP-02h] type=0x69 */
+    cmd, /* [BP-04h] type=0x69 */
+    a, /* [BP-06h] type=0x69 */
+    b, /* [BP-08h] type=0x69 */
+    c, /* [BP-10h] type=0x69 */
+    d, /* [BP-12h] type=0x69 */
+    item, /* [BP-14h] type=0x24 */
+    aitem, /* [BP-16h] type=0x24 */
+    newLink, /* [BP-18h] type=0x69 */
+    distance, /* [BP-20h] type=0x69 */
+    item2; /* [BP-22h] type=0x24 */
+
+  set_info(0x021b, 0);
+  newLink = baseLink;
+  aitem = ref;
+  cmd = (mapNum & 3);
+  switch (cmd) {
+  case 0:
+    for item in nearby_items(family=1, origin=aitem) {
+      if (Item.getQLo(item) == baseLink) {
+        Item.setQHi(qHi, item);
+      }
+    }
+    break;
+  case 1:
+    for item in nearby_items(family=1, origin=aitem) {
+      if (Item.getQLo(item) == baseLink) {
+        Item.setQLo(qHi, item);
+      }
+    }
+    break;
+  case 2:
+    scan item in nearby_items(family=1, origin=aitem) where Item.getQLo(item) == baseLink;
+    break;
+  case 3:
+    scmd = (qHi & 7);
+    switch (scmd) {
+    case 0:
+      d = (qHi / 8);
+      for item in nearby_items(shape=0x0476, origin=aitem) {
+        if (Item.getQLo(item) == baseLink) {
+          a = Item.getNPCNum(item);
+          c = (a & 15);
+          b = Item.getMapArray(item);
+          b = (((a & 0x00e0) * 8) + b);
+          FREE.slot_30(d, c, b, item);
+        }
+      }
+      break;
+    case 1:
+      d = (qHi / 8);
+      for item in nearby_items(family=1, origin=aitem) {
+        if (Item.getQLo(item) == baseLink) {
+          Kernel.resetRef(12, item);
+          if (d == 31) {
+            suspend;
+            Item.destroy(item);
+          }
+          else {
+            c = Item.getFrame(item);
+            b = Item.getShape(item);
+            a = (b & 0x00ff);
+            b = (b & 0x0700);
+            b = (b / 8);
+            b = (b + c);
+            Item.setNpcNum(b, item);
+            Item.setMapArray(a, item);
+            push(item);
+            Item.setFrame(0, item);
+            suspend;
+            Item.setShape(0x0476, item);
+            Item.orStatus(16, item);
+            Item.andStatus((~0x1000), item);
+            Item.pop(item);
+          }
+        }
+      }
+      break;
+    case 2:
+      a = (qHi / 8);
+      for item in nearby_items(family=1, origin=aitem) {
+        if (Item.getQLo(item) == baseLink) {
+          Item.setFrame(a, item);
+        }
+      }
+      break;
+    case 3:
+      if (global[0x0040] == 100) {
+        distance = 32;
+      }
+      else {
+        distance = global[0x0040];
+      }
+      for item in nearby_items(family=1, origin=aitem) {
+        if (Item.getQLo(item) == baseLink) {
+          a = (qHi / 8);
+          spawn TRIGGER.slot_22(a, item, arg_06);
+        }
+      }
+      break;
+    case 4:
+      a = (qHi / 8);
+      newLink = (newLink + a);
+      break;
+    case 5:
+      a = (qHi / 8);
+      newLink = (newLink - a);
+      break;
+    case 6:
+      d = (qHi / 8);
+      for item in nearby_items(shape=0x0476, origin=aitem) {
+        if (Item.getQLo(item) == baseLink) {
+          a = Item.getNPCNum(item);
+          c = (a & 15);
+          b = Item.getMapArray(item);
+          b = (((a & 0x00e0) * 8) + b);
+          if (b != 0) {
+            if (Item.create(c, b, item2) == 1) {
+              Item.setQ(Item.getQ(item), item2);
+              push(item2);
+              Item.touch(item2);
+              Item.popToCoords(Item.getZ(item), Item.getY(item), Item.getX(item), item2);
+              suspend;
+            }
+          }
+        }
+      }
+      break;
+    }
+    break;
+  }
+  process_result = newLink;
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol ref [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol qHi [BP+12h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol npcNum [BP+14h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol mapNum [BP+16h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol baseLink [BP+18h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol searchtype [BP+20h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol scmd [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol cmd [BP-04h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol a [BP-06h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol b [BP-08h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol c [BP-10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol d [BP-12h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol item [BP-14h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol aitem [BP-16h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol newLink [BP-18h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol distance [BP-20h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol item2 [BP-22h] type=0x24 unk1=0x00 unk3=0x02
+  */
+}
+
+/* ===== slot 0x28 slot_28 ===== */
+function trigger_slot_28() /* entry=2586 class_id=0x0a18 slot=0x28 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    qHi, /* [BP+12h] type=0x69 */
+    npcNum, /* [BP+14h] type=0x69 */
+    mapNum, /* [BP+16h] type=0x69 */
+    baseLink, /* [BP+18h] type=0x69 */
+    searchtype, /* [BP+20h] type=0x69 */
+    scmd, /* [BP-02h] type=0x69 */
+    cmd, /* [BP-04h] type=0x69 */
+    a, /* [BP-06h] type=0x69 */
+    b, /* [BP-08h] type=0x69 */
+    c, /* [BP-10h] type=0x69 */
+    d, /* [BP-12h] type=0x69 */
+    item, /* [BP-14h] type=0x24 */
+    aitem, /* [BP-16h] type=0x24 */
+    newLink, /* [BP-18h] type=0x69 */
+    item2; /* [BP-20h] type=0x24 */
+
+  set_info(0x021b, 0);
+  newLink = baseLink;
+  aitem = ref;
+  cmd = (mapNum & 3);
+  switch (cmd) {
+  case 0:
+    for item in nearby_items(shape=searchtype, origin=aitem) {
+      Item.setQHi(qHi, item);
+    }
+    break;
+  case 1:
+    for item in nearby_items(shape=searchtype, origin=aitem) {
+      Item.setQLo(qHi, item);
+    }
+    break;
+  case 2:
+    /* filter-only scan: item in nearby_items(shape=searchtype, origin=aitem) */
+    break;
+  case 3:
+    scmd = (qHi & 7);
+    switch (scmd) {
+    case 0:
+      d = (qHi / 8);
+      for item in nearby_items(shape=0x0476, origin=aitem) {
+        a = Item.getNPCNum(item);
+        c = (a & 15);
+        b = Item.getMapArray(item);
+        b = (((a & 0x00e0) * 8) + b);
+        FREE.slot_30(d, c, b, item);
+      }
+      break;
+    case 1:
+      d = (qHi / 8);
+      for item in nearby_items(shape=searchtype, origin=aitem) {
+        Kernel.resetRef(12, item);
+        if (d == 31) {
+          suspend;
+          Item.destroy(item);
+        }
+        else {
+          c = Item.getFrame(item);
+          b = Item.getShape(item);
+          a = (b & 0x00ff);
+          b = (b & 0x0700);
+          b = (b / 8);
+          b = (b + c);
+          Item.setNpcNum(b, item);
+          Item.setMapArray(a, item);
+          push(item);
+          Item.setFrame(0, item);
+          suspend;
+          Item.setShape(0x0476, item);
+          Item.orStatus(16, item);
+          Item.andStatus((~0x1000), item);
+          Item.pop(item);
+        }
+      }
+      break;
+    case 2:
+      a = (qHi / 8);
+      for item in nearby_items(shape=searchtype, origin=aitem) {
+        Item.setFrame(a, item);
+      }
+      break;
+    case 3:
+      for item in nearby_items(shape=searchtype, origin=aitem) {
+        a = (qHi / 8);
+        spawn TRIGGER.slot_22(a, item, arg_06);
+      }
+      break;
+    case 4:
+      a = (qHi / 8);
+      newLink = (newLink + a);
+      break;
+    case 5:
+      a = (qHi / 8);
+      newLink = (newLink - a);
+      break;
+    case 6:
+      d = (qHi / 8);
+      for item in nearby_items(shape=0x0476, origin=aitem) {
+        a = Item.getNPCNum(item);
+        c = (a & 15);
+        b = Item.getMapArray(item);
+        b = (((a & 0x00e0) * 8) + b);
+        if (b != 0) {
+          if (Item.create(c, b, item2) == 1) {
+            Item.setQ(Item.getQ(item), item2);
+            push(item2);
+            Item.touch(item2);
+            Item.popToCoords(Item.getZ(item), Item.getY(item), Item.getX(item), item2);
+            suspend;
+          }
+        }
+      }
+      break;
+    }
+    break;
+  }
+  process_result = newLink;
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol ref [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol qHi [BP+12h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol npcNum [BP+14h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol mapNum [BP+16h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol baseLink [BP+18h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol searchtype [BP+20h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol scmd [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol cmd [BP-04h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol a [BP-06h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol b [BP-08h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol c [BP-10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol d [BP-12h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol item [BP-14h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol aitem [BP-16h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol newLink [BP-18h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol item2 [BP-20h] type=0x24 unk1=0x00 unk3=0x02
+  */
+}
+
+/* ===== slot 0x29 slot_29 ===== */
+function trigger_slot_29() /* entry=2586 class_id=0x0a18 slot=0x29 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    qHi, /* [BP+12h] type=0x69 */
+    npcNum, /* [BP+14h] type=0x69 */
+    mapNum, /* [BP+16h] type=0x69 */
+    baseLink, /* [BP+18h] type=0x69 */
+    searchtype, /* [BP+20h] type=0x69 */
+    scmd, /* [BP-02h] type=0x69 */
+    cmd, /* [BP-04h] type=0x69 */
+    a, /* [BP-06h] type=0x69 */
+    b, /* [BP-08h] type=0x69 */
+    c, /* [BP-10h] type=0x69 */
+    d, /* [BP-12h] type=0x69 */
+    aitem, /* [BP-14h] type=0x24 */
+    npc, /* [BP-16h] type=0x24 */
+    e, /* [BP-18h] type=0x69 */
+    f, /* [BP-20h] type=0x69 */
+    g, /* [BP-22h] type=0x69 */
+    counter, /* [BP-24h] type=0x69 */
+    h, /* [BP-26h] type=0x69 */
+    i, /* [BP-28h] type=0x69 */
+    k; /* [BP-30h] type=0x69 */
+
+  set_info(0x021b, 0);
+  aitem = ref;
+  cmd = (mapNum & 3);
+  switch (cmd) {
+  case 0:
+    for npc in nearby_items(shape=searchtype, origin=aitem) {
+      if (Actor.GetNPCDataField0x63_00B(npc) == baseLink) {
+        a = (qHi / 16);
+        b = (qHi & 15);
+        if (a == 0) {
+          if (GetNPCDataField0x2_050(npc) != 1) {
+            Actor.setActivity(1, npc);
+          }
+          e = Actor.GetNPCDataField0x4_0DD(npc);
+          suspend;
+          spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+          suspend;
+          f = Actor.GetNPCDataField0x4_0DD(npc);
+          Actor.setActivity(f, npc);
+        }
+        else if (GetNPCDataField0x2_050(npc) != 1) {
+          Actor.setActivity(1, npc);
+        }
+        g = Actor.GetNPCDataField0x4_0DD(npc);
+        suspend;
+        spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+        suspend;
+        if (Actor.isDead(npc) == 1) {
+          return;
+        }
+        counter = 1;
+        while (counter <= a) {
+          if (Actor.isDead(npc) == 0) {
+            suspend;
+          }
+          spawn FREE.waitNTimerTicks(pid, 1, 0x00000000);
+          suspend;
+          counter = (1 + counter);
+        }
+        h = Actor.GetNPCDataField0x4_0DD(npc);
+        i = GetNPCDataField0x2_050(npc);
+        Actor.setActivity(Actor.GetNPCDataField0x4_0DD(npc), npc);
+      }
+    }
+    return;
+  case 1:
+    for npc in nearby_items(shape=searchtype, origin=aitem) {
+      if (Actor.GetNPCDataField0x63_00B(npc) == baseLink) {
+        Actor.SetNPCDataField0x63_0E6(qHi, npc);
+      }
+    }
+    return;
+  case 2:
+    scan npc in nearby_items(shape=searchtype, origin=aitem) where Actor.GetNPCDataField0x63_00B(npc) == baseLink;
+    return;
+  case 3:
+    scmd = (qHi & 7);
+    a = (qHi / 8);
+    switch (scmd) {
+    case 0:
+      for npc in nearby_items(shape=searchtype, origin=aitem) {
+        if (Actor.GetNPCDataField0x63_00B(npc) == baseLink) {
+          if (a == 1) {
+            Actor.setActivity(9, npc);
+          }
+          else if (a == 2) {
+            Actor.setActivity(10, npc);
+          }
+          else if (a == 3) {
+            Actor.setActivity(11, npc);
+          }
+          else {
+            Actor.setActivity(5, npc);
+          }
+        }
+      }
+      break;
+    case 1:
+      for npc in nearby_items(shape=searchtype, origin=aitem) {
+        if (Actor.GetNPCDataField0x63_00B(npc) == baseLink) {
+          Actor.setDefaultActivity0(a, npc);
+          spawn FREE.waitNTimerTicks(pid, 1, 0x00000000);
+          suspend;
+          Actor.setActivity(112, npc);
+        }
+      }
+      break;
+    case 2:
+      for npc in nearby_items(shape=searchtype, origin=aitem) {
+        if (Actor.GetNPCDataField0x63_00B(npc) == baseLink) {
+          Actor.setDefaultActivity1(a, npc);
+          spawn FREE.waitNTimerTicks(pid, 1, 0x00000000);
+          suspend;
+          Actor.setActivity(113, npc);
+        }
+      }
+      break;
+    case 3:
+      for npc in nearby_items(shape=searchtype, origin=aitem) {
+        if (Actor.GetNPCDataField0x63_00B(npc) == baseLink) {
+          Actor.setDefaultActivity2(a, npc);
+          spawn FREE.waitNTimerTicks(pid, 1, 0x00000000);
+          suspend;
+          Actor.setActivity(114, npc);
+        }
+      }
+      break;
+    case 4:
+      for npc in nearby_items(shape=searchtype, origin=aitem) {
+        if (Actor.GetNPCDataField0x63_00B(npc) == baseLink) {
+          k = a;
+          Actor.setActivity(k, npc);
+        }
+      }
+      break;
+    case 5:
+      for npc in nearby_items(shape=searchtype, origin=aitem) {
+        if (Actor.GetNPCDataField0x63_00B(npc) == baseLink) {
+          spawn NPC.equip(a, npc);
+        }
+      }
+      break;
+    }
+    return;
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol ref [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol qHi [BP+12h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol npcNum [BP+14h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol mapNum [BP+16h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol baseLink [BP+18h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol searchtype [BP+20h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol scmd [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol cmd [BP-04h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol a [BP-06h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol b [BP-08h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol c [BP-10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol d [BP-12h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol aitem [BP-14h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol npc [BP-16h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol e [BP-18h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol f [BP-20h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol g [BP-22h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol counter [BP-24h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol h [BP-26h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol i [BP-28h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol k [BP-30h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x2a slot_2a ===== */
+function trigger_slot_2a() /* entry=2586 class_id=0x0a18 slot=0x2a */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    qHi, /* [BP+12h] type=0x69 */
+    npcNum, /* [BP+14h] type=0x69 */
+    mapNum, /* [BP+16h] type=0x69 */
+    baseLink, /* [BP+18h] type=0x69 */
+    searchtype, /* [BP+20h] type=0x69 */
+    scmd, /* [BP-02h] type=0x69 */
+    cmd, /* [BP-04h] type=0x69 */
+    a, /* [BP-06h] type=0x69 */
+    b, /* [BP-08h] type=0x69 */
+    c, /* [BP-10h] type=0x69 */
+    d, /* [BP-12h] type=0x69 */
+    aitem, /* [BP-14h] type=0x24 */
+    npc, /* [BP-16h] type=0x24 */
+    counter, /* [BP-18h] type=0x69 */
+    k; /* [BP-20h] type=0x69 */
+
+  set_info(0x021b, 0);
+  aitem = ref;
+  cmd = (mapNum & 3);
+  switch (cmd) {
+  case 0:
+    for npc in nearby_items(shape=searchtype, origin=aitem) {
+      a = (qHi / 16);
+      b = (qHi & 15);
+      if (a == 0) {
+        Actor.setActivity(1, npc);
+        suspend;
+        spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+        suspend;
+        Actor.setActivity(Actor.GetNPCDataField0x4_0DD(npc), npc);
+      }
+      else {
+        Actor.setActivity(1, npc);
+        suspend;
+        spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+        suspend;
+        if (Actor.isDead(npc) == 1) {
+          return;
+        }
+        counter = 1;
+        while (counter <= a) {
+          if (Actor.isDead(npc) == 0) {
+            suspend;
+          }
+          spawn FREE.waitNTimerTicks(pid, 1, 0x00000000);
+          suspend;
+          counter = (1 + counter);
+        }
+        Actor.setActivity(Actor.GetNPCDataField0x4_0DD(npc), npc);
+      }
+    }
+    return;
+  case 1:
+    for npc in nearby_items(shape=searchtype, origin=aitem) {
+      Actor.SetNPCDataField0x63_0E6(qHi, npc);
+    }
+    return;
+  case 2:
+    /* filter-only scan: npc in nearby_items(shape=searchtype, origin=aitem) */
+    return;
+  case 3:
+    scmd = (qHi & 7);
+    a = (qHi / 8);
+    switch (scmd) {
+    case 0:
+      for npc in nearby_items(shape=searchtype, origin=aitem) {
+        if (a == 1) {
+          Actor.setActivity(9, npc);
+        }
+        else if (a == 2) {
+          Actor.setActivity(10, npc);
+        }
+        else if (a == 3) {
+          Actor.setActivity(11, npc);
+        }
+        else {
+          Actor.setActivity(5, npc);
+        }
+      }
+      break;
+    case 1:
+      for npc in nearby_items(shape=searchtype, origin=aitem) {
+        Actor.setDefaultActivity0(a, npc);
+        spawn FREE.waitNTimerTicks(pid, 1, 0x00000000);
+        suspend;
+        Actor.setActivity(112, npc);
+      }
+      break;
+    case 2:
+      for npc in nearby_items(shape=searchtype, origin=aitem) {
+        Actor.setDefaultActivity1(a, npc);
+        spawn FREE.waitNTimerTicks(pid, 1, 0x00000000);
+        suspend;
+        Actor.setActivity(113, npc);
+      }
+      break;
+    case 3:
+      for npc in nearby_items(shape=searchtype, origin=aitem) {
+        Actor.setDefaultActivity2(a, npc);
+        spawn FREE.waitNTimerTicks(pid, 1, 0x00000000);
+        suspend;
+        Actor.setActivity(114, npc);
+      }
+      break;
+    case 4:
+      for npc in nearby_items(shape=searchtype, origin=aitem) {
+        k = a;
+        Actor.setActivity(k, npc);
+      }
+      break;
+    case 5:
+      for npc in nearby_items(shape=searchtype, origin=aitem) {
+        spawn NPC.equip(a, npc);
+      }
+      break;
+    }
+    return;
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol ref [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol qHi [BP+12h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol npcNum [BP+14h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol mapNum [BP+16h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol baseLink [BP+18h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol searchtype [BP+20h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol scmd [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol cmd [BP-04h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol a [BP-06h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol b [BP-08h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol c [BP-10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol d [BP-12h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol aitem [BP-14h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol npc [BP-16h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol counter [BP-18h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol k [BP-20h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x2b slot_2b ===== */
+function trigger_slot_2b() /* entry=2586 class_id=0x0a18 slot=0x2b */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    qHi, /* [BP+12h] type=0x69 */
+    npcNum, /* [BP+14h] type=0x69 */
+    mapNum, /* [BP+16h] type=0x69 */
+    baseLink, /* [BP+18h] type=0x69 */
+    searchtype, /* [BP+20h] type=0x69 */
+    scmd, /* [BP-02h] type=0x69 */
+    cmd, /* [BP-04h] type=0x69 */
+    a, /* [BP-06h] type=0x69 */
+    b, /* [BP-08h] type=0x69 */
+    c, /* [BP-10h] type=0x69 */
+    d, /* [BP-12h] type=0x69 */
+    aitem, /* [BP-14h] type=0x24 */
+    npc, /* [BP-16h] type=0x24 */
+    counter, /* [BP-18h] type=0x69 */
+    k; /* [BP-20h] type=0x69 */
+
+  set_info(0x021b, 0);
+  aitem = ref;
+  cmd = (mapNum & 3);
+  switch (cmd) {
+  case 0:
+    for npc in nearby_items(family=6, origin=aitem) {
+      if (Item.isCrusTypeNPC(Item.getShape(npc))) {
+        if (Actor.GetNPCDataField0x63_00B(npc) == baseLink) {
+          a = (qHi / 16);
+          b = (qHi & 15);
+          if (a == 0) {
+            Actor.setActivity(1, npc);
+            suspend;
+            spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+            suspend;
+            Actor.setActivity(Actor.GetNPCDataField0x4_0DD(npc), npc);
+          }
+          else {
+            Actor.setActivity(1, npc);
+            suspend;
+            spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+            suspend;
+            if (Actor.isDead(npc) == 1) {
+              return;
+            }
+            counter = 1;
+            while (counter <= a) {
+              if (Actor.isDead(npc) == 0) {
+                suspend;
+              }
+              spawn FREE.waitNTimerTicks(pid, 1, 0x00000000);
+              suspend;
+              counter = (1 + counter);
+            }
+            Actor.setActivity(Actor.GetNPCDataField0x4_0DD(npc), npc);
+          }
+        }
+      }
+    }
+    return;
+  case 1:
+    for npc in nearby_items(family=6, origin=aitem) {
+      if (Item.isCrusTypeNPC(Item.getShape(npc))) {
+        if (Actor.GetNPCDataField0x63_00B(npc) == baseLink) {
+          Actor.SetNPCDataField0x63_0E6(qHi, npc);
+        }
+      }
+    }
+    return;
+  case 2:
+    scan npc in nearby_items(family=6, origin=aitem) where Item.isCrusTypeNPC(Item.getShape(npc)) && Actor.GetNPCDataField0x63_00B(npc) == baseLink;
+    return;
+  case 3:
+    scmd = (qHi & 7);
+    a = (qHi / 8);
+    switch (scmd) {
+    case 0:
+      for npc in nearby_items(family=6, origin=aitem) {
+        if (Item.isCrusTypeNPC(Item.getShape(npc))) {
+          if (Actor.GetNPCDataField0x63_00B(npc) == baseLink) {
+            if (a == 1) {
+              Actor.setActivity(9, npc);
+            }
+            else if (a == 2) {
+              Actor.setActivity(10, npc);
+            }
+            else if (a == 3) {
+              Actor.setActivity(11, npc);
+            }
+            else {
+              Actor.setActivity(5, npc);
+            }
+          }
+        }
+      }
+      break;
+    case 1:
+      for npc in nearby_items(family=6, origin=aitem) {
+        if (Item.isCrusTypeNPC(Item.getShape(npc))) {
+          if (Actor.GetNPCDataField0x63_00B(npc) == baseLink) {
+            Actor.setDefaultActivity0(a, npc);
+            spawn FREE.waitNTimerTicks(pid, 1, 0x00000000);
+            suspend;
+            Actor.setActivity(112, npc);
+          }
+        }
+      }
+      break;
+    case 2:
+      for npc in nearby_items(family=6, origin=aitem) {
+        if (Item.isCrusTypeNPC(Item.getShape(npc))) {
+          if (Actor.GetNPCDataField0x63_00B(npc) == baseLink) {
+            Actor.setDefaultActivity1(a, npc);
+            spawn FREE.waitNTimerTicks(pid, 1, 0x00000000);
+            suspend;
+            Actor.setActivity(113, npc);
+          }
+        }
+      }
+      break;
+    case 3:
+      for npc in nearby_items(family=6, origin=aitem) {
+        if (Item.isCrusTypeNPC(Item.getShape(npc))) {
+          if (Actor.GetNPCDataField0x63_00B(npc) == baseLink) {
+            Actor.setDefaultActivity2(a, npc);
+            spawn FREE.waitNTimerTicks(pid, 1, 0x00000000);
+            suspend;
+            Actor.setActivity(114, npc);
+          }
+        }
+      }
+      break;
+    case 4:
+      for npc in nearby_items(family=6, origin=aitem) {
+        if (Item.isCrusTypeNPC(Item.getShape(npc))) {
+          if (Actor.GetNPCDataField0x63_00B(npc) == baseLink) {
+            k = a;
+            Actor.setActivity(k, npc);
+          }
+        }
+      }
+      break;
+    case 5:
+      for npc in nearby_items(family=6, origin=aitem) {
+        if (Item.isCrusTypeNPC(Item.getShape(npc))) {
+          if (Actor.GetNPCDataField0x63_00B(npc) == baseLink) {
+            spawn NPC.equip(a, npc);
+          }
+        }
+      }
+      break;
+    }
+    return;
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol ref [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol qHi [BP+12h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol npcNum [BP+14h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol mapNum [BP+16h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol baseLink [BP+18h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol searchtype [BP+20h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol scmd [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol cmd [BP-04h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol a [BP-06h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol b [BP-08h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol c [BP-10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol d [BP-12h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol aitem [BP-14h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol npc [BP-16h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol counter [BP-18h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol k [BP-20h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}

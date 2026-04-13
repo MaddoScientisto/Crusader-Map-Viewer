@@ -1,0 +1,58 @@
+/* synthesized appendix for PODBOY */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x06 gotHit ===== */
+function podboy_gotHit() /* entry=559 class_id=0x022d slot=0x06 */
+{
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  if (Item.getFrame(arg_06) == 1) {
+    local_02 = 22;
+  }
+  else if (Item.getFrame(arg_06) == 2) {
+    local_02 = 11;
+  }
+  else if (Item.getFrame(arg_06) == 3) {
+    local_02 = 0;
+  }
+  else {
+    local_02 = 34;
+  }
+  push(arg_06);
+  Item.setShape(0x058d, arg_06);
+  Item.isCentreOn(local_02, arg_06);
+  getTargetNPCNumMaybe((Item.getZ(arg_06) + 1), Item.getY(arg_06), Item.getX(arg_06), arg_06);
+  spawn PODBOY.slot_20(*(arg_06), 0x00000000);
+  spawn ITEM.slot_28(pid, 0, 1, arg_06);
+  suspend;
+  AudioProcess.playSFXCru(3, arg_06);
+  local_04 = 0;
+  while (local_04 <= 10) {
+    Item.isCentreOn((local_02 + local_04), arg_06);
+    spawn FREE.waitNTimerTicks(pid, (15 - local_04), 0x00000000);
+    suspend;
+    local_04 = (1 + local_04);
+  }
+  return;
+}
+
+/* ===== slot 0x20 slot_20 ===== */
+function podboy_slot_20() /* entry=559 class_id=0x022d slot=0x20 */
+{
+  set_info(1, 0);
+  local_02 = arg_06;
+  local_06 = (UCMachine.rndRange(3, 0) * 8);
+  Item.legal_create(local_06, 0x058e, local_04);
+  getTargetNPCNumMaybe((Item.getZ(local_02) - 1), (Item.getY(local_02) + 39), (Item.getX(local_02) + 69), local_04);
+  local_08 = 0;
+  while (local_08 <= 5) {
+    Item.isCentreOn(local_08, local_04);
+    AudioProcess.playSFXCru(0x0094, local_04);
+    while (AudioProcess.isSFXPlayingForObject(0x0094, local_04)) {
+      spawn FREE.waitNTimerTicks(pid, 4, 0x00000000);
+      suspend;
+    }
+    local_08 = (1 + local_08);
+  }
+  return;
+}

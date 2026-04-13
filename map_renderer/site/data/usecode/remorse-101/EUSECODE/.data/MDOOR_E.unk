@@ -1,0 +1,40 @@
+/* synthesized appendix for MDOOR_E */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x06 gotHit ===== */
+function mdoor_e_gotHit() /* entry=72 class_id=0x0046 slot=0x06 */
+{
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  spawn DOOR.slot_23(pid, arg_12, arg_10, arg_06);
+  suspend;
+  return;
+}
+
+/* ===== slot 0x0f enterFastArea ===== */
+function mdoor_e_enterFastArea() /* entry=72 class_id=0x0046 slot=0x0f */
+{
+  set_info(0x021b, *(arg_06));
+  process_exclude();
+  if (Item.andStatus(arg_06) == 0x00ff) {
+    Item.legal_create(0, 0x0107, local_02);
+    getTargetNPCNumMaybe((Item.getZ(arg_06) + 88), Item.getY(arg_06), Item.getX(arg_06), local_02);
+    Item.destroy(arg_06);
+  }
+  return;
+}
+
+/* ===== slot 0x13 avatarStoleSomething ===== */
+function mdoor_e_avatarStoleSomething() /* entry=72 class_id=0x0046 slot=0x13 */
+{
+  set_info(0x022e, *(arg_06));
+  process_exclude();
+  Item.legal_create(OOB_FLOOR_BLACK_0003, 0x02f1, local_02);
+  Item.legal_create(OOB_FLOOR_BLACK_0003, 0x04ce, local_04);
+  getTargetNPCNumMaybe(Item.getZ(arg_06), (Item.getY(arg_06) - 96), Item.getX(arg_06), local_02);
+  getTargetNPCNumMaybe((Item.getZ(arg_06) + 1), Item.getY(arg_06), Item.getX(arg_06), local_04);
+  local_06 = *(arg_06);
+  spawn DOOR.slot_22(pid, local_06);
+  suspend;
+  return;
+}

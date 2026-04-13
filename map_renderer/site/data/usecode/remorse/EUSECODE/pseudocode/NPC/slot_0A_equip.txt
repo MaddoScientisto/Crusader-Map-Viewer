@@ -1,12 +1,23 @@
 function npc_equip() /* entry=2579 class_id=0x0a11 slot=0x0a */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    var, /* [BP+10h] type=0x69 */
+    cx, /* [BP-02h] type=0x69 */
+    cy, /* [BP-04h] type=0x69 */
+    nx, /* [BP-06h] type=0x69 */
+    ny, /* [BP-08h] type=0x69 */
+    a, /* [BP-10h] type=0x69 */
+    b, /* [BP-12h] type=0x69 */
+    c; /* [BP-14h] type=0x69 */
+
   set_info(0x0211, *(arg_06));
   process_exclude();
   if (Actor.isDead(arg_06)) {
     return;
   }
   else {
-    switch (arg_10) {
+    switch (var) {
     case 1:
       Actor.setCombatTactic(0, arg_06);
       Actor.setActivity(112, arg_06);
@@ -24,22 +35,22 @@ function npc_equip() /* entry=2579 class_id=0x0a11 slot=0x0a */
       spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
       suspend;
       Actor.setActivity(112, arg_06);
-      local_02 = CameraProcess.getCameraX();
-      local_04 = CameraProcess.getCameraY();
-      local_06 = Item.getX(arg_06);
-      local_08 = Item.getY(arg_06);
-      spawn NPC.slot_29(pid, local_08, local_06, local_04, local_02, arg_06);
+      cx = CameraProcess.getCameraX();
+      cy = CameraProcess.getCameraY();
+      nx = Item.getX(arg_06);
+      ny = Item.getY(arg_06);
+      spawn NPC.slot_29(pid, ny, nx, cy, cx, arg_06);
       suspend;
       spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
       suspend;
       Intrinsic056(*(arg_06));
       return;
     case 30:
-      local_10 = Actor.getEquip(1, arg_06);
-      local_12 = Actor.getEquip(2, arg_06);
-      local_14 = Actor.getEquip(0, arg_06);
-      Actor.setEquip(local_12, 1, arg_06);
-      Actor.setEquip(local_10, 2, arg_06);
+      a = Actor.getEquip(1, arg_06);
+      b = Actor.getEquip(2, arg_06);
+      c = Actor.getEquip(0, arg_06);
+      Actor.setEquip(b, 1, arg_06);
+      Actor.setEquip(a, 2, arg_06);
       return;
     case 31:
       Container.destroyContents(arg_06);
@@ -49,4 +60,16 @@ function npc_equip() /* entry=2579 class_id=0x0a11 slot=0x0a */
     }
   }
   return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol var [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol cx [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol cy [BP-04h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol nx [BP-06h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol ny [BP-08h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol a [BP-10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol b [BP-12h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol c [BP-14h] type=0x69 unk1=0x00 unk3=0x00
+  */
 }

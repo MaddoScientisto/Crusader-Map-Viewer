@@ -1,0 +1,289 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[0A:equip] call_intrinsic Item.getFrame(arg_bytes=0x4) ; cmp ; jne 0x0032 ; ...
+[0A:equip]
+[0A:equip] jmp 0x0271
+//
+//
+[0A:equip] call_intrinsic Ultima8Engine.setAvatarInStasis(arg_bytes=0x2)
+[0A:equip] call_class_event FREE.slot_33 ; ...
+[0A:equip] global_address global[0x003c] ; call_intrinsic Item.getDirToItem(arg_bytes=0x6) ; global_address global[0x003c] ; ...
+//
+[0A:equip] call_intrinsic Item.getFrame(arg_bytes=0x4) ; ne ; jne 0x00be ; ...
+//
+[0A:equip] call_intrinsic Item.getFrame(arg_bytes=0x4) ; add ; call_intrinsic Item.getPoint(arg_bytes=0x6) ; ...
+[0A:equip] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[0A:equip] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+//
+[0A:equip] call_intrinsic playFlic(arg_bytes=0xc) ; free_stack_string value_u8=0x4, target=[SP+04h] ; implies arg0=0x1, arg1=0x1 ; ...
+//
+//
+//
+//
+[0A:equip] call_intrinsic playFlic(arg_bytes=0xc) ; free_stack_string value_u8=0x4, target=[SP+04h] ; implies arg0=0x1, arg1=0x1 ; ...
+//
+//
+//
+//
+[0A:equip] call_intrinsic playFlic(arg_bytes=0xc) ; free_stack_string value_u8=0x4, target=[SP+04h] ; implies arg0=0x1, arg1=0x1 ; ...
+//
+//
+//
+//
+[0A:equip] call_intrinsic playFlic(arg_bytes=0xc) ; free_stack_string value_u8=0x4, target=[SP+04h] ; implies arg0=0x1, arg1=0x1 ; ...
+//
+//
+//
+//
+[0A:equip] call_intrinsic playFlic(arg_bytes=0xc) ; free_stack_string value_u8=0x4, target=[SP+04h] ; implies arg0=0x1, arg1=0x1 ; ...
+//
+//
+//
+//
+[0A:equip] pop_local_word counter ; le ; jne 0x0258 ; ...
+//
+[0A:equip] sub ; call_intrinsic Item.getPoint(arg_bytes=0x6) ; ...
+[0A:equip] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[0A:equip] spawn VAR_BOOT.enterFastArea ; pop_temp ; ...
+[0A:equip] call_intrinsic Ultima8Engine.setAvatarInStasis(arg_bytes=0x2)
+[0A:equip] ret
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[0F:enterFastArea] call_intrinsic Item.getPoint(arg_bytes=0x6) ; loopscr value_u8=0x24 ; loopscr value_u8=0x3d ; ...
+//
+[0F:enterFastArea] loopscr value_u8=0x25 ; mul ; ...
+[0F:enterFastArea] loop current_var=0xfe, string_bytes=0x6, loop_type=0x2 ; jne 0x009e ; ...
+[0F:enterFastArea] call_intrinsic Item.andStatus(arg_bytes=0x4) ; call_intrinsic Item.andStatus(arg_bytes=0x4) ; cmp ; ...
+[0F:enterFastArea]
+[0F:enterFastArea] call_class_event ITEM.slot_24 ; loopnext ; jmp 0x006c ; ...
+//
+//
+//
+//
+//
+//
+//
+[0F:enterFastArea] loopscr value_u8=0x25 ; mul ; ...
+[0F:enterFastArea] loop current_var=0xfe, string_bytes=0x6, loop_type=0x2 ; jne 0x00f3 ; ...
+[0F:enterFastArea] call_intrinsic Item.andStatus(arg_bytes=0x4) ; call_intrinsic Item.andStatus(arg_bytes=0x4) ; cmp ; ...
+[0F:enterFastArea]
+[0F:enterFastArea] call_class_event ITEM.slot_23 ; loopnext ; jmp 0x00c1 ; ...
+//
+//
+//
+[0F:enterFastArea] call_intrinsic Item.getPoint(arg_bytes=0x6)
+[0F:enterFastArea] jmp 0x021c ; suspend
+//
+//
+//
+//
+//
+//
+//
+[0F:enterFastArea] call_class_event FREE.slot_20 ; add ; spawn FREE.slot_32 ; ...
+//
+[0F:enterFastArea] pop_local_word counter ; le ; jne 0x0196 ; ...
+//
+[0F:enterFastArea] call_intrinsic Item.getPoint(arg_bytes=0x6)
+[0F:enterFastArea] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[0F:enterFastArea] call_class_event FREE.slot_20 ; add ; spawn FREE.slot_32 ; ...
+//
+[0F:enterFastArea] pop_local_word counter ; le ; jne 0x0219 ; ...
+//
+[0F:enterFastArea] sub ; call_intrinsic Item.getPoint(arg_bytes=0x6) ; ...
+[0F:enterFastArea] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[0F:enterFastArea] ret
+//
+//
+//
+//
+//
+//
+//
+[10:leaveFastArea] call_class_event FREE.slot_33 ; ...
+[10:leaveFastArea] ret
+
+/* synthesized appendix for VAR_BOOT */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x0a equip ===== */
+function var_boot_equip() /* entry=1118 class_id=0x045c slot=0x0a */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    event, /* [BP+10h] type=0x69 */
+    counter; /* [BP-02h] type=0x69 */
+
+  set_info(0x0211, *(arg_06));
+  process_exclude();
+  if (Item.getFrame(arg_06) == 5) {
+    return;
+  }
+  else {
+    Ultima8Engine.setAvatarInStasis(1);
+    FREE.slot_33(0x021b, *(arg_06));
+    while (Item.getFrame(arg_06) != 4) {
+      Item.getPoint((Item.getFrame(arg_06) + 1), arg_06);
+      spawn FREE.slot_32(pid, 5, 0x00000000);
+      suspend;
+    }
+    spawn FREE.slot_32(pid, 5, 0x00000000);
+    suspend;
+    switch (global[0x001f]) {
+    case 3:
+      playFlic(pid, 0x0096, 0x00c8, "3c", arg_06);
+      suspend;
+      break;
+    case 4:
+      playFlic(pid, 0x0096, 0x00c8, "4b", arg_06);
+      suspend;
+      break;
+    case 6:
+      playFlic(pid, 0x0096, 0x00c8, "6b", arg_06);
+      suspend;
+      break;
+    case 7:
+      playFlic(pid, 0x0096, 0x00c8, "7b", arg_06);
+      suspend;
+      break;
+    case 9:
+      playFlic(pid, 0x0096, 0x00c8, "9a", arg_06);
+      suspend;
+      break;
+    }
+    counter = 0;
+    while (counter <= 4) {
+      Item.getPoint((4 - counter), arg_06);
+      spawn FREE.slot_32(pid, 10, 0x00000000);
+      suspend;
+      counter = (1 + counter);
+    }
+    spawn VAR_BOOT.enterFastArea(arg_06);
+    Ultima8Engine.setAvatarInStasis(0);
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol event [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol counter [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x0f enterFastArea ===== */
+function var_boot_enterFastArea() /* entry=1118 class_id=0x045c slot=0x0f */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    item, /* [BP-02h] type=0x24 */
+    counter; /* [BP-04h] type=0x69 */
+
+  set_info(0x021b, *(arg_06));
+  process_exclude();
+  if (((((global[0x001f] == 3) || (global[0x001f] == 4)) || (global[0x001f] == 6)) || (global[0x001f] == 7)) || (global[0x001f] == 9)) {
+    Item.getPoint(0, arg_06);
+    for item in nearby_items(shape=SPANEL, origin=arg_06) {
+      if (Item.andStatus(item) == Item.andStatus(arg_06)) {
+        ITEM.slot_24(0x1000, item);
+      }
+    }
+  }
+  else {
+    for item in nearby_items(shape=SPANEL, origin=arg_06) {
+      if (Item.andStatus(item) == Item.andStatus(arg_06)) {
+        ITEM.slot_23(0x1000, item);
+      }
+    }
+    Item.getPoint(5, arg_06);
+    return;
+  }
+
+  while (true) {
+    suspend;
+    FREE.slot_20(pid, 120);
+    spawn FREE.slot_32((retval + 0x00dc), 0x00000000);
+    suspend;
+    counter = 0;
+    while (counter <= 4) {
+      Item.getPoint(counter, arg_06);
+      spawn FREE.slot_32(pid, 10, 0x00000000);
+      suspend;
+      counter = (1 + counter);
+    }
+    FREE.slot_20(pid, 120);
+    spawn FREE.slot_32((retval + 120), 0x00000000);
+    suspend;
+    counter = 0;
+    while (counter <= 4) {
+      Item.getPoint((4 - counter), arg_06);
+      spawn FREE.slot_32(pid, 10, 0x00000000);
+      suspend;
+      counter = (1 + counter);
+    }
+  }
+
+  return;
+
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol item [BP-02h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol counter [BP-04h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x10 leaveFastArea ===== */
+function var_boot_leaveFastArea() /* entry=1118 class_id=0x045c slot=0x10 */
+{
+  var
+    referent; /* [BP+00h] type=0x69 */
+
+  set_info(0x021c, *(arg_06));
+  process_exclude();
+  FREE.slot_33(0x021b, *(arg_06));
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+  */
+}

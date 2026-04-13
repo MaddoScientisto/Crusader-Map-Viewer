@@ -1,0 +1,257 @@
+//
+//
+//
+//
+//
+[20:slot_20] set_info
+//
+//
+[20:slot_20] pop_local_word wall
+//
+//
+[20:slot_20] pop_local_word counter ; call_intrinsic Item.getShape(arg_bytes=0x4) ; cmp ; ...
+//
+//
+//
+//
+//
+[20:slot_20] pop_local_word realType
+[20:slot_20] pop_local_word tempType ; jmp 0x00b8 ; call_intrinsic Item.getShape(arg_bytes=0x4) ; ...
+//
+//
+//
+[20:slot_20] pop_local_word realType
+[20:slot_20] pop_local_word tempType ; jmp 0x00b8 ; call_intrinsic Item.getShape(arg_bytes=0x4) ; ...
+//
+//
+//
+[20:slot_20] pop_local_word realType
+[20:slot_20] pop_local_word tempType ; jmp 0x00b8 ; call_intrinsic Item.getShape(arg_bytes=0x4) ; ...
+//
+//
+//
+[20:slot_20] pop_local_word realType
+[20:slot_20] pop_local_word tempType ; jmp 0x00b8
+//
+//
+//
+[20:slot_20] call_intrinsic Item.setShape(arg_bytes=0x6)
+//
+[20:slot_20] lt ; jne 0x0113 ; ...
+[20:slot_20]
+[20:slot_20] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[20:slot_20] add ; pop_local_word counter ; ...
+[20:slot_20] call_intrinsic Item.getPoint(arg_bytes=0x6) ; jmp 0x00c5 ; ...
+//
+//
+[20:slot_20] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[20:slot_20] jne 0x0181
+[20:slot_20] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[20:slot_20] sub ; pop_local_word counter ; ...
+[20:slot_20] call_intrinsic Item.getPoint(arg_bytes=0x6) ; jmp 0x0139 ; ...
+//
+//
+[20:slot_20] call_intrinsic Item.setShape(arg_bytes=0x6)
+[20:slot_20] call_intrinsic Item.touch(arg_bytes=0x4)
+//
+[20:slot_20] pop_global global[0x0005]
+[20:slot_20] ret
+//
+//
+//
+[21:slot_21] jne 0x0023 ; jmp 0x0183
+//
+//
+[21:slot_21] pop_local_word stepper
+//
+//
+//
+[21:slot_21] pop_local_word wall
+//
+//
+//
+//
+[21:slot_21] pop_local_word dist
+//
+//
+//
+[21:slot_21] call_intrinsic playSFX(arg_bytes=0x4) ; pop_local_word aSet ; ...
+[21:slot_21] pop_local_word aSet1
+[21:slot_21] pop_local_word aSet2
+[21:slot_21] pop_local_word aSet3
+//
+[21:slot_21] call_intrinsic playSFX(arg_bytes=0x4) ; cmp ; ...
+[21:slot_21] call_intrinsic playSFX(arg_bytes=0x4) ; cmp ; or ; ...
+[21:slot_21] call_intrinsic playSFX(arg_bytes=0x4) ; cmp ; or ; ...
+//
+//
+[21:slot_21] push_word_immediate 0x045e ; push_word_immediate 0x045f
+[21:slot_21] loopscr value_u8=0x44
+[21:slot_21] mul
+[21:slot_21] loop current_var=0xfc, string_bytes=0xa, loop_type=0x2 ; jne 0x0103 ; ...
+[21:slot_21] create_list element_size=0x2, count=0x1 ; append_list ; free_local_list wallList ; ...
+//
+[21:slot_21] call_class_event FREE.slot_29 ; ...
+[21:slot_21] lt ; jne 0x00ff
+[21:slot_21] call_class_event FREE.slot_29 ; pop_local_word dist ; ...
+[21:slot_21] pop_local_word wall ; loopnext ; jmp 0x00b9 ; ...
+//
+//
+//
+//
+[21:slot_21] ne ; le ; and ; ...
+[21:slot_21]
+[21:slot_21] pop_global global[0x0005]
+//
+//
+[21:slot_21] foreach_list 0x0148
+[21:slot_21] spawn LITEWALL.slot_20 ; pop_temp ; ...
+[21:slot_21] jmp 0x012b
+//
+//
+[21:slot_21] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+//
+//
+[21:slot_21] call_intrinsic Item.use(arg_bytes=0x6) ; spawn NPC.slot_2d ; implies arg0=0x1, arg1=0x1 ; ...
+//
+//
+[21:slot_21] ret
+
+/* synthesized appendix for LITEWALL */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x20 slot_20 ===== */
+function litewall_slot_20() /* entry=2580 class_id=0x0a12 slot=0x20 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    r, /* [BP+10h] type=0x69 */
+    wall, /* [BP-02h] type=0x24 */
+    tempType, /* [BP-04h] type=0x69 */
+    realType, /* [BP-06h] type=0x69 */
+    counter; /* [BP-08h] type=0x69 */
+
+  set_info(0x0001, *(arg_06));
+  set_info(1, r);
+  wall = r;
+  counter = 0;
+  switch (Item.getShape(wall)) {
+  case 0x045e:
+    realType = 0x045e;
+    tempType = 0x0462;
+    break;
+  case 0x045f:
+    realType = 0x045f;
+    tempType = 0x0463;
+    break;
+  case 0x0460:
+    realType = 0x0460;
+    tempType = 0x0464;
+    break;
+  case 0x0461:
+    realType = 0x0461;
+    tempType = 0x0465;
+    break;
+  }
+  Item.setShape(tempType, wall);
+  while (counter < 4) {
+    spawn FREE.slot_32(pid, 2, 0x00000000);
+    suspend;
+    counter = (1 + counter);
+    Item.getPoint(counter, wall);
+  }
+  spawn FREE.slot_32(pid, 3, 0x00000000);
+  suspend;
+  while (counter) {
+    spawn FREE.slot_32(pid, 2, 0x00000000);
+    suspend;
+    counter = (counter - 1);
+    Item.getPoint(counter, wall);
+  }
+  Item.setShape(realType, wall);
+  Item.touch(wall);
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol r [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol wall [BP-02h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol tempType [BP-04h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol realType [BP-06h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol counter [BP-08h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x21 slot_21 ===== */
+function litewall_slot_21() /* entry=2580 class_id=0x0a12 slot=0x21 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    r, /* [BP+10h] type=0x69 */
+    stepper, /* [BP-02h] type=0x24 */
+    item, /* [BP-04h] type=0x24 */
+    wall, /* [BP-06h] type=0x24 */
+    wallList, /* [BP-08h] type=0x6c */
+    x, /* [BP-10h] type=0x69 */
+    y, /* [BP-12h] type=0x69 */
+    z, /* [BP-13h] type=0x62 */
+    dist, /* [BP-15h] type=0x69 */
+    aSet, /* [BP-17h] type=0x69 */
+    aSet1, /* [BP-19h] type=0x69 */
+    aSet2, /* [BP-21h] type=0x69 */
+    aSet3; /* [BP-23h] type=0x69 */
+
+  set_info(0x0001, *(arg_06));
+  if (global[0x0005]) {
+    return;
+  }
+  else {
+    stepper = r;
+    wall = 0;
+    dist = 21;
+    aSet = playSFX(stepper);
+    aSet1 = 3;
+    aSet2 = 48;
+    aSet3 = 49;
+    if (((playSFX(stepper) == 3) || (playSFX(stepper) == 48)) || (playSFX(stepper) == 49)) {
+      while (condition) {
+        wallList = (wallList + [item]);
+        FREE.slot_29(stepper, item);
+        if (retval < dist) {
+          FREE.slot_29(stepper, item);
+          dist = retval;
+          wall = item;
+        }
+      }
+      if ((wall != 0) && (dist <= 2)) {
+        while (true) {
+          foreach_list item -> block_0412;
+          spawn LITEWALL.slot_20(item, arg_06);
+        }
+        AudioProcess.playSFXCru(67, arg_06);
+        spawn NPC.slot_2d(pid, Item.use(wall, stepper), wall, stepper);
+        suspend;
+      }
+    }
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol r [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol stepper [BP-02h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol item [BP-04h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol wall [BP-06h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol wallList [BP-08h] type=0x6c unk1=0x00 unk3=0x02
+    debug_symbol x [BP-10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol y [BP-12h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol z [BP-13h] type=0x62 unk1=0x00 unk3=0x00
+    debug_symbol dist [BP-15h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol aSet [BP-17h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol aSet1 [BP-19h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol aSet2 [BP-21h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol aSet3 [BP-23h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}

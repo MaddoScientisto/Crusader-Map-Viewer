@@ -1,24 +1,27 @@
 function free_slot_24() /* entry=2574 class_id=0x0a0c slot=0x24 */
 {
+  var
+    eot; /* [BP+06h] type=0x69 */
+
   set_info(0x0224, 0);
   if (global[0x0006]) {
     return;
   }
   else {
     suspend;
-    spawn FREE.waitNTimerTicks(pid, arg_06, 0x00000000);
+    spawn FREE.waitNTimerTicks(pid, eot, 0x00000000);
     suspend;
     while (true) {
       suspend;
-      spawn FREE.waitNTimerTicks(pid, arg_06, 0x00000000);
+      spawn FREE.waitNTimerTicks(pid, eot, 0x00000000);
       suspend;
       if (!(global[0x0006])) {
         return;
       }
       else {
         playSFX(51);
-        arg_06 = (arg_06 - 1);
-        if (arg_06 == 0) {
+        eot = (eot - 1);
+        if (eot == 0) {
           Ultima8Engine.setAvatarInStasis(1);
           Actor.setDead(&global[0x003c]);
           PaletteFaderProcess.setPalToAllBlack();
@@ -36,4 +39,8 @@ function free_slot_24() /* entry=2574 class_id=0x0a0c slot=0x24 */
     }
   }
   return;
+
+  /* post-return metadata (not executable):
+    debug_symbol eot [BP+06h] type=0x69 unk1=0x00 unk3=0x00
+  */
 }

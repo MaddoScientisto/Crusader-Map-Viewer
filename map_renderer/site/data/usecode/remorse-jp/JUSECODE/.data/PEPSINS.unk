@@ -1,0 +1,133 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[01:use] pop_local_word x
+[01:use] pop_local_word y
+//
+//
+[01:use] call_intrinsic Item.getX(arg_bytes=0x4) ; pop_local_word wp ; ...
+[01:use] call_intrinsic Item.getY(arg_bytes=0x4) ; add ; pop_local_word local_11 ; ...
+[01:use] call_intrinsic Item.getZ(arg_bytes=0x4) ; add ; pop_local_byte local_09 ; ...
+//
+[01:use] call_intrinsic UCMachine.rndRange(arg_bytes=0x4) ; gt ; jne 0x0110 ; ...
+[01:use]
+[01:use] call_intrinsic playFlicsomething(arg_bytes=0xc) ; jne 0x010d ; ...
+//
+[01:use] mul ; mul ; call_intrinsic Item.hurl(arg_bytes=0xc) ; ...
+[01:use] loopscr value_u8=0x25 ; mul ; ...
+[01:use] loop current_var=0xfe, string_bytes=0x6, loop_type=0x2 ; jne 0x010b
+[01:use] call_intrinsic Item.getStatus(arg_bytes=0x4) ; bit_and ; jne 0x0107 ; ...
+//
+[01:use] spawn ITEM.slot_28 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+//
+//
+[01:use] call_intrinsic playFlicsomething(arg_bytes=0xc) ; jne 0x016c ; ...
+//
+[01:use] call_intrinsic Item.orStatus(arg_bytes=0x6)
+[01:use] call_intrinsic UCMachine.rndRange(arg_bytes=0x4) ; add ; mul ; ...
+//
+//
+[01:use] ret
+//
+//
+//
+//
+[06:gotHit] call_class_event FREE.slot_2c ; jne 0x0069 ; ...
+//
+[06:gotHit] spawn ITEM.slot_28 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[06:gotHit] call_intrinsic Item.setShape(arg_bytes=0x6)
+[06:gotHit] call_intrinsic Item.getPoint(arg_bytes=0x6)
+//
+[06:gotHit] ret
+
+/* synthesized appendix for PEPSINS */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x01 use ===== */
+function pepsins_use() /* entry=156 class_id=0x009a slot=0x01 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    item, /* [BP-02h] type=0x24 */
+    x, /* [BP-04h] type=0x69 */
+    y, /* [BP-06h] type=0x69 */
+    z, /* [BP-08h] type=0x69 */
+    wp; /* [BP-13h] type=0x24 */
+
+  set_info(0x0207, *(arg_06));
+  process_exclude();
+  x = 0;
+  y = 1;
+  wp = Item.getX(arg_06);
+  local_11 = (Item.getY(arg_06) + 32);
+  local_09 = (Item.getZ(arg_06) + 32);
+  if (UCMachine.rndRange(100, 0) > 50) {
+    if (playFlicsomething(wp, 0, 0x0343, item)) {
+      suspend;
+      for item in nearby_items(shape=SMALL_BOX_PROP, origin=global[0x003c]) {
+        if (Item.getStatus(item) & 0x0080) {
+          spawn ITEM.slot_28(pid, 1, 0, item);
+          suspend;
+        }
+      }
+    }
+    return;
+  }
+  else if (playFlicsomething(wp, 0, 0x0579, item)) {
+    Item.orStatus(0x0080, item);
+    suspend;
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol item [BP-02h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol x [BP-04h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol y [BP-06h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol z [BP-08h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol wp [BP-13h] type=0x24 unk1=0x00 unk3=0x05
+  */
+}
+
+/* ===== slot 0x06 gotHit ===== */
+function pepsins_gotHit() /* entry=156 class_id=0x009a slot=0x06 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    vel; /* [BP+12h] type=0x69 */
+
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  FREE.slot_2c(vel, ref);
+  if (retval) {
+    spawn ITEM.slot_28(pid, 0, 1, arg_06);
+    suspend;
+    Item.setShape(0x03a0, arg_06);
+    Item.getPoint(0, arg_06);
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol ref [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol vel [BP+12h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}

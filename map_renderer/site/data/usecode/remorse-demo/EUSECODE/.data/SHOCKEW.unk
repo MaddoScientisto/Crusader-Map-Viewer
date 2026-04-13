@@ -1,0 +1,91 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[0B:unequip] jne 0x002c
+[0B:unequip] call_intrinsic Item.pop(arg_bytes=0x6)
+//
+//
+[0B:unequip] spawn SHOCKER.slot_20 ; pop_temp ; ...
+[0B:unequip] ret
+//
+//
+//
+[0F:enterFastArea] spawn SHOCKER.slot_20 ; pop_temp ; ...
+[0F:enterFastArea] ret
+//
+//
+//
+[10:leaveFastArea] call_class_event FREE.slot_33 ; ...
+[10:leaveFastArea] call_class_event FREE.slot_33 ; ...
+[10:leaveFastArea] call_class_event FREE.slot_33 ; ...
+[10:leaveFastArea] ret
+
+/* synthesized appendix for SHOCKEW */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x0b unequip ===== */
+function shockew_unequip() /* entry=452 class_id=0x01c2 slot=0x0b */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    var; /* [BP+10h] type=0x69 */
+
+  set_info(0x0212, *(arg_06));
+  process_exclude();
+  if (var) {
+    Item.pop(var, arg_06);
+  }
+  spawn SHOCKER.slot_20(arg_06);
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol var [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x0f enterFastArea ===== */
+function shockew_enterFastArea() /* entry=452 class_id=0x01c2 slot=0x0f */
+{
+  var
+    referent; /* [BP+00h] type=0x69 */
+
+  set_info(0x021b, *(arg_06));
+  process_exclude();
+  spawn SHOCKER.slot_20(arg_06);
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+  */
+}
+
+/* ===== slot 0x10 leaveFastArea ===== */
+function shockew_leaveFastArea() /* entry=452 class_id=0x01c2 slot=0x10 */
+{
+  var
+    referent; /* [BP+00h] type=0x69 */
+
+  set_info(0x021c, *(arg_06));
+  process_exclude();
+  FREE.slot_33(0x021b, *(arg_06));
+  FREE.slot_33(0x020a, *(arg_06));
+  FREE.slot_33(0x0205, *(arg_06));
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+  */
+}

@@ -1,11 +1,20 @@
 function free_slot_2c() /* entry=2575 class_id=0x0a0d slot=0x2c */
 {
-  if (arg_06 == 0x4000) {
-    arg_08 = (arg_08 >> 8);
+  var
+    ref, /* [BP+06h] type=0x69 */
+    vel; /* [BP+08h] type=0x69 */
+
+  if (ref == 0x4000) {
+    vel = (vel >> 8);
     return;
   }
   else {
     return;
   }
   return;
+
+  /* post-return metadata (not executable):
+    debug_symbol ref [BP+06h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol vel [BP+08h] type=0x69 unk1=0x00 unk3=0x00
+  */
 }

@@ -1,0 +1,98 @@
+/* synthesized appendix for BOUNCBOX */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x06 gotHit ===== */
+function bouncbox_gotHit() /* entry=1265 class_id=0x04ef slot=0x06 */
+{
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  local_02 = Item.getQHi(arg_06);
+  local_08 = arg_10;
+  if (arg_10 == 0x4000) {
+    AudioProcess.playSFXCru(0x00b2, arg_06);
+    FREE.slot_2c(arg_12, arg_10);
+    FREE.slot_2c((retval == 4), arg_12, arg_10);
+    if (retval == 3) {
+      return;
+    }
+    if ((local_02 > 15) && (local_02 < 32)) {
+      local_02 = (local_02 + 2);
+      if (local_02 > 31) {
+        local_02 = (local_02 - 16);
+      }
+      Item.setQHi(local_02, arg_06);
+    }
+    if (Item.getStatus(arg_06) & 4) {
+      local_02 = 0x00ff;
+    }
+    else {
+      FREE.slot_2c(arg_12, arg_10);
+      local_16 = retval;
+      if (local_02 == 0x00ff) {
+        FREE.slot_20(15);
+        local_02 = retval;
+      }
+      else if (local_02 == 0x00fe) {
+        suspend;
+        return;
+      }
+      local_02 = (local_02 & 15);
+      if ((local_02 > 13) || (local_02 < 3)) {
+        local_14 = (local_14 - 32);
+      }
+      else if ((local_02 > 1) && (local_02 < 7)) {
+        local_12 = (local_12 + 32);
+      }
+      else if ((local_02 > 5) && (local_02 < 11)) {
+        local_14 = (local_14 + 32);
+      }
+      else if ((local_02 > 9) && (local_02 < 15)) {
+        local_12 = (local_12 - 32);
+      }
+      suspend;
+    }
+    return;
+  }
+  else if (Item.getShape(local_08) == 0x02c3) {
+    local_04 = Item.getQHi(local_08);
+    local_06 = Item.getQLo(local_08);
+    Item.destroy(local_08);
+    if (Item.legal_create(0, 0x02c4, local_10)) {
+      Item.andStatus(local_06, local_10);
+      if (local_04) {
+        Item.setQHi(2, local_10);
+        getTargetNPCNumMaybe((Item.getZ(arg_06) + 6), (Item.getY(arg_06) - 8), (Item.getX(arg_06) - 16), local_10);
+      }
+      else {
+        getTargetNPCNumMaybe((Item.getZ(arg_06) + 6), (Item.getY(arg_06) - 8), (Item.getX(arg_06) + 32), local_10);
+      }
+    }
+    return;
+  }
+  else if (Item.getShape(local_08) == 0x02c4) {
+    local_04 = Item.getQHi(local_08);
+    local_06 = Item.getQLo(local_08);
+    Item.destroy(local_08);
+    if (Item.legal_create(0, 0x02c3, local_10)) {
+      Item.andStatus(local_06, local_10);
+      if (local_04) {
+        Item.setQHi(2, local_10);
+        getTargetNPCNumMaybe((Item.getZ(arg_06) + 6), (Item.getY(arg_06) + 32), (Item.getX(arg_06) - 8), local_10);
+      }
+      else {
+        getTargetNPCNumMaybe((Item.getZ(arg_06) + 6), (Item.getY(arg_06) - 16), (Item.getX(arg_06) - 8), local_10);
+      }
+    }
+    return;
+  }
+  return;
+}
+
+/* ===== slot 0x0a equip ===== */
+function bouncbox_equip() /* entry=1265 class_id=0x04ef slot=0x0a */
+{
+  set_info(0x0211, *(arg_06));
+  process_exclude();
+  Item.setQHi(arg_10, arg_06);
+  return;
+}

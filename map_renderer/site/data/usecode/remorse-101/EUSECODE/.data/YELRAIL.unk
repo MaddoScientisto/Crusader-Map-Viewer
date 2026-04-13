@@ -1,0 +1,96 @@
+/* synthesized appendix for YELRAIL */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x20 slot_20 ===== */
+function yelrail_slot_20() /* entry=2589 class_id=0x0a1b slot=0x20 */
+{
+  set_info(0x0001, *(arg_06));
+  set_info(1, *(arg_06));
+  FREE.slot_2c(arg_14, arg_12);
+  local_04 = retval;
+  if (!local_04) {
+    return;
+  }
+  else if (((local_04 == 4) || (local_04 == 3)) || (local_04 == 10)) {
+    if (UCMachine.rndRange(100, 0) > 50) {
+      AudioProcess.playSFXCru(0x00bd, arg_06);
+    }
+    else {
+      AudioProcess.playSFXCru(0x00bc, arg_06);
+    }
+    if ((Item.getShape(arg_06) == yelrail_shape_008a) || (Item.getShape(arg_06) == yelrail_shape_0088)) {
+      if (!Item.getFrame(arg_06)) {
+        Item.isCentreOn(UCMachine.rndRange(3, 1), arg_06);
+      }
+      return;
+    }
+    else if ((Item.getShape(arg_06) == yelrail_shape_008b) || (Item.getShape(arg_06) == yelrail_shape_0091)) {
+      if (!Item.getFrame(arg_06)) {
+        Item.isCentreOn(UCMachine.rndRange(2, 1), arg_06);
+      }
+      return;
+    }
+    else if ((Item.getShape(arg_06) == yelrail_shape_008c) || (Item.getShape(arg_06) == yelrail_shape_0092)) {
+      if (!Item.getFrame(arg_06)) {
+        Item.isCentreOn(1, arg_06);
+      }
+      return;
+    }
+    else {
+      switch (Item.getShape(arg_06)) {
+      case 141:
+        switch (Item.getFrame(arg_06)) {
+        case 0:
+          Item.isCentreOn(4, arg_06);
+          break;
+        case 1:
+          Item.isCentreOn(5, arg_06);
+          break;
+        case 2:
+          Item.isCentreOn(7, arg_06);
+          break;
+        case 3:
+          Item.isCentreOn(6, arg_06);
+          break;
+        }
+        return;
+      case 112:
+        switch (Item.getFrame(arg_06)) {
+        case 0:
+          Item.isCentreOn(4, arg_06);
+          break;
+        case 1:
+          Item.isCentreOn(5, arg_06);
+          break;
+        case 2:
+          Item.isCentreOn(6, arg_06);
+          break;
+        case 3:
+          Item.isCentreOn(7, arg_06);
+          break;
+        }
+        return;
+      case 147:
+        switch (Item.getFrame(arg_06)) {
+        case 0:
+          Item.isCentreOn(5, arg_06);
+          break;
+        case 1:
+          Item.isCentreOn(11, arg_06);
+          break;
+        case 2:
+          Item.isCentreOn(10, arg_06);
+          break;
+        case 3:
+          Item.isCentreOn(UCMachine.rndRange(7, 6), arg_06);
+          break;
+        case 4:
+          Item.isCentreOn(UCMachine.rndRange(9, 8), arg_06);
+          break;
+        }
+        return;
+      }
+    }
+  }
+  return;
+}

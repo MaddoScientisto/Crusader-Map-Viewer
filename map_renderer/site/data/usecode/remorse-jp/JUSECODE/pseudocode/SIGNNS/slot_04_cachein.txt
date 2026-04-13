@@ -1,5 +1,8 @@
 function signns_cachein() /* entry=189 class_id=0x00bb slot=0x04 */
 {
+  var
+    referent; /* [BP+00h] type=0x69 */
+
   set_info(0x0213, *(arg_06));
   process_exclude();
   switch (Item.getFrame(arg_06)) {
@@ -11,4 +14,8 @@ function signns_cachein() /* entry=189 class_id=0x00bb slot=0x04 */
     return;
   }
   return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+  */
 }

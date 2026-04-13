@@ -1,7 +1,16 @@
 function textfile_slot_20() /* entry=2585 class_id=0x0a17 slot=0x20 */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    textFile; /* [BP+10h] type=0x73 */
+
   /* param_pid_chg */
   set_info(0x0001, *(arg_06));
-  ComputerGump.readComputer(arg_10);
+  ComputerGump.readComputer(textFile);
   return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol textFile [BP+10h] type=0x73 unk1=0x00 unk3=0x00
+  */
 }

@@ -118,6 +118,7 @@ import {
   getAtlasUrl,
   loadSceneAssets
 } from "../../public/scene-api.js";
+import { normalizeCatalogSurfaceType } from "../../shared/catalog-surface-types.js";
 import {
   clearTooltipState,
   registerTooltipPreviewRenderer,
@@ -507,7 +508,8 @@ const {
   canEditCatalog,
   startBuild: (...args) => startBuild(...args),
   showToast,
-  setStatus
+  setStatus,
+  normalizeCatalogSurfaceType
 }));
 
 saveTeleportEggId = function saveTeleportEggIdImpl(item, form) {

@@ -1,0 +1,135 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[07:hatch] spawn MISS4.slot_20 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[07:hatch] call_intrinsic Item.destroy(arg_bytes=0x4) ; jmp 0x0053
+//
+//
+[07:hatch] ret
+//
+//
+//
+//
+[20:slot_20] spawn FREE.slot_26 ; free_stack_string value_u8=0x0, target=[SP+00h] ; implies arg0=0x1, arg1=0x1 ; ...
+[20:slot_20] spawn FREE.slot_3b ; pop_temp ; ...
+[20:slot_20] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[20:slot_20] pop_global global[0x0032] ; loopscr value_u8=0x24
+//
+//
+//
+[20:slot_20] loopscr value_u8=0x42
+[20:slot_20] mul
+[20:slot_20] loop current_var=0xfe, string_bytes=0x6, loop_type=0x2 ; jne 0x00b4
+[20:slot_20] call_intrinsic Item.destroy(arg_bytes=0x4) ; loopnext ; jmp 0x00a2 ; ...
+//
+//
+[20:slot_20] ret
+//
+//
+//
+//
+//
+//
+//
+[04:cachein] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[04:cachein] pop_global global[0x001f]
+//
+//
+//
+//
+//
+[04:cachein] call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[04:cachein] call_intrinsic Item.popToCoords(arg_bytes=0xa) ; ...
+[04:cachein] call_intrinsic Actor.getLastAnimSet(arg_bytes=0x4)
+[04:cachein] ret
+
+/* synthesized appendix for MISS4 */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x04 cachein ===== */
+function miss4_cachein() /* entry=2322 class_id=0x0910 slot=0x04 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    item; /* [BP-02h] type=0x24 */
+
+  set_info(0x0213, *(arg_06));
+  process_exclude();
+  spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+  suspend;
+  Item.create(0, BLAST_PAC, item);
+  Item.popToCoords(0, 0, 0, item);
+  Actor.getLastAnimSet(0, item);
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol item [BP-02h] type=0x24 unk1=0x00 unk3=0x02
+  */
+}
+
+/* ===== slot 0x07 hatch ===== */
+function miss4_hatch() /* entry=2322 class_id=0x0910 slot=0x07 */
+{
+  var
+    referent; /* [BP+00h] type=0x69 */
+
+  set_info(0x0210, *(arg_06));
+  process_exclude();
+  if (CameraProcess.setCenterOn(arg_06) == 1) {
+    spawn MISS4.slot_20(pid, arg_06);
+    suspend;
+    Item.destroy(arg_06);
+    return;
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+  */
+}
+
+/* ===== slot 0x20 slot_20 ===== */
+function miss4_slot_20() /* entry=2322 class_id=0x0910 slot=0x20 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    item; /* [BP-02h] type=0x24 */
+
+  set_info(0x0001, *(arg_06));
+  spawn FREE.slot_26(pid, "4f", 0x00000000);
+  suspend;
+  spawn FREE.slot_3b(0x00000000);
+  spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
+  suspend;
+  for item in selector_0x42(arg0=0x032a, arg1=0x0329, arg2=(32 * 32), origin=global[0x003c]) {
+    Item.destroy(item);
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol item [BP-02h] type=0x24 unk1=0x00 unk3=0x02
+  */
+}

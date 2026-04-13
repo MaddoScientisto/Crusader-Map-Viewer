@@ -1,0 +1,224 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[20:slot_20] call_intrinsic Item.getStatus(arg_bytes=0x4)
+[20:slot_20] bit_and ; jne 0x0035
+[20:slot_20] jmp 0x0245
+//
+//
+[20:slot_20] call_class_event ITEM.slot_23
+[20:slot_20] call_intrinsic Item.getFrame(arg_bytes=0x4) ; pop_local_word fram ; suspend ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[20:slot_20] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+[20:slot_20] call_intrinsic Item.getZ(arg_bytes=0x4) ; add ; call_intrinsic Item.getY(arg_bytes=0x4) ; ...
+[20:slot_20] call_intrinsic Actor.maybeFire(arg_bytes=0x10) ; pop_temp ; jmp 0x0213 ; ...
+//
+//
+//
+//
+[20:slot_20] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+[20:slot_20] call_intrinsic Item.getZ(arg_bytes=0x4) ; add ; call_intrinsic Item.getY(arg_bytes=0x4) ; ...
+[20:slot_20] call_intrinsic Actor.maybeFire(arg_bytes=0x10) ; pop_temp ; jmp 0x0213 ; ...
+//
+//
+//
+//
+//
+//
+[20:slot_20] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+[20:slot_20] call_intrinsic Item.getZ(arg_bytes=0x4) ; add ; call_intrinsic Item.getY(arg_bytes=0x4) ; ...
+[20:slot_20] call_intrinsic Actor.maybeFire(arg_bytes=0x10) ; pop_temp ; ...
+[20:slot_20] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+//
+[20:slot_20] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+[20:slot_20] call_intrinsic Item.getZ(arg_bytes=0x4) ; call_intrinsic Item.getY(arg_bytes=0x4) ; add ; ...
+[20:slot_20] call_intrinsic Actor.maybeFire(arg_bytes=0x10) ; pop_temp ; ...
+//
+//
+//
+[20:slot_20] call_intrinsic Game.getDifficultyLevel(arg_bytes=0x0) ; sub ; mul ; ...
+//
+//
+[20:slot_20] ret
+//
+//
+//
+//
+//
+//
+//
+[10:leaveFastArea] call_class_event ITEM.slot_24
+[10:leaveFastArea] call_class_event FREE.slot_33 ; ...
+[10:leaveFastArea] ret
+//
+//
+//
+//
+//
+[0A:equip] call_intrinsic Item.getFrame(arg_bytes=0x4) ; lt ; jne 0x00d0 ; ...
+[0A:equip]
+[0A:equip] cmp ; jne 0x004b ; ...
+[0A:equip]
+[0A:equip] spawn LAZERNS.slot_20 ; pop_temp ; jmp 0x00d0 ; ...
+//
+[0A:equip] gt ; jne 0x00b0 ; ...
+[0A:equip]
+[0A:equip] spawn LAZERNS.slot_20 ; pop_temp ; ...
+[0A:equip] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[0A:equip] call_class_event ITEM.slot_24
+[0A:equip] call_class_event FREE.slot_33 ; jmp 0x00d0 ; ...
+//
+//
+//
+//
+[0A:equip] call_class_event ITEM.slot_24
+[0A:equip] call_class_event FREE.slot_33 ; ...
+//
+//
+[0A:equip] ret
+
+/* synthesized appendix for LAZERNS */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x0a equip ===== */
+function lazerns_equip() /* entry=413 class_id=0x019b slot=0x0a */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    var; /* [BP+10h] type=0x69 */
+
+  set_info(0x0211, *(arg_06));
+  process_exclude();
+  if (Item.getFrame(arg_06) < 4) {
+    if (var == 1) {
+      spawn LAZERNS.slot_20(arg_06);
+      return;
+    }
+    else if (var > 1) {
+      spawn LAZERNS.slot_20(arg_06);
+      spawn FREE.slot_32(pid, 30, 0x00000000);
+      suspend;
+      ITEM.slot_24(0x1000, arg_06);
+      FREE.slot_33(0x0205, *(arg_06));
+      return;
+    }
+    else {
+      ITEM.slot_24(0x1000, arg_06);
+      FREE.slot_33(0x0205, *(arg_06));
+    }
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol var [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x10 leaveFastArea ===== */
+function lazerns_leaveFastArea() /* entry=413 class_id=0x019b slot=0x10 */
+{
+  var
+    referent; /* [BP+00h] type=0x69 */
+
+  set_info(0x021c, *(arg_06));
+  process_exclude();
+  ITEM.slot_24(0x1000, arg_06);
+  FREE.slot_33(0x0205, *(arg_06));
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+  */
+}
+
+/* ===== slot 0x20 slot_20 ===== */
+function lazerns_slot_20() /* entry=413 class_id=0x019b slot=0x20 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    fram, /* [BP-02h] type=0x69 */
+    item, /* [BP-04h] type=0x24 */
+    x, /* [BP-06h] type=0x69 */
+    y; /* [BP-08h] type=0x69 */
+
+  set_info(0x0205, *(arg_06));
+  if (Item.getStatus(arg_06) & 0x1000) {
+    return;
+  }
+  else {
+    ITEM.slot_23(0x1000, arg_06);
+    fram = Item.getFrame(arg_06);
+    suspend;
+    while (true) {
+      suspend;
+      if (fram == 1) {
+        AudioProcess.playSFXCru(2, arg_06);
+        Actor.getInCombat((Item.getZ(arg_06) + 17), (Item.getY(arg_06) + 23), (Item.getX(arg_06) + 15), 6, 11, 9, 0x040c);
+      }
+      else if (fram == 2) {
+        AudioProcess.playSFXCru(83, arg_06);
+        Actor.getInCombat((Item.getZ(arg_06) + 17), (Item.getY(arg_06) + 23), (Item.getX(arg_06) + 15), 6, 8, 6, 0x040c);
+      }
+      else if (fram == 3) {
+        AudioProcess.playSFXCru(100, arg_06);
+        Actor.getInCombat((Item.getZ(arg_06) + 3), (Item.getY(arg_06) + 1), (Item.getX(arg_06) - 19), 6, 5, 3, 0x040c);
+        spawn FREE.slot_32(pid, 100, 0x00000000);
+        suspend;
+      }
+      else {
+        AudioProcess.playSFXCru(44, arg_06);
+        Actor.getInCombat(Item.getZ(arg_06), (Item.getY(arg_06) + 3), (Item.getX(arg_06) - 24), 6, 5, 3, 0x040c);
+      }
+      spawn FREE.slot_32(pid, ((5 - Game.getDifficultyLevel()) * 20), 0x00000000);
+      suspend;
+    }
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol fram [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol item [BP-04h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol x [BP-06h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol y [BP-08h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}

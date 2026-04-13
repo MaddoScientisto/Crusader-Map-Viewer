@@ -1,0 +1,22 @@
+/* synthesized appendix for D_SKELET */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x0e calledFromAnim ===== */
+function d_skelet_calledFromAnim() /* entry=1432 class_id=0x0596 slot=0x0e */
+{
+  set_info(0x021a, *(arg_06));
+  process_exclude();
+  spawn NPCDEATH.slot_20(Actor.GetNPCDataField0x63_00B(arg_06), *(arg_06), arg_06);
+  return;
+}
+
+/* ===== slot 0x0f enterFastArea ===== */
+function d_skelet_enterFastArea() /* entry=1432 class_id=0x0596 slot=0x0f */
+{
+  set_info(0x021b, *(arg_06));
+  process_exclude();
+  spawn FREE.waitNTimerTicks(pid, 1, 0x00000000);
+  suspend;
+  spawn NPCDEATH.slot_20(Actor.GetNPCDataField0x63_00B(arg_06), *(arg_06), arg_06);
+  return;
+}

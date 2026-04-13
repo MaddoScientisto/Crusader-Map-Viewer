@@ -1,0 +1,29 @@
+/* synthesized appendix for MEDIKIT */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x01 use ===== */
+function medikit_use() /* entry=851 class_id=0x0351 slot=0x01 */
+{
+  set_info(0x0207, *(arg_06));
+  process_exclude();
+  set_info(0x00f0, 0);
+  if (Ultima8Engine.clrCruStasis(&global[0x003d]) >= 0x0096) {
+    spawn FREE.slot_21(pid, 0x00b0, 0x00000000);
+    suspend;
+  }
+  if (Item.hurl(80, &global[0x003d])) {
+    spawn FREE.slot_21(pid, 0x00db, 0x00000000);
+    suspend;
+  }
+  else {
+    Item.legal_create(0, 0x0351, local_02);
+    getTargetNPCNumMaybe(0, 0, 0, local_02);
+    Item.spawnUsecodeEvent0x13(0, local_02);
+    spawn FREE.slot_21(pid, 0x00b0, 0x00000000);
+    suspend;
+  }
+  mouseSomethingResume05F();
+  spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
+  suspend;
+  return;
+}

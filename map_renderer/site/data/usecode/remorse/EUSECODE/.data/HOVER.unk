@@ -1,0 +1,1453 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[20:slot_20] set_info
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[20:slot_20] pop_local_word hover
+//
+[20:slot_20] call_intrinsic Item.getX(arg_bytes=0x4) ; pop_local_word sx ; ...
+[20:slot_20] call_intrinsic Item.getY(arg_bytes=0x4) ; pop_local_word sy ; ...
+[20:slot_20] call_intrinsic Item.getZ(arg_bytes=0x4) ; pop_local_byte sz ; ...
+//
+[20:slot_20] sub ; call_class_event FREE.slot_3f ; pop_local_word a ; ...
+[20:slot_20] sub ; call_class_event FREE.slot_3f ; pop_local_word b ; ...
+[20:slot_20] sub ; call_class_event FREE.slot_3f ; pop_local_word c ; ...
+//
+[20:slot_20] gt ; gt ; and ; ...
+[20:slot_20]
+[20:slot_20] pop_local_dword l1
+[20:slot_20] pop_local_dword yfract
+[20:slot_20] mul_dword ; pop_local_dword yfract ; ...
+[20:slot_20] div_dword ; pop_local_dword yfract ; ...
+[20:slot_20] pop_local_dword yacc
+//
+[20:slot_20] pop_local_dword zfract
+[20:slot_20] mul_dword ; pop_local_dword zfract ; ...
+[20:slot_20] div_dword ; pop_local_dword zfract ; ...
+[20:slot_20] pop_local_dword zacc
+//
+[20:slot_20] jne 0x04be
+//
+[20:slot_20] call_intrinsic Item.getStatus(arg_bytes=0x4) ; bit_and ; cmp ; ...
+//
+[20:slot_20] pop_result ; jmp 0x0d32
+//
+//
+[20:slot_20] sub ; pop_local_word dx ; ...
+[20:slot_20] sub ; pop_local_word dy ; ...
+[20:slot_20] sub ; pop_local_word dz ; ...
+//
+[20:slot_20] pop_local_word ddx
+[20:slot_20] pop_local_word ddy
+[20:slot_20] pop_local_word ddz
+//
+[20:slot_20] lt ; gt ; and ; ...
+[20:slot_20]
+[20:slot_20] pop_result ; jmp 0x0d32
+//
+//
+[20:slot_20] pop_local_word ddx
+[20:slot_20] lt ; jne 0x0177 ; ...
+//
+[20:slot_20] pop_local_word ddx
+//
+//
+[20:slot_20] jne 0x01bb
+//
+[20:slot_20] add_dword ; pop_local_dword yacc ; ...
+[20:slot_20] gt_dword ; jne 0x01bb ; ...
+//
+[20:slot_20] sub_dword ; pop_local_dword yacc ; ...
+//
+[20:slot_20] pop_local_word ddy
+[20:slot_20] lt ; jne 0x01bb ; ...
+//
+[20:slot_20] pop_local_word ddy
+//
+//
+//
+//
+[20:slot_20] jne 0x01ff
+//
+[20:slot_20] add_dword ; pop_local_dword zacc ; ...
+[20:slot_20] gt_dword ; jne 0x01ff ; ...
+//
+[20:slot_20] sub_dword ; pop_local_dword zacc ; ...
+//
+[20:slot_20] pop_local_word ddz
+[20:slot_20] lt ; jne 0x01ff ; ...
+//
+[20:slot_20] pop_local_word ddz
+//
+//
+//
+//
+[20:slot_20] pop_local_word total ; loopscr value_u8=0x24 ; ...
+//
+//
+[20:slot_20] loop current_var=0xe9, string_bytes=0x1, loop_type=0x6 ; jne 0x02a9
+[20:slot_20] call_intrinsic Item.getShape(arg_bytes=0x4) ; ne ; jne 0x02a5 ; ...
+//
+[20:slot_20] lt ; jne 0x0290 ; ...
+[20:slot_20]
+//
+[20:slot_20] pop_local_word n
+//
+[20:slot_20] call_intrinsic Actor.isDead(arg_bytes=0x4) ; jne 0x0278 ; ...
+//
+[20:slot_20] call_intrinsic Item.hurl(arg_bytes=0xc) ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+[20:slot_20] add ; pop_local_word total ; ...
+[20:slot_20] call_intrinsic push(arg_bytes=0x4) ; jmp 0x02a5
+//
+//
+//
+//
+[20:slot_20] add ; pop_local_word total ; ...
+[20:slot_20] call_intrinsic push(arg_bytes=0x4) ; loopnext ; jmp 0x0214 ; ...
+//
+//
+//
+//
+[20:slot_20] add ; pop_local_word sx ; ...
+[20:slot_20] add ; pop_local_word sy ; ...
+[20:slot_20] add ; pop_local_byte sz ; ...
+[20:slot_20] pop_local_word wp
+[20:slot_20] pop_local_word local_03
+[20:slot_20] pop_local_byte local_01
+//
+[20:slot_20] call_intrinsic Item.inFastArea(arg_bytes=0x4) ; cmp ; jne 0x0367 ; ...
+//
+[20:slot_20] call_intrinsic push(arg_bytes=0x4)
+[20:slot_20] call_intrinsic Item.popToCoords(arg_bytes=0xa) ; ...
+//
+[20:slot_20] pop_local_word counter ; add ; pop_local_word counter ; ...
+[20:slot_20] le ; jne 0x0364
+[20:slot_20] call_intrinsic Item.getEtherealTop(arg_bytes=0x0) ; pop_local_word cargo
+[20:slot_20] call_intrinsic Item.getZ(arg_bytes=0x4) ; add ; call_intrinsic Item.getY(arg_bytes=0x4) ; ...
+//
+//
+//
+[20:slot_20] call_intrinsic legalMoveToPoint(arg_bytes=0xc) ; jne 0x03d7 ; ...
+//
+[20:slot_20] pop_local_word counter ; add ; pop_local_word counter ; ...
+[20:slot_20] le ; jne 0x03d4
+[20:slot_20] call_intrinsic Item.getEtherealTop(arg_bytes=0x0) ; pop_local_word cargo
+[20:slot_20] call_intrinsic Item.getZ(arg_bytes=0x4) ; add ; call_intrinsic Item.getY(arg_bytes=0x4) ; ...
+//
+//
+//
+//
+[20:slot_20] pop_local_word counter ; add ; pop_local_word counter ; ...
+[20:slot_20] le ; jne 0x0426
+[20:slot_20] call_intrinsic Item.getEtherealTop(arg_bytes=0x0) ; pop_local_word cargo
+[20:slot_20] call_intrinsic Item.getZ(arg_bytes=0x4) ; call_intrinsic Item.getY(arg_bytes=0x4) ; call_intrinsic Item.getX(arg_bytes=0x4) ; ...
+//
+//
+[20:slot_20] call_intrinsic Item.getQHi(arg_bytes=0x4) ; bit_and ; jne 0x0451 ; ...
+//
+[20:slot_20] bit_not ; call_intrinsic Item.andStatus(arg_bytes=0x6) ; ...
+[20:slot_20] pop_result ; jmp 0x0d32
+//
+//
+[20:slot_20] sub ; pop_local_word sx ; ...
+[20:slot_20] sub ; pop_local_word sy ; ...
+[20:slot_20] sub ; pop_local_byte sz ; ...
+[20:slot_20] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[20:slot_20] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+[20:slot_20] gt ; gt ; and ; ...
+[20:slot_20]
+[20:slot_20] pop_local_dword l1
+[20:slot_20] pop_local_dword xfract
+[20:slot_20] mul_dword ; pop_local_dword xfract ; ...
+[20:slot_20] div_dword ; pop_local_dword xfract ; ...
+[20:slot_20] pop_local_dword xacc
+//
+[20:slot_20] pop_local_dword zfract
+[20:slot_20] mul_dword ; pop_local_dword zfract ; ...
+[20:slot_20] div_dword ; pop_local_dword zfract ; ...
+[20:slot_20] pop_local_dword zacc
+//
+[20:slot_20] jne 0x0902
+//
+[20:slot_20] call_intrinsic Item.getStatus(arg_bytes=0x4) ; bit_and ; cmp ; ...
+//
+[20:slot_20] pop_result ; jmp 0x0d32
+//
+//
+[20:slot_20] sub ; pop_local_word dx ; ...
+[20:slot_20] sub ; pop_local_word dy ; ...
+[20:slot_20] sub ; pop_local_word dz ; ...
+//
+[20:slot_20] pop_local_word ddx
+[20:slot_20] pop_local_word ddy
+[20:slot_20] pop_local_word ddz
+//
+[20:slot_20] lt ; gt ; and ; ...
+[20:slot_20]
+[20:slot_20] pop_result ; jmp 0x0d32
+//
+//
+[20:slot_20] jne 0x05e6
+//
+[20:slot_20] add_dword ; pop_local_dword xacc ; ...
+[20:slot_20] gt_dword ; jne 0x05e6 ; ...
+//
+[20:slot_20] sub_dword ; pop_local_dword xacc ; ...
+//
+[20:slot_20] pop_local_word ddx
+[20:slot_20] lt ; jne 0x05e6 ; ...
+//
+[20:slot_20] pop_local_word ddx
+//
+//
+//
+//
+[20:slot_20] pop_local_word ddy
+[20:slot_20] lt ; jne 0x05ff ; ...
+//
+[20:slot_20] pop_local_word ddy
+//
+//
+[20:slot_20] jne 0x0643
+//
+[20:slot_20] add_dword ; pop_local_dword zacc ; ...
+[20:slot_20] gt_dword ; jne 0x0643 ; ...
+//
+[20:slot_20] sub_dword ; pop_local_dword zacc ; ...
+//
+[20:slot_20] pop_local_word ddz
+[20:slot_20] lt ; jne 0x0643 ; ...
+//
+[20:slot_20] pop_local_word ddz
+//
+//
+//
+//
+[20:slot_20] pop_local_word total ; loopscr value_u8=0x24 ; ...
+//
+//
+[20:slot_20] loop current_var=0xe9, string_bytes=0x1, loop_type=0x6 ; jne 0x06ed
+[20:slot_20] call_intrinsic Item.getShape(arg_bytes=0x4) ; ne ; jne 0x06e9 ; ...
+//
+[20:slot_20] lt ; jne 0x06d4 ; ...
+[20:slot_20]
+[20:slot_20] pop_local_word n
+//
+[20:slot_20] call_intrinsic Actor.isDead(arg_bytes=0x4) ; jne 0x06bc ; ...
+//
+[20:slot_20] call_intrinsic Item.hurl(arg_bytes=0xc) ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+[20:slot_20] add ; pop_local_word total ; ...
+[20:slot_20] call_intrinsic push(arg_bytes=0x4) ; jmp 0x06e9
+//
+//
+//
+//
+[20:slot_20] add ; pop_local_word total ; ...
+[20:slot_20] call_intrinsic push(arg_bytes=0x4) ; loopnext ; jmp 0x0658 ; ...
+//
+//
+//
+//
+[20:slot_20] add ; pop_local_word sx ; ...
+[20:slot_20] add ; pop_local_word sy ; ...
+[20:slot_20] add ; pop_local_byte sz ; ...
+[20:slot_20] pop_local_word wp
+[20:slot_20] pop_local_word local_03
+[20:slot_20] pop_local_byte local_01
+//
+[20:slot_20] call_intrinsic Item.inFastArea(arg_bytes=0x4) ; cmp ; jne 0x07ab ; ...
+//
+[20:slot_20] call_intrinsic push(arg_bytes=0x4)
+[20:slot_20] call_intrinsic Item.popToCoords(arg_bytes=0xa) ; ...
+//
+[20:slot_20] pop_local_word counter ; add ; pop_local_word counter ; ...
+[20:slot_20] le ; jne 0x07a8
+[20:slot_20] call_intrinsic Item.getEtherealTop(arg_bytes=0x0) ; pop_local_word cargo
+[20:slot_20] call_intrinsic Item.getZ(arg_bytes=0x4) ; add ; call_intrinsic Item.getY(arg_bytes=0x4) ; ...
+//
+//
+//
+[20:slot_20] call_intrinsic legalMoveToPoint(arg_bytes=0xc) ; jne 0x081b ; ...
+//
+[20:slot_20] pop_local_word counter ; add ; pop_local_word counter ; ...
+[20:slot_20] le ; jne 0x0818
+[20:slot_20] call_intrinsic Item.getEtherealTop(arg_bytes=0x0) ; pop_local_word cargo
+[20:slot_20] call_intrinsic Item.getZ(arg_bytes=0x4) ; add ; call_intrinsic Item.getY(arg_bytes=0x4) ; ...
+//
+//
+//
+//
+[20:slot_20] pop_local_word counter ; add ; pop_local_word counter ; ...
+[20:slot_20] le ; jne 0x086a
+[20:slot_20] call_intrinsic Item.getEtherealTop(arg_bytes=0x0) ; pop_local_word cargo
+[20:slot_20] call_intrinsic Item.getZ(arg_bytes=0x4) ; call_intrinsic Item.getY(arg_bytes=0x4) ; call_intrinsic Item.getX(arg_bytes=0x4) ; ...
+//
+//
+[20:slot_20] call_intrinsic Item.getQHi(arg_bytes=0x4) ; bit_and ; jne 0x0895 ; ...
+//
+[20:slot_20] bit_not ; call_intrinsic Item.andStatus(arg_bytes=0x6) ; ...
+[20:slot_20] pop_result ; jmp 0x0d32
+//
+//
+[20:slot_20] sub ; pop_local_word sx ; ...
+[20:slot_20] sub ; pop_local_word sy ; ...
+[20:slot_20] sub ; pop_local_byte sz ; ...
+[20:slot_20] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[20:slot_20] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+[20:slot_20] pop_local_dword l1
+[20:slot_20] pop_local_dword xfract
+[20:slot_20] mul_dword ; pop_local_dword xfract ; ...
+[20:slot_20] div_dword ; pop_local_dword xfract ; ...
+[20:slot_20] pop_local_dword xacc
+//
+[20:slot_20] pop_local_dword yfract
+[20:slot_20] mul_dword ; pop_local_dword yfract ; ...
+[20:slot_20] div_dword ; pop_local_dword yfract ; ...
+[20:slot_20] pop_local_dword yacc
+//
+//
+[20:slot_20] jne 0x0d32
+//
+[20:slot_20] call_intrinsic Item.getStatus(arg_bytes=0x4) ; bit_and ; cmp ; ...
+//
+[20:slot_20] pop_result ; jmp 0x0d32
+//
+//
+[20:slot_20] sub ; pop_local_word dx ; ...
+[20:slot_20] sub ; pop_local_word dy ; ...
+[20:slot_20] sub ; pop_local_word dz ; ...
+//
+[20:slot_20] pop_local_word ddx
+[20:slot_20] pop_local_word ddy
+[20:slot_20] pop_local_word ddz
+//
+[20:slot_20] lt ; gt ; and ; ...
+[20:slot_20]
+[20:slot_20] pop_result ; jmp 0x0d32
+//
+//
+[20:slot_20] jne 0x0a16
+//
+[20:slot_20] add_dword ; pop_local_dword xacc ; ...
+[20:slot_20] gt_dword ; jne 0x0a16 ; ...
+//
+[20:slot_20] sub_dword ; pop_local_dword xacc ; ...
+[20:slot_20] pop_local_word ddx
+[20:slot_20] lt ; jne 0x0a16 ; ...
+//
+[20:slot_20] pop_local_word ddx
+//
+//
+//
+//
+[20:slot_20] jne 0x0a5a
+//
+[20:slot_20] add_dword ; pop_local_dword yacc ; ...
+[20:slot_20] gt_dword ; jne 0x0a5a ; ...
+//
+[20:slot_20] sub_dword ; pop_local_dword yacc ; ...
+[20:slot_20] pop_local_word ddy
+[20:slot_20] lt ; jne 0x0a5a ; ...
+//
+[20:slot_20] pop_local_word ddy
+//
+//
+//
+//
+[20:slot_20] pop_local_word ddz
+[20:slot_20] lt ; jne 0x0a73 ; ...
+//
+[20:slot_20] pop_local_word ddz
+//
+//
+[20:slot_20] pop_local_word total ; loopscr value_u8=0x24 ; ...
+//
+//
+//
+[20:slot_20] loop current_var=0xe9, string_bytes=0x1, loop_type=0x6 ; jne 0x0b1d
+[20:slot_20] call_intrinsic Item.getShape(arg_bytes=0x4) ; ne ; jne 0x0b19 ; ...
+//
+[20:slot_20] lt ; jne 0x0b04 ; ...
+[20:slot_20]
+[20:slot_20] pop_local_word n
+//
+[20:slot_20] call_intrinsic Actor.isDead(arg_bytes=0x4) ; jne 0x0aec ; ...
+//
+[20:slot_20] call_intrinsic Item.hurl(arg_bytes=0xc) ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+[20:slot_20] add ; pop_local_word total ; ...
+[20:slot_20] call_intrinsic push(arg_bytes=0x4) ; jmp 0x0b19
+//
+//
+//
+//
+[20:slot_20] add ; pop_local_word total ; ...
+[20:slot_20] call_intrinsic push(arg_bytes=0x4) ; loopnext ; jmp 0x0a88 ; ...
+//
+//
+//
+//
+[20:slot_20] add ; pop_local_word sx ; ...
+[20:slot_20] add ; pop_local_word sy ; ...
+[20:slot_20] add ; pop_local_byte sz ; ...
+[20:slot_20] pop_local_word wp
+[20:slot_20] pop_local_word local_03
+[20:slot_20] pop_local_byte local_01
+//
+[20:slot_20] call_intrinsic Item.inFastArea(arg_bytes=0x4) ; cmp ; jne 0x0bdb ; ...
+//
+[20:slot_20] call_intrinsic push(arg_bytes=0x4)
+[20:slot_20] call_intrinsic Item.popToCoords(arg_bytes=0xa) ; ...
+//
+[20:slot_20] pop_local_word counter ; add ; pop_local_word counter ; ...
+[20:slot_20] le ; jne 0x0bd8
+[20:slot_20] call_intrinsic Item.getEtherealTop(arg_bytes=0x0) ; pop_local_word cargo
+[20:slot_20] call_intrinsic Item.getZ(arg_bytes=0x4) ; add ; call_intrinsic Item.getY(arg_bytes=0x4) ; ...
+//
+//
+//
+[20:slot_20] call_intrinsic legalMoveToPoint(arg_bytes=0xc) ; jne 0x0c4b ; ...
+//
+[20:slot_20] pop_local_word counter ; add ; pop_local_word counter ; ...
+[20:slot_20] le ; jne 0x0c48
+[20:slot_20] call_intrinsic Item.getEtherealTop(arg_bytes=0x0) ; pop_local_word cargo
+[20:slot_20] call_intrinsic Item.getZ(arg_bytes=0x4) ; add ; call_intrinsic Item.getY(arg_bytes=0x4) ; ...
+//
+//
+//
+//
+[20:slot_20] pop_local_word counter ; add ; pop_local_word counter ; ...
+[20:slot_20] le ; jne 0x0c9a
+[20:slot_20] call_intrinsic Item.getEtherealTop(arg_bytes=0x0) ; pop_local_word cargo
+[20:slot_20] call_intrinsic Item.getZ(arg_bytes=0x4) ; call_intrinsic Item.getY(arg_bytes=0x4) ; call_intrinsic Item.getX(arg_bytes=0x4) ; ...
+//
+//
+[20:slot_20] call_intrinsic Item.getQHi(arg_bytes=0x4) ; bit_and ; jne 0x0cc5 ; ...
+//
+[20:slot_20] bit_not ; call_intrinsic Item.andStatus(arg_bytes=0x6) ; ...
+[20:slot_20] pop_result ; jmp 0x0d32
+//
+//
+[20:slot_20] sub ; pop_local_word sx ; ...
+[20:slot_20] sub ; pop_local_word sy ; ...
+[20:slot_20] sub ; pop_local_byte sz ; ...
+[20:slot_20] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[20:slot_20] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[20:slot_20] ret
+//
+//
+//
+//
+//
+//
+[21:slot_21] set_info
+//
+//
+//
+//
+//
+//
+[21:slot_21] pop_local_word hover
+//
+[21:slot_21] call_intrinsic Item.orStatus(arg_bytes=0x6)
+//
+[21:slot_21] call_intrinsic Item.getQHi(arg_bytes=0x4) ; pop_local_word h ; ...
+[21:slot_21] pop_local_word oldqhi
+[21:slot_21] bit_and ; pop_local_word firstEgg ; ...
+[21:slot_21] pop_local_word targetEgg
+//
+[21:slot_21] jne 0x0334
+//
+[21:slot_21] call_intrinsic Item.getStatus(arg_bytes=0x4) ; bit_and ; cmp ; ...
+//
+[21:slot_21] call_intrinsic Item.setQHi(arg_bytes=0x6)
+[21:slot_21] spawn HOVER.slot_23 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[21:slot_21] jmp 0x0334
+//
+//
+[21:slot_21] call_intrinsic Item.getQLo(arg_bytes=0x4) ; pop_local_word link ; ...
+[21:slot_21] pop_local_word tx ; loopscr value_u8=0x24 ; loopscr value_u8=0x3d ; ...
+[21:slot_21] loopscr value_u8=0x25 ; mul ; ...
+[21:slot_21] loop current_var=0xeb, string_bytes=0x6, loop_type=0x2 ; jne 0x014a
+[21:slot_21] call_intrinsic Item.getFrame(arg_bytes=0x4) ; cmp ; jne 0x0146 ; ...
+//
+[21:slot_21] cmp ; call_intrinsic Item.getQLo(arg_bytes=0x4) ; cmp ; ...
+[21:slot_21]
+[21:slot_21] call_intrinsic Item.getX(arg_bytes=0x4) ; pop_local_word tx ; ...
+[21:slot_21] call_intrinsic Item.getY(arg_bytes=0x4) ; pop_local_word ty ; ...
+[21:slot_21] call_intrinsic Item.getZ(arg_bytes=0x4) ; pop_local_byte tz ; ...
+[21:slot_21] call_intrinsic Item.getQHi(arg_bytes=0x4) ; pop_local_word time ; ...
+[21:slot_21] jmp 0x014a ; loopnext ; jmp 0x00d8
+//
+//
+//
+//
+[21:slot_21] cmp ; jne 0x01ac ; ...
+//
+[21:slot_21] cmp ; jne 0x0184 ; ...
+//
+[21:slot_21] bit_not ; call_intrinsic Item.andStatus(arg_bytes=0x6) ; ...
+[21:slot_21] call_intrinsic Item.setQHi(arg_bytes=0x6)
+[21:slot_21] jmp 0x0334
+//
+[21:slot_21] pop_local_word targetEgg
+[21:slot_21] bit_and ; pop_local_word h ; ...
+[21:slot_21] bit_or ; call_intrinsic Item.setQHi(arg_bytes=0x6) ; ...
+[21:slot_21] jmp 0x0051
+//
+//
+[21:slot_21] spawn HOVER.slot_20 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[21:slot_21] call_intrinsic Item.setQHi(arg_bytes=0x6)
+[21:slot_21] jmp 0x0334
+//
+//
+[21:slot_21] spawn HOVER.slot_24 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[21:slot_21] call_intrinsic Item.getStatus(arg_bytes=0x4) ; bit_and ; cmp ; ...
+//
+[21:slot_21] call_intrinsic Item.setQHi(arg_bytes=0x6)
+[21:slot_21] spawn HOVER.slot_23 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[21:slot_21] jmp 0x0334
+//
+//
+[21:slot_21] bit_and ; jne 0x0298 ; ...
+//
+[21:slot_21] add ; spawn TRIGGER.slot_20 ; implies arg0=0x1, arg1=0x1 ; ...
+//
+//
+[21:slot_21] ne ; jne 0x02cc ; ...
+//
+[21:slot_21] mul ; spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; ...
+//
+//
+[21:slot_21] call_intrinsic Item.getQHi(arg_bytes=0x4) ; pop_local_word h ; ...
+[21:slot_21] bit_and
+[21:slot_21] cmp ; jne 0x02fe
+[21:slot_21] add ; bit_and ; pop_local_word targetEgg ; ...
+//
+//
+//
+[21:slot_21] bit_and ; pop_local_word firstEgg ; ...
+[21:slot_21] pop_local_word targetEgg
+[21:slot_21] pop_local_word oldqhi
+//
+[21:slot_21] bit_and ; pop_local_word h ; ...
+[21:slot_21] bit_or ; call_intrinsic Item.setQHi(arg_bytes=0x6) ; jmp 0x0051 ; ...
+//
+[21:slot_21] ret
+//
+//
+//
+//
+//
+//
+[22:slot_22] set_info ; ...
+//
+//
+[22:slot_22] cmp ; jne 0x0055 ; ...
+//
+[22:slot_22] call_intrinsic Item.getStatus(arg_bytes=0x4) ; bit_and ; cmp ; ...
+[22:slot_22]
+[22:slot_22] spawn HOVER.slot_21 ; pop_temp ; jmp 0x01ee ; ...
+//
+//
+//
+[22:slot_22] cmp ; jne 0x0073 ; ...
+//
+[22:slot_22] bit_not ; call_intrinsic Item.andStatus(arg_bytes=0x6) ; jmp 0x01ee ; ...
+//
+//
+[22:slot_22] cmp ; jne 0x0138 ; ...
+//
+[22:slot_22] bit_not ; call_intrinsic Item.andStatus(arg_bytes=0x6) ; ...
+[22:slot_22] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[22:slot_22] call_intrinsic Item.getQHi(arg_bytes=0x4) ; pop_local_word a ; ...
+[22:slot_22] bit_or ; call_intrinsic Item.setQHi(arg_bytes=0x6) ; ...
+[22:slot_22] call_intrinsic Item.orStatus(arg_bytes=0x6)
+[22:slot_22] call_intrinsic Item.getY(arg_bytes=0x4) ; call_intrinsic Item.getX(arg_bytes=0x4) ; spawn HOVER.slot_20 ; ...
+[22:slot_22] call_intrinsic Item.setQHi(arg_bytes=0x6)
+[22:slot_22] bit_not ; call_intrinsic Item.andStatus(arg_bytes=0x6) ; jmp 0x01ee ; ...
+//
+//
+[22:slot_22] cmp ; jne 0x01a3 ; ...
+//
+[22:slot_22] bit_not ; call_intrinsic Item.andStatus(arg_bytes=0x6) ; ...
+[22:slot_22] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[22:slot_22] spawn HOVER.slot_23 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+[22:slot_22] call_intrinsic Item.setQHi(arg_bytes=0x6)
+[22:slot_22] call_intrinsic Item.getStatus(arg_bytes=0x4) ; bit_and ; cmp ; ...
+[22:slot_22]
+[22:slot_22] spawn HOVER.slot_21 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[22:slot_22] ret
+//
+//
+//
+//
+//
+[23:slot_23] set_info
+//
+//
+//
+//
+//
+//
+[23:slot_23] pop_local_word hover
+//
+[23:slot_23] cmp ; call_intrinsic Item.inFastArea(arg_bytes=0x4) ; cmp ; ...
+[23:slot_23]
+[23:slot_23] jmp 0x0192
+//
+//
+[23:slot_23] call_intrinsic Item.getQHi(arg_bytes=0x4) ; bit_and ; pop_local_word firstEgg ; ...
+[23:slot_23] call_intrinsic Item.getQLo(arg_bytes=0x4) ; pop_local_word link ; loopscr value_u8=0x24 ; ...
+//
+[23:slot_23] loopscr value_u8=0x25 ; mul ; ...
+[23:slot_23] loop current_var=0xfc, string_bytes=0x6, loop_type=0x2 ; jne 0x0190
+[23:slot_23] call_intrinsic Item.getFrame(arg_bytes=0x4) ; cmp ; jne 0x018c ; ...
+//
+[23:slot_23] cmp ; call_intrinsic Item.getQLo(arg_bytes=0x4) ; cmp ; ...
+[23:slot_23]
+[23:slot_23] call_intrinsic Item.getX(arg_bytes=0x4) ; pop_local_word x ; ...
+[23:slot_23] call_intrinsic Item.getY(arg_bytes=0x4) ; pop_local_word y ; ...
+[23:slot_23] call_intrinsic Item.getZ(arg_bytes=0x4) ; pop_local_byte z ; ...
+[23:slot_23] call_intrinsic Item.getX(arg_bytes=0x4) ; sub ; pop_local_word dx ; ...
+[23:slot_23] call_intrinsic Item.getY(arg_bytes=0x4) ; sub ; pop_local_word dy ; ...
+[23:slot_23] call_intrinsic Item.getZ(arg_bytes=0x4) ; sub ; pop_local_word dz ; ...
+//
+//
+[23:slot_23] loop current_var=0xfe, string_bytes=0x1, loop_type=0x6 ; jne 0x0168
+[23:slot_23] call_intrinsic Item.getShape(arg_bytes=0x4) ; ne ; jne 0x0164 ; ...
+//
+[23:slot_23] call_intrinsic push(arg_bytes=0x4)
+[23:slot_23] call_intrinsic Item.getZ(arg_bytes=0x4) ; add ; call_intrinsic Item.getY(arg_bytes=0x4) ; ...
+//
+//
+//
+[23:slot_23] call_intrinsic push(arg_bytes=0x4)
+[23:slot_23] call_intrinsic Item.popToCoords(arg_bytes=0xa) ; ...
+[23:slot_23] jmp 0x0192 ; loopnext ; jmp 0x0079
+//
+//
+//
+[23:slot_23] ret
+//
+//
+//
+//
+//
+//
+[24:slot_24] set_info
+//
+//
+//
+//
+//
+//
+[24:slot_24] pop_local_word hover
+//
+[24:slot_24] call_intrinsic Item.getQLo(arg_bytes=0x4) ; pop_local_word link ; loopscr value_u8=0x24 ; ...
+//
+[24:slot_24] loopscr value_u8=0x25 ; mul ; ...
+[24:slot_24] loop current_var=0xfc, string_bytes=0x6, loop_type=0x2 ; jne 0x015e
+[24:slot_24] call_intrinsic Item.getFrame(arg_bytes=0x4) ; cmp ; jne 0x015a ; ...
+//
+[24:slot_24] cmp ; call_intrinsic Item.getQLo(arg_bytes=0x4) ; cmp ; ...
+[24:slot_24]
+[24:slot_24] call_intrinsic Item.getX(arg_bytes=0x4) ; pop_local_word x ; ...
+[24:slot_24] call_intrinsic Item.getY(arg_bytes=0x4) ; pop_local_word y ; ...
+[24:slot_24] call_intrinsic Item.getZ(arg_bytes=0x4) ; pop_local_byte z ; ...
+[24:slot_24] call_intrinsic Item.getX(arg_bytes=0x4) ; sub ; pop_local_word dx ; ...
+[24:slot_24] call_intrinsic Item.getY(arg_bytes=0x4) ; sub ; pop_local_word dy ; ...
+[24:slot_24] call_intrinsic Item.getZ(arg_bytes=0x4) ; sub ; pop_local_word dz ; ...
+//
+//
+[24:slot_24] loop current_var=0xfe, string_bytes=0x1, loop_type=0x6 ; jne 0x0136
+[24:slot_24] call_intrinsic Item.getShape(arg_bytes=0x4) ; ne ; jne 0x0132 ; ...
+//
+[24:slot_24] call_intrinsic push(arg_bytes=0x4)
+[24:slot_24] call_intrinsic Item.getZ(arg_bytes=0x4) ; add ; call_intrinsic Item.getY(arg_bytes=0x4) ; ...
+//
+//
+//
+[24:slot_24] call_intrinsic push(arg_bytes=0x4)
+[24:slot_24] call_intrinsic Item.popToCoords(arg_bytes=0xa) ; ...
+[24:slot_24] jmp 0x0160 ; loopnext ; jmp 0x0047
+//
+//
+//
+[24:slot_24] ret
+
+/* synthesized appendix for HOVER */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x20 slot_20 ===== */
+function hover_slot_20() /* entry=2575 class_id=0x0a0d slot=0x20 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    tx, /* [BP+12h] type=0x69 */
+    ty, /* [BP+14h] type=0x69 */
+    tz, /* [BP+16h] type=0x69 */
+    wp, /* [BP-05h] type=0x24 */
+    total, /* [BP-07h] type=0x69 */
+    counter, /* [BP-09h] type=0x69 */
+    ddx, /* [BP-11h] type=0x69 */
+    ddy, /* [BP-13h] type=0x69 */
+    ddz, /* [BP-15h] type=0x69 */
+    dx, /* [BP-17h] type=0x69 */
+    dy, /* [BP-19h] type=0x69 */
+    dz, /* [BP-21h] type=0x69 */
+    cargo, /* [BP-23h] type=0x24 */
+    hover, /* [BP-25h] type=0x24 */
+    sx, /* [BP-27h] type=0x69 */
+    sy, /* [BP-29h] type=0x69 */
+    sz, /* [BP-30h] type=0x62 */
+    a, /* [BP-32h] type=0x69 */
+    b, /* [BP-34h] type=0x69 */
+    c, /* [BP-36h] type=0x69 */
+    xacc, /* [BP-40h] type=0x64 */
+    yacc, /* [BP-44h] type=0x64 */
+    zacc, /* [BP-48h] type=0x64 */
+    xfract, /* [BP-52h] type=0x64 */
+    yfract, /* [BP-56h] type=0x64 */
+    zfract, /* [BP-60h] type=0x64 */
+    l1, /* [BP-64h] type=0x64 */
+    n; /* [BP-66h] type=0x24 */
+
+  set_info(1, 0);
+  hover = ref;
+  sx = Item.getX(hover);
+  sy = Item.getY(hover);
+  sz = Item.getZ(hover);
+  FREE.slot_3f((tx - sx));
+  a = retval;
+  FREE.slot_3f((ty - sy));
+  b = retval;
+  FREE.slot_3f((tz - sz));
+  c = retval;
+  if ((a > b) && (a > c)) {
+    l1 = a;
+    yfract = b;
+    yfract = (yfract * 0x0fa0);
+    yfract = (yfract / l1);
+    yacc = 0;
+    zfract = c;
+    zfract = (zfract * 0x0fa0);
+    zfract = (zfract / l1);
+    zacc = 0;
+    while (1) {
+      if ((Item.getStatus(hover) & 0x1000) == 0) {
+        process_result = 0;
+        return;
+      }
+      dx = (tx - sx);
+      dy = (ty - sy);
+      dz = (tz - sz);
+      ddx = 0;
+      ddy = 0;
+      ddz = 0;
+      if ((dx < 4) && (dx > -4)) {
+        process_result = 0;
+        return;
+      }
+      ddx = 4;
+      if (dx < 0) {
+        ddx = -4;
+      }
+      if (dy) {
+        yacc = (yacc + yfract);
+        if (yacc > 0x0fa0) {
+          yacc = (yacc - 0x0fa0);
+          ddy = 4;
+          if (dy < 0) {
+            ddy = -4;
+          }
+        }
+      }
+      if (dz) {
+        zacc = (zacc + zfract);
+        if (zacc > 0x0fa0) {
+          zacc = (zacc - 0x0fa0);
+          ddz = 4;
+          if (dz < 0) {
+            ddz = -4;
+          }
+        }
+      }
+      total = 0;
+      while (condition) {
+        if (Item.getShape(cargo) != NUMBERS) {
+          if (cargo < 0x00ff) {
+            n = cargo;
+            if (Actor.isDead(n)) {
+              suspend;
+            }
+            else {
+              total = (1 + total);
+              push(n);
+            }
+          }
+          else {
+            total = (1 + total);
+            push(cargo);
+          }
+        }
+      }
+      sx = (sx + ddx);
+      sy = (sy + ddy);
+      sz = (sz + ddz);
+      wp = sx;
+      local_03 = sy;
+      local_01 = sz;
+      if (Item.inFastArea(hover) == 0) {
+        push(hover);
+        Item.popToCoords(sz, sy, sx, hover);
+        counter = 1;
+        while (counter <= total) {
+          cargo = Item.getEtherealTop();
+          Item.popToCoords((Item.getZ(cargo) + ddz), (Item.getY(cargo) + ddy), (Item.getX(cargo) + ddx), cargo);
+          counter = (1 + counter);
+        }
+      }
+      else if (legalMoveToPoint(0, 1, wp, hover)) {
+        counter = 1;
+        while (counter <= total) {
+          cargo = Item.getEtherealTop();
+          Item.popToCoords((Item.getZ(cargo) + ddz), (Item.getY(cargo) + ddy), (Item.getX(cargo) + ddx), cargo);
+          counter = (1 + counter);
+        }
+      }
+      else {
+        counter = 1;
+        while (counter <= total) {
+          cargo = Item.getEtherealTop();
+          Item.popToCoords(Item.getZ(cargo), Item.getY(cargo), Item.getX(cargo), cargo);
+          counter = (1 + counter);
+        }
+        if (Item.getQHi(hover) & 16) {
+          Item.andStatus((~0x1000), hover);
+          process_result = 1;
+          return;
+        }
+        sx = (sx - ddx);
+        sy = (sy - ddy);
+        sz = (sz - ddz);
+        spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+        suspend;
+      }
+      spawn FREE.waitNTimerTicks(pid, 1, 0x00000000);
+      suspend;
+    }
+    return;
+  }
+  else if ((b > a) && (b > c)) {
+    l1 = b;
+    xfract = a;
+    xfract = (xfract * 0x0fa0);
+    xfract = (xfract / l1);
+    xacc = 0;
+    zfract = c;
+    zfract = (zfract * 0x0fa0);
+    zfract = (zfract / l1);
+    zacc = 0;
+    while (1) {
+      if ((Item.getStatus(hover) & 0x1000) == 0) {
+        process_result = 0;
+        return;
+      }
+      dx = (tx - sx);
+      dy = (ty - sy);
+      dz = (tz - sz);
+      ddx = 0;
+      ddy = 0;
+      ddz = 0;
+      if ((dy < 4) && (dy > -4)) {
+        process_result = 0;
+        return;
+      }
+      if (dx) {
+        xacc = (xacc + xfract);
+        if (xacc > 0x0fa0) {
+          xacc = (xacc - 0x0fa0);
+          ddx = 4;
+          if (dx < 0) {
+            ddx = -4;
+          }
+        }
+      }
+      ddy = 4;
+      if (dy < 0) {
+        ddy = -4;
+      }
+      if (dz) {
+        zacc = (zacc + zfract);
+        if (zacc > 0x0fa0) {
+          zacc = (zacc - 0x0fa0);
+          ddz = 4;
+          if (dz < 0) {
+            ddz = -4;
+          }
+        }
+      }
+      total = 0;
+      while (condition) {
+        if (Item.getShape(cargo) != NUMBERS) {
+          if (cargo < 0x00ff) {
+            n = cargo;
+            if (Actor.isDead(n)) {
+              suspend;
+            }
+            else {
+              total = (1 + total);
+              push(n);
+            }
+          }
+          else {
+            total = (1 + total);
+            push(cargo);
+          }
+        }
+      }
+      sx = (sx + ddx);
+      sy = (sy + ddy);
+      sz = (sz + ddz);
+      wp = sx;
+      local_03 = sy;
+      local_01 = sz;
+      if (Item.inFastArea(hover) == 0) {
+        push(hover);
+        Item.popToCoords(sz, sy, sx, hover);
+        counter = 1;
+        while (counter <= total) {
+          cargo = Item.getEtherealTop();
+          Item.popToCoords((Item.getZ(cargo) + ddz), (Item.getY(cargo) + ddy), (Item.getX(cargo) + ddx), cargo);
+          counter = (1 + counter);
+        }
+      }
+      else if (legalMoveToPoint(0, 1, wp, hover)) {
+        counter = 1;
+        while (counter <= total) {
+          cargo = Item.getEtherealTop();
+          Item.popToCoords((Item.getZ(cargo) + ddz), (Item.getY(cargo) + ddy), (Item.getX(cargo) + ddx), cargo);
+          counter = (1 + counter);
+        }
+      }
+      else {
+        counter = 1;
+        while (counter <= total) {
+          cargo = Item.getEtherealTop();
+          Item.popToCoords(Item.getZ(cargo), Item.getY(cargo), Item.getX(cargo), cargo);
+          counter = (1 + counter);
+        }
+        if (Item.getQHi(hover) & 16) {
+          Item.andStatus((~0x1000), hover);
+          process_result = 1;
+          return;
+        }
+        sx = (sx - ddx);
+        sy = (sy - ddy);
+        sz = (sz - ddz);
+        spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+        suspend;
+      }
+      spawn FREE.waitNTimerTicks(pid, 1, 0x00000000);
+      suspend;
+    }
+    return;
+  }
+  else {
+    l1 = c;
+    xfract = a;
+    xfract = (xfract * 0x0fa0);
+    xfract = (xfract / l1);
+    xacc = 0;
+    yfract = b;
+    yfract = (yfract * 0x0fa0);
+    yfract = (yfract / l1);
+    yacc = 0;
+    while (1) {
+      if ((Item.getStatus(hover) & 0x1000) == 0) {
+        process_result = 0;
+        return;
+      }
+      else {
+        dx = (tx - sx);
+        dy = (ty - sy);
+        dz = (tz - sz);
+        ddx = 0;
+        ddy = 0;
+        ddz = 0;
+        if ((dz < 4) && (dz > -4)) {
+          process_result = 0;
+          return;
+        }
+        else if (dx) {
+          xacc = (xacc + xfract);
+          if (xacc > 0x0fa0) {
+            xacc = (xacc - 0x0fa0);
+            ddx = 4;
+            if (dx < 0) {
+              ddx = -4;
+            }
+          }
+        }
+        if (dy) {
+          yacc = (yacc + yfract);
+          if (yacc > 0x0fa0) {
+            yacc = (yacc - 0x0fa0);
+            ddy = 4;
+            if (dy < 0) {
+              ddy = -4;
+            }
+          }
+        }
+        ddz = 4;
+        if (dz < 0) {
+          ddz = -4;
+        }
+        total = 0;
+        while (condition) {
+          if (Item.getShape(cargo) != NUMBERS) {
+            if (cargo < 0x00ff) {
+              n = cargo;
+              if (Actor.isDead(n)) {
+                suspend;
+              }
+              else {
+                total = (1 + total);
+                push(n);
+              }
+            }
+            else {
+              total = (1 + total);
+              push(cargo);
+            }
+          }
+        }
+        sx = (sx + ddx);
+        sy = (sy + ddy);
+        sz = (sz + ddz);
+        wp = sx;
+        local_03 = sy;
+        local_01 = sz;
+        if (Item.inFastArea(hover) == 0) {
+          push(hover);
+          Item.popToCoords(sz, sy, sx, hover);
+          counter = 1;
+          while (counter <= total) {
+            cargo = Item.getEtherealTop();
+            Item.popToCoords((Item.getZ(cargo) + ddz), (Item.getY(cargo) + ddy), (Item.getX(cargo) + ddx), cargo);
+            counter = (1 + counter);
+          }
+        }
+        else if (legalMoveToPoint(0, 1, wp, hover)) {
+          counter = 1;
+          while (counter <= total) {
+            cargo = Item.getEtherealTop();
+            Item.popToCoords((Item.getZ(cargo) + ddz), (Item.getY(cargo) + ddy), (Item.getX(cargo) + ddx), cargo);
+            counter = (1 + counter);
+          }
+        }
+        else {
+          counter = 1;
+          while (counter <= total) {
+            cargo = Item.getEtherealTop();
+            Item.popToCoords(Item.getZ(cargo), Item.getY(cargo), Item.getX(cargo), cargo);
+            counter = (1 + counter);
+          }
+          if (Item.getQHi(hover) & 16) {
+            Item.andStatus((~0x1000), hover);
+            process_result = 1;
+            return;
+          }
+          sx = (sx - ddx);
+          sy = (sy - ddy);
+          sz = (sz - ddz);
+          spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+          suspend;
+        }
+        spawn FREE.waitNTimerTicks(pid, 1, 0x00000000);
+        suspend;
+      }
+    }
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol ref [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol tx [BP+12h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol ty [BP+14h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol tz [BP+16h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol wp [BP-05h] type=0x24 unk1=0x00 unk3=0x05
+    debug_symbol total [BP-07h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol counter [BP-09h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol ddx [BP-11h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol ddy [BP-13h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol ddz [BP-15h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol dx [BP-17h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol dy [BP-19h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol dz [BP-21h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol cargo [BP-23h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol hover [BP-25h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol sx [BP-27h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol sy [BP-29h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol sz [BP-30h] type=0x62 unk1=0x00 unk3=0x00
+    debug_symbol a [BP-32h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol b [BP-34h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol c [BP-36h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol xacc [BP-40h] type=0x64 unk1=0x00 unk3=0x00
+    debug_symbol yacc [BP-44h] type=0x64 unk1=0x00 unk3=0x00
+    debug_symbol zacc [BP-48h] type=0x64 unk1=0x00 unk3=0x00
+    debug_symbol xfract [BP-52h] type=0x64 unk1=0x00 unk3=0x00
+    debug_symbol yfract [BP-56h] type=0x64 unk1=0x00 unk3=0x00
+    debug_symbol zfract [BP-60h] type=0x64 unk1=0x00 unk3=0x00
+    debug_symbol l1 [BP-64h] type=0x64 unk1=0x00 unk3=0x00
+    debug_symbol n [BP-66h] type=0x24 unk1=0x00 unk3=0x02
+  */
+}
+
+/* ===== slot 0x21 slot_21 ===== */
+function hover_slot_21() /* entry=2575 class_id=0x0a0d slot=0x21 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    h, /* [BP-02h] type=0x69 */
+    firstEgg, /* [BP-04h] type=0x69 */
+    targetEgg, /* [BP-06h] type=0x69 */
+    time, /* [BP-08h] type=0x69 */
+    oldqhi, /* [BP-10h] type=0x69 */
+    link, /* [BP-12h] type=0x69 */
+    tx, /* [BP-14h] type=0x69 */
+    ty, /* [BP-16h] type=0x69 */
+    tz, /* [BP-17h] type=0x62 */
+    hover, /* [BP-19h] type=0x24 */
+    item; /* [BP-21h] type=0x24 */
+
+  set_info(1, 0);
+  hover = ref;
+  Item.orStatus(0x1000, hover);
+  h = Item.getQHi(hover);
+  oldqhi = h;
+  firstEgg = (h & 15);
+  targetEgg = firstEgg;
+  while (1) {
+    if ((Item.getStatus(hover) & 0x1000) == 0) {
+      Item.setQHi(oldqhi, hover);
+      spawn HOVER.slot_23(pid, 1, ref, arg_06);
+      suspend;
+      return;
+    }
+    else {
+      link = Item.getQLo(hover);
+      tx = -1;
+      for item in nearby_items(shape=NUMBERS, origin=ref) {
+        if (Item.getFrame(item) == targetEgg) {
+          if ((link == 0) || (link == Item.getQLo(item))) {
+            tx = Item.getX(item);
+            ty = Item.getY(item);
+            tz = Item.getZ(item);
+            time = Item.getQHi(item);
+          }
+        }
+      }
+      if (tx == -1) {
+        if (targetEgg == firstEgg) {
+          Item.andStatus((~0x1000), hover);
+          Item.setQHi(oldqhi, hover);
+          return;
+        }
+        targetEgg = firstEgg;
+        h = (h & 0x00f0);
+        Item.setQHi((h | targetEgg), hover);
+      }
+      spawn HOVER.slot_20(pid, tz, ty, tx, ref, arg_06);
+      suspend;
+      if (process_result == 1) {
+        Item.setQHi(oldqhi, hover);
+        return;
+      }
+      else {
+        spawn HOVER.slot_24(pid, targetEgg, ref, arg_06);
+        suspend;
+        if ((Item.getStatus(hover) & 0x1000) == 0) {
+          Item.setQHi(oldqhi, hover);
+          spawn HOVER.slot_23(pid, 1, ref, arg_06);
+          suspend;
+          return;
+        }
+        else if (h & 0x0080) {
+          spawn TRIGGER.slot_20(pid, (0 + 0x0080), item, arg_06);
+          suspend;
+        }
+        if (time != 0) {
+          spawn FREE.waitNTimerTicks(pid, (time * 10), 0x00000000);
+          suspend;
+        }
+        h = Item.getQHi(hover);
+        if ((h & 15) == targetEgg) {
+          targetEgg = ((targetEgg + 1) & 15);
+        }
+        else {
+          firstEgg = (h & 15);
+          targetEgg = firstEgg;
+          oldqhi = h;
+        }
+        h = (h & 0x00f0);
+        Item.setQHi((h | targetEgg), hover);
+      }
+    }
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol ref [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol h [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol firstEgg [BP-04h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol targetEgg [BP-06h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol time [BP-08h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol oldqhi [BP-10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol link [BP-12h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol tx [BP-14h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol ty [BP-16h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol tz [BP-17h] type=0x62 unk1=0x00 unk3=0x00
+    debug_symbol hover [BP-19h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol item [BP-21h] type=0x24 unk1=0x00 unk3=0x02
+  */
+}
+
+/* ===== slot 0x22 slot_22 ===== */
+function hover_slot_22() /* entry=2575 class_id=0x0a0d slot=0x22 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    var, /* [BP+10h] type=0x69 */
+    a; /* [BP-02h] type=0x69 */
+
+  set_info(0x021b, *(arg_06));
+  if (var == 0x00ff) {
+    if ((Item.getStatus(arg_06) & 0x1000) == 0) {
+      spawn HOVER.slot_21(*(arg_06), arg_06);
+    }
+    return;
+  }
+  else if (var == 0x00fe) {
+    Item.andStatus((~0x1000), arg_06);
+    return;
+  }
+  else if (var == 0x00fd) {
+    Item.andStatus((~0x1000), arg_06);
+    spawn FREE.waitNTimerTicks(pid, 20, 0x00000000);
+    suspend;
+    a = Item.getQHi(arg_06);
+    Item.setQHi((a | 16), arg_06);
+    Item.orStatus(0x1000, arg_06);
+    spawn HOVER.slot_20(pid, 0, Item.getY(arg_06), Item.getX(arg_06), *(arg_06), arg_06);
+    suspend;
+    Item.setQHi(a, arg_06);
+    Item.andStatus((~0x1000), arg_06);
+    return;
+  }
+  else if (var == 0x00fc) {
+    Item.andStatus((~0x1000), arg_06);
+    spawn FREE.waitNTimerTicks(pid, 20, 0x00000000);
+    suspend;
+    spawn HOVER.slot_23(pid, 0, *(arg_06), arg_06);
+    suspend;
+    return;
+  }
+  else {
+    Item.setQHi(var, arg_06);
+    if ((Item.getStatus(arg_06) & 0x1000) == 0) {
+      spawn HOVER.slot_21(pid, *(arg_06), arg_06);
+      suspend;
+    }
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol var [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol a [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x23 slot_23 ===== */
+function hover_slot_23() /* entry=2575 class_id=0x0a0d slot=0x23 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    check, /* [BP+12h] type=0x62 */
+    cargo, /* [BP-02h] type=0x24 */
+    item, /* [BP-04h] type=0x24 */
+    hover, /* [BP-06h] type=0x24 */
+    dx, /* [BP-08h] type=0x69 */
+    dy, /* [BP-10h] type=0x69 */
+    dz, /* [BP-12h] type=0x69 */
+    firstEgg, /* [BP-14h] type=0x69 */
+    link, /* [BP-16h] type=0x69 */
+    x, /* [BP-18h] type=0x69 */
+    y, /* [BP-20h] type=0x69 */
+    z; /* [BP-21h] type=0x62 */
+
+  set_info(1, 0);
+  hover = ref;
+  if ((check == 1) && (Item.inFastArea(hover) == 1)) {
+    return;
+  }
+  else {
+    firstEgg = (Item.getQHi(hover) & 15);
+    link = Item.getQLo(hover);
+    for item in nearby_items(shape=NUMBERS, origin=ref) {
+      if (Item.getFrame(item) == firstEgg) {
+        if ((link == 0) || (link == Item.getQLo(item))) {
+          x = Item.getX(item);
+          y = Item.getY(item);
+          z = Item.getZ(item);
+          dx = (x - Item.getX(hover));
+          dy = (y - Item.getY(hover));
+          dz = (z - Item.getZ(hover));
+          while (condition) {
+            if (Item.getShape(cargo) != NUMBERS) {
+              push(cargo);
+              Item.popToCoords((Item.getZ(cargo) + dz), (Item.getY(cargo) + dy), (Item.getX(cargo) + dx), cargo);
+            }
+          }
+          push(hover);
+          Item.popToCoords(z, y, x, hover);
+          return;
+        }
+      }
+    }
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol ref [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol check [BP+12h] type=0x62 unk1=0x00 unk3=0x00
+    debug_symbol cargo [BP-02h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol item [BP-04h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol hover [BP-06h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol dx [BP-08h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol dy [BP-10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol dz [BP-12h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol firstEgg [BP-14h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol link [BP-16h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol x [BP-18h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol y [BP-20h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol z [BP-21h] type=0x62 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x24 slot_24 ===== */
+function hover_slot_24() /* entry=2575 class_id=0x0a0d slot=0x24 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    egg, /* [BP+12h] type=0x69 */
+    cargo, /* [BP-02h] type=0x24 */
+    item, /* [BP-04h] type=0x24 */
+    hover, /* [BP-06h] type=0x24 */
+    dx, /* [BP-08h] type=0x69 */
+    dy, /* [BP-10h] type=0x69 */
+    dz, /* [BP-12h] type=0x69 */
+    firstEgg, /* [BP-14h] type=0x69 */
+    link, /* [BP-16h] type=0x69 */
+    x, /* [BP-18h] type=0x69 */
+    y, /* [BP-20h] type=0x69 */
+    z; /* [BP-21h] type=0x62 */
+
+  set_info(1, 0);
+  hover = ref;
+  link = Item.getQLo(hover);
+  for item in nearby_items(shape=NUMBERS, origin=ref) {
+    if (Item.getFrame(item) == egg) {
+      if ((link == 0) || (link == Item.getQLo(item))) {
+        x = Item.getX(item);
+        y = Item.getY(item);
+        z = Item.getZ(item);
+        dx = (x - Item.getX(hover));
+        dy = (y - Item.getY(hover));
+        dz = (z - Item.getZ(hover));
+        while (condition) {
+          if (Item.getShape(cargo) != NUMBERS) {
+            push(cargo);
+            Item.popToCoords((Item.getZ(cargo) + dz), (Item.getY(cargo) + dy), (Item.getX(cargo) + dx), cargo);
+          }
+        }
+        push(hover);
+        Item.popToCoords(z, y, x, hover);
+        return;
+      }
+    }
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol ref [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol egg [BP+12h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol cargo [BP-02h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol item [BP-04h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol hover [BP-06h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol dx [BP-08h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol dy [BP-10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol dz [BP-12h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol firstEgg [BP-14h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol link [BP-16h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol x [BP-18h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol y [BP-20h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol z [BP-21h] type=0x62 unk1=0x00 unk3=0x00
+  */
+}

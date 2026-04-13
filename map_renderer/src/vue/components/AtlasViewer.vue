@@ -140,6 +140,18 @@
           </div>
           <dl class="tooltip-grid" v-html="tooltip.metadataRowsHtml"></dl>
           <dl class="tooltip-grid">
+            <dt>3D Surface</dt>
+            <dd class="tooltip-grid-control">
+              <label class="tooltip-field tooltip-grid-field">
+                <span class="tooltip-grid-field-label">3D surface type</span>
+                <select v-model="form.surfaceType" class="tooltip-field-input" name="surfaceType">
+                  <option value="">Auto</option>
+                  <option value="floor">Floor</option>
+                  <option value="wall">Wall</option>
+                  <option value="object">Object</option>
+                </select>
+              </label>
+            </dd>
             <dt>Roof</dt>
             <dd class="tooltip-grid-control">
               <label class="tooltip-field tooltip-grid-field">
@@ -244,6 +256,18 @@
           <div class="atlas-modal-secondary">
             <dl class="tooltip-grid" v-html="buildTooltipMetadata(modalRecord)"></dl>
             <dl class="tooltip-grid">
+              <dt>3D Surface</dt>
+              <dd class="tooltip-grid-control">
+                <label class="tooltip-field tooltip-grid-field">
+                  <span class="tooltip-grid-field-label">3D surface type</span>
+                  <select v-model="form.surfaceType" class="tooltip-field-input" name="surfaceType">
+                    <option value="">Auto</option>
+                    <option value="floor">Floor</option>
+                    <option value="wall">Wall</option>
+                    <option value="object">Object</option>
+                  </select>
+                </label>
+              </dd>
               <dt>Roof</dt>
               <dd class="tooltip-grid-control">
                 <label class="tooltip-field tooltip-grid-field">
@@ -398,6 +422,7 @@ const tooltip = reactive({
 const form = reactive({
   humanReadableId: "",
   description: "",
+  surfaceType: "",
   roof: "",
   semitransparency: "",
   oob: ""
@@ -771,6 +796,7 @@ function syncFormFromFocusedRecord() {
   const definition = activeRecord.value?.definition ?? null;
   form.humanReadableId = String(definition?.catalogEntry?.humanReadableId ?? "");
   form.description = String(definition?.catalogEntry?.description ?? "");
+  form.surfaceType = String(definition?.catalogEntry?.surfaceType ?? "");
   form.roof = encodeCatalogBoolean(definition?.catalogEntry?.roof ?? null);
   form.semitransparency = encodeCatalogBoolean(definition?.catalogEntry?.semitransparency ?? null);
   form.oob = encodeCatalogBoolean(definition?.catalogEntry?.oob ?? null);
@@ -1283,6 +1309,7 @@ async function handleSaveCatalog() {
       body: JSON.stringify({
         humanReadableId: String(form.humanReadableId ?? "").trim(),
         description: String(form.description ?? "").trim(),
+        surfaceType: String(form.surfaceType ?? "").trim().toLowerCase(),
         roof: decodeCatalogBoolean(form.roof),
         semitransparency: decodeCatalogBoolean(form.semitransparency),
         oob: decodeCatalogBoolean(form.oob)
@@ -1292,6 +1319,7 @@ async function handleSaveCatalog() {
     const nextCatalogEntry = {
       humanReadableId: String(result?.entry?.humanReadableId ?? ""),
       description: String(result?.entry?.description ?? ""),
+      surfaceType: String(result?.entry?.surfaceType ?? ""),
       roof: result?.entry?.roof ?? null,
       semitransparency: result?.entry?.semitransparency ?? null,
       oob: result?.entry?.oob ?? null

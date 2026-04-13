@@ -1,0 +1,89 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[04:cachein] pop_global global[0x001f]
+[04:cachein] ret
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[07:hatch] spawn FREE.slot_26 ; free_stack_string value_u8=0x0, target=[SP+00h] ; implies arg0=0x1, arg1=0x1 ; ...
+[07:hatch] pop_global global[0x0035]
+[07:hatch] call_intrinsic Item.destroy(arg_bytes=0x4) ; jmp 0x00be ; call_intrinsic CameraProcess.setCenterOn(arg_bytes=0x4) ; ...
+//
+//
+//
+//
+//
+[07:hatch] jne 0x00bb
+[07:hatch] spawn FREE.slot_26 ; free_stack_string value_u8=0x0, target=[SP+00h] ; implies arg0=0x1, arg1=0x1 ; ...
+[07:hatch] call_intrinsic Item.destroy(arg_bytes=0x4) ; jmp 0x00be
+//
+//
+//
+[07:hatch] ret
+
+/* synthesized appendix for MISS11 */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x04 cachein ===== */
+function miss11_cachein() /* entry=2329 class_id=0x0917 slot=0x04 */
+{
+  var
+    referent; /* [BP+00h] type=0x69 */
+
+  set_info(0x0213, *(arg_06));
+  process_exclude();
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+  */
+}
+
+/* ===== slot 0x07 hatch ===== */
+function miss11_hatch() /* entry=2329 class_id=0x0917 slot=0x07 */
+{
+  var
+    referent; /* [BP+00h] type=0x69 */
+
+  set_info(0x0210, *(arg_06));
+  process_exclude();
+  if (CameraProcess.setCenterOn(arg_06) == 1) {
+    spawn FREE.slot_26(pid, "11f", 0x00000000);
+    suspend;
+    Item.destroy(arg_06);
+    return;
+  }
+  else if (CameraProcess.setCenterOn(arg_06) == 2) {
+    if (global[0x002a]) {
+      spawn FREE.slot_26(pid, "11g", 0x00000000);
+      suspend;
+      Item.destroy(arg_06);
+    }
+    return;
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+  */
+}

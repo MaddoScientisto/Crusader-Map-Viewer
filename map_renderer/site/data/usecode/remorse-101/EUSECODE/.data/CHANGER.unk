@@ -1,0 +1,20 @@
+/* synthesized appendix for CHANGER */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x07 hatch ===== */
+function changer_hatch() /* entry=2310 class_id=0x0904 slot=0x07 */
+{
+  set_info(0x0210, *(arg_06));
+  process_exclude();
+  local_04 = Item.getQLo(arg_06);
+  local_08 = Item.fallProbably_03E(arg_06);
+  if (local_08) {
+    while (condition) {
+      local_06 = Item.getQLo(local_02);
+      if (local_06 == local_08) {
+        Item.destroy(local_02);
+      }
+    }
+  }
+  return;
+}

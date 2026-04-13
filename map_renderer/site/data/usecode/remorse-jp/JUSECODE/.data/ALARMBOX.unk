@@ -1,0 +1,264 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[0F:enterFastArea] call_intrinsic World.getAlertActive(arg_bytes=0x0) ; jne 0x0063 ; call_intrinsic Item.getFrame(arg_bytes=0x4) ; ...
+//
+//
+//
+//
+//
+[0F:enterFastArea] call_intrinsic Item.setFrame(arg_bytes=0x6) ; jmp 0x0060 ; call_intrinsic Item.getFrame(arg_bytes=0x4) ; ...
+//
+//
+//
+//
+[0F:enterFastArea] call_intrinsic Item.setFrame(arg_bytes=0x6) ; jmp 0x0060 ; jmp 0x00a1 ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[0F:enterFastArea] call_intrinsic Item.setFrame(arg_bytes=0x6) ; jmp 0x00a1 ; call_intrinsic Item.getFrame(arg_bytes=0x4) ; ...
+//
+//
+//
+[0F:enterFastArea] call_intrinsic Item.setFrame(arg_bytes=0x6) ; jmp 0x00a1 ; ...
+//
+//
+//
+[0F:enterFastArea] ret
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[01:use] call_intrinsic World.getAlertActive(arg_bytes=0x0) ; jne 0x00aa ; call_intrinsic Item.getFrame(arg_bytes=0x4) ; ...
+//
+//
+//
+//
+//
+//
+[01:use] call_intrinsic Item.setFrame(arg_bytes=0x6) ; jmp 0x0060 ; call_intrinsic Item.getFrame(arg_bytes=0x4) ; ...
+//
+//
+//
+[01:use] call_intrinsic Item.setFrame(arg_bytes=0x6) ; jmp 0x0060 ; ...
+//
+//
+//
+//
+[01:use] spawn FREE.slot_3c ; pop_temp ; ...
+//
+[01:use] call_intrinsic Item.getMapArray(arg_bytes=0x4) ; ne ; jne 0x00aa ; ...
+//
+[01:use] spawn TRIGGER.slot_20 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[01:use] ret
+//
+//
+//
+//
+//
+//
+[0A:equip] jne 0x00e2
+[0A:equip] call_intrinsic World.getAlertActive(arg_bytes=0x0) ; not ; jne 0x007d ; ...
+[0A:equip]
+//
+//
+//
+//
+[0A:equip] call_intrinsic Item.setFrame(arg_bytes=0x6) ; jmp 0x006c ; call_intrinsic Item.getFrame(arg_bytes=0x4) ; ...
+//
+//
+//
+//
+[0A:equip] call_intrinsic Item.setFrame(arg_bytes=0x6) ; jmp 0x006c ; ...
+//
+//
+//
+//
+//
+[0A:equip] spawn FREE.slot_3b ; pop_temp ; ...
+//
+//
+//
+[0A:equip] call_intrinsic Item.getStatus(arg_bytes=0x4) ; pop_local_word a ; ...
+[0A:equip] bit_and ; cmp ; jne 0x00df ; ...
+//
+[0A:equip] call_intrinsic Item.getMapArray(arg_bytes=0x4) ; ne ; jne 0x00df ; ...
+//
+[0A:equip] spawn TRIGGER.slot_20 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[0A:equip] call_intrinsic Item.orStatus(arg_bytes=0x6) ; jmp 0x0175 ; ...
+//
+//
+//
+//
+//
+//
+//
+[0A:equip] call_intrinsic World.getAlertActive(arg_bytes=0x0) ; jne 0x0175 ; call_intrinsic Item.getFrame(arg_bytes=0x4) ; ...
+//
+//
+//
+//
+//
+//
+[0A:equip] call_intrinsic Item.setFrame(arg_bytes=0x6) ; jmp 0x012b ; call_intrinsic Item.getFrame(arg_bytes=0x4) ; ...
+//
+//
+//
+[0A:equip] call_intrinsic Item.setFrame(arg_bytes=0x6) ; jmp 0x012b ; ...
+//
+//
+//
+[0A:equip] spawn FREE.slot_3c ; pop_temp ; ...
+//
+[0A:equip] call_intrinsic Item.getMapArray(arg_bytes=0x4) ; ne ; jne 0x0175 ; ...
+//
+[0A:equip] spawn TRIGGER.slot_20 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+[0A:equip] ret
+
+/* synthesized appendix for ALARMBOX */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x01 use ===== */
+function alarmbox_use() /* entry=1145 class_id=0x0477 slot=0x01 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    item; /* [BP-02h] type=0x24 */
+
+  set_info(0x0207, *(arg_06));
+  process_exclude();
+  if (World.getAlertActive()) {
+    if (Item.getFrame(arg_06) == 2) {
+      Item.setFrame(0, arg_06);
+    }
+    else if (Item.getFrame(arg_06) == 3) {
+      Item.setFrame(1, arg_06);
+    }
+    spawn FREE.slot_3c(0x00000000);
+    if (Item.getMapArray(arg_06) != 0) {
+      spawn TRIGGER.slot_20(pid, 1, *(arg_06), arg_06);
+      suspend;
+    }
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol item [BP-02h] type=0x24 unk1=0x00 unk3=0x02
+  */
+}
+
+/* ===== slot 0x0a equip ===== */
+function alarmbox_equip() /* entry=1145 class_id=0x0477 slot=0x0a */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    var, /* [BP+10h] type=0x69 */
+    a; /* [BP-02h] type=0x69 */
+
+  set_info(0x0211, *(arg_06));
+  process_exclude();
+  if (var) {
+    if (!World.getAlertActive()) {
+      if (Item.getFrame(arg_06) == 0) {
+        Item.setFrame(2, arg_06);
+      }
+      else if (Item.getFrame(arg_06) == 1) {
+        Item.setFrame(3, arg_06);
+      }
+      spawn FREE.slot_3b(0x00000000);
+    }
+    a = Item.getStatus(arg_06);
+    if ((a & 4) == 0) {
+      if (Item.getMapArray(arg_06) != 0) {
+        spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
+        suspend;
+        Item.orStatus(4, arg_06);
+      }
+    }
+    return;
+  }
+  else if (World.getAlertActive()) {
+    if (Item.getFrame(arg_06) == 2) {
+      Item.setFrame(0, arg_06);
+    }
+    else if (Item.getFrame(arg_06) == 3) {
+      Item.setFrame(1, arg_06);
+    }
+    spawn FREE.slot_3c(0x00000000);
+    if (Item.getMapArray(arg_06) != 0) {
+      spawn TRIGGER.slot_20(pid, 1, *(arg_06), arg_06);
+      suspend;
+    }
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol var [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol a [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x0f enterFastArea ===== */
+function alarmbox_enterFastArea() /* entry=1145 class_id=0x0477 slot=0x0f */
+{
+  var
+    referent; /* [BP+00h] type=0x69 */
+
+  set_info(0x021b, *(arg_06));
+  process_exclude();
+  if (World.getAlertActive()) {
+    if (Item.getFrame(arg_06) == 0) {
+      Item.setFrame(2, arg_06);
+    }
+    else if (Item.getFrame(arg_06) == 1) {
+      Item.setFrame(3, arg_06);
+    }
+    return;
+  }
+  else if (Item.getFrame(arg_06) == 2) {
+    Item.setFrame(0, arg_06);
+    return;
+  }
+  else if (Item.getFrame(arg_06) == 3) {
+    Item.setFrame(1, arg_06);
+    return;
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+  */
+}

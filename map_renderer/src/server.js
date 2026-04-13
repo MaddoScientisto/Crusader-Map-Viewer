@@ -6,7 +6,97 @@ import { APP_ROOT, NPC_SPAWNER_CACHE_FILE, PORT, PUBLIC_ROOT } from "./config.js
 import { writeNpcSpawnerData } from "./generate-npc-spawner-data.js";
 import { BuildManager } from "./lib/build-manager.js";
 import usecodeDecompiler from "./lib/usecode-decompiler.js";
-import { detectCatalog, getGameConfig, getShapeCatalogFile, updateShapeCatalogEntry } from "./lib/catalog.js";
+import { detectCatalog, getGameConfig, getShapeCatalog, getShapeCatalogFile, updateShapeCatalogEntry } from "./lib/catalog.js";
+
+function mergeLiveCatalogIntoReferenceData(referenceData) {
+  const catalogInfo = getShapeCatalog(referenceData.referenceId);
+  if (!catalogInfo.entries.size || !Array.isArray(referenceData.shapeDefinitions)) {
+    return referenceData;
+  }
+
+  return {
+    ...referenceData,
+    shapeDefinitions: referenceData.shapeDefinitions.map((definition) => {
+      if (!definition || !Number.isInteger(definition.shape)) {
+        return definition;
+      }
+      const catalogEntry = catalogInfo.entries.get(definition.shape);
+      if (!catalogEntry) {
+        return definition;
+      }
+      return {
+        ...definition,
+        displayName: catalogEntry.humanReadableId || definition.tableFallback?.humanReadableId || definition.displayName,
+        description: catalogEntry.description || definition.tableFallback?.description || definition.description,
+        catalogEntry: {
+          ...(definition.catalogEntry ?? {}),
+          humanReadableId: catalogEntry.humanReadableId ?? "",
+          description: catalogEntry.description ?? "",
+          roof: catalogEntry.roof ?? null,
+          semitransparency: catalogEntry.semitransparency ?? null,
+          oob: catalogEntry.oob ?? null,
+          surfaceType: catalogEntry.surfaceType ?? ""
+        },
+        catalogOverrides: {
+          ...(definition.catalogOverrides ?? {}),
+          roof: catalogEntry.roof ?? null,
+          semitransparency: catalogEntry.semitransparency ?? null,
+          oob: catalogEntry.oob ?? null,
+          surfaceType: catalogEntry.surfaceType ?? ""
+        }
+      };
+    })
+  };
+}
+
+function mergeLiveCatalogIntoSceneData(sceneData, gameId) {
+  const catalogInfo = getShapeCatalog(gameId);
+  if (!catalogInfo.entries.size || !Array.isArray(sceneData?.shapeDefinitions)) {
+    return sceneData;
+  }
+
+  return {
+    ...sceneData,
+    shapeDefinitions: sceneData.shapeDefinitions.map((definition) => {
+      if (!definition || !Number.isInteger(definition.shape)) {
+        return definition;
+      }
+      const catalogEntry = catalogInfo.entries.get(definition.shape);
+      if (!catalogEntry) {
+        return definition;
+      }
+      return {
+        ...definition,
+        displayName: catalogEntry.humanReadableId || definition.tableFallback?.humanReadableId || definition.displayName,
+        description: catalogEntry.description || definition.tableFallback?.description || definition.description,
+        catalogEntry: {
+          ...(definition.catalogEntry ?? {}),
+          humanReadableId: catalogEntry.humanReadableId ?? "",
+          description: catalogEntry.description ?? "",
+          roof: catalogEntry.roof ?? null,
+          semitransparency: catalogEntry.semitransparency ?? null,
+          oob: catalogEntry.oob ?? null,
+          surfaceType: catalogEntry.surfaceType ?? ""
+        },
+        catalogOverrides: {
+          ...(definition.catalogOverrides ?? {}),
+          roof: catalogEntry.roof ?? null,
+          semitransparency: catalogEntry.semitransparency ?? null,
+          oob: catalogEntry.oob ?? null,
+          surfaceType: catalogEntry.surfaceType ?? ""
+        },
+        traits: {
+          ...(definition.traits ?? {}),
+          roof: catalogEntry.roof === true ? true : definition.traits?.roof ?? false,
+          oob: catalogEntry.oob === true ? true : definition.traits?.oob ?? false,
+          translucent: catalogEntry.semitransparency === true
+            ? true
+            : definition.traits?.translucent ?? false
+        }
+      };
+    })
+  };
+}
 
 const app = express();
 const catalog = detectCatalog();
@@ -96,7 +186,7 @@ app.get("/api/maps/:game/:mapId/scene", (request, response) => {
   try {
     const buildId = String(request.query.buildId ?? "");
     const mapId = Number.parseInt(request.params.mapId, 10);
-    const scene = builds.getSceneData(buildId, request.params.game, mapId);
+    const scene = mergeLiveCatalogIntoSceneData(builds.getSceneData(buildId, request.params.game, mapId), request.params.game);
     response.json(scene);
   } catch (error) {
     response.status(400).json({ error: error instanceof Error ? error.message : String(error) });
@@ -128,7 +218,7 @@ app.get("/api/maps/:game/:mapId/overlays", (request, response) => {
 app.get("/api/references/:game", (request, response) => {
   try {
     const referenceId = request.params.game;
-    const referenceData = builds.ensureReferenceData(referenceId);
+    const referenceData = mergeLiveCatalogIntoReferenceData(builds.ensureReferenceData(referenceId));
     response.json({
       referenceId: referenceData.referenceId,
       generatedAt: referenceData.generatedAt,
@@ -188,14 +278,14 @@ if (catalogEditingEnabled) {
         description: request.body?.description,
         roof: request.body?.roof,
         semitransparency: request.body?.semitransparency,
-        oob: request.body?.oob
+        oob: request.body?.oob,
+        surfaceType: request.body?.surfaceType
       });
-      const invalidation = builds.invalidateGameCache(gameConfig.id);
       response.json({
         ok: true,
         mode: "admin",
         entry: updated.entry,
-        invalidation
+        cachePreserved: true
       });
     } catch (error) {
       response.status(400).json({ error: error instanceof Error ? error.message : String(error) });

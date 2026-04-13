@@ -1,0 +1,3468 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[20:slot_20] set_info
+//
+[20:slot_20] call_intrinsic Item.getStatus(arg_bytes=0x4) ; bit_and ; jne 0x002f ; ...
+//
+[20:slot_20] jmp 0x013c
+//
+//
+[20:slot_20] spawn DOOR.slot_22 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[20:slot_20] push_word_immediate 0x00a9 ; push_word_immediate 0x00ab ; push_word_immediate 0x00ac
+[20:slot_20] push_word_immediate 0x00af ; push_word_immediate 0x00b2 ; push_word_immediate 0x00b3
+[20:slot_20] push_word_immediate 0x00b4 ; push_word_immediate 0x00b6 ; push_word_immediate 0x00b7
+[20:slot_20] create_list element_size=0x2, count=0xc ; free_local_list doorList ; pop_local_word doorList ; ...
+//
+[20:slot_20] call_class_event FREE.slot_3a ; free_stack_list value_u8=0x0, target=[SP+00h] ; pop_local_word maxFrame ; ...
+[20:slot_20] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+//
+[20:slot_20] pop_local_word counter ; add ; pop_local_word counter ; ...
+[20:slot_20] le ; jne 0x0132
+[20:slot_20] call_intrinsic Item.setShape(arg_bytes=0x6) ; ...
+[20:slot_20] call_intrinsic push(arg_bytes=0x4)
+[20:slot_20] call_intrinsic Item.getZ(arg_bytes=0x4) ; add ; call_intrinsic Item.getY(arg_bytes=0x4) ; ...
+[20:slot_20] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[20:slot_20] pop_result ; jmp 0x013c ; free_local_list doorList ; ...
+[20:slot_20] ret
+//
+//
+//
+//
+//
+[21:slot_21] set_info
+//
+[21:slot_21] call_intrinsic Item.getStatus(arg_bytes=0x4) ; bit_and ; jne 0x002f ; ...
+//
+[21:slot_21] jmp 0x01e9
+//
+//
+[21:slot_21] push_word_immediate 0x00a9 ; push_word_immediate 0x00ab ; push_word_immediate 0x00ac
+[21:slot_21] push_word_immediate 0x00af ; push_word_immediate 0x00b2 ; push_word_immediate 0x00b3
+[21:slot_21] push_word_immediate 0x00b4 ; push_word_immediate 0x00b6 ; push_word_immediate 0x00b7
+[21:slot_21] create_list element_size=0x2, count=0xc ; free_local_list doorList ; pop_local_word doorList ; ...
+//
+[21:slot_21] call_class_event FREE.slot_3a ; free_stack_list value_u8=0x0, target=[SP+00h] ; pop_local_word maxFrame ; ...
+[21:slot_21] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+//
+//
+[21:slot_21] sub ; pop_local_word counter ; ne ; ...
+[21:slot_21]
+//
+[21:slot_21] call_intrinsic Item.getZ(arg_bytes=0x4) ; sub ; call_intrinsic Item.getY(arg_bytes=0x4) ; ...
+//
+[21:slot_21] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+[21:slot_21] call_intrinsic Item.setQLo(arg_bytes=0x6)
+[21:slot_21] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+[21:slot_21] add ; pop_local_word counter ; ...
+[21:slot_21] add ; pop_local_word counter ; ...
+[21:slot_21] add ; lt ; jne 0x01c5 ; ...
+[21:slot_21]
+[21:slot_21] call_intrinsic push(arg_bytes=0x4)
+[21:slot_21] call_intrinsic Item.setShape(arg_bytes=0x6) ; ...
+[21:slot_21] call_intrinsic Item.getZ(arg_bytes=0x4) ; add ; call_intrinsic Item.getY(arg_bytes=0x4) ; ...
+[21:slot_21] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[21:slot_21] add ; pop_local_word counter ; ...
+[21:slot_21] pop_result ; jmp 0x01e9 ; jmp 0x0131 ; ...
+//
+//
+[21:slot_21] pop_result ; jmp 0x01e9
+//
+//
+//
+[21:slot_21] pop_result ; jmp 0x01e9 ; free_local_list doorList ; ...
+[21:slot_21] ret
+//
+//
+//
+//
+[22:slot_22] set_info
+//
+[22:slot_22] call_intrinsic Item.getStatus(arg_bytes=0x4) ; bit_and ; jne 0x002f ; ...
+//
+[22:slot_22] jmp 0x0135
+//
+//
+[22:slot_22] spawn DOOR.slot_22 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[22:slot_22] push_byte_immediate 70 ; push_byte_immediate 85 ; push_byte_immediate 88
+[22:slot_22] push_byte_immediate 101 ; push_byte_immediate 100 ; push_byte_immediate 99
+[22:slot_22] push_byte_immediate 89 ; push_word_immediate 0x0103 ; push_word_immediate 0x0104
+[22:slot_22] create_list element_size=0x2, count=0xc ; free_local_list doorList ; pop_local_word doorList ; ...
+//
+[22:slot_22] call_class_event FREE.slot_3a ; free_stack_list value_u8=0x0, target=[SP+00h] ; pop_local_word maxFrame ; ...
+[22:slot_22] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+//
+[22:slot_22] pop_local_word counter ; add ; pop_local_word counter ; ...
+[22:slot_22] le ; jne 0x012b
+[22:slot_22] call_intrinsic Item.setShape(arg_bytes=0x6) ; ...
+[22:slot_22] call_intrinsic push(arg_bytes=0x4)
+[22:slot_22] call_intrinsic Item.getZ(arg_bytes=0x4) ; add ; call_intrinsic Item.getY(arg_bytes=0x4) ; ...
+[22:slot_22] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[22:slot_22] pop_result ; jmp 0x0135 ; free_local_list doorList ; ...
+[22:slot_22] ret
+//
+//
+//
+//
+//
+[23:slot_23] set_info
+//
+[23:slot_23] call_intrinsic Item.getStatus(arg_bytes=0x4) ; bit_and ; jne 0x002f ; ...
+//
+[23:slot_23] jmp 0x01d8
+//
+//
+[23:slot_23] push_byte_immediate 70 ; push_byte_immediate 85 ; push_byte_immediate 88
+[23:slot_23] push_byte_immediate 101 ; push_byte_immediate 100 ; push_byte_immediate 99
+[23:slot_23] push_byte_immediate 89 ; push_word_immediate 0x0103 ; push_word_immediate 0x0104
+[23:slot_23] create_list element_size=0x2, count=0xc ; free_local_list doorList ; pop_local_word doorList ; ...
+//
+[23:slot_23] call_class_event FREE.slot_3a ; free_stack_list value_u8=0x0, target=[SP+00h] ; pop_local_word maxFrame ; ...
+[23:slot_23] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+//
+//
+[23:slot_23] sub ; pop_local_word counter ; ne ; ...
+[23:slot_23]
+//
+[23:slot_23] call_intrinsic Item.getZ(arg_bytes=0x4) ; sub ; call_intrinsic Item.getY(arg_bytes=0x4) ; ...
+//
+[23:slot_23] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+[23:slot_23] call_intrinsic Item.setQLo(arg_bytes=0x6)
+[23:slot_23] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+[23:slot_23] add ; pop_local_word counter ; ...
+[23:slot_23] add ; pop_local_word counter ; ...
+[23:slot_23] add ; lt ; jne 0x01b4 ; ...
+[23:slot_23]
+[23:slot_23] call_intrinsic push(arg_bytes=0x4)
+[23:slot_23] call_intrinsic Item.setShape(arg_bytes=0x6) ; ...
+[23:slot_23] call_intrinsic Item.getZ(arg_bytes=0x4) ; add ; call_intrinsic Item.getY(arg_bytes=0x4) ; ...
+[23:slot_23] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[23:slot_23] add ; pop_local_word counter ; jmp 0x012a ; ...
+//
+//
+[23:slot_23] pop_result ; jmp 0x01d8
+//
+//
+//
+[23:slot_23] pop_result ; jmp 0x01d8 ; free_local_list doorList ; ...
+[23:slot_23] ret
+//
+//
+//
+[24:slot_24] spawn DOOR.slot_22 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[24:slot_24] pop_local_word maxFrame
+[24:slot_24] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+//
+[24:slot_24] pop_local_word counter ; add ; pop_local_word counter ; ...
+[24:slot_24] le ; jne 0x009b
+[24:slot_24] call_intrinsic Item.legal_create(arg_bytes=0x6)
+[24:slot_24] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[24:slot_24] call_intrinsic Item.legal_create(arg_bytes=0x6)
+[24:slot_24] call_intrinsic Item.setShape(arg_bytes=0x6)
+[24:slot_24] call_intrinsic push(arg_bytes=0x4)
+[24:slot_24] call_intrinsic Item.getZ(arg_bytes=0x4) ; mul ; add ; ...
+//
+[24:slot_24] pop_result ; jmp 0x00f7
+[24:slot_24] ret
+//
+//
+//
+//
+//
+//
+[25:slot_25] pop_local_word maxFrame
+//
+[25:slot_25] call_class_event FREE.slot_2d ; jne 0x008e ; ...
+[25:slot_25] call_intrinsic Item.getZ(arg_bytes=0x4) ; mul ; sub ; ...
+//
+[25:slot_25] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+[25:slot_25] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+[25:slot_25] pop_result ; jmp 0x0104
+//
+//
+[25:slot_25] sub ; pop_local_word counter ; gt ; ...
+[25:slot_25]
+[25:slot_25] call_intrinsic Item.legal_create(arg_bytes=0x6)
+[25:slot_25] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[25:slot_25] call_intrinsic Item.legal_create(arg_bytes=0x6)
+//
+[25:slot_25] pop_result ; jmp 0x0104
+[25:slot_25] ret
+//
+//
+//
+//
+[26:slot_26] spawn DOOR.slot_22 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[26:slot_26] pop_local_word maxFrame
+[26:slot_26] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+//
+[26:slot_26] pop_local_word counter ; add ; pop_local_word counter ; ...
+[26:slot_26] le ; jne 0x009b
+[26:slot_26] call_intrinsic Item.legal_create(arg_bytes=0x6)
+[26:slot_26] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+[26:slot_26] call_intrinsic Item.legal_create(arg_bytes=0x6)
+[26:slot_26] call_intrinsic Item.setShape(arg_bytes=0x6)
+[26:slot_26] call_intrinsic push(arg_bytes=0x4)
+[26:slot_26] call_intrinsic Item.getZ(arg_bytes=0x4) ; mul ; add ; ...
+//
+[26:slot_26] pop_result ; jmp 0x00f7
+[26:slot_26] ret
+//
+//
+//
+//
+//
+//
+[27:slot_27] pop_local_word maxFrame
+//
+[27:slot_27] call_class_event FREE.slot_2d ; jne 0x008e ; ...
+[27:slot_27] call_intrinsic Item.getZ(arg_bytes=0x4) ; mul ; sub ; ...
+//
+[27:slot_27] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+[27:slot_27] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+[27:slot_27] pop_result ; jmp 0x0104
+//
+//
+[27:slot_27] sub ; pop_local_word counter ; gt ; ...
+[27:slot_27]
+[27:slot_27] call_intrinsic Item.legal_create(arg_bytes=0x6)
+[27:slot_27] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[27:slot_27] call_intrinsic Item.legal_create(arg_bytes=0x6)
+//
+[27:slot_27] pop_result ; jmp 0x0104
+[27:slot_27] ret
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[28:slot_28] set_info
+//
+[28:slot_28] call_intrinsic Item.getStatus(arg_bytes=0x4) ; bit_and ; jne 0x002f ; ...
+//
+[28:slot_28] jmp 0x012c
+//
+//
+[28:slot_28] spawn DOOR.slot_22 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[28:slot_28] push_byte_immediate 5 ; push_word_immediate 0x00be
+[28:slot_28] push_word_immediate 0x00bf ; push_word_immediate 0x00c0
+[28:slot_28] push_word_immediate 0x00c1 ; push_word_immediate 0x00ca
+[28:slot_28] create_list element_size=0x2, count=0x7 ; free_local_list doorList ; pop_local_word doorList ; ...
+//
+[28:slot_28] call_class_event FREE.slot_3a ; free_stack_list value_u8=0x0, target=[SP+00h] ; pop_local_word maxFrame ; ...
+[28:slot_28] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+//
+//
+[28:slot_28] pop_local_word counter ; add ; pop_local_word counter ; ...
+[28:slot_28] le ; jne 0x0122
+[28:slot_28] call_intrinsic Item.setShape(arg_bytes=0x6) ; ...
+[28:slot_28] call_intrinsic push(arg_bytes=0x4)
+[28:slot_28] call_intrinsic Item.getZ(arg_bytes=0x4) ; call_intrinsic Item.getY(arg_bytes=0x4) ; call_intrinsic Item.getX(arg_bytes=0x4) ; ...
+[28:slot_28] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[28:slot_28] pop_result ; jmp 0x012c ; free_local_list doorList ; ...
+[28:slot_28] ret
+//
+//
+//
+//
+[29:slot_29] set_info
+//
+[29:slot_29] call_intrinsic Item.getStatus(arg_bytes=0x4) ; bit_and ; jne 0x002f ; ...
+//
+[29:slot_29] jmp 0x01c2
+//
+//
+[29:slot_29] push_byte_immediate 5 ; push_word_immediate 0x00be
+[29:slot_29] push_word_immediate 0x00bf ; push_word_immediate 0x00c0
+[29:slot_29] push_word_immediate 0x00c1 ; push_word_immediate 0x00ca
+[29:slot_29] create_list element_size=0x2, count=0x7 ; free_local_list doorList ; pop_local_word doorList ; ...
+//
+[29:slot_29] call_class_event FREE.slot_3a ; free_stack_list value_u8=0x0, target=[SP+00h] ; pop_local_word maxFrame ; ...
+[29:slot_29] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+//
+//
+[29:slot_29] sub ; pop_local_word counter ; ne ; ...
+[29:slot_29]
+//
+[29:slot_29] call_intrinsic Item.getZ(arg_bytes=0x4) ; call_intrinsic Item.getY(arg_bytes=0x4) ; call_intrinsic Item.getX(arg_bytes=0x4) ; ...
+//
+[29:slot_29] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+[29:slot_29] call_intrinsic Item.setQLo(arg_bytes=0x6)
+[29:slot_29] add ; pop_local_word counter ; ...
+[29:slot_29] add ; pop_local_word counter ; ...
+[29:slot_29] add ; lt ; jne 0x019e ; ...
+[29:slot_29]
+[29:slot_29] call_intrinsic push(arg_bytes=0x4)
+[29:slot_29] call_intrinsic Item.setShape(arg_bytes=0x6) ; ...
+[29:slot_29] call_intrinsic Item.getZ(arg_bytes=0x4) ; call_intrinsic Item.getY(arg_bytes=0x4) ; call_intrinsic Item.getX(arg_bytes=0x4) ; ...
+[29:slot_29] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[29:slot_29] add ; pop_local_word counter ; jmp 0x0114 ; ...
+//
+//
+[29:slot_29] pop_result ; jmp 0x01c2
+//
+//
+[29:slot_29] pop_result ; jmp 0x01c2 ; free_local_list doorList ; ...
+[29:slot_29] ret
+//
+//
+//
+//
+[2A:slot_2a] set_info
+//
+[2A:slot_2a] call_intrinsic Item.getStatus(arg_bytes=0x4) ; bit_and ; jne 0x002f ; ...
+//
+[2A:slot_2a] jmp 0x0121
+//
+//
+[2A:slot_2a] spawn DOOR.slot_22 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[2A:slot_2a] push_byte_immediate 123 ; push_word_immediate 0x00c3
+[2A:slot_2a] push_word_immediate 0x00c4 ; push_word_immediate 0x00c5
+[2A:slot_2a] push_word_immediate 0x00c6 ; push_word_immediate 0x00c7
+[2A:slot_2a] create_list element_size=0x2, count=0x7 ; free_local_list doorList ; pop_local_word doorList ; ...
+//
+[2A:slot_2a] call_class_event FREE.slot_3a ; free_stack_list value_u8=0x0, target=[SP+00h] ; pop_local_word maxFrame ; ...
+[2A:slot_2a] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+//
+//
+[2A:slot_2a] pop_local_word counter ; add ; pop_local_word counter ; ...
+[2A:slot_2a] le ; jne 0x0117
+[2A:slot_2a] call_intrinsic Item.setShape(arg_bytes=0x6) ; ...
+[2A:slot_2a] call_intrinsic Item.getZ(arg_bytes=0x4) ; call_intrinsic Item.getY(arg_bytes=0x4) ; sub ; ...
+//
+//
+//
+//
+[2A:slot_2a] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[2A:slot_2a] pop_result ; jmp 0x0121 ; free_local_list doorList ; ...
+[2A:slot_2a] ret
+//
+//
+//
+//
+[2B:slot_2b] set_info
+//
+[2B:slot_2b] call_intrinsic Item.getStatus(arg_bytes=0x4) ; bit_and ; jne 0x002f ; ...
+//
+[2B:slot_2b] jmp 0x01c2
+//
+//
+[2B:slot_2b] push_byte_immediate 123 ; push_word_immediate 0x00c3
+[2B:slot_2b] push_word_immediate 0x00c4 ; push_word_immediate 0x00c5
+[2B:slot_2b] push_word_immediate 0x00c6 ; push_word_immediate 0x00c7
+[2B:slot_2b] create_list element_size=0x2, count=0x7 ; free_local_list doorList ; pop_local_word doorList ; ...
+//
+[2B:slot_2b] call_class_event FREE.slot_3a ; free_stack_list value_u8=0x0, target=[SP+00h] ; pop_local_word maxFrame ; ...
+[2B:slot_2b] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+//
+//
+[2B:slot_2b] sub ; pop_local_word counter ; ne ; ...
+[2B:slot_2b]
+//
+[2B:slot_2b] call_intrinsic Item.getZ(arg_bytes=0x4) ; call_intrinsic Item.getY(arg_bytes=0x4) ; add ; ...
+//
+[2B:slot_2b] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+[2B:slot_2b] call_intrinsic Item.setQLo(arg_bytes=0x6)
+[2B:slot_2b] add ; pop_local_word counter ; ...
+[2B:slot_2b] add ; pop_local_word counter ; ...
+[2B:slot_2b] add ; lt ; jne 0x019e ; ...
+[2B:slot_2b]
+[2B:slot_2b] call_intrinsic push(arg_bytes=0x4)
+[2B:slot_2b] call_intrinsic Item.setShape(arg_bytes=0x6) ; ...
+[2B:slot_2b] call_intrinsic Item.getZ(arg_bytes=0x4) ; call_intrinsic Item.getY(arg_bytes=0x4) ; sub ; ...
+[2B:slot_2b] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[2B:slot_2b] add ; pop_local_word counter ; jmp 0x0114 ; ...
+//
+//
+[2B:slot_2b] pop_result ; jmp 0x01c2
+//
+//
+[2B:slot_2b] pop_result ; jmp 0x01c2 ; free_local_list doorList ; ...
+[2B:slot_2b] ret
+//
+//
+//
+//
+//
+//
+//
+//
+[2C:slot_2c] call_intrinsic Item.getFrame(arg_bytes=0x4) ; gt ; jne 0x0035 ; ...
+[2C:slot_2c]
+[2C:slot_2c] pop_result ; jmp 0x00ea
+//
+//
+[2C:slot_2c] spawn DOOR.slot_22 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[2C:slot_2c] pop_local_word maxFrame
+[2C:slot_2c] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+//
+//
+[2C:slot_2c] pop_local_word counter ; add ; pop_local_word counter ; ...
+[2C:slot_2c] le ; jne 0x00ba
+[2C:slot_2c] call_intrinsic Item.legal_create(arg_bytes=0x6)
+[2C:slot_2c] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[2C:slot_2c] call_intrinsic Item.legal_create(arg_bytes=0x6)
+[2C:slot_2c] call_intrinsic Item.setShape(arg_bytes=0x6)
+[2C:slot_2c] call_intrinsic Item.touch(arg_bytes=0x4)
+//
+[2C:slot_2c] pop_result ; jmp 0x00ea
+[2C:slot_2c] ret
+//
+//
+//
+//
+//
+//
+[2D:slot_2d] pop_local_word maxFrame
+//
+//
+[2D:slot_2d] call_class_event FREE.slot_2d ; jne 0x0088 ; ...
+[2D:slot_2d] call_intrinsic Item.getZ(arg_bytes=0x4) ; call_intrinsic Item.getY(arg_bytes=0x4) ; call_intrinsic Item.getX(arg_bytes=0x4) ; ...
+//
+[2D:slot_2d] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+[2D:slot_2d] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+[2D:slot_2d] pop_result ; jmp 0x00f1
+//
+//
+[2D:slot_2d] sub ; pop_local_word counter ; ge ; ...
+[2D:slot_2d]
+[2D:slot_2d] call_intrinsic Item.legal_create(arg_bytes=0x6)
+[2D:slot_2d] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[2D:slot_2d] pop_result ; jmp 0x00f1
+[2D:slot_2d] ret
+//
+//
+//
+//
+//
+//
+//
+//
+[2E:slot_2e] spawn DOOR.slot_22 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[2E:slot_2e] pop_local_word maxFrame
+[2E:slot_2e] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+//
+//
+[2E:slot_2e] pop_local_word counter ; add ; pop_local_word counter ; ...
+[2E:slot_2e] le ; jne 0x009b
+[2E:slot_2e] call_intrinsic Item.legal_create(arg_bytes=0x6)
+[2E:slot_2e] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[2E:slot_2e] call_intrinsic Item.setShape(arg_bytes=0x6)
+[2E:slot_2e] call_intrinsic Item.legal_create(arg_bytes=0x6)
+//
+[2E:slot_2e] pop_result ; jmp 0x00c0
+[2E:slot_2e] ret
+//
+//
+//
+//
+[2F:slot_2f] pop_local_word maxFrame
+//
+//
+[2F:slot_2f] call_class_event FREE.slot_2d ; jne 0x0088 ; ...
+[2F:slot_2f] call_intrinsic Item.getZ(arg_bytes=0x4) ; call_intrinsic Item.getY(arg_bytes=0x4) ; call_intrinsic Item.getX(arg_bytes=0x4) ; ...
+//
+[2F:slot_2f] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+[2F:slot_2f] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+[2F:slot_2f] pop_result ; jmp 0x00f1
+//
+//
+[2F:slot_2f] sub ; pop_local_word counter ; ge ; ...
+[2F:slot_2f]
+[2F:slot_2f] call_intrinsic Item.legal_create(arg_bytes=0x6)
+[2F:slot_2f] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[2F:slot_2f] pop_result ; jmp 0x00f1
+[2F:slot_2f] ret
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[30:slot_30] spawn DOOR.slot_22 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[30:slot_30] push_word_immediate 0x0193 ; push_word_immediate 0x0192
+[30:slot_30] push_word_immediate 0x0191 ; push_word_immediate 0x0190
+[30:slot_30] create_list element_size=0x2, count=0x5 ; free_local_list doorList ; pop_local_word doorList ; ...
+[30:slot_30] push_word_immediate 0x018d ; push_word_immediate 0x018c
+[30:slot_30] push_word_immediate 0x018b ; push_word_immediate 0x018a
+[30:slot_30] create_list element_size=0x2, count=0x5 ; free_local_list doorList2 ; pop_local_word doorList2 ; ...
+//
+//
+//
+[30:slot_30] call_class_event FREE.slot_3a ; free_stack_list value_u8=0x0, target=[SP+00h] ; pop_local_word maxFrame ; ...
+[30:slot_30] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6) ; loopscr value_u8=0x24 ; loopscr value_u8=0x3d ; ...
+//
+[30:slot_30] loopscr value_u8=0x25 ; mul ; ...
+[30:slot_30] loop current_var=0xf4, string_bytes=0x6, loop_type=0x2 ; jne 0x00c4 ; ...
+[30:slot_30] pop_local_word door1 ; loopnext ; jmp 0x00b6 ; ...
+//
+//
+[30:slot_30] loopscr value_u8=0x25 ; mul ; ...
+[30:slot_30] loop current_var=0xf4, string_bytes=0x6, loop_type=0x2 ; jne 0x00f2 ; ...
+[30:slot_30] pop_local_word door2 ; loopnext ; jmp 0x00e4 ; ...
+//
+//
+[30:slot_30] pop_local_word counter ; add ; pop_local_word counter ; ...
+[30:slot_30] le ; jne 0x01b7
+//
+[30:slot_30] jne 0x0136
+[30:slot_30] call_intrinsic push(arg_bytes=0x4)
+[30:slot_30] call_intrinsic Item.setShape(arg_bytes=0x6) ; ...
+[30:slot_30] call_intrinsic Actor.isBusy(arg_bytes=0x4)
+//
+//
+//
+[30:slot_30] jne 0x0184
+[30:slot_30] call_intrinsic push(arg_bytes=0x4)
+[30:slot_30] call_intrinsic Item.setShape(arg_bytes=0x6) ; ...
+[30:slot_30] call_intrinsic Item.getZ(arg_bytes=0x4) ; call_intrinsic Item.getY(arg_bytes=0x4) ; call_intrinsic Item.getX(arg_bytes=0x4) ; ...
+//
+[30:slot_30] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[30:slot_30] pop_result ; jmp 0x01c1 ; free_local_list doorList ; ...
+[30:slot_30] ret
+//
+//
+//
+//
+[31:slot_31] push_word_immediate 0x0193 ; push_word_immediate 0x0192
+[31:slot_31] push_word_immediate 0x0191 ; push_word_immediate 0x0190
+[31:slot_31] create_list element_size=0x2, count=0x5 ; free_local_list doorList ; pop_local_word doorList ; ...
+[31:slot_31] push_word_immediate 0x018d ; push_word_immediate 0x018c
+[31:slot_31] push_word_immediate 0x018b ; push_word_immediate 0x018a
+[31:slot_31] create_list element_size=0x2, count=0x5 ; free_local_list doorList2 ; pop_local_word doorList2 ; ...
+//
+//
+//
+//
+[31:slot_31] call_class_event FREE.slot_3a ; free_stack_list value_u8=0x0, target=[SP+00h] ; pop_local_word maxFrame ; ...
+//
+[31:slot_31] loopscr value_u8=0x25 ; mul ; ...
+[31:slot_31] loop current_var=0xf2, string_bytes=0x6, loop_type=0x2 ; jne 0x0098 ; ...
+[31:slot_31] pop_local_word door1 ; loopnext ; jmp 0x008a ; ...
+//
+//
+[31:slot_31] loopscr value_u8=0x25 ; mul ; ...
+[31:slot_31] loop current_var=0xf2, string_bytes=0x6, loop_type=0x2 ; jne 0x00c6 ; ...
+[31:slot_31] pop_local_word door2 ; loopnext ; jmp 0x00b8 ; ...
+//
+//
+[31:slot_31] push_local_word door1
+[31:slot_31] and ; jne 0x036c
+[31:slot_31] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+[31:slot_31] pop_local_word counter ; sub ; le ; ...
+[31:slot_31]
+//
+[31:slot_31] call_intrinsic Item.getZ(arg_bytes=0x4) ; call_intrinsic Item.getY(arg_bytes=0x4) ; call_intrinsic Item.getX(arg_bytes=0x4) ; ...
+[31:slot_31]
+[31:slot_31] pop_local_byte nonLegalDoor1
+//
+[31:slot_31] call_intrinsic Item.getZ(arg_bytes=0x4) ; call_intrinsic Item.getY(arg_bytes=0x4) ; call_intrinsic Item.getX(arg_bytes=0x4) ; ...
+[31:slot_31]
+[31:slot_31] pop_local_byte nonLegalDoor2
+//
+//
+[31:slot_31] not ; not ; and ; ...
+[31:slot_31]
+[31:slot_31] call_intrinsic Item.touch(arg_bytes=0x4)
+[31:slot_31] call_intrinsic Item.touch(arg_bytes=0x4)
+[31:slot_31] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+[31:slot_31] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[31:slot_31] jne 0x024e
+[31:slot_31] call_intrinsic push(arg_bytes=0x4)
+[31:slot_31] sub ; add ; call_intrinsic Item.setShape(arg_bytes=0x6) ; ...
+[31:slot_31] call_intrinsic Item.getZ(arg_bytes=0x4) ; call_intrinsic Item.getY(arg_bytes=0x4) ; call_intrinsic Item.getX(arg_bytes=0x4) ; ...
+//
+//
+[31:slot_31] jne 0x026e
+[31:slot_31] sub ; add ; call_intrinsic Item.setShape(arg_bytes=0x6) ; ...
+//
+//
+[31:slot_31] sub ; add ; pop_local_word counter2 ; ...
+[31:slot_31] le ; jne 0x0355
+[31:slot_31] call_intrinsic Item.setShape(arg_bytes=0x6) ; ...
+[31:slot_31] call_intrinsic Item.touch(arg_bytes=0x4)
+//
+[31:slot_31] call_intrinsic push(arg_bytes=0x4)
+[31:slot_31] call_intrinsic Item.setShape(arg_bytes=0x6) ; ...
+//
+//
+[31:slot_31] not ; jne 0x02f9
+[31:slot_31] call_intrinsic Item.getZ(arg_bytes=0x4) ; call_intrinsic Item.getY(arg_bytes=0x4) ; call_intrinsic Item.getX(arg_bytes=0x4) ; ...
+[31:slot_31] pop_local_byte bool ; jmp 0x0322
+//
+//
+//
+[31:slot_31] call_intrinsic Item.getZ(arg_bytes=0x4) ; call_intrinsic Item.getY(arg_bytes=0x4) ; call_intrinsic Item.getX(arg_bytes=0x4) ; ...
+//
+[31:slot_31] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[31:slot_31] pop_result ; jmp 0x0376
+//
+//
+//
+//
+[31:slot_31] pop_result ; jmp 0x0376 ; free_local_list doorList ; ...
+[31:slot_31] ret
+//
+//
+//
+//
+//
+//
+[32:slot_32] spawn DOOR.slot_22 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[32:slot_32] push_word_immediate 0x01c7 ; push_word_immediate 0x0288
+[32:slot_32] push_word_immediate 0x028c ; push_word_immediate 0x0287
+[32:slot_32] create_list element_size=0x2, count=0x5 ; free_local_list doorList ; pop_local_word doorList ; ...
+[32:slot_32] push_word_immediate 0x01c6 ; push_word_immediate 0x028a
+[32:slot_32] push_word_immediate 0x028b ; push_word_immediate 0x028d
+[32:slot_32] create_list element_size=0x2, count=0x5 ; free_local_list doorList2 ; pop_local_word doorList2 ; ...
+//
+//
+//
+[32:slot_32] call_class_event FREE.slot_3a ; free_stack_list value_u8=0x0, target=[SP+00h] ; pop_local_word maxFrame ; ...
+[32:slot_32] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6) ; loopscr value_u8=0x24 ; loopscr value_u8=0x3d ; ...
+//
+[32:slot_32] loopscr value_u8=0x25 ; mul ; ...
+[32:slot_32] loop current_var=0xf4, string_bytes=0x6, loop_type=0x2 ; jne 0x00c4 ; ...
+[32:slot_32] pop_local_word door1 ; loopnext ; jmp 0x00b6 ; ...
+//
+//
+[32:slot_32] loopscr value_u8=0x25 ; mul ; ...
+[32:slot_32] loop current_var=0xf4, string_bytes=0x6, loop_type=0x2 ; jne 0x00f2 ; ...
+[32:slot_32] pop_local_word door2 ; loopnext ; jmp 0x00e4 ; ...
+//
+//
+[32:slot_32] pop_local_word counter ; add ; pop_local_word counter ; ...
+[32:slot_32] le ; jne 0x01b7
+//
+[32:slot_32] jne 0x0154
+[32:slot_32] call_intrinsic push(arg_bytes=0x4)
+[32:slot_32] call_intrinsic Item.setShape(arg_bytes=0x6) ; ...
+[32:slot_32] call_intrinsic Item.getZ(arg_bytes=0x4) ; call_intrinsic Item.getY(arg_bytes=0x4) ; sub ; ...
+//
+//
+//
+[32:slot_32] jne 0x0184
+[32:slot_32] call_intrinsic push(arg_bytes=0x4)
+[32:slot_32] call_intrinsic Item.setShape(arg_bytes=0x6) ; ...
+[32:slot_32] call_intrinsic Actor.isBusy(arg_bytes=0x4)
+//
+[32:slot_32] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[32:slot_32] pop_result ; jmp 0x01c1 ; free_local_list doorList ; ...
+[32:slot_32] ret
+//
+//
+//
+//
+[33:slot_33] push_word_immediate 0x01c7 ; push_word_immediate 0x0288
+[33:slot_33] push_word_immediate 0x028c ; push_word_immediate 0x0287
+[33:slot_33] create_list element_size=0x2, count=0x5 ; free_local_list doorList ; pop_local_word doorList ; ...
+[33:slot_33] push_word_immediate 0x01c6 ; push_word_immediate 0x028a
+[33:slot_33] push_word_immediate 0x028b ; push_word_immediate 0x028d
+[33:slot_33] create_list element_size=0x2, count=0x5 ; free_local_list doorList2 ; pop_local_word doorList2 ; ...
+//
+//
+//
+//
+[33:slot_33] call_class_event FREE.slot_3a ; free_stack_list value_u8=0x0, target=[SP+00h] ; pop_local_word maxFrame ; ...
+//
+[33:slot_33] loopscr value_u8=0x25 ; mul ; ...
+[33:slot_33] loop current_var=0xf2, string_bytes=0x6, loop_type=0x2 ; jne 0x0098 ; ...
+[33:slot_33] pop_local_word door1 ; loopnext ; jmp 0x008a ; ...
+//
+//
+[33:slot_33] loopscr value_u8=0x25 ; mul ; ...
+[33:slot_33] loop current_var=0xf2, string_bytes=0x6, loop_type=0x2 ; jne 0x00c6 ; ...
+[33:slot_33] pop_local_word door2 ; loopnext ; jmp 0x00b8 ; ...
+//
+//
+[33:slot_33] push_local_word door1
+[33:slot_33] and ; jne 0x039d
+[33:slot_33] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+//
+[33:slot_33] pop_local_word counter ; sub ; le ; ...
+[33:slot_33]
+//
+[33:slot_33] call_intrinsic Item.getZ(arg_bytes=0x4) ; call_intrinsic Item.getY(arg_bytes=0x4) ; call_intrinsic Item.getX(arg_bytes=0x4) ; ...
+[33:slot_33]
+[33:slot_33] pop_local_byte nonLegalDoor1
+//
+[33:slot_33] call_intrinsic Item.getZ(arg_bytes=0x4) ; call_intrinsic Item.getY(arg_bytes=0x4) ; add ; ...
+[33:slot_33]
+[33:slot_33] pop_local_byte nonLegalDoor2
+//
+//
+[33:slot_33] not ; not ; and ; ...
+[33:slot_33]
+[33:slot_33] call_intrinsic Item.touch(arg_bytes=0x4)
+[33:slot_33] call_intrinsic Item.touch(arg_bytes=0x4)
+[33:slot_33] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+[33:slot_33] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[33:slot_33] jne 0x027f
+[33:slot_33] call_intrinsic push(arg_bytes=0x4)
+[33:slot_33] sub ; add ; call_intrinsic Item.setShape(arg_bytes=0x6) ; ...
+[33:slot_33] call_intrinsic Item.getZ(arg_bytes=0x4) ; call_intrinsic Item.getY(arg_bytes=0x4) ; call_intrinsic Item.getX(arg_bytes=0x4) ; ...
+[33:slot_33] call_intrinsic push(arg_bytes=0x4)
+[33:slot_33] call_intrinsic Item.getZ(arg_bytes=0x4) ; call_intrinsic Item.getY(arg_bytes=0x4) ; sub ; ...
+//
+//
+[33:slot_33] jne 0x029f
+[33:slot_33] sub ; add ; call_intrinsic Item.setShape(arg_bytes=0x6) ; ...
+//
+//
+[33:slot_33] sub ; add ; pop_local_word counter2 ; ...
+[33:slot_33] le ; jne 0x0386
+[33:slot_33] call_intrinsic Item.setShape(arg_bytes=0x6) ; ...
+[33:slot_33] call_intrinsic Item.touch(arg_bytes=0x4)
+//
+[33:slot_33] call_intrinsic push(arg_bytes=0x4)
+[33:slot_33] call_intrinsic Item.setShape(arg_bytes=0x6) ; ...
+//
+//
+[33:slot_33] not ; jne 0x032a
+[33:slot_33] call_intrinsic Item.getZ(arg_bytes=0x4) ; call_intrinsic Item.getY(arg_bytes=0x4) ; call_intrinsic Item.getX(arg_bytes=0x4) ; ...
+[33:slot_33] pop_local_byte bool ; jmp 0x0353
+//
+//
+//
+[33:slot_33] call_intrinsic Item.getZ(arg_bytes=0x4) ; call_intrinsic Item.getY(arg_bytes=0x4) ; sub ; ...
+//
+[33:slot_33] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[33:slot_33] pop_result ; jmp 0x03a7
+//
+//
+//
+//
+[33:slot_33] pop_result ; jmp 0x03a7 ; free_local_list doorList ; ...
+[33:slot_33] ret
+//
+//
+//
+//
+//
+//
+//
+//
+[34:slot_34] spawn DOOR.slot_22 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[34:slot_34] set_info
+//
+[34:slot_34] pop_local_word maxFrame
+//
+//
+[34:slot_34] pop_local_word counter ; add ; pop_local_word counter ; ...
+[34:slot_34] le ; jne 0x0096
+[34:slot_34] call_intrinsic Item.legal_create(arg_bytes=0x6)
+[34:slot_34] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[34:slot_34] call_intrinsic Item.legal_create(arg_bytes=0x6)
+[34:slot_34] call_intrinsic Item.setShape(arg_bytes=0x6)
+//
+[34:slot_34] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+//
+//
+[34:slot_34] call_intrinsic Item.setNpcNum(arg_bytes=0x4) ; pop_local_word link ; ...
+//
+[34:slot_34] call_intrinsic Item.getZ(arg_bytes=0x4) ; call_intrinsic Item.getY(arg_bytes=0x4) ; sub ; ...
+//
+[34:slot_34] call_intrinsic Item.fallProbably_03E(arg_bytes=0x6)
+//
+//
+[34:slot_34] call_intrinsic Item.getZ(arg_bytes=0x4) ; add ; call_intrinsic Item.getY(arg_bytes=0x4) ; ...
+//
+[34:slot_34] call_intrinsic Item.fallProbably_03E(arg_bytes=0x6)
+//
+//
+[34:slot_34] pop_result ; jmp 0x015b
+[34:slot_34] ret
+//
+//
+//
+[35:slot_35] set_info
+//
+//
+[35:slot_35] pop_local_word maxFrame
+[35:slot_35] pop_local_word prisDoor
+[35:slot_35] call_intrinsic Item.getX(arg_bytes=0x4) ; pop_local_word cox ; ...
+[35:slot_35] call_intrinsic Item.getY(arg_bytes=0x4) ; pop_local_word coy ; ...
+[35:slot_35] call_intrinsic Item.getZ(arg_bytes=0x4) ; pop_local_word coz ; loopscr value_u8=0x24 ; ...
+//
+//
+//
+[35:slot_35] loopscr value_u8=0x25
+[35:slot_35] loop current_var=0xfe, string_bytes=0x6, loop_type=0x6 ; jne 0x00fa ; ...
+[35:slot_35] call_intrinsic Item.getFrame(arg_bytes=0x4) ; cmp ; jne 0x00c1 ; ...
+//
+[35:slot_35] call_intrinsic Item.getX(arg_bytes=0x4) ; pop_local_word x1 ; ...
+[35:slot_35] call_intrinsic Item.getY(arg_bytes=0x4) ; pop_local_word y1 ; ...
+[35:slot_35] call_intrinsic Item.getZ(arg_bytes=0x4) ; pop_local_word z1 ; ...
+[35:slot_35] call_intrinsic Item.destroy(arg_bytes=0x4) ; jmp 0x00f6
+//
+//
+//
+[35:slot_35] call_intrinsic Item.getX(arg_bytes=0x4) ; pop_local_word x2 ; ...
+[35:slot_35] call_intrinsic Item.getY(arg_bytes=0x4) ; pop_local_word y2 ; ...
+[35:slot_35] call_intrinsic Item.getZ(arg_bytes=0x4) ; pop_local_word z2 ; ...
+[35:slot_35] call_intrinsic Item.destroy(arg_bytes=0x4) ; loopnext ; jmp 0x0074 ; ...
+//
+//
+//
+[35:slot_35] call_intrinsic Item.setNpcNum(arg_bytes=0x4) ; pop_local_word link ; ...
+[35:slot_35] call_intrinsic Item.destroy(arg_bytes=0x4)
+//
+[35:slot_35] sub ; call_intrinsic Item.legal_create(arg_bytes=0xe) ; cmp ; ...
+//
+[35:slot_35] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+[35:slot_35] call_intrinsic Item.fallProbably_03E(arg_bytes=0x6)
+//
+[35:slot_35] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[35:slot_35] pop_local_word counter ; add ; pop_local_word counter ; ...
+[35:slot_35] le ; jne 0x01ca
+[35:slot_35] sub ; call_intrinsic Item.legal_create(arg_bytes=0x6) ; ...
+[35:slot_35] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[35:slot_35] pop_result ; jmp 0x0244 ; jmp 0x0244 ; ...
+//
+//
+//
+[35:slot_35] call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[35:slot_35] call_intrinsic Item.popToCoords(arg_bytes=0xa) ; ...
+[35:slot_35] call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[35:slot_35] call_intrinsic Item.popToCoords(arg_bytes=0xa) ; ...
+[35:slot_35] call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[35:slot_35] call_intrinsic Item.popToCoords(arg_bytes=0xa) ; ...
+[35:slot_35] pop_result ; jmp 0x0244
+//
+//
+[35:slot_35] ret
+//
+//
+//
+//
+//
+//
+//
+//
+[36:slot_36] spawn DOOR.slot_22 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[36:slot_36] set_info
+//
+[36:slot_36] pop_local_word maxFrame
+//
+[36:slot_36] pop_local_word counter ; add ; pop_local_word counter ; ...
+[36:slot_36] le ; jne 0x0096
+[36:slot_36] call_intrinsic Item.legal_create(arg_bytes=0x6)
+[36:slot_36] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[36:slot_36] call_intrinsic Item.legal_create(arg_bytes=0x6)
+[36:slot_36] call_intrinsic Item.setShape(arg_bytes=0x6)
+//
+[36:slot_36] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+//
+//
+[36:slot_36] call_intrinsic Item.setNpcNum(arg_bytes=0x4) ; pop_local_word link ; ...
+//
+[36:slot_36] call_intrinsic Item.getZ(arg_bytes=0x4) ; call_intrinsic Item.getY(arg_bytes=0x4) ; call_intrinsic Item.getX(arg_bytes=0x4) ; ...
+//
+[36:slot_36] call_intrinsic Item.fallProbably_03E(arg_bytes=0x6)
+//
+[36:slot_36] call_intrinsic Item.getZ(arg_bytes=0x4) ; add ; call_intrinsic Item.getY(arg_bytes=0x4) ; ...
+//
+[36:slot_36] call_intrinsic Item.fallProbably_03E(arg_bytes=0x6)
+//
+//
+[36:slot_36] pop_result ; jmp 0x015b
+[36:slot_36] ret
+//
+//
+//
+//
+//
+[37:slot_37] set_info
+//
+//
+[37:slot_37] pop_local_word maxFrame
+[37:slot_37] pop_local_word prisDoor
+[37:slot_37] call_intrinsic Item.getX(arg_bytes=0x4) ; pop_local_word cox ; ...
+[37:slot_37] call_intrinsic Item.getY(arg_bytes=0x4) ; pop_local_word coy ; ...
+[37:slot_37] call_intrinsic Item.getZ(arg_bytes=0x4) ; pop_local_word coz ; loopscr value_u8=0x24 ; ...
+//
+//
+//
+[37:slot_37] loopscr value_u8=0x25
+[37:slot_37] loop current_var=0xfe, string_bytes=0x6, loop_type=0x6 ; jne 0x00fa ; ...
+[37:slot_37] call_intrinsic Item.getFrame(arg_bytes=0x4) ; cmp ; jne 0x00c1 ; ...
+//
+[37:slot_37] call_intrinsic Item.getX(arg_bytes=0x4) ; pop_local_word x1 ; ...
+[37:slot_37] call_intrinsic Item.getY(arg_bytes=0x4) ; pop_local_word y1 ; ...
+[37:slot_37] call_intrinsic Item.getZ(arg_bytes=0x4) ; pop_local_word z1 ; ...
+[37:slot_37] call_intrinsic Item.destroy(arg_bytes=0x4) ; jmp 0x00f6
+//
+//
+//
+[37:slot_37] call_intrinsic Item.getX(arg_bytes=0x4) ; pop_local_word x2 ; ...
+[37:slot_37] call_intrinsic Item.getY(arg_bytes=0x4) ; pop_local_word y2 ; ...
+[37:slot_37] call_intrinsic Item.getZ(arg_bytes=0x4) ; pop_local_word z2 ; ...
+[37:slot_37] call_intrinsic Item.destroy(arg_bytes=0x4) ; loopnext ; jmp 0x0074 ; ...
+//
+//
+//
+[37:slot_37] call_intrinsic Item.setNpcNum(arg_bytes=0x4) ; pop_local_word link ; ...
+[37:slot_37] call_intrinsic Item.destroy(arg_bytes=0x4)
+//
+[37:slot_37] sub ; call_intrinsic Item.legal_create(arg_bytes=0xe) ; cmp ; ...
+//
+[37:slot_37] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+[37:slot_37] call_intrinsic Item.fallProbably_03E(arg_bytes=0x6)
+//
+[37:slot_37] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[37:slot_37] pop_local_word counter ; add ; pop_local_word counter ; ...
+[37:slot_37] le ; jne 0x01ca
+[37:slot_37] sub ; call_intrinsic Item.legal_create(arg_bytes=0x6) ; ...
+[37:slot_37] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[37:slot_37] pop_result ; jmp 0x0244 ; jmp 0x0244 ; ...
+//
+//
+//
+[37:slot_37] call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[37:slot_37] call_intrinsic Item.popToCoords(arg_bytes=0xa) ; ...
+[37:slot_37] call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[37:slot_37] call_intrinsic Item.popToCoords(arg_bytes=0xa) ; ...
+[37:slot_37] call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[37:slot_37] call_intrinsic Item.popToCoords(arg_bytes=0xa) ; ...
+[37:slot_37] pop_result ; jmp 0x0244
+//
+//
+[37:slot_37] ret
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[38:slot_38] spawn DOOR.slot_22 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[38:slot_38] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+//
+[38:slot_38] pop_local_word counter ; le ; jne 0x0091 ; ...
+//
+[38:slot_38] call_intrinsic Item.legal_create(arg_bytes=0x6)
+[38:slot_38] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[38:slot_38] call_intrinsic push(arg_bytes=0x4)
+[38:slot_38] call_intrinsic Item.legal_create(arg_bytes=0x6)
+[38:slot_38] call_intrinsic Item.setShape(arg_bytes=0x6)
+[38:slot_38] call_intrinsic Item.getZ(arg_bytes=0x4) ; call_intrinsic Item.getY(arg_bytes=0x4) ; call_intrinsic Item.getX(arg_bytes=0x4) ; ...
+//
+[38:slot_38] pop_result ; jmp 0x00eb
+[38:slot_38] ret
+//
+//
+//
+//
+//
+//
+[39:slot_39] call_intrinsic Item.getZ(arg_bytes=0x4) ; call_intrinsic Item.getY(arg_bytes=0x4) ; call_intrinsic Item.getX(arg_bytes=0x4) ; ...
+//
+[39:slot_39] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+[39:slot_39] pop_local_word counter ; le ; jne 0x00ab ; ...
+//
+[39:slot_39] sub ; call_intrinsic Item.legal_create(arg_bytes=0x6) ; ...
+[39:slot_39] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[39:slot_39] pop_result ; jmp 0x00c2 ; jmp 0x00c2 ; ...
+//
+//
+//
+[39:slot_39] pop_result ; jmp 0x00c2
+//
+[39:slot_39] ret
+//
+//
+//
+[3A:slot_3a] spawn DOOR.slot_22 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[3A:slot_3a] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+//
+[3A:slot_3a] pop_local_word counter ; le ; jne 0x0091 ; ...
+//
+[3A:slot_3a] call_intrinsic Item.legal_create(arg_bytes=0x6)
+[3A:slot_3a] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[3A:slot_3a] call_intrinsic Item.legal_create(arg_bytes=0x6)
+[3A:slot_3a] call_intrinsic Item.setShape(arg_bytes=0x6)
+[3A:slot_3a] call_intrinsic Item.touch(arg_bytes=0x4)
+//
+[3A:slot_3a] pop_result ; jmp 0x00c1
+[3A:slot_3a] ret
+//
+//
+//
+//
+//
+[3B:slot_3b] call_intrinsic Item.getZ(arg_bytes=0x4) ; call_intrinsic Item.getY(arg_bytes=0x4) ; call_intrinsic Item.getX(arg_bytes=0x4) ; ...
+//
+[3B:slot_3b] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+[3B:slot_3b] pop_local_word counter ; le ; jne 0x00a7 ; ...
+//
+[3B:slot_3b] sub ; call_intrinsic Item.legal_create(arg_bytes=0x6) ; ...
+[3B:slot_3b] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[3B:slot_3b] pop_result ; jmp 0x00be ; jmp 0x00be ; ...
+//
+//
+//
+[3B:slot_3b] pop_result ; jmp 0x00be
+//
+[3B:slot_3b] ret
+//
+//
+//
+//
+//
+[3C:slot_3c] call_intrinsic Item.getStatus(arg_bytes=0x4) ; bit_and ; not ; ...
+//
+[3C:slot_3c] jmp 0x018b
+//
+//
+[3C:slot_3c] call_class_event ITEM.slot_23
+//
+[3C:slot_3c] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+//
+//
+[3C:slot_3c] call_intrinsic Item.getFrame(arg_bytes=0x4) ; cmp ; jne 0x00de ; ...
+[3C:slot_3c]
+[3C:slot_3c] pop_local_word counter ; le ; jne 0x00b0 ; ...
+//
+[3C:slot_3c] call_intrinsic Item.legal_create(arg_bytes=0x6)
+[3C:slot_3c] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[3C:slot_3c] call_intrinsic push(arg_bytes=0x4)
+[3C:slot_3c] call_intrinsic Item.getY(arg_bytes=0x4) ; call_intrinsic Item.getX(arg_bytes=0x4) ; call_intrinsic Item.popToCoords(arg_bytes=0xa) ; ...
+//
+[3C:slot_3c] call_intrinsic Item.getFrame(arg_bytes=0x4) ; cmp ; jne 0x0172 ; ...
+[3C:slot_3c]
+[3C:slot_3c] call_intrinsic push(arg_bytes=0x4)
+[3C:slot_3c] call_intrinsic Item.getY(arg_bytes=0x4) ; call_intrinsic Item.getX(arg_bytes=0x4) ; call_intrinsic Item.popToCoords(arg_bytes=0xa) ; ...
+//
+[3C:slot_3c] pop_local_word counter ; le ; jne 0x016f ; ...
+//
+[3C:slot_3c] sub ; call_intrinsic Item.legal_create(arg_bytes=0x6) ; ...
+[3C:slot_3c] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+[3C:slot_3c] call_class_event ITEM.slot_24
+[3C:slot_3c] pop_result ; jmp 0x018b
+[3C:slot_3c] ret
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[3D:slot_3d] spawn DOOR.slot_22 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+[3D:slot_3d] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+//
+[3D:slot_3d] pop_local_word counter ; le ; jne 0x0091 ; ...
+//
+[3D:slot_3d] call_intrinsic Item.legal_create(arg_bytes=0x6)
+[3D:slot_3d] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[3D:slot_3d] call_intrinsic Item.legal_create(arg_bytes=0x6)
+//
+//
+[3D:slot_3d] call_intrinsic Item.getShape(arg_bytes=0x4)
+[3D:slot_3d] cmp ; jne 0x00c8
+[3D:slot_3d] call_intrinsic Item.setShape(arg_bytes=0x6) ; jmp 0x0110 ; ...
+//
+//
+//
+//
+//
+[3D:slot_3d] call_intrinsic Item.setShape(arg_bytes=0x6)
+//
+[3D:slot_3d] call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[3D:slot_3d] call_intrinsic Item.getZ(arg_bytes=0x4) ; call_intrinsic Item.getY(arg_bytes=0x4) ; sub ; ...
+//
+//
+[3D:slot_3d] call_intrinsic Item.touch(arg_bytes=0x4)
+//
+[3D:slot_3d] pop_result ; jmp 0x0125
+[3D:slot_3d] ret
+//
+//
+//
+//
+//
+//
+//
+[3E:slot_3e] call_intrinsic Item.getShape(arg_bytes=0x4)
+[3E:slot_3e] cmp ; jne 0x0072
+[3E:slot_3e] call_intrinsic Item.getZ(arg_bytes=0x4) ; call_intrinsic Item.getY(arg_bytes=0x4) ; call_intrinsic Item.getX(arg_bytes=0x4) ; ...
+[3E:slot_3e]
+[3E:slot_3e] pop_result ; jmp 0x0186 ; jmp 0x011d ; ...
+//
+//
+//
+//
+//
+//
+[3E:slot_3e] loopscr value_u8=0x25 ; mul ; ...
+[3E:slot_3e] loop current_var=0xfc, string_bytes=0x6, loop_type=0x2 ; jne 0x00a2 ; ...
+[3E:slot_3e] call_intrinsic Item.destroy(arg_bytes=0x4) ; loopnext ; jmp 0x0090 ; ...
+//
+[3E:slot_3e] call_intrinsic Item.getZ(arg_bytes=0x4) ; call_intrinsic Item.getY(arg_bytes=0x4) ; call_intrinsic Item.getX(arg_bytes=0x4) ; ...
+[3E:slot_3e]
+[3E:slot_3e] call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[3E:slot_3e] call_intrinsic Item.getZ(arg_bytes=0x4) ; call_intrinsic Item.getY(arg_bytes=0x4) ; sub ; ...
+//
+[3E:slot_3e] pop_result ; jmp 0x0186
+//
+//
+//
+[3E:slot_3e] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+[3E:slot_3e] pop_local_word counter ; le ; jne 0x017c ; ...
+//
+[3E:slot_3e] sub ; call_intrinsic Item.legal_create(arg_bytes=0x6) ; ...
+[3E:slot_3e] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[3E:slot_3e] pop_result ; jmp 0x0186
+[3E:slot_3e] ret
+//
+//
+//
+[3F:slot_3f] spawn DOOR.slot_22 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+[3F:slot_3f] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+//
+[3F:slot_3f] pop_local_word counter ; le ; jne 0x0091 ; ...
+//
+[3F:slot_3f] call_intrinsic Item.legal_create(arg_bytes=0x6)
+[3F:slot_3f] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[3F:slot_3f] call_intrinsic Item.legal_create(arg_bytes=0x6)
+//
+//
+[3F:slot_3f] call_intrinsic Item.getShape(arg_bytes=0x4)
+[3F:slot_3f] cmp ; jne 0x00c8
+[3F:slot_3f] call_intrinsic Item.setShape(arg_bytes=0x6) ; jmp 0x0110 ; ...
+//
+//
+//
+//
+//
+[3F:slot_3f] call_intrinsic Item.setShape(arg_bytes=0x6)
+//
+[3F:slot_3f] call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[3F:slot_3f] call_intrinsic Item.getZ(arg_bytes=0x4) ; call_intrinsic Item.getY(arg_bytes=0x4) ; call_intrinsic Item.getX(arg_bytes=0x4) ; ...
+//
+//
+[3F:slot_3f] call_intrinsic Item.touch(arg_bytes=0x4)
+//
+[3F:slot_3f] pop_result ; jmp 0x0125
+[3F:slot_3f] ret
+//
+//
+//
+//
+//
+//
+//
+[40:slot_40] call_intrinsic Item.getShape(arg_bytes=0x4)
+[40:slot_40] cmp ; jne 0x0072
+[40:slot_40] call_intrinsic Item.getZ(arg_bytes=0x4) ; call_intrinsic Item.getY(arg_bytes=0x4) ; call_intrinsic Item.getX(arg_bytes=0x4) ; ...
+[40:slot_40]
+[40:slot_40] pop_result ; jmp 0x0186 ; jmp 0x011d ; ...
+//
+//
+//
+//
+//
+//
+[40:slot_40] loopscr value_u8=0x25 ; mul ; ...
+[40:slot_40] loop current_var=0xfc, string_bytes=0x6, loop_type=0x2 ; jne 0x00a2 ; ...
+[40:slot_40] call_intrinsic Item.destroy(arg_bytes=0x4) ; loopnext ; jmp 0x0090 ; ...
+//
+[40:slot_40] call_intrinsic Item.getZ(arg_bytes=0x4) ; call_intrinsic Item.getY(arg_bytes=0x4) ; call_intrinsic Item.getX(arg_bytes=0x4) ; ...
+[40:slot_40]
+[40:slot_40] call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[40:slot_40] call_intrinsic Item.getZ(arg_bytes=0x4) ; call_intrinsic Item.getY(arg_bytes=0x4) ; call_intrinsic Item.getX(arg_bytes=0x4) ; ...
+//
+[40:slot_40] pop_result ; jmp 0x0186
+//
+//
+//
+[40:slot_40] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+[40:slot_40] pop_local_word counter ; le ; jne 0x017c ; ...
+//
+[40:slot_40] sub ; call_intrinsic Item.legal_create(arg_bytes=0x6) ; ...
+[40:slot_40] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[40:slot_40] pop_result ; jmp 0x0186
+[40:slot_40] ret
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[41:slot_41] spawn DOOR.slot_22 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+[41:slot_41] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+//
+[41:slot_41] pop_local_word counter ; le ; jne 0x0091 ; ...
+//
+[41:slot_41] call_intrinsic Item.legal_create(arg_bytes=0x6)
+[41:slot_41] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[41:slot_41] call_intrinsic push(arg_bytes=0x4)
+[41:slot_41] call_intrinsic Item.legal_create(arg_bytes=0x6)
+[41:slot_41] call_intrinsic Item.setShape(arg_bytes=0x6)
+[41:slot_41] call_intrinsic Actor.isBusy(arg_bytes=0x4)
+//
+[41:slot_41] pop_result ; jmp 0x00cc
+[41:slot_41] ret
+//
+//
+//
+//
+//
+//
+[42:slot_42] call_intrinsic Item.getZ(arg_bytes=0x4) ; call_intrinsic Item.getY(arg_bytes=0x4) ; call_intrinsic Item.getX(arg_bytes=0x4) ; ...
+[42:slot_42]
+[42:slot_42] pop_result ; jmp 0x00bf
+//
+//
+[42:slot_42] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+[42:slot_42] pop_local_word counter ; le ; jne 0x00b5 ; ...
+//
+[42:slot_42] sub ; call_intrinsic Item.legal_create(arg_bytes=0x6) ; ...
+[42:slot_42] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[42:slot_42] pop_result ; jmp 0x00bf
+[42:slot_42] ret
+//
+//
+//
+//
+[43:slot_43] spawn DOOR.slot_22 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+[43:slot_43] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+//
+[43:slot_43] pop_local_word counter ; le ; jne 0x0091 ; ...
+//
+[43:slot_43] call_intrinsic Item.legal_create(arg_bytes=0x6)
+[43:slot_43] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[43:slot_43] call_intrinsic push(arg_bytes=0x4)
+[43:slot_43] call_intrinsic Item.legal_create(arg_bytes=0x6)
+[43:slot_43] call_intrinsic Item.setShape(arg_bytes=0x6)
+[43:slot_43] call_intrinsic Actor.isBusy(arg_bytes=0x4)
+//
+[43:slot_43] pop_result ; jmp 0x00cc
+[43:slot_43] ret
+//
+//
+//
+//
+//
+//
+[44:slot_44] call_intrinsic Item.getZ(arg_bytes=0x4) ; call_intrinsic Item.getY(arg_bytes=0x4) ; call_intrinsic Item.getX(arg_bytes=0x4) ; ...
+[44:slot_44]
+[44:slot_44] pop_result ; jmp 0x00bf
+//
+//
+[44:slot_44] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+[44:slot_44] pop_local_word counter ; le ; jne 0x00b5 ; ...
+//
+[44:slot_44] sub ; call_intrinsic Item.legal_create(arg_bytes=0x6) ; ...
+[44:slot_44] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[44:slot_44] pop_result ; jmp 0x00bf
+[44:slot_44] ret
+//
+//
+//
+[45:slot_45] spawn DOOR.slot_22 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+[45:slot_45] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+//
+[45:slot_45] call_intrinsic Item.getFrame(arg_bytes=0x4) ; le ; jne 0x0061 ; ...
+[45:slot_45]
+[45:slot_45] pop_local_word newFrame ; jmp 0x0068
+//
+//
+//
+[45:slot_45] pop_local_word newFrame
+//
+//
+[45:slot_45] pop_local_word counter ; le ; jne 0x00bd ; ...
+//
+[45:slot_45] mul ; add ; call_intrinsic Item.legal_create(arg_bytes=0x6) ; ...
+[45:slot_45] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[45:slot_45] call_intrinsic push(arg_bytes=0x4)
+[45:slot_45] call_intrinsic Item.legal_create(arg_bytes=0x6)
+[45:slot_45] call_intrinsic Item.setShape(arg_bytes=0x6)
+[45:slot_45] call_intrinsic Actor.isBusy(arg_bytes=0x4)
+//
+[45:slot_45] pop_result ; jmp 0x00f8
+[45:slot_45] ret
+//
+//
+//
+//
+//
+//
+[46:slot_46] call_intrinsic Item.getFrame(arg_bytes=0x4) ; not ; jne 0x0033 ; ...
+[46:slot_46]
+[46:slot_46] pop_local_word newFrame ; jmp 0x003a
+//
+//
+//
+[46:slot_46] pop_local_word newFrame
+//
+//
+[46:slot_46] call_intrinsic Item.getZ(arg_bytes=0x4) ; call_intrinsic Item.getY(arg_bytes=0x4) ; call_intrinsic Item.getX(arg_bytes=0x4) ; ...
+[46:slot_46]
+[46:slot_46] pop_result ; jmp 0x00e3
+//
+//
+[46:slot_46] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+//
+[46:slot_46] pop_local_word counter ; le ; jne 0x00d9 ; ...
+//
+[46:slot_46] sub ; call_intrinsic Item.legal_create(arg_bytes=0x6) ; ...
+[46:slot_46] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[46:slot_46] pop_result ; jmp 0x00e3
+[46:slot_46] ret
+//
+//
+//
+[47:slot_47] spawn DOOR.slot_22 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+[47:slot_47] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+//
+[47:slot_47] call_intrinsic Item.getFrame(arg_bytes=0x4) ; le ; jne 0x0061 ; ...
+[47:slot_47]
+[47:slot_47] pop_local_word newFrame ; jmp 0x0068
+//
+//
+//
+[47:slot_47] pop_local_word newFrame
+//
+//
+[47:slot_47] pop_local_word counter ; le ; jne 0x00bd ; ...
+//
+[47:slot_47] mul ; add ; call_intrinsic Item.legal_create(arg_bytes=0x6) ; ...
+[47:slot_47] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[47:slot_47] call_intrinsic push(arg_bytes=0x4)
+[47:slot_47] call_intrinsic Item.legal_create(arg_bytes=0x6)
+[47:slot_47] call_intrinsic Item.setShape(arg_bytes=0x6)
+[47:slot_47] call_intrinsic Actor.isBusy(arg_bytes=0x4)
+//
+[47:slot_47] pop_result ; jmp 0x00f8
+[47:slot_47] ret
+//
+//
+//
+//
+//
+//
+[48:slot_48] call_intrinsic Item.getFrame(arg_bytes=0x4) ; not ; jne 0x0033 ; ...
+[48:slot_48]
+[48:slot_48] pop_local_word newFrame ; jmp 0x003a
+//
+//
+//
+[48:slot_48] pop_local_word newFrame
+//
+//
+[48:slot_48] call_intrinsic Item.getZ(arg_bytes=0x4) ; call_intrinsic Item.getY(arg_bytes=0x4) ; call_intrinsic Item.getX(arg_bytes=0x4) ; ...
+[48:slot_48]
+[48:slot_48] pop_result ; jmp 0x00e3
+//
+//
+[48:slot_48] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+//
+[48:slot_48] pop_local_word counter ; le ; jne 0x00d9 ; ...
+//
+[48:slot_48] sub ; call_intrinsic Item.legal_create(arg_bytes=0x6) ; ...
+[48:slot_48] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[48:slot_48] pop_result ; jmp 0x00e3
+[48:slot_48] ret
+
+/* synthesized appendix for DOOR2 */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x20 slot_20 ===== */
+function door2_slot_20() /* entry=2569 class_id=0x0a07 slot=0x20 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    doorList, /* [BP-02h] type=0x6c */
+    counter, /* [BP-04h] type=0x69 */
+    maxFrame; /* [BP-06h] type=0x69 */
+
+  set_info(0x021b, 0);
+  if (Item.getStatus(arg_06) & 4) {
+    return;
+  }
+  else {
+    spawn DOOR.slot_22(pid, arg_06);
+    suspend;
+    doorList = [0x00d0, 0x00b9, 0x00b8, 0x00b7, 0x00b6, 0x00b4, 0x00b3, 0x00b2, 0x00af, 0x00ac, 0x00ab, 0x00a9];
+    FREE.slot_3a(doorList);
+    maxFrame = retval;
+    AudioProcess.playSFXCru(77, arg_06);
+    counter = 2;
+    while (counter <= maxFrame) {
+      Item.setShape(list_element(size=0x2), arg_06);
+      push(arg_06);
+      Item.popToCoords((Item.getZ(arg_06) + 8), Item.getY(arg_06), Item.getX(arg_06), arg_06);
+      spawn FREE.waitNTimerTicks(doorList, counter, pid, 2, 0x00000000);
+      suspend;
+      counter = (1 + counter);
+    }
+    process_result = 1;
+    return;
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol doorList [BP-02h] type=0x6c unk1=0x00 unk3=0x02
+    debug_symbol counter [BP-04h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol maxFrame [BP-06h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x21 slot_21 ===== */
+function door2_slot_21() /* entry=2569 class_id=0x0a07 slot=0x21 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    doorList, /* [BP-02h] type=0x6c */
+    counter, /* [BP-04h] type=0x69 */
+    maxFrame; /* [BP-06h] type=0x69 */
+
+  set_info(0x021b, 0);
+  if (Item.getStatus(arg_06) & 4) {
+    return;
+  }
+  else {
+    doorList = [0x00d0, 0x00b9, 0x00b8, 0x00b7, 0x00b6, 0x00b4, 0x00b3, 0x00b2, 0x00af, 0x00ac, 0x00ab, 0x00a9];
+    FREE.slot_3a(doorList);
+    maxFrame = retval;
+    AudioProcess.playSFXCru(110, arg_06);
+    counter = (maxFrame - 1);
+    while (counter != 0) {
+      FREE.slot_2d((Item.getZ(arg_06) - 8), Item.getY(arg_06), Item.getX(arg_06), Item.getFrame(arg_06), doorList, counter, list_element(size=0x2), *(arg_06));
+      if (retval) {
+        spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+        suspend;
+      }
+      else {
+        Item.setQLo(110, arg_06);
+        AudioProcess.playSFXCru(77, arg_06);
+        counter = (1 + counter);
+        counter = (1 + counter);
+        while (counter < (maxFrame + 1)) {
+          push(arg_06);
+          Item.setShape(list_element(size=0x2), arg_06);
+          Item.popToCoords((Item.getZ(arg_06) + 8), Item.getY(arg_06), Item.getX(arg_06), arg_06);
+          spawn FREE.waitNTimerTicks(doorList, counter, pid, 5, 0x00000000);
+          suspend;
+          counter = (1 + counter);
+          process_result = 0;
+          return;
+        }
+        process_result = 1;
+        return;
+      }
+      counter = (counter - 1);
+    }
+    process_result = 1;
+    return;
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol doorList [BP-02h] type=0x6c unk1=0x00 unk3=0x02
+    debug_symbol counter [BP-04h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol maxFrame [BP-06h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x22 slot_22 ===== */
+function door2_slot_22() /* entry=2569 class_id=0x0a07 slot=0x22 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    doorList, /* [BP-02h] type=0x6c */
+    counter, /* [BP-04h] type=0x69 */
+    maxFrame; /* [BP-06h] type=0x69 */
+
+  set_info(0x021b, 0);
+  if (Item.getStatus(arg_06) & 4) {
+    return;
+  }
+  else {
+    spawn DOOR.slot_22(pid, arg_06);
+    suspend;
+    doorList = [0x0107, 0x0106, 0x0105, 0x0104, 0x0103, [99, 89], [101, 100], [85, 88], 70, value, value, value];
+    FREE.slot_3a(doorList);
+    maxFrame = retval;
+    AudioProcess.playSFXCru(77, arg_06);
+    counter = 2;
+    while (counter <= maxFrame) {
+      Item.setShape(list_element(size=0x2), arg_06);
+      push(arg_06);
+      Item.popToCoords((Item.getZ(arg_06) + 8), Item.getY(arg_06), Item.getX(arg_06), arg_06);
+      spawn FREE.waitNTimerTicks(doorList, counter, pid, 2, 0x00000000);
+      suspend;
+      counter = (1 + counter);
+    }
+    process_result = 1;
+    return;
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol doorList [BP-02h] type=0x6c unk1=0x00 unk3=0x02
+    debug_symbol counter [BP-04h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol maxFrame [BP-06h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x23 slot_23 ===== */
+function door2_slot_23() /* entry=2569 class_id=0x0a07 slot=0x23 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    doorList, /* [BP-02h] type=0x6c */
+    counter, /* [BP-04h] type=0x69 */
+    counter2, /* [BP-06h] type=0x69 */
+    maxFrame; /* [BP-08h] type=0x69 */
+
+  set_info(0x021b, 0);
+  if (Item.getStatus(arg_06) & 4) {
+    return;
+  }
+  else {
+    doorList = [0x0107, 0x0106, 0x0105, 0x0104, 0x0103, [99, 89], [101, 100], [85, 88], 70, value, value, value];
+    FREE.slot_3a(doorList);
+    maxFrame = retval;
+    AudioProcess.playSFXCru(110, arg_06);
+    counter = (maxFrame - 1);
+    while (counter != 0) {
+      FREE.slot_2d((Item.getZ(arg_06) - 8), Item.getY(arg_06), Item.getX(arg_06), Item.getFrame(arg_06), doorList, counter, list_element(size=0x2), *(arg_06));
+      if (retval) {
+        spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+        suspend;
+      }
+      else {
+        Item.setQLo(110, arg_06);
+        AudioProcess.playSFXCru(77, arg_06);
+        counter = (1 + counter);
+        counter = (1 + counter);
+        while (counter < (maxFrame + 1)) {
+          push(arg_06);
+          Item.setShape(list_element(size=0x2), arg_06);
+          Item.popToCoords((Item.getZ(arg_06) + 8), Item.getY(arg_06), Item.getX(arg_06), arg_06);
+          spawn FREE.waitNTimerTicks(doorList, counter, pid, 5, 0x00000000);
+          suspend;
+          counter = (1 + counter);
+        }
+        process_result = 0;
+        return;
+      }
+      counter = (counter - 1);
+    }
+    process_result = 1;
+    return;
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol doorList [BP-02h] type=0x6c unk1=0x00 unk3=0x02
+    debug_symbol counter [BP-04h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol counter2 [BP-06h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol maxFrame [BP-08h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x24 slot_24 ===== */
+function door2_slot_24() /* entry=2569 class_id=0x0a07 slot=0x24 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    counter, /* [BP-02h] type=0x69 */
+    maxFrame; /* [BP-04h] type=0x69 */
+
+  set_info(0x0207, *(arg_06));
+  spawn DOOR.slot_22(pid, arg_06);
+  suspend;
+  maxFrame = 8;
+  AudioProcess.playSFXCru(78, arg_06);
+  counter = 1;
+  while (counter <= maxFrame) {
+    Item.legal_create(counter, arg_06);
+    spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+    suspend;
+    counter = (1 + counter);
+  }
+  Item.legal_create(0, arg_06);
+  Item.setShape(0x02db, arg_06);
+  push(arg_06);
+  Item.popToCoords((Item.getZ(arg_06) + (8 * 10)), Item.getY(arg_06), Item.getX(arg_06), arg_06);
+  process_result = 1;
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol counter [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol maxFrame [BP-04h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x25 slot_25 ===== */
+function door2_slot_25() /* entry=2569 class_id=0x0a07 slot=0x25 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    counter, /* [BP-02h] type=0x69 */
+    counter2, /* [BP-04h] type=0x69 */
+    maxFrame; /* [BP-06h] type=0x69 */
+
+  set_info(0x0207, *(arg_06));
+  maxFrame = 8;
+  FREE.slot_2d((Item.getZ(arg_06) - (8 * 10)), Item.getY(arg_06), Item.getX(arg_06), maxFrame, 0x02d6, *(arg_06));
+  if (retval) {
+    AudioProcess.playSFXCru(107, arg_06);
+    spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+    suspend;
+  }
+  else {
+    process_result = 0;
+    return;
+  }
+  counter = (maxFrame - 1);
+  while (counter > 0) {
+    Item.legal_create(counter, arg_06);
+    spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+    suspend;
+    counter = (counter - 1);
+  }
+  Item.legal_create(0, arg_06);
+  process_result = 1;
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol counter [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol counter2 [BP-04h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol maxFrame [BP-06h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x26 slot_26 ===== */
+function door2_slot_26() /* entry=2569 class_id=0x0a07 slot=0x26 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    counter, /* [BP-02h] type=0x69 */
+    maxFrame; /* [BP-04h] type=0x69 */
+
+  set_info(0x0207, *(arg_06));
+  spawn DOOR.slot_22(pid, arg_06);
+  suspend;
+  maxFrame = 8;
+  AudioProcess.playSFXCru(78, arg_06);
+  counter = 1;
+  while (counter <= maxFrame) {
+    Item.legal_create(counter, arg_06);
+    spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+    suspend;
+    counter = (1 + counter);
+  }
+  Item.legal_create(0, arg_06);
+  Item.setShape(0x02da, arg_06);
+  push(arg_06);
+  Item.popToCoords((Item.getZ(arg_06) + (8 * 10)), Item.getY(arg_06), Item.getX(arg_06), arg_06);
+  process_result = 1;
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol counter [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol maxFrame [BP-04h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x27 slot_27 ===== */
+function door2_slot_27() /* entry=2569 class_id=0x0a07 slot=0x27 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    counter, /* [BP-02h] type=0x69 */
+    counter2, /* [BP-04h] type=0x69 */
+    maxFrame; /* [BP-06h] type=0x69 */
+
+  set_info(0x0207, *(arg_06));
+  maxFrame = 8;
+  FREE.slot_2d((Item.getZ(arg_06) - (8 * 10)), Item.getY(arg_06), Item.getX(arg_06), maxFrame, 0x02d5, *(arg_06));
+  if (retval) {
+    AudioProcess.playSFXCru(107, arg_06);
+    spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+    suspend;
+  }
+  else {
+    process_result = 0;
+    return;
+  }
+  counter = (maxFrame - 1);
+  while (counter > 0) {
+    Item.legal_create(counter, arg_06);
+    spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+    suspend;
+    counter = (counter - 1);
+  }
+  Item.legal_create(0, arg_06);
+  process_result = 1;
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol counter [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol counter2 [BP-04h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol maxFrame [BP-06h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x28 slot_28 ===== */
+function door2_slot_28() /* entry=2569 class_id=0x0a07 slot=0x28 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    doorList, /* [BP-02h] type=0x6c */
+    counter, /* [BP-04h] type=0x69 */
+    maxFrame; /* [BP-06h] type=0x69 */
+
+  set_info(0x021b, 0);
+  if (Item.getStatus(arg_06) & 4) {
+    return;
+  }
+  else {
+    spawn DOOR.slot_22(pid, arg_06);
+    suspend;
+    doorList = [0x00c2, 0x00ca, 0x00c1, 0x00c0, 0x00bf, 0x00be, 5];
+    FREE.slot_3a(doorList);
+    maxFrame = retval;
+    AudioProcess.playSFXCru(81, arg_06);
+    counter = 2;
+    while (counter <= maxFrame) {
+      Item.setShape(list_element(size=0x2), arg_06);
+      push(arg_06);
+      Item.popToCoords(counter, Item.getZ(arg_06), Item.getY(arg_06), (Item.getX(arg_06) - 16), arg_06);
+      spawn FREE.waitNTimerTicks(doorList, pid, 3, 0x00000000);
+      suspend;
+      counter = (1 + counter);
+    }
+    process_result = 1;
+    return;
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol doorList [BP-02h] type=0x6c unk1=0x00 unk3=0x02
+    debug_symbol counter [BP-04h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol maxFrame [BP-06h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x29 slot_29 ===== */
+function door2_slot_29() /* entry=2569 class_id=0x0a07 slot=0x29 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    doorList, /* [BP-02h] type=0x6c */
+    counter, /* [BP-04h] type=0x69 */
+    maxFrame; /* [BP-06h] type=0x69 */
+
+  set_info(0x021b, 0);
+  if (Item.getStatus(arg_06) & 4) {
+    return;
+  }
+  else {
+    doorList = [0x00c2, 0x00ca, 0x00c1, 0x00c0, 0x00bf, 0x00be, 5];
+    FREE.slot_3a(doorList);
+    maxFrame = retval;
+    AudioProcess.playSFXCru(81, arg_06);
+    counter = (maxFrame - 1);
+    while (counter != 0) {
+      FREE.slot_2d(Item.getZ(arg_06), Item.getY(arg_06), (Item.getX(arg_06) + 16), Item.getFrame(arg_06), doorList, counter, list_element(size=0x2), *(arg_06));
+      if (retval) {
+        spawn FREE.waitNTimerTicks(pid, 3, 0x00000000);
+        suspend;
+      }
+      else {
+        Item.setQLo(81, arg_06);
+        counter = (1 + counter);
+        counter = (1 + counter);
+        while (counter < (maxFrame + 1)) {
+          push(arg_06);
+          Item.setShape(list_element(size=0x2), arg_06);
+          Item.popToCoords(counter, Item.getZ(arg_06), Item.getY(arg_06), (Item.getX(arg_06) - 16), arg_06);
+          spawn FREE.waitNTimerTicks(doorList, pid, 5, 0x00000000);
+          suspend;
+          counter = (1 + counter);
+        }
+        process_result = 0;
+        return;
+      }
+      counter = (counter - 1);
+    }
+    process_result = 1;
+    return;
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol doorList [BP-02h] type=0x6c unk1=0x00 unk3=0x02
+    debug_symbol counter [BP-04h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol maxFrame [BP-06h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x2a slot_2a ===== */
+function door2_slot_2a() /* entry=2569 class_id=0x0a07 slot=0x2a */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    doorList, /* [BP-02h] type=0x6c */
+    counter, /* [BP-04h] type=0x69 */
+    maxFrame; /* [BP-06h] type=0x69 */
+
+  set_info(0x021b, 0);
+  if (Item.getStatus(arg_06) & 4) {
+    return;
+  }
+  else {
+    spawn DOOR.slot_22(pid, arg_06);
+    suspend;
+    doorList = [0x00cb, 0x00c7, 0x00c6, 0x00c5, 0x00c4, 0x00c3, 123];
+    FREE.slot_3a(doorList);
+    maxFrame = retval;
+    AudioProcess.playSFXCru(81, arg_06);
+    counter = 2;
+    while (counter <= maxFrame) {
+      Item.setShape(list_element(size=0x2), arg_06);
+      Kernel.resetRef(counter, Item.getZ(arg_06), (Item.getY(arg_06) - 16), Item.getX(arg_06), arg_06);
+      spawn FREE.waitNTimerTicks(doorList, pid, 3, 0x00000000);
+      suspend;
+      counter = (1 + counter);
+    }
+    process_result = 1;
+    return;
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol doorList [BP-02h] type=0x6c unk1=0x00 unk3=0x02
+    debug_symbol counter [BP-04h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol maxFrame [BP-06h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x2b slot_2b ===== */
+function door2_slot_2b() /* entry=2569 class_id=0x0a07 slot=0x2b */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    doorList, /* [BP-02h] type=0x6c */
+    counter, /* [BP-04h] type=0x69 */
+    maxFrame; /* [BP-06h] type=0x69 */
+
+  set_info(0x021b, 0);
+  if (Item.getStatus(arg_06) & 4) {
+    return;
+  }
+  else {
+    doorList = [0x00cb, 0x00c7, 0x00c6, 0x00c5, 0x00c4, 0x00c3, 123];
+    FREE.slot_3a(doorList);
+    maxFrame = retval;
+    AudioProcess.playSFXCru(81, arg_06);
+    counter = (maxFrame - 1);
+    while (counter != 0) {
+      FREE.slot_2d(Item.getZ(arg_06), (Item.getY(arg_06) + 16), Item.getX(arg_06), Item.getFrame(arg_06), doorList, counter, list_element(size=0x2), *(arg_06));
+      if (retval) {
+        spawn FREE.waitNTimerTicks(pid, 3, 0x00000000);
+        suspend;
+      }
+      else {
+        Item.setQLo(81, arg_06);
+        counter = (1 + counter);
+        counter = (1 + counter);
+        while (counter < (maxFrame + 1)) {
+          push(arg_06);
+          Item.setShape(list_element(size=0x2), arg_06);
+          Item.popToCoords(counter, Item.getZ(arg_06), (Item.getY(arg_06) - 16), Item.getX(arg_06), arg_06);
+          spawn FREE.waitNTimerTicks(doorList, pid, 5, 0x00000000);
+          suspend;
+          counter = (1 + counter);
+        }
+        process_result = 0;
+        return;
+      }
+      counter = (counter - 1);
+    }
+    process_result = 1;
+    return;
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol doorList [BP-02h] type=0x6c unk1=0x00 unk3=0x02
+    debug_symbol counter [BP-04h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol maxFrame [BP-06h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x2c slot_2c ===== */
+function door2_slot_2c() /* entry=2569 class_id=0x0a07 slot=0x2c */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    counter, /* [BP-02h] type=0x69 */
+    maxFrame; /* [BP-04h] type=0x69 */
+
+  set_info(0x0207, *(arg_06));
+  if (Item.getFrame(arg_06) > 0) {
+    process_result = 0;
+    return;
+  }
+  else {
+    spawn DOOR.slot_22(pid, arg_06);
+    suspend;
+    maxFrame = 11;
+    AudioProcess.playSFXCru(78, arg_06);
+    counter = 1;
+    while (counter <= maxFrame) {
+      Item.legal_create(counter, arg_06);
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+      counter = (1 + counter);
+    }
+    Item.legal_create(0, arg_06);
+    Item.setShape(0x0215, arg_06);
+    Item.touch(arg_06);
+    process_result = 1;
+    return;
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol counter [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol maxFrame [BP-04h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x2d slot_2d ===== */
+function door2_slot_2d() /* entry=2569 class_id=0x0a07 slot=0x2d */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    counter, /* [BP-02h] type=0x69 */
+    maxFrame; /* [BP-04h] type=0x69 */
+
+  set_info(0x0207, *(arg_06));
+  maxFrame = 11;
+  FREE.slot_2d(Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06), maxFrame, 0x01ab, *(arg_06));
+  if (retval) {
+    AudioProcess.playSFXCru(107, arg_06);
+    spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+    suspend;
+  }
+  else {
+    process_result = 0;
+    return;
+  }
+  counter = (maxFrame - 1);
+  while (counter >= 0) {
+    Item.legal_create(counter, arg_06);
+    spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+    suspend;
+    counter = (counter - 1);
+  }
+  process_result = 1;
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol counter [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol maxFrame [BP-04h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x2e slot_2e ===== */
+function door2_slot_2e() /* entry=2569 class_id=0x0a07 slot=0x2e */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    counter, /* [BP-02h] type=0x69 */
+    maxFrame; /* [BP-04h] type=0x69 */
+
+  set_info(0x0207, *(arg_06));
+  spawn DOOR.slot_22(pid, arg_06);
+  suspend;
+  maxFrame = 11;
+  AudioProcess.playSFXCru(78, arg_06);
+  counter = 1;
+  while (counter <= maxFrame) {
+    Item.legal_create(counter, arg_06);
+    spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+    suspend;
+    counter = (1 + counter);
+  }
+  Item.setShape(0x0394, arg_06);
+  Item.legal_create(0, arg_06);
+  process_result = 1;
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol counter [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol maxFrame [BP-04h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x2f slot_2f ===== */
+function door2_slot_2f() /* entry=2569 class_id=0x0a07 slot=0x2f */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    counter, /* [BP-02h] type=0x69 */
+    maxFrame; /* [BP-04h] type=0x69 */
+
+  set_info(0x0207, *(arg_06));
+  maxFrame = 11;
+  FREE.slot_2d(Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06), maxFrame, 0x0393, *(arg_06));
+  if (retval) {
+    AudioProcess.playSFXCru(107, arg_06);
+    spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+    suspend;
+  }
+  else {
+    process_result = 0;
+    return;
+  }
+  counter = (maxFrame - 1);
+  while (counter >= 0) {
+    Item.legal_create(counter, arg_06);
+    spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+    suspend;
+    counter = (counter - 1);
+  }
+  process_result = 1;
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol counter [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol maxFrame [BP-04h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x30 slot_30 ===== */
+function door2_slot_30() /* entry=2569 class_id=0x0a07 slot=0x30 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    doorList, /* [BP-02h] type=0x6c */
+    doorList2, /* [BP-04h] type=0x6c */
+    counter, /* [BP-06h] type=0x69 */
+    door1, /* [BP-08h] type=0x24 */
+    door2, /* [BP-10h] type=0x24 */
+    item, /* [BP-12h] type=0x24 */
+    maxFrame; /* [BP-14h] type=0x69 */
+
+  set_info(0x0207, *(arg_06));
+  spawn DOOR.slot_22(pid, arg_06);
+  suspend;
+  doorList = [0x0189, 0x0190, 0x0191, 0x0192, 0x0193];
+  doorList2 = [0x0187, 0x018a, 0x018b, 0x018c, 0x018d];
+  FREE.slot_3a(doorList);
+  maxFrame = retval;
+  AudioProcess.playSFXCru(29, arg_06);
+  for item in nearby_items(shape=ELEVATOR_DOOR_RIGHT, origin=arg_06) {
+    door1 = item;
+  }
+  for item in nearby_items(shape=ELEVATOR_DOOR_LEFT, origin=arg_06) {
+    door2 = item;
+  }
+  counter = 2;
+  while (counter <= maxFrame) {
+    if (door1) {
+      push(door1);
+      Item.setShape(list_element(size=0x2), door1);
+      Actor.isBusy(door1);
+    }
+    if (door2) {
+      push(door2);
+      Item.setShape(list_element(size=0x2), door2);
+      Item.popToCoords(counter, Item.getZ(door2), Item.getY(door2), (Item.getX(door2) - 16), door2);
+    }
+    spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+    suspend;
+    counter = (1 + counter);
+  }
+  process_result = 1;
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol doorList [BP-02h] type=0x6c unk1=0x00 unk3=0x02
+    debug_symbol doorList2 [BP-04h] type=0x6c unk1=0x00 unk3=0x02
+    debug_symbol counter [BP-06h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol door1 [BP-08h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol door2 [BP-10h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol item [BP-12h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol maxFrame [BP-14h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x31 slot_31 ===== */
+function door2_slot_31() /* entry=2569 class_id=0x0a07 slot=0x31 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    doorList, /* [BP-02h] type=0x6c */
+    doorList2, /* [BP-04h] type=0x6c */
+    counter, /* [BP-06h] type=0x69 */
+    counter2, /* [BP-08h] type=0x69 */
+    door1, /* [BP-10h] type=0x24 */
+    door2, /* [BP-12h] type=0x24 */
+    item, /* [BP-14h] type=0x24 */
+    nonLegalDoor1, /* [BP-15h] type=0x62 */
+    nonLegalDoor2, /* [BP-16h] type=0x62 */
+    bool, /* [BP-17h] type=0x62 */
+    maxFrame; /* [BP-19h] type=0x69 */
+
+  set_info(0x0207, *(arg_06));
+  doorList = [0x0189, 0x0190, 0x0191, 0x0192, 0x0193];
+  doorList2 = [0x0187, 0x018a, 0x018b, 0x018c, 0x018d];
+  FREE.slot_3a(doorList);
+  maxFrame = retval;
+  for item in nearby_items(shape=ELEVATOR_DOOR_SEGMENT, origin=arg_06) {
+    door1 = item;
+  }
+  for item in nearby_items(shape=WALL_EDGE, origin=arg_06) {
+    door2 = item;
+  }
+  if (door1 && door2) {
+    AudioProcess.playSFXCru(53, arg_06);
+    counter = 1;
+    while (counter <= (maxFrame - 1)) {
+      FREE.slot_2d(Item.getZ(door1), Item.getY(door1), Item.getX(door1), 0, doorList, (maxFrame - counter), list_element(size=0x2), door1);
+      if (!retval) {
+        nonLegalDoor1 = 1;
+      }
+      FREE.slot_2d(Item.getZ(door2), Item.getY(door2), (Item.getX(door2) + 16), 0, doorList2, (maxFrame - counter), list_element(size=0x2), door2);
+      if (!retval) {
+        nonLegalDoor2 = 1;
+      }
+      if ((!nonLegalDoor1) && (!nonLegalDoor2)) {
+        Item.touch(door1);
+        Item.touch(door2);
+        spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+        suspend;
+      }
+      else {
+        spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
+        suspend;
+        if (nonLegalDoor1) {
+          push(door2);
+          Item.setShape(list_element(size=0x2), door2);
+          Item.popToCoords(((maxFrame - counter) + 1), Item.getZ(door2), Item.getY(door2), (Item.getX(door2) - 16), door2);
+        }
+        if (nonLegalDoor2) {
+          Item.setShape(list_element(size=0x2), door1);
+        }
+        counter2 = ((maxFrame - counter) + 1);
+        while (counter2 <= maxFrame) {
+          Item.setShape(list_element(size=0x2), door1);
+          Item.touch(door1);
+          push(door2);
+          Item.setShape(list_element(size=0x2), door2);
+          if (!bool) {
+            Item.popToCoords(Item.getZ(door2), Item.getY(door2), Item.getX(door2), door2);
+            bool = 1;
+          }
+          else {
+            Item.popToCoords(Item.getZ(door2), Item.getY(door2), (Item.getX(door2) - 16), door2);
+          }
+          spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+          suspend;
+          counter2 = (1 + counter2);
+        }
+        process_result = 0;
+        return;
+      }
+      counter = (1 + counter);
+    }
+  }
+  process_result = 1;
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol doorList [BP-02h] type=0x6c unk1=0x00 unk3=0x02
+    debug_symbol doorList2 [BP-04h] type=0x6c unk1=0x00 unk3=0x02
+    debug_symbol counter [BP-06h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol counter2 [BP-08h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol door1 [BP-10h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol door2 [BP-12h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol item [BP-14h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol nonLegalDoor1 [BP-15h] type=0x62 unk1=0x00 unk3=0x00
+    debug_symbol nonLegalDoor2 [BP-16h] type=0x62 unk1=0x00 unk3=0x00
+    debug_symbol bool [BP-17h] type=0x62 unk1=0x00 unk3=0x00
+    debug_symbol maxFrame [BP-19h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x32 slot_32 ===== */
+function door2_slot_32() /* entry=2569 class_id=0x0a07 slot=0x32 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    doorList, /* [BP-02h] type=0x6c */
+    doorList2, /* [BP-04h] type=0x6c */
+    counter, /* [BP-06h] type=0x69 */
+    door1, /* [BP-08h] type=0x24 */
+    door2, /* [BP-10h] type=0x24 */
+    item, /* [BP-12h] type=0x24 */
+    maxFrame; /* [BP-14h] type=0x69 */
+
+  set_info(0x0207, *(arg_06));
+  spawn DOOR.slot_22(pid, arg_06);
+  suspend;
+  doorList = [0x0289, 0x0287, 0x028c, 0x0288, 0x01c7];
+  doorList2 = [0x028e, 0x028d, 0x028b, 0x028a, 0x01c6];
+  FREE.slot_3a(doorList);
+  maxFrame = retval;
+  AudioProcess.playSFXCru(29, arg_06);
+  for item in nearby_items(shape=ELEVATOR_DOOR_RIGHT_2, origin=arg_06) {
+    door1 = item;
+  }
+  for item in nearby_items(shape=ELEVATOR_DOOR_LEFT_2, origin=arg_06) {
+    door2 = item;
+  }
+  counter = 2;
+  while (counter <= maxFrame) {
+    if (door1) {
+      push(door1);
+      Item.setShape(list_element(size=0x2), door1);
+      Item.popToCoords(counter, Item.getZ(door1), (Item.getY(door1) - 16), Item.getX(door1), door1);
+    }
+    if (door2) {
+      push(door2);
+      Item.setShape(list_element(size=0x2), door2);
+      Actor.isBusy(door2);
+    }
+    spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+    suspend;
+    counter = (1 + counter);
+  }
+  process_result = 1;
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol doorList [BP-02h] type=0x6c unk1=0x00 unk3=0x02
+    debug_symbol doorList2 [BP-04h] type=0x6c unk1=0x00 unk3=0x02
+    debug_symbol counter [BP-06h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol door1 [BP-08h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol door2 [BP-10h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol item [BP-12h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol maxFrame [BP-14h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x33 slot_33 ===== */
+function door2_slot_33() /* entry=2569 class_id=0x0a07 slot=0x33 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    doorList, /* [BP-02h] type=0x6c */
+    doorList2, /* [BP-04h] type=0x6c */
+    counter, /* [BP-06h] type=0x69 */
+    counter2, /* [BP-08h] type=0x69 */
+    door1, /* [BP-10h] type=0x24 */
+    door2, /* [BP-12h] type=0x24 */
+    item, /* [BP-14h] type=0x24 */
+    nonLegalDoor1, /* [BP-15h] type=0x62 */
+    nonLegalDoor2, /* [BP-16h] type=0x62 */
+    bool, /* [BP-17h] type=0x62 */
+    maxFrame; /* [BP-19h] type=0x69 */
+
+  set_info(0x0207, *(arg_06));
+  doorList = [0x0289, 0x0287, 0x028c, 0x0288, 0x01c7];
+  doorList2 = [0x028e, 0x028d, 0x028b, 0x028a, 0x01c6];
+  FREE.slot_3a(doorList);
+  maxFrame = retval;
+  for item in nearby_items(shape=0x0289, origin=arg_06) {
+    door1 = item;
+  }
+  for item in nearby_items(shape=0x028e, origin=arg_06) {
+    door2 = item;
+  }
+  if (door1 && door2) {
+    AudioProcess.playSFXCru(53, arg_06);
+    counter = 1;
+    while (counter <= (maxFrame - 1)) {
+      FREE.slot_2d(Item.getZ(door2), Item.getY(door2), Item.getX(door2), 0, doorList2, (maxFrame - counter), list_element(size=0x2), door2);
+      if (!retval) {
+        nonLegalDoor1 = 1;
+      }
+      FREE.slot_2d(Item.getZ(door1), (Item.getY(door1) + 16), Item.getX(door1), 0, doorList, (maxFrame - counter), list_element(size=0x2), door1);
+      if (!retval) {
+        nonLegalDoor2 = 1;
+      }
+      if ((!nonLegalDoor1) && (!nonLegalDoor2)) {
+        Item.touch(door1);
+        Item.touch(door2);
+        spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+        suspend;
+      }
+      else {
+        spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
+        suspend;
+        if (nonLegalDoor1) {
+          push(door2);
+          Item.setShape(list_element(size=0x2), door2);
+          Item.popToCoords(((maxFrame - counter) + 1), Item.getZ(door2), Item.getY(door2), Item.getX(door2), door2);
+          push(door1);
+          Item.popToCoords(doorList2, Item.getZ(door1), (Item.getY(door1) - 16), Item.getX(door1), door1);
+        }
+        if (nonLegalDoor2) {
+          Item.setShape(list_element(size=0x2), door1);
+        }
+        counter2 = ((maxFrame - counter) + 1);
+        while (counter2 <= maxFrame) {
+          Item.setShape(list_element(size=0x2), door2);
+          Item.touch(door2);
+          push(door1);
+          Item.setShape(list_element(size=0x2), door1);
+          if (!bool) {
+            Item.popToCoords(Item.getZ(door1), Item.getY(door1), Item.getX(door1), door1);
+            bool = 1;
+          }
+          else {
+            Item.popToCoords(Item.getZ(door1), (Item.getY(door1) - 16), Item.getX(door1), door1);
+          }
+          spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+          suspend;
+          counter2 = (1 + counter2);
+        }
+        process_result = 0;
+        return;
+      }
+      counter = (1 + counter);
+    }
+  }
+  process_result = 1;
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol doorList [BP-02h] type=0x6c unk1=0x00 unk3=0x02
+    debug_symbol doorList2 [BP-04h] type=0x6c unk1=0x00 unk3=0x02
+    debug_symbol counter [BP-06h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol counter2 [BP-08h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol door1 [BP-10h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol door2 [BP-12h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol item [BP-14h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol nonLegalDoor1 [BP-15h] type=0x62 unk1=0x00 unk3=0x00
+    debug_symbol nonLegalDoor2 [BP-16h] type=0x62 unk1=0x00 unk3=0x00
+    debug_symbol bool [BP-17h] type=0x62 unk1=0x00 unk3=0x00
+    debug_symbol maxFrame [BP-19h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x34 slot_34 ===== */
+function door2_slot_34() /* entry=2569 class_id=0x0a07 slot=0x34 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    counter, /* [BP-02h] type=0x69 */
+    maxFrame, /* [BP-04h] type=0x69 */
+    link, /* [BP-06h] type=0x69 */
+    item, /* [BP-08h] type=0x24 */
+    item2; /* [BP-10h] type=0x24 */
+
+  set_info(0x0207, *(arg_06));
+  spawn DOOR.slot_22(pid, arg_06);
+  suspend;
+  set_info(1, 0);
+  maxFrame = 7;
+  counter = 1;
+  while (counter <= maxFrame) {
+    Item.legal_create(counter, arg_06);
+    spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+    suspend;
+    counter = (1 + counter);
+  }
+  Item.legal_create(0, arg_06);
+  Item.setShape(0x0090, arg_06);
+  AudioProcess.playSFXCru(82, arg_06);
+  link = Item.setNpcNum(arg_06);
+  if (Item.legal_create(Item.getZ(arg_06), (Item.getY(arg_06) - 0x00d0), Item.getX(arg_06), 1, 0x0090, item2) == 1) {
+    Item.fallProbably_03E(link, item2);
+  }
+  if (Item.legal_create((Item.getZ(arg_06) + 80), Item.getY(arg_06), Item.getX(arg_06), 0, 0x01ed, item) == 1) {
+    Item.fallProbably_03E(link, item);
+  }
+  process_result = 1;
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol counter [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol maxFrame [BP-04h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol link [BP-06h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol item [BP-08h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol item2 [BP-10h] type=0x24 unk1=0x00 unk3=0x02
+  */
+}
+
+/* ===== slot 0x35 slot_35 ===== */
+function door2_slot_35() /* entry=2569 class_id=0x0a07 slot=0x35 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    item, /* [BP-02h] type=0x24 */
+    item2, /* [BP-04h] type=0x24 */
+    item3, /* [BP-06h] type=0x24 */
+    prisDoor, /* [BP-08h] type=0x24 */
+    counter, /* [BP-10h] type=0x69 */
+    maxFrame, /* [BP-12h] type=0x69 */
+    cox, /* [BP-14h] type=0x69 */
+    coy, /* [BP-16h] type=0x69 */
+    coz, /* [BP-18h] type=0x69 */
+    x1, /* [BP-20h] type=0x69 */
+    y1, /* [BP-22h] type=0x69 */
+    x2, /* [BP-24h] type=0x69 */
+    y2, /* [BP-26h] type=0x69 */
+    z1, /* [BP-28h] type=0x69 */
+    z2, /* [BP-30h] type=0x69 */
+    link; /* [BP-32h] type=0x69 */
+
+  set_info(0x0207, *(arg_06));
+  set_info(1, 0);
+  maxFrame = 7;
+  prisDoor = *(arg_06);
+  cox = Item.getX(arg_06);
+  coy = Item.getY(arg_06);
+  coz = Item.getZ(arg_06);
+  while (condition) {
+    if (Item.getFrame(item) == 0) {
+      x1 = Item.getX(item);
+      y1 = Item.getY(item);
+      z1 = Item.getZ(item);
+      Item.destroy(item);
+    }
+    else {
+      x2 = Item.getX(item);
+      y2 = Item.getY(item);
+      z2 = Item.getZ(item);
+      Item.destroy(item);
+    }
+  }
+  link = Item.setNpcNum(arg_06);
+  Item.destroy(prisDoor);
+  if (Item.legal_create((coz - 80), coy, cox, 7, 0x01ee, item2) == 1) {
+    AudioProcess.playSFXCru(106, arg_06);
+    Item.fallProbably_03E(link, item2);
+    spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+    suspend;
+    counter = 1;
+    while (counter <= maxFrame) {
+      Item.legal_create((maxFrame - counter), item2);
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+      counter = (1 + counter);
+    }
+    process_result = 1;
+    return;
+  }
+  else {
+    Item.create(0, 0x0090, item);
+    Item.popToCoords(z1, y1, x1, item);
+    Item.create(1, 0x0090, item);
+    Item.popToCoords(z2, y2, x2, item);
+    Item.create(0, 0x01ed, item);
+    Item.popToCoords(coz, coy, cox, item);
+    process_result = 0;
+    return;
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol item [BP-02h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol item2 [BP-04h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol item3 [BP-06h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol prisDoor [BP-08h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol counter [BP-10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol maxFrame [BP-12h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol cox [BP-14h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol coy [BP-16h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol coz [BP-18h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol x1 [BP-20h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol y1 [BP-22h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol x2 [BP-24h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol y2 [BP-26h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol z1 [BP-28h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol z2 [BP-30h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol link [BP-32h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x36 slot_36 ===== */
+function door2_slot_36() /* entry=2569 class_id=0x0a07 slot=0x36 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    counter, /* [BP-02h] type=0x69 */
+    maxFrame, /* [BP-04h] type=0x69 */
+    link, /* [BP-06h] type=0x69 */
+    item, /* [BP-08h] type=0x24 */
+    item2; /* [BP-10h] type=0x24 */
+
+  set_info(0x0207, *(arg_06));
+  spawn DOOR.slot_22(pid, arg_06);
+  suspend;
+  set_info(1, 0);
+  maxFrame = 7;
+  counter = 1;
+  while (counter <= maxFrame) {
+    Item.legal_create(counter, arg_06);
+    spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+    suspend;
+    counter = (1 + counter);
+  }
+  Item.legal_create(0, arg_06);
+  Item.setShape(0x0238, arg_06);
+  AudioProcess.playSFXCru(82, arg_06);
+  link = Item.setNpcNum(arg_06);
+  if (Item.legal_create(Item.getZ(arg_06), Item.getY(arg_06), (Item.getX(arg_06) - 0x00d0), 1, 0x0238, item2) == 1) {
+    Item.fallProbably_03E(link, item2);
+  }
+  if (Item.legal_create((Item.getZ(arg_06) + 80), Item.getY(arg_06), Item.getX(arg_06), 0, 0x03c7, item) == 1) {
+    Item.fallProbably_03E(link, item);
+  }
+  process_result = 1;
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol counter [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol maxFrame [BP-04h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol link [BP-06h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol item [BP-08h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol item2 [BP-10h] type=0x24 unk1=0x00 unk3=0x02
+  */
+}
+
+/* ===== slot 0x37 slot_37 ===== */
+function door2_slot_37() /* entry=2569 class_id=0x0a07 slot=0x37 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    item, /* [BP-02h] type=0x24 */
+    item2, /* [BP-04h] type=0x24 */
+    prisDoor, /* [BP-06h] type=0x24 */
+    counter, /* [BP-08h] type=0x69 */
+    maxFrame, /* [BP-10h] type=0x69 */
+    cox, /* [BP-12h] type=0x69 */
+    coy, /* [BP-14h] type=0x69 */
+    coz, /* [BP-16h] type=0x69 */
+    x1, /* [BP-18h] type=0x69 */
+    y1, /* [BP-20h] type=0x69 */
+    x2, /* [BP-22h] type=0x69 */
+    y2, /* [BP-24h] type=0x69 */
+    z1, /* [BP-26h] type=0x69 */
+    z2, /* [BP-28h] type=0x69 */
+    link; /* [BP-30h] type=0x69 */
+
+  set_info(0x0207, *(arg_06));
+  set_info(1, 0);
+  maxFrame = 7;
+  prisDoor = *(arg_06);
+  cox = Item.getX(arg_06);
+  coy = Item.getY(arg_06);
+  coz = Item.getZ(arg_06);
+  while (condition) {
+    if (Item.getFrame(item) == 0) {
+      x1 = Item.getX(item);
+      y1 = Item.getY(item);
+      z1 = Item.getZ(item);
+      Item.destroy(item);
+    }
+    else {
+      x2 = Item.getX(item);
+      y2 = Item.getY(item);
+      z2 = Item.getZ(item);
+      Item.destroy(item);
+    }
+  }
+  link = Item.setNpcNum(arg_06);
+  Item.destroy(prisDoor);
+  if (Item.legal_create((coz - 80), coy, cox, maxFrame, 0x03ad, item2) == 1) {
+    AudioProcess.playSFXCru(106, arg_06);
+    Item.fallProbably_03E(link, item2);
+    spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+    suspend;
+    counter = 1;
+    while (counter <= maxFrame) {
+      Item.legal_create((maxFrame - counter), item2);
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+      counter = (1 + counter);
+    }
+    process_result = 1;
+    return;
+  }
+  else {
+    Item.create(0, 0x0238, item);
+    Item.popToCoords(z1, y1, x1, item);
+    Item.create(1, 0x0238, item);
+    Item.popToCoords(z2, y2, x2, item);
+    Item.create(0, 0x03c7, item);
+    Item.popToCoords(coz, coy, cox, item);
+    process_result = 0;
+    return;
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol item [BP-02h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol item2 [BP-04h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol prisDoor [BP-06h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol counter [BP-08h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol maxFrame [BP-10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol cox [BP-12h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol coy [BP-14h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol coz [BP-16h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol x1 [BP-18h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol y1 [BP-20h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol x2 [BP-22h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol y2 [BP-24h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol z1 [BP-26h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol z2 [BP-28h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol link [BP-30h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x38 slot_38 ===== */
+function door2_slot_38() /* entry=2569 class_id=0x0a07 slot=0x38 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    counter; /* [BP-02h] type=0x69 */
+
+  set_info(0x0207, *(arg_06));
+  spawn DOOR.slot_22(pid, arg_06);
+  suspend;
+  AudioProcess.playSFXCru(81, arg_06);
+  counter = 1;
+  while (counter <= 3) {
+    Item.legal_create(counter, arg_06);
+    spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+    suspend;
+    counter = (1 + counter);
+  }
+  push(arg_06);
+  Item.legal_create(0, arg_06);
+  Item.setShape(0x0428, arg_06);
+  Item.popToCoords(Item.getZ(arg_06), Item.getY(arg_06), (Item.getX(arg_06) - 0x0080), arg_06);
+  process_result = 1;
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol counter [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x39 slot_39 ===== */
+function door2_slot_39() /* entry=2569 class_id=0x0a07 slot=0x39 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    counter; /* [BP-02h] type=0x69 */
+
+  set_info(0x0207, *(arg_06));
+  FREE.slot_2d(Item.getZ(arg_06), Item.getY(arg_06), (Item.getX(arg_06) + 0x0080), 3, 0x028f, *(arg_06));
+  if (retval) {
+    AudioProcess.playSFXCru(81, arg_06);
+    counter = 0;
+    while (counter <= 3) {
+      Item.legal_create((3 - counter), arg_06);
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+      counter = (1 + counter);
+    }
+    process_result = 1;
+    return;
+  }
+  else {
+    process_result = 0;
+    return;
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol counter [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x3a slot_3a ===== */
+function door2_slot_3a() /* entry=2569 class_id=0x0a07 slot=0x3a */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    counter; /* [BP-02h] type=0x69 */
+
+  set_info(0x0207, *(arg_06));
+  spawn DOOR.slot_22(pid, arg_06);
+  suspend;
+  AudioProcess.playSFXCru(81, arg_06);
+  counter = 1;
+  while (counter <= 3) {
+    Item.legal_create(counter, arg_06);
+    spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+    suspend;
+    counter = (1 + counter);
+  }
+  Item.legal_create(0, arg_06);
+  Item.setShape(0x0415, arg_06);
+  Item.touch(arg_06);
+  process_result = 1;
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol counter [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x3b slot_3b ===== */
+function door2_slot_3b() /* entry=2569 class_id=0x0a07 slot=0x3b */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    counter; /* [BP-02h] type=0x69 */
+
+  set_info(0x0207, *(arg_06));
+  FREE.slot_2d(Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06), 3, 0x0312, *(arg_06));
+  if (retval) {
+    AudioProcess.playSFXCru(81, arg_06);
+    counter = 0;
+    while (counter <= 3) {
+      Item.legal_create((3 - counter), arg_06);
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+      counter = (1 + counter);
+    }
+    process_result = 1;
+    return;
+  }
+  else {
+    process_result = 0;
+    return;
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol counter [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x3c slot_3c ===== */
+function door2_slot_3c() /* entry=2569 class_id=0x0a07 slot=0x3c */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    counter; /* [BP-02h] type=0x69 */
+
+  set_info(0x0207, *(arg_06));
+  if (!(Item.getStatus(arg_06) & 0x1000)) {
+    return;
+  }
+  else {
+    ITEM.slot_23(0x1000, arg_06);
+    AudioProcess.playSFXCru(81, arg_06);
+    if (Item.getFrame(arg_06) == 0) {
+      counter = 0;
+      while (counter <= 9) {
+        Item.legal_create(counter, arg_06);
+        spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+        suspend;
+        counter = (1 + counter);
+      }
+      push(arg_06);
+      Item.popToCoords(0x0096, Item.getY(arg_06), Item.getX(arg_06), arg_06);
+    }
+    else if (Item.getFrame(arg_06) == 9) {
+      push(arg_06);
+      Item.popToCoords(16, Item.getY(arg_06), Item.getX(arg_06), arg_06);
+      counter = 0;
+      while (counter <= 9) {
+        Item.legal_create((9 - counter), arg_06);
+        spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+        suspend;
+        counter = (1 + counter);
+      }
+    }
+    ITEM.slot_24(0x1000, arg_06);
+    process_result = 1;
+    return;
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol counter [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x3d slot_3d ===== */
+function door2_slot_3d() /* entry=2569 class_id=0x0a07 slot=0x3d */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    counter, /* [BP-02h] type=0x69 */
+    item; /* [BP-04h] type=0x24 */
+
+  set_info(0x0207, *(arg_06));
+  spawn DOOR.slot_22(pid, arg_06);
+  suspend;
+  AudioProcess.playSFXCru(84, arg_06);
+  counter = 1;
+  while (counter <= 4) {
+    Item.legal_create(counter, arg_06);
+    spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+    suspend;
+    counter = (1 + counter);
+  }
+  Item.legal_create(0, arg_06);
+  if (Item.getShape(arg_06) == 0x03ff) {
+    Item.setShape(0x0440, arg_06);
+  }
+  else {
+    Item.setShape(0x009c, arg_06);
+    Item.create(0, 0x00ad, item);
+    Item.popToCoords(Item.getZ(arg_06), (Item.getY(arg_06) - 0x00b0), Item.getX(arg_06), item);
+  }
+  Item.touch(arg_06);
+  process_result = 1;
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol counter [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol item [BP-04h] type=0x24 unk1=0x00 unk3=0x02
+  */
+}
+
+/* ===== slot 0x3e slot_3e ===== */
+function door2_slot_3e() /* entry=2569 class_id=0x0a07 slot=0x3e */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    counter, /* [BP-02h] type=0x69 */
+    item; /* [BP-04h] type=0x24 */
+
+  set_info(0x0207, *(arg_06));
+  if (Item.getShape(arg_06) == door2_shape_0440) {
+    FREE.slot_2d(Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06), 4, 0x03ff, *(arg_06));
+    if (!retval) {
+      process_result = 0;
+      return;
+    }
+  }
+  else {
+    for item in nearby_items(shape=0x00ad, origin=arg_06) {
+      Item.destroy(item);
+    }
+    FREE.slot_2d(Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06), 4, 51, *(arg_06));
+    if (!retval) {
+      Item.create(0, 0x00ad, item);
+      Item.popToCoords(Item.getZ(arg_06), (Item.getY(arg_06) - 0x00b0), Item.getX(arg_06), item);
+      process_result = 0;
+      return;
+    }
+  }
+  AudioProcess.playSFXCru(104, arg_06);
+  counter = 0;
+  while (counter <= 4) {
+    Item.legal_create((4 - counter), arg_06);
+    spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+    suspend;
+    counter = (1 + counter);
+  }
+  process_result = 1;
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol counter [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol item [BP-04h] type=0x24 unk1=0x00 unk3=0x02
+  */
+}
+
+/* ===== slot 0x3f slot_3f ===== */
+function door2_slot_3f() /* entry=2569 class_id=0x0a07 slot=0x3f */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    counter, /* [BP-02h] type=0x69 */
+    item; /* [BP-04h] type=0x24 */
+
+  set_info(0x0207, *(arg_06));
+  spawn DOOR.slot_22(pid, arg_06);
+  suspend;
+  AudioProcess.playSFXCru(84, arg_06);
+  counter = 1;
+  while (counter <= 4) {
+    Item.legal_create(counter, arg_06);
+    spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+    suspend;
+    counter = (1 + counter);
+  }
+  Item.legal_create(0, arg_06);
+  if (Item.getShape(arg_06) == 0x03f8) {
+    Item.setShape(0x043f, arg_06);
+  }
+  else {
+    Item.setShape(0x0400, arg_06);
+    Item.create(0, 0x0401, item);
+    Item.popToCoords(Item.getZ(arg_06), Item.getY(arg_06), (Item.getX(arg_06) - 0x00b0), item);
+  }
+  Item.touch(arg_06);
+  process_result = 1;
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol counter [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol item [BP-04h] type=0x24 unk1=0x00 unk3=0x02
+  */
+}
+
+/* ===== slot 0x40 slot_40 ===== */
+function door2_slot_40() /* entry=2569 class_id=0x0a07 slot=0x40 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    counter, /* [BP-02h] type=0x69 */
+    item; /* [BP-04h] type=0x24 */
+
+  set_info(0x0207, *(arg_06));
+  if (Item.getShape(arg_06) == door2_shape_043f) {
+    FREE.slot_2d(Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06), 4, 0x03f8, *(arg_06));
+    if (!retval) {
+      process_result = 0;
+      return;
+    }
+  }
+  else {
+    for item in nearby_items(shape=0x0401, origin=arg_06) {
+      Item.destroy(item);
+    }
+    FREE.slot_2d(Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06), 4, 108, *(arg_06));
+    if (!retval) {
+      Item.create(0, 0x0401, item);
+      Item.popToCoords(Item.getZ(arg_06), Item.getY(arg_06), (Item.getX(arg_06) - 0x00b0), item);
+      process_result = 0;
+      return;
+    }
+  }
+  AudioProcess.playSFXCru(104, arg_06);
+  counter = 0;
+  while (counter <= 4) {
+    Item.legal_create((4 - counter), arg_06);
+    spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+    suspend;
+    counter = (1 + counter);
+  }
+  process_result = 1;
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol counter [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol item [BP-04h] type=0x24 unk1=0x00 unk3=0x02
+  */
+}
+
+/* ===== slot 0x41 slot_41 ===== */
+function door2_slot_41() /* entry=2569 class_id=0x0a07 slot=0x41 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    counter, /* [BP-02h] type=0x69 */
+    item; /* [BP-04h] type=0x24 */
+
+  set_info(0x0207, *(arg_06));
+  spawn DOOR.slot_22(pid, arg_06);
+  suspend;
+  AudioProcess.playSFXCru(90, arg_06);
+  counter = 1;
+  while (counter <= 6) {
+    Item.legal_create(counter, arg_06);
+    spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+    suspend;
+    counter = (1 + counter);
+  }
+  push(arg_06);
+  Item.legal_create(0, arg_06);
+  Item.setShape(0x03bd, arg_06);
+  Actor.isBusy(arg_06);
+  process_result = 1;
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol counter [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol item [BP-04h] type=0x24 unk1=0x00 unk3=0x02
+  */
+}
+
+/* ===== slot 0x42 slot_42 ===== */
+function door2_slot_42() /* entry=2569 class_id=0x0a07 slot=0x42 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    counter, /* [BP-02h] type=0x69 */
+    item; /* [BP-04h] type=0x24 */
+
+  set_info(0x0207, *(arg_06));
+  FREE.slot_2d(Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06), 6, 0x03b9, *(arg_06));
+  if (!retval) {
+    process_result = 0;
+    return;
+  }
+  else {
+    AudioProcess.playSFXCru(105, arg_06);
+    counter = 0;
+    while (counter <= 6) {
+      Item.legal_create((6 - counter), arg_06);
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+      counter = (1 + counter);
+    }
+    process_result = 1;
+    return;
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol counter [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol item [BP-04h] type=0x24 unk1=0x00 unk3=0x02
+  */
+}
+
+/* ===== slot 0x43 slot_43 ===== */
+function door2_slot_43() /* entry=2569 class_id=0x0a07 slot=0x43 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    counter, /* [BP-02h] type=0x69 */
+    item; /* [BP-04h] type=0x24 */
+
+  set_info(0x0207, *(arg_06));
+  spawn DOOR.slot_22(pid, arg_06);
+  suspend;
+  AudioProcess.playSFXCru(90, arg_06);
+  counter = 1;
+  while (counter <= 6) {
+    Item.legal_create(counter, arg_06);
+    spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+    suspend;
+    counter = (1 + counter);
+  }
+  push(arg_06);
+  Item.legal_create(0, arg_06);
+  Item.setShape(0x03be, arg_06);
+  Actor.isBusy(arg_06);
+  process_result = 1;
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol counter [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol item [BP-04h] type=0x24 unk1=0x00 unk3=0x02
+  */
+}
+
+/* ===== slot 0x44 slot_44 ===== */
+function door2_slot_44() /* entry=2569 class_id=0x0a07 slot=0x44 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    counter, /* [BP-02h] type=0x69 */
+    item; /* [BP-04h] type=0x24 */
+
+  set_info(0x0207, *(arg_06));
+  FREE.slot_2d(Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06), 6, 0x03ba, *(arg_06));
+  if (!retval) {
+    process_result = 0;
+    return;
+  }
+  else {
+    AudioProcess.playSFXCru(105, arg_06);
+    counter = 0;
+    while (counter <= 6) {
+      Item.legal_create((6 - counter), arg_06);
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+      counter = (1 + counter);
+    }
+    process_result = 1;
+    return;
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol counter [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol item [BP-04h] type=0x24 unk1=0x00 unk3=0x02
+  */
+}
+
+/* ===== slot 0x45 slot_45 ===== */
+function door2_slot_45() /* entry=2569 class_id=0x0a07 slot=0x45 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    counter, /* [BP-02h] type=0x69 */
+    newFrame, /* [BP-04h] type=0x69 */
+    item; /* [BP-06h] type=0x24 */
+
+  set_info(0x0207, *(arg_06));
+  spawn DOOR.slot_22(pid, arg_06);
+  suspend;
+  AudioProcess.playSFXCru(78, arg_06);
+  if (Item.getFrame(arg_06) <= 11) {
+    newFrame = 0;
+  }
+  else {
+    newFrame = 1;
+  }
+  counter = 1;
+  while (counter <= 11) {
+    Item.legal_create(((newFrame * 15) + counter), arg_06);
+    spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+    suspend;
+    counter = (1 + counter);
+  }
+  push(arg_06);
+  Item.legal_create(0, arg_06);
+  Item.setShape(0x046c, arg_06);
+  Actor.isBusy(arg_06);
+  process_result = 1;
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol counter [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol newFrame [BP-04h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol item [BP-06h] type=0x24 unk1=0x00 unk3=0x02
+  */
+}
+
+/* ===== slot 0x46 slot_46 ===== */
+function door2_slot_46() /* entry=2569 class_id=0x0a07 slot=0x46 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    counter, /* [BP-02h] type=0x69 */
+    newFrame, /* [BP-04h] type=0x69 */
+    item; /* [BP-06h] type=0x24 */
+
+  set_info(0x0207, *(arg_06));
+  if (!Item.getFrame(arg_06)) {
+    newFrame = 11;
+  }
+  else {
+    newFrame = 26;
+  }
+  FREE.slot_2d(Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06), newFrame, 0x046a, *(arg_06));
+  if (!retval) {
+    process_result = 0;
+    return;
+  }
+  else {
+    AudioProcess.playSFXCru(107, arg_06);
+    counter = 0;
+    while (counter <= 11) {
+      Item.legal_create((newFrame - counter), arg_06);
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+      counter = (1 + counter);
+    }
+    process_result = 1;
+    return;
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol counter [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol newFrame [BP-04h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol item [BP-06h] type=0x24 unk1=0x00 unk3=0x02
+  */
+}
+
+/* ===== slot 0x47 slot_47 ===== */
+function door2_slot_47() /* entry=2569 class_id=0x0a07 slot=0x47 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    counter, /* [BP-02h] type=0x69 */
+    newFrame, /* [BP-04h] type=0x69 */
+    item; /* [BP-06h] type=0x24 */
+
+  set_info(0x0207, *(arg_06));
+  spawn DOOR.slot_22(pid, arg_06);
+  suspend;
+  AudioProcess.playSFXCru(78, arg_06);
+  if (Item.getFrame(arg_06) <= 11) {
+    newFrame = 0;
+  }
+  else {
+    newFrame = 1;
+  }
+  counter = 1;
+  while (counter <= 11) {
+    Item.legal_create(((newFrame * 15) + counter), arg_06);
+    spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+    suspend;
+    counter = (1 + counter);
+  }
+  push(arg_06);
+  Item.legal_create(0, arg_06);
+  Item.setShape(0x046b, arg_06);
+  Actor.isBusy(arg_06);
+  process_result = 1;
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol counter [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol newFrame [BP-04h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol item [BP-06h] type=0x24 unk1=0x00 unk3=0x02
+  */
+}
+
+/* ===== slot 0x48 slot_48 ===== */
+function door2_slot_48() /* entry=2569 class_id=0x0a07 slot=0x48 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    counter, /* [BP-02h] type=0x69 */
+    newFrame, /* [BP-04h] type=0x69 */
+    item; /* [BP-06h] type=0x24 */
+
+  set_info(0x0207, *(arg_06));
+  if (!Item.getFrame(arg_06)) {
+    newFrame = 11;
+  }
+  else {
+    newFrame = 26;
+  }
+  FREE.slot_2d(Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06), newFrame, 0x03c6, *(arg_06));
+  if (!retval) {
+    process_result = 0;
+    return;
+  }
+  else {
+    AudioProcess.playSFXCru(107, arg_06);
+    counter = 0;
+    while (counter <= 11) {
+      Item.legal_create((newFrame - counter), arg_06);
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+      counter = (1 + counter);
+    }
+    process_result = 1;
+    return;
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol counter [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol newFrame [BP-04h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol item [BP-06h] type=0x24 unk1=0x00 unk3=0x02
+  */
+}

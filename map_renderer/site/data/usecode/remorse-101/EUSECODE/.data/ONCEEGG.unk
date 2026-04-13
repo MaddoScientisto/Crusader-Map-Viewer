@@ -1,0 +1,33 @@
+/* synthesized appendix for ONCEEGG */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x07 hatch ===== */
+function onceegg_hatch() /* entry=2307 class_id=0x0901 slot=0x07 */
+{
+  set_info(0x0210, *(arg_06));
+  process_exclude();
+  local_04 = Item.fallProbably_03E(arg_06);
+  local_02 = *(arg_06);
+  local_06 = void AudioProcess:stopAllSFX(local_02);
+  Item.andStatus(local_04, local_02);
+  spawn TRIGGER.slot_2a(pid, (0 + 0x0080), local_02, arg_06);
+  suspend;
+  Item.andStatus(local_06, local_02);
+  return;
+}
+
+/* ===== slot 0x15 unhatch ===== */
+function onceegg_unhatch() /* entry=2307 class_id=0x0901 slot=0x15 */
+{
+  set_info(0x0239, *(arg_06));
+  process_exclude();
+  local_04 = Item.fallProbably_03E(arg_06);
+  local_02 = *(arg_06);
+  local_06 = void AudioProcess:stopAllSFX(local_02);
+  Item.andStatus(local_04, local_02);
+  spawn TRIGGER.slot_2a(pid, (1 + 0x0080), local_02, arg_06);
+  suspend;
+  Item.andStatus(local_06, local_02);
+  Item.destroy(arg_06);
+  return;
+}

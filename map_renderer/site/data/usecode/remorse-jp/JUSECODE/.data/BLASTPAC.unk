@@ -1,0 +1,729 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[01:use] pop_local_word Blastpac
+//
+//
+[01:use] set_info
+//
+//
+[01:use] global_address global[0x003c] ; call_intrinsic Actor.getLastAnimSet(arg_bytes=0x4) ; pop_local_word lastAnim ; ...
+//
+//
+[01:use] call_intrinsic Ultima8Engine.setAvatarInStasis(arg_bytes=0x2)
+[01:use] global_address global[0x003c] ; call_intrinsic Actor.doAnim(arg_bytes=0x4) ; jne 0x0079 ; ...
+//
+[01:use] loopscr value_u8=0x25 ; mul ; ...
+[01:use] loop current_var=0xf9, string_bytes=0x6, loop_type=0x2 ; jne 0x0159
+[01:use] pop_local_word target
+//
+//
+//
+[01:use] call_class_event FREE.slot_29 ; gt ; ...
+[01:use] ne ; and ; jne 0x0122 ; ...
+[01:use]
+[01:use] call_intrinsic Item.getY(arg_bytes=0x4) ; call_intrinsic Item.getX(arg_bytes=0x4) ; global_address global[0x003c] ; ...
+[01:use] add ; pop_local_word counter ; jmp 0x00a1 ; ...
+//
+//
+[01:use] global_address global[0x003c] ; call_intrinsic Item.getDirToItem(arg_bytes=0x6) ; global_address global[0x003c] ; ...
+[01:use] jmp 0x0159 ; loopnext ; jmp 0x0097 ; ...
+//
+//
+//
+//
+//
+//
+[01:use] pop_local_word xOff ; pop_local_word yOff ; jmp 0x033b ; ...
+//
+//
+//
+[01:use] pop_local_word xOff ; pop_local_word yOff ; jmp 0x033b ; ...
+//
+//
+//
+[01:use] pop_local_word xOff ; pop_local_word yOff ; jmp 0x033b ; ...
+//
+//
+//
+[01:use] pop_local_word xOff ; pop_local_word yOff ; jmp 0x033b ; ...
+//
+//
+//
+[01:use] pop_local_word xOff ; pop_local_word yOff ; jmp 0x033b ; ...
+//
+//
+//
+[01:use] pop_local_word xOff ; pop_local_word yOff ; jmp 0x033b ; ...
+//
+//
+//
+[01:use] pop_local_word xOff ; pop_local_word yOff ; jmp 0x033b ; ...
+//
+//
+//
+[01:use] pop_local_word xOff ; pop_local_word yOff ; jmp 0x033b ; ...
+//
+//
+//
+[01:use] pop_local_word xOff ; pop_local_word yOff ; jmp 0x033b ; ...
+//
+//
+//
+[01:use] pop_local_word xOff ; pop_local_word yOff ; jmp 0x033b ; ...
+//
+//
+//
+[01:use] pop_local_word xOff ; pop_local_word yOff ; jmp 0x033b ; ...
+//
+//
+//
+[01:use] pop_local_word xOff ; pop_local_word yOff ; jmp 0x033b ; ...
+//
+//
+//
+[01:use] pop_local_word xOff ; pop_local_word yOff ; jmp 0x033b ; ...
+//
+//
+//
+[01:use] pop_local_word xOff ; pop_local_word yOff ; jmp 0x033b ; ...
+//
+//
+//
+[01:use] pop_local_word xOff ; pop_local_word yOff ; jmp 0x033b ; ...
+//
+//
+//
+[01:use] pop_local_word xOff ; pop_local_word yOff ; jmp 0x033b ; ...
+//
+//
+//
+//
+//
+//
+//
+[01:use] jne 0x0543
+//
+[01:use] global_address global[0x003c] ; call_intrinsic AudioProcess.stopSFXCru(arg_bytes=0x4) ; jne 0x035d ; ...
+//
+[01:use] pop_local_byte InCrouch ; jmp 0x0394
+//
+//
+//
+[01:use] pop_local_byte InCrouch
+[01:use] global_address global[0x003c] ; call_intrinsic Actor.getDir(arg_bytes=0x4) ; global_address global[0x003c] ; ...
+//
+//
+//
+//
+//
+[01:use] call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[01:use] global_address global[0x003c] ; call_intrinsic Item.getZ(arg_bytes=0x4) ; global_address global[0x003c] ; ...
+[01:use] spawn BLASTPAC.slot_20 ; pop_temp ; ...
+//
+[01:use] global_address global[0x003c] ; call_intrinsic Actor.doAnim(arg_bytes=0x4) ; jne 0x0421 ; ...
+//
+[01:use] spawn FREE.slot_21 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[01:use] not ; jne 0x04eb
+[01:use] global_address global[0x003c] ; call_intrinsic Actor.getDir(arg_bytes=0x4) ; global_address global[0x003c] ; ...
+//
+//
+[01:use] jne 0x04e8
+[01:use] global_address global[0x003c] ; call_intrinsic Actor.getDir(arg_bytes=0x4) ; global_address global[0x003c] ; ...
+[01:use] global_address global[0x003c] ; call_intrinsic Actor.getDir(arg_bytes=0x4) ; global_address global[0x003c] ; ...
+//
+//
+//
+//
+[01:use] spawn FREE.slot_21 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[01:use] call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[01:use] call_intrinsic Item.popToCoords(arg_bytes=0xa) ; ...
+[01:use] call_intrinsic AudioProcess.isSFXPlayingForObject(arg_bytes=0x4) ; jmp 0x0598 ; ...
+//
+//
+//
+//
+[01:use] spawn FREE.slot_21 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[01:use] call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[01:use] call_intrinsic Item.popToCoords(arg_bytes=0xa) ; ...
+[01:use] call_intrinsic AudioProcess.isSFXPlayingForObject(arg_bytes=0x4)
+//
+//
+//
+[01:use] call_intrinsic Ultima8Engine.setAvatarInStasis(arg_bytes=0x2)
+[01:use] ret
+//
+//
+//
+//
+//
+//
+//
+[20:slot_20] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[20:slot_20] set_info
+//
+//
+[20:slot_20] pop_local_word counter ; le ; jne 0x008c ; ...
+//
+[20:slot_20] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[20:slot_20] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+//
+//
+[20:slot_20] spawn ITEM.slot_28 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[20:slot_20] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[20:slot_20] pop_global global[0x0020] ; loopscr value_u8=0x24 ; loopscr value_u8=0x3d ; ...
+//
+//
+[20:slot_20] loopscr value_u8=0x25 ; mul ; ...
+[20:slot_20] loop current_var=0xfe, string_bytes=0x6, loop_type=0x2 ; jne 0x015c
+[20:slot_20] call_intrinsic Item.setQLo(arg_bytes=0x6)
+[20:slot_20] spawn ITEM.slot_28 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[20:slot_20] call_intrinsic Item.setFrame(arg_bytes=0x6)
+[20:slot_20] pop_local_word therm ; loopnext ; jmp 0x010e ; ...
+//
+//
+[20:slot_20] loopscr value_u8=0x25 ; mul ; ...
+[20:slot_20] loop current_var=0xfe, string_bytes=0x6, loop_type=0x2 ; jne 0x01d3
+[20:slot_20] spawn ITEM.slot_28 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[20:slot_20] pop_local_word thermTop
+[20:slot_20] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[20:slot_20] global_address global[0x003c] ; call_intrinsic Item.getItemFamily(arg_bytes=0x4) ; jne 0x01eb ; ...
+//
+[20:slot_20] jmp 0x0907 ; loopscr value_u8=0x24 ; loopscr value_u8=0x3d ; ...
+//
+//
+[20:slot_20] loopscr value_u8=0x25 ; mul ; ...
+[20:slot_20] loop current_var=0xfe, string_bytes=0x6, loop_type=0x2 ; jne 0x024c
+[20:slot_20] call_intrinsic Item.explode(arg_bytes=0x8) ; ...
+[20:slot_20] call_intrinsic UCMachine.rndRange(arg_bytes=0x4) ; spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; ...
+//
+//
+//
+[20:slot_20] pop_local_word counter ; le ; jne 0x02b1 ; ...
+//
+[20:slot_20] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+[20:slot_20] call_intrinsic Container.destroyContents(arg_bytes=0x6) ; jne 0x02a4 ; ...
+//
+[20:slot_20] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+[20:slot_20] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[20:slot_20] loopscr value_u8=0x25 ; mul ; ...
+[20:slot_20] loop current_var=0xfe, string_bytes=0x6, loop_type=0x2 ; jne 0x035b
+[20:slot_20] spawn ITEM.slot_28 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[20:slot_20] call_intrinsic Item.setFrame(arg_bytes=0x6)
+[20:slot_20] call_intrinsic UCMachine.rndRange(arg_bytes=0x4) ; spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; ...
+//
+//
+[20:slot_20] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[20:slot_20] spawn FREE.slot_26 ; free_stack_string value_u8=0x0, target=[SP+00h] ; implies arg0=0x1, arg1=0x1 ; ...
+//
+//
+[20:slot_20] loopscr value_u8=0x42
+[20:slot_20] mul
+[20:slot_20] loop current_var=0xfe, string_bytes=0x6, loop_type=0x2 ; jne 0x03e2
+[20:slot_20] call_intrinsic Item.destroy(arg_bytes=0x4) ; loopnext ; jmp 0x03d0 ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[20:slot_20] pop_global global[0x0023]
+//
+[20:slot_20] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[20:slot_20] loopscr value_u8=0x25 ; mul ; ...
+[20:slot_20] loop current_var=0xfe, string_bytes=0x6, loop_type=0x2 ; jne 0x047c
+[20:slot_20] call_intrinsic Item.setQLo(arg_bytes=0x6)
+[20:slot_20] call_intrinsic Item.explode(arg_bytes=0x8) ; ...
+[20:slot_20] call_intrinsic Item.setFrame(arg_bytes=0x6)
+[20:slot_20] pop_local_word radar ; loopnext ; jmp 0x0444 ; ...
+//
+//
+[20:slot_20] loopscr value_u8=0x25 ; mul ; ...
+[20:slot_20] loop current_var=0xfe, string_bytes=0x6, loop_type=0x2 ; jne 0x0521
+[20:slot_20] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[20:slot_20] call_intrinsic Item.getX(arg_bytes=0x4) ; pop_local_word x ; ...
+[20:slot_20] call_intrinsic Item.getY(arg_bytes=0x4) ; pop_local_word y ; ...
+[20:slot_20] call_intrinsic Item.getZ(arg_bytes=0x4) ; pop_local_word z ; ...
+//
+[20:slot_20] call_intrinsic Item.explode(arg_bytes=0x8) ; ...
+[20:slot_20] call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[20:slot_20] call_intrinsic Item.popToCoords(arg_bytes=0xa) ; loopnext ; jmp 0x049a ; ...
+//
+//
+[20:slot_20] loopscr value_u8=0x42
+[20:slot_20] mul
+[20:slot_20] loop current_var=0xfe, string_bytes=0x6, loop_type=0x2 ; jne 0x057d
+[20:slot_20] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[20:slot_20] call_intrinsic Item.explode(arg_bytes=0x8) ; loopnext ; jmp 0x0541 ; ...
+//
+//
+//
+[20:slot_20] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[20:slot_20] global_address global[0x003c] ; call_intrinsic Item.getItemFamily(arg_bytes=0x4) ; jne 0x05bb ; ...
+//
+[20:slot_20] jmp 0x0907 ; loopscr value_u8=0x24 ; loopscr value_u8=0x3d ; ...
+//
+//
+[20:slot_20] loopscr value_u8=0x25 ; mul ; ...
+[20:slot_20] loop current_var=0xfe, string_bytes=0x6, loop_type=0x2 ; jne 0x061c
+[20:slot_20] call_intrinsic Item.explode(arg_bytes=0x8) ; ...
+[20:slot_20] call_intrinsic UCMachine.rndRange(arg_bytes=0x4) ; spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; ...
+//
+//
+//
+//
+[20:slot_20] pop_local_word counter ; le ; jne 0x0683 ; ...
+//
+[20:slot_20] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+//
+[20:slot_20] call_intrinsic Container.destroyContents(arg_bytes=0x6) ; jne 0x0676 ; ...
+//
+[20:slot_20] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+[20:slot_20] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[20:slot_20] spawn FREE.slot_26 ; free_stack_string value_u8=0x0, target=[SP+00h] ; implies arg0=0x1, arg1=0x1 ; ...
+//
+//
+[20:slot_20] loopscr value_u8=0x42
+[20:slot_20] mul
+[20:slot_20] loop current_var=0xfe, string_bytes=0x6, loop_type=0x2 ; jne 0x0706
+[20:slot_20] call_intrinsic Item.destroy(arg_bytes=0x4) ; loopnext ; jmp 0x06f4 ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+[20:slot_20] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[20:slot_20] pop_global global[0x002e] ; loopscr value_u8=0x24 ; loopscr value_u8=0x3d ; ...
+//
+[20:slot_20] loopscr value_u8=0x25 ; mul ; ...
+[20:slot_20] loop current_var=0xfe, string_bytes=0x6, loop_type=0x2 ; jne 0x07af
+[20:slot_20] call_intrinsic Item.setQLo(arg_bytes=0x6)
+[20:slot_20] spawn ITEM.slot_28 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[20:slot_20] call_intrinsic Item.setFrame(arg_bytes=0x6) ; loopnext ; jmp 0x0768 ; ...
+//
+//
+[20:slot_20] loopscr value_u8=0x25 ; mul ; ...
+[20:slot_20] loop current_var=0xfe, string_bytes=0x6, loop_type=0x2 ; jne 0x07e3
+[20:slot_20] call_intrinsic Item.setFrame(arg_bytes=0x6) ; loopnext ; jmp 0x07cf ; ...
+//
+//
+//
+[20:slot_20] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[20:slot_20] global_address global[0x003c] ; call_intrinsic Item.getItemFamily(arg_bytes=0x4) ; jne 0x0821 ; ...
+//
+[20:slot_20] jmp 0x0907 ; loopscr value_u8=0x24 ; loopscr value_u8=0x3d ; ...
+//
+//
+[20:slot_20] loopscr value_u8=0x25 ; mul ; ...
+[20:slot_20] loop current_var=0xfe, string_bytes=0x6, loop_type=0x2 ; jne 0x0899
+[20:slot_20] call_intrinsic legalMoveToPoint(arg_bytes=0x4) ; cmp ; jne 0x0895 ; ...
+[20:slot_20]
+[20:slot_20] call_intrinsic Item.explode(arg_bytes=0x8) ; ...
+[20:slot_20] call_intrinsic UCMachine.rndRange(arg_bytes=0x4) ; spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; ...
+//
+//
+//
+//
+[20:slot_20] loopscr value_u8=0x25 ; mul ; ...
+[20:slot_20] loop current_var=0xfe, string_bytes=0x6, loop_type=0x2 ; jne 0x08f1
+[20:slot_20] call_intrinsic Item.destroy(arg_bytes=0x4)
+[20:slot_20] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[20:slot_20] spawn FREE.slot_22 ; pop_temp ; jmp 0x0907 ; ...
+//
+//
+//
+[20:slot_20] ret
+
+/* synthesized appendix for BLASTPAC */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x01 use ===== */
+function blastpac_use() /* entry=925 class_id=0x039b slot=0x01 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    InCrouch, /* [BP-01h] type=0x62 */
+    Blastpac, /* [BP-03h] type=0x24 */
+    target, /* [BP-05h] type=0x24 */
+    item, /* [BP-07h] type=0x24 */
+    counter, /* [BP-09h] type=0x69 */
+    lastAnim, /* [BP-11h] type=0x69 */
+    xOff, /* [BP-13h] type=0x69 */
+    yOff, /* [BP-15h] type=0x69 */
+    mine; /* [BP-17h] type=0x24 */
+
+  set_info(0x0207, *(arg_06));
+  process_exclude();
+  Blastpac = *(arg_06);
+  set_info(0x00f0, 0);
+  lastAnim = Actor.getLastAnimSet(&global[0x003c]);
+  Ultima8Engine.setAvatarInStasis(1);
+  while (Actor.doAnim(&global[0x003c])) {
+    spawn FREE.slot_32(pid, 2, 0x00000000);
+    suspend;
+  }
+  for item in nearby_items(shape=0x053a, origin=global[0x003c]) {
+    target = item;
+    FREE.slot_29(target, global[0x003c]);
+    while ((retval > 3) && (counter != 6)) {
+      spawn NPC.slot_22(MainActor.addItemCru(pid, 1, Item.getY(target), Item.getX(Item.getY(Item.getX(target), &global[0x003c]), &global[0x003c])), &global[0x003c]);
+      suspend;
+      counter = (1 + counter);
+    }
+    suspend;
+  }
+  switch (Actor.getDir(&global[0x003c])) {
+  case 0:
+    xOff = -1;
+    yOff = -3;
+    break;
+  case 1:
+    xOff = 0;
+    yOff = -3;
+    break;
+  case 2:
+    xOff = 1;
+    yOff = -3;
+    break;
+  case 3:
+    xOff = 2;
+    yOff = -2;
+    break;
+  case 4:
+    xOff = 2;
+    yOff = -1;
+    break;
+  case 5:
+    xOff = 2;
+    yOff = 0;
+    break;
+  case 6:
+    xOff = 2;
+    yOff = 2;
+    break;
+  case 7:
+    xOff = 0;
+    yOff = 2;
+    break;
+  case 8:
+    xOff = -1;
+    yOff = 2;
+    break;
+  case 9:
+    xOff = -2;
+    yOff = 2;
+    break;
+  case 10:
+    xOff = -3;
+    yOff = 2;
+    break;
+  case 11:
+    xOff = -3;
+    yOff = 1;
+    break;
+  case 12:
+    xOff = -3;
+    yOff = 0;
+    break;
+  case 13:
+    xOff = -3;
+    yOff = -1;
+    break;
+  case 14:
+    xOff = -3;
+    yOff = -2;
+    break;
+  case 15:
+    xOff = -3;
+    yOff = -3;
+    break;
+  }
+  if (target) {
+    if (AudioProcess.stopSFXCru(&global[0x003c])) {
+      InCrouch = 1;
+    }
+    else {
+      InCrouch = 0;
+      suspend;
+    }
+    Item.create(0, 0x053f, mine);
+    Item.popToCoords((Item.getX((Item.getY(Item.getZ(&global[0x003c]), &global[0x003c]) + (yOff * 16)), &global[0x003c]) + (xOff * 16)), mine);
+    spawn BLASTPAC.slot_20(mine, arg_06);
+    while (Actor.doAnim(&global[0x003c])) {
+      spawn FREE.slot_32(pid, 2, 0x00000000);
+      suspend;
+    }
+    spawn FREE.slot_21(pid, 13, 0x00000000);
+    suspend;
+    if (!InCrouch) {
+      suspend;
+      if (target) {
+        suspend;
+        suspend;
+      }
+    }
+    else {
+      spawn FREE.slot_21(pid, 0x00b0, 0x00000000);
+      suspend;
+      Item.create(0, BLAST_PAC, mine);
+      Item.popToCoords(0, 0, 0, mine);
+      AudioProcess.isSFXPlayingForObject(0, mine);
+    }
+  }
+  else {
+    spawn FREE.slot_21(pid, 0x00b0, 0x00000000);
+    suspend;
+    Item.create(0, BLAST_PAC, mine);
+    Item.popToCoords(0, 0, 0, mine);
+    AudioProcess.isSFXPlayingForObject(0, mine);
+  }
+  Ultima8Engine.setAvatarInStasis(0);
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol InCrouch [BP-01h] type=0x62 unk1=0x00 unk3=0x00
+    debug_symbol Blastpac [BP-03h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol target [BP-05h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol item [BP-07h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol counter [BP-09h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol lastAnim [BP-11h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol xOff [BP-13h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol yOff [BP-15h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol mine [BP-17h] type=0x24 unk1=0x00 unk3=0x02
+  */
+}
+
+/* ===== slot 0x20 slot_20 ===== */
+function blastpac_slot_20() /* entry=925 class_id=0x039b slot=0x20 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    pac, /* [BP+10h] type=0x24 */
+    item, /* [BP-02h] type=0x24 */
+    counter, /* [BP-04h] type=0x69 */
+    therm, /* [BP-06h] type=0x24 */
+    thermTop, /* [BP-08h] type=0x24 */
+    radar, /* [BP-10h] type=0x24 */
+    radarPart, /* [BP-12h] type=0x24 */
+    x, /* [BP-14h] type=0x69 */
+    y, /* [BP-16h] type=0x69 */
+    z; /* [BP-18h] type=0x69 */
+
+  spawn FREE.slot_32(pid, 60, 0x00000000);
+  suspend;
+  set_info(0x00f0, 0);
+  counter = 1;
+  while (counter <= 5) {
+    spawn FREE.slot_32(pid, 60, 0x00000000);
+    suspend;
+    AudioProcess.playSFXCru(51, pac);
+    counter = (1 + counter);
+  }
+  spawn ITEM.slot_28(pid, 1, 2, pac);
+  suspend;
+  switch (Actor.getMap(&global[0x003c])) {
+  case 1:
+    spawn FREE.slot_32(pid, 10, 0x00000000);
+    suspend;
+    for item in nearby_items(shape=REACTOR, origin=global[0x003c]) {
+      Item.setQLo(0x00a4, arg_06);
+      spawn ITEM.slot_28(pid, 0, 2, item);
+      suspend;
+      Item.setFrame(1, item);
+      therm = item;
+    }
+    for item in nearby_items(shape=REACTOR_CELL, origin=therm) {
+      spawn ITEM.slot_28(pid, 1, 0, item);
+      suspend;
+      thermTop = item;
+      spawn FREE.slot_32(pid, 30, 0x00000000);
+      suspend;
+    }
+    if (Item.getItemFamily(&global[0x003c])) {
+      return;
+    }
+    for item in nearby_items(shape=NUMBERS, origin=therm) {
+      Item.explode(1, 0, item);
+      spawn FREE.slot_32(UCMachine.rndRange(pid, 20, 10), 0x00000000);
+      suspend;
+    }
+    counter = 0;
+    while (counter <= 2) {
+      AudioProcess.playSFXCru(22, thermTop);
+      while (Container.destroyContents(22, thermTop)) {
+        spawn FREE.slot_32(pid, 2, 0x00000000);
+        suspend;
+      }
+      counter = (1 + counter);
+    }
+    spawn FREE.slot_32(pid, 30, 0x00000000);
+    suspend;
+    for item in nearby_items(shape=ELECTRODE, origin=therm) {
+      spawn ITEM.slot_28(pid, 0, 0, item);
+      suspend;
+      Item.setFrame(1, item);
+      spawn FREE.slot_32(UCMachine.rndRange(pid, 10, 5), 0x00000000);
+      suspend;
+    }
+    spawn FREE.slot_32(pid, 0x00c8, 0x00000000);
+    suspend;
+    spawn FREE.slot_26(pid, "1c", 0x00000000);
+    suspend;
+    for item in selector_0x42(arg0=0x032a, arg1=0x0329, arg2=(50 * 32), origin=global[0x003c]) {
+      Item.destroy(item);
+    }
+    return;
+  case 7:
+    spawn FREE.slot_32(pid, 10, 0x00000000);
+    suspend;
+    for item in nearby_items(shape=COMM_CONSOLE, origin=global[0x003c]) {
+      Item.setQLo(0x0092, arg_06);
+      Item.explode(0, 2, item);
+      Item.setFrame(1, item);
+      radar = item;
+    }
+    for item in nearby_items(shape=RADAR_DISH, origin=radar) {
+      spawn FREE.slot_32(pid, 30, 0x00000000);
+      suspend;
+      x = Item.getX(item);
+      y = Item.getY(item);
+      z = Item.getZ(item);
+      Item.explode(1, 1, item);
+      Item.create(0, 0x0484, item);
+      Item.popToCoords(z, y, x, item);
+    }
+    for item in selector_0x42(arg0=0x01a5, arg1=0x01a4, arg2=(50 * 32), origin=radar) {
+      spawn FREE.slot_32(pid, 30, 0x00000000);
+      suspend;
+      Item.explode(1, 0, item);
+    }
+    spawn FREE.slot_32(pid, 60, 0x00000000);
+    suspend;
+    if (Item.getItemFamily(&global[0x003c])) {
+      return;
+    }
+    for item in nearby_items(shape=NUMBERS, origin=radar) {
+      Item.explode(1, 0, item);
+      spawn FREE.slot_32(UCMachine.rndRange(pid, 20, 10), 0x00000000);
+      suspend;
+    }
+    counter = 0;
+    while (counter <= 2) {
+      AudioProcess.playSFXCru(0x0096, radar);
+      while (Container.destroyContents(0x0096, radar)) {
+        spawn FREE.slot_32(pid, 2, 0x00000000);
+        suspend;
+      }
+      counter = (1 + counter);
+    }
+    spawn FREE.slot_32(pid, 0x00c8, 0x00000000);
+    suspend;
+    spawn FREE.slot_26(pid, "4g", 0x00000000);
+    suspend;
+    for item in selector_0x42(arg0=0x032a, arg1=0x0329, arg2=(50 * 32), origin=radar) {
+      Item.destroy(item);
+    }
+    return;
+  case 29:
+    spawn FREE.slot_32(pid, 10, 0x00000000);
+    suspend;
+    for item in nearby_items(shape=LIGHT_TUBE, origin=global[0x003c]) {
+      Item.setQLo(0x00a4, arg_06);
+      spawn ITEM.slot_28(pid, 0, 2, item);
+      suspend;
+      Item.setFrame(6, item);
+    }
+    for item in nearby_items(shape=TUBE_PLATFORM, origin=global[0x003c]) {
+      Item.setFrame(1, item);
+    }
+    spawn FREE.slot_32(pid, 60, 0x00000000);
+    suspend;
+    if (Item.getItemFamily(&global[0x003c])) {
+      return;
+    }
+    else {
+      for item in nearby_items(shape=NUMBERS, origin=global[0x003c]) {
+        if (legalMoveToPoint(item) == 0) {
+          Item.explode(1, 0, item);
+          spawn FREE.slot_32(UCMachine.rndRange(pid, 30, 20), 0x00000000);
+          suspend;
+        }
+      }
+      for item in nearby_items(shape=0x03b0, origin=global[0x003c]) {
+        Item.destroy(item);
+        spawn FREE.slot_32(pid, 20, 0x00000000);
+        suspend;
+      }
+      spawn FREE.slot_22(0x00000000);
+      return;
+    }
+    break;
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol pac [BP+10h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol item [BP-02h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol counter [BP-04h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol therm [BP-06h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol thermTop [BP-08h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol radar [BP-10h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol radarPart [BP-12h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol x [BP-14h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol y [BP-16h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol z [BP-18h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}

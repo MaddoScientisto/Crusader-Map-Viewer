@@ -428,12 +428,14 @@ function buildShapeDefinition(info, shape, catalogEntry, dtableEntry = null) {
       description: catalogEntry?.description ?? "",
       roof: catalogEntry?.roof ?? null,
       semitransparency: catalogEntry?.semitransparency ?? null,
-      oob: catalogEntry?.oob ?? null
+      oob: catalogEntry?.oob ?? null,
+      surfaceType: catalogEntry?.surfaceType ?? ""
     },
     catalogOverrides: {
       roof: catalogEntry?.roof ?? null,
       semitransparency: catalogEntry?.semitransparency ?? null,
-      oob: catalogEntry?.oob ?? null
+      oob: catalogEntry?.oob ?? null,
+      surfaceType: catalogEntry?.surfaceType ?? ""
     },
     tableFallback: dtableEntry
       ? {
@@ -1078,7 +1080,6 @@ export class BuildManager {
         fileStamps.push(xformPath);
       }
     }
-    const catalogDigest = groupGames[0] ? getShapeCatalog(groupGames[0].id).digest : "missing";
     const dtableDigest = groupGames[0] ? getShapeNameTable(groupGames[0].id).digest : "missing";
 
     return sha1(
@@ -1086,7 +1087,6 @@ export class BuildManager {
         version: SCENE_CACHE_VERSION,
         referenceId,
         files: [...new Set(fileStamps)].map((filePath) => fileStamp(filePath)).sort(),
-        catalogDigest,
         dtableDigest
       })
     ).slice(0, 16);
@@ -1316,7 +1316,6 @@ export class BuildManager {
         game: gameConfig.id,
         mapId,
         files: relevantFiles.map((filePath) => fileStamp(filePath)),
-        catalogDigest: catalogInfo.digest,
         dtableDigest: dtableInfo?.digest ?? "missing"
       })
     ).slice(0, 16);

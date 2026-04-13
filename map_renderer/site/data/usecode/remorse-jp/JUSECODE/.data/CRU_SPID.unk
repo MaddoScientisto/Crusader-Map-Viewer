@@ -1,0 +1,539 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[05:hit] call_intrinsic Item.explode(arg_bytes=0x8) ; ...
+[05:hit] ret
+//
+//
+//
+//
+[01:use] global_address global[0x003c] ; call_intrinsic Actor.getMap(arg_bytes=0x4) ; cmp ; ...
+[01:use]
+//
+[01:use] call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[01:use] call_intrinsic Item.popToCoords(arg_bytes=0xa) ; ...
+[01:use] call_intrinsic AudioProcess.isSFXPlayingForObject(arg_bytes=0x4)
+//
+[01:use] jmp 0x0438
+//
+//
+//
+//
+//
+[01:use] pop_local_word Cru_Spider
+//
+//
+[01:use] set_info
+//
+//
+[01:use] global_address global[0x003c] ; call_intrinsic mouseSomethingOffMaybe05D(arg_bytes=0x4) ; pop_local_word lastAnim ; ...
+//
+//
+[01:use] call_intrinsic Ultima8Engine.setAvatarInStasis(arg_bytes=0x2)
+[01:use] global_address global[0x003c] ; call_intrinsic Actor.doAnim(arg_bytes=0x4) ; jne 0x00c3 ; ...
+//
+//
+//
+//
+//
+[01:use] pop_local_word xOff ; pop_local_word yOff ; jmp 0x02a3 ; ...
+//
+//
+//
+[01:use] pop_local_word xOff ; pop_local_word yOff ; jmp 0x02a3 ; ...
+//
+//
+//
+[01:use] pop_local_word xOff ; pop_local_word yOff ; jmp 0x02a3 ; ...
+//
+//
+//
+[01:use] pop_local_word xOff ; pop_local_word yOff ; jmp 0x02a3 ; ...
+//
+//
+//
+[01:use] pop_local_word xOff ; pop_local_word yOff ; jmp 0x02a3 ; ...
+//
+//
+//
+[01:use] pop_local_word xOff ; pop_local_word yOff ; jmp 0x02a3 ; ...
+//
+//
+//
+[01:use] pop_local_word xOff ; pop_local_word yOff ; jmp 0x02a3 ; ...
+//
+//
+//
+[01:use] pop_local_word xOff ; pop_local_word yOff ; jmp 0x02a3 ; ...
+//
+//
+//
+[01:use] pop_local_word xOff ; pop_local_word yOff ; jmp 0x02a3 ; ...
+//
+//
+//
+[01:use] pop_local_word xOff ; pop_local_word yOff ; jmp 0x02a3 ; ...
+//
+//
+//
+[01:use] pop_local_word xOff ; pop_local_word yOff ; jmp 0x02a3 ; ...
+//
+//
+//
+[01:use] pop_local_word xOff ; pop_local_word yOff ; jmp 0x02a3 ; ...
+//
+//
+//
+[01:use] pop_local_word xOff ; pop_local_word yOff ; jmp 0x02a3 ; ...
+//
+//
+//
+[01:use] pop_local_word xOff ; pop_local_word yOff ; jmp 0x02a3 ; ...
+//
+//
+//
+[01:use] pop_local_word xOff ; pop_local_word yOff ; jmp 0x02a3 ; ...
+//
+//
+//
+[01:use] pop_local_word xOff ; pop_local_word yOff ; jmp 0x02a3 ; ...
+//
+//
+//
+//
+//
+[01:use] global_address global[0x003c] ; call_intrinsic AudioProcess.stopSFXCru(arg_bytes=0x4) ; jne 0x02bd ; ...
+//
+[01:use] pop_local_byte InCrouch ; jmp 0x02f4
+//
+//
+//
+[01:use] pop_local_byte InCrouch
+[01:use] global_address global[0x003c] ; call_intrinsic Actor.getDir(arg_bytes=0x4) ; global_address global[0x003c] ; ...
+//
+//
+//
+//
+//
+[01:use] global_address global[0x003c] ; call_intrinsic Item.getX(arg_bytes=0x4) ; mul ; ...
+[01:use] global_address global[0x003c] ; call_intrinsic Item.getY(arg_bytes=0x4) ; mul ; ...
+[01:use] global_address global[0x003c] ; call_intrinsic Item.getZ(arg_bytes=0x4) ; pop_local_byte local_18 ; ...
+//
+//
+[01:use] call_intrinsic playFlicsomething(arg_bytes=0xc) ; not ; jne 0x03bf ; ...
+[01:use]
+[01:use] call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[01:use] call_intrinsic Item.popToCoords(arg_bytes=0xa) ; ...
+[01:use] call_intrinsic AudioProcess.isSFXPlayingForObject(arg_bytes=0x4)
+//
+//
+[01:use] not ; jne 0x03ae
+[01:use] global_address global[0x003c] ; call_intrinsic Actor.getDir(arg_bytes=0x4) ; global_address global[0x003c] ; ...
+//
+//
+[01:use] call_intrinsic Ultima8Engine.setAvatarInStasis(arg_bytes=0x2)
+[01:use] jmp 0x0438
+//
+//
+[01:use] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+[01:use] pop_local_word counter ; le ; jne 0x041b ; ...
+//
+[01:use] call_intrinsic Item.getPoint(arg_bytes=0x6)
+[01:use] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+[01:use] spawn CRU_SPID.slot_20 ; pop_temp ; ...
+//
+[01:use] call_intrinsic Ultima8Engine.setAvatarInStasis(arg_bytes=0x2)
+//
+[01:use] ret
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[20:slot_20] pop_local_word item
+//
+[20:slot_20] call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[20:slot_20] call_intrinsic Item.orStatus(arg_bytes=0x6)
+[20:slot_20] call_intrinsic Item.getZ(arg_bytes=0x4) ; call_intrinsic Item.getY(arg_bytes=0x4) ; call_intrinsic Item.getX(arg_bytes=0x4) ; ...
+[20:slot_20] call_intrinsic AudioProcess.playAmbientSFXCru(arg_bytes=0x6)
+//
+[20:slot_20] set_info
+//
+[20:slot_20] call_intrinsic Item.destroy(arg_bytes=0x4)
+//
+//
+[20:slot_20] lt ; jne 0x0324 ; global_address global[0x003c] ; ...
+[20:slot_20]
+//
+//
+//
+//
+[20:slot_20] pop_local_word xOff ; pop_local_word yOff ; jmp 0x01f1 ; ...
+//
+//
+//
+[20:slot_20] pop_local_word xOff ; pop_local_word yOff ; jmp 0x01f1 ; ...
+//
+//
+//
+[20:slot_20] pop_local_word xOff ; pop_local_word yOff ; jmp 0x01f1 ; ...
+//
+//
+//
+[20:slot_20] pop_local_word xOff ; pop_local_word yOff ; jmp 0x01f1 ; ...
+//
+//
+//
+[20:slot_20] pop_local_word xOff ; pop_local_word yOff ; jmp 0x01f1 ; ...
+//
+//
+//
+[20:slot_20] pop_local_word xOff ; pop_local_word yOff ; jmp 0x01f1 ; ...
+//
+//
+//
+[20:slot_20] pop_local_word xOff ; pop_local_word yOff ; jmp 0x01f1 ; ...
+//
+//
+//
+[20:slot_20] pop_local_word xOff ; pop_local_word yOff ; jmp 0x01f1 ; ...
+//
+//
+//
+//
+[20:slot_20] call_intrinsic mouseSomethingResume05F(arg_bytes=0x8)
+[20:slot_20] mul ; add ; pop_local_word wp ; ...
+[20:slot_20] mul ; add ; pop_local_word local_11 ; ...
+//
+//
+[20:slot_20] call_intrinsic Item.andStatus(arg_bytes=0xc) ; not ; jne 0x027c ; ...
+[20:slot_20]
+[20:slot_20] add ; pop_local_byte local_09 ; ...
+//
+[20:slot_20] call_intrinsic Item.andStatus(arg_bytes=0xc) ; not ; jne 0x027c ; ...
+[20:slot_20]
+[20:slot_20] call_intrinsic Item.andStatus(arg_bytes=0xc) ; not ; jne 0x027c ; ...
+[20:slot_20]
+[20:slot_20] call_intrinsic Item.explode(arg_bytes=0x8) ; ...
+//
+//
+//
+//
+[20:slot_20] add ; pop_local_word counter2 ; ...
+//
+[20:slot_20] cmp ; gt ; and ; ...
+[20:slot_20]
+[20:slot_20] sub ; pop_local_byte local_09 ; ...
+//
+[20:slot_20] call_intrinsic Item.andStatus(arg_bytes=0xc) ; jne 0x02ea ; ...
+//
+[20:slot_20] call_intrinsic CameraProcess.moveTo(arg_bytes=0x4)
+[20:slot_20] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[20:slot_20] pop_local_word counter2
+//
+//
+//
+[20:slot_20] add ; pop_local_word counter ; ...
+[20:slot_20] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+[20:slot_20] call_intrinsic Item.explode(arg_bytes=0x8) ; ...
+//
+[20:slot_20] ret
+
+/* synthesized appendix for CRU_SPID */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x01 use ===== */
+function cru_spid_use() /* entry=1378 class_id=0x0560 slot=0x01 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    mine, /* [BP-02h] type=0x24 */
+    InCrouch, /* [BP-03h] type=0x62 */
+    Cru_Spider, /* [BP-05h] type=0x24 */
+    target, /* [BP-07h] type=0x24 */
+    item, /* [BP-09h] type=0x24 */
+    counter, /* [BP-11h] type=0x69 */
+    lastAnim, /* [BP-13h] type=0x69 */
+    xOff, /* [BP-15h] type=0x69 */
+    yOff, /* [BP-17h] type=0x69 */
+    wp; /* [BP-22h] type=0x24 */
+
+  set_info(0x0207, *(arg_06));
+  process_exclude();
+  if (Actor.getMap(&global[0x003c]) == 40) {
+    Item.create(0, SPIDER_BOMB, mine);
+    Item.popToCoords(0, 0, 0, mine);
+    AudioProcess.isSFXPlayingForObject(0, mine);
+    return;
+  }
+  else {
+    Cru_Spider = *(arg_06);
+    set_info(0x00f0, 0);
+    lastAnim = mouseSomethingOffMaybe05D(&global[0x003c]);
+    Ultima8Engine.setAvatarInStasis(1);
+    while (Actor.doAnim(&global[0x003c])) {
+      spawn FREE.slot_32(pid, 2, 0x00000000);
+      suspend;
+    }
+    switch (Actor.getDir(&global[0x003c])) {
+    case 0:
+      xOff = -1;
+      yOff = -3;
+      break;
+    case 1:
+      xOff = 0;
+      yOff = -3;
+      break;
+    case 2:
+      xOff = 1;
+      yOff = -3;
+      break;
+    case 3:
+      xOff = 2;
+      yOff = -2;
+      break;
+    case 4:
+      xOff = 2;
+      yOff = -1;
+      break;
+    case 5:
+      xOff = 2;
+      yOff = 0;
+      break;
+    case 6:
+      xOff = 2;
+      yOff = 2;
+      break;
+    case 7:
+      xOff = 0;
+      yOff = 2;
+      break;
+    case 8:
+      xOff = -1;
+      yOff = 2;
+      break;
+    case 9:
+      xOff = -2;
+      yOff = 2;
+      break;
+    case 10:
+      xOff = -3;
+      yOff = 2;
+      break;
+    case 11:
+      xOff = -3;
+      yOff = 1;
+      break;
+    case 12:
+      xOff = -3;
+      yOff = 0;
+      break;
+    case 13:
+      xOff = -3;
+      yOff = -1;
+      break;
+    case 14:
+      xOff = -3;
+      yOff = -2;
+      break;
+    case 15:
+      xOff = -3;
+      yOff = -3;
+      break;
+    }
+    if (AudioProcess.stopSFXCru(&global[0x003c])) {
+      InCrouch = 1;
+    }
+    else {
+      InCrouch = 0;
+      suspend;
+    }
+    wp = (Item.getX(&global[0x003c]) + (xOff * 16));
+    local_20 = (Item.getY(&global[0x003c]) + (yOff * 16));
+    local_18 = Item.getZ(&global[0x003c]);
+    if (!playFlicsomething(wp, 0, 0x0560, mine)) {
+      Item.create(0, SPIDER_BOMB, mine);
+      Item.popToCoords(0, 0, 0, mine);
+      AudioProcess.isSFXPlayingForObject(0, mine);
+      if (!InCrouch) {
+        suspend;
+      }
+      Ultima8Engine.setAvatarInStasis(0);
+      return;
+    }
+    else {
+      AudioProcess.playSFXCru(99, arg_06);
+      counter = 1;
+      while (counter <= 9) {
+        Item.getPoint(counter, mine);
+        spawn FREE.slot_32(pid, 3, 0x00000000);
+        suspend;
+        counter = (1 + counter);
+      }
+      spawn CRU_SPID.slot_20(mine, arg_06);
+      Ultima8Engine.setAvatarInStasis(0);
+    }
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol mine [BP-02h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol InCrouch [BP-03h] type=0x62 unk1=0x00 unk3=0x00
+    debug_symbol Cru_Spider [BP-05h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol target [BP-07h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol item [BP-09h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol counter [BP-11h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol lastAnim [BP-13h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol xOff [BP-15h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol yOff [BP-17h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol wp [BP-22h] type=0x24 unk1=0x00 unk3=0x05
+  */
+}
+
+/* ===== slot 0x05 hit ===== */
+function cru_spid_hit() /* entry=1378 class_id=0x0560 slot=0x05 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    vel; /* [BP+12h] type=0x69 */
+
+  set_info(0x020b, *(arg_06));
+  process_exclude();
+  Item.explode(1, 2, arg_06);
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol ref [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol vel [BP+12h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x20 slot_20 ===== */
+function cru_spid_slot_20() /* entry=1378 class_id=0x0560 slot=0x20 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    counter, /* [BP-02h] type=0x69 */
+    xOff, /* [BP-04h] type=0x69 */
+    yOff, /* [BP-06h] type=0x69 */
+    counter2, /* [BP-08h] type=0x69 */
+    wp, /* [BP-13h] type=0x24 */
+    item, /* [BP-15h] type=0x24 */
+    spider; /* [BP-17h] type=0x24 */
+
+  set_info(0x00f0, *(arg_06));
+  item = ref;
+  Item.create(0, 0x0584, spider);
+  Item.orStatus(0x0080, spider);
+  Item.popToCoords(Item.getZ(item), Item.getY(item), Item.getX(item), spider);
+  AudioProcess.playAmbientSFXCru(91, spider);
+  set_info(0x00f0, spider);
+  Item.destroy(item);
+  while (counter < 0x01f4) {
+    switch (Actor.getDir((Actor.getDir(&global[0x003c])) {
+    case 0), &global[0x003c]) == 1:
+      xOff = 0;
+      yOff = -1;
+      break;
+    case 2), &global[0x003c]) == 3:
+      xOff = 1;
+      yOff = -1;
+      break;
+    case 4), &global[0x003c]) == 5:
+      xOff = 1;
+      yOff = 0;
+      break;
+    case 6), &global[0x003c]) == 7:
+      xOff = 1;
+      yOff = 1;
+      break;
+    case 8), &global[0x003c]) == 9:
+      xOff = 0;
+      yOff = 1;
+      break;
+    case 10), &global[0x003c]) == 11:
+      xOff = -1;
+      yOff = 1;
+      break;
+    case 12), &global[0x003c]) == 13:
+      xOff = -1;
+      yOff = 0;
+      break;
+    case 14), &global[0x003c]) == 15:
+      xOff = -1;
+      yOff = -1;
+      break;
+    }
+    mouseSomethingResume05F(wp, spider);
+    wp = (wp + (xOff * 8));
+    local_11 = (local_11 + (yOff * 8));
+    if (!Item.andStatus(0, 1, wp, spider)) {
+      local_09 = (local_09 + 1);
+      if (!Item.andStatus(0, 1, wp, spider)) {
+        if (!Item.andStatus(0, 1, wp, spider)) {
+          Item.explode(1, 2, spider);
+        }
+      }
+    }
+    counter2 = (1 + counter2);
+    if ((counter2 == 20) && (local_09 > 4)) {
+      local_09 = (local_09 - 4);
+      if (Item.andStatus(0, 1, wp, spider)) {
+        CameraProcess.moveTo(spider);
+        spawn FREE.slot_32(pid, 30, 0x00000000);
+        suspend;
+      }
+      counter2 = 0;
+    }
+    counter = (1 + counter);
+    spawn FREE.slot_32(pid, 5, 0x00000000);
+    suspend;
+  }
+  Item.explode(1, 1, spider);
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol ref [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol counter [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol xOff [BP-04h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol yOff [BP-06h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol counter2 [BP-08h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol wp [BP-13h] type=0x24 unk1=0x00 unk3=0x05
+    debug_symbol item [BP-15h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol spider [BP-17h] type=0x24 unk1=0x00 unk3=0x02
+  */
+}

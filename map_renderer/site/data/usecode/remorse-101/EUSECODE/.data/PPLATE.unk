@@ -1,0 +1,40 @@
+/* synthesized appendix for PPLATE */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x06 gotHit ===== */
+function pplate_gotHit() /* entry=410 class_id=0x0198 slot=0x06 */
+{
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  FREE.slot_2c(arg_12, arg_10);
+  if (retval) {
+    return;
+  }
+  else if (Item.getMapArray(arg_06) != 0) {
+    local_02 = arg_10;
+    if ((Intrinsic056(arg_06) == 0) || (Item.getSurfaceWeight(*(arg_06), local_02) == 0)) {
+      return;
+    }
+    Item.isCentreOn(1, arg_06);
+    AudioProcess.playSFXCru(0x00aa, arg_06);
+    spawn TRIGGER.slot_2a(pid, 0, *(arg_06), arg_06);
+    suspend;
+    while (1) {
+      if (Intrinsic056(arg_06) != 0) {
+        spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+        suspend;
+      }
+      else {
+        Item.isCentreOn(0, arg_06);
+        AudioProcess.playSFXCru(0x00ab, arg_06);
+        spawn TRIGGER.slot_2a(pid, 1, *(arg_06), arg_06);
+        suspend;
+        return;
+      }
+    }
+  }
+  if (!Item.getFrame(arg_06)) {
+    Item.isCentreOn(1, arg_06);
+  }
+  return;
+}

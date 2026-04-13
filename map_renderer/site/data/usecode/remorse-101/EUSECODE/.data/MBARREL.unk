@@ -1,0 +1,59 @@
+/* synthesized appendix for MBARREL */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x05 hit ===== */
+function mbarrel_hit() /* entry=479 class_id=0x01dd slot=0x05 */
+{
+  set_info(0x020b, *(arg_06));
+  process_exclude();
+  local_02 = arg_12;
+  if (arg_12 >= 10) {
+    FREE.slot_20(3);
+    local_08 = retval;
+    FREE.slot_20(3);
+    local_10 = retval;
+    Item.explode(0, 1, arg_06);
+    spawn ITEM.slot_2a(pid, arg_06);
+    suspend;
+    Item.legal_create(local_10, 0x0261, local_06);
+    Item.orStatus(0x0080, local_06);
+    Item.andStatus(Egg.getEggXRange(arg_06), local_06);
+    getTargetNPCNumMaybe(Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06), local_06);
+    Item.destroy(arg_06);
+  }
+  return;
+}
+
+/* ===== slot 0x06 gotHit ===== */
+function mbarrel_gotHit() /* entry=479 class_id=0x01dd slot=0x06 */
+{
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  spawn ITEM.slot_27(pid, 100, arg_12, arg_10, arg_06);
+  suspend;
+  if (!process_result) {
+    FREE.slot_20(1);
+    if (retval) {
+      AudioProcess.playSFXCru(38, arg_06);
+    }
+    else {
+      AudioProcess.playSFXCru(39, arg_06);
+    }
+    return;
+  }
+  else if (Item.getFrame(arg_06) == 0) {
+    local_09 = Item.getZ(arg_06);
+    local_06 = Item.getX(arg_06);
+    local_08 = Item.getY(arg_06);
+    local_11 = Egg.getEggXRange(arg_06);
+    Item.explode(0, 2, arg_06);
+    spawn ITEM.slot_2a(pid, arg_06);
+    suspend;
+    FREE.slot_20(3);
+    Item.legal_create(retval, 0x0261, local_02);
+    Item.andStatus(local_11, local_02);
+    getTargetNPCNumMaybe(local_09, local_08, local_06, local_02);
+    Item.destroy(arg_06);
+  }
+  return;
+}

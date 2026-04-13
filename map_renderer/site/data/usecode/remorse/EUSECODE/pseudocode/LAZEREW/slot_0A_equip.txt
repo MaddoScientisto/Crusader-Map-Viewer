@@ -1,13 +1,17 @@
 function lazerew_equip() /* entry=414 class_id=0x019c slot=0x0a */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    var; /* [BP+10h] type=0x69 */
+
   set_info(0x0211, *(arg_06));
   process_exclude();
   if (Item.getFrame(arg_06) < 4) {
-    if (arg_10 == 1) {
+    if (var == 1) {
       spawn LAZEREW.slot_20(arg_06);
       return;
     }
-    else if (arg_10 > 1) {
+    else if (var > 1) {
       spawn LAZEREW.slot_20(arg_06);
       spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
       suspend;
@@ -21,4 +25,9 @@ function lazerew_equip() /* entry=414 class_id=0x019c slot=0x0a */
     }
   }
   return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol var [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+  */
 }

@@ -3,6 +3,7 @@ import {
   canEditCatalogInRuntime,
   getRuntimeMode
 } from "../shared/runtime-adapter.js";
+import { normalizeCatalogSurfaceType } from "../shared/catalog-surface-types.js";
 
 export function appUrl(relativePath) {
   return new URL(relativePath, APP_BASE_URL);
@@ -55,7 +56,8 @@ export function cloneCatalogSnapshot(entry = null) {
     description: String(entry?.description ?? ""),
     roof: entry?.roof ?? null,
     semitransparency: entry?.semitransparency ?? null,
-    oob: entry?.oob ?? null
+    oob: entry?.oob ?? null,
+    surfaceType: normalizeCatalogSurfaceType(entry?.surfaceType)
   };
 }
 
@@ -65,7 +67,8 @@ export function catalogSnapshotsEqual(left, right) {
     left.description === right.description &&
     left.roof === right.roof &&
     left.semitransparency === right.semitransparency &&
-    left.oob === right.oob
+    left.oob === right.oob &&
+    left.surfaceType === right.surfaceType
   );
 }
 
@@ -75,13 +78,14 @@ function formatHistoryFieldName(fieldName) {
     description: "description",
     roof: "roof status",
     semitransparency: "transparency status",
-    oob: "black out-of-bounds surface status"
+    oob: "black out-of-bounds surface status",
+    surfaceType: "3D surface type"
   };
   return labels[fieldName] ?? fieldName;
 }
 
 export function listChangedCatalogFields(before, after) {
-  return ["humanReadableId", "description", "roof", "semitransparency", "oob"].filter((fieldName) => before[fieldName] !== after[fieldName]);
+  return ["humanReadableId", "description", "roof", "semitransparency", "oob", "surfaceType"].filter((fieldName) => before[fieldName] !== after[fieldName]);
 }
 
 export function formatUndoSummary(changedFields) {

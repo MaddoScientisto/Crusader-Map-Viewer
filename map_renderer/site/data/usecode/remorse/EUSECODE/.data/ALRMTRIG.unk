@@ -1,0 +1,83 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[0A:equip] call_intrinsic Item.getMapArray(arg_bytes=0x4) ; ne ; jne 0x0088 ; ...
+//
+//
+[0A:equip] call_intrinsic World.getAlertActive(arg_bytes=0x0) ; jne 0x005e
+//
+[0A:equip] spawn TRIGGER.slot_20 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+[0A:equip] spawn TRIGGER.slot_20 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+[0A:equip] call_intrinsic World.getAlertActive(arg_bytes=0x0) ; jne 0x00c1
+//
+[0A:equip] add ; spawn TRIGGER.slot_20 ; implies arg0=0x1, arg1=0x1 ; ...
+//
+//
+//
+[0A:equip] add ; spawn TRIGGER.slot_20 ; implies arg0=0x1, arg1=0x1 ; ...
+//
+//
+//
+//
+[0A:equip] cmp ; jne 0x0105 ; ...
+[0A:equip]
+[0A:equip] call_intrinsic Item.destroy(arg_bytes=0x4)
+//
+[0A:equip] ret
+
+/* synthesized appendix for ALRMTRIG */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x0a equip ===== */
+function alrmtrig_equip() /* entry=1411 class_id=0x0581 slot=0x0a */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    var; /* [BP+10h] type=0x69 */
+
+  set_info(0x0211, *(arg_06));
+  process_exclude();
+  if (Item.getMapArray(arg_06) != 0) {
+    if (World.getAlertActive()) {
+      spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
+      suspend;
+    }
+    else {
+      spawn TRIGGER.slot_20(pid, 1, *(arg_06), arg_06);
+      suspend;
+    }
+  }
+  else if (World.getAlertActive()) {
+    spawn TRIGGER.slot_20(pid, (0 + 0x0080), *(arg_06), arg_06);
+    suspend;
+  }
+  else {
+    spawn TRIGGER.slot_20(pid, (1 + 0x0080), *(arg_06), arg_06);
+    suspend;
+  }
+  if (var == 1) {
+    Item.destroy(arg_06);
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol var [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}

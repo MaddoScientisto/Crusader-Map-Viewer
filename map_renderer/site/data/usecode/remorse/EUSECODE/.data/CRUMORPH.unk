@@ -1,0 +1,125 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[0A:equip] loopscr value_u8=0x25 ; mul ; ...
+[0A:equip] loop current_var=0xfe, string_bytes=0x6, loop_type=0x2 ; jne 0x01db ; ...
+[0A:equip] call_intrinsic Actor.isNPC(arg_bytes=0x4) ; jne 0x01d7 ; ...
+//
+[0A:equip] call_intrinsic Actor.GetNPCDataField0x63_00B(arg_bytes=0x4) ; call_intrinsic Item.getQLo(arg_bytes=0x4) ; cmp ; ...
+[0A:equip]
+[0A:equip] call_intrinsic Actor.isDead(arg_bytes=0x4) ; cmp ; jne 0x01d7 ; ...
+//
+[0A:equip] call_class_event NPC.slot_2b ; not ; jne 0x008f ; ...
+[0A:equip]
+[0A:equip] jmp 0x01dd
+//
+//
+//
+[0A:equip] call_intrinsic GetNPCDataField0x2_050(arg_bytes=0x4) ; pop_local_word lastAct ; ...
+//
+[0A:equip] call_intrinsic Actor.clrInCombat(arg_bytes=0x4)
+[0A:equip] call_intrinsic Actor.setDefaultActivity0(arg_bytes=0x6)
+[0A:equip] call_intrinsic Actor.setDefaultActivity1(arg_bytes=0x6)
+[0A:equip] call_intrinsic Actor.setDefaultActivity2(arg_bytes=0x6)
+[0A:equip] call_intrinsic Actor.setActivity(arg_bytes=0x6)
+[0A:equip] call_intrinsic Actor.clrInCombat(arg_bytes=0x4)
+[0A:equip] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[0A:equip] spawn NPC.slot_28 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[0A:equip] call_intrinsic Intrinsic056(arg_bytes=0x2)
+//
+//
+[0A:equip] call_intrinsic getTargetNPCNumMaybe(arg_bytes=0x0) ; gt ; jne 0x016e ; ...
+//
+[0A:equip] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[0A:equip] call_intrinsic Actor.isDead(arg_bytes=0x4) ; cmp ; jne 0x01aa ; ...
+//
+[0A:equip] spawn TRIGGER.slot_20 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+[0A:equip] spawn TRIGGER.slot_20 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[0A:equip] jmp 0x01dd ; loopnext ; jmp 0x0035
+//
+//
+//
+//
+[0A:equip] ret
+
+/* synthesized appendix for CRUMORPH */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x0a equip ===== */
+function crumorph_equip() /* entry=794 class_id=0x0318 slot=0x0a */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    var, /* [BP+10h] type=0x69 */
+    n, /* [BP-02h] type=0x24 */
+    lastAct; /* [BP-04h] type=0x69 */
+
+  set_info(0x0211, *(arg_06));
+  process_exclude();
+  for n in nearby_items(family=6, origin=arg_06) {
+    if (Actor.isNPC(n)) {
+      if (Actor.GetNPCDataField0x63_00B(n) == Item.getQLo(arg_06)) {
+        if (Actor.isDead(n) == 0) {
+          NPC.slot_2b(n);
+          if (!retval) {
+            return;
+          }
+          lastAct = GetNPCDataField0x2_050(n);
+          Actor.clrInCombat(n);
+          Actor.setDefaultActivity0(1, n);
+          Actor.setDefaultActivity1(1, n);
+          Actor.setDefaultActivity2(1, n);
+          Actor.setActivity(112, n);
+          Actor.clrInCombat(n);
+          spawn FREE.waitNTimerTicks(pid, 3, 0x00000000);
+          suspend;
+          spawn NPC.slot_28(pid, n);
+          suspend;
+          Intrinsic056(n);
+          while (getTargetNPCNumMaybe() > 1) {
+            spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+            suspend;
+          }
+          if (Actor.isDead(n) == 0) {
+            spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
+            suspend;
+          }
+          else {
+            spawn TRIGGER.slot_20(pid, 1, *(arg_06), arg_06);
+            suspend;
+          }
+          return;
+        }
+      }
+    }
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol var [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol n [BP-02h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol lastAct [BP-04h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}

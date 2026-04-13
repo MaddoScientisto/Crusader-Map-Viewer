@@ -1,0 +1,485 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[0A:equip] call_intrinsic Item.setQHi(arg_bytes=0x6)
+//
+[0A:equip] call_class_event FREE.slot_33 ; ...
+//
+[0A:equip] cmp ; jne 0x0047 ; ...
+//
+[0A:equip] jmp 0x009d ; loopscr value_u8=0x24
+//
+//
+[0A:equip] mul
+[0A:equip] loop current_var=0xfe, string_bytes=0x1, loop_type=0x2 ; jne 0x009b ; ...
+[0A:equip] push_local_word item
+[0A:equip] ne ; jne 0x0097 ; ...
+[0A:equip] call_intrinsic Item.overlaps(arg_bytes=0x6) ; jne 0x0097 ; ...
+//
+[0A:equip] spawn WINDSURF.gotHit ; pop_temp ; loopnext ; ...
+//
+//
+//
+//
+[0A:equip] ret
+//
+//
+//
+//
+//
+[0B:unequip] mul
+[0B:unequip] loop current_var=0xfe, string_bytes=0x1, loop_type=0x2 ; jne 0x006b ; ...
+[0B:unequip] push_local_word item
+[0B:unequip] ne ; jne 0x0067 ; ...
+[0B:unequip] call_intrinsic Item.overlaps(arg_bytes=0x6) ; jne 0x0067 ; ...
+//
+[0B:unequip] spawn WINDSURF.gotHit ; pop_temp ; loopnext ; ...
+//
+//
+//
+[0B:unequip] ret
+//
+//
+//
+//
+//
+[06:gotHit] call_class_event FREE.slot_2c ; jne 0x002f ; ...
+//
+[06:gotHit] jmp 0x0400
+//
+//
+[06:gotHit] call_intrinsic Item.getMapArray(arg_bytes=0x4) ; cmp ; jne 0x03d9 ; ...
+[06:gotHit]
+//
+[06:gotHit] pop_local_word item
+//
+[06:gotHit] call_intrinsic Item.getTypeFlag(arg_bytes=0x6) ; jne 0x0062 ; ...
+//
+[06:gotHit] jmp 0x0400
+//
+[06:gotHit] call_intrinsic Item.getShape(arg_bytes=0x4) ; cmp ; jne 0x007b ; ...
+//
+[06:gotHit] jmp 0x0400
+//
+[06:gotHit] call_intrinsic Item.overlaps(arg_bytes=0x6) ; cmp ; jne 0x0095 ; ...
+//
+[06:gotHit] jmp 0x0400
+//
+[06:gotHit] call_intrinsic Item.getQHi(arg_bytes=0x4) ; cmp ; jne 0x00ae ; ...
+//
+[06:gotHit] jmp 0x0400
+//
+[06:gotHit] call_intrinsic Item.getZ(arg_bytes=0x4) ; cmp ; jne 0x00c7 ; ...
+//
+[06:gotHit] jmp 0x0400
+//
+[06:gotHit] call_intrinsic Item.getNPCNum(arg_bytes=0x4) ; cmp ; jne 0x00fe ; ...
+//
+[06:gotHit] call_intrinsic Actor.isNPC(arg_bytes=0x4) ; not ; jne 0x00f8 ; ...
+[06:gotHit]
+[06:gotHit] call_intrinsic Item.destroy(arg_bytes=0x4)
+//
+[06:gotHit] jmp 0x0400
+//
+//
+//
+//
+[06:gotHit] pop_local_word xoff
+[06:gotHit] pop_local_word yoff
+//
+//
+//
+[06:gotHit] call_intrinsic Item.getQHi(arg_bytes=0x4) ; pop_local_word param ; ...
+[06:gotHit] bit_and ; pop_local_word dir ; ...
+//
+[06:gotHit] div ; bit_and ; pop_local_word speed ; ...
+[06:gotHit] cmp ; jne 0x0146 ; ...
+//
+[06:gotHit] pop_local_word speed ; jmp 0x0164
+//
+//
+[06:gotHit] cmp ; jne 0x0164 ; ...
+//
+[06:gotHit] call_intrinsic Game.getDifficultyLevel(arg_bytes=0x0) ; mul ; add ; ...
+//
+//
+//
+//
+//
+//
+[06:gotHit] pop_local_word yoff ; jmp 0x02d8 ; cmp ; ...
+//
+//
+//
+//
+[06:gotHit] pop_local_word yoff
+[06:gotHit] pop_local_word xoff ; jmp 0x02d8 ; cmp ; ...
+//
+//
+//
+//
+[06:gotHit] pop_local_word yoff
+[06:gotHit] pop_local_word xoff ; jmp 0x02d8 ; cmp ; ...
+//
+//
+//
+//
+[06:gotHit] pop_local_word yoff
+[06:gotHit] pop_local_word xoff ; jmp 0x02d8 ; cmp ; ...
+//
+//
+//
+//
+[06:gotHit] pop_local_word xoff ; jmp 0x02d8 ; cmp ; ...
+//
+//
+//
+//
+[06:gotHit] pop_local_word xoff
+[06:gotHit] pop_local_word yoff ; jmp 0x02d8 ; cmp ; ...
+//
+//
+//
+//
+[06:gotHit] pop_local_word xoff
+[06:gotHit] pop_local_word yoff ; jmp 0x02d8 ; cmp ; ...
+//
+//
+//
+//
+[06:gotHit] pop_local_word xoff
+[06:gotHit] pop_local_word yoff ; jmp 0x02d8 ; cmp ; ...
+//
+//
+//
+//
+[06:gotHit] pop_local_word yoff ; jmp 0x02d8 ; cmp ; ...
+//
+//
+//
+//
+[06:gotHit] pop_local_word yoff
+[06:gotHit] pop_local_word xoff ; jmp 0x02d8 ; cmp ; ...
+//
+//
+//
+//
+[06:gotHit] pop_local_word yoff
+[06:gotHit] pop_local_word xoff ; jmp 0x02d8 ; cmp ; ...
+//
+//
+//
+//
+[06:gotHit] pop_local_word yoff
+[06:gotHit] pop_local_word xoff ; jmp 0x02d8 ; cmp ; ...
+//
+//
+//
+//
+[06:gotHit] pop_local_word xoff ; jmp 0x02d8 ; cmp ; ...
+//
+//
+//
+//
+[06:gotHit] pop_local_word xoff
+[06:gotHit] pop_local_word yoff ; jmp 0x02d8 ; cmp ; ...
+//
+//
+//
+//
+[06:gotHit] pop_local_word xoff
+[06:gotHit] pop_local_word yoff ; jmp 0x02d8 ; cmp ; ...
+//
+//
+//
+//
+[06:gotHit] pop_local_word xoff
+[06:gotHit] pop_local_word yoff ; jmp 0x02d8
+//
+//
+//
+[06:gotHit] mul ; pop_local_word xoff ; ...
+[06:gotHit] mul ; pop_local_word yoff ; ...
+//
+[06:gotHit] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[06:gotHit] jne 0x039e
+//
+[06:gotHit] call_intrinsic Item.getX(arg_bytes=0x4) ; add ; pop_local_word wp ; ...
+[06:gotHit] call_intrinsic Item.getY(arg_bytes=0x4) ; add ; pop_local_word local_13 ; ...
+[06:gotHit] call_intrinsic Item.getZ(arg_bytes=0x4) ; pop_local_byte local_11 ; ...
+//
+[06:gotHit] call_intrinsic legalMoveToPoint(arg_bytes=0xc) ; ...
+//
+[06:gotHit] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[06:gotHit] call_intrinsic Item.overlaps(arg_bytes=0x6) ; cmp ; jne 0x039b ; ...
+//
+[06:gotHit] jmp 0x039e ; jmp 0x0312
+//
+//
+//
+[06:gotHit] call_intrinsic Item.getZ(arg_bytes=0x4) ; gt ; jne 0x03d6 ; ...
+//
+[06:gotHit] call_intrinsic Item.hurl(arg_bytes=0xc) ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+[06:gotHit] spawn TRIGGER.slot_20 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[06:gotHit] ret
+//
+//
+//
+//
+[10:leaveFastArea] call_class_event FREE.slot_33 ; ...
+[10:leaveFastArea] ret
+
+/* synthesized appendix for WINDSURF */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x06 gotHit ===== */
+function windsurf_gotHit() /* entry=825 class_id=0x0337 slot=0x06 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    vel, /* [BP+12h] type=0x69 */
+    item, /* [BP-02h] type=0x24 */
+    xoff, /* [BP-04h] type=0x69 */
+    yoff, /* [BP-06h] type=0x69 */
+    speed, /* [BP-08h] type=0x69 */
+    dir, /* [BP-10h] type=0x69 */
+    wp, /* [BP-15h] type=0x24 */
+    param; /* [BP-17h] type=0x69 */
+
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  FREE.slot_2c(vel, ref);
+  if (retval) {
+    return;
+  }
+  else if (Item.getMapArray(arg_06) == 0) {
+    item = ref;
+    if (Item.getTypeFlag(0, item)) {
+      return;
+    }
+    if (Item.getShape(item) == 0x01d9) {
+      return;
+    }
+    if (Item.overlaps(ref, arg_06) == 0) {
+      return;
+    }
+    if (Item.getQHi(arg_06) == 0x00ff) {
+      return;
+    }
+    if (Item.getZ(arg_06) == 0x00fe) {
+      return;
+    }
+    if (Item.getNPCNum(arg_06) == 0x00ff) {
+      if (!Actor.isNPC(item)) {
+        Item.destroy(item);
+      }
+      return;
+    }
+    xoff = 0;
+    yoff = 0;
+    param = Item.getQHi(arg_06);
+    dir = (param & 15);
+    speed = ((param / 16) & 15);
+    if (speed == 0) {
+      speed = 3;
+    }
+    else if (speed == 15) {
+      speed = (3 + (Game.getDifficultyLevel() * 2));
+    }
+    switch (dir) {
+    case 0:
+      yoff = -1;
+      break;
+    case 1:
+      yoff = -2;
+      xoff = 1;
+      break;
+    case 2:
+      yoff = -1;
+      xoff = 1;
+      break;
+    case 3:
+      yoff = -1;
+      xoff = 2;
+      break;
+    case 4:
+      xoff = 1;
+      break;
+    case 5:
+      xoff = 2;
+      yoff = 1;
+      break;
+    case 6:
+      xoff = 1;
+      yoff = 1;
+      break;
+    case 7:
+      xoff = 1;
+      yoff = 2;
+      break;
+    case 8:
+      yoff = 1;
+      break;
+    case 9:
+      yoff = 2;
+      xoff = -1;
+      break;
+    case 10:
+      yoff = 1;
+      xoff = -1;
+      break;
+    case 11:
+      yoff = 1;
+      xoff = -2;
+      break;
+    case 12:
+      xoff = -1;
+      break;
+    case 13:
+      xoff = -2;
+      yoff = -1;
+      break;
+    case 14:
+      xoff = -1;
+      yoff = -1;
+      break;
+    case 15:
+      xoff = -1;
+      yoff = -2;
+      break;
+    }
+    xoff = (xoff * speed);
+    yoff = (yoff * speed);
+    spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+    suspend;
+    while (1) {
+      wp = (Item.getX(item) + xoff);
+      local_13 = (Item.getY(item) + yoff);
+      local_11 = Item.getZ(item);
+      legalMoveToPoint(0, 1, wp, item);
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+      if (Item.overlaps(ref, arg_06) == 0) {
+      }
+    }
+    if (Item.getZ(item) > 1) {
+      suspend;
+    }
+    return;
+  }
+  else {
+    spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
+    suspend;
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol ref [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol vel [BP+12h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol item [BP-02h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol xoff [BP-04h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol yoff [BP-06h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol speed [BP-08h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol dir [BP-10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol wp [BP-15h] type=0x24 unk1=0x00 unk3=0x05
+    debug_symbol param [BP-17h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x0a equip ===== */
+function windsurf_equip() /* entry=825 class_id=0x0337 slot=0x0a */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    var, /* [BP+10h] type=0x69 */
+    item; /* [BP-02h] type=0x24 */
+
+  set_info(0x0211, *(arg_06));
+  process_exclude();
+  Item.setQHi(var, arg_06);
+  FREE.slot_33(0x020c, *(arg_06));
+  if (var == 0x00ff) {
+    return;
+  }
+  else {
+    while (condition) {
+      if (item != *(arg_06)) {
+        if (Item.overlaps(item, arg_06)) {
+          spawn WINDSURF.gotHit(0, item, arg_06);
+        }
+      }
+    }
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol var [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol item [BP-02h] type=0x24 unk1=0x00 unk3=0x02
+  */
+}
+
+/* ===== slot 0x0b unequip ===== */
+function windsurf_unequip() /* entry=825 class_id=0x0337 slot=0x0b */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    var, /* [BP+10h] type=0x69 */
+    item; /* [BP-02h] type=0x24 */
+
+  set_info(0x0212, *(arg_06));
+  process_exclude();
+  while (condition) {
+    if (item != *(arg_06)) {
+      if (Item.overlaps(item, arg_06)) {
+        spawn WINDSURF.gotHit(0, item, arg_06);
+      }
+    }
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol var [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol item [BP-02h] type=0x24 unk1=0x00 unk3=0x02
+  */
+}
+
+/* ===== slot 0x10 leaveFastArea ===== */
+function windsurf_leaveFastArea() /* entry=825 class_id=0x0337 slot=0x10 */
+{
+  var
+    referent; /* [BP+00h] type=0x69 */
+
+  set_info(0x021c, *(arg_06));
+  process_exclude();
+  FREE.slot_33(0x020c, *(arg_06));
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+  */
+}

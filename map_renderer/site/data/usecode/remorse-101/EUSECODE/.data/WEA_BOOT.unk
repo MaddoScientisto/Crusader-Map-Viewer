@@ -1,0 +1,103 @@
+/* synthesized appendix for WEA_BOOT */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x01 use ===== */
+function wea_boot_use() /* entry=1117 class_id=0x045b slot=0x01 */
+{
+  set_info(0x0207, *(arg_06));
+  process_exclude();
+  return;
+}
+
+/* ===== slot 0x0a equip ===== */
+function wea_boot_equip() /* entry=1117 class_id=0x045b slot=0x0a */
+{
+  set_info(0x0211, *(arg_06));
+  process_exclude();
+  Ultima8Engine.setAvatarInStasis(1);
+  FREE.slot_33(0x021b, *(arg_06));
+  while (Item.getFrame(arg_06) != 5) {
+    Item.isCentreOn((Item.getFrame(arg_06) + 1), arg_06);
+    spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+    suspend;
+  }
+  spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+  suspend;
+  if ((global[0x0020] != 0) && (global[0x0020] < 15)) {
+    Actor.setActivity(global[0x0020]);
+  }
+  else {
+    Actor.setActivity(0);
+  }
+  local_02 = 0;
+  while (local_02 <= 4) {
+    Item.isCentreOn((4 - local_02), arg_06);
+    spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+    suspend;
+    local_02 = (1 + local_02);
+  }
+  spawn WEA_BOOT.enterFastArea(arg_06);
+  Ultima8Engine.setAvatarInStasis(0);
+  return;
+}
+
+/* ===== slot 0x0f enterFastArea ===== */
+function wea_boot_enterFastArea() /* entry=1117 class_id=0x045b slot=0x0f */
+{
+  set_info(0x021b, *(arg_06));
+  process_exclude();
+  spawn FREE.waitNTimerTicks(pid, 0x07d0, 0x00000000);
+  suspend;
+  suspend;
+  FREE.slot_20(pid, 100);
+  spawn FREE.waitNTimerTicks((retval + 60), 0x00000000);
+  suspend;
+  while (true) {
+    suspend;
+    FREE.slot_20(pid, 100);
+    spawn FREE.waitNTimerTicks((retval + 60), 0x00000000);
+    suspend;
+    if (!Item.getFrame(arg_06)) {
+      local_02 = 0;
+      while (local_02 <= 4) {
+        Item.isCentreOn(local_02, arg_06);
+        spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+        suspend;
+        local_02 = (1 + local_02);
+      }
+    }
+    FREE.slot_20(100);
+    if (retval > 50) {
+      FREE.slot_20(2);
+      local_04 = (retval + 1);
+      local_02 = 0;
+      while (local_02 <= local_04) {
+        Item.isCentreOn(5, arg_06);
+        FREE.slot_20(pid, 10);
+        spawn FREE.waitNTimerTicks((retval + 30), 0x00000000);
+        suspend;
+        Item.isCentreOn(4, arg_06);
+        local_02 = (1 + local_02);
+      }
+    }
+    else {
+      local_02 = 0;
+      while (local_02 <= 4) {
+        Item.isCentreOn((4 - local_02), arg_06);
+        spawn FREE.waitNTimerTicks(pid, 15, 0x00000000);
+        suspend;
+        local_02 = (1 + local_02);
+      }
+    }
+  }
+  return;
+}
+
+/* ===== slot 0x10 leaveFastArea ===== */
+function wea_boot_leaveFastArea() /* entry=1117 class_id=0x045b slot=0x10 */
+{
+  set_info(0x021c, *(arg_06));
+  process_exclude();
+  FREE.slot_33(0x021b, *(arg_06));
+  return;
+}

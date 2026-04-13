@@ -1,0 +1,38 @@
+/* synthesized appendix for SHOCKNS1 */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x0b unequip ===== */
+function shockns1_unequip() /* entry=1115 class_id=0x0459 slot=0x0b */
+{
+  set_info(0x0212, *(arg_06));
+  process_exclude();
+  if (arg_10) {
+    Item.setQHi(arg_10, arg_06);
+  }
+  spawn SHOCKER.slot_20(arg_06);
+  FREE.slot_20(pid, 30);
+  spawn FREE.waitNTimerTicks((retval + 30), 0x00000000);
+  suspend;
+  Item.destroy(arg_06);
+  return;
+}
+
+/* ===== slot 0x0f enterFastArea ===== */
+function shockns1_enterFastArea() /* entry=1115 class_id=0x0459 slot=0x0f */
+{
+  set_info(0x021b, *(arg_06));
+  process_exclude();
+  spawn SHOCKER.slot_20(arg_06);
+  return;
+}
+
+/* ===== slot 0x10 leaveFastArea ===== */
+function shockns1_leaveFastArea() /* entry=1115 class_id=0x0459 slot=0x10 */
+{
+  set_info(0x021c, *(arg_06));
+  process_exclude();
+  FREE.slot_33(0x021b, *(arg_06));
+  FREE.slot_33(0x020a, *(arg_06));
+  FREE.slot_33(0x0205, *(arg_06));
+  return;
+}

@@ -1,0 +1,76 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[06:gotHit] call_class_event FREE.slot_2c ; jne 0x00cd ; ...
+//
+[06:gotHit] spawn ITEM.slot_27 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[06:gotHit]
+[06:gotHit] call_class_event FREE.slot_20 ; jne 0x0079 ; ...
+//
+[06:gotHit] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6) ; jmp 0x0086 ; ...
+//
+//
+//
+[06:gotHit] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6) ; jmp 0x00cd ; ...
+//
+//
+//
+//
+[06:gotHit] spawn ITEM.slot_2a ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[06:gotHit] spawn ITEM.slot_28 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[06:gotHit] ret
+
+/* synthesized appendix for DAMNLUGG */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x06 gotHit ===== */
+function damnlugg_gotHit() /* entry=1441 class_id=0x059f slot=0x06 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    vel; /* [BP+12h] type=0x69 */
+
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  FREE.slot_2c(vel, ref);
+  if (retval) {
+    spawn ITEM.slot_27(pid, 100, vel, ref, arg_06);
+    suspend;
+    if (!process_result) {
+      FREE.slot_20(1);
+      if (retval) {
+        AudioProcess.playSFXCru(38, arg_06);
+      }
+      else {
+        AudioProcess.playSFXCru(39, arg_06);
+      }
+      return;
+    }
+    else {
+      spawn ITEM.slot_2a(pid, arg_06);
+      suspend;
+      spawn ITEM.slot_28(pid, 1, 0, arg_06);
+      suspend;
+    }
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol ref [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol vel [BP+12h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}

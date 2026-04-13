@@ -1,0 +1,151 @@
+/* synthesized appendix for FLOOR1 */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x0f enterFastArea ===== */
+function floor1_enterFastArea() /* entry=2308 class_id=0x0902 slot=0x0f */
+{
+  entry:
+    set_info(0x021b, *(arg_06));
+    process_exclude();
+    local_02 = 0;
+    local_08 = 0;
+    local_10 = 0x0100;
+    local_12 = 0;
+    spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+    suspend;
+    local_22 = Item.fallProbably_03E(arg_06);
+    local_20 = (local_22 * 10);
+    if local_20 != 0 goto block_0125;
+
+  block_0121:
+    local_20 = 5;
+
+  for local_04 in selector_0x42(arg0=0x0135, arg1=0x01c8, arg2=(35 * 32), origin=arg_06) {
+    local_18 = 1;
+    local_12 = PaletteFaderProcess.stopFadesAndResetToGamePal(local_04);
+    if ((local_12 > 0) && (local_12 < 0x00fa)) {
+      if (local_08 < local_12) {
+        local_08 = local_12;
+      }
+      if (local_10 > local_12) {
+        local_10 = local_12;
+      }
+      Item.isCentreOn(1, local_04);
+      local_14 = (local_14 + [local_04]);
+    }
+  }
+
+  block_0190:
+    if local_18 goto block_019b;
+
+  block_0198:
+    goto block_0366;
+
+  block_019b:
+    if !(1) goto block_0366;
+
+  block_01a0:
+    local_16 = 0;
+    local_02 = local_10;
+
+  block_01a8:
+    if local_02 > local_08 goto block_02e9;
+
+  block_01b6:
+    foreach_list local_04 -> block_024e;
+
+  block_01bb:
+    if !(Item.getStatus(local_04) & 0x1000) goto block_01d2;
+
+  block_01cb:
+    local_16 = 1;
+    goto block_02e9;
+
+  block_01d2:
+    if PaletteFaderProcess.stopFadesAndResetToGamePal(local_04) != local_02 goto block_024b;
+
+  block_01e1:
+    Item.isCentreOn(0, local_04);
+    if AudioProcess.isSFXPlayingForObject(112, arg_06) goto block_0204;
+
+  block_01fa:
+    AudioProcess.playAmbientSFXCru(112, local_04);
+
+  while (condition) {
+    if (Actor.isNPC(local_06) == 1) {
+      local_24 = local_06;
+      FREE.slot_20(pid, 8);
+      spawn NPC.slot_2d(retval, *(arg_06), local_24);
+      suspend;
+    }
+  }
+
+  block_024b:
+    goto block_01b6;
+
+  block_024e:
+    if local_16 != 1 goto block_0259;
+
+  block_0256:
+    goto block_02e9;
+
+  block_0259:
+    spawn FREE.waitNTimerTicks(pid, local_20, 0x00000000);
+    suspend;
+
+  while (Actor.setDead(arg_06) > 0) {
+    spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
+    suspend;
+  }
+
+  while (true) {
+    foreach_list local_04 -> block_02c8;
+    if (PaletteFaderProcess.stopFadesAndResetToGamePal(local_04) == local_02) {
+      Item.isCentreOn(1, local_04);
+      Item.touch(local_04);
+    }
+  }
+
+  block_02c8:
+    spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+    suspend;
+    local_02 = (1 + local_02);
+    goto block_01a8;
+
+  block_02e9:
+    if local_16 != 1 goto block_0363;
+
+  while (true) {
+    foreach_list local_04 -> block_031b;
+    AudioProcess.stopSFXCru(112, local_04);
+    Item.isCentreOn(1, local_04);
+    Item.touch(local_04);
+  }
+
+  while (local_16 == 1) {
+    spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
+    suspend;
+    local_16 = 0;
+    while (true) {
+      foreach_list local_04 -> block_0360;
+      if (Item.getStatus(local_04) & 0x1000) {
+        local_16 = 1;
+      }
+    }
+  }
+
+  block_0363:
+    goto block_019b;
+
+  return;
+
+}
+
+/* ===== slot 0x10 leaveFastArea ===== */
+function floor1_leaveFastArea() /* entry=2308 class_id=0x0902 slot=0x10 */
+{
+  set_info(0x021c, *(arg_06));
+  process_exclude();
+  FREE.slot_33(*(arg_06), 0x021b);
+  return;
+}

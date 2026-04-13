@@ -1,0 +1,31 @@
+/* synthesized appendix for ALRMTRIG */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x0a equip ===== */
+function alrmtrig_equip() /* entry=1411 class_id=0x0581 slot=0x0a */
+{
+  set_info(0x0211, *(arg_06));
+  process_exclude();
+  if (Item.getMapArray(arg_06) != 0) {
+    if (World.getAlertActive()) {
+      spawn TRIGGER.slot_2a(pid, 0, *(arg_06), arg_06);
+      suspend;
+    }
+    else {
+      spawn TRIGGER.slot_2a(pid, 1, *(arg_06), arg_06);
+      suspend;
+    }
+  }
+  else if (World.getAlertActive()) {
+    spawn TRIGGER.slot_2a(pid, (0 + 0x0080), *(arg_06), arg_06);
+    suspend;
+  }
+  else {
+    spawn TRIGGER.slot_2a(pid, (1 + 0x0080), *(arg_06), arg_06);
+    suspend;
+  }
+  if (arg_10 == 1) {
+    Item.destroy(arg_06);
+  }
+  return;
+}

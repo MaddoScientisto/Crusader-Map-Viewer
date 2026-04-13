@@ -1,0 +1,46 @@
+/* synthesized appendix for DOOREGG */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x07 hatch ===== */
+function dooregg_hatch() /* entry=2316 class_id=0x090a slot=0x07 */
+{
+  set_info(0x0210, *(arg_06));
+  process_exclude();
+  spawn DOOREGG.slot_20(pid, arg_06);
+  suspend;
+  return;
+}
+
+/* ===== slot 0x15 unhatch ===== */
+function dooregg_unhatch() /* entry=2316 class_id=0x090a slot=0x15 */
+{
+  set_info(0x0239, *(arg_06));
+  process_exclude();
+  spawn DOOREGG.slot_21(pid, arg_06);
+  suspend;
+  return;
+}
+
+/* ===== slot 0x20 slot_20 ===== */
+function dooregg_slot_20() /* entry=2316 class_id=0x090a slot=0x20 */
+{
+  set_info(0x0001, *(arg_06));
+  for local_02 in nearby_items(family=1, origin=arg_06) {
+    if (Item.getFootpad(local_02) == Item.fallProbably_03E(arg_06)) {
+      spawn DOOR.slot_21(1, local_02);
+    }
+  }
+  return;
+}
+
+/* ===== slot 0x21 slot_21 ===== */
+function dooregg_slot_21() /* entry=2316 class_id=0x090a slot=0x21 */
+{
+  set_info(0x0001, *(arg_06));
+  for local_02 in nearby_items(family=1, origin=arg_06) {
+    if (Item.getFootpad(local_02) == Item.fallProbably_03E(arg_06)) {
+      spawn DOOR.slot_21(2, local_02);
+    }
+  }
+  return;
+}

@@ -1,0 +1,179 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[01:use] call_intrinsic Item.getFrame(arg_bytes=0x4) ; jne 0x004f ; ...
+//
+[01:use] jmp 0x0338 ; cmp ; jne 0x0089 ; ...
+//
+//
+//
+//
+//
+//
+//
+[01:use] call_intrinsic playFlic(arg_bytes=0xc) ; free_stack_string value_u8=0x4, target=[SP+04h] ; implies arg0=0x1, arg1=0x1 ; ...
+//
+//
+//
+//
+[01:use] call_intrinsic playFlic(arg_bytes=0xc) ; free_stack_string value_u8=0x4, target=[SP+04h] ; implies arg0=0x1, arg1=0x1 ; ...
+//
+//
+//
+//
+[01:use] call_intrinsic playFlic(arg_bytes=0xc) ; free_stack_string value_u8=0x4, target=[SP+04h] ; implies arg0=0x1, arg1=0x1 ; ...
+//
+//
+//
+//
+[01:use] call_intrinsic playFlic(arg_bytes=0xc) ; free_stack_string value_u8=0x4, target=[SP+04h] ; implies arg0=0x1, arg1=0x1 ; ...
+//
+//
+//
+//
+[01:use] call_intrinsic playFlic(arg_bytes=0xc) ; free_stack_string value_u8=0x4, target=[SP+04h] ; implies arg0=0x1, arg1=0x1 ; ...
+//
+//
+//
+//
+[01:use] call_intrinsic playFlic(arg_bytes=0xc) ; free_stack_string value_u8=0x4, target=[SP+04h] ; implies arg0=0x1, arg1=0x1 ; ...
+//
+//
+//
+//
+[01:use] call_intrinsic playFlic(arg_bytes=0xc) ; free_stack_string value_u8=0x4, target=[SP+04h] ; implies arg0=0x1, arg1=0x1 ; ...
+//
+//
+//
+//
+[01:use] call_intrinsic playFlic(arg_bytes=0xc) ; free_stack_string value_u8=0x4, target=[SP+04h] ; implies arg0=0x1, arg1=0x1 ; ...
+//
+//
+//
+//
+[01:use] call_intrinsic playFlic(arg_bytes=0xc) ; free_stack_string value_u8=0x4, target=[SP+04h] ; implies arg0=0x1, arg1=0x1 ; ...
+//
+//
+//
+//
+[01:use] call_intrinsic playFlic(arg_bytes=0xc) ; free_stack_string value_u8=0x4, target=[SP+04h] ; implies arg0=0x1, arg1=0x1 ; ...
+//
+//
+//
+//
+[01:use] call_intrinsic playFlic(arg_bytes=0xc) ; free_stack_string value_u8=0x4, target=[SP+04h] ; implies arg0=0x1, arg1=0x1 ; ...
+//
+//
+//
+//
+[01:use] call_intrinsic playFlic(arg_bytes=0xc) ; free_stack_string value_u8=0x4, target=[SP+04h] ; implies arg0=0x1, arg1=0x1 ; ...
+//
+//
+//
+//
+//
+[01:use] call_intrinsic playFlic(arg_bytes=0xc) ; free_stack_string value_u8=0x4, target=[SP+04h] ; implies arg0=0x1, arg1=0x1 ; ...
+//
+//
+//
+//
+[01:use] ret
+
+/* synthesized appendix for REBEL_TV */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x01 use ===== */
+function rebel_tv_use() /* entry=1007 class_id=0x03ed slot=0x01 */
+{
+  var
+    referent; /* [BP+00h] type=0x69 */
+
+  set_info(0x0207, *(arg_06));
+  process_exclude();
+  spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+  suspend;
+  if (Item.getFrame(arg_06)) {
+    return;
+  }
+  else if (global[0x001f] == 2) {
+    playFlic(pid, 0x0096, 0x00c8, "1e", arg_06);
+    suspend;
+    return;
+  }
+  else if (global[0x001f] == 3) {
+    playFlic(pid, 0x0096, 0x00c8, "2k", arg_06);
+    suspend;
+    return;
+  }
+  else if (global[0x001f] == 4) {
+    playFlic(pid, 0x0096, 0x00c8, "3j", arg_06);
+    suspend;
+    return;
+  }
+  else if (global[0x001f] == 5) {
+    playFlic(pid, 0x0096, 0x00c8, "4h", arg_06);
+    suspend;
+    return;
+  }
+  else if (global[0x001f] == 6) {
+    playFlic(pid, 0x0096, 0x00c8, "5h", arg_06);
+    suspend;
+    return;
+  }
+  else if (global[0x001f] == 7) {
+    playFlic(pid, 0x0096, 0x00c8, "6j", arg_06);
+    suspend;
+    return;
+  }
+  else if (global[0x001f] == 8) {
+    playFlic(pid, 0x0096, 0x00c8, "7f", arg_06);
+    suspend;
+    return;
+  }
+  else if (global[0x001f] == 9) {
+    playFlic(pid, 0x0096, 0x00c8, "8j", arg_06);
+    suspend;
+    return;
+  }
+  else if (global[0x001f] == 10) {
+    playFlic(pid, 0x0096, 0x00c8, "9g", arg_06);
+    suspend;
+    return;
+  }
+  else if (global[0x001f] == 11) {
+    playFlic(pid, 0x0096, 0x00c8, "10h", arg_06);
+    suspend;
+    return;
+  }
+  else if (global[0x001f] == 12) {
+    playFlic(pid, 0x0096, 0x00c8, "11h", arg_06);
+    suspend;
+    return;
+  }
+  else if (global[0x001f] == 13) {
+    playFlic(pid, 0x0096, 0x00c8, "12f", arg_06);
+    suspend;
+    return;
+  }
+  else {
+    playFlic(pid, 0x0096, 0x00c8, "12g", arg_06);
+    suspend;
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+  */
+}

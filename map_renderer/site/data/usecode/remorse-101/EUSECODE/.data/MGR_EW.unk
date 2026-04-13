@@ -1,0 +1,25 @@
+/* synthesized appendix for MGR_EW */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x06 gotHit ===== */
+function mgr_ew_gotHit() /* entry=688 class_id=0x02ae slot=0x06 */
+{
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  if (Item.getStatus(arg_06) & 0x1000) {
+    return;
+  }
+  else {
+    FREE.slot_2c(arg_12, arg_10);
+    if (retval) {
+      ITEM.slot_23(0x1000, arg_06);
+      AudioProcess.playSFXCru(68, arg_06);
+      Item.isCentreOn(1, arg_06);
+      spawn FREE.waitNTimerTicks(pid, 20, 0x00000000);
+      suspend;
+      Item.isCentreOn(0, arg_06);
+      ITEM.slot_24(0x1000, arg_06);
+    }
+  }
+  return;
+}

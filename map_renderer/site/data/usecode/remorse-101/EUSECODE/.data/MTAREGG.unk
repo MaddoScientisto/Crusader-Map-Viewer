@@ -1,0 +1,79 @@
+/* synthesized appendix for MTAREGG */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x07 hatch ===== */
+function mtaregg_hatch() /* entry=2309 class_id=0x0903 slot=0x07 */
+{
+  set_info(0x0210, *(arg_06));
+  process_exclude();
+  local_04 = 0;
+  local_06 = 0;
+  local_08 = 0;
+  local_04 = Item.fallProbably_03E(arg_06);
+  for local_02 in selector_0x42(arg0=0x01f2, arg1=0x01f3, arg2=(20 * 32), origin=arg_06) {
+    local_08 = void AudioProcess:stopAllSFX(local_02);
+    if (local_04 == local_08) {
+      local_06 = Item.andStatus(local_02);
+      switch (local_06) {
+      case 1:
+        spawn MTAREGG.slot_20(74, 0, local_02, arg_06);
+        break;
+      case 2:
+        spawn MTAREGG.slot_20(74, 4, local_02, arg_06);
+        break;
+      case 3:
+        spawn MTAREGG.slot_20(74, 8, local_02, arg_06);
+        break;
+      case 4:
+        spawn MTAREGG.slot_20(74, 12, local_02, arg_06);
+        break;
+      }
+    }
+  }
+  return;
+}
+
+/* ===== slot 0x20 slot_20 ===== */
+function mtaregg_slot_20() /* entry=2309 class_id=0x0903 slot=0x20 */
+{
+  set_info(0x00f0, arg_10);
+  local_02 = arg_10;
+  local_04 = arg_14;
+  switch (arg_12) {
+  case 0:
+    local_07 = -2;
+    local_09 = 0;
+    break;
+  case 8:
+    local_07 = 2;
+    local_09 = 0;
+    break;
+  case 4:
+    local_07 = 0;
+    local_09 = 2;
+    break;
+  case 12:
+    local_07 = 0;
+    local_09 = -2;
+    break;
+  }
+  suspend;
+  while (true) {
+    suspend;
+    if (local_04 == 0) {
+      return;
+    }
+    else {
+      local_04 = (local_04 - 1);
+      local_14 = Item.getX(local_02);
+      local_12 = Item.getY(local_02);
+      local_10 = Item.getZ(local_02);
+      local_14 = (local_14 + local_09);
+      local_12 = (local_12 + local_07);
+      if (legalMoveToPoint(0, 1, local_14, local_02) == 0) {
+        return;
+      }
+    }
+  }
+  return;
+}

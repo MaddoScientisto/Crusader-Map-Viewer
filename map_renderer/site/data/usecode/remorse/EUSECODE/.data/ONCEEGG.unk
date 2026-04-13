@@ -1,0 +1,99 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[07:hatch] call_intrinsic Egg.getEggId(arg_bytes=0x4) ; pop_local_word id ; ...
+[07:hatch] pop_local_word item
+[07:hatch] call_intrinsic Item.getQLo(arg_bytes=0x4) ; pop_local_word qlo ; ...
+[07:hatch] call_intrinsic Item.setQLo(arg_bytes=0x6)
+[07:hatch] add ; spawn TRIGGER.slot_20 ; implies arg0=0x1, arg1=0x1 ; ...
+[07:hatch] call_intrinsic Item.setQLo(arg_bytes=0x6)
+[07:hatch] ret
+//
+//
+//
+//
+//
+//
+[15:unhatch] call_intrinsic Egg.getEggId(arg_bytes=0x4) ; pop_local_word id ; ...
+[15:unhatch] pop_local_word item
+[15:unhatch] call_intrinsic Item.getQLo(arg_bytes=0x4) ; pop_local_word qlo ; ...
+[15:unhatch] call_intrinsic Item.setQLo(arg_bytes=0x6)
+[15:unhatch] add ; spawn TRIGGER.slot_20 ; implies arg0=0x1, arg1=0x1 ; ...
+[15:unhatch] call_intrinsic Item.setQLo(arg_bytes=0x6)
+//
+[15:unhatch] call_intrinsic Item.destroy(arg_bytes=0x4)
+[15:unhatch] ret
+
+/* synthesized appendix for ONCEEGG */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x07 hatch ===== */
+function onceegg_hatch() /* entry=2307 class_id=0x0901 slot=0x07 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    item, /* [BP-02h] type=0x24 */
+    id, /* [BP-04h] type=0x69 */
+    qlo; /* [BP-06h] type=0x69 */
+
+  set_info(0x0210, *(arg_06));
+  process_exclude();
+  id = Egg.getEggId(arg_06);
+  item = *(arg_06);
+  qlo = Item.getQLo(item);
+  Item.setQLo(id, item);
+  spawn TRIGGER.slot_20(pid, (0 + 0x0080), item, arg_06);
+  suspend;
+  Item.setQLo(qlo, item);
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol item [BP-02h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol id [BP-04h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol qlo [BP-06h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x15 unhatch ===== */
+function onceegg_unhatch() /* entry=2307 class_id=0x0901 slot=0x15 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    item, /* [BP-02h] type=0x24 */
+    id, /* [BP-04h] type=0x69 */
+    qlo; /* [BP-06h] type=0x69 */
+
+  set_info(0x0239, *(arg_06));
+  process_exclude();
+  id = Egg.getEggId(arg_06);
+  item = *(arg_06);
+  qlo = Item.getQLo(item);
+  Item.setQLo(id, item);
+  spawn TRIGGER.slot_20(pid, (1 + 0x0080), item, arg_06);
+  suspend;
+  Item.setQLo(qlo, item);
+  Item.destroy(arg_06);
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol item [BP-02h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol id [BP-04h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol qlo [BP-06h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}

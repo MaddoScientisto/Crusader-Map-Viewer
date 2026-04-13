@@ -3,6 +3,7 @@ import fs from "node:fs";
 import path from "node:path";
 
 import { __testHooks } from "../src/lib/usecode-decompiler.js";
+import { buildUnkExportForClass } from "../src/lib/usecode-unk-exporter.js";
 
 function makeIr(ops, debugSymbols = []) {
   return {
@@ -19,6 +20,7 @@ function makeIr(ops, debugSymbols = []) {
       end_reason: "end_opcode"
     },
     debug_symbols: debugSymbols,
+    field_tags: [],
     ops
   };
 }
@@ -40,6 +42,49 @@ function renderStructured(ir) {
 
 function renderPseudo(ir) {
   return __testHooks.renderPseudocode(ir, new Map());
+}
+
+function testPostRetMetadataIsShownInPseudocode() {
+  const classRow = {
+    entryIndex: 277,
+    objectIndex: 0x4d5,
+    classId: 0x04d3,
+    className: "JELYHACK",
+    rawCodeBaseU32: 0,
+    codeBaseMinusOne: 0,
+    conservativeEventCount: 1,
+    raw: Buffer.from([
+      0x5a, 0x00,
+      0x5c, 0x0f, 0x00, 0x4a, 0x45, 0x4c, 0x59, 0x48, 0x41, 0x43, 0x4b, 0x00,
+      0x0b, 0x07, 0x02,
+      0x40, 0x06,
+      0x4c, 0x02,
+      0x77,
+      0x78,
+      0x5b, 0xdb, 0x00,
+      0x50,
+      0x01, 0x01, 0x69, 0x00, 0x00,
+      0x72, 0x65, 0x66, 0x65, 0x72, 0x65, 0x6e, 0x74, 0x00,
+      0x7a
+    ])
+  };
+  const eventRow = {
+    slot: 0x01,
+    eventNameHint: "use",
+    rawEventEntryWord: 0x002a,
+    rawCodeOffset: 1,
+    derivedBodyStart: 0,
+    derivedBodyEnd: classRow.raw.length,
+    derivedBodyLength: classRow.raw.length
+  };
+
+  const ir = __testHooks.buildIrForEvent(classRow, eventRow, "remorse", new Map([[0x04d3, "JELYHACK"]]));
+  const text = __testHooks.renderPseudocode(ir, new Map());
+
+  assert.equal(ir.body.end_reason, "debug_symbols_then_end");
+  assert.equal(ir.debug_symbols.length, 1);
+  assert.match(text, /post-return metadata \(not executable\)/u);
+  assert.match(text, /debug_symbol referent \[BP\+00h\] type=0x69/u);
 }
 
 function testImportedIntrinsicTablesResolveKnownOrdinals() {
@@ -637,6 +682,108 @@ function testTerminalTrailingBytesDoNotEmitStopBanner() {
   assert.doesNotMatch(text, /decompilation stopped at SEARCH_SURFACE/u);
 }
 
+function testUnkExporterBuildsSparseLinesAndAppendix() {
+  const ir = {
+    ...makeIr(
+      [
+        op(0, "line_number", { line_number: 10 }),
+        op(1, "push_local_word", { bp_offset: 0xfe }),
+        op(2, "call_intrinsic", { intrinsic_ordinal: 0x003c, arg_bytes: 2, intrinsic_name_hint: "Item::getItemFamily(void)" }),
+        op(3, "push_retval_word", {}),
+        op(4, "cmp", {}),
+        op(5, "jne", { target_offset: 0x0010 }),
+        op(6, "line_number", { line_number: 12 }),
+        op(7, "push_string_immediate", { declared_length: 2, string: "ok" }),
+        op(8, "pop_local_word", { bp_offset: 0xfc }),
+        op(9, "ret", {})
+      ],
+      [
+        { bp_offset: 0xfe, name: "item" },
+        { bp_offset: 0xfc, name: "status" }
+      ]
+    ),
+    class: {
+      entry_index: 7,
+      class_id: 0x0123,
+      class_name: "ALARMHAT"
+    },
+    event: {
+      derived_body_start: 0,
+      slot: 0x01,
+      event_name_hint: "use"
+    }
+  };
+
+  const exported = buildUnkExportForClass({
+    className: "ALARMHAT",
+    entryIndex: 7,
+    events: [
+      {
+        ir,
+        pseudocode: "function alarmhat_use()\n{\n  return;\n}\n"
+      }
+    ]
+  });
+
+  assert.equal(exported.fileName, "ALARMHAT.unk");
+  assert.equal(exported.manifestRow.body_count, 1);
+  assert.equal(exported.manifestRow.debug_line_count, 2);
+  assert.equal(exported.manifestRow.mapped_line_count, 2);
+  assert.equal(exported.manifestRow.line_table_mode, "recovered");
+  assert.equal(exported.manifestRow.line_table_count, 12);
+  assert.match(exported.text, /^(?:\/\/\r\n){9}\[01:use\] call_intrinsic Item\.getItemFamily/u);
+  assert.match(exported.text, /\[01:use\] pop_local_word status ; ret/u);
+  assert.match(exported.text, /\/\* synthesized appendix for ALARMHAT \*\//u);
+  assert.match(exported.text, /function alarmhat_use\(\)/u);
+  assert.doesNotMatch(exported.text, /^\r?\n/u);
+  assert.doesNotMatch(exported.text, /(?<!\r)\n/u);
+}
+
+function testUnkExporterNoDebugLinesStillStartsSafely() {
+  const ir = {
+    ...makeIr(
+      [
+        op(0, "push_local_word", { bp_offset: 0xfe }),
+        op(1, "ret", {})
+      ],
+      [
+        { bp_offset: 0xfe, name: "item" }
+      ]
+    ),
+    class: {
+      entry_index: 9,
+      class_id: 0x0456,
+      class_name: "EVENT"
+    },
+    event: {
+      derived_body_start: 0,
+      slot: 0x0a,
+      event_name_hint: "equip"
+    }
+  };
+
+  const exported = buildUnkExportForClass({
+    className: "EVENT",
+    entryIndex: 9,
+    fallbackDenseLineCount: 12,
+    events: [
+      {
+        ir,
+        pseudocode: "function event_equip()\n{\n  return;\n}\n"
+      }
+    ]
+  });
+
+  assert.equal(exported.manifestRow.debug_line_count, 0);
+  assert.equal(exported.manifestRow.line_table_mode, "synthetic_floor");
+  assert.equal(exported.manifestRow.line_table_count, 12);
+  assert.match(exported.text, /^\/\/ 0001\r\n\/\/ 0002\r\n/u);
+  assert.match(exported.text, /\/\/ 0012\r\n\/\* synthesized appendix for EVENT \*\//u);
+  assert.doesNotMatch(exported.text, /^\r?\n/u);
+  assert.doesNotMatch(exported.text, /(?<!\r)\n/u);
+}
+
+testPostRetMetadataIsShownInPseudocode();
 testSelectorLadderUsesEqualityCompareAndFalseBranch();
 testCountedLoopRendersWithContinueCondition();
 testAlarmhatStyleSelectorLoopStructuring();
@@ -668,5 +815,7 @@ testImportedIntrinsicTablesResolveKnownOrdinals();
 testGlobalAddressFeedsIntrinsicsAndLoopnextStaysHidden();
 testNamedIntrinsic003cRendersAsItemFamily();
 testTerminalTrailingBytesDoNotEmitStopBanner();
+testUnkExporterBuildsSparseLinesAndAppendix();
+testUnkExporterNoDebugLinesStillStartsSafely();
 
 console.log("usecode structuring regression checks passed");

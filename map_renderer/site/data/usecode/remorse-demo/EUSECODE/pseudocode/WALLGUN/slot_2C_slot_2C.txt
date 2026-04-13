@@ -1,5 +1,8 @@
 function wallgun_slot_2c() /* entry=2588 class_id=0x0a1a slot=0x2c */
 {
+  var
+    referent; /* [BP+00h] type=0x69 */
+
   WALLGUN.slot_2a(arg_06);
   WALLGUN.slot_2b((retval == 1), arg_06);
   WALLGUN.slot_29((retval == 1), arg_06);
@@ -16,4 +19,8 @@ function wallgun_slot_2c() /* entry=2588 class_id=0x0a1a slot=0x2c */
     }
   }
   return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+  */
 }

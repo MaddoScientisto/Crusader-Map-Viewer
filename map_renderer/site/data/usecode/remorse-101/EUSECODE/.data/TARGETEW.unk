@@ -1,0 +1,26 @@
+/* synthesized appendix for TARGETEW */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x06 gotHit ===== */
+function targetew_gotHit() /* entry=501 class_id=0x01f3 slot=0x06 */
+{
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  local_02 = arg_10;
+  FREE.slot_2b(arg_12, arg_10);
+  if (retval) {
+    switch (Item.getFrame(arg_06)) {
+    case 0:
+      Item.isCentreOn(2, arg_06);
+      return;
+    case 1:
+      Item.isCentreOn(3, arg_06);
+      return;
+    case 2:
+      spawn ITEM.slot_28(pid, 1, 1, arg_06);
+      suspend;
+      return;
+    }
+  }
+  return;
+}

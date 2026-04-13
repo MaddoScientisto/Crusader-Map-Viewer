@@ -1,0 +1,163 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[07:hatch] call_intrinsic Ultima8Engine.setAvatarInStasis(arg_bytes=0x2)
+[07:hatch] global_address global[0x003c] ; call_intrinsic Actor.isBusy(arg_bytes=0x4) ; jne 0x0067 ; ...
+[07:hatch] spawn FREE.slot_3c ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[07:hatch] call_class_event FREE.slot_41
+//
+[07:hatch] pop_local_word counter ; le ; jne 0x00d5 ; ...
+//
+[07:hatch] global_address global[0x003c] ; call_intrinsic Actor.doAnim(arg_bytes=0xc) ; implies arg0=0x1, arg1=0x1 ; ...
+//
+//
+[07:hatch] pop_local_word counter ; le ; jne 0x0119 ; ...
+//
+[07:hatch] global_address global[0x003c] ; call_intrinsic Actor.doAnim(arg_bytes=0xc) ; implies arg0=0x1, arg1=0x1 ; ...
+//
+//
+[07:hatch] call_intrinsic PaletteFaderProcess.setPalToAllBlack(arg_bytes=0x0)
+//
+[07:hatch] call_intrinsic setSomeMovieGlobal(arg_bytes=0x0)
+//
+[07:hatch] call_intrinsic playFlic(arg_bytes=0xc) ; free_stack_string value_u8=0x4, target=[SP+04h] ; implies arg0=0x1, arg1=0x1 ; ...
+[07:hatch] call_intrinsic playFlic(arg_bytes=0xc) ; free_stack_string value_u8=0x4, target=[SP+04h] ; implies arg0=0x1, arg1=0x1 ; ...
+[07:hatch] call_intrinsic Ultima8Engine.setAvatarInStasis(arg_bytes=0x2)
+//
+[07:hatch] call_intrinsic createMapJumpProcess(arg_bytes=0x2) ; jmp 0x0239 ; call_intrinsic Egg.getEggId(arg_bytes=0x4) ; ...
+//
+//
+//
+//
+//
+[07:hatch] pop_global global[0x002d]
+[07:hatch] spawn FREE.slot_26 ; free_stack_string value_u8=0x0, target=[SP+00h] ; implies arg0=0x1, arg1=0x1 ; ...
+[07:hatch] call_intrinsic Item.destroy(arg_bytes=0x4) ; jmp 0x0239 ; call_intrinsic Egg.getEggId(arg_bytes=0x4) ; ...
+//
+//
+//
+//
+[07:hatch] spawn FREE.slot_26 ; free_stack_string value_u8=0x0, target=[SP+00h] ; implies arg0=0x1, arg1=0x1 ; ...
+[07:hatch] call_intrinsic Item.destroy(arg_bytes=0x4) ; jmp 0x0239
+//
+//
+//
+[07:hatch] ret
+//
+//
+//
+//
+//
+//
+//
+[04:cachein] call_intrinsic Egg.getEggId(arg_bytes=0x4) ; cmp ; jne 0x0063 ; ...
+[04:cachein]
+[04:cachein] pop_global global[0x001f]
+//
+[04:cachein] call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[04:cachein] call_intrinsic Item.popToCoords(arg_bytes=0xa) ; ...
+[04:cachein] call_intrinsic MainActor.addItemCru(arg_bytes=0x4)
+//
+[04:cachein] ret
+
+/* synthesized appendix for MISS14 */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x04 cachein ===== */
+function miss14_cachein() /* entry=2332 class_id=0x091a slot=0x04 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    item; /* [BP-02h] type=0x24 */
+
+  set_info(0x0213, *(arg_06));
+  process_exclude();
+  if (Egg.getEggId(arg_06) == 1) {
+    Item.create(0, BLAST_PAC, item);
+    Item.popToCoords(0, 0, 0, item);
+    MainActor.addItemCru(0, item);
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol item [BP-02h] type=0x24 unk1=0x00 unk3=0x02
+  */
+}
+
+/* ===== slot 0x07 hatch ===== */
+function miss14_hatch() /* entry=2332 class_id=0x091a slot=0x07 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    counter; /* [BP-02h] type=0x69 */
+
+  set_info(0x0210, *(arg_06));
+  process_exclude();
+  switch (Egg.getEggId(arg_06)) {
+  case 1:
+    Ultima8Engine.setAvatarInStasis(1);
+    while (Actor.isBusy(&global[0x003c])) {
+      spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+      suspend;
+    }
+    spawn FREE.slot_3c(pid, 0x00000000);
+    suspend;
+    FREE.slot_41();
+    counter = 1;
+    while (counter <= 8) {
+      suspend;
+      counter = (1 + counter);
+    }
+    counter = 1;
+    while (counter <= 3) {
+      suspend;
+      counter = (1 + counter);
+    }
+    PaletteFaderProcess.setPalToAllBlack();
+    setSomeMovieGlobal();
+    playFlic(pid, 0x0096, 0x00fa, "S01", arg_06);
+    suspend;
+    playFlic(pid, 0x0096, 0x00fa, "15A", arg_06);
+    suspend;
+    Ultima8Engine.setAvatarInStasis(1);
+    createMapJumpProcess(29);
+    return;
+  case 2:
+    spawn FREE.slot_26(pid, "14d", 0x00000000);
+    suspend;
+    Item.destroy(arg_06);
+    return;
+  case 3:
+    spawn FREE.slot_26(pid, "14e", 0x00000000);
+    suspend;
+    Item.destroy(arg_06);
+    return;
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol counter [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}

@@ -1,0 +1,266 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[06:gotHit] call_intrinsic Item.getQHi(arg_bytes=0x4) ; pop_local_word dir ; ...
+//
+//
+//
+[06:gotHit] pop_local_word item
+//
+[06:gotHit] cmp ; jne 0x01fd ; ...
+[06:gotHit]
+[06:gotHit] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+//
+[06:gotHit] call_class_event FREE.slot_2c ; cmp ; call_class_event FREE.slot_2c ; ...
+[06:gotHit]
+[06:gotHit] jmp 0x03a5
+//
+//
+[06:gotHit] gt ; lt ; and ; ...
+[06:gotHit]
+[06:gotHit] add ; pop_local_word dir ; ...
+[06:gotHit] gt ; jne 0x00aa ; ...
+//
+[06:gotHit] sub ; pop_local_word dir ; ...
+//
+[06:gotHit] call_intrinsic Item.setQHi(arg_bytes=0x6)
+//
+//
+[06:gotHit] call_intrinsic Item.getStatus(arg_bytes=0x4) ; bit_and ; jne 0x00d4 ; ...
+//
+[06:gotHit] pop_local_word dir ; jmp 0x01fa
+//
+//
+//
+//
+[06:gotHit] call_class_event FREE.slot_2c ; pop_local_word ammo ; ...
+//
+[06:gotHit] cmp ; jne 0x0103 ; ...
+//
+[06:gotHit] call_class_event FREE.slot_20 ; pop_local_word dir ; jmp 0x0142 ; ...
+//
+//
+[06:gotHit] cmp ; jne 0x0142 ; ...
+//
+[06:gotHit] call_intrinsic Actor.maybeFire(arg_bytes=0x10) ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[06:gotHit] jmp 0x03a5 ; jmp 0x0142
+//
+//
+[06:gotHit] bit_and ; pop_local_word dir ; ...
+//
+[06:gotHit] gt ; lt ; or ; ...
+[06:gotHit]
+[06:gotHit] sub ; pop_local_word y1 ; jmp 0x01d0 ; ...
+//
+//
+[06:gotHit] gt ; lt ; and ; ...
+[06:gotHit]
+[06:gotHit] add ; pop_local_word x1 ; jmp 0x01d0 ; ...
+//
+//
+[06:gotHit] gt ; lt ; and ; ...
+[06:gotHit]
+[06:gotHit] add ; pop_local_word y1 ; jmp 0x01d0 ; ...
+//
+//
+[06:gotHit] gt ; lt ; and ; ...
+[06:gotHit]
+[06:gotHit] sub ; pop_local_word x1 ; jmp 0x01d0 ; ...
+//
+//
+[06:gotHit] call_intrinsic Actor.maybeFire(arg_bytes=0x10) ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[06:gotHit] call_intrinsic Item.getShape(arg_bytes=0x4) ; cmp ; jne 0x02d1 ; ...
+//
+[06:gotHit] call_intrinsic Item.getQHi(arg_bytes=0x4) ; pop_local_word qHi ; ...
+[06:gotHit] call_intrinsic Item.getQLo(arg_bytes=0x4) ; pop_local_word qLo ; ...
+[06:gotHit] call_intrinsic Item.destroy(arg_bytes=0x4)
+[06:gotHit] call_intrinsic Item.create(arg_bytes=0x8) ; jne 0x02ce ; ...
+//
+[06:gotHit] call_intrinsic Item.setQLo(arg_bytes=0x6)
+//
+[06:gotHit] jne 0x029f
+[06:gotHit] call_intrinsic Item.setQHi(arg_bytes=0x6)
+[06:gotHit] call_intrinsic Item.getZ(arg_bytes=0x4) ; add ; call_intrinsic Item.getY(arg_bytes=0x4) ; ...
+//
+//
+//
+[06:gotHit] call_intrinsic Item.getZ(arg_bytes=0x4) ; add ; call_intrinsic Item.getY(arg_bytes=0x4) ; ...
+//
+//
+//
+[06:gotHit] call_intrinsic Item.getShape(arg_bytes=0x4) ; cmp ; jne 0x03a5 ; ...
+//
+[06:gotHit] call_intrinsic Item.getQHi(arg_bytes=0x4) ; pop_local_word qHi ; ...
+[06:gotHit] call_intrinsic Item.getQLo(arg_bytes=0x4) ; pop_local_word qLo ; ...
+[06:gotHit] call_intrinsic Item.destroy(arg_bytes=0x4)
+[06:gotHit] call_intrinsic Item.create(arg_bytes=0x8) ; jne 0x03a2 ; ...
+//
+[06:gotHit] call_intrinsic Item.setQLo(arg_bytes=0x6)
+//
+[06:gotHit] jne 0x0373
+[06:gotHit] call_intrinsic Item.setQHi(arg_bytes=0x6)
+[06:gotHit] call_intrinsic Item.getZ(arg_bytes=0x4) ; add ; call_intrinsic Item.getY(arg_bytes=0x4) ; ...
+//
+//
+//
+[06:gotHit] call_intrinsic Item.getZ(arg_bytes=0x4) ; add ; call_intrinsic Item.getY(arg_bytes=0x4) ; ...
+//
+//
+//
+//
+//
+[06:gotHit] ret
+//
+//
+//
+[0A:equip] call_intrinsic Item.setQHi(arg_bytes=0x6)
+[0A:equip] ret
+
+/* synthesized appendix for BOUNCBOX */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x06 gotHit ===== */
+function bouncbox_gotHit() /* entry=1265 class_id=0x04ef slot=0x06 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    vel, /* [BP+12h] type=0x69 */
+    dir, /* [BP-02h] type=0x69 */
+    qHi, /* [BP-04h] type=0x69 */
+    qLo, /* [BP-06h] type=0x69 */
+    item, /* [BP-08h] type=0x24 */
+    item2, /* [BP-10h] type=0x24 */
+    x1, /* [BP-12h] type=0x69 */
+    y1, /* [BP-14h] type=0x69 */
+    ammo; /* [BP-16h] type=0x69 */
+
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  dir = Item.getQHi(arg_06);
+  item = ref;
+  if (ref == 0x4000) {
+    AudioProcess.playSFXCru(0x00b2, arg_06);
+    FREE.slot_2c(vel, ref);
+    FREE.slot_2c((retval == 4), vel, ref);
+    if (retval == 3) {
+      return;
+    }
+    if ((dir > 15) && (dir < 32)) {
+      dir = (dir + 2);
+      if (dir > 31) {
+        dir = (dir - 16);
+      }
+      Item.setQHi(dir, arg_06);
+    }
+    if (Item.getStatus(arg_06) & 4) {
+      dir = 0x00ff;
+    }
+    else {
+      FREE.slot_2c(vel, ref);
+      ammo = retval;
+      if (dir == 0x00ff) {
+        FREE.slot_20(15);
+        dir = retval;
+      }
+      else if (dir == 0x00fe) {
+        suspend;
+        return;
+      }
+      dir = (dir & 15);
+      if ((dir > 13) || (dir < 3)) {
+        y1 = (y1 - 32);
+      }
+      else if ((dir > 1) && (dir < 7)) {
+        x1 = (x1 + 32);
+      }
+      else if ((dir > 5) && (dir < 11)) {
+        y1 = (y1 + 32);
+      }
+      else if ((dir > 9) && (dir < 15)) {
+        x1 = (x1 - 32);
+      }
+      suspend;
+    }
+    return;
+  }
+  else if (Item.getShape(item) == 0x02c3) {
+    qHi = Item.getQHi(item);
+    qLo = Item.getQLo(item);
+    Item.destroy(item);
+    if (Item.create(0, 0x02c4, item2)) {
+      Item.setQLo(qLo, item2);
+      if (qHi) {
+        Item.setQHi(2, item2);
+        Item.popToCoords((Item.getZ(arg_06) + 6), (Item.getY(arg_06) - 8), (Item.getX(arg_06) - 16), item2);
+      }
+      else {
+        Item.popToCoords((Item.getZ(arg_06) + 6), (Item.getY(arg_06) - 8), (Item.getX(arg_06) + 32), item2);
+      }
+    }
+    return;
+  }
+  else if (Item.getShape(item) == 0x02c4) {
+    qHi = Item.getQHi(item);
+    qLo = Item.getQLo(item);
+    Item.destroy(item);
+    if (Item.create(0, 0x02c3, item2)) {
+      Item.setQLo(qLo, item2);
+      if (qHi) {
+        Item.setQHi(2, item2);
+        Item.popToCoords((Item.getZ(arg_06) + 6), (Item.getY(arg_06) + 32), (Item.getX(arg_06) - 8), item2);
+      }
+      else {
+        Item.popToCoords((Item.getZ(arg_06) + 6), (Item.getY(arg_06) - 16), (Item.getX(arg_06) - 8), item2);
+      }
+    }
+    return;
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol ref [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol vel [BP+12h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol dir [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol qHi [BP-04h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol qLo [BP-06h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol item [BP-08h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol item2 [BP-10h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol x1 [BP-12h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol y1 [BP-14h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol ammo [BP-16h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x0a equip ===== */
+function bouncbox_equip() /* entry=1265 class_id=0x04ef slot=0x0a */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    var; /* [BP+10h] type=0x69 */
+
+  set_info(0x0211, *(arg_06));
+  process_exclude();
+  Item.setQHi(var, arg_06);
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol var [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}

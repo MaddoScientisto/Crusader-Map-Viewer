@@ -2,7 +2,7 @@ import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 
-import { CATALOG_ROOT, PSX_CACHE_ROOT, REFERENCE_DATA_CACHE_ROOT, SCENE_CACHE_ROOT } from "../config.js";
+import { APP_ROOT, CATALOG_ROOT, PSX_CACHE_ROOT, REFERENCE_DATA_CACHE_ROOT, SCENE_CACHE_ROOT } from "../config.js";
 import { packSprites } from "./atlas-packer.js";
 import { encodePng } from "./png.js";
 import { buildSceneReferencePayload } from "./scene-reference-data.js";
@@ -10,21 +10,37 @@ import { buildSceneReferencePayload } from "./scene-reference-data.js";
 const PSX_GAME_ID = "psx-remorse";
 const PSX_LABEL = "No Remorse PSX";
 const PSX_REFERENCE_ID = "psx-remorse";
-const PSX_SCENE_VERSION = "psx-runtime-record-probe-v5";
-const PSX_REFERENCE_VERSION = "psx-runtime-record-reference-v1";
+const PSX_SCENE_VERSION = "psx-runtime-record-probe-v10";
+const PSX_REFERENCE_VERSION = "psx-runtime-record-reference-v4";
 const PSX_SCREEN_SCALE = 2;
 const ALLOWED_U5 = new Set([0x20, 0x22, 0x30]);
 const PSX_PROCESSED_CATALOG_FILE = path.join(PSX_CACHE_ROOT, "catalog.json");
 const PSX_REFERENCE_CACHE_ROOT = path.join(REFERENCE_DATA_CACHE_ROOT, PSX_REFERENCE_ID);
 const PSX_REFERENCE_DATA_FILE = path.join(PSX_REFERENCE_CACHE_ROOT, "reference-data.json");
 const PSX_CATALOG_FILE = path.join(CATALOG_ROOT, "psx_shape_catalog_remorse.csv");
+const PSX_MODE1_VRAM_WIDTH = 1024;
+const PSX_MODE1_VRAM_HEIGHT = 512;
+const PSX_MODE1_VRAM_ROW = Number.parseInt(process.env.PSX_MODE1_VRAM_ROW ?? "240", 10);
+const PSX_MODE1_VRAM_X = Number.parseInt(process.env.PSX_MODE1_VRAM_X ?? "0", 10);
+const PSX_MODE1_VRAM_CLUT_ROWS = 8;
+const PSX_MODE1_VRAM_CLUTS_PER_ROW = 16;
+const PSX_MODE1_VRAM_CLUT_ENTRY_COUNT = 16;
+const PSX_MODE1_VRAM_DUMP_CANDIDATES = [
+  process.env.PSX_MODE1_VRAM_DUMP,
+  path.resolve(APP_ROOT, "..", "..", "Crusader_Decomp", "binary", "Crusader - No Remorse (USA) GPU RAM.bin"),
+  path.resolve(APP_ROOT, "..", "..", "Crusader_Decomp", "binary", "Crusader - No Remorse Memdump Weapons.bin")
+].filter(Boolean);
 const PSX_FAMILY_SECTION0_ROOT = "section0_dispatch_roots";
 const PSX_FAMILY_SECTION0_BULK = "section0_constructor_placements";
 const PSX_DECOMPRESSED_LEVEL_SIZE = 0x3e00;
 const PSX_LEVEL_RING_SIZE = 0x80;
+const PSX_GENERIC_TEMPLATE_FAMILY_MIN = 0x003e;
+const PSX_GENERIC_TEMPLATE_FAMILY_MAX = 0x0064;
 const VERIFIED_TYPE_STATE_FRAME_FALLBACKS = new Map([
   [0x50, { 0: 0, 1: 1, 2: 2, 3: 3 }]
 ]);
+let cachedMode1VramPalette = undefined;
+let cachedMode1VramClutBank = undefined;
 
 function ensureDir(dirPath) {
   fs.mkdirSync(dirPath, { recursive: true });
@@ -256,6 +272,63 @@ function parseTypedSection16(data, section, startOffset = 0) {
   };
 }
 
+function parseTypedSection16Absolute(data, absoluteOffset) {
+  if (absoluteOffset < 0 || absoluteOffset >= data.length) {
+    return null;
+  }
+
+  const pseudoSection = {
+    name: "absolute-file-scan",
+    offset: absoluteOffset,
+    size: data.length - absoluteOffset
+  };
+  const candidate = parseTypedSection16(data, pseudoSection, 0);
+  if (!candidate) {
+    return null;
+  }
+
+  candidate.discoveryMode = "absolute-file-scan";
+  return candidate;
+}
+
+function findSectionForAbsoluteOffset(parsed, absoluteOffset) {
+  for (const section of parsed.sections ?? []) {
+    if (absoluteOffset >= section.offset && absoluteOffset < section.offset + section.size) {
+      return section;
+    }
+  }
+  return null;
+}
+
+function annotateAbsoluteTypedSectionCandidate(parsed, candidate) {
+  const section = findSectionForAbsoluteOffset(parsed, candidate.parseAbsoluteOffset);
+  if (!section) {
+    return candidate;
+  }
+
+  return {
+    ...candidate,
+    sectionName: section.name,
+    sectionOffset: section.offset,
+    sectionSize: section.size,
+    parseOffset: candidate.parseAbsoluteOffset - section.offset,
+    discoveryMode: candidate.discoveryMode ?? "absolute-file-scan"
+  };
+}
+
+function findAbsoluteTypedSection16Candidates(data, parsed, requestedTypeIds, step = 4) {
+  const candidates = [];
+  for (let absoluteOffset = 0; absoluteOffset + 8 <= data.length; absoluteOffset += step) {
+    const candidate = parseTypedSection16Absolute(data, absoluteOffset);
+    if (!candidate) {
+      continue;
+    }
+    candidate.typeOverlap = countTypeOverlap(candidate, requestedTypeIds);
+    candidates.push(annotateAbsoluteTypedSectionCandidate(parsed, candidate));
+  }
+  return candidates;
+}
+
 function countTypeOverlap(candidate, requestedTypeIds) {
   let overlap = 0;
   for (const record of candidate.records) {
@@ -386,9 +459,15 @@ function findBestTypedSection8(data, parsed, records) {
 
 function findBestTypedSection16(data, parsed, records) {
   const requestedTypeIds = new Set(records.map((record) => record.u0));
-  const candidates = findTypedSectionCandidates(data, parsed, parseTypedSection16, requestedTypeIds)
-    .sort((left, right) => right.typeOverlap - left.typeOverlap || right.recordCount - left.recordCount || right.payloadBytes - left.payloadBytes);
-  return candidates[0] ?? null;
+  const rankCandidates = (candidates) => candidates.sort((left, right) => right.typeOverlap - left.typeOverlap || right.recordCount - left.recordCount || right.payloadBytes - left.payloadBytes);
+  const sectionCandidates = rankCandidates(findTypedSectionCandidates(data, parsed, parseTypedSection16, requestedTypeIds));
+  const bestSectionCandidate = sectionCandidates[0] ?? null;
+  if (bestSectionCandidate) {
+    return bestSectionCandidate;
+  }
+
+  const absoluteCandidates = rankCandidates(findAbsoluteTypedSection16Candidates(data, parsed, requestedTypeIds));
+  return absoluteCandidates.find((candidate) => candidate.typeOverlap > 0) ?? absoluteCandidates[0] ?? null;
 }
 
 function findBestCompressedLevelSection(data, parsed) {
@@ -442,9 +521,9 @@ function matchTemplateBundles(templateSection, spriteBundles, graphicsRegionOffs
   return matchesByType;
 }
 
-function collectPsxRuntimeState(data, parsed, records) {
+function collectPsxRuntimeState(data, parsed, records, paletteSets = null) {
   const graphicsRegion = parsed.regions.find((region) => region.name === "post_audio_region_04") ?? null;
-  const spriteBundles = resolveSpriteBundlesForMap(data, parsed);
+  const spriteBundles = resolveSpriteBundlesForMap(data, parsed, paletteSets);
   const templateSection = findBestTypedSection8(data, parsed, records);
   const compoundSection = findBestTypedSection16(data, parsed, records);
   const compressedSection = findBestCompressedLevelSection(data, parsed);
@@ -516,7 +595,7 @@ function collectPsxRuntimeState(data, parsed, records) {
     stateLayers.push({
       id: "compound-variant-bank",
       runtimeTarget: "DAT_800758d4",
-      role: "per-type-compound-variants",
+      role: "per-type-compound-companion-extents",
       sectionName: compoundSection.sectionName,
       sectionOffset: compoundSection.sectionOffset,
       sectionSize: compoundSection.sectionSize,
@@ -530,7 +609,8 @@ function collectPsxRuntimeState(data, parsed, records) {
         typeId: record.typeId,
         variantTypeId: record.variantTypeId,
         d4Size: record.d4Size,
-        d4BytesBase64: record.d4BytesBase64
+        d4BytesBase64: record.d4BytesBase64,
+        companionExtents: parseCompoundVariantExtentsMap(record.d4BytesBase64)?.extentsByState ?? null
       }))
     });
   }
@@ -619,7 +699,9 @@ function extractRegion01Records(data, region) {
         u2: readU16LE(regionBytes, base + 4),
         u3: readU16LE(regionBytes, base + 6),
         u4: readU16LE(regionBytes, base + 8),
-        u5: readU16LE(regionBytes, base + 10)
+        u5: readU16LE(regionBytes, base + 10),
+        sourceBytes: Buffer.from(regionBytes.subarray(base, base + 12)),
+        sourceByteOffset: 0
       };
       if (isStructuredCandidate(record)) {
         rows.push(record);
@@ -670,13 +752,19 @@ function extractRegion00Records(data, region) {
       break;
     }
 
+    const rowBytes = Buffer.from(regionBytes.subarray(base, base + 24));
+
     const words = [];
     for (let wordIndex = 0; wordIndex < 12; wordIndex += 1) {
       words.push(readU16LE(regionBytes, base + wordIndex * 2));
     }
 
     for (const side of ["left", "right"]) {
-      const record = normalizeRegion00Record(words, rowIndex, side);
+      const record = {
+        ...normalizeRegion00Record(words, rowIndex, side),
+        sourceBytes: rowBytes,
+        sourceByteOffset: side === "left" ? 0 : 12
+      };
       if (isStructuredCandidate(record)) {
         rows.push(record);
       }
@@ -952,6 +1040,121 @@ function extractPaletteBlocks256(data, headerWords) {
     palettes.push(palette);
   }
   return palettes;
+}
+
+function buildMode1RuntimePalette(palettes16) {
+  return buildMode1RuntimePaletteForIndex(palettes16, 0);
+}
+
+function buildMode1RuntimePaletteForIndex(palettes16, startIndex = 0) {
+  if (!Array.isArray(palettes16) || palettes16.length < 16) {
+    return null;
+  }
+  if (!Number.isInteger(startIndex) || startIndex < 0 || startIndex + 16 > palettes16.length) {
+    return null;
+  }
+
+  const palette = [];
+  for (let paletteIndex = startIndex; paletteIndex < startIndex + 16; paletteIndex += 1) {
+    const clut = palettes16[paletteIndex];
+    if (!Array.isArray(clut) || clut.length < 16) {
+      return null;
+    }
+    palette.push(...clut.slice(0, 16));
+  }
+  return palette.length === 256 ? palette : null;
+}
+
+function buildMode1PaletteBank(palettes16) {
+  if (!Array.isArray(palettes16) || palettes16.length < 16) {
+    return [];
+  }
+
+  const paletteBank = [];
+  for (let startIndex = 0; startIndex < palettes16.length; startIndex += 1) {
+    const palette = buildMode1RuntimePaletteForIndex(palettes16, startIndex);
+    if (palette?.length === 256) {
+      paletteBank[startIndex] = palette;
+    }
+  }
+  return paletteBank;
+}
+
+function readMode1PaletteFromVramDump(filePath) {
+  const clutBank = readMode1ClutBankFromVramDump(filePath);
+  return buildMode1RuntimePaletteForIndex(clutBank, 0);
+}
+
+function readMode1ClutBankFromVramDump(filePath) {
+  if (!filePath || !fs.existsSync(filePath)) {
+    return null;
+  }
+
+  const data = fs.readFileSync(filePath);
+  const expectedSize = PSX_MODE1_VRAM_WIDTH * PSX_MODE1_VRAM_HEIGHT * 2;
+  if (data.length < expectedSize) {
+    return null;
+  }
+  if (PSX_MODE1_VRAM_ROW < 0 || PSX_MODE1_VRAM_ROW >= PSX_MODE1_VRAM_HEIGHT) {
+    return null;
+  }
+  if (PSX_MODE1_VRAM_ROW + PSX_MODE1_VRAM_CLUT_ROWS > PSX_MODE1_VRAM_HEIGHT) {
+    return null;
+  }
+  if (PSX_MODE1_VRAM_X < 0 || PSX_MODE1_VRAM_X + (PSX_MODE1_VRAM_CLUTS_PER_ROW * PSX_MODE1_VRAM_CLUT_ENTRY_COUNT) > PSX_MODE1_VRAM_WIDTH) {
+    return null;
+  }
+
+  const clutBank = [];
+  for (let rowIndex = 0; rowIndex < PSX_MODE1_VRAM_CLUT_ROWS; rowIndex += 1) {
+    const y = PSX_MODE1_VRAM_ROW + rowIndex;
+    for (let clutIndex = 0; clutIndex < PSX_MODE1_VRAM_CLUTS_PER_ROW; clutIndex += 1) {
+      const palette = [];
+      const x = PSX_MODE1_VRAM_X + clutIndex * PSX_MODE1_VRAM_CLUT_ENTRY_COUNT;
+      const start = ((y * PSX_MODE1_VRAM_WIDTH) + x) * 2;
+      for (let entryIndex = 0; entryIndex < PSX_MODE1_VRAM_CLUT_ENTRY_COUNT; entryIndex += 1) {
+        palette.push(readU16LE(data, start + entryIndex * 2));
+      }
+      clutBank.push(palette);
+    }
+  }
+
+  return clutBank.length ? clutBank : null;
+}
+
+function getMode1RuntimePaletteFromVramDump() {
+  return buildMode1RuntimePaletteForIndex(getMode1ClutBankFromVramDump(), 0);
+}
+
+function getMode1ClutBankFromVramDump() {
+  if (cachedMode1VramClutBank !== undefined) {
+    return cachedMode1VramClutBank;
+  }
+
+  for (const candidate of PSX_MODE1_VRAM_DUMP_CANDIDATES) {
+    const clutBank = readMode1ClutBankFromVramDump(candidate);
+    if (clutBank?.length) {
+      cachedMode1VramClutBank = clutBank;
+      cachedMode1VramPalette = buildMode1RuntimePaletteForIndex(clutBank, 0);
+      return cachedMode1VramClutBank;
+    }
+  }
+
+  cachedMode1VramClutBank = null;
+  if (cachedMode1VramPalette !== undefined) {
+    return cachedMode1VramPalette;
+  }
+
+  for (const candidate of PSX_MODE1_VRAM_DUMP_CANDIDATES) {
+    const palette = readMode1PaletteFromVramDump(candidate);
+    if (palette?.length === 256) {
+      cachedMode1VramPalette = palette;
+      return cachedMode1VramPalette;
+    }
+  }
+
+  cachedMode1VramPalette = null;
+  return cachedMode1VramPalette;
 }
 
 function choosePalette(palettes, frames, mode) {
@@ -1388,17 +1591,98 @@ function parseStateSelectorFrameMap(ccBytesBase64) {
     return null;
   }
 
+  const scriptOffsets = [];
+  for (let selector = 0; selector < scriptCount; selector += 1) {
+    scriptOffsets.push(readU32LE(bytes, 4 + selector * 4));
+  }
+
   const frameBySelector = {};
   const usedFrameIndexes = new Set();
   let mappedSelectorCount = 0;
 
-  for (let selector = 0; selector < scriptCount; selector += 1) {
-    const scriptOffset = readU32LE(bytes, 4 + selector * 4);
-    if (scriptOffset < headerBytes || scriptOffset + 4 > bytes.length) {
-      continue;
+  function readScriptEntry(offset) {
+    if (offset < headerBytes || offset + 4 > bytes.length) {
+      return null;
     }
-    const frameIndex = readU16LE(bytes, scriptOffset);
-    if (frameIndex === 0xffff) {
+    return {
+      offset,
+      frameIndex: readU16LE(bytes, offset),
+      delayOrSelector: readU16LE(bytes, offset + 2)
+    };
+  }
+
+  function resolveSelectorFrame(selector) {
+    const initialBaseOffset = scriptOffsets[selector];
+    if (initialBaseOffset < headerBytes || initialBaseOffset + 4 > bytes.length) {
+      return null;
+    }
+
+    let scriptBaseOffset = initialBaseOffset;
+    let currentOffset = initialBaseOffset;
+    const seen = new Set();
+    for (let step = 0; step < 32; step += 1) {
+      const key = `${scriptBaseOffset}:${currentOffset}`;
+      if (seen.has(key)) {
+        return null;
+      }
+      seen.add(key);
+
+      const entry = readScriptEntry(currentOffset);
+      if (!entry) {
+        return null;
+      }
+
+      const selectorWord = entry.delayOrSelector;
+      switch (entry.frameIndex) {
+        case 0xffff:
+          return null;
+        case 0xfffe:
+          currentOffset += 4;
+          break;
+        case 0xfffd:
+          if (selectorWord === 0) {
+            return null;
+          }
+          currentOffset = scriptBaseOffset + (selectorWord - 1) * 4;
+          break;
+        case 0xfffc: {
+          if (selectorWord === 0 || selectorWord > scriptOffsets.length) {
+            return null;
+          }
+          scriptBaseOffset = scriptOffsets[selectorWord - 1];
+          currentOffset = scriptBaseOffset;
+          break;
+        }
+        case 0xfffb: {
+          if (selectorWord === 0 || selectorWord > scriptOffsets.length) {
+            return null;
+          }
+          scriptBaseOffset = scriptOffsets[selectorWord - 1];
+          currentOffset = scriptBaseOffset;
+          let jumpEntry = readScriptEntry(currentOffset);
+          let scanStep = 0;
+          while (jumpEntry && jumpEntry.frameIndex !== 0xfffd && scanStep < 64) {
+            currentOffset += 4;
+            jumpEntry = readScriptEntry(currentOffset);
+            scanStep += 1;
+          }
+          if (!jumpEntry || jumpEntry.frameIndex !== 0xfffd || jumpEntry.delayOrSelector === 0) {
+            return null;
+          }
+          currentOffset = scriptBaseOffset + (jumpEntry.delayOrSelector - 1) * 4;
+          break;
+        }
+        default:
+          return entry.frameIndex;
+      }
+    }
+
+    return null;
+  }
+
+  for (let selector = 0; selector < scriptCount; selector += 1) {
+    const frameIndex = resolveSelectorFrame(selector);
+    if (frameIndex == null) {
       continue;
     }
     frameBySelector[selector] = frameIndex;
@@ -1418,6 +1702,47 @@ function parseStateSelectorFrameMap(ccBytesBase64) {
   };
 }
 
+function signExtendPsxVariantByte(value) {
+  return value & 0x80 ? value - 0x100 : value;
+}
+
+function parseCompoundVariantExtentsMap(d4BytesBase64) {
+  if (!d4BytesBase64) {
+    return null;
+  }
+
+  const bytes = Buffer.from(d4BytesBase64, "base64");
+  if (bytes.length < 4) {
+    return null;
+  }
+
+  const entryCount = readU32LE(bytes, 0);
+  if (entryCount <= 0 || entryCount > 0x400) {
+    return null;
+  }
+
+  const expectedBytes = 4 + entryCount * 4;
+  if (expectedBytes > bytes.length) {
+    return null;
+  }
+
+  const extentsByState = {};
+  for (let index = 0; index < entryCount; index += 1) {
+    const packed = readU32LE(bytes, 4 + index * 4);
+    extentsByState[index] = {
+      x: signExtendPsxVariantByte(packed & 0xff),
+      y: signExtendPsxVariantByte((packed >>> 8) & 0xff),
+      z: signExtendPsxVariantByte((packed >>> 16) & 0xff),
+      packed
+    };
+  }
+
+  return {
+    entryCount,
+    extentsByState
+  };
+}
+
 function buildVerifiedStateFrameMap(frameBySelector) {
   const usedFrameIndexes = [...new Set(Object.values(frameBySelector))].sort((left, right) => left - right);
   return {
@@ -1427,6 +1752,172 @@ function buildVerifiedStateFrameMap(frameBySelector) {
     mappedSelectorCount: Object.keys(frameBySelector).length,
     source: "verified-fallback"
   };
+}
+
+function isTrivialStateFrameMap(stateFrameMap) {
+  return !stateFrameMap || (stateFrameMap.usedFrameIndexes?.length ?? 0) <= 1;
+}
+
+function resolveTemplateBackedStateFrameMap(analysisByMapId, mapEntry, typeId, templateMatch, fallbackStateFrameMap) {
+  if (!templateMatch) {
+    return fallbackStateFrameMap;
+  }
+
+  const candidates = [];
+  const templateSourceMapId = templateMatch.sourceMapId ?? mapEntry.id;
+  const templateTypeId = templateMatch.templateTypeId ?? typeId;
+  const donorTypeId = templateMatch.donorTypeId ?? null;
+
+  candidates.push({ mapId: mapEntry.id, typeId, stateFrameMap: fallbackStateFrameMap });
+
+  const templateAnalysis = analysisByMapId.get(templateSourceMapId) ?? null;
+  if (templateAnalysis) {
+    candidates.push({
+      mapId: templateSourceMapId,
+      typeId: templateTypeId,
+      stateFrameMap: templateAnalysis.stateFrameMapsByType.get(templateTypeId) ?? null
+    });
+    if (donorTypeId != null) {
+      candidates.push({
+        mapId: templateSourceMapId,
+        typeId: donorTypeId,
+        stateFrameMap: templateAnalysis.stateFrameMapsByType.get(donorTypeId) ?? null
+      });
+    }
+  }
+
+  const usefulCandidate = candidates.find((candidate) => !isTrivialStateFrameMap(candidate.stateFrameMap));
+  if (usefulCandidate && isTrivialStateFrameMap(fallbackStateFrameMap)) {
+    return usefulCandidate.stateFrameMap;
+  }
+
+  return fallbackStateFrameMap
+    ?? usefulCandidate?.stateFrameMap
+    ?? candidates.find((candidate) => candidate.stateFrameMap)?.stateFrameMap
+    ?? null;
+}
+
+function isPsxGenericTemplateFamilyType(typeId) {
+  return typeId >= PSX_GENERIC_TEMPLATE_FAMILY_MIN && typeId <= PSX_GENERIC_TEMPLATE_FAMILY_MAX;
+}
+
+function buildDirectTemplateMatchMap(mapEntry) {
+  const directMatches = new Map();
+  const templateLayer = mapEntry.runtimeState?.stateLayers?.find((layer) => layer.runtimeTarget === "DAT_800758d8") ?? null;
+  if (!templateLayer) {
+    return directMatches;
+  }
+
+  for (const record of templateLayer.records ?? []) {
+    if (!record?.bundleMatch || !record.blockSize) {
+      continue;
+    }
+
+    directMatches.set(record.typeId, {
+      ...record.bundleMatch,
+      matchKind: record.bundleMatch.matchKind,
+      templateTypeId: record.typeId,
+      donorTypeId: null
+    });
+  }
+
+  return directMatches;
+}
+
+function buildTypeStateSignatureMap(mapEntry) {
+  const signatures = new Map();
+  const stateLayer = mapEntry.runtimeState?.stateLayers?.find((layer) => layer.runtimeTarget === "DAT_800758cc") ?? null;
+  if (!stateLayer) {
+    return signatures;
+  }
+
+  for (const record of stateLayer.records ?? []) {
+    if (!record?.ccBytesBase64 || signatures.has(record.typeId)) {
+      continue;
+    }
+    signatures.set(record.typeId, sha1(record.ccBytesBase64));
+  }
+
+  return signatures;
+}
+
+function chooseBestTemplateDonor(targetTypeId, directTemplateMatches, stateSignatures, artHeaderByType) {
+  const targetSignature = stateSignatures.get(targetTypeId) ?? null;
+  const targetKind = artHeaderByType.get(targetTypeId)?.payloadKind ?? null;
+  const collectCandidates = (relaxKind = false) => {
+    const candidates = [];
+
+    for (const [candidateTypeId, templateMatch] of directTemplateMatches.entries()) {
+      if (candidateTypeId === targetTypeId) {
+        continue;
+      }
+
+      const candidateSignature = stateSignatures.get(candidateTypeId) ?? null;
+      const candidateKind = artHeaderByType.get(candidateTypeId)?.payloadKind ?? null;
+      const kindMatches = relaxKind || targetKind == null || candidateKind == null || candidateKind === targetKind;
+      if (!kindMatches) {
+        continue;
+      }
+      const signatureMatches = targetSignature !== null && candidateSignature === targetSignature;
+      const sameGenericFamily = isPsxGenericTemplateFamilyType(targetTypeId) && isPsxGenericTemplateFamilyType(candidateTypeId);
+      if (!signatureMatches && !sameGenericFamily) {
+        continue;
+      }
+
+      candidates.push({
+        candidateTypeId,
+        templateMatch,
+        signatureMatches,
+        sameGenericFamily,
+        distance: Math.abs(candidateTypeId - targetTypeId)
+      });
+    }
+
+    candidates.sort((left, right) => {
+      return Number(right.signatureMatches) - Number(left.signatureMatches)
+        || Number(right.sameGenericFamily) - Number(left.sameGenericFamily)
+        || left.distance - right.distance
+        || left.candidateTypeId - right.candidateTypeId;
+    });
+
+    return candidates;
+  };
+
+  return collectCandidates(false)[0]
+    ?? collectCandidates(true)[0]
+    ?? null;
+}
+
+function buildTemplateDonorMatchMap(mapEntry, directTemplateMatches) {
+  const donorMatches = new Map();
+  const stateSignatures = buildTypeStateSignatureMap(mapEntry);
+  const artHeaderByType = buildTypeArtHeaderMaps(mapEntry);
+  const templateLayer = mapEntry.runtimeState?.stateLayers?.find((layer) => layer.runtimeTarget === "DAT_800758d8") ?? null;
+  if (!templateLayer) {
+    return donorMatches;
+  }
+
+  for (const record of templateLayer.records ?? []) {
+    if (!record || !isPsxGenericTemplateFamilyType(record.typeId) || record.blockSize !== 0 || directTemplateMatches.has(record.typeId)) {
+      continue;
+    }
+
+    const donor = chooseBestTemplateDonor(record.typeId, directTemplateMatches, stateSignatures, artHeaderByType);
+    if (!donor) {
+      continue;
+    }
+
+    donorMatches.set(record.typeId, {
+      ...donor.templateMatch,
+      matchKind: donor.signatureMatches
+        ? `cc-signature-donor:${donor.candidateTypeId.toString(16).padStart(4, "0")}`
+        : `generic-family-donor:${donor.candidateTypeId.toString(16).padStart(4, "0")}`,
+      templateTypeId: donor.templateMatch.templateTypeId ?? donor.candidateTypeId,
+      donorTypeId: donor.candidateTypeId
+    });
+  }
+
+  return donorMatches;
 }
 
 function buildTypeStateFrameMaps(mapEntry) {
@@ -1449,80 +1940,996 @@ function buildTypeStateFrameMaps(mapEntry) {
   return frameMapsByType;
 }
 
+function buildTypeCompanionExtentsMaps(mapEntry) {
+  const companionLayer = mapEntry.runtimeState?.stateLayers?.find((layer) => layer.runtimeTarget === "DAT_800758d4") ?? null;
+  const extentsMapsByType = new Map();
+  if (!companionLayer) {
+    return extentsMapsByType;
+  }
+
+  for (const record of companionLayer.records ?? []) {
+    const extentsMap = parseCompoundVariantExtentsMap(record.d4BytesBase64);
+    if (!extentsMap) {
+      continue;
+    }
+    extentsMapsByType.set(record.typeId, extentsMap);
+  }
+
+  return extentsMapsByType;
+}
+
+function buildTypeArtHeaderMaps(mapEntry) {
+  const templateLayer = mapEntry.runtimeState?.stateLayers?.find((layer) => layer.runtimeTarget === "DAT_800758d8") ?? null;
+  const artHeaderByType = new Map();
+  if (!templateLayer) {
+    return artHeaderByType;
+  }
+
+  for (const record of templateLayer.records ?? []) {
+    if (!record) {
+      continue;
+    }
+    artHeaderByType.set(record.typeId, {
+      payloadKind: Number.isInteger(record.payloadKind) ? record.payloadKind : null,
+      blockSize: Number.isInteger(record.blockSize) ? record.blockSize : null,
+      payloadPreviewDwords: Array.isArray(record.payloadPreviewDwords) ? record.payloadPreviewDwords.slice(0, 8) : [],
+      bundleMatch: record.bundleMatch ?? null
+    });
+  }
+
+  return artHeaderByType;
+}
+
+function buildPsxRuntimeDiagnostic(record, actualFrameIndex, artHeaderInfo) {
+  const objectRouteFlags = record.u5 >>> 0;
+  const activeHeaderKindCandidate = artHeaderInfo?.payloadKind ?? null;
+  const routeOutcomeCandidate = getPsxRouteOutcomeCandidateFromFlags(objectRouteFlags);
+  const rawPaletteOverrideIndex = getPsxRawRecordPaletteOverrideIndex(record);
+
+  return {
+    objectLocalRouteFlags: {
+      source: "record_u5_seed",
+      initialWord: objectRouteFlags,
+      bit0002: (objectRouteFlags & 0x0002) !== 0,
+      bit0020: (objectRouteFlags & 0x0020) !== 0,
+      bit0200: (objectRouteFlags & 0x0200) !== 0,
+      bit0400: (objectRouteFlags & 0x0400) !== 0,
+      routeOutcomeCandidate
+    },
+    selector: {
+      selectorSeed: record.u4,
+      stateSelector: record.u4,
+      preLatchDispatchSampled: false,
+      preLatchViewMarginGateKnown: record.u0 === 0x0042,
+      preLatchTurnPathCandidate: record.u0 === 0x0042,
+      note: record.u0 === 0x0042
+        ? "Type 0x0042 can dispatch selector 3/4 before the later latch copy; live sampling must track pre-latch dispatch separately from the latched state word."
+        : "No type-specific pre-latch turn path is exported for this record yet."
+    },
+    latchedState: {
+      sampled: false,
+      exportedStateSelector: record.u4,
+      chosenFrameCandidate: actualFrameIndex,
+      note: "Exporter candidate reflects current state/frame choice heuristics; the live latched state word still requires Ghidra-side sampling."
+    },
+    palette: {
+      authoredTokenSampled: rawPaletteOverrideIndex != null,
+      authoredToken: rawPaletteOverrideIndex,
+      appliedOverrideIndex: routeOutcomeCandidate === "main-visible" ? rawPaletteOverrideIndex : null,
+      appliesInMainVisibleLaneOnly: true,
+      ignoredBecauseSpecialVisible: routeOutcomeCandidate === "special-visible" && rawPaletteOverrideIndex != null,
+      note: rawPaletteOverrideIndex == null
+        ? "No authored palette token was decoded from the source record."
+        : routeOutcomeCandidate === "main-visible"
+          ? "Main-visible records can inject the authored high-byte palette token into the submit flags."
+          : routeOutcomeCandidate === "special-visible"
+            ? "Special-visible submission does not inject the authored palette token even when the source record carries one."
+            : "The record carries an authored palette token, but this object is not currently classified as world-visible."
+    },
+    nestedRuntimeState: {
+      sampled: false,
+      stateWord18: null,
+      stateWord18Flag0400: null,
+      stateDword1c: null,
+      note: "Nested runtime state words are not recovered from WDL data alone; compare live captures against this scene item by mapSourceIndex."
+    },
+    resourceKind: {
+      sampled: activeHeaderKindCandidate != null,
+      activeHeaderKindCandidate,
+      activeHeaderBlockSize: artHeaderInfo?.blockSize ?? null,
+      activeHeaderPreviewDwords: artHeaderInfo?.payloadPreviewDwords ?? [],
+      builtResourceReuseExpected: activeHeaderKindCandidate === 5,
+      activeHeaderBank: "DAT_800758d8",
+      builtResourceBank: "DAT_800758c8",
+      bundleMatchKind: artHeaderInfo?.bundleMatch?.matchKind ?? null,
+      note: activeHeaderKindCandidate == null
+        ? "No per-type art-header candidate was decoded for this record type."
+        : "Kind 5 implies built-resource reuse path; non-5 implies constructor rebuild from the active header."
+    },
+    typePolicy: {
+      sampled: false,
+      word: null,
+      note: "DAT_800675f8 remains a live-installed per-type policy table; export this word from runtime sampling when correlating map 104 type 0x0042 cases."
+    }
+  };
+}
+
+function buildMapRuntimeAnalysis(mapEntry) {
+  return {
+    mapEntry,
+    mapId: mapEntry.id,
+    bundleByOffset: new Map(mapEntry.spriteBundles.map((bundle, index) => [bundle.offset, { ...bundle, scannedIndex: index }])),
+    artHeaderByType: buildTypeArtHeaderMaps(mapEntry),
+    stateFrameMapsByType: buildTypeStateFrameMaps(mapEntry),
+    directTemplateMatches: buildDirectTemplateMatchMap(mapEntry),
+    stateSignatures: buildTypeStateSignatureMap(mapEntry)
+  };
+}
+
+function makePsxArtCohortKey(sourceFamily, lane, routeOutcomeCandidate = null) {
+  return `${sourceFamily ?? "unknown"}:${lane >>> 0}:${routeOutcomeCandidate ?? "unknown-route"}`;
+}
+
+function groupPsxRecordsByArtCohort(records) {
+  const groups = new Map();
+
+  for (const record of records ?? []) {
+    const sourceFamily = record.sourceFamily ?? "unknown";
+    const lane = record.u5 >>> 0;
+    const routeOutcomeCandidate = getPsxRouteOutcomeCandidateFromFlags(lane);
+    const key = makePsxArtCohortKey(sourceFamily, lane, routeOutcomeCandidate);
+    if (!groups.has(key)) {
+      groups.set(key, {
+        key,
+        sourceFamily,
+        lane,
+        routeOutcomeCandidate,
+        records: []
+      });
+    }
+    groups.get(key).records.push(record);
+  }
+
+  return groups;
+}
+
+function buildMapTemplateDonorMatches(mapEntry, analysis) {
+  return buildTemplateDonorMatchMap(mapEntry, analysis.directTemplateMatches);
+}
+
+function buildGlobalTemplateCandidateIndex(analysisByMapId) {
+  const allCandidates = [];
+  const candidatesByType = new Map();
+  const cohortCandidates = [];
+
+  for (const analysis of analysisByMapId.values()) {
+    for (const [typeId, templateMatch] of analysis.directTemplateMatches.entries()) {
+      const bundle = analysis.bundleByOffset.get(templateMatch.bundleOffset) ?? null;
+      if (!bundle?.frames?.length || !bundle.palette?.length) {
+        continue;
+      }
+
+      const candidate = {
+        mapId: analysis.mapId,
+        typeId,
+        templateMatch,
+        bundle,
+        stateSignature: analysis.stateSignatures.get(typeId) ?? null,
+        payloadKind: analysis.artHeaderByType.get(typeId)?.payloadKind ?? null,
+        stateFrameCount: analysis.stateFrameMapsByType.get(typeId)?.usedFrameIndexes?.length ?? 1
+      };
+      allCandidates.push(candidate);
+      if (!candidatesByType.has(typeId)) {
+        candidatesByType.set(typeId, []);
+      }
+      candidatesByType.get(typeId).push(candidate);
+
+      const recordsForType = analysis.mapEntry.records.filter((record) => record.u0 === typeId);
+      for (const cohort of groupPsxRecordsByArtCohort(recordsForType).values()) {
+        cohortCandidates.push({
+          ...candidate,
+          sourceFamily: cohort.sourceFamily,
+          lane: cohort.lane,
+          routeOutcomeCandidate: cohort.routeOutcomeCandidate,
+          cohortRecordCount: cohort.records.length
+        });
+      }
+    }
+  }
+
+  return {
+    allCandidates,
+    candidatesByType,
+    cohortCandidates
+  };
+}
+
+function compareGlobalTemplateCandidates(left, right) {
+  return right.score - left.score
+    || left.typeDistance - right.typeDistance
+    || left.mapDistance - right.mapDistance
+    || left.candidate.mapId - right.candidate.mapId
+    || left.candidate.typeId - right.candidate.typeId;
+}
+
+function chooseBestGlobalTemplateCandidate(targetTypeId, analysis, globalIndex) {
+  const targetSignature = analysis.stateSignatures.get(targetTypeId) ?? null;
+  const targetKind = analysis.artHeaderByType.get(targetTypeId)?.payloadKind ?? null;
+  const exactTypeCandidates = globalIndex.candidatesByType.get(targetTypeId) ?? [];
+  const scoredCandidates = [];
+
+  for (const candidate of exactTypeCandidates) {
+    const kindMatches = targetKind == null || candidate.payloadKind == null || candidate.payloadKind === targetKind;
+    if (!kindMatches) {
+      continue;
+    }
+    const signatureMatches = targetSignature !== null && candidate.stateSignature === targetSignature;
+    const sameMap = candidate.mapId === analysis.mapId;
+    scoredCandidates.push({
+      candidate,
+      score: sameMap ? (signatureMatches ? 8 : 7) : (signatureMatches ? 5 : 4),
+      typeDistance: 0,
+      mapDistance: Math.abs(candidate.mapId - analysis.mapId),
+      signatureMatches,
+      exactType: true,
+      sameGenericFamily: isPsxGenericTemplateFamilyType(targetTypeId)
+    });
+  }
+
+  if (isPsxGenericTemplateFamilyType(targetTypeId)) {
+    for (const candidate of globalIndex.allCandidates) {
+      if (candidate.typeId === targetTypeId) {
+        continue;
+      }
+
+      const kindMatches = targetKind == null || candidate.payloadKind == null || candidate.payloadKind === targetKind;
+      if (!kindMatches) {
+        continue;
+      }
+      const signatureMatches = targetSignature !== null && candidate.stateSignature === targetSignature;
+      const sameGenericFamily = isPsxGenericTemplateFamilyType(candidate.typeId);
+      if (!signatureMatches && !sameGenericFamily) {
+        continue;
+      }
+      const sameMap = candidate.mapId === analysis.mapId;
+
+      scoredCandidates.push({
+        candidate,
+        score: sameMap ? (signatureMatches ? 6 : 5) : (signatureMatches ? 3 : 2),
+        typeDistance: Math.abs(candidate.typeId - targetTypeId),
+        mapDistance: Math.abs(candidate.mapId - analysis.mapId),
+        signatureMatches,
+        exactType: false,
+        sameGenericFamily
+      });
+    }
+  }
+
+  scoredCandidates.sort(compareGlobalTemplateCandidates);
+  return scoredCandidates[0] ?? null;
+}
+
+function buildGlobalTemplateMatch(targetTypeId, analysis, globalIndex) {
+  const selected = chooseBestGlobalTemplateCandidate(targetTypeId, analysis, globalIndex);
+  if (!selected) {
+    return null;
+  }
+
+  const { candidate, exactType, signatureMatches } = selected;
+  let matchKind = `cross-map-generic-family-donor:${candidate.mapId}:${candidate.typeId.toString(16).padStart(4, "0")}`;
+  if (exactType && signatureMatches) {
+    matchKind = `cross-map-type-signature-donor:${candidate.mapId}:${candidate.typeId.toString(16).padStart(4, "0")}`;
+  } else if (exactType) {
+    matchKind = `cross-map-type-donor:${candidate.mapId}:${candidate.typeId.toString(16).padStart(4, "0")}`;
+  } else if (signatureMatches) {
+    matchKind = `cross-map-cc-signature-donor:${candidate.mapId}:${candidate.typeId.toString(16).padStart(4, "0")}`;
+  }
+
+  return {
+    ...candidate.templateMatch,
+    matchKind,
+    templateTypeId: candidate.templateMatch.templateTypeId ?? candidate.typeId,
+    donorTypeId: candidate.typeId === targetTypeId ? null : candidate.typeId,
+    sourceMapId: candidate.mapId,
+    bundle: candidate.bundle
+  };
+}
+
+function compareGlobalCohortCandidates(left, right) {
+  return right.score - left.score
+    || left.typeDistance - right.typeDistance
+    || left.laneDistance - right.laneDistance
+    || left.mapDistance - right.mapDistance
+    || left.candidate.mapId - right.candidate.mapId
+    || left.candidate.typeId - right.candidate.typeId;
+}
+
+function chooseBestGlobalCohortCandidate(targetTypeId, analysis, targetCohort, globalIndex) {
+  const targetSignature = analysis.stateSignatures.get(targetTypeId) ?? null;
+  const targetKind = analysis.artHeaderByType.get(targetTypeId)?.payloadKind ?? null;
+  const targetSelectorCount = new Set((targetCohort.records ?? []).map((record) => record.u4)).size;
+  const preferSameMapLaneCohort = isPsxGenericTemplateFamilyType(targetTypeId);
+
+  const collectCandidates = (relaxKind, requireAnimatedCoverage, options = {}) => {
+    const {
+      sameMapOnly = false,
+      requireSameFamily = false,
+      requireSameLane = false,
+      requireSameRouteOutcome = false
+    } = options;
+    const scoredCandidates = [];
+
+    for (const candidate of globalIndex.cohortCandidates ?? []) {
+      if (!relaxKind) {
+        const kindMatches = targetKind == null || candidate.payloadKind == null || candidate.payloadKind === targetKind;
+        if (!kindMatches) {
+          continue;
+        }
+      }
+
+      if (requireAnimatedCoverage && targetSelectorCount > 1 && (candidate.stateFrameCount ?? 1) <= 1) {
+        continue;
+      }
+
+      const exactType = candidate.typeId === targetTypeId;
+      const signatureMatches = targetSignature !== null && candidate.stateSignature === targetSignature;
+      const sameGenericFamily = isPsxGenericTemplateFamilyType(targetTypeId) && isPsxGenericTemplateFamilyType(candidate.typeId);
+      const sameFamily = candidate.sourceFamily === targetCohort.sourceFamily;
+      const sameLane = candidate.lane === targetCohort.lane;
+      const sameRouteOutcome = candidate.routeOutcomeCandidate === targetCohort.routeOutcomeCandidate;
+
+      if (sameMapOnly && candidate.mapId !== analysis.mapId) {
+        continue;
+      }
+      if (requireSameFamily && !sameFamily) {
+        continue;
+      }
+      if (requireSameLane && !sameLane) {
+        continue;
+      }
+      if (requireSameRouteOutcome && !sameRouteOutcome) {
+        continue;
+      }
+
+      if (!exactType && !signatureMatches && !sameGenericFamily && !sameFamily && !sameRouteOutcome) {
+        continue;
+      }
+
+      let score = 0;
+      if (exactType) {
+        score += 40;
+      }
+      if (signatureMatches) {
+        score += 18;
+      }
+      if (sameGenericFamily) {
+        score += 12;
+      }
+      if (sameFamily) {
+        score += 10;
+      }
+      if (sameLane) {
+        score += 8;
+      }
+      if (sameRouteOutcome) {
+        score += 4;
+      }
+      if (candidate.mapId === analysis.mapId) {
+        score += 3;
+      }
+
+      scoredCandidates.push({
+        candidate,
+        score,
+        exactType,
+        signatureMatches,
+        sameGenericFamily,
+        sameFamily,
+        sameLane,
+        sameRouteOutcome,
+        typeDistance: Math.abs(candidate.typeId - targetTypeId),
+        laneDistance: Math.abs(candidate.lane - targetCohort.lane),
+        mapDistance: Math.abs(candidate.mapId - analysis.mapId)
+      });
+    }
+
+    scoredCandidates.sort(compareGlobalCohortCandidates);
+    return scoredCandidates;
+  };
+
+  if (preferSameMapLaneCohort) {
+    return collectCandidates(false, true, {
+      sameMapOnly: true,
+      requireSameFamily: true,
+      requireSameLane: true,
+      requireSameRouteOutcome: true
+    })[0]
+      ?? collectCandidates(true, true, {
+        sameMapOnly: true,
+        requireSameFamily: true,
+        requireSameLane: true,
+        requireSameRouteOutcome: true
+      })[0]
+      ?? collectCandidates(false, true, {
+        sameMapOnly: true,
+        requireSameFamily: true,
+        requireSameLane: true
+      })[0]
+      ?? collectCandidates(true, true, {
+        sameMapOnly: true,
+        requireSameFamily: true,
+        requireSameLane: true
+      })[0]
+      ?? collectCandidates(false, true)[0]
+      ?? collectCandidates(true, true)[0]
+      ?? collectCandidates(false, false)[0]
+      ?? collectCandidates(true, false)[0]
+      ?? null;
+  }
+
+  return collectCandidates(false, true)[0]
+    ?? collectCandidates(true, true)[0]
+    ?? collectCandidates(false, false)[0]
+    ?? collectCandidates(true, false)[0]
+    ?? null;
+}
+
+function buildGlobalCohortTemplateMatch(targetTypeId, analysis, targetCohort, globalIndex) {
+  const selected = chooseBestGlobalCohortCandidate(targetTypeId, analysis, targetCohort, globalIndex);
+  if (!selected) {
+    return null;
+  }
+
+  const { candidate, exactType, signatureMatches, sameFamily, sameLane, sameRouteOutcome } = selected;
+  const donorTypeHex = candidate.typeId.toString(16).padStart(4, "0");
+  const laneHex = candidate.lane.toString(16).padStart(4, "0");
+  let matchKind = `cohort-route-donor:${candidate.mapId}:${donorTypeHex}:${candidate.sourceFamily}:${laneHex}`;
+
+  if (exactType && sameFamily && sameLane) {
+    matchKind = `cohort-cross-map-type-lane-donor:${candidate.mapId}:${donorTypeHex}:${candidate.sourceFamily}:${laneHex}`;
+  } else if (exactType && sameFamily) {
+    matchKind = `cohort-cross-map-type-family-donor:${candidate.mapId}:${donorTypeHex}:${candidate.sourceFamily}:${laneHex}`;
+  } else if (exactType) {
+    matchKind = `cohort-cross-map-type-donor:${candidate.mapId}:${donorTypeHex}:${candidate.sourceFamily}:${laneHex}`;
+  } else if (signatureMatches && sameFamily && sameLane) {
+    matchKind = `cohort-cc-signature-lane-donor:${candidate.mapId}:${donorTypeHex}:${candidate.sourceFamily}:${laneHex}`;
+  } else if (signatureMatches && sameFamily) {
+    matchKind = `cohort-cc-signature-family-donor:${candidate.mapId}:${donorTypeHex}:${candidate.sourceFamily}:${laneHex}`;
+  } else if (sameFamily && sameLane) {
+    matchKind = `cohort-family-lane-donor:${candidate.mapId}:${donorTypeHex}:${candidate.sourceFamily}:${laneHex}`;
+  } else if (sameFamily) {
+    matchKind = `cohort-family-donor:${candidate.mapId}:${donorTypeHex}:${candidate.sourceFamily}:${laneHex}`;
+  } else if (sameRouteOutcome) {
+    matchKind = `cohort-route-donor:${candidate.mapId}:${donorTypeHex}:${candidate.sourceFamily}:${laneHex}`;
+  }
+
+  return {
+    ...candidate.templateMatch,
+    matchKind,
+    templateTypeId: candidate.templateMatch.templateTypeId ?? candidate.typeId,
+    donorTypeId: candidate.typeId === targetTypeId ? null : candidate.typeId,
+    sourceMapId: candidate.mapId,
+    bundle: candidate.bundle
+  };
+}
+
+function buildEmergencyGlobalTemplateMatch(targetTypeId, analysis, globalIndex) {
+  const targetSignature = analysis.stateSignatures.get(targetTypeId) ?? null;
+  const targetKind = analysis.artHeaderByType.get(targetTypeId)?.payloadKind ?? null;
+  const scoredCandidates = [];
+
+  for (const candidate of globalIndex.allCandidates ?? []) {
+    const kindMatches = targetKind == null || candidate.payloadKind == null || candidate.payloadKind === targetKind;
+    if (!kindMatches) {
+      continue;
+    }
+
+    const exactType = candidate.typeId === targetTypeId;
+    const signatureMatches = targetSignature !== null && candidate.stateSignature === targetSignature;
+    const sameGenericFamily = isPsxGenericTemplateFamilyType(targetTypeId) && isPsxGenericTemplateFamilyType(candidate.typeId);
+    let score = 0;
+    if (exactType) {
+      score += 24;
+    }
+    if (signatureMatches) {
+      score += 12;
+    }
+    if (sameGenericFamily) {
+      score += 8;
+    }
+    scoredCandidates.push({
+      candidate,
+      score,
+      typeDistance: Math.abs(candidate.typeId - targetTypeId),
+      mapDistance: Math.abs(candidate.mapId - analysis.mapId)
+    });
+  }
+
+  scoredCandidates.sort((left, right) => {
+    return right.score - left.score
+      || left.typeDistance - right.typeDistance
+      || left.mapDistance - right.mapDistance
+      || left.candidate.mapId - right.candidate.mapId
+      || left.candidate.typeId - right.candidate.typeId;
+  });
+
+  const selected = scoredCandidates[0] ?? null;
+  if (!selected) {
+    return null;
+  }
+
+  const donorTypeHex = selected.candidate.typeId.toString(16).padStart(4, "0");
+  return {
+    ...selected.candidate.templateMatch,
+    matchKind: `emergency-global-donor:${selected.candidate.mapId}:${donorTypeHex}`,
+    templateTypeId: selected.candidate.templateMatch.templateTypeId ?? selected.candidate.typeId,
+    donorTypeId: selected.candidate.typeId === targetTypeId ? null : selected.candidate.typeId,
+    sourceMapId: selected.candidate.mapId,
+    bundle: selected.candidate.bundle
+  };
+}
+
+function isProvisionalTemplateMatch(templateMatch, mapId, typeId) {
+  if (!templateMatch) {
+    return false;
+  }
+
+  if (templateMatch.donorTypeId != null) {
+    return true;
+  }
+
+  if (templateMatch.sourceMapId != null && templateMatch.sourceMapId !== mapId) {
+    return true;
+  }
+
+  if (templateMatch.templateTypeId != null && templateMatch.templateTypeId !== typeId) {
+    return true;
+  }
+
+  return false;
+}
+
+function collectRecordRoleStats(records) {
+  const familyKeys = new Set();
+  const laneKeys = new Set();
+  const combinedKeys = new Set();
+
+  for (const record of records ?? []) {
+    const familyKey = record.sourceFamily ?? "unknown";
+    const laneKey = record.u5 ?? -1;
+    familyKeys.add(familyKey);
+    laneKeys.add(laneKey);
+    combinedKeys.add(`${familyKey}:${laneKey}`);
+  }
+
+  return {
+    familyCount: familyKeys.size,
+    laneCount: laneKeys.size,
+    combinedRoleCount: combinedKeys.size,
+    familyKeys: [...familyKeys],
+    laneKeys: [...laneKeys].sort((left, right) => left - right)
+  };
+}
+
+function shouldRejectMixedRoleDonorMatch(typeId, mapEntry, templateMatch, recordsForType) {
+  if (!isPsxGenericTemplateFamilyType(typeId)) {
+    return false;
+  }
+
+  if (!isProvisionalTemplateMatch(templateMatch, mapEntry.id, typeId)) {
+    return false;
+  }
+
+  const roleStats = collectRecordRoleStats(recordsForType);
+  return roleStats.familyCount > 1 || roleStats.laneCount > 1 || roleStats.combinedRoleCount > 1;
+}
+
+function getPsxRouteOutcomeCandidateFromFlags(objectRouteFlags) {
+  if ((objectRouteFlags & 0x0020) === 0) {
+    return "not-world-visible";
+  }
+
+  return (objectRouteFlags & 0x0400) !== 0 ? "special-visible" : "main-visible";
+}
+
+function getPsxRecordPaletteOverrideWordOffset(typeId) {
+  if (typeId >= 0x003e && typeId <= 0x00ab) {
+    return 0x06;
+  }
+  if (typeId >= 0x00ac) {
+    return 0x0c;
+  }
+  return null;
+}
+
+function getPsxRawRecordPaletteOverrideIndex(record) {
+  const wordOffset = getPsxRecordPaletteOverrideWordOffset(record.u0);
+  if (wordOffset == null) {
+    return null;
+  }
+
+  const normalizedWordIndex = wordOffset >> 1;
+  const normalizedWords = [record.u0, record.u1, record.u2, record.u3, record.u4, record.u5];
+  if (Number.isInteger(normalizedWordIndex) && normalizedWordIndex >= 0 && normalizedWordIndex < normalizedWords.length) {
+    const wordValue = normalizedWords[normalizedWordIndex];
+    if (Number.isInteger(wordValue)) {
+      const token = (wordValue >>> 8) & 0xff;
+      return token === 0 ? null : token;
+    }
+  }
+
+  const sourceBytes = record.sourceBytes;
+  if (!sourceBytes?.length) {
+    return null;
+  }
+
+  const authoredByteOffset = (record.sourceByteOffset ?? 0) + wordOffset + 1;
+  if (authoredByteOffset < sourceBytes.length) {
+    const token = sourceBytes[authoredByteOffset];
+    return token === 0 ? null : token;
+  }
+
+  if (record.sourceFamily === PSX_FAMILY_SECTION0_ROOT && wordOffset === 0x0c && wordOffset + 1 < sourceBytes.length) {
+    const token = sourceBytes[wordOffset + 1];
+    return token === 0 ? null : token;
+  }
+
+  return null;
+}
+
+function getPsxRecordPaletteOverrideIndex(record) {
+  if (getPsxRouteOutcomeCandidateFromFlags(record.u5 >>> 0) !== "main-visible") {
+    return null;
+  }
+
+  return getPsxRawRecordPaletteOverrideIndex(record);
+}
+
+function getPsxRecordPaletteVariantRequest(record, artHeaderInfo) {
+  const authoredPaletteIndex = getPsxRecordPaletteOverrideIndex(record);
+  if (!Number.isInteger(authoredPaletteIndex)) {
+    return null;
+  }
+
+  return authoredPaletteIndex;
+}
+
+function isPsxRecordHorizontallyFlipped(record) {
+  return ((record?.u5 ?? 0) & 0x0002) !== 0;
+}
+
+function getPsxSceneFamilyDedupPriority(sourceFamily) {
+  if (sourceFamily === PSX_FAMILY_SECTION0_BULK) {
+    return 3;
+  }
+  if (sourceFamily === PSX_FAMILY_SECTION0_ROOT) {
+    return 2;
+  }
+  return 1;
+}
+
+function choosePreferredPsxSceneItem(existingItem, candidateItem) {
+  const existingFallback = existingItem._isFallback === true;
+  const candidateFallback = candidateItem._isFallback === true;
+  if (existingFallback !== candidateFallback) {
+    return existingFallback ? candidateItem : existingItem;
+  }
+
+  const existingPriority = getPsxSceneFamilyDedupPriority(existingItem._rawRecord?.sourceFamily);
+  const candidatePriority = getPsxSceneFamilyDedupPriority(candidateItem._rawRecord?.sourceFamily);
+  if (existingPriority !== candidatePriority) {
+    return candidatePriority > existingPriority ? candidateItem : existingItem;
+  }
+
+  if (existingItem.frame !== candidateItem.frame) {
+    return candidateItem.frame > existingItem.frame ? candidateItem : existingItem;
+  }
+
+  return candidateItem.drawOrder > existingItem.drawOrder ? candidateItem : existingItem;
+}
+
+function dedupePsxSceneItems(items) {
+  const itemsByKey = new Map();
+
+  for (const item of items) {
+    const key = [item.quality, item.world.x, item.world.y, item.world.z, item.mapNum].join(":");
+    const existingItem = itemsByKey.get(key);
+    if (!existingItem) {
+      itemsByKey.set(key, item);
+      continue;
+    }
+
+    const preferredItem = choosePreferredPsxSceneItem(existingItem, item);
+    if (preferredItem !== existingItem) {
+      preferredItem._dedupedOverlapCount = (preferredItem._dedupedOverlapCount ?? 0) + (existingItem._dedupedOverlapCount ?? 0) + 1;
+      itemsByKey.set(key, preferredItem);
+      continue;
+    }
+
+    existingItem._dedupedOverlapCount = (existingItem._dedupedOverlapCount ?? 0) + (item._dedupedOverlapCount ?? 0) + 1;
+  }
+
+  return [...itemsByKey.values()].sort((left, right) => left.drawOrder - right.drawOrder);
+}
+
+function getPaletteBankForBundle(mapEntry, bundle) {
+  if (bundle.mode === 2) {
+    return mapEntry.palettes16 ?? [];
+  }
+  if (bundle.mode === 1) {
+    return bundle.paletteBank ?? (bundle.palette?.length ? [bundle.palette] : []);
+  }
+  return [];
+}
+
+function buildPaletteVariantRequests(records, bundle, mapEntry, artHeaderInfo = null) {
+  const paletteBank = getPaletteBankForBundle(mapEntry, bundle);
+  const requestedPaletteIndexes = new Set();
+
+  if (Number.isInteger(bundle.resolvedPaletteIndex) && bundle.resolvedPaletteIndex >= 0 && bundle.resolvedPaletteIndex < paletteBank.length) {
+    requestedPaletteIndexes.add(bundle.resolvedPaletteIndex);
+  }
+
+  for (const record of records) {
+    const paletteIndex = getPsxRecordPaletteVariantRequest(record, artHeaderInfo);
+    if (!Number.isInteger(paletteIndex) || paletteIndex < 0 || paletteIndex >= paletteBank.length) {
+      continue;
+    }
+    requestedPaletteIndexes.add(paletteIndex);
+  }
+
+  if (!requestedPaletteIndexes.size) {
+    requestedPaletteIndexes.add(bundle.resolvedPaletteIndex ?? 0);
+  }
+
+  return [...requestedPaletteIndexes].sort((left, right) => left - right);
+}
+
+function makeBundlePaletteVariantKey(mapId, typeId, paletteIndex) {
+  return `${mapId}:${typeId}:${paletteIndex == null ? "default" : paletteIndex}`;
+}
+
+function makeBundleCohortKey(mapId, typeId, sourceFamily, lane, routeOutcomeCandidate = null) {
+  return `${mapId}:${typeId}:${makePsxArtCohortKey(sourceFamily, lane, routeOutcomeCandidate)}`;
+}
+
+function makeBundleCohortPaletteVariantKey(mapId, typeId, sourceFamily, lane, routeOutcomeCandidate, paletteIndex) {
+  return `${makeBundleCohortKey(mapId, typeId, sourceFamily, lane, routeOutcomeCandidate)}:${paletteIndex == null ? "default" : paletteIndex}`;
+}
+
+function addResolvedArtMapping({
+  mapEntry,
+  typeId,
+  recordsForMapping,
+  templateMatch,
+  bundle,
+  artHeaderInfo = null,
+  stateFrameMap,
+  nextShapeCode,
+  rawFrames,
+  pendingArtEntries,
+  catalogLines,
+  fingerprintMaterial,
+  bundleByMapTypeAndPalette,
+  defaultBundleByMapAndType,
+  bundleByMapTypeCohortAndPalette,
+  defaultBundleByMapTypeAndCohort,
+  cohort = null
+}) {
+  if (!bundle?.frames?.length || !recordsForMapping.length) {
+    return;
+  }
+
+  const paletteBank = getPaletteBankForBundle(mapEntry, bundle);
+  if (!paletteBank.length) {
+    return;
+  }
+
+  const usedFrameIndexes = (stateFrameMap?.usedFrameIndexes ?? [0]).filter((frameIndex) => frameIndex < bundle.frames.length);
+  if (usedFrameIndexes.length === 0) {
+    usedFrameIndexes.push(0);
+  }
+
+  const paletteIndexes = buildPaletteVariantRequests(recordsForMapping, bundle, mapEntry, artHeaderInfo);
+  const artSourceMapId = templateMatch?.sourceMapId ?? mapEntry.id;
+  const cohortLabel = cohort
+    ? `${cohort.sourceFamily} lane ${cohort.lane.toString(16).toUpperCase().padStart(4, "0")}`
+    : null;
+  const templateSourceNote = templateMatch?.donorTypeId == null
+    ? `the parsed per-type art-template bank using ${templateMatch.matchKind}`
+    : `a donor art-template from type ${templateMatch.donorTypeId.toString(16).toUpperCase().padStart(4, "0")} using ${templateMatch.matchKind}`;
+  const templateSourceMapNote = artSourceMapId === mapEntry.id
+    ? ""
+    : ` The drawable bundle bytes are borrowed from map ${artSourceMapId} because this map exposes no local direct template payload for the same resolved type.`;
+
+  for (const paletteIndex of paletteIndexes) {
+    const palette = paletteBank[paletteIndex] ?? null;
+    if (!palette?.length) {
+      continue;
+    }
+
+    const artFrames = usedFrameIndexes.map((frameIndex) => {
+      const frame = bundle.frames[frameIndex];
+      return {
+        ...frame,
+        id: `frame:map:${mapEntry.id}:type:${typeId}:${cohort ? `${cohort.sourceFamily}:${cohort.lane}:` : ""}palette:${paletteIndex}:frame:${frameIndex}`,
+        rgba: colorizeIndexedPixels(frame.pixels, frame.width, frame.height, bundle.mode, palette)
+      };
+    });
+    const shapeCode = nextShapeCode.value;
+    nextShapeCode.value += 1;
+    const displayName = cohort
+      ? `PSX map ${mapEntry.id} type ${typeId.toString(16).toUpperCase().padStart(4, "0")} ${cohort.sourceFamily} lane ${cohort.lane.toString(16).toUpperCase().padStart(4, "0")} palette ${paletteIndex.toString(16).toUpperCase().padStart(2, "0")} offset ${bundle.offset.toString(16).toUpperCase().padStart(8, "0")}`
+      : `PSX map ${mapEntry.id} type ${typeId.toString(16).toUpperCase().padStart(4, "0")} palette ${paletteIndex.toString(16).toUpperCase().padStart(2, "0")} offset ${bundle.offset.toString(16).toUpperCase().padStart(8, "0")}`;
+    const description = stateFrameMap
+      ? `${cohortLabel ? `PSX type-to-art cohort probe for ${cohortLabel} resolved through` : "PSX type-to-art probe resolved through"} ${templateSourceNote}.${templateSourceMapNote} The scene renderer uses the parsed DAT_800758cc state script to choose among ${usedFrameIndexes.length} frame(s) for this type and now applies executable-backed authored palette overrides when the source record exposes one.`
+      : `${cohortLabel ? `PSX type-to-art cohort probe for ${cohortLabel} resolved through` : "PSX type-to-art probe resolved through"} ${templateSourceNote}.${templateSourceMapNote} The scene renderer keeps frame 0 until the executable state-script path is decoded far enough to choose per-state animation frames, but now applies executable-backed authored palette overrides when the source record exposes one.`;
+    const spriteEntries = new Map();
+    for (const frame of artFrames) {
+      rawFrames.push(frame);
+      spriteEntries.set(frame.index, {
+        rawFrameId: frame.id,
+        width: frame.width,
+        height: frame.height,
+        xoff: frame.originX,
+        yoff: frame.originY
+      });
+    }
+    pendingArtEntries.push({
+      shapeCode,
+      displayName,
+      description,
+      templateMatch,
+      spriteEntries
+    });
+    catalogLines.push(`${toShapeCodeHex(shapeCode)},${displayName},${description},,,,terrain,`);
+    fingerprintMaterial.push(`${mapEntry.id}:${typeId}:${cohort ? `${cohort.sourceFamily}:${cohort.lane}:` : ""}${bundle.offset}:${bundle.mode}:${paletteIndex}:${usedFrameIndexes.join("-")}`);
+
+    const mapping = {
+      shapeCode,
+      bundleIndex: bundle.scannedIndex ?? typeId,
+      bundleOffset: bundle.offset,
+      resolvedPaletteIndex: paletteIndex,
+      defaultPaletteIndex: bundle.defaultPaletteIndex ?? bundle.resolvedPaletteIndex,
+      paletteFormula: bundle.paletteFormula ?? null,
+      mode: bundle.mode,
+      mappingSource: templateMatch?.matchKind ?? "scan-order-index-fallback",
+      donorTypeId: templateMatch?.donorTypeId ?? null,
+      templateTypeId: templateMatch?.templateTypeId ?? typeId,
+      sourceMapId: artSourceMapId,
+      stateFrameBySelector: stateFrameMap?.frameBySelector ?? null,
+      artCohort: cohort
+        ? {
+          sourceFamily: cohort.sourceFamily,
+          lane: cohort.lane,
+          routeOutcomeCandidate: cohort.routeOutcomeCandidate
+        }
+        : null,
+      spriteEntries
+    };
+
+    if (cohort) {
+      bundleByMapTypeCohortAndPalette.set(makeBundleCohortPaletteVariantKey(mapEntry.id, typeId, cohort.sourceFamily, cohort.lane, cohort.routeOutcomeCandidate, paletteIndex), mapping);
+      if (paletteIndex === bundle.resolvedPaletteIndex || !defaultBundleByMapTypeAndCohort.has(makeBundleCohortKey(mapEntry.id, typeId, cohort.sourceFamily, cohort.lane, cohort.routeOutcomeCandidate))) {
+        defaultBundleByMapTypeAndCohort.set(makeBundleCohortKey(mapEntry.id, typeId, cohort.sourceFamily, cohort.lane, cohort.routeOutcomeCandidate), mapping);
+      }
+    } else {
+      bundleByMapTypeAndPalette.set(makeBundlePaletteVariantKey(mapEntry.id, typeId, paletteIndex), mapping);
+      if (paletteIndex === bundle.resolvedPaletteIndex || !defaultBundleByMapAndType.has(`${mapEntry.id}:${typeId}`)) {
+        defaultBundleByMapAndType.set(`${mapEntry.id}:${typeId}`, mapping);
+      }
+    }
+  }
+}
+
 function buildRealArtReference(mapEntries) {
   ensureDir(PSX_REFERENCE_CACHE_ROOT);
   const atlases = [];
   const sprites = [];
   const shapeDefinitions = [];
   const catalogLines = ["shape_code,human_readable_id,description,roof,semitransparency,OOB,categorization,qualities"];
-  const bundleByMapAndIndex = new Map();
+  const bundleByMapTypeAndPalette = new Map();
+  const bundleByMapTypeCohortAndPalette = new Map();
+  const defaultBundleByMapAndType = new Map();
+  const defaultBundleByMapTypeAndCohort = new Map();
   const fallbackByMapSpriteKey = new Map();
   const nextShapeCode = { value: 0xA000 };
   const fingerprintMaterial = [];
   const rawFrames = [];
   const pendingArtEntries = [];
+  const analysisByMapId = new Map();
 
   for (const mapEntry of mapEntries) {
-    const bundleByOffset = new Map(mapEntry.spriteBundles.map((bundle, index) => [bundle.offset, { ...bundle, scannedIndex: index }]));
-    const stateFrameMapsByType = buildTypeStateFrameMaps(mapEntry);
+    const analysis = buildMapRuntimeAnalysis(mapEntry);
+    analysis.donorTemplateMatches = buildMapTemplateDonorMatches(mapEntry, analysis);
+    analysisByMapId.set(mapEntry.id, analysis);
+  }
+
+  const globalTemplateIndex = buildGlobalTemplateCandidateIndex(analysisByMapId);
+
+  for (const mapEntry of mapEntries) {
+    const analysis = analysisByMapId.get(mapEntry.id);
+    const bundleByOffset = analysis.bundleByOffset;
+    const stateFrameMapsByType = analysis.stateFrameMapsByType;
+    const directTemplateMatches = analysis.directTemplateMatches;
+    const donorTemplateMatches = analysis.donorTemplateMatches;
     const requestedTypeIds = [...new Set(mapEntry.records.map((record) => record.u0))].sort((left, right) => left - right);
     for (const typeId of requestedTypeIds) {
-      const templateMatch = mapEntry.runtimeState?.templateMatches?.[String(typeId)] ?? null;
-      const matchedBundle = templateMatch?.bundleOffset != null ? bundleByOffset.get(templateMatch.bundleOffset) ?? null : null;
-      const bundle = matchedBundle ?? null;
-      if (!bundle?.frames?.length || !bundle.palette?.length) {
+      const recordsForType = mapEntry.records.filter((record) => record.u0 === typeId);
+      const templateMatch = directTemplateMatches.get(typeId)
+        ?? donorTemplateMatches.get(typeId)
+        ?? buildGlobalTemplateMatch(typeId, analysis, globalTemplateIndex)
+        ?? buildEmergencyGlobalTemplateMatch(typeId, analysis, globalTemplateIndex)
+        ?? mapEntry.runtimeState?.templateMatches?.[String(typeId)]
+        ?? null;
+      const stateFrameMap = resolveTemplateBackedStateFrameMap(
+        analysisByMapId,
+        mapEntry,
+        typeId,
+        templateMatch,
+        stateFrameMapsByType.get(typeId) ?? null
+      );
+      const rejectMixedRoleDonor = shouldRejectMixedRoleDonorMatch(typeId, mapEntry, templateMatch, recordsForType);
+
+      if (!rejectMixedRoleDonor && templateMatch) {
+        const matchedBundle = templateMatch.bundle
+          ?? (templateMatch.bundleOffset != null ? bundleByOffset.get(templateMatch.bundleOffset) ?? null : null);
+        addResolvedArtMapping({
+          mapEntry,
+          typeId,
+          recordsForMapping: recordsForType,
+          templateMatch,
+          bundle: matchedBundle,
+          artHeaderInfo: analysis.artHeaderByType.get(typeId) ?? null,
+          stateFrameMap,
+          nextShapeCode,
+          rawFrames,
+          pendingArtEntries,
+          catalogLines,
+          fingerprintMaterial,
+          bundleByMapTypeAndPalette,
+          defaultBundleByMapAndType,
+          bundleByMapTypeCohortAndPalette,
+          defaultBundleByMapTypeAndCohort
+        });
         continue;
       }
-      const stateFrameMap = stateFrameMapsByType.get(typeId) ?? null;
-      const usedFrameIndexes = (stateFrameMap?.usedFrameIndexes ?? [0]).filter((frameIndex) => frameIndex < bundle.frames.length);
-      if (usedFrameIndexes.length === 0) {
-        usedFrameIndexes.push(0);
-      }
 
-      const artFrames = usedFrameIndexes.map((frameIndex) => {
-        const frame = bundle.frames[frameIndex];
-        return {
-          ...frame,
-          id: `frame:map:${mapEntry.id}:type:${typeId}:frame:${frameIndex}`,
-          rgba: colorizeIndexedPixels(frame.pixels, frame.width, frame.height, bundle.mode, bundle.palette)
-        };
-      });
-      const shapeCode = nextShapeCode.value;
-      nextShapeCode.value += 1;
-      const displayName = `PSX map ${mapEntry.id} type ${typeId.toString(16).toUpperCase().padStart(4, "0")} offset ${bundle.offset.toString(16).toUpperCase().padStart(8, "0")}`;
-      const description = stateFrameMap
-        ? `PSX type-to-art probe resolved through the parsed per-type art-template bank using ${templateMatch.matchKind}. The scene renderer also uses the parsed DAT_800758cc state script to choose among ${usedFrameIndexes.length} frame(s) for this type.`
-        : `PSX type-to-art probe resolved through the parsed per-type art-template bank using ${templateMatch.matchKind}. The scene renderer keeps frame 0 until the executable state-script path is decoded far enough to choose per-state animation frames.`;
-      const spriteEntries = new Map();
-      for (const frame of artFrames) {
-        rawFrames.push(frame);
-        spriteEntries.set(frame.index, {
-          rawFrameId: frame.id,
-          width: frame.width,
-          height: frame.height,
-          xoff: frame.originX,
-          yoff: frame.originY
+      for (const cohort of groupPsxRecordsByArtCohort(recordsForType).values()) {
+        const cohortTemplateMatch = buildGlobalCohortTemplateMatch(typeId, analysis, cohort, globalTemplateIndex)
+          ?? buildGlobalTemplateMatch(typeId, analysis, globalTemplateIndex)
+          ?? buildEmergencyGlobalTemplateMatch(typeId, analysis, globalTemplateIndex)
+          ?? templateMatch
+          ?? null;
+        const cohortStateFrameMap = resolveTemplateBackedStateFrameMap(
+          analysisByMapId,
+          mapEntry,
+          typeId,
+          cohortTemplateMatch,
+          stateFrameMapsByType.get(typeId) ?? null
+        );
+        const matchedBundle = cohortTemplateMatch?.bundle
+          ?? (cohortTemplateMatch?.bundleOffset != null ? bundleByOffset.get(cohortTemplateMatch.bundleOffset) ?? null : null);
+        addResolvedArtMapping({
+          mapEntry,
+          typeId,
+          recordsForMapping: cohort.records,
+          templateMatch: cohortTemplateMatch,
+          bundle: matchedBundle,
+          artHeaderInfo: analysis.artHeaderByType.get(typeId) ?? null,
+          stateFrameMap: cohortStateFrameMap,
+          nextShapeCode,
+          rawFrames,
+          pendingArtEntries,
+          catalogLines,
+          fingerprintMaterial,
+          bundleByMapTypeAndPalette,
+          defaultBundleByMapAndType,
+          bundleByMapTypeCohortAndPalette,
+          defaultBundleByMapTypeAndCohort,
+          cohort
         });
       }
-      pendingArtEntries.push({
-        shapeCode,
-        displayName,
-        description,
-        templateMatch,
-        spriteEntries
-      });
-      catalogLines.push(`${toShapeCodeHex(shapeCode)},${displayName},${description},,,,terrain,`);
-      fingerprintMaterial.push(`${mapEntry.id}:${typeId}:${bundle.offset}:${bundle.mode}:${bundle.resolvedPaletteIndex}:${usedFrameIndexes.join("-")}`);
-      bundleByMapAndIndex.set(`${mapEntry.id}:${typeId}`, {
-        shapeCode,
-        bundleIndex: bundle.scannedIndex ?? typeId,
-        bundleOffset: bundle.offset,
-        resolvedPaletteIndex: bundle.resolvedPaletteIndex,
-        mode: bundle.mode,
-        mappingSource: templateMatch?.matchKind ?? "scan-order-index-fallback",
-        stateFrameBySelector: stateFrameMap?.frameBySelector ?? null,
-        spriteEntries
-      });
     }
   }
 
@@ -1600,15 +3007,6 @@ function buildRealArtReference(mapEntries) {
     });
   }
 
-  for (const mapEntry of mapEntries) {
-    for (const record of mapEntry.records) {
-      const bundleKey = `${mapEntry.id}:${record.u0}`;
-      if (!bundleByMapAndIndex.has(bundleKey)) {
-        buildFallbackEntry(nextShapeCode, mapEntry, record, atlases, sprites, shapeDefinitions, catalogLines, fallbackByMapSpriteKey);
-      }
-    }
-  }
-
   fs.writeFileSync(PSX_CATALOG_FILE, `${catalogLines.join("\n")}\n`, "utf8");
   const fingerprint = sha1(JSON.stringify({ version: PSX_REFERENCE_VERSION, fingerprintMaterial: fingerprintMaterial.sort() })).slice(0, 16);
   const payload = buildSceneReferencePayload(PSX_REFERENCE_ID, {
@@ -1624,7 +3022,10 @@ function buildRealArtReference(mapEntries) {
     shapeDefinitions,
     sprites,
     atlases,
-    bundleByMapAndIndex,
+    bundleByMapTypeAndPalette,
+    bundleByMapTypeCohortAndPalette,
+    defaultBundleByMapAndType,
+    defaultBundleByMapTypeAndCohort,
     fallbackByMapSpriteKey
   };
 }
@@ -1632,24 +3033,24 @@ function buildRealArtReference(mapEntries) {
 function buildSceneForMap(mapEntry, referenceData, fingerprint, relativePath) {
   const records = mapEntry.records;
   const decodedRuntimeLayers = buildDecodedRuntimeLayers(mapEntry);
+  const companionExtentsByType = buildTypeCompanionExtentsMaps(mapEntry);
+  const artHeaderByType = buildTypeArtHeaderMaps(mapEntry);
   const spriteIndex = new Map(referenceData.sprites.map((sprite) => [sprite.id, sprite]));
-  const laneCounts = {};
-  const familyCounts = {};
-  const zCounts = {};
-  const sourceCounts = {};
   const items = [];
-  let minScreenLeft = 0;
-  let minScreenTop = 0;
-  let finalRight = 0;
-  let finalBottom = 0;
-  let first = true;
   let fallbackFrameCount = 0;
-  let resolvedBundleCount = 0;
-  let fallbackItemCount = 0;
 
   for (let drawOrder = 0; drawOrder < records.length; drawOrder += 1) {
     const record = records[drawOrder];
-    const bundleMapping = referenceData.bundleByMapAndIndex.get(`${mapEntry.id}:${record.u0}`) ?? null;
+    const routeOutcomeCandidate = getPsxRouteOutcomeCandidateFromFlags(record.u5 >>> 0);
+    const rawPaletteOverrideIndex = getPsxRawRecordPaletteOverrideIndex(record);
+    const authoredPaletteIndex = getPsxRecordPaletteOverrideIndex(record);
+    const artHeaderInfo = artHeaderByType.get(record.u0) ?? null;
+    const requestedPaletteIndex = getPsxRecordPaletteVariantRequest(record, artHeaderInfo);
+    const bundleMapping = referenceData.bundleByMapTypeCohortAndPalette.get(makeBundleCohortPaletteVariantKey(mapEntry.id, record.u0, record.sourceFamily, record.u5 >>> 0, routeOutcomeCandidate, requestedPaletteIndex))
+      ?? referenceData.defaultBundleByMapTypeAndCohort.get(makeBundleCohortKey(mapEntry.id, record.u0, record.sourceFamily, record.u5 >>> 0, routeOutcomeCandidate))
+      ?? referenceData.bundleByMapTypeAndPalette.get(makeBundlePaletteVariantKey(mapEntry.id, record.u0, requestedPaletteIndex))
+      ?? referenceData.defaultBundleByMapAndType.get(`${mapEntry.id}:${record.u0}`)
+      ?? null;
     const fallbackMapping = referenceData.fallbackByMapSpriteKey.get(`${mapEntry.id}:${record.u0}:${record.u4}:${record.u5}`) ?? null;
 
     let shapeCode = null;
@@ -1659,6 +3060,13 @@ function buildSceneForMap(mapEntry, referenceData, fingerprint, relativePath) {
     let paletteIndex = null;
     let actualFrameIndex = 0;
     let isFallback = false;
+    let donorTypeId = null;
+    let templateTypeId = null;
+    let artSourceMapId = mapEntry.id;
+    let mappingSource = null;
+    let artCohort = null;
+    let defaultPaletteIndex = null;
+    let paletteFormula = null;
 
     if (bundleMapping) {
       const spriteFrameIndexes = [...bundleMapping.spriteEntries.keys()].sort((left, right) => left - right);
@@ -1671,38 +3079,37 @@ function buildSceneForMap(mapEntry, referenceData, fingerprint, relativePath) {
       spriteId = spriteEntry.spriteId;
       bundleOffset = bundleMapping.bundleOffset;
       paletteIndex = bundleMapping.resolvedPaletteIndex;
-      mappingNote = `type-to-art mapping: type=${record.u0} source=${bundleMapping.mappingSource} bundle_offset=0x${bundleOffset.toString(16).padStart(8, "0")} state_selector=${record.u4} chosen_frame=${actualFrameIndex} palette_index=${paletteIndex ?? -1}`;
-      resolvedBundleCount += 1;
+      donorTypeId = bundleMapping.donorTypeId ?? null;
+      templateTypeId = bundleMapping.templateTypeId ?? record.u0;
+      artSourceMapId = bundleMapping.sourceMapId ?? mapEntry.id;
+      mappingSource = bundleMapping.mappingSource ?? null;
+      artCohort = bundleMapping.artCohort ?? null;
+      defaultPaletteIndex = bundleMapping.defaultPaletteIndex ?? null;
+      paletteFormula = bundleMapping.paletteFormula ?? null;
+      mappingNote = `type-to-art mapping: type=${record.u0} source=${bundleMapping.mappingSource} source_map=${artSourceMapId} template_type=${templateTypeId} donor_type=${donorTypeId ?? -1} bundle_offset=0x${bundleOffset.toString(16).padStart(8, "0")} state_selector=${record.u4} chosen_frame=${actualFrameIndex} authored_palette_token=${authoredPaletteIndex ?? -1} requested_palette_variant=${requestedPaletteIndex ?? -1} resolved_palette_index=${paletteIndex ?? -1} default_palette_index=${defaultPaletteIndex ?? -1} palette_formula=${paletteFormula ?? "-"}`;
     } else if (fallbackMapping) {
       shapeCode = fallbackMapping.shapeCode;
       spriteId = fallbackMapping.spriteId;
       mappingNote = `fallback placeholder mapping: unresolved executable state/type art for type=${record.u0.toString(16).padStart(4, "0")} state_selector=${record.u4} lane=${record.u5.toString(16).padStart(4, "0")}`;
       isFallback = true;
-      fallbackItemCount += 1;
     } else {
       continue;
     }
 
     const sprite = spriteIndex.get(spriteId);
+    if (!sprite) {
+      continue;
+    }
+
+    const companionExtents = companionExtentsByType.get(record.u0)?.extentsByState?.[actualFrameIndex] ?? null;
+    const runtimeDiagnostic = buildPsxRuntimeDiagnostic(record, actualFrameIndex, artHeaderInfo);
     const worldZ = getPsxRecordElevation(record);
     const projected = projectPsxWorldToAnchor(record.u1, record.u2, worldZ);
     const anchorX = projected.anchorX;
     const anchorY = projected.anchorY;
     const screenLeft = anchorX - sprite.xoff;
     const screenTop = anchorY - sprite.yoff;
-
-    if (first) {
-      minScreenLeft = screenLeft;
-      minScreenTop = screenTop;
-      first = false;
-    } else {
-      minScreenLeft = Math.min(minScreenLeft, screenLeft);
-      minScreenTop = Math.min(minScreenTop, screenTop);
-    }
-
-    finalRight = Math.max(finalRight, screenLeft + sprite.width);
-    finalBottom = Math.max(finalBottom, screenTop + sprite.height);
-    laneCounts[toShapeCodeHex(record.u5)] = (laneCounts[toShapeCodeHex(record.u5)] ?? 0) + 1;
+    const flipped = isPsxRecordHorizontallyFlipped(record);
 
     items.push({
       id: `item:${drawOrder}:psx-${record.sourceFamily}:${record.side}:${record.rowIndex}`,
@@ -1735,7 +3142,7 @@ function buildSceneForMap(mapEntry, referenceData, fingerprint, relativePath) {
         raw: record.u3,
         hex: toShapeCodeHex(record.u3),
         invisible: false,
-        flipped: false
+        flipped
       },
       presentation: {
         opacity: isFallback ? Math.min(record.sourceOpacity ?? 1, 0.45) : (record.sourceOpacity ?? 1),
@@ -1750,6 +3157,17 @@ function buildSceneForMap(mapEntry, referenceData, fingerprint, relativePath) {
         (record.sourceFamily === PSX_FAMILY_SECTION0_BULK || record.legacySourceFamily === "region01")
           ? `decoded elevation: z=${worldZ} from low byte of raw word u3=0x${record.u3.toString(16).padStart(4, "0")} using the constructor-backed +0x06 byte lane`
           : "decoded elevation: z=0 retained for the top-level descriptor family until its constructor-backed height source is proven",
+        authoredPaletteIndex == null
+          ? rawPaletteOverrideIndex != null && routeOutcomeCandidate === "special-visible"
+            ? `palette override: authored palette index ${rawPaletteOverrideIndex} is present in the source record, but special-visible submission skips authored palette-token injection, so the renderer keeps the bundle default or heuristic palette`
+            : "palette override: no executable-backed authored palette byte was recovered for this record; renderer falls back to the bundle default or heuristic palette"
+          : `palette override: executable-backed authored palette index ${authoredPaletteIndex} recovered from the source record pointer lane used by FUN_80041458 for the main-visible lane`,
+        companionExtents
+          ? `companion extents: live state ${actualFrameIndex} resolves DAT_800758d4 to signed extents x=${companionExtents.x} y=${companionExtents.y} z=${companionExtents.z}`
+          : "companion extents: no DAT_800758d4 entry was resolved for the chosen live state",
+        flipped
+          ? "orientation: authored route/orientation bit 0x0002 is set, so the exported sprite is mirrored horizontally."
+          : "orientation: authored route/orientation bit 0x0002 is clear, so the exported sprite keeps its base orientation.",
         "screen anchor uses the executable-backed PSX projection basis screen_x = y - x, screen_y = 2*z - (x + y)/2"
       ],
       frameSize: {
@@ -1763,27 +3181,48 @@ function buildSceneForMap(mapEntry, referenceData, fingerprint, relativePath) {
       itemPreview: null,
       shapeDefId: `shape:${shapeCode}`,
       spriteId,
+      runtimeBounds: companionExtents,
+      runtimeDiagnostic,
       _rawRecord: record,
       _bundleOffset: bundleOffset,
       _paletteIndex: paletteIndex,
+      _defaultPaletteIndex: defaultPaletteIndex,
+      _paletteFormula: paletteFormula,
+      _templateTypeId: templateTypeId,
+      _donorTypeId: donorTypeId,
+      _mappingSource: mappingSource,
+      _artCohort: artCohort,
+      _artSourceMapId: artSourceMapId,
+      _dedupedOverlapCount: 0,
       _isFallback: isFallback
     });
+  }
 
-    familyCounts[record.sourceFamily] = (familyCounts[record.sourceFamily] ?? 0) + 1;
-    zCounts[String(worldZ)] = (zCounts[String(worldZ)] ?? 0) + 1;
-    sourceCounts[isFallback ? `psx-${record.sourceFamily}-fallback` : `psx-${record.sourceFamily}-art`] = (sourceCounts[isFallback ? `psx-${record.sourceFamily}-fallback` : `psx-${record.sourceFamily}-art`] ?? 0) + 1;
+  const dedupedItems = dedupePsxSceneItems(items);
+  const laneCounts = {};
+  const familyCounts = {};
+  const zCounts = {};
+  const sourceCounts = {};
+  let minScreenLeft = 0;
+  let minScreenTop = 0;
+  let finalRight = 0;
+  let finalBottom = 0;
+  let resolvedBundleCount = 0;
+  let fallbackItemCount = 0;
+
+  if (dedupedItems.length) {
+    minScreenLeft = Math.min(...dedupedItems.map((item) => item.screen.left));
+    minScreenTop = Math.min(...dedupedItems.map((item) => item.screen.top));
   }
 
   const xShift = -Math.min(0, minScreenLeft);
   const yShift = -Math.min(0, minScreenTop);
-  finalRight = 0;
-  finalBottom = 0;
   const usedAtlasIds = new Set();
   const usedSpriteIds = new Set();
   const usedShapeDefinitionIds = new Set();
   const mapSourceItems = [];
 
-  for (const item of items) {
+  for (const item of dedupedItems) {
     item.screen.left += xShift;
     item.screen.right += xShift;
     item.screen.top += yShift;
@@ -1797,6 +3236,21 @@ function buildSceneForMap(mapEntry, referenceData, fingerprint, relativePath) {
     const sprite = spriteIndex.get(item.spriteId);
     if (sprite?.atlasId) {
       usedAtlasIds.add(sprite.atlasId);
+    }
+
+    if (item._isFallback) {
+      fallbackItemCount += 1;
+    } else {
+      resolvedBundleCount += 1;
+    }
+
+    laneCounts[toShapeCodeHex(item.mapNum)] = (laneCounts[toShapeCodeHex(item.mapNum)] ?? 0) + 1;
+    familyCounts[item._rawRecord.sourceFamily] = (familyCounts[item._rawRecord.sourceFamily] ?? 0) + 1;
+    zCounts[String(item.world.z)] = (zCounts[String(item.world.z)] ?? 0) + 1;
+    sourceCounts[item.source] = (sourceCounts[item.source] ?? 0) + 1;
+
+    if (item._dedupedOverlapCount > 0) {
+      item.notes.push(`dedupe: collapsed ${item._dedupedOverlapCount} overlapping scene candidate(s) with the same type, world coordinate, and lane onto this exported item`);
     }
 
     mapSourceItems.push({
@@ -1821,16 +3275,37 @@ function buildSceneForMap(mapEntry, referenceData, fingerprint, relativePath) {
       lane: item._rawRecord.u5,
       variant: item._rawRecord.u4,
       stateSelector: item._rawRecord.u4,
+      authoredPaletteIndex: getPsxRecordPaletteOverrideIndex(item._rawRecord),
+      authoredPaletteVariantRequest: getPsxRecordPaletteVariantRequest(item._rawRecord, artHeaderByType.get(item._rawRecord.u0) ?? null),
       bundleOffset: item._bundleOffset,
       paletteIndex: item._paletteIndex,
+      defaultPaletteIndex: item._defaultPaletteIndex,
+      paletteFormula: item._paletteFormula,
+      templateTypeId: item._templateTypeId,
+      donorTypeId: item._donorTypeId,
+      mappingSource: item._mappingSource,
+      artCohort: item._artCohort,
+      artSourceMapId: item._artSourceMapId,
+      companionExtents: item.runtimeBounds,
+      runtimeDiagnostic: item.runtimeDiagnostic,
       projectedAnchorX: item.screen.anchorX,
       projectedAnchorY: item.screen.anchorY,
+      flipped: item.flags.flipped,
+      dedupedOverlapCount: item._dedupedOverlapCount,
       isFallback: item._isFallback
     });
 
     delete item._rawRecord;
     delete item._bundleOffset;
     delete item._paletteIndex;
+    delete item._defaultPaletteIndex;
+    delete item._paletteFormula;
+    delete item._templateTypeId;
+    delete item._donorTypeId;
+    delete item._mappingSource;
+    delete item._artCohort;
+    delete item._artSourceMapId;
+    delete item._dedupedOverlapCount;
     delete item._isFallback;
   }
 
@@ -1846,8 +3321,8 @@ function buildSceneForMap(mapEntry, referenceData, fingerprint, relativePath) {
       gameLabel: PSX_LABEL,
       map: mapEntry.id,
       rawItemCount: records.length,
-      itemCount: items.length,
-      paintedItemCount: items.length,
+      itemCount: dedupedItems.length,
+      paintedItemCount: dedupedItems.length,
       occludedItemCount: 0,
       invalidItemCount: 0,
       invalidItems: [],
@@ -1855,9 +3330,9 @@ function buildSceneForMap(mapEntry, referenceData, fingerprint, relativePath) {
         atlasCount: usedAtlasIds.size,
         spriteCount: usedSpriteIds.size,
         helperCount: 0,
-        kindCounts: { terrain: items.length },
+        kindCounts: { terrain: dedupedItems.length },
         sourceCounts,
-        topFamilies: [{ family: null, count: items.length }]
+        topFamilies: [{ family: null, count: dedupedItems.length }]
       },
       recordFamilies: mapEntry.recordFamilies.map((family) => ({
         sourceFamily: family.sourceFamily,
@@ -1878,13 +3353,14 @@ function buildSceneForMap(mapEntry, referenceData, fingerprint, relativePath) {
           "Packed PSX reference art now uses shared atlases instead of one atlas per resolved bundle.",
           "Type-to-art resolution now prefers parsed per-type template-bank bundle references before falling back to the old scan-order bundle heuristic.",
           `Scene items preserve executable-named section-0 record families and raw u0..u5 words in mapSource.rawWords.`,
+          "PSX scene export now carries a runtimeDiagnostic payload per item so Ghidra-side samples can be compared against object-local flags, pre-latch selector hints, nested-runtime placeholders, and resource-kind candidates.",
           "Structured section-0 constructor placements now use the constructor-backed +0x06 byte as provisional z.",
-          "Palette selection still uses bundle default palettes or local heuristics and remains provisional until the runtime override path is recovered."
+          "Palette selection now applies executable-backed authored record overrides for main-visible records, and same-type same-coordinate same-lane overlaps are collapsed conservatively with constructor placements preferred over root-dispatch duplicates."
         ],
         itemMapNums: [...new Set(records.map((record) => record.u5))].sort((left, right) => left - right),
         nonzeroItemMapNums: [...new Set(records.map((record) => record.u5).filter((value) => value !== 0))].sort((left, right) => left - right),
         npcLinkedItemCount: records.filter((record) => record.u4 !== 0).length,
-        note: `PSX art/state probe from ${relativePath}. The export now carries executable-named section-0 record families (${mapEntry.recordFamilies.map((family) => `${family.sourceFamily}:${family.recordCount}`).join(", ")}), parsed runtime-bank layers, and an offline decode of the candidate compressed level-state source. Type-to-art matching is improved but still not fully closed.`,
+        note: `PSX art/state probe from ${relativePath}. The export now carries executable-named section-0 record families (${mapEntry.recordFamilies.map((family) => `${family.sourceFamily}:${family.recordCount}`).join(", ")}), parsed runtime-bank layers, an offline decode of the candidate compressed level-state source, executable-backed authored palette overrides for main-visible records, and a conservative same-type same-coordinate same-lane dedupe pass. Type-to-art matching is improved but still not fully closed.`,
         hasRenderableContent: true,
         game: PSX_GAME_ID,
         map: mapEntry.id
@@ -1933,7 +3409,7 @@ function buildSceneForMap(mapEntry, referenceData, fingerprint, relativePath) {
       spriteIds: [...usedSpriteIds],
       shapeDefinitionIds: [...usedShapeDefinitionIds]
     },
-    items,
+    items: dedupedItems,
     mapSource: {
       formatVersion: PSX_SCENE_VERSION,
       game: PSX_GAME_ID,
@@ -2020,34 +3496,48 @@ function buildPsxCatalogPayload(mapEntries, fingerprint, referenceFingerprint) {
   };
 }
 
-function resolveSpriteBundlesForMap(data, parsed) {
+function resolveSpriteBundlesForMap(data, parsed, paletteSets = null) {
   const graphicsRegion = parsed.regions.find((region) => region.name === "post_audio_region_04");
   if (!graphicsRegion) {
     return [];
   }
 
-  const palettes16 = extractPaletteSets(data, parsed.headerWords);
-  const palettes256 = extractPaletteBlocks256(data, parsed.headerWords);
+  const palettes16 = paletteSets?.palettes16 ?? extractPaletteSets(data, parsed.headerWords);
+  const palettes256 = paletteSets?.palettes256 ?? extractPaletteBlocks256(data, parsed.headerWords);
+  const mode1ClutBank = getMode1ClutBankFromVramDump() ?? palettes16;
+  const mode1PaletteBank = buildMode1PaletteBank(mode1ClutBank);
+  const mode1RuntimePalette = getMode1RuntimePaletteFromVramDump()
+    ?? buildMode1RuntimePalette(palettes16)
+    ?? palettes256[0]
+    ?? null;
   const regionData = data.subarray(graphicsRegion.offset, graphicsRegion.offset + graphicsRegion.size);
   return scanSpriteBundles(regionData, 160)
     .map((bundle) => {
+      const defaultPaletteIndex = bundle.paletteIndex;
       let resolvedPaletteIndex = bundle.paletteIndex;
       let palette = null;
+      let paletteFormula = null;
       if (bundle.mode === 2) {
         if (!Number.isInteger(resolvedPaletteIndex) || resolvedPaletteIndex >= palettes16.length) {
           resolvedPaletteIndex = choosePalette(palettes16, bundle.frames, bundle.mode);
         }
         if (Number.isInteger(resolvedPaletteIndex) && resolvedPaletteIndex >= 0 && resolvedPaletteIndex < palettes16.length) {
           palette = palettes16[resolvedPaletteIndex];
+          paletteFormula = "mode2-bundle-or-usage-index";
         }
       } else if (bundle.mode === 1) {
-        if (!palettes256.length) {
+        if (!mode1PaletteBank.length && !mode1RuntimePalette?.length) {
           return null;
         }
-        if (!Number.isInteger(resolvedPaletteIndex) || resolvedPaletteIndex >= palettes256.length) {
-          resolvedPaletteIndex = 0;
+        if (!Number.isInteger(resolvedPaletteIndex) || resolvedPaletteIndex < 0 || resolvedPaletteIndex >= mode1PaletteBank.length || !mode1PaletteBank[resolvedPaletteIndex]?.length) {
+          resolvedPaletteIndex = mode1PaletteBank[0]?.length ? 0 : null;
         }
-        palette = palettes256[resolvedPaletteIndex];
+        palette = resolvedPaletteIndex != null
+          ? mode1PaletteBank[resolvedPaletteIndex] ?? null
+          : mode1RuntimePalette;
+        paletteFormula = cachedMode1VramClutBank?.length
+          ? `mode1-gpu-ram-clut-band-row-${PSX_MODE1_VRAM_ROW.toString(16)}-x${PSX_MODE1_VRAM_X.toString(16)}-start-index`
+          : "mode1-runtime-clut-band-fallback";
       }
       if (!palette) {
         return null;
@@ -2055,7 +3545,10 @@ function resolveSpriteBundlesForMap(data, parsed) {
       return {
         ...bundle,
         offset: graphicsRegion.offset + bundle.offset,
+        defaultPaletteIndex,
+        paletteFormula,
         resolvedPaletteIndex,
+        paletteBank: bundle.mode === 1 ? mode1PaletteBank : null,
         palette
       };
     })
@@ -2115,8 +3608,8 @@ export function buildPsxTypeProbeCache(gameConfig, options = {}) {
 
   const requestedMapId = Number.isInteger(options.mapId) ? options.mapId : null;
   const sources = collectPsxMapSources(staticDir);
-  const filteredSources = requestedMapId === null ? sources : sources.filter((entry) => entry.mapId === requestedMapId);
-  if (!filteredSources.length) {
+  const requestedSources = requestedMapId === null ? sources : sources.filter((entry) => entry.mapId === requestedMapId);
+  if (!requestedSources.length) {
     throw new Error(requestedMapId === null ? "No PSX WDL maps found under STATIC_PSX" : `No PSX WDL map ${requestedMapId} found under STATIC_PSX`);
   }
 
@@ -2128,7 +3621,7 @@ export function buildPsxTypeProbeCache(gameConfig, options = {}) {
 
   const mapEntries = [];
   const sourceDigests = [];
-  for (const source of filteredSources) {
+  for (const source of sources) {
     const data = fs.readFileSync(source.absolutePath);
     const parsed = parseLsetWdl(data);
     if (!parsed) {
@@ -2146,7 +3639,9 @@ export function buildPsxTypeProbeCache(gameConfig, options = {}) {
 
     const region00RecordCount = recordFamilies.find((family) => family.legacySourceFamily === "region00" || family.sourceFamily === PSX_FAMILY_SECTION0_ROOT)?.recordCount ?? 0;
     const region01RecordCount = recordFamilies.find((family) => family.legacySourceFamily === "region01" || family.sourceFamily === PSX_FAMILY_SECTION0_BULK)?.recordCount ?? 0;
-    const runtimeState = collectPsxRuntimeState(data, parsed, records);
+    const palettes16 = extractPaletteSets(data, parsed.headerWords);
+    const palettes256 = extractPaletteBlocks256(data, parsed.headerWords);
+    const runtimeState = collectPsxRuntimeState(data, parsed, records, { palettes16, palettes256 });
 
     sourceDigests.push(`${source.relativePath}:${fileStamp(source.absolutePath)}`);
     mapEntries.push({
@@ -2158,6 +3653,8 @@ export function buildPsxTypeProbeCache(gameConfig, options = {}) {
       recordFamilies,
       region00RecordCount,
       region01RecordCount,
+      palettes16,
+      palettes256,
       records,
       spriteBundles: runtimeState.spriteBundles,
       runtimeState
@@ -2169,9 +3666,12 @@ export function buildPsxTypeProbeCache(gameConfig, options = {}) {
   }
 
   const referenceData = buildRealArtReference(mapEntries);
+  const outputMapEntries = requestedMapId === null
+    ? mapEntries
+    : mapEntries.filter((entry) => entry.id === requestedMapId);
   const catalogFingerprint = sha1(JSON.stringify({ version: PSX_SCENE_VERSION, files: sourceDigests.sort() })).slice(0, 16);
   const manifestMaps = [];
-  for (const mapEntry of mapEntries) {
+  for (const mapEntry of outputMapEntries) {
     const mapFingerprint = sha1(JSON.stringify({
       version: PSX_SCENE_VERSION,
       mapId: mapEntry.id,

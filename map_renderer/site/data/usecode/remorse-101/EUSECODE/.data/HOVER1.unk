@@ -1,0 +1,49 @@
+/* synthesized appendix for HOVER1 */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x0a equip ===== */
+function hover1_equip() /* entry=1266 class_id=0x04f0 slot=0x0a */
+{
+  set_info(0x0211, *(arg_06));
+  process_exclude();
+  spawn HOVER.slot_22(pid, arg_10, arg_06);
+  suspend;
+  return;
+}
+
+/* ===== slot 0x0b unequip ===== */
+function hover1_unequip() /* entry=1266 class_id=0x04f0 slot=0x0b */
+{
+  set_info(0x0212, *(arg_06));
+  process_exclude();
+  if (arg_10 == 0) {
+    spawn HOVER1.enterFastArea(pid, arg_06);
+    suspend;
+  }
+  return;
+}
+
+/* ===== slot 0x0f enterFastArea ===== */
+function hover1_enterFastArea() /* entry=1266 class_id=0x04f0 slot=0x0f */
+{
+  set_info(0x021b, *(arg_06));
+  process_exclude();
+  AudioProcess.playAmbientSFXCru(0x00a8, arg_06);
+  if ((Ultima8Engine.clrAlertActive(arg_06) & 32) == 0) {
+    if ((Item.getStatus(arg_06) & 0x1000) == 0) {
+      spawn HOVER.slot_21(*(arg_06), arg_06);
+    }
+  }
+  return;
+}
+
+/* ===== slot 0x10 leaveFastArea ===== */
+function hover1_leaveFastArea() /* entry=1266 class_id=0x04f0 slot=0x10 */
+{
+  set_info(0x021c, *(arg_06));
+  process_exclude();
+  if ((Ultima8Engine.clrAlertActive(arg_06) & 64) == 0) {
+    Intrinsic0BB((~0x1000), arg_06);
+  }
+  return;
+}

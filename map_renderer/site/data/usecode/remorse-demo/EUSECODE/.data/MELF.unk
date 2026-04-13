@@ -1,0 +1,81 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[01:use] call_intrinsic Actor.addHp(arg_bytes=0x4) ; jne 0x002c ; ...
+//
+[01:use] jmp 0x0155
+//
+//
+//
+//
+[01:use] global_address global[0x003c] ; call_intrinsic Item.getDirToItem(arg_bytes=0x6) ; global_address global[0x003c] ; ...
+//
+[01:use] call_intrinsic Actor.setDead(arg_bytes=0xc) ; free_stack_string value_u8=0x4, target=[SP+04h] ; implies arg0=0x1, arg1=0x1 ; ...
+[01:use] call_intrinsic playFlic(arg_bytes=0xc) ; free_stack_string value_u8=0x4, target=[SP+04h] ; implies arg0=0x1, arg1=0x1 ; ...
+//
+[01:use] spawn TRIGGER.slot_20 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[01:use] call_intrinsic Item.pop(arg_bytes=0x6)
+[01:use] pop_global global[0x0024] ; loopscr value_u8=0x24
+//
+[01:use] loopscr value_u8=0x41
+[01:use] mul
+[01:use] loop current_var=0xfe, string_bytes=0x4, loop_type=0x2 ; jne 0x0153
+[01:use] call_intrinsic Item.getQHi(arg_bytes=0x4) ; cmp ; jne 0x014f ; ...
+[01:use]
+[01:use] call_intrinsic Item.setQLo(arg_bytes=0x6)
+[01:use] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+[01:use] call_intrinsic Item.destroy(arg_bytes=0x4) ; loopnext ; jmp 0x0112 ; ...
+//
+//
+[01:use] ret
+
+/* synthesized appendix for MELF */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x01 use ===== */
+function melf_use() /* entry=957 class_id=0x03bb slot=0x01 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    item; /* [BP-02h] type=0x24 */
+
+  set_info(0x0207, *(arg_06));
+  process_exclude();
+  if (Actor.addHp(arg_06)) {
+    return;
+  }
+  else {
+    suspend;
+    Actor.setDead(0x0096, 0x00c8, "mva5b", arg_06);
+    suspend;
+    playFlic(pid, 0x0096, 0x00c8, "5g", arg_06);
+    suspend;
+    spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
+    suspend;
+    Item.pop(1, arg_06);
+    while (condition) {
+      if (Item.getQHi(item) == 34) {
+        Item.setQLo(80, arg_06);
+        AudioProcess.playSFXCru(61, arg_06);
+        Item.destroy(item);
+      }
+    }
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol item [BP-02h] type=0x24 unk1=0x00 unk3=0x02
+  */
+}

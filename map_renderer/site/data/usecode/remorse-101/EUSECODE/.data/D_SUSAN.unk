@@ -1,0 +1,24 @@
+/* synthesized appendix for D_SUSAN */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x06 gotHit ===== */
+function d_susan_gotHit() /* entry=1222 class_id=0x04c4 slot=0x06 */
+{
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  if (UCMachine.rndRange(100, 0) > 50) {
+    return;
+  }
+  else {
+    while (condition) {
+      spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
+      suspend;
+      spawn ITEM.slot_28(pid, 1, 0, local_02);
+      suspend;
+    }
+    spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
+    suspend;
+    Item.explode(1, 1, arg_06);
+  }
+  return;
+}

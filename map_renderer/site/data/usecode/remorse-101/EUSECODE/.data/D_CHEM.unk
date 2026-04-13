@@ -1,0 +1,47 @@
+/* synthesized appendix for D_CHEM */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x01 use ===== */
+function d_chem_use() /* entry=1211 class_id=0x04b9 slot=0x01 */
+{
+  set_info(0x0207, *(arg_06));
+  process_exclude();
+  if (Item.getStatus(arg_06) & 0x1000) {
+    return;
+  }
+  else {
+    FREE.slot_40(*(arg_06));
+    if (retval) {
+      ITEM.slot_23(0x1000, arg_06);
+    }
+  }
+  return;
+}
+
+/* ===== slot 0x06 gotHit ===== */
+function d_chem_gotHit() /* entry=1211 class_id=0x04b9 slot=0x06 */
+{
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  FREE.slot_2c(arg_12, arg_10);
+  if ((retval != 4) || (Item.andStatus() == 0)) {
+    return;
+  }
+  else {
+    while (condition) {
+      if (Item.getShape(local_02) == 0x0111) {
+        push(local_02);
+        getTargetNPCNumMaybe(Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06), local_02);
+      }
+      else {
+        Item.destroy(local_02);
+      }
+    }
+    if (Item.getFrame(arg_06) >= 10) {
+      Item.isCentreOn(UCMachine.rndRange(5, 0), arg_06);
+    }
+    Item.setShape(0x04e1, arg_06);
+    mouseSomethingResume05F();
+  }
+  return;
+}

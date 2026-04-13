@@ -1,0 +1,137 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[06:gotHit] gt ; call_intrinsic getTargetNPCNumMaybe(arg_bytes=0x0) ; cmp ; ...
+[06:gotHit]
+[06:gotHit] jmp 0x01dc
+//
+//
+//
+[06:gotHit] pop_local_word item
+//
+[06:gotHit] call_intrinsic Actor.GetNPCDataField0x63_00B(arg_bytes=0x4) ; pop_local_word l ; ...
+[06:gotHit] call_intrinsic Item.getQLo(arg_bytes=0x4) ; pop_local_word link ; ...
+//
+[06:gotHit] call_intrinsic Actor.GetNPCDataField0x63_00B(arg_bytes=0x4) ; call_intrinsic Item.getQLo(arg_bytes=0x4) ; cmp ; ...
+[06:gotHit]
+[06:gotHit] call_intrinsic Item.getMapArray(arg_bytes=0x4) ; ne ; jne 0x01dc ; ...
+//
+[06:gotHit] call_intrinsic Item.getSurfaceWeight(arg_bytes=0x4) ; cmp ; call_intrinsic Item.isCompletelyOn(arg_bytes=0x6) ; ...
+[06:gotHit]
+[06:gotHit] jmp 0x01dc
+//
+//
+[06:gotHit] cmp ; jne 0x00cf ; ...
+[06:gotHit]
+[06:gotHit] call_intrinsic Actor.SetNPCDataField0x63_0E6(arg_bytes=0x6)
+//
+//
+[06:gotHit] call_intrinsic Item.setFrame(arg_bytes=0x6)
+[06:gotHit] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[06:gotHit] spawn TRIGGER.slot_20 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[06:gotHit] jne 0x01dc
+//
+[06:gotHit] call_intrinsic Item.getSurfaceWeight(arg_bytes=0x4) ; ne ; call_intrinsic Actor.isNPC(arg_bytes=0x4) ; ...
+//
+[06:gotHit] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+[06:gotHit] call_intrinsic Item.setFrame(arg_bytes=0x6)
+[06:gotHit] spawn TRIGGER.slot_20 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[06:gotHit] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[06:gotHit] jmp 0x01dc ; jmp 0x0129
+//
+//
+//
+//
+[06:gotHit] ret
+
+/* synthesized appendix for NPC_ONLY */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x06 gotHit ===== */
+function npc_only_gotHit() /* entry=872 class_id=0x0366 slot=0x06 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    vel, /* [BP+12h] type=0x69 */
+    item, /* [BP-02h] type=0x24 */
+    l, /* [BP-04h] type=0x69 */
+    link; /* [BP-06h] type=0x69 */
+
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  if ((ref > 0x0100) || (ref == getTargetNPCNumMaybe())) {
+    return;
+  }
+  else {
+    item = ref;
+    l = Actor.GetNPCDataField0x63_00B(item);
+    link = Item.getQLo(arg_06);
+    if (Actor.GetNPCDataField0x63_00B(item) == Item.getQLo(arg_06)) {
+      if (Item.getMapArray(arg_06) != 0) {
+        if ((Item.getSurfaceWeight(arg_06) == 0) || (Item.isCompletelyOn(*(arg_06), item) == 0)) {
+          return;
+        }
+        else if (link == 0x00fe) {
+          Actor.SetNPCDataField0x63_0E6(0x00c8, item);
+        }
+        Item.setFrame(1, arg_06);
+        spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+        suspend;
+        spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
+        suspend;
+        while (1) {
+          if ((Item.getSurfaceWeight(arg_06) != 0) && (Actor.isNPC(item) == 1)) {
+            spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+            suspend;
+          }
+          else {
+            Item.setFrame(0, arg_06);
+            spawn TRIGGER.slot_20(pid, 1, *(arg_06), arg_06);
+            suspend;
+            spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+            suspend;
+            return;
+          }
+        }
+      }
+    }
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol ref [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol vel [BP+12h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol item [BP-02h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol l [BP-04h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol link [BP-06h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}

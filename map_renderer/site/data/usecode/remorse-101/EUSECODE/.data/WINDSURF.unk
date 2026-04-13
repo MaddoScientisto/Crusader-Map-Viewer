@@ -1,0 +1,179 @@
+/* synthesized appendix for WINDSURF */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x06 gotHit ===== */
+function windsurf_gotHit() /* entry=825 class_id=0x0337 slot=0x06 */
+{
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  FREE.slot_2c(arg_12, arg_10);
+  if (retval) {
+    return;
+  }
+  else if (Item.getMapArray(arg_06) == 0) {
+    local_02 = arg_10;
+    if (Intrinsic116(0, local_02)) {
+      return;
+    }
+    if (Item.getShape(local_02) == 0x01d9) {
+      return;
+    }
+    if (PaletteFaderProcess.fadeToBlack(arg_10, arg_06) == 0) {
+      return;
+    }
+    if (Item.getQ(arg_06) == 0x00ff) {
+      return;
+    }
+    if (Item.getZ(arg_06) == 0x00fe) {
+      return;
+    }
+    if (Item.andStatus(arg_06) == 0x00ff) {
+      if (!Actor.isNPC(local_02)) {
+        Item.destroy(local_02);
+      }
+      return;
+    }
+    local_04 = 0;
+    local_06 = 0;
+    local_17 = Item.getQ(arg_06);
+    local_10 = (local_17 & 15);
+    local_08 = ((local_17 / 16) & 15);
+    if (local_08 == 0) {
+      local_08 = 3;
+    }
+    else if (local_08 == 15) {
+      local_08 = (3 + (Game.getDifficultyLevel() * 2));
+    }
+    switch (local_10) {
+    case 0:
+      local_06 = -1;
+      break;
+    case 1:
+      local_06 = -2;
+      local_04 = 1;
+      break;
+    case 2:
+      local_06 = -1;
+      local_04 = 1;
+      break;
+    case 3:
+      local_06 = -1;
+      local_04 = 2;
+      break;
+    case 4:
+      local_04 = 1;
+      break;
+    case 5:
+      local_04 = 2;
+      local_06 = 1;
+      break;
+    case 6:
+      local_04 = 1;
+      local_06 = 1;
+      break;
+    case 7:
+      local_04 = 1;
+      local_06 = 2;
+      break;
+    case 8:
+      local_06 = 1;
+      break;
+    case 9:
+      local_06 = 2;
+      local_04 = -1;
+      break;
+    case 10:
+      local_06 = 1;
+      local_04 = -1;
+      break;
+    case 11:
+      local_06 = 1;
+      local_04 = -2;
+      break;
+    case 12:
+      local_04 = -1;
+      break;
+    case 13:
+      local_04 = -2;
+      local_06 = -1;
+      break;
+    case 14:
+      local_04 = -1;
+      local_06 = -1;
+      break;
+    case 15:
+      local_04 = -1;
+      local_06 = -2;
+      break;
+    }
+    local_04 = (local_04 * local_08);
+    local_06 = (local_06 * local_08);
+    spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+    suspend;
+    while (1) {
+      local_15 = (Item.getX(local_02) + local_04);
+      local_13 = (Item.getY(local_02) + local_06);
+      local_11 = Item.getZ(local_02);
+      legalMoveToPoint(0, 1, local_15, local_02);
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+      if (PaletteFaderProcess.fadeToBlack(arg_10, arg_06) == 0) {
+      }
+    }
+    if (Item.getZ(local_02) > 1) {
+      suspend;
+    }
+    return;
+  }
+  else {
+    spawn TRIGGER.slot_2a(pid, 0, *(arg_06), arg_06);
+    suspend;
+  }
+  return;
+}
+
+/* ===== slot 0x0a equip ===== */
+function windsurf_equip() /* entry=825 class_id=0x0337 slot=0x0a */
+{
+  set_info(0x0211, *(arg_06));
+  process_exclude();
+  Item.setQHi(arg_10, arg_06);
+  FREE.slot_33(0x020c, *(arg_06));
+  if (arg_10 == 0x00ff) {
+    return;
+  }
+  else {
+    while (condition) {
+      if (local_02 != *(arg_06)) {
+        if (PaletteFaderProcess.fadeToBlack(local_02, arg_06)) {
+          spawn WINDSURF.gotHit(0, local_02, arg_06);
+        }
+      }
+    }
+  }
+  return;
+}
+
+/* ===== slot 0x0b unequip ===== */
+function windsurf_unequip() /* entry=825 class_id=0x0337 slot=0x0b */
+{
+  set_info(0x0212, *(arg_06));
+  process_exclude();
+  while (condition) {
+    if (local_02 != *(arg_06)) {
+      if (PaletteFaderProcess.fadeToBlack(local_02, arg_06)) {
+        spawn WINDSURF.gotHit(0, local_02, arg_06);
+      }
+    }
+  }
+  return;
+}
+
+/* ===== slot 0x10 leaveFastArea ===== */
+function windsurf_leaveFastArea() /* entry=825 class_id=0x0337 slot=0x10 */
+{
+  set_info(0x021c, *(arg_06));
+  process_exclude();
+  FREE.slot_33(0x020c, *(arg_06));
+  return;
+}

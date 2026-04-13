@@ -1,0 +1,137 @@
+/* synthesized appendix for LIFT */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x01 use ===== */
+function lift_use() /* entry=309 class_id=0x0133 slot=0x01 */
+{
+  set_info(0x0207, *(arg_06));
+  process_exclude();
+  if (PaletteFaderProcess.fadeToBlack(arg_06) == 10) {
+    spawn LIFT.slot_20(pid, arg_06);
+    suspend;
+    suspend;
+    return;
+  }
+  else if (PaletteFaderProcess.fadeToBlack(arg_06) == 20) {
+    spawn LIFT.slot_20(pid, arg_06);
+    suspend;
+    return;
+  }
+  return;
+}
+
+/* ===== slot 0x06 gotHit ===== */
+function lift_gotHit() /* entry=309 class_id=0x0133 slot=0x06 */
+{
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  local_02 = arg_10;
+  FREE.slot_2c(arg_12, arg_10);
+  if (retval) {
+    return;
+  }
+  else if (arg_10 != 1) {
+    return;
+  }
+  else if (PaletteFaderProcess.fadeToBlack(arg_06) == 1) {
+    Ultima8Engine.setAvatarInStasis(1);
+    if (Actor.isBusy(&global[0x003d])) {
+      spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+      suspend;
+    }
+    Egg.getEggId(Item.getX(Item.getY(Actor.getMap(&global[0x003d]), 0, &global[0x003d]), &global[0x003d]));
+    suspend;
+    suspend;
+    suspend;
+    spawn LIFT.slot_20(pid, arg_06);
+    suspend;
+    suspend;
+    suspend;
+    return;
+  }
+  else if (PaletteFaderProcess.fadeToBlack(arg_06) == 10) {
+    Ultima8Engine.setAvatarInStasis(1);
+    if (Actor.isBusy(&global[0x003d])) {
+      spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+      suspend;
+    }
+    suspend;
+    suspend;
+    spawn LIFT.slot_20(pid, arg_06);
+    suspend;
+    suspend;
+    suspend;
+    return;
+  }
+  return;
+}
+
+/* ===== slot 0x0f enterFastArea ===== */
+function lift_enterFastArea() /* entry=309 class_id=0x0133 slot=0x0f */
+{
+  set_info(0x021b, *(arg_06));
+  process_exclude();
+  if (PaletteFaderProcess.fadeToBlack(arg_06) == 2) {
+    Egg.getEggId(Item.getX(Item.getY(Actor.getMap(&global[0x003d]), 0, &global[0x003d]), &global[0x003d]));
+    spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+    suspend;
+    spawn LIFT.slot_20(arg_06);
+    suspend;
+    Ultima8Engine.setAvatarInStasis(0);
+    getCurrentTimerTick(0, arg_06);
+    return;
+  }
+  else if (PaletteFaderProcess.fadeToBlack(arg_06) == 20) {
+    Egg.getEggId(Item.getX(Item.getY(Actor.getMap(&global[0x003d]), 0, &global[0x003d]), &global[0x003d]));
+    spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+    suspend;
+    spawn LIFT.slot_20(arg_06);
+    suspend;
+    Ultima8Engine.setAvatarInStasis(0);
+    getCurrentTimerTick(0, arg_06);
+    return;
+  }
+  return;
+}
+
+/* ===== slot 0x20 slot_20 ===== */
+function lift_slot_20() /* entry=309 class_id=0x0133 slot=0x20 */
+{
+  set_info(0x0001, *(arg_06));
+  local_06 = 1;
+  while (local_06 <= 47) {
+    local_11 = Item.getX(arg_06);
+    local_09 = Item.getY(arg_06);
+    local_07 = (Item.getZ(arg_06) - 2);
+    local_04 = 0;
+    while (condition) {
+      local_15 = Item.getShape(local_13);
+      if (local_13 != *(arg_06)) {
+        push(local_13);
+        local_04 = (1 + local_04);
+      }
+    }
+    if (legalMoveToPoint(0, 1, local_11, arg_06)) {
+      local_02 = 1;
+      while (local_02 <= local_04) {
+        local_13 = Item.getEtherealTop();
+        getTargetNPCNumMaybe((Item.getZ(local_13) - 2), Item.getY(local_13), Item.getX(local_13), local_13);
+        local_02 = (1 + local_02);
+      }
+      spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+      suspend;
+    }
+    else {
+      Item.touch(arg_06);
+      local_02 = 1;
+      while (local_02 <= local_04) {
+        local_13 = Item.getEtherealTop();
+        getTargetNPCNumMaybe(Item.getZ(local_13), Item.getY(local_13), Item.getX(local_13), local_13);
+        local_02 = (1 + local_02);
+      }
+      return;
+    }
+    local_06 = (1 + local_06);
+  }
+  return;
+}

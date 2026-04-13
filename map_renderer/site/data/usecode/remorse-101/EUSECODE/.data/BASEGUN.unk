@@ -1,0 +1,98 @@
+/* synthesized appendix for BASEGUN */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x06 gotHit ===== */
+function basegun_gotHit() /* entry=1226 class_id=0x04c8 slot=0x06 */
+{
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  spawn WALLGUN.slot_49(arg_12, arg_10, arg_06);
+  return;
+}
+
+/* ===== slot 0x0a equip ===== */
+function basegun_equip() /* entry=1226 class_id=0x04c8 slot=0x0a */
+{
+  set_info(0x0211, *(arg_06));
+  process_exclude();
+  if (Actor.getLastAnimSet() != 0) {
+    spawn WALLGUN.slot_24(pid, arg_10, Actor.getLastAnimSet(), arg_06);
+    suspend;
+    return;
+  }
+  else {
+    spawn WALLGUN.slot_24(pid, arg_10, global[0x003d], arg_06);
+    suspend;
+  }
+  return;
+}
+
+/* ===== slot 0x0b unequip ===== */
+function basegun_unequip() /* entry=1226 class_id=0x04c8 slot=0x0b */
+{
+  set_info(0x0212, *(arg_06));
+  process_exclude();
+  if (Item.getStatus(arg_06) & 4) {
+    return;
+  }
+  else {
+    Item.orStatus(4, arg_06);
+    spawn WALLGUN.slot_27(arg_06);
+  }
+  return;
+}
+
+/* ===== slot 0x0e calledFromAnim ===== */
+function basegun_calledFromAnim() /* entry=1226 class_id=0x04c8 slot=0x0e */
+{
+  set_info(0x021a, *(arg_06));
+  process_exclude();
+  local_02 = *(arg_06);
+  local_04 = Actor.maybeFire(local_02);
+  local_06 = Item.create(local_02);
+  if ((local_06 == 13) || (local_06 == 8)) {
+    AudioProcess.playSFXCru(83, arg_06);
+    WALLGUN.slot_40(0, 5, local_04, local_04, arg_06);
+    WALLGUN.slot_3f(retval, local_04, arg_06);
+    WALLGUN.slot_3e(retval, local_04, arg_06);
+    WALLGUN.slot_43(0, 5, local_04, local_04, arg_06);
+    WALLGUN.slot_42(retval, local_04, arg_06);
+    WALLGUN.slot_41(retval, local_04, arg_06);
+    return;
+  }
+  else {
+    set_info(0x00f0, 0);
+    Item.legal_create(0, 0x03a5, local_08);
+    getTargetNPCNumMaybe(Item.getZ(local_02), Item.getY(local_02), Item.getX(local_02), local_08);
+    Actor.setDead(local_02);
+    spawn ITEM.slot_28(pid, 1, 2, local_02);
+    suspend;
+  }
+  return;
+}
+
+/* ===== slot 0x0f enterFastArea ===== */
+function basegun_enterFastArea() /* entry=1226 class_id=0x04c8 slot=0x0f */
+{
+  set_info(0x021b, *(arg_06));
+  process_exclude();
+  if (Item.getStatus(arg_06) & 4) {
+    return;
+  }
+  else {
+    Item.orStatus(4, arg_06);
+    spawn WALLGUN.slot_27(arg_06);
+  }
+  return;
+}
+
+/* ===== slot 0x10 leaveFastArea ===== */
+function basegun_leaveFastArea() /* entry=1226 class_id=0x04c8 slot=0x10 */
+{
+  set_info(0x021c, *(arg_06));
+  process_exclude();
+  Actor.getDir((~4), arg_06);
+  FREE.slot_33(1, *(arg_06));
+  FREE.slot_33(0x020a, *(arg_06));
+  return;
+}

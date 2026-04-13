@@ -1,0 +1,1483 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[0A:equip] call_intrinsic Actor.setImmortal(arg_bytes=0x4) ; pop_local_word link ; cmp ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[0A:equip] global_address global[0x003c] ; call_intrinsic Actor.getMap(arg_bytes=0x4) ; call_intrinsic Item.getY(arg_bytes=0x4) ; ...
+//
+//
+//
+//
+//
+[0A:equip] global_address global[0x003c] ; call_intrinsic Actor.doAnim(arg_bytes=0x4) ; jne 0x0098 ; ...
+//
+[0A:equip] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[0A:equip] call_intrinsic Ultima8Engine.setAvatarInStasis(arg_bytes=0x2)
+[0A:equip] global_address global[0x003c] ; call_intrinsic CameraProcess.getCameraX(arg_bytes=0x4)
+[0A:equip] call_intrinsic CameraProcess.getCameraY(arg_bytes=0x0) ; pop_local_word cx
+[0A:equip] call_intrinsic Item.setMapArray(arg_bytes=0x0) ; pop_local_word cy
+//
+[0A:equip] call_intrinsic Item.getX(arg_bytes=0x4) ; pop_local_word ex ; ...
+[0A:equip] call_intrinsic Item.getY(arg_bytes=0x4) ; pop_local_word ey ; ...
+//
+//
+//
+[0A:equip] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[0A:equip] add ; spawn TRIGGER.slot_20 ; implies arg0=0x1, arg1=0x1 ; ...
+[0A:equip] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[0A:equip] add ; spawn TRIGGER.slot_20 ; implies arg0=0x1, arg1=0x1 ; ...
+//
+[0A:equip] global_address global[0x003c] ; call_intrinsic Actor.getHp(arg_bytes=0x4)
+[0A:equip] call_intrinsic Ultima8Engine.setAvatarInStasis(arg_bytes=0x2) ; jmp 0x1ef6 ; cmp ; ...
+//
+//
+//
+//
+//
+[0A:equip] global_address global[0x003c] ; call_intrinsic Actor.doAnim(arg_bytes=0x4) ; jne 0x01dc ; ...
+//
+[0A:equip] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[0A:equip] call_intrinsic Ultima8Engine.setAvatarInStasis(arg_bytes=0x2)
+//
+[0A:equip] call_intrinsic Item.getY(arg_bytes=0x4) ; call_intrinsic Item.getX(arg_bytes=0x4) ; spawn FREE.slot_3d ; ...
+[0A:equip] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[0A:equip] add ; spawn TRIGGER.slot_20 ; implies arg0=0x1, arg1=0x1 ; ...
+//
+//
+//
+//
+//
+[0A:equip] spawn FREE.slot_3e ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[0A:equip] add ; spawn TRIGGER.slot_20 ; implies arg0=0x1, arg1=0x1 ; ...
+//
+[0A:equip] call_intrinsic Ultima8Engine.setAvatarInStasis(arg_bytes=0x2) ; jmp 0x1ef6 ; cmp ; ...
+//
+//
+//
+//
+//
+[0A:equip] call_intrinsic Item.explode(arg_bytes=0x8) ; jmp 0x1ef6 ; cmp ; ...
+//
+//
+//
+//
+[0A:equip] call_intrinsic Item.explode(arg_bytes=0x8) ; jmp 0x1ef6 ; cmp ; ...
+//
+//
+//
+//
+[0A:equip] call_intrinsic Item.explode(arg_bytes=0x8) ; jmp 0x1ef6 ; cmp ; ...
+//
+//
+//
+//
+[0A:equip] call_intrinsic Actor.clrInCombat(arg_bytes=0x4) ; pop_local_word counter ; ...
+//
+[0A:equip] cmp ; jne 0x0371 ; ...
+//
+[0A:equip] add ; spawn TRIGGER.slot_20 ; implies arg0=0x1, arg1=0x1 ; ...
+//
+//
+//
+[0A:equip] call_intrinsic Actor.setImmortal(arg_bytes=0x4) ; pop_local_word counter2 ; ...
+[0A:equip] call_intrinsic Item.fallProbably_03E(arg_bytes=0x6)
+[0A:equip] add ; spawn TRIGGER.slot_20 ; implies arg0=0x1, arg1=0x1 ; ...
+[0A:equip] call_intrinsic Item.fallProbably_03E(arg_bytes=0x6) ; jmp 0x1ef6 ; cmp ; ...
+//
+//
+//
+//
+//
+[0A:equip] call_intrinsic Actor.setImmortal(arg_bytes=0x4) ; pop_local_word counter ; loopscr value_u8=0x24 ; ...
+//
+//
+[0A:equip] loopscr value_u8=0x25 ; mul ; ...
+[0A:equip] loop current_var=0xfe, string_bytes=0x6, loop_type=0x2 ; jne 0x0459 ; ...
+[0A:equip] call_intrinsic Actor.setImmortal(arg_bytes=0x4) ; cmp ; call_intrinsic Item.getMapArray(arg_bytes=0x4) ; ...
+[0A:equip] ne ; and ; jne 0x0455 ; ...
+[0A:equip]
+[0A:equip] call_intrinsic Actor.clrInCombat(arg_bytes=0x4) ; call_intrinsic Item.getNpcNum(arg_bytes=0x6) ; ...
+[0A:equip] call_intrinsic Intrinsic08A(arg_bytes=0x4) ; call_intrinsic Game.isViolenceEnabled(arg_bytes=0x6) ; loopnext ; ...
+//
+//
+//
+//
+//
+//
+[0A:equip] loopscr value_u8=0x25 ; mul ; ...
+[0A:equip] loop current_var=0xfe, string_bytes=0x6, loop_type=0x2 ; jne 0x04bd ; ...
+[0A:equip] call_intrinsic Actor.setImmortal(arg_bytes=0x4) ; call_intrinsic Actor.setImmortal(arg_bytes=0x4) ; cmp ; ...
+//
+[0A:equip] call_intrinsic Item.getFrame(arg_bytes=0x4) ; cmp ; jne 0x04b9 ; ...
+//
+[0A:equip] pop_local_word source ; loopnext ; jmp 0x0484 ; ...
+//
+//
+//
+//
+[0A:equip] loopscr value_u8=0x25 ; mul ; ...
+[0A:equip] loop current_var=0xfe, string_bytes=0x6, loop_type=0x2 ; jne 0x0519 ; ...
+[0A:equip] call_intrinsic Actor.setImmortal(arg_bytes=0x4) ; call_intrinsic Actor.setImmortal(arg_bytes=0x4) ; cmp ; ...
+[0A:equip]
+[0A:equip] call_intrinsic Item.getFrame(arg_bytes=0x4) ; cmp ; jne 0x0515 ; ...
+//
+[0A:equip] pop_local_word dest ; loopnext ; jmp 0x04dd ; ...
+//
+//
+//
+//
+[0A:equip] push_local_word source
+[0A:equip] and ; jne 0x05a0
+[0A:equip] call_intrinsic Item.getX(arg_bytes=0x4) ; pop_local_word wp ; ...
+[0A:equip] call_intrinsic Item.getY(arg_bytes=0x4) ; pop_local_word local_11 ; ...
+[0A:equip] call_intrinsic Item.getZ(arg_bytes=0x4) ; pop_local_byte local_09 ; ...
+//
+[0A:equip] call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[0A:equip] call_intrinsic Item.getZ(arg_bytes=0x4) ; add ; call_intrinsic Item.getY(arg_bytes=0x4) ; ...
+[0A:equip] call_intrinsic Item.enterFastArea(arg_bytes=0xc) ; jmp 0x1ef6 ; cmp ; ...
+//
+//
+//
+//
+//
+[0A:equip] global_address global[0x003c] ; call_intrinsic Actor.getMap(arg_bytes=0x4) ; call_intrinsic Item.getY(arg_bytes=0x4) ; ...
+[0A:equip] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x2) ; jmp 0x1ef6 ; cmp ; ...
+//
+//
+//
+//
+[0A:equip] global_address global[0x003c] ; call_intrinsic Actor.getMap(arg_bytes=0x4) ; global_address global[0x003c] ; ...
+[0A:equip] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x2) ; jmp 0x1ef6 ; cmp ; ...
+//
+//
+//
+//
+//
+[0A:equip] call_intrinsic CameraProcess.getCameraY(arg_bytes=0x0) ; pop_local_word cx
+[0A:equip] call_intrinsic Item.setMapArray(arg_bytes=0x0) ; pop_local_word cy
+//
+[0A:equip] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+[0A:equip] global_address global[0x003c] ; call_intrinsic Actor.getMap(arg_bytes=0x4) ; call_intrinsic Item.getY(arg_bytes=0x4) ; ...
+[0A:equip] call_intrinsic Container.destroyContents(arg_bytes=0x6) ; jne 0x06ad ; ...
+//
+[0A:equip] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[0A:equip] global_address global[0x003c] ; call_intrinsic Actor.getMap(arg_bytes=0x4) ; call_intrinsic Item.getRangeIfVisible(arg_bytes=0x8) ; ...
+//
+//
+//
+//
+[0A:equip] global_address global[0x003c] ; call_intrinsic Item.getItemFamily(arg_bytes=0x4) ; not ; ...
+[0A:equip]
+[0A:equip] call_intrinsic Ultima8Engine.setAvatarInStasis(arg_bytes=0x2)
+[0A:equip] global_address global[0x003c] ; call_intrinsic Actor.doAnim(arg_bytes=0x4) ; jne 0x0726 ; ...
+[0A:equip] global_address global[0x003c] ; call_intrinsic Actor.turnToward(arg_bytes=0x8) ; implies arg0=0x1, arg1=0x1 ; ...
+[0A:equip] call_intrinsic Item.destroy(arg_bytes=0x4) ; jmp 0x1ef6 ; cmp ; ...
+//
+//
+//
+//
+//
+[0A:equip] cmp ; global_address global[0x003c] ; call_intrinsic Item.getItemFamily(arg_bytes=0x4) ; ...
+[0A:equip]
+[0A:equip] jmp 0x1ef6
+//
+//
+[0A:equip] call_intrinsic Ultima8Engine.setAvatarInStasis(arg_bytes=0x2)
+[0A:equip] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[0A:equip] global_address global[0x003c] ; spawn NPC.slot_22 ; implies arg0=0x1, arg1=0x1 ; ...
+[0A:equip] global_address global[0x003c] ; spawn NPC.slot_22 ; implies arg0=0x1, arg1=0x1 ; ...
+[0A:equip] global_address global[0x003c] ; spawn NPC.slot_22 ; implies arg0=0x1, arg1=0x1 ; ...
+[0A:equip] global_address global[0x003c] ; call_intrinsic Actor.getDir(arg_bytes=0x4) ; global_address global[0x003c] ; ...
+[0A:equip] pop_global global[0x0029] ; loopscr value_u8=0x24
+//
+[0A:equip] mul
+[0A:equip] loop current_var=0xf8, string_bytes=0x1, loop_type=0x2 ; jne 0x08af ; ...
+[0A:equip] call_intrinsic Actor.setImmortal(arg_bytes=0x4) ; cmp ; jne 0x08ab ; ...
+[0A:equip]
+[0A:equip] spawn DOOR.slot_20 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+[0A:equip] loopscr value_u8=0x25 ; mul ; ...
+[0A:equip] loop current_var=0xf8, string_bytes=0x6, loop_type=0x2 ; jne 0x08dd ; ...
+[0A:equip] pop_local_word n ; loopnext ; jmp 0x08cf ; ...
+//
+//
+[0A:equip] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[0A:equip] call_intrinsic playFlic(arg_bytes=0xc) ; free_stack_string value_u8=0x4, target=[SP+04h] ; implies arg0=0x1, arg1=0x1 ; ...
+[0A:equip] call_intrinsic Ultima8Engine.setAvatarInStasis(arg_bytes=0x2)
+//
+//
+[0A:equip] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[0A:equip] jne 0x09f4
+//
+[0A:equip] global_address global[0x003c] ; call_intrinsic Item.getItemFamily(arg_bytes=0x4) ; pop_local_word op ; ...
+[0A:equip] call_intrinsic Item.getItemFamily(arg_bytes=0x4) ; pop_local_word opp ; ...
+//
+//
+[0A:equip] cmp ; cmp ; or ; ...
+[0A:equip]
+[0A:equip] jmp 0x1ef6
+//
+//
+[0A:equip] spawn TRIGGER.slot_20 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[0A:equip] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+//
+//
+//
+[0A:equip] call_intrinsic Intrinsic08A(arg_bytes=0x4) ; pop_local_word time ; ...
+//
+[0A:equip] jne 0x0b80
+//
+[0A:equip] pop_local_word counter
+//
+[0A:equip] call_intrinsic Actor.clrInCombat(arg_bytes=0x4) ; cmp ; call_class_event FREE.slot_29 ; ...
+[0A:equip]
+[0A:equip] jmp 0x1ef6 ; loopscr value_u8=0x24 ; loopscr value_u8=0x3d ; ...
+//
+//
+//
+[0A:equip] loopscr value_u8=0x25 ; mul ; ...
+[0A:equip] loop current_var=0xfe, string_bytes=0x6, loop_type=0x2 ; jne 0x0a88
+[0A:equip] call_intrinsic Actor.isNPC(arg_bytes=0x4) ; jne 0x0a84 ; ...
+//
+[0A:equip] add ; pop_local_word counter ; loopnext ; ...
+//
+//
+//
+[0A:equip] push_local_word counter
+[0A:equip] le ; jne 0x0b57
+//
+[0A:equip] call_intrinsic Actor.clrInCombat(arg_bytes=0x4) ; sub ; call_intrinsic Item.pop(arg_bytes=0x6) ; ...
+//
+[0A:equip] add ; spawn TRIGGER.slot_20 ; implies arg0=0x1, arg1=0x1 ; ...
+[0A:equip] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[0A:equip] add ; spawn TRIGGER.slot_20 ; implies arg0=0x1, arg1=0x1 ; ...
+[0A:equip] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+[0A:equip] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+//
+//
+[0A:equip] call_intrinsic Intrinsic08A(arg_bytes=0x4) ; pop_local_word time ; ...
+//
+[0A:equip] jne 0x0d1f
+//
+[0A:equip] pop_local_word counter
+//
+[0A:equip] call_intrinsic Actor.clrInCombat(arg_bytes=0x4) ; cmp ; call_class_event FREE.slot_29 ; ...
+[0A:equip] call_intrinsic Item.isOnScreen(arg_bytes=0x4) ; cmp ; or ; ...
+[0A:equip]
+[0A:equip] jmp 0x1ef6 ; loopscr value_u8=0x24 ; loopscr value_u8=0x3d ; ...
+//
+//
+//
+//
+[0A:equip] loopscr value_u8=0x25 ; mul ; ...
+[0A:equip] loop current_var=0xfe, string_bytes=0x6, loop_type=0x2 ; jne 0x0c27
+[0A:equip] lt ; jne 0x0c23 ; ...
+[0A:equip]
+[0A:equip] add ; pop_local_word counter ; loopnext ; ...
+//
+//
+//
+[0A:equip] push_local_word counter
+[0A:equip] le ; jne 0x0cf6
+//
+[0A:equip] call_intrinsic Actor.clrInCombat(arg_bytes=0x4) ; sub ; call_intrinsic Item.pop(arg_bytes=0x6) ; ...
+//
+[0A:equip] add ; spawn TRIGGER.slot_20 ; implies arg0=0x1, arg1=0x1 ; ...
+[0A:equip] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[0A:equip] add ; spawn TRIGGER.slot_20 ; implies arg0=0x1, arg1=0x1 ; ...
+[0A:equip] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+[0A:equip] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+//
+//
+[0A:equip] call_intrinsic Intrinsic08A(arg_bytes=0x4) ; pop_local_word time ; ...
+[0A:equip] call_intrinsic Actor.clrInCombat(arg_bytes=0x4) ; pop_local_word counter2 ; ...
+//
+[0A:equip] jne 0x0f8d
+//
+//
+[0A:equip] call_intrinsic Actor.clrInCombat(arg_bytes=0x4) ; cmp ; jne 0x0e47 ; ...
+[0A:equip]
+[0A:equip] pop_local_word counter ; add ; pop_local_word counter ; ...
+[0A:equip] le ; jne 0x0e37
+[0A:equip] call_intrinsic Item.fallProbably_03E(arg_bytes=0x6)
+[0A:equip] add ; spawn TRIGGER.slot_20 ; implies arg0=0x1, arg1=0x1 ; ...
+[0A:equip] mul ; spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; ...
+[0A:equip] add ; spawn TRIGGER.slot_20 ; implies arg0=0x1, arg1=0x1 ; ...
+[0A:equip] mul ; spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; ...
+//
+//
+[0A:equip] call_intrinsic Item.pop(arg_bytes=0x6) ; jmp 0x0f8a ; ...
+//
+[0A:equip] call_intrinsic Actor.clrInCombat(arg_bytes=0x4) ; gt ; jne 0x0f07 ; ...
+[0A:equip]
+[0A:equip] pop_local_word counter ; add ; pop_local_word counter ; ...
+[0A:equip] le ; jne 0x0f04
+[0A:equip] call_intrinsic Item.fallProbably_03E(arg_bytes=0x6)
+[0A:equip] add ; spawn TRIGGER.slot_20 ; implies arg0=0x1, arg1=0x1 ; ...
+[0A:equip] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[0A:equip] add ; spawn TRIGGER.slot_20 ; implies arg0=0x1, arg1=0x1 ; ...
+//
+//
+//
+//
+//
+[0A:equip] pop_local_word counter ; add ; pop_local_word counter ; ...
+[0A:equip] le ; jne 0x0f84
+[0A:equip] call_intrinsic Item.fallProbably_03E(arg_bytes=0x6)
+[0A:equip] add ; spawn TRIGGER.slot_20 ; implies arg0=0x1, arg1=0x1 ; ...
+[0A:equip] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[0A:equip] jmp 0x1ef6 ; jmp 0x0d46 ; jmp 0x1ef6 ; ...
+//
+//
+//
+//
+//
+//
+[0A:equip] call_intrinsic Intrinsic08A(arg_bytes=0x4) ; pop_local_word time ; ...
+[0A:equip] call_intrinsic Actor.clrInCombat(arg_bytes=0x4) ; pop_local_word counter2 ; ...
+//
+//
+[0A:equip] pop_local_word counter ; add ; pop_local_word counter ; ...
+[0A:equip] le ; jne 0x1031
+[0A:equip] call_intrinsic Item.fallProbably_03E(arg_bytes=0x6)
+[0A:equip] add ; spawn TRIGGER.slot_20 ; implies arg0=0x1, arg1=0x1 ; ...
+[0A:equip] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[0A:equip] pop_local_word counter ; add ; pop_local_word counter ; ...
+[0A:equip] le ; jne 0x10b1
+[0A:equip] sub ; call_intrinsic Item.fallProbably_03E(arg_bytes=0x6) ; ...
+[0A:equip] add ; spawn TRIGGER.slot_20 ; implies arg0=0x1, arg1=0x1 ; ...
+[0A:equip] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[0A:equip] call_intrinsic Item.fallProbably_03E(arg_bytes=0x6)
+[0A:equip] jmp 0x1ef6 ; jmp 0x1ef6 ; cmp ; ...
+//
+//
+//
+//
+//
+[0A:equip] call_intrinsic Intrinsic08A(arg_bytes=0x4) ; pop_local_word time ; ...
+[0A:equip] call_intrinsic Actor.clrInCombat(arg_bytes=0x4) ; pop_local_word counter2 ; ...
+//
+[0A:equip] jne 0x1233
+//
+[0A:equip] call_intrinsic Actor.clrInCombat(arg_bytes=0x4) ; jne 0x11ad ; ...
+//
+[0A:equip] pop_local_word counter ; add ; pop_local_word counter ; ...
+[0A:equip] le ; jne 0x11aa
+[0A:equip] call_intrinsic Item.fallProbably_03E(arg_bytes=0x6)
+[0A:equip] add ; spawn TRIGGER.slot_20 ; implies arg0=0x1, arg1=0x1 ; ...
+[0A:equip] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[0A:equip] add ; spawn TRIGGER.slot_20 ; implies arg0=0x1, arg1=0x1 ; ...
+//
+//
+//
+//
+[0A:equip] pop_local_word counter ; add ; pop_local_word counter ; ...
+[0A:equip] le ; jne 0x122a
+[0A:equip] call_intrinsic Item.fallProbably_03E(arg_bytes=0x6)
+[0A:equip] add ; spawn TRIGGER.slot_20 ; implies arg0=0x1, arg1=0x1 ; ...
+[0A:equip] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[0A:equip] jmp 0x1ef6 ; jmp 0x10eb ; jmp 0x1ef6 ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[0A:equip] mul
+[0A:equip] loop current_var=0xf8, string_bytes=0x1, loop_type=0x2 ; jne 0x128e ; ...
+//
+[0A:equip] call_intrinsic Actor.setImmortal(arg_bytes=0x4) ; cmp ; jne 0x128a ; ...
+[0A:equip]
+[0A:equip] spawn DOOR.slot_20 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[0A:equip] loopscr value_u8=0x25 ; mul ; ...
+[0A:equip] loop current_var=0xfe, string_bytes=0x6, loop_type=0x2 ; jne 0x12d5 ; ...
+[0A:equip] call_intrinsic Actor.clrInCombat(arg_bytes=0x4) ; pop_local_word dir ; ...
+[0A:equip] pop_local_word floor ; loopnext ; jmp 0x12b9 ; ...
+//
+//
+//
+[0A:equip] loopscr value_u8=0x42
+[0A:equip] mul
+[0A:equip] loop current_var=0xfe, string_bytes=0x6, loop_type=0x2 ; jne 0x1303
+[0A:equip] pop_local_word post1 ; loopnext ; jmp 0x12f5 ; ...
+//
+//
+//
+[0A:equip] loopscr value_u8=0x42
+[0A:equip] mul
+[0A:equip] loop current_var=0xfe, string_bytes=0x6, loop_type=0x2 ; jne 0x1331
+[0A:equip] pop_local_word post2 ; loopnext ; jmp 0x1323 ; ...
+//
+//
+//
+[0A:equip] push_local_word post1
+[0A:equip] and ; jne 0x14d5
+[0A:equip] global_address global[0x003c] ; call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+[0A:equip] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[0A:equip] global_address global[0x003c] ; call_intrinsic Item.setQLo(arg_bytes=0x6)
+//
+//
+//
+[0A:equip] jne 0x1417
+[0A:equip] call_intrinsic Item.getPoint(arg_bytes=0x6)
+[0A:equip] call_intrinsic Item.getPoint(arg_bytes=0x6)
+//
+[0A:equip] pop_local_word counter ; le ; jne 0x1414 ; ...
+//
+[0A:equip] call_intrinsic Item.getPoint(arg_bytes=0x6)
+[0A:equip] call_intrinsic Item.getPoint(arg_bytes=0x6)
+[0A:equip] call_intrinsic Item.getQHi(arg_bytes=0x6)
+[0A:equip] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+[0A:equip] pop_local_word counter ; le ; jne 0x1487 ; ...
+//
+[0A:equip] sub ; call_intrinsic Item.getPoint(arg_bytes=0x6) ; ...
+[0A:equip] sub ; call_intrinsic Item.getPoint(arg_bytes=0x6) ; ...
+[0A:equip] call_intrinsic Item.getQHi(arg_bytes=0x6)
+[0A:equip] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+[0A:equip] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[0A:equip] call_intrinsic Item.getPoint(arg_bytes=0x6)
+[0A:equip] call_intrinsic Item.getPoint(arg_bytes=0x6)
+[0A:equip] call_intrinsic Item.getQHi(arg_bytes=0x6)
+//
+//
+[0A:equip] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[0A:equip] spawn TRIGGER.slot_20 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[0A:equip] loopscr value_u8=0x42
+[0A:equip] mul
+[0A:equip] loop current_var=0xfe, string_bytes=0x6, loop_type=0x2 ; jne 0x156d
+[0A:equip] pop_local_word door
+[0A:equip] spawn DOOR.slot_20 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[0A:equip] spawn TRIGGER.slot_20 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+//
+//
+//
+[0A:equip] call_intrinsic Intrinsic08A(arg_bytes=0x4) ; pop_local_word time ; ...
+[0A:equip] call_intrinsic Actor.clrInCombat(arg_bytes=0x4) ; pop_local_word counter2 ; ...
+//
+[0A:equip] jne 0x1670 ; loopscr value_u8=0x24 ; loopscr value_u8=0x3d ; ...
+//
+//
+[0A:equip] loopscr value_u8=0x25 ; mul ; ...
+[0A:equip] loop current_var=0xed, string_bytes=0x6, loop_type=0x2 ; jne 0x1665 ; ...
+[0A:equip] call_intrinsic Actor.isNPC(arg_bytes=0x4) ; jne 0x163b ; ...
+//
+[0A:equip] call_intrinsic Actor.GetNPCDataField0x63_00B(arg_bytes=0x4) ; call_intrinsic Actor.setImmortal(arg_bytes=0x4) ; cmp ; ...
+//
+[0A:equip] call_intrinsic Item.getItemFamily(arg_bytes=0x4) ; not ; jne 0x163b ; ...
+[0A:equip]
+[0A:equip] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+[0A:equip] call_intrinsic Item.getQuality(arg_bytes=0x6)
+//
+//
+//
+//
+[0A:equip] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[0A:equip] jmp 0x1ef6 ; jmp 0x15bd ; jmp 0x1ef6 ; ...
+//
+//
+//
+//
+//
+//
+//
+[0A:equip] loopscr value_u8=0x25 ; mul ; ...
+[0A:equip] loop current_var=0xed, string_bytes=0x6, loop_type=0x2 ; jne 0x172e ; ...
+[0A:equip] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[0A:equip] call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[0A:equip] call_intrinsic Item.pop(arg_bytes=0x6)
+[0A:equip] call_intrinsic Game.isViolenceEnabled(arg_bytes=0x6)
+[0A:equip] call_intrinsic Item.getZ(arg_bytes=0x4) ; call_intrinsic Item.getY(arg_bytes=0x4) ; call_intrinsic Item.getX(arg_bytes=0x4) ; ...
+[0A:equip] call_intrinsic Item.setIsBroken(arg_bytes=0x4) ; pop_temp ; ...
+[0A:equip] call_intrinsic Item.destroy(arg_bytes=0x4) ; loopnext ; jmp 0x1699 ; ...
+//
+//
+//
+//
+//
+//
+//
+[0A:equip] loopscr value_u8=0x25 ; mul ; ...
+[0A:equip] loop current_var=0xed, string_bytes=0x6, loop_type=0x2 ; jne 0x1785 ; ...
+[0A:equip] call_intrinsic Item.pop(arg_bytes=0x6)
+[0A:equip] call_intrinsic Game.isViolenceEnabled(arg_bytes=0x6)
+[0A:equip] call_intrinsic Item.hurl(arg_bytes=0x4) ; loopnext ; jmp 0x1759 ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[0A:equip] not ; jne 0x17a3
+[0A:equip] jmp 0x1ef6
+//
+//
+[0A:equip] call_intrinsic Intrinsic08A(arg_bytes=0x4) ; pop_local_word time ; ...
+//
+[0A:equip] jne 0x1897
+//
+[0A:equip] pop_local_word counter
+//
+//
+[0A:equip] call_intrinsic Actor.clrInCombat(arg_bytes=0x4) ; sub ; call_intrinsic Item.pop(arg_bytes=0x6) ; ...
+//
+[0A:equip] add ; spawn TRIGGER.slot_20 ; implies arg0=0x1, arg1=0x1 ; ...
+[0A:equip] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[0A:equip] add ; spawn TRIGGER.slot_20 ; implies arg0=0x1, arg1=0x1 ; ...
+[0A:equip] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[0A:equip] call_intrinsic Actor.clrInCombat(arg_bytes=0x4) ; cmp ; jne 0x1894 ; ...
+[0A:equip]
+[0A:equip] jmp 0x1ef6 ; jmp 0x17b1 ; jmp 0x1ef6 ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[0A:equip] loopscr value_u8=0x25 ; mul ; ...
+[0A:equip] loop current_var=0xfe, string_bytes=0x6, loop_type=0x2 ; jne 0x1908 ; ...
+[0A:equip] call_intrinsic Actor.setImmortal(arg_bytes=0x4) ; call_intrinsic Actor.setImmortal(arg_bytes=0x4) ; cmp ; ...
+[0A:equip]
+[0A:equip] call_intrinsic Item.getNPCNum(arg_bytes=0xc) ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+//
+//
+//
+[0A:equip] call_intrinsic PaletteFaderProcess.setPalToAllBlack(arg_bytes=0x4) ; mul ; pop_local_word time ; ...
+//
+[0A:equip] jne 0x1a99
+//
+[0A:equip] pop_local_word counter
+//
+[0A:equip] call_intrinsic Actor.clrInCombat(arg_bytes=0x4) ; cmp ; call_class_event FREE.slot_29 ; ...
+[0A:equip]
+[0A:equip] jmp 0x1ef6 ; loopscr value_u8=0x24 ; loopscr value_u8=0x3d ; ...
+//
+//
+//
+[0A:equip] loopscr value_u8=0x25 ; mul ; ...
+[0A:equip] loop current_var=0xfe, string_bytes=0x6, loop_type=0x2 ; jne 0x19a1
+[0A:equip] call_intrinsic Actor.isNPC(arg_bytes=0x4) ; jne 0x199d ; ...
+//
+[0A:equip] add ; pop_local_word counter ; loopnext ; ...
+//
+//
+//
+[0A:equip] push_local_word counter
+[0A:equip] le ; jne 0x1a70
+//
+[0A:equip] call_intrinsic Actor.clrInCombat(arg_bytes=0x4) ; sub ; call_intrinsic Item.pop(arg_bytes=0x6) ; ...
+//
+[0A:equip] add ; spawn TRIGGER.slot_20 ; implies arg0=0x1, arg1=0x1 ; ...
+[0A:equip] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[0A:equip] add ; spawn TRIGGER.slot_20 ; implies arg0=0x1, arg1=0x1 ; ...
+[0A:equip] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+[0A:equip] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+[0A:equip] call_intrinsic Ultima8Engine.setAvatarInStasis(arg_bytes=0x2)
+[0A:equip] call_intrinsic MusicProcess.musicStop(arg_bytes=0x0)
+//
+[0A:equip] call_intrinsic setSomeMovieGlobal(arg_bytes=0x0)
+[0A:equip] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[0A:equip] call_intrinsic playFlic092(arg_bytes=0x0)
+[0A:equip] call_intrinsic clearSomeMovieGlobal(arg_bytes=0xc) ; free_stack_string value_u8=0x4, target=[SP+04h] ; implies arg0=0x1, arg1=0x1 ; ...
+[0A:equip] call_intrinsic Game.playCredits(arg_bytes=0x0)
+[0A:equip] call_intrinsic Kernel.getCurrentKeyDown(arg_bytes=0x0) ; jmp 0x1ef6 ; cmp ; ...
+//
+//
+//
+//
+//
+//
+[0A:equip] global_address global[0x003c] ; call_intrinsic Actor.getMap(arg_bytes=0x4) ; call_intrinsic Item.getY(arg_bytes=0x4) ; ...
+//
+[0A:equip] call_intrinsic MainActor.teleportToEgg(arg_bytes=0x0) ; not ; jne 0x1b8e ; ...
+[0A:equip]
+[0A:equip] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+[0A:equip] global_address global[0x003c] ; call_intrinsic Actor.getMap(arg_bytes=0x4) ; global_address global[0x003c] ; ...
+//
+//
+//
+//
+//
+//
+[0A:equip] loopscr value_u8=0x25 ; mul ; ...
+[0A:equip] loop current_var=0xfe, string_bytes=0x6, loop_type=0x2 ; jne 0x1bf4 ; ...
+[0A:equip] call_intrinsic Item.pop(arg_bytes=0x6) ; loopnext ; jmp 0x1be0 ; ...
+//
+//
+//
+//
+//
+[0A:equip] loopscr value_u8=0x25 ; mul ; ...
+[0A:equip] loop current_var=0xfe, string_bytes=0x6, loop_type=0x2 ; jne 0x1c33 ; ...
+[0A:equip] call_intrinsic Item.pop(arg_bytes=0x6) ; loopnext ; jmp 0x1c1f ; ...
+//
+//
+//
+//
+//
+[0A:equip] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[0A:equip] call_intrinsic Actor.setImmortal(arg_bytes=0x4) ; call_intrinsic void PaletteFaderProcess:setScreenGreyscale(arg_bytes=0x4) ; implies arg0=0x1, arg1=0x1 ; ...
+//
+//
+//
+//
+[0A:equip] push_global global[0x0022]
+[0A:equip] cmp ; jne 0x1d37
+[0A:equip] call_intrinsic Actor.create(arg_bytes=0xc) ; free_stack_string value_u8=0x4, target=[SP+04h] ; implies arg0=0x1, arg1=0x1 ; ...
+[0A:equip] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[0A:equip] spawn FREE.slot_26 ; free_stack_string value_u8=0x0, target=[SP+00h] ; implies arg0=0x1, arg1=0x1 ; ...
+[0A:equip] pop_global global[0x0022] ; jmp 0x1ef6 ; cmp ; ...
+//
+//
+//
+//
+//
+[0A:equip] call_intrinsic Actor.clrInCombat(arg_bytes=0x4) ; pop_local_word qHi ; ...
+//
+[0A:equip] lt ; jne 0x1d79 ; ...
+[0A:equip]
+[0A:equip] add ; pop_local_word qHi ; ...
+[0A:equip] call_intrinsic Item.pop(arg_bytes=0x6) ; jmp 0x1da4 ; ...
+//
+//
+//
+[0A:equip] add ; spawn TRIGGER.slot_20 ; implies arg0=0x1, arg1=0x1 ; ...
+//
+//
+//
+//
+//
+//
+[0A:equip] pop_global global[0x002c]
+[0A:equip] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[0A:equip] call_intrinsic playFlic(arg_bytes=0xc) ; free_stack_string value_u8=0x4, target=[SP+04h] ; implies arg0=0x1, arg1=0x1 ; ...
+[0A:equip] call_intrinsic Ultima8Engine.setAvatarInStasis(arg_bytes=0x2)
+[0A:equip] call_intrinsic resetVargasHealthTo500(arg_bytes=0x0) ; jmp 0x1ef6 ; cmp ; ...
+//
+//
+//
+//
+[0A:equip] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[0A:equip] call_intrinsic playFlic(arg_bytes=0xc) ; free_stack_string value_u8=0x4, target=[SP+04h] ; implies arg0=0x1, arg1=0x1 ; ...
+//
+//
+//
+//
+[0A:equip] call_intrinsic Actor.clrInCombat(arg_bytes=0x4) ; pop_local_word qHi ; ...
+//
+[0A:equip] lt ; jne 0x1ec1 ; ...
+[0A:equip]
+[0A:equip] add ; pop_local_word qHi ; ...
+[0A:equip] call_intrinsic Item.pop(arg_bytes=0x6) ; jmp 0x1ec8 ; ...
+//
+//
+//
+[0A:equip] call_intrinsic Item.andStatus(arg_bytes=0x0) ; jmp 0x1ef6 ; cmp ; ...
+//
+//
+//
+//
+//
+//
+//
+[0A:equip] spawn FLICTEST.slot_20 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+[0A:equip] ret
+
+/* synthesized appendix for EVENT */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x0a equip ===== */
+function event_equip() /* entry=867 class_id=0x0361 slot=0x0a */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    event, /* [BP+10h] type=0x69 */
+    item, /* [BP-02h] type=0x24 */
+    source, /* [BP-04h] type=0x24 */
+    dest, /* [BP-06h] type=0x24 */
+    door, /* [BP-08h] type=0x24 */
+    wp, /* [BP-13h] type=0x24 */
+    counter, /* [BP-15h] type=0x69 */
+    counter2, /* [BP-17h] type=0x69 */
+    n, /* [BP-19h] type=0x24 */
+    link, /* [BP-21h] type=0x69 */
+    cx, /* [BP-23h] type=0x69 */
+    cy, /* [BP-25h] type=0x69 */
+    ex, /* [BP-27h] type=0x69 */
+    ey, /* [BP-29h] type=0x69 */
+    time, /* [BP-31h] type=0x69 */
+    op, /* [BP-33h] type=0x69 */
+    opp, /* [BP-35h] type=0x69 */
+    post1, /* [BP-37h] type=0x24 */
+    post2, /* [BP-39h] type=0x24 */
+    floor, /* [BP-41h] type=0x24 */
+    dir, /* [BP-43h] type=0x69 */
+    qHi, /* [BP-45h] type=0x69 */
+    flicMan; /* [BP-47h] type=0x24 */
+
+  set_info(0x0211, *(arg_06));
+  process_exclude();
+  link = Actor.setImmortal(arg_06);
+  switch (event) {
+  case 0:
+    Item.getRangeIfVisible(Actor.getMap(&global[0x003c]), 0, Item.getY(arg_06), Item.getX(arg_06));
+    return;
+  case 1:
+    while (Actor.doAnim(&global[0x003c])) {
+      spawn FREE.slot_32(pid, 2, 0x00000000);
+      suspend;
+    }
+    Ultima8Engine.setAvatarInStasis(1);
+    CameraProcess.getCameraX(&global[0x003c]);
+    cx = CameraProcess.getCameraY();
+    cy = Item.setMapArray();
+    ex = Item.getX(arg_06);
+    ey = Item.getY(arg_06);
+    spawn FREE.slot_32(pid, 2, 0x00000000);
+    suspend;
+    spawn TRIGGER.slot_20(pid, (0 + 0x0080), *(arg_06), arg_06);
+    suspend;
+    spawn FREE.slot_32(pid, 2, 0x00000000);
+    suspend;
+    spawn TRIGGER.slot_20(pid, (1 + 0x0080), *(arg_06), arg_06);
+    suspend;
+    Actor.getHp(&global[0x003c]);
+    Ultima8Engine.setAvatarInStasis(0);
+    return;
+  case 2:
+    while (Actor.doAnim(&global[0x003c])) {
+      spawn FREE.slot_32(pid, 2, 0x00000000);
+      suspend;
+    }
+    Ultima8Engine.setAvatarInStasis(1);
+    spawn FREE.slot_3d(pid, Item.getY(arg_06), Item.getX(arg_06), 0x00000000);
+    suspend;
+    spawn FREE.slot_32(pid, 60, 0x00000000);
+    suspend;
+    spawn TRIGGER.slot_20(pid, (0 + 0x0080), *(arg_06), arg_06);
+    suspend;
+    return;
+  case 3:
+    spawn FREE.slot_3e(pid, 0x00000000);
+    suspend;
+    spawn TRIGGER.slot_20(pid, (1 + 0x0080), *(arg_06), arg_06);
+    suspend;
+    Ultima8Engine.setAvatarInStasis(0);
+    return;
+  case 5:
+    Item.explode(0, 0, arg_06);
+    return;
+  case 6:
+    Item.explode(0, 1, arg_06);
+    return;
+  case 7:
+    Item.explode(0, 2, arg_06);
+    return;
+  case 8:
+    counter = Actor.clrInCombat(arg_06);
+    if (counter == 0) {
+      spawn TRIGGER.slot_20(pid, (0 + 0x0080), *(arg_06), arg_06);
+      suspend;
+    }
+    else {
+      counter2 = Actor.setImmortal(arg_06);
+      Item.fallProbably_03E(counter, arg_06);
+      spawn TRIGGER.slot_20(pid, (0 + 0x0080), *(arg_06), arg_06);
+      suspend;
+      Item.fallProbably_03E(counter2, arg_06);
+    }
+    return;
+  case 9:
+    counter = Actor.setImmortal(arg_06);
+    for item in nearby_items(family=1, origin=arg_06) {
+      if (((counter == Actor.setImmortal(item)) && (Item.getMapArray(item) == 0)) && (*(arg_06) != item)) {
+        Item.getNpcNum(Actor.clrInCombat(arg_06), item);
+        Game.isViolenceEnabled(Intrinsic08A(arg_06), item);
+      }
+    }
+    return;
+  case 10:
+    for item in nearby_items(shape=NUMBERS, origin=arg_06) {
+      if (Actor.setImmortal(arg_06) == Actor.setImmortal(item)) {
+        if (Item.getFrame(item) == 0) {
+          source = item;
+        }
+      }
+    }
+    for item in nearby_items(shape=NUMBERS, origin=arg_06) {
+      if (Actor.setImmortal(arg_06) == Actor.setImmortal(item)) {
+        if (Item.getFrame(item) == 1) {
+          dest = item;
+        }
+      }
+    }
+    if (source && dest) {
+      wp = Item.getX(dest);
+      local_11 = Item.getY(dest);
+      local_09 = Item.getZ(dest);
+      Item.create(0, GRENADE, item);
+      Item.popToCoords((Item.getZ(source) + 60), Item.getY(source), Item.getX(source), item);
+      Item.enterFastArea(1, 64, wp, item);
+    }
+    return;
+  case 15:
+    Item.getRangeIfVisible(Actor.getMap(&global[0x003c]), 0, Item.getY(arg_06), Item.getX(arg_06));
+    AudioProcess.playSFXCru(*(arg_06));
+    return;
+  case 16:
+    Item.getRangeIfVisible(Item.getX(Item.getY(Actor.getMap(&global[0x003c]), 0, &global[0x003c]), &global[0x003c]));
+    AudioProcess.playSFXCru(global[0x003c]);
+    return;
+  case 22:
+    cx = CameraProcess.getCameraY();
+    cy = Item.setMapArray();
+    AudioProcess.playSFXCru(54, arg_06);
+    Item.getRangeIfVisible(Actor.getMap(&global[0x003c]), 0, Item.getY(arg_06), Item.getX(arg_06));
+    while (Container.destroyContents(54, arg_06)) {
+      spawn FREE.slot_32(pid, 2, 0x00000000);
+      suspend;
+    }
+    Item.getRangeIfVisible(Actor.getMap(&global[0x003c]), 0, cy, cx);
+    return;
+  case 40:
+    if (!Item.getItemFamily(&global[0x003c])) {
+      Ultima8Engine.setAvatarInStasis(1);
+      while (Actor.doAnim(&global[0x003c])) {
+        spawn FREE.slot_32(pid, 2, 0x00000000);
+        suspend;
+      }
+      suspend;
+      Item.destroy(arg_06);
+    }
+    return;
+  case 41:
+    if (Item.getItemFamily((global[0x0029] == 1), &global[0x003c]) == 1) {
+      return;
+    }
+    Ultima8Engine.setAvatarInStasis(1);
+    spawn FREE.slot_32(pid, 60, 0x00000000);
+    suspend;
+    spawn NPC.slot_22(pid, 3, 0, &global[0x003c]);
+    suspend;
+    spawn NPC.slot_22(pid, 4, 14, &global[0x003c]);
+    suspend;
+    spawn NPC.slot_22(pid, 3, 12, &global[0x003c]);
+    suspend;
+    suspend;
+    while (condition) {
+      if (Actor.setImmortal(door) == 5) {
+        spawn DOOR.slot_20(pid, door);
+        suspend;
+      }
+    }
+    for door in nearby_items(shape=0x04d9, origin=arg_06) {
+      n = door;
+    }
+    spawn FREE.slot_32(pid, 30, 0x00000000);
+    suspend;
+    playFlic(pid, 0x0096, 0x00fa, "10e", arg_06);
+    suspend;
+    Ultima8Engine.setAvatarInStasis(0);
+    spawn FREE.slot_32(pid, 120, 0x00000000);
+    suspend;
+    while (1) {
+      op = Item.getItemFamily(&global[0x003c]);
+      opp = Item.getItemFamily(n);
+      if ((op == 1) || (opp == 1)) {
+        return;
+      }
+      spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
+      suspend;
+      spawn FREE.slot_32(pid, 0x012c, 0x00000000);
+      suspend;
+    }
+    return;
+  case 45:
+    time = Intrinsic08A(arg_06);
+    while (1) {
+      counter = 0;
+      FREE.slot_29((Actor.clrInCombat(arg_06) == 0), *(arg_06), global[0x003c]);
+      if (retval > 50) {
+        return;
+      }
+      for item in nearby_items(family=6, origin=global[0x003c]) {
+        if (Actor.isNPC(item)) {
+          counter = (1 + counter);
+        }
+      }
+      if (counter <= 4) {
+        Item.pop((Actor.clrInCombat(arg_06) - 1), arg_06);
+        spawn TRIGGER.slot_20(pid, (0 + 0x0080), *(arg_06), arg_06);
+        suspend;
+        spawn FREE.slot_32(pid, time, 0x00000000);
+        suspend;
+        spawn TRIGGER.slot_20(pid, (1 + 0x0080), *(arg_06), arg_06);
+        suspend;
+        spawn FREE.slot_32(pid, time, 0x00000000);
+        suspend;
+      }
+      else {
+        spawn FREE.slot_32(pid, 120, 0x00000000);
+        suspend;
+      }
+    }
+    return;
+  case 46:
+    time = Intrinsic08A(arg_06);
+    while (1) {
+      counter = 0;
+      FREE.slot_29((Actor.clrInCombat(arg_06) == 0), *(arg_06), global[0x003c]);
+      if ((retval > 50) || (Item.isOnScreen(arg_06) == 1)) {
+        return;
+      }
+      for item in nearby_items(family=6, origin=global[0x003c]) {
+        if (item < 0x00ff) {
+          counter = (1 + counter);
+        }
+      }
+      if (counter <= 4) {
+        Item.pop((Actor.clrInCombat(arg_06) - 1), arg_06);
+        spawn TRIGGER.slot_20(pid, (0 + 0x0080), *(arg_06), arg_06);
+        suspend;
+        spawn FREE.slot_32(pid, time, 0x00000000);
+        suspend;
+        spawn TRIGGER.slot_20(pid, (1 + 0x0080), *(arg_06), arg_06);
+        suspend;
+        spawn FREE.slot_32(pid, time, 0x00000000);
+        suspend;
+      }
+      else {
+        spawn FREE.slot_32(pid, 120, 0x00000000);
+        suspend;
+      }
+    }
+    return;
+  case 47:
+    time = Intrinsic08A(arg_06);
+    counter2 = Actor.clrInCombat(arg_06);
+    while (1) {
+      if (Actor.clrInCombat(arg_06) == 1) {
+        counter = 1;
+        while (counter <= counter2) {
+          Item.fallProbably_03E(counter, arg_06);
+          spawn TRIGGER.slot_20(pid, (0 + 0x0080), *(arg_06), arg_06);
+          suspend;
+          spawn FREE.slot_32(pid, (time * 3), 0x00000000);
+          suspend;
+          spawn TRIGGER.slot_20(pid, (1 + 0x0080), *(arg_06), arg_06);
+          suspend;
+          spawn FREE.slot_32(pid, (time * 3), 0x00000000);
+          suspend;
+          counter = (1 + counter);
+        }
+        Item.pop(counter2, arg_06);
+      }
+      else if (Actor.clrInCombat(arg_06) > 1) {
+        counter = 1;
+        while (counter <= counter2) {
+          Item.fallProbably_03E(counter, arg_06);
+          spawn TRIGGER.slot_20(pid, (0 + 0x0080), *(arg_06), arg_06);
+          suspend;
+          spawn FREE.slot_32(pid, time, 0x00000000);
+          suspend;
+          spawn TRIGGER.slot_20(pid, (1 + 0x0080), *(arg_06), arg_06);
+          suspend;
+          counter = (1 + counter);
+        }
+      }
+      else {
+        counter = 1;
+        while (counter <= counter2) {
+          Item.fallProbably_03E(counter, arg_06);
+          spawn TRIGGER.slot_20(pid, (0 + 0x0080), *(arg_06), arg_06);
+          suspend;
+          spawn FREE.slot_32(pid, time, 0x00000000);
+          suspend;
+          counter = (1 + counter);
+        }
+        return;
+      }
+    }
+    return;
+  case 48:
+    time = Intrinsic08A(arg_06);
+    counter2 = Actor.clrInCombat(arg_06);
+    counter = 1;
+    while (counter <= counter2) {
+      Item.fallProbably_03E(counter, arg_06);
+      spawn TRIGGER.slot_20(pid, (0 + 0x0080), *(arg_06), arg_06);
+      suspend;
+      spawn FREE.slot_32(pid, time, 0x00000000);
+      suspend;
+      counter = (1 + counter);
+    }
+    counter = 1;
+    while (counter <= counter2) {
+      Item.fallProbably_03E((counter2 - counter), arg_06);
+      spawn TRIGGER.slot_20(pid, (1 + 0x0080), *(arg_06), arg_06);
+      suspend;
+      spawn FREE.slot_32(pid, time, 0x00000000);
+      suspend;
+      counter = (1 + counter);
+    }
+    Item.fallProbably_03E(link, arg_06);
+    return;
+  case 49:
+    time = Intrinsic08A(arg_06);
+    counter2 = Actor.clrInCombat(arg_06);
+    while (1) {
+      if (Actor.clrInCombat(arg_06)) {
+        counter = 1;
+        while (counter <= counter2) {
+          Item.fallProbably_03E(counter, arg_06);
+          spawn TRIGGER.slot_20(pid, (0 + 0x0080), *(arg_06), arg_06);
+          suspend;
+          spawn FREE.slot_32(pid, time, 0x00000000);
+          suspend;
+          spawn TRIGGER.slot_20(pid, (1 + 0x0080), *(arg_06), arg_06);
+          suspend;
+          counter = (1 + counter);
+        }
+      }
+      else {
+        counter = 1;
+        while (counter <= counter2) {
+          Item.fallProbably_03E(counter, arg_06);
+          spawn TRIGGER.slot_20(pid, (0 + 0x0080), *(arg_06), arg_06);
+          suspend;
+          spawn FREE.slot_32(pid, time, 0x00000000);
+          suspend;
+          counter = (1 + counter);
+        }
+        return;
+      }
+    }
+    return;
+  case 50:
+    while (condition) {
+      if (Actor.setImmortal(door) == 100) {
+        spawn DOOR.slot_20(pid, door);
+        suspend;
+      }
+    }
+    return;
+  case 51:
+    for item in nearby_items(shape=GRATE_FLOOR_GRAY, origin=arg_06) {
+      dir = Actor.clrInCombat(item);
+      floor = item;
+    }
+    for item in selector_0x42(arg0=0x01c4, arg1=0x0186, arg2=(10 * 32), origin=floor) {
+      post1 = item;
+    }
+    for item in selector_0x42(arg0=0x01c5, arg1=0x0184, arg2=(10 * 32), origin=floor) {
+      post2 = item;
+    }
+    if (post1 && post2) {
+      AudioProcess.playSFXCru(0x00f4, &global[0x003c]);
+      spawn FREE.slot_32(pid, 60, 0x00000000);
+      suspend;
+      Item.setQLo(0x00f3, &global[0x003c]);
+      if (dir) {
+        Item.getPoint(0, post1);
+        Item.getPoint(0, post2);
+        counter = 1;
+        while (counter <= 4) {
+          Item.getPoint(counter, post1);
+          Item.getPoint(counter, post2);
+          Item.getQHi(0x0093, post1);
+          spawn FREE.slot_32(pid, 30, 0x00000000);
+          suspend;
+          counter = (1 + counter);
+        }
+      }
+      else {
+        counter = 0;
+        while (counter <= 3) {
+          Item.getPoint((7 - counter), post1);
+          Item.getPoint((7 - counter), post2);
+          Item.getQHi(0x0093, post1);
+          spawn FREE.slot_32(pid, 30, 0x00000000);
+          suspend;
+          counter = (1 + counter);
+        }
+      }
+      spawn FREE.slot_32(pid, 30, 0x00000000);
+      suspend;
+      Item.getPoint(0, post1);
+      Item.getPoint(0, post2);
+      Item.getQHi(0x0093, post1);
+    }
+    spawn FREE.slot_32(pid, 60, 0x00000000);
+    suspend;
+    spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
+    suspend;
+    for item in selector_0x42(arg0=0x0193, arg1=0x01c7, arg2=(10 * 32), origin=floor) {
+      door = item;
+      spawn DOOR.slot_20(pid, door);
+      suspend;
+    }
+    spawn TRIGGER.slot_20(pid, 1, *(arg_06), arg_06);
+    suspend;
+    return;
+  case 52:
+    time = Intrinsic08A(arg_06);
+    counter2 = Actor.clrInCombat(arg_06);
+    while (1) {
+      for n in nearby_items(family=6, origin=arg_06) {
+        if (Actor.isNPC(n)) {
+          if (Actor.GetNPCDataField0x63_00B(n) == Actor.setImmortal(arg_06)) {
+            if (!Item.getItemFamily(n)) {
+              AudioProcess.playSFXCru(0x0099, n);
+              Item.getQuality(5, n);
+            }
+          }
+        }
+        spawn FREE.slot_32(pid, time, 0x00000000);
+        suspend;
+      }
+      return;
+    }
+    return;
+  case 53:
+    for n in nearby_items(shape=wallgun_shape_04c8, origin=arg_06) {
+      spawn FREE.slot_32(pid, 1, 0x00000000);
+      suspend;
+      Item.create(4, wallgun_shape_04c8, item);
+      Item.pop(44, item);
+      Game.isViolenceEnabled(4, item);
+      Item.popToCoords(Item.getZ(n), Item.getY(n), Item.getX(n), item);
+      Item.destroy(n);
+    }
+    return;
+  case 54:
+    for n in nearby_items(shape=wallgun_shape_04c8, origin=arg_06) {
+      Item.pop(100, n);
+      Game.isViolenceEnabled(6, n);
+      Item.hurl(n);
+    }
+    return;
+  case 55:
+    if (!(global[0x0038])) {
+      return;
+    }
+    time = Intrinsic08A(arg_06);
+    while (1) {
+      counter = 0;
+      Item.pop((Actor.clrInCombat(arg_06) - 1), arg_06);
+      spawn TRIGGER.slot_20(pid, (0 + 0x0080), *(arg_06), arg_06);
+      suspend;
+      spawn FREE.slot_32(pid, time, 0x00000000);
+      suspend;
+      spawn TRIGGER.slot_20(pid, (1 + 0x0080), *(arg_06), arg_06);
+      suspend;
+      spawn FREE.slot_32(pid, time, 0x00000000);
+      suspend;
+      if (Actor.clrInCombat(arg_06) == 0) {
+        return;
+      }
+    }
+    return;
+  case 75:
+    for item in nearby_items(family=6, origin=arg_06) {
+      if (Actor.setImmortal(item) == Actor.setImmortal(arg_06)) {
+        suspend;
+      }
+    }
+    return;
+  case 85:
+    time = (PaletteFaderProcess.setPalToAllBlack(arg_06) * 5);
+    while (1) {
+      counter = 0;
+      FREE.slot_29((Actor.clrInCombat(arg_06) == 0), *(arg_06), global[0x003c]);
+      if (retval > 50) {
+        return;
+      }
+      for item in nearby_items(family=6, origin=global[0x003c]) {
+        if (Actor.isNPC(item)) {
+          counter = (1 + counter);
+        }
+      }
+      if (counter <= 4) {
+        Item.pop((Actor.clrInCombat(arg_06) - 1), arg_06);
+        spawn TRIGGER.slot_20(pid, (0 + 0x0080), *(arg_06), arg_06);
+        suspend;
+        spawn FREE.slot_32(pid, time, 0x00000000);
+        suspend;
+        spawn TRIGGER.slot_20(pid, (1 + 0x0080), *(arg_06), arg_06);
+        suspend;
+        spawn FREE.slot_32(pid, time, 0x00000000);
+        suspend;
+      }
+      else {
+        spawn FREE.slot_32(pid, 120, 0x00000000);
+        suspend;
+      }
+    }
+    return;
+  case 88:
+    Ultima8Engine.setAvatarInStasis(1);
+    MusicProcess.musicStop();
+    setSomeMovieGlobal();
+    spawn FREE.slot_32(pid, 10, 0x00000000);
+    suspend;
+    playFlic092();
+    clearSomeMovieGlobal(pid, 0, 0, "o01", arg_06);
+    suspend;
+    Game.playCredits();
+    Kernel.getCurrentKeyDown();
+    return;
+  case 97:
+    Item.getRangeIfVisible(Actor.getMap(&global[0x003c]), 0, Item.getY(arg_06), Item.getX(arg_06));
+    while (!MainActor.teleportToEgg()) {
+      spawn FREE.slot_32(pid, 2, 0x00000000);
+      suspend;
+    }
+    Item.getRangeIfVisible(Item.getX(Item.getY(Actor.getMap(&global[0x003c]), 0, &global[0x003c]), &global[0x003c]));
+    return;
+  case 98:
+    for item in nearby_items(shape=EVENT_CONTROLLER, origin=arg_06) {
+      Item.pop(1, item);
+    }
+    return;
+  case 99:
+    for item in nearby_items(shape=EVENT_CONTROLLER, origin=arg_06) {
+      Item.pop(0, item);
+    }
+    return;
+  case 100:
+    spawn FREE.slot_32(pid, 60, 0x00000000);
+    suspend;
+    suspend;
+    return;
+  case 200:
+    if (global[0x0022] == 0) {
+      Actor.create(0x0096, 0x00c8, "mva3b", arg_06);
+      suspend;
+      spawn FREE.slot_32(pid, 20, 0x00000000);
+      suspend;
+      spawn FREE.slot_26(pid, "3h", 0x00000000);
+      suspend;
+    }
+    return;
+  case 201:
+    qHi = Actor.clrInCombat(arg_06);
+    if (qHi < 4) {
+      qHi = (1 + qHi);
+      Item.pop(qHi, arg_06);
+    }
+    else {
+      spawn TRIGGER.slot_20(pid, (1 + 0x0080), *(arg_06), arg_06);
+      suspend;
+    }
+    return;
+  case 212:
+    spawn FREE.slot_32(pid, 60, 0x00000000);
+    suspend;
+    playFlic(pid, 0x0096, 0x00c8, "13d", arg_06);
+    suspend;
+    Ultima8Engine.setAvatarInStasis(1);
+    resetVargasHealthTo500();
+    return;
+  case 213:
+    spawn FREE.slot_32(pid, 60, 0x00000000);
+    suspend;
+    playFlic(pid, 0x0096, 0x00c8, "13e", arg_06);
+    suspend;
+    return;
+  case 230:
+    qHi = Actor.clrInCombat(arg_06);
+    if (qHi < 2) {
+      qHi = (1 + qHi);
+      Item.pop(qHi, arg_06);
+    }
+    else {
+      Item.andStatus();
+    }
+    return;
+  case 250:
+    spawn FLICTEST.slot_20(pid, flicMan);
+    suspend;
+    return;
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol event [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol item [BP-02h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol source [BP-04h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol dest [BP-06h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol door [BP-08h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol wp [BP-13h] type=0x24 unk1=0x00 unk3=0x05
+    debug_symbol counter [BP-15h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol counter2 [BP-17h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol n [BP-19h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol link [BP-21h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol cx [BP-23h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol cy [BP-25h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol ex [BP-27h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol ey [BP-29h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol time [BP-31h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol op [BP-33h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol opp [BP-35h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol post1 [BP-37h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol post2 [BP-39h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol floor [BP-41h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol dir [BP-43h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol qHi [BP-45h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol flicMan [BP-47h] type=0x24 unk1=0x00 unk3=0x02
+  */
+}

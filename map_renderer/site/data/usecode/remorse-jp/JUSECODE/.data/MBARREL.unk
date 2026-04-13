@@ -1,0 +1,181 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[06:gotHit] spawn ITEM.slot_27 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[06:gotHit]
+[06:gotHit] call_class_event FREE.slot_20 ; jne 0x0067 ; ...
+//
+[06:gotHit] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6) ; jmp 0x0074 ; ...
+//
+//
+//
+[06:gotHit] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+//
+//
+[06:gotHit] jmp 0x0133
+//
+//
+[06:gotHit] call_intrinsic Item.getFrame(arg_bytes=0x4) ; cmp ; jne 0x0133 ; ...
+//
+//
+[06:gotHit] call_intrinsic Item.getZ(arg_bytes=0x4) ; pop_local_byte z ; ...
+[06:gotHit] call_intrinsic Item.getX(arg_bytes=0x4) ; pop_local_word x ; ...
+[06:gotHit] call_intrinsic Item.getY(arg_bytes=0x4) ; pop_local_word y ; ...
+[06:gotHit] call_intrinsic Item.unequip(arg_bytes=0x4) ; pop_local_word qLo ; ...
+//
+[06:gotHit] call_intrinsic Item.explode(arg_bytes=0x8) ; ...
+[06:gotHit] spawn ITEM.slot_2a ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[06:gotHit] call_class_event FREE.slot_20 ; call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[06:gotHit] call_intrinsic Item.fallProbably_03E(arg_bytes=0x6)
+[06:gotHit] call_intrinsic Item.popToCoords(arg_bytes=0xa) ; ...
+[06:gotHit] call_intrinsic Item.destroy(arg_bytes=0x4)
+//
+[06:gotHit] ret
+//
+//
+//
+//
+[05:hit] pop_local_word v
+//
+//
+//
+[05:hit] ge ; jne 0x00d8 ; ...
+//
+[05:hit] call_class_event FREE.slot_20 ; pop_local_word r1 ; ...
+[05:hit] call_class_event FREE.slot_20 ; pop_local_word r2 ; ...
+//
+[05:hit] call_intrinsic Item.explode(arg_bytes=0x8) ; ...
+[05:hit] spawn ITEM.slot_2a ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[05:hit] call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[05:hit] call_intrinsic Item.orStatus(arg_bytes=0x6)
+[05:hit] call_intrinsic Item.unequip(arg_bytes=0x4) ; call_intrinsic Item.fallProbably_03E(arg_bytes=0x6) ; ...
+[05:hit] call_intrinsic Item.getZ(arg_bytes=0x4) ; call_intrinsic Item.getY(arg_bytes=0x4) ; call_intrinsic Item.getX(arg_bytes=0x4) ; ...
+[05:hit] call_intrinsic Item.destroy(arg_bytes=0x4)
+//
+[05:hit] ret
+
+/* synthesized appendix for MBARREL */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x05 hit ===== */
+function mbarrel_hit() /* entry=479 class_id=0x01dd slot=0x05 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    vel, /* [BP+12h] type=0x69 */
+    v, /* [BP-02h] type=0x69 */
+    item, /* [BP-04h] type=0x24 */
+    item2, /* [BP-06h] type=0x24 */
+    r1, /* [BP-08h] type=0x69 */
+    r2; /* [BP-10h] type=0x69 */
+
+  set_info(0x020b, *(arg_06));
+  process_exclude();
+  v = vel;
+  if (vel >= 10) {
+    FREE.slot_20(3);
+    r1 = retval;
+    FREE.slot_20(3);
+    r2 = retval;
+    Item.explode(0, 1, arg_06);
+    spawn ITEM.slot_2a(pid, arg_06);
+    suspend;
+    Item.create(r2, 0x0261, item2);
+    Item.orStatus(0x0080, item2);
+    Item.fallProbably_03E(Item.unequip(arg_06), item2);
+    Item.popToCoords(Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06), item2);
+    Item.destroy(arg_06);
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol ref [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol vel [BP+12h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol v [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol item [BP-04h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol item2 [BP-06h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol r1 [BP-08h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol r2 [BP-10h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x06 gotHit ===== */
+function mbarrel_gotHit() /* entry=479 class_id=0x01dd slot=0x06 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    vel, /* [BP+12h] type=0x69 */
+    item, /* [BP-02h] type=0x24 */
+    item2, /* [BP-04h] type=0x24 */
+    x, /* [BP-06h] type=0x69 */
+    y, /* [BP-08h] type=0x69 */
+    z, /* [BP-09h] type=0x62 */
+    qLo; /* [BP-11h] type=0x69 */
+
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  spawn ITEM.slot_27(pid, 100, vel, ref, arg_06);
+  suspend;
+  if (!process_result) {
+    FREE.slot_20(1);
+    if (retval) {
+      AudioProcess.playSFXCru(38, arg_06);
+    }
+    else {
+      AudioProcess.playSFXCru(39, arg_06);
+    }
+    return;
+  }
+  else if (Item.getFrame(arg_06) == 0) {
+    z = Item.getZ(arg_06);
+    x = Item.getX(arg_06);
+    y = Item.getY(arg_06);
+    qLo = Item.unequip(arg_06);
+    Item.explode(0, 2, arg_06);
+    spawn ITEM.slot_2a(pid, arg_06);
+    suspend;
+    FREE.slot_20(3);
+    Item.create(retval, 0x0261, item);
+    Item.fallProbably_03E(qLo, item);
+    Item.popToCoords(z, y, x, item);
+    Item.destroy(arg_06);
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol ref [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol vel [BP+12h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol item [BP-02h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol item2 [BP-04h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol x [BP-06h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol y [BP-08h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol z [BP-09h] type=0x62 unk1=0x00 unk3=0x00
+    debug_symbol qLo [BP-11h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}

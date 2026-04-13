@@ -1,0 +1,93 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[0F:enterFastArea] call_intrinsic AudioProcess.playAmbientSFXCru(arg_bytes=0x6)
+[0F:enterFastArea] ret
+//
+//
+//
+//
+//
+[0B:unequip] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+[0B:unequip] call_intrinsic AudioProcess.playAmbientSFXCru(arg_bytes=0x6)
+[0B:unequip] ret
+//
+//
+//
+//
+//
+[13:avatarStoleSomething] call_intrinsic Item.setQLo(arg_bytes=0x6)
+[13:avatarStoleSomething] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+[13:avatarStoleSomething] ret
+
+/* synthesized appendix for EWALLNS */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x0b unequip ===== */
+function ewallns_unequip() /* entry=812 class_id=0x032a slot=0x0b */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    var; /* [BP+10h] type=0x69 */
+
+  set_info(0x0212, *(arg_06));
+  process_exclude();
+  AudioProcess.playSFXCru(68, arg_06);
+  AudioProcess.playAmbientSFXCru(80, arg_06);
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol var [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x0f enterFastArea ===== */
+function ewallns_enterFastArea() /* entry=812 class_id=0x032a slot=0x0f */
+{
+  var
+    referent; /* [BP+00h] type=0x69 */
+
+  set_info(0x021b, *(arg_06));
+  process_exclude();
+  AudioProcess.playAmbientSFXCru(80, arg_06);
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+  */
+}
+
+/* ===== slot 0x13 avatarStoleSomething ===== */
+function ewallns_avatarStoleSomething() /* entry=812 class_id=0x032a slot=0x13 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    var; /* [BP+10h] type=0x69 */
+
+  set_info(0x022e, *(arg_06));
+  process_exclude();
+  Item.setQLo(80, arg_06);
+  AudioProcess.playSFXCru(61, arg_06);
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol var [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}

@@ -1,0 +1,208 @@
+/* synthesized appendix for CRU_SPID */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x01 use ===== */
+function cru_spid_use() /* entry=1378 class_id=0x0560 slot=0x01 */
+{
+  set_info(0x0207, *(arg_06));
+  process_exclude();
+  if (Actor.getMap(&global[0x003d]) == 40) {
+    Item.legal_create(0, 0x0560, local_02);
+    getTargetNPCNumMaybe(0, 0, 0, local_02);
+    MainActor.addItemCru(0, local_02);
+    return;
+  }
+  else {
+    local_05 = *(arg_06);
+    set_info(0x00f0, 0);
+    local_13 = Item.setFrame(&global[0x003d]);
+    Ultima8Engine.setAvatarInStasis(1);
+    while (Actor.isBusy(&global[0x003d])) {
+      spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+      suspend;
+    }
+    switch (Actor.maybeFire(&global[0x003d])) {
+    case 0:
+      local_15 = -1;
+      local_17 = -3;
+      break;
+    case 1:
+      local_15 = 0;
+      local_17 = -3;
+      break;
+    case 2:
+      local_15 = 1;
+      local_17 = -3;
+      break;
+    case 3:
+      local_15 = 2;
+      local_17 = -2;
+      break;
+    case 4:
+      local_15 = 2;
+      local_17 = -1;
+      break;
+    case 5:
+      local_15 = 2;
+      local_17 = 0;
+      break;
+    case 6:
+      local_15 = 2;
+      local_17 = 2;
+      break;
+    case 7:
+      local_15 = 0;
+      local_17 = 2;
+      break;
+    case 8:
+      local_15 = -1;
+      local_17 = 2;
+      break;
+    case 9:
+      local_15 = -2;
+      local_17 = 2;
+      break;
+    case 10:
+      local_15 = -3;
+      local_17 = 2;
+      break;
+    case 11:
+      local_15 = -3;
+      local_17 = 1;
+      break;
+    case 12:
+      local_15 = -3;
+      local_17 = 0;
+      break;
+    case 13:
+      local_15 = -3;
+      local_17 = -1;
+      break;
+    case 14:
+      local_15 = -3;
+      local_17 = -2;
+      break;
+    case 15:
+      local_15 = -3;
+      local_17 = -3;
+      break;
+    }
+    if (Actor.getSomeFlagProbablyCrouch(&global[0x003d])) {
+      local_03 = 1;
+    }
+    else {
+      local_03 = 0;
+      suspend;
+    }
+    local_22 = (Item.getX(&global[0x003d]) + (local_15 * 16));
+    local_20 = (Item.getY(&global[0x003d]) + (local_17 * 16));
+    local_18 = Item.getZ(&global[0x003d]);
+    if (!Actor.getLastAnimSet(local_22, 0, 0x0560, local_02)) {
+      Item.legal_create(0, 0x0560, local_02);
+      getTargetNPCNumMaybe(0, 0, 0, local_02);
+      MainActor.addItemCru(0, local_02);
+      if (!local_03) {
+        suspend;
+      }
+      Ultima8Engine.setAvatarInStasis(0);
+      return;
+    }
+    else {
+      AudioProcess.playSFXCru(99, arg_06);
+      local_11 = 1;
+      while (local_11 <= 9) {
+        Item.isCentreOn(local_11, local_02);
+        spawn FREE.waitNTimerTicks(pid, 3, 0x00000000);
+        suspend;
+        local_11 = (1 + local_11);
+      }
+      spawn CRU_SPID.slot_20(local_02, arg_06);
+      Ultima8Engine.setAvatarInStasis(0);
+    }
+  }
+  return;
+}
+
+/* ===== slot 0x05 hit ===== */
+function cru_spid_hit() /* entry=1378 class_id=0x0560 slot=0x05 */
+{
+  set_info(0x020b, *(arg_06));
+  process_exclude();
+  Item.explode(1, 2, arg_06);
+  return;
+}
+
+/* ===== slot 0x20 slot_20 ===== */
+function cru_spid_slot_20() /* entry=1378 class_id=0x0560 slot=0x20 */
+{
+  set_info(0x00f0, *(arg_06));
+  local_15 = arg_10;
+  Item.legal_create(0, 0x0584, local_17);
+  Item.orStatus(0x0080, local_17);
+  getTargetNPCNumMaybe(Item.getZ(local_15), Item.getY(local_15), Item.getX(local_15), local_17);
+  AudioProcess.playAmbientSFXCru(91, local_17);
+  set_info(0x00f0, local_17);
+  Item.destroy(local_15);
+  while (local_02 < 0x01f4) {
+    switch (Actor.maybeFire((Actor.maybeFire(&global[0x003d])) {
+    case 0), &global[0x003d]) == 1:
+      local_04 = 0;
+      local_06 = -1;
+      break;
+    case 2), &global[0x003d]) == 3:
+      local_04 = 1;
+      local_06 = -1;
+      break;
+    case 4), &global[0x003d]) == 5:
+      local_04 = 1;
+      local_06 = 0;
+      break;
+    case 6), &global[0x003d]) == 7:
+      local_04 = 1;
+      local_06 = 1;
+      break;
+    case 8), &global[0x003d]) == 9:
+      local_04 = 0;
+      local_06 = 1;
+      break;
+    case 10), &global[0x003d]) == 11:
+      local_04 = -1;
+      local_06 = 1;
+      break;
+    case 12), &global[0x003d]) == 13:
+      local_04 = -1;
+      local_06 = 0;
+      break;
+    case 14), &global[0x003d]) == 15:
+      local_04 = -1;
+      local_06 = -1;
+      break;
+    }
+    Item.legal_create(local_13, local_17);
+    local_13 = (local_13 + (local_04 * 8));
+    local_11 = (local_11 + (local_06 * 8));
+    if (!legalMoveToPoint(0, 1, local_13, local_17)) {
+      local_09 = (local_09 + 1);
+      if (!legalMoveToPoint(0, 1, local_13, local_17)) {
+        if (!legalMoveToPoint(0, 1, local_13, local_17)) {
+          Item.explode(1, 2, local_17);
+        }
+      }
+    }
+    local_08 = (1 + local_08);
+    if ((local_08 == 20) && (local_09 > 4)) {
+      local_09 = (local_09 - 4);
+      if (legalMoveToPoint(0, 1, local_13, local_17)) {
+        Container.destroyContents(local_17);
+        spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
+        suspend;
+      }
+      local_08 = 0;
+    }
+    local_02 = (1 + local_02);
+    spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+    suspend;
+  }
+  Item.explode(1, 1, local_17);
+  return;
+}

@@ -1,0 +1,106 @@
+/* synthesized appendix for CHEST_EW */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x01 use ===== */
+function chest_ew_use() /* entry=1362 class_id=0x0550 slot=0x01 */
+{
+  set_info(0x0207, *(arg_06));
+  process_exclude();
+  if (Item.getFrame(arg_06) > 1) {
+    return;
+  }
+  else if (Item.getFrame(arg_06) == 1) {
+    FREE.slot_2d(Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06), 5, 0x054b, *(arg_06));
+    if (retval) {
+      AudioProcess.playSFXCru(0x00b3, arg_06);
+      local_06 = 5;
+      while (local_06 <= 9) {
+        Item.setFrame(local_06, arg_06);
+        spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+        suspend;
+        local_06 = (1 + local_06);
+      }
+    }
+    else {
+      AudioProcess.playSFXCru(0x00b0, arg_06);
+      return;
+    }
+  }
+  else {
+    FREE.slot_2d(Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06), 0, 0x054b, *(arg_06));
+    if (retval) {
+      AudioProcess.playSFXCru(0x00b3, arg_06);
+      local_06 = 0;
+      while (local_06 <= 4) {
+        Item.setFrame(local_06, arg_06);
+        spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+        suspend;
+        local_06 = (1 + local_06);
+      }
+    }
+    else {
+      AudioProcess.playSFXCru(42, arg_06);
+      return;
+    }
+  }
+  spawn TRIGGER.slot_2a(pid, 0, *(arg_06), arg_06);
+  suspend;
+  for local_02 in nearby_items(shape=0x0476, origin=arg_06) {
+    if (Item.getQLo(arg_06) == Item.getQLo(local_02)) {
+      FREE.slot_2e(local_02);
+      local_04 = retval;
+      if ((((Item.setQLo(local_04) == 10) || (Item.setQLo(local_04) == 11)) || (Item.setQLo(local_04) == 12)) || (Item.setQLo(local_04) == 13)) {
+        if (!MainActor.addItemCru(1, local_04)) {
+          AudioProcess.playSFXCru(0x00b0, arg_06);
+          push(local_04);
+          if (Actor.getMap(&global[0x003d]) == 40) {
+            getTargetNPCNumMaybe(Item.getZ(local_04), Item.getY(local_04), Item.getX(local_04), local_04);
+          }
+          else {
+            getTargetNPCNumMaybe(Item.getX(Item.getY(Item.getZ(&global[0x003d]), &global[0x003d]), &global[0x003d]), local_04);
+          }
+        }
+      }
+      else {
+        spawn FREE.slot_31(pid, local_04, 0x00000000);
+        suspend;
+      }
+    }
+  }
+  return;
+}
+
+/* ===== slot 0x06 gotHit ===== */
+function chest_ew_gotHit() /* entry=1362 class_id=0x0550 slot=0x06 */
+{
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  FREE.slot_2c(arg_12, arg_10);
+  if (!retval) {
+    return;
+  }
+  else {
+    local_02 = Item.getFrame(arg_06);
+    if (local_02 < 2) {
+      spawn ITEM.slot_27(pid, 40, arg_12, arg_10, arg_06);
+      suspend;
+      if (!process_result) {
+        FREE.slot_20(1);
+        if (retval) {
+          AudioProcess.playSFXCru(38, arg_06);
+        }
+        else {
+          AudioProcess.playSFXCru(39, arg_06);
+        }
+        return;
+      }
+      else {
+        spawn ITEM.slot_28(pid, 0, 0, arg_06);
+        suspend;
+        Item.setFrame((local_02 + 2), arg_06);
+        ITEM.slot_23(0x1000, arg_06);
+      }
+    }
+  }
+  return;
+}

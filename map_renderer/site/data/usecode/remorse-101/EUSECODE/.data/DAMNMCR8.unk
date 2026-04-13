@@ -1,0 +1,31 @@
+/* synthesized appendix for DAMNMCR8 */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x06 gotHit ===== */
+function damnmcr8_gotHit() /* entry=1442 class_id=0x05a0 slot=0x06 */
+{
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  FREE.slot_2c(arg_12, arg_10);
+  if (retval) {
+    spawn ITEM.slot_27(pid, 100, arg_12, arg_10, arg_06);
+    suspend;
+    if (!process_result) {
+      FREE.slot_20(1);
+      if (retval) {
+        AudioProcess.playSFXCru(38, arg_06);
+      }
+      else {
+        AudioProcess.playSFXCru(39, arg_06);
+      }
+      return;
+    }
+    else {
+      spawn ITEM.slot_2a(pid, arg_06);
+      suspend;
+      spawn ITEM.slot_28(pid, 1, 0, arg_06);
+      suspend;
+    }
+  }
+  return;
+}

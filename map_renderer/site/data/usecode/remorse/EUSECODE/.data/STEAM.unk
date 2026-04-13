@@ -1,0 +1,190 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[20:slot_20] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[20:slot_20] pop_local_byte detect ; loopscr value_u8=0x24 ; loopscr value_u8=0x3d ; ...
+//
+[20:slot_20] loopscr value_u8=0x25 ; mul ; ...
+[20:slot_20] loop current_var=0xfe, string_bytes=0x6, loop_type=0x2 ; jne 0x0114 ; ...
+[20:slot_20] call_intrinsic Actor.isNPC(arg_bytes=0x4) ; jne 0x0110 ; ...
+//
+[20:slot_20] call_intrinsic Item.overlaps(arg_bytes=0x6) ; jne 0x0110 ; ...
+//
+//
+[20:slot_20] pop_local_word n
+//
+[20:slot_20] call_intrinsic getTargetNPCNumMaybe(arg_bytes=0x0) ; ne ; jne 0x00e4 ; ...
+[20:slot_20]
+[20:slot_20] call_class_event NPC.slot_2b ; not ; jne 0x00e1 ; ...
+[20:slot_20]
+[20:slot_20] call_intrinsic Actor.getHp(arg_bytes=0x4) ; call_intrinsic UCMachine.rndRange(arg_bytes=0x4) ; call_intrinsic Item.receiveHit(arg_bytes=0xc) ; ...
+//
+//
+//
+//
+[20:slot_20] call_intrinsic UCMachine.rndRange(arg_bytes=0x4) ; call_intrinsic UCMachine.rndRange(arg_bytes=0x4) ; call_intrinsic Item.receiveHit(arg_bytes=0xc) ; ...
+//
+//
+[20:slot_20] pop_local_byte detect ; loopnext ; jmp 0x006d ; ...
+//
+//
+//
+//
+//
+[20:slot_20] not ; jne 0x0133
+[20:slot_20] call_class_event ITEM.slot_24
+[20:slot_20] jmp 0x0136 ; jmp 0x0016
+//
+//
+[20:slot_20] ret
+//
+//
+//
+//
+//
+//
+//
+[21:slot_21] pop_local_word n
+//
+//
+//
+//
+[21:slot_21] call_intrinsic Item.getStatus(arg_bytes=0x4)
+[21:slot_21] bit_and ; jne 0x003b
+[21:slot_21] jmp 0x00f0
+//
+//
+[21:slot_21] call_class_event ITEM.slot_23 ; suspend ; ...
+//
+//
+//
+//
+//
+[21:slot_21] lt ; jne 0x00ed ; ...
+[21:slot_21]
+[21:slot_21] call_intrinsic getTargetNPCNumMaybe(arg_bytes=0x0) ; cmp ; jne 0x00a0 ; ...
+[21:slot_21]
+[21:slot_21] call_intrinsic Game.getDifficultyLevel(arg_bytes=0x0) ; add ; mul ; ...
+//
+//
+//
+[21:slot_21] call_class_event NPC.slot_2b ; not ; jne 0x00d9 ; ...
+[21:slot_21]
+[21:slot_21] call_intrinsic Actor.getHp(arg_bytes=0x4) ; call_intrinsic UCMachine.rndRange(arg_bytes=0x4) ; call_intrinsic Item.receiveHit(arg_bytes=0xc) ; ...
+//
+//
+//
+[21:slot_21] spawn STEAM.slot_20 ; pop_temp ; ...
+[21:slot_21] jmp 0x00f0 ; jmp 0x0049
+//
+//
+[21:slot_21] ret
+
+/* synthesized appendix for STEAM */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x20 slot_20 ===== */
+function steam_slot_20() /* entry=2583 class_id=0x0a15 slot=0x20 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    item, /* [BP-02h] type=0x24 */
+    detect, /* [BP-03h] type=0x62 */
+    n; /* [BP-05h] type=0x24 */
+
+  entry:
+    set_info(0x0001, *(arg_06));
+
+  while (true) {
+    suspend;
+    spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
+    suspend;
+    detect = 0;
+    for item in nearby_items(family=6, origin=arg_06) {
+      if (Actor.isNPC(item)) {
+        if (Item.overlaps(*(arg_06), item)) {
+          n = item;
+          if (n != getTargetNPCNumMaybe()) {
+            NPC.slot_2b(n);
+            if (!retval) {
+              Item.receiveHit(8, UCMachine.rndRange(Actor.getHp(n), 16, 0), 0, n);
+            }
+          }
+          else {
+            Item.receiveHit(UCMachine.rndRange(UCMachine.rndRange(8, 20, 10), 16, 0), 0, n);
+          }
+          detect = 1;
+        }
+      }
+    }
+    if (!detect) {
+      ITEM.slot_24(4, arg_06);
+      return;
+    }
+  }
+
+  return;
+
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol item [BP-02h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol detect [BP-03h] type=0x62 unk1=0x00 unk3=0x00
+    debug_symbol n [BP-05h] type=0x24 unk1=0x00 unk3=0x02
+  */
+}
+
+/* ===== slot 0x21 slot_21 ===== */
+function steam_slot_21() /* entry=2583 class_id=0x0a15 slot=0x21 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    n; /* [BP-02h] type=0x24 */
+
+  set_info(0x0001, *(arg_06));
+  n = ref;
+  if (Item.getStatus(arg_06) & 4) {
+    return;
+  }
+  else {
+    ITEM.slot_23(4, arg_06);
+    suspend;
+    while (true) {
+      suspend;
+      if (ref < 0x00ff) {
+        if (ref == getTargetNPCNumMaybe()) {
+          Item.receiveHit(8, UCMachine.rndRange(((Game.getDifficultyLevel() + 1) * 20), 16, 0), *(arg_06), n);
+        }
+        else {
+          NPC.slot_2b(n);
+          if (!retval) {
+            Item.receiveHit(8, UCMachine.rndRange(Actor.getHp(n), 16, 0), *(arg_06), n);
+          }
+        }
+        spawn STEAM.slot_20(arg_06);
+        return;
+      }
+    }
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol ref [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol n [BP-02h] type=0x24 unk1=0x00 unk3=0x02
+  */
+}

@@ -1,0 +1,32 @@
+/* synthesized appendix for SPIDWALK */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x05 hit ===== */
+function spidwalk_hit() /* entry=915 class_id=0x0391 slot=0x05 */
+{
+  set_info(0x020b, *(arg_06));
+  process_exclude();
+  Item.explode(1, 2, arg_06);
+  return;
+}
+
+/* ===== slot 0x06 gotHit ===== */
+function spidwalk_gotHit() /* entry=915 class_id=0x0391 slot=0x06 */
+{
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  FREE.slot_2c(arg_12, arg_10);
+  if (retval) {
+    Item.explode(1, 0, arg_06);
+  }
+  return;
+}
+
+/* ===== slot 0x10 leaveFastArea ===== */
+function spidwalk_leaveFastArea() /* entry=915 class_id=0x0391 slot=0x10 */
+{
+  set_info(0x021c, *(arg_06));
+  process_exclude();
+  Item.destroy(arg_06);
+  return;
+}

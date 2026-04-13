@@ -1,0 +1,193 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[0B:unequip] call_intrinsic Item.getStatus(arg_bytes=0x4) ; bit_and ; cmp ; ...
+//
+[0B:unequip] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+[0B:unequip] spawn BLASER.slot_20 ; pop_temp ; ...
+//
+[0B:unequip] ret
+//
+//
+//
+[0A:equip] cmp ; jne 0x0043 ; ...
+//
+//
+[0A:equip] call_intrinsic Item.getQHi(arg_bytes=0x4) ; pop_local_word h ; ...
+[0A:equip] bit_or ; call_intrinsic Item.pop(arg_bytes=0x6) ; jmp 0x006f ; ...
+//
+//
+[0A:equip] cmp ; jne 0x006f ; ...
+//
+[0A:equip] call_intrinsic Item.getQHi(arg_bytes=0x4) ; pop_local_word h ; ...
+[0A:equip] bit_or ; call_intrinsic Item.pop(arg_bytes=0x6) ; jmp 0x006f ; ...
+//
+[0A:equip] ret
+//
+//
+//
+//
+[0F:enterFastArea] call_intrinsic Item.getStatus(arg_bytes=0x4) ; bit_and ; cmp ; ...
+//
+[0F:enterFastArea] spawn BLASER.slot_20 ; pop_temp ; ...
+//
+[0F:enterFastArea] ret
+//
+//
+//
+//
+[10:leaveFastArea] bit_not ; call_intrinsic Item.getDirFromTo16(arg_bytes=0x6) ; ...
+[10:leaveFastArea] ret
+//
+//
+//
+[05:hit] spawn BLASER.slot_21 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[05:hit] ret
+//
+//
+//
+[06:gotHit] spawn BLASER.slot_21 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[06:gotHit] ret
+
+/* synthesized appendix for BLASEREW */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x05 hit ===== */
+function blaserew_hit() /* entry=710 class_id=0x02c4 slot=0x05 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    ke; /* [BP+12h] type=0x69 */
+
+  set_info(0x020b, *(arg_06));
+  process_exclude();
+  spawn BLASER.slot_21(pid, ke, ref, arg_06);
+  suspend;
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol ref [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol ke [BP+12h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x06 gotHit ===== */
+function blaserew_gotHit() /* entry=710 class_id=0x02c4 slot=0x06 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    ke; /* [BP+12h] type=0x69 */
+
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  spawn BLASER.slot_21(pid, ke, ref, arg_06);
+  suspend;
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol ref [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol ke [BP+12h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x0a equip ===== */
+function blaserew_equip() /* entry=710 class_id=0x02c4 slot=0x0a */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    var, /* [BP+10h] type=0x69 */
+    h; /* [BP-02h] type=0x69 */
+
+  set_info(0x0211, *(arg_06));
+  process_exclude();
+  if (var == 1) {
+    h = Item.getQHi(arg_06);
+    Item.pop((h | 4), arg_06);
+    return;
+  }
+  else if (var == 31) {
+    h = Item.getQHi(arg_06);
+    Item.pop((h | 8), arg_06);
+    return;
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol var [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol h [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x0b unequip ===== */
+function blaserew_unequip() /* entry=710 class_id=0x02c4 slot=0x0b */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    var; /* [BP+10h] type=0x69 */
+
+  set_info(0x0212, *(arg_06));
+  process_exclude();
+  if ((Item.getStatus(arg_06) & 0x1000) == 0) {
+    AudioProcess.playSFXCru(2, arg_06);
+    spawn BLASER.slot_20(*(arg_06), arg_06);
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol var [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x0f enterFastArea ===== */
+function blaserew_enterFastArea() /* entry=710 class_id=0x02c4 slot=0x0f */
+{
+  var
+    referent; /* [BP+00h] type=0x69 */
+
+  set_info(0x021b, *(arg_06));
+  process_exclude();
+  if ((Item.getStatus(arg_06) & 0x1000) == 0) {
+    spawn BLASER.slot_20(*(arg_06), arg_06);
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+  */
+}
+
+/* ===== slot 0x10 leaveFastArea ===== */
+function blaserew_leaveFastArea() /* entry=710 class_id=0x02c4 slot=0x10 */
+{
+  var
+    referent; /* [BP+00h] type=0x69 */
+
+  set_info(0x021c, *(arg_06));
+  process_exclude();
+  Item.getDirFromTo16((~0x1000), arg_06);
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+  */
+}

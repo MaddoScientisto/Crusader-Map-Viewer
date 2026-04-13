@@ -1,0 +1,304 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[0F:enterFastArea] call_intrinsic Item.getFrame(arg_bytes=0x4) ; cmp ; jne 0x0076 ; ...
+//
+//
+[0F:enterFastArea] call_intrinsic Item.getMapArray(arg_bytes=0x4) ; pop_local_word a ; ...
+[0F:enterFastArea] bit_and ; jne 0x0076 ; ...
+//
+[0F:enterFastArea] bit_and ; call_intrinsic Item.getNpcNum(arg_bytes=0x6) ; ...
+[0F:enterFastArea] spawn MONSTER.equip ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[0F:enterFastArea] ret
+//
+//
+//
+//
+[0A:equip] call_intrinsic Item.getFrame(arg_bytes=0x4) ; ne ; jne 0x002f ; ...
+//
+[0A:equip] jmp 0x03f6
+//
+//
+//
+[0A:equip] pop_local_word monster1
+//
+[0A:equip] set_info
+[0A:equip] call_intrinsic Actor.setDefaultActivity0(arg_bytes=0x4) ; cmp ; cmp ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+[0A:equip] spawn ITEM.slot_2d ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+[0A:equip] loopscr value_u8=0x25 ; mul ; ...
+[0A:equip] loop current_var=0xfa, string_bytes=0x6, loop_type=0x2 ; jne 0x010d
+[0A:equip] call_intrinsic Actor.isNPC(arg_bytes=0x4) ; jne 0x0109 ; ...
+//
+[0A:equip] call_intrinsic Item.getZ(arg_bytes=0x4) ; call_intrinsic Item.getZ(arg_bytes=0x4) ; sub ; ...
+[0A:equip]
+[0A:equip] jmp 0x03f6 ; loopnext ; jmp 0x00bb
+//
+//
+//
+//
+[0A:equip] sub ; pop_local_word var ; loopscr value_u8=0x24 ; ...
+//
+//
+[0A:equip] loopscr value_u8=0x25 ; mul ; ...
+[0A:equip] loop current_var=0xf8, string_bytes=0x6, loop_type=0x2 ; jne 0x01fd
+[0A:equip] call_intrinsic Actor.SetNPCDataField0x63_0E6(arg_bytes=0x4) ; call_intrinsic Actor.SetNPCDataField0x63_0E6(arg_bytes=0x4) ; cmp ; ...
+[0A:equip]
+[0A:equip] spawn DOOR.slot_21 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+[0A:equip] spawn ITEM.slot_2d ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[0A:equip] jne 0x01f9
+[0A:equip] call_intrinsic Intrinsic056(arg_bytes=0x6)
+[0A:equip] call_intrinsic Item.getSurfaceWeight(arg_bytes=0x6)
+[0A:equip] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[0A:equip] call_intrinsic Item.andStatus(arg_bytes=0x6) ; loopnext ; jmp 0x0134 ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+[0A:equip] sub ; pop_local_word var ; ...
+//
+[0A:equip] spawn ITEM.slot_2d ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+[0A:equip] pop_local_word a ; loopscr value_u8=0x24 ; loopscr value_u8=0x3d ; ...
+//
+[0A:equip] loopscr value_u8=0x25 ; mul ; ...
+[0A:equip] loop current_var=0xfa, string_bytes=0x6, loop_type=0x2 ; jne 0x02a0
+[0A:equip] lt ; jne 0x029c ; ...
+[0A:equip]
+[0A:equip] add ; pop_local_word a ; loopnext ; ...
+//
+//
+[0A:equip] push_local_word a
+[0A:equip] le ; jne 0x02e2
+[0A:equip] sub ; pop_local_word var ; ...
+//
+[0A:equip] spawn ITEM.slot_2d ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+[0A:equip] call_class_event FREE.slot_20 ; jne 0x0315 ; ...
+//
+[0A:equip] jmp 0x03f6
+//
+//
+[0A:equip] sub ; pop_local_word var ; ...
+//
+[0A:equip] spawn ITEM.slot_2d ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+[0A:equip] loopscr value_u8=0x25 ; mul ; ...
+[0A:equip] loop current_var=0xfa, string_bytes=0x6, loop_type=0x2 ; jne 0x03c2
+[0A:equip] call_intrinsic Actor.isNPC(arg_bytes=0x4) ; jne 0x03be ; ...
+//
+[0A:equip] call_intrinsic Item.getZ(arg_bytes=0x4) ; call_intrinsic Item.getZ(arg_bytes=0x4) ; sub ; ...
+[0A:equip]
+[0A:equip] jmp 0x03f6 ; loopnext ; jmp 0x0370
+//
+//
+//
+//
+[0A:equip] sub ; pop_local_word var ; ...
+//
+[0A:equip] spawn ITEM.slot_2d ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+//
+[0A:equip] ret
+
+/* synthesized appendix for MONSTER */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x0a equip ===== */
+function monster_equip() /* entry=1234 class_id=0x04d0 slot=0x0a */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    var, /* [BP+10h] type=0x69 */
+    monster1, /* [BP-02h] type=0x24 */
+    a, /* [BP-04h] type=0x69 */
+    npc, /* [BP-06h] type=0x24 */
+    door, /* [BP-08h] type=0x24 */
+    newNpc; /* [BP-10h] type=0x24 */
+
+  set_info(0x0211, *(arg_06));
+  process_exclude();
+  if (Item.getFrame(arg_06) != 0) {
+    return;
+  }
+  else {
+    monster1 = *(arg_06);
+    set_info(0x021b, 0);
+    Actor.setDefaultActivity0(12, *(arg_06));
+    if ((((var == 0) || (var == 1)) || (var == 2)) || (var == 3)) {
+      spawn ITEM.slot_2d(pid, var, monster1, arg_06);
+      suspend;
+      return;
+    }
+    else if ((var == 10) || (var == 11)) {
+      for npc in nearby_items(family=6, origin=monster1) {
+        if (Actor.isNPC(npc)) {
+          if ((Item.getZ(npc) > (Item.getZ(monster1) - 10)) && (Item.getZ(npc) < (Item.getZ(monster1) + 10))) {
+            return;
+          }
+        }
+      }
+      var = (var - 10);
+      for door in nearby_items(family=1, origin=monster1) {
+        if (Actor.SetNPCDataField0x63_0E6(door) == Actor.SetNPCDataField0x63_0E6(monster1)) {
+          spawn DOOR.slot_21(pid, 1, door);
+          suspend;
+          if (process_result) {
+            spawn ITEM.slot_2d(pid, var, monster1, arg_06);
+            suspend;
+            newNpc = process_result;
+            if (newNpc) {
+              Intrinsic056(3, newNpc);
+              Item.getSurfaceWeight(3, newNpc);
+              spawn FREE.slot_32(pid, 2, 0x00000000);
+              suspend;
+              Item.andStatus(114, newNpc);
+            }
+          }
+        }
+      }
+      return;
+    }
+    else if ((var == 12) || (var == 13)) {
+      var = (var - 10);
+      spawn ITEM.slot_2d(pid, var, monster1, arg_06);
+      suspend;
+      return;
+    }
+    else if ((((var == 20) || (var == 21)) || (var == 22)) || (var == 23)) {
+      a = 0;
+      for npc in nearby_items(family=6, origin=global[0x003c]) {
+        if (npc < 0x0100) {
+          a = (1 + a);
+        }
+      }
+      if (a <= 4) {
+        var = (var - 20);
+        spawn ITEM.slot_2d(pid, var, monster1, arg_06);
+        suspend;
+      }
+      return;
+    }
+    else if ((((var == 50) || (var == 51)) || (var == 52)) || (var == 53)) {
+      FREE.slot_20(1);
+      if (retval) {
+        return;
+      }
+      var = (var - 50);
+      spawn ITEM.slot_2d(pid, var, monster1, arg_06);
+      suspend;
+      return;
+    }
+    else if ((var == 80) || (var == 81)) {
+      for npc in nearby_items(family=6, origin=monster1) {
+        if (Actor.isNPC(npc)) {
+          if ((Item.getZ(npc) > (Item.getZ(monster1) - 10)) && (Item.getZ(npc) < (Item.getZ(monster1) + 10))) {
+            return;
+          }
+        }
+      }
+      var = (var - 80);
+      spawn ITEM.slot_2d(pid, var, monster1, arg_06);
+      suspend;
+      return;
+    }
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol var [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol monster1 [BP-02h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol a [BP-04h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol npc [BP-06h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol door [BP-08h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol newNpc [BP-10h] type=0x24 unk1=0x00 unk3=0x02
+  */
+}
+
+/* ===== slot 0x0f enterFastArea ===== */
+function monster_enterFastArea() /* entry=1234 class_id=0x04d0 slot=0x0f */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    a; /* [BP-02h] type=0x69 */
+
+  set_info(0x021b, *(arg_06));
+  process_exclude();
+  if (Item.getFrame(arg_06) == 0) {
+    a = Item.getMapArray(arg_06);
+    if (a & 8) {
+      Item.getNpcNum((a & 0x00f7), arg_06);
+      spawn MONSTER.equip(pid, 0, arg_06);
+      suspend;
+    }
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol a [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}

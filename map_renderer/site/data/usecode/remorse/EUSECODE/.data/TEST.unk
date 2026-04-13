@@ -1,0 +1,80 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[07:hatch] spawn FREE.slot_26 ; free_stack_string value_u8=0x0, target=[SP+00h] ; implies arg0=0x1, arg1=0x1 ; ...
+[07:hatch] call_intrinsic Item.destroy(arg_bytes=0x4) ; jmp 0x013b ; call_intrinsic Egg.getEggId(arg_bytes=0x4) ; ...
+//
+//
+//
+[07:hatch] spawn FREE.slot_26 ; free_stack_string value_u8=0x0, target=[SP+00h] ; implies arg0=0x1, arg1=0x1 ; ...
+[07:hatch] call_intrinsic Item.destroy(arg_bytes=0x4) ; jmp 0x013b ; call_intrinsic Egg.getEggId(arg_bytes=0x4) ; ...
+//
+//
+//
+[07:hatch] spawn FREE.slot_26 ; free_stack_string value_u8=0x0, target=[SP+00h] ; implies arg0=0x1, arg1=0x1 ; ...
+[07:hatch] call_intrinsic Item.destroy(arg_bytes=0x4) ; jmp 0x013b ; call_intrinsic Egg.getEggId(arg_bytes=0x4) ; ...
+//
+//
+//
+[07:hatch] spawn FREE.slot_26 ; free_stack_string value_u8=0x0, target=[SP+00h] ; implies arg0=0x1, arg1=0x1 ; ...
+[07:hatch] call_intrinsic Item.destroy(arg_bytes=0x4) ; jmp 0x013b
+//
+//
+//
+//
+//
+//
+[07:hatch] ret
+
+/* synthesized appendix for TEST */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x07 hatch ===== */
+function test_hatch() /* entry=2314 class_id=0x0908 slot=0x07 */
+{
+  var
+    referent; /* [BP+00h] type=0x69 */
+
+  set_info(0x0210, *(arg_06));
+  process_exclude();
+  switch (Egg.getEggId(arg_06)) {
+  case 1:
+    spawn FREE.slot_26(pid, "3f", 0x00000000);
+    suspend;
+    Item.destroy(arg_06);
+    return;
+  case 2:
+    spawn FREE.slot_26(pid, "3h", 0x00000000);
+    suspend;
+    Item.destroy(arg_06);
+    return;
+  case 3:
+    spawn FREE.slot_26(pid, "3e", 0x00000000);
+    suspend;
+    Item.destroy(arg_06);
+    return;
+  case 4:
+    spawn FREE.slot_26(pid, "3i", 0x00000000);
+    suspend;
+    Item.destroy(arg_06);
+    return;
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+  */
+}

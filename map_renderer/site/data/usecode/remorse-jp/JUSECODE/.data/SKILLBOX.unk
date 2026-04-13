@@ -1,0 +1,125 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[0A:equip] call_intrinsic Game.getDifficultyLevel(arg_bytes=0x0) ; pop_local_word skill
+//
+[0A:equip] call_intrinsic Item.getMapArray(arg_bytes=0x4) ; ne ; jne 0x0191 ; ...
+//
+//
+[0A:equip] call_intrinsic Item.getFrame(arg_bytes=0x4) ; cmp ; jne 0x0128 ; ...
+[0A:equip]
+[0A:equip] call_intrinsic Item.andStatus(arg_bytes=0x4) ; pop_local_word qLo ; ...
+[0A:equip] cmp ; jne 0x008b ; ...
+//
+[0A:equip] spawn TRIGGER.slot_20 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[0A:equip] cmp ; jne 0x00d0 ; ...
+//
+[0A:equip] add ; call_intrinsic Item.fallProbably_03E(arg_bytes=0x6) ; ...
+[0A:equip] spawn TRIGGER.slot_20 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[0A:equip] ge ; jne 0x0115 ; ...
+//
+[0A:equip] add ; call_intrinsic Item.fallProbably_03E(arg_bytes=0x6) ; ...
+[0A:equip] spawn TRIGGER.slot_20 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[0A:equip] call_intrinsic Item.fallProbably_03E(arg_bytes=0x6)
+[0A:equip] jmp 0x01ff
+//
+//
+[0A:equip] call_intrinsic Item.getFrame(arg_bytes=0x4) ; add ; ge ; ...
+//
+[0A:equip] spawn TRIGGER.slot_20 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+[0A:equip] spawn TRIGGER.slot_20 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+[0A:equip] call_intrinsic Item.getFrame(arg_bytes=0x4) ; add ; ge ; ...
+//
+[0A:equip] add ; spawn TRIGGER.slot_20 ; implies arg0=0x1, arg1=0x1 ; ...
+//
+//
+//
+[0A:equip] add ; spawn TRIGGER.slot_20 ; implies arg0=0x1, arg1=0x1 ; ...
+//
+//
+//
+[0A:equip] ret
+
+/* synthesized appendix for SKILLBOX */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x0a equip ===== */
+function skillbox_equip() /* entry=1253 class_id=0x04e3 slot=0x0a */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    var, /* [BP+10h] type=0x69 */
+    skill, /* [BP-02h] type=0x69 */
+    qLo; /* [BP-04h] type=0x69 */
+
+  set_info(0x0211, *(arg_06));
+  process_exclude();
+  skill = Game.getDifficultyLevel();
+  if (Item.getMapArray(arg_06) != 0) {
+    if (Item.getFrame(arg_06) == 2) {
+      qLo = Item.andStatus(arg_06);
+      if (skill == 1) {
+        spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
+        suspend;
+      }
+      else if (skill == 2) {
+        Item.fallProbably_03E((qLo + 1), arg_06);
+        spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
+        suspend;
+      }
+      else if (skill >= 3) {
+        Item.fallProbably_03E((qLo + 2), arg_06);
+        spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
+        suspend;
+      }
+      Item.fallProbably_03E(qLo, arg_06);
+      return;
+    }
+    if (skill >= (Item.getFrame(arg_06) + 2)) {
+      spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
+      suspend;
+    }
+    else {
+      spawn TRIGGER.slot_20(pid, 1, *(arg_06), arg_06);
+      suspend;
+    }
+    return;
+  }
+  else if (skill >= (Item.getFrame(arg_06) + 2)) {
+    spawn TRIGGER.slot_20(pid, (0 + 0x0080), *(arg_06), arg_06);
+    suspend;
+    return;
+  }
+  else {
+    spawn TRIGGER.slot_20(pid, (1 + 0x0080), *(arg_06), arg_06);
+    suspend;
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol var [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol skill [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol qLo [BP-04h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}

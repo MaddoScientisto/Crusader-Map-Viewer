@@ -1,0 +1,111 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[06:gotHit] call_class_event FREE.slot_2b ; call_intrinsic Item.getFrame(arg_bytes=0x4) ; lt ; ...
+[06:gotHit]
+//
+[06:gotHit] spawn ITEM.slot_27 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[06:gotHit]
+[06:gotHit] jmp 0x01be
+//
+//
+[06:gotHit] call_class_event FREE.slot_33 ; loopscr value_u8=0x24 ; loopscr value_u8=0x3d ; ...
+//
+[06:gotHit] loopscr value_u8=0x25 ; mul ; ...
+[06:gotHit] loop current_var=0xfe, string_bytes=0x6, loop_type=0x2 ; jne 0x0111 ; call_intrinsic Item.getFrame(arg_bytes=0x4) ; ...
+//
+//
+//
+//
+[06:gotHit] call_intrinsic Item.getFrame(arg_bytes=0x4) ; add ; call_intrinsic Item.getPoint(arg_bytes=0x6) ; ...
+//
+//
+//
+//
+[06:gotHit] call_intrinsic Item.getFrame(arg_bytes=0x4) ; add ; call_intrinsic Item.getPoint(arg_bytes=0x6) ; ...
+//
+//
+//
+//
+[06:gotHit] loopscr value_u8=0x25 ; mul ; ...
+[06:gotHit] loop current_var=0xfe, string_bytes=0x6, loop_type=0x2 ; jne 0x0145 ; ...
+[06:gotHit] call_intrinsic Item.getPoint(arg_bytes=0x6) ; loopnext ; jmp 0x0131 ; ...
+//
+[06:gotHit] loopscr value_u8=0x25 ; mul ; ...
+[06:gotHit] loop current_var=0xfe, string_bytes=0x6, loop_type=0x2 ; jne 0x0179 ; ...
+[06:gotHit] call_intrinsic Item.getPoint(arg_bytes=0x6) ; loopnext ; jmp 0x0165 ; ...
+//
+[06:gotHit] loopscr value_u8=0x25 ; mul ; ...
+[06:gotHit] loop current_var=0xfe, string_bytes=0x6, loop_type=0x2 ; jne 0x01ad ; ...
+[06:gotHit] call_intrinsic Item.getPoint(arg_bytes=0x6) ; loopnext ; jmp 0x0199 ; ...
+//
+//
+[06:gotHit] call_intrinsic Item.explode(arg_bytes=0x8) ; ...
+//
+[06:gotHit] ret
+
+/* synthesized appendix for SICBOXNS */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x06 gotHit ===== */
+function sicboxns_gotHit() /* entry=738 class_id=0x02e0 slot=0x06 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    vel, /* [BP+12h] type=0x69 */
+    item; /* [BP-02h] type=0x24 */
+
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  FREE.slot_2b(vel, ref);
+  if (retval && (Item.getFrame(arg_06) < 4)) {
+    spawn ITEM.slot_27(pid, 100, vel, ref, arg_06);
+    suspend;
+    if (!process_result) {
+      return;
+    }
+    else {
+      FREE.slot_33(0x0254, global[0x003c]);
+      for item in nearby_items(shape=DOOR_CORNER_LOWER_RIGHT, origin=arg_06) {
+        if ((Item.getFrame(item) == 0) || (Item.getFrame(item) == 1)) {
+          Item.getPoint((Item.getFrame(item) + 4), item);
+        }
+        else if ((Item.getFrame(item) == 2) || (Item.getFrame(item) == 3)) {
+          Item.getPoint((Item.getFrame(item) + 2), item);
+        }
+      }
+      for item in nearby_items(shape=0x02e1, origin=arg_06) {
+        Item.getPoint(1, item);
+      }
+      for item in nearby_items(shape=HEALTH_STATION_TOP, origin=arg_06) {
+        Item.getPoint(2, item);
+      }
+      for item in nearby_items(shape=HEALTH_STATION_BACK, origin=arg_06) {
+        Item.getPoint(2, item);
+      }
+      Item.explode(0, 2, arg_06);
+    }
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol ref [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol vel [BP+12h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol item [BP-02h] type=0x24 unk1=0x00 unk3=0x02
+  */
+}

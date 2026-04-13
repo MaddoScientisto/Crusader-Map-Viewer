@@ -1,0 +1,268 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[01:use] pop_local_word Bomb
+//
+[01:use] call_intrinsic Item.setNpcNum(arg_bytes=0x4) ; jne 0x0387 ; ...
+//
+[01:use] global_address global[0x003c] ; call_intrinsic Actor.getMap(arg_bytes=0x4) ; cmp ; ...
+[01:use]
+//
+[01:use] call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[01:use] call_intrinsic Item.popToCoords(arg_bytes=0xa) ; ...
+[01:use] call_intrinsic AudioProcess.isSFXPlayingForObject(arg_bytes=0x4)
+//
+[01:use] jmp 0x0396
+//
+//
+[01:use] set_info
+//
+//
+[01:use] pop_local_word lastAnim
+//
+//
+[01:use] call_intrinsic Ultima8Engine.setAvatarInStasis(arg_bytes=0x2)
+[01:use] global_address global[0x003c] ; call_intrinsic Actor.doAnim(arg_bytes=0x4) ; jne 0x00ca ; ...
+//
+//
+//
+//
+//
+//
+[01:use] pop_local_word xOff ; pop_local_word yOff ; jmp 0x02aa ; ...
+//
+//
+//
+[01:use] pop_local_word xOff ; pop_local_word yOff ; jmp 0x02aa ; ...
+//
+//
+//
+[01:use] pop_local_word xOff ; pop_local_word yOff ; jmp 0x02aa ; ...
+//
+//
+//
+[01:use] pop_local_word xOff ; pop_local_word yOff ; jmp 0x02aa ; ...
+//
+//
+//
+[01:use] pop_local_word xOff ; pop_local_word yOff ; jmp 0x02aa ; ...
+//
+//
+//
+[01:use] pop_local_word xOff ; pop_local_word yOff ; jmp 0x02aa ; ...
+//
+//
+//
+[01:use] pop_local_word xOff ; pop_local_word yOff ; jmp 0x02aa ; ...
+//
+//
+//
+[01:use] pop_local_word xOff ; pop_local_word yOff ; jmp 0x02aa ; ...
+//
+//
+//
+[01:use] pop_local_word xOff ; pop_local_word yOff ; jmp 0x02aa ; ...
+//
+//
+//
+[01:use] pop_local_word xOff ; pop_local_word yOff ; jmp 0x02aa ; ...
+//
+//
+//
+[01:use] pop_local_word xOff ; pop_local_word yOff ; jmp 0x02aa ; ...
+//
+//
+//
+[01:use] pop_local_word xOff ; pop_local_word yOff ; jmp 0x02aa ; ...
+//
+//
+//
+[01:use] pop_local_word xOff ; pop_local_word yOff ; jmp 0x02aa ; ...
+//
+//
+//
+[01:use] pop_local_word xOff ; pop_local_word yOff ; jmp 0x02aa ; ...
+//
+//
+//
+[01:use] pop_local_word xOff ; pop_local_word yOff ; jmp 0x02aa ; ...
+//
+//
+//
+[01:use] pop_local_word xOff ; pop_local_word yOff ; jmp 0x02aa ; ...
+//
+//
+//
+//
+[01:use] global_address global[0x003c] ; call_intrinsic AudioProcess.stopSFXCru(arg_bytes=0x4) ; jne 0x02c4 ; ...
+//
+[01:use] pop_local_byte InCrouch ; jmp 0x02fb
+//
+//
+//
+[01:use] pop_local_byte InCrouch
+[01:use] global_address global[0x003c] ; call_intrinsic Actor.getDir(arg_bytes=0x4) ; global_address global[0x003c] ; ...
+//
+//
+//
+//
+//
+[01:use] call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[01:use] global_address global[0x003c] ; call_intrinsic Item.getZ(arg_bytes=0x4) ; global_address global[0x003c] ; ...
+//
+//
+[01:use] not ; jne 0x0379
+[01:use] global_address global[0x003c] ; call_intrinsic Actor.getDir(arg_bytes=0x4) ; global_address global[0x003c] ; ...
+//
+//
+[01:use] call_intrinsic Ultima8Engine.setAvatarInStasis(arg_bytes=0x2) ; jmp 0x0396
+//
+//
+//
+[01:use] call_intrinsic Item.explode(arg_bytes=0x8) ; ...
+//
+[01:use] ret
+
+/* synthesized appendix for DETPAC */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x01 use ===== */
+function detpac_use() /* entry=1377 class_id=0x055f slot=0x01 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    InCrouch, /* [BP-01h] type=0x62 */
+    Bomb, /* [BP-03h] type=0x24 */
+    item, /* [BP-05h] type=0x24 */
+    lastAnim, /* [BP-07h] type=0x69 */
+    xOff, /* [BP-09h] type=0x69 */
+    yOff, /* [BP-11h] type=0x69 */
+    mine; /* [BP-13h] type=0x24 */
+
+  set_info(0x0207, *(arg_06));
+  process_exclude();
+  Bomb = *(arg_06);
+  if (Item.setNpcNum(arg_06)) {
+    if (Actor.getMap(&global[0x003c]) == 40) {
+      Item.create(0, DET_PAC, item);
+      Item.popToCoords(0, 0, 0, item);
+      AudioProcess.isSFXPlayingForObject(0, item);
+      return;
+    }
+    set_info(0x00f0, 0);
+    lastAnim = 0;
+    Ultima8Engine.setAvatarInStasis(1);
+    while (Actor.doAnim(&global[0x003c])) {
+      spawn FREE.slot_32(pid, 2, 0x00000000);
+      suspend;
+    }
+    switch (Actor.getDir(&global[0x003c])) {
+    case 0:
+      xOff = -1;
+      yOff = -3;
+      break;
+    case 1:
+      xOff = 0;
+      yOff = -3;
+      break;
+    case 2:
+      xOff = 1;
+      yOff = -3;
+      break;
+    case 3:
+      xOff = 2;
+      yOff = -2;
+      break;
+    case 4:
+      xOff = 2;
+      yOff = -1;
+      break;
+    case 5:
+      xOff = 2;
+      yOff = 0;
+      break;
+    case 6:
+      xOff = 2;
+      yOff = 2;
+      break;
+    case 7:
+      xOff = 0;
+      yOff = 2;
+      break;
+    case 8:
+      xOff = -1;
+      yOff = 2;
+      break;
+    case 9:
+      xOff = -2;
+      yOff = 2;
+      break;
+    case 10:
+      xOff = -3;
+      yOff = 2;
+      break;
+    case 11:
+      xOff = -3;
+      yOff = 1;
+      break;
+    case 12:
+      xOff = -3;
+      yOff = 0;
+      break;
+    case 13:
+      xOff = -3;
+      yOff = -1;
+      break;
+    case 14:
+      xOff = -3;
+      yOff = -2;
+      break;
+    case 15:
+      xOff = -3;
+      yOff = -3;
+      break;
+    }
+    if (AudioProcess.stopSFXCru(&global[0x003c])) {
+      InCrouch = 1;
+    }
+    else {
+      InCrouch = 0;
+      suspend;
+    }
+    Item.create(0, DET_PAC, mine);
+    Item.popToCoords((Item.getX((Item.getY(Item.getZ(&global[0x003c]), &global[0x003c]) + (yOff * 16)), &global[0x003c]) + (xOff * 16)), mine);
+    if (!InCrouch) {
+      suspend;
+    }
+    Ultima8Engine.setAvatarInStasis(0);
+    return;
+  }
+  else {
+    Item.explode(1, 2, arg_06);
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol InCrouch [BP-01h] type=0x62 unk1=0x00 unk3=0x00
+    debug_symbol Bomb [BP-03h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol item [BP-05h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol lastAnim [BP-07h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol xOff [BP-09h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol yOff [BP-11h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol mine [BP-13h] type=0x24 unk1=0x00 unk3=0x02
+  */
+}

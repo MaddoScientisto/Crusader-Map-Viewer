@@ -1,0 +1,211 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[0F:enterFastArea] call_intrinsic AudioProcess.playAmbientSFXCru(arg_bytes=0x6)
+[0F:enterFastArea] ret
+//
+//
+//
+[06:gotHit] call_class_event FREE.slot_2b ; jne 0x0095 ; ...
+//
+//
+//
+[06:gotHit] call_intrinsic Item.andStatus(arg_bytes=0x4) ; pop_local_word fart2 ; ...
+[06:gotHit] call_intrinsic Item.setQLo(arg_bytes=0x6) ; loopscr value_u8=0x24 ; loopscr value_u8=0x3d ; ...
+[06:gotHit] loopscr value_u8=0x25 ; mul ; ...
+[06:gotHit] loop current_var=0xfe, string_bytes=0x6, loop_type=0x2 ; jne 0x0093 ; ...
+[06:gotHit] call_intrinsic Item.andStatus(arg_bytes=0x4) ; pop_local_word fart ; ...
+[06:gotHit] push_local_word fart
+[06:gotHit] cmp ; jne 0x008f
+[06:gotHit] call_intrinsic Item.destroy(arg_bytes=0x4) ; loopnext ; jmp 0x0062 ; ...
+//
+//
+//
+[06:gotHit] ret
+//
+//
+//
+[0A:equip] call_intrinsic Item.getStatus(arg_bytes=0x4) ; bit_and ; jne 0x0030 ; ...
+//
+[0A:equip] jmp 0x0204
+//
+//
+[0A:equip] cmp ; jne 0x0204 ; ...
+//
+[0A:equip] call_class_event ITEM.slot_23
+//
+//
+[0A:equip] call_intrinsic Item.getFrame(arg_bytes=0x4) ; pop_local_word fram ; ...
+//
+[0A:equip] add ; pop_local_word fram ; ...
+//
+[0A:equip] call_intrinsic Item.setShape(arg_bytes=0x6)
+[0A:equip] call_intrinsic Item.getPoint(arg_bytes=0x6)
+[0A:equip] pop_local_word counter2
+[0A:equip] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[0A:equip] pop_local_word counter ; le ; jne 0x0199 ; ...
+//
+[0A:equip] add ; pop_local_word fram ; ...
+[0A:equip] gt ; jne 0x00d8 ; ...
+[0A:equip]
+[0A:equip] pop_local_word fram
+//
+[0A:equip] call_intrinsic Item.getPoint(arg_bytes=0x6)
+[0A:equip] add ; pop_local_word counter2 ; ...
+[0A:equip] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[0A:equip] cmp ; jne 0x018c ; loopscr value_u8=0x24 ; ...
+[0A:equip]
+//
+[0A:equip] loopscr value_u8=0x25 ; mul ; ...
+[0A:equip] loop current_var=0xf6, string_bytes=0x6, loop_type=0x2 ; jne 0x018a ; ...
+[0A:equip] call_intrinsic Item.andStatus(arg_bytes=0x4) ; call_intrinsic Item.andStatus(arg_bytes=0x4) ; cmp ; ...
+[0A:equip]
+[0A:equip] spawn FREE.slot_31 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+[0A:equip] call_class_event ITEM.slot_24
+//
+[0A:equip] call_intrinsic Item.getFrame(arg_bytes=0x4) ; call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[0A:equip] call_intrinsic Item.andStatus(arg_bytes=0x4) ; call_intrinsic Item.fallProbably_03E(arg_bytes=0x6) ; ...
+[0A:equip] call_intrinsic Item.getZ(arg_bytes=0x4) ; call_intrinsic Item.getY(arg_bytes=0x4) ; call_intrinsic Item.getX(arg_bytes=0x4) ; ...
+[0A:equip] call_intrinsic Item.destroy(arg_bytes=0x4)
+//
+//
+[0A:equip] ret
+
+/* synthesized appendix for RFANNS */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x06 gotHit ===== */
+function rfanns_gotHit() /* entry=191 class_id=0x00bd slot=0x06 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    vel, /* [BP+12h] type=0x69 */
+    item, /* [BP-02h] type=0x24 */
+    fart, /* [BP-04h] type=0x69 */
+    fart2; /* [BP-06h] type=0x69 */
+
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  FREE.slot_2b(vel, ref);
+  if (retval) {
+    fart2 = Item.andStatus(arg_06);
+    Item.setQLo(6, arg_06);
+    for item in nearby_items(shape=WIND_AREA, origin=arg_06) {
+      fart = Item.andStatus(item);
+      if (fart == fart2) {
+        Item.destroy(item);
+      }
+    }
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol ref [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol vel [BP+12h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol item [BP-02h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol fart [BP-04h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol fart2 [BP-06h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x0a equip ===== */
+function rfanns_equip() /* entry=191 class_id=0x00bd slot=0x0a */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    var, /* [BP+10h] type=0x69 */
+    fram, /* [BP-02h] type=0x69 */
+    counter, /* [BP-04h] type=0x69 */
+    counter2, /* [BP-06h] type=0x69 */
+    item, /* [BP-08h] type=0x24 */
+    wind; /* [BP-10h] type=0x24 */
+
+  set_info(0x0211, *(arg_06));
+  process_exclude();
+  if (Item.getStatus(arg_06) & 0x1000) {
+    return;
+  }
+  else if (var == 0) {
+    ITEM.slot_23(0x1000, arg_06);
+    fram = Item.getFrame(arg_06);
+    fram = (1 + fram);
+    Item.setShape(0x03d3, arg_06);
+    Item.getPoint(fram, arg_06);
+    counter2 = 1;
+    spawn FREE.slot_32(pid, counter2, 0x00000000);
+    suspend;
+    counter = 1;
+    while (counter <= 15) {
+      fram = (1 + fram);
+      if (fram > 5) {
+        fram = 1;
+      }
+      Item.getPoint(fram, arg_06);
+      counter2 = (counter2 + 1);
+      spawn FREE.slot_32(pid, counter2, 0x00000000);
+      suspend;
+      if (counter2 == 4) {
+        for wind in nearby_items(shape=WIND_AREA, origin=arg_06) {
+          if (Item.andStatus(wind) == Item.andStatus(arg_06)) {
+            spawn FREE.slot_31(pid, wind, 0x00000000);
+            suspend;
+          }
+        }
+      }
+      counter = (1 + counter);
+    }
+    ITEM.slot_24(0x1000, arg_06);
+    Item.create(Item.getFrame(arg_06), 0x03d3, item);
+    Item.fallProbably_03E(Item.andStatus(arg_06), item);
+    Item.popToCoords(Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06), item);
+    Item.destroy(arg_06);
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol var [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol fram [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol counter [BP-04h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol counter2 [BP-06h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol item [BP-08h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol wind [BP-10h] type=0x24 unk1=0x00 unk3=0x02
+  */
+}
+
+/* ===== slot 0x0f enterFastArea ===== */
+function rfanns_enterFastArea() /* entry=191 class_id=0x00bd slot=0x0f */
+{
+  var
+    referent; /* [BP+00h] type=0x69 */
+
+  set_info(0x021b, *(arg_06));
+  process_exclude();
+  AudioProcess.playAmbientSFXCru(6, arg_06);
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+  */
+}

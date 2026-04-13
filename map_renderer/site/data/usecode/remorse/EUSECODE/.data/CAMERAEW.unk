@@ -1,0 +1,336 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[0F:enterFastArea] call_intrinsic Game.getDifficultyLevel(arg_bytes=0x0) ; sub ; mul ; ...
+[0F:enterFastArea] call_intrinsic Game.getDifficultyLevel(arg_bytes=0x0) ; mul ; sub ; ...
+//
+[0F:enterFastArea] call_intrinsic Item.getFrame(arg_bytes=0x4) ; cmp ; jne 0x0052 ; ...
+[0F:enterFastArea]
+[0F:enterFastArea] jmp 0x03d3
+//
+//
+[0F:enterFastArea] call_intrinsic Item.isOnScreen(arg_bytes=0x4) ; not ; jne 0x008e ; ...
+[0F:enterFastArea]
+[0F:enterFastArea] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+[0F:enterFastArea] pop_local_word sawCrusader
+[0F:enterFastArea] pop_local_word movement ; suspend
+//
+//
+//
+//
+//
+//
+//
+[0F:enterFastArea] pop_local_word range
+//
+[0F:enterFastArea] call_intrinsic Item.isOnScreen(arg_bytes=0x4) ; not ; jne 0x00ec ; ...
+[0F:enterFastArea]
+[0F:enterFastArea] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[0F:enterFastArea] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[0F:enterFastArea] call_intrinsic getTargetNPCNumMaybe(arg_bytes=0x0) ; ne ; jne 0x0130 ; ...
+[0F:enterFastArea]
+[0F:enterFastArea] call_intrinsic getTargetNPCNumMaybe(arg_bytes=0x0) ; pop_local_word target ; jmp 0x0137 ; ...
+//
+//
+//
+[0F:enterFastArea] pop_local_word target
+//
+//
+[0F:enterFastArea] call_intrinsic Item.getY(arg_bytes=0x4) ; call_intrinsic Item.getX(arg_bytes=0x4) ; call_intrinsic Item.getY(arg_bytes=0x4) ; ...
+[0F:enterFastArea] call_intrinsic Item.getFrame(arg_bytes=0x4) ; pop_local_word fram ; ...
+//
+//
+[0F:enterFastArea] sub ; cmp ; jne 0x02e0 ; ...
+//
+[0F:enterFastArea] call_intrinsic Item.getRangeIfVisible(arg_bytes=0x6) ; pop_local_word range ; ...
+//
+//
+[0F:enterFastArea] jne 0x023c
+[0F:enterFastArea] pop_local_word sawCrusader
+[0F:enterFastArea] add ; pop_local_word trackedEnough ; ...
+//
+[0F:enterFastArea] gt ; call_intrinsic Item.getStatus(arg_bytes=0x4) ; bit_and ; ...
+[0F:enterFastArea]
+[0F:enterFastArea] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+[0F:enterFastArea] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[0F:enterFastArea] spawn TRIGGER.slot_20 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[0F:enterFastArea] call_class_event ITEM.slot_23 ; jmp 0x02dd ; ...
+//
+//
+//
+//
+[0F:enterFastArea] pop_local_word sawCrusader
+//
+[0F:enterFastArea] add ; lt ; jne 0x0281 ; ...
+//
+[0F:enterFastArea] pop_local_word movement
+[0F:enterFastArea] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[0F:enterFastArea] add ; gt ; jne 0x02bf ; ...
+//
+[0F:enterFastArea] pop_local_word movement
+[0F:enterFastArea] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[0F:enterFastArea] add ; call_intrinsic Item.setFrame(arg_bytes=0x6) ; ...
+[0F:enterFastArea] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6) ; jmp 0x03d0 ; ...
+//
+//
+//
+//
+[0F:enterFastArea] push_local_word trackedEnough
+[0F:enterFastArea] and ; jne 0x0319
+[0F:enterFastArea] sub
+[0F:enterFastArea] gt ; jne 0x030f
+[0F:enterFastArea] pop_local_word movement ; jmp 0x0316
+//
+//
+//
+[0F:enterFastArea] pop_local_word movement ; jmp 0x0336
+//
+//
+//
+//
+[0F:enterFastArea] pop_local_word trackedEnough
+[0F:enterFastArea] pop_local_word sawCrusader
+[0F:enterFastArea] bit_not ; call_intrinsic Item.andStatus(arg_bytes=0x6) ; ...
+//
+//
+[0F:enterFastArea] add ; lt ; jne 0x0374 ; ...
+//
+[0F:enterFastArea] pop_local_word movement
+[0F:enterFastArea] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[0F:enterFastArea] add ; gt ; jne 0x03b2 ; ...
+//
+[0F:enterFastArea] pop_local_word movement
+[0F:enterFastArea] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[0F:enterFastArea] add ; call_intrinsic Item.setFrame(arg_bytes=0x6) ; ...
+[0F:enterFastArea] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6) ; jmp 0x009c ; ...
+//
+//
+[0F:enterFastArea] ret
+//
+//
+//
+//
+//
+//
+[10:leaveFastArea] call_class_event FREE.slot_33 ; ...
+[10:leaveFastArea] bit_not ; call_intrinsic Item.andStatus(arg_bytes=0x6) ; ...
+[10:leaveFastArea] ret
+//
+//
+//
+//
+//
+//
+[06:gotHit] call_class_event FREE.slot_2b ; call_intrinsic Item.getFrame(arg_bytes=0x4) ; ne ; ...
+[06:gotHit]
+[06:gotHit] call_class_event FREE.slot_33 ; ...
+[06:gotHit] call_intrinsic Item.setFrame(arg_bytes=0x6)
+[06:gotHit] spawn TRIGGER.slot_20 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[06:gotHit] spawn ITEM.slot_28 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[06:gotHit] ret
+
+/* synthesized appendix for CAMERAEW */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x06 gotHit ===== */
+function cameraew_gotHit() /* entry=473 class_id=0x01d7 slot=0x06 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    vel; /* [BP+12h] type=0x69 */
+
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  FREE.slot_2b(vel, ref);
+  if (retval && (Item.getFrame(arg_06) != 9)) {
+    FREE.slot_33(0x021b, *(arg_06));
+    Item.setFrame(9, arg_06);
+    spawn TRIGGER.slot_20(pid, 1, *(arg_06), arg_06);
+    suspend;
+    spawn ITEM.slot_28(pid, 0, 0, arg_06);
+    suspend;
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol ref [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol vel [BP+12h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x0f enterFastArea ===== */
+function cameraew_enterFastArea() /* entry=473 class_id=0x01d7 slot=0x0f */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    delay, /* [BP-02h] type=0x69 */
+    iSeeYou, /* [BP-04h] type=0x69 */
+    trackedEnough, /* [BP-06h] type=0x69 */
+    fram, /* [BP-08h] type=0x69 */
+    counter, /* [BP-10h] type=0x69 */
+    sawCrusader, /* [BP-12h] type=0x69 */
+    movement, /* [BP-14h] type=0x69 */
+    target, /* [BP-16h] type=0x24 */
+    range, /* [BP-18h] type=0x69 */
+    dir; /* [BP-20h] type=0x69 */
+
+  entry:
+    set_info(0x021b, *(arg_06));
+    process_exclude();
+    delay = ((5 - Game.getDifficultyLevel()) * 5);
+    iSeeYou = (5 - (Game.getDifficultyLevel() * 5));
+    if Item.getFrame(arg_06) != 9 goto block_0126;
+
+  block_0120:
+    goto block_04a7;
+
+  while (!Item.isOnScreen(arg_06)) {
+    spawn FREE.waitNTimerTicks(pid, delay, 0x00000000);
+    suspend;
+  }
+
+  block_0162:
+    sawCrusader = 0;
+    movement = 1;
+
+  while (true) {
+    suspend;
+    range = 0;
+    while (!Item.isOnScreen(arg_06)) {
+      spawn FREE.waitNTimerTicks(pid, delay, 0x00000000);
+      suspend;
+    }
+    spawn FREE.waitNTimerTicks(pid, delay, 0x00000000);
+    suspend;
+    if (getTargetNPCNumMaybe() != 0) {
+      target = getTargetNPCNumMaybe();
+    }
+    else {
+      target = 1;
+    }
+    dir = getClosestDirectionInRange(15, 0, 16, Item.getY(target), Item.getX(target), Item.getY(arg_06), Item.getX(arg_06));
+    fram = Item.getFrame(arg_06);
+    if ((8 - dir) == fram) {
+      range = Item.getRangeIfVisible(target, arg_06);
+      if (range) {
+        sawCrusader = 1;
+        trackedEnough = (1 + trackedEnough);
+        if ((trackedEnough > iSeeYou) && (!(Item.getStatus(arg_06) & 0x1000))) {
+          AudioProcess.playSFXCru(0x00e6, arg_06);
+          spawn FREE.waitNTimerTicks(pid, delay, 0x00000000);
+          suspend;
+          spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
+          suspend;
+          ITEM.slot_23(0x1000, arg_06);
+        }
+      }
+      else {
+        sawCrusader = 0;
+        if ((fram + movement) < 0) {
+          movement = 1;
+          spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
+          suspend;
+        }
+        else if ((fram + movement) > 8) {
+          movement = -1;
+          spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
+          suspend;
+        }
+        Item.setFrame((fram + movement), arg_06);
+        AudioProcess.playSFXCru(0x00b5, arg_06);
+      }
+    }
+    else if (trackedEnough && sawCrusader) {
+      if ((8 - dir) > fram) {
+        movement = 1;
+      }
+      else {
+        movement = -1;
+      }
+    }
+    else {
+      trackedEnough = 0;
+      sawCrusader = 0;
+      Item.andStatus((~0x1000), arg_06);
+    }
+    if ((fram + movement) < 0) {
+      movement = 1;
+      spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
+      suspend;
+    }
+    else if ((fram + movement) > 8) {
+      movement = -1;
+      spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
+      suspend;
+    }
+    Item.setFrame((fram + movement), arg_06);
+    AudioProcess.playSFXCru(0x00b5, arg_06);
+  }
+
+  return;
+
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol delay [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol iSeeYou [BP-04h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol trackedEnough [BP-06h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol fram [BP-08h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol counter [BP-10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol sawCrusader [BP-12h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol movement [BP-14h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol target [BP-16h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol range [BP-18h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol dir [BP-20h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x10 leaveFastArea ===== */
+function cameraew_leaveFastArea() /* entry=473 class_id=0x01d7 slot=0x10 */
+{
+  var
+    referent; /* [BP+00h] type=0x69 */
+
+  set_info(0x021c, *(arg_06));
+  process_exclude();
+  FREE.slot_33(0x021b, *(arg_06));
+  Item.andStatus((~0x1000), arg_06);
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+  */
+}

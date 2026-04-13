@@ -1,0 +1,63 @@
+/* synthesized appendix for MISS14 */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x04 cachein ===== */
+function miss14_cachein() /* entry=2332 class_id=0x091a slot=0x04 */
+{
+  set_info(0x0213, *(arg_06));
+  process_exclude();
+  if (Item.fallProbably_03E(arg_06) == 1) {
+    Item.legal_create(0, 0x039b, local_02);
+    getTargetNPCNumMaybe(0, 0, 0, local_02);
+    Item.spawnUsecodeEvent0x13(0, local_02);
+  }
+  return;
+}
+
+/* ===== slot 0x07 hatch ===== */
+function miss14_hatch() /* entry=2332 class_id=0x091a slot=0x07 */
+{
+  set_info(0x0210, *(arg_06));
+  process_exclude();
+  switch (Item.fallProbably_03E(arg_06)) {
+  case 1:
+    Ultima8Engine.setAvatarInStasis(1);
+    while (Actor.isBusy(&global[0x003d])) {
+      spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+      suspend;
+    }
+    spawn FREE.slot_3c(pid, 0x00000000);
+    suspend;
+    FREE.slot_41();
+    local_02 = 1;
+    while (local_02 <= 8) {
+      suspend;
+      local_02 = (1 + local_02);
+    }
+    local_02 = 1;
+    while (local_02 <= 3) {
+      suspend;
+      local_02 = (1 + local_02);
+    }
+    Item.setMapArray();
+    Intrinsic08A();
+    playFlic(pid, 0x0096, 0x00fa, "S01", arg_06);
+    suspend;
+    playFlic(pid, 0x0096, 0x00fa, "15A", arg_06);
+    suspend;
+    Ultima8Engine.setAvatarInStasis(1);
+    Item.andStatus(29);
+    return;
+  case 2:
+    spawn FREE.slot_26(pid, "14d", 0x00000000);
+    suspend;
+    Item.destroy(arg_06);
+    return;
+  case 3:
+    spawn FREE.slot_26(pid, "14e", 0x00000000);
+    suspend;
+    Item.destroy(arg_06);
+    return;
+  }
+  return;
+}

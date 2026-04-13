@@ -1,7 +1,18 @@
 function free_slot_37() /* entry=2574 class_id=0x0a0c slot=0x37 */
 {
-  local_02 = arg_06;
-  arg_06 = arg_08;
-  arg_06 = (arg_06 + local_02);
+  var
+    list, /* [BP+06h] type=0x7a */
+    lines, /* [BP+08h] type=0x7a */
+    temp; /* [BP-02h] type=0x7a */
+
+  temp = list;
+  list = lines;
+  list = (list + temp);
   return;
+
+  /* post-return metadata (not executable):
+    debug_symbol list [BP+06h] type=0x7a unk1=0x00 unk3=0x02
+    debug_symbol lines [BP+08h] type=0x7a unk1=0x00 unk3=0x02
+    debug_symbol temp [BP-02h] type=0x7a unk1=0x00 unk3=0x02
+  */
 }

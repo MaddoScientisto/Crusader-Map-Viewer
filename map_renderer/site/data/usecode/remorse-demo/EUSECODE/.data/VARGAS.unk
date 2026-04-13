@@ -1,0 +1,37 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[0E:calledFromAnim] set_info
+[0E:calledFromAnim] call_intrinsic Item.andStatus(arg_bytes=0x4) ; ...
+[0E:calledFromAnim] call_intrinsic Actor.GetNPCDataField0x63_00B(arg_bytes=0x4) ; spawn NPCDEATH.slot_20 ; pop_temp ; ...
+[0E:calledFromAnim] ret
+
+/* synthesized appendix for VARGAS */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x0e calledFromAnim ===== */
+function vargas_calledFromAnim() /* entry=942 class_id=0x03ac slot=0x0e */
+{
+  var
+    referent; /* [BP+00h] type=0x69 */
+
+  set_info(0x021a, *(arg_06));
+  process_exclude();
+  set_info(1, 0);
+  Item.andStatus(12, *(arg_06));
+  spawn NPCDEATH.slot_20(Actor.GetNPCDataField0x63_00B(arg_06), *(arg_06), arg_06);
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+  */
+}

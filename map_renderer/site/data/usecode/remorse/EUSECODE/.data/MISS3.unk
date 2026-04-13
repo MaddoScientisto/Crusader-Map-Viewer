@@ -1,0 +1,106 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[04:cachein] pop_global global[0x001f]
+[04:cachein] ret
+//
+//
+//
+//
+//
+//
+//
+[07:hatch] pop_global global[0x0031]
+[07:hatch] spawn FREE.slot_26 ; free_stack_string value_u8=0x0, target=[SP+00h] ; implies arg0=0x1, arg1=0x1 ; ...
+[07:hatch] call_intrinsic Item.destroy(arg_bytes=0x4) ; jmp 0x0105 ; call_intrinsic Egg.getEggId(arg_bytes=0x4) ; ...
+//
+//
+//
+//
+//
+[07:hatch] not ; jne 0x00af
+[07:hatch] spawn FREE.slot_26 ; free_stack_string value_u8=0x0, target=[SP+00h] ; implies arg0=0x1, arg1=0x1 ; ...
+//
+//
+//
+//
+//
+//
+[07:hatch] jne 0x0102
+[07:hatch] spawn FREE.slot_26 ; free_stack_string value_u8=0x0, target=[SP+00h] ; implies arg0=0x1, arg1=0x1 ; ...
+[07:hatch] call_intrinsic Item.destroy(arg_bytes=0x4) ; jmp 0x0105
+//
+//
+//
+//
+[07:hatch] ret
+
+/* synthesized appendix for MISS3 */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x04 cachein ===== */
+function miss3_cachein() /* entry=2321 class_id=0x090f slot=0x04 */
+{
+  var
+    referent; /* [BP+00h] type=0x69 */
+
+  set_info(0x0213, *(arg_06));
+  process_exclude();
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+  */
+}
+
+/* ===== slot 0x07 hatch ===== */
+function miss3_hatch() /* entry=2321 class_id=0x090f slot=0x07 */
+{
+  var
+    referent; /* [BP+00h] type=0x69 */
+
+  set_info(0x0210, *(arg_06));
+  process_exclude();
+  switch (Egg.getEggId(arg_06)) {
+  case 1:
+    spawn FREE.slot_26(pid, "3g", 0x00000000);
+    suspend;
+    Item.destroy(arg_06);
+    return;
+  case 2:
+    if (!(global[0x0022])) {
+      spawn FREE.slot_26(pid, "3i", 0x00000000);
+      suspend;
+    }
+    return;
+  case 3:
+    if (global[0x0022]) {
+      spawn FREE.slot_26(pid, "3h", 0x00000000);
+      suspend;
+      Item.destroy(arg_06);
+    }
+    return;
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+  */
+}

@@ -1,0 +1,5998 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[20:slot_20] call_intrinsic Item.getQHi(arg_bytes=0x4) ; pop_local_word num ; ...
+//
+[20:slot_20] gt ; jne 0x0031 ; ...
+//
+[20:slot_20] sub ; pop_local_word num ; ...
+//
+//
+[20:slot_20] div ; pop_temp ; jmp 0x003d ; ...
+[20:slot_20] ret
+//
+//
+//
+[21:slot_21] call_intrinsic Item.getQHi(arg_bytes=0x4) ; pop_local_word num ; ...
+//
+[21:slot_21] gt ; jne 0x0031 ; ...
+//
+[21:slot_21] sub ; pop_local_word num ; ...
+//
+//
+[21:slot_21] mod ; pop_temp ; jmp 0x003d ; ...
+[21:slot_21] ret
+//
+//
+//
+//
+//
+[22:slot_22] call_class_event WALLGUN.slot_21 ; mul ; add ; ...
+[22:slot_22] ret
+//
+//
+//
+//
+//
+[23:slot_23] mul ; call_class_event WALLGUN.slot_20 ; add ; ...
+[23:slot_23] ret
+//
+//
+//
+//
+//
+[24:slot_24] call_intrinsic Item.getFrame(arg_bytes=0x4) ; call_intrinsic Item.getShape(arg_bytes=0x4) ; call_class_event WALLGUN.slot_25 ; ...
+[24:slot_24]
+[24:slot_24] jmp 0x00f5
+//
+//
+[24:slot_24] lt ; gt ; or ; ...
+[24:slot_24]
+[24:slot_24] call_class_event FREE.slot_33 ; ...
+[24:slot_24] call_class_event FREE.slot_33 ; ...
+//
+[24:slot_24] spawn WALLGUN.slot_28 ; pop_temp ; jmp 0x00f5 ; ...
+//
+//
+[24:slot_24] cmp ; jne 0x00b9 ; ...
+//
+[24:slot_24] spawn WALLGUN.slot_34 ; pop_temp ; jmp 0x00f5 ; ...
+//
+//
+[24:slot_24] cmp ; jne 0x00d5 ; ...
+//
+[24:slot_24] spawn WALLGUN.slot_35 ; pop_temp ; jmp 0x00f5 ; ...
+//
+//
+[24:slot_24] cmp ; jne 0x00f5 ; ...
+//
+[24:slot_24] spawn WALLGUN.slot_4a ; pop_temp ; jmp 0x00f5 ; ...
+//
+[24:slot_24] ret
+//
+//
+//
+//
+//
+[25:slot_25] cmp ; cmp ; or ; ...
+[25:slot_25] cmp ; or ; cmp ; ...
+[25:slot_25]
+[25:slot_25] cmp ; jne 0x0052 ; ...
+[25:slot_25]
+[25:slot_25] pop_temp ; jmp 0x00d2 ; jmp 0x005b ; ...
+//
+//
+//
+[25:slot_25] pop_temp ; jmp 0x00d2 ; jmp 0x00c9 ; ...
+//
+//
+//
+[25:slot_25] cmp ; cmp ; or ; ...
+[25:slot_25]
+[25:slot_25] cmp ; cmp ; or ; ...
+[25:slot_25]
+[25:slot_25] pop_temp ; jmp 0x00d2 ; jmp 0x009d ; ...
+//
+//
+//
+[25:slot_25] pop_temp ; jmp 0x00d2 ; jmp 0x00c9 ; ...
+//
+//
+[25:slot_25] cmp ; jne 0x00b8 ; ...
+//
+[25:slot_25] pop_temp ; jmp 0x00d2 ; jmp 0x00c9 ; ...
+//
+//
+//
+[25:slot_25] cmp ; jne 0x00c9 ; pop_temp ; ...
+//
+//
+[25:slot_25] pop_temp ; jmp 0x00d2
+[25:slot_25] ret
+//
+//
+//
+//
+//
+[26:slot_26] call_intrinsic Item.isOnScreen(arg_bytes=0x4)
+[26:slot_26] cmp ; jne 0x0057
+[26:slot_26] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[26:slot_26] ret
+//
+//
+//
+//
+//
+//
+[27:slot_27] call_intrinsic Item.getFrame(arg_bytes=0x4) ; call_intrinsic Item.getShape(arg_bytes=0x4) ; call_class_event WALLGUN.slot_25 ; ...
+//
+[27:slot_27] jmp 0x0118
+//
+//
+[27:slot_27] call_class_event WALLGUN.slot_29 ; jne 0x007c ; ...
+//
+[27:slot_27] call_intrinsic Item.getFrame(arg_bytes=0x4) ; gt ; jne 0x0079 ; ...
+[27:slot_27]
+[27:slot_27] call_intrinsic UCMachine.rndRange(arg_bytes=0x4) ; call_intrinsic Item.legal_create(arg_bytes=0x6) ; jmp 0x00a7 ; ...
+//
+//
+//
+//
+[27:slot_27] call_intrinsic Item.getFrame(arg_bytes=0x4) ; gt ; jne 0x00a7 ; ...
+[27:slot_27]
+[27:slot_27] call_intrinsic UCMachine.rndRange(arg_bytes=0x4) ; call_intrinsic Item.legal_create(arg_bytes=0x6) ; ...
+//
+//
+//
+[27:slot_27] call_intrinsic getTargetNPCNumMaybe(arg_bytes=0x0) ; ne ; jne 0x00ea ; ...
+[27:slot_27]
+[27:slot_27] call_intrinsic Item.getNPCNum(arg_bytes=0x4) ; call_intrinsic getTargetNPCNumMaybe(arg_bytes=0x0) ; spawn WALLGUN.slot_28 ; ...
+//
+//
+//
+[27:slot_27] call_intrinsic Item.getNPCNum(arg_bytes=0x4) ; spawn WALLGUN.slot_28 ; implies arg0=0x1, arg1=0x1 ; ...
+//
+[27:slot_27] ret
+//
+//
+//
+//
+//
+[28:slot_28] call_intrinsic Item.move(arg_bytes=0x6)
+[28:slot_28] gt ; jne 0x0038 ; ...
+//
+[28:slot_28] sub ; pop_local_word brain ; ...
+//
+//
+//
+[28:slot_28] call_intrinsic Item.getQHi(arg_bytes=0x4) ; pop_local_word h ; ...
+[28:slot_28] cmp ; jne 0x005e ; ...
+//
+//
+[28:slot_28] call_intrinsic Item.pop(arg_bytes=0x6)
+//
+//
+[28:slot_28] cmp ; cmp ; or ; ...
+[28:slot_28]
+[28:slot_28] jmp 0x0549
+//
+//
+//
+//
+//
+//
+[28:slot_28] call_intrinsic Item.getFrame(arg_bytes=0x4) ; call_intrinsic Item.getShape(arg_bytes=0x4) ; call_class_event WALLGUN.slot_25 ; ...
+//
+[28:slot_28] jmp 0x0549
+//
+//
+//
+[28:slot_28] jne 0x0549
+//
+[28:slot_28] spawn WALLGUN.slot_26 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+//
+[28:slot_28] spawn WALLGUN.slot_36 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+[28:slot_28] spawn WALLGUN.slot_37 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+[28:slot_28] spawn WALLGUN.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+[28:slot_28] spawn WALLGUN.slot_33 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+[28:slot_28] jne 0x0248
+//
+[28:slot_28] call_intrinsic getTargetNPCNumMaybe(arg_bytes=0x0) ; ne ; jne 0x01af ; ...
+[28:slot_28]
+[28:slot_28] call_intrinsic getTargetNPCNumMaybe(arg_bytes=0x0) ; pop_local_word target ; jmp 0x01b6 ; ...
+//
+//
+//
+[28:slot_28] pop_local_word target
+//
+//
+[28:slot_28] spawn WALLGUN.slot_3c ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[28:slot_28] spawn WALLGUN.slot_2f ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[28:slot_28] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[28:slot_28] spawn WALLGUN.slot_26 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+//
+//
+[28:slot_28] call_intrinsic getTargetNPCNumMaybe(arg_bytes=0x0) ; ne ; jne 0x0271 ; ...
+[28:slot_28]
+[28:slot_28] call_intrinsic getTargetNPCNumMaybe(arg_bytes=0x0) ; pop_local_word target ; jmp 0x0278 ; ...
+//
+//
+//
+[28:slot_28] pop_local_word target
+//
+//
+[28:slot_28] spawn WALLGUN.slot_3d ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+[28:slot_28] jne 0x0327
+//
+[28:slot_28] call_intrinsic getTargetNPCNumMaybe(arg_bytes=0x0) ; ne ; jne 0x02ce ; ...
+[28:slot_28]
+[28:slot_28] call_intrinsic getTargetNPCNumMaybe(arg_bytes=0x0) ; pop_local_word target ; jmp 0x02d5 ; ...
+//
+//
+//
+[28:slot_28] pop_local_word target
+//
+//
+[28:slot_28] spawn WALLGUN.slot_26 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[28:slot_28] spawn WALLGUN.slot_31 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[28:slot_28] jmp 0x0327 ; jmp 0x02a8
+//
+//
+[28:slot_28] spawn WALLGUN.slot_3d ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+[28:slot_28] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+[28:slot_28] spawn WALLGUN.slot_38 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+[28:slot_28] spawn WALLGUN.slot_39 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+[28:slot_28] spawn WALLGUN.slot_3a ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+[28:slot_28] spawn WALLGUN.slot_3b ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+//
+//
+//
+[28:slot_28] call_intrinsic getTargetNPCNumMaybe(arg_bytes=0x0) ; ne ; jne 0x0456 ; ...
+[28:slot_28]
+[28:slot_28] call_intrinsic getTargetNPCNumMaybe(arg_bytes=0x0) ; pop_local_word target ; jmp 0x045d ; ...
+//
+//
+//
+[28:slot_28] pop_local_word target
+//
+//
+[28:slot_28] spawn WALLGUN.slot_31 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[28:slot_28] spawn WALLGUN.slot_3d ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[28:slot_28] call_class_event WALLGUN.slot_20 ; pop_local_word delay ; ...
+//
+[28:slot_28] cmp ; jne 0x04cd ; pop_local_word delay ; ...
+[28:slot_28] gt ; jne 0x04dc ; pop_local_word delay ; ...
+//
+[28:slot_28] sub ; pop_local_word delay ; ...
+[28:slot_28] mul ; pop_local_word delay ; ...
+//
+[28:slot_28] add ; pop_local_word delay ; ...
+//
+[28:slot_28] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+[28:slot_28] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[28:slot_28] ret
+//
+//
+//
+//
+//
+//
+[29:slot_29] call_intrinsic Item.getShape(arg_bytes=0x4) ; pop_local_word t ; ...
+//
+[29:slot_29] cmp ; cmp ; or ; ...
+//
+[29:slot_29] pop_temp ; jmp 0x003e
+[29:slot_29] ret
+//
+//
+//
+//
+//
+[2A:slot_2a] call_intrinsic Item.getShape(arg_bytes=0x4)
+[2A:slot_2a] push_word_immediate 0x0113 ; push_word_immediate 0x0373 ; push_word_immediate 0x03a1
+[2A:slot_2a] create_list element_size=0x2, count=0x5 ; in_list element_size=0x2, slist_flag=0x0 ; jne 0x0044 ; ...
+[2A:slot_2a]
+[2A:slot_2a] pop_temp ; jmp 0x004d
+//
+//
+[2A:slot_2a] pop_temp ; jmp 0x004d
+[2A:slot_2a] ret
+//
+//
+//
+//
+//
+[2B:slot_2b] call_intrinsic Item.getShape(arg_bytes=0x4) ; create_list element_size=0x2, count=0x3 ; in_list element_size=0x2, slist_flag=0x0 ; ...
+[2B:slot_2b]
+[2B:slot_2b] pop_temp ; jmp 0x0044 ; jmp 0x0044 ; ...
+//
+//
+//
+[2B:slot_2b] pop_temp ; jmp 0x0044
+//
+[2B:slot_2b] ret
+//
+//
+//
+[2C:slot_2c] call_class_event WALLGUN.slot_2a ; cmp ; call_class_event WALLGUN.slot_2b ; ...
+[2C:slot_2c]
+[2C:slot_2c] call_intrinsic Item.getFrame(arg_bytes=0x4) ; pop_temp ; jmp 0x008c ; ...
+//
+[2C:slot_2c] call_class_event WALLGUN.slot_2a ; jne 0x0079 ; ...
+//
+[2C:slot_2c] call_intrinsic Item.getFrame(arg_bytes=0x4) ; sub ; pop_temp ; ...
+//
+//
+//
+[2C:slot_2c] call_intrinsic Item.getFrame(arg_bytes=0x4) ; sub ; pop_temp ; ...
+//
+[2C:slot_2c] ret
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[2D:slot_2d] pop_local_word targItem
+//
+//
+[2D:slot_2d] call_intrinsic Item.getY(arg_bytes=0x4) ; call_intrinsic Item.getX(arg_bytes=0x4) ; call_intrinsic Item.getY(arg_bytes=0x4) ; ...
+//
+[2D:slot_2d] call_class_event WALLGUN.slot_2c ; cmp ; jne 0x005e ; ...
+//
+[2D:slot_2d] call_class_event WALLGUN.slot_29 ; jne 0x0128 ; ...
+//
+//
+//
+[2D:slot_2d] call_class_event WALLGUN.slot_2c ; pop_local_word dir ; ...
+[2D:slot_2d] pop_local_word left
+[2D:slot_2d] pop_local_word right
+//
+//
+[2D:slot_2d] ne ; lt ; and ; ...
+[2D:slot_2d]
+[2D:slot_2d] add ; pop_local_word left ; ...
+[2D:slot_2d] cmp ; jne 0x00bb ; pop_local_word dir ; ...
+[2D:slot_2d] sub ; pop_local_word dir ; jmp 0x008b ; ...
+//
+//
+[2D:slot_2d] call_class_event WALLGUN.slot_2c ; pop_local_word dir ; ...
+//
+//
+[2D:slot_2d] ne ; lt ; and ; ...
+[2D:slot_2d]
+[2D:slot_2d] add ; pop_local_word right ; ...
+[2D:slot_2d] cmp ; jne 0x0107 ; pop_local_word dir ; ...
+[2D:slot_2d] add ; pop_local_word dir ; jmp 0x00d7 ; ...
+//
+//
+[2D:slot_2d] lt ; jne 0x0125 ; pop_temp ; ...
+//
+//
+//
+[2D:slot_2d] call_class_event WALLGUN.slot_2a ; cmp ; ge ; ...
+[2D:slot_2d] le ; and ; jne 0x0153 ; ...
+//
+[2D:slot_2d] call_class_event WALLGUN.slot_2c ; gt ; jne 0x016c ; ...
+//
+//
+//
+[2D:slot_2d] pop_temp ; jmp 0x0175
+[2D:slot_2d] ret
+//
+//
+//
+//
+//
+//
+[2E:slot_2e] call_class_event WALLGUN.slot_2c ; pop_local_byte dir ; ...
+//
+[2E:slot_2e] call_class_event WALLGUN.slot_3e ; pop_local_word x1 ; ...
+[2E:slot_2e] call_class_event WALLGUN.slot_3f ; pop_local_word y1 ; ...
+[2E:slot_2e] call_class_event WALLGUN.slot_40 ; pop_local_byte z1 ; ...
+//
+//
+[2E:slot_2e] pop_local_word targetNpc
+//
+[2E:slot_2e] call_intrinsic Item.getItemFamily(arg_bytes=0x4) ; jne 0x006f ; ...
+//
+[2E:slot_2e] pop_temp ; jmp 0x012a
+//
+//
+[2E:slot_2e] call_class_event WALLGUN.slot_2d ; not ; jne 0x0121 ; ...
+[2E:slot_2e]
+[2E:slot_2e] call_intrinsic Item.getNPCNum(arg_bytes=0x4) ; gt ; jne 0x00a0 ; ...
+//
+[2E:slot_2e] pop_temp ; jmp 0x012a
+//
+//
+[2E:slot_2e] call_intrinsic Intrinsic116(arg_bytes=0xe) ; jne 0x00bf ; pop_temp ; ...
+//
+[2E:slot_2e] call_class_event WALLGUN.slot_29 ; jne 0x0121 ; ...
+//
+[2E:slot_2e] call_class_event WALLGUN.slot_41 ; pop_local_word x2 ; ...
+[2E:slot_2e] call_class_event WALLGUN.slot_42 ; pop_local_word y2 ; ...
+[2E:slot_2e] call_class_event WALLGUN.slot_43 ; pop_local_byte z2 ; ...
+//
+[2E:slot_2e] call_intrinsic Intrinsic116(arg_bytes=0xe) ; jne 0x0121 ; pop_temp ; ...
+//
+//
+//
+[2E:slot_2e] pop_temp ; jmp 0x012a
+[2E:slot_2e] ret
+//
+//
+//
+//
+[2F:slot_2f] call_class_event WALLGUN.slot_20 ; pop_local_word delay ; ...
+//
+//
+[2F:slot_2f] not ; jne 0x0032 ; pop_local_word delay ; ...
+[2F:slot_2f] gt ; jne 0x0041 ; pop_local_word delay ; ...
+[2F:slot_2f] mul ; pop_local_word delay ; ...
+//
+//
+//
+[2F:slot_2f] jne 0x00e2
+[2F:slot_2f] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[2F:slot_2f] call_class_event WALLGUN.slot_2e ; pop_local_word cs ; ...
+[2F:slot_2f] call_class_event FREE.slot_29 ; pop_local_word dist ; ...
+//
+[2F:slot_2f] cmp ; cmp ; and ; ...
+//
+[2F:slot_2f] ne ; cmp ; and ; ...
+[2F:slot_2f]
+[2F:slot_2f] jmp 0x00e8 ; jmp 0x00df
+//
+//
+//
+[2F:slot_2f] sub ; pop_local_word delay ; jmp 0x004b ; ...
+//
+//
+//
+[2F:slot_2f] jmp 0x00e8
+[2F:slot_2f] ret
+//
+//
+//
+//
+//
+[30:slot_30] call_class_event WALLGUN.slot_21 ; pop_local_word delay ; ...
+//
+[30:slot_30] not ; jne 0x0032 ; pop_local_word delay ; ...
+[30:slot_30] gt ; jne 0x0041 ; pop_local_word delay ; ...
+[30:slot_30] mul ; pop_local_word delay ; ...
+//
+[30:slot_30] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[30:slot_30] ret
+//
+//
+//
+//
+//
+//
+//
+//
+[31:slot_31] pop_local_byte panRight
+[31:slot_31] pop_local_byte panLeft
+//
+[31:slot_31] call_class_event WALLGUN.slot_29 ; pop_local_byte isTurret ; ...
+[31:slot_31] push_local_byte isTurret
+[31:slot_31] cmp ; jne 0x005c
+[31:slot_31] pop_local_word inc
+//
+[31:slot_31] pop_local_word left
+[31:slot_31] pop_local_word right ; jmp 0x0099
+//
+[31:slot_31] call_class_event WALLGUN.slot_2b ; jne 0x0084 ; ...
+//
+[31:slot_31] pop_local_word inc
+//
+[31:slot_31] pop_local_word left
+[31:slot_31] pop_local_word right ; jmp 0x0099
+//
+//
+//
+[31:slot_31] pop_local_word inc
+//
+[31:slot_31] pop_local_word left
+[31:slot_31] pop_local_word right
+//
+//
+[31:slot_31] call_class_event WALLGUN.slot_2e ; jne 0x00f3 ; ...
+//
+[31:slot_31] push_local_word brain
+[31:slot_31] ne ; jne 0x00c9
+[31:slot_31] pop_result ; jmp 0x0308 ; jmp 0x00f3 ; ...
+//
+//
+[31:slot_31] call_class_event FREE.slot_29 ; ...
+[31:slot_31] le ; jne 0x00f3
+[31:slot_31] pop_result ; jmp 0x0308 ; jmp 0x00f3 ; ...
+//
+//
+//
+[31:slot_31] jne 0x0308
+//
+[31:slot_31] spawn WALLGUN.slot_26 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[31:slot_31] call_intrinsic Item.getFrame(arg_bytes=0x4) ; pop_local_word f ; ...
+[31:slot_31] cmp ; jne 0x016d ; ...
+//
+[31:slot_31] gt ; jne 0x016a ; ...
+//
+[31:slot_31] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[31:slot_31] jmp 0x00f3 ; jmp 0x01a7
+//
+//
+//
+[31:slot_31] gt ; jne 0x01a7 ; ...
+//
+[31:slot_31] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[31:slot_31] jmp 0x00f3 ; jmp 0x01a7
+//
+//
+//
+//
+//
+[31:slot_31] jne 0x01dd
+[31:slot_31] push_local_word f
+[31:slot_31] cmp ; jne 0x01d0
+[31:slot_31] pop_local_byte panRight
+[31:slot_31] jmp 0x00f3 ; jmp 0x01da
+//
+//
+//
+[31:slot_31] add ; pop_local_word f ; jmp 0x026c ; ...
+//
+//
+//
+//
+//
+[31:slot_31] cmp ; cmp ; and ; ...
+[31:slot_31]
+[31:slot_31] push_local_word f
+[31:slot_31] cmp ; jne 0x0212
+[31:slot_31] pop_local_byte panLeft
+[31:slot_31] jmp 0x00f3 ; jmp 0x021c
+//
+//
+//
+[31:slot_31] sub ; pop_local_word f ; jmp 0x026c ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+[31:slot_31] push_local_byte isTurret
+[31:slot_31] cmp ; jne 0x024a
+[31:slot_31] call_intrinsic Item.legal_create(arg_bytes=0x6)
+[31:slot_31] pop_result ; jmp 0x0308 ; jmp 0x026c ; ...
+//
+//
+//
+//
+[31:slot_31] cmp ; jne 0x0262 ; ...
+//
+[31:slot_31] pop_result ; jmp 0x0308 ; jmp 0x026c ; ...
+//
+//
+//
+[31:slot_31] add ; pop_local_word f ; ...
+//
+//
+//
+//
+//
+[31:slot_31] call_intrinsic Item.getQHi(arg_bytes=0x6)
+[31:slot_31] call_intrinsic Item.legal_create(arg_bytes=0x6)
+[31:slot_31] spawn WALLGUN.slot_2f ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[31:slot_31] call_class_event WALLGUN.slot_2e ; jne 0x0305 ; ...
+//
+[31:slot_31] push_local_word brain
+[31:slot_31] ne ; jne 0x02db
+[31:slot_31] pop_result ; jmp 0x0308 ; jmp 0x0305 ; ...
+//
+//
+[31:slot_31] call_class_event FREE.slot_29 ; ...
+[31:slot_31] le ; jne 0x0305
+[31:slot_31] pop_result ; jmp 0x0308 ; jmp 0x0305 ; ...
+//
+//
+//
+[31:slot_31] ret
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[32:slot_32] pop_local_byte panRight
+[32:slot_32] pop_local_byte panLeft
+//
+[32:slot_32] call_class_event WALLGUN.slot_29 ; pop_local_byte isTurret ; ...
+//
+[32:slot_32] push_local_byte isTurret
+[32:slot_32] cmp ; jne 0x005c
+[32:slot_32] pop_local_word inc
+//
+[32:slot_32] pop_local_word left
+[32:slot_32] pop_local_word right ; jmp 0x0099
+//
+[32:slot_32] call_class_event WALLGUN.slot_2b ; jne 0x0084 ; ...
+//
+[32:slot_32] pop_local_word inc
+//
+[32:slot_32] pop_local_word left
+[32:slot_32] pop_local_word right ; jmp 0x0099
+//
+//
+//
+[32:slot_32] pop_local_word inc
+//
+[32:slot_32] pop_local_word left
+[32:slot_32] pop_local_word right
+//
+//
+[32:slot_32] call_class_event WALLGUN.slot_20 ; mul ; pop_local_word delay ; ...
+//
+[32:slot_32] jne 0x0290
+//
+[32:slot_32] spawn WALLGUN.slot_26 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[32:slot_32] call_intrinsic Item.getFrame(arg_bytes=0x4) ; pop_local_word f ; ...
+[32:slot_32] cmp ; jne 0x0125 ; ...
+//
+[32:slot_32] gt ; jne 0x0122 ; ...
+//
+[32:slot_32] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[32:slot_32] jmp 0x00ab ; jmp 0x015f
+//
+//
+//
+[32:slot_32] gt ; jne 0x015f ; ...
+//
+[32:slot_32] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[32:slot_32] jmp 0x00ab ; jmp 0x015f
+//
+//
+//
+//
+//
+[32:slot_32] jne 0x0195
+[32:slot_32] push_local_word f
+[32:slot_32] cmp ; jne 0x0188
+[32:slot_32] pop_local_byte panRight
+[32:slot_32] jmp 0x00ab ; jmp 0x0192
+//
+//
+//
+[32:slot_32] add ; pop_local_word f ; jmp 0x0218 ; ...
+//
+//
+//
+//
+//
+[32:slot_32] cmp ; cmp ; and ; ...
+[32:slot_32]
+[32:slot_32] push_local_word f
+[32:slot_32] cmp ; jne 0x01ca
+[32:slot_32] pop_local_byte panLeft
+[32:slot_32] jmp 0x00ab ; jmp 0x01d4
+//
+//
+//
+[32:slot_32] sub ; pop_local_word f ; jmp 0x0218 ; ...
+//
+//
+//
+//
+[32:slot_32] push_local_byte isTurret
+[32:slot_32] cmp ; jne 0x01f2
+[32:slot_32] pop_local_word f ; jmp 0x020a
+//
+//
+[32:slot_32] ne ; jne 0x020a ; ...
+//
+[32:slot_32] add ; pop_local_word f ; jmp 0x020a ; ...
+//
+[32:slot_32] pop_local_byte panRight
+[32:slot_32] pop_local_byte panLeft
+//
+//
+[32:slot_32] call_intrinsic Item.getQHi(arg_bytes=0x6)
+[32:slot_32] call_intrinsic Item.legal_create(arg_bytes=0x6)
+[32:slot_32] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+[32:slot_32] call_class_event WALLGUN.slot_2e ; jne 0x028d ; ...
+//
+[32:slot_32] spawn WALLGUN.slot_46 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[32:slot_32] ret
+//
+//
+//
+//
+//
+//
+//
+//
+[33:slot_33] pop_local_byte panRight
+[33:slot_33] pop_local_byte panLeft
+//
+[33:slot_33] call_class_event WALLGUN.slot_29 ; pop_local_byte isTurret ; ...
+//
+[33:slot_33] push_local_byte isTurret
+[33:slot_33] cmp ; jne 0x005c
+[33:slot_33] pop_local_word inc
+//
+[33:slot_33] pop_local_word left
+[33:slot_33] pop_local_word right ; jmp 0x0099
+//
+[33:slot_33] call_class_event WALLGUN.slot_2b ; jne 0x0084 ; ...
+//
+[33:slot_33] pop_local_word inc
+//
+[33:slot_33] pop_local_word left
+[33:slot_33] pop_local_word right ; jmp 0x0099
+//
+//
+//
+[33:slot_33] pop_local_word inc
+//
+[33:slot_33] pop_local_word left
+[33:slot_33] pop_local_word right
+//
+//
+[33:slot_33] call_class_event WALLGUN.slot_20 ; mul ; pop_local_word delay ; ...
+//
+[33:slot_33] jne 0x0293
+//
+[33:slot_33] spawn WALLGUN.slot_26 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[33:slot_33] call_intrinsic Item.getFrame(arg_bytes=0x4) ; pop_local_word f ; ...
+[33:slot_33] cmp ; jne 0x0125 ; ...
+//
+[33:slot_33] gt ; jne 0x0122 ; ...
+//
+[33:slot_33] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[33:slot_33] jmp 0x00ab ; jmp 0x015f
+//
+//
+//
+[33:slot_33] gt ; jne 0x015f ; ...
+//
+[33:slot_33] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[33:slot_33] jmp 0x00ab ; jmp 0x015f
+//
+//
+//
+//
+[33:slot_33] cmp ; jne 0x0198 ; ...
+//
+[33:slot_33] push_local_word f
+[33:slot_33] cmp ; jne 0x018b
+[33:slot_33] pop_local_byte panLeft
+[33:slot_33] jmp 0x00ab ; jmp 0x0195
+//
+//
+//
+[33:slot_33] sub ; pop_local_word f ; jmp 0x021b ; ...
+//
+//
+//
+//
+//
+[33:slot_33] cmp ; cmp ; and ; ...
+[33:slot_33]
+[33:slot_33] push_local_word f
+[33:slot_33] cmp ; jne 0x01cd
+[33:slot_33] pop_local_byte panRight
+[33:slot_33] jmp 0x00ab ; jmp 0x01d7
+//
+//
+//
+[33:slot_33] add ; pop_local_word f ; jmp 0x021b ; ...
+//
+//
+//
+//
+[33:slot_33] pop_local_byte panRight
+[33:slot_33] pop_local_byte panLeft
+//
+[33:slot_33] push_local_byte isTurret
+[33:slot_33] cmp ; jne 0x0203
+[33:slot_33] pop_local_word f ; jmp 0x021b
+//
+//
+[33:slot_33] ne ; jne 0x021b ; ...
+//
+[33:slot_33] sub ; pop_local_word f ; jmp 0x021b ; ...
+//
+//
+//
+[33:slot_33] call_intrinsic Item.getQHi(arg_bytes=0x6)
+[33:slot_33] call_intrinsic Item.legal_create(arg_bytes=0x6)
+//
+//
+//
+[33:slot_33] call_class_event WALLGUN.slot_2e ; jne 0x026a ; ...
+//
+[33:slot_33] spawn WALLGUN.slot_46 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[33:slot_33] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[33:slot_33] ret
+//
+//
+//
+//
+//
+//
+//
+//
+[34:slot_34] pop_local_byte panRight
+//
+[34:slot_34] call_class_event WALLGUN.slot_29 ; pop_local_byte isTurret ; ...
+//
+[34:slot_34] push_local_byte isTurret
+[34:slot_34] cmp ; jne 0x0055
+[34:slot_34] pop_local_word inc
+//
+[34:slot_34] pop_local_word left
+[34:slot_34] pop_local_word right ; jmp 0x0092
+//
+[34:slot_34] call_class_event WALLGUN.slot_2b ; jne 0x007d ; ...
+//
+[34:slot_34] pop_local_word inc
+//
+[34:slot_34] pop_local_word left
+[34:slot_34] pop_local_word right ; jmp 0x0092
+//
+//
+//
+[34:slot_34] pop_local_word inc
+//
+[34:slot_34] pop_local_word left
+[34:slot_34] pop_local_word right
+//
+//
+[34:slot_34] call_class_event WALLGUN.slot_20 ; mul ; pop_local_word delay ; ...
+//
+[34:slot_34] jne 0x01f4
+//
+[34:slot_34] call_intrinsic Item.getFrame(arg_bytes=0x4) ; pop_local_word f ; ...
+[34:slot_34] cmp ; jne 0x00ff ; ...
+//
+[34:slot_34] gt ; jne 0x00fc ; ...
+//
+[34:slot_34] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[34:slot_34] jmp 0x00a4 ; jmp 0x0139
+//
+//
+//
+[34:slot_34] gt ; jne 0x0139 ; ...
+//
+[34:slot_34] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[34:slot_34] jmp 0x00a4 ; jmp 0x0139
+//
+//
+//
+//
+//
+[34:slot_34] jne 0x016f
+[34:slot_34] push_local_word f
+[34:slot_34] cmp ; jne 0x0162
+[34:slot_34] pop_local_byte panRight
+[34:slot_34] jmp 0x00a4 ; jmp 0x016c
+//
+//
+//
+[34:slot_34] add ; pop_local_word f ; jmp 0x01ab ; ...
+//
+//
+//
+//
+[34:slot_34] push_local_byte isTurret
+[34:slot_34] cmp ; jne 0x018a
+[34:slot_34] pop_local_word f ; jmp 0x01ab
+//
+//
+[34:slot_34] ne ; ne ; and ; ...
+[34:slot_34]
+[34:slot_34] add ; pop_local_word f ; jmp 0x01ab ; ...
+//
+//
+[34:slot_34] call_intrinsic Item.getQHi(arg_bytes=0x6)
+[34:slot_34] call_intrinsic Item.legal_create(arg_bytes=0x6)
+[34:slot_34] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[34:slot_34] jmp 0x01f4 ; jmp 0x00a4
+//
+[34:slot_34] ret
+//
+//
+//
+//
+//
+//
+//
+//
+[35:slot_35] pop_local_byte panLeft
+//
+[35:slot_35] call_class_event WALLGUN.slot_29 ; pop_local_byte isTurret ; ...
+//
+[35:slot_35] push_local_byte isTurret
+[35:slot_35] cmp ; jne 0x0055
+[35:slot_35] pop_local_word inc
+//
+[35:slot_35] pop_local_word left
+[35:slot_35] pop_local_word right ; jmp 0x0092
+//
+[35:slot_35] call_class_event WALLGUN.slot_2b ; jne 0x007d ; ...
+//
+[35:slot_35] pop_local_word inc
+//
+[35:slot_35] pop_local_word left
+[35:slot_35] pop_local_word right ; jmp 0x0092
+//
+//
+//
+[35:slot_35] pop_local_word inc
+//
+[35:slot_35] pop_local_word left
+[35:slot_35] pop_local_word right
+//
+//
+[35:slot_35] call_class_event WALLGUN.slot_20 ; mul ; pop_local_word delay ; ...
+//
+[35:slot_35] jne 0x01f7
+//
+[35:slot_35] call_intrinsic Item.getFrame(arg_bytes=0x4) ; pop_local_word f ; ...
+[35:slot_35] cmp ; jne 0x00ff ; ...
+//
+[35:slot_35] gt ; jne 0x00fc ; ...
+//
+[35:slot_35] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[35:slot_35] jmp 0x00a4 ; jmp 0x0139
+//
+//
+//
+[35:slot_35] gt ; jne 0x0139 ; ...
+//
+[35:slot_35] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[35:slot_35] jmp 0x00a4 ; jmp 0x0139
+//
+//
+//
+//
+[35:slot_35] cmp ; jne 0x0172 ; ...
+//
+[35:slot_35] push_local_word f
+[35:slot_35] cmp ; jne 0x0165
+[35:slot_35] pop_local_byte panLeft
+[35:slot_35] jmp 0x00a4 ; jmp 0x016f
+//
+//
+//
+[35:slot_35] sub ; pop_local_word f ; jmp 0x01ae ; ...
+//
+//
+//
+//
+[35:slot_35] push_local_byte isTurret
+[35:slot_35] cmp ; jne 0x018d
+[35:slot_35] pop_local_word f ; jmp 0x01ae
+//
+//
+[35:slot_35] ne ; ne ; and ; ...
+[35:slot_35]
+[35:slot_35] sub ; pop_local_word f ; jmp 0x01ae ; ...
+//
+//
+//
+[35:slot_35] call_intrinsic Item.getQHi(arg_bytes=0x6)
+[35:slot_35] call_intrinsic Item.legal_create(arg_bytes=0x6)
+[35:slot_35] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[35:slot_35] jmp 0x01f7 ; jmp 0x00a4
+//
+[35:slot_35] ret
+//
+//
+//
+//
+//
+//
+//
+[36:slot_36] pop_local_byte panRight
+[36:slot_36] pop_local_byte panLeft
+//
+[36:slot_36] call_class_event WALLGUN.slot_29 ; pop_local_byte isTurret ; ...
+//
+[36:slot_36] push_local_byte isTurret
+[36:slot_36] cmp ; jne 0x005c
+[36:slot_36] pop_local_word inc
+//
+[36:slot_36] pop_local_word left
+[36:slot_36] pop_local_word right ; jmp 0x0099
+//
+[36:slot_36] call_class_event WALLGUN.slot_2b ; jne 0x0084 ; ...
+//
+[36:slot_36] pop_local_word inc
+//
+[36:slot_36] pop_local_word left
+[36:slot_36] pop_local_word right ; jmp 0x0099
+//
+//
+//
+[36:slot_36] pop_local_word inc
+//
+[36:slot_36] pop_local_word left
+[36:slot_36] pop_local_word right
+//
+//
+[36:slot_36] call_class_event WALLGUN.slot_20 ; mul ; pop_local_word delay ; ...
+//
+[36:slot_36] jne 0x025b
+//
+[36:slot_36] spawn WALLGUN.slot_26 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[36:slot_36] call_intrinsic Item.getFrame(arg_bytes=0x4) ; pop_local_word f ; ...
+[36:slot_36] cmp ; jne 0x0125 ; ...
+//
+[36:slot_36] gt ; jne 0x0122 ; ...
+//
+[36:slot_36] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[36:slot_36] jmp 0x00ab ; jmp 0x015f
+//
+//
+//
+[36:slot_36] gt ; jne 0x015f ; ...
+//
+[36:slot_36] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[36:slot_36] jmp 0x00ab ; jmp 0x015f
+//
+//
+//
+//
+//
+[36:slot_36] jne 0x0195
+[36:slot_36] push_local_word f
+[36:slot_36] cmp ; jne 0x0188
+[36:slot_36] pop_local_byte panRight
+[36:slot_36] jmp 0x00ab ; jmp 0x0192
+//
+//
+//
+[36:slot_36] add ; pop_local_word f ; jmp 0x0218 ; ...
+//
+//
+//
+//
+//
+[36:slot_36] cmp ; cmp ; and ; ...
+[36:slot_36]
+[36:slot_36] push_local_word f
+[36:slot_36] cmp ; jne 0x01ca
+[36:slot_36] pop_local_byte panLeft
+[36:slot_36] jmp 0x00ab ; jmp 0x01d4
+//
+//
+//
+[36:slot_36] sub ; pop_local_word f ; jmp 0x0218 ; ...
+//
+//
+//
+//
+[36:slot_36] pop_local_byte panRight
+[36:slot_36] pop_local_byte panLeft
+//
+[36:slot_36] push_local_byte isTurret
+[36:slot_36] cmp ; jne 0x0200
+[36:slot_36] pop_local_word f ; jmp 0x0218
+//
+//
+[36:slot_36] ne ; jne 0x0218 ; ...
+//
+[36:slot_36] add ; pop_local_word f ; jmp 0x0218 ; ...
+//
+//
+//
+[36:slot_36] call_intrinsic Item.getQHi(arg_bytes=0x6)
+[36:slot_36] call_intrinsic Item.legal_create(arg_bytes=0x6)
+[36:slot_36] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[36:slot_36] ret
+//
+//
+//
+//
+//
+//
+//
+//
+[37:slot_37] pop_local_byte panRight
+[37:slot_37] pop_local_byte panLeft
+//
+[37:slot_37] call_class_event WALLGUN.slot_29 ; pop_local_byte isTurret ; ...
+//
+[37:slot_37] push_local_byte isTurret
+[37:slot_37] cmp ; jne 0x005c
+[37:slot_37] pop_local_word inc
+//
+[37:slot_37] pop_local_word left
+[37:slot_37] pop_local_word right ; jmp 0x0099
+//
+[37:slot_37] call_class_event WALLGUN.slot_2b ; jne 0x0084 ; ...
+//
+[37:slot_37] pop_local_word inc
+//
+[37:slot_37] pop_local_word left
+[37:slot_37] pop_local_word right ; jmp 0x0099
+//
+//
+//
+[37:slot_37] pop_local_word inc
+//
+[37:slot_37] pop_local_word left
+[37:slot_37] pop_local_word right
+//
+//
+[37:slot_37] call_class_event WALLGUN.slot_20 ; mul ; pop_local_word delay ; ...
+//
+[37:slot_37] jne 0x025e
+//
+[37:slot_37] spawn WALLGUN.slot_26 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[37:slot_37] call_intrinsic Item.getFrame(arg_bytes=0x4) ; pop_local_word f ; ...
+[37:slot_37] cmp ; jne 0x0125 ; ...
+//
+[37:slot_37] gt ; jne 0x0122 ; ...
+//
+[37:slot_37] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[37:slot_37] jmp 0x00ab ; jmp 0x015f
+//
+//
+//
+[37:slot_37] gt ; jne 0x015f ; ...
+//
+[37:slot_37] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[37:slot_37] jmp 0x00ab ; jmp 0x015f
+//
+//
+//
+//
+[37:slot_37] cmp ; jne 0x0198 ; ...
+//
+[37:slot_37] push_local_word f
+[37:slot_37] cmp ; jne 0x018b
+[37:slot_37] pop_local_byte panLeft
+[37:slot_37] jmp 0x00ab ; jmp 0x0195
+//
+//
+//
+[37:slot_37] sub ; pop_local_word f ; jmp 0x021b ; ...
+//
+//
+//
+//
+//
+[37:slot_37] cmp ; cmp ; and ; ...
+[37:slot_37]
+[37:slot_37] push_local_word f
+[37:slot_37] cmp ; jne 0x01cd
+[37:slot_37] pop_local_byte panRight
+[37:slot_37] jmp 0x00ab ; jmp 0x01d7
+//
+//
+//
+[37:slot_37] add ; pop_local_word f ; jmp 0x021b ; ...
+//
+//
+//
+//
+[37:slot_37] pop_local_byte panRight
+[37:slot_37] pop_local_byte panLeft
+//
+[37:slot_37] push_local_byte isTurret
+[37:slot_37] cmp ; jne 0x0203
+[37:slot_37] pop_local_word f ; jmp 0x021b
+//
+//
+[37:slot_37] ne ; jne 0x021b ; ...
+//
+[37:slot_37] sub ; pop_local_word f ; jmp 0x021b ; ...
+//
+//
+//
+[37:slot_37] call_intrinsic Item.getQHi(arg_bytes=0x6)
+[37:slot_37] call_intrinsic Item.legal_create(arg_bytes=0x6)
+[37:slot_37] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[37:slot_37] ret
+//
+//
+//
+//
+//
+//
+//
+[38:slot_38] pop_local_byte panRight
+[38:slot_38] pop_local_byte panLeft
+//
+[38:slot_38] call_class_event WALLGUN.slot_29 ; pop_local_byte isTurret ; ...
+//
+[38:slot_38] push_local_byte isTurret
+[38:slot_38] cmp ; jne 0x005c
+[38:slot_38] pop_local_word inc
+//
+[38:slot_38] pop_local_word left
+[38:slot_38] pop_local_word right ; jmp 0x0099
+//
+[38:slot_38] call_class_event WALLGUN.slot_2b ; jne 0x0084 ; ...
+//
+[38:slot_38] pop_local_word inc
+//
+[38:slot_38] pop_local_word left
+[38:slot_38] pop_local_word right ; jmp 0x0099
+//
+//
+//
+[38:slot_38] pop_local_word inc
+//
+[38:slot_38] pop_local_word left
+[38:slot_38] pop_local_word right
+//
+//
+[38:slot_38] call_class_event WALLGUN.slot_20 ; mul ; pop_local_word delay ; ...
+//
+[38:slot_38] jne 0x0269
+//
+[38:slot_38] spawn WALLGUN.slot_26 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[38:slot_38] call_intrinsic Item.getFrame(arg_bytes=0x4) ; pop_local_word f ; ...
+[38:slot_38] cmp ; jne 0x0125 ; ...
+//
+[38:slot_38] gt ; jne 0x0122 ; ...
+//
+[38:slot_38] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[38:slot_38] jmp 0x00ab ; jmp 0x015f
+//
+//
+//
+[38:slot_38] gt ; jne 0x015f ; ...
+//
+[38:slot_38] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[38:slot_38] jmp 0x00ab ; jmp 0x015f
+//
+//
+//
+//
+//
+[38:slot_38] jne 0x0195
+[38:slot_38] push_local_word f
+[38:slot_38] cmp ; jne 0x0188
+[38:slot_38] pop_local_byte panRight
+[38:slot_38] jmp 0x00ab ; jmp 0x0192
+//
+//
+//
+[38:slot_38] add ; pop_local_word f ; jmp 0x01f1 ; ...
+//
+//
+//
+//
+//
+[38:slot_38] cmp ; jne 0x01ce ; ...
+//
+[38:slot_38] push_local_word f
+[38:slot_38] cmp ; jne 0x01c1
+[38:slot_38] pop_local_byte panLeft
+[38:slot_38] jmp 0x00ab ; jmp 0x01cb
+//
+//
+//
+[38:slot_38] sub ; pop_local_word f ; jmp 0x01f1 ; ...
+//
+//
+//
+//
+[38:slot_38] ne ; jne 0x01e3 ; ...
+//
+[38:slot_38] add ; pop_local_word f ; ...
+//
+[38:slot_38] pop_local_byte panRight
+[38:slot_38] pop_local_byte panLeft
+//
+//
+[38:slot_38] call_intrinsic Item.getQHi(arg_bytes=0x6)
+[38:slot_38] call_intrinsic Item.legal_create(arg_bytes=0x6)
+[38:slot_38] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+[38:slot_38] call_class_event WALLGUN.slot_2e ; jne 0x0266 ; ...
+//
+[38:slot_38] spawn WALLGUN.slot_46 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[38:slot_38] ret
+//
+//
+//
+//
+//
+//
+[39:slot_39] pop_local_byte panRight
+[39:slot_39] pop_local_byte panLeft
+//
+[39:slot_39] call_class_event WALLGUN.slot_29 ; pop_local_byte isTurret ; ...
+//
+[39:slot_39] push_local_byte isTurret
+[39:slot_39] cmp ; jne 0x005c
+[39:slot_39] pop_local_word inc
+//
+[39:slot_39] pop_local_word left
+[39:slot_39] pop_local_word right ; jmp 0x0099
+//
+[39:slot_39] call_class_event WALLGUN.slot_2b ; jne 0x0084 ; ...
+//
+[39:slot_39] pop_local_word inc
+//
+[39:slot_39] pop_local_word left
+[39:slot_39] pop_local_word right ; jmp 0x0099
+//
+//
+//
+[39:slot_39] pop_local_word inc
+//
+[39:slot_39] pop_local_word left
+[39:slot_39] pop_local_word right
+//
+//
+[39:slot_39] call_class_event WALLGUN.slot_20 ; mul ; pop_local_word delay ; ...
+//
+[39:slot_39] jne 0x0269
+//
+[39:slot_39] spawn WALLGUN.slot_26 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[39:slot_39] call_intrinsic Item.getFrame(arg_bytes=0x4) ; pop_local_word f ; ...
+[39:slot_39] cmp ; jne 0x0125 ; ...
+//
+[39:slot_39] gt ; jne 0x0122 ; ...
+//
+[39:slot_39] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[39:slot_39] jmp 0x00ab ; jmp 0x015f
+//
+//
+//
+[39:slot_39] gt ; jne 0x015f ; ...
+//
+[39:slot_39] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[39:slot_39] jmp 0x00ab ; jmp 0x015f
+//
+//
+//
+//
+//
+[39:slot_39] jne 0x0195
+[39:slot_39] push_local_word f
+[39:slot_39] cmp ; jne 0x0188
+[39:slot_39] pop_local_byte panRight
+[39:slot_39] jmp 0x00ab ; jmp 0x0192
+//
+//
+//
+[39:slot_39] add ; pop_local_word f ; jmp 0x01f1 ; ...
+//
+//
+//
+//
+//
+[39:slot_39] cmp ; jne 0x01ce ; ...
+//
+[39:slot_39] push_local_word f
+[39:slot_39] cmp ; jne 0x01c1
+[39:slot_39] pop_local_byte panLeft
+[39:slot_39] jmp 0x00ab ; jmp 0x01cb
+//
+//
+//
+[39:slot_39] sub ; pop_local_word f ; jmp 0x01f1 ; ...
+//
+//
+//
+//
+[39:slot_39] ne ; jne 0x01e3 ; ...
+//
+[39:slot_39] add ; pop_local_word f ; ...
+//
+[39:slot_39] pop_local_byte panRight
+[39:slot_39] pop_local_byte panLeft
+//
+//
+[39:slot_39] call_intrinsic Item.getQHi(arg_bytes=0x6)
+[39:slot_39] call_intrinsic Item.legal_create(arg_bytes=0x6)
+[39:slot_39] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+[39:slot_39] call_class_event WALLGUN.slot_2e ; jne 0x0266 ; ...
+//
+[39:slot_39] spawn WALLGUN.slot_46 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[39:slot_39] ret
+//
+//
+//
+//
+//
+//
+[3A:slot_3a] pop_local_byte panRight
+[3A:slot_3a] pop_local_byte panLeft
+//
+[3A:slot_3a] call_class_event WALLGUN.slot_29 ; pop_local_byte isTurret ; ...
+//
+[3A:slot_3a] push_local_byte isTurret
+[3A:slot_3a] cmp ; jne 0x005c
+[3A:slot_3a] pop_local_word inc
+//
+[3A:slot_3a] pop_local_word left
+[3A:slot_3a] pop_local_word right ; jmp 0x0099
+//
+[3A:slot_3a] call_class_event WALLGUN.slot_2b ; jne 0x0084 ; ...
+//
+[3A:slot_3a] pop_local_word inc
+//
+[3A:slot_3a] pop_local_word left
+[3A:slot_3a] pop_local_word right ; jmp 0x0099
+//
+//
+//
+[3A:slot_3a] pop_local_word inc
+//
+[3A:slot_3a] pop_local_word left
+[3A:slot_3a] pop_local_word right
+//
+//
+[3A:slot_3a] call_class_event WALLGUN.slot_20 ; mul ; pop_local_word delay ; ...
+//
+[3A:slot_3a] jne 0x02b5
+//
+[3A:slot_3a] spawn WALLGUN.slot_26 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[3A:slot_3a] call_intrinsic Item.getFrame(arg_bytes=0x4) ; pop_local_word f ; ...
+[3A:slot_3a] cmp ; jne 0x0125 ; ...
+//
+[3A:slot_3a] gt ; jne 0x0122 ; ...
+//
+[3A:slot_3a] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[3A:slot_3a] jmp 0x00ab ; jmp 0x015f
+//
+//
+//
+[3A:slot_3a] gt ; jne 0x015f ; ...
+//
+[3A:slot_3a] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[3A:slot_3a] jmp 0x00ab ; jmp 0x015f
+//
+//
+//
+//
+//
+[3A:slot_3a] jne 0x01bb
+[3A:slot_3a] push_local_word f
+[3A:slot_3a] cmp ; jne 0x01ae
+[3A:slot_3a] pop_local_byte panRight
+[3A:slot_3a] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[3A:slot_3a] jmp 0x00ab ; jmp 0x01b8
+//
+//
+//
+[3A:slot_3a] add ; pop_local_word f ; jmp 0x023d ; ...
+//
+//
+//
+//
+//
+[3A:slot_3a] cmp ; jne 0x021a ; ...
+//
+[3A:slot_3a] push_local_word f
+[3A:slot_3a] cmp ; jne 0x020d
+[3A:slot_3a] pop_local_byte panLeft
+[3A:slot_3a] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[3A:slot_3a] jmp 0x00ab ; jmp 0x0217
+//
+//
+//
+[3A:slot_3a] sub ; pop_local_word f ; jmp 0x023d ; ...
+//
+//
+//
+//
+[3A:slot_3a] ne ; jne 0x022f ; ...
+//
+[3A:slot_3a] add ; pop_local_word f ; ...
+//
+[3A:slot_3a] pop_local_byte panRight
+[3A:slot_3a] pop_local_byte panLeft
+//
+//
+[3A:slot_3a] call_intrinsic Item.getQHi(arg_bytes=0x6)
+[3A:slot_3a] call_intrinsic Item.legal_create(arg_bytes=0x6)
+[3A:slot_3a] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+[3A:slot_3a] call_class_event WALLGUN.slot_2e ; jne 0x02b2 ; ...
+//
+[3A:slot_3a] spawn WALLGUN.slot_46 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[3A:slot_3a] ret
+//
+//
+//
+//
+//
+//
+//
+[3B:slot_3b] pop_local_byte panRight
+[3B:slot_3b] pop_local_byte panLeft
+//
+[3B:slot_3b] call_class_event WALLGUN.slot_29 ; pop_local_byte isTurret ; ...
+//
+[3B:slot_3b] push_local_byte isTurret
+[3B:slot_3b] cmp ; jne 0x005c
+[3B:slot_3b] pop_local_word inc
+//
+[3B:slot_3b] pop_local_word left
+[3B:slot_3b] pop_local_word right ; jmp 0x0099
+//
+[3B:slot_3b] call_class_event WALLGUN.slot_2b ; jne 0x0084 ; ...
+//
+[3B:slot_3b] pop_local_word inc
+//
+[3B:slot_3b] pop_local_word left
+[3B:slot_3b] pop_local_word right ; jmp 0x0099
+//
+//
+//
+[3B:slot_3b] pop_local_word inc
+//
+[3B:slot_3b] pop_local_word left
+[3B:slot_3b] pop_local_word right
+//
+//
+[3B:slot_3b] call_class_event WALLGUN.slot_20 ; mul ; pop_local_word delay ; ...
+//
+[3B:slot_3b] jne 0x02bb
+//
+[3B:slot_3b] spawn WALLGUN.slot_26 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[3B:slot_3b] call_intrinsic Item.getFrame(arg_bytes=0x4) ; pop_local_word f ; ...
+[3B:slot_3b] cmp ; jne 0x0125 ; ...
+//
+[3B:slot_3b] gt ; jne 0x0122 ; ...
+//
+[3B:slot_3b] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[3B:slot_3b] jmp 0x00ab ; jmp 0x015f
+//
+//
+//
+[3B:slot_3b] gt ; jne 0x015f ; ...
+//
+[3B:slot_3b] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[3B:slot_3b] jmp 0x00ab ; jmp 0x015f
+//
+//
+//
+//
+//
+[3B:slot_3b] jne 0x01be
+[3B:slot_3b] push_local_word f
+[3B:slot_3b] cmp ; jne 0x01b1
+[3B:slot_3b] pop_local_byte panRight
+[3B:slot_3b] add ; spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; ...
+[3B:slot_3b] jmp 0x00ab ; jmp 0x01bb
+//
+//
+//
+[3B:slot_3b] add ; pop_local_word f ; jmp 0x0243 ; ...
+//
+//
+//
+//
+//
+[3B:slot_3b] cmp ; jne 0x0220 ; ...
+//
+[3B:slot_3b] push_local_word f
+[3B:slot_3b] cmp ; jne 0x0213
+[3B:slot_3b] pop_local_byte panLeft
+[3B:slot_3b] add ; spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; ...
+[3B:slot_3b] jmp 0x00ab ; jmp 0x021d
+//
+//
+//
+[3B:slot_3b] sub ; pop_local_word f ; jmp 0x0243 ; ...
+//
+//
+//
+//
+[3B:slot_3b] ne ; jne 0x0235 ; ...
+//
+[3B:slot_3b] add ; pop_local_word f ; ...
+//
+[3B:slot_3b] pop_local_byte panRight
+[3B:slot_3b] pop_local_byte panLeft
+//
+//
+[3B:slot_3b] call_intrinsic Item.getQHi(arg_bytes=0x6)
+[3B:slot_3b] call_intrinsic Item.legal_create(arg_bytes=0x6)
+[3B:slot_3b] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+[3B:slot_3b] call_class_event WALLGUN.slot_2e ; jne 0x02b8 ; ...
+//
+[3B:slot_3b] spawn WALLGUN.slot_46 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[3B:slot_3b] ret
+//
+//
+//
+//
+//
+//
+[3C:slot_3c] call_class_event WALLGUN.slot_29 ; pop_local_word isTurret ; ...
+//
+[3C:slot_3c] push_local_word isTurret
+[3C:slot_3c] cmp ; jne 0x004e
+[3C:slot_3c] pop_local_word inc
+//
+[3C:slot_3c] pop_local_word left
+[3C:slot_3c] pop_local_word right ; jmp 0x008b
+//
+[3C:slot_3c] call_class_event WALLGUN.slot_2b ; jne 0x0076 ; ...
+//
+[3C:slot_3c] pop_local_word inc
+//
+[3C:slot_3c] pop_local_word left
+[3C:slot_3c] pop_local_word right ; jmp 0x008b
+//
+//
+//
+[3C:slot_3c] pop_local_word inc
+//
+[3C:slot_3c] pop_local_word left
+[3C:slot_3c] pop_local_word right
+//
+//
+//
+//
+[3C:slot_3c] call_class_event WALLGUN.slot_2d ; not ; jne 0x00a5 ; ...
+//
+//
+[3C:slot_3c] jne 0x025b
+//
+[3C:slot_3c] spawn WALLGUN.slot_26 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[3C:slot_3c] spawn WALLGUN.slot_2f ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[3C:slot_3c] call_intrinsic Item.getFrame(arg_bytes=0x4) ; pop_local_word f ; ...
+[3C:slot_3c] cmp ; jne 0x0144 ; ...
+//
+[3C:slot_3c] gt ; jne 0x0141 ; ...
+//
+[3C:slot_3c] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[3C:slot_3c] jmp 0x00a5 ; jmp 0x017e
+//
+//
+//
+[3C:slot_3c] gt ; jne 0x017e ; ...
+//
+[3C:slot_3c] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[3C:slot_3c] jmp 0x00a5 ; jmp 0x017e
+//
+//
+//
+//
+[3C:slot_3c] call_class_event WALLGUN.slot_2d ; pop_local_word x ; ...
+[3C:slot_3c] cmp ; jne 0x01a7 ; ...
+[3C:slot_3c]
+[3C:slot_3c] pop_result ; jmp 0x025b
+//
+//
+//
+//
+[3C:slot_3c] cmp ; jne 0x01fb ; ...
+[3C:slot_3c]
+[3C:slot_3c] push_local_word f
+[3C:slot_3c] cmp ; jne 0x01ee
+[3C:slot_3c] push_local_word isTurret
+[3C:slot_3c] cmp ; jne 0x01e1
+[3C:slot_3c] pop_local_word f ; jmp 0x01eb
+//
+//
+//
+[3C:slot_3c] pop_result ; jmp 0x025b ; jmp 0x01f8 ; ...
+//
+//
+//
+//
+[3C:slot_3c] add ; pop_local_word f ; jmp 0x023e ; ...
+//
+//
+//
+//
+//
+//
+//
+[3C:slot_3c] push_local_word f
+[3C:slot_3c] cmp ; jne 0x0234
+[3C:slot_3c] push_local_word isTurret
+[3C:slot_3c] cmp ; jne 0x0227
+[3C:slot_3c] pop_local_word f ; jmp 0x0231
+//
+//
+//
+[3C:slot_3c] pop_result ; jmp 0x025b ; jmp 0x023e ; ...
+//
+//
+//
+//
+[3C:slot_3c] sub ; pop_local_word f ; ...
+//
+//
+//
+[3C:slot_3c] call_intrinsic Item.getQHi(arg_bytes=0x6)
+[3C:slot_3c] call_intrinsic Item.legal_create(arg_bytes=0x6) ; jmp 0x00a5 ; ...
+//
+[3C:slot_3c] ret
+//
+//
+//
+//
+//
+//
+//
+[3D:slot_3d] jne 0x00eb
+//
+[3D:slot_3d] spawn WALLGUN.slot_26 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+[3D:slot_3d] spawn WALLGUN.slot_3c ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+[3D:slot_3d] call_class_event WALLGUN.slot_2e ; pop_local_word cs ; ...
+[3D:slot_3d] call_class_event FREE.slot_29 ; pop_local_word dist ; ...
+//
+[3D:slot_3d] cmp ; cmp ; and ; ...
+//
+[3D:slot_3d] ne ; cmp ; and ; ...
+[3D:slot_3d]
+[3D:slot_3d] spawn WALLGUN.slot_45 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+//
+//
+[3D:slot_3d] jmp 0x00eb ; jmp 0x0016
+//
+//
+//
+[3D:slot_3d] ret
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[3E:slot_3e] cmp ; jne 0x0032 ; pop_temp ; ...
+[3E:slot_3e] cmp ; jne 0x0046 ; pop_temp ; ...
+[3E:slot_3e] cmp ; jne 0x005a ; pop_temp ; ...
+[3E:slot_3e] cmp ; jne 0x006e ; pop_temp ; ...
+[3E:slot_3e] cmp ; jne 0x0082 ; pop_temp ; ...
+[3E:slot_3e] cmp ; jne 0x0096 ; pop_temp ; ...
+[3E:slot_3e] cmp ; jne 0x00aa ; pop_temp ; ...
+[3E:slot_3e] cmp ; jne 0x00be ; pop_temp ; ...
+[3E:slot_3e] cmp ; jne 0x00d2 ; pop_temp ; ...
+//
+//
+//
+[3E:slot_3e] cmp ; jne 0x00f9 ; pop_temp ; ...
+[3E:slot_3e] cmp ; jne 0x010d ; pop_temp ; ...
+[3E:slot_3e] cmp ; jne 0x0121 ; pop_temp ; ...
+[3E:slot_3e] cmp ; jne 0x0135 ; pop_temp ; ...
+[3E:slot_3e] cmp ; jne 0x0149 ; pop_temp ; ...
+[3E:slot_3e] cmp ; jne 0x015d ; pop_temp ; ...
+[3E:slot_3e] cmp ; jne 0x0171 ; pop_temp ; ...
+[3E:slot_3e] cmp ; jne 0x0185 ; pop_temp ; ...
+[3E:slot_3e] cmp ; jne 0x0199 ; pop_temp ; ...
+//
+//
+//
+//
+//
+[3E:slot_3e] pop_temp ; jmp 0x091c ; jmp 0x0260 ; ...
+[3E:slot_3e] pop_temp ; jmp 0x091c ; jmp 0x0260 ; ...
+[3E:slot_3e] pop_temp ; jmp 0x091c ; jmp 0x0260 ; ...
+[3E:slot_3e] pop_temp ; jmp 0x091c ; jmp 0x0260 ; ...
+[3E:slot_3e] pop_temp ; jmp 0x091c ; jmp 0x0260 ; ...
+[3E:slot_3e] pop_temp ; jmp 0x091c ; jmp 0x0260 ; ...
+[3E:slot_3e] pop_temp ; jmp 0x091c ; jmp 0x0260 ; ...
+[3E:slot_3e] pop_temp ; jmp 0x091c ; jmp 0x0260 ; ...
+[3E:slot_3e] pop_temp ; jmp 0x091c ; jmp 0x0260 ; ...
+//
+//
+//
+//
+//
+//
+[3E:slot_3e] pop_temp ; jmp 0x091c ; jmp 0x033b ; ...
+[3E:slot_3e] pop_temp ; jmp 0x091c ; jmp 0x033b ; ...
+[3E:slot_3e] pop_temp ; jmp 0x091c ; jmp 0x033b ; ...
+[3E:slot_3e] pop_temp ; jmp 0x091c ; jmp 0x033b ; ...
+[3E:slot_3e] pop_temp ; jmp 0x091c ; jmp 0x033b ; ...
+[3E:slot_3e] pop_temp ; jmp 0x091c ; jmp 0x033b ; ...
+[3E:slot_3e] pop_temp ; jmp 0x091c ; jmp 0x033b ; ...
+[3E:slot_3e] pop_temp ; jmp 0x091c ; jmp 0x033b ; ...
+[3E:slot_3e] pop_temp ; jmp 0x091c ; jmp 0x033b ; ...
+[3E:slot_3e] pop_temp ; jmp 0x091c ; jmp 0x033b ; ...
+//
+//
+//
+//
+[3E:slot_3e] cmp ; jne 0x0362 ; pop_temp ; ...
+[3E:slot_3e] cmp ; jne 0x0376 ; pop_temp ; ...
+[3E:slot_3e] cmp ; jne 0x038a ; pop_temp ; ...
+[3E:slot_3e] cmp ; jne 0x039e ; pop_temp ; ...
+[3E:slot_3e] cmp ; jne 0x03b2 ; pop_temp ; ...
+[3E:slot_3e] cmp ; jne 0x03c6 ; pop_temp ; ...
+[3E:slot_3e] cmp ; jne 0x03da ; pop_temp ; ...
+[3E:slot_3e] cmp ; jne 0x03ee ; pop_temp ; ...
+[3E:slot_3e] cmp ; jne 0x0402 ; pop_temp ; ...
+//
+//
+//
+[3E:slot_3e] cmp ; jne 0x0429 ; pop_temp ; ...
+[3E:slot_3e] cmp ; jne 0x043d ; pop_temp ; ...
+[3E:slot_3e] cmp ; jne 0x0451 ; pop_temp ; ...
+[3E:slot_3e] cmp ; jne 0x0465 ; pop_temp ; ...
+[3E:slot_3e] cmp ; jne 0x0479 ; pop_temp ; ...
+[3E:slot_3e] cmp ; jne 0x048d ; pop_temp ; ...
+[3E:slot_3e] cmp ; jne 0x04a1 ; pop_temp ; ...
+[3E:slot_3e] cmp ; jne 0x04b5 ; pop_temp ; ...
+[3E:slot_3e] cmp ; jne 0x04c9 ; pop_temp ; ...
+//
+//
+//
+//
+[3E:slot_3e] cmp ; jne 0x04fe ; pop_temp ; ...
+[3E:slot_3e] cmp ; jne 0x0512 ; pop_temp ; ...
+[3E:slot_3e] cmp ; jne 0x0526 ; pop_temp ; ...
+[3E:slot_3e] cmp ; jne 0x053a ; pop_temp ; ...
+[3E:slot_3e] cmp ; jne 0x054e ; pop_temp ; ...
+[3E:slot_3e] cmp ; jne 0x0562 ; pop_temp ; ...
+[3E:slot_3e] cmp ; jne 0x0576 ; pop_temp ; ...
+[3E:slot_3e] cmp ; jne 0x058a ; pop_temp ; ...
+[3E:slot_3e] cmp ; jne 0x059e ; pop_temp ; ...
+//
+//
+//
+//
+[3E:slot_3e] cmp ; jne 0x05d3 ; pop_temp ; ...
+[3E:slot_3e] cmp ; jne 0x05e7 ; pop_temp ; ...
+[3E:slot_3e] cmp ; jne 0x05fb ; pop_temp ; ...
+[3E:slot_3e] cmp ; jne 0x060f ; pop_temp ; ...
+[3E:slot_3e] cmp ; jne 0x0623 ; pop_temp ; ...
+[3E:slot_3e] cmp ; jne 0x0637 ; pop_temp ; ...
+[3E:slot_3e] cmp ; jne 0x064b ; pop_temp ; ...
+[3E:slot_3e] cmp ; jne 0x065f ; pop_temp ; ...
+[3E:slot_3e] cmp ; jne 0x0673 ; pop_temp ; ...
+//
+//
+//
+//
+[3E:slot_3e] cmp ; jne 0x069a ; pop_temp ; ...
+[3E:slot_3e] cmp ; jne 0x06ae ; pop_temp ; ...
+[3E:slot_3e] cmp ; jne 0x06c2 ; pop_temp ; ...
+[3E:slot_3e] cmp ; jne 0x06d6 ; pop_temp ; ...
+[3E:slot_3e] cmp ; jne 0x06ea ; pop_temp ; ...
+[3E:slot_3e] cmp ; jne 0x06fe ; pop_temp ; ...
+[3E:slot_3e] cmp ; jne 0x0712 ; pop_temp ; ...
+[3E:slot_3e] cmp ; jne 0x0726 ; pop_temp ; ...
+[3E:slot_3e] cmp ; jne 0x073a ; pop_temp ; ...
+[3E:slot_3e] cmp ; jne 0x074e ; pop_temp ; ...
+[3E:slot_3e] cmp ; jne 0x0762 ; pop_temp ; ...
+[3E:slot_3e] cmp ; jne 0x0776 ; pop_temp ; ...
+[3E:slot_3e] cmp ; jne 0x078a ; pop_temp ; ...
+[3E:slot_3e] cmp ; jne 0x079e ; pop_temp ; ...
+[3E:slot_3e] cmp ; jne 0x07b2 ; pop_temp ; ...
+[3E:slot_3e] cmp ; jne 0x07c6 ; pop_temp ; ...
+//
+//
+//
+//
+//
+//
+[3E:slot_3e] pop_temp ; jmp 0x091c ; jmp 0x0919 ; ...
+[3E:slot_3e] pop_temp ; jmp 0x091c ; jmp 0x0919 ; ...
+[3E:slot_3e] pop_temp ; jmp 0x091c ; jmp 0x0919 ; ...
+[3E:slot_3e] pop_temp ; jmp 0x091c ; jmp 0x0919 ; ...
+[3E:slot_3e] pop_temp ; jmp 0x091c ; jmp 0x0919 ; ...
+[3E:slot_3e] pop_temp ; jmp 0x091c ; jmp 0x0919 ; ...
+[3E:slot_3e] pop_temp ; jmp 0x091c ; jmp 0x0919 ; ...
+[3E:slot_3e] pop_temp ; jmp 0x091c ; jmp 0x0919 ; ...
+[3E:slot_3e] pop_temp ; jmp 0x091c ; jmp 0x0919 ; ...
+[3E:slot_3e] pop_temp ; jmp 0x091c ; jmp 0x0919 ; ...
+[3E:slot_3e] pop_temp ; jmp 0x091c ; jmp 0x0919 ; ...
+[3E:slot_3e] pop_temp ; jmp 0x091c ; jmp 0x0919 ; ...
+[3E:slot_3e] pop_temp ; jmp 0x091c ; jmp 0x0919 ; ...
+[3E:slot_3e] pop_temp ; jmp 0x091c ; jmp 0x0919 ; ...
+[3E:slot_3e] pop_temp ; jmp 0x091c ; jmp 0x0919 ; ...
+[3E:slot_3e] pop_temp ; jmp 0x091c ; jmp 0x0919 ; ...
+//
+//
+//
+[3E:slot_3e] ret
+//
+//
+//
+//
+//
+//
+//
+[3F:slot_3f] call_intrinsic Item.getShape(arg_bytes=0x4) ; pop_local_word t ; ...
+//
+[3F:slot_3f] push_local_word t
+[3F:slot_3f] cmp ; jne 0x00e5
+[3F:slot_3f] cmp ; jne 0x0042 ; pop_temp ; ...
+[3F:slot_3f] cmp ; jne 0x0056 ; pop_temp ; ...
+[3F:slot_3f] cmp ; jne 0x006a ; pop_temp ; ...
+[3F:slot_3f] cmp ; jne 0x007e ; pop_temp ; ...
+[3F:slot_3f] cmp ; jne 0x0092 ; pop_temp ; ...
+[3F:slot_3f] cmp ; jne 0x00a6 ; pop_temp ; ...
+[3F:slot_3f] cmp ; jne 0x00ba ; pop_temp ; ...
+[3F:slot_3f] cmp ; jne 0x00ce ; pop_temp ; ...
+[3F:slot_3f] cmp ; jne 0x00e2 ; pop_temp ; ...
+//
+[3F:slot_3f] push_local_word t
+[3F:slot_3f] cmp ; jne 0x01ae
+[3F:slot_3f] cmp ; jne 0x010b ; pop_temp ; ...
+[3F:slot_3f] cmp ; jne 0x011f ; pop_temp ; ...
+[3F:slot_3f] cmp ; jne 0x0133 ; pop_temp ; ...
+[3F:slot_3f] cmp ; jne 0x0147 ; pop_temp ; ...
+[3F:slot_3f] cmp ; jne 0x015b ; pop_temp ; ...
+[3F:slot_3f] cmp ; jne 0x016f ; pop_temp ; ...
+[3F:slot_3f] cmp ; jne 0x0183 ; pop_temp ; ...
+[3F:slot_3f] cmp ; jne 0x0197 ; pop_temp ; ...
+[3F:slot_3f] cmp ; jne 0x01ab ; pop_temp ; ...
+//
+[3F:slot_3f] push_local_word t
+[3F:slot_3f] cmp ; jne 0x0277 ; cmp ; ...
+//
+//
+[3F:slot_3f] pop_temp ; jmp 0x092a ; jmp 0x0274 ; ...
+[3F:slot_3f] pop_temp ; jmp 0x092a ; jmp 0x0274 ; ...
+[3F:slot_3f] pop_temp ; jmp 0x092a ; jmp 0x0274 ; ...
+[3F:slot_3f] pop_temp ; jmp 0x092a ; jmp 0x0274 ; ...
+[3F:slot_3f] pop_temp ; jmp 0x092a ; jmp 0x0274 ; ...
+[3F:slot_3f] pop_temp ; jmp 0x092a ; jmp 0x0274 ; ...
+[3F:slot_3f] pop_temp ; jmp 0x092a ; jmp 0x0274 ; ...
+[3F:slot_3f] pop_temp ; jmp 0x092a ; jmp 0x0274 ; ...
+[3F:slot_3f] pop_temp ; jmp 0x092a ; jmp 0x0274 ; ...
+//
+//
+[3F:slot_3f] push_local_word t
+[3F:slot_3f] cmp ; jne 0x0354 ; cmp ; ...
+//
+//
+[3F:slot_3f] pop_temp ; jmp 0x092a ; jmp 0x0351 ; ...
+[3F:slot_3f] pop_temp ; jmp 0x092a ; jmp 0x0351 ; ...
+[3F:slot_3f] pop_temp ; jmp 0x092a ; jmp 0x0351 ; ...
+[3F:slot_3f] pop_temp ; jmp 0x092a ; jmp 0x0351 ; ...
+[3F:slot_3f] pop_temp ; jmp 0x092a ; jmp 0x0351 ; ...
+[3F:slot_3f] pop_temp ; jmp 0x092a ; jmp 0x0351 ; ...
+[3F:slot_3f] pop_temp ; jmp 0x092a ; jmp 0x0351 ; ...
+[3F:slot_3f] pop_temp ; jmp 0x092a ; jmp 0x0351 ; ...
+[3F:slot_3f] pop_temp ; jmp 0x092a ; jmp 0x0351 ; ...
+[3F:slot_3f] pop_temp ; jmp 0x092a ; jmp 0x0351 ; ...
+//
+//
+[3F:slot_3f] push_local_word t
+[3F:slot_3f] cmp ; jne 0x041d
+[3F:slot_3f] cmp ; jne 0x037a ; pop_temp ; ...
+[3F:slot_3f] cmp ; jne 0x038e ; pop_temp ; ...
+[3F:slot_3f] cmp ; jne 0x03a2 ; pop_temp ; ...
+[3F:slot_3f] cmp ; jne 0x03b6 ; pop_temp ; ...
+[3F:slot_3f] cmp ; jne 0x03ca ; pop_temp ; ...
+[3F:slot_3f] cmp ; jne 0x03de ; pop_temp ; ...
+[3F:slot_3f] cmp ; jne 0x03f2 ; pop_temp ; ...
+[3F:slot_3f] cmp ; jne 0x0406 ; pop_temp ; ...
+[3F:slot_3f] cmp ; jne 0x041a ; pop_temp ; ...
+//
+[3F:slot_3f] push_local_word t
+[3F:slot_3f] cmp ; jne 0x04e6
+[3F:slot_3f] cmp ; jne 0x0443 ; pop_temp ; ...
+[3F:slot_3f] cmp ; jne 0x0457 ; pop_temp ; ...
+[3F:slot_3f] cmp ; jne 0x046b ; pop_temp ; ...
+[3F:slot_3f] cmp ; jne 0x047f ; pop_temp ; ...
+[3F:slot_3f] cmp ; jne 0x0493 ; pop_temp ; ...
+[3F:slot_3f] cmp ; jne 0x04a7 ; pop_temp ; ...
+[3F:slot_3f] cmp ; jne 0x04bb ; pop_temp ; ...
+[3F:slot_3f] cmp ; jne 0x04cf ; pop_temp ; ...
+[3F:slot_3f] cmp ; jne 0x04e3 ; pop_temp ; ...
+//
+[3F:slot_3f] cmp ; cmp ; or ; ...
+[3F:slot_3f]
+[3F:slot_3f] cmp ; jne 0x0510 ; pop_temp ; ...
+[3F:slot_3f] cmp ; jne 0x0524 ; pop_temp ; ...
+[3F:slot_3f] cmp ; jne 0x0538 ; pop_temp ; ...
+[3F:slot_3f] cmp ; jne 0x054c ; pop_temp ; ...
+[3F:slot_3f] cmp ; jne 0x0560 ; pop_temp ; ...
+[3F:slot_3f] cmp ; jne 0x0574 ; pop_temp ; ...
+[3F:slot_3f] cmp ; jne 0x0588 ; pop_temp ; ...
+[3F:slot_3f] cmp ; jne 0x059c ; pop_temp ; ...
+[3F:slot_3f] cmp ; jne 0x05b0 ; pop_temp ; ...
+//
+[3F:slot_3f] cmp ; cmp ; or ; ...
+[3F:slot_3f]
+[3F:slot_3f] cmp ; jne 0x05dd ; pop_temp ; ...
+[3F:slot_3f] cmp ; jne 0x05f1 ; pop_temp ; ...
+[3F:slot_3f] cmp ; jne 0x0605 ; pop_temp ; ...
+[3F:slot_3f] cmp ; jne 0x0619 ; pop_temp ; ...
+[3F:slot_3f] cmp ; jne 0x062d ; pop_temp ; ...
+[3F:slot_3f] cmp ; jne 0x0641 ; pop_temp ; ...
+[3F:slot_3f] cmp ; jne 0x0655 ; pop_temp ; ...
+[3F:slot_3f] cmp ; jne 0x0669 ; pop_temp ; ...
+[3F:slot_3f] cmp ; jne 0x067d ; pop_temp ; ...
+//
+[3F:slot_3f] push_local_word t
+[3F:slot_3f] cmp ; jne 0x07d5
+[3F:slot_3f] cmp ; jne 0x06a6 ; pop_temp ; ...
+[3F:slot_3f] cmp ; jne 0x06ba ; pop_temp ; ...
+[3F:slot_3f] cmp ; jne 0x06ce ; pop_temp ; ...
+[3F:slot_3f] cmp ; jne 0x06e2 ; pop_temp ; ...
+[3F:slot_3f] cmp ; jne 0x06f6 ; pop_temp ; ...
+[3F:slot_3f] cmp ; jne 0x070a ; pop_temp ; ...
+[3F:slot_3f] cmp ; jne 0x071e ; pop_temp ; ...
+[3F:slot_3f] cmp ; jne 0x0732 ; pop_temp ; ...
+[3F:slot_3f] cmp ; jne 0x0746 ; pop_temp ; ...
+[3F:slot_3f] cmp ; jne 0x075a ; pop_temp ; ...
+[3F:slot_3f] cmp ; jne 0x076e ; pop_temp ; ...
+[3F:slot_3f] cmp ; jne 0x0782 ; pop_temp ; ...
+[3F:slot_3f] cmp ; jne 0x0796 ; pop_temp ; ...
+[3F:slot_3f] cmp ; jne 0x07aa ; pop_temp ; ...
+[3F:slot_3f] cmp ; jne 0x07be ; pop_temp ; ...
+[3F:slot_3f] cmp ; jne 0x07d2 ; pop_temp ; ...
+//
+[3F:slot_3f] push_local_word t
+[3F:slot_3f] cmp ; jne 0x092a ; cmp ; ...
+//
+//
+[3F:slot_3f] pop_temp ; jmp 0x092a ; jmp 0x0927 ; ...
+[3F:slot_3f] pop_temp ; jmp 0x092a ; jmp 0x0927 ; ...
+[3F:slot_3f] pop_temp ; jmp 0x092a ; jmp 0x0927 ; ...
+[3F:slot_3f] pop_temp ; jmp 0x092a ; jmp 0x0927 ; ...
+[3F:slot_3f] pop_temp ; jmp 0x092a ; jmp 0x0927 ; ...
+[3F:slot_3f] pop_temp ; jmp 0x092a ; jmp 0x0927 ; ...
+[3F:slot_3f] pop_temp ; jmp 0x092a ; jmp 0x0927 ; ...
+[3F:slot_3f] pop_temp ; jmp 0x092a ; jmp 0x0927 ; ...
+[3F:slot_3f] pop_temp ; jmp 0x092a ; jmp 0x0927 ; ...
+[3F:slot_3f] pop_temp ; jmp 0x092a ; jmp 0x0927 ; ...
+[3F:slot_3f] pop_temp ; jmp 0x092a ; jmp 0x0927 ; ...
+[3F:slot_3f] pop_temp ; jmp 0x092a ; jmp 0x0927 ; ...
+[3F:slot_3f] pop_temp ; jmp 0x092a ; jmp 0x0927 ; ...
+[3F:slot_3f] pop_temp ; jmp 0x092a ; jmp 0x0927 ; ...
+[3F:slot_3f] pop_temp ; jmp 0x092a ; jmp 0x0927 ; ...
+[3F:slot_3f] pop_temp ; jmp 0x092a ; jmp 0x0927 ; ...
+//
+//
+[3F:slot_3f] ret
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[40:slot_40] pop_temp ; jmp 0x00ff ; jmp 0x00ff ; ...
+//
+//
+//
+//
+//
+//
+[40:slot_40] pop_temp ; jmp 0x00ff ; jmp 0x00a9 ; ...
+[40:slot_40] pop_temp ; jmp 0x00ff ; jmp 0x00a9 ; ...
+[40:slot_40] pop_temp ; jmp 0x00ff ; jmp 0x00a9 ; ...
+[40:slot_40] pop_temp ; jmp 0x00ff ; jmp 0x00ff ; ...
+//
+//
+//
+//
+//
+//
+//
+[40:slot_40] pop_temp ; jmp 0x00ff ; jmp 0x00f3 ; ...
+[40:slot_40] pop_temp ; jmp 0x00ff ; jmp 0x00f3 ; ...
+[40:slot_40] pop_temp ; jmp 0x00ff ; jmp 0x00ff ; ...
+//
+//
+//
+//
+//
+[40:slot_40] pop_temp ; jmp 0x00ff
+//
+//
+[40:slot_40] ret
+//
+//
+//
+//
+//
+//
+//
+[41:slot_41] call_intrinsic Item.getShape(arg_bytes=0x4)
+[41:slot_41] cmp ; jne 0x0167
+[41:slot_41] cmp ; jne 0x003b ; pop_temp ; ...
+[41:slot_41] cmp ; jne 0x004f ; pop_temp ; ...
+[41:slot_41] cmp ; jne 0x0063 ; pop_temp ; ...
+[41:slot_41] cmp ; jne 0x0077 ; pop_temp ; ...
+[41:slot_41] cmp ; jne 0x008b ; pop_temp ; ...
+[41:slot_41] cmp ; jne 0x009f ; pop_temp ; ...
+[41:slot_41] cmp ; jne 0x00b3 ; pop_temp ; ...
+[41:slot_41] cmp ; jne 0x00c7 ; pop_temp ; ...
+[41:slot_41] cmp ; jne 0x00db ; pop_temp ; ...
+[41:slot_41] cmp ; jne 0x00ef ; pop_temp ; ...
+[41:slot_41] cmp ; jne 0x0103 ; pop_temp ; ...
+[41:slot_41] cmp ; jne 0x0117 ; pop_temp ; ...
+[41:slot_41] cmp ; jne 0x012b ; pop_temp ; ...
+[41:slot_41] cmp ; jne 0x013f ; pop_temp ; ...
+[41:slot_41] cmp ; jne 0x0153 ; pop_temp ; ...
+[41:slot_41] cmp ; jne 0x0167 ; pop_temp ; ...
+//
+[41:slot_41] ret
+//
+//
+//
+//
+//
+//
+[42:slot_42] call_intrinsic Item.getShape(arg_bytes=0x4)
+[42:slot_42] cmp ; jne 0x0167
+[42:slot_42] cmp ; jne 0x003b ; pop_temp ; ...
+[42:slot_42] cmp ; jne 0x004f ; pop_temp ; ...
+[42:slot_42] cmp ; jne 0x0063 ; pop_temp ; ...
+[42:slot_42] cmp ; jne 0x0077 ; pop_temp ; ...
+[42:slot_42] cmp ; jne 0x008b ; pop_temp ; ...
+[42:slot_42] cmp ; jne 0x009f ; pop_temp ; ...
+[42:slot_42] cmp ; jne 0x00b3 ; pop_temp ; ...
+[42:slot_42] cmp ; jne 0x00c7 ; pop_temp ; ...
+[42:slot_42] cmp ; jne 0x00db ; pop_temp ; ...
+[42:slot_42] cmp ; jne 0x00ef ; pop_temp ; ...
+[42:slot_42] cmp ; jne 0x0103 ; pop_temp ; ...
+[42:slot_42] cmp ; jne 0x0117 ; pop_temp ; ...
+[42:slot_42] cmp ; jne 0x012b ; pop_temp ; ...
+[42:slot_42] cmp ; jne 0x013f ; pop_temp ; ...
+[42:slot_42] cmp ; jne 0x0153 ; pop_temp ; ...
+[42:slot_42] cmp ; jne 0x0167 ; pop_temp ; ...
+//
+[42:slot_42] ret
+//
+//
+//
+//
+//
+[43:slot_43] call_intrinsic Item.getShape(arg_bytes=0x4)
+[43:slot_43] cmp ; jne 0x0033
+[43:slot_43] pop_temp ; jmp 0x003c ; jmp 0x003c ; ...
+//
+//
+//
+[43:slot_43] pop_temp ; jmp 0x003c
+//
+[43:slot_43] ret
+//
+//
+//
+//
+//
+//
+[44:slot_44] call_intrinsic Item.getShape(arg_bytes=0x4) ; pop_local_word t ; ...
+//
+[44:slot_44] cmp ; cmp ; or ; ...
+[44:slot_44] cmp ; or ; jne 0x004b ; ...
+[44:slot_44]
+[44:slot_44] pop_temp ; jmp 0x0054 ; jmp 0x0054 ; ...
+//
+//
+[44:slot_44] pop_temp ; jmp 0x0054
+//
+[44:slot_44] ret
+//
+//
+//
+//
+[45:slot_45] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[45:slot_45] call_class_event WALLGUN.slot_2c ; pop_local_byte dir ; ...
+//
+//
+[45:slot_45] pop_local_word del
+[45:slot_45] call_intrinsic Item.getFrame(arg_bytes=0x4) ; pop_local_word old ; ...
+[45:slot_45] call_intrinsic Item.getFrame(arg_bytes=0x4) ; mul ; pop_local_word new ; ...
+//
+[45:slot_45] call_class_event WALLGUN.slot_29 ; jne 0x008b ; add ; ...
+[45:slot_45] add ; pop_local_word new ; ...
+//
+[45:slot_45] jne 0x05be
+//
+[45:slot_45] spawn WALLGUN.slot_26 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[45:slot_45] call_class_event FREE.slot_29 ; pop_local_word dist ; ...
+//
+[45:slot_45] call_class_event WALLGUN.slot_2e ; cmp ; jne 0x00ea ; ...
+//
+[45:slot_45] jmp 0x05be
+//
+//
+[45:slot_45] gt ; jne 0x0117 ; ...
+//
+[45:slot_45] cmp ; jne 0x0106 ; ...
+//
+[45:slot_45] jmp 0x05be
+//
+//
+[45:slot_45] gt ; jne 0x0117 ; ...
+//
+[45:slot_45] jmp 0x05be ; call_intrinsic Item.getShape(arg_bytes=0x4) ; cmp ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[45:slot_45] call_intrinsic Item.legal_create(arg_bytes=0x6)
+[45:slot_45] spawn WALLGUN.slot_47 ; pop_temp ; ...
+[45:slot_45] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[45:slot_45] call_intrinsic Item.getFrame(arg_bytes=0x4) ; add ; call_intrinsic Item.legal_create(arg_bytes=0x6) ; ...
+[45:slot_45] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[45:slot_45] call_intrinsic Item.legal_create(arg_bytes=0x6)
+[45:slot_45] spawn WALLGUN.slot_47 ; pop_temp ; ...
+[45:slot_45] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[45:slot_45] call_intrinsic Item.getFrame(arg_bytes=0x4) ; add ; call_intrinsic Item.legal_create(arg_bytes=0x6) ; ...
+[45:slot_45] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[45:slot_45] call_intrinsic Item.legal_create(arg_bytes=0x6)
+[45:slot_45] spawn WALLGUN.slot_47 ; pop_temp ; ...
+[45:slot_45] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[45:slot_45] call_intrinsic Item.getFrame(arg_bytes=0x4) ; add ; call_intrinsic Item.legal_create(arg_bytes=0x6) ; ...
+[45:slot_45] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+//
+//
+[45:slot_45] spawn WALLGUN.slot_47 ; pop_temp ; jmp 0x058f ; ...
+//
+//
+//
+//
+//
+[45:slot_45] call_intrinsic Item.legal_create(arg_bytes=0x6)
+[45:slot_45] spawn WALLGUN.slot_47 ; pop_temp ; ...
+[45:slot_45] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[45:slot_45] call_intrinsic Item.getFrame(arg_bytes=0x4) ; add ; call_intrinsic Item.legal_create(arg_bytes=0x6) ; ...
+//
+//
+//
+//
+[45:slot_45] call_intrinsic Item.legal_create(arg_bytes=0x6)
+[45:slot_45] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[45:slot_45] call_intrinsic Item.getFrame(arg_bytes=0x4) ; add ; call_intrinsic Item.legal_create(arg_bytes=0x6) ; ...
+[45:slot_45] spawn WALLGUN.slot_47 ; pop_temp ; ...
+[45:slot_45] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[45:slot_45] call_intrinsic Item.legal_create(arg_bytes=0x6)
+[45:slot_45] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[45:slot_45] call_intrinsic Item.getFrame(arg_bytes=0x4) ; add ; call_intrinsic Item.legal_create(arg_bytes=0x6) ; ...
+[45:slot_45] spawn WALLGUN.slot_47 ; pop_temp ; ...
+[45:slot_45] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[45:slot_45] call_intrinsic Item.legal_create(arg_bytes=0x6)
+[45:slot_45] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[45:slot_45] call_intrinsic Item.getFrame(arg_bytes=0x4) ; add ; call_intrinsic Item.legal_create(arg_bytes=0x6) ; ...
+[45:slot_45] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+[45:slot_45] call_intrinsic Item.getFrame(arg_bytes=0x4) ; add ; call_intrinsic Item.legal_create(arg_bytes=0x6) ; ...
+[45:slot_45] spawn WALLGUN.slot_47 ; pop_temp ; ...
+[45:slot_45] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+[45:slot_45] call_intrinsic Item.legal_create(arg_bytes=0x6)
+//
+[45:slot_45] spawn WALLGUN.slot_30 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[45:slot_45] ret
+//
+//
+//
+//
+//
+[46:slot_46] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[46:slot_46] call_intrinsic Item.getStatus(arg_bytes=0x4) ; bit_and ; jne 0x008e ; ...
+//
+[46:slot_46] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[46:slot_46] call_intrinsic Item.getStatus(arg_bytes=0x4) ; bit_and ; jne 0x008e ; ...
+//
+[46:slot_46] jmp 0x05c4
+//
+//
+//
+[46:slot_46] call_intrinsic Item.orStatus(arg_bytes=0x6)
+[46:slot_46] call_class_event WALLGUN.slot_2c ; pop_local_byte dir ; ...
+//
+//
+[46:slot_46] pop_local_word del
+[46:slot_46] call_intrinsic Item.getFrame(arg_bytes=0x4) ; pop_local_word old ; ...
+[46:slot_46] call_intrinsic Item.getFrame(arg_bytes=0x4) ; mul ; pop_local_word new ; ...
+//
+[46:slot_46] call_class_event WALLGUN.slot_29 ; jne 0x00eb ; add ; ...
+[46:slot_46] add ; pop_local_word new ; call_intrinsic Item.getShape(arg_bytes=0x4) ; ...
+//
+//
+//
+//
+//
+//
+//
+[46:slot_46] call_intrinsic Item.legal_create(arg_bytes=0x6)
+[46:slot_46] spawn WALLGUN.slot_47 ; pop_temp ; ...
+[46:slot_46] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[46:slot_46] call_intrinsic Item.getFrame(arg_bytes=0x4) ; add ; call_intrinsic Item.legal_create(arg_bytes=0x6) ; ...
+[46:slot_46] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[46:slot_46] call_intrinsic Item.legal_create(arg_bytes=0x6)
+[46:slot_46] spawn WALLGUN.slot_47 ; pop_temp ; ...
+[46:slot_46] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[46:slot_46] call_intrinsic Item.getFrame(arg_bytes=0x4) ; add ; call_intrinsic Item.legal_create(arg_bytes=0x6) ; ...
+[46:slot_46] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[46:slot_46] call_intrinsic Item.legal_create(arg_bytes=0x6)
+[46:slot_46] spawn WALLGUN.slot_47 ; pop_temp ; ...
+[46:slot_46] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[46:slot_46] call_intrinsic Item.getFrame(arg_bytes=0x4) ; add ; call_intrinsic Item.legal_create(arg_bytes=0x6) ; ...
+[46:slot_46] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+//
+[46:slot_46] call_intrinsic Item.legal_create(arg_bytes=0x6)
+[46:slot_46] spawn WALLGUN.slot_47 ; pop_temp ; ...
+[46:slot_46] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[46:slot_46] call_intrinsic Item.getFrame(arg_bytes=0x4) ; add ; call_intrinsic Item.legal_create(arg_bytes=0x6) ; ...
+//
+//
+//
+//
+//
+//
+//
+[46:slot_46] spawn WALLGUN.slot_47 ; pop_temp ; jmp 0x0589 ; ...
+//
+//
+//
+//
+//
+//
+[46:slot_46] call_intrinsic Item.legal_create(arg_bytes=0x6)
+[46:slot_46] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[46:slot_46] call_intrinsic Item.getFrame(arg_bytes=0x4) ; add ; call_intrinsic Item.legal_create(arg_bytes=0x6) ; ...
+[46:slot_46] spawn WALLGUN.slot_47 ; pop_temp ; ...
+[46:slot_46] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[46:slot_46] call_intrinsic Item.legal_create(arg_bytes=0x6)
+[46:slot_46] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[46:slot_46] call_intrinsic Item.getFrame(arg_bytes=0x4) ; add ; call_intrinsic Item.legal_create(arg_bytes=0x6) ; ...
+[46:slot_46] spawn WALLGUN.slot_47 ; pop_temp ; ...
+[46:slot_46] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[46:slot_46] call_intrinsic Item.legal_create(arg_bytes=0x6)
+[46:slot_46] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[46:slot_46] call_intrinsic Item.getFrame(arg_bytes=0x4) ; add ; call_intrinsic Item.legal_create(arg_bytes=0x6) ; ...
+[46:slot_46] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+[46:slot_46] call_intrinsic Item.getFrame(arg_bytes=0x4) ; add ; call_intrinsic Item.legal_create(arg_bytes=0x6) ; ...
+[46:slot_46] spawn WALLGUN.slot_47 ; pop_temp ; ...
+[46:slot_46] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+//
+//
+[46:slot_46] call_intrinsic Item.legal_create(arg_bytes=0x6)
+//
+[46:slot_46] spawn WALLGUN.slot_30 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[46:slot_46] bit_not ; call_intrinsic Item.andStatus(arg_bytes=0x6) ; ...
+//
+[46:slot_46] ret
+//
+//
+//
+//
+//
+[47:slot_47] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[47:slot_47] call_class_event WALLGUN.slot_44 ; pop_local_word ammo ; ...
+//
+[47:slot_47] bit_and ; pop_local_byte dir ; ...
+[47:slot_47] call_class_event WALLGUN.slot_3e ; pop_local_word x1 ; ...
+[47:slot_47] call_class_event WALLGUN.slot_3f ; pop_local_word y1 ; ...
+[47:slot_47] call_class_event WALLGUN.slot_40 ; pop_local_byte z1 ; ...
+//
+[47:slot_47] cmp ; jne 0x009d ; call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6) ; ...
+[47:slot_47] cmp ; jne 0x00b2 ; call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6) ; ...
+//
+[47:slot_47] call_class_event WALLGUN.slot_29 ; jne 0x0143 ; ...
+//
+[47:slot_47] call_class_event WALLGUN.slot_41 ; pop_local_word x2 ; ...
+[47:slot_47] call_class_event WALLGUN.slot_42 ; pop_local_word y2 ; ...
+[47:slot_47] call_class_event WALLGUN.slot_43 ; pop_local_byte z2 ; ...
+//
+[47:slot_47] call_intrinsic Actor.maybeFire(arg_bytes=0x10) ; pop_temp ; ...
+//
+[47:slot_47] call_intrinsic Item.getShape(arg_bytes=0x4)
+[47:slot_47] cmp ; jne 0x0140
+[47:slot_47] call_intrinsic Actor.maybeFire(arg_bytes=0x10) ; pop_temp ; jmp 0x015c ; ...
+//
+//
+//
+//
+//
+[47:slot_47] call_intrinsic Actor.maybeFire(arg_bytes=0x10) ; pop_temp ; ...
+//
+[47:slot_47] ret
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[48:slot_48] pop_local_word maxHit ; jmp 0x00cb ; call_intrinsic Item.getShape(arg_bytes=0x4) ; ...
+//
+//
+//
+
+/* synthesized appendix for WALLGUN */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x20 slot_20 ===== */
+function wallgun_slot_20() /* entry=2588 class_id=0x0a1a slot=0x20 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    num; /* [BP-02h] type=0x69 */
+
+  num = Item.getQHi(arg_06);
+  if (num > 99) {
+    num = (num - 100);
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol num [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x21 slot_21 ===== */
+function wallgun_slot_21() /* entry=2588 class_id=0x0a1a slot=0x21 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    num; /* [BP-02h] type=0x69 */
+
+  num = Item.getQHi(arg_06);
+  if (num > 99) {
+    num = (num - 100);
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol num [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x22 slot_22 ===== */
+function wallgun_slot_22() /* entry=2588 class_id=0x0a1a slot=0x22 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    num; /* [BP+10h] type=0x69 */
+
+  WALLGUN.slot_21(num, arg_06);
+  Item.pop((retval * 10), arg_06);
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol num [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x23 slot_23 ===== */
+function wallgun_slot_23() /* entry=2588 class_id=0x0a1a slot=0x23 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    num; /* [BP+10h] type=0x69 */
+
+  WALLGUN.slot_20((num * 10), arg_06);
+  Item.pop(retval, arg_06);
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol num [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x24 slot_24 ===== */
+function wallgun_slot_24() /* entry=2588 class_id=0x0a1a slot=0x24 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    target, /* [BP+10h] type=0x69 */
+    var; /* [BP+12h] type=0x69 */
+
+  set_info(0x021b, *(arg_06));
+  WALLGUN.slot_25(Item.getFrame(arg_06), Item.getShape(arg_06), arg_06);
+  if ((retval == 1) || (Intrinsic02F(arg_06) == 0)) {
+    return;
+  }
+  else if ((var < 90) || (var > 99)) {
+    FREE.slot_33(1, *(arg_06));
+    FREE.slot_33(0x020a, *(arg_06));
+    spawn WALLGUN.slot_28(var, target, arg_06);
+    return;
+  }
+  else {
+    switch (var) {
+    case 90:
+      spawn WALLGUN.slot_34(arg_06);
+      return;
+    case 91:
+      spawn WALLGUN.slot_35(arg_06);
+      return;
+    case 92:
+      spawn WALLGUN.slot_4a(target, arg_06);
+      return;
+    }
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol target [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol var [BP+12h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x25 slot_25 ===== */
+function wallgun_slot_25() /* entry=2588 class_id=0x0a1a slot=0x25 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    t, /* [BP+10h] type=0x69 */
+    f; /* [BP+12h] type=0x69 */
+
+  if ((((t == 0x0113) || (t == 0x0108)) || (t == 0x02f0)) || (t == 0x0373)) {
+    if (f == 27) {
+      return;
+    }
+    else {
+      return;
+    }
+  }
+  else if ((t == 0x0399) || (t == 0x03a1)) {
+    if ((f == 18) || (f == 19)) {
+      return;
+    }
+    else {
+      return;
+    }
+  }
+  else if (t == 0x04c8) {
+    return;
+  }
+  else if (f == 9) {
+    return;
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol t [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol f [BP+12h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x26 slot_26 ===== */
+function wallgun_slot_26() /* entry=2588 class_id=0x0a1a slot=0x26 */
+{
+  var
+    referent; /* [BP+00h] type=0x69 */
+
+  set_info(0x0001, *(arg_06));
+  while (Item.isOnScreen(arg_06) == 0) {
+    spawn FREE.waitNTimerTicks(pid, 20, 0x00000000);
+    suspend;
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+  */
+}
+
+/* ===== slot 0x27 slot_27 ===== */
+function wallgun_slot_27() /* entry=2588 class_id=0x0a1a slot=0x27 */
+{
+  var
+    referent; /* [BP+00h] type=0x69 */
+
+  set_info(0x0001, *(arg_06));
+  WALLGUN.slot_25(Item.getFrame(arg_06), Item.getShape(arg_06), arg_06);
+  if (retval) {
+    return;
+  }
+  else {
+    WALLGUN.slot_29(arg_06);
+    if (retval) {
+      if (Item.getFrame(arg_06) > 15) {
+        Item.legal_create(UCMachine.rndRange(15, 0), arg_06);
+      }
+    }
+    else if (Item.getFrame(arg_06) > 8) {
+      Item.legal_create(UCMachine.rndRange(7, 0), arg_06);
+    }
+    if (getTargetNPCNumMaybe() != 0) {
+      spawn WALLGUN.slot_28(pid, Item.getNPCNum(arg_06), getTargetNPCNumMaybe(), arg_06);
+      suspend;
+      return;
+    }
+    else {
+      spawn WALLGUN.slot_28(pid, Item.getNPCNum(arg_06), global[0x003c], arg_06);
+      suspend;
+    }
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+  */
+}
+
+/* ===== slot 0x28 slot_28 ===== */
+function wallgun_slot_28() /* entry=2588 class_id=0x0a1a slot=0x28 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    target, /* [BP+10h] type=0x69 */
+    brain, /* [BP+12h] type=0x69 */
+    h, /* [BP-02h] type=0x69 */
+    delay; /* [BP-04h] type=0x69 */
+
+  set_info(0x020a, *(arg_06));
+  Item.move(brain, arg_06);
+  if (brain > 99) {
+    brain = (brain - 100);
+  }
+  h = Item.getQHi(arg_06);
+  if (h == 0) {
+    Item.pop(33, arg_06);
+  }
+  if (((h == 99) || (h == 0x00c7)) || (brain == 6)) {
+    return;
+  }
+  else {
+    WALLGUN.slot_25(Item.getFrame(arg_06), Item.getShape(arg_06), arg_06);
+    if (retval == 1) {
+      return;
+    }
+    else {
+      while (1) {
+        spawn WALLGUN.slot_26(pid, arg_06);
+        suspend;
+        if (brain == 7) {
+          spawn WALLGUN.slot_36(pid, arg_06);
+          suspend;
+        }
+        else if (brain == 9) {
+          spawn WALLGUN.slot_37(pid, arg_06);
+          suspend;
+        }
+        else if (brain == 8) {
+          spawn WALLGUN.slot_32(pid, target, arg_06);
+          suspend;
+        }
+        else if (brain == 10) {
+          spawn WALLGUN.slot_33(pid, target, arg_06);
+          suspend;
+        }
+        else if (brain == 11) {
+          while (1) {
+            if (getTargetNPCNumMaybe() != 0) {
+              target = getTargetNPCNumMaybe();
+            }
+            else {
+              target = 1;
+            }
+            spawn WALLGUN.slot_3c(pid, brain, target, arg_06);
+            suspend;
+            spawn WALLGUN.slot_2f(pid, brain, target, arg_06);
+            suspend;
+            spawn FREE.waitNTimerTicks(pid, 3, 0x00000000);
+            suspend;
+            spawn WALLGUN.slot_26(pid, arg_06);
+            suspend;
+          }
+        }
+        else if (brain == 1) {
+          if (getTargetNPCNumMaybe() != 0) {
+            target = getTargetNPCNumMaybe();
+          }
+          else {
+            target = 1;
+          }
+          spawn WALLGUN.slot_3d(pid, brain, target, arg_06);
+          suspend;
+        }
+        else if (brain == 2) {
+          while (1) {
+            if (getTargetNPCNumMaybe() != 0) {
+              target = getTargetNPCNumMaybe();
+            }
+            else {
+              target = 1;
+            }
+            spawn WALLGUN.slot_26(pid, arg_06);
+            suspend;
+            spawn WALLGUN.slot_31(pid, brain, target, arg_06);
+            suspend;
+            if (process_result) {
+            }
+          }
+          spawn WALLGUN.slot_3d(pid, brain, target, arg_06);
+          suspend;
+        }
+        else if (brain == 5) {
+          spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
+          suspend;
+        }
+        else if (brain == 12) {
+          spawn WALLGUN.slot_38(pid, target, arg_06);
+          suspend;
+        }
+        else if (brain == 13) {
+          spawn WALLGUN.slot_39(pid, target, arg_06);
+          suspend;
+        }
+        else if (brain == 14) {
+          spawn WALLGUN.slot_3a(pid, target, arg_06);
+          suspend;
+        }
+        else if (brain == 15) {
+          spawn WALLGUN.slot_3b(pid, target, arg_06);
+          suspend;
+        }
+        else if (getTargetNPCNumMaybe() != 0) {
+          target = getTargetNPCNumMaybe();
+        }
+        else {
+          target = 1;
+        }
+        spawn WALLGUN.slot_31(pid, brain, target, arg_06);
+        suspend;
+        if (process_result) {
+          spawn WALLGUN.slot_3d(pid, brain, target, arg_06);
+          suspend;
+        }
+        else {
+          WALLGUN.slot_20(arg_06);
+          delay = retval;
+          if (delay == 0) {
+            delay = 3;
+          }
+          if (delay > 5) {
+            delay = 5;
+          }
+          delay = (delay - 1);
+          delay = (delay * 30);
+          delay = (delay + 120);
+          spawn FREE.waitNTimerTicks(pid, delay, 0x00000000);
+          suspend;
+        }
+        spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+        suspend;
+      }
+    }
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol target [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol brain [BP+12h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol h [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol delay [BP-04h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x29 slot_29 ===== */
+function wallgun_slot_29() /* entry=2588 class_id=0x0a1a slot=0x29 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    t; /* [BP-02h] type=0x69 */
+
+  t = Item.getShape(arg_06);
+  if ((t == 0x04c8) || (t == 0x01cd)) {
+    return;
+  }
+  else {
+    return;
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol t [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x2a slot_2a ===== */
+function wallgun_slot_2a() /* entry=2588 class_id=0x0a1a slot=0x2a */
+{
+  var
+    referent; /* [BP+00h] type=0x69 */
+
+  /* in_list */
+  if ([0x01b9, 0x0260, 0x03a1, 0x0373, 0x0113]) {
+    return;
+  }
+  else {
+    return;
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+  */
+}
+
+/* ===== slot 0x2b slot_2b ===== */
+function wallgun_slot_2b() /* entry=2588 class_id=0x0a1a slot=0x2b */
+{
+  var
+    referent; /* [BP+00h] type=0x69 */
+
+  /* in_list */
+  if ([0x03a1, 0x0373, 0x0113]) {
+    return;
+  }
+  else {
+    return;
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+  */
+}
+
+/* ===== slot 0x2c slot_2c ===== */
+function wallgun_slot_2c() /* entry=2588 class_id=0x0a1a slot=0x2c */
+{
+  var
+    referent; /* [BP+00h] type=0x69 */
+
+  WALLGUN.slot_2a(arg_06);
+  WALLGUN.slot_2b((retval == 1), arg_06);
+  WALLGUN.slot_29((retval == 1), arg_06);
+  if (retval == 1) {
+    return;
+  }
+  else {
+    WALLGUN.slot_2a(arg_06);
+    if (retval) {
+      return;
+    }
+    else {
+      return;
+    }
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+  */
+}
+
+/* ===== slot 0x2d slot_2d ===== */
+function wallgun_slot_2d() /* entry=2588 class_id=0x0a1a slot=0x2d */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    target, /* [BP+10h] type=0x69 */
+    targItem, /* [BP-02h] type=0x24 */
+    coordToCoordDir, /* [BP-04h] type=0x69 */
+    left, /* [BP-06h] type=0x69 */
+    right, /* [BP-08h] type=0x69 */
+    dir; /* [BP-10h] type=0x69 */
+
+  targItem = target;
+  coordToCoordDir = MainActor.addItemCru(Item.getY(targItem), Item.getX(targItem), Item.getY(arg_06), Item.getX(arg_06));
+  WALLGUN.slot_2c(arg_06);
+  if (retval == coordToCoordDir) {
+    return;
+  }
+  else {
+    WALLGUN.slot_29(arg_06);
+    if (retval) {
+      WALLGUN.slot_2c(arg_06);
+      dir = retval;
+      left = 0;
+      right = 0;
+      while ((dir != coordToCoordDir) && (left < 15)) {
+        left = (1 + left);
+        if (dir == 0) {
+          dir = 15;
+        }
+        else {
+          dir = (dir - 1);
+        }
+      }
+      WALLGUN.slot_2c(arg_06);
+      dir = retval;
+      while ((dir != coordToCoordDir) && (right < 15)) {
+        right = (1 + right);
+        if (dir == 15) {
+          dir = 0;
+        }
+        else {
+          dir = (1 + dir);
+        }
+      }
+      if (left < right) {
+        return;
+      }
+    }
+    else {
+      WALLGUN.slot_2a(arg_06);
+      if (((retval == 1) && (coordToCoordDir >= 13)) && (coordToCoordDir <= 15)) {
+        return;
+      }
+      WALLGUN.slot_2c(arg_06);
+      if (retval > coordToCoordDir) {
+        return;
+      }
+    }
+    return;
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol target [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol targItem [BP-02h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol coordToCoordDir [BP-04h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol left [BP-06h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol right [BP-08h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol dir [BP-10h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x2e slot_2e ===== */
+function wallgun_slot_2e() /* entry=2588 class_id=0x0a1a slot=0x2e */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    target, /* [BP+10h] type=0x69 */
+    x1, /* [BP-02h] type=0x69 */
+    x2, /* [BP-04h] type=0x69 */
+    y1, /* [BP-06h] type=0x69 */
+    y2, /* [BP-08h] type=0x69 */
+    z1, /* [BP-09h] type=0x62 */
+    z2, /* [BP-10h] type=0x62 */
+    dir, /* [BP-11h] type=0x62 */
+    targetNpc; /* [BP-13h] type=0x24 */
+
+  WALLGUN.slot_2c(arg_06);
+  dir = retval;
+  WALLGUN.slot_3e(dir, arg_06);
+  x1 = retval;
+  WALLGUN.slot_3f(dir, arg_06);
+  y1 = retval;
+  WALLGUN.slot_40(dir, arg_06);
+  z1 = retval;
+  targetNpc = target;
+  if (Item.getItemFamily(targetNpc)) {
+    return;
+  }
+  else {
+    WALLGUN.slot_2d(target, arg_06);
+    if (!retval) {
+      if (Item.getNPCNum(arg_06) > 99) {
+        return;
+      }
+      if (Intrinsic116(z1, y1, x1, dir, target, arg_06)) {
+        return;
+      }
+      WALLGUN.slot_29(arg_06);
+      if (retval) {
+        WALLGUN.slot_41(dir, arg_06);
+        x2 = retval;
+        WALLGUN.slot_42(dir, arg_06);
+        y2 = retval;
+        WALLGUN.slot_43(dir, arg_06);
+        z2 = retval;
+        if (Intrinsic116(z2, y2, x2, dir, target, arg_06)) {
+          return;
+        }
+      }
+    }
+    else {
+      return;
+    }
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol target [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol x1 [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol x2 [BP-04h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol y1 [BP-06h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol y2 [BP-08h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol z1 [BP-09h] type=0x62 unk1=0x00 unk3=0x00
+    debug_symbol z2 [BP-10h] type=0x62 unk1=0x00 unk3=0x00
+    debug_symbol dir [BP-11h] type=0x62 unk1=0x00 unk3=0x00
+    debug_symbol targetNpc [BP-13h] type=0x24 unk1=0x00 unk3=0x02
+  */
+}
+
+/* ===== slot 0x2f slot_2f ===== */
+function wallgun_slot_2f() /* entry=2588 class_id=0x0a1a slot=0x2f */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    target, /* [BP+10h] type=0x69 */
+    brain, /* [BP+12h] type=0x69 */
+    delay, /* [BP-02h] type=0x69 */
+    cs, /* [BP-04h] type=0x69 */
+    dist; /* [BP-06h] type=0x69 */
+
+  set_info(0x0001, *(arg_06));
+  WALLGUN.slot_20(arg_06);
+  delay = retval;
+  if (!delay) {
+    delay = 3;
+  }
+  if (delay > 5) {
+    delay = 5;
+  }
+  delay = (delay * 5);
+  while (delay) {
+    spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+    suspend;
+    WALLGUN.slot_2e(target, arg_06);
+    cs = retval;
+    FREE.slot_29(*(arg_06), target);
+    dist = retval;
+    if ((((brain == 4) && (cs == 1)) && (dist <= 20)) || (((brain != 4) && (cs == 1)) && (dist <= 46))) {
+      return;
+    }
+    else {
+      delay = (delay - 1);
+    }
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol target [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol brain [BP+12h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol delay [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol cs [BP-04h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol dist [BP-06h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x30 slot_30 ===== */
+function wallgun_slot_30() /* entry=2588 class_id=0x0a1a slot=0x30 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    delay; /* [BP-02h] type=0x69 */
+
+  set_info(0x0001, *(arg_06));
+  WALLGUN.slot_21(arg_06);
+  delay = retval;
+  if (!delay) {
+    delay = 3;
+  }
+  if (delay > 5) {
+    delay = 5;
+  }
+  delay = (delay * 8);
+  spawn FREE.waitNTimerTicks(pid, delay, 0x00000000);
+  suspend;
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol delay [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x31 slot_31 ===== */
+function wallgun_slot_31() /* entry=2588 class_id=0x0a1a slot=0x31 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    target, /* [BP+10h] type=0x69 */
+    brain, /* [BP+12h] type=0x69 */
+    left, /* [BP-02h] type=0x69 */
+    right, /* [BP-04h] type=0x69 */
+    inc, /* [BP-06h] type=0x69 */
+    f, /* [BP-08h] type=0x69 */
+    panRight, /* [BP-09h] type=0x62 */
+    panLeft, /* [BP-10h] type=0x62 */
+    isTurret; /* [BP-11h] type=0x62 */
+
+  set_info(0x0001, *(arg_06));
+  panRight = 1;
+  panLeft = 1;
+  WALLGUN.slot_29(arg_06);
+  isTurret = retval;
+  if (isTurret == 1) {
+    inc = 1;
+    left = 0;
+    right = 15;
+  }
+  else {
+    WALLGUN.slot_2b(arg_06);
+    if (retval) {
+      inc = 1;
+      left = 0;
+      right = 8;
+    }
+    else {
+      inc = -1;
+      left = 8;
+      right = 0;
+    }
+  }
+  WALLGUN.slot_2e(target, arg_06);
+  if (retval) {
+    if (brain != 4) {
+      process_result = 1;
+      return;
+    }
+    else {
+      FREE.slot_29(target, *(arg_06));
+      if (retval <= 20) {
+        process_result = 1;
+        return;
+      }
+    }
+  }
+  while (1) {
+    spawn WALLGUN.slot_26(pid, arg_06);
+    suspend;
+    f = Item.getFrame(arg_06);
+    if (isTurret == 1) {
+      if (f > 19) {
+        spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+        suspend;
+      }
+    }
+    else if (f > 8) {
+      spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+      suspend;
+    }
+    if (panRight) {
+      if (f == right) {
+        panRight = 0;
+      }
+      else {
+        f = (f + inc);
+      }
+    }
+    else if ((panLeft == 1) && (isTurret == 0)) {
+      if (f == left) {
+        panLeft = 0;
+      }
+      else {
+        f = (f - inc);
+      }
+    }
+    else if (isTurret == 1) {
+      Item.legal_create(left, arg_06);
+      process_result = 0;
+      return;
+    }
+    else if (f == 4) {
+      process_result = 0;
+      return;
+    }
+    else {
+      f = (f + inc);
+    }
+    Item.getQHi(115, arg_06);
+    Item.legal_create(f, arg_06);
+    spawn WALLGUN.slot_2f(pid, brain, target, arg_06);
+    suspend;
+    WALLGUN.slot_2e(target, arg_06);
+    if (retval) {
+      if (brain != 4) {
+        process_result = 1;
+        return;
+      }
+      else {
+        FREE.slot_29(target, *(arg_06));
+        if (retval <= 20) {
+          process_result = 1;
+          return;
+        }
+      }
+    }
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol target [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol brain [BP+12h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol left [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol right [BP-04h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol inc [BP-06h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol f [BP-08h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol panRight [BP-09h] type=0x62 unk1=0x00 unk3=0x00
+    debug_symbol panLeft [BP-10h] type=0x62 unk1=0x00 unk3=0x00
+    debug_symbol isTurret [BP-11h] type=0x62 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x32 slot_32 ===== */
+function wallgun_slot_32() /* entry=2588 class_id=0x0a1a slot=0x32 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    target, /* [BP+10h] type=0x69 */
+    left, /* [BP-02h] type=0x69 */
+    right, /* [BP-04h] type=0x69 */
+    inc, /* [BP-06h] type=0x69 */
+    f, /* [BP-08h] type=0x69 */
+    panRight, /* [BP-09h] type=0x62 */
+    panLeft, /* [BP-10h] type=0x62 */
+    isTurret, /* [BP-11h] type=0x62 */
+    delay; /* [BP-13h] type=0x69 */
+
+  set_info(0x0001, *(arg_06));
+  panRight = 1;
+  panLeft = 1;
+  WALLGUN.slot_29(arg_06);
+  isTurret = retval;
+  if (isTurret == 1) {
+    inc = 1;
+    left = 0;
+    right = 15;
+  }
+  else {
+    WALLGUN.slot_2b(arg_06);
+    if (retval) {
+      inc = 1;
+      left = 0;
+      right = 8;
+    }
+    else {
+      inc = -1;
+      left = 8;
+      right = 0;
+    }
+  }
+  WALLGUN.slot_20(arg_06);
+  delay = (retval * 5);
+  while (1) {
+    spawn WALLGUN.slot_26(pid, arg_06);
+    suspend;
+    f = Item.getFrame(arg_06);
+    if (isTurret == 1) {
+      if (f > 19) {
+        spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+        suspend;
+      }
+    }
+    else if (f > 8) {
+      spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+      suspend;
+    }
+    if (panRight) {
+      if (f == right) {
+        panRight = 0;
+      }
+      else {
+        f = (f + inc);
+      }
+    }
+    else if ((panLeft == 1) && (isTurret == 0)) {
+      if (f == left) {
+        panLeft = 0;
+      }
+      else {
+        f = (f - inc);
+      }
+    }
+    else if (isTurret == 1) {
+      f = left;
+    }
+    else if (f != 4) {
+      f = (f + inc);
+    }
+    panRight = 1;
+    panLeft = 1;
+    Item.getQHi(115, arg_06);
+    Item.legal_create(f, arg_06);
+    spawn FREE.waitNTimerTicks(pid, delay, 0x00000000);
+    suspend;
+    WALLGUN.slot_2e(target, arg_06);
+    if (retval) {
+      spawn WALLGUN.slot_46(pid, target, arg_06);
+      suspend;
+    }
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol target [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol left [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol right [BP-04h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol inc [BP-06h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol f [BP-08h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol panRight [BP-09h] type=0x62 unk1=0x00 unk3=0x00
+    debug_symbol panLeft [BP-10h] type=0x62 unk1=0x00 unk3=0x00
+    debug_symbol isTurret [BP-11h] type=0x62 unk1=0x00 unk3=0x00
+    debug_symbol delay [BP-13h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x33 slot_33 ===== */
+function wallgun_slot_33() /* entry=2588 class_id=0x0a1a slot=0x33 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    target, /* [BP+10h] type=0x69 */
+    left, /* [BP-02h] type=0x69 */
+    right, /* [BP-04h] type=0x69 */
+    inc, /* [BP-06h] type=0x69 */
+    f, /* [BP-08h] type=0x69 */
+    panRight, /* [BP-09h] type=0x62 */
+    panLeft, /* [BP-10h] type=0x62 */
+    isTurret, /* [BP-11h] type=0x62 */
+    delay; /* [BP-13h] type=0x69 */
+
+  set_info(0x0001, *(arg_06));
+  panRight = 1;
+  panLeft = 1;
+  WALLGUN.slot_29(arg_06);
+  isTurret = retval;
+  if (isTurret == 1) {
+    inc = 1;
+    left = 0;
+    right = 15;
+  }
+  else {
+    WALLGUN.slot_2b(arg_06);
+    if (retval) {
+      inc = 1;
+      left = 0;
+      right = 8;
+    }
+    else {
+      inc = -1;
+      left = 8;
+      right = 0;
+    }
+  }
+  WALLGUN.slot_20(arg_06);
+  delay = (retval * 5);
+  while (1) {
+    spawn WALLGUN.slot_26(pid, arg_06);
+    suspend;
+    f = Item.getFrame(arg_06);
+    if (isTurret == 1) {
+      if (f > 19) {
+        spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+        suspend;
+      }
+    }
+    else if (f > 8) {
+      spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+      suspend;
+    }
+    if (panLeft == 1) {
+      if (f == left) {
+        panLeft = 0;
+      }
+      else {
+        f = (f - inc);
+      }
+    }
+    else if ((panRight == 1) && (isTurret == 0)) {
+      if (f == right) {
+        panRight = 0;
+      }
+      else {
+        f = (f + inc);
+      }
+    }
+    else {
+      panRight = 1;
+      panLeft = 1;
+      if (isTurret == 1) {
+        f = right;
+      }
+      else if (f != 4) {
+        f = (f - inc);
+      }
+    }
+    Item.getQHi(115, arg_06);
+    Item.legal_create(f, arg_06);
+    WALLGUN.slot_2e(target, arg_06);
+    if (retval) {
+      spawn WALLGUN.slot_46(pid, target, arg_06);
+      suspend;
+    }
+    spawn FREE.waitNTimerTicks(pid, delay, 0x00000000);
+    suspend;
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol target [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol left [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol right [BP-04h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol inc [BP-06h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol f [BP-08h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol panRight [BP-09h] type=0x62 unk1=0x00 unk3=0x00
+    debug_symbol panLeft [BP-10h] type=0x62 unk1=0x00 unk3=0x00
+    debug_symbol isTurret [BP-11h] type=0x62 unk1=0x00 unk3=0x00
+    debug_symbol delay [BP-13h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x34 slot_34 ===== */
+function wallgun_slot_34() /* entry=2588 class_id=0x0a1a slot=0x34 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    left, /* [BP-02h] type=0x69 */
+    right, /* [BP-04h] type=0x69 */
+    inc, /* [BP-06h] type=0x69 */
+    f, /* [BP-08h] type=0x69 */
+    panRight, /* [BP-09h] type=0x62 */
+    isTurret, /* [BP-10h] type=0x62 */
+    delay; /* [BP-12h] type=0x69 */
+
+  set_info(0x0001, *(arg_06));
+  panRight = 1;
+  WALLGUN.slot_29(arg_06);
+  isTurret = retval;
+  if (isTurret == 1) {
+    inc = 1;
+    left = 0;
+    right = 15;
+  }
+  else {
+    WALLGUN.slot_2b(arg_06);
+    if (retval) {
+      inc = 1;
+      left = 0;
+      right = 8;
+    }
+    else {
+      inc = -1;
+      left = 8;
+      right = 0;
+    }
+  }
+  WALLGUN.slot_20(arg_06);
+  delay = (retval * 5);
+  while (1) {
+    f = Item.getFrame(arg_06);
+    if (isTurret == 1) {
+      if (f > 19) {
+        spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+        suspend;
+      }
+    }
+    else if (f > 8) {
+      spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+      suspend;
+    }
+    if (panRight) {
+      if (f == right) {
+        panRight = 0;
+      }
+      else {
+        f = (f + inc);
+      }
+    }
+    else if (isTurret == 1) {
+      f = left;
+    }
+    else if ((f != 4) && (f != right)) {
+      f = (f + inc);
+    }
+    Item.getQHi(115, arg_06);
+    Item.legal_create(f, arg_06);
+    spawn FREE.waitNTimerTicks(pid, delay, 0x00000000);
+    suspend;
+    return;
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol left [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol right [BP-04h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol inc [BP-06h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol f [BP-08h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol panRight [BP-09h] type=0x62 unk1=0x00 unk3=0x00
+    debug_symbol isTurret [BP-10h] type=0x62 unk1=0x00 unk3=0x00
+    debug_symbol delay [BP-12h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x35 slot_35 ===== */
+function wallgun_slot_35() /* entry=2588 class_id=0x0a1a slot=0x35 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    left, /* [BP-02h] type=0x69 */
+    right, /* [BP-04h] type=0x69 */
+    inc, /* [BP-06h] type=0x69 */
+    f, /* [BP-08h] type=0x69 */
+    panLeft, /* [BP-09h] type=0x62 */
+    isTurret, /* [BP-10h] type=0x62 */
+    delay; /* [BP-12h] type=0x69 */
+
+  set_info(0x0001, *(arg_06));
+  panLeft = 1;
+  WALLGUN.slot_29(arg_06);
+  isTurret = retval;
+  if (isTurret == 1) {
+    inc = 1;
+    left = 0;
+    right = 15;
+  }
+  else {
+    WALLGUN.slot_2b(arg_06);
+    if (retval) {
+      inc = 1;
+      left = 0;
+      right = 8;
+    }
+    else {
+      inc = -1;
+      left = 8;
+      right = 0;
+    }
+  }
+  WALLGUN.slot_20(arg_06);
+  delay = (retval * 5);
+  while (1) {
+    f = Item.getFrame(arg_06);
+    if (isTurret == 1) {
+      if (f > 19) {
+        spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+        suspend;
+      }
+    }
+    else if (f > 8) {
+      spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+      suspend;
+    }
+    if (panLeft == 1) {
+      if (f == left) {
+        panLeft = 0;
+      }
+      else {
+        f = (f - inc);
+      }
+    }
+    else if (isTurret == 1) {
+      f = right;
+    }
+    else if ((f != 4) && (f != left)) {
+      f = (f - inc);
+    }
+    Item.getQHi(115, arg_06);
+    Item.legal_create(f, arg_06);
+    spawn FREE.waitNTimerTicks(pid, delay, 0x00000000);
+    suspend;
+    return;
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol left [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol right [BP-04h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol inc [BP-06h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol f [BP-08h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol panLeft [BP-09h] type=0x62 unk1=0x00 unk3=0x00
+    debug_symbol isTurret [BP-10h] type=0x62 unk1=0x00 unk3=0x00
+    debug_symbol delay [BP-12h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x36 slot_36 ===== */
+function wallgun_slot_36() /* entry=2588 class_id=0x0a1a slot=0x36 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    left, /* [BP-02h] type=0x69 */
+    right, /* [BP-04h] type=0x69 */
+    inc, /* [BP-06h] type=0x69 */
+    f, /* [BP-08h] type=0x69 */
+    panRight, /* [BP-09h] type=0x62 */
+    panLeft, /* [BP-10h] type=0x62 */
+    isTurret, /* [BP-11h] type=0x62 */
+    delay; /* [BP-13h] type=0x69 */
+
+  set_info(0x0001, *(arg_06));
+  panRight = 1;
+  panLeft = 1;
+  WALLGUN.slot_29(arg_06);
+  isTurret = retval;
+  if (isTurret == 1) {
+    inc = 1;
+    left = 0;
+    right = 15;
+  }
+  else {
+    WALLGUN.slot_2b(arg_06);
+    if (retval) {
+      inc = 1;
+      left = 0;
+      right = 8;
+    }
+    else {
+      inc = -1;
+      left = 8;
+      right = 0;
+    }
+  }
+  WALLGUN.slot_20(arg_06);
+  delay = (retval * 5);
+  while (1) {
+    spawn WALLGUN.slot_26(pid, arg_06);
+    suspend;
+    f = Item.getFrame(arg_06);
+    if (isTurret == 1) {
+      if (f > 19) {
+        spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+        suspend;
+      }
+    }
+    else if (f > 8) {
+      spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+      suspend;
+    }
+    if (panRight) {
+      if (f == right) {
+        panRight = 0;
+      }
+      else {
+        f = (f + inc);
+      }
+    }
+    else if ((panLeft == 1) && (isTurret == 0)) {
+      if (f == left) {
+        panLeft = 0;
+      }
+      else {
+        f = (f - inc);
+      }
+    }
+    else {
+      panRight = 1;
+      panLeft = 1;
+      if (isTurret == 1) {
+        f = left;
+      }
+      else if (f != 4) {
+        f = (f + inc);
+      }
+    }
+    Item.getQHi(115, arg_06);
+    Item.legal_create(f, arg_06);
+    spawn FREE.waitNTimerTicks(pid, delay, 0x00000000);
+    suspend;
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol left [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol right [BP-04h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol inc [BP-06h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol f [BP-08h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol panRight [BP-09h] type=0x62 unk1=0x00 unk3=0x00
+    debug_symbol panLeft [BP-10h] type=0x62 unk1=0x00 unk3=0x00
+    debug_symbol isTurret [BP-11h] type=0x62 unk1=0x00 unk3=0x00
+    debug_symbol delay [BP-13h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x37 slot_37 ===== */
+function wallgun_slot_37() /* entry=2588 class_id=0x0a1a slot=0x37 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    left, /* [BP-02h] type=0x69 */
+    right, /* [BP-04h] type=0x69 */
+    inc, /* [BP-06h] type=0x69 */
+    f, /* [BP-08h] type=0x69 */
+    panRight, /* [BP-09h] type=0x62 */
+    panLeft, /* [BP-10h] type=0x62 */
+    isTurret, /* [BP-11h] type=0x62 */
+    delay; /* [BP-13h] type=0x69 */
+
+  set_info(0x0001, *(arg_06));
+  panRight = 1;
+  panLeft = 1;
+  WALLGUN.slot_29(arg_06);
+  isTurret = retval;
+  if (isTurret == 1) {
+    inc = 1;
+    left = 0;
+    right = 15;
+  }
+  else {
+    WALLGUN.slot_2b(arg_06);
+    if (retval) {
+      inc = 1;
+      left = 0;
+      right = 8;
+    }
+    else {
+      inc = -1;
+      left = 8;
+      right = 0;
+    }
+  }
+  WALLGUN.slot_20(arg_06);
+  delay = (retval * 5);
+  while (1) {
+    spawn WALLGUN.slot_26(pid, arg_06);
+    suspend;
+    f = Item.getFrame(arg_06);
+    if (isTurret == 1) {
+      if (f > 19) {
+        spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+        suspend;
+      }
+    }
+    else if (f > 8) {
+      spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+      suspend;
+    }
+    if (panLeft == 1) {
+      if (f == left) {
+        panLeft = 0;
+      }
+      else {
+        f = (f - inc);
+      }
+    }
+    else if ((panRight == 1) && (isTurret == 0)) {
+      if (f == right) {
+        panRight = 0;
+      }
+      else {
+        f = (f + inc);
+      }
+    }
+    else {
+      panRight = 1;
+      panLeft = 1;
+      if (isTurret == 1) {
+        f = right;
+      }
+      else if (f != 4) {
+        f = (f - inc);
+      }
+    }
+    Item.getQHi(115, arg_06);
+    Item.legal_create(f, arg_06);
+    spawn FREE.waitNTimerTicks(pid, delay, 0x00000000);
+    suspend;
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol left [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol right [BP-04h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol inc [BP-06h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol f [BP-08h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol panRight [BP-09h] type=0x62 unk1=0x00 unk3=0x00
+    debug_symbol panLeft [BP-10h] type=0x62 unk1=0x00 unk3=0x00
+    debug_symbol isTurret [BP-11h] type=0x62 unk1=0x00 unk3=0x00
+    debug_symbol delay [BP-13h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x38 slot_38 ===== */
+function wallgun_slot_38() /* entry=2588 class_id=0x0a1a slot=0x38 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    target, /* [BP+10h] type=0x69 */
+    left, /* [BP-02h] type=0x69 */
+    right, /* [BP-04h] type=0x69 */
+    inc, /* [BP-06h] type=0x69 */
+    f, /* [BP-08h] type=0x69 */
+    panRight, /* [BP-09h] type=0x62 */
+    panLeft, /* [BP-10h] type=0x62 */
+    isTurret, /* [BP-11h] type=0x62 */
+    delay; /* [BP-13h] type=0x69 */
+
+  set_info(0x0001, *(arg_06));
+  panRight = 1;
+  panLeft = 1;
+  WALLGUN.slot_29(arg_06);
+  isTurret = retval;
+  if (isTurret == 1) {
+    inc = 1;
+    left = 4;
+    right = 12;
+  }
+  else {
+    WALLGUN.slot_2b(arg_06);
+    if (retval) {
+      inc = 1;
+      left = 0;
+      right = 8;
+    }
+    else {
+      inc = -1;
+      left = 8;
+      right = 0;
+    }
+  }
+  WALLGUN.slot_20(arg_06);
+  delay = (retval * 5);
+  while (1) {
+    spawn WALLGUN.slot_26(pid, arg_06);
+    suspend;
+    f = Item.getFrame(arg_06);
+    if (isTurret == 1) {
+      if (f > 19) {
+        spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+        suspend;
+      }
+    }
+    else if (f > 8) {
+      spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+      suspend;
+    }
+    if (panRight) {
+      if (f == right) {
+        panRight = 0;
+      }
+      else {
+        f = (f + inc);
+      }
+    }
+    else if (panLeft == 1) {
+      if (f == left) {
+        panLeft = 0;
+      }
+      else {
+        f = (f - inc);
+      }
+    }
+    else if (f != 4) {
+      f = (f + inc);
+    }
+    panRight = 1;
+    panLeft = 1;
+    Item.getQHi(115, arg_06);
+    Item.legal_create(f, arg_06);
+    spawn FREE.waitNTimerTicks(pid, delay, 0x00000000);
+    suspend;
+    WALLGUN.slot_2e(target, arg_06);
+    if (retval) {
+      spawn WALLGUN.slot_46(pid, target, arg_06);
+      suspend;
+    }
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol target [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol left [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol right [BP-04h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol inc [BP-06h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol f [BP-08h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol panRight [BP-09h] type=0x62 unk1=0x00 unk3=0x00
+    debug_symbol panLeft [BP-10h] type=0x62 unk1=0x00 unk3=0x00
+    debug_symbol isTurret [BP-11h] type=0x62 unk1=0x00 unk3=0x00
+    debug_symbol delay [BP-13h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x39 slot_39 ===== */
+function wallgun_slot_39() /* entry=2588 class_id=0x0a1a slot=0x39 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    target, /* [BP+10h] type=0x69 */
+    left, /* [BP-02h] type=0x69 */
+    right, /* [BP-04h] type=0x69 */
+    inc, /* [BP-06h] type=0x69 */
+    f, /* [BP-08h] type=0x69 */
+    panRight, /* [BP-09h] type=0x62 */
+    panLeft, /* [BP-10h] type=0x62 */
+    isTurret, /* [BP-11h] type=0x62 */
+    delay; /* [BP-13h] type=0x69 */
+
+  set_info(0x0001, *(arg_06));
+  panRight = 1;
+  panLeft = 1;
+  WALLGUN.slot_29(arg_06);
+  isTurret = retval;
+  if (isTurret == 1) {
+    inc = 1;
+    left = 0;
+    right = 8;
+  }
+  else {
+    WALLGUN.slot_2b(arg_06);
+    if (retval) {
+      inc = 1;
+      left = 0;
+      right = 8;
+    }
+    else {
+      inc = -1;
+      left = 8;
+      right = 0;
+    }
+  }
+  WALLGUN.slot_20(arg_06);
+  delay = (retval * 5);
+  while (1) {
+    spawn WALLGUN.slot_26(pid, arg_06);
+    suspend;
+    f = Item.getFrame(arg_06);
+    if (isTurret == 1) {
+      if (f > 19) {
+        spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+        suspend;
+      }
+    }
+    else if (f > 8) {
+      spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+      suspend;
+    }
+    if (panRight) {
+      if (f == right) {
+        panRight = 0;
+      }
+      else {
+        f = (f + inc);
+      }
+    }
+    else if (panLeft == 1) {
+      if (f == left) {
+        panLeft = 0;
+      }
+      else {
+        f = (f - inc);
+      }
+    }
+    else if (f != 4) {
+      f = (f + inc);
+    }
+    panRight = 1;
+    panLeft = 1;
+    Item.getQHi(115, arg_06);
+    Item.legal_create(f, arg_06);
+    spawn FREE.waitNTimerTicks(pid, delay, 0x00000000);
+    suspend;
+    WALLGUN.slot_2e(target, arg_06);
+    if (retval) {
+      spawn WALLGUN.slot_46(pid, target, arg_06);
+      suspend;
+    }
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol target [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol left [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol right [BP-04h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol inc [BP-06h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol f [BP-08h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol panRight [BP-09h] type=0x62 unk1=0x00 unk3=0x00
+    debug_symbol panLeft [BP-10h] type=0x62 unk1=0x00 unk3=0x00
+    debug_symbol isTurret [BP-11h] type=0x62 unk1=0x00 unk3=0x00
+    debug_symbol delay [BP-13h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x3a slot_3a ===== */
+function wallgun_slot_3a() /* entry=2588 class_id=0x0a1a slot=0x3a */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    target, /* [BP+10h] type=0x69 */
+    left, /* [BP-02h] type=0x69 */
+    right, /* [BP-04h] type=0x69 */
+    inc, /* [BP-06h] type=0x69 */
+    f, /* [BP-08h] type=0x69 */
+    panRight, /* [BP-09h] type=0x62 */
+    panLeft, /* [BP-10h] type=0x62 */
+    isTurret, /* [BP-11h] type=0x62 */
+    delay; /* [BP-13h] type=0x69 */
+
+  set_info(0x0001, *(arg_06));
+  panRight = 1;
+  panLeft = 1;
+  WALLGUN.slot_29(arg_06);
+  isTurret = retval;
+  if (isTurret == 1) {
+    inc = 1;
+    left = 8;
+    right = 12;
+  }
+  else {
+    WALLGUN.slot_2b(arg_06);
+    if (retval) {
+      inc = 1;
+      left = 0;
+      right = 8;
+    }
+    else {
+      inc = -1;
+      left = 8;
+      right = 0;
+    }
+  }
+  WALLGUN.slot_20(arg_06);
+  delay = (retval * 15);
+  while (1) {
+    spawn WALLGUN.slot_26(pid, arg_06);
+    suspend;
+    f = Item.getFrame(arg_06);
+    if (isTurret == 1) {
+      if (f > 19) {
+        spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+        suspend;
+      }
+    }
+    else if (f > 8) {
+      spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+      suspend;
+    }
+    if (panRight) {
+      if (f == right) {
+        panRight = 0;
+        spawn FREE.waitNTimerTicks(pid, 20, 0x00000000);
+        suspend;
+      }
+      else {
+        f = (f + inc);
+      }
+    }
+    else if (panLeft == 1) {
+      if (f == left) {
+        panLeft = 0;
+        spawn FREE.waitNTimerTicks(pid, 20, 0x00000000);
+        suspend;
+      }
+      else {
+        f = (f - inc);
+      }
+    }
+    else if (f != 4) {
+      f = (f + inc);
+    }
+    panRight = 1;
+    panLeft = 1;
+    Item.getQHi(115, arg_06);
+    Item.legal_create(f, arg_06);
+    spawn FREE.waitNTimerTicks(pid, delay, 0x00000000);
+    suspend;
+    WALLGUN.slot_2e(target, arg_06);
+    if (retval) {
+      spawn WALLGUN.slot_46(pid, target, arg_06);
+      suspend;
+    }
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol target [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol left [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol right [BP-04h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol inc [BP-06h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol f [BP-08h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol panRight [BP-09h] type=0x62 unk1=0x00 unk3=0x00
+    debug_symbol panLeft [BP-10h] type=0x62 unk1=0x00 unk3=0x00
+    debug_symbol isTurret [BP-11h] type=0x62 unk1=0x00 unk3=0x00
+    debug_symbol delay [BP-13h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x3b slot_3b ===== */
+function wallgun_slot_3b() /* entry=2588 class_id=0x0a1a slot=0x3b */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    target, /* [BP+10h] type=0x69 */
+    left, /* [BP-02h] type=0x69 */
+    right, /* [BP-04h] type=0x69 */
+    inc, /* [BP-06h] type=0x69 */
+    f, /* [BP-08h] type=0x69 */
+    panRight, /* [BP-09h] type=0x62 */
+    panLeft, /* [BP-10h] type=0x62 */
+    isTurret, /* [BP-11h] type=0x62 */
+    delay; /* [BP-13h] type=0x69 */
+
+  set_info(0x0001, *(arg_06));
+  panRight = 1;
+  panLeft = 1;
+  WALLGUN.slot_29(arg_06);
+  isTurret = retval;
+  if (isTurret == 1) {
+    inc = 1;
+    left = 4;
+    right = 8;
+  }
+  else {
+    WALLGUN.slot_2b(arg_06);
+    if (retval) {
+      inc = 1;
+      left = 0;
+      right = 8;
+    }
+    else {
+      inc = -1;
+      left = 8;
+      right = 0;
+    }
+  }
+  WALLGUN.slot_20(arg_06);
+  delay = (retval * 15);
+  while (1) {
+    spawn WALLGUN.slot_26(pid, arg_06);
+    suspend;
+    f = Item.getFrame(arg_06);
+    if (isTurret == 1) {
+      if (f > 19) {
+        spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+        suspend;
+      }
+    }
+    else if (f > 8) {
+      spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+      suspend;
+    }
+    if (panRight) {
+      if (f == right) {
+        panRight = 0;
+        spawn FREE.waitNTimerTicks(pid, (delay + 20), 0x00000000);
+        suspend;
+      }
+      else {
+        f = (f + inc);
+      }
+    }
+    else if (panLeft == 1) {
+      if (f == left) {
+        panLeft = 0;
+        spawn FREE.waitNTimerTicks(pid, (delay + 20), 0x00000000);
+        suspend;
+      }
+      else {
+        f = (f - inc);
+      }
+    }
+    else if (f != 4) {
+      f = (f + inc);
+    }
+    panRight = 1;
+    panLeft = 1;
+    Item.getQHi(115, arg_06);
+    Item.legal_create(f, arg_06);
+    spawn FREE.waitNTimerTicks(pid, delay, 0x00000000);
+    suspend;
+    WALLGUN.slot_2e(target, arg_06);
+    if (retval) {
+      spawn WALLGUN.slot_46(pid, target, arg_06);
+      suspend;
+    }
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol target [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol left [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol right [BP-04h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol inc [BP-06h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol f [BP-08h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol panRight [BP-09h] type=0x62 unk1=0x00 unk3=0x00
+    debug_symbol panLeft [BP-10h] type=0x62 unk1=0x00 unk3=0x00
+    debug_symbol isTurret [BP-11h] type=0x62 unk1=0x00 unk3=0x00
+    debug_symbol delay [BP-13h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x3c slot_3c ===== */
+function wallgun_slot_3c() /* entry=2588 class_id=0x0a1a slot=0x3c */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    target, /* [BP+10h] type=0x69 */
+    brain, /* [BP+12h] type=0x69 */
+    x, /* [BP-02h] type=0x69 */
+    left, /* [BP-04h] type=0x69 */
+    right, /* [BP-06h] type=0x69 */
+    inc, /* [BP-08h] type=0x69 */
+    f, /* [BP-10h] type=0x69 */
+    isTurret; /* [BP-12h] type=0x69 */
+
+  set_info(0x0001, *(arg_06));
+  WALLGUN.slot_29(arg_06);
+  isTurret = retval;
+  if (isTurret == 1) {
+    inc = -1;
+    left = 0;
+    right = 15;
+  }
+  else {
+    WALLGUN.slot_2b(arg_06);
+    if (retval) {
+      inc = -1;
+      left = 0;
+      right = 8;
+    }
+    else {
+      inc = 1;
+      left = 8;
+      right = 0;
+    }
+  }
+  WALLGUN.slot_2d(target, arg_06);
+  if (!retval) {
+    process_result = 1;
+    return;
+  }
+  else {
+    while (1) {
+      spawn WALLGUN.slot_26(pid, arg_06);
+      suspend;
+      spawn WALLGUN.slot_2f(pid, brain, target, arg_06);
+      suspend;
+      f = Item.getFrame(arg_06);
+      if (isTurret == 1) {
+        if (f > 19) {
+          spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+          suspend;
+        }
+      }
+      else if (f > 8) {
+        spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+        suspend;
+      }
+      WALLGUN.slot_2d(target, arg_06);
+      x = retval;
+      if (x == 0) {
+        process_result = 1;
+        return;
+      }
+      else if (x == 1) {
+        if (f == left) {
+          if (isTurret == 1) {
+            f = right;
+          }
+          else {
+            process_result = 0;
+            return;
+          }
+        }
+        else {
+          f = (f + inc);
+        }
+      }
+      else if (f == right) {
+        if (isTurret == 1) {
+          f = left;
+        }
+        else {
+          process_result = 0;
+          return;
+        }
+      }
+      else {
+        f = (f - inc);
+      }
+      Item.getQHi(115, arg_06);
+      Item.legal_create(f, arg_06);
+    }
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol target [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol brain [BP+12h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol x [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol left [BP-04h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol right [BP-06h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol inc [BP-08h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol f [BP-10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol isTurret [BP-12h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x3d slot_3d ===== */
+function wallgun_slot_3d() /* entry=2588 class_id=0x0a1a slot=0x3d */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    target, /* [BP+10h] type=0x69 */
+    brain, /* [BP+12h] type=0x69 */
+    cs, /* [BP-02h] type=0x69 */
+    dist; /* [BP-04h] type=0x69 */
+
+  set_info(0x0001, *(arg_06));
+  while (1) {
+    spawn WALLGUN.slot_26(pid, arg_06);
+    suspend;
+    spawn WALLGUN.slot_3c(pid, brain, target, arg_06);
+    suspend;
+    if (process_result) {
+      WALLGUN.slot_2e(target, arg_06);
+      cs = retval;
+      FREE.slot_29(*(arg_06), target);
+      dist = retval;
+      if ((((brain == 4) && (cs == 1)) && (dist <= 20)) || (((brain != 4) && (cs == 1)) && (dist <= 46))) {
+        spawn WALLGUN.slot_45(pid, brain, target, arg_06);
+        suspend;
+      }
+      else {
+        return;
+      }
+    }
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol target [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol brain [BP+12h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol cs [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol dist [BP-04h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x3e slot_3e ===== */
+function wallgun_slot_3e() /* entry=2588 class_id=0x0a1a slot=0x3e */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    dir; /* [BP+10h] type=0x62 */
+
+  if (Item.getShape(arg_06) == wallgun_shape_0108) {
+    switch (dir) {
+    case 12:
+      return;
+    case 11:
+      return;
+    case 10:
+      return;
+    case 9:
+      return;
+    case 8:
+      return;
+    case 7:
+      return;
+    case 6:
+      return;
+    case 5:
+      return;
+    case 4:
+      return;
+    }
+    return;
+  }
+  else if (Item.getShape(arg_06) == wallgun_shape_0113) {
+    switch (dir) {
+    case 0:
+      return;
+    case 1:
+      return;
+    case 2:
+      return;
+    case 3:
+      return;
+    case 4:
+      return;
+    case 5:
+      return;
+    case 6:
+      return;
+    case 7:
+      return;
+    case 8:
+      return;
+    }
+    return;
+  }
+  else if (Item.getShape(arg_06) == wallgun_shape_02f0) {
+    switch (dir) {
+    case 12:
+      return;
+    case 11:
+      return;
+    case 10:
+      return;
+    case 9:
+      return;
+    case 8:
+      return;
+    case 7:
+      return;
+    case 6:
+      return;
+    case 5:
+      return;
+    case 4:
+      return;
+    }
+    return;
+  }
+  else if (Item.getShape(arg_06) == wallgun_shape_0373) {
+    switch (dir) {
+    case 0:
+      return;
+    case 1:
+      return;
+    case 2:
+      return;
+    case 3:
+      return;
+    case 4:
+      return;
+    case 5:
+      return;
+    case 6:
+      return;
+    case 7:
+      return;
+    case 8:
+      return;
+    case 9:
+      return;
+    }
+    return;
+  }
+  else if (Item.getShape(arg_06) == wallgun_shape_0399) {
+    switch (dir) {
+    case 12:
+      return;
+    case 11:
+      return;
+    case 10:
+      return;
+    case 9:
+      return;
+    case 8:
+      return;
+    case 7:
+      return;
+    case 6:
+      return;
+    case 5:
+      return;
+    case 4:
+      return;
+    }
+    return;
+  }
+  else if (Item.getShape(arg_06) == wallgun_shape_03a1) {
+    switch (dir) {
+    case 0:
+      return;
+    case 1:
+      return;
+    case 2:
+      return;
+    case 3:
+      return;
+    case 4:
+      return;
+    case 5:
+      return;
+    case 6:
+      return;
+    case 7:
+      return;
+    case 8:
+      return;
+    }
+    return;
+  }
+  else if ((Item.getShape(arg_06) == wallgun_shape_01ba) || (Item.getShape(arg_06) == wallgun_shape_025f)) {
+    switch (dir) {
+    case 12:
+      return;
+    case 11:
+      return;
+    case 10:
+      return;
+    case 9:
+      return;
+    case 8:
+      return;
+    case 7:
+      return;
+    case 6:
+      return;
+    case 5:
+      return;
+    case 4:
+      return;
+    }
+    return;
+  }
+  else if ((Item.getShape(arg_06) == wallgun_shape_01b9) || (Item.getShape(arg_06) == wallgun_shape_0260)) {
+    switch (dir) {
+    case 8:
+      return;
+    case 7:
+      return;
+    case 6:
+      return;
+    case 5:
+      return;
+    case 4:
+      return;
+    case 3:
+      return;
+    case 2:
+      return;
+    case 1:
+      return;
+    case 0:
+      return;
+    }
+    return;
+  }
+  else if (Item.getShape(arg_06) == wallgun_shape_04c8) {
+    switch (dir) {
+    case 0:
+      return;
+    case 1:
+      return;
+    case 2:
+      return;
+    case 3:
+      return;
+    case 4:
+      return;
+    case 5:
+      return;
+    case 6:
+      return;
+    case 7:
+      return;
+    case 8:
+      return;
+    case 9:
+      return;
+    case 10:
+      return;
+    case 11:
+      return;
+    case 12:
+      return;
+    case 13:
+      return;
+    case 14:
+      return;
+    case 15:
+      return;
+    }
+    return;
+  }
+  else if (Item.getShape(arg_06) == wallgun_shape_01cd) {
+    switch (dir) {
+    case 0:
+      return;
+    case 1:
+      return;
+    case 2:
+      return;
+    case 3:
+      return;
+    case 4:
+      return;
+    case 5:
+      return;
+    case 6:
+      return;
+    case 7:
+      return;
+    case 8:
+      return;
+    case 9:
+      return;
+    case 10:
+      return;
+    case 11:
+      return;
+    case 12:
+      return;
+    case 13:
+      return;
+    case 14:
+      return;
+    case 15:
+      return;
+    }
+    return;
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol dir [BP+10h] type=0x62 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x3f slot_3f ===== */
+function wallgun_slot_3f() /* entry=2588 class_id=0x0a1a slot=0x3f */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    dir, /* [BP+10h] type=0x62 */
+    t; /* [BP-02h] type=0x69 */
+
+  t = Item.getShape(arg_06);
+  if (t == 0x0108) {
+    switch (dir) {
+    case 12:
+      return;
+    case 11:
+      return;
+    case 10:
+      return;
+    case 9:
+      return;
+    case 8:
+      return;
+    case 7:
+      return;
+    case 6:
+      return;
+    case 5:
+      return;
+    case 4:
+      return;
+    }
+    return;
+  }
+  else if (t == 0x0113) {
+    switch (dir) {
+    case 0:
+      return;
+    case 1:
+      return;
+    case 2:
+      return;
+    case 3:
+      return;
+    case 4:
+      return;
+    case 5:
+      return;
+    case 6:
+      return;
+    case 7:
+      return;
+    case 8:
+      return;
+    }
+    return;
+  }
+  else if (t == 0x02f0) {
+    switch (dir) {
+    case 12:
+      return;
+    case 11:
+      return;
+    case 10:
+      return;
+    case 9:
+      return;
+    case 8:
+      return;
+    case 7:
+      return;
+    case 6:
+      return;
+    case 5:
+      return;
+    case 4:
+      return;
+    }
+    return;
+  }
+  else if (t == 0x0373) {
+    switch (dir) {
+    case 0:
+      return;
+    case 1:
+      return;
+    case 2:
+      return;
+    case 3:
+      return;
+    case 4:
+      return;
+    case 5:
+      return;
+    case 6:
+      return;
+    case 7:
+      return;
+    case 8:
+      return;
+    case 9:
+      return;
+    }
+    return;
+  }
+  else if (t == 0x0399) {
+    switch (dir) {
+    case 12:
+      return;
+    case 11:
+      return;
+    case 10:
+      return;
+    case 9:
+      return;
+    case 8:
+      return;
+    case 7:
+      return;
+    case 6:
+      return;
+    case 5:
+      return;
+    case 4:
+      return;
+    }
+    return;
+  }
+  else if (t == 0x03a1) {
+    switch (dir) {
+    case 0:
+      return;
+    case 1:
+      return;
+    case 2:
+      return;
+    case 3:
+      return;
+    case 4:
+      return;
+    case 5:
+      return;
+    case 6:
+      return;
+    case 7:
+      return;
+    case 8:
+      return;
+    }
+    return;
+  }
+  else if ((t == 0x01ba) || (t == 0x025f)) {
+    switch (dir) {
+    case 12:
+      return;
+    case 11:
+      return;
+    case 10:
+      return;
+    case 9:
+      return;
+    case 8:
+      return;
+    case 7:
+      return;
+    case 6:
+      return;
+    case 5:
+      return;
+    case 4:
+      return;
+    }
+    return;
+  }
+  else if ((t == 0x01b9) || (t == 0x0260)) {
+    switch (dir) {
+    case 8:
+      return;
+    case 7:
+      return;
+    case 6:
+      return;
+    case 5:
+      return;
+    case 4:
+      return;
+    case 3:
+      return;
+    case 2:
+      return;
+    case 1:
+      return;
+    case 0:
+      return;
+    }
+    return;
+  }
+  else if (t == 0x04c8) {
+    switch (dir) {
+    case 0:
+      return;
+    case 1:
+      return;
+    case 2:
+      return;
+    case 3:
+      return;
+    case 4:
+      return;
+    case 5:
+      return;
+    case 6:
+      return;
+    case 7:
+      return;
+    case 8:
+      return;
+    case 9:
+      return;
+    case 10:
+      return;
+    case 11:
+      return;
+    case 12:
+      return;
+    case 13:
+      return;
+    case 14:
+      return;
+    case 15:
+      return;
+    }
+    return;
+  }
+  else if (t == 0x01cd) {
+    switch (dir) {
+    case 0:
+      return;
+    case 1:
+      return;
+    case 2:
+      return;
+    case 3:
+      return;
+    case 4:
+      return;
+    case 5:
+      return;
+    case 6:
+      return;
+    case 7:
+      return;
+    case 8:
+      return;
+    case 9:
+      return;
+    case 10:
+      return;
+    case 11:
+      return;
+    case 12:
+      return;
+    case 13:
+      return;
+    case 14:
+      return;
+    case 15:
+      return;
+    }
+    return;
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol dir [BP+10h] type=0x62 unk1=0x00 unk3=0x00
+    debug_symbol t [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x40 slot_40 ===== */
+function wallgun_slot_40() /* entry=2588 class_id=0x0a1a slot=0x40 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    dir; /* [BP+10h] type=0x62 */
+
+  if ((((Item.getShape(arg_06) == wallgun_shape_0108) || (Item.getShape(arg_06) == wallgun_shape_0113)) || (Item.getShape(arg_06) == wallgun_shape_0399)) || (Item.getShape(arg_06) == wallgun_shape_03a1)) {
+    return;
+  }
+  else if (Item.getShape(arg_06) == wallgun_shape_02f0) {
+    if (dir == 6) {
+      return;
+    }
+    else if (dir == 5) {
+      return;
+    }
+    else if (dir == 4) {
+      return;
+    }
+    else {
+      return;
+    }
+    return;
+  }
+  else if (Item.getShape(arg_06) == wallgun_shape_0373) {
+    if (dir == 6) {
+      return;
+    }
+    else if ((dir == 7) || (dir == 8)) {
+      return;
+    }
+    else {
+      return;
+    }
+    return;
+  }
+  else {
+    return;
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol dir [BP+10h] type=0x62 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x41 slot_41 ===== */
+function wallgun_slot_41() /* entry=2588 class_id=0x0a1a slot=0x41 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    dir; /* [BP+10h] type=0x62 */
+
+  if (Item.getShape(arg_06) == wallgun_shape_04c8) {
+    switch (dir) {
+    case 0:
+      return;
+    case 1:
+      return;
+    case 2:
+      return;
+    case 3:
+      return;
+    case 4:
+      return;
+    case 5:
+      return;
+    case 6:
+      return;
+    case 7:
+      return;
+    case 8:
+      return;
+    case 9:
+      return;
+    case 10:
+      return;
+    case 11:
+      return;
+    case 12:
+      return;
+    case 13:
+      return;
+    case 14:
+      return;
+    case 15:
+      return;
+    }
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol dir [BP+10h] type=0x62 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x42 slot_42 ===== */
+function wallgun_slot_42() /* entry=2588 class_id=0x0a1a slot=0x42 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    dir; /* [BP+10h] type=0x62 */
+
+  if (Item.getShape(arg_06) == wallgun_shape_04c8) {
+    switch (dir) {
+    case 0:
+      return;
+    case 1:
+      return;
+    case 2:
+      return;
+    case 3:
+      return;
+    case 4:
+      return;
+    case 5:
+      return;
+    case 6:
+      return;
+    case 7:
+      return;
+    case 8:
+      return;
+    case 9:
+      return;
+    case 10:
+      return;
+    case 11:
+      return;
+    case 12:
+      return;
+    case 13:
+      return;
+    case 14:
+      return;
+    case 15:
+      return;
+    }
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol dir [BP+10h] type=0x62 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x43 slot_43 ===== */
+function wallgun_slot_43() /* entry=2588 class_id=0x0a1a slot=0x43 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    dir; /* [BP+10h] type=0x62 */
+
+  if (Item.getShape(arg_06) == wallgun_shape_04c8) {
+    return;
+  }
+  else {
+    return;
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol dir [BP+10h] type=0x62 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x44 slot_44 ===== */
+function wallgun_slot_44() /* entry=2588 class_id=0x0a1a slot=0x44 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    t; /* [BP-02h] type=0x69 */
+
+  t = Item.getShape(arg_06);
+  if (((t == 0x0108) || (t == 0x0113)) || (t == 0x01cd)) {
+    return;
+  }
+  else {
+    return;
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol t [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x45 slot_45 ===== */
+function wallgun_slot_45() /* entry=2588 class_id=0x0a1a slot=0x45 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    target, /* [BP+10h] type=0x69 */
+    brain, /* [BP+12h] type=0x69 */
+    dir, /* [BP-01h] type=0x62 */
+    dist, /* [BP-03h] type=0x69 */
+    t, /* [BP-05h] type=0x69 */
+    del, /* [BP-07h] type=0x69 */
+    old, /* [BP-09h] type=0x69 */
+    new; /* [BP-11h] type=0x69 */
+
+  set_info(0x0001, *(arg_06));
+  spawn FREE.waitNTimerTicks(pid, 1, 0x00000000);
+  suspend;
+  WALLGUN.slot_2c(arg_06);
+  dir = retval;
+  del = 3;
+  old = Item.getFrame(arg_06);
+  new = (Item.getFrame(arg_06) * 2);
+  WALLGUN.slot_29(arg_06);
+  if (retval) {
+    new = (new + 20);
+  }
+  else {
+    new = (new + 9);
+  }
+  while (1) {
+    spawn WALLGUN.slot_26(pid, arg_06);
+    suspend;
+    FREE.slot_29(*(arg_06), target);
+    dist = retval;
+    WALLGUN.slot_2e(target, arg_06);
+    if (retval == 0) {
+      return;
+    }
+    else if (dist > 20) {
+      if (brain == 4) {
+        return;
+      }
+      if (dist > 46) {
+        return;
+      }
+    }
+    else if ((Item.getShape(arg_06) == wallgun_shape_0113) || (Item.getShape(arg_06) == wallgun_shape_0108)) {
+      Item.legal_create(new, arg_06);
+      spawn WALLGUN.slot_47(dir, arg_06);
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+      Item.legal_create((Item.getFrame(arg_06) + 1), arg_06);
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+      Item.legal_create(new, arg_06);
+      spawn WALLGUN.slot_47(dir, arg_06);
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+      Item.legal_create((Item.getFrame(arg_06) + 1), arg_06);
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+      Item.legal_create(new, arg_06);
+      spawn WALLGUN.slot_47(dir, arg_06);
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+      Item.legal_create((Item.getFrame(arg_06) + 1), arg_06);
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+    }
+    else if ((((Item.getShape(arg_06) == wallgun_shape_025f) || (Item.getShape(arg_06) == wallgun_shape_0260)) || (Item.getShape(arg_06) == wallgun_shape_01b9)) || (Item.getShape(arg_06) == wallgun_shape_01ba)) {
+      spawn WALLGUN.slot_47(dir, arg_06);
+    }
+    else if ((Item.getShape(arg_06) == wallgun_shape_0373) || (Item.getShape(arg_06) == wallgun_shape_02f0)) {
+      Item.legal_create(new, arg_06);
+      spawn WALLGUN.slot_47(dir, arg_06);
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+      Item.legal_create((Item.getFrame(arg_06) + 1), arg_06);
+    }
+    else if ((Item.getShape(arg_06) == wallgun_shape_04c8) || (Item.getShape(arg_06) == wallgun_shape_01cd)) {
+      Item.legal_create(new, arg_06);
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+      Item.legal_create((Item.getFrame(arg_06) + 1), arg_06);
+      spawn WALLGUN.slot_47(dir, arg_06);
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+      Item.legal_create(new, arg_06);
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+      Item.legal_create((Item.getFrame(arg_06) + 1), arg_06);
+      spawn WALLGUN.slot_47(dir, arg_06);
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+      Item.legal_create(new, arg_06);
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+      Item.legal_create((Item.getFrame(arg_06) + 1), arg_06);
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+    }
+    else if ((Item.getShape(arg_06) == wallgun_shape_03a1) || (Item.getShape(arg_06) == wallgun_shape_0399)) {
+      Item.legal_create((Item.getFrame(arg_06) + 9), arg_06);
+      spawn WALLGUN.slot_47(dir, arg_06);
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+    }
+    Item.legal_create(old, arg_06);
+    spawn WALLGUN.slot_30(pid, arg_06);
+    suspend;
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol target [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol brain [BP+12h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol dir [BP-01h] type=0x62 unk1=0x00 unk3=0x00
+    debug_symbol dist [BP-03h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol t [BP-05h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol del [BP-07h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol old [BP-09h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol new [BP-11h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x46 slot_46 ===== */
+function wallgun_slot_46() /* entry=2588 class_id=0x0a1a slot=0x46 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    target, /* [BP+10h] type=0x69 */
+    dir, /* [BP-01h] type=0x62 */
+    dist, /* [BP-03h] type=0x69 */
+    t, /* [BP-05h] type=0x69 */
+    del, /* [BP-07h] type=0x69 */
+    old, /* [BP-09h] type=0x69 */
+    new; /* [BP-11h] type=0x69 */
+
+  set_info(0x0001, *(arg_06));
+  spawn FREE.waitNTimerTicks(pid, 1, 0x00000000);
+  suspend;
+  if (Item.getStatus(arg_06) & 0x1000) {
+    spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
+    suspend;
+    if (Item.getStatus(arg_06) & 0x1000) {
+      return;
+    }
+  }
+  else {
+    Item.orStatus(0x1000, arg_06);
+    WALLGUN.slot_2c(arg_06);
+    dir = retval;
+    del = 3;
+    old = Item.getFrame(arg_06);
+    new = (Item.getFrame(arg_06) * 2);
+    WALLGUN.slot_29(arg_06);
+    if (retval) {
+      new = (new + 20);
+    }
+    else {
+      new = (new + 9);
+    }
+    if ((Item.getShape(arg_06) == wallgun_shape_0113) || (Item.getShape(arg_06) == wallgun_shape_0108)) {
+      Item.legal_create(new, arg_06);
+      spawn WALLGUN.slot_47(dir, arg_06);
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+      Item.legal_create((Item.getFrame(arg_06) + 1), arg_06);
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+      Item.legal_create(new, arg_06);
+      spawn WALLGUN.slot_47(dir, arg_06);
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+      Item.legal_create((Item.getFrame(arg_06) + 1), arg_06);
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+      Item.legal_create(new, arg_06);
+      spawn WALLGUN.slot_47(dir, arg_06);
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+      Item.legal_create((Item.getFrame(arg_06) + 1), arg_06);
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+    }
+    else if ((((Item.getShape(arg_06) == wallgun_shape_0373) || (Item.getShape(arg_06) == wallgun_shape_02f0)) || (Item.getShape(arg_06) == wallgun_shape_01b9)) || (Item.getShape(arg_06) == wallgun_shape_01ba)) {
+      Item.legal_create(new, arg_06);
+      spawn WALLGUN.slot_47(dir, arg_06);
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+      Item.legal_create((Item.getFrame(arg_06) + 1), arg_06);
+    }
+    else if ((((Item.getShape(arg_06) == wallgun_shape_025f) || (Item.getShape(arg_06) == wallgun_shape_0260)) || (Item.getShape(arg_06) == wallgun_shape_01b9)) || (Item.getShape(arg_06) == wallgun_shape_01ba)) {
+      spawn WALLGUN.slot_47(dir, arg_06);
+    }
+    else if ((Item.getShape(arg_06) == wallgun_shape_04c8) || (Item.getShape(arg_06) == wallgun_shape_01cd)) {
+      Item.legal_create(new, arg_06);
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+      Item.legal_create((Item.getFrame(arg_06) + 1), arg_06);
+      spawn WALLGUN.slot_47(dir, arg_06);
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+      Item.legal_create(new, arg_06);
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+      Item.legal_create((Item.getFrame(arg_06) + 1), arg_06);
+      spawn WALLGUN.slot_47(dir, arg_06);
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+      Item.legal_create(new, arg_06);
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+      Item.legal_create((Item.getFrame(arg_06) + 1), arg_06);
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+    }
+    else if ((Item.getShape(arg_06) == wallgun_shape_03a1) || (Item.getShape(arg_06) == wallgun_shape_0399)) {
+      Item.legal_create((Item.getFrame(arg_06) + 9), arg_06);
+      spawn WALLGUN.slot_47(dir, arg_06);
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+    }
+    Item.legal_create(old, arg_06);
+    spawn WALLGUN.slot_30(pid, arg_06);
+    suspend;
+    Item.andStatus((~0x1000), arg_06);
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol target [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol dir [BP-01h] type=0x62 unk1=0x00 unk3=0x00
+    debug_symbol dist [BP-03h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol t [BP-05h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol del [BP-07h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol old [BP-09h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol new [BP-11h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x47 slot_47 ===== */
+function wallgun_slot_47() /* entry=2588 class_id=0x0a1a slot=0x47 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    dir, /* [BP+10h] type=0x62 */
+    x1, /* [BP-02h] type=0x69 */
+    x2, /* [BP-04h] type=0x69 */
+    y1, /* [BP-06h] type=0x69 */
+    y2, /* [BP-08h] type=0x69 */
+    z1, /* [BP-09h] type=0x62 */
+    z2, /* [BP-10h] type=0x62 */
+    ammo; /* [BP-12h] type=0x69 */
+
+  set_info(0x0001, *(arg_06));
+  spawn FREE.waitNTimerTicks(pid, 1, 0x00000000);
+  suspend;
+  WALLGUN.slot_44(arg_06);
+  ammo = retval;
+  dir = (dir & 15);
+  WALLGUN.slot_3e(dir, arg_06);
+  x1 = retval;
+  WALLGUN.slot_3f(dir, arg_06);
+  y1 = retval;
+  WALLGUN.slot_40(dir, arg_06);
+  z1 = retval;
+  if (ammo == 1) {
+    AudioProcess.playSFXCru(44, arg_06);
+  }
+  if (ammo == 5) {
+    AudioProcess.playSFXCru(83, arg_06);
+  }
+  WALLGUN.slot_29(arg_06);
+  if (retval) {
+    WALLGUN.slot_41(dir, arg_06);
+    x2 = retval;
+    WALLGUN.slot_42(dir, arg_06);
+    y2 = retval;
+    WALLGUN.slot_43(dir, arg_06);
+    z2 = retval;
+    return;
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol dir [BP+10h] type=0x62 unk1=0x00 unk3=0x00
+    debug_symbol x1 [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol x2 [BP-04h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol y1 [BP-06h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol y2 [BP-08h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol z1 [BP-09h] type=0x62 unk1=0x00 unk3=0x00
+    debug_symbol z2 [BP-10h] type=0x62 unk1=0x00 unk3=0x00
+    debug_symbol ammo [BP-12h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x48 slot_48 ===== */
+function wallgun_slot_48() /* entry=2588 class_id=0x0a1a slot=0x48 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    vel, /* [BP+12h] type=0x69 */
+    maxHit, /* [BP-02h] type=0x69 */
+    turn, /* [BP-04h] type=0x69 */
+    fire; /* [BP-06h] type=0x69 */
+
+  set_info(0x0001, *(arg_06));
+  if ((Item.getShape(arg_06) == wallgun_shape_0113) || (Item.getShape(arg_06) == wallgun_shape_0108)) {
+    maxHit = 100;
+  }
+  else if ((Item.getShape(arg_06) == wallgun_shape_0373) || (Item.getShape(arg_06) == wallgun_shape_0373)) {
+    maxHit = 100;
+  }
+  else if ((Item.getShape(arg_06) == wallgun_shape_0399) || (Item.getShape(arg_06) == wallgun_shape_03a1)) {
+    maxHit = 50;
+  }
+  else if (Item.getShape(arg_06) == wallgun_shape_04c8) {
+    maxHit = 0x00fa;
+  }
+  else if (Item.getShape(arg_06) == wallgun_shape_01cd) {
+    maxHit = 0x00c8;
+  }
+  else {
+    maxHit = 100;
+  }
+  spawn ITEM.slot_27(pid, maxHit, vel, ref, arg_06);
+  suspend;
+  if (!process_result) {
+    FREE.slot_20(1);
+    if (retval) {
+      AudioProcess.playSFXCru(38, arg_06);
+    }
+    else {
+      AudioProcess.playSFXCru(39, arg_06);
+    }
+    WALLGUN.slot_20(arg_06);
+    turn = retval;
+    WALLGUN.slot_21(arg_06);
+    fire = retval;
+    if ((turn == 0) || (turn == 3)) {
+      WALLGUN.slot_22(4, arg_06);
+    }
+    else if (turn < 5) {
+      WALLGUN.slot_20(arg_06);
+      WALLGUN.slot_22((retval + 1), arg_06);
+    }
+    if ((fire == 0) || (fire == 3)) {
+      WALLGUN.slot_23(4, arg_06);
+    }
+    else if (fire < 5) {
+      WALLGUN.slot_21(arg_06);
+      WALLGUN.slot_23((retval + 1), arg_06);
+    }
+    process_result = 0;
+    return;
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol ref [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol vel [BP+12h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol maxHit [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol turn [BP-04h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol fire [BP-06h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x49 slot_49 ===== */
+function wallgun_slot_49() /* entry=2588 class_id=0x0a1a slot=0x49 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    vel, /* [BP+12h] type=0x69 */
+    gun, /* [BP-02h] type=0x24 */
+    gun2, /* [BP-04h] type=0x24 */
+    broken; /* [BP-06h] type=0x69 */
+
+  set_info(0x020c, *(arg_06));
+  FREE.slot_2c(vel, ref);
+  if (!retval) {
+    return;
+  }
+  else if (Item.getQHi(arg_06) > 99) {
+    AudioProcess.playSFXCru(0x0091, arg_06);
+    Item.getDirFromItem(Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06), 5, 10, 0, 0x04f1);
+    return;
+  }
+  else {
+    spawn WALLGUN.slot_48(pid, vel, ref, arg_06);
+    suspend;
+    if (!process_result) {
+      return;
+    }
+    else {
+      FREE.slot_33(1, *(arg_06));
+      FREE.slot_33(0x020a, *(arg_06));
+      if ((Item.getShape(arg_06) == wallgun_shape_0108) || (Item.getShape(arg_06) == wallgun_shape_0113)) {
+        if (Item.getFrame(arg_06) != 27) {
+          spawn ITEM.slot_28(pid, 0, 0, arg_06);
+          suspend;
+          Item.legal_create(27, arg_06);
+          if (Item.getShape(arg_06) == wallgun_shape_0108) {
+            Item.create(0, 0x02a1, gun);
+            Item.popToCoords((Item.getZ(arg_06) + 32), (Item.getY(arg_06) + 16), Item.getX(arg_06), gun);
+            Item.create(0, 0x029c, gun2);
+            Item.popToCoords((Item.getZ(arg_06) + 16), (Item.getY(arg_06) + 16), Item.getX(arg_06), gun2);
+            suspend;
+          }
+          else {
+            Item.create(1, 0x02a1, gun);
+            Item.popToCoords((Item.getZ(arg_06) + 32), Item.getY(arg_06), (Item.getX(arg_06) + 16), gun);
+            Item.create(1, 0x029c, gun2);
+            Item.popToCoords((Item.getZ(arg_06) + 16), Item.getY(arg_06), (Item.getX(arg_06) + 16), gun2);
+            suspend;
+          }
+        }
+      }
+      else if ((Item.getShape(arg_06) == wallgun_shape_02f0) || (Item.getShape(arg_06) == wallgun_shape_0373)) {
+        if (Item.getFrame(arg_06) != 27) {
+          spawn ITEM.slot_28(pid, 0, 0, arg_06);
+          suspend;
+          Item.legal_create(27, arg_06);
+          if (Item.getShape(arg_06) == wallgun_shape_02f0) {
+            Item.create(2, 0x02a1, gun);
+            Item.popToCoords((Item.getZ(arg_06) + 32), (Item.getY(arg_06) + 16), Item.getX(arg_06), gun);
+          }
+          else {
+            Item.create(3, 0x02a1, gun);
+            Item.popToCoords((Item.getZ(arg_06) + 32), Item.getY(arg_06), (Item.getX(arg_06) + 16), gun);
+          }
+        }
+      }
+      else if ((((Item.getShape(arg_06) == wallgun_shape_01ba) || (Item.getShape(arg_06) == wallgun_shape_01b9)) || (Item.getShape(arg_06) == wallgun_shape_025f)) || (Item.getShape(arg_06) == wallgun_shape_0260)) {
+        if (Item.getFrame(arg_06) != 9) {
+          spawn ITEM.slot_28(pid, 0, 0, arg_06);
+          suspend;
+          Item.legal_create(9, arg_06);
+          if ((Item.getShape(arg_06) == wallgun_shape_01ba) || (Item.getShape(arg_06) == wallgun_shape_025f)) {
+            Item.create(0, 0x0229, gun);
+            Item.popToCoords((Item.getZ(arg_06) + 16), (Item.getY(arg_06) + 16), Item.getX(arg_06), gun);
+            suspend;
+          }
+          else {
+            Item.create(1, 0x0229, gun);
+            Item.popToCoords((Item.getZ(arg_06) + 16), Item.getY(arg_06), (Item.getX(arg_06) + 16), gun);
+            suspend;
+          }
+        }
+      }
+      else if ((Item.getShape(arg_06) == wallgun_shape_0399) || (Item.getShape(arg_06) == wallgun_shape_03a1)) {
+        if (Item.getFrame(arg_06) < 18) {
+          spawn ITEM.slot_28(pid, 0, 0, arg_06);
+          suspend;
+          FREE.slot_20(1);
+          Item.legal_create((retval + 18), arg_06);
+        }
+      }
+      else if (Item.getShape(arg_06) == wallgun_shape_04c8) {
+        if (Item.getFrame(arg_06) < 52) {
+          spawn ITEM.slot_28(pid, 0, 1, arg_06);
+          suspend;
+          for gun in nearby_items(shape=TURRET_BASE, origin=arg_06) {
+            Item.legal_create(1, gun);
+          }
+          gun = *(arg_06);
+          set_info(1, 0);
+          FREE.slot_20(2);
+          Item.create(retval, 0x03a5, gun2);
+          Item.popToCoords(Item.getZ(gun), Item.getY(gun), Item.getX(gun), gun2);
+          Item.destroy(gun);
+        }
+      }
+      else if ((Item.getShape(arg_06) == wallgun_shape_04c8) || (Item.getShape(arg_06) == wallgun_shape_01cd)) {
+        if (Item.getFrame(arg_06) < 52) {
+          spawn ITEM.slot_28(pid, 0, 1, arg_06);
+          suspend;
+          gun = *(arg_06);
+          set_info(1, 0);
+          FREE.slot_20(3);
+          Item.create(retval, 0x056a, gun2);
+          Item.popToCoords(Item.getZ(gun), Item.getY(gun), Item.getX(gun), gun2);
+          Item.explode(1, 1, gun);
+        }
+      }
+      Item.setIsBroken(arg_06);
+    }
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol ref [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol vel [BP+12h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol gun [BP-02h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol gun2 [BP-04h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol broken [BP-06h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x4a slot_4a ===== */
+function wallgun_slot_4a() /* entry=2588 class_id=0x0a1a slot=0x4a */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    target, /* [BP+10h] type=0x69 */
+    dir, /* [BP-01h] type=0x62 */
+    dist, /* [BP-03h] type=0x69 */
+    t, /* [BP-05h] type=0x69 */
+    del, /* [BP-07h] type=0x69 */
+    old, /* [BP-09h] type=0x69 */
+    new; /* [BP-11h] type=0x69 */
+
+  set_info(0x0001, *(arg_06));
+  spawn FREE.waitNTimerTicks(pid, 1, 0x00000000);
+  suspend;
+  if (Item.getStatus(arg_06) & 0x1000) {
+    spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
+    suspend;
+    if (Item.getStatus(arg_06) & 0x1000) {
+      return;
+    }
+  }
+  else {
+    Item.orStatus(0x1000, arg_06);
+    WALLGUN.slot_2c(arg_06);
+    dir = retval;
+    del = 3;
+    old = Item.getFrame(arg_06);
+    new = (Item.getFrame(arg_06) * 2);
+    WALLGUN.slot_29(arg_06);
+    if (retval) {
+      new = (new + 20);
+    }
+    else {
+      new = (new + 9);
+    }
+    if ((Item.getShape(arg_06) == wallgun_shape_0113) || (Item.getShape(arg_06) == wallgun_shape_0108)) {
+      Item.legal_create(new, arg_06);
+      spawn WALLGUN.slot_4b(dir, arg_06);
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+      Item.legal_create((Item.getFrame(arg_06) + 1), arg_06);
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+      Item.legal_create(new, arg_06);
+      spawn WALLGUN.slot_4b(dir, arg_06);
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+      Item.legal_create((Item.getFrame(arg_06) + 1), arg_06);
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+      Item.legal_create(new, arg_06);
+      spawn WALLGUN.slot_4b(dir, arg_06);
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+      Item.legal_create((Item.getFrame(arg_06) + 1), arg_06);
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+    }
+    else if ((((Item.getShape(arg_06) == wallgun_shape_0373) || (Item.getShape(arg_06) == wallgun_shape_02f0)) || (Item.getShape(arg_06) == wallgun_shape_01b9)) || (Item.getShape(arg_06) == wallgun_shape_01ba)) {
+      Item.legal_create(new, arg_06);
+      spawn WALLGUN.slot_4b(dir, arg_06);
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+      Item.legal_create((Item.getFrame(arg_06) + 1), arg_06);
+    }
+    else if ((((Item.getShape(arg_06) == wallgun_shape_025f) || (Item.getShape(arg_06) == wallgun_shape_0260)) || (Item.getShape(arg_06) == wallgun_shape_01b9)) || (Item.getShape(arg_06) == wallgun_shape_01ba)) {
+      spawn WALLGUN.slot_4b(dir, arg_06);
+    }
+    else if ((Item.getShape(arg_06) == wallgun_shape_04c8) || (Item.getShape(arg_06) == wallgun_shape_01cd)) {
+      Item.legal_create(new, arg_06);
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+      Item.legal_create((Item.getFrame(arg_06) + 1), arg_06);
+      spawn WALLGUN.slot_4b(dir, arg_06);
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+      Item.legal_create(new, arg_06);
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+      Item.legal_create((Item.getFrame(arg_06) + 1), arg_06);
+      spawn WALLGUN.slot_4b(dir, arg_06);
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+      Item.legal_create(new, arg_06);
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+      Item.legal_create((Item.getFrame(arg_06) + 1), arg_06);
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+    }
+    else if ((Item.getShape(arg_06) == wallgun_shape_03a1) || (Item.getShape(arg_06) == wallgun_shape_0399)) {
+      Item.legal_create((Item.getFrame(arg_06) + 9), arg_06);
+      spawn WALLGUN.slot_4b(dir, arg_06);
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+    }
+    Item.legal_create(old, arg_06);
+    spawn WALLGUN.slot_30(pid, arg_06);
+    suspend;
+    Item.andStatus((~0x1000), arg_06);
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol target [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol dir [BP-01h] type=0x62 unk1=0x00 unk3=0x00
+    debug_symbol dist [BP-03h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol t [BP-05h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol del [BP-07h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol old [BP-09h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol new [BP-11h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x4b slot_4b ===== */
+function wallgun_slot_4b() /* entry=2588 class_id=0x0a1a slot=0x4b */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    dir, /* [BP+10h] type=0x62 */
+    x1, /* [BP-02h] type=0x69 */
+    x2, /* [BP-04h] type=0x69 */
+    y1, /* [BP-06h] type=0x69 */
+    y2, /* [BP-08h] type=0x69 */
+    z1, /* [BP-09h] type=0x62 */
+    z2, /* [BP-10h] type=0x62 */
+    ammo; /* [BP-12h] type=0x69 */
+
+  set_info(0x0001, *(arg_06));
+  spawn FREE.waitNTimerTicks(pid, 1, 0x00000000);
+  suspend;
+  WALLGUN.slot_44(arg_06);
+  ammo = retval;
+  dir = (dir & 15);
+  WALLGUN.slot_3e(dir, arg_06);
+  x1 = retval;
+  WALLGUN.slot_3f(dir, arg_06);
+  y1 = retval;
+  WALLGUN.slot_40(dir, arg_06);
+  z1 = retval;
+  if (ammo == 1) {
+    AudioProcess.playSFXCru(44, arg_06);
+  }
+  if (ammo == 5) {
+    AudioProcess.playSFXCru(83, arg_06);
+  }
+  WALLGUN.slot_29(arg_06);
+  if (retval) {
+    WALLGUN.slot_41(dir, arg_06);
+    x2 = retval;
+    WALLGUN.slot_42(dir, arg_06);
+    y2 = retval;
+    WALLGUN.slot_43(dir, arg_06);
+    z2 = retval;
+    return;
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol dir [BP+10h] type=0x62 unk1=0x00 unk3=0x00
+    debug_symbol x1 [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol x2 [BP-04h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol y1 [BP-06h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol y2 [BP-08h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol z1 [BP-09h] type=0x62 unk1=0x00 unk3=0x00
+    debug_symbol z2 [BP-10h] type=0x62 unk1=0x00 unk3=0x00
+    debug_symbol ammo [BP-12h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}

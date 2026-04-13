@@ -1,0 +1,18 @@
+/* synthesized appendix for MFAN_NS */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x06 gotHit ===== */
+function mfan_ns_gotHit() /* entry=513 class_id=0x01ff slot=0x06 */
+{
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  FREE.slot_2c(arg_12, arg_10);
+  if (retval) {
+    FREE.slot_20(1);
+    Item.isCentreOn(retval, arg_06);
+    Item.setShape(0x032d, arg_06);
+    spawn ITEM.slot_28(pid, 0, 1, arg_06);
+    suspend;
+  }
+  return;
+}

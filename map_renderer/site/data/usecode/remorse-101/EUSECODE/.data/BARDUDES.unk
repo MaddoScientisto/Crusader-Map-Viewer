@@ -1,0 +1,67 @@
+/* synthesized appendix for BARDUDES */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x0f enterFastArea ===== */
+function bardudes_enterFastArea() /* entry=900 class_id=0x0382 slot=0x0f */
+{
+  set_info(0x021b, *(arg_06));
+  process_exclude();
+  if ((((global[0x0020] == 1) || (global[0x0020] == 2)) || (global[0x0020] == 3)) || (global[0x0020] == 14)) {
+    Item.setFrame(14, arg_06);
+    return;
+  }
+  else {
+    Item.setFrame(1, arg_06);
+  }
+  suspend;
+  FREE.slot_20(pid, 100);
+  spawn FREE.waitNTimerTicks((retval + 60), 0x00000000);
+  suspend;
+  FREE.slot_20(100);
+  while (true) {
+    suspend;
+    FREE.slot_20(pid, 100);
+    spawn FREE.waitNTimerTicks((retval + 60), 0x00000000);
+    suspend;
+    FREE.slot_20(100);
+    if (retval > 50) {
+      local_02 = 0;
+      while (local_02 <= 7) {
+        Item.setFrame(local_02, arg_06);
+        spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+        suspend;
+        local_02 = (1 + local_02);
+      }
+      FREE.slot_20(pid, 100);
+      spawn FREE.waitNTimerTicks((retval + 60), 0x00000000);
+      suspend;
+      local_02 = 0;
+      while (local_02 <= 7) {
+        Item.setFrame((7 - local_02), arg_06);
+        spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+        suspend;
+        local_02 = (1 + local_02);
+      }
+    }
+    else {
+      local_02 = 8;
+      while (local_02 <= 13) {
+        Item.setFrame(local_02, arg_06);
+        spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+        suspend;
+        local_02 = (1 + local_02);
+      }
+      FREE.slot_20(pid, 100);
+      spawn FREE.waitNTimerTicks((retval + 60), 0x00000000);
+      suspend;
+      local_02 = 0;
+      while (local_02 <= 5) {
+        Item.setFrame((13 - local_02), arg_06);
+        spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+        suspend;
+        local_02 = (1 + local_02);
+      }
+    }
+  }
+  return;
+}

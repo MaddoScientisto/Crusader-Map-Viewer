@@ -1,0 +1,486 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[06:gotHit] call_class_event FREE.slot_2b ; ...
+[06:gotHit] ne ; jne 0x0065
+[06:gotHit] cmp ; jne 0x0046 ; ...
+[06:gotHit]
+[06:gotHit] jmp 0x0065
+//
+[06:gotHit] spawn SSWITCHE.use ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[06:gotHit] ret
+//
+//
+//
+//
+[01:use] call_intrinsic Item.getFrame(arg_bytes=0x4) ; pop_local_byte a ; ...
+//
+[01:use] call_intrinsic Item.getMapArray(arg_bytes=0x4) ; ne ; jne 0x00e0 ; ...
+[01:use]
+[01:use] cmp ; jne 0x007d ; ...
+//
+[01:use] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+[01:use] spawn TRIGGER.slot_20 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[01:use] lt ; jne 0x00dd ; ...
+[01:use]
+[01:use] add ; bit_and ; pop_local_byte b ; ...
+//
+[01:use] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+[01:use] spawn TRIGGER.slot_20 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[01:use] call_intrinsic Item.setFrame(arg_bytes=0x6) ; jmp 0x00dd ; jmp 0x0670 ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+[01:use] call_intrinsic Item.getQLo(arg_bytes=0x4) ; pop_local_word qLo ; loopscr value_u8=0x24 ; ...
+//
+[01:use] loopscr value_u8=0x25 ; mul ; ...
+[01:use] loop current_var=0xf9, string_bytes=0x6, loop_type=0x2 ; jne 0x01ca ; ...
+[01:use] push_local_word sswitch
+[01:use] cmp ; not ; jne 0x01bc ; ...
+[01:use] call_intrinsic Item.getMapArray(arg_bytes=0x4) ; cmp ; jne 0x01bc ; ...
+//
+[01:use] call_intrinsic Item.getQLo(arg_bytes=0x4) ; cmp ; jne 0x0162 ; ...
+[01:use]
+[01:use] pop_local_word switch1
+[01:use] call_intrinsic Item.getFrame(arg_bytes=0x4) ; pop_local_byte a1 ; jmp 0x01bc ; ...
+//
+[01:use] call_intrinsic Item.getQLo(arg_bytes=0x4) ; cmp ; jne 0x018f ; ...
+[01:use]
+[01:use] pop_local_word switch2
+[01:use] call_intrinsic Item.getFrame(arg_bytes=0x4) ; pop_local_byte b1 ; jmp 0x01bc ; ...
+//
+[01:use] call_intrinsic Item.getQLo(arg_bytes=0x4) ; cmp ; jne 0x01bc ; ...
+[01:use]
+[01:use] pop_local_word switch3
+[01:use] call_intrinsic Item.getFrame(arg_bytes=0x4) ; pop_local_byte c1 ; jmp 0x01bc ; ...
+//
+//
+//
+//
+[01:use] add ; pop_local_word counter ; loopnext ; ...
+//
+//
+[01:use] loopscr value_u8=0x25 ; mul ; ...
+[01:use] loop current_var=0xef, string_bytes=0x6, loop_type=0x2 ; jne 0x0260 ; ...
+[01:use] call_intrinsic Item.getMapArray(arg_bytes=0x4) ; cmp ; jne 0x025c ; ...
+//
+[01:use] call_intrinsic Item.getQLo(arg_bytes=0x4) ; cmp ; jne 0x021e ; ...
+[01:use]
+[01:use] pop_local_word switch21 ; jmp 0x025c
+//
+[01:use] call_intrinsic Item.getQLo(arg_bytes=0x4) ; cmp ; jne 0x023d ; ...
+[01:use]
+[01:use] pop_local_word switch22 ; jmp 0x025c
+//
+[01:use] call_intrinsic Item.getQLo(arg_bytes=0x4) ; cmp ; jne 0x025c ; ...
+[01:use]
+[01:use] pop_local_word switch23 ; jmp 0x025c ; loopnext ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+[01:use] call_intrinsic Item.getFrame(arg_bytes=0x4) ; pop_local_byte a1 ; ...
+[01:use] pop_local_word switch1
+[01:use] push_local_word switch2
+[01:use] and ; jne 0x0321
+//
+[01:use] jne 0x02df
+[01:use] call_intrinsic Item.setFrame(arg_bytes=0x6)
+[01:use] call_intrinsic Item.setFrame(arg_bytes=0x6)
+[01:use] pop_local_byte a1
+[01:use] call_intrinsic Item.setFrame(arg_bytes=0x6)
+[01:use] call_intrinsic Item.setFrame(arg_bytes=0x6)
+[01:use] pop_local_byte b1 ; jmp 0x0321
+//
+//
+//
+[01:use] call_intrinsic Item.setFrame(arg_bytes=0x6)
+[01:use] call_intrinsic Item.setFrame(arg_bytes=0x6)
+[01:use] pop_local_byte a1
+[01:use] call_intrinsic Item.setFrame(arg_bytes=0x6)
+[01:use] call_intrinsic Item.setFrame(arg_bytes=0x6)
+[01:use] pop_local_byte b1 ; jmp 0x04ea ; cmp ; ...
+//
+//
+//
+//
+//
+//
+//
+[01:use] call_intrinsic Item.getFrame(arg_bytes=0x4) ; pop_local_byte b1 ; ...
+[01:use] pop_local_word switch2
+[01:use] push_local_word switch1
+[01:use] and ; jne 0x0425
+//
+[01:use] jne 0x03c2
+[01:use] call_intrinsic Item.setFrame(arg_bytes=0x6)
+[01:use] call_intrinsic Item.setFrame(arg_bytes=0x6)
+[01:use] pop_local_byte b1
+[01:use] call_intrinsic Item.setFrame(arg_bytes=0x6)
+[01:use] call_intrinsic Item.setFrame(arg_bytes=0x6)
+[01:use] pop_local_byte a1
+[01:use] call_intrinsic Item.setFrame(arg_bytes=0x6)
+[01:use] call_intrinsic Item.setFrame(arg_bytes=0x6)
+[01:use] pop_local_byte c1 ; jmp 0x0425
+//
+//
+//
+[01:use] call_intrinsic Item.setFrame(arg_bytes=0x6)
+[01:use] call_intrinsic Item.setFrame(arg_bytes=0x6)
+[01:use] pop_local_byte b1
+[01:use] call_intrinsic Item.setFrame(arg_bytes=0x6)
+[01:use] call_intrinsic Item.setFrame(arg_bytes=0x6)
+[01:use] pop_local_byte a1
+[01:use] call_intrinsic Item.setFrame(arg_bytes=0x6)
+[01:use] call_intrinsic Item.setFrame(arg_bytes=0x6)
+[01:use] pop_local_byte c1 ; jmp 0x04ea ; cmp ; ...
+//
+//
+//
+//
+//
+[01:use] call_intrinsic Item.getFrame(arg_bytes=0x4) ; pop_local_byte c1 ; ...
+[01:use] pop_local_word switch3
+//
+[01:use] push_local_word switch1
+[01:use] and ; jne 0x04e7
+//
+[01:use] jne 0x04a5
+[01:use] call_intrinsic Item.setFrame(arg_bytes=0x6)
+[01:use] call_intrinsic Item.setFrame(arg_bytes=0x6)
+[01:use] pop_local_byte c1
+[01:use] call_intrinsic Item.setFrame(arg_bytes=0x6)
+[01:use] call_intrinsic Item.setFrame(arg_bytes=0x6)
+[01:use] pop_local_byte b1 ; jmp 0x04e7
+//
+//
+//
+[01:use] call_intrinsic Item.setFrame(arg_bytes=0x6)
+[01:use] call_intrinsic Item.setFrame(arg_bytes=0x6)
+[01:use] pop_local_byte c1
+[01:use] call_intrinsic Item.setFrame(arg_bytes=0x6)
+[01:use] call_intrinsic Item.setFrame(arg_bytes=0x6)
+[01:use] pop_local_byte b1 ; jmp 0x04ea
+//
+//
+//
+//
+//
+//
+[01:use] jne 0x056b
+[01:use] push_local_byte b1
+[01:use] or ; jne 0x050c
+[01:use] jmp 0x0696 ; jmp 0x0568 ; loopscr value_u8=0x24 ; ...
+//
+//
+//
+[01:use] loopscr value_u8=0x25 ; mul ; ...
+[01:use] loop current_var=0xf1, string_bytes=0x6, loop_type=0x2 ; jne 0x0566 ; ...
+[01:use] call_intrinsic Item.getQLo(arg_bytes=0x4) ; cmp ; jne 0x0562 ; ...
+[01:use]
+[01:use] call_intrinsic Item.equip(arg_bytes=0x6) ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+//
+[01:use] jne 0x05e3
+//
+[01:use] jne 0x0584
+[01:use] jmp 0x0696 ; jmp 0x05e0 ; loopscr value_u8=0x24 ; ...
+//
+//
+//
+[01:use] loopscr value_u8=0x25 ; mul ; ...
+[01:use] loop current_var=0xf1, string_bytes=0x6, loop_type=0x2 ; jne 0x05de ; ...
+[01:use] call_intrinsic Item.getQLo(arg_bytes=0x4) ; cmp ; jne 0x05da ; ...
+[01:use]
+[01:use] call_intrinsic Item.equip(arg_bytes=0x6) ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+//
+[01:use] jne 0x064a ; loopscr value_u8=0x24 ; loopscr value_u8=0x3d ; ...
+[01:use] loopscr value_u8=0x25 ; mul ; ...
+[01:use] loop current_var=0xf1, string_bytes=0x6, loop_type=0x2 ; jne 0x0645 ; ...
+[01:use] call_intrinsic Item.getQLo(arg_bytes=0x4) ; cmp ; jne 0x0641 ; ...
+[01:use]
+[01:use] call_intrinsic Item.equip(arg_bytes=0x6) ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+[01:use] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+//
+[01:use] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[01:use] ret
+
+/* synthesized appendix for SSWITCHE */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x01 use ===== */
+function sswitche_use() /* entry=1113 class_id=0x0457 slot=0x01 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    a, /* [BP-01h] type=0x62 */
+    b, /* [BP-02h] type=0x62 */
+    a1, /* [BP-03h] type=0x62 */
+    b1, /* [BP-04h] type=0x62 */
+    c1, /* [BP-05h] type=0x62 */
+    sswitch, /* [BP-07h] type=0x24 */
+    switch1, /* [BP-09h] type=0x24 */
+    switch2, /* [BP-11h] type=0x24 */
+    switch3, /* [BP-13h] type=0x24 */
+    timer, /* [BP-15h] type=0x24 */
+    sswitch2, /* [BP-17h] type=0x24 */
+    switch21, /* [BP-19h] type=0x24 */
+    switch22, /* [BP-21h] type=0x24 */
+    switch23, /* [BP-23h] type=0x24 */
+    counter, /* [BP-25h] type=0x69 */
+    qLo; /* [BP-27h] type=0x69 */
+
+  set_info(0x0207, *(arg_06));
+  process_exclude();
+  a = Item.getFrame(arg_06);
+  if (Item.getMapArray(arg_06) != 0) {
+    if (a == 2) {
+      AudioProcess.playSFXCru(0x00ae, arg_06);
+      spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
+      suspend;
+    }
+    else if (a < 2) {
+      b = ((a + 1) & 1);
+      AudioProcess.playSFXCru(0x00ae, arg_06);
+      spawn TRIGGER.slot_20(pid, a, *(arg_06), arg_06);
+      suspend;
+      Item.setFrame(b, arg_06);
+    }
+  }
+  else {
+    qLo = Item.getQLo(arg_06);
+    for sswitch in nearby_items(shape=0x0457, origin=arg_06) {
+      if (sswitch != *(arg_06)) {
+        if (Item.getMapArray(sswitch) == 0) {
+          switch (Item.getQLo(sswitch)) {
+          case 29:
+            switch1 = sswitch;
+            a1 = Item.getFrame(switch1);
+            break;
+          case 30:
+            switch2 = sswitch;
+            b1 = Item.getFrame(switch2);
+            break;
+          case 31:
+            switch3 = sswitch;
+            c1 = Item.getFrame(switch3);
+            break;
+          }
+        }
+      }
+      counter = (1 + counter);
+    }
+    for sswitch2 in nearby_items(shape=0x0452, origin=arg_06) {
+      if (Item.getMapArray(sswitch2) == 0) {
+        switch (Item.getQLo(sswitch2)) {
+        case 29:
+          switch21 = sswitch2;
+          break;
+        case 30:
+          switch22 = sswitch2;
+          break;
+        case 31:
+          switch23 = sswitch2;
+          break;
+        }
+      }
+    }
+    switch (qLo) {
+    case 29:
+      a1 = Item.getFrame(arg_06);
+      switch1 = *(arg_06);
+      if (switch2 && switch3) {
+        if (a1) {
+          Item.setFrame(0, arg_06);
+          Item.setFrame(0, switch21);
+          a1 = 0;
+          Item.setFrame(1, switch2);
+          Item.setFrame(1, switch22);
+          b1 = 1;
+        }
+        else {
+          Item.setFrame(1, arg_06);
+          Item.setFrame(1, switch21);
+          a1 = 1;
+          Item.setFrame(0, switch2);
+          Item.setFrame(0, switch22);
+          b1 = 0;
+        }
+      }
+      break;
+    case 30:
+      b1 = Item.getFrame(arg_06);
+      switch2 = *(arg_06);
+      if (switch1 && switch3) {
+        if (b1) {
+          Item.setFrame(0, arg_06);
+          Item.setFrame(0, switch22);
+          b1 = 0;
+          Item.setFrame(1, switch1);
+          Item.setFrame(1, switch21);
+          a1 = 1;
+          Item.setFrame(1, switch3);
+          Item.setFrame(1, switch23);
+          c1 = 1;
+        }
+        else {
+          Item.setFrame(1, arg_06);
+          Item.setFrame(1, switch22);
+          b1 = 1;
+          Item.setFrame(0, switch1);
+          Item.setFrame(0, switch21);
+          a1 = 0;
+          Item.setFrame(0, switch3);
+          Item.setFrame(0, switch23);
+          c1 = 0;
+        }
+      }
+      break;
+    case 31:
+      c1 = Item.getFrame(arg_06);
+      switch3 = *(arg_06);
+      if (switch1 && switch2) {
+        if (c1) {
+          Item.setFrame(0, arg_06);
+          Item.setFrame(0, switch23);
+          c1 = 0;
+          Item.setFrame(1, switch2);
+          Item.setFrame(1, switch22);
+          b1 = 1;
+        }
+        else {
+          Item.setFrame(1, arg_06);
+          Item.setFrame(1, switch23);
+          c1 = 1;
+          Item.setFrame(0, switch2);
+          Item.setFrame(0, switch22);
+          b1 = 0;
+        }
+      }
+      break;
+    }
+    if (a1) {
+      if (b1 || c1) {
+        return;
+      }
+      else {
+        for timer in nearby_items(shape=TIMER, origin=arg_06) {
+          if (Item.getQLo(timer) == 29) {
+            suspend;
+          }
+        }
+      }
+    }
+    else if (b1) {
+      if (c1) {
+        return;
+      }
+      else {
+        for timer in nearby_items(shape=TIMER, origin=arg_06) {
+          if (Item.getQLo(timer) == 30) {
+            suspend;
+          }
+        }
+      }
+    }
+    else if (c1) {
+      for timer in nearby_items(shape=TIMER, origin=arg_06) {
+        if (Item.getQLo(timer) == 31) {
+          suspend;
+        }
+      }
+    }
+    spawn FREE.waitNTimerTicks(pid, 20, 0x00000000);
+    suspend;
+  }
+  spawn FREE.waitNTimerTicks(pid, 20, 0x00000000);
+  suspend;
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol a [BP-01h] type=0x62 unk1=0x00 unk3=0x00
+    debug_symbol b [BP-02h] type=0x62 unk1=0x00 unk3=0x00
+    debug_symbol a1 [BP-03h] type=0x62 unk1=0x00 unk3=0x00
+    debug_symbol b1 [BP-04h] type=0x62 unk1=0x00 unk3=0x00
+    debug_symbol c1 [BP-05h] type=0x62 unk1=0x00 unk3=0x00
+    debug_symbol sswitch [BP-07h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol switch1 [BP-09h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol switch2 [BP-11h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol switch3 [BP-13h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol timer [BP-15h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol sswitch2 [BP-17h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol switch21 [BP-19h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol switch22 [BP-21h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol switch23 [BP-23h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol counter [BP-25h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol qLo [BP-27h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x06 gotHit ===== */
+function sswitche_gotHit() /* entry=1113 class_id=0x0457 slot=0x06 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    vel; /* [BP+12h] type=0x69 */
+
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  FREE.slot_2b(vel, ref);
+  if (retval != 4) {
+    if (ref == 1) {
+      return;
+    }
+    else {
+      spawn SSWITCHE.use(pid, arg_06);
+      suspend;
+    }
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol ref [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol vel [BP+12h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}

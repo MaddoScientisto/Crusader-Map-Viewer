@@ -1,0 +1,398 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[0A:equip] push_word_immediate 0x043b ; push_word_immediate 0x050a
+[0A:equip] loopscr value_u8=0x44
+[0A:equip] mul
+[0A:equip] loop current_var=0xfe, string_bytes=0xa, loop_type=0x2 ; jne 0x00eb ; ...
+//
+[0A:equip] call_intrinsic Item.getUnkEggType(arg_bytes=0x4) ; call_intrinsic Item.getUnkEggType(arg_bytes=0x4) ; cmp ; ...
+[0A:equip]
+[0A:equip] call_intrinsic Item.getStatus(arg_bytes=0x4) ; bit_and ; jne 0x007d ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[0A:equip] spawn FLAMEBOX.slot_21 ; pop_temp ; jmp 0x00e7 ; ...
+//
+//
+//
+[0A:equip] spawn FLAMEBOX.slot_21 ; pop_temp ; jmp 0x00e7 ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[0A:equip] loopscr value_u8=0x42
+[0A:equip] mul
+[0A:equip] loop current_var=0xfe, string_bytes=0x6, loop_type=0x2 ; jne 0x0225 ; ...
+[0A:equip] call_intrinsic Item.getUnkEggType(arg_bytes=0x4) ; call_intrinsic Item.getUnkEggType(arg_bytes=0x4) ; cmp ; ...
+[0A:equip]
+//
+//
+//
+//
+[0A:equip] call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[0A:equip] call_intrinsic Item.getZ(arg_bytes=0x4) ; call_intrinsic Item.getY(arg_bytes=0x4) ; call_intrinsic Item.getX(arg_bytes=0x4) ; ...
+[0A:equip] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+[0A:equip] spawn FLAMEBOX.slot_20 ; pop_temp ; ...
+[0A:equip] call_intrinsic Item.destroy(arg_bytes=0x4) ; jmp 0x0221 ; call_intrinsic Item.getShape(arg_bytes=0x4) ; ...
+//
+//
+//
+[0A:equip] call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[0A:equip] call_intrinsic Item.getZ(arg_bytes=0x4) ; call_intrinsic Item.getY(arg_bytes=0x4) ; call_intrinsic Item.getX(arg_bytes=0x4) ; ...
+[0A:equip] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+[0A:equip] spawn FLAMEBOX.slot_20 ; pop_temp ; ...
+[0A:equip] call_intrinsic Item.destroy(arg_bytes=0x4) ; jmp 0x0221 ; loopnext ; ...
+//
+//
+//
+//
+//
+//
+[0A:equip] ret
+//
+//
+//
+//
+//
+//
+[20:slot_20] set_info ; ...
+//
+//
+//
+//
+[20:slot_20] call_intrinsic Egg.getEggXRange(arg_bytes=0x0) ; jne 0x006f
+//
+[20:slot_20] call_intrinsic Item.getFrame(arg_bytes=0x4) ; ne ; call_intrinsic Item.isOnScreen(arg_bytes=0x4) ; ...
+[20:slot_20]
+[20:slot_20] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+[20:slot_20] call_class_event ITEM.slot_23
+[20:slot_20] spawn FLAME.slot_20 ; pop_temp ; cmp ; ...
+//
+//
+//
+//
+//
+[20:slot_20] call_intrinsic Egg.getEggXRange(arg_bytes=0x0) ; jne 0x00b1
+//
+[20:slot_20] call_intrinsic Item.create(arg_bytes=0x8) ; jmp 0x00c1 ; ...
+//
+//
+//
+[20:slot_20] call_intrinsic Item.create(arg_bytes=0x8) ; jmp 0x00fd ; cmp ; ...
+//
+//
+//
+//
+[20:slot_20] call_intrinsic Egg.getEggXRange(arg_bytes=0x0) ; jne 0x00ea
+//
+[20:slot_20] call_intrinsic Item.create(arg_bytes=0x8) ; jmp 0x00fa ; ...
+//
+//
+//
+[20:slot_20] call_intrinsic Item.create(arg_bytes=0x8) ; jmp 0x00fd ; ...
+//
+//
+//
+//
+[20:slot_20] call_intrinsic Item.getUnkEggType(arg_bytes=0x4) ; call_intrinsic Item.fallProbably_03E(arg_bytes=0x6) ; ...
+[20:slot_20] call_intrinsic Item.getZ(arg_bytes=0x4) ; call_intrinsic Item.getY(arg_bytes=0x4) ; call_intrinsic Item.getX(arg_bytes=0x4) ; ...
+[20:slot_20] call_class_event ITEM.slot_23
+[20:slot_20] call_intrinsic AudioProcess.playAmbientSFXCru(arg_bytes=0x6)
+[20:slot_20] spawn FLAME.slot_20 ; pop_temp ; ...
+//
+[20:slot_20] call_intrinsic Item.destroy(arg_bytes=0x4)
+[20:slot_20] ret
+//
+//
+//
+//
+//
+//
+//
+[21:slot_21] set_info ; ...
+//
+//
+//
+//
+[21:slot_21] call_class_event ITEM.slot_23
+//
+[21:slot_21] call_intrinsic Egg.getEggXRange(arg_bytes=0x0) ; jne 0x00ef
+//
+[21:slot_21] call_intrinsic Item.getShape(arg_bytes=0x4) ; cmp ; call_intrinsic Item.getShape(arg_bytes=0x4) ; ...
+[21:slot_21]
+[21:slot_21] call_intrinsic Item.getFrame(arg_bytes=0x4) ; ne ; call_intrinsic Item.isOnScreen(arg_bytes=0x4) ; ...
+[21:slot_21]
+[21:slot_21] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+[21:slot_21] call_intrinsic Item.getFrame(arg_bytes=0x4) ; ne ; call_intrinsic Item.isOnScreen(arg_bytes=0x4) ; ...
+[21:slot_21]
+[21:slot_21] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+[21:slot_21] call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[21:slot_21] pop_local_word newType ; jmp 0x0135 ; cmp ; ...
+//
+//
+//
+//
+[21:slot_21] call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[21:slot_21] pop_local_word newType ; jmp 0x0135
+//
+//
+//
+[21:slot_21] call_intrinsic Item.getUnkEggType(arg_bytes=0x4) ; call_intrinsic Item.fallProbably_03E(arg_bytes=0x6) ; ...
+[21:slot_21] call_class_event ITEM.slot_23
+[21:slot_21] call_intrinsic Item.getZ(arg_bytes=0x4) ; call_intrinsic Item.getY(arg_bytes=0x4) ; call_intrinsic Item.getX(arg_bytes=0x4) ; ...
+[21:slot_21] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+[21:slot_21] call_intrinsic Item.setQLo(arg_bytes=0x6)
+[21:slot_21] call_intrinsic Item.destroy(arg_bytes=0x4)
+//
+//
+[21:slot_21] call_intrinsic Egg.getEggXRange(arg_bytes=0x0) ; jne 0x01fe
+//
+[21:slot_21] call_intrinsic Item.getFrame(arg_bytes=0x4) ; ne ; call_intrinsic Item.isOnScreen(arg_bytes=0x4) ; ...
+[21:slot_21]
+[21:slot_21] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+[21:slot_21] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[21:slot_21] call_intrinsic Item.setShape(arg_bytes=0x6)
+[21:slot_21] call_intrinsic Item.legal_create(arg_bytes=0x6)
+[21:slot_21] call_class_event ITEM.slot_24
+[21:slot_21] ret
+
+/* synthesized appendix for FLAMEBOX */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x0a equip ===== */
+function flamebox_equip() /* entry=1029 class_id=0x0403 slot=0x0a */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    event, /* [BP+10h] type=0x69 */
+    flame, /* [BP-02h] type=0x24 */
+    flame2, /* [BP-04h] type=0x24 */
+    direction; /* [BP-06h] type=0x69 */
+
+  set_info(0x0211, *(arg_06));
+  process_exclude();
+  if (event == 0) {
+    while (condition) {
+      if (Item.getUnkEggType(flame) == Item.getUnkEggType(arg_06)) {
+        if (Item.getStatus(flame) & 0x1000) {
+        }
+        else if ((Item.getShape(flame) == 0x043b) || (Item.getShape(flame) == 0x043a)) {
+          spawn FLAMEBOX.slot_21(0, flame, arg_06);
+        }
+        else if ((Item.getShape(flame) == 0x050a) || (Item.getShape(flame) == 0x0518)) {
+          spawn FLAMEBOX.slot_21(1, flame, arg_06);
+        }
+      }
+    }
+    return;
+  }
+  else if (event == 1) {
+    for flame in selector_0x42(arg0=0x0438, arg1=0x0439, arg2=(32 * 32), origin=arg_06) {
+      if (Item.getUnkEggType(flame) == Item.getUnkEggType(arg_06)) {
+        if (Item.getShape(flame) == 0x0439) {
+          Item.create(0, 0x043a, flame2);
+          Item.popToCoords(Item.getZ(flame), Item.getY(flame), Item.getX(flame), flame2);
+          AudioProcess.playSFXCru(117, flame2);
+          spawn FLAMEBOX.slot_20(0, flame2, arg_06);
+          Item.destroy(flame);
+        }
+        else if (Item.getShape(flame) == 0x0438) {
+          Item.create(0, 0x0518, flame2);
+          Item.popToCoords(Item.getZ(flame), Item.getY(flame), Item.getX(flame), flame2);
+          AudioProcess.playSFXCru(117, flame2);
+          spawn FLAMEBOX.slot_20(1, flame2, arg_06);
+          Item.destroy(flame);
+        }
+      }
+    }
+    return;
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol event [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol flame [BP-02h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol flame2 [BP-04h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol direction [BP-06h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x20 slot_20 ===== */
+function flamebox_slot_20() /* entry=1029 class_id=0x0403 slot=0x20 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    flame, /* [BP+10h] type=0x24 */
+    direction, /* [BP+12h] type=0x69 */
+    count, /* [BP-02h] type=0x69 */
+    flame2; /* [BP-04h] type=0x24 */
+
+  set_info(0x00f0, *(arg_06));
+  if (Egg.getEggXRange()) {
+    while ((Item.getFrame(flame) != 5) && (Item.isOnScreen(flame) == 1)) {
+      spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+      suspend;
+    }
+  }
+  ITEM.slot_23(4, flame);
+  spawn FLAME.slot_20(flame);
+  if (direction == 0) {
+    if (Egg.getEggXRange()) {
+      Item.create(0, 0x043b, flame2);
+    }
+    else {
+      Item.create(10, 0x043b, flame2);
+    }
+  }
+  else if (direction == 1) {
+    if (Egg.getEggXRange()) {
+      Item.create(0, 0x050a, flame2);
+    }
+    else {
+      Item.create(10, 0x050a, flame2);
+    }
+  }
+  Item.fallProbably_03E(Item.getUnkEggType(arg_06), flame2);
+  Item.popToCoords(Item.getZ(flame), Item.getY(flame), Item.getX(flame), flame2);
+  ITEM.slot_23(4, flame2);
+  AudioProcess.playAmbientSFXCru(0x0086, flame2);
+  spawn FLAME.slot_20(flame2);
+  Item.destroy(flame);
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol flame [BP+10h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol direction [BP+12h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol count [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol flame2 [BP-04h] type=0x24 unk1=0x00 unk3=0x02
+  */
+}
+
+/* ===== slot 0x21 slot_21 ===== */
+function flamebox_slot_21() /* entry=1029 class_id=0x0403 slot=0x21 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    flame, /* [BP+10h] type=0x24 */
+    direction, /* [BP+12h] type=0x69 */
+    count, /* [BP-02h] type=0x69 */
+    flame2, /* [BP-04h] type=0x24 */
+    newType; /* [BP-06h] type=0x69 */
+
+  set_info(1, *(arg_06));
+  ITEM.slot_23(0x1000, flame);
+  if (Egg.getEggXRange()) {
+    if ((Item.getShape(flame) == 0x043a) || (Item.getShape(flame) == 0x0518)) {
+      while ((Item.getFrame(flame) != 5) && (Item.isOnScreen(flame) == 1)) {
+        spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+        suspend;
+      }
+    }
+    else {
+      while ((Item.getFrame(flame) != 27) && (Item.isOnScreen(flame) == 1)) {
+        spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+        suspend;
+      }
+    }
+  }
+  if (direction == 0) {
+    Item.create(0, 0x043c, flame2);
+    newType = 0x0439;
+  }
+  else if (direction == 1) {
+    Item.create(0, 0x04cb, flame2);
+    newType = 0x0438;
+  }
+  Item.fallProbably_03E(Item.getUnkEggType(arg_06), flame2);
+  ITEM.slot_23(0x1000, flame2);
+  Item.popToCoords(Item.getZ(flame), Item.getY(flame), Item.getX(flame), flame2);
+  AudioProcess.playSFXCru(0x0081, flame2);
+  Item.setQLo(0x0086, flame);
+  Item.destroy(flame);
+  if (Egg.getEggXRange()) {
+    while ((Item.getFrame(flame2) != 4) && (Item.isOnScreen(flame2) == 1)) {
+      spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+      suspend;
+    }
+  }
+  else {
+    spawn FREE.waitNTimerTicks(pid, 0x00c8, 0x00000000);
+    suspend;
+  }
+  Item.setShape(newType, flame2);
+  Item.legal_create(0, flame2);
+  ITEM.slot_24(0x1000, flame2);
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol flame [BP+10h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol direction [BP+12h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol count [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol flame2 [BP-04h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol newType [BP-06h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}

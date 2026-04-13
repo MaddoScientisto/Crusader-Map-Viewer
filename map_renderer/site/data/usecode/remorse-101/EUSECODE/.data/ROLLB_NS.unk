@@ -1,0 +1,281 @@
+/* synthesized appendix for ROLLB_NS */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x05 hit ===== */
+function rollb_ns_hit() /* entry=1416 class_id=0x0586 slot=0x05 */
+{
+  set_info(0x020b, *(arg_06));
+  process_exclude();
+  if ((Item.getStatus(arg_06) & 0x1000) == 0) {
+    spawn ROLLB_NS.slot_21(arg_06);
+  }
+  return;
+}
+
+/* ===== slot 0x06 gotHit ===== */
+function rollb_ns_gotHit() /* entry=1416 class_id=0x0586 slot=0x06 */
+{
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  if ((Item.getStatus(arg_06) & 0x1000) == 0) {
+    spawn ROLLB_NS.slot_21(arg_06);
+    return;
+  }
+  else {
+    spawn ITEM.slot_27(pid, 100, arg_12, arg_10, arg_06);
+    suspend;
+    if (!process_result) {
+      FREE.slot_20(1);
+      if (retval) {
+        AudioProcess.playSFXCru(38, arg_06);
+      }
+      else {
+        AudioProcess.playSFXCru(39, arg_06);
+      }
+      return;
+    }
+    else {
+      spawn ROLLB_NS.slot_20(pid, arg_06);
+      suspend;
+    }
+  }
+  return;
+}
+
+/* ===== slot 0x0a equip ===== */
+function rollb_ns_equip() /* entry=1416 class_id=0x0586 slot=0x0a */
+{
+  set_info(0x0211, *(arg_06));
+  process_exclude();
+  if (arg_10 == 1) {
+    if ((Item.getStatus(arg_06) & 0x1000) == 0) {
+      spawn ROLLB_NS.slot_21(arg_06);
+    }
+    return;
+  }
+  else if (arg_10 == 2) {
+    if (Item.getStatus(arg_06) & 0x1000) {
+      Actor.getDefaultActivity1((~0x1000), arg_06);
+      Item.move(0x021b, *(arg_06));
+    }
+    return;
+  }
+  return;
+}
+
+/* ===== slot 0x0b unequip ===== */
+function rollb_ns_unequip() /* entry=1416 class_id=0x0586 slot=0x0b */
+{
+  set_info(0x0212, *(arg_06));
+  process_exclude();
+  spawn ROLLB_NS.equip(pid, arg_10, arg_06);
+  suspend;
+  return;
+}
+
+/* ===== slot 0x20 slot_20 ===== */
+function rollb_ns_slot_20() /* entry=1416 class_id=0x0586 slot=0x20 */
+{
+  set_info(1, *(arg_06));
+  spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+  suspend;
+  local_12 = Item.andStatus(arg_06);
+  if (local_12 & 32) {
+    while (condition) {
+      local_06 = (local_06 + [local_04]);
+    }
+  }
+  if (local_12 & 64) {
+    Actor.getDefaultActivity1((~0x1000), arg_06);
+    Item.explode(0, 1, arg_06);
+    local_04 = *(arg_06);
+    return;
+  }
+  else {
+    FREE.slot_20(5);
+    local_08 = retval;
+    while (1) {
+      FREE.slot_20(5);
+      local_10 = retval;
+      if (local_10 != local_08) {
+      }
+    }
+    local_14 = Item.getX(arg_06);
+    local_16 = Item.getY(arg_06);
+    local_17 = Item.getZ(arg_06);
+    local_19 = Actor.getDefaultActivity2(arg_06);
+    Item.explode(0, 1, arg_06);
+    spawn ITEM.slot_2a(pid, arg_06);
+    suspend;
+    Item.legal_create(local_08, 0x022b, local_02);
+    Item.andStatus(local_19, local_02);
+    getTargetNPCNumMaybe(local_17, local_16, local_14, local_02);
+    Container.destroyContents(local_02);
+    Item.destroy(arg_06);
+  }
+  return;
+}
+
+/* ===== slot 0x21 slot_21 ===== */
+function rollb_ns_slot_21() /* entry=1416 class_id=0x0586 slot=0x21 */
+{
+  set_info(0x0001, *(arg_06));
+  local_06 = Item.andStatus(arg_06);
+  local_02 = (local_06 & 31);
+  if (local_02 == 0) {
+    local_02 = 1;
+  }
+  local_04 = Item.getFrame(arg_06);
+  local_19 = Item.getX(arg_06);
+  local_17 = Item.getY(arg_06);
+  local_15 = Item.getZ(arg_06);
+  Item.orStatus(0x1000, arg_06);
+  AudioProcess.playAmbientSFXCru(0x00a3, arg_06);
+  if (local_06 & 32) {
+    if (local_06 < 0x0080) {
+      while (1) {
+        local_04 = (local_04 - 1);
+        if (local_04 < 0) {
+          local_04 = 4;
+        }
+        local_08 = 0;
+        while (condition) {
+          local_08 = (1 + local_08);
+          push(local_21);
+        }
+        local_17 = (local_17 + 8);
+        if (legalMoveToPoint(0, 0, local_19, arg_06) == 0) {
+          local_10 = 1;
+          while (local_10 <= local_08) {
+            local_21 = Item.getEtherealTop();
+            getTargetNPCNumMaybe(Item.getZ(local_21), Item.getY(local_21), Item.getX(local_21), local_21);
+            local_10 = (1 + local_10);
+          }
+          spawn ROLLB_NS.slot_20(pid, arg_06);
+          suspend;
+          return;
+        }
+        local_10 = 1;
+        while (local_10 <= local_08) {
+          local_21 = Item.getEtherealTop();
+          getTargetNPCNumMaybe(Item.getZ(local_21), (Item.getY(local_21) + 8), Item.getX(local_21), local_21);
+          local_10 = (1 + local_10);
+        }
+        Item.isCentreOn(local_04, arg_06);
+        spawn FREE.waitNTimerTicks(pid, local_02, 0x00000000);
+        suspend;
+      }
+    }
+    else {
+      while (1) {
+        local_04 = (1 + local_04);
+        if (local_04 > 4) {
+          local_04 = 0;
+        }
+        local_08 = 0;
+        while (condition) {
+          local_08 = (1 + local_08);
+          push(local_21);
+        }
+        local_17 = (local_17 - 8);
+        if (legalMoveToPoint(0, 0, local_19, arg_06) == 0) {
+          local_10 = 1;
+          while (local_10 <= local_08) {
+            local_21 = Item.getEtherealTop();
+            getTargetNPCNumMaybe(Item.getZ(local_21), Item.getY(local_21), Item.getX(local_21), local_21);
+            local_10 = (1 + local_10);
+          }
+          spawn ROLLB_NS.slot_20(pid, arg_06);
+          suspend;
+          return;
+        }
+        local_10 = 1;
+        while (local_10 <= local_08) {
+          local_21 = Item.getEtherealTop();
+          getTargetNPCNumMaybe(Item.getZ(local_21), (Item.getY(local_21) - 8), Item.getX(local_21), local_21);
+          local_10 = (1 + local_10);
+        }
+        Item.isCentreOn(local_04, arg_06);
+        spawn FREE.waitNTimerTicks(pid, local_02, 0x00000000);
+        suspend;
+      }
+    }
+    return;
+  }
+  else {
+    local_23 = 0;
+    local_24 = local_15;
+    if (local_06 < 0x0080) {
+      while (1) {
+        local_04 = (local_04 - 1);
+        if (local_04 < 0) {
+          local_04 = 4;
+        }
+        local_17 = (local_17 + 8);
+        if (legalMoveToPoint(0, 0, local_19, arg_06) == 0) {
+          local_15 = (1 + local_15);
+          if (legalMoveToPoint(0, 0, local_19, arg_06) == 0) {
+            spawn ROLLB_NS.slot_20(pid, arg_06);
+            suspend;
+            return;
+          }
+        }
+        if (local_15 > 1) {
+          local_15 = (local_15 - 4);
+          if (legalMoveToPoint(0, 0, local_19, arg_06) == 0) {
+            local_15 = (local_15 + 4);
+          }
+          local_23 = (local_24 - local_15);
+        }
+        else if (local_23 > 12) {
+          Container.destroyContents(arg_06);
+          spawn FREE.waitNTimerTicks(pid, 6, 0x00000000);
+          suspend;
+          spawn ROLLB_NS.slot_20(pid, arg_06);
+          suspend;
+          return;
+        }
+        Item.isCentreOn(local_04, arg_06);
+        spawn FREE.waitNTimerTicks(pid, local_02, 0x00000000);
+        suspend;
+      }
+      return;
+    }
+    else {
+      while (1) {
+        local_04 = (1 + local_04);
+        if (local_04 > 4) {
+          local_04 = 0;
+        }
+        local_17 = (local_17 - 8);
+        if (legalMoveToPoint(0, 0, local_19, arg_06) == 0) {
+          local_15 = (1 + local_15);
+          if (legalMoveToPoint(0, 0, local_19, arg_06) == 0) {
+            spawn ROLLB_NS.slot_20(pid, arg_06);
+            suspend;
+            return;
+          }
+        }
+        else if (local_15 > 1) {
+          local_15 = (local_15 - 4);
+          if (legalMoveToPoint(0, 0, local_19, arg_06) == 0) {
+            local_15 = (local_15 + 4);
+          }
+          local_23 = (local_24 - local_15);
+        }
+        else if (local_23 > 12) {
+          Container.destroyContents(arg_06);
+          spawn FREE.waitNTimerTicks(pid, 6, 0x00000000);
+          suspend;
+          spawn ROLLB_NS.slot_20(pid, arg_06);
+          suspend;
+          return;
+        }
+        Item.isCentreOn(local_04, arg_06);
+        spawn FREE.waitNTimerTicks(pid, local_02, 0x00000000);
+        suspend;
+      }
+    }
+  }
+  return;
+}

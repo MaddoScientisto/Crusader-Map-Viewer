@@ -1,0 +1,68 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[0A:equip] call_intrinsic Item.getStatus(arg_bytes=0x4)
+[0A:equip] bit_and ; jne 0x0036
+[0A:equip] jmp 0x009b
+//
+//
+[0A:equip] call_class_event ITEM.slot_23
+//
+//
+//
+//
+[0A:equip] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+//
+[0A:equip] call_intrinsic AudioProcess.isSFXPlayingForObject(arg_bytes=0x6) ; jne 0x008c ; ...
+//
+[0A:equip] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+[0A:equip] call_class_event ITEM.slot_24
+//
+[0A:equip] ret
+
+/* synthesized appendix for SFXTRIG */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x0a equip ===== */
+function sfxtrig_equip() /* entry=1252 class_id=0x04e2 slot=0x0a */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    event; /* [BP+10h] type=0x69 */
+
+  set_info(0x0211, *(arg_06));
+  process_exclude();
+  if (Item.getStatus(arg_06) & 0x1000) {
+    return;
+  }
+  else {
+    ITEM.slot_23(0x1000, arg_06);
+    AudioProcess.playSFXCru(event, arg_06);
+    while (AudioProcess.isSFXPlayingForObject(event, arg_06)) {
+      spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+      suspend;
+    }
+    ITEM.slot_24(0x1000, arg_06);
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol event [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}

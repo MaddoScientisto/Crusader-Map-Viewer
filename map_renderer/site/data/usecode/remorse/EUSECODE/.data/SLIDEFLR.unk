@@ -1,0 +1,103 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[0B:unequip] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+//
+[0B:unequip] call_intrinsic Item.getFrame(arg_bytes=0x4) ; cmp ; jne 0x008e ; ...
+[0B:unequip]
+[0B:unequip] call_intrinsic Item.getFrame(arg_bytes=0x4) ; ne ; jne 0x008e ; ...
+[0B:unequip]
+[0B:unequip] call_intrinsic Item.getFrame(arg_bytes=0x4) ; sub ; call_intrinsic Item.setFrame(arg_bytes=0x6) ; ...
+[0B:unequip] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+[0B:unequip] call_intrinsic AudioProcess.isSFXPlayingForObject(arg_bytes=0x6) ; jne 0x00c5 ; spawn FREE.slot_32 ; ...
+[0B:unequip] ret
+//
+//
+[13:avatarStoleSomething] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+//
+[13:avatarStoleSomething] call_intrinsic Item.getFrame(arg_bytes=0x4) ; ne ; jne 0x008e ; ...
+[13:avatarStoleSomething]
+[13:avatarStoleSomething] call_intrinsic Item.getFrame(arg_bytes=0x4) ; ne ; jne 0x008e ; ...
+[13:avatarStoleSomething]
+[13:avatarStoleSomething] call_intrinsic Item.getFrame(arg_bytes=0x4) ; add ; call_intrinsic Item.setFrame(arg_bytes=0x6) ; ...
+[13:avatarStoleSomething] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+[13:avatarStoleSomething] call_intrinsic AudioProcess.isSFXPlayingForObject(arg_bytes=0x6) ; jne 0x00c5 ; spawn FREE.slot_32 ; ...
+[13:avatarStoleSomething] ret
+
+/* synthesized appendix for SLIDEFLR */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x0b unequip ===== */
+function slideflr_unequip() /* entry=1239 class_id=0x04d5 slot=0x0b */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    var; /* [BP+10h] type=0x69 */
+
+  set_info(0x0212, *(arg_06));
+  process_exclude();
+  AudioProcess.playSFXCru(81, arg_06);
+  if (Item.getFrame(arg_06) == 9) {
+    while (Item.getFrame(arg_06) != 2) {
+      Item.setFrame((Item.getFrame(arg_06) - 1), arg_06);
+      spawn FREE.waitNTimerTicks(pid, 4, 0x00000000);
+      suspend;
+    }
+  }
+  while (AudioProcess.isSFXPlayingForObject(81, arg_06)) {
+    spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+    suspend;
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol var [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x13 avatarStoleSomething ===== */
+function slideflr_avatarStoleSomething() /* entry=1239 class_id=0x04d5 slot=0x13 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    var; /* [BP+10h] type=0x69 */
+
+  set_info(0x022e, *(arg_06));
+  process_exclude();
+  AudioProcess.playSFXCru(81, arg_06);
+  if (Item.getFrame(arg_06) != 9) {
+    while (Item.getFrame(arg_06) != 9) {
+      Item.setFrame((Item.getFrame(arg_06) + 1), arg_06);
+      spawn FREE.waitNTimerTicks(pid, 4, 0x00000000);
+      suspend;
+    }
+  }
+  while (AudioProcess.isSFXPlayingForObject(81, arg_06)) {
+    spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+    suspend;
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol var [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}

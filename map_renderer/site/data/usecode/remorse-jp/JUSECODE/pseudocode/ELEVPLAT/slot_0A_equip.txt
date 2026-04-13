@@ -1,34 +1,41 @@
 function elevplat_equip() /* entry=305 class_id=0x012f slot=0x0a */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    var, /* [BP+10h] type=0x69 */
+    zz, /* [BP-02h] type=0x69 */
+    h, /* [BP-04h] type=0x69 */
+    npc; /* [BP-06h] type=0x24 */
+
   set_info(0x0211, *(arg_06));
   process_exclude();
   if (Item.getStatus(arg_06) & 0x1000) {
     return;
   }
   else {
-    local_02 = Item.getZ(arg_06);
-    if ((arg_10 >= 0x00a0) && (arg_10 < 0x00ff)) {
-      arg_10 = (arg_10 - 0x00a0);
+    zz = Item.getZ(arg_06);
+    if ((var >= 0x00a0) && (var < 0x00ff)) {
+      var = (var - 0x00a0);
     }
-    if (arg_10 == 0x00ff) {
-      local_04 = Actor.clrInCombat(arg_06);
-      if ((local_04 == 88) || ((local_02 + 1) <= local_04)) {
+    if (var == 0x00ff) {
+      h = Actor.clrInCombat(arg_06);
+      if ((h == 88) || ((zz + 1) <= h)) {
         Item.pop(22, arg_06);
       }
-      else if (local_04 < 88) {
-        Item.pop((local_04 + 22), arg_06);
+      else if (h < 88) {
+        Item.pop((h + 22), arg_06);
       }
     }
-    else if (arg_10) {
-      if (local_02 < arg_10) {
-        Game.isViolenceEnabled(local_02, arg_06);
-        Item.pop(arg_10, arg_06);
+    else if (var) {
+      if (zz < var) {
+        Game.isViolenceEnabled(zz, arg_06);
+        Item.pop(var, arg_06);
       }
-      else if (local_02 > arg_10) {
-        Game.isViolenceEnabled(arg_10, arg_06);
-        Item.pop(local_02, arg_06);
+      else if (zz > var) {
+        Game.isViolenceEnabled(var, arg_06);
+        Item.pop(zz, arg_06);
       }
-      else if (local_02 == arg_10) {
+      else if (zz == var) {
       }
     }
     else {
@@ -39,12 +46,20 @@ function elevplat_equip() /* entry=305 class_id=0x012f slot=0x0a */
     suspend;
     if (global[0x0000] == 1) {
       while (condition) {
-        Item.getSurfaceWeight(5, local_06);
+        Item.getSurfaceWeight(5, npc);
         spawn FREE.slot_32(pid, 2, 0x00000000);
         suspend;
-        Item.getQuality(114, local_06);
+        Item.getQuality(114, npc);
       }
     }
   }
   return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol var [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol zz [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol h [BP-04h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol npc [BP-06h] type=0x24 unk1=0x00 unk3=0x02
+  */
 }

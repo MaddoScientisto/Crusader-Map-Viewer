@@ -1,0 +1,322 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[06:gotHit] call_class_event FREE.slot_2c ; not ; jne 0x0033 ; ...
+[06:gotHit]
+[06:gotHit] jmp 0x00f6
+//
+//
+[06:gotHit] call_intrinsic Item.getFrame(arg_bytes=0x4) ; pop_local_word fram ; ...
+//
+[06:gotHit] lt ; jne 0x00f6 ; ...
+[06:gotHit]
+[06:gotHit] spawn ITEM.slot_27 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[06:gotHit]
+[06:gotHit] call_class_event FREE.slot_20 ; jne 0x009f ; ...
+//
+[06:gotHit] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6) ; jmp 0x00ac ; ...
+//
+//
+//
+[06:gotHit] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+//
+//
+[06:gotHit] jmp 0x00f6
+//
+//
+[06:gotHit] spawn ITEM.slot_28 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[06:gotHit] add ; call_intrinsic Item.setFrame(arg_bytes=0x6) ; ...
+[06:gotHit] call_class_event ITEM.slot_23
+//
+[06:gotHit] ret
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[01:use] call_intrinsic Item.getFrame(arg_bytes=0x4) ; gt ; jne 0x0032 ; ...
+[01:use]
+[01:use] jmp 0x0339
+//
+//
+//
+//
+[01:use] call_intrinsic Item.getFrame(arg_bytes=0x4) ; cmp ; jne 0x00f0 ; ...
+[01:use]
+[01:use] call_intrinsic Item.getZ(arg_bytes=0x4) ; call_intrinsic Item.getY(arg_bytes=0x4) ; call_intrinsic Item.getX(arg_bytes=0x4) ; ...
+//
+[01:use] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+[01:use] pop_local_word counter ; le ; jne 0x00d6 ; ...
+//
+[01:use] call_intrinsic Item.setFrame(arg_bytes=0x6)
+[01:use] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+//
+//
+[01:use] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+[01:use] jmp 0x0339 ; jmp 0x0195
+//
+//
+//
+//
+[01:use] call_intrinsic Item.getZ(arg_bytes=0x4) ; call_intrinsic Item.getY(arg_bytes=0x4) ; call_intrinsic Item.getX(arg_bytes=0x4) ; ...
+//
+[01:use] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+[01:use] pop_local_word counter ; le ; jne 0x017f ; ...
+//
+[01:use] call_intrinsic Item.setFrame(arg_bytes=0x6)
+[01:use] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+//
+//
+[01:use] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+[01:use] jmp 0x0339
+//
+//
+//
+//
+//
+//
+[01:use] spawn TRIGGER.slot_20 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+[01:use] call_intrinsic Item.getX(arg_bytes=0x4) ; add ; pop_local_word x ; ...
+[01:use] call_intrinsic Item.getY(arg_bytes=0x4) ; add ; pop_local_word y ; ...
+//
+//
+//
+[01:use] loopscr value_u8=0x25 ; mul ; ...
+[01:use] loop current_var=0xfe, string_bytes=0x6, loop_type=0x2 ; jne 0x0337 ; ...
+[01:use] call_intrinsic Item.getQLo(arg_bytes=0x4) ; call_intrinsic Item.getQLo(arg_bytes=0x4) ; cmp ; ...
+[01:use]
+[01:use] call_class_event FREE.slot_2e ; pop_local_word item2 ; ...
+//
+//
+//
+//
+[01:use] call_intrinsic Item.getItemFamily(arg_bytes=0x4) ; cmp ; ...
+[01:use] call_intrinsic Item.getItemFamily(arg_bytes=0x4) ; cmp ; or ; ...
+[01:use] call_intrinsic Item.getItemFamily(arg_bytes=0x4) ; cmp ; or ; ...
+[01:use] call_intrinsic Item.getItemFamily(arg_bytes=0x4) ; cmp ; or ; ...
+[01:use]
+//
+//
+[01:use] call_intrinsic MainActor.addItemCru(arg_bytes=0x4) ; not ; jne 0x030a ; ...
+[01:use]
+[01:use] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+[01:use] call_intrinsic push(arg_bytes=0x4)
+[01:use] global_address global[0x003c] ; call_intrinsic Actor.getMap(arg_bytes=0x4)
+[01:use] cmp ; jne 0x02e1
+[01:use] call_intrinsic Item.getZ(arg_bytes=0x4) ; call_intrinsic Item.popToCoords(arg_bytes=0xa) ; ...
+[01:use] sub ; pop_local_word x ; jmp 0x030a ; ...
+//
+//
+//
+[01:use] global_address global[0x003c] ; call_intrinsic Item.getZ(arg_bytes=0x4) ; global_address global[0x003c] ; ...
+//
+//
+//
+//
+//
+[01:use] spawn FREE.slot_31 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[01:use] ret
+
+/* synthesized appendix for CHEST_NS */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x01 use ===== */
+function chest_ns_use() /* entry=1361 class_id=0x054f slot=0x01 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    item, /* [BP-02h] type=0x24 */
+    item2, /* [BP-04h] type=0x24 */
+    counter, /* [BP-06h] type=0x69 */
+    x, /* [BP-08h] type=0x69 */
+    y; /* [BP-10h] type=0x69 */
+
+  set_info(0x0207, *(arg_06));
+  process_exclude();
+  if (Item.getFrame(arg_06) > 1) {
+    return;
+  }
+  else if (Item.getFrame(arg_06) == 1) {
+    FREE.slot_2d(Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06), 5, 0x054a, *(arg_06));
+    if (retval) {
+      AudioProcess.playSFXCru(0x00b3, arg_06);
+      counter = 5;
+      while (counter <= 9) {
+        Item.setFrame(counter, arg_06);
+        spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+        suspend;
+        counter = (1 + counter);
+      }
+    }
+    else {
+      AudioProcess.playSFXCru(0x00b0, arg_06);
+      return;
+    }
+  }
+  else {
+    FREE.slot_2d(Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06), 0, 0x054a, *(arg_06));
+    if (retval) {
+      AudioProcess.playSFXCru(0x00b3, arg_06);
+      counter = 0;
+      while (counter <= 4) {
+        Item.setFrame(counter, arg_06);
+        spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+        suspend;
+        counter = (1 + counter);
+      }
+    }
+    else {
+      AudioProcess.playSFXCru(42, arg_06);
+      return;
+    }
+  }
+  spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
+  suspend;
+  x = (Item.getX(arg_06) + 56);
+  y = (Item.getY(arg_06) + 64);
+  for item in nearby_items(shape=0x0476, origin=arg_06) {
+    if (Item.getQLo(arg_06) == Item.getQLo(item)) {
+      FREE.slot_2e(item);
+      item2 = retval;
+      if ((((Item.getItemFamily(item2) == 10) || (Item.getItemFamily(item2) == 11)) || (Item.getItemFamily(item2) == 12)) || (Item.getItemFamily(item2) == 13)) {
+        if (!MainActor.addItemCru(1, item2)) {
+          AudioProcess.playSFXCru(0x00b0, arg_06);
+          push(item2);
+          if (Actor.getMap(&global[0x003c]) == 40) {
+            Item.popToCoords(Item.getZ(arg_06), y, x, item2);
+            x = (x - 32);
+          }
+          else {
+            Item.popToCoords(Item.getX(Item.getY(Item.getZ(&global[0x003c]), &global[0x003c]), &global[0x003c]), item2);
+          }
+        }
+      }
+      else {
+        spawn FREE.slot_31(pid, item2, 0x00000000);
+        suspend;
+      }
+    }
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol item [BP-02h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol item2 [BP-04h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol counter [BP-06h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol x [BP-08h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol y [BP-10h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x06 gotHit ===== */
+function chest_ns_gotHit() /* entry=1361 class_id=0x054f slot=0x06 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    vel, /* [BP+12h] type=0x69 */
+    fram; /* [BP-02h] type=0x69 */
+
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  FREE.slot_2c(vel, ref);
+  if (!retval) {
+    return;
+  }
+  else {
+    fram = Item.getFrame(arg_06);
+    if (fram < 2) {
+      spawn ITEM.slot_27(pid, 40, vel, ref, arg_06);
+      suspend;
+      if (!process_result) {
+        FREE.slot_20(1);
+        if (retval) {
+          AudioProcess.playSFXCru(38, arg_06);
+        }
+        else {
+          AudioProcess.playSFXCru(39, arg_06);
+        }
+        return;
+      }
+      else {
+        spawn ITEM.slot_28(pid, 0, 0, arg_06);
+        suspend;
+        Item.setFrame((fram + 2), arg_06);
+        ITEM.slot_23(0x1000, arg_06);
+      }
+    }
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol ref [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol vel [BP+12h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol fram [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}

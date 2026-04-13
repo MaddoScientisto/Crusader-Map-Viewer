@@ -1,0 +1,609 @@
+/* synthesized appendix for ITEM */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x20 slot_20 ===== */
+function item_slot_20() /* entry=2592 class_id=0x0a1e slot=0x20 */
+{
+  return;
+}
+
+/* ===== slot 0x21 slot_21 ===== */
+function item_slot_21() /* entry=2592 class_id=0x0a1e slot=0x21 */
+{
+  local_02 = arg_10;
+  if (arg_10) {
+    if (Item.setQLo(local_02) == 6) {
+      while (condition) {
+        push(local_04);
+        Actor.SetNPCDataField0x63_0E6(arg_10, local_04);
+      }
+    }
+  }
+  return;
+}
+
+/* ===== slot 0x22 slot_22 ===== */
+function item_slot_22() /* entry=2592 class_id=0x0a1e slot=0x22 */
+{
+  if (Item.getStatus(arg_06) & arg_10) {
+    Actor.getLastAnimSet((~arg_10), arg_06);
+    return;
+  }
+  else {
+    Item.orStatus(arg_10, arg_06);
+  }
+  return;
+}
+
+/* ===== slot 0x23 slot_23 ===== */
+function item_slot_23() /* entry=2592 class_id=0x0a1e slot=0x23 */
+{
+  Item.orStatus(arg_10, arg_06);
+  return;
+}
+
+/* ===== slot 0x24 slot_24 ===== */
+function item_slot_24() /* entry=2592 class_id=0x0a1e slot=0x24 */
+{
+  Actor.getLastAnimSet((~arg_10), arg_06);
+  return;
+}
+
+/* ===== slot 0x25 slot_25 ===== */
+function item_slot_25() /* entry=2592 class_id=0x0a1e slot=0x25 */
+{
+  set_info(1, *(arg_06));
+  local_07 = Item.getX(arg_06);
+  local_09 = Item.getY(arg_06);
+  local_10 = Item.getZ(arg_06);
+  local_12 = ((arg_10 - local_07) + 1);
+  local_14 = ((arg_12 - local_09) + 1);
+  local_16 = 0;
+  local_18 = 1;
+  local_28 = arg_16;
+  local_30 = 0;
+  local_32 = 1;
+  FREE.slot_3f(local_12);
+  FREE.slot_3f(retval, local_14);
+  if (retval) {
+    local_32 = 0;
+  }
+  if (local_32 == 0) {
+    FREE.slot_3f(((local_14 / local_12) * local_12));
+    local_22 = retval;
+    FREE.slot_3f((local_14 % local_12));
+    local_20 = retval;
+    if (local_12 < 0) {
+      local_28 = (-1 * arg_16);
+    }
+    if (local_14 < 0) {
+      local_18 = -1;
+    }
+    FREE.slot_3f(local_12);
+    local_24 = retval;
+  }
+  else {
+    FREE.slot_3f(((local_12 / local_14) * local_14));
+    local_22 = retval;
+    FREE.slot_3f((local_12 % local_14));
+    local_20 = retval;
+    if (local_14 < 0) {
+      local_28 = (-1 * arg_16);
+    }
+    if (local_12 < 0) {
+      local_18 = -1;
+    }
+    FREE.slot_3f(local_14);
+    local_24 = retval;
+  }
+  suspend;
+  local_36 = (local_10 & 0x00ff);
+  local_34 = (arg_14 & 0x00ff);
+  while (true) {
+    suspend;
+    local_36 = (local_10 & 0x00ff);
+    local_34 = (arg_14 & 0x00ff);
+    if (local_36 != local_34) {
+      FREE.slot_3f((local_34 - local_36));
+      local_38 = ((retval / 20) + 1);
+      if (local_38 == 0) {
+        local_38 = 1;
+      }
+      if (local_36 < local_34) {
+        local_10 = (local_10 + local_38);
+      }
+      else {
+        local_36 = (local_36 - local_38);
+        local_10 = (local_36 & 0x00ff);
+      }
+    }
+    if (local_30 >= local_24) {
+      if (local_36 > (local_34 - 2)) {
+        if (local_36 < (local_34 + 2)) {
+          process_result = 1;
+          return;
+        }
+      }
+      local_05 = local_07;
+      local_03 = local_09;
+      local_01 = local_10;
+      if (!legalMoveToPoint(0, 1, local_05, arg_06)) {
+        process_result = 0;
+        return;
+      }
+    }
+    else {
+      local_30 = (local_30 + arg_16);
+      if (local_32 == 0) {
+        local_05 = local_07;
+        local_03 = local_09;
+        local_01 = local_10;
+        if (!legalMoveToPoint(0, 1, local_05, arg_06)) {
+          process_result = 0;
+          return;
+        }
+        local_07 = (local_07 + local_28);
+        local_26 = 1;
+        while (local_26 <= arg_16) {
+          local_16 = (local_16 + (local_20 + local_22));
+          if (local_16 >= local_24) {
+            local_16 = (local_16 - local_24);
+            local_09 = (local_09 + local_18);
+          }
+          local_26 = (1 + local_26);
+        }
+      }
+      else {
+        local_05 = local_07;
+        local_03 = local_09;
+        local_01 = local_10;
+        if (!legalMoveToPoint(0, 1, local_05, arg_06)) {
+          process_result = 0;
+          return;
+        }
+        local_09 = (local_09 + local_28);
+        local_26 = 1;
+        while (local_26 <= arg_16) {
+          local_16 = (local_16 + (local_20 + local_22));
+          if (local_16 >= local_24) {
+            local_16 = (local_16 - local_24);
+            local_07 = (local_07 + local_18);
+          }
+          local_26 = (1 + local_26);
+        }
+      }
+    }
+  }
+  return;
+}
+
+/* ===== slot 0x26 slot_26 ===== */
+function item_slot_26() /* entry=2592 class_id=0x0a1e slot=0x26 */
+{
+  set_info(1, *(arg_06));
+  local_02 = Item.getX(arg_06);
+  local_04 = Item.getY(arg_06);
+  local_05 = Item.getZ(arg_06);
+  local_07 = ((arg_10 - local_02) + 1);
+  local_09 = ((arg_12 - local_04) + 1);
+  local_11 = 0;
+  local_13 = 1;
+  local_23 = arg_16;
+  local_25 = 0;
+  local_27 = 1;
+  FREE.slot_3f(local_07);
+  FREE.slot_3f(retval, local_09);
+  if (retval) {
+    local_27 = 0;
+  }
+  if (local_27 == 0) {
+    FREE.slot_3f(((local_09 / local_07) * local_07));
+    local_17 = retval;
+    FREE.slot_3f((local_09 % local_07));
+    local_15 = retval;
+    if (local_07 < 0) {
+      local_23 = (-1 * arg_16);
+    }
+    if (local_09 < 0) {
+      local_13 = -1;
+    }
+    FREE.slot_3f(local_07);
+    local_19 = retval;
+  }
+  else {
+    FREE.slot_3f(((local_07 / local_09) * local_09));
+    local_17 = retval;
+    FREE.slot_3f((local_07 % local_09));
+    local_15 = retval;
+    if (local_09 < 0) {
+      local_23 = (-1 * arg_16);
+    }
+    if (local_07 < 0) {
+      local_13 = -1;
+    }
+    FREE.slot_3f(local_09);
+    local_19 = retval;
+  }
+  suspend;
+  local_31 = (local_05 & 0x00ff);
+  local_29 = (arg_14 & 0x00ff);
+  while (true) {
+    suspend;
+    local_31 = (local_05 & 0x00ff);
+    local_29 = (arg_14 & 0x00ff);
+    if (local_31 != local_29) {
+      FREE.slot_3f((local_29 - local_31));
+      local_33 = ((retval / 20) + 1);
+      if (local_33 == 0) {
+        local_33 = 1;
+      }
+      if (local_31 < local_29) {
+        local_05 = (local_05 + local_33);
+      }
+      else {
+        local_31 = (local_31 - local_33);
+        local_05 = (local_31 & 0x00ff);
+      }
+    }
+    if (local_25 >= local_19) {
+      if (local_31 > (local_29 - 2)) {
+        if (local_31 < (local_29 + 2)) {
+          return;
+        }
+      }
+      Item.setNpcNum(local_05, local_04, local_02, arg_06);
+    }
+    else {
+      local_25 = (local_25 + arg_16);
+      if (local_27 == 0) {
+        Item.setNpcNum(local_05, local_04, local_02, arg_06);
+        local_02 = (local_02 + local_23);
+        local_21 = 1;
+        while (local_21 <= arg_16) {
+          local_11 = (local_11 + (local_15 + local_17));
+          if (local_11 >= local_19) {
+            local_11 = (local_11 - local_19);
+            local_04 = (local_04 + local_13);
+          }
+          local_21 = (1 + local_21);
+        }
+      }
+      else {
+        Item.setNpcNum(local_05, local_04, local_02, arg_06);
+        local_04 = (local_04 + local_23);
+        local_21 = 1;
+        while (local_21 <= arg_16) {
+          local_11 = (local_11 + (local_15 + local_17));
+          if (local_11 >= local_19) {
+            local_11 = (local_11 - local_19);
+            local_02 = (local_02 + local_13);
+          }
+          local_21 = (1 + local_21);
+        }
+      }
+    }
+  }
+  return;
+}
+
+/* ===== slot 0x27 slot_27 ===== */
+function item_slot_27() /* entry=2592 class_id=0x0a1e slot=0x27 */
+{
+  set_info(1, *(arg_06));
+  if (arg_10 != 0x4000) {
+    process_result = 0;
+    return;
+  }
+  else {
+    local_02 = (arg_12 & 0x00ff);
+    local_04 = Item.setQuality(arg_06);
+    local_06 = (local_04 + local_02);
+    if (local_06 >= arg_14) {
+      Item.getQLo(0, arg_06);
+      process_result = 1;
+      return;
+    }
+    else {
+      Item.getQLo(local_06, arg_06);
+      process_result = 0;
+      return;
+    }
+  }
+  return;
+}
+
+/* ===== slot 0x28 slot_28 ===== */
+function item_slot_28() /* entry=2592 class_id=0x0a1e slot=0x28 */
+{
+  set_info(0x020a, *(arg_06));
+  if (*(arg_06) == 0x4000) {
+    return;
+  }
+  else {
+    UCMachine.numToStr(arg_06);
+    Item.getDirToCoords(arg_06);
+    local_05 = 0;
+    local_07 = Item.getX(arg_06);
+    local_09 = Item.getY(arg_06);
+    switch (arg_10) {
+    case 1:
+      if (UCMachine.rndRange(2, 0) == 1) {
+        AudioProcess.playSFXCru(0x00c1, arg_06);
+        Item.getQHi(Item.getZ(arg_06), Item.andStatus(arg_06), Item.getNPCNum(arg_06), 1, 39, 0, 0x0326);
+      }
+      else if (UCMachine.rndRange(2, 0) == 2) {
+        AudioProcess.playSFXCru(0x00c0, arg_06);
+        Item.getQHi(Item.getZ(arg_06), Item.andStatus(arg_06), Item.getNPCNum(arg_06), 1, 39, 0, 0x0320);
+      }
+      else {
+        AudioProcess.playSFXCru(0x00c0, arg_06);
+        Item.getQHi(Item.getZ(arg_06), Item.andStatus(arg_06), Item.getNPCNum(arg_06), 1, 39, 0, 0x0321);
+      }
+      break;
+    case 2:
+      if (UCMachine.rndRange(2, 0) == 1) {
+        AudioProcess.playSFXCru(62, arg_06);
+        Item.getQHi(Item.getZ(arg_06), Item.andStatus(arg_06), Item.getNPCNum(arg_06), 1, 39, 0, 0x0324);
+      }
+      else if (UCMachine.rndRange(2, 0) == 2) {
+        AudioProcess.playSFXCru(62, arg_06);
+        Item.getQHi(Item.getZ(arg_06), Item.andStatus(arg_06), Item.getNPCNum(arg_06), 1, 39, 0, 0x0323);
+      }
+      else {
+        AudioProcess.playSFXCru(62, arg_06);
+        Item.getQHi(Item.getZ(arg_06), Item.andStatus(arg_06), Item.getNPCNum(arg_06), 1, 39, 0, 0x0325);
+      }
+      break;
+    case 0:
+      if (UCMachine.rndRange(1, 0) == 1) {
+        AudioProcess.playSFXCru(0x00be, arg_06);
+        Item.getQHi(Item.getZ(arg_06), Item.andStatus(arg_06), Item.getNPCNum(arg_06), 1, 39, 0, 0x031c);
+      }
+      else {
+        AudioProcess.playSFXCru(0x00bf, arg_06);
+        Item.getQHi(Item.getZ(arg_06), Item.andStatus(arg_06), Item.getNPCNum(arg_06), 1, 39, 0, 0x031f);
+      }
+      break;
+    }
+    local_04 = *(arg_06);
+    set_info(0x020a, 0);
+    if (arg_12) {
+      if (local_04 != 0x4000) {
+        Item.destroy(local_04);
+      }
+    }
+  }
+  return;
+}
+
+/* ===== slot 0x29 slot_29 ===== */
+function item_slot_29() /* entry=2592 class_id=0x0a1e slot=0x29 */
+{
+  entry:
+    set_info(0x0001, *(arg_06));
+
+  block_09ac:
+    if !condition goto block_0a2d;
+
+  block_09af:
+    if !Item.getNPCNum(local_02, arg_06) goto block_0a29;
+
+  block_09bd:
+    Item.setIsBroken(local_08, local_06, local_04, local_02);
+    if local_08 <= 1 goto block_09da;
+
+  block_09d3:
+    local_10 = 1;
+    goto block_0a2d;
+
+  block_09da:
+    local_12 = Item.getShape(local_02);
+    if !((((((((local_12 == 95) || (local_12 == 0x0096)) || (local_12 == 0x0132)) || (local_12 == 0x04cd)) || (local_12 == 0x0366)) || (local_12 == 0x0365)) || (local_12 == 0x0290)) || (local_12 == 0x0336)) goto block_0a25;
+
+  block_0a1e:
+    local_10 = 1;
+    goto block_0a2d;
+
+  block_0a25:
+    local_09 = 1;
+
+  block_0a29:
+    goto block_09ac;
+
+  if ((local_10 == 1) || (local_09 == 0)) {
+    process_result = 0;
+    return;
+  }
+  else {
+    process_result = 1;
+    return;
+  }
+
+  return;
+
+}
+
+/* ===== slot 0x2a slot_2a ===== */
+function item_slot_2a() /* entry=2592 class_id=0x0a1e slot=0x2a */
+{
+  set_info(0x0001, *(arg_06));
+  spawn ITEM.slot_29(pid, arg_06);
+  suspend;
+  if (!process_result) {
+    return;
+  }
+  else {
+    Item.setIsBroken(local_09, local_07, local_05, arg_06);
+    push(arg_06);
+    if ((local_05 == 1) || (local_05 == 2)) {
+      Item.legal_create(UCMachine.rndRange(3, 0), 0x0513, local_11);
+      getTargetNPCNumMaybe(Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06), local_11);
+      Item.legal_create(0, 0x0456, local_11);
+      Item.orStatus(0x0080, local_11);
+      getTargetNPCNumMaybe(((Item.getZ(arg_06) - UCMachine.rndRange(Item.getY(arg_06), 8, 0)) - UCMachine.rndRange(Item.getX(arg_06), 8, 0)), local_11);
+      spawn ITEM.slot_2b(local_11);
+    }
+    else if ((local_05 == 3) || (local_05 == 4)) {
+      Item.legal_create(UCMachine.rndRange(3, 0), 0x0509, local_11);
+      getTargetNPCNumMaybe(Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06), local_11);
+      Item.legal_create(0, 0x044a, local_11);
+      Item.orStatus(0x0080, local_11);
+      getTargetNPCNumMaybe(((Item.getZ(arg_06) - UCMachine.rndRange(Item.getY(arg_06), 24, 0)) - UCMachine.rndRange(Item.getX(arg_06), 24, 0)), local_11);
+      spawn ITEM.slot_2b(local_11);
+    }
+    else {
+      Item.legal_create(UCMachine.rndRange(3, 0), 0x0448, local_11);
+      getTargetNPCNumMaybe(Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06), local_11);
+      Item.legal_create(0, 0x044a, local_11);
+      Item.orStatus(0x0080, local_11);
+      getTargetNPCNumMaybe(((Item.getZ(arg_06) - UCMachine.rndRange(Item.getY(arg_06), 40, 0)) - UCMachine.rndRange(Item.getX(arg_06), 40, 0)), local_11);
+      spawn ITEM.slot_2b(local_11);
+    }
+    getTargetNPCNumMaybe((Item.getZ(arg_06) + 1), Item.getY(arg_06), Item.getX(arg_06), arg_06);
+  }
+  return;
+}
+
+/* ===== slot 0x2b slot_2b ===== */
+function item_slot_2b() /* entry=2592 class_id=0x0a1e slot=0x2b */
+{
+  set_info(0x0001, *(arg_06));
+  spawn FREE.waitNTimerTicks(UCMachine.rndRange(pid, 0x00c8, 100), 0x00000000);
+  suspend;
+  local_04 = *(arg_06);
+  switch (Item.getShape(local_04)) {
+  case 0x0456:
+    Item.legal_create(0, 0x0592, local_02);
+    Item.orStatus(0x0080, local_02);
+    getTargetNPCNumMaybe(Item.getZ(local_04), Item.getY(local_04), Item.getX(local_04), local_02);
+    set_info(0x00f0, local_02);
+    Item.destroy(local_04);
+    if (PaletteFaderProcess.fadeToColor()) {
+      while ((Item.getFrame(local_02) != 9) && (Item.isOnScreen(arg_06) == 1)) {
+        spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+        suspend;
+      }
+    }
+    Item.destroy(local_02);
+    return;
+  case 0x044a:
+    Item.legal_create(0, 0x0593, local_02);
+    Item.orStatus(0x0080, local_02);
+    getTargetNPCNumMaybe(Item.getZ(local_04), Item.getY(local_04), Item.getX(local_04), local_02);
+    set_info(0x00f0, local_02);
+    Item.destroy(local_04);
+    if (PaletteFaderProcess.fadeToColor()) {
+      while ((Item.getFrame(local_02) != 9) && (Item.isOnScreen(arg_06) == 1)) {
+        spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+        suspend;
+      }
+    }
+    Item.destroy(local_02);
+    return;
+  case 0x0085:
+    Item.legal_create(0, 0x0591, local_02);
+    Item.orStatus(0x0080, local_02);
+    getTargetNPCNumMaybe(Item.getZ(local_04), Item.getY(local_04), Item.getX(local_04), local_02);
+    set_info(0x00f0, local_02);
+    Item.destroy(local_04);
+    if (PaletteFaderProcess.fadeToColor()) {
+      while ((Item.getFrame(local_02) != 9) && (Item.isOnScreen(arg_06) == 1)) {
+        spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+        suspend;
+      }
+    }
+    Item.destroy(local_02);
+    return;
+  }
+  return;
+}
+
+/* ===== slot 0x2c slot_2c ===== */
+function item_slot_2c() /* entry=2592 class_id=0x0a1e slot=0x2c */
+{
+  set_info(0x0001, *(arg_06));
+  while (condition) {
+    if (local_02 < 0x00ff) {
+      if ((local_02 > 1) && (IItem.getCY(local_02) == 0)) {
+        process_result = local_02;
+        return;
+      }
+    }
+  }
+  process_result = 1;
+  return;
+}
+
+/* ===== slot 0x2d slot_2d ===== */
+function item_slot_2d() /* entry=2592 class_id=0x0a1e slot=0x2d */
+{
+  set_info(0x021b, 0);
+  local_02 = arg_10;
+  if (Item.getFrame(local_02) != 0) {
+    return;
+  }
+  else {
+    local_06 = Actor.getDefaultActivity2(local_02);
+    for local_04 in nearby_items(shape=NPC_SPAWNER_04D0, origin=local_02) {
+      if (Actor.getDefaultActivity2(local_04) == local_06) {
+        if (Item.getFrame(local_04) == 1) {
+          if ((arg_12 == 2) || (arg_12 == 3)) {
+            for local_12 in nearby_items(family=6, origin=local_02) {
+              if (Actor.isNPC(local_12)) {
+                if ((Item.getZ(local_12) > (Item.getZ(arg_06) - 10)) && (Item.getZ(local_12) < (Item.getZ(arg_06) + 10))) {
+                  process_result = 0;
+                  return;
+                }
+              }
+            }
+            local_14 = Item.isOn(local_04, arg_06);
+            if (local_14) {
+              local_10 = local_14;
+              local_08 = (Item.setQuality(local_02) & 15);
+              if ((local_08 == 2) || (local_08 == 4)) {
+                Item.getQuality(local_10);
+                AudioProcess.playSFXCru(48, arg_06);
+                Item.getQHi(Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06), 1, 37, 0, 0x0317);
+                suspend;
+                Item.getFootpadData(local_10);
+                Actor.isDead(112, local_10);
+                while (AudioProcess.isSFXPlayingForObject(48, arg_06)) {
+                  spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+                  suspend;
+                }
+              }
+            }
+          }
+          else {
+            local_14 = Item.isOn(local_04, arg_06);
+            if (local_14) {
+              local_10 = local_14;
+              Actor.isDead(112, local_10);
+            }
+          }
+          if ((arg_12 == 0) || (arg_12 == 2)) {
+            Item.andStatus(0, local_04);
+            Item.andStatus(0, local_02);
+            spawn ITEM.slot_2e(local_04, local_02, arg_06);
+          }
+          process_result = local_10;
+          return;
+        }
+      }
+    }
+  }
+  return;
+}
+
+/* ===== slot 0x2e slot_2e ===== */
+function item_slot_2e() /* entry=2592 class_id=0x0a1e slot=0x2e */
+{
+  set_info(1, 0);
+  spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+  suspend;
+  local_02 = arg_10;
+  local_04 = arg_12;
+  Item.destroy(local_02);
+  Item.destroy(local_04);
+  return;
+}

@@ -1,0 +1,48 @@
+/* synthesized appendix for FIGHT_N1 */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x06 gotHit ===== */
+function fight_n1_gotHit() /* entry=389 class_id=0x0183 slot=0x06 */
+{
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  if (Item.getStatus(arg_06) & 0x1000) {
+    return;
+  }
+  else {
+    FREE.slot_2c(arg_12, arg_10);
+    if (!retval) {
+      return;
+    }
+    else {
+      spawn ITEM.slot_27(pid, 0x00c8, arg_12, arg_10, arg_06);
+      suspend;
+      if (!process_result) {
+        FREE.slot_20(1);
+        if (retval) {
+          AudioProcess.playSFXCru(38, arg_06);
+        }
+        else {
+          AudioProcess.playSFXCru(39, arg_06);
+        }
+        return;
+      }
+      else {
+        while (condition) {
+          ITEM.slot_23(0x1000, local_02);
+          if (!Item.getFrame(local_02)) {
+            if ((Item.getShape(local_02) == 0x017f) || (Item.getShape(local_02) == 0x0141)) {
+              Item.explode(0, 2, local_02);
+              Item.isCentreOn(1, local_02);
+            }
+            else {
+              Item.explode(0, 1, local_02);
+              Item.isCentreOn(1, local_02);
+            }
+          }
+        }
+      }
+    }
+  }
+  return;
+}

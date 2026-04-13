@@ -1,0 +1,84 @@
+/* synthesized appendix for ELEVPLAT */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x05 hit ===== */
+function elevplat_hit() /* entry=305 class_id=0x012f slot=0x05 */
+{
+  set_info(0x020b, *(arg_06));
+  process_exclude();
+  if (arg_10 != 1) {
+    local_02 = arg_10;
+    if (local_02 < 0x0100) {
+      if (!Actor.isDead(local_02)) {
+        if (Item.getZ(local_02) < Item.getZ(arg_06)) {
+          Item.receiveHit(8, UCMachine.rndRange(Ultima8Engine.clrCruStasis(local_02), 16, 0), 0, local_02);
+        }
+      }
+    }
+  }
+  return;
+}
+
+/* ===== slot 0x0a equip ===== */
+function elevplat_equip() /* entry=305 class_id=0x012f slot=0x0a */
+{
+  set_info(0x0211, *(arg_06));
+  process_exclude();
+  if (Item.getStatus(arg_06) & 0x1000) {
+    return;
+  }
+  else {
+    local_02 = Item.getZ(arg_06);
+    if ((arg_10 >= 0x00a0) && (arg_10 < 0x00ff)) {
+      arg_10 = (arg_10 - 0x00a0);
+    }
+    if (arg_10 == 0x00ff) {
+      local_04 = Item.IsOn(arg_06);
+      if ((local_04 == 88) || ((local_02 + 1) <= local_04)) {
+        Item.setQHi(22, arg_06);
+      }
+      else if (local_04 < 88) {
+        Item.setQHi((local_04 + 22), arg_06);
+      }
+    }
+    else if (arg_10) {
+      if (local_02 < arg_10) {
+        Item.getQLo(local_02, arg_06);
+        Item.setQHi(arg_10, arg_06);
+      }
+      else if (local_02 > arg_10) {
+        Item.getQLo(arg_10, arg_06);
+        Item.setQHi(local_02, arg_06);
+      }
+      else if (local_02 == arg_10) {
+      }
+    }
+    else {
+      Item.getQLo(1, arg_06);
+      Item.setQHi(88, arg_06);
+    }
+    spawn ELEVAT.slot_20(pid, arg_06);
+    suspend;
+    if (global[0x0000] == 1) {
+      while (condition) {
+        Actor.setDefaultActivity1(5, local_06);
+        spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+        suspend;
+        AudioProcess.stopSFX(114, local_06);
+      }
+    }
+  }
+  return;
+}
+
+/* ===== slot 0x0f enterFastArea ===== */
+function elevplat_enterFastArea() /* entry=305 class_id=0x012f slot=0x0f */
+{
+  set_info(0x021b, *(arg_06));
+  process_exclude();
+  if (PaletteFaderProcess.fadeToBlack(arg_06) == 101) {
+    MainActor.clrKeycards(0, arg_06);
+    suspend;
+  }
+  return;
+}

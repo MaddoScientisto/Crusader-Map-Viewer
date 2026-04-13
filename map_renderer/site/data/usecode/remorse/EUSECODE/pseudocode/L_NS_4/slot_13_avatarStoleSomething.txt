@@ -1,7 +1,16 @@
 function l_ns_4_avatarStoleSomething() /* entry=462 class_id=0x01cc slot=0x13 */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    num; /* [BP+10h] type=0x69 */
+
   set_info(0x022e, *(arg_06));
   process_exclude();
   AudioProcess.stopSFXCru(0x00a9, arg_06);
   return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol num [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+  */
 }

@@ -1,8 +1,23 @@
 function npc_slot_29() /* entry=2581 class_id=0x0a13 slot=0x29 */
 {
+  var
+    referent, /* [BP+00h] type=0x69 */
+    fx, /* [BP+10h] type=0x69 */
+    fy, /* [BP+12h] type=0x69 */
+    tx, /* [BP+14h] type=0x69 */
+    ty; /* [BP+16h] type=0x69 */
+
   set_info(0x021b, *(arg_06));
   spawn FREE.slot_32(pid, 10, 0x00000000);
   suspend;
-  Item.getRangeIfVisible(Actor.getMap(arg_06), 0, arg_16, arg_14);
+  Item.getRangeIfVisible(Actor.getMap(arg_06), 0, ty, tx);
   return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol fx [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol fy [BP+12h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol tx [BP+14h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol ty [BP+16h] type=0x69 unk1=0x00 unk3=0x00
+  */
 }

@@ -1,0 +1,48 @@
+/* synthesized appendix for L_EW-2 */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x06 gotHit ===== */
+function l_ew_2_gotHit() /* entry=466 class_id=0x01d0 slot=0x06 */
+{
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  if (arg_10 == Actor.getLastAnimSet()) {
+    spawn LAZER.slot_20(arg_06);
+    spawn TRIGGER.slot_2a(pid, 0, *(arg_06), arg_06);
+    suspend;
+    spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
+    suspend;
+  }
+  return;
+}
+
+/* ===== slot 0x0b unequip ===== */
+function l_ew_2_unequip() /* entry=466 class_id=0x01d0 slot=0x0b */
+{
+  set_info(0x0212, *(arg_06));
+  process_exclude();
+  if (!Item.getFrame(arg_06)) {
+    AudioProcess.playAmbientSFXCru(0x00a9, arg_06);
+  }
+  return;
+}
+
+/* ===== slot 0x0f enterFastArea ===== */
+function l_ew_2_enterFastArea() /* entry=466 class_id=0x01d0 slot=0x0f */
+{
+  set_info(0x021b, *(arg_06));
+  process_exclude();
+  if (!Item.getFrame(arg_06)) {
+    AudioProcess.playAmbientSFXCru(0x00a9, arg_06);
+  }
+  return;
+}
+
+/* ===== slot 0x13 avatarStoleSomething ===== */
+function l_ew_2_avatarStoleSomething() /* entry=466 class_id=0x01d0 slot=0x13 */
+{
+  set_info(0x022e, *(arg_06));
+  process_exclude();
+  AudioProcess.stopSFXCru(0x00a9, arg_06);
+  return;
+}

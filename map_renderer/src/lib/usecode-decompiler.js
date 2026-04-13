@@ -4,50 +4,53 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { CACHE_ROOT, CATALOG_ROOT } from "../config.js";
+import { USECODE_UNK_EXPORTER_IMPL_PATH, buildUnkExportForClass, writeUnkManifest } from "./usecode-unk-exporter.js";
 import { GENERATED_INTRINSIC_HINT_TABLES } from "./usecode-intrinsic-hints.generated.js";
 
 const USECODE_CACHE_ROOT = path.join(CACHE_ROOT, "usecode");
-const USECODE_CACHE_SCHEMA_VERSION = 4;
-const DISASM_OPCODE_TABLE_PATH = path.resolve(CACHE_ROOT, "..", "..", "..", "crusader-disasm", "usecode_opcodes.txt");
+const USECODE_CACHE_SCHEMA_VERSION = 7;
+const REGRET_DEBUGGER_SYNTHETIC_LINE_FLOOR = 2991;
 const USECODE_DECOMPILER_IMPL_PATH = fileURLToPath(import.meta.url);
 const USECODE_SHAPE_CATALOG_PATHS = [
   path.join(CATALOG_ROOT, "usecode_shape_catalog_remorse.csv"),
   path.join(CATALOG_ROOT, "usecode_shape_catalog_regret.csv")
 ];
 
+// These slot labels are only decompiler hints: they turn raw event-slot numbers into
+// stable, readable names in IR/pseudocode output without changing control flow.
 const EVENT_NAME_HINTS = {
-  0x00: "look",
-  0x01: "use",
-  0x02: "anim",
-  0x03: "setActivity",
-  0x04: "cachein",
-  0x05: "hit",
-  0x06: "gotHit",
-  0x07: "hatch",
-  0x08: "schedule",
-  0x09: "release",
-  0x0a: "equip",
-  0x0b: "unequip",
-  0x0c: "combine",
-  0x0d: "func0D",
-  0x0e: "calledFromAnim",
-  0x0f: "enterFastArea",
-  0x10: "leaveFastArea",
-  0x11: "cast",
-  0x12: "justMoved",
-  0x13: "avatarStoleSomething",
-  0x14: "animGetHit",
-  0x15: "unhatch",
-  0x16: "func16",
-  0x17: "func17",
-  0x18: "func18",
-  0x19: "func19",
-  0x1a: "func1A",
-  0x1b: "func1B",
-  0x1c: "func1C",
-  0x1d: "func1D",
-  0x1e: "func1E",
-  0x1f: "func1F"
+  0x00: "look", // Fired when the player inspects or looks at the object.
+  0x01: "use", // Primary interaction entry point for using or activating the object.
+  0x02: "anim", // General animation-driven callback.
+  0x03: "setActivity", // Updates or reacts to an activity/state change.
+  0x04: "cachein", // Runs when the object is loaded or cached into the world.
+  0x05: "hit", // Called when this object lands a hit or applies an attack effect.
+  0x06: "gotHit", // Called when this object receives damage or a hit reaction.
+  0x07: "hatch", // Spawn/appear initialization path, often for newly created actors.
+  0x08: "schedule", // Periodic scheduler/tick-style callback.
+  0x09: "release", // Cleanup or release path before deletion/unloading.
+  0x0a: "equip", // Runs when the item is equipped.
+  0x0b: "unequip", // Runs when the item is removed or unequipped.
+  0x0c: "combine", // Inherited slot name from U8; no slot-0C handler bodies are recovered yet in Crusader.
+  0x0d: "func0D", // Unknown slot; kept as a neutral placeholder until behavior is verified.
+  0x0e: "calledFromAnim", // Helper callback reached from animation scripts.
+  0x0f: "enterFastArea", // Triggered when an actor enters the object's authored proximity/activation region.
+  0x10: "leaveFastArea", // Triggered when an actor leaves the object's authored proximity/activation region.
+  0x11: "cast", // Retained Crusader slot name for an explicit scripted activation/dispatch path, not classic spellcasting. The name was inherited from U8, in Crusader it's used for keypads and keycards.
+  0x12: "justMoved", // Fired immediately after movement completes.
+  0x13: "avatarStoleSomething", // Reaction hook for theft by the player/avatar.
+  0x14: "animGetHit", // Animation-specific hit reaction callback.
+  0x15: "unhatch", // Reverse of hatch; teardown or despawn-side callback.
+  0x16: "func16", // Unknown slot; semantics not verified yet.
+  0x17: "func17", // Unknown slot; semantics not verified yet.
+  0x18: "func18", // Unknown slot; semantics not verified yet.
+  0x19: "func19", // Unknown slot; semantics not verified yet.
+  0x1a: "func1A", // Unknown slot; semantics not verified yet.
+  0x1b: "func1B", // Unknown slot; semantics not verified yet.
+  0x1c: "func1C", // Unknown slot; semantics not verified yet.
+  0x1d: "func1D", // Unknown slot; semantics not verified yet.
+  0x1e: "func1E", // Unknown slot; semantics not verified yet.
+  0x1f: "func1F" // Unknown slot; semantics not verified yet.
 };
 
 const VARIANT_INTRINSIC_CALLSITE_HINTS = {
@@ -57,6 +60,7 @@ const VARIANT_INTRINSIC_CALLSITE_HINTS = {
   remorse: {}
 };
 
+// A few class/slot pairs need a more specific label than the generic slot hint table.
 const CLASS_EVENT_NAME_HINTS = {
   "2572:50": "waitNTimerTicks"
 };
@@ -134,19 +138,133 @@ const SHAPE_REFERENCE_PATTERNS = [
   /(?<prefix>\bItem\.legal_create\(\s*)(?<value>(?:0x[0-9A-Fa-f]+|\d+))\b/gu
 ];
 
-function loadOfficialOpcodeNames() {
-  const names = new Map();
-  if (!fs.existsSync(DISASM_OPCODE_TABLE_PATH)) return names;
-  const lines = fs.readFileSync(DISASM_OPCODE_TABLE_PATH, "utf8").split(/\r?\n/u);
-  for (const line of lines) {
-    const match = /^\s*0x([0-9A-Fa-f]{2})\s+([A-Z0-9_]+)\s*$/u.exec(line);
-    if (!match) continue;
-    names.set(Number.parseInt(match[1], 16), match[2]);
-  }
-  return names;
-}
-
-const OFFICIAL_OPCODE_NAMES = loadOfficialOpcodeNames();
+// These usecode opcodes were extracted from the JP version of Crusader: No Remorse and copied over from crusader-disasm
+const OFFICIAL_OPCODE_NAMES = new Map([
+  [0x00, "ASSIGN_LOCAL_CHAR"],
+  [0x01, "ASSIGN_LOCAL_INT"],
+  [0x02, "ASSIGN_LOCAL_LONG"],
+  [0x03, "ASSIGN_LOCAL_HUGE"],
+  [0x04, "ASSIGN_MEMBER_CHAR"],
+  [0x05, "ASSIGN_MEMBER_INT"],
+  [0x06, "ASSIGN_MEMBER_LONG"],
+  [0x07, "ASSIGN_MEMBER_HUGE"],
+  [0x08, "ASSIGN_RESULT"],
+  [0x09, "ASSIGN_ELEMENT"],
+  [0x0a, "CHAR_CONSTANT"],
+  [0x0b, "INT_CONSTANT"],
+  [0x0c, "LONG_CONSTANT"],
+  [0x0d, "STRING_CONSTANT"],
+  [0x0e, "LIST_CONST"],
+  [0x0f, "C_ROUTINE_CALL"],
+  [0x10, "NEAR_ROUTINE_CALL"],
+  [0x11, "FAR_ROUTINE_CALL"],
+  [0x12, "TEMP_POP_INT"],
+  [0x13, "TEMP_POP_LONG"],
+  [0x14, "ADD_INT"],
+  [0x15, "ADD_LONG"],
+  [0x16, "ADD_STRING"],
+  [0x17, "ADD_LIST"],
+  [0x18, "EXCLUSIVE_ADD_LIST"],
+  [0x19, "EXCLUSIVE_ADD_STRING_LIST"],
+  [0x1a, "SUB_STRING_LIST"],
+  [0x1b, "SUB_LIST"],
+  [0x1c, "SUBTRACT_INT"],
+  [0x1d, "SUBTRACT_LONG"],
+  [0x1e, "MULTIPLY_INT"],
+  [0x1f, "MULTIPLY_LONG"],
+  [0x20, "DIVIDE_INT"],
+  [0x21, "DIVIDE_LONG"],
+  [0x22, "MODULO_INT"],
+  [0x23, "MODULO_LONG"],
+  [0x24, "EQUALS_INT"],
+  [0x25, "EQUALS_LONG"],
+  [0x26, "EQUALS_STRING"],
+  [0x27, "EQUALS_HUGE"],
+  [0x28, "LT_INT"],
+  [0x29, "LT_LONG"],
+  [0x2a, "LE_INT"],
+  [0x2b, "LE_LONG"],
+  [0x2c, "GT_INT"],
+  [0x2d, "GT_LONG"],
+  [0x2e, "GE_INT"],
+  [0x2f, "GE_LONG"],
+  [0x30, "NOT_INT"],
+  [0x31, "NOT_LONG"],
+  [0x32, "AND_INT"],
+  [0x33, "AND_LONG"],
+  [0x34, "OR_INT"],
+  [0x35, "OR_LONG"],
+  [0x36, "NE_INT"],
+  [0x37, "NE_LONG"],
+  [0x38, "IN_LIST"],
+  [0x39, "BIT_AND_INT"],
+  [0x3a, "BIT_OR_INT"],
+  [0x3b, "BIT_NOT_INT"],
+  [0x3c, "SHIFT_LEFT"],
+  [0x3d, "SHIFT_RIGHT"],
+  [0x3e, "BYTE_LOCAL_REFERENCE"],
+  [0x3f, "INT_LOCAL_REFERENCE"],
+  [0x40, "LONG_LOCAL_REFERENCE"],
+  [0x41, "STRING_LOCAL_REFERENCE"],
+  [0x42, "LIST_LOCAL_REFERENCE"],
+  [0x43, "S_L_LOCAL_REFERENCE"],
+  [0x44, "LIST_ELEMENT_REF"],
+  [0x45, "HUGE_LOCAL_REFERENCE"],
+  [0x46, "BYTE_MEMBER_REFERENCE"],
+  [0x47, "INT_MEMBER_REFERENCE"],
+  [0x48, "LONG_MEMBER_REFERENCE"],
+  [0x49, "HUGE_MEMBER_REFERENCE"],
+  [0x4a, "THIS_REFERENCE"],
+  [0x4b, "ADDRESS_OF"],
+  [0x4c, "INDIRECT_REFERENCE"],
+  [0x4d, "INDIRECT_ASSIGN"],
+  [0x4e, "GLOBAL_DATA_REFERENCE"],
+  [0x4f, "GLOBAL_DATA_ASSIGN"],
+  [0x50, "RETURN"],
+  [0x51, "IF"],
+  [0x52, "JUMP"],
+  [0x53, "SUSPEND"],
+  [0x54, "IMPLIES"],
+  [0x55, "AND_IMPLIES"],
+  [0x56, "OR_IMPLIES"],
+  [0x57, "SPAWN"],
+  [0x58, "SPAWN_INLINE"],
+  [0x59, "THIS_PID"],
+  [0x5a, "INIT_ROUTINE"],
+  [0x5b, "LINE_NUMBER"],
+  [0x5c, "SYMBOL_INFO"],
+  [0x5d, "PUSH_RETURN_BYTE"],
+  [0x5e, "PUSH_RETURN_INT"],
+  [0x5f, "PUSH_RETURN_LONG"],
+  [0x60, "INT_TO_LONG"],
+  [0x61, "LONG_TO_INT"],
+  [0x62, "LOCAL_STRING_DELETE"],
+  [0x63, "LOCAL_STRING_LIST_DELETE"],
+  [0x64, "LOCAL_LIST_DELETE"],
+  [0x65, "STRING_REL_DELETE"],
+  [0x66, "LIST_REL_DELETE"],
+  [0x67, "STRING_LIST_REL_DELETE"],
+  [0x68, "COPY_STRING"],
+  [0x69, "STRING_ADDRESS"],
+  [0x6a, "CVT_POINTER_TO_STRING"],
+  [0x6b, "CVT_STRING_TO_POINTER"],
+  [0x6c, "PARAM_PID_CHANGE"],
+  [0x6d, "RESULT"],
+  [0x6e, "MOVE_SP"],
+  [0x6f, "REL_ADDRESS_OF"],
+  [0x70, "SEARCH"],
+  [0x71, "SEARCH_RECURSIVE"],
+  [0x72, "SEARCH_SURFACE"],
+  [0x73, "SEARCH_NEXT"],
+  [0x74, "REAL_CHAR_CONSTANT"],
+  [0x75, "FOREACH"],
+  [0x76, "FOREACH_STRING"],
+  [0x77, "SET_PROCESS"],
+  [0x78, "PROCESS_EXCLUDE"],
+  [0x79, "GLOBAL_ADDRESS_OF"],
+  [0x7a, "END"],
+  [0x7b, "REGRESS"]
+]);
 
 function sha1(buffer) {
   return crypto.createHash("sha1").update(buffer).digest("hex");
@@ -681,6 +799,76 @@ function parseDebugSymbols(body, start) {
     end_offset: reader.offset + 1,
     trailing_bytes: body.subarray(reader.offset + 1)
   };
+}
+
+function parseFieldTags(body, start) {
+  if (start >= body.length) return null;
+  const reader = new BodyReader(body, start);
+  const fieldTags = [];
+
+  try {
+    while (reader.offset < body.length && body[reader.offset] !== 0x7a) {
+      const tagId = reader.readU8();
+      const bpOffset = reader.readU8();
+      const valueKind = reader.readU8();
+      const name = reader.readCString();
+      if (!name) return null;
+      fieldTags.push({
+        tag_id: tagId,
+        bp_offset: bpOffset,
+        bp_repr: bpRepr(bpOffset),
+        value_kind: valueKind,
+        name,
+        tag_label: `${tagId.toString(16).padStart(2, "0")}:${bpOffset.toString(16).padStart(2, "0")}${valueKind.toString(16).padStart(2, "0")}->${name}`
+      });
+      if (reader.offset < body.length && body[reader.offset] === 0x00) {
+        reader.offset += 1;
+      }
+    }
+  } catch {
+    return null;
+  }
+
+  if (!fieldTags.length || reader.offset >= body.length || body[reader.offset] !== 0x7a) return null;
+  return {
+    field_tags: fieldTags,
+    end_offset: reader.offset + 1,
+    trailing_bytes: body.subarray(reader.offset + 1)
+  };
+}
+
+function classifyPostRetMetadata(body, ops) {
+  const lastRetIndex = [...ops.keys()].reverse().find((index) => ops[index].mnemonic === "ret");
+  if (lastRetIndex == null) return null;
+
+  const retEnd = ops[lastRetIndex].offset + ops[lastRetIndex].raw_bytes.length / 2;
+  if (body.length - retEnd <= 1) return null;
+
+  const debugResult = parseDebugSymbols(body, retEnd);
+  if (debugResult && debugResult.end_offset === body.length) {
+    return {
+      ops: ops.slice(0, lastRetIndex + 1),
+      end_reason: "debug_symbols_then_end",
+      unknown_trailing: debugResult.trailing_bytes,
+      debug_symbol_offset: retEnd,
+      debug_symbols: debugResult.debug_symbols,
+      field_tags: []
+    };
+  }
+
+  const fieldTagResult = parseFieldTags(body, retEnd);
+  if (fieldTagResult && fieldTagResult.end_offset === body.length) {
+    return {
+      ops: ops.slice(0, lastRetIndex + 1),
+      end_reason: "field_tags_then_end",
+      unknown_trailing: fieldTagResult.trailing_bytes,
+      debug_symbol_offset: null,
+      debug_symbols: [],
+      field_tags: fieldTagResult.field_tags
+    };
+  }
+
+  return null;
 }
 
 function buildLocalNameMap(ir) {
@@ -2121,13 +2309,14 @@ function renderPartiallyStructuredBlocks(blocks) {
   return lines;
 }
 
-function buildIrForEvent(classRow, eventRow, variant, classNameMap) {
+export function buildIrForEvent(classRow, eventRow, variant, classNameMap) {
   const body = classRow.raw.subarray(eventRow.derivedBodyStart, eventRow.derivedBodyEnd);
   const ops = [];
   let offset = 0;
   let endReason = "body_exhausted";
   let unknownTrailing = Buffer.alloc(0);
   let unsupportedOpcodeName = null;
+  let fieldTags = [];
   const targetClassNames = classNameMap;
 
   while (offset < body.length) {
@@ -2148,6 +2337,17 @@ function buildIrForEvent(classRow, eventRow, variant, classNameMap) {
 
   let debugSymbols = [];
   let debugSymbolOffset = null;
+  const postRetMetadata = classifyPostRetMetadata(body, ops);
+  if (postRetMetadata) {
+    debugSymbols = postRetMetadata.debug_symbols;
+    debugSymbolOffset = postRetMetadata.debug_symbol_offset;
+    fieldTags = postRetMetadata.field_tags;
+    endReason = postRetMetadata.end_reason;
+    unknownTrailing = postRetMetadata.unknown_trailing;
+    ops.length = 0;
+    ops.push(...postRetMetadata.ops);
+  }
+
   const lastRetIndex = [...ops.keys()].reverse().find((index) => ops[index].mnemonic === "ret");
   if ((endReason === "unknown_opcode" || endReason === "unsupported_opcode") && lastRetIndex != null) {
     const retEnd = ops[lastRetIndex].offset + ops[lastRetIndex].raw_bytes.length / 2;
@@ -2190,15 +2390,16 @@ function buildIrForEvent(classRow, eventRow, variant, classNameMap) {
       unknown_trailing_bytes: unknownTrailing.toString("hex"),
       decoded_op_count: ops.length,
       debug_symbol_offset: debugSymbolOffset,
-      debug_symbol_count: debugSymbols.length
+      debug_symbol_count: debugSymbols.length,
+      field_tag_count: fieldTags.length
     },
     ops,
     debug_symbols: debugSymbols,
-    field_tags: []
+    field_tags: fieldTags
   };
 }
 
-function renderPseudocode(ir, shapeCatalog) {
+export function renderPseudocode(ir, shapeCatalog) {
   const slotName = sanitizeIdentifier(ir.event.event_name_hint || `slot_${ir.event.slot.toString(16).padStart(2, "0")}`);
   const lines = [
     `function ${sanitizeIdentifier(String(ir.class.class_name).toLowerCase())}_${slotName}() /* entry=${ir.class.entry_index} class_id=0x${ir.class.class_id.toString(16).padStart(4, "0")} slot=0x${ir.event.slot.toString(16).padStart(2, "0")} */`,
@@ -2223,6 +2424,20 @@ function renderPseudocode(ir, shapeCatalog) {
 
   if (ir.body.end_reason === "unsupported_opcode") {
     lines.push(`  /* decompilation stopped at ${ir.body.unsupported_opcode_name ?? "unsupported opcode"} */`);
+  }
+
+  if (ir.debug_symbols.length || ir.field_tags.length) {
+    lines.push("");
+    lines.push("  /* post-return metadata (not executable):");
+    for (const symbol of ir.debug_symbols) {
+      lines.push(
+        `    debug_symbol ${sanitizeIdentifier(symbol.name)} ${symbol.bp_repr} type=0x${symbol.type_id.toString(16).padStart(2, "0")} unk1=0x${(symbol.unknown1 ?? 0).toString(16).padStart(2, "0")} unk3=0x${(symbol.unknown3 ?? 0).toString(16).padStart(2, "0")}`
+      );
+    }
+    for (const tag of ir.field_tags) {
+      lines.push(`    field_tag ${tag.tag_label} (${tag.bp_repr})`);
+    }
+    lines.push("  */");
   }
 
   lines.push("}");
@@ -2273,7 +2488,7 @@ export function ensureGameUsecodeCache(gameConfig) {
 
   fs.mkdirSync(USECODE_CACHE_ROOT, { recursive: true });
   const cacheRoot = getGameUsecodeCacheRoot(gameConfig.id);
-  const stamp = computeSourceStamp(sourcePaths, [USECODE_DECOMPILER_IMPL_PATH, DISASM_OPCODE_TABLE_PATH, ...USECODE_SHAPE_CATALOG_PATHS]);
+  const stamp = computeSourceStamp(sourcePaths, [USECODE_DECOMPILER_IMPL_PATH, USECODE_UNK_EXPORTER_IMPL_PATH, ...USECODE_SHAPE_CATALOG_PATHS]);
   const manifestPath = path.join(cacheRoot, "manifest.json");
   if (fs.existsSync(manifestPath)) {
     try {
@@ -2301,12 +2516,20 @@ export function ensureGameUsecodeCache(gameConfig) {
     const classNameMap = new Map(classRows.map((classRow) => [classRow.classId, classRow.className]));
     const sourceName = path.basename(sourcePath, path.extname(sourcePath));
     const sourceRoot = path.join(cacheRoot, sourceName, "pseudocode");
+    const dataRoot = path.join(cacheRoot, sourceName, ".data");
+    const fallbackDenseLineCount = String(gameConfig.gameId || gameConfig.catalogId || gameConfig.id).startsWith("regret")
+      ? REGRET_DEBUGGER_SYNTHETIC_LINE_FLOOR
+      : 0;
     fs.mkdirSync(sourceRoot, { recursive: true });
+    fs.mkdirSync(dataRoot, { recursive: true });
     const files = [];
+    const unkFiles = [];
+    const unkManifestRows = [];
 
     for (const classRow of classRows) {
       const classDir = path.join(sourceRoot, sanitizeIdentifier(classRow.className));
       fs.mkdirSync(classDir, { recursive: true });
+      const classEvents = [];
       for (const eventRow of classRow.eventRows) {
         if (eventRow.derivedBodyStart == null || eventRow.derivedBodyEnd == null) continue;
         const ir = buildIrForEvent(classRow, eventRow, String(gameConfig.gameId || gameConfig.catalogId || gameConfig.id).startsWith("regret") ? "regret" : "remorse", classNameMap);
@@ -2314,6 +2537,7 @@ export function ensureGameUsecodeCache(gameConfig) {
         const fileName = makeFileNameForEvent(eventRow);
         const outPath = path.join(classDir, fileName);
         fs.writeFileSync(outPath, pseudocode, "utf8");
+        classEvents.push({ ir, pseudocode });
         files.push({
           className: classRow.className,
           rel: `${sanitizeIdentifier(classRow.className)}/${fileName}`,
@@ -2323,10 +2547,46 @@ export function ensureGameUsecodeCache(gameConfig) {
           eventNameHint: eventRow.eventNameHint
         });
       }
+
+      if (classEvents.length) {
+        const unkExport = buildUnkExportForClass({
+          className: classRow.className,
+          entryIndex: classRow.entryIndex,
+          events: classEvents,
+          fallbackDenseLineCount
+        });
+        const unkRel = unkExport.fileName;
+        const unkPath = path.join(dataRoot, unkExport.fileName);
+        fs.writeFileSync(unkPath, unkExport.text, "ascii");
+        unkFiles.push({
+          className: classRow.className,
+          rel: unkRel,
+          name: unkExport.fileName,
+          path: `${sourceName}/.data/${unkRel}`,
+          entryIndex: classRow.entryIndex,
+          debugLineCount: unkExport.manifestRow.debug_line_count,
+          mappedLineCount: unkExport.manifestRow.mapped_line_count,
+          collisionCount: unkExport.manifestRow.collision_count,
+          lineTableMode: unkExport.manifestRow.line_table_mode,
+          lineTableCount: unkExport.manifestRow.line_table_count
+        });
+        unkManifestRows.push({
+          ...unkExport.manifestRow,
+          output_path: unkRel
+        });
+      }
     }
 
     files.sort((left, right) => left.className.localeCompare(right.className) || left.rel.localeCompare(right.rel));
-    index.sources.push({ id: sourceName, label: sourceName, files });
+    unkFiles.sort((left, right) => left.className.localeCompare(right.className) || left.rel.localeCompare(right.rel));
+    writeUnkManifest(path.join(dataRoot, "SYNTH_UNK_MANIFEST.tsv"), unkManifestRows);
+    index.sources.push({
+      id: sourceName,
+      label: sourceName,
+      files,
+      unkFiles,
+      unkManifestPath: `${sourceName}/.data/SYNTH_UNK_MANIFEST.tsv`
+    });
   }
 
   fs.writeFileSync(path.join(cacheRoot, "index.json"), JSON.stringify(index, null, 2), "utf8");

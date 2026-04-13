@@ -1,0 +1,82 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[07:hatch] pop_local_word id
+[07:hatch] call_intrinsic Egg.getEggId(arg_bytes=0x4) ; pop_local_word id ; loopscr value_u8=0x24 ; ...
+//
+//
+[07:hatch] loopscr value_u8=0x25 ; mul ; ...
+[07:hatch] loop current_var=0xfe, string_bytes=0x6, loop_type=0x2 ; jne 0x0095 ; ...
+[07:hatch] call_intrinsic Item.getFrame(arg_bytes=0x4) ; cmp ; jne 0x006b ; ...
+[07:hatch]
+[07:hatch] jmp 0x0097 ; jmp 0x0091
+//
+//
+//
+//
+[07:hatch] spawn FREE.slot_31 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+//
+[07:hatch] ret
+
+/* synthesized appendix for LAZEREGG */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x07 hatch ===== */
+function lazeregg_hatch() /* entry=2318 class_id=0x090c slot=0x07 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    laser, /* [BP-02h] type=0x24 */
+    id; /* [BP-04h] type=0x69 */
+
+  set_info(0x0210, *(arg_06));
+  process_exclude();
+  id = 0;
+  id = Egg.getEggId(arg_06);
+  for laser in nearby_items(shape=IR_SENSOR, origin=arg_06) {
+    if (Item.getFrame(laser) == 1) {
+      return;
+    }
+    else {
+      spawn FREE.slot_31(pid, laser, 0x00000000);
+      suspend;
+    }
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol laser [BP-02h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol id [BP-04h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}

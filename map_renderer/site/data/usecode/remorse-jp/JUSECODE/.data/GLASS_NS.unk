@@ -1,0 +1,151 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[06:gotHit] pop_local_word shot
+//
+//
+[06:gotHit] call_class_event FREE.slot_2c ; not ; jne 0x003a ; ...
+[06:gotHit]
+[06:gotHit] jmp 0x0233
+//
+//
+//
+//
+[06:gotHit] pop_local_word door
+//
+[06:gotHit] spawn ITEM.slot_27 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[06:gotHit]
+[06:gotHit] call_class_event FREE.slot_20 ; jne 0x0093 ; ...
+//
+[06:gotHit] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6) ; jmp 0x00a0 ; ...
+//
+//
+//
+[06:gotHit] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+//
+//
+[06:gotHit] jmp 0x0233
+//
+//
+[06:gotHit] spawn DOOR.slot_22 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[06:gotHit] call_intrinsic Item.getFrame(arg_bytes=0x4) ; not ; jne 0x0233 ; ...
+//
+//
+[06:gotHit] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+//
+[06:gotHit] pop_local_word counter ; le ; jne 0x0131 ; ...
+//
+[06:gotHit] call_intrinsic Item.getPoint(arg_bytes=0x6)
+[06:gotHit] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[06:gotHit] call_intrinsic Item.getZ(arg_bytes=0x4) ; add ; call_intrinsic Item.getY(arg_bytes=0x4) ; ...
+//
+[06:gotHit] call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[06:gotHit] call_intrinsic Item.getZ(arg_bytes=0x4) ; add ; call_intrinsic Item.getY(arg_bytes=0x4) ; ...
+//
+//
+//
+[06:gotHit] call_intrinsic Item.getZ(arg_bytes=0x4) ; add ; call_intrinsic Item.getY(arg_bytes=0x4) ; ...
+//
+[06:gotHit] call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[06:gotHit] call_intrinsic Item.getZ(arg_bytes=0x4) ; add ; call_intrinsic Item.getY(arg_bytes=0x4) ; ...
+//
+//
+[06:gotHit] call_intrinsic Item.setShape(arg_bytes=0x6)
+[06:gotHit] call_intrinsic Item.getPoint(arg_bytes=0x6)
+[06:gotHit] call_intrinsic Item.isInNPC(arg_bytes=0x0)
+//
+[06:gotHit] ret
+
+/* synthesized appendix for GLASS_NS */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x06 gotHit ===== */
+function glass_ns_gotHit() /* entry=757 class_id=0x02f3 slot=0x06 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    vel, /* [BP+12h] type=0x69 */
+    item, /* [BP-02h] type=0x24 */
+    shot, /* [BP-04h] type=0x24 */
+    counter, /* [BP-06h] type=0x69 */
+    door; /* [BP-08h] type=0x24 */
+
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  shot = ref;
+  FREE.slot_2c(vel, ref);
+  if (!retval) {
+    return;
+  }
+  else {
+    door = *(arg_06);
+    spawn ITEM.slot_27(pid, 1, vel, ref, arg_06);
+    suspend;
+    if (!process_result) {
+      FREE.slot_20(1);
+      if (retval) {
+        AudioProcess.playSFXCru(38, arg_06);
+      }
+      else {
+        AudioProcess.playSFXCru(39, arg_06);
+      }
+      return;
+    }
+    else {
+      spawn DOOR.slot_22(pid, door);
+      suspend;
+      if (!Item.getFrame(arg_06)) {
+        AudioProcess.playSFXCru(3, arg_06);
+        counter = 1;
+        while (counter <= 3) {
+          Item.getPoint(counter, arg_06);
+          spawn FREE.slot_32(pid, 5, 0x00000000);
+          suspend;
+          counter = (1 + counter);
+        }
+        if (Item.hurl((Item.getZ(arg_06) + 1), (Item.getY(arg_06) + 96), (Item.getX(arg_06) + 32), 0x027a)) {
+          Item.create(0, 0x027a, item);
+          Item.popToCoords((Item.getZ(arg_06) + 1), (Item.getY(arg_06) + 96), (Item.getX(arg_06) + 32), item);
+        }
+        if (Item.hurl((Item.getZ(arg_06) + 1), (Item.getY(arg_06) - 16), Item.getX(arg_06), 0x0349)) {
+          Item.create(0, 0x0349, item);
+          Item.popToCoords((Item.getZ(arg_06) + 1), (Item.getY(arg_06) - 16), Item.getX(arg_06), item);
+        }
+        Item.setShape(0x02f2, arg_06);
+        Item.getPoint(0, arg_06);
+        Item.isInNPC();
+      }
+    }
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol ref [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol vel [BP+12h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol item [BP-02h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol shot [BP-04h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol counter [BP-06h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol door [BP-08h] type=0x24 unk1=0x00 unk3=0x02
+  */
+}

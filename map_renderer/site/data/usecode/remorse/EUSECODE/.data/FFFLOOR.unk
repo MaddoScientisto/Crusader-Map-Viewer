@@ -1,0 +1,271 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[0A:equip] cmp ; jne 0x00a4 ; loopscr value_u8=0x24 ; ...
+//
+[0A:equip] loopscr value_u8=0x25 ; mul ; ...
+[0A:equip] loop current_var=0xfe, string_bytes=0x6, loop_type=0x2 ; jne 0x006b ; ...
+[0A:equip] call_intrinsic Item.getUnkEggType(arg_bytes=0x4)
+[0A:equip] cmp ; jne 0x0067
+[0A:equip] call_intrinsic Egg.setEggXRange(arg_bytes=0x6) ; loopnext ; jmp 0x003f ; ...
+//
+//
+[0A:equip] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[0A:equip] call_intrinsic Item.orStatus(arg_bytes=0x6) ; jmp 0x02b1 ; ...
+//
+//
+[0A:equip] cmp ; jne 0x010c ; loopscr value_u8=0x24 ; ...
+//
+[0A:equip] loopscr value_u8=0x25 ; mul ; ...
+[0A:equip] loop current_var=0xfe, string_bytes=0x6, loop_type=0x2 ; jne 0x00f8 ; ...
+[0A:equip] call_intrinsic Item.getUnkEggType(arg_bytes=0x4)
+[0A:equip] cmp ; jne 0x00f4
+[0A:equip] call_intrinsic Egg.setEggXRange(arg_bytes=0x6) ; loopnext ; jmp 0x00cc ; ...
+//
+//
+[0A:equip] bit_not ; call_intrinsic Item.andStatus(arg_bytes=0x6) ; jmp 0x02b1 ; ...
+//
+//
+[0A:equip] cmp ; jne 0x0174 ; ...
+//
+[0A:equip] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[0A:equip] loopscr value_u8=0x25 ; mul ; ...
+[0A:equip] loop current_var=0xfc, string_bytes=0x6, loop_type=0x2 ; jne 0x016f ; ...
+[0A:equip] call_intrinsic Item.setFrame(arg_bytes=0x6) ; loopnext ; jmp 0x015b ; ...
+//
+//
+//
+[0A:equip] cmp ; jne 0x0258 ; ...
+//
+[0A:equip] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[0A:equip] loopscr value_u8=0x25 ; mul ; ...
+[0A:equip] loop current_var=0xfe, string_bytes=0x6, loop_type=0x2 ; jne 0x01ee ; ...
+[0A:equip] call_intrinsic Item.getUnkEggType(arg_bytes=0x4)
+[0A:equip] cmp ; jne 0x01ea
+[0A:equip] call_intrinsic Egg.setEggXRange(arg_bytes=0x6) ; loopnext ; jmp 0x01c2 ; ...
+//
+//
+[0A:equip] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[0A:equip] loopscr value_u8=0x25 ; mul ; ...
+[0A:equip] loop current_var=0xfc, string_bytes=0x6, loop_type=0x2 ; jne 0x0253 ; ...
+[0A:equip] call_intrinsic Item.setFrame(arg_bytes=0x6)
+[0A:equip] call_intrinsic Item.touch(arg_bytes=0x4) ; loopnext ; jmp 0x0234 ; ...
+//
+//
+//
+[0A:equip] cmp ; jne 0x02b1 ; loopscr value_u8=0x24 ; ...
+//
+[0A:equip] loopscr value_u8=0x25 ; mul ; ...
+[0A:equip] loop current_var=0xfe, string_bytes=0x6, loop_type=0x2 ; jne 0x02ac ; ...
+[0A:equip] call_intrinsic Item.getUnkEggType(arg_bytes=0x4)
+[0A:equip] cmp ; jne 0x02a8
+[0A:equip] call_intrinsic Egg.setEggXRange(arg_bytes=0x6) ; loopnext ; jmp 0x0280 ; ...
+//
+//
+//
+//
+[0A:equip] ret
+//
+//
+//
+//
+//
+[0B:unequip] call_intrinsic Item.getFrame(arg_bytes=0x4) ; cmp ; jne 0x002f ; ...
+//
+[0B:unequip] jmp 0x00a7 ; loopscr value_u8=0x24 ; loopscr value_u8=0x3d ; ...
+//
+//
+[0B:unequip] loopscr value_u8=0x25 ; mul ; ...
+[0B:unequip] loop current_var=0xfe, string_bytes=0x6, loop_type=0x2 ; jne 0x00a5 ; ...
+[0B:unequip] call_intrinsic Actor.isNPC(arg_bytes=0x4) ; cmp ; jne 0x00a1 ; ...
+//
+[0B:unequip] call_intrinsic Item.overlaps(arg_bytes=0x6) ; jne 0x00a1 ; ...
+//
+[0B:unequip] call_class_event FREE.slot_20 ; spawn NPC.slot_2d ; implies arg0=0x1, arg1=0x1 ; ...
+//
+//
+//
+[0B:unequip] ret
+//
+//
+//
+//
+//
+//
+//
+[06:gotHit] call_intrinsic Item.getFrame(arg_bytes=0x4) ; cmp ; gt ; ...
+[06:gotHit]
+[06:gotHit] jmp 0x00c3
+//
+//
+//
+[06:gotHit] pop_local_word n
+//
+[06:gotHit] call_intrinsic Item.isOn(arg_bytes=0x6) ; jne 0x00c3 ; ...
+//
+[06:gotHit] call_intrinsic Item.getFrame(arg_bytes=0x4) ; cmp ; jne 0x006b ; ...
+//
+[06:gotHit] jmp 0x00c3
+//
+[06:gotHit] call_class_event FREE.slot_20 ; spawn NPC.slot_2d ; implies arg0=0x1, arg1=0x1 ; ...
+[06:gotHit] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[06:gotHit] ret
+
+/* synthesized appendix for FFFLOOR */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x06 gotHit ===== */
+function fffloor_gotHit() /* entry=311 class_id=0x0135 slot=0x06 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    vel, /* [BP+12h] type=0x69 */
+    n; /* [BP-02h] type=0x24 */
+
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  if ((Item.getFrame(arg_06) == 1) || (ref > 0x0100)) {
+    return;
+  }
+  else {
+    n = ref;
+    while (Item.isOn(*(arg_06), n)) {
+      if (Item.getFrame(arg_06) == 1) {
+        return;
+      }
+      else {
+        FREE.slot_20(pid, 8);
+        spawn NPC.slot_2d(retval, *(arg_06), n);
+        suspend;
+        spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+        suspend;
+      }
+    }
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol ref [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol vel [BP+12h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol n [BP-02h] type=0x24 unk1=0x00 unk3=0x02
+  */
+}
+
+/* ===== slot 0x0a equip ===== */
+function fffloor_equip() /* entry=311 class_id=0x0135 slot=0x0a */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    var, /* [BP+10h] type=0x69 */
+    egg, /* [BP-02h] type=0x24 */
+    fffloor; /* [BP-04h] type=0x24 */
+
+  set_info(0x0211, *(arg_06));
+  process_exclude();
+  switch (var) {
+  case 0:
+    for egg in nearby_items(shape=17, origin=arg_06) {
+      if (Item.getUnkEggType(egg) == 2) {
+        Egg.setEggXRange(0, egg);
+      }
+    }
+    spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+    suspend;
+    Item.orStatus(0x1000, arg_06);
+    return;
+  case 1:
+    for egg in nearby_items(shape=17, origin=arg_06) {
+      if (Item.getUnkEggType(egg) == 2) {
+        Egg.setEggXRange(0, egg);
+      }
+    }
+    Item.andStatus((~0x1000), arg_06);
+    return;
+  case 29:
+    spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+    suspend;
+    for fffloor in nearby_items(shape=0x0135, origin=arg_06) {
+      Item.setFrame(1, fffloor);
+    }
+    return;
+  case 30:
+    spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+    suspend;
+    for egg in nearby_items(shape=17, origin=arg_06) {
+      if (Item.getUnkEggType(egg) == 2) {
+        Egg.setEggXRange(1, egg);
+      }
+    }
+    spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+    suspend;
+    for fffloor in nearby_items(shape=0x0135, origin=arg_06) {
+      Item.setFrame(0, fffloor);
+      Item.touch(fffloor);
+    }
+    return;
+  case 31:
+    for egg in nearby_items(shape=17, origin=arg_06) {
+      if (Item.getUnkEggType(egg) == 2) {
+        Egg.setEggXRange(1, egg);
+      }
+    }
+    return;
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol var [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol egg [BP-02h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol fffloor [BP-04h] type=0x24 unk1=0x00 unk3=0x02
+  */
+}
+
+/* ===== slot 0x0b unequip ===== */
+function fffloor_unequip() /* entry=311 class_id=0x0135 slot=0x0b */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    var, /* [BP+10h] type=0x69 */
+    item; /* [BP-02h] type=0x24 */
+
+  set_info(0x0212, *(arg_06));
+  process_exclude();
+  if (Item.getFrame(arg_06) == 1) {
+    return;
+  }
+  else {
+    for item in nearby_items(family=6, origin=arg_06) {
+      if (Actor.isNPC(item) == 1) {
+        if (Item.overlaps(item, arg_06)) {
+          FREE.slot_20(pid, 8);
+          spawn NPC.slot_2d(retval, *(arg_06), item);
+          suspend;
+        }
+      }
+    }
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol var [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol item [BP-02h] type=0x24 unk1=0x00 unk3=0x02
+  */
+}

@@ -1,5 +1,8 @@
 function miss11_hatch() /* entry=2329 class_id=0x0917 slot=0x07 */
 {
+  var
+    referent; /* [BP+00h] type=0x69 */
+
   set_info(0x0210, *(arg_06));
   process_exclude();
   if (Egg.getEggId(arg_06) == 1) {
@@ -17,4 +20,8 @@ function miss11_hatch() /* entry=2329 class_id=0x0917 slot=0x07 */
     return;
   }
   return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+  */
 }

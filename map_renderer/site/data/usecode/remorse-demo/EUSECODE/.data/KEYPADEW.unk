@@ -1,0 +1,89 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[01:use] call_intrinsic Item.getMapArray(arg_bytes=0x4) ; ne ; jne 0x00f6 ; ...
+//
+//
+//
+[01:use] call_intrinsic Item.getStatus(arg_bytes=0x4) ; bit_and ; pop_local_byte alreadyPassed ; ...
+//
+[01:use] cmp ; jne 0x00cc ; ...
+//
+[01:use] call_intrinsic World.getAlertActive(arg_bytes=0x0) ; jne 0x00aa
+//
+[01:use] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+//
+[01:use] call_intrinsic Container.destroyContents(arg_bytes=0x6) ; jne 0x0097 ; ...
+//
+[01:use] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[01:use] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+[01:use] jmp 0x00f6
+//
+//
+[01:use] spawn KEYPAD.slot_20 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+[01:use] spawn TRIGGER.slot_20 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+//
+//
+//
+[01:use] ret
+
+/* synthesized appendix for KEYPADEW */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x01 use ===== */
+function keypadew_use() /* entry=1102 class_id=0x044c slot=0x01 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    alreadyPassed; /* [BP-01h] type=0x62 */
+
+  set_info(0x0207, *(arg_06));
+  process_exclude();
+  if (Item.getMapArray(arg_06) != 0) {
+    alreadyPassed = (Item.getStatus(arg_06) & 4);
+    if (alreadyPassed == 0) {
+      if (World.getAlertActive()) {
+        AudioProcess.playSFXCru(123, arg_06);
+        while (Container.destroyContents(123, arg_06)) {
+          spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+          suspend;
+        }
+        AudioProcess.playSFXCru(121, arg_06);
+        return;
+      }
+      spawn KEYPAD.slot_20(pid, arg_06);
+      suspend;
+    }
+    else {
+      spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
+      suspend;
+    }
+    return;
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol alreadyPassed [BP-01h] type=0x62 unk1=0x00 unk3=0x00
+  */
+}

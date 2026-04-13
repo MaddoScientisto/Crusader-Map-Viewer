@@ -1,0 +1,82 @@
+/* synthesized appendix for NOSTRIL */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x0a equip ===== */
+function nostril_equip() /* entry=1088 class_id=0x043e slot=0x0a */
+{
+  set_info(0x0211, *(arg_06));
+  process_exclude();
+  if (arg_10 == 0) {
+    while (condition) {
+      spawn NOSTRIL.slot_20(local_02, arg_06);
+    }
+    return;
+  }
+  else if (arg_10 == 1) {
+    if (Item.getStatus(arg_06) & 0x1000) {
+      return;
+    }
+    else {
+      ITEM.slot_23(0x1000, arg_06);
+      spawn NOSTRIL.slot_21(arg_06);
+      return;
+    }
+  }
+  return;
+}
+
+/* ===== slot 0x20 slot_20 ===== */
+function nostril_slot_20() /* entry=1088 class_id=0x043e slot=0x20 */
+{
+  set_info(1, *(arg_06));
+  Item.legal_create(11, 0x0515, local_04);
+  getTargetNPCNumMaybe(Item.getZ(arg_06), (Item.getY(arg_06) - 8), (Item.getX(arg_06) - 8), local_04);
+  AudioProcess.playSFXCru(0x0081, local_04);
+  Item.destroy(arg_10);
+  if (PaletteFaderProcess.fadeToColor()) {
+    while (Item.getFrame(local_04) != 21) {
+      spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+      suspend;
+    }
+  }
+  else {
+    spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
+    suspend;
+  }
+  Item.destroy(local_04);
+  ITEM.slot_24(0x1000, arg_06);
+  return;
+}
+
+/* ===== slot 0x21 slot_21 ===== */
+function nostril_slot_21() /* entry=1088 class_id=0x043e slot=0x21 */
+{
+  set_info(1, *(arg_06));
+  spawn FREE.waitNTimerTicks(UCMachine.rndRange(pid, 15, 0), 0x00000000);
+  suspend;
+  Item.legal_create(0, 0x0515, local_02);
+  getTargetNPCNumMaybe(Item.getZ(arg_06), (Item.getY(arg_06) - 8), (Item.getX(arg_06) - 8), local_02);
+  AudioProcess.playSFXCru(117, local_02);
+  if (PaletteFaderProcess.fadeToColor()) {
+    while (Item.getFrame(local_02) != 10) {
+      spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+      suspend;
+    }
+  }
+  else {
+    spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
+    suspend;
+  }
+  Item.legal_create(0, 0x0516, local_04);
+  getTargetNPCNumMaybe(Item.getZ(arg_06), (Item.getY(arg_06) - 8), (Item.getX(arg_06) - 8), local_04);
+  AudioProcess.playAmbientSFXCru(0x0086, local_04);
+  Item.destroy(local_02);
+  if (PaletteFaderProcess.fadeToColor()) {
+    Item.isCentreOn(UCMachine.rndRange(3, 0), local_04);
+    return;
+  }
+  else {
+    Item.isCentreOn(UCMachine.rndRange(10, 6), local_04);
+  }
+  return;
+}

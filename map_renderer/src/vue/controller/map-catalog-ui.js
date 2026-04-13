@@ -91,7 +91,11 @@ export function syncVersionSelection(preferredSelection = null) {
 
   mapSelect.innerHTML = "";
   const placeholder = document.createElement("option");
-  placeholder.textContent = selectedVersion ? "Select a map" : "No detected maps";
+  placeholder.textContent = !selectedVersion
+    ? "No detected maps"
+    : selectedVersion.usecodeOnly
+      ? "No unique maps for this build"
+      : "Select a map";
   placeholder.value = "";
   mapSelect.append(placeholder);
 
@@ -187,7 +191,9 @@ export function populateCatalog(catalog, options) {
   for (const game of catalog.games) {
     const option = document.createElement("option");
     option.value = game.id;
-    option.textContent = `${game.selectorLabel ?? game.label} (${game.mapCount} maps)`;
+    option.textContent = game.usecodeOnly
+      ? `${game.selectorLabel ?? game.label} (USECODE only)`
+      : `${game.selectorLabel ?? game.label} (${game.mapCount} maps)`;
     versionSelect.append(option);
   }
 
@@ -210,6 +216,8 @@ export function populateCatalog(catalog, options) {
   renderCatalogExportButtons(selectedVersion ? [selectedVersion] : [], { downloadByUrl, setStatus });
   if (catalog.games.length === 0) {
     setStatus(isStaticMode() ? "No exported maps were found in the committed static site bundle." : "No usable STATIC folders were detected under the app root.");
+  } else if (selectedVersion?.usecodeOnly) {
+    setStatus(`${selectedVersion.label} has no unique map archive. Use the USECODE tab for this build.`);
   } else {
     setStatus(isStaticMode() ? "Select a version and map to load its prebuilt static scene." : "Select a version and map to build its cached scene immediately.");
   }

@@ -1,0 +1,392 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[01:use] pop_local_word Fusionpac
+//
+//
+[01:use] set_info
+//
+//
+[01:use] global_address global[0x003c] ; call_intrinsic Intrinsic0BB(arg_bytes=0x4) ; pop_local_word lastAnim ; ...
+//
+//
+[01:use] call_intrinsic Ultima8Engine.setAvatarInStasis(arg_bytes=0x2)
+[01:use] global_address global[0x003c] ; call_intrinsic Actor.doAnim(arg_bytes=0x4) ; jne 0x0079 ; ...
+//
+[01:use] loopscr value_u8=0x25 ; mul ; ...
+[01:use] loop current_var=0xf8, string_bytes=0x6, loop_type=0x2 ; jne 0x0159
+[01:use] pop_local_word target
+//
+//
+//
+[01:use] call_class_event FREE.slot_29 ; gt ; ...
+[01:use] ne ; and ; jne 0x0122 ; ...
+[01:use]
+[01:use] call_intrinsic Item.getY(arg_bytes=0x4) ; call_intrinsic Item.getX(arg_bytes=0x4) ; global_address global[0x003c] ; ...
+[01:use] add ; pop_local_word counter ; jmp 0x00a1 ; ...
+//
+//
+[01:use] global_address global[0x003c] ; call_intrinsic Item.getDirToItem(arg_bytes=0x6) ; global_address global[0x003c] ; ...
+[01:use] jmp 0x0159 ; loopnext ; jmp 0x0097 ; ...
+//
+//
+//
+//
+//
+//
+[01:use] pop_local_word xOff ; pop_local_word yOff ; jmp 0x033b ; ...
+//
+//
+//
+[01:use] pop_local_word xOff ; pop_local_word yOff ; jmp 0x033b ; ...
+//
+//
+//
+[01:use] pop_local_word xOff ; pop_local_word yOff ; jmp 0x033b ; ...
+//
+//
+//
+[01:use] pop_local_word xOff ; pop_local_word yOff ; jmp 0x033b ; ...
+//
+//
+//
+[01:use] pop_local_word xOff ; pop_local_word yOff ; jmp 0x033b ; ...
+//
+//
+//
+[01:use] pop_local_word xOff ; pop_local_word yOff ; jmp 0x033b ; ...
+//
+//
+//
+[01:use] pop_local_word xOff ; pop_local_word yOff ; jmp 0x033b ; ...
+//
+//
+//
+[01:use] pop_local_word xOff ; pop_local_word yOff ; jmp 0x033b ; ...
+//
+//
+//
+[01:use] pop_local_word xOff ; pop_local_word yOff ; jmp 0x033b ; ...
+//
+//
+//
+[01:use] pop_local_word xOff ; pop_local_word yOff ; jmp 0x033b ; ...
+//
+//
+//
+[01:use] pop_local_word xOff ; pop_local_word yOff ; jmp 0x033b ; ...
+//
+//
+//
+[01:use] pop_local_word xOff ; pop_local_word yOff ; jmp 0x033b ; ...
+//
+//
+//
+[01:use] pop_local_word xOff ; pop_local_word yOff ; jmp 0x033b ; ...
+//
+//
+//
+[01:use] pop_local_word xOff ; pop_local_word yOff ; jmp 0x033b ; ...
+//
+//
+//
+[01:use] pop_local_word xOff ; pop_local_word yOff ; jmp 0x033b ; ...
+//
+//
+//
+[01:use] pop_local_word xOff ; pop_local_word yOff ; jmp 0x033b ; ...
+//
+//
+//
+//
+//
+//
+[01:use] not ; jne 0x03ad
+[01:use] call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[01:use] call_intrinsic Item.popToCoords(arg_bytes=0xa) ; ...
+[01:use] call_intrinsic Item.setQuality(arg_bytes=0x4)
+[01:use] spawn FREE.slot_21 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[01:use] call_intrinsic Ultima8Engine.setAvatarInStasis(arg_bytes=0x2)
+[01:use] jmp 0x069e ; jmp 0x069e
+//
+//
+//
+//
+[01:use] global_address global[0x003c] ; call_intrinsic AudioProcess.stopSFXCru(arg_bytes=0x4) ; jne 0x03c7 ; ...
+//
+[01:use] pop_local_byte InCrouch ; jmp 0x03fe
+//
+//
+//
+[01:use] pop_local_byte InCrouch
+[01:use] global_address global[0x003c] ; call_intrinsic Actor.getDir(arg_bytes=0x4) ; global_address global[0x003c] ; ...
+//
+//
+[01:use] call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[01:use] global_address global[0x003c] ; call_intrinsic Item.getZ(arg_bytes=0x4) ; global_address global[0x003c] ; ...
+[01:use] pop_local_byte droppedPac
+[01:use] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+[01:use] global_address global[0x003c] ; call_intrinsic Actor.doAnim(arg_bytes=0x4) ; jne 0x048e ; ...
+//
+//
+//
+//
+//
+//
+[01:use] jne 0x069e
+[01:use] call_intrinsic playFlic(arg_bytes=0xc) ; free_stack_string value_u8=0x4, target=[SP+04h] ; implies arg0=0x1, arg1=0x1 ; ...
+[01:use] pop_global global[0x0026]
+[01:use] spawn FREE.slot_24 ; pop_temp ; ...
+[01:use] call_intrinsic Ultima8Engine.setAvatarInStasis(arg_bytes=0x2) ; loopscr value_u8=0x24 ; loopscr value_u8=0x3d ; ...
+//
+//
+[01:use] loopscr value_u8=0x25 ; mul ; ...
+[01:use] loop current_var=0xf8, string_bytes=0x6, loop_type=0x2 ; jne 0x0535
+[01:use] call_intrinsic Item.unequip(arg_bytes=0x4) ; cmp ; jne 0x0531 ; ...
+[01:use]
+[01:use] call_class_event FREE.slot_2f ; loopnext ; jmp 0x050a ; ...
+//
+//
+//
+//
+[01:use] loopscr value_u8=0x42
+[01:use] mul
+[01:use] loop current_var=0xf8, string_bytes=0x6, loop_type=0x2 ; jne 0x057e
+[01:use] call_intrinsic Item.unequip(arg_bytes=0x4) ; cmp ; jne 0x057a ; ...
+[01:use]
+[01:use] call_intrinsic Item.destroy(arg_bytes=0x4) ; loopnext ; jmp 0x0557 ; ...
+//
+//
+//
+//
+[01:use] loopscr value_u8=0x41
+[01:use] mul
+[01:use] loop current_var=0xf8, string_bytes=0x4, loop_type=0x2 ; jne 0x05de
+[01:use] call_intrinsic Item.unequip(arg_bytes=0x4) ; cmp ; jne 0x05da ; ...
+[01:use]
+//
+[01:use] pop_local_word door
+//
+[01:use] spawn DOOR.slot_20 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+[01:use] loopscr value_u8=0x41 ; mul ; ...
+[01:use] loop current_var=0xf8, string_bytes=0x4, loop_type=0x2 ; jne 0x0632
+[01:use] call_intrinsic Item.unequip(arg_bytes=0x4) ; cmp ; jne 0x062e ; ...
+[01:use]
+[01:use] call_intrinsic Item.getPoint(arg_bytes=0x6)
+[01:use] call_intrinsic Item.isOn(arg_bytes=0x6) ; loopnext ; jmp 0x05fb ; ...
+//
+//
+//
+//
+[01:use] loopscr value_u8=0x25 ; mul ; ...
+[01:use] loop current_var=0xf8, string_bytes=0x6, loop_type=0x2 ; jne 0x069c ; ...
+[01:use] call_intrinsic Item.getFrame(arg_bytes=0x4) ; cmp ; call_intrinsic Item.unequip(arg_bytes=0x4) ; ...
+[01:use]
+[01:use] call_intrinsic Ultima8Engine.getAvatarInStasis(arg_bytes=0x6) ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+//
+[01:use] ret
+
+/* synthesized appendix for FUSPAC */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x01 use ===== */
+function fuspac_use() /* entry=926 class_id=0x039c slot=0x01 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    InCrouch, /* [BP-01h] type=0x62 */
+    droppedPac, /* [BP-02h] type=0x62 */
+    Fusionpac, /* [BP-04h] type=0x24 */
+    target, /* [BP-06h] type=0x24 */
+    item, /* [BP-08h] type=0x24 */
+    counter, /* [BP-10h] type=0x69 */
+    lastAnim, /* [BP-12h] type=0x69 */
+    xOff, /* [BP-14h] type=0x69 */
+    yOff, /* [BP-16h] type=0x69 */
+    mine, /* [BP-18h] type=0x24 */
+    door; /* [BP-20h] type=0x24 */
+
+  set_info(0x0207, *(arg_06));
+  process_exclude();
+  Fusionpac = *(arg_06);
+  set_info(0x00f0, 0);
+  lastAnim = Intrinsic0BB(&global[0x003c]);
+  Ultima8Engine.setAvatarInStasis(1);
+  while (Actor.doAnim(&global[0x003c])) {
+    spawn FREE.slot_32(pid, 2, 0x00000000);
+    suspend;
+  }
+  for item in nearby_items(shape=0x053a, origin=global[0x003c]) {
+    target = item;
+    FREE.slot_29(target, global[0x003c]);
+    while ((retval > 3) && (counter != 6)) {
+      spawn NPC.slot_22(MainActor.addItemCru(pid, 1, Item.getY(target), Item.getX(Item.getY(Item.getX(target), &global[0x003c]), &global[0x003c])), &global[0x003c]);
+      suspend;
+      counter = (1 + counter);
+    }
+    suspend;
+  }
+  switch (Actor.getDir(&global[0x003c])) {
+  case 0:
+    xOff = -1;
+    yOff = -3;
+    break;
+  case 1:
+    xOff = 0;
+    yOff = -3;
+    break;
+  case 2:
+    xOff = 1;
+    yOff = -3;
+    break;
+  case 3:
+    xOff = 2;
+    yOff = -2;
+    break;
+  case 4:
+    xOff = 2;
+    yOff = -1;
+    break;
+  case 5:
+    xOff = 2;
+    yOff = 0;
+    break;
+  case 6:
+    xOff = 2;
+    yOff = 2;
+    break;
+  case 7:
+    xOff = 0;
+    yOff = 2;
+    break;
+  case 8:
+    xOff = -1;
+    yOff = 2;
+    break;
+  case 9:
+    xOff = -2;
+    yOff = 2;
+    break;
+  case 10:
+    xOff = -3;
+    yOff = 2;
+    break;
+  case 11:
+    xOff = -3;
+    yOff = 1;
+    break;
+  case 12:
+    xOff = -3;
+    yOff = 0;
+    break;
+  case 13:
+    xOff = -3;
+    yOff = -1;
+    break;
+  case 14:
+    xOff = -3;
+    yOff = -2;
+    break;
+  case 15:
+    xOff = -3;
+    yOff = -3;
+    break;
+  }
+  if (!target) {
+    Item.create(0, FUSION_PAC, mine);
+    Item.popToCoords(0, 0, 0, mine);
+    Item.setQuality(0, mine);
+    spawn FREE.slot_21(pid, 0x00b0, 0x00000000);
+    suspend;
+    Ultima8Engine.setAvatarInStasis(0);
+    return;
+  }
+  else if (AudioProcess.stopSFXCru(&global[0x003c])) {
+    InCrouch = 1;
+  }
+  else {
+    InCrouch = 0;
+    suspend;
+  }
+  Item.create(0, 0x0540, mine);
+  Item.popToCoords((Item.getX((Item.getY(Item.getZ(&global[0x003c]), &global[0x003c]) + (yOff * 16)), &global[0x003c]) + (xOff * 16)), mine);
+  droppedPac = 1;
+  AudioProcess.playSFXCru(0x00d1, arg_06);
+  while (Actor.doAnim(&global[0x003c])) {
+    spawn FREE.slot_32(pid, 2, 0x00000000);
+    suspend;
+  }
+  if (droppedPac) {
+    playFlic(pid, 0x0096, 0x00fa, "7E", arg_06);
+    suspend;
+    spawn FREE.slot_24(100, 0x00000000);
+    Ultima8Engine.setAvatarInStasis(0);
+    for item in nearby_items(shape=0x0476, origin=global[0x003c]) {
+      if (Item.unequip(item) == 33) {
+        FREE.slot_2f(0x03b5, item);
+      }
+    }
+    for item in selector_0x42(arg0=0x032a, arg1=0x0329, arg2=(50 * 32), origin=global[0x003c]) {
+      if (Item.unequip(item) == 10) {
+        Item.destroy(item);
+      }
+    }
+    while (condition) {
+      if (Item.unequip(item) == 10) {
+        door = item;
+        spawn DOOR.slot_20(pid, door);
+        suspend;
+      }
+    }
+    while (condition) {
+      if (Item.unequip(item) == 0x00fb) {
+        Item.getPoint(0, item);
+        Item.isOn(30, item);
+      }
+    }
+    for item in nearby_items(shape=NPC_SPAWNER_04D0, origin=arg_06) {
+      if ((Item.getFrame(item) == 0) && (Item.unequip(item) == 47)) {
+        suspend;
+      }
+    }
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol InCrouch [BP-01h] type=0x62 unk1=0x00 unk3=0x00
+    debug_symbol droppedPac [BP-02h] type=0x62 unk1=0x00 unk3=0x00
+    debug_symbol Fusionpac [BP-04h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol target [BP-06h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol item [BP-08h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol counter [BP-10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol lastAnim [BP-12h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol xOff [BP-14h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol yOff [BP-16h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol mine [BP-18h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol door [BP-20h] type=0x24 unk1=0x00 unk3=0x02
+  */
+}

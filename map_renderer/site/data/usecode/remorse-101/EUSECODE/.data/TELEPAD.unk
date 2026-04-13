@@ -1,0 +1,256 @@
+/* synthesized appendix for TELEPAD */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x06 gotHit ===== */
+function telepad_gotHit() /* entry=477 class_id=0x01db slot=0x06 */
+{
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  local_02 = arg_10;
+  local_04 = *(arg_06);
+  local_08 = PaletteFaderProcess.fadeToBlack(local_04);
+  set_info(1, 0);
+  spawn FREE.waitNTimerTicks(pid, 1, 0x00000000);
+  suspend;
+  FREE.slot_2c(arg_12, arg_10);
+  if (retval) {
+    return;
+  }
+  else if (Actor.isNPC(local_02) == 0) {
+    Item.explode(1, 1, local_02);
+  }
+  if (global[0x0001] == 1) {
+    while (condition) {
+      if (local_10 < 0x0100) {
+        if (local_10 != 1) {
+          Item.receiveHit(8, UCMachine.rndRange(Ultima8Engine.clrCruStasis(local_10), 16, 0), 0, local_10);
+        }
+      }
+    }
+    return;
+  }
+  else if (!Item.getSurfaceWeight(*(arg_06), local_02)) {
+    return;
+  }
+  else if (Item.getShape((local_02 == 1), &global[0x003d]) == 1) {
+    if (local_08 == 0x00ff) {
+      return;
+    }
+    else if ((local_08 > 0) && (local_08 < 30)) {
+      spawn TELEPAD.slot_20(Actor.getMap(local_08, &global[0x003d]), arg_06);
+      return;
+    }
+    else if (local_08 == 30) {
+      spawn TELEPAD.slot_20(30, 40, arg_06);
+      return;
+    }
+    else if (local_08 == 31) {
+      spawn TELEPAD.slot_20(69, 69, arg_06);
+      return;
+    }
+    else if (local_08 == 32) {
+      spawn TELEPAD.slot_20(16, 4, arg_06);
+      return;
+    }
+    else if (local_08 == 33) {
+      spawn TELEPAD.slot_20(17, 3, arg_06);
+      return;
+    }
+    else if (local_08 == 35) {
+      spawn TELEPAD.slot_20(30, 41, arg_06);
+      return;
+    }
+    else if (local_08 == 100) {
+      spawn TELEPAD.slot_20(100, 5, arg_06);
+      return;
+    }
+    else if (local_08 == 101) {
+      spawn TELEPAD.slot_20(101, 5, arg_06);
+      return;
+    }
+    else if (local_08 == 0x0082) {
+      spawn TELEPAD.slot_20(0x0082, 25, arg_06);
+      return;
+    }
+    else if (local_08 == 0x0083) {
+      spawn TELEPAD.slot_20(0x0083, 25, arg_06);
+      return;
+    }
+    else if (local_08 == 0x0084) {
+      spawn TELEPAD.slot_20(0x0082, 25, arg_06);
+      return;
+    }
+    else if (local_08 == 0x0085) {
+      spawn TELEPAD.slot_20(0x0083, 25, arg_06);
+      return;
+    }
+    else if (local_08 == 0x00d7) {
+      spawn TELEPAD.slot_20(0x00d7, 5, arg_06);
+      return;
+    }
+    else if (local_08 == 0x00da) {
+      spawn TELEPAD.slot_20(0x00da, 5, arg_06);
+      return;
+    }
+    else if (local_08 == 0x00db) {
+      spawn TELEPAD.slot_20(0x00db, 5, arg_06);
+      return;
+    }
+    else if (local_08 == 0x00dc) {
+      spawn TELEPAD.slot_20(0x00dc, 5, arg_06);
+      return;
+    }
+    else {
+      return;
+    }
+  }
+  return;
+}
+
+/* ===== slot 0x09 release ===== */
+function telepad_release() /* entry=477 class_id=0x01db slot=0x09 */
+{
+  set_info(0x020d, *(arg_06));
+  process_exclude();
+  while (condition) {
+    if (local_02 == 1) {
+      local_03 = 1;
+    }
+  }
+  return;
+}
+
+/* ===== slot 0x0f enterFastArea ===== */
+function telepad_enterFastArea() /* entry=477 class_id=0x01db slot=0x0f */
+{
+  set_info(0x021b, *(arg_06));
+  process_exclude();
+  if (Item.getFrame(arg_06) < 2) {
+    AudioProcess.playAmbientSFXCru(96, arg_06);
+  }
+  return;
+}
+
+/* ===== slot 0x20 slot_20 ===== */
+function telepad_slot_20() /* entry=477 class_id=0x01db slot=0x20 */
+{
+  set_info(1, 0);
+  if (IItem.getCY(&global[0x003d])) {
+    return;
+  }
+  else {
+    Ultima8Engine.setAvatarInStasis(1);
+    Item.getQuality(&global[0x003d]);
+    spawn NPC.slot_24(pid, &global[0x003d]);
+    suspend;
+    if (arg_10 != 69) {
+      if (Actor.getMap(&global[0x003d]) != arg_10) {
+        suspend;
+        Item.getNpcNum();
+        if (arg_10 == 40) {
+          Item.getQHi();
+          spawn FREE.slot_23(pid, 0x00000000);
+          suspend;
+          spawn FREE.slot_25(pid, 0x00000000);
+          suspend;
+          spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+          suspend;
+          switch (Actor.getMap(&global[0x003d])) {
+          case 1:
+            Item.setMapArray();
+            Item.getDirToCoords(arg_06);
+            Intrinsic08A();
+            Item.getUnkEggType(pid, 0, 0, "R01", arg_06);
+            suspend;
+            Item.setIsBroken();
+            break;
+          case 13:
+            Item.setMapArray();
+            Item.getDirToCoords(arg_06);
+            Intrinsic08A();
+            Item.getUnkEggType(pid, 0, 0, "B01", arg_06);
+            suspend;
+            Item.setIsBroken();
+            break;
+          case 5:
+            Item.setMapArray();
+            Item.getDirToCoords(arg_06);
+            Intrinsic08A();
+            Item.getUnkEggType(pid, 0, 0, "wec", arg_06);
+            suspend;
+            Item.getUnkEggType(pid, 0, 0, "1d", arg_06);
+            suspend;
+            Item.setIsBroken();
+            break;
+          }
+          Item.andStatus(40);
+          return;
+        }
+        if (arg_10 == 41) {
+          Item.getQHi();
+          spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+          suspend;
+          Item.setMapArray();
+          Intrinsic08A();
+          playFlic(pid, 0x0096, 0x00c8, "14a", arg_06);
+          suspend;
+          Item.setIsBroken();
+          spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+          suspend;
+          mouseSomethingResume05F();
+          Item.andStatus(41);
+          return;
+        }
+        if (arg_10) {
+          suspend;
+        }
+        suspend;
+      }
+      else {
+        suspend;
+      }
+    }
+    spawn NPC.slot_23(pid, &global[0x003d]);
+    suspend;
+    if (arg_12 == 69) {
+      local_15 = Item.getY(&global[0x003d]);
+      Item.isCentreOn(8, &global[0x003d]);
+      Item.getQuality(&global[0x003d]);
+      Ultima8Engine.setAvatarInStasis(1);
+      playFlic0D2();
+      AudioProcess.playSFXCru(108, arg_06);
+      Item.legal_create(0, 0x0562, local_11);
+      for local_09 in nearby_items(shape=TELEPAD_RED, origin=global[0x003d]) {
+        local_02 = Item.getX(local_09);
+        local_04 = Item.getY(local_09);
+        local_05 = Item.getZ(local_09);
+      }
+      for local_09 in nearby_items(shape=0x04ee, origin=global[0x003d]) {
+        Item.destroy(local_09);
+      }
+      getTargetNPCNumMaybe(local_05, (local_04 + 16), (local_02 + 16), local_11);
+      Item.touch(local_11);
+      spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+      suspend;
+      clearSomeMovieGlobal();
+      AudioProcess.playSFXCru(52, arg_06);
+      local_07 = 0;
+      while (local_07 <= 40) {
+        Item.isCentreOn(local_07, local_11);
+        spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+        suspend;
+        if (local_07 == 10) {
+          AudioProcess.playSFXCru(98, local_11);
+        }
+        local_07 = (1 + local_07);
+      }
+      Item.andStatus(&global[0x003d]);
+      return;
+    }
+    else {
+      Item.getFootpadData(&global[0x003d]);
+      Ultima8Engine.setAvatarInStasis(0);
+    }
+  }
+  return;
+}

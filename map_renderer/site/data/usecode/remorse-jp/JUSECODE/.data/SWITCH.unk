@@ -1,0 +1,187 @@
+//
+//
+//
+//
+//
+//
+[20:slot_20] call_intrinsic Item.getFrame(arg_bytes=0x4) ; jne 0x0088 ; ...
+//
+[20:slot_20] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+[20:slot_20] pop_local_word counter ; le ; jne 0x0085 ; ...
+//
+[20:slot_20] sub ; call_intrinsic Item.getPoint(arg_bytes=0x6) ; ...
+[20:slot_20] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+//
+[20:slot_20] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+[20:slot_20] pop_local_word counter ; le ; jne 0x00e5 ; ...
+//
+[20:slot_20] call_intrinsic Item.getPoint(arg_bytes=0x6)
+[20:slot_20] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[20:slot_20] ret
+//
+//
+//
+//
+[21:slot_21] call_intrinsic Item.andStatus(arg_bytes=0x4) ; call_intrinsic Item.andStatus(arg_bytes=0x2) ; pop_local_byte okay ; ...
+//
+//
+[21:slot_21] call_intrinsic Item.getFrame(arg_bytes=0x4) ; cmp ; jne 0x00ba ; ...
+//
+[21:slot_21] spawn FREE.slot_21 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[21:slot_21] spawn TRIGGER.slot_20 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[21:slot_21] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[21:slot_21] jmp 0x0257 ; jmp 0x0257
+//
+//
+//
+[21:slot_21] call_intrinsic World.getAlertActive(arg_bytes=0x0) ; jne 0x0128
+//
+[21:slot_21] spawn FREE.slot_21 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[21:slot_21] call_intrinsic UCMachine.rndRange(arg_bytes=0x4) ; gt ; jne 0x0114 ; ...
+[21:slot_21]
+[21:slot_21] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6) ; jmp 0x0122 ; ...
+//
+//
+//
+[21:slot_21] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+//
+//
+[21:slot_21] jmp 0x0257
+//
+//
+//
+//
+[21:slot_21] jne 0x01a7
+[21:slot_21] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+[21:slot_21] call_intrinsic Item.getPoint(arg_bytes=0x6)
+[21:slot_21] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+[21:slot_21] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[21:slot_21] spawn TRIGGER.slot_20 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+//
+[21:slot_21] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+[21:slot_21] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+//
+[21:slot_21] call_intrinsic Container.destroyContents(arg_bytes=0x6) ; jne 0x01fd ; ...
+//
+[21:slot_21] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[21:slot_21] call_intrinsic AudioProcess.playSFXCru(arg_bytes=0x6)
+//
+[21:slot_21] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[21:slot_21] spawn TRIGGER.slot_20 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+[21:slot_21] ret
+
+/* synthesized appendix for SWITCH */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x20 slot_20 ===== */
+function switch_slot_20() /* entry=2587 class_id=0x0a19 slot=0x20 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    counter; /* [BP-02h] type=0x69 */
+
+  set_info(0x0207, *(arg_06));
+  if (Item.getFrame(arg_06)) {
+    AudioProcess.playSFXCru(0x00a7, arg_06);
+    counter = 0;
+    while (counter <= 5) {
+      Item.getPoint((5 - counter), arg_06);
+      spawn FREE.slot_32(pid, 3, 0x00000000);
+      suspend;
+      counter = (1 + counter);
+    }
+    return;
+  }
+  else {
+    AudioProcess.playSFXCru(0x00a5, arg_06);
+    counter = 0;
+    while (counter <= 5) {
+      Item.getPoint(counter, arg_06);
+      spawn FREE.slot_32(pid, 3, 0x00000000);
+      suspend;
+      counter = (1 + counter);
+    }
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol counter [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x21 slot_21 ===== */
+function switch_slot_21() /* entry=2587 class_id=0x0a19 slot=0x21 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    okay; /* [BP-01h] type=0x62 */
+
+  set_info(0x0207, *(arg_06));
+  okay = Item.andStatus(Item.andStatus(arg_06));
+  if (Item.getFrame(arg_06) == 4) {
+    spawn FREE.slot_21(pid, 0x00ad, 0x00000000);
+    suspend;
+    spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
+    suspend;
+    spawn FREE.slot_32(pid, 1, 0x00000000);
+    suspend;
+    return;
+  }
+  else if (World.getAlertActive()) {
+    spawn FREE.slot_21(pid, 0x0090, 0x00000000);
+    suspend;
+    if (UCMachine.rndRange(100, 0) > 50) {
+      AudioProcess.playSFXCru(0x00d5, arg_06);
+    }
+    else {
+      AudioProcess.playSFXCru(0x00e5, arg_06);
+    }
+    return;
+  }
+  else if (okay) {
+    AudioProcess.playSFXCru(50, arg_06);
+    Item.getPoint(4, arg_06);
+    AudioProcess.playSFXCru(122, arg_06);
+    spawn FREE.slot_32(pid, 1, 0x00000000);
+    suspend;
+    spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
+    suspend;
+    return;
+  }
+  else {
+    AudioProcess.playSFXCru(49, arg_06);
+    AudioProcess.playSFXCru(0x0090, arg_06);
+    while (Container.destroyContents(0x0090, arg_06)) {
+      spawn FREE.slot_32(pid, 2, 0x00000000);
+      suspend;
+    }
+    AudioProcess.playSFXCru(12, arg_06);
+    spawn FREE.slot_32(pid, 1, 0x00000000);
+    suspend;
+    spawn TRIGGER.slot_20(pid, 1, *(arg_06), arg_06);
+    suspend;
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol okay [BP-01h] type=0x62 unk1=0x00 unk3=0x00
+  */
+}

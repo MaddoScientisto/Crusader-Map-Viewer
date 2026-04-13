@@ -1,0 +1,167 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[01:use] call_intrinsic Item.getFrame(arg_bytes=0x4) ; gt ; jne 0x0032 ; ...
+[01:use]
+[01:use] jmp 0x020e
+//
+//
+//
+[01:use] call_intrinsic Actor.SetNPCDataField0x63_0E6(arg_bytes=0x4) ; pop_local_word link ; ...
+//
+[01:use] call_intrinsic Item.getMapArray(arg_bytes=0x4) ; ne ; jne 0x0117 ; ...
+//
+[01:use] loopscr value_u8=0x25 ; mul ; ...
+[01:use] loop current_var=0xfc, string_bytes=0x6, loop_type=0x2 ; jne 0x00eb ; ...
+[01:use] call_intrinsic Actor.SetNPCDataField0x63_0E6(arg_bytes=0x4) ; cmp ; cmp ; ...
+[01:use]
+[01:use] call_class_event VALBOX.slot_20 ; pop_local_word passcode ; ...
+[01:use] call_intrinsic Actor.getLastAnimSet(arg_bytes=0x4) ; call_intrinsic Actor.SetNPCDataField0x63_0E6(arg_bytes=0x4) ; call_class_event TEXTFILE.slot_23 ; ...
+[01:use] spawn TEXTFILE.slot_20 ; free_stack_string value_u8=0x0, target=[SP+00h] ; implies arg0=0x1, arg1=0x1 ; ...
+//
+//
+[01:use] spawn TRIGGER.slot_20 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[01:use] loopscr value_u8=0x25 ; mul ; ...
+[01:use] loop current_var=0xfc, string_bytes=0x6, loop_type=0x2 ; jne 0x016d ; ...
+[01:use] call_intrinsic Actor.SetNPCDataField0x63_0E6(arg_bytes=0x4)
+[01:use] cmp ; jne 0x0169
+[01:use] call_class_event VALBOX.slot_20 ; pop_local_word passcode ; ...
+//
+[01:use] add ; pop_local_word boxCounter ; loopnext ; ...
+//
+//
+//
+[01:use] call_intrinsic Actor.getLastAnimSet(arg_bytes=0x4) ; call_intrinsic Actor.SetNPCDataField0x63_0E6(arg_bytes=0x4) ; call_class_event TEXTFILE.slot_23 ; ...
+//
+[01:use] gt ; jne 0x01e9 ; ...
+[01:use]
+//
+[01:use] free_local_string textFile ; pop_local_word textFile
+//
+//
+[01:use] spawn TEXTFILE.slot_20 ; free_stack_string value_u8=0x0, target=[SP+00h] ; implies arg0=0x1, arg1=0x1 ; ...
+//
+[01:use] ret
+//
+//
+//
+//
+//
+//
+//
+[06:gotHit] ret
+
+/* synthesized appendix for MONITNS */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x01 use ===== */
+function monitns_use() /* entry=260 class_id=0x0102 slot=0x01 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    textFile, /* [BP-02h] type=0x73 */
+    valueBox, /* [BP-04h] type=0x24 */
+    passcode, /* [BP-06h] type=0x69 */
+    link, /* [BP-08h] type=0x69 */
+    boxCounter; /* [BP-10h] type=0x69 */
+
+  set_info(0x0207, *(arg_06));
+  process_exclude();
+  if (Item.getFrame(arg_06) > 1) {
+    return;
+  }
+  else {
+    link = Actor.SetNPCDataField0x63_0E6(arg_06);
+    if (Item.getMapArray(arg_06) != 0) {
+      for valueBox in nearby_items(shape=VALUEBOX, origin=arg_06) {
+        if ((Actor.SetNPCDataField0x63_0E6(valueBox) == link) || (link == 0)) {
+          VALBOX.slot_20(valueBox);
+          passcode = retval;
+          TEXTFILE.slot_23(passcode, Actor.getLastAnimSet(valueBox), Actor.SetNPCDataField0x63_0E6(valueBox), arg_06);
+          textFile = retval;
+          spawn TEXTFILE.slot_20(pid, textFile, arg_06);
+          suspend;
+        }
+      }
+      spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
+      suspend;
+      return;
+    }
+    else {
+      for valueBox in nearby_items(shape=VALUEBOX, origin=arg_06) {
+        if (Actor.SetNPCDataField0x63_0E6(valueBox) == link) {
+          VALBOX.slot_20(valueBox);
+          passcode = retval;
+          boxCounter = (1 + boxCounter);
+        }
+      }
+      TEXTFILE.slot_23(passcode, Actor.getLastAnimSet(arg_06), Actor.SetNPCDataField0x63_0E6(arg_06), arg_06);
+      textFile = retval;
+      if (boxCounter > 1) {
+        textFile = "There is more than one Value box in range with the same link";
+      }
+      spawn TEXTFILE.slot_20(pid, textFile, arg_06);
+      suspend;
+    }
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol textFile [BP-02h] type=0x73 unk1=0x00 unk3=0x00
+    debug_symbol valueBox [BP-04h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol passcode [BP-06h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol link [BP-08h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol boxCounter [BP-10h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x06 gotHit ===== */
+function monitns_gotHit() /* entry=260 class_id=0x0102 slot=0x06 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    vel; /* [BP+12h] type=0x69 */
+
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol ref [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol vel [BP+12h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}

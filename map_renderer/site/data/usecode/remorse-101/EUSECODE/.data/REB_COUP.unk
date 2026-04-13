@@ -1,0 +1,69 @@
+/* synthesized appendix for REB_COUP */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x0a equip ===== */
+function reb_coup_equip() /* entry=847 class_id=0x034d slot=0x0a */
+{
+  set_info(0x0211, *(arg_06));
+  process_exclude();
+  FREE.slot_33(0x021b, *(arg_06));
+  if (arg_10) {
+    if (Item.getStatus(arg_06) & 0x1000) {
+      return;
+    }
+    ITEM.slot_23(0x1000, arg_06);
+    local_02 = Item.getFrame(arg_06);
+    while (local_02 <= 9) {
+      Item.isCentreOn(local_02, arg_06);
+      spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+      suspend;
+      local_02 = (1 + local_02);
+    }
+    return;
+  }
+  else {
+    local_02 = 0;
+    while (local_02 <= 9) {
+      Item.isCentreOn((9 - local_02), arg_06);
+      spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+      suspend;
+      local_02 = (1 + local_02);
+    }
+    ITEM.slot_24(0x1000, arg_06);
+    spawn REB_COUP.enterFastArea(arg_06);
+  }
+  return;
+}
+
+/* ===== slot 0x0f enterFastArea ===== */
+function reb_coup_enterFastArea() /* entry=847 class_id=0x034d slot=0x0f */
+{
+  entry:
+    set_info(0x021b, *(arg_06));
+    process_exclude();
+
+  while (true) {
+    suspend;
+    spawn FREE.waitNTimerTicks(UCMachine.rndRange(pid, 60, 30), 0x00000000);
+    suspend;
+    local_02 = 0;
+    while (local_02 <= 4) {
+      Item.isCentreOn(local_02, arg_06);
+      spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+      suspend;
+      local_02 = (1 + local_02);
+    }
+    spawn FREE.waitNTimerTicks(UCMachine.rndRange(pid, 60, 30), 0x00000000);
+    suspend;
+    local_02 = 0;
+    while (local_02 <= 4) {
+      Item.isCentreOn((4 - local_02), arg_06);
+      spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+      suspend;
+      local_02 = (1 + local_02);
+    }
+  }
+
+  return;
+
+}

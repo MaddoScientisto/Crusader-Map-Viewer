@@ -1,0 +1,76 @@
+/* synthesized appendix for RFANNS */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x06 gotHit ===== */
+function rfanns_gotHit() /* entry=191 class_id=0x00bd slot=0x06 */
+{
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  FREE.slot_2b(arg_12, arg_10);
+  if (retval) {
+    local_06 = Actor.getDefaultActivity2(arg_06);
+    AudioProcess.stopSFXCru(6, arg_06);
+    for local_02 in nearby_items(shape=WIND_AREA, origin=arg_06) {
+      local_04 = Actor.getDefaultActivity2(local_02);
+      if (local_04 == local_06) {
+        Item.destroy(local_02);
+      }
+    }
+  }
+  return;
+}
+
+/* ===== slot 0x0a equip ===== */
+function rfanns_equip() /* entry=191 class_id=0x00bd slot=0x0a */
+{
+  set_info(0x0211, *(arg_06));
+  process_exclude();
+  if (Item.getStatus(arg_06) & 0x1000) {
+    return;
+  }
+  else if (arg_10 == 0) {
+    ITEM.slot_23(0x1000, arg_06);
+    local_02 = Item.getFrame(arg_06);
+    local_02 = (1 + local_02);
+    Item.setShape(0x03d3, arg_06);
+    Item.isCentreOn(local_02, arg_06);
+    local_06 = 1;
+    spawn FREE.waitNTimerTicks(pid, local_06, 0x00000000);
+    suspend;
+    local_04 = 1;
+    while (local_04 <= 15) {
+      local_02 = (1 + local_02);
+      if (local_02 > 5) {
+        local_02 = 1;
+      }
+      Item.isCentreOn(local_02, arg_06);
+      local_06 = (local_06 + 1);
+      spawn FREE.waitNTimerTicks(pid, local_06, 0x00000000);
+      suspend;
+      if (local_06 == 4) {
+        for local_10 in nearby_items(shape=WIND_AREA, origin=arg_06) {
+          if (Actor.getDefaultActivity2(local_10) == Actor.getDefaultActivity2(arg_06)) {
+            spawn FREE.slot_31(pid, local_10, 0x00000000);
+            suspend;
+          }
+        }
+      }
+      local_04 = (1 + local_04);
+    }
+    ITEM.slot_24(0x1000, arg_06);
+    Item.legal_create(Item.getFrame(arg_06), 0x03d3, local_08);
+    Item.andStatus(Actor.getDefaultActivity2(arg_06), local_08);
+    getTargetNPCNumMaybe(Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06), local_08);
+    Item.destroy(arg_06);
+  }
+  return;
+}
+
+/* ===== slot 0x0f enterFastArea ===== */
+function rfanns_enterFastArea() /* entry=191 class_id=0x00bd slot=0x0f */
+{
+  set_info(0x021b, *(arg_06));
+  process_exclude();
+  AudioProcess.playAmbientSFXCru(6, arg_06);
+  return;
+}

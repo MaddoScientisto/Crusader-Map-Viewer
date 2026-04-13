@@ -1,0 +1,227 @@
+/* synthesized appendix for SPIDER */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x20 slot_20 ===== */
+function spider_slot_20() /* entry=2582 class_id=0x0a14 slot=0x20 */
+{
+  set_info(1, *(arg_06));
+  if (!arg_10) {
+    ITEM.slot_23(4, arg_06);
+    return;
+  }
+  else if (Item.getStatus(arg_06) & 0x1000) {
+    return;
+  }
+  else {
+    ITEM.slot_23(0x1000, arg_06);
+    local_13 = arg_10;
+    while (local_13 >= 10) {
+      local_13 = (local_13 - 10);
+    }
+    suspend;
+    while (true) {
+      suspend;
+      if (Actor.getLastAnimSet() != 0) {
+        local_04 = Actor.getLastAnimSet();
+      }
+      else {
+        local_04 = global[0x003d];
+      }
+      while ((Item.getZ(local_04) > (Item.getZ(arg_06) + 16)) || (Item.getZ(local_04) < (Item.getZ(arg_06) - 16))) {
+        spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+        suspend;
+      }
+      if ((Item.getStatus(arg_06) & 4) || (Item.getFrame(arg_06) > 0)) {
+        ITEM.slot_24(4, arg_06);
+        ITEM.slot_24(0x1000, arg_06);
+        return;
+      }
+      else {
+        Item.legal_create(0, 0x0445, local_02);
+        getTargetNPCNumMaybe((Item.getZ(arg_06) + 1), (Item.getY(arg_06) - 8), (Item.getX(arg_06) - 8), local_02);
+        AudioProcess.playSFXCru(99, arg_06);
+        local_11 = 0;
+        while (local_11 <= 5) {
+          Item.isCentreOn(local_11, local_02);
+          spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+          suspend;
+          local_11 = (1 + local_11);
+        }
+        Item.setShape(0x0392, local_02);
+        Item.orStatus(0x0080, local_02);
+        Item.isCentreOn(0, local_02);
+        local_11 = 1;
+        while (local_11 <= 9) {
+          Item.isCentreOn(local_11, local_02);
+          spawn FREE.waitNTimerTicks(pid, 5, 0x00000000);
+          suspend;
+          local_11 = (1 + local_11);
+        }
+        while (CameraProcess.setCenterOn(local_04, arg_06) == 0) {
+          spawn FREE.waitNTimerTicks(pid, 60, 0x00000000);
+          suspend;
+        }
+        spawn SPIDER.slot_21(pid, local_13, local_04, local_02, local_02);
+        suspend;
+        if (arg_10 < 99) {
+          ITEM.slot_24(0x1000, arg_06);
+          return;
+        }
+      }
+    }
+  }
+  return;
+}
+
+/* ===== slot 0x21 slot_21 ===== */
+function spider_slot_21() /* entry=2582 class_id=0x0a14 slot=0x21 */
+{
+  set_info(1, arg_10);
+  local_02 = arg_12;
+  AudioProcess.playAmbientSFXCru(91, arg_06);
+  Item.setShape(0x0391, arg_06);
+  Item.isCentreOn(0, arg_06);
+  while ((arg_14 - 1) > 0) {
+    local_04 = ((Item.getX(local_02) - Item.getX(arg_06)) >> 1);
+    local_06 = ((Item.getY(local_02) - Item.getY(arg_06)) >> 1);
+    spawn SPIDER.slot_22(pid, (Game.getDifficultyLevel() + 5), Item.getZ(arg_06), (local_06 + Item.getY(arg_06)), (local_04 + Item.getX(arg_06)), arg_06);
+    suspend;
+    arg_14 = (arg_14 - 1);
+  }
+  spawn SPIDER.slot_22(pid, (Game.getDifficultyLevel() + 5), Item.getZ(arg_06), Item.getY(local_02), Item.getX(local_02), arg_06);
+  suspend;
+  Item.explode(1, 2, arg_06);
+  return;
+}
+
+/* ===== slot 0x22 slot_22 ===== */
+function spider_slot_22() /* entry=2582 class_id=0x0a14 slot=0x22 */
+{
+  set_info(0x00f0, *(arg_06));
+  local_07 = Item.getX(arg_06);
+  local_09 = Item.getY(arg_06);
+  local_10 = Item.getZ(arg_06);
+  local_12 = ((arg_10 - local_07) + 1);
+  local_14 = ((arg_12 - local_09) + 1);
+  local_16 = 0;
+  local_18 = 1;
+  local_28 = arg_16;
+  local_30 = 0;
+  local_32 = 1;
+  FREE.slot_3f(local_12);
+  FREE.slot_3f(retval, local_14);
+  if (retval) {
+    local_32 = 0;
+  }
+  if (local_32 == 0) {
+    FREE.slot_3f(((local_14 / local_12) * local_12));
+    local_22 = retval;
+    FREE.slot_3f((local_14 % local_12));
+    local_20 = retval;
+    if (local_12 < 0) {
+      local_28 = (-1 * arg_16);
+    }
+    if (local_14 < 0) {
+      local_18 = -1;
+    }
+    FREE.slot_3f(local_12);
+    local_24 = retval;
+  }
+  else {
+    FREE.slot_3f(((local_12 / local_14) * local_14));
+    local_22 = retval;
+    FREE.slot_3f((local_12 % local_14));
+    local_20 = retval;
+    if (local_14 < 0) {
+      local_28 = (-1 * arg_16);
+    }
+    if (local_12 < 0) {
+      local_18 = -1;
+    }
+    FREE.slot_3f(local_14);
+    local_24 = retval;
+  }
+  suspend;
+  spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+  suspend;
+  local_36 = (local_10 & 0x00ff);
+  local_34 = (arg_14 & 0x00ff);
+  while (true) {
+    suspend;
+    spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+    suspend;
+    local_36 = (local_10 & 0x00ff);
+    local_34 = (arg_14 & 0x00ff);
+    if (local_36 != local_34) {
+      FREE.slot_3f((local_34 - local_36));
+      local_38 = ((retval / 20) + 1);
+      if (local_38 == 0) {
+        local_38 = 1;
+      }
+      if (local_36 < local_34) {
+        local_10 = (local_10 + local_38);
+      }
+      else {
+        local_36 = (local_36 - local_38);
+        local_10 = (local_36 & 0x00ff);
+      }
+    }
+    if (local_30 >= local_24) {
+      if (local_36 > (local_34 - 2)) {
+        if (local_36 < (local_34 + 2)) {
+          process_result = 1;
+          return;
+        }
+      }
+      local_05 = local_07;
+      local_03 = local_09;
+      local_01 = local_10;
+      if (!legalMoveToPoint(0, 1, local_05, arg_06)) {
+        process_result = 0;
+        return;
+      }
+    }
+    else {
+      local_30 = (local_30 + arg_16);
+      if (local_32 == 0) {
+        local_05 = local_07;
+        local_03 = local_09;
+        local_01 = local_10;
+        if (!legalMoveToPoint(0, 1, local_05, arg_06)) {
+          process_result = 0;
+          return;
+        }
+        local_07 = (local_07 + local_28);
+        local_26 = 1;
+        while (local_26 <= arg_16) {
+          local_16 = (local_16 + (local_20 + local_22));
+          if (local_16 >= local_24) {
+            local_16 = (local_16 - local_24);
+            local_09 = (local_09 + local_18);
+          }
+          local_26 = (1 + local_26);
+        }
+      }
+      else {
+        local_05 = local_07;
+        local_03 = local_09;
+        local_01 = local_10;
+        if (!legalMoveToPoint(0, 1, local_05, arg_06)) {
+          process_result = 0;
+          return;
+        }
+        local_09 = (local_09 + local_28);
+        local_26 = 1;
+        while (local_26 <= arg_16) {
+          local_16 = (local_16 + (local_20 + local_22));
+          if (local_16 >= local_24) {
+            local_16 = (local_16 - local_24);
+            local_07 = (local_07 + local_18);
+          }
+          local_26 = (1 + local_26);
+        }
+      }
+    }
+  }
+  return;
+}

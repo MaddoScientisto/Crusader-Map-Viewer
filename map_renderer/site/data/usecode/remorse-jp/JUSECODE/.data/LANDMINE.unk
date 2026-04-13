@@ -1,0 +1,377 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[01:use] pop_local_word landMine
+//
+[01:use] global_address global[0x003c] ; call_intrinsic Actor.getMap(arg_bytes=0x4) ; cmp ; ...
+[01:use]
+//
+[01:use] call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[01:use] call_intrinsic Item.popToCoords(arg_bytes=0xa) ; ...
+[01:use] call_intrinsic Item.setQuality(arg_bytes=0x4)
+//
+[01:use] jmp 0x042e
+//
+//
+[01:use] set_info
+//
+//
+//
+//
+[01:use] call_intrinsic Ultima8Engine.setAvatarInStasis(arg_bytes=0x2)
+[01:use] global_address global[0x003c] ; call_intrinsic Actor.doAnim(arg_bytes=0x4) ; jne 0x00b4 ; ...
+//
+//
+//
+//
+//
+//
+[01:use] pop_local_word xOff ; pop_local_word yOff ; jmp 0x0294 ; ...
+//
+//
+//
+[01:use] pop_local_word xOff ; pop_local_word yOff ; jmp 0x0294 ; ...
+//
+//
+//
+[01:use] pop_local_word xOff ; pop_local_word yOff ; jmp 0x0294 ; ...
+//
+//
+//
+[01:use] pop_local_word xOff ; pop_local_word yOff ; jmp 0x0294 ; ...
+//
+//
+//
+[01:use] pop_local_word xOff ; pop_local_word yOff ; jmp 0x0294 ; ...
+//
+//
+//
+[01:use] pop_local_word xOff ; pop_local_word yOff ; jmp 0x0294 ; ...
+//
+//
+//
+[01:use] pop_local_word xOff ; pop_local_word yOff ; jmp 0x0294 ; ...
+//
+//
+//
+[01:use] pop_local_word xOff ; pop_local_word yOff ; jmp 0x0294 ; ...
+//
+//
+//
+[01:use] pop_local_word xOff ; pop_local_word yOff ; jmp 0x0294 ; ...
+//
+//
+//
+[01:use] pop_local_word xOff ; pop_local_word yOff ; jmp 0x0294 ; ...
+//
+//
+//
+[01:use] pop_local_word xOff ; pop_local_word yOff ; jmp 0x0294 ; ...
+//
+//
+//
+[01:use] pop_local_word xOff ; pop_local_word yOff ; jmp 0x0294 ; ...
+//
+//
+//
+[01:use] pop_local_word xOff ; pop_local_word yOff ; jmp 0x0294 ; ...
+//
+//
+//
+[01:use] pop_local_word xOff ; pop_local_word yOff ; jmp 0x0294 ; ...
+//
+//
+//
+[01:use] pop_local_word xOff ; pop_local_word yOff ; jmp 0x0294 ; ...
+//
+//
+//
+[01:use] pop_local_word xOff ; pop_local_word yOff ; jmp 0x0294 ; ...
+//
+//
+//
+[01:use] global_address global[0x003c] ; call_intrinsic AudioProcess.stopSFXCru(arg_bytes=0x4) ; jne 0x02ae ; ...
+//
+[01:use] pop_local_byte InCrouch ; jmp 0x02e5
+//
+//
+//
+[01:use] pop_local_byte InCrouch
+[01:use] global_address global[0x003c] ; call_intrinsic Actor.getDir(arg_bytes=0x4) ; global_address global[0x003c] ; ...
+//
+//
+//
+//
+//
+//
+//
+[01:use] global_address global[0x003c] ; call_intrinsic Item.getX(arg_bytes=0x4) ; mul ; ...
+[01:use] global_address global[0x003c] ; call_intrinsic Item.getY(arg_bytes=0x4) ; mul ; ...
+[01:use] global_address global[0x003c] ; call_intrinsic Item.getZ(arg_bytes=0x4) ; pop_local_byte local_12 ; ...
+//
+[01:use] call_intrinsic playFlicsomething(arg_bytes=0xc) ; jne 0x0342 ; ...
+//
+[01:use] call_intrinsic CameraProcess.moveTo(arg_bytes=0x4) ; jmp 0x03ba
+//
+//
+//
+//
+[01:use] call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[01:use] call_intrinsic Item.popToCoords(arg_bytes=0xa) ; ...
+[01:use] call_intrinsic Item.setQuality(arg_bytes=0x4)
+//
+//
+[01:use] not ; jne 0x03a9
+[01:use] global_address global[0x003c] ; call_intrinsic Actor.getDir(arg_bytes=0x4) ; global_address global[0x003c] ; ...
+//
+//
+[01:use] call_intrinsic Ultima8Engine.setAvatarInStasis(arg_bytes=0x2)
+[01:use] jmp 0x042e
+//
+//
+//
+[01:use] not ; jne 0x03f3
+[01:use] global_address global[0x003c] ; call_intrinsic Actor.getDir(arg_bytes=0x4) ; global_address global[0x003c] ; ...
+//
+//
+[01:use] global_address global[0x003c] ; call_intrinsic Actor.getDir(arg_bytes=0x4) ; global_address global[0x003c] ; ...
+[01:use] call_intrinsic Ultima8Engine.setAvatarInStasis(arg_bytes=0x2)
+//
+[01:use] ret
+//
+//
+//
+//
+//
+[06:gotHit] cmp ; jne 0x002b ; ...
+[06:gotHit]
+[06:gotHit] jmp 0x0099
+//
+//
+//
+[06:gotHit] call_class_event FREE.slot_2c ; pop_local_word hType ; ...
+//
+//
+[06:gotHit] jne 0x0070
+[06:gotHit] push_local_word hType
+[06:gotHit] cmp ; jne 0x005e
+[06:gotHit] jmp 0x0099 ; jmp 0x006d
+//
+//
+//
+[06:gotHit] call_intrinsic Item.explode(arg_bytes=0x8) ; jmp 0x0099 ; ...
+//
+//
+//
+//
+//
+[06:gotHit] pop_local_word item
+//
+[06:gotHit] call_intrinsic Actor.setActivity(arg_bytes=0x6) ; jne 0x0099 ; ...
+//
+[06:gotHit] call_intrinsic Item.explode(arg_bytes=0x8) ; ...
+//
+//
+//
+[06:gotHit] ret
+
+/* synthesized appendix for LANDMINE */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x01 use ===== */
+function landmine_use() /* entry=924 class_id=0x039a slot=0x01 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    InCrouch, /* [BP-01h] type=0x62 */
+    landMine, /* [BP-03h] type=0x24 */
+    item, /* [BP-05h] type=0x24 */
+    xOff, /* [BP-07h] type=0x69 */
+    yOff, /* [BP-09h] type=0x69 */
+    mine, /* [BP-11h] type=0x24 */
+    wp; /* [BP-16h] type=0x24 */
+
+  set_info(0x0207, *(arg_06));
+  process_exclude();
+  landMine = *(arg_06);
+  if (Actor.getMap(&global[0x003c]) == 40) {
+    Item.create(0, LAND_MINE, item);
+    Item.popToCoords(0, 0, 0, item);
+    Item.setQuality(0, item);
+    return;
+  }
+  else {
+    set_info(0x00f0, 0);
+    Ultima8Engine.setAvatarInStasis(1);
+    while (Actor.doAnim(&global[0x003c])) {
+      spawn FREE.slot_32(pid, 2, 0x00000000);
+      suspend;
+    }
+    switch (Actor.getDir(&global[0x003c])) {
+    case 0:
+      xOff = -1;
+      yOff = -3;
+      break;
+    case 1:
+      xOff = 0;
+      yOff = -3;
+      break;
+    case 2:
+      xOff = 2;
+      yOff = -3;
+      break;
+    case 3:
+      xOff = 2;
+      yOff = -2;
+      break;
+    case 4:
+      xOff = 2;
+      yOff = -1;
+      break;
+    case 5:
+      xOff = 2;
+      yOff = 0;
+      break;
+    case 6:
+      xOff = 2;
+      yOff = 2;
+      break;
+    case 7:
+      xOff = 0;
+      yOff = 2;
+      break;
+    case 8:
+      xOff = -1;
+      yOff = 2;
+      break;
+    case 9:
+      xOff = -2;
+      yOff = 2;
+      break;
+    case 10:
+      xOff = -3;
+      yOff = 2;
+      break;
+    case 11:
+      xOff = -3;
+      yOff = 1;
+      break;
+    case 12:
+      xOff = -3;
+      yOff = 0;
+      break;
+    case 13:
+      xOff = -3;
+      yOff = -1;
+      break;
+    case 14:
+      xOff = -3;
+      yOff = -2;
+      break;
+    case 15:
+      xOff = -3;
+      yOff = -3;
+      break;
+    }
+    if (AudioProcess.stopSFXCru(&global[0x003c])) {
+      InCrouch = 1;
+    }
+    else {
+      InCrouch = 0;
+      suspend;
+    }
+    wp = (Item.getX(&global[0x003c]) + (xOff * 16));
+    local_14 = (Item.getY(&global[0x003c]) + (yOff * 16));
+    local_12 = Item.getZ(&global[0x003c]);
+    if (playFlicsomething(wp, 0, 0x039a, mine)) {
+      CameraProcess.moveTo(mine);
+    }
+    else {
+      Item.create(0, LAND_MINE, item);
+      Item.popToCoords(0, 0, 0, item);
+      Item.setQuality(0, item);
+      if (!InCrouch) {
+        suspend;
+      }
+      Ultima8Engine.setAvatarInStasis(0);
+      return;
+    }
+    if (!InCrouch) {
+      suspend;
+    }
+    suspend;
+    Ultima8Engine.setAvatarInStasis(0);
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol InCrouch [BP-01h] type=0x62 unk1=0x00 unk3=0x00
+    debug_symbol landMine [BP-03h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol item [BP-05h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol xOff [BP-07h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol yOff [BP-09h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol mine [BP-11h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol wp [BP-16h] type=0x24 unk1=0x00 unk3=0x05
+  */
+}
+
+/* ===== slot 0x06 gotHit ===== */
+function landmine_gotHit() /* entry=924 class_id=0x039a slot=0x06 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    vel, /* [BP+12h] type=0x69 */
+    hType, /* [BP-02h] type=0x69 */
+    item; /* [BP-04h] type=0x24 */
+
+  set_info(0x020c, *(arg_06));
+  process_exclude();
+  if (ref == 1) {
+    return;
+  }
+  else {
+    FREE.slot_2c(vel, ref);
+    hType = retval;
+    if (hType) {
+      if (hType == 4) {
+        return;
+      }
+      else {
+        Item.explode(1, 1, arg_06);
+      }
+      return;
+    }
+    else {
+      item = ref;
+      if (Actor.setActivity(*(arg_06), item)) {
+        Item.explode(1, 2, arg_06);
+      }
+    }
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol ref [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol vel [BP+12h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol hType [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol item [BP-04h] type=0x24 unk1=0x00 unk3=0x02
+  */
+}

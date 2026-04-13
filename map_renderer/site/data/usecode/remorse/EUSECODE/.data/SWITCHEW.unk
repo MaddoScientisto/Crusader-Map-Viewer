@@ -1,0 +1,57 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[01:use] spawn SWITCH.slot_20 ; pop_temp ; ...
+//
+[01:use] call_intrinsic Item.getMapArray(arg_bytes=0x4) ; ne ; jne 0x009a ; ...
+//
+[01:use] call_intrinsic Item.getFrame(arg_bytes=0x4) ; cmp ; jne 0x0073 ; ...
+//
+[01:use] spawn TRIGGER.slot_20 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+[01:use] spawn TRIGGER.slot_20 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[01:use] ret
+
+/* synthesized appendix for SWITCHEW */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x01 use ===== */
+function switchew_use() /* entry=99 class_id=0x0061 slot=0x01 */
+{
+  var
+    referent; /* [BP+00h] type=0x69 */
+
+  set_info(0x0207, *(arg_06));
+  process_exclude();
+  spawn SWITCH.slot_20(arg_06);
+  if (Item.getMapArray(arg_06) != 0) {
+    if (Item.getFrame(arg_06) == 0) {
+      spawn TRIGGER.slot_20(pid, 0, *(arg_06), arg_06);
+      suspend;
+      return;
+    }
+    else {
+      spawn TRIGGER.slot_20(pid, 1, *(arg_06), arg_06);
+      suspend;
+    }
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+  */
+}

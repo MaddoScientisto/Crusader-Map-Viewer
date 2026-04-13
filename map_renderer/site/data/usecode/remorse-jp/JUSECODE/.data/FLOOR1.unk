@@ -1,0 +1,353 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[0F:enterFastArea] pop_local_word counter
+//
+[0F:enterFastArea] pop_local_word highNumber
+[0F:enterFastArea] pop_local_word lowNumber
+[0F:enterFastArea] pop_local_word tempNumber
+//
+//
+//
+[0F:enterFastArea] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[0F:enterFastArea] call_intrinsic CameraProcess.setCenterOn(arg_bytes=0x4) ; pop_local_word id ; ...
+[0F:enterFastArea] mul ; pop_local_word onTime ; ...
+[0F:enterFastArea] cmp ; jne 0x0087 ; ...
+[0F:enterFastArea]
+[0F:enterFastArea] pop_local_word onTime ; loopscr value_u8=0x24
+//
+//
+[0F:enterFastArea] loopscr value_u8=0x42
+[0F:enterFastArea] mul
+[0F:enterFastArea] loop current_var=0xfc, string_bytes=0x6, loop_type=0x2 ; jne 0x0125 ; ...
+[0F:enterFastArea] pop_local_word foundFloor
+//
+[0F:enterFastArea] call_intrinsic Item.getUnkEggType(arg_bytes=0x4) ; pop_local_word tempNumber ; ...
+//
+[0F:enterFastArea] gt ; lt ; and ; ...
+[0F:enterFastArea]
+[0F:enterFastArea] push_local_word highNumber
+[0F:enterFastArea] lt ; jne 0x00ec
+[0F:enterFastArea] pop_local_word highNumber
+//
+//
+[0F:enterFastArea] push_local_word lowNumber
+[0F:enterFastArea] gt ; jne 0x0104
+[0F:enterFastArea] pop_local_word lowNumber
+//
+//
+[0F:enterFastArea] call_intrinsic Item.getPoint(arg_bytes=0x6)
+[0F:enterFastArea] create_list element_size=0x2, count=0x1 ; append_list ; free_local_list floorItems ; ...
+//
+//
+//
+//
+//
+[0F:enterFastArea] not ; jne 0x0136
+//
+//
+//
+//
+[0F:enterFastArea] jmp 0x03c4
+//
+//
+[0F:enterFastArea] jne 0x03c4
+//
+[0F:enterFastArea] pop_local_word wantToStop
+//
+[0F:enterFastArea] pop_local_word counter ; add ; pop_local_word counter ; ...
+[0F:enterFastArea] le ; jne 0x0311
+//
+[0F:enterFastArea] foreach_list 0x022b
+[0F:enterFastArea] call_intrinsic Item.getStatus(arg_bytes=0x4) ; bit_and ; jne 0x0185 ; ...
+//
+[0F:enterFastArea] pop_local_word wantToStop
+[0F:enterFastArea] jmp 0x0311
+//
+//
+[0F:enterFastArea] call_intrinsic Item.getUnkEggType(arg_bytes=0x4) ; cmp ; jne 0x0225 ; ...
+//
+[0F:enterFastArea] call_intrinsic Item.getPoint(arg_bytes=0x6)
+//
+[0F:enterFastArea] call_intrinsic Container.destroyContents(arg_bytes=0x6) ; not ; jne 0x01c6 ; ...
+[0F:enterFastArea]
+[0F:enterFastArea] call_intrinsic AudioProcess.playAmbientSFXCru(arg_bytes=0x6) ; loopscr value_u8=0x24 ; ...
+//
+//
+//
+[0F:enterFastArea] loop current_var=0xfa, string_bytes=0x1, loop_type=0x6 ; jne 0x0223
+//
+[0F:enterFastArea] call_intrinsic Actor.isNPC(arg_bytes=0x4) ; cmp ; jne 0x021f ; ...
+//
+//
+[0F:enterFastArea] pop_local_word n
+//
+[0F:enterFastArea] call_class_event FREE.slot_20 ; spawn NPC.slot_2d ; implies arg0=0x1, arg1=0x1 ; ...
+//
+//
+//
+[0F:enterFastArea] jmp 0x0160
+//
+[0F:enterFastArea] cmp ; jne 0x023c ; ...
+//
+[0F:enterFastArea] jmp 0x0311
+//
+//
+[0F:enterFastArea] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[0F:enterFastArea] call_intrinsic playSFX(arg_bytes=0x4) ; gt ; jne 0x02a0 ; ...
+[0F:enterFastArea]
+[0F:enterFastArea] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+[0F:enterFastArea] foreach_list 0x02de
+[0F:enterFastArea] call_intrinsic Item.getUnkEggType(arg_bytes=0x4) ; cmp ; jne 0x02d8 ; ...
+//
+[0F:enterFastArea] call_intrinsic Item.getPoint(arg_bytes=0x6)
+[0F:enterFastArea] call_intrinsic Item.touch(arg_bytes=0x4)
+//
+//
+[0F:enterFastArea] jmp 0x02a9
+//
+[0F:enterFastArea] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[0F:enterFastArea] cmp ; jne 0x03c1 ; ...
+//
+//
+//
+[0F:enterFastArea] foreach_list 0x0355
+[0F:enterFastArea] call_intrinsic Item.setQLo(arg_bytes=0x6)
+[0F:enterFastArea] call_intrinsic Item.getPoint(arg_bytes=0x6)
+[0F:enterFastArea] call_intrinsic Item.touch(arg_bytes=0x4)
+[0F:enterFastArea] jmp 0x0325
+//
+[0F:enterFastArea] cmp ; jne 0x03c1 ; ...
+[0F:enterFastArea]
+[0F:enterFastArea] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[0F:enterFastArea] pop_local_word wantToStop
+//
+[0F:enterFastArea] foreach_list 0x03be
+[0F:enterFastArea] call_intrinsic Item.getStatus(arg_bytes=0x4) ; bit_and ; jne 0x03b8 ; ...
+//
+[0F:enterFastArea] pop_local_word wantToStop
+//
+//
+[0F:enterFastArea] jmp 0x0399 ; jmp 0x0355 ; jmp 0x0136 ; ...
+//
+//
+//
+[0F:enterFastArea] ret
+//
+//
+//
+[10:leaveFastArea] call_class_event FREE.slot_33 ; ...
+[10:leaveFastArea] ret
+
+/* synthesized appendix for FLOOR1 */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x0f enterFastArea ===== */
+function floor1_enterFastArea() /* entry=2308 class_id=0x0902 slot=0x0f */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    counter, /* [BP-02h] type=0x69 */
+    item, /* [BP-04h] type=0x24 */
+    item2, /* [BP-06h] type=0x24 */
+    highNumber, /* [BP-08h] type=0x69 */
+    lowNumber, /* [BP-10h] type=0x69 */
+    tempNumber, /* [BP-12h] type=0x69 */
+    floorItems, /* [BP-14h] type=0x6c */
+    wantToStop, /* [BP-16h] type=0x69 */
+    foundFloor, /* [BP-18h] type=0x69 */
+    onTime, /* [BP-20h] type=0x69 */
+    id, /* [BP-22h] type=0x69 */
+    n; /* [BP-24h] type=0x24 */
+
+  entry:
+    set_info(0x021b, *(arg_06));
+    process_exclude();
+    counter = 0;
+    highNumber = 0;
+    lowNumber = 0x0100;
+    tempNumber = 0;
+    spawn FREE.slot_32(pid, 10, 0x00000000);
+    suspend;
+    id = CameraProcess.setCenterOn(arg_06);
+    onTime = (id * 10);
+    if onTime != 0 goto block_015b;
+
+  block_0154:
+    onTime = 5;
+
+  for item in selector_0x42(arg0=0x0135, arg1=0x01c8, arg2=(35 * 32), origin=arg_06) {
+    foundFloor = 1;
+    tempNumber = Item.getUnkEggType(item);
+    if ((tempNumber > 0) && (tempNumber < 0x00fa)) {
+      if (highNumber < tempNumber) {
+        highNumber = tempNumber;
+      }
+      if (lowNumber > tempNumber) {
+        lowNumber = tempNumber;
+      }
+      Item.getPoint(1, item);
+      floorItems = (floorItems + [item]);
+    }
+  }
+
+  block_01f9:
+    if foundFloor goto block_020a;
+
+  block_0204:
+    goto block_0498;
+
+  block_020a:
+    if !(1) goto block_0498;
+
+  block_0212:
+    wantToStop = 0;
+    counter = lowNumber;
+
+  block_0220:
+    if counter > highNumber goto block_03e5;
+
+  block_0234:
+    foreach_list item -> block_02ff;
+
+  block_0239:
+    if !(Item.getStatus(item) & 0x1000) goto block_0259;
+
+  block_024c:
+    wantToStop = 1;
+    goto block_03e5;
+
+  block_0259:
+    if Item.getUnkEggType(item) != counter goto block_02f9;
+
+  block_026b:
+    Item.getPoint(0, item);
+    if Container.destroyContents(112, arg_06) goto block_029a;
+
+  block_028d:
+    AudioProcess.playAmbientSFXCru(112, item);
+
+  while (condition) {
+    if (Actor.isNPC(item2) == 1) {
+      n = item2;
+      FREE.slot_20(pid, 8);
+      spawn NPC.slot_2d(retval, *(arg_06), n);
+      suspend;
+    }
+  }
+
+  block_02f9:
+    goto block_0234;
+
+  block_02ff:
+    if wantToStop != 1 goto block_0310;
+
+  block_030a:
+    goto block_03e5;
+
+  block_0310:
+    spawn FREE.slot_32(pid, onTime, 0x00000000);
+    suspend;
+
+  while (playSFX(arg_06) > 0) {
+    spawn FREE.slot_32(pid, 60, 0x00000000);
+    suspend;
+  }
+
+  while (true) {
+    foreach_list item -> block_03b2;
+    if (Item.getUnkEggType(item) == counter) {
+      Item.getPoint(1, item);
+      Item.touch(item);
+    }
+  }
+
+  block_03b2:
+    spawn FREE.slot_32(pid, 2, 0x00000000);
+    suspend;
+    counter = (1 + counter);
+    goto block_0220;
+
+  block_03e5:
+    if wantToStop != 1 goto block_0495;
+
+  while (true) {
+    foreach_list item -> block_0429;
+    Item.setQLo(112, item);
+    Item.getPoint(1, item);
+    Item.touch(item);
+  }
+
+  while (wantToStop == 1) {
+    spawn FREE.slot_32(pid, 60, 0x00000000);
+    suspend;
+    wantToStop = 0;
+    while (true) {
+      foreach_list item -> block_0492;
+      if (Item.getStatus(item) & 0x1000) {
+        wantToStop = 1;
+      }
+    }
+  }
+
+  block_0495:
+    goto block_020a;
+
+  return;
+
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol counter [BP-02h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol item [BP-04h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol item2 [BP-06h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol highNumber [BP-08h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol lowNumber [BP-10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol tempNumber [BP-12h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol floorItems [BP-14h] type=0x6c unk1=0x00 unk3=0x02
+    debug_symbol wantToStop [BP-16h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol foundFloor [BP-18h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol onTime [BP-20h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol id [BP-22h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol n [BP-24h] type=0x24 unk1=0x00 unk3=0x02
+  */
+}
+
+/* ===== slot 0x10 leaveFastArea ===== */
+function floor1_leaveFastArea() /* entry=2308 class_id=0x0902 slot=0x10 */
+{
+  var
+    referent; /* [BP+00h] type=0x69 */
+
+  set_info(0x021c, *(arg_06));
+  process_exclude();
+  FREE.slot_33(*(arg_06), 0x021b);
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+  */
+}

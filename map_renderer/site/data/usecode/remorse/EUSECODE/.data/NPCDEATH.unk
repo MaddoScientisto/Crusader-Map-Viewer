@@ -1,0 +1,2041 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[20:slot_20] set_info
+//
+[20:slot_20] call_intrinsic Actor.isDead(arg_bytes=0x4) ; not ; jne 0x0030 ; ...
+[20:slot_20]
+[20:slot_20] jmp 0x1249
+//
+//
+[20:slot_20] call_intrinsic Actor.NPCGetField0x59Flag1_0AB(arg_bytes=0x4) ; jne 0x0068 ; ...
+//
+[20:slot_20] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+[20:slot_20] pop_local_word n
+[20:slot_20] pop_local_byte NpcContents ; loopscr value_u8=0x24 ; loopscr value_u8=0x3d ; ...
+//
+//
+//
+//
+[20:slot_20] loopscr value_u8=0x25 ; mul ; ...
+[20:slot_20] loop current_var=0xfb, string_bytes=0x6, loop_type=0x2 ; jne 0x0269
+[20:slot_20] call_intrinsic Item.getQLo(arg_bytes=0x4) ; cmp ; jne 0x0265 ; ...
+[20:slot_20]
+[20:slot_20] call_intrinsic Item.getMapArray(arg_bytes=0x4) ; ne ; jne 0x00ea ; ...
+//
+[20:slot_20] spawn TRIGGER.slot_20 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[20:slot_20] jmp 0x0269 ; jmp 0x0265
+//
+//
+//
+//
+[20:slot_20] call_intrinsic Item.getQHi(arg_bytes=0x4) ; pop_local_word param ; ...
+[20:slot_20] call_intrinsic Item.getNPCNum(arg_bytes=0x4) ; pop_local_word hits ; cmp ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[20:slot_20] sub ; call_intrinsic Item.create(arg_bytes=0x8) ; ...
+//
+//
+[20:slot_20] jne 0x0156
+[20:slot_20] call_intrinsic Item.setQLo(arg_bytes=0x6) ; jmp 0x0163 ; ...
+//
+//
+//
+[20:slot_20] call_intrinsic Item.setQLo(arg_bytes=0x6)
+//
+//
+[20:slot_20] call_intrinsic Item.setQHi(arg_bytes=0x6)
+//
+[20:slot_20] call_intrinsic Item.getShape(arg_bytes=0x4) ; pop_local_word t ; ...
+//
+[20:slot_20] cmp
+[20:slot_20] cmp ; or ; ...
+[20:slot_20] cmp ; or ; ...
+[20:slot_20] cmp ; or ; ...
+[20:slot_20] cmp ; or ; ...
+[20:slot_20] cmp ; or ; jne 0x021d ; ...
+[20:slot_20]
+[20:slot_20] push_local_word t
+[20:slot_20] cmp ; jne 0x01f4
+[20:slot_20] call_intrinsic Item.popToCoords(arg_bytes=0xa) ; jmp 0x021a ; ...
+//
+//
+//
+[20:slot_20] call_intrinsic Item.getZ(arg_bytes=0x4) ; call_intrinsic Item.getY(arg_bytes=0x4) ; call_intrinsic Item.getX(arg_bytes=0x4) ; ...
+//
+//
+//
+//
+[20:slot_20] call_intrinsic Item.popToContainer(arg_bytes=0x6) ; ...
+//
+//
+[20:slot_20] pop_local_byte NpcContents ; jmp 0x0236
+//
+//
+//
+[20:slot_20] add ; spawn TRIGGER.slot_20 ; implies arg0=0x1, arg1=0x1 ; ...
+[20:slot_20] jmp 0x0269 ; loopnext ; jmp 0x0092
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[20:slot_20] call_intrinsic Item.getX(arg_bytes=0x4) ; pop_local_word nx ; ...
+[20:slot_20] call_intrinsic Item.getY(arg_bytes=0x4) ; pop_local_word ny ; ...
+[20:slot_20] call_intrinsic Item.getZ(arg_bytes=0x4) ; pop_local_byte nz ; ...
+[20:slot_20] call_intrinsic Actor.getDir(arg_bytes=0x4) ; div ; pop_local_word dir ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[20:slot_20] call_intrinsic Container.destroyContents(arg_bytes=0x4)
+[20:slot_20] jmp 0x1249 ; jmp 0x0e6b ; call_intrinsic Item.getShape(arg_bytes=0x4) ; ...
+//
+//
+//
+//
+[20:slot_20] pop_local_word newType ; cmp ; jne 0x0309 ; ...
+//
+//
+//
+//
+//
+[20:slot_20] pop_local_word newDir
+[20:slot_20] pop_local_byte flipIt ; jmp 0x0354 ; cmp ; ...
+//
+//
+//
+[20:slot_20] pop_local_word newDir
+[20:slot_20] pop_local_byte flipIt ; jmp 0x0354 ; cmp ; ...
+//
+//
+//
+[20:slot_20] pop_local_word newDir
+[20:slot_20] pop_local_byte flipIt ; jmp 0x0354 ; cmp ; ...
+//
+//
+//
+[20:slot_20] pop_local_word newDir ; jmp 0x0354
+//
+//
+//
+[20:slot_20] pop_local_word newDir
+//
+//
+//
+//
+[20:slot_20] call_intrinsic Actor.getLastAnimSet(arg_bytes=0x4)
+[20:slot_20] cmp ; jne 0x0376
+[20:slot_20] add ; pop_local_word newDir ; ...
+//
+//
+[20:slot_20] pop_local_byte spillBlood
+[20:slot_20] add ; pop_global global[0x000b] ; jmp 0x0e6b ; ...
+//
+//
+//
+//
+//
+[20:slot_20] pop_local_word newType ; cmp ; jne 0x03bf ; ...
+//
+//
+//
+//
+//
+[20:slot_20] pop_local_word newDir
+[20:slot_20] pop_local_byte flipIt ; jmp 0x040a ; cmp ; ...
+//
+//
+//
+[20:slot_20] pop_local_word newDir
+[20:slot_20] pop_local_byte flipIt ; jmp 0x040a ; cmp ; ...
+//
+//
+//
+[20:slot_20] pop_local_word newDir
+[20:slot_20] pop_local_byte flipIt ; jmp 0x040a ; cmp ; ...
+//
+//
+//
+[20:slot_20] pop_local_word newDir ; jmp 0x040a
+//
+//
+//
+[20:slot_20] pop_local_word newDir
+//
+//
+//
+//
+[20:slot_20] call_intrinsic Actor.getLastAnimSet(arg_bytes=0x4)
+[20:slot_20] cmp ; jne 0x042c
+[20:slot_20] add ; pop_local_word newDir ; ...
+//
+//
+[20:slot_20] pop_local_byte spillBlood
+[20:slot_20] add ; pop_global global[0x000d] ; jmp 0x0e6b ; ...
+//
+//
+//
+//
+//
+[20:slot_20] pop_local_word newType ; cmp ; jne 0x0475 ; ...
+//
+//
+//
+//
+//
+[20:slot_20] pop_local_word newDir
+[20:slot_20] pop_local_byte flipIt ; jmp 0x04c0 ; cmp ; ...
+//
+//
+//
+[20:slot_20] pop_local_word newDir
+[20:slot_20] pop_local_byte flipIt ; jmp 0x04c0 ; cmp ; ...
+//
+//
+//
+[20:slot_20] pop_local_word newDir
+[20:slot_20] pop_local_byte flipIt ; jmp 0x04c0 ; cmp ; ...
+//
+//
+//
+[20:slot_20] pop_local_word newDir ; jmp 0x04c0
+//
+//
+//
+[20:slot_20] pop_local_word newDir
+//
+//
+//
+//
+[20:slot_20] call_intrinsic Actor.getLastAnimSet(arg_bytes=0x4)
+[20:slot_20] cmp ; jne 0x04e2
+[20:slot_20] add ; pop_local_word newDir ; ...
+//
+//
+[20:slot_20] pop_local_byte spillBlood
+[20:slot_20] add ; pop_global global[0x000b] ; jmp 0x0e6b ; ...
+//
+//
+//
+//
+//
+[20:slot_20] pop_local_word newType
+[20:slot_20] pop_local_word newDir
+//
+//
+[20:slot_20] pop_local_byte spillBlood
+[20:slot_20] add ; pop_global global[0x0011] ; jmp 0x0e6b ; ...
+//
+//
+//
+//
+//
+[20:slot_20] pop_local_word newType
+[20:slot_20] pop_local_word newDir
+//
+[20:slot_20] pop_local_byte spillBlood
+[20:slot_20] add ; pop_global global[0x0011] ; jmp 0x0e6b ; ...
+//
+//
+//
+//
+//
+//
+//
+[20:slot_20] pop_local_word newType
+[20:slot_20] pop_local_word newDir
+//
+[20:slot_20] call_intrinsic Actor.getLastAnimSet(arg_bytes=0x4)
+[20:slot_20] cmp ; jne 0x05a9
+[20:slot_20] add ; pop_local_word newDir ; ...
+//
+//
+[20:slot_20] pop_local_byte spillOil
+[20:slot_20] add ; pop_global global[0x0017] ; jmp 0x0e6b ; ...
+//
+//
+//
+//
+//
+[20:slot_20] pop_local_word newType ; cmp ; jne 0x05f2 ; ...
+//
+//
+//
+//
+//
+[20:slot_20] pop_local_word newDir
+[20:slot_20] pop_local_byte flipIt ; jmp 0x063d ; cmp ; ...
+//
+//
+//
+[20:slot_20] pop_local_word newDir
+[20:slot_20] pop_local_byte flipIt ; jmp 0x063d ; cmp ; ...
+//
+//
+//
+[20:slot_20] pop_local_word newDir
+[20:slot_20] pop_local_byte flipIt ; jmp 0x063d ; cmp ; ...
+//
+//
+//
+[20:slot_20] pop_local_word newDir ; jmp 0x063d
+//
+//
+//
+[20:slot_20] pop_local_word newDir
+//
+//
+//
+//
+[20:slot_20] call_intrinsic Actor.getLastAnimSet(arg_bytes=0x4)
+[20:slot_20] cmp ; jne 0x065f
+[20:slot_20] add ; pop_local_word newDir ; ...
+//
+//
+[20:slot_20] pop_local_byte spillBlood
+[20:slot_20] add ; pop_global global[0x0013] ; jmp 0x0e6b ; ...
+//
+//
+//
+//
+//
+[20:slot_20] pop_local_word newType
+[20:slot_20] pop_local_word newDir
+//
+[20:slot_20] call_intrinsic Actor.getLastAnimSet(arg_bytes=0x4)
+[20:slot_20] cmp ; jne 0x06b8
+[20:slot_20] add ; pop_local_word newDir ; ...
+//
+//
+[20:slot_20] pop_local_byte spillBlood ; jmp 0x0e6b ; call_intrinsic Item.getShape(arg_bytes=0x4) ; ...
+//
+//
+//
+//
+//
+[20:slot_20] pop_local_word newType ; cmp ; jne 0x06f3 ; ...
+//
+//
+//
+//
+//
+[20:slot_20] pop_local_word newDir
+[20:slot_20] pop_local_byte flipIt ; jmp 0x073e ; cmp ; ...
+//
+//
+//
+[20:slot_20] pop_local_word newDir
+[20:slot_20] pop_local_byte flipIt ; jmp 0x073e ; cmp ; ...
+//
+//
+//
+[20:slot_20] pop_local_word newDir
+[20:slot_20] pop_local_byte flipIt ; jmp 0x073e ; cmp ; ...
+//
+//
+//
+[20:slot_20] pop_local_word newDir ; jmp 0x073e
+//
+//
+//
+[20:slot_20] pop_local_word newDir
+//
+//
+//
+//
+[20:slot_20] call_intrinsic Actor.getLastAnimSet(arg_bytes=0x4)
+[20:slot_20] cmp ; jne 0x0760
+[20:slot_20] add ; pop_local_word newDir ; ...
+//
+//
+[20:slot_20] add ; pop_global global[0x0015] ; jmp 0x0e6b ; ...
+//
+//
+//
+//
+//
+[20:slot_20] add ; pop_global global[0x001b] ; ...
+//
+[20:slot_20] spawn ITEM.slot_2a ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[20:slot_20] call_intrinsic Container.destroyContents(arg_bytes=0x4)
+[20:slot_20] call_intrinsic Item.explode(arg_bytes=0x8) ; ...
+[20:slot_20] jmp 0x1249 ; jmp 0x0e6b ; call_intrinsic Item.getShape(arg_bytes=0x4) ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+[20:slot_20] loop current_var=0xed, string_bytes=0x1, loop_type=0x4 ; jne 0x081b ; ...
+[20:slot_20] spawn ITEM.slot_28 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+[20:slot_20] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[20:slot_20] spawn ITEM.slot_2a ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[20:slot_20] call_intrinsic Item.explode(arg_bytes=0x8) ; ...
+[20:slot_20] jmp 0x1249 ; jmp 0x0e6b ; call_intrinsic Item.getShape(arg_bytes=0x4) ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[20:slot_20] pop_local_word newDir
+[20:slot_20] pop_local_byte flipIt ; jmp 0x08ee ; cmp ; ...
+//
+//
+//
+[20:slot_20] pop_local_word newDir
+[20:slot_20] pop_local_byte flipIt ; jmp 0x08ee ; cmp ; ...
+//
+//
+//
+[20:slot_20] pop_local_word newDir
+[20:slot_20] pop_local_byte flipIt ; jmp 0x08ee ; cmp ; ...
+//
+//
+//
+[20:slot_20] pop_local_word newDir ; jmp 0x08ee
+//
+//
+//
+[20:slot_20] pop_local_word newDir
+//
+//
+//
+//
+[20:slot_20] add ; pop_global global[0x0019] ; ...
+//
+[20:slot_20] call_intrinsic Item.explode(arg_bytes=0x8) ; ...
+[20:slot_20] spawn ITEM.slot_2a ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+[20:slot_20] call_intrinsic Container.destroyContents(arg_bytes=0x4)
+[20:slot_20] call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[20:slot_20] call_intrinsic Item.orStatus(arg_bytes=0x6)
+//
+//
+[20:slot_20] jne 0x0969
+[20:slot_20] call_class_event ITEM.slot_23
+//
+//
+[20:slot_20] call_intrinsic Item.getZ(arg_bytes=0x4) ; call_intrinsic Item.getY(arg_bytes=0x4) ; call_intrinsic Item.getX(arg_bytes=0x4) ; ...
+[20:slot_20] call_intrinsic Item.destroy(arg_bytes=0x4)
+[20:slot_20] jmp 0x1249 ; jmp 0x0e6b ; call_intrinsic Item.getShape(arg_bytes=0x4) ; ...
+//
+//
+//
+//
+//
+//
+//
+[20:slot_20] loop current_var=0xed, string_bytes=0x1, loop_type=0x4 ; jne 0x09d3 ; ...
+[20:slot_20] call_intrinsic Item.destroy(arg_bytes=0x4) ; loopnext ; jmp 0x09c1 ; ...
+//
+//
+[20:slot_20] call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[20:slot_20] call_intrinsic Item.getZ(arg_bytes=0x4) ; call_intrinsic Item.getY(arg_bytes=0x4) ; call_intrinsic Item.getX(arg_bytes=0x4) ; ...
+[20:slot_20] call_intrinsic Item.destroy(arg_bytes=0x4)
+[20:slot_20] jmp 0x1249 ; jmp 0x0e6b ; call_intrinsic Item.getShape(arg_bytes=0x4) ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[20:slot_20] pop_local_word newDir
+[20:slot_20] pop_local_byte flipIt ; jmp 0x0a93 ; cmp ; ...
+//
+//
+//
+[20:slot_20] pop_local_word newDir
+[20:slot_20] pop_local_byte flipIt ; jmp 0x0a93 ; cmp ; ...
+//
+//
+//
+[20:slot_20] pop_local_word newDir
+[20:slot_20] pop_local_byte flipIt ; jmp 0x0a93 ; cmp ; ...
+//
+//
+//
+[20:slot_20] pop_local_word newDir ; jmp 0x0a93
+//
+//
+//
+[20:slot_20] pop_local_word newDir
+//
+//
+//
+//
+[20:slot_20] call_intrinsic Actor.getLastAnimSet(arg_bytes=0x4)
+[20:slot_20] cmp ; jne 0x0ab5
+[20:slot_20] add ; pop_local_word newDir ; loopscr value_u8=0x24 ; ...
+//
+//
+//
+[20:slot_20] loop current_var=0xed, string_bytes=0x1, loop_type=0x4 ; jne 0x0ad5 ; ...
+[20:slot_20] call_intrinsic Item.destroy(arg_bytes=0x4) ; loopnext ; jmp 0x0ac3 ; ...
+//
+//
+[20:slot_20] call_intrinsic Item.create(arg_bytes=0x8) ; ...
+//
+//
+[20:slot_20] jne 0x0afd
+[20:slot_20] call_class_event ITEM.slot_23
+//
+//
+[20:slot_20] call_intrinsic Item.getZ(arg_bytes=0x4) ; call_intrinsic Item.getY(arg_bytes=0x4) ; call_intrinsic Item.getX(arg_bytes=0x4) ; ...
+[20:slot_20] call_intrinsic Item.destroy(arg_bytes=0x4)
+[20:slot_20] jmp 0x1249 ; jmp 0x0e6b ; call_intrinsic Item.getShape(arg_bytes=0x4) ; ...
+//
+//
+//
+//
+//
+//
+//
+[20:slot_20] pop_local_word newType ; cmp ; jne 0x0b68 ; ...
+//
+//
+//
+//
+//
+[20:slot_20] pop_local_word newDir
+[20:slot_20] pop_local_byte flipIt ; jmp 0x0bb3 ; cmp ; ...
+//
+//
+//
+[20:slot_20] pop_local_word newDir
+[20:slot_20] pop_local_byte flipIt ; jmp 0x0bb3 ; cmp ; ...
+//
+//
+//
+[20:slot_20] pop_local_word newDir
+[20:slot_20] pop_local_byte flipIt ; jmp 0x0bb3 ; cmp ; ...
+//
+//
+//
+[20:slot_20] pop_local_word newDir ; jmp 0x0bb3
+//
+//
+//
+[20:slot_20] pop_local_word newDir
+//
+//
+//
+//
+[20:slot_20] pop_local_byte spillBlood
+[20:slot_20] add ; pop_global global[0x000b] ; jmp 0x0e6b ; ...
+//
+//
+//
+//
+//
+[20:slot_20] pop_local_word newType ; cmp ; jne 0x0bfc ; ...
+//
+//
+//
+//
+//
+[20:slot_20] pop_local_word newDir
+[20:slot_20] pop_local_byte flipIt ; jmp 0x0c47 ; cmp ; ...
+//
+//
+//
+[20:slot_20] pop_local_word newDir
+[20:slot_20] pop_local_byte flipIt ; jmp 0x0c47 ; cmp ; ...
+//
+//
+//
+[20:slot_20] pop_local_word newDir
+[20:slot_20] pop_local_byte flipIt ; jmp 0x0c47 ; cmp ; ...
+//
+//
+//
+[20:slot_20] pop_local_word newDir ; jmp 0x0c47
+//
+//
+//
+[20:slot_20] pop_local_word newDir
+//
+//
+//
+//
+//
+[20:slot_20] pop_local_byte spillBlood ; jmp 0x0e6b ; call_intrinsic Item.getShape(arg_bytes=0x4) ; ...
+//
+//
+//
+//
+[20:slot_20] pop_local_word newType ; cmp ; jne 0x0c82 ; ...
+//
+//
+//
+//
+//
+[20:slot_20] pop_local_word newDir
+[20:slot_20] pop_local_byte flipIt ; jmp 0x0ccd ; cmp ; ...
+//
+//
+//
+[20:slot_20] pop_local_word newDir
+[20:slot_20] pop_local_byte flipIt ; jmp 0x0ccd ; cmp ; ...
+//
+//
+//
+[20:slot_20] pop_local_word newDir
+[20:slot_20] pop_local_byte flipIt ; jmp 0x0ccd ; cmp ; ...
+//
+//
+//
+[20:slot_20] pop_local_word newDir ; jmp 0x0ccd
+//
+//
+//
+[20:slot_20] pop_local_word newDir
+//
+//
+//
+//
+[20:slot_20] pop_local_byte spillBlood ; jmp 0x0e6b ; call_intrinsic Item.getShape(arg_bytes=0x4) ; ...
+//
+//
+//
+//
+//
+[20:slot_20] pop_local_word newType
+[20:slot_20] pop_local_word newDir
+//
+[20:slot_20] pop_local_byte spillBlood ; jmp 0x0e6b ; call_intrinsic Item.getShape(arg_bytes=0x4) ; ...
+//
+//
+//
+//
+[20:slot_20] pop_local_word newType
+[20:slot_20] pop_local_word newDir
+//
+[20:slot_20] pop_local_byte spillBlood ; jmp 0x0e6b ; call_intrinsic Item.getShape(arg_bytes=0x4) ; ...
+//
+//
+//
+//
+[20:slot_20] call_intrinsic Container.destroyContents(arg_bytes=0x4)
+[20:slot_20] call_intrinsic Item.explode(arg_bytes=0x8) ; ...
+[20:slot_20] jmp 0x1249 ; jmp 0x0e6b ; call_intrinsic Item.getShape(arg_bytes=0x4) ; ...
+//
+//
+//
+//
+[20:slot_20] pop_local_word newType
+[20:slot_20] pop_local_word newDir ; jmp 0x0e6b ; call_intrinsic Item.getShape(arg_bytes=0x4) ; ...
+//
+//
+//
+//
+//
+[20:slot_20] global_address global[0x003c] ; call_intrinsic Actor.isDead(arg_bytes=0x4) ; jne 0x0da4 ; ...
+//
+[20:slot_20] jmp 0x1249
+//
+//
+[20:slot_20] call_intrinsic playFlic(arg_bytes=0xc) ; free_stack_string value_u8=0x4, target=[SP+04h] ; implies arg0=0x1, arg1=0x1 ; ...
+//
+[20:slot_20] call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[20:slot_20] call_intrinsic Item.getZ(arg_bytes=0x4) ; call_intrinsic Item.getY(arg_bytes=0x4) ; call_intrinsic Item.getX(arg_bytes=0x4) ; ...
+[20:slot_20] global_address global[0x003c] ; call_intrinsic Actor.getMap(arg_bytes=0x4) ; call_intrinsic Item.getY(arg_bytes=0x4) ; ...
+[20:slot_20] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+[20:slot_20] global_address global[0x003c] ; call_intrinsic Item.cast(arg_bytes=0x6) ; pop_temp ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[20:slot_20] call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[20:slot_20] call_class_event NPCDEATH.slot_21
+[20:slot_20] call_intrinsic Item.destroy(arg_bytes=0x4)
+//
+[20:slot_20] call_intrinsic Intrinsic0BB(arg_bytes=0x8) ; jne 0x0ebc ; ...
+//
+[20:slot_20] call_intrinsic Item.popToCoords(arg_bytes=0xa) ; jmp 0x1045 ; ...
+//
+[20:slot_20] sub ; call_intrinsic Intrinsic0BB(arg_bytes=0x8) ; jne 0x0eeb ; ...
+//
+[20:slot_20] sub ; call_intrinsic Item.popToCoords(arg_bytes=0xa) ; jmp 0x1045 ; ...
+//
+[20:slot_20] sub ; call_intrinsic Intrinsic0BB(arg_bytes=0x8) ; jne 0x0f1a ; ...
+//
+[20:slot_20] sub ; call_intrinsic Item.popToCoords(arg_bytes=0xa) ; jmp 0x1045 ; ...
+//
+[20:slot_20] add ; call_intrinsic Intrinsic0BB(arg_bytes=0x8) ; jne 0x0f49 ; ...
+//
+[20:slot_20] add ; call_intrinsic Item.popToCoords(arg_bytes=0xa) ; jmp 0x1045 ; ...
+//
+[20:slot_20] add ; call_intrinsic Intrinsic0BB(arg_bytes=0x8) ; jne 0x0f78 ; ...
+//
+[20:slot_20] add ; call_intrinsic Item.popToCoords(arg_bytes=0xa) ; jmp 0x1045 ; ...
+//
+[20:slot_20] sub ; call_intrinsic Intrinsic0BB(arg_bytes=0x8) ; jne 0x0fa7 ; ...
+//
+[20:slot_20] sub ; call_intrinsic Item.popToCoords(arg_bytes=0xa) ; jmp 0x1045 ; ...
+//
+[20:slot_20] sub ; call_intrinsic Intrinsic0BB(arg_bytes=0x8) ; jne 0x0fd6 ; ...
+//
+[20:slot_20] sub ; call_intrinsic Item.popToCoords(arg_bytes=0xa) ; jmp 0x1045 ; ...
+//
+[20:slot_20] add ; call_intrinsic Intrinsic0BB(arg_bytes=0x8) ; jne 0x1005 ; ...
+//
+[20:slot_20] add ; call_intrinsic Item.popToCoords(arg_bytes=0xa) ; jmp 0x1045 ; ...
+//
+[20:slot_20] add ; call_intrinsic Intrinsic0BB(arg_bytes=0x8) ; jne 0x1034 ; ...
+//
+[20:slot_20] add ; call_intrinsic Item.popToCoords(arg_bytes=0xa) ; jmp 0x1045 ; ...
+//
+//
+//
+[20:slot_20] call_intrinsic Item.popToCoords(arg_bytes=0xa) ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[20:slot_20] jne 0x105b
+[20:slot_20] call_class_event ITEM.slot_23
+//
+//
+//
+[20:slot_20] call_class_event NPCDEATH.slot_22
+[20:slot_20] call_intrinsic Item.destroy(arg_bytes=0x4)
+//
+//
+[20:slot_20] call_intrinsic CameraProcess.somethingAboutCameraUpdate(arg_bytes=0x0)
+//
+//
+//
+//
+//
+//
+[20:slot_20] call_intrinsic Game.isViolenceEnabled(arg_bytes=0x0) ; jne 0x11b3
+//
+//
+[20:slot_20] jne 0x11b3
+[20:slot_20] call_class_event NPC.slot_20 ; jne 0x11b3 ; ...
+//
+[20:slot_20] call_class_event FREE.slot_20 ; gt ; jne 0x1135 ; ...
+[20:slot_20]
+[20:slot_20] call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[20:slot_20] call_intrinsic Item.orStatus(arg_bytes=0x6)
+[20:slot_20] call_intrinsic Item.popToCoords(arg_bytes=0xa) ; ...
+[20:slot_20] pop_local_word counter ; le ; jne 0x1132 ; ...
+//
+[20:slot_20] call_intrinsic Item.setFrame(arg_bytes=0x6)
+[20:slot_20] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+[20:slot_20] call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[20:slot_20] call_intrinsic Item.orStatus(arg_bytes=0x6)
+[20:slot_20] call_intrinsic Item.popToCoords(arg_bytes=0xa) ; ...
+[20:slot_20] pop_local_word counter ; le ; jne 0x11b3 ; ...
+//
+[20:slot_20] call_intrinsic Item.setFrame(arg_bytes=0x6)
+[20:slot_20] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+//
+//
+//
+//
+[20:slot_20] jne 0x1249
+[20:slot_20] call_class_event NPC.slot_20 ; jne 0x1249 ; ...
+//
+[20:slot_20] call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[20:slot_20] call_intrinsic Item.orStatus(arg_bytes=0x6)
+[20:slot_20] call_intrinsic Item.popToCoords(arg_bytes=0xa) ; ...
+[20:slot_20] pop_local_word counter ; le ; jne 0x1249 ; ...
+//
+[20:slot_20] call_intrinsic Item.setFrame(arg_bytes=0x6)
+[20:slot_20] spawn FREE.slot_32 ; implies arg0=0x1, arg1=0x1 ; pop_temp ; ...
+//
+//
+//
+[20:slot_20] ret
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[21:slot_21] loop current_var=0xfe, string_bytes=0x1, loop_type=0x4 ; jne 0x0063 ; ...
+[21:slot_21] call_intrinsic Item.getItemFamily(arg_bytes=0x4)
+[21:slot_21] cmp ; jne 0x0047
+[21:slot_21] call_intrinsic Item.destroy(arg_bytes=0x4) ; jmp 0x005f
+//
+//
+//
+[21:slot_21] call_intrinsic push(arg_bytes=0x4)
+[21:slot_21] call_intrinsic Item.popToContainer(arg_bytes=0x6) ; loopnext ; jmp 0x001e ; ...
+//
+//
+//
+[21:slot_21] call_intrinsic Container.destroyContents(arg_bytes=0x4)
+[21:slot_21] ret
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[22:slot_22] call_intrinsic Game.getDifficultyLevel(arg_bytes=0x0) ; pop_local_word sLevel ; cmp ; ...
+//
+//
+//
+//
+//
+[22:slot_22] pop_local_word skill ; jmp 0x0055 ; cmp ; ...
+//
+//
+//
+[22:slot_22] pop_local_word skill ; jmp 0x0055 ; cmp ; ...
+//
+//
+//
+[22:slot_22] pop_local_word skill ; jmp 0x0055
+//
+//
+//
+[22:slot_22] pop_local_word skill ; call_intrinsic Item.getShape(arg_bytes=0x4) ; cmp ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+[22:slot_22] call_intrinsic UCMachine.rndRange(arg_bytes=0x4) ; gt ; jne 0x00b5 ; ...
+[22:slot_22]
+[22:slot_22] call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[22:slot_22] call_intrinsic Item.popToContainer(arg_bytes=0x6)
+//
+[22:slot_22] call_intrinsic UCMachine.rndRange(arg_bytes=0x4) ; gt ; jne 0x00e9 ; ...
+[22:slot_22]
+[22:slot_22] call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[22:slot_22] call_intrinsic Item.popToContainer(arg_bytes=0x6)
+//
+//
+//
+[22:slot_22] call_intrinsic UCMachine.rndRange(arg_bytes=0x4) ; sub ; gt ; ...
+[22:slot_22]
+[22:slot_22] call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[22:slot_22] call_intrinsic Item.popToContainer(arg_bytes=0x6) ; jmp 0x0165 ; ...
+//
+[22:slot_22] call_intrinsic UCMachine.rndRange(arg_bytes=0x4) ; sub ; gt ; ...
+[22:slot_22]
+[22:slot_22] call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[22:slot_22] call_intrinsic Item.popToContainer(arg_bytes=0x6) ; jmp 0x0165 ; ...
+//
+//
+//
+[22:slot_22] lt ; jne 0x01a7 ; ...
+[22:slot_22]
+[22:slot_22] call_intrinsic UCMachine.rndRange(arg_bytes=0x4) ; gt ; jne 0x01a4 ; ...
+//
+[22:slot_22] call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[22:slot_22] call_intrinsic Item.popToContainer(arg_bytes=0x6) ; jmp 0x01d8 ; ...
+//
+//
+//
+//
+[22:slot_22] call_intrinsic UCMachine.rndRange(arg_bytes=0x4) ; gt ; jne 0x01d8 ; ...
+//
+[22:slot_22] call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[22:slot_22] call_intrinsic Item.popToContainer(arg_bytes=0x6) ; jmp 0x08ae ; call_intrinsic Item.getShape(arg_bytes=0x4) ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[22:slot_22] call_intrinsic UCMachine.rndRange(arg_bytes=0x4) ; sub ; gt ; ...
+[22:slot_22]
+[22:slot_22] call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[22:slot_22] call_intrinsic Item.popToContainer(arg_bytes=0x6) ; jmp 0x026f ; ...
+//
+[22:slot_22] call_intrinsic UCMachine.rndRange(arg_bytes=0x4) ; sub ; gt ; ...
+[22:slot_22]
+[22:slot_22] call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[22:slot_22] call_intrinsic Item.popToContainer(arg_bytes=0x6) ; jmp 0x026f ; ...
+//
+//
+//
+[22:slot_22] lt ; jne 0x02b1 ; ...
+[22:slot_22]
+[22:slot_22] call_intrinsic UCMachine.rndRange(arg_bytes=0x4) ; gt ; jne 0x02ae ; ...
+//
+[22:slot_22] call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[22:slot_22] call_intrinsic Item.popToContainer(arg_bytes=0x6) ; jmp 0x02e2 ; ...
+//
+//
+//
+//
+[22:slot_22] call_intrinsic UCMachine.rndRange(arg_bytes=0x4) ; gt ; jne 0x02e2 ; ...
+//
+[22:slot_22] call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[22:slot_22] call_intrinsic Item.popToContainer(arg_bytes=0x6) ; jmp 0x08ae ; call_intrinsic Item.getShape(arg_bytes=0x4) ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[22:slot_22] call_intrinsic UCMachine.rndRange(arg_bytes=0x4) ; gt ; jne 0x0337 ; ...
+[22:slot_22]
+[22:slot_22] call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[22:slot_22] call_intrinsic Item.popToContainer(arg_bytes=0x6)
+//
+[22:slot_22] call_intrinsic UCMachine.rndRange(arg_bytes=0x4) ; gt ; jne 0x036b ; ...
+[22:slot_22]
+[22:slot_22] call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[22:slot_22] call_intrinsic Item.popToContainer(arg_bytes=0x6)
+//
+//
+//
+//
+[22:slot_22] call_intrinsic UCMachine.rndRange(arg_bytes=0x4) ; sub ; gt ; ...
+[22:slot_22]
+[22:slot_22] call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[22:slot_22] call_intrinsic Item.popToContainer(arg_bytes=0x6) ; jmp 0x03df ; ...
+//
+//
+//
+[22:slot_22] call_intrinsic UCMachine.rndRange(arg_bytes=0x4) ; sub ; gt ; ...
+[22:slot_22]
+[22:slot_22] call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[22:slot_22] call_intrinsic Item.popToContainer(arg_bytes=0x6) ; jmp 0x03df ; ...
+//
+//
+//
+//
+//
+[22:slot_22] call_intrinsic UCMachine.rndRange(arg_bytes=0x4) ; sub ; gt ; ...
+[22:slot_22]
+[22:slot_22] call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[22:slot_22] call_intrinsic Item.popToContainer(arg_bytes=0x6)
+//
+//
+//
+[22:slot_22] lt ; jne 0x0458 ; ...
+[22:slot_22]
+[22:slot_22] call_intrinsic UCMachine.rndRange(arg_bytes=0x4) ; gt ; jne 0x0455 ; ...
+//
+[22:slot_22] call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[22:slot_22] call_intrinsic Item.popToContainer(arg_bytes=0x6) ; jmp 0x048c ; ...
+//
+//
+[22:slot_22] call_intrinsic UCMachine.rndRange(arg_bytes=0x4) ; gt ; jne 0x048c ; ...
+//
+[22:slot_22] call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[22:slot_22] call_intrinsic Item.popToContainer(arg_bytes=0x6) ; jmp 0x048c ; jmp 0x08ae ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+[22:slot_22] call_intrinsic UCMachine.rndRange(arg_bytes=0x4) ; sub ; lt ; ...
+[22:slot_22]
+[22:slot_22] call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[22:slot_22] call_intrinsic Item.popToContainer(arg_bytes=0x6) ; jmp 0x08ae ; call_intrinsic Item.getShape(arg_bytes=0x4) ; ...
+//
+//
+//
+//
+//
+//
+//
+[22:slot_22] call_intrinsic UCMachine.rndRange(arg_bytes=0x4) ; gt ; jne 0x051d ; ...
+[22:slot_22]
+[22:slot_22] call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[22:slot_22] call_intrinsic Item.popToContainer(arg_bytes=0x6)
+//
+[22:slot_22] call_intrinsic UCMachine.rndRange(arg_bytes=0x4) ; gt ; jne 0x0554 ; ...
+[22:slot_22]
+[22:slot_22] call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[22:slot_22] call_intrinsic Item.popToContainer(arg_bytes=0x6) ; jmp 0x0571 ; ...
+//
+//
+//
+[22:slot_22] call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[22:slot_22] call_intrinsic Item.popToContainer(arg_bytes=0x6) ; jmp 0x08ae ; call_intrinsic Item.getShape(arg_bytes=0x4) ; ...
+//
+//
+//
+//
+//
+//
+//
+[22:slot_22] call_intrinsic UCMachine.rndRange(arg_bytes=0x4) ; gt ; jne 0x05b8 ; ...
+[22:slot_22]
+[22:slot_22] call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[22:slot_22] call_intrinsic Item.popToContainer(arg_bytes=0x6)
+//
+[22:slot_22] call_intrinsic UCMachine.rndRange(arg_bytes=0x4) ; gt ; jne 0x05ec ; ...
+[22:slot_22]
+[22:slot_22] call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[22:slot_22] call_intrinsic Item.popToContainer(arg_bytes=0x6)
+//
+//
+//
+[22:slot_22] call_intrinsic UCMachine.rndRange(arg_bytes=0x4) ; gt ; jne 0x061d ; ...
+//
+[22:slot_22] call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[22:slot_22] call_intrinsic Item.popToContainer(arg_bytes=0x6)
+//
+//
+[22:slot_22] call_intrinsic UCMachine.rndRange(arg_bytes=0x4) ; gt ; jne 0x0651 ; ...
+//
+[22:slot_22] call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[22:slot_22] call_intrinsic Item.popToContainer(arg_bytes=0x6) ; jmp 0x0688 ; ...
+//
+[22:slot_22] call_intrinsic UCMachine.rndRange(arg_bytes=0x4) ; sub ; gt ; ...
+//
+[22:slot_22] call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[22:slot_22] call_intrinsic Item.popToContainer(arg_bytes=0x6) ; jmp 0x0688 ; ...
+//
+//
+//
+[22:slot_22] call_intrinsic UCMachine.rndRange(arg_bytes=0x4) ; gt ; jne 0x06bc ; ...
+//
+[22:slot_22] call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[22:slot_22] call_intrinsic Item.popToContainer(arg_bytes=0x6) ; jmp 0x06f3 ; ...
+//
+[22:slot_22] call_intrinsic UCMachine.rndRange(arg_bytes=0x4) ; sub ; gt ; ...
+//
+[22:slot_22] call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[22:slot_22] call_intrinsic Item.popToContainer(arg_bytes=0x6) ; jmp 0x06f3 ; ...
+//
+//
+[22:slot_22] lt ; jne 0x0735 ; ...
+[22:slot_22]
+[22:slot_22] call_intrinsic UCMachine.rndRange(arg_bytes=0x4) ; gt ; jne 0x0732 ; ...
+//
+[22:slot_22] call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[22:slot_22] call_intrinsic Item.popToContainer(arg_bytes=0x6) ; jmp 0x0766 ; ...
+//
+//
+//
+//
+[22:slot_22] call_intrinsic UCMachine.rndRange(arg_bytes=0x4) ; gt ; jne 0x0766 ; ...
+//
+[22:slot_22] call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[22:slot_22] call_intrinsic Item.popToContainer(arg_bytes=0x6) ; jmp 0x08ae ; call_intrinsic Item.getShape(arg_bytes=0x4) ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[22:slot_22] call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[22:slot_22] call_intrinsic UCMachine.rndRange(arg_bytes=0x4) ; call_intrinsic Item.setQuality(arg_bytes=0x6) ; ...
+[22:slot_22] call_intrinsic Item.popToContainer(arg_bytes=0x6)
+//
+[22:slot_22] call_intrinsic UCMachine.rndRange(arg_bytes=0x4) ; gt ; jne 0x07dd ; ...
+//
+[22:slot_22] call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[22:slot_22] call_intrinsic Item.popToContainer(arg_bytes=0x6)
+//
+//
+[22:slot_22] jmp 0x09b8 ; jmp 0x08ae ; call_intrinsic Item.getShape(arg_bytes=0x4) ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+[22:slot_22] call_class_event ITEM.slot_23
+[22:slot_22] jmp 0x09b8 ; jmp 0x08ae
+//
+//
+//
+//
+//
+//
+[22:slot_22] call_intrinsic UCMachine.rndRange(arg_bytes=0x4) ; sub ; gt ; ...
+[22:slot_22]
+[22:slot_22] call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[22:slot_22] call_intrinsic Item.popToContainer(arg_bytes=0x6)
+//
+//
+[22:slot_22] pop_local_byte wimp
+//
+//
+//
+//
+[22:slot_22] call_class_event NPC.slot_2b ; not ; jne 0x0980 ; ...
+[22:slot_22]
+//
+//
+//
+[22:slot_22] call_intrinsic GetQOfAvatarInventoryItem0x4ed_0EB(arg_bytes=0x0) ; sub ; lt ; ...
+[22:slot_22]
+//
+//
+//
+[22:slot_22] jne 0x0917
+[22:slot_22] call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[22:slot_22] call_intrinsic UCMachine.rndRange(arg_bytes=0x4) ; call_intrinsic Item.setQuality(arg_bytes=0x6) ; ...
+[22:slot_22] call_intrinsic Item.popToContainer(arg_bytes=0x6) ; jmp 0x094a ; ...
+//
+//
+//
+//
+//
+[22:slot_22] call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[22:slot_22] call_intrinsic UCMachine.rndRange(arg_bytes=0x4) ; call_intrinsic Item.setQuality(arg_bytes=0x6) ; ...
+[22:slot_22] call_intrinsic Item.popToContainer(arg_bytes=0x6) ; jmp 0x0980 ; ...
+//
+//
+//
+//
+[22:slot_22] call_intrinsic Item.create(arg_bytes=0x8) ; ...
+[22:slot_22] call_intrinsic UCMachine.rndRange(arg_bytes=0x4) ; call_intrinsic Item.setQuality(arg_bytes=0x6) ; ...
+[22:slot_22] call_intrinsic Item.popToContainer(arg_bytes=0x6) ; loopscr value_u8=0x24 ; ...
+//
+//
+//
+//
+//
+//
+//
+//
+[22:slot_22] loop current_var=0xfe, string_bytes=0x1, loop_type=0x4 ; jne 0x099e ; ...
+[22:slot_22] pop_local_byte fullOfShit ; loopnext ; jmp 0x0990 ; ...
+//
+//
+//
+[22:slot_22] not ; jne 0x09b8
+[22:slot_22] call_class_event ITEM.slot_23
+//
+//
+//
+[22:slot_22] ret
+
+/* synthesized appendix for NPCDEATH */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x20 slot_20 ===== */
+function npcdeath_slot_20() /* entry=2590 class_id=0x0a1c slot=0x20 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    link, /* [BP+12h] type=0x69 */
+    n, /* [BP-02h] type=0x24 */
+    NpcContents, /* [BP-03h] type=0x62 */
+    deathBox, /* [BP-05h] type=0x24 */
+    param, /* [BP-07h] type=0x69 */
+    hits, /* [BP-09h] type=0x69 */
+    keyCard, /* [BP-11h] type=0x24 */
+    t, /* [BP-13h] type=0x69 */
+    item, /* [BP-15h] type=0x24 */
+    deadGuy, /* [BP-17h] type=0x24 */
+    goods, /* [BP-19h] type=0x24 */
+    counter, /* [BP-21h] type=0x69 */
+    spillBlood, /* [BP-22h] type=0x62 */
+    spillOil, /* [BP-23h] type=0x62 */
+    spillCoolant, /* [BP-24h] type=0x62 */
+    nx, /* [BP-26h] type=0x69 */
+    ny, /* [BP-28h] type=0x69 */
+    nz, /* [BP-29h] type=0x62 */
+    dir, /* [BP-31h] type=0x69 */
+    newDir, /* [BP-33h] type=0x69 */
+    flipIt, /* [BP-34h] type=0x62 */
+    newType; /* [BP-36h] type=0x69 */
+
+  set_info(0x0205, 0);
+  if (!Actor.isDead(arg_06)) {
+    return;
+  }
+  else {
+    while (Actor.NPCGetField0x59Flag1_0AB(arg_06)) {
+      spawn FREE.waitNTimerTicks(pid, 2, 0x00000000);
+      suspend;
+    }
+    n = ref;
+    NpcContents = 0;
+    for deathBox in nearby_items(shape=DEATHBOX, origin=n) {
+      if (link == Item.getQLo(deathBox)) {
+        if (Item.getMapArray(deathBox) != 0) {
+          spawn TRIGGER.slot_20(pid, 0, deathBox, deathBox);
+          suspend;
+        }
+        else {
+          param = Item.getQHi(deathBox);
+          hits = Item.getNPCNum(deathBox);
+          if (param == 0) {
+          }
+          else if ((((param == 1) || (param == 2)) || (param == 3)) || (param == 4)) {
+            Item.create((param - 1), 0x0111, keyCard);
+            if (hits) {
+              Item.setQLo(hits, keyCard);
+            }
+            else {
+              Item.setQLo(link, keyCard);
+            }
+            Item.setQHi(0, deathBox);
+            t = Item.getShape(arg_06);
+            if ((((((t == 0x0576) || (t == 0x0596)) || (t == 0x058f)) || (t == 0x04d9)) || (t == 0x03ac)) || (t == 0x059c)) {
+              if (t == 0x04d9) {
+                Item.popToCoords(0x0088, 0x34cf, 0x713f, keyCard);
+              }
+              else {
+                Item.popToCoords(Item.getZ(n), Item.getY(n), Item.getX(n), keyCard);
+              }
+            }
+            else {
+              Item.popToContainer(*(arg_06), keyCard);
+            }
+            NpcContents = 1;
+          }
+          spawn TRIGGER.slot_20(pid, (0x0080 + 0), deathBox, deathBox);
+          suspend;
+        }
+      }
+    }
+    nx = Item.getX(n);
+    ny = Item.getY(n);
+    nz = Item.getZ(n);
+    dir = (Actor.getDir(n) / 2);
+    if ((Item.getShape(n) == 0x058f) || (Item.getShape(n) == 0x059c)) {
+      Container.destroyContents(n);
+      return;
+    }
+    else {
+      switch (Item.getShape(n)) {
+      case 0x02fd:
+        newType = 0x0339;
+        if (dir == 4) {
+          newDir = 2;
+          flipIt = 1;
+        }
+        else if (dir == 5) {
+          newDir = 1;
+          flipIt = 1;
+        }
+        else if (dir == 6) {
+          newDir = 0;
+          flipIt = 1;
+        }
+        else if (dir == 7) {
+          newDir = 4;
+        }
+        else {
+          newDir = dir;
+        }
+        if (Actor.getLastAnimSet(n) == 20) {
+          newDir = (newDir + 10);
+        }
+        spillBlood = 1;
+        break;
+      case 0x0384:
+        newType = 0x04bf;
+        if (dir == 4) {
+          newDir = 2;
+          flipIt = 1;
+        }
+        else if (dir == 5) {
+          newDir = 1;
+          flipIt = 1;
+        }
+        else if (dir == 6) {
+          newDir = 0;
+          flipIt = 1;
+        }
+        else if (dir == 7) {
+          newDir = 4;
+        }
+        else {
+          newDir = dir;
+        }
+        if (Actor.getLastAnimSet(n) == 18) {
+          newDir = (newDir + 10);
+        }
+        spillBlood = 1;
+        break;
+      case 0x0371:
+        newType = 0x04be;
+        if (dir == 4) {
+          newDir = 2;
+          flipIt = 1;
+        }
+        else if (dir == 5) {
+          newDir = 1;
+          flipIt = 1;
+        }
+        else if (dir == 6) {
+          newDir = 0;
+          flipIt = 1;
+        }
+        else if (dir == 7) {
+          newDir = 4;
+        }
+        else {
+          newDir = dir;
+        }
+        if (Actor.getLastAnimSet(n) == 18) {
+          newDir = (newDir + 10);
+        }
+        spillBlood = 1;
+        break;
+      case 0x04d1:
+        newType = 0x04d2;
+        newDir = dir;
+        spillBlood = 1;
+        break;
+      case 0x0528:
+        newType = 0x054d;
+        newDir = dir;
+        spillBlood = 1;
+        break;
+      case 0x0338:
+        newType = 0x04c5;
+        newDir = dir;
+        if (Actor.getLastAnimSet(n) == 18) {
+          newDir = (dir + 10);
+        }
+        spillOil = 1;
+        break;
+      case 0x01b4:
+        newType = 0x055d;
+        if (dir == 4) {
+          newDir = 2;
+          flipIt = 1;
+        }
+        else if (dir == 5) {
+          newDir = 1;
+          flipIt = 1;
+        }
+        else if (dir == 6) {
+          newDir = 0;
+          flipIt = 1;
+        }
+        else if (dir == 7) {
+          newDir = 4;
+        }
+        else {
+          newDir = dir;
+        }
+        if (Actor.getLastAnimSet(n) == 18) {
+          newDir = (newDir + 10);
+        }
+        spillBlood = 1;
+        break;
+      case 0x02df:
+        newType = 0x04ba;
+        newDir = dir;
+        if (Actor.getLastAnimSet(n) == 20) {
+          newDir = (dir + 10);
+        }
+        spillBlood = 1;
+        break;
+      case 0x0383:
+        newType = 0x04c1;
+        if (dir == 4) {
+          newDir = 2;
+          flipIt = 1;
+        }
+        else if (dir == 5) {
+          newDir = 1;
+          flipIt = 1;
+        }
+        else if (dir == 6) {
+          newDir = 0;
+          flipIt = 1;
+        }
+        else if (dir == 7) {
+          newDir = 4;
+        }
+        else {
+          newDir = dir;
+        }
+        if (Actor.getLastAnimSet(n) == 20) {
+          newDir = (newDir + 10);
+        }
+        break;
+      case 0x0385:
+        spawn ITEM.slot_2a(pid, n);
+        suspend;
+        Container.destroyContents(n);
+        Item.explode(1, 2, n);
+        return;
+      case 0x02cb:
+        while (condition) {
+          spawn ITEM.slot_28(pid, 1, 0, goods);
+          suspend;
+        }
+        spawn FREE.waitNTimerTicks(pid, 30, 0x00000000);
+        suspend;
+        spawn ITEM.slot_2a(pid, n);
+        suspend;
+        Item.explode(1, 1, n);
+        return;
+      case 0x04e6:
+        if (dir == 4) {
+          newDir = 2;
+          flipIt = 1;
+        }
+        else if (dir == 5) {
+          newDir = 1;
+          flipIt = 1;
+        }
+        else if (dir == 6) {
+          newDir = 0;
+          flipIt = 1;
+        }
+        else if (dir == 7) {
+          newDir = 4;
+        }
+        else {
+          newDir = dir;
+        }
+        Item.explode(0, 2, n);
+        spawn ITEM.slot_2a(pid, n);
+        suspend;
+        Container.destroyContents(n);
+        Item.create(newDir, 0x04c3, deadGuy);
+        Item.orStatus(0x0080, deadGuy);
+        if (flipIt) {
+          ITEM.slot_23(32, deadGuy);
+        }
+        Item.popToCoords(Item.getZ(n), Item.getY(n), Item.getX(n), deadGuy);
+        Item.destroy(n);
+        return;
+      case 0x0576:
+        while (condition) {
+          Item.destroy(goods);
+        }
+        Item.create(dir, 0x04e1, deadGuy);
+        Item.popToCoords(Item.getZ(n), Item.getY(n), Item.getX(n), deadGuy);
+        Item.destroy(n);
+        return;
+      case 0x0596:
+        if (dir == 4) {
+          newDir = 2;
+          flipIt = 1;
+        }
+        else if (dir == 5) {
+          newDir = 1;
+          flipIt = 1;
+        }
+        else if (dir == 6) {
+          newDir = 0;
+          flipIt = 1;
+        }
+        else if (dir == 7) {
+          newDir = 4;
+        }
+        else {
+          newDir = dir;
+        }
+        if (Actor.getLastAnimSet(n) == 20) {
+          newDir = (newDir + 10);
+        }
+        while (condition) {
+          Item.destroy(goods);
+        }
+        Item.create(newDir, 0x0599, deadGuy);
+        if (flipIt) {
+          ITEM.slot_23(32, deadGuy);
+        }
+        Item.popToCoords(Item.getZ(n), Item.getY(n), Item.getX(n), deadGuy);
+        Item.destroy(n);
+        return;
+      case 0x0319:
+        newType = 0x04e4;
+        if (dir == 4) {
+          newDir = 2;
+          flipIt = 1;
+        }
+        else if (dir == 5) {
+          newDir = 1;
+          flipIt = 1;
+        }
+        else if (dir == 6) {
+          newDir = 0;
+          flipIt = 1;
+        }
+        else if (dir == 7) {
+          newDir = 4;
+        }
+        else {
+          newDir = dir;
+        }
+        spillBlood = 1;
+        break;
+      case 0x02f6:
+        newType = 0x04b9;
+        if (dir == 4) {
+          newDir = 2;
+          flipIt = 1;
+        }
+        else if (dir == 5) {
+          newDir = 1;
+          flipIt = 1;
+        }
+        else if (dir == 6) {
+          newDir = 0;
+          flipIt = 1;
+        }
+        else if (dir == 7) {
+          newDir = 4;
+        }
+        else {
+          newDir = dir;
+        }
+        spillBlood = 1;
+        break;
+      case 0x02f5:
+        newType = 0x04bb;
+        if (dir == 4) {
+          newDir = 2;
+          flipIt = 1;
+        }
+        else if (dir == 5) {
+          newDir = 1;
+          flipIt = 1;
+        }
+        else if (dir == 6) {
+          newDir = 0;
+          flipIt = 1;
+        }
+        else if (dir == 7) {
+          newDir = 4;
+        }
+        else {
+          newDir = dir;
+        }
+        spillBlood = 1;
+        break;
+      case 0x0344:
+        newType = 0x04bd;
+        newDir = dir;
+        spillBlood = 1;
+        break;
+      case 0x02f7:
+        newType = 0x04bc;
+        newDir = dir;
+        spillBlood = 1;
+        break;
+      case 0x045d:
+        Container.destroyContents(n);
+        Item.explode(1, 0, n);
+        return;
+      case 0x03ac:
+        newType = 0x04c0;
+        newDir = dir;
+        break;
+      case 0x04d9:
+        if (Actor.isDead(&global[0x003c])) {
+          return;
+        }
+        playFlic(pid, 0x0096, 0x00fa, "10f", arg_06);
+        suspend;
+        Item.create(0, 0x04da, deadGuy);
+        Item.popToCoords(Item.getZ(arg_06), Item.getY(arg_06), Item.getX(arg_06), deadGuy);
+        Actor.teleport(Actor.getMap(&global[0x003c]), 0, Item.getY(arg_06), Item.getX(arg_06), arg_06);
+        spawn FREE.waitNTimerTicks(pid, 0x012c, 0x00000000);
+        suspend;
+        break;
+      }
+    }
+    Item.create(newDir, newType, deadGuy);
+    NPCDEATH.slot_21(deadGuy, n);
+    Item.destroy(n);
+    if (Intrinsic0BB(nz, ny, nx, newType)) {
+      Item.popToCoords(nz, ny, nx, deadGuy);
+    }
+    else if (Intrinsic0BB(nz, ny, (nx - 16), newType)) {
+      Item.popToCoords(nz, ny, (nx - 16), deadGuy);
+    }
+    else if (Intrinsic0BB(nz, (ny - 16), nx, newType)) {
+      Item.popToCoords(nz, (ny - 16), nx, deadGuy);
+    }
+    else if (Intrinsic0BB(nz, (ny + 16), nx, newType)) {
+      Item.popToCoords(nz, (ny + 16), nx, deadGuy);
+    }
+    else if (Intrinsic0BB(nz, ny, (nx + 16), newType)) {
+      Item.popToCoords(nz, ny, (nx + 16), deadGuy);
+    }
+    else if (Intrinsic0BB(nz, ny, (nx - 32), newType)) {
+      Item.popToCoords(nz, ny, (nx - 32), deadGuy);
+    }
+    else if (Intrinsic0BB(nz, (ny - 32), nx, newType)) {
+      Item.popToCoords(nz, (ny - 32), nx, deadGuy);
+    }
+    else if (Intrinsic0BB(nz, (ny + 32), nx, newType)) {
+      Item.popToCoords(nz, (ny + 32), nx, deadGuy);
+    }
+    else if (Intrinsic0BB(nz, ny, (nx + 32), newType)) {
+      Item.popToCoords(nz, ny, (nx + 32), deadGuy);
+    }
+    else {
+      Item.popToCoords(nz, ny, nx, deadGuy);
+    }
+    if (flipIt) {
+      ITEM.slot_23(32, deadGuy);
+    }
+    NPCDEATH.slot_22(deadGuy, arg_06);
+    Item.destroy(n);
+    CameraProcess.somethingAboutCameraUpdate();
+    if (Game.isViolenceEnabled()) {
+      if (spillBlood) {
+        NPC.slot_20(arg_06);
+        if (retval) {
+          FREE.slot_20(100);
+          if (retval > 50) {
+            Item.create(0, 0x04b8, item);
+            Item.orStatus(0x0080, item);
+            Item.popToCoords(nz, ny, nx, item);
+            counter = 0;
+            while (counter <= 9) {
+              Item.setFrame(counter, item);
+              spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+              suspend;
+              counter = (1 + counter);
+            }
+          }
+          else {
+            Item.create(10, 0x04b8, item);
+            Item.orStatus(0x0080, item);
+            Item.popToCoords(nz, ny, nx, item);
+            counter = 10;
+            while (counter <= 19) {
+              Item.setFrame(counter, item);
+              spawn FREE.waitNTimerTicks(pid, 10, 0x00000000);
+              suspend;
+              counter = (1 + counter);
+            }
+          }
+        }
+      }
+    }
+    if (spillOil) {
+      NPC.slot_20(arg_06);
+      if (retval) {
+        Item.create(20, 0x04b8, item);
+        Item.orStatus(0x0080, item);
+        Item.popToCoords(nz, ny, nx, item);
+        counter = 20;
+        while (counter <= 29) {
+          Item.setFrame(counter, item);
+          spawn FREE.waitNTimerTicks(pid, 15, 0x00000000);
+          suspend;
+          counter = (1 + counter);
+        }
+      }
+    }
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol ref [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol link [BP+12h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol n [BP-02h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol NpcContents [BP-03h] type=0x62 unk1=0x00 unk3=0x00
+    debug_symbol deathBox [BP-05h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol param [BP-07h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol hits [BP-09h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol keyCard [BP-11h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol t [BP-13h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol item [BP-15h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol deadGuy [BP-17h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol goods [BP-19h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol counter [BP-21h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol spillBlood [BP-22h] type=0x62 unk1=0x00 unk3=0x00
+    debug_symbol spillOil [BP-23h] type=0x62 unk1=0x00 unk3=0x00
+    debug_symbol spillCoolant [BP-24h] type=0x62 unk1=0x00 unk3=0x00
+    debug_symbol nx [BP-26h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol ny [BP-28h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol nz [BP-29h] type=0x62 unk1=0x00 unk3=0x00
+    debug_symbol dir [BP-31h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol newDir [BP-33h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol flipIt [BP-34h] type=0x62 unk1=0x00 unk3=0x00
+    debug_symbol newType [BP-36h] type=0x69 unk1=0x00 unk3=0x00
+  */
+}
+
+/* ===== slot 0x21 slot_21 ===== */
+function npcdeath_slot_21() /* entry=2590 class_id=0x0a1c slot=0x21 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    item, /* [BP+10h] type=0x24 */
+    goods; /* [BP-02h] type=0x24 */
+
+  while (condition) {
+    if (Item.getItemFamily(goods) == 10) {
+      Item.destroy(goods);
+    }
+    else {
+      push(goods);
+      Item.popToContainer(item, goods);
+    }
+  }
+  Container.destroyContents(arg_06);
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol item [BP+10h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol goods [BP-02h] type=0x24 unk1=0x00 unk3=0x02
+  */
+}
+
+/* ===== slot 0x22 slot_22 ===== */
+function npcdeath_slot_22() /* entry=2590 class_id=0x0a1c slot=0x22 */
+{
+  var
+    referent, /* [BP+00h] type=0x69 */
+    ref, /* [BP+10h] type=0x69 */
+    item, /* [BP-02h] type=0x24 */
+    counter, /* [BP-04h] type=0x69 */
+    skill, /* [BP-06h] type=0x69 */
+    sLevel, /* [BP-08h] type=0x69 */
+    wimp, /* [BP-09h] type=0x62 */
+    fullOfShit; /* [BP-10h] type=0x62 */
+
+  sLevel = Game.getDifficultyLevel();
+  if (sLevel == 1) {
+    skill = 50;
+  }
+  else if (sLevel == 2) {
+    skill = 40;
+  }
+  else if (sLevel == 3) {
+    skill = 20;
+  }
+  else {
+    skill = 40;
+  }
+  if (((Item.getShape(arg_06) == npcdeath_shape_02fd) || (Item.getShape(arg_06) == npcdeath_shape_0319)) || (Item.getShape(arg_06) == npcdeath_shape_0384)) {
+    if (UCMachine.rndRange(100, 0) > 98) {
+      Item.create(0, SPIDER_BOMB, item);
+      Item.popToContainer(ref, item);
+    }
+    if (UCMachine.rndRange(100, 0) > 98) {
+      Item.create(0, DET_PAC, item);
+      Item.popToContainer(ref, item);
+    }
+    if (UCMachine.rndRange(100, 0) > (80 - skill)) {
+      Item.create(0, BA_41_CLIP, item);
+      Item.popToContainer(ref, item);
+    }
+    else if ((UCMachine.rndRange(100, 0) > (80 - skill)) && (global[0x001f] > 1)) {
+      Item.create(0, SG_A1_CLIP, item);
+      Item.popToContainer(ref, item);
+    }
+    if (sLevel < 3) {
+      if (UCMachine.rndRange(100, 0) > 80) {
+        Item.create(0, MEDICAL_KIT, item);
+        Item.popToContainer(ref, item);
+      }
+    }
+    else if (UCMachine.rndRange(100, 0) > 98) {
+      Item.create(0, MEDICAL_KIT, item);
+      Item.popToContainer(ref, item);
+    }
+  }
+  else if (Item.getShape(arg_06) == npcdeath_shape_0384) {
+    if ((UCMachine.rndRange(100, 1) > (90 - skill)) && (global[0x001f] > 2)) {
+      Item.create(0, AR_7_CLIP, item);
+      Item.popToContainer(ref, item);
+    }
+    else if ((UCMachine.rndRange(100, 1) > (80 - skill)) && (global[0x001f] > 2)) {
+      Item.create(0, RP_22_CLIP, item);
+      Item.popToContainer(ref, item);
+    }
+    if (sLevel < 3) {
+      if (UCMachine.rndRange(100, 0) > 90) {
+        Item.create(0, MEDICAL_KIT, item);
+        Item.popToContainer(ref, item);
+      }
+    }
+    else if (UCMachine.rndRange(100, 0) > 98) {
+      Item.create(0, MEDICAL_KIT, item);
+      Item.popToContainer(ref, item);
+    }
+  }
+  else if ((Item.getShape(arg_06) == npcdeath_shape_0371) || (Item.getShape(arg_06) == npcdeath_shape_04d1)) {
+    if (UCMachine.rndRange(100, 0) > 98) {
+      Item.create(0, SPIDER_BOMB, item);
+      Item.popToContainer(ref, item);
+    }
+    if (UCMachine.rndRange(100, 0) > 98) {
+      Item.create(0, DET_PAC, item);
+      Item.popToContainer(ref, item);
+    }
+    if (UCMachine.rndRange(100, 1) > (70 - skill)) {
+      Item.create(0, RP_22_CLIP, item);
+      Item.popToContainer(ref, item);
+    }
+    else if (UCMachine.rndRange(100, 1) > (70 - skill)) {
+      Item.create(0, SG_A1_CLIP, item);
+      Item.popToContainer(ref, item);
+    }
+    if (UCMachine.rndRange(100, 1) > (90 - skill)) {
+      Item.create(0, ENERGY_CUBE, item);
+      Item.popToContainer(ref, item);
+    }
+    if (sLevel < 3) {
+      if (UCMachine.rndRange(100, 0) > 80) {
+        Item.create(0, MEDICAL_KIT, item);
+        Item.popToContainer(ref, item);
+      }
+    }
+    else if (UCMachine.rndRange(100, 0) > 98) {
+      Item.create(0, MEDICAL_KIT, item);
+      Item.popToContainer(ref, item);
+    }
+  }
+  else if (Item.getShape(arg_06) == npcdeath_shape_04d1) {
+    if (UCMachine.rndRange(100, 0) < (70 - skill)) {
+      Item.create(0, RP_22_CLIP, item);
+      Item.popToContainer(ref, item);
+    }
+  }
+  else if (Item.getShape(arg_06) == npcdeath_shape_0528) {
+    if (UCMachine.rndRange(100, 0) > 75) {
+      Item.create(0, MEDICAL_KIT, item);
+      Item.popToContainer(ref, item);
+    }
+    if (UCMachine.rndRange(100, 0) > 50) {
+      Item.create(0, AR_7_CLIP, item);
+      Item.popToContainer(ref, item);
+    }
+    else {
+      Item.create(0, GL_303_CLIP, item);
+      Item.popToContainer(ref, item);
+    }
+  }
+  else if (Item.getShape(arg_06) == npcdeath_shape_01b4) {
+    if (UCMachine.rndRange(100, 0) > 98) {
+      Item.create(0, SPIDER_BOMB, item);
+      Item.popToContainer(ref, item);
+    }
+    if (UCMachine.rndRange(100, 0) > 98) {
+      Item.create(0, DET_PAC, item);
+      Item.popToContainer(ref, item);
+    }
+    if (UCMachine.rndRange(100, 1) > 90) {
+      Item.create(0, RP_22_CLIP, item);
+      Item.popToContainer(ref, item);
+    }
+    if (UCMachine.rndRange(100, 1) > 95) {
+      Item.create(0, GL_303_CLIP, item);
+      Item.popToContainer(ref, item);
+    }
+    else if (UCMachine.rndRange(100, 1) > (85 - skill)) {
+      Item.create(0, ENERGY_CUBE, item);
+      Item.popToContainer(ref, item);
+    }
+    if (UCMachine.rndRange(100, 1) > 95) {
+      Item.create(0, AR_7_CLIP, item);
+      Item.popToContainer(ref, item);
+    }
+    else if (UCMachine.rndRange(100, 1) > (80 - skill)) {
+      Item.create(0, SG_A1_CLIP, item);
+      Item.popToContainer(ref, item);
+    }
+    if (sLevel < 3) {
+      if (UCMachine.rndRange(100, 0) > 80) {
+        Item.create(0, MEDICAL_KIT, item);
+        Item.popToContainer(ref, item);
+      }
+    }
+    else if (UCMachine.rndRange(100, 0) > 98) {
+      Item.create(0, MEDICAL_KIT, item);
+      Item.popToContainer(ref, item);
+    }
+  }
+  else if (Item.getShape(arg_06) == npcdeath_shape_02df) {
+    Item.create(0, 0x04ed, item);
+    Item.setQuality(UCMachine.rndRange(100, 75), item);
+    Item.popToContainer(ref, item);
+    if (UCMachine.rndRange(100, 0) > 66) {
+      Item.create(0, MEDICAL_KIT, item);
+      Item.popToContainer(ref, item);
+    }
+    return;
+  }
+  else if (((((((Item.getShape(arg_06) == 0x045d) || (Item.getShape(arg_06) == MECH_1)) || (Item.getShape(arg_06) == 0x02cb)) || (Item.getShape(arg_06) == 0x04e6)) || (Item.getShape(arg_06) == npcdeath_shape_03ac)) || (Item.getShape(arg_06) == 0x0385)) || (Item.getShape(arg_06) == 0x0383)) {
+    ITEM.slot_23(0x1000, arg_06);
+    return;
+  }
+  else if (Actor.getHp((UCMachine.rndRange(100, 0) > (60 - skill)), &global[0x003c]) < 50) {
+    Item.create(0, MEDICAL_KIT, item);
+    Item.popToContainer(ref, item);
+  }
+  wimp = 1;
+  NPC.slot_2b(arg_06);
+  if (!retval) {
+    if ((GetQOfAvatarInventoryItem0x4ed_0EB() - global[0x001d]) < 0x1194) {
+      if (wimp) {
+        Item.create(0, 0x04ed, item);
+        Item.setQuality(UCMachine.rndRange(10, 5), item);
+        Item.popToContainer(ref, item);
+      }
+      else {
+        Item.create(0, 0x04ed, item);
+        Item.setQuality(UCMachine.rndRange(25, 15), item);
+        Item.popToContainer(ref, item);
+      }
+    }
+    else {
+      Item.create(0, 0x04ed, item);
+      Item.setQuality(UCMachine.rndRange(15, 5), item);
+      Item.popToContainer(ref, item);
+    }
+  }
+  while (condition) {
+    fullOfShit = 1;
+  }
+  if (!fullOfShit) {
+    ITEM.slot_23(0x1000, arg_06);
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+    debug_symbol ref [BP+10h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol item [BP-02h] type=0x24 unk1=0x00 unk3=0x02
+    debug_symbol counter [BP-04h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol skill [BP-06h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol sLevel [BP-08h] type=0x69 unk1=0x00 unk3=0x00
+    debug_symbol wimp [BP-09h] type=0x62 unk1=0x00 unk3=0x00
+    debug_symbol fullOfShit [BP-10h] type=0x62 unk1=0x00 unk3=0x00
+  */
+}

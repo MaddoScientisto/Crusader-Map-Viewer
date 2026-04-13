@@ -1,0 +1,51 @@
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+[04:cachein] gt ; jne 0x005b ; ...
+[04:cachein]
+[04:cachein] call_intrinsic UCMachine.rndRange(arg_bytes=0x4) ; gt ; jne 0x004e ; ...
+[04:cachein]
+[04:cachein] call_intrinsic Item.getPoint(arg_bytes=0x6) ; jmp 0x005b ; ...
+//
+//
+//
+[04:cachein] call_intrinsic Item.getPoint(arg_bytes=0x6)
+//
+//
+[04:cachein] ret
+
+/* synthesized appendix for REBWORK */
+/* sparse lines above preserve recovered debugger line numbers where available */
+
+/* ===== slot 0x04 cachein ===== */
+function rebwork_cachein() /* entry=1351 class_id=0x0545 slot=0x04 */
+{
+  var
+    referent; /* [BP+00h] type=0x69 */
+
+  set_info(0x0213, *(arg_06));
+  process_exclude();
+  if (global[0x001f] > 3) {
+    if (UCMachine.rndRange(10, 1) > 5) {
+      Item.getPoint(1, arg_06);
+      return;
+    }
+    else {
+      Item.getPoint(0, arg_06);
+    }
+  }
+  return;
+
+  /* post-return metadata (not executable):
+    debug_symbol referent [BP+00h] type=0x69 unk1=0x01 unk3=0x00
+  */
+}
