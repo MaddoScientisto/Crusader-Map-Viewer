@@ -1067,6 +1067,7 @@ export class BuildManager {
   computeReferenceFingerprint(referenceId) {
     const groupGames = this.listReferenceGames(referenceId).map((game) => getGameConfig(game.id)).filter(Boolean);
     const fileStamps = [];
+    const catalogDigests = [];
     for (const gameConfig of groupGames) {
       fileStamps.push(
         ...resolveGameAssetPaths(gameConfig, "FIXED.DAT"),
@@ -1079,6 +1080,7 @@ export class BuildManager {
       if (xformPath) {
         fileStamps.push(xformPath);
       }
+      catalogDigests.push(getShapeCatalog(gameConfig.id).digest);
     }
     const dtableDigest = groupGames[0] ? getShapeNameTable(groupGames[0].id).digest : "missing";
 
@@ -1087,6 +1089,7 @@ export class BuildManager {
         version: SCENE_CACHE_VERSION,
         referenceId,
         files: [...new Set(fileStamps)].map((filePath) => fileStamp(filePath)).sort(),
+        catalogDigests: [...new Set(catalogDigests)].sort(),
         dtableDigest
       })
     ).slice(0, 16);
@@ -1316,6 +1319,7 @@ export class BuildManager {
         game: gameConfig.id,
         mapId,
         files: relevantFiles.map((filePath) => fileStamp(filePath)),
+        catalogDigest: catalogInfo?.digest ?? "missing",
         dtableDigest: dtableInfo?.digest ?? "missing"
       })
     ).slice(0, 16);
