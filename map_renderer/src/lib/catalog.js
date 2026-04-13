@@ -22,6 +22,10 @@ function getCatalogSourceGameId(gameId) {
   return GAMES.find((game) => game.id === gameId)?.catalogId ?? gameId;
 }
 
+function getDefaultCatalogSurfaceType(gameId) {
+  return getCatalogSourceGameId(gameId) === "regret" ? "wall" : "";
+}
+
 function toShapeCodeHex(shapeCode) {
   return `0x${shapeCode.toString(16).padStart(4, "0")}`;
 }
@@ -80,11 +84,15 @@ function getRowValue(row, ...keys) {
   return "";
 }
 
-function normalizeCatalogEntry(row) {
+function normalizeCatalogEntry(row, gameId) {
   const shapeCode = Number.parseInt(String(getRowValue(row, "shape_code", "shapeCode", "ShapeCode")).trim(), 16);
   if (!Number.isInteger(shapeCode)) {
     return null;
   }
+  const surfaceType = parseEditableCatalogSurfaceType(
+    getRowValue(row, "surface_type", "surfaceType", "SurfaceType", "surface", "Surface"),
+    "Surface type"
+  ) || getDefaultCatalogSurfaceType(gameId);
   return {
     shapeCode,
     shapeCodeHex: toShapeCodeHex(shapeCode),
@@ -93,13 +101,13 @@ function normalizeCatalogEntry(row) {
     roof: parseOptionalBoolean(getRowValue(row, "roof", "Roof")),
     semitransparency: parseOptionalBoolean(getRowValue(row, "semitransparency", "semi_transparency", "Semitransparency", "SemiTransparency")),
     oob: parseOptionalBoolean(getRowValue(row, "OOB", "oob", "OutOfBounds")),
-    surfaceType: parseEditableCatalogSurfaceType(getRowValue(row, "surface_type", "surfaceType", "SurfaceType", "surface", "Surface")),
+    surfaceType,
     categorization: String(getRowValue(row, "categorization", "category", "Categorization", "Category")).trim(),
     qualities: String(getRowValue(row, "qualities", "quality_values", "Qualities", "QualityValues")).trim()
   };
 }
 
-function parseCatalogCsv(text) {
+function parseCatalogCsv(text, gameId) {
   const lines = text
     .split(/\r?\n/u)
     .map((line) => line.trimEnd())
@@ -116,7 +124,7 @@ function parseCatalogCsv(text) {
     for (let headerIndex = 0; headerIndex < headers.length; headerIndex += 1) {
       row[headers[headerIndex]] = values[headerIndex] ?? "";
     }
-    const entry = normalizeCatalogEntry(row);
+    const entry = normalizeCatalogEntry(row, gameId);
     if (entry) {
       entries.set(entry.shapeCode, entry);
     }
@@ -179,7 +187,7 @@ function parseShapeCode(value) {
   return shapeCode;
 }
 
-function createCatalogEntry(shapeCode, overrides = {}) {
+function createCatalogEntry(shapeCode, gameId, overrides = {}) {
   return {
     shapeCode,
     shapeCodeHex: toShapeCodeHex(shapeCode),
@@ -188,7 +196,7 @@ function createCatalogEntry(shapeCode, overrides = {}) {
     roof: null,
     semitransparency: null,
     oob: null,
-    surfaceType: "",
+    surfaceType: getDefaultCatalogSurfaceType(gameId),
     categorization: "",
     qualities: "",
     ...overrides
@@ -272,7 +280,7 @@ export function getShapeCatalog(gameId) {
   const value = {
     filePath,
     digest: sha1(text),
-    entries: parseCatalogCsv(text)
+    entries: parseCatalogCsv(text, gameId)
   };
   shapeCatalogCache.set(cacheKey, { stamp, value });
   return value;
@@ -311,14 +319,8 @@ export function ensureShapeCatalogCoverage(gameId, observedShapes) {
       continue;
     }
     entries.set(observed.shapeCode, {
-      shapeCode: observed.shapeCode,
-      shapeCodeHex: toShapeCodeHex(observed.shapeCode),
-      humanReadableId: "",
+      ...createCatalogEntry(observed.shapeCode, gameId),
       description: observed.isEditor ? "Editor Object" : "",
-      roof: null,
-      semitransparency: null,
-      oob: null,
-      surfaceType: "",
       categorization: observed.categorization,
       qualities: observed.qualities
     });
@@ -355,7 +357,7 @@ export function updateShapeCatalogEntry(gameId, shapeCodeValue, updates = {}) {
   const shapeCode = parseShapeCode(shapeCodeValue);
   const existing = getShapeCatalog(gameId);
   const entries = new Map(existing.entries);
-  const current = entries.get(shapeCode) ?? createCatalogEntry(shapeCode);
+  const current = entries.get(shapeCode) ?? createCatalogEntry(shapeCode, gameId);
   const next = {
     ...current,
     shapeCode,
@@ -408,7 +410,7 @@ export function syncShapeCatalogWithDtable(gameId, options = {}) {
 
   for (const dtableEntry of [...dtable.entries.values()].sort((left, right) => left.shapeCode - right.shapeCode)) {
     const hadEntry = entries.has(dtableEntry.shapeCode);
-    const current = entries.get(dtableEntry.shapeCode) ?? createCatalogEntry(dtableEntry.shapeCode);
+    const current = entries.get(dtableEntry.shapeCode) ?? createCatalogEntry(dtableEntry.shapeCode, gameId);
     const next = {
       ...current,
       shapeCode: dtableEntry.shapeCode,
