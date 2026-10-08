@@ -491,7 +491,8 @@ function buildClassRows(buffer) {
     .filter((chunk) => chunk.objectIndex != null && chunk.objectIndex >= 2)
     .map((chunk) => {
       const classId = chunk.objectIndex - 2;
-      const className = decodeNameTableEntry(nameTableData, classId) ?? `class_${classId.toString(16).padStart(4, "0")}`;
+      const decodedClassName = decodeNameTableEntry(nameTableData, classId);
+      const className = decodedClassName ?? `class_${classId.toString(16).padStart(4, "0")}`;
       const rawCodeBaseU32 = chunk.raw.length >= 12 ? readU32LE(chunk.raw, 8) : 0;
       const codeBaseMinusOne = rawCodeBaseU32 > 0 ? rawCodeBaseU32 - 1 : null;
       const eventRegion = rawCodeBaseU32 - 20;
@@ -534,6 +535,7 @@ function buildClassRows(buffer) {
         objectIndex: chunk.objectIndex,
         classId,
         className,
+        classNameProvenance: decodedClassName ? "owner_name_table" : "generated_fallback",
         rawCodeBaseU32,
         codeBaseMinusOne,
         conservativeEventCount,
@@ -2397,6 +2399,385 @@ export function buildIrForEvent(classRow, eventRow, variant, classNameMap) {
     debug_symbols: debugSymbols,
     field_tags: fieldTags
   };
+}
+
+const USECODE_SOURCE_DOCUMENT_FORMAT = "crusader-usecode-source";
+const USECODE_SOURCE_DOCUMENT_VERSION = 2;
+const USECODE_ARCHIVE_SOURCE_DOCUMENT_FORMAT = "crusader-usecode-archive-source";
+const USECODE_ARCHIVE_SOURCE_DOCUMENT_VERSION = 1;
+
+function readCanonicalHexBytes(value, fieldName) {
+  if (typeof value !== "string" || value.length % 2 !== 0 || !/^(?:[0-9a-f]{2})*$/u.test(value)) {
+    throw new TypeError(`${fieldName} must be lowercase, even-length hexadecimal bytes`);
+  }
+  return Buffer.from(value, "hex");
+}
+
+function validateUsecodeSourceDocument(document) {
+  if (!document || typeof document !== "object" || Array.isArray(document)) {
+    throw new TypeError("USECODE source document must be an object");
+  }
+  if (document.format !== USECODE_SOURCE_DOCUMENT_FORMAT || document.format_version !== USECODE_SOURCE_DOCUMENT_VERSION) {
+    throw new TypeError(`unsupported USECODE source document format/version: ${document.format}/${document.format_version}`);
+  }
+  if (!["remorse", "regret"].includes(document.game_variant)) {
+    throw new TypeError("USECODE source document game_variant must be remorse or regret");
+  }
+
+  const classBytes = readCanonicalHexBytes(document.class?.raw_bytes_hex, "class.raw_bytes_hex");
+  const eventBytes = readCanonicalHexBytes(document.event?.raw_entry_hex, "event.raw_entry_hex");
+  const bodyBytes = readCanonicalHexBytes(document.body?.raw_bytes_hex, "body.raw_bytes_hex");
+  const classId = document.class?.class_id;
+  const objectIndex = document.source?.class_object_index;
+  const entryIndex = document.source?.archive_entry_index;
+  const slot = document.event?.slot;
+  const tableOffset = document.event?.table_offset;
+  const bodyOffset = document.body?.offset;
+  const bodyLength = document.body?.length;
+  const rawCodeBase = document.class?.raw_code_base_u32;
+  const eventCount = document.class?.event_count;
+
+  if (!Number.isInteger(classId) || classId < 0 || objectIndex !== classId + 2) {
+    throw new TypeError("source.class_object_index must equal class.class_id + 2");
+  }
+  if (!Number.isInteger(entryIndex) || entryIndex < 0) {
+    throw new TypeError("source.archive_entry_index must be a non-negative integer");
+  }
+  if (!["owner_name_table", "generated_fallback"].includes(document.class?.name_provenance)) {
+    throw new TypeError("class.name_provenance must identify the owner name table or a generated fallback");
+  }
+  if (!Number.isInteger(slot) || slot < 0 || tableOffset !== 20 + slot * 6 || eventBytes.length !== 6) {
+    throw new TypeError("event slot/table offset/raw entry are inconsistent");
+  }
+  if (!Number.isInteger(rawCodeBase) || rawCodeBase < 20 || !Number.isInteger(eventCount) ||
+      eventCount !== (rawCodeBase - 20) / 6 || slot >= eventCount ||
+      document.class.code_base_minus_one !== rawCodeBase - 1) {
+    throw new TypeError("class header fields do not match the declared event table");
+  }
+  if (!Number.isInteger(bodyOffset) || bodyOffset < 0 || !Number.isInteger(bodyLength) || bodyLength < 0) {
+    throw new TypeError("body offset and length must be non-negative integers");
+  }
+  if (classBytes.length < 12 || bodyOffset + bodyLength > classBytes.length ||
+      classBytes.readUInt32LE(8) !== document.class.raw_code_base_u32) {
+    throw new TypeError("class bytes do not match the declared code-base or body bounds");
+  }
+  if (tableOffset + eventBytes.length > classBytes.length ||
+      !classBytes.subarray(tableOffset, tableOffset + eventBytes.length).equals(eventBytes) ||
+      classBytes.readUInt16LE(tableOffset) !== document.event.raw_event_entry_word ||
+      classBytes.readUInt32LE(tableOffset + 2) !== document.event.raw_code_offset) {
+    throw new TypeError("event metadata does not match the preserved class bytes");
+  }
+  if (bodyBytes.length !== bodyLength || !classBytes.subarray(bodyOffset, bodyOffset + bodyLength).equals(bodyBytes)) {
+    throw new TypeError("body bytes do not match the preserved class bytes and bounds");
+  }
+  if (!document.decompilation || document.decompilation.class?.class_id !== classId ||
+      document.decompilation.event?.slot !== slot ||
+      document.decompilation.event?.derived_body_start !== bodyOffset ||
+      document.decompilation.event?.derived_body_end !== bodyOffset + bodyLength ||
+      document.decompilation.event?.derived_body_length !== bodyLength ||
+      document.decompilation.event?.raw_event_entry_word !== document.event.raw_event_entry_word ||
+      document.decompilation.event?.raw_code_offset !== document.event.raw_code_offset ||
+      document.decompilation.body?.raw_body_sha1 !== sha1(bodyBytes)) {
+    throw new TypeError("decompilation metadata does not match the preserved source bytes");
+  }
+  validateUsecodeEditOverlay(document, bodyBytes);
+  return document;
+}
+
+const EDITABLE_IMMEDIATE_OPERANDS = {
+  push_byte_immediate: { name: "value_u8", max: 0xff },
+  push_word_immediate: { name: "value_u16", max: 0xffff },
+  push_dword_immediate: { name: "value_u32", max: 0xffffffff }
+};
+
+function validateUsecodeEditOverlay(document, originalBodyBytes) {
+  const overlay = document.edit_overlay;
+  if (!overlay || overlay.version !== 1 || overlay.original_body_sha1 !== sha1(originalBodyBytes) ||
+      !Array.isArray(overlay.changes)) {
+    throw new TypeError("edit_overlay must be version 1 and anchored to the original body SHA-1");
+  }
+
+  const opsByOffset = new Map(document.decompilation.ops.map((op) => [op.offset, op]));
+  const changedOperands = new Set();
+  for (const change of overlay.changes) {
+    if (change?.kind !== "replace_immediate_operand" ||
+        !Number.isInteger(change.instruction_offset) || change.instruction_offset < 0) {
+      throw new TypeError("edit overlay contains an unsupported or malformed change");
+    }
+    const op = opsByOffset.get(change.instruction_offset);
+    const operandSpec = EDITABLE_IMMEDIATE_OPERANDS[op?.mnemonic];
+    if (!op || !operandSpec || change.operand_name !== operandSpec.name) {
+      throw new TypeError("immediate edit must target a supported decoded immediate operand");
+    }
+    const originalInstructionBytes = readCanonicalHexBytes(op.raw_bytes, "decompilation op.raw_bytes");
+    const expectedInstructionBytes = readCanonicalHexBytes(
+      change.expected_instruction_bytes_hex,
+      "edit change.expected_instruction_bytes_hex"
+    );
+    if (!expectedInstructionBytes.equals(originalInstructionBytes) ||
+        !originalBodyBytes.subarray(op.offset, op.offset + originalInstructionBytes.length).equals(originalInstructionBytes) ||
+        change.original_value !== op.operands[operandSpec.name]) {
+      throw new TypeError("immediate edit does not match its original instruction and operand");
+    }
+    if (!Number.isInteger(change.value) || change.value < 0 || change.value > operandSpec.max) {
+      throw new RangeError(`edited ${operandSpec.name} must be an integer in the range 0..${operandSpec.max}`);
+    }
+    const changeKey = `${change.instruction_offset}:${change.operand_name}`;
+    if (changedOperands.has(changeKey)) {
+      throw new TypeError("edit overlay contains duplicate changes for one operand");
+    }
+    changedOperands.add(changeKey);
+  }
+}
+
+export function buildUsecodeSourceDocument(classRow, eventRow, variant, classNameMap) {
+  if (!Buffer.isBuffer(classRow?.raw)) {
+    throw new TypeError("class row must include its original raw bytes");
+  }
+  if (!["remorse", "regret"].includes(variant)) {
+    throw new TypeError("game variant must be remorse or regret");
+  }
+  const tableOffset = 20 + eventRow.slot * 6;
+  const bodyOffset = eventRow.derivedBodyStart;
+  const bodyLength = eventRow.derivedBodyLength;
+  if (!Number.isInteger(bodyOffset) || !Number.isInteger(bodyLength) ||
+      bodyOffset < 0 || bodyLength < 0 || bodyOffset + bodyLength > classRow.raw.length ||
+      tableOffset < 20 || tableOffset + 6 > classRow.raw.length) {
+    throw new RangeError("class/event row does not identify bounded source bytes");
+  }
+
+  const classBytes = classRow.raw;
+  const eventBytes = classBytes.subarray(tableOffset, tableOffset + 6);
+  const bodyBytes = classBytes.subarray(bodyOffset, bodyOffset + bodyLength);
+  const decompilation = buildIrForEvent(classRow, eventRow, variant, classNameMap);
+  return validateUsecodeSourceDocument({
+    format: USECODE_SOURCE_DOCUMENT_FORMAT,
+    format_version: USECODE_SOURCE_DOCUMENT_VERSION,
+    game_variant: variant,
+    source: {
+      archive_entry_index: classRow.entryIndex,
+      class_object_index: classRow.objectIndex
+    },
+    class: {
+      class_id: classRow.classId,
+      class_name: classRow.className,
+      name_provenance: classRow.classNameProvenance,
+      raw_code_base_u32: classRow.rawCodeBaseU32,
+      code_base_minus_one: classRow.codeBaseMinusOne,
+      event_count: classRow.conservativeEventCount,
+      raw_bytes_hex: classBytes.toString("hex")
+    },
+    event: {
+      slot: eventRow.slot,
+      event_name_hint: eventRow.eventNameHint,
+      table_offset: tableOffset,
+      raw_entry_hex: eventBytes.toString("hex"),
+      raw_event_entry_word: eventRow.rawEventEntryWord,
+      raw_code_offset: eventRow.rawCodeOffset
+    },
+    body: {
+      offset: bodyOffset,
+      length: bodyLength,
+      raw_bytes_hex: bodyBytes.toString("hex")
+    },
+    decompilation,
+    edit_overlay: {
+      version: 1,
+      original_body_sha1: decompilation.body.raw_body_sha1,
+      changes: []
+    }
+  });
+}
+
+export function serializeUsecodeSourceDocument(document) {
+  validateUsecodeSourceDocument(document);
+  return `${JSON.stringify(document, null, 2)}\n`;
+}
+
+export function parseUsecodeSourceDocument(serialized) {
+  if (typeof serialized !== "string") {
+    throw new TypeError("serialized USECODE source document must be a string");
+  }
+  return validateUsecodeSourceDocument(JSON.parse(serialized));
+}
+
+export function createUsecodeEditedIrPreview(document) {
+  validateUsecodeSourceDocument(document);
+  const preview = structuredClone(document.decompilation);
+  for (const change of document.edit_overlay.changes) {
+    const op = preview.ops.find((candidate) => candidate.offset === change.instruction_offset);
+    op.operands[change.operand_name] = change.value;
+    if (op.mnemonic === "push_byte_immediate") {
+      op.operands.value_signed = signedByte(change.value);
+    }
+  }
+  preview.body.edit_overlay_preview = true;
+  preview.body.raw_bytes_are_unmodified_source = true;
+  return preview;
+}
+
+function sha256(buffer) {
+  return crypto.createHash("sha256").update(buffer).digest("hex");
+}
+
+function buildUsecodeArchiveDirectory(buffer) {
+  if (!Buffer.isBuffer(buffer) || buffer.length < 0x58) {
+    throw new TypeError("USECODE archive must be a Buffer with a complete FLEX header");
+  }
+  const entryCount = readU32LE(buffer, 0x54);
+  const tableOffset = 0x80;
+  const tableEnd = tableOffset + entryCount * 8;
+  if (!Number.isSafeInteger(tableEnd) || tableEnd > buffer.length) {
+    throw new RangeError("FLEX entry table extends beyond the source archive");
+  }
+
+  const table = parseFlxTable(buffer);
+  if (table.entries.length !== entryCount) {
+    throw new RangeError("FLEX entry table is incomplete");
+  }
+  const chunks = extractChunks(buffer);
+  const chunksByEntry = new Map(chunks.map((chunk) => [chunk.entryIndex, chunk]));
+  const entries = table.entries.map((entry) => {
+    const chunk = chunksByEntry.get(entry.entryIndex);
+    return {
+      entry_index: entry.entryIndex,
+      table_offset: entry.tableOffset,
+      object_index: objectIndexFromTableOffset(entry.tableOffset),
+      data_offset: entry.dataOffset,
+      declared_size: entry.declaredSize,
+      extracted_size: chunk?.raw.length ?? 0,
+      raw_table_entry_hex: buffer.subarray(entry.tableOffset, entry.tableOffset + 8).toString("hex")
+    };
+  });
+  const entriesByIndex = new Map(entries.map((entry) => [entry.entry_index, entry]));
+  const classes = buildClassRows(buffer).map((classRow) => {
+    const entry = entriesByIndex.get(classRow.entryIndex);
+    if (!entry || entry.object_index !== classRow.objectIndex ||
+        entry.data_offset + classRow.raw.length > buffer.length) {
+      throw new RangeError(`class ${classRow.classId} does not map to bounded archive bytes`);
+    }
+    const events = classRow.eventRows.map((eventRow) => {
+      const entryOffset = 20 + eventRow.slot * 6;
+      const rawEntry = classRow.raw.subarray(entryOffset, entryOffset + 6);
+      const hasBody = eventRow.derivedBodyStart != null && eventRow.derivedBodyEnd != null;
+      const body = hasBody
+        ? classRow.raw.subarray(eventRow.derivedBodyStart, eventRow.derivedBodyEnd)
+        : null;
+      return {
+        slot: eventRow.slot,
+        event_name_hint: eventRow.eventNameHint,
+        event_name_hint_provenance: eventRow.eventNameHint ? "external_hint" : "unresolved",
+        entry_offset: entryOffset,
+        archive_entry_offset: entry.data_offset + entryOffset,
+        raw_entry_hex: rawEntry.toString("hex"),
+        raw_event_entry_word: eventRow.rawEventEntryWord,
+        raw_code_offset: eventRow.rawCodeOffset,
+        body_offset: eventRow.derivedBodyStart,
+        body_length: eventRow.derivedBodyLength,
+        archive_body_offset: hasBody ? entry.data_offset + eventRow.derivedBodyStart : null,
+        body_sha1: body ? sha1(body) : null
+      };
+    });
+    return {
+      class_id: classRow.classId,
+      class_name: classRow.className,
+      class_name_provenance: classRow.classNameProvenance,
+      object_index: classRow.objectIndex,
+      archive_entry_index: classRow.entryIndex,
+      archive_data_offset: entry.data_offset,
+      byte_length: classRow.raw.length,
+      raw_code_base_u32: classRow.rawCodeBaseU32,
+      code_base_minus_one: classRow.codeBaseMinusOne,
+      event_count: classRow.conservativeEventCount,
+      events
+    };
+  });
+
+  return {
+    entry_count: entryCount,
+    entry_table_offset: tableOffset,
+    entries,
+    classes
+  };
+}
+
+function canonicalizeJsonValue(value) {
+  if (Array.isArray(value)) {
+    return value.map(canonicalizeJsonValue);
+  }
+  if (value && typeof value === "object") {
+    return Object.fromEntries(
+      Object.keys(value).sort().map((key) => [key, canonicalizeJsonValue(value[key])])
+    );
+  }
+  return value;
+}
+
+function validateUsecodeArchiveSourceDocument(document) {
+  if (!document || typeof document !== "object" || Array.isArray(document)) {
+    throw new TypeError("USECODE archive source document must be an object");
+  }
+  if (document.format !== USECODE_ARCHIVE_SOURCE_DOCUMENT_FORMAT ||
+      document.format_version !== USECODE_ARCHIVE_SOURCE_DOCUMENT_VERSION) {
+    throw new TypeError(`unsupported USECODE archive document format/version: ${document.format}/${document.format_version}`);
+  }
+  if (!["remorse", "regret"].includes(document.game_variant)) {
+    throw new TypeError("USECODE archive game_variant must be remorse or regret");
+  }
+  const sourceBytesBase64 = document.source?.bytes_base64;
+  if (typeof sourceBytesBase64 !== "string") {
+    throw new TypeError("archive source bytes must be base64 text");
+  }
+  const sourceBytes = Buffer.from(sourceBytesBase64, "base64");
+  if (sourceBytes.toString("base64") !== sourceBytesBase64 ||
+      sourceBytes.length !== document.source.byte_length ||
+      sha256(sourceBytes) !== document.source.sha256) {
+    throw new TypeError("archive source bytes do not match their declared length or SHA-256");
+  }
+  const expectedDirectory = buildUsecodeArchiveDirectory(sourceBytes);
+  if (JSON.stringify(canonicalizeJsonValue(document.archive)) !==
+      JSON.stringify(canonicalizeJsonValue(expectedDirectory))) {
+    throw new TypeError("archive directory metadata does not match the preserved FLEX bytes");
+  }
+  return document;
+}
+
+export function buildUsecodeArchiveSourceDocument(buffer, variant) {
+  if (!Buffer.isBuffer(buffer)) {
+    throw new TypeError("USECODE archive must be a Buffer");
+  }
+  if (!["remorse", "regret"].includes(variant)) {
+    throw new TypeError("game variant must be remorse or regret");
+  }
+  const archive = buildUsecodeArchiveDirectory(buffer);
+  return validateUsecodeArchiveSourceDocument({
+    format: USECODE_ARCHIVE_SOURCE_DOCUMENT_FORMAT,
+    format_version: USECODE_ARCHIVE_SOURCE_DOCUMENT_VERSION,
+    game_variant: variant,
+    source: {
+      byte_length: buffer.length,
+      sha256: sha256(buffer),
+      bytes_base64: buffer.toString("base64")
+    },
+    archive
+  });
+}
+
+export function serializeUsecodeArchiveSourceDocument(document) {
+  validateUsecodeArchiveSourceDocument(document);
+  return `${JSON.stringify(document, null, 2)}\n`;
+}
+
+export function parseUsecodeArchiveSourceDocument(serialized) {
+  if (typeof serialized !== "string") {
+    throw new TypeError("serialized USECODE archive source document must be a string");
+  }
+  return validateUsecodeArchiveSourceDocument(JSON.parse(serialized));
+}
+
+export function restoreUsecodeArchiveSourceBytes(document) {
+  validateUsecodeArchiveSourceDocument(document);
+  return Buffer.from(document.source.bytes_base64, "base64");
 }
 
 export function renderPseudocode(ir, shapeCatalog) {

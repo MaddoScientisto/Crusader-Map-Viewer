@@ -2,7 +2,17 @@ import assert from "node:assert/strict";
 import fs from "node:fs";
 import path from "node:path";
 
-import { __testHooks } from "../src/lib/usecode-decompiler.js";
+import {
+  __testHooks,
+  buildUsecodeArchiveSourceDocument,
+  buildUsecodeSourceDocument,
+  createUsecodeEditedIrPreview,
+  parseUsecodeArchiveSourceDocument,
+  parseUsecodeSourceDocument,
+  restoreUsecodeArchiveSourceBytes,
+  serializeUsecodeArchiveSourceDocument,
+  serializeUsecodeSourceDocument
+} from "../src/lib/usecode-decompiler.js";
 import { buildUnkExportForClass } from "../src/lib/usecode-unk-exporter.js";
 
 function makeIr(ops, debugSymbols = []) {
@@ -92,6 +102,146 @@ function testImportedIntrinsicTablesResolveKnownOrdinals() {
   assert.equal(__testHooks.getIntrinsicNameHint("remorse", 0x0057, 2), "Item::getSurfaceWeight(Item *)");
   assert.ok(__testHooks.getIntrinsicNameHint("regret", 0x0107, 2), "expected a regret-specific high ordinal hint");
   assert.doesNotMatch(__testHooks.getIntrinsicNameHint("regret", 0x0107, 2), /^Intrinsic/u);
+}
+
+function testSourceDocumentRoundTripsExactClassEventAndBodyBytes() {
+  const raw = Buffer.alloc(30);
+  raw.writeUInt32LE(26, 8);
+  raw.writeUInt16LE(0xa55a, 20);
+  raw.writeUInt32LE(1, 22);
+  raw[26] = 0x0a;
+  raw[27] = 0x05;
+  raw[28] = 0x50;
+  raw[29] = 0x7a;
+  const classRow = {
+    entryIndex: 4,
+    objectIndex: 6,
+    classId: 4,
+    className: "TEST",
+    classNameProvenance: "owner_name_table",
+    rawCodeBaseU32: 26,
+    codeBaseMinusOne: 25,
+    conservativeEventCount: 1,
+    raw
+  };
+  const eventRow = {
+    slot: 0,
+    eventNameHint: "look",
+    rawEventEntryWord: 0xa55a,
+    rawCodeOffset: 1,
+    derivedBodyStart: 26,
+    derivedBodyEnd: 30,
+    derivedBodyLength: 4
+  };
+  const document = buildUsecodeSourceDocument(classRow, eventRow, "remorse", new Map([[4, "TEST"]]));
+  const serialized = serializeUsecodeSourceDocument(document);
+  const parsed = parseUsecodeSourceDocument(serialized);
+
+  assert.equal(document.format, "crusader-usecode-source");
+  assert.equal(document.format_version, 2);
+  assert.equal(document.class.raw_bytes_hex, raw.toString("hex"));
+  assert.equal(document.event.raw_entry_hex, "5aa501000000");
+  assert.equal(document.body.raw_bytes_hex, "0a05507a");
+  assert.deepEqual(parsed, document);
+  assert.equal(serializeUsecodeSourceDocument(parsed), serialized);
+
+  const editedDocument = structuredClone(document);
+  editedDocument.edit_overlay.changes.push({
+    kind: "replace_immediate_operand",
+    instruction_offset: 0,
+    operand_name: "value_u8",
+    original_value: 5,
+    value: 7,
+    expected_instruction_bytes_hex: "0a05"
+  });
+  const serializedEdit = serializeUsecodeSourceDocument(editedDocument);
+  const parsedEdit = parseUsecodeSourceDocument(serializedEdit);
+  assert.equal(parsedEdit.edit_overlay.changes[0].value, 7);
+  assert.equal(parsedEdit.body.raw_bytes_hex, "0a05507a");
+  const editedPreview = createUsecodeEditedIrPreview(parsedEdit);
+  assert.equal(editedPreview.ops[0].operands.value_u8, 7);
+  assert.equal(editedPreview.ops[0].operands.value_signed, 7);
+  assert.equal(editedPreview.ops[0].raw_bytes, "0a05");
+  assert.equal(editedPreview.body.edit_overlay_preview, true);
+  assert.equal(editedPreview.body.raw_bytes_are_unmodified_source, true);
+
+  const staleEdit = structuredClone(editedDocument);
+  staleEdit.edit_overlay.changes[0].original_value = 4;
+  assert.throws(() => serializeUsecodeSourceDocument(staleEdit), /original instruction and operand/u);
+  const outOfRangeEdit = structuredClone(editedDocument);
+  outOfRangeEdit.edit_overlay.changes[0].value = 0x100;
+  assert.throws(() => serializeUsecodeSourceDocument(outOfRangeEdit), /range 0\.\.255/u);
+
+  const corruptedBody = structuredClone(document);
+  corruptedBody.body.raw_bytes_hex = "0a05507b";
+  assert.throws(() => serializeUsecodeSourceDocument(corruptedBody), /body bytes do not match/u);
+  assert.throws(
+    () => parseUsecodeSourceDocument(serialized.replace('"format_version": 2', '"format_version": 3')),
+    /unsupported USECODE source document format\/version/u
+  );
+}
+
+function testSourceDocumentsRoundTripRealClassesForBothVariants() {
+  const samples = [
+    { archive: path.resolve("STATIC", "EUSECODE.FLX"), variant: "remorse", className: "TRIGGER", slot: 0x20 },
+    { archive: path.resolve("STATIC_REGRET", "EUSECODE.FLX"), variant: "regret", className: "BRIDGE", slot: 0x22 }
+  ];
+
+  for (const sample of samples) {
+    const classRows = __testHooks.buildClassRows(fs.readFileSync(sample.archive));
+    const classRow = classRows.find((row) => row.className === sample.className);
+    assert.ok(classRow, `expected ${sample.className} in ${sample.variant} EUSECODE`);
+    const eventRow = classRow.eventRows.find((row) => row.slot === sample.slot);
+    assert.ok(eventRow, `expected ${sample.className} slot ${sample.slot.toString(16)} in ${sample.variant}`);
+
+    const classNameMap = new Map(classRows.map((row) => [row.classId, row.className]));
+    const document = buildUsecodeSourceDocument(classRow, eventRow, sample.variant, classNameMap);
+    const serialized = serializeUsecodeSourceDocument(document);
+    const parsed = parseUsecodeSourceDocument(serialized);
+
+    assert.equal(parsed.class.raw_bytes_hex, classRow.raw.toString("hex"));
+    assert.equal(parsed.body.raw_bytes_hex, classRow.raw.subarray(eventRow.derivedBodyStart, eventRow.derivedBodyEnd).toString("hex"));
+    assert.equal(serializeUsecodeSourceDocument(parsed), serialized);
+  }
+}
+
+function testArchiveSourceDocumentsRestoreBothVariantsByteForByte() {
+  const samples = [
+    { archive: path.resolve("STATIC", "EUSECODE.FLX"), variant: "remorse" },
+    { archive: path.resolve("STATIC_REGRET", "EUSECODE.FLX"), variant: "regret" }
+  ];
+
+  for (const sample of samples) {
+    const originalBytes = fs.readFileSync(sample.archive);
+    const document = buildUsecodeArchiveSourceDocument(originalBytes, sample.variant);
+    const serialized = serializeUsecodeArchiveSourceDocument(document);
+    const parsed = parseUsecodeArchiveSourceDocument(serialized);
+    const restoredBytes = restoreUsecodeArchiveSourceBytes(parsed);
+
+    assert.equal(document.format, "crusader-usecode-archive-source");
+    assert.equal(document.format_version, 1);
+    assert.equal(document.source.byte_length, originalBytes.length);
+    assert.deepEqual(restoredBytes, originalBytes);
+    assert.equal(serializeUsecodeArchiveSourceDocument(parsed), serialized);
+    assert.ok(document.archive.classes.length > 0, `expected class metadata for ${sample.variant}`);
+    assert.ok(document.archive.classes.every((classRecord) =>
+      ["owner_name_table", "generated_fallback"].includes(classRecord.class_name_provenance)
+    ));
+    const hintedEvent = document.archive.classes.flatMap((classRecord) => classRecord.events)
+      .find((eventRecord) => eventRecord.event_name_hint);
+    assert.ok(hintedEvent, `expected at least one event-name hint for ${sample.variant}`);
+    assert.equal(hintedEvent.event_name_hint_provenance, "external_hint");
+
+    const corruptSource = structuredClone(document);
+    const alteredBytes = Buffer.from(corruptSource.source.bytes_base64, "base64");
+    alteredBytes[0] ^= 0xff;
+    corruptSource.source.bytes_base64 = alteredBytes.toString("base64");
+    assert.throws(() => serializeUsecodeArchiveSourceDocument(corruptSource), /declared length or SHA-256/u);
+
+    const corruptDirectory = structuredClone(document);
+    corruptDirectory.archive.entries[0].data_offset += 1;
+    assert.throws(() => serializeUsecodeArchiveSourceDocument(corruptDirectory), /directory metadata does not match/u);
+  }
 }
 
 function testSelectorLadderUsesEqualityCompareAndFalseBranch() {
@@ -812,6 +962,9 @@ testRealRegretChangerHatchRendersRoofSelector();
 testRealBroBootEquipRendersSwitch();
 testRealBroBootEnterFastAreaNoLongerFallsBackToBlocks();
 testImportedIntrinsicTablesResolveKnownOrdinals();
+testSourceDocumentRoundTripsExactClassEventAndBodyBytes();
+testSourceDocumentsRoundTripRealClassesForBothVariants();
+testArchiveSourceDocumentsRestoreBothVariantsByteForByte();
 testGlobalAddressFeedsIntrinsicsAndLoopnextStaysHidden();
 testNamedIntrinsic003cRendersAsItemFamily();
 testTerminalTrailingBytesDoNotEmitStopBanner();
