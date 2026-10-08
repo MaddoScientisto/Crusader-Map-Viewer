@@ -17,6 +17,17 @@ export function buildGlobViewerEntries(globs, usageByIndex = new Map(), renderOr
   }));
 }
 
+export function getGlobListWindow(entryCount, scrollTop, viewportHeight, rowHeight, overscan = 8) {
+  const total = Math.max(0, Math.floor(entryCount));
+  const row = Math.max(1, Number.isFinite(rowHeight) ? rowHeight : 1);
+  const top = Math.max(0, Number.isFinite(scrollTop) ? scrollTop : 0);
+  const height = Math.max(0, Number.isFinite(viewportHeight) ? viewportHeight : 0);
+  const buffer = Math.max(0, Math.floor(overscan));
+  const start = Math.max(0, Math.floor(top / row) - buffer);
+  const end = Math.min(total, Math.ceil((top + height) / row) + buffer);
+  return { start, end, totalHeight: total * row };
+}
+
 export function buildGlobRenderOrders(globs, shapeArchive, shapeInfos) {
   return new Map(globs.map((children, globIndex) => {
     const sortItems = children.map((child, childIndex) => ({

@@ -1,8 +1,8 @@
 import assert from "node:assert/strict";
 
-import { formatDiskCoords, formatWorldCoords } from "../src/vue/controller/formatters.js";
+import { formatDiskCoords, formatEggMapLabel, formatWorldCoords } from "../src/vue/controller/formatters.js";
 import { createSceneMetadataHelpers } from "../src/vue/controller/scene-metadata.js";
-import { createScenePresentationController } from "../src/vue/controller/scene-presentation.js";
+import { createScenePresentationController, getGlobGroupTooltipPlacement, getRightSideTooltipPlacement } from "../src/vue/controller/scene-presentation.js";
 
 function createBaseDeps(overrides = {}) {
   return {
@@ -128,6 +128,157 @@ function testFormattersHandleMissingWorld() {
   assert.equal(formatDiskCoords({}), "-");
 }
 
+function testGlobTooltipPrefersRightSideWhenItFits() {
+  const bounds = { right: 280, top: 100, bottom: 280 };
+  const tooltipSize = { width: 200, height: 120 };
+  assert.deepEqual(getRightSideTooltipPlacement(bounds, tooltipSize, { width: 800, height: 600 }), { left: 296, top: 130 });
+  assert.equal(getRightSideTooltipPlacement(bounds, tooltipSize, { width: 500, height: 600 }), null);
+}
+
+function testGlobTooltipMovesLeftWhenRightSideIsBlocked() {
+  assert.deepEqual(
+    getGlobGroupTooltipPlacement(
+      { left: 450, right: 760, top: 100, bottom: 280 },
+      { width: 200, height: 120 },
+      { width: 800, height: 600 }
+    ),
+    { left: 234, top: 130 }
+  );
+}
+
+function testGlobTooltipRemainsAnchoredWhenNeitherSideFits() {
+  assert.deepEqual(
+    getGlobGroupTooltipPlacement(
+      { left: 100, right: 700, top: 100, bottom: 280 },
+      { width: 200, height: 120 },
+      { width: 800, height: 600 }
+    ),
+    { left: 582, top: 130 }
+  );
+}
+
+function testGlobHoverAnchorsAndSelectionUsesFixedDock() {
+  const parent = {
+    id: "item:glob-parent",
+    source: "fixed",
+    mapSourceIndex: 4,
+    quality: 2,
+    egg: { type: "glob", labelId: 2 },
+    label: "Glob 2",
+    shapeDefId: "shape:16",
+    kind: "egg",
+    frame: 0,
+    world: { x: 100, y: 120, z: 0 },
+    flags: { hex: "0x0000", flipped: false },
+    notes: []
+  };
+  const child = {
+    id: "item:glob-child",
+    source: "glob",
+    globParentMapSourceIndex: 4,
+    globIndex: 2,
+    globChildIndex: 0,
+    shapeDefId: "shape:3",
+    frame: 0,
+    world: { x: 110, y: 120, z: 0 },
+    screen: { left: 100, top: 50, right: 140, bottom: 90, width: 40, height: 40 }
+  };
+  const state = createBaseDeps().state;
+  state.current.scene.items = [parent, child];
+  state.editor = {
+    mode: true,
+    currentLayer: "glob",
+    globSelection: { parentMapSourceIndex: 4, globIndex: 2 },
+    globHover: { parentMapSourceIndex: 4, globIndex: 2 },
+    onlyShowCurrentLayer: false
+  };
+  const tooltip = {
+    hidden: true,
+    offsetWidth: 120,
+    offsetHeight: 80,
+    style: {},
+    classList: { toggle() {} }
+  };
+  const controller = createScenePresentationController(createBaseDeps({
+    state,
+    overlayTooltip: tooltip,
+    monsterSpawnerList: { querySelectorAll() { return []; } }
+  }));
+
+  controller.syncOverlayState();
+  assert.equal(tooltip.style.left, "auto");
+  assert.equal(tooltip.style.right, "16px");
+  assert.equal(tooltip.style.top, "16px");
+  assert.equal(tooltip.style.bottom, "16px");
+
+  state.editor.globSelection = null;
+  controller.syncOverlayState();
+  assert.equal(tooltip.style.left, "156px");
+  assert.equal(tooltip.style.top, "30px");
+  assert.equal(tooltip.style.right, "auto");
+  assert.equal(tooltip.style.bottom, "auto");
+
+  state.zoom = 2;
+  state.offsetX = 10;
+  state.offsetY = 20;
+  controller.syncOverlayState();
+  assert.equal(tooltip.style.left, "306px");
+  assert.equal(tooltip.style.top, "120px");
+
+  state.editor.globSelection = { parentMapSourceIndex: 4, globIndex: 2 };
+  controller.syncOverlayState();
+  assert.equal(tooltip.style.left, "auto");
+  assert.equal(tooltip.style.right, "16px");
+  assert.equal(tooltip.style.top, "16px");
+  assert.equal(tooltip.style.bottom, "16px");
+}
+
+function testGlobTooltipPreviewDrawsChildSprites() {
+  const firstAtlas = { id: "atlas:first" };
+  const secondAtlas = { id: "atlas:second" };
+  const parent = { id: "item:glob-egg", source: "fixed" };
+  const children = [
+    { id: "item:glob-child-1", spriteId: "sprite:1:0", screen: { left: 10, top: 20, width: 16, height: 16 }, flags: { flipped: false } },
+    { id: "item:glob-child-2", spriteId: "sprite:2:0", screen: { left: 26, top: 20, width: 16, height: 16 }, flags: { flipped: false } }
+  ];
+  const current = {
+    metadata: { bounds: { screenLeft: 0, screenTop: 0 } },
+    hiddenIds: new Set(),
+    scene: { items: [parent, ...children] },
+    spriteIndex: new Map([
+      ["sprite:1:0", { id: "sprite:1:0", atlasId: "atlas:first", x: 0, y: 0, width: 16, height: 16 }],
+      ["sprite:2:0", { id: "sprite:2:0", atlasId: "atlas:second", x: 0, y: 0, width: 16, height: 16 }]
+    ]),
+    atlasImages: new Map([["atlas:first", firstAtlas], ["atlas:second", secondAtlas]])
+  };
+  const state = {
+    ...createBaseDeps().state,
+    current,
+    highlightOverlay: { itemId: null, geometry: null, fallbackItem: null, alpha: 0, targetAlpha: 0, lastTimestamp: 0 }
+  };
+  const controller = createScenePresentationController(createBaseDeps({ state }));
+  const drawnAtlases = [];
+  const context = {
+    setTransform() {},
+    clearRect() {},
+    drawImage(atlas) { drawnAtlases.push(atlas); },
+    save() {},
+    restore() {},
+    translate() {},
+    scale() {}
+  };
+
+  controller.drawTooltipPreview({ getContext: () => context }, parent, children);
+
+  assert.deepEqual(drawnAtlases, [firstAtlas, secondAtlas]);
+}
+
+function testGlobEggMapLabelUsesGlobIndexFormat() {
+  assert.equal(formatEggMapLabel({ type: "glob", labelId: 6 }), "0x0006");
+  assert.equal(formatEggMapLabel({ type: "glob", labelId: 0x0a12 }), "0x0a12");
+  assert.equal(formatEggMapLabel({ type: "usecode-trigger", labelId: 17 }), "17");
+}
+
 function testPointHitsItemUsesScreenRectBeforeCustomGeometry() {
   const controller = createScenePresentationController(createBaseDeps({
     getShapeDefinition: () => ({ shape: 0x0011, dimensions: { x: 3, y: 3, z: 0 } })
@@ -192,6 +343,28 @@ function testPointHitsItemPrefersProjectedBoundaryGeometry() {
 
   assert.equal(controller.pointHitsItem(interiorPoint, item), true);
   assert.equal(controller.pointHitsItem({ x: 39, y: 39 }, item), false);
+}
+
+function testFixedEditorItemFallsBackToVisibleSpriteRect() {
+  const item = {
+    id: "fixed:0",
+    source: "fixed",
+    mapSourceIndex: 0,
+    shapeDefId: "shape:128",
+    spriteId: "sprite:128:0",
+    world: { x: 64, y: 64, z: 0 },
+    flags: { flipped: false },
+    screen: { left: 0, top: 0, right: 40, bottom: 40, width: 40, height: 40, anchorX: 20, anchorY: 40 }
+  };
+  const baseState = createBaseDeps().state;
+  baseState.editor = { mode: true, currentLayer: "fixed", onlyShowCurrentLayer: false };
+  baseState.current.scene.items = [item];
+  const controller = createScenePresentationController(createBaseDeps({
+    state: baseState,
+    getShapeDefinition: () => ({ shape: 0x0080, dimensions: { x: 1, y: 1, z: 1 } })
+  }));
+
+  assert.equal(controller.pointHitsItem({ x: 39, y: 39 }, item), true);
 }
 
 function testPsxBoundingGeometryUsesAuthoredScreenRectFallback() {
@@ -520,8 +693,15 @@ function testTriggerEggMovableWallClusterLinksEggToCmdAndWall() {
 testControllerRequiresDiskFormatter();
 testBoundingGeometryHandlesMissingWorld();
 testFormattersHandleMissingWorld();
+testGlobTooltipPrefersRightSideWhenItFits();
+testGlobTooltipMovesLeftWhenRightSideIsBlocked();
+testGlobTooltipRemainsAnchoredWhenNeitherSideFits();
+testGlobHoverAnchorsAndSelectionUsesFixedDock();
+testGlobTooltipPreviewDrawsChildSprites();
+testGlobEggMapLabelUsesGlobIndexFormat();
 testPointHitsItemUsesScreenRectBeforeCustomGeometry();
 testPointHitsItemPrefersProjectedBoundaryGeometry();
+testFixedEditorItemFallsBackToVisibleSpriteRect();
 testPsxBoundingGeometryUsesAuthoredScreenRectFallback();
 testAutoEnabledSpawnerPreviewUsesSingleFrameOneCarrier();
 testBlockedSpawnerPreviewUsesSingleFrameZeroCarrier();

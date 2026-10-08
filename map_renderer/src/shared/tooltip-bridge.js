@@ -6,6 +6,7 @@ function createDefaultState() {
     hover: false,
     hidden: false,
     item: null,
+    previewItems: null,
     itemLabel: "",
     displayName: "",
     displayDescription: "",
@@ -74,9 +75,9 @@ export function registerTooltipPreviewRenderer(renderer) {
   previewRenderer = renderer;
 }
 
-export function renderTooltipPreview(canvasElement, item) {
+export function renderTooltipPreview(canvasElement, item, previewItems = null) {
   if (!canvasElement || !item || typeof previewRenderer !== "function") {
     return;
   }
-  previewRenderer(canvasElement, item);
+  previewRenderer(canvasElement, item, previewItems);
 }

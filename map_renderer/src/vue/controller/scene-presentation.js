@@ -3,10 +3,56 @@ import {
   getGizmoAxes,
   getSelectionGizmoCenter,
   isEditorEditableItem,
+  isEditorSelectableGlobItem,
   isItemInEditorLayer,
   mapWorldToScenePoint,
   scenePointToMapWorld
 } from "./map-editor-geometry.js";
+
+export function getRightSideTooltipPlacement(bounds, tooltipSize, viewportSize) {
+  const padding = 18;
+  const left = bounds.right + 16;
+  if (left + tooltipSize.width + padding > viewportSize.width) {
+    return null;
+  }
+  const maxTop = Math.max(padding, viewportSize.height - tooltipSize.height - padding);
+  const centeredTop = (bounds.top + bounds.bottom - tooltipSize.height) / 2;
+  return {
+    left: Math.round(left),
+    top: Math.round(Math.min(maxTop, Math.max(padding, centeredTop)))
+  };
+}
+
+export function getGlobGroupTooltipPlacement(bounds, tooltipSize, viewportSize) {
+  const rightPlacement = getRightSideTooltipPlacement(bounds, tooltipSize, viewportSize);
+  if (rightPlacement) {
+    return rightPlacement;
+  }
+  const padding = 18;
+  const gap = 16;
+  const leftPlacement = bounds.left - tooltipSize.width - gap;
+  if (leftPlacement >= padding) {
+    const maxTop = Math.max(padding, viewportSize.height - tooltipSize.height - padding);
+    const centeredTop = (bounds.top + bounds.bottom - tooltipSize.height) / 2;
+    return {
+      left: Math.round(leftPlacement),
+      top: Math.round(Math.min(maxTop, Math.max(padding, centeredTop)))
+    };
+  }
+
+  const roomOnRight = viewportSize.width - bounds.right - gap - padding;
+  const roomOnLeft = bounds.left - gap - padding;
+  const preferredLeft = roomOnRight >= roomOnLeft
+    ? bounds.right + gap
+    : leftPlacement;
+  const maxLeft = Math.max(padding, viewportSize.width - tooltipSize.width - padding);
+  const maxTop = Math.max(padding, viewportSize.height - tooltipSize.height - padding);
+  const centeredTop = (bounds.top + bounds.bottom - tooltipSize.height) / 2;
+  return {
+    left: Math.round(Math.min(maxLeft, Math.max(padding, preferredLeft))),
+    top: Math.round(Math.min(maxTop, Math.max(padding, centeredTop)))
+  };
+}
 
 export function createScenePresentationController(deps) {
   const OPEN_USECODE_TARGET_EVENT = "crusader-map-renderer:open-usecode-target";
@@ -72,6 +118,7 @@ export function createScenePresentationController(deps) {
     eyeIconSvg,
     renderPenIconSvg,
     formatEggId,
+    formatEggMapLabel,
     formatNumericField,
     formatDiskCoords,
     formatWorldCoords,
@@ -91,6 +138,7 @@ export function createScenePresentationController(deps) {
   let renderFrame = 0;
   const npcPreviewCanvasCache = new Map();
   const itemPreviewCanvasCache = new Map();
+  let globOutlineGeometryCache = { scene: null, groups: [] };
   let arrowGraphCache = null;
   const BOX_EW_SHAPE = 0x0080;
   const USECODE_TRIGGER_EGG_SHAPE = 0x0011;
@@ -1202,9 +1250,48 @@ export function createScenePresentationController(deps) {
     return isEditorSelectableItem(item) || isEggItem(item);
   }
 
+  function isGlobSelectionParent(item) {
+    const selection = state.editor.globSelection;
+    return Boolean(
+      state.editor.mode
+      && state.editor.currentLayer === "glob"
+      && selection
+      && item?.source === "fixed"
+      && item.mapSourceIndex === selection.parentMapSourceIndex
+      && item.quality === selection.globIndex
+      && item.egg?.type === "glob"
+    );
+  }
+
+  function isFixedEditorSelection(item) {
+    return Boolean(
+      state.editor.mode
+      && state.editor.currentLayer === "fixed"
+      && item
+      && state.editor.selectedIds.has(item.id)
+    );
+  }
+
+  function getFocusedGlobParentItem() {
+    if (!state.editor.mode || state.editor.currentLayer !== "glob" || !state.current) {
+      return null;
+    }
+    const group = state.editor.globSelection ?? state.editor.globHover;
+    if (!group) {
+      return null;
+    }
+    return state.current.scene.items.find((item) => (
+      item.source === "fixed" && item.mapSourceIndex === group.parentMapSourceIndex
+    )) ?? null;
+  }
+
   function getFocusedItem() {
     if (!state.current) {
       return null;
+    }
+    const globParent = getFocusedGlobParentItem();
+    if (globParent) {
+      return globParent;
     }
     if (state.pinnedItemId) {
       return getItemById(state.pinnedItemId);
@@ -1243,7 +1330,7 @@ export function createScenePresentationController(deps) {
     return getPreviewSpriteData(item?.itemPreview) ?? getPreviewSpriteData(item?.npcPreview) ?? getItemSpriteData(item);
   }
 
-  function drawTooltipPreview(canvasElement, item) {
+  function drawTooltipPreview(canvasElement, item, globPreviewItems = null) {
     const previewContext = canvasElement.getContext("2d", { alpha: true });
     if (!previewContext) {
       return;
@@ -1255,6 +1342,49 @@ export function createScenePresentationController(deps) {
     previewContext.setTransform(DEVICE_PIXEL_RATIO, 0, 0, DEVICE_PIXEL_RATIO, 0, 0);
     previewContext.clearRect(0, 0, previewSize, previewSize);
     previewContext.imageSmoothingEnabled = false;
+
+    if (Array.isArray(globPreviewItems) && globPreviewItems.length) {
+      const children = globPreviewItems.map((child) => {
+        const spriteData = getItemSpriteData(child);
+        const screen = child.screen;
+        return spriteData && screen ? {
+          child,
+          sprite: spriteData.sprite,
+          atlas: spriteData.atlas,
+          left: screen.left,
+          top: screen.top,
+          width: screen.width || spriteData.sprite.width,
+          height: screen.height || spriteData.sprite.height
+        } : null;
+      }).filter(Boolean);
+      if (children.length) {
+        const minX = Math.min(...children.map((child) => child.left));
+        const minY = Math.min(...children.map((child) => child.top));
+        const maxX = Math.max(...children.map((child) => child.left + child.width));
+        const maxY = Math.max(...children.map((child) => child.top + child.height));
+        const scale = Math.min((previewSize - 16) / Math.max(maxX - minX, 1), (previewSize - 16) / Math.max(maxY - minY, 1));
+        const offsetX = (previewSize - (maxX - minX) * scale) / 2;
+        const offsetY = (previewSize - (maxY - minY) * scale) / 2;
+        for (const child of children) {
+          const left = offsetX + (child.left - minX) * scale;
+          const top = offsetY + (child.top - minY) * scale;
+          const width = child.width * scale;
+          const height = child.height * scale;
+          previewContext.globalAlpha = child.child.presentation?.opacity ?? 1;
+          if (child.child.flags?.flipped) {
+            previewContext.save();
+            previewContext.translate(left + width, top);
+            previewContext.scale(-1, 1);
+            previewContext.drawImage(child.atlas, child.sprite.x, child.sprite.y, child.sprite.width, child.sprite.height, 0, 0, width, height);
+            previewContext.restore();
+          } else {
+            previewContext.drawImage(child.atlas, child.sprite.x, child.sprite.y, child.sprite.width, child.sprite.height, left, top, width, height);
+          }
+        }
+        previewContext.globalAlpha = 1;
+        return;
+      }
+    }
 
     const linkedPreview = getPreviewSpriteData(item?.itemPreview) ?? getPreviewSpriteData(item?.npcPreview);
     const spriteData = linkedPreview ?? getItemSpriteData(item);
@@ -1288,8 +1418,13 @@ export function createScenePresentationController(deps) {
     previewContext.globalAlpha = 1;
   }
 
+  function formatGlobId(value) {
+    return Number.isInteger(value) ? `0x${(value & 0xffff).toString(16).padStart(4, "0")}` : "-";
+  }
+
   function renderTooltip(item) {
-    const isPinnedTooltip = state.pinnedItemId === item.id;
+    const isPinnedTooltip = state.pinnedItemId === item.id && !state.editor.mode;
+    const isDockedTooltip = isPinnedTooltip || isGlobSelectionParent(item) || isFixedEditorSelection(item);
     const hidden = state.current?.hiddenIds.has(item.id) ?? false;
     const display = getItemDisplay(item);
     const sourceRecord = getMapSourceRecordForItem(item);
@@ -1307,11 +1442,35 @@ export function createScenePresentationController(deps) {
     const showTeleportEggEditor = isPinnedTooltip && isEggItem(item) && ["teleporter", "teleport-destination"].includes(item.egg?.type);
     const showPinnedActions = isPinnedTooltip;
     const warpCommand = buildWarpCommand(item);
-    const eggRows = item.egg
+    const globChildren = item.egg?.type === "glob" && Number.isInteger(item.mapSourceIndex)
+      ? state.current.scene.items.filter((child) => (
+          child.source === "glob"
+          && child.globParentMapSourceIndex === item.mapSourceIndex
+          && child.globIndex === item.quality
+        ))
+      : [];
+    const globChildRows = globChildren.slice(0, 12).map((child, index) => {
+      const childDisplay = getItemDisplay(child);
+      const childNumber = Number.isInteger(child.globChildIndex) ? child.globChildIndex + 1 : index + 1;
+      return `<dt>Child ${childNumber}</dt><dd>${escapeHtml(childDisplay.shapeHex)} frame ${escapeHtml(child.frame)} · ${escapeHtml(formatWorldCoords(child))}</dd>`;
+    }).join("");
+    const globRows = item.egg?.type === "glob"
       ? `
-        <dt>Egg type</dt><dd>${escapeHtml(describeEggType(item.egg))}</dd>
-        <dt>Egg ID</dt><dd>${escapeHtml(formatEggId(item.egg.labelId))}</dd>
+        <dt>Egg type</dt><dd>Glob Egg</dd>
+        <dt>Glob ID</dt><dd>${escapeHtml(formatGlobId(item.quality))} (${escapeHtml(item.quality)})</dd>
+        <dt>Parent map record</dt><dd>${escapeHtml(fixedId ?? item.mapSourceIndex)}</dd>
+        <dt>Child descriptors</dt><dd>${globChildren.length}</dd>
+        ${globChildRows}
+        ${globChildren.length > 12 ? `<dt>More children</dt><dd>${globChildren.length - 12} additional descriptors; see GLOBS tab</dd>` : ""}
       `
+      : "";
+    const eggRows = item.egg
+      ? item.egg.type === "glob"
+        ? globRows
+        : `
+          <dt>Egg type</dt><dd>${escapeHtml(describeEggType(item.egg))}</dd>
+          <dt>Egg ID</dt><dd>${escapeHtml(formatEggId(item.egg.labelId))}</dd>
+        `
       : "";
     const notes = item.notes.length ? `<ul class="tooltip-notes">${item.notes.map((note) => `<li>${note}</li>`).join("")}</ul>` : "";
     const metadataRows = `
@@ -1332,13 +1491,13 @@ export function createScenePresentationController(deps) {
       ${spawnerRows}
       ${objectRows}
     `;
-    overlayTooltip.classList.toggle("is-pinned", isPinnedTooltip);
-    overlayTooltip.classList.toggle("is-hover", !isPinnedTooltip);
+    overlayTooltip.classList.toggle("is-pinned", isDockedTooltip);
+    overlayTooltip.classList.toggle("is-hover", !isDockedTooltip);
 
     setTooltipState({
       visible: true,
       pinned: isPinnedTooltip,
-      hover: !isPinnedTooltip,
+      hover: !isDockedTooltip,
       hidden,
       item,
       itemLabel: isPsxSceneItem(item) && sourceRecord
@@ -1347,6 +1506,7 @@ export function createScenePresentationController(deps) {
       displayName: display.displayName,
       displayDescription: display.description,
       metadataRowsHtml: metadataRows,
+      previewItems: globChildren.length ? globChildren : null,
       notesHtml: notes,
       monsterSpawnerEditorHtml: isPinnedTooltip || showCatalogEditor ? monsterSpawnerEditor : "",
       showCatalogEditor,
@@ -1419,7 +1579,40 @@ export function createScenePresentationController(deps) {
   }
 
   function positionTooltipForItem(item) {
-    if (state.pinnedItemId === item.id) {
+    const globHover = state.editor.globHover;
+    if (
+      state.editor.mode
+      && state.editor.currentLayer === "glob"
+      && !state.editor.globSelection
+      && globHover?.parentMapSourceIndex === item.mapSourceIndex
+    ) {
+      const group = getGlobOutlineGroups().find((candidate) => (
+        candidate.parentMapSourceIndex === globHover.parentMapSourceIndex
+        && candidate.globIndex === globHover.globIndex
+      ));
+      if (group?.polygon.length) {
+        const leftBounds = Math.min(...group.polygon.map((point) => point.x)) * state.zoom + state.offsetX;
+        const rightBounds = Math.max(...group.polygon.map((point) => point.x)) * state.zoom + state.offsetX;
+        const topBounds = Math.min(...group.polygon.map((point) => point.y)) * state.zoom + state.offsetY;
+        const bottomBounds = Math.max(...group.polygon.map((point) => point.y)) * state.zoom + state.offsetY;
+        const placement = getGlobGroupTooltipPlacement(
+          { left: leftBounds, right: rightBounds, top: topBounds, bottom: bottomBounds },
+          { width: overlayTooltip.offsetWidth, height: overlayTooltip.offsetHeight },
+          { width: viewport.clientWidth, height: viewport.clientHeight }
+        );
+        if (placement) {
+          overlayTooltip.style.left = `${placement.left}px`;
+          overlayTooltip.style.top = `${placement.top}px`;
+          overlayTooltip.style.right = "auto";
+          overlayTooltip.style.bottom = "auto";
+          return;
+        }
+        overlayTooltip.hidden = true;
+        return;
+      }
+    }
+
+    if (state.pinnedItemId === item.id || isGlobSelectionParent(item) || isFixedEditorSelection(item)) {
       overlayTooltip.style.left = "auto";
       overlayTooltip.style.right = "16px";
       overlayTooltip.style.top = "16px";
@@ -1503,7 +1696,8 @@ export function createScenePresentationController(deps) {
       updateMonsterSpawnerListSelection();
       return;
     }
-    if (!inspectShapesCheckbox.checked && !canKeepPinnedItemVisible() && !canKeepHoverItemVisible()) {
+    const globGroupFocused = Boolean(getFocusedGlobParentItem());
+    if (!inspectShapesCheckbox.checked && !globGroupFocused && !canKeepPinnedItemVisible() && !canKeepHoverItemVisible()) {
       hideInspectHighlight();
       hideOverlayTooltip();
       updateEggListSelection();
@@ -1518,7 +1712,11 @@ export function createScenePresentationController(deps) {
       updateMonsterSpawnerListSelection();
       return;
     }
-    showInspectHighlight(item);
+    if (globGroupFocused) {
+      hideInspectHighlight();
+    } else {
+      showInspectHighlight(item);
+    }
     renderTooltip(item);
     positionTooltipForItem(item);
     updateEggListSelection();
@@ -3007,7 +3205,7 @@ export function createScenePresentationController(deps) {
         continue;
       }
 
-      const label = String(item.egg.labelId);
+      const label = formatEggMapLabel(item.egg);
       const width = Math.ceil(targetContext.measureText(label).width) + 12;
       const height = 20;
       const left = Math.round(anchorX + 10);
@@ -3093,11 +3291,128 @@ export function createScenePresentationController(deps) {
     targetContext.restore();
   }
 
-  function drawEditorSelection(targetContext) {
-    if (!state.current || !state.editor.mode || state.editor.selectedIds.size === 0) {
+  function getGlobBoundaryPolygon(items) {
+    const points = items.flatMap((item) => {
+      const polygon = getBoundingGeometry(item)?.hitPolygon;
+      if (polygon?.length) {
+        return polygon;
+      }
+      return [
+        { x: item.screen.left, y: item.screen.top },
+        { x: item.screen.right, y: item.screen.top },
+        { x: item.screen.right, y: item.screen.bottom },
+        { x: item.screen.left, y: item.screen.bottom }
+      ];
+    });
+    const uniquePoints = [...new Map(points.map((point) => [`${point.x}:${point.y}`, point])).values()]
+      .sort((left, right) => left.x - right.x || left.y - right.y);
+    if (uniquePoints.length < 3) {
+      return uniquePoints;
+    }
+
+    const crossProduct = (origin, point, next) => (
+      (point.x - origin.x) * (next.y - origin.y) - (point.y - origin.y) * (next.x - origin.x)
+    );
+    const lower = [];
+    for (const point of uniquePoints) {
+      while (lower.length >= 2 && crossProduct(lower[lower.length - 2], lower[lower.length - 1], point) <= 0) {
+        lower.pop();
+      }
+      lower.push(point);
+    }
+    const upper = [];
+    for (const point of [...uniquePoints].reverse()) {
+      while (upper.length >= 2 && crossProduct(upper[upper.length - 2], upper[upper.length - 1], point) <= 0) {
+        upper.pop();
+      }
+      upper.push(point);
+    }
+    return lower.slice(0, -1).concat(upper.slice(0, -1));
+  }
+
+  function getGlobOutlineGroups() {
+    const scene = state.current?.scene;
+    if (!scene) {
+      return [];
+    }
+    if (globOutlineGeometryCache.scene === scene) {
+      return globOutlineGeometryCache.groups;
+    }
+    const groups = new Map();
+    for (const item of scene.items) {
+      if (!isEditorSelectableGlobItem(item)) {
+        continue;
+      }
+      const groupKey = `${item.globParentMapSourceIndex}:${item.globIndex}`;
+      if (!groups.has(groupKey)) {
+        groups.set(groupKey, { parentMapSourceIndex: item.globParentMapSourceIndex, globIndex: item.globIndex, items: [] });
+      }
+      groups.get(groupKey).items.push(item);
+    }
+    const prepared = [...groups.values()].map((group) => ({ ...group, polygon: getGlobBoundaryPolygon(group.items) }));
+    globOutlineGeometryCache = { scene, groups: prepared };
+    return prepared;
+  }
+
+  function drawGlobOutlines(targetContext) {
+    if (!state.editor.mode || state.editor.currentLayer !== "glob") {
       return;
     }
-    const selectedItems = state.current.scene.items.filter((item) => state.editor.selectedIds.has(item.id));
+    const selected = state.editor.globSelection;
+    const hovered = state.editor.globHover;
+
+    targetContext.save();
+    for (const group of getGlobOutlineGroups()) {
+      const isSelected = selected?.parentMapSourceIndex === group.parentMapSourceIndex && selected?.globIndex === group.globIndex;
+      const isHovered = hovered?.parentMapSourceIndex === group.parentMapSourceIndex && hovered?.globIndex === group.globIndex;
+      if (!state.editor.globOutlinesEnabled && !isSelected && !isHovered) {
+        continue;
+      }
+      const polygon = isSelected || isHovered ? getGlobBoundaryPolygon(group.items) : group.polygon;
+      if (polygon.length < 3) {
+        continue;
+      }
+      targetContext.beginPath();
+      polygon.forEach((point, index) => {
+        const screenX = point.x * state.zoom + state.offsetX;
+        const screenY = point.y * state.zoom + state.offsetY;
+        if (index === 0) {
+          targetContext.moveTo(screenX, screenY);
+        } else {
+          targetContext.lineTo(screenX, screenY);
+        }
+      });
+      targetContext.closePath();
+      targetContext.fillStyle = isSelected ? "rgba(255, 229, 107, 0.08)" : isHovered ? "rgba(125, 220, 227, 0.07)" : "rgba(77, 221, 198, 0.035)";
+      targetContext.strokeStyle = isSelected ? "rgba(255, 229, 107, 0.98)" : isHovered ? "rgba(125, 220, 227, 0.98)" : "rgba(77, 221, 198, 0.78)";
+      targetContext.lineWidth = isSelected || isHovered ? 2.5 : 1.25;
+      targetContext.setLineDash(isSelected ? [] : [5, 4]);
+      targetContext.fill();
+      targetContext.stroke();
+    }
+    targetContext.setLineDash([]);
+    targetContext.restore();
+  }
+
+  function drawEditorSelection(targetContext) {
+    if (!state.current || !state.editor.mode) {
+      return;
+    }
+    drawGlobOutlines(targetContext);
+    const globSelection = state.editor.currentLayer === "glob" ? state.editor.globSelection : null;
+    const globGroup = globSelection
+      ? getGlobOutlineGroups().find((group) => (
+          group.parentMapSourceIndex === globSelection.parentMapSourceIndex
+          && group.globIndex === globSelection.globIndex
+        ))
+      : null;
+    const selectedItems = globGroup
+      ? []
+      : state.current.scene.items.filter((item) => state.editor.selectedIds.has(item.id));
+    const gizmoItems = globGroup?.items ?? selectedItems.filter(isEditorEditableItem);
+    if (selectedItems.length === 0 && gizmoItems.length === 0) {
+      return;
+    }
     targetContext.save();
     targetContext.strokeStyle = "rgba(250, 252, 255, 0.95)";
     targetContext.lineWidth = 1.5;
@@ -3129,7 +3444,7 @@ export function createScenePresentationController(deps) {
 
     const center = getSelectionGizmoCenter(
       state.current.scene.items,
-      new Set(selectedItems.filter(isEditorEditableItem).map((item) => item.id)),
+      new Set(gizmoItems.map((item) => item.id)),
       state.zoom,
       state.offsetX,
       state.offsetY
@@ -3216,9 +3531,12 @@ export function createScenePresentationController(deps) {
     }
   }
 
-  function resetRenderCaches() {
+  function resetRenderCaches(options = {}) {
     npcPreviewCanvasCache.clear();
     itemPreviewCanvasCache.clear();
+    if (!options.preserveGlobOutlineGroups) {
+      globOutlineGeometryCache = { scene: null, groups: [] };
+    }
     invalidateArrowGraphCache();
   }
 
@@ -3229,15 +3547,21 @@ export function createScenePresentationController(deps) {
     const geometry = getBoundingGeometry(item);
     const bounds = geometry?.bounds;
     if (bounds) {
-      if (
+      const withinBounds = !(
         point.x < bounds.left
         || point.x >= bounds.right
         || point.y < bounds.top
         || point.y >= bounds.bottom
-      ) {
+      );
+      if (withinBounds && pointInPolygon(point, geometry.hitPolygon)) {
+        return true;
+      }
+      const canUseSpriteFallback = state.editor?.mode
+        && state.editor.currentLayer === "fixed"
+        && isEditorEditableItem(item);
+      if (!canUseSpriteFallback) {
         return false;
       }
-      return pointInPolygon(point, geometry.hitPolygon);
     }
     return pointInScreenRect(point, item);
   }

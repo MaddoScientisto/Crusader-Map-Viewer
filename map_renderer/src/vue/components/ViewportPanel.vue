@@ -18,9 +18,10 @@
           <label class="editor-toolbar-size editor-toolbar-current-layer" for="editor-current-layer">Current layer
             <select id="editor-current-layer">
               <option value="fixed">Fixed records</option>
-              <option value="glob">Glob terrain (view only)</option>
+              <option value="glob">Glob terrain</option>
             </select>
           </label>
+          <label id="editor-glob-outline-toggle" class="editor-toolbar-toggle" hidden title="Outline glob instances; selecting one selects its parent map record."><input id="editor-glob-outlines" type="checkbox"> Outline globs</label>
           <label class="editor-toolbar-toggle"><input id="editor-only-show-current-layer" type="checkbox"> Only show current layer</label>
           <label class="editor-toolbar-toggle"><input id="editor-grid-snap" type="checkbox"> Grid snap</label>
           <label class="editor-toolbar-size" for="editor-grid-size">Grid size

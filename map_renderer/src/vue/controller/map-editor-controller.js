@@ -1,18 +1,22 @@
 import { loadImage } from "../../public/scene-api.js";
 import { appUrl, fetchJson } from "../../public/helpers.js";
 import { getReferenceAtlasPath, getReferenceDataPath } from "../../shared/runtime-adapter.js";
+import { GLOB_COORD_BLOCK_SIZE, getGlobOriginDelta, quantizeGlobAxisDelta, translateGlobChildPosition } from "../../shared/glob-coordinate.js";
+import { clearMapEditorSelectionState } from "./map-editor-selection.js";
 import {
   isEditorEditableItem,
+  isEditorSelectableGlobItem,
   isEditorSelectableItem,
+  getFixedMapSourceItem,
   getGizmoAxisWorldDelta,
   getSelectionGizmoCenter,
   hitTestGizmoAxis,
+  isEditorMapSourceSupported,
   isItemInEditorLayer,
   scenePointToMapWorld,
   snapMapPosition
 } from "./map-editor-geometry.js";
 
-const EDITABLE_MAP_FORMAT = "crusader-fixed-map-v1";
 const MAX_HISTORY = 100;
 const MAX_MAP_COORDINATE = 0x1fffe;
 
@@ -44,6 +48,7 @@ export function createMapEditorController(deps) {
     mapEditorToolbar,
     shapeAddButton,
     editorCurrentLayerSelect,
+    editorGlobOutlinesCheckbox,
     editorOnlyShowCurrentLayerCheckbox,
     editorGridSnapCheckbox,
     editorGridSizeSelect,
@@ -54,7 +59,6 @@ export function createMapEditorController(deps) {
     shapePickerSearch,
     shapePickerCount,
     shapePickerList,
-    canEditCatalog,
     setViewportModeHint,
     setStatus,
     refreshCurrentDerivedCollections,
@@ -73,12 +77,7 @@ export function createMapEditorController(deps) {
   const shapePickerAtlasButton = shapePickerModal.querySelector("#shape-picker-atlas-button");
 
   function isSupportedMap() {
-    const mapSource = state.current?.mapSource;
-    return Boolean(
-      canEditCatalog()
-      && mapSource?.formatVersion === EDITABLE_MAP_FORMAT
-      && mapSource.binaryExportSupported !== false
-    );
+    return isEditorMapSourceSupported(state.current?.mapSource);
   }
 
   function getSelectedSourceItems() {
@@ -93,6 +92,44 @@ export function createMapEditorController(deps) {
     ));
   }
 
+  function getSelectedGlobChildren() {
+    const selection = state.editor.globSelection;
+    if (!state.current || !selection) {
+      return [];
+    }
+    return state.current.scene.items.filter((item) => (
+      item.source === "glob"
+      && item.globParentMapSourceIndex === selection.parentMapSourceIndex
+      && item.globIndex === selection.globIndex
+    ));
+  }
+
+  function getSelectedGlobParentItems() {
+    const selection = state.editor.globSelection;
+    if (!state.current || !selection) {
+      return [];
+    }
+    return state.current.scene.items.filter((item) => (
+      item.source === "fixed"
+      && item.mapSourceIndex === selection.parentMapSourceIndex
+      && item.quality === selection.globIndex
+      && item.egg?.type === "glob"
+      && state.current.mapSource.items[item.mapSourceIndex]
+    ));
+  }
+
+  function getGizmoSelectionItems() {
+    return state.editor.currentLayer === "glob" && state.editor.globSelection
+      ? getSelectedGlobChildren()
+      : getSelectedSourceItems();
+  }
+
+  function getGizmoSourceItems() {
+    return state.editor.currentLayer === "glob" && state.editor.globSelection
+      ? getSelectedGlobParentItems()
+      : getSelectedSourceItems();
+  }
+
   function updateUi() {
     const hasMap = Boolean(state.current);
     const supported = isSupportedMap();
@@ -103,6 +140,8 @@ export function createMapEditorController(deps) {
       state.editor.drag = null;
       state.editor.hoverAxis = null;
       state.editor.selectedIds.clear();
+      state.editor.globSelection = null;
+      state.editor.globHover = null;
       shapePickerModal.hidden = true;
     }
 
@@ -114,7 +153,7 @@ export function createMapEditorController(deps) {
     editModeButton.textContent = state.editor.mode ? "Disable Edit Mode" : "Enable Edit Mode";
     editModeButton.title = supported
       ? "Toggle map editing"
-      : "Map editing requires a supported map in local admin mode";
+      : "Map editing requires a supported FIXED map";
 
     mapEditorToolbar.hidden = !state.editor.mode;
     shapeAddButton.disabled = !state.editor.mode || Boolean(state.editor.placement) || state.editor.currentLayer !== "fixed";
@@ -126,7 +165,15 @@ export function createMapEditorController(deps) {
     editorGridSizeSelect.value = String(state.editor.snapSize);
     editorGridSizeSelect.disabled = !state.editor.mode || !state.editor.snapEnabled;
     editorFloorGridCheckbox.checked = state.editor.floorGridEnabled;
+    const showGlobOutlineToggle = state.editor.mode && state.editor.currentLayer === "glob";
+    editorGlobOutlinesCheckbox.closest("label").hidden = !showGlobOutlineToggle;
+    editorGlobOutlinesCheckbox.checked = state.editor.globOutlinesEnabled;
+    editorGlobOutlinesCheckbox.disabled = !showGlobOutlineToggle;
     editorSelectionCount.textContent = `${state.editor.selectedIds.size} selected`;
+    if (state.editor.globSelection) {
+      const { globIndex } = state.editor.globSelection;
+      editorSelectionCount.textContent = `Glob 0x${globIndex.toString(16).padStart(4, "0")} · ${getSelectedGlobChildren().length} children`;
+    }
     editUndoButton.disabled = !state.editor.mode || state.editor.history.length === 0;
     editRedoButton.disabled = !state.editor.mode || state.editor.future.length === 0;
     editDeleteButton.disabled = !state.editor.mode || editableSelectionCount === 0;
@@ -136,7 +183,7 @@ export function createMapEditorController(deps) {
       : !hasMap
         ? "Choose a map to begin."
         : !supported
-          ? "Editing is available in local admin mode for supported FIXED maps."
+          ? "Editing is available for supported FIXED maps."
           : state.editor.mode
             ? "Edit Mode is active."
             : "No unsaved map edits";
@@ -163,12 +210,11 @@ export function createMapEditorController(deps) {
   }
 
   function resetForScene() {
-    state.editor.selectedIds.clear();
+    clearMapEditorSelectionState(state);
     state.editor.history = [];
     state.editor.future = [];
     state.editor.dirty = false;
     state.editor.drag = null;
-    state.editor.hoverAxis = null;
     state.editor.placement = null;
     state.editor.shapeRows = [];
     state.editor.savedSnapshot = currentSnapshot();
@@ -178,18 +224,18 @@ export function createMapEditorController(deps) {
 
   function setMode(active) {
     if (active && !isSupportedMap()) {
-      setStatus("Map editing is available only for supported FIXED maps in local admin mode.");
+      setStatus("Map editing is available only for supported FIXED maps.");
       updateUi();
       return;
     }
     state.editor.mode = Boolean(active);
+    if (state.editor.mode) {
+      state.editor.currentLayer = "fixed";
+    }
     state.editor.drag = null;
-    state.editor.hoverAxis = null;
     state.editor.placement = null;
     shapePickerModal.hidden = true;
-    if (!state.editor.mode) {
-      state.editor.selectedIds.clear();
-    }
+    clearMapEditorSelectionState(state);
     updateUi();
     scheduleRender();
     setStatus(state.editor.mode ? "Edit Mode enabled." : "Edit Mode disabled.");
@@ -200,8 +246,7 @@ export function createMapEditorController(deps) {
       return;
     }
     state.editor.currentLayer = layer;
-    state.editor.selectedIds.clear();
-    state.editor.hoverAxis = null;
+    clearMapEditorSelectionState(state);
     updateUi();
     scheduleRender();
   }
@@ -210,6 +255,28 @@ export function createMapEditorController(deps) {
     if (!state.editor.mode) {
       return;
     }
+    if (state.editor.currentLayer === "glob") {
+      if (!isEditorSelectableGlobItem(item)) {
+        if (!event?.ctrlKey && !event?.metaKey && !event?.shiftKey) {
+          state.editor.globSelection = null;
+        }
+      } else {
+        state.editor.globSelection = {
+          parentMapSourceIndex: item.globParentMapSourceIndex,
+          globIndex: item.globIndex
+        };
+        state.editor.globHover = state.editor.globSelection;
+      }
+      state.pinnedItemId = null;
+      state.hoverItemId = null;
+      state.editor.selectedIds.clear();
+      state.editor.hoverAxis = null;
+      updateUi();
+      scheduleRender();
+      return;
+    }
+    state.editor.globSelection = null;
+    state.editor.globHover = null;
     if (!isEditorSelectableItem(item) || !isItemInEditorLayer(item, state.editor.currentLayer)) {
       if (!event?.ctrlKey && !event?.metaKey && !event?.shiftKey) {
         state.editor.selectedIds.clear();
@@ -223,22 +290,30 @@ export function createMapEditorController(deps) {
     } else {
       state.editor.selectedIds = new Set([item.id]);
     }
+    state.pinnedItemId = state.editor.selectedIds.has(item?.id)
+      ? item.id
+      : getSelectedSourceItems()[0]?.id ?? null;
+    state.hoverItemId = null;
     state.editor.hoverAxis = null;
     updateUi();
     scheduleRender();
   }
 
   function clearSelection() {
-    if (!state.editor.mode || state.editor.selectedIds.size === 0) {
+    if (!state.editor.mode || (state.editor.selectedIds.size === 0 && !state.editor.globSelection)) {
       return;
     }
     state.editor.selectedIds.clear();
+    state.editor.globSelection = null;
+    state.editor.globHover = null;
+    state.pinnedItemId = null;
+    state.hoverItemId = null;
     updateUi();
     scheduleRender();
   }
 
   function getGizmoAxisAtPoint(point) {
-    const editableSelectionIds = new Set(getSelectedSourceItems().map((item) => item.id));
+    const editableSelectionIds = new Set(getGizmoSelectionItems().map((item) => item.id));
     const center = getSelectionGizmoCenter(
       state.current?.scene.items ?? [],
       editableSelectionIds,
@@ -250,7 +325,8 @@ export function createMapEditorController(deps) {
   }
 
   function beginGizmoDrag(axis, pointerId, clientX, clientY) {
-    const entries = getSelectedSourceItems().map((item) => ({
+    const sourceItems = getGizmoSourceItems();
+    const entries = sourceItems.map((item) => ({
       index: item.mapSourceIndex,
       item,
       before: recordPosition(state.current.mapSource.items[item.mapSourceIndex])
@@ -258,8 +334,53 @@ export function createMapEditorController(deps) {
     if (!entries.length) {
       return false;
     }
-    state.editor.drag = { axis, pointerId, clientX, clientY, entries, changed: false };
-    state.editor.drag.entries = entries.map(({ index, item, before }) => ({ index, itemId: item.id, before }));
+    state.editor.drag = {
+      axis,
+      pointerId,
+      clientX,
+      clientY,
+      entries,
+      changed: false,
+      globSelection: state.editor.currentLayer === "glob" && state.editor.globSelection
+        ? { ...state.editor.globSelection }
+        : null
+    };
+    state.editor.drag.entries = entries.map(({ index, item, before }) => ({ index, item, before }));
+    return true;
+  }
+
+  function applyRecordPosition(index, nextPosition, parentItem = null) {
+    const record = state.current.mapSource.items[index];
+    if (!record) {
+      return false;
+    }
+    const before = recordPosition(record);
+    const after = { x: nextPosition.x, y: nextPosition.y, z: nextPosition.z };
+    if (positionsEqual(before, after)) {
+      return false;
+    }
+
+    const globDelta = getGlobOriginDelta(before, after);
+    Object.assign(record, after);
+    const sceneParentItem = parentItem ?? getFixedMapSourceItem(state.current.scene.items, index);
+    if (sceneParentItem) {
+      reprojectMapSceneItem(sceneParentItem, record);
+    }
+    if (sceneParentItem?.egg?.type === "glob" && (globDelta.x || globDelta.y || globDelta.z)) {
+      for (const child of state.current.scene.items) {
+        if (
+          child.source !== "glob"
+          || child.globParentMapSourceIndex !== index
+          || child.globIndex !== sceneParentItem.quality
+          || !child.world
+        ) {
+          continue;
+        }
+        const childPosition = translateGlobChildPosition(child.world, globDelta);
+        child.world = childPosition;
+        reprojectMapSceneItem(child, { ...childPosition, flags: 0 });
+      }
+    }
     return true;
   }
 
@@ -268,39 +389,48 @@ export function createMapEditorController(deps) {
     if (!drag || !state.current) {
       return false;
     }
-    let delta = getGizmoAxisWorldDelta(drag.axis, clientX - drag.clientX, clientY - drag.clientY, state.zoom);
+    const globAxisWorldSpan = drag.globSelection && drag.axis !== "z"
+      ? GLOB_COORD_BLOCK_SIZE * state.zoom
+      : null;
+    let delta = getGizmoAxisWorldDelta(
+      drag.axis,
+      clientX - drag.clientX,
+      clientY - drag.clientY,
+      state.zoom,
+      globAxisWorldSpan
+    );
     if (state.editor.snapEnabled) {
       delta = Math.round(delta / state.editor.snapSize) * state.editor.snapSize;
     }
     const coordinate = drag.axis === "x" ? "x" : drag.axis === "y" ? "y" : "z";
-    if (coordinate !== "z") {
+    if (drag.globSelection && coordinate !== "z") {
+      delta = quantizeGlobAxisDelta(coordinate, delta);
+    } else if (coordinate !== "z") {
       delta = Math.round(delta / 2) * 2;
     } else {
       delta = Math.round(delta);
     }
     const maximum = coordinate === "z" ? 0xff : MAX_MAP_COORDINATE;
-    const lowLimit = Math.max(...drag.entries.map((entry) => -entry.before[coordinate]));
-    const highLimit = Math.min(...drag.entries.map((entry) => maximum - entry.before[coordinate]));
+    const minimumDelta = Math.max(...drag.entries.map((entry) => -entry.before[coordinate]));
+    const maximumDelta = Math.min(...drag.entries.map((entry) => maximum - entry.before[coordinate]));
+    const lowLimit = drag.globSelection && coordinate !== "z"
+      ? Math.ceil(minimumDelta / GLOB_COORD_BLOCK_SIZE) * GLOB_COORD_BLOCK_SIZE
+      : minimumDelta;
+    const highLimit = drag.globSelection && coordinate !== "z"
+      ? Math.floor(maximumDelta / GLOB_COORD_BLOCK_SIZE) * GLOB_COORD_BLOCK_SIZE
+      : maximumDelta;
     delta = Math.min(highLimit, Math.max(lowLimit, delta));
 
     let changed = false;
     for (const entry of drag.entries) {
       const record = state.current.mapSource.items[entry.index];
       const nextPosition = { ...entry.before, [coordinate]: entry.before[coordinate] + delta };
-      if (positionsEqual(recordPosition(record), nextPosition)) {
-        continue;
-      }
-      record[coordinate] = nextPosition[coordinate];
-      const item = state.current.itemIndex.get(entry.itemId);
-      if (item) {
-        reprojectMapSceneItem(item, record);
-      }
-      changed = true;
+      changed = applyRecordPosition(entry.index, nextPosition, entry.item) || changed;
     }
     drag.changed = drag.changed || changed;
     if (changed) {
       state.current.scene.mapSource = state.current.mapSource;
-      resetRenderCaches();
+      resetRenderCaches({ preserveGlobOutlineGroups: Boolean(drag.globSelection) });
       scheduleRender();
     }
     return changed;
@@ -328,9 +458,13 @@ export function createMapEditorController(deps) {
       after: recordPosition(state.current.mapSource.items[entry.index])
     })).filter((entry) => !positionsEqual(entry.before, entry.after));
     if (changes.length) {
+      refreshCurrentDerivedCollections();
+      resetRenderCaches();
       pushHistory({ type: "move", axis: drag.axis, changes });
       setMapBinaryDownloadState(true);
-      setStatus(`Moved ${changes.length} selected shape${changes.length === 1 ? "" : "s"} along ${drag.axis.toUpperCase()}.`);
+      setStatus(drag.globSelection
+        ? `Moved glob 0x${drag.globSelection.globIndex.toString(16).padStart(4, "0")}; X/Y movement uses ${GLOB_COORD_BLOCK_SIZE}-unit regions.`
+        : `Moved ${changes.length} selected shape${changes.length === 1 ? "" : "s"} along ${drag.axis.toUpperCase()}.`);
     } else {
       updateUi();
     }
@@ -693,12 +827,7 @@ export function createMapEditorController(deps) {
 
   function moveRecords(changes, field) {
     for (const change of changes) {
-      const record = state.current.mapSource.items[change.index];
-      const item = state.current.itemIndex.get(`fixed:${change.index}`);
-      Object.assign(record, change[field]);
-      if (item) {
-        reprojectMapSceneItem(item, record);
-      }
+      applyRecordPosition(change.index, change[field]);
     }
     state.current.scene.mapSource = state.current.mapSource;
     resetRenderCaches();
@@ -776,6 +905,10 @@ export function createMapEditorController(deps) {
     editModeButton.addEventListener("click", () => setMode(!state.editor.mode));
     shapeAddButton.addEventListener("click", () => void openShapePicker());
     editorCurrentLayerSelect.addEventListener("change", () => setCurrentLayer(editorCurrentLayerSelect.value));
+    editorGlobOutlinesCheckbox.addEventListener("change", () => {
+      state.editor.globOutlinesEnabled = editorGlobOutlinesCheckbox.checked;
+      scheduleRender();
+    });
     editorOnlyShowCurrentLayerCheckbox.addEventListener("change", () => {
       state.editor.onlyShowCurrentLayer = editorOnlyShowCurrentLayerCheckbox.checked;
       updateUi();

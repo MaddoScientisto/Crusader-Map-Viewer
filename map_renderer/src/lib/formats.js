@@ -3,13 +3,15 @@ import path from "node:path";
 
 import { readI32LE, readU16LE, readU24LE, readU32LE } from "./binary.js";
 import { loadMapPayload, parseMapItemsBuffer } from "./map-source.js";
+import { GLOB_COORD_MASK } from "../shared/glob-coordinate.js";
+
+export { GLOB_COORD_MASK };
 
 export const FLEX_TABLE_OFFSET = 0x80;
 export const FLEX_COUNT_OFFSET = 0x54;
 export const FIXED_MAP_COUNT_OFFSET = 0x54;
 export const FIXED_MAP_TABLE_OFFSET = 0x80;
 export const CRUSADER_COORD_SCALE = 2;
-export const GLOB_COORD_MASK = ~0x3ff;
 export const GLOB_COORD_SHIFT = 2;
 export const GLOB_COORD_OFFSET = 2;
 export const FLAG_INVISIBLE = 0x0010;
@@ -367,12 +369,15 @@ export function expandGlobItem(item, globs) {
   if (item.quality < 0 || item.quality >= globs.length) {
     return [];
   }
-  return globs[item.quality].map((globItem) => ({
+  return globs[item.quality].map((globItem, childIndex) => ({
     x: (item.x & GLOB_COORD_MASK) + (globItem.x << GLOB_COORD_SHIFT) + GLOB_COORD_OFFSET,
     y: (item.y & GLOB_COORD_MASK) + (globItem.y << GLOB_COORD_SHIFT) + GLOB_COORD_OFFSET,
     z: item.z + globItem.z,
     shape: globItem.shape,
     frame: globItem.frame,
+    globParentMapSourceIndex: Number.isInteger(item.sourceRecordIndex) ? item.sourceRecordIndex : null,
+    globIndex: item.quality,
+    globChildIndex: childIndex,
     flags: 0,
     quality: 0,
     npcNum: 0,

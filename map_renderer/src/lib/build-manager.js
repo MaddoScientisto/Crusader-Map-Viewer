@@ -31,7 +31,7 @@ import { blitFrame, encodePng, rgbaBuffer } from "./png.js";
 import { getPsxProcessedMap, isPsxPrebuiltGame } from "./psx-cache.js";
 import { prepareSortedItems } from "./sorting.js";
 
-const SCENE_CACHE_VERSION = "v15-atlas-scene-crusader-explicit-semitransparency-only";
+const SCENE_CACHE_VERSION = "v16-glob-instance-provenance";
 const GLOB_CATALOG_VERSION = 2;
 const DTABLE_NPC_SHAPES = new Set([0x04d0]);
 const MONSTER_EGG_PREVIEW_SHAPE = 0x024f;
@@ -671,6 +671,9 @@ function serializeSceneItem(node, minLeft, minTop, index, catalogEntry, dtableEn
     kind,
     label: sceneLabel(kind),
     source: item.source,
+    globParentMapSourceIndex: item.globParentMapSourceIndex ?? null,
+    globIndex: item.globIndex ?? null,
+    globChildIndex: item.globChildIndex ?? null,
     world: {
       x: item.x,
       y: item.y,

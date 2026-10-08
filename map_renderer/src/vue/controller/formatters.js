@@ -9,6 +9,10 @@ export function formatEggId(value) {
   return `${value} (${formatHex(value, value > 0xff ? 4 : 2)})`;
 }
 
+export function formatEggMapLabel(egg) {
+  return egg?.type === "glob" ? formatHex(egg.labelId, 4) : String(egg?.labelId);
+}
+
 export function formatWorldCoords(item) {
   if (!item?.world || !Number.isFinite(item.world.x) || !Number.isFinite(item.world.y) || !Number.isFinite(item.world.z)) {
     return "-";

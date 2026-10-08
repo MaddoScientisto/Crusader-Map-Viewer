@@ -6,13 +6,32 @@ const GIZMO_AXES = Object.freeze({
 });
 const GIZMO_ARROW_HEAD_LENGTH = 8;
 const HOVERED_GIZMO_ARROW_HEAD_LENGTH = 10;
+const EDITABLE_MAP_FORMAT = "crusader-fixed-map-v1";
+
+export function isEditorMapSourceSupported(mapSource) {
+  return Boolean(
+    mapSource?.formatVersion === EDITABLE_MAP_FORMAT
+    && mapSource.binaryExportSupported !== false
+  );
+}
 
 export function isEditorEditableItem(item) {
   return item?.source === "fixed" && Number.isInteger(item.mapSourceIndex);
 }
 
+export function getFixedMapSourceItem(items, mapSourceIndex) {
+  return items.find((item) => item?.source === "fixed" && item.mapSourceIndex === mapSourceIndex) ?? null;
+}
+
 export function isEditorSelectableItem(item) {
   return isEditorEditableItem(item);
+}
+
+export function isEditorSelectableGlobItem(item) {
+  return item?.source === "glob"
+    && Number.isInteger(item.globParentMapSourceIndex)
+    && Number.isInteger(item.globIndex)
+    && Number.isInteger(item.globChildIndex);
 }
 
 export function isItemInEditorLayer(item, layer) {
@@ -113,7 +132,7 @@ export function hitTestGizmoAxis(point, center, tolerance = 9) {
   return matches[0]?.axis ?? null;
 }
 
-export function getGizmoAxisWorldDelta(axis, deltaX, deltaY, zoom = 1) {
+export function getGizmoAxisWorldDelta(axis, deltaX, deltaY, zoom = 1, worldSpanOverride = null) {
   const descriptor = GIZMO_AXES[axis];
   if (!descriptor) {
     return 0;
@@ -123,5 +142,8 @@ export function getGizmoAxisWorldDelta(axis, deltaX, deltaY, zoom = 1) {
   const screenDeltaY = deltaY / safeZoom;
   const projectedLengthSquared = descriptor.screenX ** 2 + descriptor.screenY ** 2;
   const projectedDistance = (screenDeltaX * descriptor.screenX + screenDeltaY * descriptor.screenY) / projectedLengthSquared;
-  return projectedDistance * descriptor.worldSpan;
+  const worldSpan = Number.isFinite(worldSpanOverride) && worldSpanOverride > 0
+    ? worldSpanOverride
+    : descriptor.worldSpan;
+  return projectedDistance * worldSpan;
 }

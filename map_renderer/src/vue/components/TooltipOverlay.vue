@@ -375,8 +375,8 @@ function encodeBoolean(value) {
 
 async function redrawPreview() {
   await nextTick();
-  renderTooltipPreview(previewCanvas.value, tooltip.value.item);
-  renderTooltipPreview(modalPreviewCanvas.value, tooltip.value.item);
+  renderTooltipPreview(previewCanvas.value, tooltip.value.item, tooltip.value.previewItems);
+  renderTooltipPreview(modalPreviewCanvas.value, tooltip.value.item, tooltip.value.previewItems);
 }
 
 async function handleSaveCatalog() {

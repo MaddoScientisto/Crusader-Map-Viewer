@@ -1,11 +1,18 @@
 import assert from "node:assert/strict";
+import { packCompactSceneItems, unpackCompactSceneItems } from "../src/shared/compact-scene-codec.js";
+import { getGlobOriginDelta, GLOB_COORD_BLOCK_SIZE, quantizeGlobAxisDelta, translateGlobChildPosition } from "../src/shared/glob-coordinate.js";
+import { expandGlobItem } from "../src/lib/formats.js";
+import { clearMapEditorSelectionState } from "../src/vue/controller/map-editor-selection.js";
 
 import {
   getGizmoArrowHeadLength,
   getGizmoAxisWorldDelta,
+  getFixedMapSourceItem,
   getSelectionGizmoCenter,
   hitTestGizmoAxis,
   isEditorEditableItem,
+  isEditorMapSourceSupported,
+  isEditorSelectableGlobItem,
   isEditorSelectableItem,
   isItemInEditorLayer,
   mapWorldToScenePoint,
@@ -18,6 +25,12 @@ function testWorldSceneCoordinatesRoundTrip() {
   const world = { x: 640, y: 512, z: 16 };
   const scene = mapWorldToScenePoint(world, bounds);
   assert.deepEqual(scenePointToMapWorld(scene, world.z, bounds), world);
+}
+
+function testEditorMapSupportDoesNotRequireAdminAccess() {
+  assert.equal(isEditorMapSourceSupported({ formatVersion: "crusader-fixed-map-v1" }), true);
+  assert.equal(isEditorMapSourceSupported({ formatVersion: "crusader-fixed-map-v1", binaryExportSupported: false }), false);
+  assert.equal(isEditorMapSourceSupported({ formatVersion: "other" }), false);
 }
 
 function testSnapRespectsMapRecordCoordinateLimits() {
@@ -36,6 +49,12 @@ function testGizmoAxesHitAndConstrainMovement() {
   assert.equal(getGizmoAxisWorldDelta("y", -42, 21), 168);
   assert.equal(getGizmoAxisWorldDelta("z", 0, -48), 48);
   assert.equal(getGizmoAxisWorldDelta("unknown", 10, 10), 0);
+  const globWorldSpan = GLOB_COORD_BLOCK_SIZE * 0.63;
+  assert.equal(getGizmoAxisWorldDelta("x", 42, 21, 0.63, globWorldSpan), GLOB_COORD_BLOCK_SIZE);
+  assert.equal(getGizmoAxisWorldDelta("y", -42, 21, 0.63, globWorldSpan), GLOB_COORD_BLOCK_SIZE);
+  const globParent = { id: "item:2379:fixed:16:0:35838:29694:96", source: "fixed", mapSourceIndex: 453 };
+  assert.equal(getFixedMapSourceItem([globParent], 453), globParent);
+  assert.equal(getFixedMapSourceItem([globParent], 454), null);
 }
 
 function testSelectionGizmoCentersOnSelectedGroup() {
@@ -48,17 +67,79 @@ function testSelectionGizmoCentersOnSelectedGroup() {
   assert.equal(getSelectionGizmoCenter(items, new Set(), 1, 0, 0), null);
 }
 
+function testModeTransitionClearsPinnedAndEditorSelections() {
+  const state = {
+    editor: {
+      selectedIds: new Set(["fixed:453"]),
+      globSelection: { parentMapSourceIndex: 453, globIndex: 0x0b89 },
+      globHover: { parentMapSourceIndex: 453, globIndex: 0x0b89 },
+      hoverAxis: "x"
+    },
+    pinnedItemId: "item:2379:fixed:16:0:35838:29694:96",
+    hoverItemId: "item:2379:fixed:16:0:35838:29694:96"
+  };
+  clearMapEditorSelectionState(state);
+  assert.equal(state.editor.selectedIds.size, 0);
+  assert.equal(state.editor.globSelection, null);
+  assert.equal(state.editor.globHover, null);
+  assert.equal(state.editor.hoverAxis, null);
+  assert.equal(state.pinnedItemId, null);
+  assert.equal(state.hoverItemId, null);
+}
+
 function testGlobTerrainIsNotSelectableInEditMode() {
   const fixedItem = { source: "fixed", mapSourceIndex: 3 };
-  const floorItem = { source: "glob", kind: "terrain" };
+  const floorItem = { source: "glob", kind: "terrain", globParentMapSourceIndex: 3, globIndex: 6, globChildIndex: 0 };
   const eggItem = { source: "glob", kind: "egg" };
 
   assert.equal(isEditorEditableItem(fixedItem), true);
   assert.equal(isEditorSelectableItem(fixedItem), true);
   assert.equal(isEditorEditableItem(floorItem), false);
   assert.equal(isEditorSelectableItem(floorItem), false);
+  assert.equal(isEditorSelectableGlobItem(floorItem), true);
+  assert.equal(isEditorSelectableGlobItem({ source: "glob", globIndex: 6 }), false);
   assert.equal(isEditorSelectableItem(eggItem), false);
   assert.equal(isEditorSelectableItem({ source: "fixed" }), false);
+}
+
+function testExpandedGlobChildrenKeepParentIdentity() {
+  const globs = Array.from({ length: 7 }, () => []);
+  globs[6] = [{ x: 1, y: 2, z: 3, shape: 0x023d, frame: 4 }];
+  const [child] = expandGlobItem({
+    x: 0x1234,
+    y: 0x2345,
+    z: 10,
+    quality: 6,
+    sourceRecordIndex: 12
+  }, globs);
+
+  assert.equal(child.globParentMapSourceIndex, 12);
+  assert.equal(child.globIndex, 6);
+  assert.equal(child.globChildIndex, 0);
+}
+
+function testGlobMovementUsesRepresentableOriginBlocks() {
+  const descriptors = [{ x: 3, y: 4, z: 2, shape: 0x023d, frame: 4 }];
+  const beforeParent = { x: 0x03ff, y: 0x07ff, z: 5, quality: 0, sourceRecordIndex: 6 };
+  const afterParent = { ...beforeParent, x: beforeParent.x + GLOB_COORD_BLOCK_SIZE, y: beforeParent.y + GLOB_COORD_BLOCK_SIZE, z: 13 };
+  const beforeChild = expandGlobItem(beforeParent, [descriptors])[0];
+  const afterChild = expandGlobItem(afterParent, [descriptors])[0];
+  const delta = getGlobOriginDelta(beforeParent, afterParent);
+
+  assert.deepEqual(delta, { x: GLOB_COORD_BLOCK_SIZE, y: GLOB_COORD_BLOCK_SIZE, z: 8 });
+  assert.equal(afterChild.x - beforeChild.x, delta.x);
+  assert.equal(afterChild.y - beforeChild.y, delta.y);
+  assert.equal(afterChild.z - beforeChild.z, delta.z);
+  assert.deepEqual(translateGlobChildPosition(beforeChild, delta), {
+    x: afterChild.x,
+    y: afterChild.y,
+    z: afterChild.z
+  });
+  assert.deepEqual(descriptors, [{ x: 3, y: 4, z: 2, shape: 0x023d, frame: 4 }]);
+  assert.equal(quantizeGlobAxisDelta("x", 511), 0);
+  assert.equal(quantizeGlobAxisDelta("x", 512), GLOB_COORD_BLOCK_SIZE);
+  assert.equal(quantizeGlobAxisDelta("y", -512), -GLOB_COORD_BLOCK_SIZE);
+  assert.equal(quantizeGlobAxisDelta("z", 2.6), 3);
 }
 
 function testEditorLayerMatchesSourceProvenance() {
@@ -78,11 +159,52 @@ function testHoveredGizmoArrowheadGrowsSlightly() {
   assert.equal(getGizmoArrowHeadLength("x", "y"), 8);
 }
 
+function testCompactScenePreservesGlobProvenance() {
+  const packed = packCompactSceneItems([{
+    source: "glob",
+    x: 40,
+    y: 64,
+    z: 8,
+    shape: 0x023d,
+    frame: 4,
+    flags: 0,
+    quality: 0,
+    npcNum: 0,
+    mapNum: 0,
+    nextItem: 0,
+    mapSourceIndex: null,
+    globParentMapSourceIndex: 12,
+    globIndex: 6,
+    globChildIndex: 2
+  }]);
+  const [decoded] = unpackCompactSceneItems(packed);
+  assert.equal(decoded.globParentMapSourceIndex, 12);
+  assert.equal(decoded.globIndex, 6);
+  assert.equal(decoded.globChildIndex, 2);
+
+  const legacyBytes = Buffer.from(packed.data, "base64").subarray(0, 19);
+  const [legacyDecoded] = unpackCompactSceneItems({
+    format: "crusader-scene-items-b1",
+    recordSize: 19,
+    itemCount: 1,
+    sources: ["glob"],
+    data: legacyBytes.toString("base64")
+  });
+  assert.equal(legacyDecoded.globParentMapSourceIndex, null);
+  assert.equal(legacyDecoded.globIndex, null);
+  assert.equal(legacyDecoded.globChildIndex, null);
+}
+
 testWorldSceneCoordinatesRoundTrip();
+testEditorMapSupportDoesNotRequireAdminAccess();
 testSnapRespectsMapRecordCoordinateLimits();
 testGizmoAxesHitAndConstrainMovement();
 testSelectionGizmoCentersOnSelectedGroup();
+testModeTransitionClearsPinnedAndEditorSelections();
 testGlobTerrainIsNotSelectableInEditMode();
+testExpandedGlobChildrenKeepParentIdentity();
+testGlobMovementUsesRepresentableOriginBlocks();
 testEditorLayerMatchesSourceProvenance();
 testHoveredGizmoArrowheadGrowsSlightly();
+testCompactScenePreservesGlobProvenance();
 console.log("Map editor geometry tests passed.");

@@ -79,6 +79,7 @@ export let editDeleteButton = null;
 export let mapEditorToolbar = null;
 export let shapeAddButton = null;
 export let editorCurrentLayerSelect = null;
+export let editorGlobOutlinesCheckbox = null;
 export let editorOnlyShowCurrentLayerCheckbox = null;
 export let editorGridSnapCheckbox = null;
 export let editorGridSizeSelect = null;
@@ -184,6 +185,7 @@ export function initializeDomElements() {
 	mapEditorToolbar = requireDomElement("#map-editor-toolbar");
 	shapeAddButton = requireDomElement("#shape-add-button");
 	editorCurrentLayerSelect = requireDomElement("#editor-current-layer");
+	editorGlobOutlinesCheckbox = requireDomElement("#editor-glob-outlines");
 	editorOnlyShowCurrentLayerCheckbox = requireDomElement("#editor-only-show-current-layer");
 	editorGridSnapCheckbox = requireDomElement("#editor-grid-snap");
 	editorGridSizeSelect = requireDomElement("#editor-grid-size");

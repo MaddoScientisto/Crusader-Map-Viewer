@@ -21,20 +21,23 @@
           <span class="glob-list-count" role="status">{{ filteredGlobs.length }} of {{ globEntries.length }}</span>
         </div>
 
-        <div class="glob-entry-list" role="listbox" aria-label="Glob entries">
-          <button
-            v-for="entry in filteredGlobs"
-            :key="entry.index"
-            :class="['glob-entry-option', { 'is-selected': selectedGlobIndex === entry.index }]"
-            type="button"
-            role="option"
-            :aria-selected="selectedGlobIndex === entry.index"
-            @click="selectGlob(entry.index)"
-          >
-            <span class="glob-entry-name">Glob {{ formatGlobIndex(entry.index) }}</span>
-            <span class="glob-entry-meta">{{ entry.children.length }} child{{ entry.children.length === 1 ? '' : 'ren' }} · {{ entry.maps.length }} map{{ entry.maps.length === 1 ? '' : 's' }}</span>
-          </button>
-          <p v-if="!filteredGlobs.length && !surfaceMessage" class="glob-list-empty">No matching globs.</p>
+        <div ref="globEntryList" class="glob-entry-list" role="listbox" aria-label="Glob entries" @scroll="handleGlobListScroll">
+          <div v-if="filteredGlobs.length" class="glob-entry-spacer" :style="{ height: `${globEntryWindow.totalHeight}px` }">
+            <button
+              v-for="row in virtualGlobEntries"
+              :key="row.entry.index"
+              :style="{ top: `${row.top}px` }"
+              :class="['glob-entry-option', { 'is-selected': selectedGlobIndex === row.entry.index }]"
+              type="button"
+              role="option"
+              :aria-selected="selectedGlobIndex === row.entry.index"
+              @click="selectGlob(row.entry.index)"
+            >
+              <span class="glob-entry-name">Glob {{ formatGlobIndex(row.entry.index) }}</span>
+              <span class="glob-entry-meta">{{ row.entry.children.length }} child{{ row.entry.children.length === 1 ? '' : 'ren' }} · {{ row.entry.maps.length }} map{{ row.entry.maps.length === 1 ? '' : 's' }}</span>
+            </button>
+          </div>
+          <p v-else-if="!surfaceMessage" class="glob-list-empty">No matching globs.</p>
         </div>
 
         <section class="glob-usage-panel" aria-labelledby="glob-usage-title">
@@ -121,6 +124,7 @@ import { computed, nextTick, onMounted, onUnmounted, ref, watch } from "vue";
 import { appUrl, fetchJson } from "../../public/helpers.js";
 import { loadImage } from "../../public/scene-api.js";
 import { getReferenceAtlasPath, getReferenceDataPath } from "../../shared/runtime-adapter.js";
+import { getGlobListWindow } from "../../lib/glob-viewer-data.js";
 import { mapWorldToScenePoint } from "../controller/map-editor-geometry.js";
 import { DEVICE_PIXEL_RATIO, state } from "../controller/state.js";
 
@@ -130,9 +134,11 @@ const MIN_ZOOM = 0.05;
 const MAX_ZOOM = 12;
 const ZOOM_FACTOR = 1.2;
 const PREVIEW_PADDING = 40;
+const GLOB_LIST_ROW_HEIGHT = 56;
 
 const viewport = ref(null);
 const canvas = ref(null);
+const globEntryList = ref(null);
 const loading = ref(false);
 const errorMessage = ref("");
 const currentGameId = ref("");
@@ -144,6 +150,8 @@ const selectedGlobIndex = ref(null);
 const selectedChildIndex = ref(null);
 const hoveredChildIndex = ref(null);
 const searchQuery = ref("");
+const globListScrollTop = ref(0);
+const globListViewportHeight = ref(0);
 const zoom = ref(1);
 const offsetX = ref(0);
 const offsetY = ref(0);
@@ -151,9 +159,11 @@ const dragState = ref(null);
 
 const referenceDataCache = new Map();
 const imageCache = new Map();
+const globSearchTextByIndex = new Map();
 let renderFrame = 0;
 let loadToken = 0;
 let needsFit = true;
+let globListResizeObserver = null;
 
 const currentGameLabel = computed(() => (
   state.catalog?.games?.find((game) => game.id === currentGameId.value)?.label ?? currentGameId.value
@@ -164,10 +174,20 @@ const filteredGlobs = computed(() => {
   if (!query) {
     return globEntries.value;
   }
-  return globEntries.value.filter((entry) => (
-    `${formatGlobIndex(entry.index)} ${entry.index} ${entry.children.map((child) => `${formatShapeCode(child.shape)} ${child.frame}`).join(' ')}`.toLowerCase().includes(query)
-  ));
+  return globEntries.value.filter((entry) => globSearchTextByIndex.get(entry.index)?.includes(query));
 });
+const globEntryWindow = computed(() => getGlobListWindow(
+  filteredGlobs.value.length,
+  globListScrollTop.value,
+  globListViewportHeight.value,
+  GLOB_LIST_ROW_HEIGHT
+));
+const virtualGlobEntries = computed(() => filteredGlobs.value
+  .slice(globEntryWindow.value.start, globEntryWindow.value.end)
+  .map((entry, index) => ({
+    entry,
+    top: (globEntryWindow.value.start + index) * GLOB_LIST_ROW_HEIGHT
+  })));
 const referenceAtlases = computed(() => referenceData.value?.atlases ?? []);
 const spriteIndex = computed(() => new Map((referenceData.value?.sprites ?? []).map((sprite) => [sprite.id, sprite])));
 const definitionIndex = computed(() => new Map((referenceData.value?.shapeDefinitions ?? []).map((definition) => [definition.id, definition])));
@@ -264,6 +284,16 @@ const hasPreview = computed(() => previewItems.value.items.length > 0);
 
 function formatGlobIndex(index) {
   return `0x${Number(index).toString(16).padStart(4, "0")}`;
+}
+
+function updateGlobListViewport() {
+  const element = globEntryList.value;
+  globListViewportHeight.value = element?.clientHeight ?? 0;
+  globListScrollTop.value = element?.scrollTop ?? 0;
+}
+
+function handleGlobListScroll(event) {
+  globListScrollTop.value = event.currentTarget.scrollTop;
 }
 
 function formatShapeCode(shape) {
@@ -636,6 +666,7 @@ async function loadAtlasImages(referenceId, atlases) {
 function clearViewerData() {
   referenceData.value = null;
   globEntries.value = [];
+  globSearchTextByIndex.clear();
   atlasImages.value = new Map();
   selectedGlobIndex.value = null;
   selectedChildIndex.value = null;
@@ -672,6 +703,10 @@ async function refreshFromControllerState() {
     referenceData.value = payload;
     const gameCatalog = payload?.globCatalogs?.find((entry) => entry.gameId === gameId);
     globEntries.value = Array.isArray(gameCatalog?.entries) ? gameCatalog.entries : [];
+    globSearchTextByIndex.clear();
+    for (const entry of globEntries.value) {
+      globSearchTextByIndex.set(entry.index, `${formatGlobIndex(entry.index)} ${entry.index} ${entry.children.map((child) => `${formatShapeCode(child.shape)} ${child.frame}`).join(" ")}`.toLowerCase());
+    }
     atlasImages.value = await loadAtlasImages(referenceId, payload?.atlases ?? []);
     if (token !== loadToken) {
       return;
@@ -681,6 +716,7 @@ async function refreshFromControllerState() {
     hoveredChildIndex.value = null;
     needsFit = true;
     await nextTick();
+    updateGlobListViewport();
     fitLayout();
   } catch (error) {
     if (token !== loadToken) {
@@ -697,6 +733,13 @@ async function refreshFromControllerState() {
 
 watch(previewItems, () => scheduleRender());
 watch([zoom, offsetX, offsetY], () => scheduleRender());
+watch(searchQuery, async () => {
+  await nextTick();
+  if (globEntryList.value) {
+    globEntryList.value.scrollTop = 0;
+  }
+  updateGlobListViewport();
+});
 
 function handleWindowResize() {
   resizeCanvas();
@@ -710,6 +753,10 @@ function handleWindowResize() {
 onMounted(() => {
   window.addEventListener(SCENE_CHANGED_EVENT, refreshFromControllerState);
   window.addEventListener("resize", handleWindowResize);
+  if (globEntryList.value && typeof ResizeObserver === "function") {
+    globListResizeObserver = new ResizeObserver(updateGlobListViewport);
+    globListResizeObserver.observe(globEntryList.value);
+  }
   void refreshFromControllerState();
   scheduleRender();
 });
@@ -717,6 +764,8 @@ onMounted(() => {
 onUnmounted(() => {
   window.removeEventListener(SCENE_CHANGED_EVENT, refreshFromControllerState);
   window.removeEventListener("resize", handleWindowResize);
+  globListResizeObserver?.disconnect();
+  globListResizeObserver = null;
   if (renderFrame) {
     window.cancelAnimationFrame(renderFrame);
   }
@@ -846,7 +895,16 @@ onUnmounted(() => {
   overscroll-behavior: contain;
 }
 
+.glob-entry-spacer {
+  position: relative;
+  min-width: 0;
+}
+
 .glob-entry-option {
+  position: absolute;
+  left: 0;
+  height: 56px;
+  box-sizing: border-box;
   display: grid;
   gap: 3px;
   width: 100%;

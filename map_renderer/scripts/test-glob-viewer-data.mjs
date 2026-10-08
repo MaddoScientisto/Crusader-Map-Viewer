@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 
-import { buildGlobRenderOrders, buildGlobViewerEntries } from "../src/lib/glob-viewer-data.js";
+import { buildGlobRenderOrders, buildGlobViewerEntries, getGlobListWindow } from "../src/lib/glob-viewer-data.js";
 
 const globs = [
   [
@@ -55,5 +55,9 @@ const renderOrders = buildGlobRenderOrders(sortGlobs, archive, shapeInfos);
 const sortedEntries = buildGlobViewerEntries(sortGlobs, new Map(), renderOrders);
 assert.deepEqual(sortedEntries[0].children.map((child) => child.childIndex), [0, 1]);
 assert.deepEqual(sortedEntries[0].children.map((child) => child.renderOrder), [1, 0]);
+
+const globWindow = getGlobListWindow(3072, 5600, 560, 56, 8);
+assert.deepEqual(globWindow, { start: 92, end: 118, totalHeight: 3072 * 56 });
+assert.ok(globWindow.end - globWindow.start < 40);
 
 console.log("Glob viewer data tests passed.");

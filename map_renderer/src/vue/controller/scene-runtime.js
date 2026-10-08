@@ -8,7 +8,7 @@ import { getReferenceDataPath } from "../../shared/runtime-adapter.js";
 import { getNpcSpawnerInfo } from "../../public/npc-spawner-data.js";
 import { buildEggMetadataFromDefinition } from "../../public/egg-utils.js";
 import { unpackCompactMapSourceItems, unpackCompactSceneItems } from "../../shared/compact-scene-codec.js";
-import { isEditorSelectableItem, isItemInEditorLayer } from "./map-editor-geometry.js";
+import { isEditorSelectableGlobItem, isEditorSelectableItem as isMapEditorSelectableItem, isItemInEditorLayer } from "./map-editor-geometry.js";
 import { versionSelect } from "./dom-elements.js";
 
 const FLAG_INVISIBLE = 0x0010;
@@ -325,6 +325,9 @@ function materializeCompactSceneItems(selected, scene, shapeDefinitions, sprites
       id: `item:${index}:${rawItem.source}:${rawItem.shape}:${rawItem.frame}:${rawItem.x}:${rawItem.y}:${rawItem.z}`,
       stableId: buildStableSceneItemId(rawItem),
       mapSourceIndex: Number.isInteger(rawItem.mapSourceIndex) ? rawItem.mapSourceIndex : null,
+      globParentMapSourceIndex: Number.isInteger(rawItem.globParentMapSourceIndex) ? rawItem.globParentMapSourceIndex : null,
+      globIndex: Number.isInteger(rawItem.globIndex) ? rawItem.globIndex : null,
+      globChildIndex: Number.isInteger(rawItem.globChildIndex) ? rawItem.globChildIndex : null,
       drawOrder: index,
       kind,
       label: sceneLabel(kind),
@@ -770,7 +773,10 @@ export function createSceneRuntimeController(deps) {
   }
 
   function isCurrentLayerSelectionTarget(item) {
-    return isEditorSelectableItem(item) && isItemInEditorLayer(item, state.editor.currentLayer);
+    if (state.editor.currentLayer === "glob") {
+      return isEditorSelectableGlobItem(item);
+    }
+    return isMapEditorSelectableItem(item) && isItemInEditorLayer(item, state.editor.currentLayer);
   }
 
   function updateEditorGizmoHover(clientX, clientY) {
@@ -785,10 +791,33 @@ export function createSceneRuntimeController(deps) {
     }
   }
 
+  function updateGlobEditorHover(clientX, clientY) {
+    state.lastPointerClient = { x: clientX, y: clientY };
+    if (!state.current) {
+      return;
+    }
+    const item = findItemAtPoint(clientToScenePoint(clientX, clientY), isCurrentLayerSelectionTarget);
+    const nextHover = item ? {
+      parentMapSourceIndex: item.globParentMapSourceIndex,
+      globIndex: item.globIndex
+    } : null;
+    const previousHover = state.editor.globHover;
+    state.editor.globHover = nextHover;
+    state.hoverItemId = null;
+    if (previousHover?.parentMapSourceIndex !== nextHover?.parentMapSourceIndex || previousHover?.globIndex !== nextHover?.globIndex) {
+      syncOverlayState();
+      scheduleRender();
+    }
+  }
+
   function updateInspectHover(event) {
     state.lastPointerClient = { x: event.clientX, y: event.clientY };
     if (state.eggPlacement) {
       updateEggPlacementPreview(event.clientX, event.clientY);
+      return;
+    }
+    if (state.editor.mode && state.editor.currentLayer === "glob") {
+      updateGlobEditorHover(event.clientX, event.clientY);
       return;
     }
     if (!state.current || state.pinnedItemId) {
@@ -807,6 +836,10 @@ export function createSceneRuntimeController(deps) {
   }
 
   function refreshHoverFromLastPointer() {
+    if (state.editor.mode && state.editor.currentLayer === "glob" && state.lastPointerClient && !state.eggPlacement) {
+      updateGlobEditorHover(state.lastPointerClient.x, state.lastPointerClient.y);
+      return;
+    }
     if (!state.current || state.pinnedItemId || !state.lastPointerClient || state.eggPlacement) {
       return;
     }
@@ -1962,6 +1995,13 @@ export function createSceneRuntimeController(deps) {
           ...state.eggPlacement,
           previewItem: null
         };
+        scheduleRender();
+        return;
+      }
+      if (state.editor.mode && state.editor.currentLayer === "glob") {
+        state.editor.globHover = null;
+        state.hoverItemId = null;
+        syncOverlayState();
         scheduleRender();
         return;
       }

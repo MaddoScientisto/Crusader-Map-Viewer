@@ -1,5 +1,7 @@
-export const COMPACT_SCENE_ITEMS_FORMAT = "crusader-scene-items-b1";
-export const COMPACT_SCENE_ITEM_RECORD_SIZE = 19;
+export const COMPACT_SCENE_ITEMS_FORMAT = "crusader-scene-items-b2";
+export const COMPACT_SCENE_ITEM_RECORD_SIZE = 25;
+const LEGACY_COMPACT_SCENE_ITEMS_FORMAT = "crusader-scene-items-b1";
+const LEGACY_COMPACT_SCENE_ITEM_RECORD_SIZE = 19;
 export const COMPACT_MAP_SOURCE_ITEMS_FORMAT = "crusader-map-source-items-b1";
 export const COMPACT_MAP_SOURCE_ITEM_RECORD_SIZE = 16;
 
@@ -96,6 +98,9 @@ export function packCompactSceneItems(items = []) {
     writeU16LE(bytes, offset + 14, item.nextItem & 0xffff);
     writeU16LE(bytes, offset + 16, Number.isInteger(item.mapSourceIndex) ? (item.mapSourceIndex & 0xffff) : NULL_U16);
     bytes[offset + 18] = sourceIndex & 0xff;
+    writeU16LE(bytes, offset + 19, Number.isInteger(item.globParentMapSourceIndex) && item.globParentMapSourceIndex >= 0 && item.globParentMapSourceIndex < NULL_U16 ? item.globParentMapSourceIndex : NULL_U16);
+    writeU16LE(bytes, offset + 21, Number.isInteger(item.globIndex) && item.globIndex >= 0 && item.globIndex < NULL_U16 ? item.globIndex : NULL_U16);
+    writeU16LE(bytes, offset + 23, Number.isInteger(item.globChildIndex) && item.globChildIndex >= 0 && item.globChildIndex < NULL_U16 ? item.globChildIndex : NULL_U16);
   });
 
   return {
@@ -111,14 +116,16 @@ export function unpackCompactSceneItems(payload) {
   if (!payload?.data) {
     return [];
   }
-  if (payload.format !== COMPACT_SCENE_ITEMS_FORMAT) {
+  if (payload.format !== COMPACT_SCENE_ITEMS_FORMAT && payload.format !== LEGACY_COMPACT_SCENE_ITEMS_FORMAT) {
     throw new Error(`Unsupported compact scene item format ${payload.format}`);
   }
 
   const bytes = decodeBase64(payload.data);
-  const recordSize = payload.recordSize ?? COMPACT_SCENE_ITEM_RECORD_SIZE;
+  const isLegacyFormat = payload.format === LEGACY_COMPACT_SCENE_ITEMS_FORMAT;
+  const expectedRecordSize = isLegacyFormat ? LEGACY_COMPACT_SCENE_ITEM_RECORD_SIZE : COMPACT_SCENE_ITEM_RECORD_SIZE;
+  const recordSize = payload.recordSize ?? expectedRecordSize;
   const itemCount = payload.itemCount ?? Math.trunc(bytes.length / recordSize);
-  if (recordSize !== COMPACT_SCENE_ITEM_RECORD_SIZE || bytes.length !== itemCount * recordSize) {
+  if (recordSize !== expectedRecordSize || bytes.length !== itemCount * recordSize) {
     throw new Error("Compact scene item payload is truncated or malformed");
   }
 
@@ -139,6 +146,9 @@ export function unpackCompactSceneItems(payload) {
       mapNum: bytes[offset + 13],
       nextItem: readU16LE(bytes, offset + 14),
       mapSourceIndex: readU16LE(bytes, offset + 16) === NULL_U16 ? null : readU16LE(bytes, offset + 16),
+      globParentMapSourceIndex: !isLegacyFormat && readU16LE(bytes, offset + 19) !== NULL_U16 ? readU16LE(bytes, offset + 19) : null,
+      globIndex: !isLegacyFormat && readU16LE(bytes, offset + 21) !== NULL_U16 ? readU16LE(bytes, offset + 21) : null,
+      globChildIndex: !isLegacyFormat && readU16LE(bytes, offset + 23) !== NULL_U16 ? readU16LE(bytes, offset + 23) : null,
       source: sourceTable[sourceIndex] ?? sourceTable[0] ?? "fixed"
     });
   }
