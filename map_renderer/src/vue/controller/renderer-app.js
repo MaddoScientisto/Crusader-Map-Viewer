@@ -54,6 +54,24 @@ import {
   zoomFitButton,
   reloadMapButton,
   panelResizer,
+  editModeButton,
+  mapEditStatus,
+  editUndoButton,
+  editRedoButton,
+  editDeleteButton,
+  mapEditorToolbar,
+  shapeAddButton,
+  editorCurrentLayerSelect,
+  editorOnlyShowCurrentLayerCheckbox,
+  editorGridSnapCheckbox,
+  editorGridSizeSelect,
+  editorFloorGridCheckbox,
+  editorSelectionCount,
+  shapePickerModal,
+  shapePickerCloseButton,
+  shapePickerSearch,
+  shapePickerCount,
+  shapePickerList,
   initializeDomElements
 } from "./dom-elements.js";
 import { state, context, ZOOM_FACTOR, FIT_PADDING, DEVICE_PIXEL_RATIO, EXPORT_BACKGROUND, initializeControllerState } from "./state.js";
@@ -138,6 +156,7 @@ import {
 import { createCatalogActions } from "./catalog-actions.js";
 import { createSceneMetadataHelpers } from "./scene-metadata.js";
 import { createScenePresentationController } from "./scene-presentation.js";
+import { createMapEditorController } from "./map-editor-controller.js";
 import { createSceneRuntimeController } from "./scene-runtime.js";
 
 initializeDomElements();
@@ -172,6 +191,15 @@ function updateViewportModeHint() {
   viewport.classList.toggle("egg-placement-active", Boolean(state.eggPlacement));
   if (state.eggPlacement) {
     viewportHint.textContent = `${state.eggPlacement.type === "teleport-destination" ? "Teleport destination" : "Teleporter"} placement: move the cursor and click to place. Press Esc or click the active button again to cancel.`;
+    return;
+  }
+  if (state.editor.placement) {
+    const name = state.editor.placement.definition.displayName || state.editor.placement.definition.shapeHex || "shape";
+    viewportHint.textContent = `Placing ${name}: click to place at the hovered shape's top or the floor. Press Escape to cancel.`;
+    return;
+  }
+  if (state.editor.mode) {
+    viewportHint.textContent = "Edit Mode: click a shape to select it, then drag an XYZ gizmo arrow to move the selection. Drag empty space to pan.";
     return;
   }
   viewportHint.textContent = inspectShapesCheckbox.checked
@@ -226,8 +254,9 @@ function projectSyntheticScreenRect(world, sprite, definition, flipped = false) 
   if (!state.current) {
     return null;
   }
-  const xdim = ((flipped ? definition.dimensions.y : definition.dimensions.x) ?? 0) * 32;
-  const ydim = ((flipped ? definition.dimensions.x : definition.dimensions.y) ?? 0) * 32;
+  const dimensions = definition?.dimensions ?? {};
+  const xdim = ((flipped ? dimensions.y : dimensions.x) ?? 0) * 32;
+  const ydim = ((flipped ? dimensions.x : dimensions.y) ?? 0) * 32;
   const minLeft = state.current.metadata.bounds.screenLeft;
   const minTop = state.current.metadata.bounds.screenTop;
   const yFar = world.y - ydim;
@@ -339,6 +368,66 @@ function createSyntheticTeleportEggItem(record, { preview = false } = {}) {
     shapeDefId: template.shapeDefId,
     spriteId: template.spriteId
   };
+}
+
+function createMapEditorSceneItem(record, mapSourceIndex, definition, sprite, preview = false) {
+  const flagsRaw = record.flags & 0xffff;
+  const flipped = Boolean(flagsRaw & 0x0020);
+  const screen = projectSyntheticScreenRect(record, sprite, definition, flipped);
+  if (!screen) {
+    throw new Error("Could not project the selected shape into the map view.");
+  }
+  const item = {
+    id: preview ? "item:preview:map-shape" : `fixed:${mapSourceIndex}`,
+    mapSourceIndex: Number.isInteger(mapSourceIndex) ? mapSourceIndex : null,
+    drawOrder: state.current?.scene.items.length ?? 0,
+    kind: definition.kind || "base",
+    label: definition.label || "Map Shape",
+    source: record.source || "fixed",
+    world: { x: record.x, y: record.y, z: record.z },
+    mapNum: record.mapNum,
+    npcNum: record.npcNum,
+    nextItem: record.nextItem,
+    quality: record.quality,
+    frame: record.frame,
+    screen,
+    flags: {
+      raw: flagsRaw,
+      hex: formatHex(flagsRaw, 4),
+      invisible: Boolean(flagsRaw & 0x0010),
+      flipped
+    },
+    presentation: {
+      opacity: preview ? 0.76 : 1,
+      visibilityDefault: !(flagsRaw & 0x0010)
+    },
+    notes: preview ? ["pending-placement"] : ["user-added"],
+    frameSize: {
+      width: sprite.width,
+      height: sprite.height,
+      xoff: sprite.xoff,
+      yoff: sprite.yoff
+    },
+    shapeDefId: definition.id,
+    spriteId: sprite.id
+  };
+  if ([3, 4, 7, 8].includes(definition.family)) {
+    item.egg = buildEggMetadataFromDefinition(record, definition);
+  }
+  return item;
+}
+
+function reprojectMapEditorSceneItem(item, record) {
+  if (!state.current) {
+    return;
+  }
+  const definition = getShapeDefinition(item.shapeDefId);
+  const sprite = state.current.spriteIndex.get(item.spriteId);
+  if (!definition || !sprite) {
+    return;
+  }
+  item.world = { x: record.x, y: record.y, z: record.z };
+  item.screen = projectSyntheticScreenRect(record, sprite, definition, Boolean(record.flags & 0x0020));
 }
 
 function refreshCurrentDerivedCollections() {
@@ -527,6 +616,8 @@ saveTeleportEggId = function saveTeleportEggIdImpl(item, form) {
   item.egg = buildEggMetadataFromDefinition(mapSourceRecord, getShapeDefinition(item.shapeDefId));
   state.current.scene.mapSource = state.current.mapSource;
   refreshCurrentDerivedCollections();
+  setMapBinaryDownloadState(true);
+  mapEditor.markChanged();
   renderEggList();
   syncOverlayState();
   scheduleRender();
@@ -583,10 +674,58 @@ saveMonsterSpawnerState = function saveMonsterSpawnerStateImpl(item, root, defin
   refreshCurrentDerivedCollections();
   renderMonsterSpawnerList();
   setMapBinaryDownloadState(true);
+  mapEditor.markChanged();
   syncOverlayState();
   scheduleRender();
   setStatus(`Updated ${definition.shapeHex} spawner to frame ${nextFrame} with ${enterMode === "auto" ? "auto-enter enabled" : "auto-enter blocked"}.`);
 };
+
+const mapEditor = createMapEditorController({
+  state,
+  viewport,
+  editModeButton,
+  mapEditStatus,
+  editUndoButton,
+  editRedoButton,
+  editDeleteButton,
+  mapEditorToolbar,
+  shapeAddButton,
+  editorCurrentLayerSelect,
+  editorOnlyShowCurrentLayerCheckbox,
+  editorGridSnapCheckbox,
+  editorGridSizeSelect,
+  editorFloorGridCheckbox,
+  editorSelectionCount,
+  shapePickerModal,
+  shapePickerCloseButton,
+  shapePickerSearch,
+  shapePickerCount,
+  shapePickerList,
+  canEditCatalog,
+  setViewportModeHint: updateViewportModeHint,
+  setStatus,
+  refreshCurrentDerivedCollections,
+  resetRenderCaches,
+  scheduleRender,
+  setMeta,
+  setMapBinaryDownloadState,
+  getShapeDefinition,
+  findItemAtPoint: (point) => {
+    if (!state.current) {
+      return null;
+    }
+    for (let index = state.current.scene.items.length - 1; index >= 0; index -= 1) {
+      const item = state.current.scene.items[index];
+      if (Number.isInteger(item.mapSourceIndex) && pointHitsItem(point, item)) {
+        return item;
+      }
+    }
+    return null;
+  },
+  makeMapSceneItem: createMapEditorSceneItem,
+  reprojectMapSceneItem: reprojectMapEditorSceneItem
+});
+mapEditor.attachEventHandlers();
 
 function updateEggPlacementPreview(clientX, clientY) {
   if (!state.current || !state.eggPlacement) {
@@ -674,6 +813,7 @@ function placePendingTeleportEgg() {
   setMeta(state.current.metadata);
   renderEggList();
   setMapBinaryDownloadState(true);
+  mapEditor.markChanged();
   if (warning) {
     showToast(warning);
     setStatus(warning);
@@ -871,6 +1011,23 @@ const runtime = createSceneRuntimeController({
   canKeepPinnedItemVisible,
   canKeepHoverItemVisible,
   pointHitsItem,
+  getEditorAxisAtPoint: mapEditor.getGizmoAxisAtPoint,
+  beginEditorGizmoDrag: mapEditor.beginGizmoDrag,
+  updateEditorGizmoDrag: mapEditor.updateGizmoDrag,
+  finishEditorGizmoDrag: mapEditor.finishEditDrag,
+  selectEditorItem: mapEditor.selectItem,
+  clearEditorSelection: mapEditor.clearSelection,
+  updateEditorPlacementPreview: mapEditor.updatePlacementPreview,
+  placeEditorShape: mapEditor.placeShape,
+  cancelEditorPlacement: mapEditor.cancelPlacement,
+  closeShapePicker: mapEditor.closeShapePicker,
+  isShapePickerOpen: () => !shapePickerModal.hidden,
+  undoMapEdit: mapEditor.undo,
+  redoMapEdit: mapEditor.redo,
+  deleteSelectedMapItems: mapEditor.deleteSelected,
+  resetMapEditorForScene: mapEditor.resetForScene,
+  markMapEditorSaved: mapEditor.markSaved,
+  isMapEditorDirty: () => state.editor.dirty,
   updateMonsterSpawnerListSelection,
   updateEggListSelection,
   resetRenderCaches,

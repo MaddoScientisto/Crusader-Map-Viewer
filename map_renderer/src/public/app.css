@@ -139,6 +139,42 @@ select:disabled,
   grid-template-columns: minmax(0, 1fr) 52px minmax(0, 1fr);
 }
 
+.map-editor-panel {
+  display: grid;
+  gap: 10px;
+  margin-top: 18px;
+  padding: 12px;
+  border: 1px solid var(--panel-border);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--card) 82%, var(--accent) 18%);
+}
+
+.map-editor-panel h2 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.map-edit-status {
+  color: var(--muted);
+  font-size: 0.82rem;
+  line-height: 1.35;
+}
+
+.map-edit-status.is-dirty {
+  color: #a84a28;
+  font-weight: 700;
+}
+
+.map-edit-actions {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.map-edit-actions button {
+  min-width: 0;
+  padding: 8px 6px;
+  font-size: 0.82rem;
+}
+
 .catalog-export-list {
   display: grid;
   gap: 8px;

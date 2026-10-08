@@ -71,6 +71,24 @@ export let zoomOutButton = null;
 export let zoomResetButton = null;
 export let zoomFitButton = null;
 export let panelResizer = null;
+export let editModeButton = null;
+export let mapEditStatus = null;
+export let editUndoButton = null;
+export let editRedoButton = null;
+export let editDeleteButton = null;
+export let mapEditorToolbar = null;
+export let shapeAddButton = null;
+export let editorCurrentLayerSelect = null;
+export let editorOnlyShowCurrentLayerCheckbox = null;
+export let editorGridSnapCheckbox = null;
+export let editorGridSizeSelect = null;
+export let editorFloorGridCheckbox = null;
+export let editorSelectionCount = null;
+export let shapePickerModal = null;
+export let shapePickerCloseButton = null;
+export let shapePickerSearch = null;
+export let shapePickerCount = null;
+export let shapePickerList = null;
 
 function requireDomElement(selector) {
 	const element = document.querySelector(selector);
@@ -158,4 +176,22 @@ export function initializeDomElements() {
 	zoomResetButton = requireDomElement("#zoom-reset");
 	zoomFitButton = requireDomElement("#zoom-fit");
 	panelResizer = requireDomElement("#panel-resizer");
+	editModeButton = requireDomElement("#edit-mode-button");
+	mapEditStatus = requireDomElement("#map-edit-status");
+	editUndoButton = requireDomElement("#edit-undo-button");
+	editRedoButton = requireDomElement("#edit-redo-button");
+	editDeleteButton = requireDomElement("#edit-delete-button");
+	mapEditorToolbar = requireDomElement("#map-editor-toolbar");
+	shapeAddButton = requireDomElement("#shape-add-button");
+	editorCurrentLayerSelect = requireDomElement("#editor-current-layer");
+	editorOnlyShowCurrentLayerCheckbox = requireDomElement("#editor-only-show-current-layer");
+	editorGridSnapCheckbox = requireDomElement("#editor-grid-snap");
+	editorGridSizeSelect = requireDomElement("#editor-grid-size");
+	editorFloorGridCheckbox = requireDomElement("#editor-floor-grid");
+	editorSelectionCount = requireDomElement("#editor-selection-count");
+	shapePickerModal = requireDomElement("#shape-picker-modal");
+	shapePickerCloseButton = requireDomElement("#shape-picker-close");
+	shapePickerSearch = requireDomElement("#shape-picker-search");
+	shapePickerCount = requireDomElement("#shape-picker-count");
+	shapePickerList = requireDomElement("#shape-picker-list");
 }

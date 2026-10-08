@@ -1,3 +1,13 @@
+import {
+  getGizmoArrowHeadLength,
+  getGizmoAxes,
+  getSelectionGizmoCenter,
+  isEditorEditableItem,
+  isItemInEditorLayer,
+  mapWorldToScenePoint,
+  scenePointToMapWorld
+} from "./map-editor-geometry.js";
+
 export function createScenePresentationController(deps) {
   const OPEN_USECODE_TARGET_EVENT = "crusader-map-renderer:open-usecode-target";
   const {
@@ -1149,6 +1159,9 @@ export function createScenePresentationController(deps) {
 
   function isItemVisible(item) {
     if (!state.current || state.current.hiddenIds.has(item.id)) {
+      return false;
+    }
+    if (state.editor?.onlyShowCurrentLayer && !isItemInEditorLayer(item, state.editor.currentLayer)) {
       return false;
     }
     const definition = getShapeDefinition(item.shapeDefId);
@@ -3016,12 +3029,173 @@ export function createScenePresentationController(deps) {
     targetContext.restore();
   }
 
+  function drawEditorArrow(targetContext, start, end, color, lineWidth = 2.5, headLength = 8) {
+    const angle = Math.atan2(end.y - start.y, end.x - start.x);
+    targetContext.strokeStyle = color;
+    targetContext.fillStyle = color;
+    targetContext.lineWidth = lineWidth;
+    targetContext.beginPath();
+    targetContext.moveTo(start.x, start.y);
+    targetContext.lineTo(end.x, end.y);
+    targetContext.stroke();
+    targetContext.beginPath();
+    targetContext.moveTo(end.x, end.y);
+    targetContext.lineTo(end.x - headLength * Math.cos(angle - Math.PI / 6), end.y - headLength * Math.sin(angle - Math.PI / 6));
+    targetContext.lineTo(end.x - headLength * Math.cos(angle + Math.PI / 6), end.y - headLength * Math.sin(angle + Math.PI / 6));
+    targetContext.closePath();
+    targetContext.fill();
+  }
+
+  function drawWorldFloorGrid(targetContext, canvasWidth, canvasHeight, scale, offsetX, offsetY) {
+    if (!state.current || !state.editor.mode || !state.editor.floorGridEnabled) {
+      return;
+    }
+    const bounds = state.current.metadata.bounds;
+    const corners = [
+      { x: 0, y: 0 },
+      { x: canvasWidth, y: 0 },
+      { x: 0, y: canvasHeight },
+      { x: canvasWidth, y: canvasHeight }
+    ].map((point) => scenePointToMapWorld({
+      x: (point.x - offsetX) / scale,
+      y: (point.y - offsetY) / scale
+    }, 0, bounds));
+    const minX = Math.min(...corners.map((point) => point.x));
+    const maxX = Math.max(...corners.map((point) => point.x));
+    const minY = Math.min(...corners.map((point) => point.y));
+    const maxY = Math.max(...corners.map((point) => point.y));
+    let spacing = Math.max(2, state.editor.snapSize || 32);
+    const lineCount = Math.max((maxX - minX) / spacing, (maxY - minY) / spacing);
+    if (lineCount > 180) {
+      spacing *= Math.ceil(lineCount / 180);
+    }
+
+    targetContext.save();
+    targetContext.beginPath();
+    targetContext.rect(0, 0, canvasWidth, canvasHeight);
+    targetContext.clip();
+    targetContext.strokeStyle = "rgba(96, 202, 183, 0.2)";
+    targetContext.lineWidth = 1;
+    targetContext.beginPath();
+    for (let worldX = Math.floor(minX / spacing) * spacing; worldX <= maxX; worldX += spacing) {
+      const start = mapWorldToScenePoint({ x: worldX, y: minY, z: 0 }, bounds);
+      const end = mapWorldToScenePoint({ x: worldX, y: maxY, z: 0 }, bounds);
+      targetContext.moveTo(start.x * scale + offsetX, start.y * scale + offsetY);
+      targetContext.lineTo(end.x * scale + offsetX, end.y * scale + offsetY);
+    }
+    for (let worldY = Math.floor(minY / spacing) * spacing; worldY <= maxY; worldY += spacing) {
+      const start = mapWorldToScenePoint({ x: minX, y: worldY, z: 0 }, bounds);
+      const end = mapWorldToScenePoint({ x: maxX, y: worldY, z: 0 }, bounds);
+      targetContext.moveTo(start.x * scale + offsetX, start.y * scale + offsetY);
+      targetContext.lineTo(end.x * scale + offsetX, end.y * scale + offsetY);
+    }
+    targetContext.stroke();
+    targetContext.restore();
+  }
+
+  function drawEditorSelection(targetContext) {
+    if (!state.current || !state.editor.mode || state.editor.selectedIds.size === 0) {
+      return;
+    }
+    const selectedItems = state.current.scene.items.filter((item) => state.editor.selectedIds.has(item.id));
+    targetContext.save();
+    targetContext.strokeStyle = "rgba(250, 252, 255, 0.95)";
+    targetContext.lineWidth = 1.5;
+    for (const item of selectedItems) {
+      const geometry = getBoundingGeometry(item);
+      const polygon = geometry?.hitPolygon;
+      targetContext.beginPath();
+      if (polygon?.length) {
+        polygon.forEach((point, index) => {
+          const x = point.x * state.zoom + state.offsetX;
+          const y = point.y * state.zoom + state.offsetY;
+          if (index === 0) {
+            targetContext.moveTo(x, y);
+          } else {
+            targetContext.lineTo(x, y);
+          }
+        });
+        targetContext.closePath();
+      } else {
+        targetContext.rect(
+          item.screen.left * state.zoom + state.offsetX,
+          item.screen.top * state.zoom + state.offsetY,
+          item.screen.width * state.zoom,
+          item.screen.height * state.zoom
+        );
+      }
+      targetContext.stroke();
+    }
+
+    const center = getSelectionGizmoCenter(
+      state.current.scene.items,
+      new Set(selectedItems.filter(isEditorEditableItem).map((item) => item.id)),
+      state.zoom,
+      state.offsetX,
+      state.offsetY
+    );
+    if (center) {
+      const axes = getGizmoAxes(center);
+      for (const axis of ["x", "y", "z"]) {
+        const geometry = axes[axis];
+        drawEditorArrow(
+          targetContext,
+          geometry.start,
+          geometry.end,
+          geometry.color,
+          3,
+          getGizmoArrowHeadLength(axis, state.editor.hoverAxis)
+        );
+      }
+      targetContext.fillStyle = "#f4f7f8";
+      targetContext.beginPath();
+      targetContext.arc(center.x, center.y, 4, 0, Math.PI * 2);
+      targetContext.fill();
+    }
+    targetContext.restore();
+  }
+
+  function drawEditorHeightIndicators(targetContext) {
+    if (!state.current || !state.editor.mode || !state.editor.floorGridEnabled) {
+      return;
+    }
+    const bounds = state.current.metadata.bounds;
+    targetContext.save();
+    for (const item of state.current.scene.items) {
+      if (!state.editor.selectedIds.has(item.id) || !item.world) {
+        continue;
+      }
+      const dimensions = getShapeDefinition(item.shapeDefId)?.dimensions ?? {};
+      const centerWorld = {
+        x: item.world.x + (dimensions.x ?? 0) * 16,
+        y: item.world.y + (dimensions.y ?? 0) * 16,
+        z: item.world.z + (dimensions.z ?? 0) * 4
+      };
+      const elevated = mapWorldToScenePoint(centerWorld, bounds);
+      const ground = mapWorldToScenePoint({ ...centerWorld, z: 0 }, bounds);
+      const start = {
+        x: elevated.x * state.zoom + state.offsetX,
+        y: elevated.y * state.zoom + state.offsetY
+      };
+      const end = {
+        x: ground.x * state.zoom + state.offsetX,
+        y: ground.y * state.zoom + state.offsetY
+      };
+      drawEditorArrow(targetContext, start, end, "#4b9af0", 2);
+    }
+    targetContext.restore();
+  }
+
   function renderScene(timestamp = performance.now()) {
     deps.resizeCanvas();
     context.clearRect(0, 0, viewport.clientWidth, viewport.clientHeight);
     drawSceneToContext(context, viewport.clientWidth, viewport.clientHeight, state.zoom, state.offsetX, state.offsetY, state.current?.hiddenIds ?? new Set());
+    drawWorldFloorGrid(context, viewport.clientWidth, viewport.clientHeight, state.zoom, state.offsetX, state.offsetY);
     if (state.eggPlacement?.previewItem) {
       drawSceneItemSprite(context, viewport.clientWidth, viewport.clientHeight, state.zoom, state.offsetX, state.offsetY, state.eggPlacement.previewItem, 0.78);
+    }
+    if (state.editor.placement?.previewItem) {
+      drawSceneItemSprite(context, viewport.clientWidth, viewport.clientHeight, state.zoom, state.offsetX, state.offsetY, state.editor.placement.previewItem, 0.78);
     }
     drawNpcPreviewOverlay(context, viewport.clientWidth, viewport.clientHeight, state.zoom, state.offsetX, state.offsetY);
     drawItemPreviewOverlay(context, viewport.clientWidth, viewport.clientHeight, state.zoom, state.offsetX, state.offsetY);
@@ -3035,6 +3209,8 @@ export function createScenePresentationController(deps) {
     drawEggLabels(context, viewport.clientWidth, viewport.clientHeight);
     syncOverlayState();
     drawHighlightOverlay(context, state.zoom, state.offsetX, state.offsetY, timestamp);
+    drawEditorHeightIndicators(context);
+    drawEditorSelection(context);
     if (hasAnimatedPaletteCycleOverlay()) {
       scheduleRender();
     }

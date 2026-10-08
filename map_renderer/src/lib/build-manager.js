@@ -23,6 +23,7 @@ import {
 import { buildMapSource, detectDefaultTeleportEggShape, loadMapPayload } from "./map-source.js";
 import { getMissionMapTable, loadMissionMapData, writeMissionMapData } from "./mission-map-data.js";
 import { extractNpcSpawnerRows } from "./npc-spawner-data.js";
+import { buildGlobRenderOrders, buildGlobViewerEntries } from "./glob-viewer-data.js";
 import { buildSceneReferencePayload, getSceneReferenceId } from "./scene-reference-data.js";
 import { writeNpcSpawnerData } from "../generate-npc-spawner-data.js";
 import decompiler from "./usecode-decompiler.js";
@@ -31,6 +32,7 @@ import { getPsxProcessedMap, isPsxPrebuiltGame } from "./psx-cache.js";
 import { prepareSortedItems } from "./sorting.js";
 
 const SCENE_CACHE_VERSION = "v15-atlas-scene-crusader-explicit-semitransparency-only";
+const GLOB_CATALOG_VERSION = 2;
 const DTABLE_NPC_SHAPES = new Set([0x04d0]);
 const MONSTER_EGG_PREVIEW_SHAPE = 0x024f;
 const OBSERVER_PREVIEW_FRAME = 0x0f;
@@ -1087,6 +1089,7 @@ export class BuildManager {
     return sha1(
       JSON.stringify({
         version: SCENE_CACHE_VERSION,
+        globCatalogVersion: GLOB_CATALOG_VERSION,
         referenceId,
         files: [...new Set(fileStamps)].map((filePath) => fileStamp(filePath)).sort(),
         catalogDigests: [...new Set(catalogDigests)].sort(),
@@ -1126,6 +1129,10 @@ export class BuildManager {
       referenceId: this.getReferenceId(gameConfig.id),
       gameId: gameConfig.id,
       mapId,
+      globIndices: [...new Set((analysis.baseItems ?? [])
+        .filter((item) => item.source === "fixed" && assets.shapeInfos[item.shape]?.family === 3)
+        .map((item) => item.quality)
+        .filter((index) => Number.isInteger(index) && index >= 0 && index < assets.globs.length))],
       shapeDefinitions: analysis.shapeDefinitions,
       sprites: analysis.sprites.map((sprite) => serializeReferenceSpriteCoverage(sprite, gameConfig.id))
     };
@@ -1143,6 +1150,7 @@ export class BuildManager {
 
     const shapeDefinitions = new Map();
     const spriteCoverage = new Map();
+    const globUsagesByGame = new Map();
     const sourceGameIds = [];
     const representativeAssets = this.getAssets(getGameConfig(groupGames[0].id));
 
@@ -1165,6 +1173,16 @@ export class BuildManager {
       if (!sourceGameIds.includes(entry.gameId)) {
         sourceGameIds.push(entry.gameId);
       }
+      let gameGlobUsages = globUsagesByGame.get(entry.gameId);
+      if (!gameGlobUsages) {
+        gameGlobUsages = new Map();
+        globUsagesByGame.set(entry.gameId, gameGlobUsages);
+      }
+      for (const globIndex of entry.globIndices ?? []) {
+        const mapIds = gameGlobUsages.get(globIndex) ?? new Set();
+        mapIds.add(entry.mapId);
+        gameGlobUsages.set(globIndex, mapIds);
+      }
       for (const definition of entry.shapeDefinitions ?? []) {
         shapeDefinitions.set(definition.id, definition);
       }
@@ -1173,6 +1191,56 @@ export class BuildManager {
           spriteCoverage.set(sprite.id, sprite);
         }
       }
+    }
+
+    const globCatalogs = [];
+    for (const game of groupGames) {
+      const gameConfig = getGameConfig(game.id);
+      if (!gameConfig || this.isPrebuiltSceneGame(gameConfig)) {
+        continue;
+      }
+      const assets = this.getAssets(gameConfig);
+      const catalogInfo = getShapeCatalog(game.id);
+      const dtableInfo = getShapeNameTable(game.id);
+      const globSprites = new Map();
+      const usageSets = globUsagesByGame.get(game.id) ?? new Map();
+      const usageByIndex = new Map([...usageSets.entries()].map(([index, maps]) => [index, [...maps]]));
+      const renderOrders = buildGlobRenderOrders(assets.globs, assets.shapeArchive, assets.shapeInfos);
+      const entries = buildGlobViewerEntries(assets.globs, usageByIndex, renderOrders);
+
+      for (const entry of entries) {
+        for (const child of entry.children) {
+          const shapeInfo = assets.shapeInfos[child.shape];
+          const shapeDefinitionId = `shape:${child.shape}`;
+          if (shapeInfo && !shapeDefinitions.has(shapeDefinitionId)) {
+            shapeDefinitions.set(shapeDefinitionId, buildShapeDefinition(
+              shapeInfo,
+              child.shape,
+              catalogInfo.entries.get(child.shape) ?? null,
+              dtableInfo.entries.get(child.shape) ?? null
+            ));
+          }
+
+          try {
+            const spriteId = ensureSpriteEntry(globSprites, assets.shapeArchive, assets.shapeInfos, catalogInfo.entries, child.shape, child.frame);
+            const sprite = globSprites.get(spriteId);
+            if (!spriteCoverage.has(spriteId)) {
+              spriteCoverage.set(spriteId, {
+                id: spriteId,
+                shape: sprite.shape,
+                frame: sprite.frame,
+                width: sprite.width,
+                height: sprite.height,
+                sourceGameId: game.id
+              });
+            }
+          } catch {
+            // Keep malformed or unavailable descriptors in the catalog without a preview sprite.
+          }
+        }
+      }
+
+      globCatalogs.push({ gameId: game.id, entries });
     }
 
     hooks.progress?.("packing-atlases", `Packing ${spriteCoverage.size} shared sprites for ${referenceId}`);
@@ -1227,6 +1295,8 @@ export class BuildManager {
       shapeDefinitions: [...shapeDefinitions.values()].sort((left, right) => left.shape - right.shape),
       sprites: serializedSprites,
       atlases: serializedAtlases,
+      globCatalogs,
+      globCatalogVersion: GLOB_CATALOG_VERSION,
       fingerprint: this.computeReferenceFingerprint(referenceId)
     }, sourceGameIds);
 
@@ -1253,12 +1323,19 @@ export class BuildManager {
     if (current) {
       const spriteIds = new Set((current.sprites ?? []).map((sprite) => sprite.id));
       const shapeDefinitionIds = new Set((current.shapeDefinitions ?? []).map((definition) => definition.id));
+      const globGameIds = new Set((current.globCatalogs ?? []).map((entry) => entry.gameId));
+      const requiredGlobGameIds = this.listReferenceGames(referenceId)
+        .filter((game) => !this.isPrebuiltSceneGame(game.id))
+        .map((game) => game.id);
       const allAtlasesPresent = (current.atlasFiles ?? []).every((atlas) => fs.existsSync(atlas.filePath));
+      const allGlobCatalogsPresent = requiredGlobGameIds.every((gameId) => globGameIds.has(gameId));
       const missingSprites = requiredSpriteIds.filter((id) => !spriteIds.has(id));
       const missingShapeDefinitions = requiredShapeDefinitionIds.filter((id) => !shapeDefinitionIds.has(id));
       if (
         current.fingerprint === expectedFingerprint
+        && current.globCatalogVersion === GLOB_CATALOG_VERSION
         && allAtlasesPresent
+        && allGlobCatalogsPresent
         && missingSprites.length === 0
         && missingShapeDefinitions.length === 0
       ) {

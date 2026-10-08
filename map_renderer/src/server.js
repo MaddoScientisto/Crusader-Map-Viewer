@@ -226,9 +226,11 @@ app.get("/api/references/:game", (request, response) => {
       shapeDefinitionCount: referenceData.shapeDefinitionCount,
       spriteCount: referenceData.spriteCount,
       atlasCount: referenceData.atlasCount,
+      globCatalogCount: referenceData.globCatalogCount,
       shapeDefinitions: referenceData.shapeDefinitions,
       sprites: referenceData.sprites,
-      atlases: referenceData.atlases
+      atlases: referenceData.atlases,
+      globCatalogs: referenceData.globCatalogs
     });
   } catch (error) {
     response.status(400).json({ error: error instanceof Error ? error.message : String(error) });

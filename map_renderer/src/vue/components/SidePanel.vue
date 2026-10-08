@@ -37,6 +37,17 @@
       </div>
     </form>
 
+    <section class="map-editor-panel" aria-labelledby="map-editor-heading">
+      <h2 id="map-editor-heading">Map Editing</h2>
+      <button id="edit-mode-button" class="action-link is-disabled" type="button" aria-pressed="false" aria-disabled="true" disabled>Enable Edit Mode</button>
+      <div id="map-edit-status" class="map-edit-status" role="status" aria-live="polite">No unsaved map edits</div>
+      <div class="button-row map-edit-actions">
+        <button id="edit-undo-button" type="button" disabled>Undo</button>
+        <button id="edit-redo-button" type="button" disabled>Redo</button>
+        <button id="edit-delete-button" type="button" disabled>Delete</button>
+      </div>
+    </section>
+
     <div class="stack controls">
       <label>View</label>
       <div class="button-row">

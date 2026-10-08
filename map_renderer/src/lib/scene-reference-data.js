@@ -38,13 +38,16 @@ export function buildSceneReferencePayload(referenceId, payload, sourceGameIds =
     referenceId,
     generatedAt: new Date().toISOString(),
     fingerprint: payload?.fingerprint ?? null,
+    globCatalogVersion: payload?.globCatalogVersion ?? null,
     sourceGameIds: [...new Set(sourceGameIds)].sort(),
     shapeDefinitionCount: shapeDefinitions.length,
     spriteCount: sprites.length,
     atlasCount: atlases.length,
+    globCatalogCount: (payload?.globCatalogs ?? []).reduce((count, catalog) => count + (catalog.entries?.length ?? 0), 0),
     shapeDefinitions,
     sprites,
-    atlases
+    atlases,
+    globCatalogs: payload?.globCatalogs ?? []
   };
 }
 

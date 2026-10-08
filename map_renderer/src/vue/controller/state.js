@@ -36,6 +36,22 @@ export const state = {
   toastTimer: null,
   lastPointerClient: null,
   eggPlacement: null,
+  editor: {
+    mode: false,
+    currentLayer: "fixed",
+    onlyShowCurrentLayer: false,
+    snapEnabled: false,
+    snapSize: 32,
+    floorGridEnabled: false,
+    selectedIds: new Set(),
+    history: [],
+    future: [],
+    dirty: false,
+    drag: null,
+    hoverAxis: null,
+    placement: null,
+    shapeRows: []
+  },
   syntheticItemSerial: 0,
   selectionMemory: {
     byFamily: {},

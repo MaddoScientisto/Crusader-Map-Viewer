@@ -3,10 +3,13 @@ import {
   readViewerHistoryState,
   updateViewerHistory
 } from "../../shared/viewer-history.js";
+import { requestUnsavedMapChangeConfirmation } from "../../shared/unsaved-map-change-bridge.js";
 import { getReferenceDataPath } from "../../shared/runtime-adapter.js";
 import { getNpcSpawnerInfo } from "../../public/npc-spawner-data.js";
 import { buildEggMetadataFromDefinition } from "../../public/egg-utils.js";
 import { unpackCompactMapSourceItems, unpackCompactSceneItems } from "../../shared/compact-scene-codec.js";
+import { isEditorSelectableItem, isItemInEditorLayer } from "./map-editor-geometry.js";
+import { versionSelect } from "./dom-elements.js";
 
 const FLAG_INVISIBLE = 0x0010;
 const FLAG_FLIPPED = 0x0020;
@@ -14,6 +17,10 @@ const DTABLE_NPC_SHAPES = new Set([0x04d0]);
 const MONSTER_EGG_PREVIEW_SHAPE = 0x024f;
 const ITEM_PREVIEW_SPAWNER_SHAPE = 0x0476;
 const OBSERVER_PREVIEW_FRAME = 0x0f;
+const REQUEST_MAP_GLOB_EVENT = "crusader-map-renderer:request-map-glob";
+const SET_VIEWPORT_TAB_EVENT = "crusader-map-renderer:set-viewport-tab";
+const VIEWPORT_TAB_READY_EVENT = "crusader-map-renderer:viewport-tab-ready";
+const MAP_VIEW_DEACTIVATED_EVENT = "crusader-map-renderer:map-view-deactivated";
 
 function buildStableSceneItemId(rawItem) {
   if (rawItem.source === "fixed" && Number.isInteger(rawItem.mapSourceIndex)) {
@@ -452,6 +459,24 @@ export function createSceneRuntimeController(deps) {
     canKeepPinnedItemVisible,
     canKeepHoverItemVisible,
     pointHitsItem,
+    getEditorAxisAtPoint,
+    beginEditorGizmoDrag,
+    updateEditorGizmoDrag,
+    finishEditorGizmoDrag,
+    selectEditorItem,
+    clearEditorSelection,
+    updateEditorPlacementPreview,
+    placeEditorShape,
+    cancelEditorPlacement,
+    closeShapePicker,
+    isShapePickerOpen,
+    undoMapEdit,
+    redoMapEdit,
+    deleteSelectedMapItems,
+    resetMapEditorForScene,
+    updateMapEditorUi,
+    markMapEditorSaved,
+    isMapEditorDirty,
     updateMonsterSpawnerListSelection,
     updateEggListSelection,
     resetRenderCaches,
@@ -488,6 +513,7 @@ export function createSceneRuntimeController(deps) {
   let currentSceneResearchPayload = null;
   let historyRestoreInProgress = false;
   let historyInitialized = false;
+  let pendingGlobFocus = null;
   const VIEWER_PREFERENCES_STORAGE_KEY = "crusader-map-renderer:viewer-preferences";
   const persistedCheckboxes = [
     ["includeEditor", includeEditorCheckbox],
@@ -729,18 +755,34 @@ export function createSceneRuntimeController(deps) {
     };
   }
 
-  function findItemAtPoint(point) {
+  function findItemAtPoint(point, predicate = null) {
     if (!state.current) {
       return null;
     }
     const items = state.current.scene.items;
     for (let index = items.length - 1; index >= 0; index -= 1) {
       const item = items[index];
-      if (pointHitsItem(point, item)) {
+      if ((!predicate || predicate(item)) && pointHitsItem(point, item)) {
         return item;
       }
     }
     return null;
+  }
+
+  function isCurrentLayerSelectionTarget(item) {
+    return isEditorSelectableItem(item) && isItemInEditorLayer(item, state.editor.currentLayer);
+  }
+
+  function updateEditorGizmoHover(clientX, clientY) {
+    let hoveredAxis = null;
+    if (state.editor.mode && !state.editor.drag && !state.editor.placement && !state.eggPlacement && !state.drag && state.pointers.size === 0) {
+      const rect = viewport.getBoundingClientRect();
+      hoveredAxis = getEditorAxisAtPoint({ x: clientX - rect.left, y: clientY - rect.top });
+    }
+    if (state.editor.hoverAxis !== hoveredAxis) {
+      state.editor.hoverAxis = hoveredAxis;
+      scheduleRender();
+    }
   }
 
   function updateInspectHover(event) {
@@ -912,6 +954,7 @@ export function createSceneRuntimeController(deps) {
     }
     const blob = new Blob([payload], { type: "application/octet-stream" });
     downloadBlob(blob, state.current.mapSource.exportFileName || `${state.current.selected.game}-map-${state.current.selected.mapId}.bin`);
+    markMapEditorSaved();
   }
 
   async function downloadCurrentAtlases() {
@@ -1104,6 +1147,7 @@ export function createSceneRuntimeController(deps) {
       dataRevision: 0,
       visibilityRevision: 0
     };
+    resetMapEditorForScene();
     state.eggPlacement = null;
     state.hoverItemId = null;
     state.pinnedItemId = state.pendingPinnedItemId && state.current.itemIndex.has(state.pendingPinnedItemId) ? state.pendingPinnedItemId : null;
@@ -1163,6 +1207,19 @@ export function createSceneRuntimeController(deps) {
   }
 
   async function startBuild(selected) {
+    if (isMapEditorDirty()) {
+      const confirmed = await requestUnsavedMapChangeConfirmation();
+      if (!confirmed) {
+        if (state.current) {
+          syncVersionSelection(state.current.selected);
+          rememberSelection(state.current.selected);
+          updateMapNavigationState();
+          writeViewerPreferences();
+        }
+        setStatus("Map change cancelled. Unsaved map edits are still available.");
+        return;
+      }
+    }
     clearTimeout(state.buildPollTimer);
     const token = ++state.buildToken;
     rememberViewport();
@@ -1202,6 +1259,104 @@ export function createSceneRuntimeController(deps) {
     await pollBuild(build.id, selected, token, preservedView);
   }
 
+  function sameSelection(left, right) {
+    return left?.game === right?.game && left?.mapId === right?.mapId;
+  }
+
+  function focusPendingGlob() {
+    const pending = pendingGlobFocus;
+    if (!pending || !state.current || !currentSelectionMatches(pending.selected)) {
+      return;
+    }
+    const globItem = state.current.scene.items.find((item) => (
+      item.source === "fixed"
+      && item.quality === pending.globIndex
+      && item.egg?.family === 3
+    ));
+    if (!globItem) {
+      pendingGlobFocus = null;
+      setStatus(`Map ${pending.selected.mapId} does not contain glob ${toHex(pending.globIndex)}.`);
+      return;
+    }
+    if (!viewport.clientWidth || !viewport.clientHeight) {
+      return;
+    }
+
+    const screen = globItem.screen;
+    const centerX = (screen.left + screen.right) / 2;
+    const centerY = (screen.top + screen.bottom) / 2;
+    const maxZoom = state.current.metadata.zoom?.max ?? 8;
+    setZoom(Math.min(maxZoom, Math.max(state.zoom, 1)));
+    state.offsetX = viewport.clientWidth / 2 - centerX * state.zoom;
+    state.offsetY = viewport.clientHeight / 2 - centerY * state.zoom;
+    clampOffsets();
+    state.pinnedItemId = globItem.id;
+    state.hoverItemId = null;
+    syncOverlayState();
+    scheduleRender();
+    pendingGlobFocus = null;
+    setStatus(`Focused glob ${toHex(pending.globIndex)} on ${getSelectedGameLabel(pending.selected)} map ${pending.selected.mapId}.`);
+  }
+
+  async function handleMapGlobRequest(event) {
+    if (pendingGlobFocus) {
+      return;
+    }
+    const game = String(event.detail?.game ?? "");
+    const mapId = Number(event.detail?.mapId);
+    const globIndex = Number(event.detail?.globIndex);
+    const selected = { game, mapId };
+    const gameEntry = state.catalog?.games?.find((entry) => entry.id === game);
+    if (!gameEntry?.maps?.some((map) => map.id === mapId) || !Number.isInteger(globIndex) || globIndex < 0) {
+      setStatus("The requested map or glob is not available in this catalog.");
+      return;
+    }
+
+    pendingGlobFocus = { selected, globIndex };
+    if (currentSelectionMatches(selected)) {
+      window.dispatchEvent(new CustomEvent(SET_VIEWPORT_TAB_EVENT, { detail: { tab: "map" } }));
+      return;
+    }
+
+    const previousBuildToken = state.buildToken;
+    versionSelect.value = selected.game;
+    syncVersionSelection(selected);
+    try {
+      await startBuild(selected);
+    } catch (error) {
+      if (sameSelection(pendingGlobFocus?.selected, selected)) {
+        pendingGlobFocus = null;
+      }
+      setStatus(error instanceof Error ? error.message : String(error));
+      return;
+    }
+    if (state.buildToken === previousBuildToken) {
+      if (sameSelection(pendingGlobFocus?.selected, selected)) {
+        pendingGlobFocus = null;
+      }
+      return;
+    }
+    window.dispatchEvent(new CustomEvent(SET_VIEWPORT_TAB_EVENT, { detail: { tab: "map" } }));
+  }
+
+  function handleViewportTabReady(event) {
+    if (event.detail?.tab === "map") {
+      focusPendingGlob();
+    }
+  }
+
+  function clearMapSelection() {
+    state.pinnedItemId = null;
+    state.hoverItemId = null;
+    clearEditorSelection();
+    state.editor.selectedIds.clear();
+    state.editor.hoverAxis = null;
+    hideInspectHighlight();
+    hideOverlayTooltip();
+    syncOverlayState();
+    scheduleRender();
+  }
+
   async function pollBuild(jobId, selected, token, preservedView) {
     if (token !== state.buildToken) {
       return;
@@ -1216,6 +1371,9 @@ export function createSceneRuntimeController(deps) {
     setStatus(latest ? `${build.phase}: ${latest.message}` : `${build.phase}...`);
     if (build.status === "failed") {
       setLoadingState(false);
+      if (sameSelection(pendingGlobFocus?.selected, selected)) {
+        pendingGlobFocus = null;
+      }
       throw new Error(build.error || "Build failed");
     }
     if (build.status !== "ready") {
@@ -1240,6 +1398,7 @@ export function createSceneRuntimeController(deps) {
     }
 
     applyLoadedScene(selected, jobId, scene, atlasImages, preservedView);
+    focusPendingGlob();
     setLoadingState(false);
     setStatus(`Ready. ${getSelectedGameLabel(selected)} map ${selected.mapId} is atlas-backed and fully loaded.`);
   }
@@ -1296,7 +1455,7 @@ export function createSceneRuntimeController(deps) {
   }
 
   function handleViewportClick(event) {
-    if (event.target.closest("#overlay-tooltip") || !state.current) {
+    if (event.target.closest("#overlay-tooltip, #map-editor-toolbar, #shape-picker-modal") || !state.current) {
       return;
     }
     if (state.suppressNextClick) {
@@ -1308,6 +1467,27 @@ export function createSceneRuntimeController(deps) {
       event.preventDefault();
       updateEggPlacementPreview(event.clientX, event.clientY);
       placePendingTeleportEgg();
+      return;
+    }
+
+    if (state.editor.placement) {
+      if (event.button !== 0) {
+        return;
+      }
+      event.preventDefault();
+      updateEditorPlacementPreview(event.clientX, event.clientY);
+      placeEditorShape();
+      return;
+    }
+
+    if (state.editor.mode) {
+      event.preventDefault();
+      const item = findItemAtPoint(clientToScenePoint(event.clientX, event.clientY), isCurrentLayerSelectionTarget);
+      if (item) {
+        selectEditorItem(item, event);
+      } else {
+        clearEditorSelection();
+      }
       return;
     }
 
@@ -1334,6 +1514,10 @@ export function createSceneRuntimeController(deps) {
     }
     if (state.pointers.size < 2) {
       state.pinch = null;
+    }
+    if (state.editor.drag?.pointerId === event.pointerId) {
+      state.suppressNextClick = true;
+      finishEditorGizmoDrag();
     }
     if (state.drag?.pointerId === event.pointerId) {
       state.suppressNextClick = state.drag.moved;
@@ -1380,6 +1564,18 @@ export function createSceneRuntimeController(deps) {
       return;
     }
 
+    if (event.key === "Escape" && isShapePickerOpen()) {
+      event.preventDefault();
+      closeShapePicker();
+      return;
+    }
+
+    if (state.editor.placement && event.key === "Escape") {
+      event.preventDefault();
+      cancelEditorPlacement();
+      return;
+    }
+
     if (state.eggPlacement && event.key === "Escape") {
       event.preventDefault();
       cancelEggPlacement();
@@ -1404,10 +1600,30 @@ export function createSceneRuntimeController(deps) {
       return;
     }
 
-    if ((event.ctrlKey || event.metaKey) && !event.shiftKey && !event.altKey && event.key.toLowerCase() === "z") {
-      if (isTypingTarget(event.target)) {
-        return;
+    if (isTypingTarget(event.target)) {
+      return;
+    }
+
+    const isEditorHistoryShortcut = (event.ctrlKey || event.metaKey)
+      && !event.altKey
+      && ["z", "y"].includes(event.key.toLowerCase());
+    if (state.editor.mode && isEditorHistoryShortcut) {
+      event.preventDefault();
+      if (event.key.toLowerCase() === "y" || (event.key.toLowerCase() === "z" && event.shiftKey)) {
+        redoMapEdit();
+      } else {
+        undoMapEdit();
       }
+      return;
+    }
+
+    if (state.editor.mode && (event.key === "Delete" || event.key === "Backspace")) {
+      event.preventDefault();
+      deleteSelectedMapItems();
+      return;
+    }
+
+    if ((event.ctrlKey || event.metaKey) && !event.shiftKey && !event.altKey && event.key.toLowerCase() === "z") {
       if (!canEditCatalog() || state.catalogEditHistory.length === 0) {
         return;
       }
@@ -1419,6 +1635,9 @@ export function createSceneRuntimeController(deps) {
   }
 
   function attachEventHandlers() {
+    window.addEventListener(REQUEST_MAP_GLOB_EVENT, handleMapGlobRequest);
+    window.addEventListener(VIEWPORT_TAB_READY_EVENT, handleViewportTabReady);
+    window.addEventListener(MAP_VIEW_DEACTIVATED_EVENT, clearMapSelection);
     mapForm.addEventListener("submit", async (event) => {
       event.preventDefault();
       const selected = getSelectedMap();
@@ -1587,6 +1806,12 @@ export function createSceneRuntimeController(deps) {
 
     document.addEventListener("keydown", handleGlobalKeydown);
     window.addEventListener("keydown", handleGlobalKeydown);
+    window.addEventListener("beforeunload", (event) => {
+      if (isMapEditorDirty()) {
+        event.preventDefault();
+        event.returnValue = "";
+      }
+    });
 
     downloadButton.addEventListener("click", async () => {
       if (downloadButton.classList.contains("is-disabled")) {
@@ -1706,6 +1931,15 @@ export function createSceneRuntimeController(deps) {
     );
 
     viewport.addEventListener("pointermove", (event) => {
+      if (state.editor.drag?.pointerId === event.pointerId) {
+        updateEditorGizmoDrag(event.clientX, event.clientY);
+        return;
+      }
+      updateEditorGizmoHover(event.clientX, event.clientY);
+      if (state.editor.placement) {
+        updateEditorPlacementPreview(event.clientX, event.clientY);
+        return;
+      }
       if (state.drag || state.pointers.size > 0) {
         return;
       }
@@ -1714,6 +1948,15 @@ export function createSceneRuntimeController(deps) {
 
     viewport.addEventListener("pointerleave", () => {
       state.lastPointerClient = null;
+      if (state.editor.hoverAxis !== null) {
+        state.editor.hoverAxis = null;
+        scheduleRender();
+      }
+      if (state.editor.placement) {
+        state.editor.placement.previewItem = null;
+        scheduleRender();
+        return;
+      }
       if (state.eggPlacement) {
         state.eggPlacement = {
           ...state.eggPlacement,
@@ -1735,8 +1978,28 @@ export function createSceneRuntimeController(deps) {
       if (!state.current) {
         return;
       }
-      if (event.target.closest("#overlay-tooltip")) {
+      if (event.target.closest("#overlay-tooltip, #map-editor-toolbar, #shape-picker-modal")) {
         return;
+      }
+      if (state.editor.placement) {
+        if (event.button === 0) {
+          event.preventDefault();
+        }
+        return;
+      }
+      if (state.editor.mode && event.button === 0) {
+        const rect = viewport.getBoundingClientRect();
+        const axis = getEditorAxisAtPoint({ x: event.clientX - rect.left, y: event.clientY - rect.top });
+        if (axis && beginEditorGizmoDrag(axis, event.pointerId, event.clientX, event.clientY)) {
+          event.preventDefault();
+          state.suppressNextClick = false;
+          viewport.setPointerCapture(event.pointerId);
+          return;
+        }
+        const item = findItemAtPoint(clientToScenePoint(event.clientX, event.clientY), isCurrentLayerSelectionTarget);
+        if (item) {
+          return;
+        }
       }
       event.preventDefault();
       state.suppressNextClick = false;
