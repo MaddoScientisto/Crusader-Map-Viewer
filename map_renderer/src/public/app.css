@@ -64,6 +64,83 @@ body {
   overflow-x: hidden;
 }
 
+.shell.is-panel-collapsed {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.shell.is-panel-collapsed .panel,
+.shell.is-panel-collapsed .panel-resizer {
+  display: none;
+}
+
+.shell.is-panel-collapsed .viewport-tabs {
+  margin-left: 56px;
+}
+
+.panel-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.panel-heading h1 {
+  flex: 1;
+}
+
+.panel-collapse-button,
+.panel-open-button {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  flex: 0 0 36px;
+  padding: 0;
+  color: var(--ink);
+  background: var(--panel);
+  border: 1px solid var(--panel-border);
+  border-radius: 6px;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.16);
+  cursor: pointer;
+}
+
+.panel-collapse-button:hover,
+.panel-open-button:hover {
+  color: var(--accent);
+}
+
+.panel-collapse-button:focus-visible,
+.panel-open-button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.panel-collapse-icon {
+  font-size: 26px;
+  line-height: 1;
+}
+
+.panel-open-button {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  z-index: 20;
+}
+
+.panel-open-icon {
+  display: grid;
+  gap: 3px;
+  width: 16px;
+}
+
+.panel-open-icon span {
+  display: block;
+  width: 16px;
+  height: 2px;
+  background: currentColor;
+  border-radius: 2px;
+}
+
 .panel-resizer {
   cursor: col-resize;
   background:

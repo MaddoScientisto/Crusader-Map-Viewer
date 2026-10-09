@@ -1,6 +1,19 @@
 <template>
   <aside class="panel" id="side-panel">
-    <h1>Crusader Map Renderer</h1>
+    <div class="panel-heading">
+      <h1>Crusader Map Renderer</h1>
+      <button
+        class="panel-collapse-button"
+        type="button"
+        aria-label="Hide side menu"
+        aria-controls="side-panel"
+        aria-expanded="true"
+        title="Hide side menu"
+        @click="$emit('collapse')"
+      >
+        <span class="panel-collapse-icon" aria-hidden="true">‹</span>
+      </button>
+    </div>
     <p class="lede">Cache-backed atlas scene renderer. Source assets stay server-side while the browser reconstructs each map from packed sprite atlases.</p>
 
     <form id="map-form" class="stack">
@@ -138,3 +151,7 @@
     </div>
   </aside>
 </template>
+
+<script setup>
+defineEmits(["collapse"]);
+</script>
