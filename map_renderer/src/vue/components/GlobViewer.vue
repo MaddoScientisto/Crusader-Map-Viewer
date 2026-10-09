@@ -33,8 +33,11 @@
               :aria-selected="selectedGlobIndex === row.entry.index"
               @click="selectGlob(row.entry.index)"
             >
-              <span class="glob-entry-name">Glob {{ formatGlobIndex(row.entry.index) }}</span>
-              <span class="glob-entry-meta">{{ row.entry.children.length }} child{{ row.entry.children.length === 1 ? '' : 'ren' }} · {{ row.entry.maps.length }} map{{ row.entry.maps.length === 1 ? '' : 's' }}</span>
+              <canvas :ref="getGlobEntryPreviewRef(row.entry.index)" class="glob-entry-preview" aria-hidden="true"></canvas>
+              <span class="glob-entry-copy">
+                <span class="glob-entry-name">Glob {{ formatGlobIndex(row.entry.index) }}</span>
+                <span class="glob-entry-meta">{{ row.entry.children.length }} child{{ row.entry.children.length === 1 ? '' : 'ren' }} · {{ row.entry.maps.length }} map{{ row.entry.maps.length === 1 ? '' : 's' }}</span>
+              </span>
             </button>
           </div>
           <p v-else-if="!surfaceMessage" class="glob-list-empty">No matching globs.</p>
@@ -130,6 +133,7 @@ import { DEVICE_PIXEL_RATIO, state } from "../controller/state.js";
 
 const SCENE_CHANGED_EVENT = "crusader-map-renderer:scene-changed";
 const REQUEST_MAP_GLOB_EVENT = "crusader-map-renderer:request-map-glob";
+const OPEN_GLOB_EVENT = "crusader-map-renderer:open-glob-entry";
 const MIN_ZOOM = 0.05;
 const MAX_ZOOM = 12;
 const ZOOM_FACTOR = 1.2;
@@ -164,6 +168,9 @@ let renderFrame = 0;
 let loadToken = 0;
 let needsFit = true;
 let globListResizeObserver = null;
+let pendingOpenGlobIndex = null;
+const globEntryPreviewCanvases = new Map();
+const globEntryPreviewRefs = new Map();
 
 const currentGameLabel = computed(() => (
   state.catalog?.games?.find((game) => game.id === currentGameId.value)?.label ?? currentGameId.value
@@ -284,6 +291,86 @@ const hasPreview = computed(() => previewItems.value.items.length > 0);
 
 function formatGlobIndex(index) {
   return `0x${Number(index).toString(16).padStart(4, "0")}`;
+}
+
+function getGlobEntryPreviewRef(index) {
+  if (!globEntryPreviewRefs.has(index)) {
+    globEntryPreviewRefs.set(index, (element) => {
+      if (!element) {
+        globEntryPreviewCanvases.delete(index);
+        return;
+      }
+      globEntryPreviewCanvases.set(index, element);
+      drawGlobEntryPreview(element, index);
+    });
+  }
+  return globEntryPreviewRefs.get(index);
+}
+
+function drawGlobEntryPreview(element, index) {
+  const previewSize = 40;
+  const pixelRatio = DEVICE_PIXEL_RATIO;
+  const width = Math.round(previewSize * pixelRatio);
+  const height = Math.round(previewSize * pixelRatio);
+  if (element.width !== width || element.height !== height) {
+    element.width = width;
+    element.height = height;
+  }
+  const context = element.getContext("2d", { alpha: true });
+  const entry = globEntries.value.find((candidate) => candidate.index === index);
+  if (!context || !entry) {
+    return;
+  }
+  context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+  context.clearRect(0, 0, previewSize, previewSize);
+  context.imageSmoothingEnabled = false;
+
+  const items = entry.children.map((child) => {
+    const sprite = spriteIndex.value.get(child.spriteId);
+    const atlas = sprite ? atlasImages.value.get(sprite.atlasId) : null;
+    if (!sprite || !atlas) {
+      return null;
+    }
+    const anchor = mapWorldToScenePoint({ x: child.x * 4 + 2, y: child.y * 4 + 2, z: child.z });
+    return {
+      sprite,
+      atlas,
+      left: anchor.x - sprite.xoff,
+      top: anchor.y - sprite.yoff,
+      width: sprite.width,
+      height: sprite.height
+    };
+  }).filter(Boolean);
+  if (!items.length) {
+    return;
+  }
+
+  const minX = Math.min(...items.map((item) => item.left));
+  const minY = Math.min(...items.map((item) => item.top));
+  const maxX = Math.max(...items.map((item) => item.left + item.width));
+  const maxY = Math.max(...items.map((item) => item.top + item.height));
+  const scale = Math.min((previewSize - 6) / Math.max(maxX - minX, 1), (previewSize - 6) / Math.max(maxY - minY, 1));
+  const offsetX = (previewSize - (maxX - minX) * scale) / 2;
+  const offsetY = (previewSize - (maxY - minY) * scale) / 2;
+  for (const item of items) {
+    context.drawImage(
+      item.atlas,
+      item.sprite.x,
+      item.sprite.y,
+      item.sprite.width,
+      item.sprite.height,
+      offsetX + (item.left - minX) * scale,
+      offsetY + (item.top - minY) * scale,
+      item.width * scale,
+      item.height * scale
+    );
+  }
+}
+
+function redrawGlobEntryPreviews() {
+  for (const [index, element] of globEntryPreviewCanvases) {
+    drawGlobEntryPreview(element, index);
+  }
 }
 
 function updateGlobListViewport() {
@@ -638,6 +725,38 @@ function selectGlob(index) {
   nextTick(() => fitLayout());
 }
 
+async function openGlobEntry(index) {
+  if (!Number.isInteger(index)) {
+    return;
+  }
+  pendingOpenGlobIndex = index;
+  if (!globEntries.value.some((entry) => entry.index === index)) {
+    return;
+  }
+  pendingOpenGlobIndex = null;
+  searchQuery.value = "";
+  await nextTick();
+  await nextTick();
+  const rowIndex = filteredGlobs.value.findIndex((entry) => entry.index === index);
+  if (rowIndex < 0) {
+    return;
+  }
+  selectedGlobIndex.value = index;
+  selectedChildIndex.value = null;
+  hoveredChildIndex.value = null;
+  needsFit = true;
+  if (globEntryList.value) {
+    globEntryList.value.scrollTop = rowIndex * GLOB_LIST_ROW_HEIGHT;
+    updateGlobListViewport();
+  }
+  await nextTick();
+  fitLayout();
+}
+
+function handleOpenGlobEntry(event) {
+  void openGlobEntry(event.detail?.globIndex);
+}
+
 function openMapAtGlob(mapId) {
   if (!selectedGlob.value || !currentGameId.value) {
     return;
@@ -717,7 +836,11 @@ async function refreshFromControllerState() {
     needsFit = true;
     await nextTick();
     updateGlobListViewport();
-    fitLayout();
+    if (Number.isInteger(pendingOpenGlobIndex)) {
+      void openGlobEntry(pendingOpenGlobIndex);
+    } else {
+      fitLayout();
+    }
   } catch (error) {
     if (token !== loadToken) {
       return;
@@ -732,6 +855,10 @@ async function refreshFromControllerState() {
 }
 
 watch(previewItems, () => scheduleRender());
+watch([atlasImages, globEntries], async () => {
+  await nextTick();
+  redrawGlobEntryPreviews();
+});
 watch([zoom, offsetX, offsetY], () => scheduleRender());
 watch(searchQuery, async () => {
   await nextTick();
@@ -752,6 +879,7 @@ function handleWindowResize() {
 
 onMounted(() => {
   window.addEventListener(SCENE_CHANGED_EVENT, refreshFromControllerState);
+  window.addEventListener(OPEN_GLOB_EVENT, handleOpenGlobEntry);
   window.addEventListener("resize", handleWindowResize);
   if (globEntryList.value && typeof ResizeObserver === "function") {
     globListResizeObserver = new ResizeObserver(updateGlobListViewport);
@@ -763,6 +891,7 @@ onMounted(() => {
 
 onUnmounted(() => {
   window.removeEventListener(SCENE_CHANGED_EVENT, refreshFromControllerState);
+  window.removeEventListener(OPEN_GLOB_EVENT, handleOpenGlobEntry);
   window.removeEventListener("resize", handleWindowResize);
   globListResizeObserver?.disconnect();
   globListResizeObserver = null;
@@ -897,6 +1026,7 @@ onUnmounted(() => {
 
 .glob-entry-spacer {
   position: relative;
+  width: 100%;
   min-width: 0;
 }
 
@@ -906,6 +1036,8 @@ onUnmounted(() => {
   height: 56px;
   box-sizing: border-box;
   display: grid;
+  grid-template-columns: 40px minmax(0, 1fr);
+  align-items: center;
   gap: 3px;
   width: 100%;
   min-height: 48px;
@@ -916,6 +1048,22 @@ onUnmounted(() => {
   color: inherit;
   text-align: left;
   cursor: pointer;
+}
+
+.glob-entry-preview {
+  display: block;
+  width: 40px;
+  height: 40px;
+  border-radius: 3px;
+  background: rgba(8, 12, 18, 0.72);
+  image-rendering: pixelated;
+}
+
+.glob-entry-copy {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+  align-content: center;
 }
 
 .glob-entry-option:hover {

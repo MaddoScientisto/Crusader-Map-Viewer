@@ -1,3 +1,5 @@
+import { GLOB_COORD_BLOCK_SIZE } from "../../shared/glob-coordinate.js";
+
 const MAX_MAP_COORDINATE = 0x1fffe;
 const GIZMO_AXES = Object.freeze({
   x: { screenX: 42, screenY: 21, worldSpan: 168 },
@@ -74,6 +76,17 @@ export function snapMapPosition(position, enabled, gridSize) {
     x: clamp(roundToEven(snap(position.x)), 0, MAX_MAP_COORDINATE),
     y: clamp(roundToEven(snap(position.y)), 0, MAX_MAP_COORDINATE),
     z: clamp(Math.round(snap(position.z)), 0, 0xff)
+  };
+}
+
+export function snapGlobPlacementPosition(position) {
+  const snapped = snapMapPosition(position, true, GLOB_COORD_BLOCK_SIZE);
+  const eggOffset = GLOB_COORD_BLOCK_SIZE - 2;
+  return {
+    ...snapped,
+    x: clamp(snapped.x + eggOffset, 0, MAX_MAP_COORDINATE),
+    y: clamp(snapped.y + eggOffset, 0, MAX_MAP_COORDINATE),
+    z: 0
   };
 }
 

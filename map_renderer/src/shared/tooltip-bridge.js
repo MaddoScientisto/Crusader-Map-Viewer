@@ -16,6 +16,8 @@ function createDefaultState() {
     showCatalogEditor: false,
     showTeleportEggEditor: false,
     showPinnedActions: false,
+    onDeleteGlob: null,
+    onOpenGlob: null,
     usecodeTarget: null,
     warpCommand: "",
     catalogEntry: null,

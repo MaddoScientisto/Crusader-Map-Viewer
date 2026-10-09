@@ -110,7 +110,7 @@
             <div class="tooltip-title tooltip-title-static">{{ tooltip.displayName }}</div>
           </div>
         </div>
-        <div v-if="tooltip.pinned || tooltip.showPinnedActions || tooltip.showTeleportEggEditor || tooltip.usecodeTarget || tooltip.onCopyStableId" class="tooltip-actions">
+        <div v-if="tooltip.pinned || tooltip.showPinnedActions || tooltip.showTeleportEggEditor || tooltip.usecodeTarget || tooltip.onCopyStableId || tooltip.onOpenGlob || tooltip.onDeleteGlob" class="tooltip-actions">
           <div
             v-if="tooltip.usecodeTarget"
             class="tooltip-usecode-action"
@@ -121,6 +121,8 @@
           </div>
           <button v-if="tooltip.pinned" class="tooltip-action" type="button" title="Open modal detail" @click.stop="openModal">Open</button>
           <button v-if="tooltip.onCopyStableId" class="tooltip-action tooltip-copy-id-button" type="button" title="Copy fixed or stable ID" @click.stop="handleCopyStableId">ID</button>
+          <button v-if="tooltip.onOpenGlob" class="tooltip-action" type="button" title="Open this glob in the GLOBS tab" @click.stop="handleOpenGlob">GLOBS</button>
+          <button v-if="tooltip.onDeleteGlob" class="tooltip-action tooltip-delete-glob-button" type="button" title="Delete this glob egg and its geometry" @click.stop="handleDeleteGlob">Delete</button>
           <button v-if="tooltip.showTeleportEggEditor" class="tooltip-action" type="button" title="Edit egg values" @click.stop="handleEditEgg" v-html="tooltip.penIconSvg"></button>
           <button v-if="tooltip.showPinnedActions" class="tooltip-action" type="button" :title="tooltip.hidden ? 'Restore shape' : 'Hide shape'" @click.stop="handleToggleHidden" v-html="tooltip.eyeIconSvg"></button>
         </div>
@@ -492,6 +494,14 @@ async function handleUsecodePreviewEnter(event) {
 
 function handleToggleHidden() {
   tooltip.value.onToggleHidden?.();
+}
+
+function handleDeleteGlob() {
+  tooltip.value.onDeleteGlob?.();
+}
+
+function handleOpenGlob() {
+  tooltip.value.onOpenGlob?.();
 }
 
 function handleEditEgg() {

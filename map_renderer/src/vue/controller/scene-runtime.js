@@ -1987,6 +1987,7 @@ export function createSceneRuntimeController(deps) {
       }
       if (state.editor.placement) {
         state.editor.placement.previewItem = null;
+        state.editor.placement.previewItems = [];
         scheduleRender();
         return;
       }

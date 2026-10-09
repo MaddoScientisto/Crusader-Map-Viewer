@@ -46,7 +46,7 @@
                 </div>
                 <button id="shape-picker-close" class="icon-button" type="button" aria-label="Close shape picker" title="Close">×</button>
               </header>
-              <label class="shape-picker-search-label" for="shape-picker-search">Search shapes</label>
+              <label id="shape-picker-search-label" class="shape-picker-search-label" for="shape-picker-search">Search shapes</label>
               <input id="shape-picker-search" class="shape-picker-search" type="search" autocomplete="off">
               <div id="shape-picker-count" class="shape-picker-count" role="status">Loading shapes...</div>
               <div id="shape-picker-list" class="shape-picker-list"></div>
@@ -348,7 +348,7 @@ onUnmounted(() => {
 
 .shape-picker-dialog {
   display: grid;
-  grid-template-rows: auto auto auto auto auto minmax(0, 1fr);
+  grid-template-rows: auto auto auto auto minmax(0, 1fr);
   gap: 12px;
   width: min(760px, 100%);
   max-height: min(720px, 100%);
@@ -390,6 +390,10 @@ onUnmounted(() => {
   border: 1px solid rgba(205, 218, 227, 0.16);
   border-radius: 6px;
   background: #0b1216;
+}
+
+.shape-picker-view-modes[hidden] {
+  display: none;
 }
 
 .shape-picker-view-modes button {
@@ -450,6 +454,21 @@ onUnmounted(() => {
   grid-template-columns: repeat(auto-fill, minmax(82px, 1fr));
 }
 
+.shape-picker-list.is-glob-view {
+  display: block;
+}
+
+:deep(.glob-picker-grid) {
+  display: grid;
+  align-content: start;
+  column-gap: 7px;
+  grid-auto-rows: 151px;
+}
+
+:deep(.glob-picker-spacer) {
+  width: 100%;
+}
+
 :deep(.shape-picker-option) {
   display: grid;
   grid-template-columns: 56px minmax(0, 1fr);
@@ -464,6 +483,27 @@ onUnmounted(() => {
   font: inherit;
   text-align: left;
   cursor: pointer;
+}
+
+:deep(.shape-picker-option.glob-picker-option) {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 8px;
+  height: 144px;
+  min-height: 144px;
+  text-align: left;
+}
+
+:deep(.glob-picker-preview) {
+  display: block;
+  width: 100%;
+  height: 84px;
+  overflow: hidden;
+  border: 1px solid rgba(205, 218, 227, 0.12);
+  border-radius: 4px;
+  background-color: #0a1115;
+  image-rendering: pixelated;
 }
 
 :deep(.shape-picker-option:hover),

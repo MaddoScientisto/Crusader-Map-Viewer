@@ -3,6 +3,7 @@ import { packCompactSceneItems, unpackCompactSceneItems } from "../src/shared/co
 import { getGlobOriginDelta, GLOB_COORD_BLOCK_SIZE, quantizeGlobAxisDelta, translateGlobChildPosition } from "../src/shared/glob-coordinate.js";
 import { expandGlobItem } from "../src/lib/formats.js";
 import { clearMapEditorSelectionState } from "../src/vue/controller/map-editor-selection.js";
+import { sortMapEditorSceneItems } from "../src/vue/controller/map-editor-scene.js";
 
 import {
   getGizmoArrowHeadLength,
@@ -17,6 +18,7 @@ import {
   isItemInEditorLayer,
   mapWorldToScenePoint,
   scenePointToMapWorld,
+  snapGlobPlacementPosition,
   snapMapPosition
 } from "../src/vue/controller/map-editor-geometry.js";
 
@@ -37,6 +39,24 @@ function testSnapRespectsMapRecordCoordinateLimits() {
   assert.deepEqual(snapMapPosition({ x: 35, y: 49, z: 21 }, true, 16), { x: 32, y: 48, z: 16 });
   assert.deepEqual(snapMapPosition({ x: 35, y: 49, z: 21 }, false, 16), { x: 36, y: 50, z: 21 });
   assert.deepEqual(snapMapPosition({ x: 0x1ffff, y: -3, z: 999 }, false, 32), { x: 0x1fffe, y: 0, z: 0xff });
+}
+
+function testGlobPlacementSnapsToMovementBlocksAtFloor() {
+  const position = snapGlobPlacementPosition({ x: 600, y: 1600, z: 42 });
+  assert.deepEqual(position, { x: GLOB_COORD_BLOCK_SIZE * 2 - 2, y: GLOB_COORD_BLOCK_SIZE * 3 - 2, z: 0 });
+  assert.equal(position.x & (GLOB_COORD_BLOCK_SIZE - 1), GLOB_COORD_BLOCK_SIZE - 2);
+  assert.equal(position.y & (GLOB_COORD_BLOCK_SIZE - 1), GLOB_COORD_BLOCK_SIZE - 2);
+  assert.deepEqual(snapGlobPlacementPosition({ x: 0x1ffff, y: -1, z: 8 }), { x: 0x1fffe, y: 0x3fe, z: 0 });
+
+  const descriptors = [[{ x: 4, y: 6, z: 1, shape: 0x023d, frame: 4 }]];
+  const [placedChild] = expandGlobItem({ ...position, quality: 0 }, descriptors);
+  const [originChild] = expandGlobItem({
+    x: position.x & ~(GLOB_COORD_BLOCK_SIZE - 1),
+    y: position.y & ~(GLOB_COORD_BLOCK_SIZE - 1),
+    z: position.z,
+    quality: 0
+  }, descriptors);
+  assert.deepEqual(placedChild, originChild);
 }
 
 function testGizmoAxesHitAndConstrainMovement() {
@@ -142,6 +162,54 @@ function testGlobMovementUsesRepresentableOriginBlocks() {
   assert.equal(quantizeGlobAxisDelta("z", 2.6), 3);
 }
 
+function testMapEditorSceneSortingUsesPainterDependenciesAndBounds() {
+  const shapeDefinitions = new Map([1, 2].map((shape) => [`shape:${shape}`, {
+    id: `shape:${shape}`,
+    shape,
+    dimensions: { x: 1, y: 1, z: 1 },
+    traits: {}
+  }]));
+  const spriteIndex = new Map([1, 2].map((shape) => [`sprite:${shape}:0`, {
+    id: `sprite:${shape}:0`,
+    shape,
+    frame: 0,
+    width: 32,
+    height: 32,
+    xoff: 16,
+    yoff: 32
+  }]));
+  const upper = {
+    id: "upper",
+    source: "glob",
+    shapeDefId: "shape:1",
+    spriteId: "sprite:1:0",
+    frame: 0,
+    world: { x: 100, y: 100, z: 8 },
+    flags: { raw: 0 }
+  };
+  const lower = {
+    id: "lower",
+    source: "glob",
+    shapeDefId: "shape:2",
+    spriteId: "sprite:2:0",
+    frame: 0,
+    world: { x: 100, y: 100, z: 0 },
+    flags: { raw: 0 }
+  };
+
+  const sorted = sortMapEditorSceneItems([upper, lower], shapeDefinitions, spriteIndex);
+
+  assert.deepEqual(sorted.prepared.map((node) => node.item.sceneItem.id), ["lower", "upper"]);
+  assert.deepEqual(sorted.bounds, {
+    screenLeft: -16,
+    screenTop: -15,
+    screenRight: 16,
+    screenBottom: 25,
+    width: 32,
+    height: 40
+  });
+}
+
 function testEditorLayerMatchesSourceProvenance() {
   const fixedItem = { source: "fixed" };
   const globItem = { source: "glob" };
@@ -198,12 +266,14 @@ function testCompactScenePreservesGlobProvenance() {
 testWorldSceneCoordinatesRoundTrip();
 testEditorMapSupportDoesNotRequireAdminAccess();
 testSnapRespectsMapRecordCoordinateLimits();
+testGlobPlacementSnapsToMovementBlocksAtFloor();
 testGizmoAxesHitAndConstrainMovement();
 testSelectionGizmoCentersOnSelectedGroup();
 testModeTransitionClearsPinnedAndEditorSelections();
 testGlobTerrainIsNotSelectableInEditMode();
 testExpandedGlobChildrenKeepParentIdentity();
 testGlobMovementUsesRepresentableOriginBlocks();
+testMapEditorSceneSortingUsesPainterDependenciesAndBounds();
 testEditorLayerMatchesSourceProvenance();
 testHoveredGizmoArrowheadGrowsSlightly();
 testCompactScenePreservesGlobProvenance();

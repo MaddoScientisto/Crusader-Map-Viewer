@@ -56,6 +56,8 @@ export function getGlobGroupTooltipPlacement(bounds, tooltipSize, viewportSize) 
 
 export function createScenePresentationController(deps) {
   const OPEN_USECODE_TARGET_EVENT = "crusader-map-renderer:open-usecode-target";
+  const OPEN_GLOB_EVENT = "crusader-map-renderer:open-glob-entry";
+  const SET_VIEWPORT_TAB_EVENT = "crusader-map-renderer:set-viewport-tab";
   const {
     state,
     context,
@@ -91,6 +93,7 @@ export function createScenePresentationController(deps) {
     setHiddenExportState,
     setStatus,
     showToast,
+    deleteGlobSelection,
     clearTooltipState,
     setTooltipState,
     openEggEditModal,
@@ -1425,6 +1428,7 @@ export function createScenePresentationController(deps) {
   function renderTooltip(item) {
     const isPinnedTooltip = state.pinnedItemId === item.id && !state.editor.mode;
     const isDockedTooltip = isPinnedTooltip || isGlobSelectionParent(item) || isFixedEditorSelection(item);
+    const showGlobEditActions = isGlobSelectionParent(item);
     const hidden = state.current?.hiddenIds.has(item.id) ?? false;
     const display = getItemDisplay(item);
     const sourceRecord = getMapSourceRecordForItem(item);
@@ -1512,6 +1516,11 @@ export function createScenePresentationController(deps) {
       showCatalogEditor,
       showTeleportEggEditor,
       showPinnedActions,
+      onDeleteGlob: showGlobEditActions ? () => deleteGlobSelection() : null,
+      onOpenGlob: showGlobEditActions ? () => {
+        window.dispatchEvent(new CustomEvent(SET_VIEWPORT_TAB_EVENT, { detail: { tab: "globs" } }));
+        window.dispatchEvent(new CustomEvent(OPEN_GLOB_EVENT, { detail: { globIndex: item.quality } }));
+      } : null,
       usecodeTarget,
       warpCommand: isPinnedTooltip ? warpCommand : "",
       catalogEntry,
@@ -3511,6 +3520,9 @@ export function createScenePresentationController(deps) {
     }
     if (state.editor.placement?.previewItem) {
       drawSceneItemSprite(context, viewport.clientWidth, viewport.clientHeight, state.zoom, state.offsetX, state.offsetY, state.editor.placement.previewItem, 0.78);
+    }
+    for (const item of state.editor.placement?.previewItems ?? []) {
+      drawSceneItemSprite(context, viewport.clientWidth, viewport.clientHeight, state.zoom, state.offsetX, state.offsetY, item, 0.78);
     }
     drawNpcPreviewOverlay(context, viewport.clientWidth, viewport.clientHeight, state.zoom, state.offsetX, state.offsetY);
     drawItemPreviewOverlay(context, viewport.clientWidth, viewport.clientHeight, state.zoom, state.offsetX, state.offsetY);

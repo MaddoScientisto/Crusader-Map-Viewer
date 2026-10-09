@@ -196,6 +196,11 @@ function updateViewportModeHint() {
     return;
   }
   if (state.editor.placement) {
+    if (state.editor.placement.type === "glob") {
+      const globIndex = state.editor.placement.globIndex.toString(16).padStart(4, "0");
+      viewportHint.textContent = `Placing Glob 0x${globIndex}: move the cursor and click to place at Z=0. Press Escape to cancel.`;
+      return;
+    }
     const name = state.editor.placement.definition.displayName || state.editor.placement.definition.shapeHex || "shape";
     viewportHint.textContent = `Placing ${name}: click to place at the hovered shape's top or the floor. Press Escape to cancel.`;
     return;
@@ -520,6 +525,7 @@ const presentation = createScenePresentationController({
   showToast,
   clearTooltipState,
   setTooltipState,
+  deleteGlobSelection: () => mapEditor.deleteGlobSelection(),
   openEggEditModal,
   closeEggEditModal,
   saveCatalogEntry: (...args) => saveCatalogEntry(...args),
@@ -713,6 +719,10 @@ const mapEditor = createMapEditorController({
   scheduleRender,
   setMeta,
   setMapBinaryDownloadState,
+  clampViewport: () => {
+    clampOffsets();
+    updateZoomLabel();
+  },
   getShapeDefinition,
   findItemAtPoint: (point) => {
     if (!state.current) {
