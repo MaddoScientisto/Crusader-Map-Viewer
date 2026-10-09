@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 
-import { buildGlobRenderOrders, buildGlobViewerEntries, getGlobListWindow } from "../src/lib/glob-viewer-data.js";
+import { buildGlobRenderOrders, buildGlobViewerEntries, buildMatchingGlobRenderOrders, getGlobListWindow } from "../src/lib/glob-viewer-data.js";
 
 const globs = [
   [
@@ -21,10 +21,25 @@ assert.deepEqual(buildGlobViewerEntries(globs, usage), [
       { childIndex: 0, renderOrder: 0, x: 12, y: 16, z: 0, shape: 0x023d, frame: 4, spriteId: "sprite:573:4" },
       { childIndex: 1, renderOrder: 1, x: 13, y: 16, z: 2, shape: 0x023d, frame: 5, spriteId: "sprite:573:5" }
     ],
-    maps: [2, 34]
+    maps: [2, 34],
+    usageComplete: true
   },
-  { index: 1, children: [], maps: [] }
+  { index: 1, children: [], maps: [], usageComplete: true }
 ]);
+assert.deepEqual(buildGlobViewerEntries([[]], null), [
+  { index: 0, children: [], maps: null, usageComplete: false }
+]);
+
+const referenceEntries = [{
+  index: 0,
+  children: [
+    { ...globs[0][0], childIndex: 0, renderOrder: 19 },
+    { ...globs[0][1], childIndex: 1, renderOrder: 4 }
+  ]
+}];
+const catalogRenderOrders = buildMatchingGlobRenderOrders(globs, referenceEntries);
+assert.deepEqual([...catalogRenderOrders.get(0)], [[0, 19], [1, 4]]);
+assert.equal(buildMatchingGlobRenderOrders([[{ ...globs[0][0], frame: 99 }]], referenceEntries).has(0), false);
 
 const sortGlobs = [[
   { x: 10, y: 10, z: 1, shape: 2, frame: 0 },

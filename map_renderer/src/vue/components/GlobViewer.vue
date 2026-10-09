@@ -36,7 +36,7 @@
               <canvas :ref="getGlobEntryPreviewRef(row.entry.index)" class="glob-entry-preview" aria-hidden="true"></canvas>
               <span class="glob-entry-copy">
                 <span class="glob-entry-name">Glob {{ formatGlobIndex(row.entry.index) }}</span>
-                <span class="glob-entry-meta">{{ row.entry.children.length }} child{{ row.entry.children.length === 1 ? '' : 'ren' }} · {{ row.entry.maps.length }} map{{ row.entry.maps.length === 1 ? '' : 's' }}</span>
+                <span class="glob-entry-meta">{{ row.entry.children.length }} child{{ row.entry.children.length === 1 ? '' : 'ren' }} · {{ formatUsage(row.entry) }}</span>
               </span>
             </button>
           </div>
@@ -46,18 +46,22 @@
         <section class="glob-usage-panel" aria-labelledby="glob-usage-title">
           <div class="glob-usage-heading">
             <h2 id="glob-usage-title">Maps used</h2>
-            <span>{{ selectedGlob?.maps.length ?? 0 }}</span>
+            <span>{{ formatUsage(selectedGlob) }}</span>
           </div>
           <div class="glob-map-list">
             <button
               v-for="mapId in selectedGlob?.maps ?? []"
+              v-if="!archiveSource"
               :key="mapId"
               class="glob-map-entry"
               type="button"
               :aria-label="`Open map ${mapId} and focus glob ${formatGlobIndex(selectedGlob.index)}`"
               @click="openMapAtGlob(mapId)"
             >Map {{ mapId }}</button>
-            <span v-if="selectedGlob && selectedGlob.maps.length === 0" class="glob-map-empty">Not referenced by detected maps.</span>
+            <span v-for="mapId in archiveSource ? (selectedGlob?.maps ?? []) : []" :key="`uploaded-map-${mapId}`" class="glob-map-entry">Map {{ mapId }}</span>
+            <span v-if="selectedGlob?.maps == null" class="glob-map-empty">Map usage is unknown until a matching FIXED archive is loaded.</span>
+            <span v-else-if="selectedGlob?.usageComplete === false" class="glob-map-empty">Known references only; records with unavailable shape metadata may add more.</span>
+            <span v-else-if="selectedGlob && selectedGlob.maps.length === 0" class="glob-map-empty">{{ archiveSource ? 'No uploaded FIXED records reference this slot.' : 'Not referenced by detected maps.' }}</span>
             <span v-if="!selectedGlob" class="glob-map-empty">Select a glob.</span>
           </div>
         </section>
@@ -94,7 +98,7 @@
             <dt>Children</dt>
             <dd>{{ selectedGlob.children.length }}</dd>
             <dt>Maps used</dt>
-            <dd>{{ selectedGlob.maps.length }}</dd>
+            <dd>{{ formatUsage(selectedGlob) }}</dd>
           </dl>
           <div v-if="focusedChild" class="glob-shape-details">
             <div class="glob-shape-heading">
@@ -130,6 +134,12 @@ import { getReferenceAtlasPath, getReferenceDataPath } from "../../shared/runtim
 import { getGlobListWindow } from "../../lib/glob-viewer-data.js";
 import { mapWorldToScenePoint } from "../controller/map-editor-geometry.js";
 import { DEVICE_PIXEL_RATIO, state } from "../controller/state.js";
+
+const props = defineProps({
+  archiveSource: { type: Object, default: null },
+  selectedEntryIndex: { type: Number, default: null }
+});
+const emit = defineEmits(["entry-selected"]);
 
 const SCENE_CHANGED_EVENT = "crusader-map-renderer:scene-changed";
 const REQUEST_MAP_GLOB_EVENT = "crusader-map-renderer:request-map-glob";
@@ -207,10 +217,12 @@ const surfaceMessage = computed(() => {
     return errorMessage.value;
   }
   if (!currentGameId.value) {
-    return "Load a map to browse its game's GLOB archive.";
+    return props.archiveSource
+      ? "Load a map to preview uploaded descriptors with the selected game's shape references."
+      : "Load a map to browse its game's GLOB archive.";
   }
   if (!globEntries.value.length) {
-    return "No glob catalog is available for this game.";
+    return props.archiveSource ? "The uploaded archive contains no slots." : "No glob catalog is available for this game.";
   }
   return "";
 });
@@ -220,6 +232,9 @@ const toolbarMeta = computed(() => {
   }
   if (errorMessage.value) {
     return errorMessage.value;
+  }
+  if (props.archiveSource) {
+    return `${props.archiveSource.fileName || 'Uploaded GLOB'} · ${globEntries.value.length} slots`;
   }
   if (!currentGameId.value) {
     return "Select a map to load its game's globs.";
@@ -291,6 +306,15 @@ const hasPreview = computed(() => previewItems.value.items.length > 0);
 
 function formatGlobIndex(index) {
   return `0x${Number(index).toString(16).padStart(4, "0")}`;
+}
+
+function formatUsage(entry) {
+  if (!entry || entry.maps == null) {
+    return "usage unknown";
+  }
+  const count = entry.maps.length;
+  const label = `${count} map${count === 1 ? "" : "s"}`;
+  return entry.usageComplete === false ? `${label} known` : label;
 }
 
 function getGlobEntryPreviewRef(index) {
@@ -719,6 +743,7 @@ function selectGlob(index) {
     return;
   }
   selectedGlobIndex.value = index;
+  emit("entry-selected", index);
   selectedChildIndex.value = null;
   hoveredChildIndex.value = null;
   needsFit = true;
@@ -777,28 +802,56 @@ async function loadAtlasImages(referenceId, atlases) {
     if (!imageCache.has(cacheKey)) {
       imageCache.set(cacheKey, loadImage(appUrl(getReferenceAtlasPath(state.siteConfig, referenceId, atlas))));
     }
-    loadedImages.set(atlas.id, await imageCache.get(cacheKey));
+    try {
+      loadedImages.set(atlas.id, await imageCache.get(cacheKey));
+    } catch {
+      imageCache.delete(cacheKey);
+    }
   }));
   return loadedImages;
 }
 
 function clearViewerData() {
-  referenceData.value = null;
-  globEntries.value = [];
+  const scene = state.current?.scene ?? null;
+  const referenceId = scene?.references?.referenceId ?? currentGameId.value;
+  referenceData.value = props.archiveSource
+    ? state.referenceDataByGame.get(referenceId) ?? scene
+    : null;
+  globEntries.value = props.archiveSource?.entries ?? [];
   globSearchTextByIndex.clear();
-  atlasImages.value = new Map();
-  selectedGlobIndex.value = null;
+  for (const entry of globEntries.value) {
+    globSearchTextByIndex.set(entry.index, `${formatGlobIndex(entry.index)} ${entry.index} ${entry.children.map((child) => `${formatShapeCode(child.shape)} ${child.frame}`).join(" ")}`.toLowerCase());
+  }
+  atlasImages.value = props.archiveSource ? new Map(state.current?.atlasImages ?? []) : new Map();
+  const requestedGlobIndex = props.selectedEntryIndex;
+  const previousGlobIndex = selectedGlobIndex.value;
+  selectedGlobIndex.value = globEntries.value.some((entry) => entry.index === requestedGlobIndex)
+    ? requestedGlobIndex
+    : globEntries.value.some((entry) => entry.index === previousGlobIndex)
+      ? previousGlobIndex
+    : globEntries.value[0]?.index ?? null;
   selectedChildIndex.value = null;
   hoveredChildIndex.value = null;
+  emit("entry-selected", selectedGlobIndex.value);
   scheduleRender();
 }
 
 async function refreshFromControllerState() {
   const selected = state.current?.selected ?? null;
   const scene = state.current?.scene ?? null;
+  const uploadedEntries = props.archiveSource ? (props.archiveSource.entries ?? []) : null;
+  const previousGlobIndex = selectedGlobIndex.value;
+  const requestedGlobIndex = props.selectedEntryIndex;
+  if (uploadedEntries) {
+    globEntries.value = uploadedEntries;
+    globSearchTextByIndex.clear();
+    for (const entry of globEntries.value) {
+      globSearchTextByIndex.set(entry.index, `${formatGlobIndex(entry.index)} ${entry.index} ${entry.children.map((child) => `${formatShapeCode(child.shape)} ${child.frame}`).join(" ")}`.toLowerCase());
+    }
+  }
   if (!state.siteConfig || !selected?.game) {
-    currentGameId.value = "";
-    currentReferenceId.value = "";
+    currentGameId.value = selected?.game ?? "";
+    currentReferenceId.value = scene?.references?.referenceId ?? selected?.game ?? "";
     clearViewerData();
     return;
   }
@@ -806,31 +859,38 @@ async function refreshFromControllerState() {
   const token = ++loadToken;
   const gameId = selected.game;
   const referenceId = scene?.references?.referenceId ?? gameId;
+  const cachedPayload = state.referenceDataByGame.get(referenceId);
   currentGameId.value = gameId;
   currentReferenceId.value = referenceId;
   loading.value = true;
   errorMessage.value = "";
 
   try {
-    if (!referenceDataCache.has(referenceId)) {
+    if (!cachedPayload && !referenceDataCache.has(referenceId)) {
       referenceDataCache.set(referenceId, fetchJson(appUrl(getReferenceDataPath(state.siteConfig, referenceId))));
     }
-    const payload = await referenceDataCache.get(referenceId);
+    const payload = cachedPayload ?? await referenceDataCache.get(referenceId);
     if (token !== loadToken) {
       return;
     }
     referenceData.value = payload;
     const gameCatalog = payload?.globCatalogs?.find((entry) => entry.gameId === gameId);
-    globEntries.value = Array.isArray(gameCatalog?.entries) ? gameCatalog.entries : [];
+    globEntries.value = uploadedEntries ?? (Array.isArray(gameCatalog?.entries) ? gameCatalog.entries : []);
     globSearchTextByIndex.clear();
     for (const entry of globEntries.value) {
       globSearchTextByIndex.set(entry.index, `${formatGlobIndex(entry.index)} ${entry.index} ${entry.children.map((child) => `${formatShapeCode(child.shape)} ${child.frame}`).join(" ")}`.toLowerCase());
     }
-    atlasImages.value = await loadAtlasImages(referenceId, payload?.atlases ?? []);
+    const loadedImages = await loadAtlasImages(referenceId, payload?.atlases ?? []);
+    atlasImages.value = new Map([...(state.current?.atlasImages ?? []), ...loadedImages]);
     if (token !== loadToken) {
       return;
     }
-    selectedGlobIndex.value = globEntries.value[0]?.index ?? null;
+    selectedGlobIndex.value = globEntries.value.some((entry) => entry.index === requestedGlobIndex)
+      ? requestedGlobIndex
+      : globEntries.value.some((entry) => entry.index === previousGlobIndex)
+        ? previousGlobIndex
+        : globEntries.value[0]?.index ?? null;
+    emit("entry-selected", selectedGlobIndex.value);
     selectedChildIndex.value = null;
     hoveredChildIndex.value = null;
     needsFit = true;
@@ -845,8 +905,11 @@ async function refreshFromControllerState() {
     if (token !== loadToken) {
       return;
     }
-    errorMessage.value = error instanceof Error ? error.message : String(error);
     clearViewerData();
+    if (!state.referenceDataByGame.has(referenceId)) {
+      referenceDataCache.delete(referenceId);
+    }
+    errorMessage.value = props.archiveSource ? "" : error instanceof Error ? error.message : String(error);
   } finally {
     if (token === loadToken) {
       loading.value = false;
@@ -855,6 +918,12 @@ async function refreshFromControllerState() {
 }
 
 watch(previewItems, () => scheduleRender());
+watch(() => props.archiveSource?.entries, () => { void refreshFromControllerState(); });
+watch(() => props.selectedEntryIndex, (index) => {
+  if (Number.isInteger(index)) {
+    void openGlobEntry(index);
+  }
+});
 watch([atlasImages, globEntries], async () => {
   await nextTick();
   redrawGlobEntryPreviews();

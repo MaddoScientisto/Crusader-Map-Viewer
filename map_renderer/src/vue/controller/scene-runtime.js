@@ -2122,6 +2122,7 @@ export function createSceneRuntimeController(deps) {
     state.siteConfig = await loadSiteConfig();
     await loadNpcSpawnerData(state.siteConfig);
     applySiteConfig(setReloadState);
+    window.dispatchEvent(new Event("crusader-map-renderer:site-config-changed"));
     await loadCatalog();
     const historySelection = getHistorySelection(readViewerHistoryState());
     if (historySelection) {

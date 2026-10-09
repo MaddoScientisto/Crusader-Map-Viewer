@@ -1,6 +1,7 @@
 import { prepareSortedItems } from "./sorting.js";
 
 export function buildGlobViewerEntries(globs, usageByIndex = new Map(), renderOrdersByIndex = new Map()) {
+  const usageKnown = usageByIndex instanceof Map;
   return globs.map((children, index) => ({
     index,
     children: children.map((child, childIndex) => ({
@@ -13,8 +14,34 @@ export function buildGlobViewerEntries(globs, usageByIndex = new Map(), renderOr
       frame: child.frame,
       spriteId: `sprite:${child.shape}:${child.frame}`
     })),
-    maps: [...new Set(usageByIndex.get(index) ?? [])].sort((left, right) => left - right)
+    maps: usageKnown ? [...new Set(usageByIndex.get(index) ?? [])].sort((left, right) => left - right) : null,
+    usageComplete: usageKnown
   }));
+}
+
+export function buildMatchingGlobRenderOrders(globs, referenceEntries = []) {
+  const referenceByIndex = new Map(referenceEntries.map((entry) => [entry.index, entry]));
+  const renderOrdersByIndex = new Map();
+  globs.forEach((children, index) => {
+    const referenceEntry = referenceByIndex.get(index);
+    if (!referenceEntry || referenceEntry.children.length !== children.length) {
+      return;
+    }
+    const matches = referenceEntry.children.every((referenceChild, childIndex) => {
+      const child = children[childIndex];
+      return referenceChild.childIndex === childIndex
+        && Number.isInteger(referenceChild.renderOrder)
+        && referenceChild.x === child.x
+        && referenceChild.y === child.y
+        && referenceChild.z === child.z
+        && referenceChild.shape === child.shape
+        && referenceChild.frame === child.frame;
+    });
+    if (matches) {
+      renderOrdersByIndex.set(index, new Map(referenceEntry.children.map((child) => [child.childIndex, child.renderOrder])));
+    }
+  });
+  return renderOrdersByIndex;
 }
 
 export function getGlobListWindow(entryCount, scrollTop, viewportHeight, rowHeight, overscan = 8) {

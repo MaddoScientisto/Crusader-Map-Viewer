@@ -2,6 +2,7 @@
   <main class="workspace">
     <div class="viewport-tabs">
       <button :class="['tab', { active: activeTab==='map' }]" @click="setActiveTab('map')">MAP</button>
+      <button :class="['tab', { active: activeTab==='flx' }]" @click="setActiveTab('flx')">FLX</button>
       <button :class="['tab', { active: activeTab==='globs' }]" @click="setActiveTab('globs')">GLOBS</button>
       <button v-if="is3dAvailable" :class="['tab', { active: activeTab==='3d' }]" @click="setActiveTab('3d')">3D</button>
       <button :class="['tab', { active: activeTab==='atlas' }]" @click="setActiveTab('atlas')">ATLAS</button>
@@ -61,6 +62,9 @@
       <section v-show="activeTab==='globs'" class="glob-panel">
         <GlobViewer />
       </section>
+      <section v-show="activeTab==='flx'" class="flx-panel">
+        <FlxWorkbench />
+      </section>
       <section v-if="activeTab==='3d' && is3dAvailable" class="wireframe-panel">
         <WireframeViewport3D />
       </section>
@@ -75,6 +79,7 @@
 <script setup>
 import { computed, nextTick, onMounted, onUnmounted, ref, watch } from "vue";
 import AtlasViewer from "./AtlasViewer.vue";
+import FlxWorkbench from "./FlxWorkbench.vue";
 import GlobViewer from "./GlobViewer.vue";
 import TooltipOverlay from "./TooltipOverlay.vue";
 import UsecodeViewer from "./UsecodeViewer.vue";
@@ -151,7 +156,7 @@ function handleSceneChanged(event) {
 
 function handleSetViewportTab(event) {
   const tab = event.detail?.tab;
-  if (["map", "globs", "3d", "atlas", "usecode"].includes(tab)) {
+  if (["map", "flx", "globs", "3d", "atlas", "usecode"].includes(tab)) {
     setActiveTab(tab);
   }
 }
@@ -236,6 +241,11 @@ onUnmounted(() => {
 }
 
 .glob-panel {
+  height: 100%;
+  min-height: 0;
+}
+
+.flx-panel {
   height: 100%;
   min-height: 0;
 }
